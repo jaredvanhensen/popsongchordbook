@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+<h1>Test Commands voor Console:</h1>
+<pre>
+// Check if body exists and is visible
+const body = document.querySelector('.chord-detector-body');
+console.log('Body found:', !!body);
+console.log('Body display:', body?.style.display || window.getComputedStyle(body).display);
+console.log('Body visibility:', window.getComputedStyle(body).visibility);
+console.log('Body opacity:', window.getComputedStyle(body).opacity);
+console.log('Body height:', window.getComputedStyle(body).height);
+console.log('Body overflow:', window.getComputedStyle(body).overflow);
+
+// Check if audio level container exists
+const audioContainer = document.querySelector('.audio-level-container');
+console.log('Audio container found:', !!audioContainer);
+if (audioContainer) {
+  console.log('Audio container display:', window.getComputedStyle(audioContainer).display);
+  console.log('Audio container visibility:', window.getComputedStyle(audioContainer).visibility);
+}
+</pre>
+</body>
+</html>

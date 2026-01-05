@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop Song Chord Book</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="header-title-group">
+                    <h1>Pop Song Chord Book</h1>
+                    <p class="header-subtitle">Your interactive playalong songbook</p>
+                </div>
+                <div class="header-top-actions">
+                    <button id="profileBtn" class="profile-btn with-label" title="Profile">
+                        <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
+                        <span class="icon">👤</span>
+                        <span class="label">Profile <span id="profileSongCount" class="song-count">(0)</span></span>
+                    </button>
+                    <button id="toggleHeaderBarCollapsed" class="toggle-header-bar-btn collapsed-position"
+                        title="Show button bar">▲</button>
+                </div>
+            </div>
+            <div class="header-bar" id="headerBar">
+                <button id="toggleHeaderBar" class="toggle-header-bar-btn normal-position"
+                    title="Hide button bar">▼</button>
+
+                <!-- Filters & Search Section -->
+                <div class="header-section filters-section">
+                    <div class="filter-buttons">
+                        <button id="filterBtn" class="filter-btn with-label" title="Filters">
+                            <span class="icon">🔍</span>
+                            <span class="label">Filters</span>
+                        </button>
+                    </div>
+                    <div class="search-section-container">
+                        <div class="search-input-wrapper">
+                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Artist or title..."
+                                autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="none">
+                            <button id="clearSearchBtn" class="clear-search-btn hidden"
+                                title="Clear search field">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section: Setlist & Actions -->
+                <div class="header-section right-section">
+                    <!-- Setlist Management -->
+                    <div class="setlist-group">
+                        <div id="chordDetectorOverlay" class="chord-detector-overlay minimized">
+                            <div class="chord-detector-content">
+                                <div class="chord-detector-header">
+                                    <h3>Chord Detection</h3>
+                                    <div class="chord-detector-header-buttons">
+                                        <button id="chordDetectorMinimize" class="chord-detector-minimize-btn"
+                                            title="Minimize">🔻</button>
+                                    </div>
+                                </div>
+                                <div class="chord-detector-body">
+                                    <div class="chord-display">
+                                        <div id="detectedChord" class="detected-chord-display">--</div>
+                                        <div id="chordDetectorStatus" class="chord-detector-status">Not active</div>
+                                        <div class="audio-level-container">
+                                            <div class="audio-level-label">Sound:</div>
+                                            <div class="audio-level-bar">
+                                                <div id="audioLevelIndicator" class="audio-level-indicator"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="chordDetectorToggle" class="chord-detector-toggle-btn"
+                                        title="Start detection">🎤</button>
+                                    <select id="microphoneSelect" class="microphone-select"
+                                        title="Choose microphone"></select>
+
+                                    <!-- Chord History -->
+                                    <div class="chord-history-section">
+                                        <div class="chord-history-header">
+                                            <span>History</span>
+                                            <div class="chord-history-actions">
+                                                <button id="copyChordHistory" class="copy-history-btn"
+                                                    title="Copy to clipboard">📋</button>
+                                                <button id="clearChordHistory" class="clear-history-btn"
+                                                    title="Clear history">🗑️</button>
+                                            </div>
+                                        </div>
+                                        <div id="chordHistory" class="chord-history-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="section-label">Setlist:</span>
+                        <div class="setlist-controls">
+                            <select id="setlistSelect" class="setlist-select">
+                                <option value="">All Songs</option>
+                            </select>
+                            <button id="createSetlistBtn" class="setlist-btn" title="New Setlist">+</button>
+                            <button id="editSetlistBtn" class="setlist-btn edit-setlist-btn hidden"
+                                title="Edit setlist name">✏️</button>
+                            <button id="deleteSetlistBtn" class="setlist-btn delete-setlist-btn hidden"
+                                title="Delete setlist">🗑️</button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="actions-group">
+                        <button id="toggleViewBtn" class="import-export-btn view-toggle-btn with-label"
+                            title="Toggle between simple and full view">
+                            <span class="icon">📋</span>
+                            <span class="label">View</span>
+                        </button>
+                        <button id="randomSongBtn" class="import-export-btn random-song-btn with-label"
+                            title="Open a random song">
+                            <span class="icon">🎲</span>
+                            <span class="label">Random</span>
+                        </button>
+                        <button id="addSongBtn" class="add-song-btn with-label" title="Add New Song">
+                            <span class="icon">+</span>
+                            <span class="label">Add</span>
+                        </button>
+                        <div class="import-export-controls">
+                            <button id="exportBtn" class="import-export-btn with-label" title="Export">
+                                <span class="icon">📤</span>
+                                <span class="label">Export</span>
+                            </button>
+                            <label for="importFile" class="import-export-btn with-label" title="Import">
+                                <span class="icon">📥</span>
+                                <span class="label">Import</span>
+                            </label>
+                            <input type="file" id="importFile" accept=".json" style="display: none;">
+                            <button id="deleteAllSongsBtn" class="import-export-btn delete-all-btn with-label"
+                                title="Delete all songs">
+                                <span class="icon">🗑️</span>
+                                <span class="label">Delete</span>
+                            </button>
+                        </div>
+                        <button id="printTableBtn" class="import-export-btn print-btn with-label"
+                            title="Print full table">
+                            <span class="icon">🖨️</span>
+                            <span class="label">Print</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Selected song header - appears when a row is selected -->
+        <div id="selectedSongHeader" class="selected-song-header hidden">
+            <div class="selected-song-info">
+                <span id="selectedArtist" class="selected-artist"></span>
+                <span class="separator">-</span>
+                <span id="selectedTitle" class="selected-title"></span>
+            </div>
+            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">×</button>
+        </div>
+
+        <!-- Black overlay when row is selected -->
+        <div id="selectionOverlay" class="selection-overlay hidden"></div>
+
+        <!-- Focused view container for selected row -->
+        <div id="focusedView" class="focused-view hidden">
+            <div id="focusedTableWrapper" class="focused-table-wrapper">
+                <!-- Selected row will be moved here -->
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="songsTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="artist">
+                            Artist
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable" data-column="title">
+                            Song Title
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable favorite-column" data-column="favorite">
+                            ⭐
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th>Verse</th>
+                        <th class="chorus-column">Chorus</th>
+                        <th>Pre-Chorus</th>
+                        <th>Bridge</th>
+                        <th class="actions-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="songsTableBody">
+                    <!-- Songs will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal auth-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Login</h3>
+                <button class="modal-close" id="authModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Login Form -->
+                <form id="authLoginForm" class="auth-form">
+                    <div class="auth-form-group">
+                        <label for="authLoginEmail">Email address</label>
+                        <input type="email" id="authLoginEmail" class="auth-input" placeholder="your@email.com" required
+                            autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authLoginPassword">Password</label>
+                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
+                            autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div id="authLoginError" class="auth-error hidden"></div>
+                    <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
+                    <div class="auth-toggle">
+                        <span>No account yet?</span>
+                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
+                            account</button>
+                    </div>
+                </form>
+
+                <!-- Create Account Form -->
+                <form id="authCreateForm" class="auth-form hidden">
+                    <div class="auth-form-group">
+                        <label for="authCreateUsername">Username</label>
+                        <input type="text" id="authCreateUsername" class="auth-input" placeholder="Your name" required
+                            autocomplete="username" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreateEmail">Email address</label>
+                        <input type="email" id="authCreateEmail" class="auth-input" placeholder="your@email.com"
+                            required autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreatePassword">Password</label>
+                        <input type="password" id="authCreatePassword" class="auth-input"
+                            placeholder="Minimum 6 characters" required autocomplete="new-password" spellcheck="false"
+                            autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreateConfirmPassword">Confirm password</label>
+                        <input type="password" id="authCreateConfirmPassword" class="auth-input"
+                            placeholder="Repeat password" required autocomplete="new-password" spellcheck="false"
+                            autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div id="authCreateError" class="auth-error hidden"></div>
+                    <button type="submit" id="authCreateBtn" class="modal-submit-btn auth-submit-btn">Create
+                        account</button>
+                    <div class="auth-toggle">
+                        <span>Already have an account?</span>
+                        <button type="button" id="authToggleToLogin" class="auth-toggle-link">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal auth-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Profile</h3>
+                <button class="modal-close" id="profileModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info-section">
+                    <div class="auth-form-group">
+                        <label for="profileUsername">Username</label>
+                        <div class="profile-username-edit-group">
+                            <input type="text" id="profileUsername" class="auth-input" placeholder="Your name"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                            <button id="profileUpdateUsernameBtn" class="profile-update-btn">Save</button>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Email address</label>
+                        <div class="profile-email-display" id="profileEmail">-</div>
+                    </div>
+                </div>
+
+                <div class="profile-password-section">
+                    <h4>Change Password</h4>
+                    <form id="profileChangePasswordForm" class="auth-form">
+                        <div class="auth-form-group">
+                            <label for="profileCurrentPassword">Current password</label>
+                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="••••••"
+                                required autocomplete="current-password" spellcheck="false" autocorrect="off"
+                                autocapitalize="none">
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="profileNewPassword">New password</label>
+                            <input type="password" id="profileNewPassword" class="auth-input"
+                                placeholder="Minimum 6 characters" required autocomplete="new-password"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="profileConfirmPassword">Confirm new password</label>
+                            <input type="password" id="profileConfirmPassword" class="auth-input"
+                                placeholder="Repeat new password" required autocomplete="new-password"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                        </div>
+                        <div id="profileChangePasswordError" class="auth-error hidden"></div>
+                        <div id="profileChangePasswordSuccess" class="auth-success hidden"></div>
+                        <button type="submit" id="profileChangePasswordBtn"
+                            class="modal-submit-btn auth-submit-btn">Change password</button>
+                    </form>
+                </div>
+
+                <div class="profile-sharing-section">
+                    <h4>Share Songs</h4>
+                    <button id="profileShareSongsBtn" class="modal-submit-btn">Share Songs</button>
+                </div>
+
+                <div class="profile-pending-section">
+                    <h4>Pending Songs</h4>
+                    <button id="profileAcceptSongsBtn" class="modal-submit-btn hidden">Accept New Songs</button>
+                </div>
+
+                <div class="profile-actions-section">
+                    <button id="profileLogoutBtn" class="modal-cancel-btn logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Songs Modal -->
+    <div id="shareSongsModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Share Songs</h3>
+                <div class="modal-header-actions">
+                    <button id="shareSelectedSongsBtn" class="modal-header-btn share-btn">Share...</button>
+                    <button id="cancelShareSongsBtn" class="modal-header-btn cancel-btn">Cancel</button>
+                    <button class="modal-close" id="shareSongsModalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="share-songs-email-section">
+                    <label for="shareSongsEmailInput">Recipient Email:</label>
+                    <input type="email" id="shareSongsEmailInput" class="auth-input" placeholder="user@example.com"
+                        spellcheck="false" autocorrect="off" autocapitalize="none" />
+                    <div id="shareSongsEmailError" class="auth-error hidden"></div>
+                </div>
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <div class="selection-search">
+                            <input type="text" id="shareSongsSearchInput" class="selection-search-input"
+                                placeholder="Search by artist or title..." spellcheck="false" autocorrect="off"
+                                autocapitalize="none" />
+                            <button id="clearShareSongsSearch" class="selection-clear-btn hidden"
+                                aria-label="Clear search">&times;</button>
+                        </div>
+                        <div class="selection-sorting">
+                            <span class="sorting-label">Sort:</span>
+                            <div class="sorting-options">
+                                <button class="selection-btn sort-option active" data-field="title"
+                                    type="button">Song</button>
+                                <button class="selection-btn sort-option" data-field="artist"
+                                    type="button">Artist</button>
+                            </div>
+                            <button id="toggleShareSongsSortDirection" class="selection-btn sort-direction-btn"
+                                type="button" title="Sorteer van A naar Z">A → Z</button>
+                        </div>
+                        <button id="selectAllShareSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllShareSongs" class="selection-btn">Deselect all</button>
+                        <span id="shareSongsSelectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="shareSongsListContainer">
+                        <!-- Songs will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accept Songs Modal -->
+    <div id="acceptSongsModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Accept New Songs</h3>
+                <button class="modal-close" id="acceptSongsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <button id="selectAllAcceptSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllAcceptSongs" class="selection-btn">Deselect all</button>
+                        <span id="acceptSongsSelectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="acceptSongsListContainer">
+                        <!-- Pending songs will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="acceptSelectedSongsBtn" class="modal-submit-btn">Accept selected songs</button>
+                    <button id="rejectSelectedSongsBtn" class="modal-cancel-btn">Reject selected songs</button>
+                    <button id="cancelAcceptSongsBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chord Selection Modal -->
+    <div id="chordModal" class="chord-modal hidden">
+        <div class="chord-modal-content">
+            <div class="chord-modal-header">
+                <h3>Select Chords</h3>
+                <button class="chord-modal-close" id="chordModalClose">&times;</button>
+            </div>
+            <div class="chord-modal-body">
+                <div class="chord-categories">
+                    <div class="chord-category">
+                        <h4>Major</h4>
+                        <div class="chord-buttons" id="majorChords"></div>
+                    </div>
+                    <div class="chord-category">
+                        <h4>Minor</h4>
+                        <div class="chord-buttons" id="minorChords"></div>
+                    </div>
+                    <div class="chord-category toggleable" id="susAddCategory">
+                        <div class="chord-category-header">
+                            <h4>Sus & Add</h4>
+                            <button class="toggle-category-btn" id="toggleSusAdd">Show</button>
+                        </div>
+                        <div class="chord-buttons hidden" id="susAddChords"></div>
+                    </div>
+                    <div class="chord-category toggleable" id="specialCategory">
+                        <div class="chord-category-header">
+                            <h4>Special</h4>
+                            <button class="toggle-category-btn" id="toggleSpecial">Show</button>
+                        </div>
+                        <div class="chord-buttons hidden" id="specialChords"></div>
+                    </div>
+                </div>
+                <div class="chord-input-section">
+                    <label>Or type chords yourself:</label>
+                    <input type="text" id="chordCustomInput" placeholder="E.g.: C G Am F" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                    <button id="chordAddCustom" class="chord-add-btn">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setlist Modal -->
+    <div id="setlistModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="setlistModalTitle">Create Setlist</h3>
+                <button class="modal-close" id="setlistModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="setlistNameInput" placeholder="Setlist name..." spellcheck="false"
+                    autocorrect="off" autocapitalize="none" />
+                <button id="setlistCreateBtn" class="modal-submit-btn">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Songs to Setlist Modal -->
+    <div id="addSongsToSetlistModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="addSongsModalTitle">Add songs to setlist</h3>
+                <button class="modal-close" id="addSongsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <div class="selection-search">
+                            <input type="text" id="addSongsSearchInput" class="selection-search-input"
+                                placeholder="Search by artist or title..." spellcheck="false" autocorrect="off"
+                                autocapitalize="none" />
+                            <button id="clearAddSongsSearch" class="selection-clear-btn hidden"
+                                aria-label="Clear search">&times;</button>
+                        </div>
+                        <div class="selection-sorting">
+                            <span class="sorting-label">Sort:</span>
+                            <div class="sorting-options">
+                                <button class="selection-btn sort-option active" data-field="title"
+                                    type="button">Song</button>
+                                <button class="selection-btn sort-option" data-field="artist"
+                                    type="button">Artist</button>
+                            </div>
+                            <button id="toggleSortDirection" class="selection-btn sort-direction-btn" type="button"
+                                title="Sorteer van A naar Z">A → Z</button>
+                        </div>
+                        <button id="selectAllSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllSongs" class="selection-btn">Deselect all</button>
+                        <span id="selectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="songsListContainer">
+                        <!-- Songs will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="addSelectedSongsBtn" class="modal-submit-btn">Add selected songs</button>
+                    <button id="cancelAddSongsBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Song Detail Modal -->
+    <div id="songDetailModal" class="song-detail-modal hidden">
+        <div class="song-detail-modal-content">
+            <div class="song-detail-header">
+                <button class="song-detail-nav-btn song-detail-prev with-label" id="songDetailPrev"
+                    title="Previous song">
+                    <span class="icon">‹</span>
+                    <span class="label">Previous</span>
+                </button>
+                <div class="song-detail-title-section">
+                    <h1 id="songDetailTitle" class="song-detail-title editable-field" data-field="title"
+                        contenteditable="false" spellcheck="false"></h1>
+                    <h2 id="songDetailArtist" class="song-detail-artist editable-field" data-field="artist"
+                        contenteditable="false" spellcheck="false"></h2>
+                </div>
+                <div class="song-detail-action-buttons">
+                    <button id="songDetailTransposeDown" class="song-detail-action-btn with-label"
+                        title="Transpose chords down (half step)">
+                        <span class="icon">♭</span>
+                        <span class="label">-1</span>
+                    </button>
+                    <button id="songDetailTransposeUp" class="song-detail-action-btn with-label"
+                        title="Transpose chords up (half step)">
+                        <span class="icon">♯</span>
+                        <span class="label">+1</span>
+                    </button>
+                    <button id="songDetailYouTubePlayBtn" class="song-detail-action-btn with-label hidden"
+                        title="Play YouTube video">
+                        <span class="icon youtube-icon">
+                            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                                <path
+                                    d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                                    fill="#FF0000" />
+                                <path d="M 45,24 27,14 27,34" fill="#fff" />
+                            </svg>
+                        </span>
+                        <span class="label">Play</span>
+                    </button>
+                    <button id="songDetailYouTubeBtn" class="song-detail-action-btn with-label"
+                        title="Edit song details">
+                        <span class="icon">⚙️</span>
+                        <span class="label">Details</span>
+                    </button>
+                    <button id="songDetailExternalUrlBtn" class="song-detail-action-btn with-label hidden"
+                        title="Open external website">
+                        <span class="icon">🌐</span>
+                        <span class="label">Website</span>
+                    </button>
+                    <button id="songDetailAddToSetlistBtn" class="song-detail-action-btn with-label"
+                        title="Add to Setlist">
+                        <span class="icon">📋</span>
+                        <span class="label">Setlist</span>
+                    </button>
+                    <button id="songDetailFavoriteBtn" class="song-detail-action-btn with-label"
+                        title="Add to favorites">
+                        <span class="icon">☆</span>
+                        <span class="label">Favorite</span>
+                    </button>
+                </div>
+                <div class="song-detail-header-right">
+                    <button class="song-detail-nav-btn song-detail-next with-label" id="songDetailNext"
+                        title="Next song">
+                        <span class="icon">›</span>
+                        <span class="label">Next</span>
+                    </button>
+                    <button class="song-detail-close with-label" id="songDetailModalClose" title="Close">
+                        <span class="icon">&times;</span>
+                        <span class="label">Close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="song-detail-body">
+                <div class="song-chord-section" id="verseSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Verse</h3>
+                        <div class="chord-section-buttons">
+                            <button class="piano-chord-btn" data-section="verse" title="Show piano chords">🎹</button>
+                            <button class="chord-editor-btn" data-section="verse"
+                                title="Chord progression editor">?</button>
+                        </div>
+                    </div>
+                    <div class="chord-section-content editable-field" data-field="verse" id="verseContent"
+                        contenteditable="false" spellcheck="false"></div>
+                </div>
+                <div class="song-chord-section chorus-section" id="chorusSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Chorus</h3>
+                        <div class="chord-section-buttons">
+                            <button class="piano-chord-btn" data-section="chorus" title="Show piano chords">🎹</button>
+                            <button class="chord-editor-btn" data-section="chorus"
+                                title="Chord progression editor">?</button>
+                        </div>
+                    </div>
+                    <div class="chord-section-content editable-field" data-field="chorus" id="chorusContent"
+                        contenteditable="false" spellcheck="false"></div>
+                </div>
+                <div class="song-chord-section" id="preChorusSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Pre-Chorus</h3>
+                        <div class="chord-section-buttons">
+                            <button class="piano-chord-btn" data-section="preChorus"
+                                title="Show piano chords">🎹</button>
+                            <button class="chord-editor-btn" data-section="preChorus"
+                                title="Chord progression editor">?</button>
+                        </div>
+                    </div>
+                    <div class="chord-section-content editable-field" data-field="preChorus" id="preChorusContent"
+                        contenteditable="false" spellcheck="false"></div>
+                </div>
+                <div class="song-chord-section" id="bridgeSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Bridge</h3>
+                        <div class="chord-section-buttons">
+                            <button class="piano-chord-btn" data-section="bridge" title="Show piano chords">🎹</button>
+                            <button class="chord-editor-btn" data-section="bridge"
+                                title="Chord progression editor">?</button>
+                        </div>
+                    </div>
+                    <div class="chord-section-content editable-field" data-field="bridge" id="bridgeContent"
+                        contenteditable="false" spellcheck="false"></div>
+                </div>
+                <div class="song-detail-actions">
+                    <button id="songDetailSaveBtn" class="song-detail-save-btn with-label hidden">
+                        <span class="icon">💾</span>
+                        <span class="label">Save</span>
+                    </button>
+                </div>
+            </div>
+            <div id="songDetailKeyDisplay" class="song-detail-key-display"></div>
+        </div>
+    </div>
+
+    <!-- YouTube URL Modal -->
+    <div id="youtubeUrlModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Song Details</h3>
+                <button class="modal-close" id="youtubeUrlModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="url-input-group">
+                    <label for="songKeyInput">Toonsoort (Key)</label>
+                    <input type="text" id="songKeyInput" placeholder="Bijv. C, Am, G, Dm..." spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="youtubeUrlInput">YouTube URL</label>
+                    <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=..."
+                        spellcheck="false" autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="externalUrlInput">External Website URL</label>
+                    <input type="url" id="externalUrlInput" placeholder="https://..." spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="modal-actions">
+                    <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
+                    <button id="youtubeUrlCancelBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filters</h3>
+                <button class="modal-close" id="filterModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
+                        <span>⭐ Alleen favorieten</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label for="filterKeySelect" class="filter-label">Toonsoort:</label>
+                    <select id="filterKeySelect" class="filter-select">
+                        <option value="">Alle toonsoorten</option>
+                    </select>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterWithYouTubeCheckbox" class="filter-checkbox">
+                        <span>Alleen nummers met YouTube link</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterWithoutYouTubeCheckbox" class="filter-checkbox">
+                        <span>Alleen nummers zonder YouTube link</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="clearAllFiltersBtn" class="modal-cancel-btn">Wis alle filters</button>
+                    <button id="applyFiltersBtn" class="modal-submit-btn">Toepassen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Queue/Add Single Song to Setlist Modal -->
+    <div id="addToSetlistSingleModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add to Setlist</h3>
+                <button class="modal-close" id="addToSetlistSingleModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label for="addToSetlistSelect" class="filter-label">Choose Setlist:</label>
+                    <select id="addToSetlistSelect" class="filter-select">
+                        <option value="" disabled selected>Select a setlist...</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button id="addToSetlistSingleCancelBtn" class="modal-cancel-btn">Cancel</button>
+                    <button id="addToSetlistSingleConfirmBtn" class="modal-submit-btn">Add to Setlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Mini Player -->
+    <div id="youtubeMiniPlayer" class="youtube-mini-player hidden">
+        <div class="youtube-mini-player-content">
+            <div class="youtube-mini-player-header">
+                <span id="youtubePlayerTitle" class="youtube-player-title"></span>
+                <div class="youtube-player-controls">
+                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">🔻</button>
+                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
+                </div>
+            </div>
+            <div class="youtube-mini-player-body">
+                <div id="youtubePlayerContainer" class="youtube-player-container">
+                    <!-- YouTube iframe will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/config/firebase-config.js"></script>
+
+    <!-- Models -->
+    <script src="js/models/SongManager.js"></script>
+    <script src="js/models/SetlistManager.js?v=2"></script>
+    <!-- Utils -->
+    <script src="js/utils/Sorter.js"></script>
+    <script src="js/utils/ChordDetector.js"></script>
+    <script src="js/utils/KeyDetector.js"></script>
+    <script src="js/utils/FirebaseManager.js"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=4"></script>
+    <!-- UI Components -->
+    <script src="js/ui/ChordModal.js"></script>
+    <script src="js/ui/SongDetailModal.js?v=2"></script>
+    <script src="js/ui/TableRenderer.js"></script>
+    <script src="js/ui/ChordDetectorOverlay.js"></script>
+    <script src="js/ui/PianoChordOverlay.js"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2"></script>
+    <script src="js/ui/AuthModal.js"></script>
+    <script src="js/ui/ProfileModal.js"></script>
+    <script src="js/ui/ShareSongsModal.js"></script>
+    <script src="js/ui/AcceptSongsModal.js"></script>
+    <!-- Main App -->
+    <script src="js/app.js?v=2"></script>
+</body>
+
+</html>
