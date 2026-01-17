@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop Song Chord Book - Quick Start</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        .guide-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .guide-section:nth-child(even) {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .guide-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .guide-title {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .guide-text {
+            font-size: 1.2rem;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .guide-image-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            margin-top: 30px;
+            background: white;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .guide-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .back-nav {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="back-nav">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <span>←</span> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="hero-section" style="min-height: 40vh;">
+        <div class="hero-content">
+            <h1 class="hero-title">Quick Start Guide</h1>
+            <p class="hero-subtitle">Master the features of Pop Song Chord Book</p>
+        </div>
+    </div>
+
+    <!-- 1. Detail Screen -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Song Detail Screen</h2>
+            <p class="guide-text">
+                Clicking on any song brings you to the detail view. Here you can see the lyrics, chords, and playback
+                controls.
+                The interface is designed to be clean and easy to read while you play.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/detail_screen.png" alt="Detail Screen" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Creating Setlists -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Creating a New Setlist</h2>
+            <p class="guide-text">
+                Organize your repertoire by creating custom setlists. Click the "+" button in the setlist section to
+                create a new list,
+                give it a name, and start adding your favorite songs for easy access during practice or performance.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/new_setlist.png" alt="New Setlist Modal" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Piano Chords -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Checking Piano Chords</h2>
+            <p class="guide-text">
+                Need help with a chord voicing? Switch to the Piano view to see exactly which keys to press.
+                The diagrams light up to show you the precise fingering for each chord in the song.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/piano_chords.png" alt="Piano Chords View" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Chord Progression Editor -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Chord Progression Editor</h2>
+            <p class="guide-text">
+                Want to customize a song? Open the editor to modify chords. You can choose from diatonic chords valid
+                for the key
+                or borrow chords to spice up the progression.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/chord_editor.png" alt="Chord Progression Editor" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Filtering -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Filtering by Key</h2>
+            <p class="guide-text">
+                Looking for songs in a specific key? Use the filter menu to select a key (e.g., C Major).
+                The song list will update to show only songs that match your criteria.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/filter_key.png" alt="Filter by Key" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Transposing -->
+    <section class="guide-section">
+        <div class="guide-container">
+            <h2 class="guide-title">Transposing Songs</h2>
+            <p class="guide-text">
+                Need to change the key to suit your voice? Use the transpose controls (+ / -) on the detail page.
+                All chords in the song will instantly update to the new key.
+            </p>
+            <div class="guide-image-container">
+                <img src="images/transpose.png" alt="Transposing Controls" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Pop Song Chord Book. Your interactive playalong songbook.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
