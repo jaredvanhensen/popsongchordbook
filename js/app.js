@@ -586,7 +586,7 @@ class App {
         const currentValue = filterKeySelect.value;
 
         // Clear and populate
-        filterKeySelect.innerHTML = '<option value="">Alle toonsoorten</option>';
+        filterKeySelect.innerHTML = '<option value="">All Keys</option>';
         sortedKeys.forEach(key => {
             const option = document.createElement('option');
             option.value = key;
