@@ -452,6 +452,11 @@ class App {
             });
         }
 
+        // Apply sorting
+        if (this.sorter) {
+            allSongs = this.sorter.applySort(allSongs);
+        }
+
         // Store current songs list for navigation
         this.currentSongsList = allSongs;
         this.songDetailModal.setSongs(allSongs);
@@ -1281,82 +1286,25 @@ class App {
             header.addEventListener('click', () => {
                 const column = header.dataset.column;
                 const currentSort = this.sorter.getCurrentSort();
-                const currentDirection = currentSort.column === column
-                    ? currentSort.direction
-                    : 'asc';
 
-                // Get filtered songs (same logic as loadAndRender)
-                let songsToSort = this.songManager.getAllSongs();
-
-                // Apply filters
-                if (this.currentFilter.favorites) {
-                    songsToSort = songsToSort.filter(song => song.favorite === true);
+                // Determine new direction
+                // Default to 'asc' if changing column, otherwise toggle
+                let newDirection = 'asc';
+                if (currentSort.column === column) {
+                    newDirection = currentSort.direction === 'asc' ? 'desc' : 'asc';
                 }
 
-                if (this.currentFilter.key && this.currentFilter.key.trim() !== '') {
-                    const filterKey = this.currentFilter.key.trim().toLowerCase();
-                    songsToSort = songsToSort.filter(song => {
-                        const explicitKey = (song.key || '').trim().toLowerCase();
-                        if (explicitKey === filterKey) return true;
-
-                        // If no explicit key, check detected key
-                        if (!explicitKey && this.keyDetector) {
-                            const detectedKey = (this.keyDetector.detectFromSong(song) || '').trim().toLowerCase();
-                            return detectedKey === filterKey;
-                        }
-
-                        return false;
-                    });
-                }
-
-                if (this.currentFilter.withYouTube) {
-                    songsToSort = songsToSort.filter(song => song.youtubeUrl && song.youtubeUrl.trim() !== '');
-                }
-
-                if (this.currentFilter.withoutYouTube) {
-                    songsToSort = songsToSort.filter(song => !song.youtubeUrl || song.youtubeUrl.trim() === '');
-                }
-
-                // Apply setlist filter if active
-                if (this.currentSetlistId) {
-                    const setlist = this.setlistManager.getSetlist(this.currentSetlistId);
-                    if (setlist) {
-                        songsToSort = songsToSort.filter(song => setlist.songIds.includes(song.id));
-                    }
-                }
-
-                // Apply search filter
-                if (this.searchTerm && this.searchTerm.trim() !== '') {
-                    const searchLower = this.searchTerm.toLowerCase().trim();
-                    songsToSort = songsToSort.filter(song => {
-                        const artistMatch = song.artist && song.artist.toLowerCase().includes(searchLower);
-                        const titleMatch = song.title && song.title.toLowerCase().includes(searchLower);
-                        return artistMatch || titleMatch;
-                    });
-                }
-
-                const { sorted, direction } = this.sorter.sort(
-                    songsToSort,
-                    column,
-                    currentDirection
-                );
+                // Update sorter state
+                this.sorter.currentSort = { column, direction: newDirection };
 
                 // Update UI indicators
                 sortableHeaders.forEach(h => {
                     h.classList.remove('asc', 'desc');
                 });
-                header.classList.add(direction);
+                header.classList.add(newDirection);
 
-                // Preserve selection
-                const selectedId = this.tableRenderer.getSelectedRowId();
-
-                // Render sorted
-                this.tableRenderer.render(sorted);
-
-                // Restore selection (but don't open modal)
-                if (selectedId) {
-                    this.tableRenderer.selectRow(selectedId, true); // Skip callback to prevent modal opening
-                }
+                // Reload and render (this will apply the new sort via sorter.applySort)
+                this.loadAndRender();
             });
         });
     }
