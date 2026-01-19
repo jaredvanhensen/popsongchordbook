@@ -5840,6 +5840,8 @@ td:has(.row-edit-input.input-focused) {
     /* Fits exactly 16 characters */
     flex: 0 0 auto !important;
     max-width: 90px !important;
+    margin-left: 4px !important;
+    /* Move 4px to the right */
     margin-bottom: 0 !important;
     /* Reset modal input margin */
     color: #64748b;
