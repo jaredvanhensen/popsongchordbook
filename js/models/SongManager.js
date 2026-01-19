@@ -110,7 +110,11 @@ class SongManager {
             favorite: song.favorite || false,
             youtubeUrl: song.youtubeUrl || '',
             externalUrl: song.externalUrl || '',
-            key: song.key || ''
+            key: song.key || '',
+            verseCue: song.verseCue || '',
+            preChorusCue: song.preChorusCue || '',
+            chorusCue: song.chorusCue || '',
+            bridgeCue: song.bridgeCue || ''
         }));
     }
 
@@ -212,7 +216,11 @@ class SongManager {
             favorite: song.favorite || false,
             youtubeUrl: song.youtubeUrl || '',
             externalUrl: song.externalUrl || '',
-            key: song.key || ''
+            key: song.key || '',
+            verseCue: song.verseCue || '',
+            preChorusCue: song.preChorusCue || '',
+            chorusCue: song.chorusCue || '',
+            bridgeCue: song.bridgeCue || ''
         }));
 
         // Update nextId to avoid conflicts
