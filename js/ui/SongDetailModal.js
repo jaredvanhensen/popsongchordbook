@@ -37,19 +37,23 @@ class SongDetailModal {
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
-                content: document.getElementById('verseContent')
+                content: document.getElementById('verseContent'),
+                cue: document.getElementById('verseCueInput')
             },
             chorus: {
                 section: document.getElementById('chorusSection'),
-                content: document.getElementById('chorusContent')
+                content: document.getElementById('chorusContent'),
+                cue: document.getElementById('chorusCueInput')
             },
             preChorus: {
                 section: document.getElementById('preChorusSection'),
-                content: document.getElementById('preChorusContent')
+                content: document.getElementById('preChorusContent'),
+                cue: document.getElementById('preChorusCueInput')
             },
             bridge: {
                 section: document.getElementById('bridgeSection'),
-                content: document.getElementById('bridgeContent')
+                content: document.getElementById('bridgeContent'),
+                cue: document.getElementById('bridgeCueInput')
             }
         };
         this.hasUnsavedChanges = false;
@@ -498,6 +502,17 @@ class SongDetailModal {
                     }
                 });
             }
+
+            if (section.cue) {
+                section.cue.addEventListener('input', () => this.checkForChanges());
+                section.cue.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        section.cue.blur();
+                        this.saveChanges();
+                    }
+                });
+            }
         });
     }
 
@@ -756,9 +771,13 @@ class SongDetailModal {
                 artist: song.artist || '',
                 title: song.title || '',
                 verse: song.verse || '',
+                verseCue: song.verseCue || '',
                 preChorus: song.preChorus || '',
+                preChorusCue: song.preChorusCue || '',
                 chorus: song.chorus || '',
-                bridge: song.bridge || ''
+                chorusCue: song.chorusCue || '',
+                bridge: song.bridge || '',
+                bridgeCue: song.bridgeCue || ''
             };
         }
 
@@ -769,9 +788,13 @@ class SongDetailModal {
             artist: this.artistElement ? this.artistElement.textContent : '',
             title: titleText,
             verse: this.sections.verse?.content ? this.sections.verse.content.textContent : '',
+            verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : '',
             preChorus: this.sections.preChorus?.content ? this.sections.preChorus.content.textContent : '',
+            preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : '',
             chorus: this.sections.chorus?.content ? this.sections.chorus.content.textContent : '',
-            bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : ''
+            chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
+            bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : '',
+            bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : ''
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -780,9 +803,13 @@ class SongDetailModal {
             artist: (data.artist || '').trim(),
             title: (data.title || '').trim(),
             verse: (data.verse || '').trim(),
+            verseCue: (data.verseCue || '').trim(),
             preChorus: (data.preChorus || '').trim(),
+            preChorusCue: (data.preChorusCue || '').trim(),
             chorus: (data.chorus || '').trim(),
-            bridge: (data.bridge || '').trim()
+            chorusCue: (data.chorusCue || '').trim(),
+            bridge: (data.bridge || '').trim(),
+            bridgeCue: (data.bridgeCue || '').trim()
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -850,14 +877,26 @@ class SongDetailModal {
         if (this.sections.verse?.content) {
             updates.verse = this.sections.verse.content.textContent.trim();
         }
+        if (this.sections.verse?.cue) {
+            updates.verseCue = this.sections.verse.cue.value.trim();
+        }
         if (this.sections.preChorus?.content) {
             updates.preChorus = this.sections.preChorus.content.textContent.trim();
+        }
+        if (this.sections.preChorus?.cue) {
+            updates.preChorusCue = this.sections.preChorus.cue.value.trim();
         }
         if (this.sections.chorus?.content) {
             updates.chorus = this.sections.chorus.content.textContent.trim();
         }
+        if (this.sections.chorus?.cue) {
+            updates.chorusCue = this.sections.chorus.cue.value.trim();
+        }
         if (this.sections.bridge?.content) {
             updates.bridge = this.sections.bridge.content.textContent.trim();
+        }
+        if (this.sections.bridge?.cue) {
+            updates.bridgeCue = this.sections.bridge.cue.value.trim();
         }
 
         // Update song
@@ -870,9 +909,13 @@ class SongDetailModal {
                 artist: savedSong.artist || '',
                 title: savedSong.title || '',
                 verse: savedSong.verse || '',
+                verseCue: savedSong.verseCue || '',
                 preChorus: savedSong.preChorus || '',
+                preChorusCue: savedSong.preChorusCue || '',
                 chorus: savedSong.chorus || '',
-                bridge: savedSong.bridge || ''
+                chorusCue: savedSong.chorusCue || '',
+                bridge: savedSong.bridge || '',
+                bridgeCue: savedSong.bridgeCue || ''
             };
         }
 
@@ -976,9 +1019,13 @@ class SongDetailModal {
             artist: song.artist || '',
             title: song.title || '',
             verse: song.verse || '',
+            verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
+            preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
-            bridge: song.bridge || ''
+            chorusCue: song.chorusCue || '',
+            bridge: song.bridge || '',
+            bridgeCue: song.bridgeCue || ''
         };
 
         // Update artist and title
@@ -1078,6 +1125,9 @@ class SongDetailModal {
         // Verse (always show, even if empty - so user can add content)
         if (this.sections.verse && this.sections.verse.content) {
             this.sections.verse.content.textContent = song.verse || '';
+            if (this.sections.verse.cue) {
+                this.sections.verse.cue.value = song.verseCue || '';
+            }
             this.sections.verse.content.setAttribute('contenteditable', 'false');
             this.sections.verse.content.classList.remove('editing');
             if (this.sections.verse.section) {
@@ -1088,6 +1138,9 @@ class SongDetailModal {
         // Chorus (always show)
         if (this.sections.chorus && this.sections.chorus.content) {
             this.sections.chorus.content.textContent = song.chorus || '';
+            if (this.sections.chorus.cue) {
+                this.sections.chorus.cue.value = song.chorusCue || '';
+            }
             this.sections.chorus.content.setAttribute('contenteditable', 'false');
             this.sections.chorus.content.classList.remove('editing');
             if (this.sections.chorus.section) {
@@ -1098,6 +1151,9 @@ class SongDetailModal {
         // Pre-Chorus (always show)
         if (this.sections.preChorus && this.sections.preChorus.content) {
             this.sections.preChorus.content.textContent = song.preChorus || '';
+            if (this.sections.preChorus.cue) {
+                this.sections.preChorus.cue.value = song.preChorusCue || '';
+            }
             this.sections.preChorus.content.setAttribute('contenteditable', 'false');
             this.sections.preChorus.content.classList.remove('editing');
             if (this.sections.preChorus.section) {
@@ -1108,6 +1164,9 @@ class SongDetailModal {
         // Bridge (always show)
         if (this.sections.bridge && this.sections.bridge.content) {
             this.sections.bridge.content.textContent = song.bridge || '';
+            if (this.sections.bridge.cue) {
+                this.sections.bridge.cue.value = song.bridgeCue || '';
+            }
             this.sections.bridge.content.setAttribute('contenteditable', 'false');
             this.sections.bridge.content.classList.remove('editing');
             if (this.sections.bridge.section) {
@@ -1557,15 +1616,27 @@ class SongDetailModal {
         }
         if (this.sections.verse?.content) {
             this.sections.verse.content.textContent = this.originalSongData.verse || '';
+            if (this.sections.verse.cue) {
+                this.sections.verse.cue.value = this.originalSongData.verseCue || '';
+            }
         }
         if (this.sections.preChorus?.content) {
             this.sections.preChorus.content.textContent = this.originalSongData.preChorus || '';
+            if (this.sections.preChorus.cue) {
+                this.sections.preChorus.cue.value = this.originalSongData.preChorusCue || '';
+            }
         }
         if (this.sections.chorus?.content) {
             this.sections.chorus.content.textContent = this.originalSongData.chorus || '';
+            if (this.sections.chorus.cue) {
+                this.sections.chorus.cue.value = this.originalSongData.chorusCue || '';
+            }
         }
         if (this.sections.bridge?.content) {
             this.sections.bridge.content.textContent = this.originalSongData.bridge || '';
+            if (this.sections.bridge.cue) {
+                this.sections.bridge.cue.value = this.originalSongData.bridgeCue || '';
+            }
         }
 
         // Reset change tracking

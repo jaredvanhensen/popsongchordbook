@@ -58,7 +58,7 @@ class SongManager {
                 }
             }
         }
-        
+
         // No data available
         this.songs = [];
         this.nextId = 1;
@@ -75,11 +75,11 @@ class SongManager {
             const userId = this.firebaseManager.getCurrentUser().uid;
             const songs = await this.firebaseManager.loadSongs(userId);
             const normalizedSongs = this.normalizeSongs(songs);
-            
+
             // Only update if data is different (avoid unnecessary updates)
             const currentSongsStr = JSON.stringify(this.songs);
             const newSongsStr = JSON.stringify(normalizedSongs);
-            
+
             if (currentSongsStr !== newSongsStr) {
                 this.songs = normalizedSongs;
                 this.updateNextId();
@@ -167,7 +167,11 @@ class SongManager {
             favorite: song.favorite || false,
             youtubeUrl: song.youtubeUrl || '',
             externalUrl: song.externalUrl || '',
-            key: song.key || ''
+            key: song.key || '',
+            verseCue: song.verseCue || '',
+            preChorusCue: song.preChorusCue || '',
+            chorusCue: song.chorusCue || '',
+            bridgeCue: song.bridgeCue || ''
         };
         this.songs.push(newSong);
         await this.saveSongs();
@@ -230,7 +234,7 @@ class SongManager {
                 // Check if song already exists (case-insensitive comparison of artist + title)
                 const normalizedArtist = (importedSong.artist || '').trim().toLowerCase();
                 const normalizedTitle = (importedSong.title || '').trim().toLowerCase();
-                
+
                 const isDuplicate = existingSongs.some(existingSong => {
                     const existingArtist = (existingSong.artist || '').trim().toLowerCase();
                     const existingTitle = (existingSong.title || '').trim().toLowerCase();
@@ -246,7 +250,7 @@ class SongManager {
 
             // Add new songs
             this.songs = [...existingSongs, ...newSongs];
-            
+
             // Return info about duplicates
             return {
                 added: newSongs.length,
@@ -295,7 +299,7 @@ class SongManager {
             const newSongs = this.normalizeSongs(songs);
             const currentSongsStr = JSON.stringify(this.songs);
             const newSongsStr = JSON.stringify(newSongs);
-            
+
             if (currentSongsStr !== newSongsStr) {
                 // Update songs without triggering save (to avoid infinite loop)
                 this.setSongs(songs, true);
