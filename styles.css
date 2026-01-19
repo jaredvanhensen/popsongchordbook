@@ -5819,6 +5819,63 @@ td:has(.row-edit-input.input-focused) {
     transition: all 0.15s ease;
 }
 
+.song-chord-section {
+    position: relative;
+    border-radius: 12px;
+    padding: 15px;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #edf2f7;
+    transition: all 0.2s ease;
+}
+
+/* Cue Line Inputs */
+.cue-line-input {
+    font-size: 8pt;
+    border: 1px solid transparent;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+    padding: 2px 5px;
+    width: 160px;
+    color: #64748b;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.cue-line-input:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #e2e8f0;
+}
+
+.cue-line-input:focus {
+    background: white;
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+    color: #1e293b;
+}
+
+.chord-section-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 15px;
+}
+
+.chord-section-title {
+    margin: 0;
+    flex-shrink: 0;
+    width: 100px;
+    /* Fixed width for alignment */
+}
+
+.chord-section-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 5px;
+}
+
 .white-key {
     flex: 1;
     background: linear-gradient(180deg, #fafafa 0%, #e8e8e8 100%);
