@@ -6156,11 +6156,11 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-content {
-        font-size: 20px !important;
+        font-size: 22px !important;
     }
 
     .song-chord-section.chorus-section .chord-section-content {
-        font-size: 21px !important;
+        font-size: 22px !important;
     }
 }
 
