@@ -33,7 +33,8 @@ class SongDetailModal {
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
         this.youtubeUrlCancelBtn = document.getElementById('youtubeUrlCancelBtn');
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
-        this.keyDisplay = document.getElementById('songDetailKeyDisplay');
+        this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
+        // this.keyDisplay = document.getElementById('songDetailKeyDisplay'); // Removed
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
@@ -1058,29 +1059,18 @@ class SongDetailModal {
                 }
             }
 
-            // Display title WITHOUT key (removed from here as requested)
-            this.titleElement.textContent = titleText;
+            // Display title WITH key appended
+            const formattedKey = this.formatKeyText(keyText);
+            if (keyText.trim()) {
+                this.titleElement.textContent = `${titleText} (${formattedKey})`;
+            } else {
+                this.titleElement.textContent = titleText;
+            }
 
             // Store original title without key for editing
             this.titleElement.dataset.originalTitle = titleText;
             this.titleElement.setAttribute('contenteditable', 'false');
             this.titleElement.classList.remove('editing');
-
-            // Update the large key display
-            if (this.keyDisplay) {
-                const formattedKey = this.formatKeyText(keyText);
-                if (isGuessed) {
-                    this.keyDisplay.innerHTML = `<i>${formattedKey}</i>`;
-                } else {
-                    this.keyDisplay.textContent = formattedKey;
-                }
-
-                if (keyText.trim()) {
-                    this.keyDisplay.classList.remove('hidden');
-                } else {
-                    this.keyDisplay.classList.add('hidden');
-                }
-            }
 
             // Add placeholder styling if empty
             if (!titleText.trim()) {
@@ -1382,27 +1372,16 @@ class SongDetailModal {
             }
         }
 
-        // Display title WITHOUT key
-        this.titleElement.textContent = titleText;
+        // Display title WITH key appended
+        const formattedKey = this.formatKeyText(keyText);
+        if (keyText.trim()) {
+            this.titleElement.textContent = `${titleText} (${formattedKey})`;
+        } else {
+            this.titleElement.textContent = titleText;
+        }
 
         // Store original title without key for editing
         this.titleElement.dataset.originalTitle = titleText;
-
-        // Update the large key display
-        if (this.keyDisplay) {
-            const formattedKey = this.formatKeyText(keyText);
-            if (isGuessed) {
-                this.keyDisplay.innerHTML = `<i>${formattedKey}</i>`;
-            } else {
-                this.keyDisplay.textContent = formattedKey;
-            }
-
-            if (keyText.trim()) {
-                this.keyDisplay.classList.remove('hidden');
-            } else {
-                this.keyDisplay.classList.add('hidden');
-            }
-        }
     }
 
     updateYouTubeButton(youtubeUrl, externalUrl) {
