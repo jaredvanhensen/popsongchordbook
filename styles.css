@@ -5880,7 +5880,8 @@ td:has(.row-edit-input.input-focused) {
     margin: 0;
     flex-shrink: 0;
     width: 90px;
-    /* Reduced from 100px */
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
 .chord-section-buttons {
