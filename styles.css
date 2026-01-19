@@ -5829,14 +5829,19 @@ td:has(.row-edit-input.input-focused) {
     transition: all 0.2s ease;
 }
 
-/* Cue Line Inputs */
-.cue-line-input {
+/* Cue Line Inputs - High specificity to override .modal-body input { width: 100% } */
+.song-detail-modal-content .cue-line-input {
     font-size: 8pt;
     border: 1px solid transparent;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 4px;
     padding: 2px 5px;
-    width: 160px;
+    width: 80px !important;
+    /* Fits approx 15 characters */
+    flex: 0 0 auto !important;
+    max-width: 80px !important;
+    margin-bottom: 0 !important;
+    /* Reset modal input margin */
     color: #64748b;
     font-family: inherit;
     transition: all 0.2s ease;
@@ -5860,20 +5865,23 @@ td:has(.row-edit-input.input-focused) {
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
-    gap: 15px;
+    gap: 12px;
+    /* Reduced from 15px */
 }
 
 .chord-section-title {
     margin: 0;
     flex-shrink: 0;
-    width: 100px;
-    /* Fixed width for alignment */
+    width: 90px;
+    /* Reduced from 100px */
 }
 
 .chord-section-buttons {
     margin-left: auto;
     display: flex;
-    gap: 5px;
+    gap: 4px;
+    /* Reduced from 5px */
+    flex-shrink: 0;
 }
 
 .white-key {
@@ -6096,6 +6104,23 @@ td:has(.row-edit-input.input-focused) {
         width: 32px;
         height: 32px;
         font-size: 1em;
+    }
+
+    .chord-section-header {
+        gap: 4px !important;
+    }
+
+    .chord-section-title {
+        width: 70px !important;
+        /* Slightly tighter */
+        font-size: 0.85em;
+    }
+
+    .song-detail-modal-content .cue-line-input {
+        width: 70px !important;
+        /* Extremely tight for mobile */
+        max-width: 70px !important;
+        font-size: 7.5pt !important;
     }
 }
 
