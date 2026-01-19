@@ -5840,10 +5840,13 @@ td:has(.row-edit-input.input-focused) {
     /* Fits exactly 16 characters */
     flex: 0 0 auto !important;
     max-width: 90px !important;
-    margin-left: 4px !important;
-    /* Move 4px to the right */
-    margin-bottom: 0 !important;
-    /* Reset modal input margin */
+    margin-left: 0 !important;
+    /* Reset left margin */
+    margin-bottom: 8px !important;
+    /* Space before chord content */
+    margin-top: 0 !important;
+    display: block;
+    /* Full width display below header */
     color: #64748b;
     font-family: inherit;
     transition: all 0.2s ease;
@@ -5866,9 +5869,9 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    /* Reduced from 10px */
     gap: 12px;
-    /* Reduced from 15px */
 }
 
 .chord-section-title {
