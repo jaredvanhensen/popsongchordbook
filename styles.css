@@ -6130,6 +6130,21 @@ td:has(.row-edit-input.input-focused) {
         max-width: 80px !important;
         font-size: 7.5pt !important;
     }
+
+    .chord-section-content {
+        font-size: 14px !important;
+        /* Fixed smaller size for mobile */
+    }
+
+    .song-chord-section.chorus-section .chord-section-content {
+        font-size: 15px !important;
+        /* Slightly larger for chorus but fixed */
+    }
+
+    .chord-section-content.editable-field {
+        padding: 6px !important;
+        /* Reduced padding */
+    }
 }
 
 /* Mobile landscape fixes */
