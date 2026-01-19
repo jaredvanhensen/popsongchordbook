@@ -4453,8 +4453,8 @@ td:has(.row-edit-input.input-focused) {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
-    line-height: 1.0;
-    /* Maximally reduced line spacing */
+    line-height: 1.2;
+    /* Restored line spacing */
 }
 
 .chord-section-content.editable-field:hover {
@@ -4794,11 +4794,19 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-content {
-        font-size: 1.3em;
+        font-size: 17px !important;
+        /* Increased for better readability */
     }
 
     .song-chord-section.chorus-section .chord-section-content {
-        font-size: 1.4em;
+        font-size: 18px !important;
+        /* Increased for chorus */
+    }
+
+    .chord-section-content.editable-field {
+        padding: 6px !important;
+        line-height: 1.2 !important;
+        /* Restored to comfortable spacing */
     }
 }
 
@@ -6132,18 +6140,19 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-content {
-        font-size: 14px !important;
-        /* Fixed smaller size for mobile */
+        font-size: 17px !important;
+        /* Increased for better readability */
     }
 
     .song-chord-section.chorus-section .chord-section-content {
-        font-size: 15px !important;
-        /* Slightly larger for chorus but fixed */
+        font-size: 18px !important;
+        /* Increased for chorus */
     }
 
     .chord-section-content.editable-field {
         padding: 6px !important;
-        /* Reduced padding */
+        line-height: 1.2 !important;
+        /* Restored to comfortable spacing */
     }
 }
 
