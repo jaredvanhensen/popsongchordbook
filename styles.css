@@ -6119,8 +6119,8 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-title {
-        width: 70px !important;
-        /* Slightly tighter */
+        width: 85px !important;
+        /* Increased to fit Pre-Chorus */
         font-size: 0.85em;
     }
 
