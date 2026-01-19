@@ -12,7 +12,8 @@ class SongDetailModal {
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
-        this.closeBtn = document.getElementById('songDetailModalClose');
+        this.closeBtn = document.getElementById('songDetailModalCloseTop');
+        this.deleteBtn = document.getElementById('songDetailDeleteBtn');
         this.prevBtn = document.getElementById('songDetailPrev');
         this.nextBtn = document.getElementById('songDetailNext');
         this.saveBtn = document.getElementById('songDetailSaveBtn');
@@ -164,6 +165,13 @@ class SongDetailModal {
             this.transposeDownBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.transposeChords(-1);
+            });
+        }
+
+        if (this.deleteBtn) {
+            this.deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleDeleteSong();
             });
         }
 
@@ -790,6 +798,35 @@ class SongDetailModal {
             } else {
                 this.saveBtn.classList.add('hidden');
             }
+        }
+    }
+
+    async handleDeleteSong() {
+        if (!this.currentSongId) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const confirmed = confirm(`Are you sure you want to delete "${song.title}" by ${song.artist}?`);
+        if (!confirmed) return;
+
+        try {
+            const success = await this.songManager.deleteSong(this.currentSongId);
+            if (success) {
+                // Allow hiding even if unsaved changes exist
+                this.hasUnsavedChanges = false;
+                await this.hide();
+
+                // Refresh the song list in the main UI if callback exists
+                if (this.onUpdate) {
+                    this.onUpdate();
+                }
+            } else {
+                alert('Failed to delete song. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting song:', error);
+            alert('An error occurred while deleting the song.');
         }
     }
 

@@ -225,8 +225,11 @@
                             autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
                     </div>
                     <div id="authLoginError" class="auth-error hidden"></div>
+                    <div id="authLoginSuccess" class="auth-success hidden"></div>
                     <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
                     <div class="auth-toggle">
+                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
+                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
                         <span>No account yet?</span>
                         <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
                             account</button>
@@ -580,12 +583,14 @@
                         <span class="icon">›</span>
                         <span class="label">Next</span>
                     </button>
-                    <button class="song-detail-close with-label" id="songDetailModalClose" title="Close">
-                        <span class="icon">&times;</span>
-                        <span class="label">Close</span>
+                    <button class="song-detail-action-btn with-label" id="songDetailDeleteBtn"
+                        title="Delete current song">
+                        <span class="icon">🗑️</span>
+                        <span class="label">Delete</span>
                     </button>
                 </div>
             </div>
+            <button class="song-detail-close-top" id="songDetailModalCloseTop" title="Close modal">&times;</button>
             <div class="song-detail-body">
                 <div class="song-chord-section" id="verseSection">
                     <div class="chord-section-header">

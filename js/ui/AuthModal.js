@@ -6,13 +6,15 @@ class AuthModal {
         this.modal = document.getElementById('authModal');
         this.isLoginMode = true; // true = login, false = create account
         this.allowHide = false; // Prevent closing modal - login is required
-        
+
         // Login elements
         this.loginEmailInput = document.getElementById('authLoginEmail');
         this.loginPasswordInput = document.getElementById('authLoginPassword');
         this.loginBtn = document.getElementById('authLoginBtn');
         this.loginErrorMsg = document.getElementById('authLoginError');
-        
+        this.loginSuccessMsg = document.getElementById('authLoginSuccess');
+        this.forgotPasswordBtn = document.getElementById('authForgotPassword');
+
         // Create account elements
         this.createUsernameInput = document.getElementById('authCreateUsername');
         this.createEmailInput = document.getElementById('authCreateEmail');
@@ -20,16 +22,16 @@ class AuthModal {
         this.createConfirmPasswordInput = document.getElementById('authCreateConfirmPassword');
         this.createBtn = document.getElementById('authCreateBtn');
         this.createErrorMsg = document.getElementById('authCreateError');
-        
+
         // Toggle elements
         this.toggleToCreateBtn = document.getElementById('authToggleToCreate');
         this.toggleToLoginBtn = document.getElementById('authToggleToLogin');
         this.loginForm = document.getElementById('authLoginForm');
         this.createForm = document.getElementById('authCreateForm');
-        
+
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
-        
+
         this.setupEventListeners();
     }
 
@@ -111,31 +113,39 @@ class AuthModal {
                 }
             });
         }
+
+        // Forgot password
+        if (this.forgotPasswordBtn) {
+            this.forgotPasswordBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleForgotPassword();
+            });
+        }
     }
 
     show(loginMode = true) {
         if (!this.modal) return;
-        
+
         this.isLoginMode = loginMode;
         this.allowHide = false; // Prevent hiding
         this.modal.classList.remove('hidden');
-        
+
         // Hide close button
         if (this.closeBtn) {
             this.closeBtn.style.display = 'none';
         }
-        
+
         // Reset forms
         this.clearErrors();
         this.resetForms();
-        
+
         // Show appropriate form
         if (loginMode) {
             this.switchToLoginMode();
         } else {
             this.switchToCreateMode();
         }
-        
+
         // Focus on first input
         setTimeout(() => {
             if (loginMode && this.loginEmailInput) {
@@ -178,6 +188,39 @@ class AuthModal {
         this.clearErrors();
     }
 
+    async handleForgotPassword() {
+        const email = this.loginEmailInput?.value.trim();
+
+        if (!email) {
+            this.showLoginError('Please enter your email address first.');
+            return;
+        }
+
+        if (!this.isValidEmail(email)) {
+            this.showLoginError('Please enter a valid email address.');
+            return;
+        }
+
+        // Show loading state
+        this.setForgotPasswordLoading(true);
+        this.clearErrors();
+
+        try {
+            const result = await this.firebaseManager.sendPasswordResetEmail(email);
+
+            if (result.success) {
+                this.showLoginSuccess('Password reset email sent! Please check your inbox (and spam folder).');
+            } else {
+                this.showLoginError(result.error || 'Failed to send reset email.');
+            }
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            this.showLoginError('An error occurred. Please try again later.');
+        } finally {
+            this.setForgotPasswordLoading(false);
+        }
+    }
+
     async handleLogin() {
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
@@ -209,7 +252,7 @@ class AuthModal {
 
         try {
             const result = await this.firebaseManager.signIn(email, password);
-            
+
             if (result.success) {
                 this.clearErrors();
                 this.allowHide = true; // Allow hiding after successful login
@@ -271,7 +314,7 @@ class AuthModal {
 
         try {
             const result = await this.firebaseManager.signUp(email, password, username);
-            
+
             if (result.success) {
                 this.clearErrors();
                 this.allowHide = true; // Allow hiding after successful account creation
@@ -304,10 +347,21 @@ class AuthModal {
         }
     }
 
+    showLoginSuccess(message) {
+        if (this.loginSuccessMsg) {
+            this.loginSuccessMsg.textContent = message;
+            this.loginSuccessMsg.classList.remove('hidden');
+        }
+    }
+
     clearErrors() {
         if (this.loginErrorMsg) {
             this.loginErrorMsg.textContent = '';
             this.loginErrorMsg.classList.add('hidden');
+        }
+        if (this.loginSuccessMsg) {
+            this.loginSuccessMsg.textContent = '';
+            this.loginSuccessMsg.classList.add('hidden');
         }
         if (this.createErrorMsg) {
             this.createErrorMsg.textContent = '';
@@ -352,6 +406,20 @@ class AuthModal {
         }
         if (this.createConfirmPasswordInput) {
             this.createConfirmPasswordInput.disabled = loading;
+        }
+    }
+
+    setForgotPasswordLoading(loading) {
+        if (this.forgotPasswordBtn) {
+            this.forgotPasswordBtn.disabled = loading;
+            if (loading) {
+                this.forgotPasswordBtn.textContent = 'Verzenden...';
+            } else {
+                this.forgotPasswordBtn.textContent = 'Forgot my password?';
+            }
+        }
+        if (this.loginEmailInput) {
+            this.loginEmailInput.disabled = loading;
         }
     }
 

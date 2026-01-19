@@ -36,10 +36,10 @@ class FirebaseManager {
 
             // Initialize App Check (if available and configured)
             // Skip App Check on localhost as reCAPTCHA domains need to be registered
-            const isLocalhost = window.location.hostname === 'localhost' || 
-                               window.location.hostname === '127.0.0.1' ||
-                               window.location.hostname === '';
-            
+            const isLocalhost = window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1' ||
+                window.location.hostname === '';
+
             if (!isLocalhost && typeof firebase.appCheck !== 'undefined' && typeof recaptchaSiteKey !== 'undefined' && recaptchaSiteKey !== 'JOUW_RECAPTCHA_SITE_KEY') {
                 try {
                     const appCheck = firebase.appCheck();
@@ -90,7 +90,7 @@ class FirebaseManager {
         try {
             const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
             this.currentUser = userCredential.user;
-            
+
             // Set display name if provided
             if (username && this.currentUser) {
                 await this.currentUser.updateProfile({
@@ -109,7 +109,7 @@ class FirebaseManager {
                     await userRef.update({
                         email: normalizedEmail
                     });
-                    
+
                     // Create email index for user lookup
                     await this.ensureEmailIndex(this.currentUser.uid, email);
                 } catch (error) {
@@ -139,7 +139,7 @@ class FirebaseManager {
         try {
             const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
             this.currentUser = userCredential.user;
-            
+
             // Ensure email is stored in database for email lookup
             if (this.currentUser && this.currentUser.uid) {
                 try {
@@ -147,7 +147,7 @@ class FirebaseManager {
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     const userSnapshot = await userRef.once('value');
                     const userData = userSnapshot.val();
-                    
+
                     // Only update if email is not already stored
                     if (!userData || !userData.email) {
                         await userRef.update({
@@ -159,7 +159,7 @@ class FirebaseManager {
                             email: normalizedEmail
                         });
                     }
-                    
+
                     // Always ensure email index exists (for existing users too)
                     await this.ensureEmailIndex(this.currentUser.uid, email);
                 } catch (error) {
@@ -167,7 +167,7 @@ class FirebaseManager {
                     // Don't fail signin if this fails
                 }
             }
-            
+
             return {
                 success: true,
                 user: userCredential.user
@@ -267,6 +267,23 @@ class FirebaseManager {
         }
     }
 
+    async sendPasswordResetEmail(email) {
+        if (!this.initialized) {
+            await this.initialize();
+        }
+
+        try {
+            await this.auth.sendPasswordResetEmail(email);
+            return { success: true };
+        } catch (error) {
+            console.error('Password reset error:', error);
+            return {
+                success: false,
+                error: this.getAuthErrorMessage(error.code) || error.message
+            };
+        }
+    }
+
     async changePassword(newPassword) {
         if (!this.initialized) {
             return { success: false, error: 'Firebase not initialized' };
@@ -316,7 +333,7 @@ class FirebaseManager {
         try {
             const songsRef = this.database.ref(`users/${userId}/songs`);
             const songsObject = {};
-            
+
             songs.forEach(song => {
                 songsObject[song.id] = song;
             });
@@ -338,7 +355,7 @@ class FirebaseManager {
             const songsRef = this.database.ref(`users/${userId}/songs`);
             const snapshot = await songsRef.once('value');
             const songsData = snapshot.val();
-            
+
             if (!songsData) {
                 return [];
             }
@@ -359,7 +376,7 @@ class FirebaseManager {
         try {
             const setlistsRef = this.database.ref(`users/${userId}/setlists`);
             const setlistsObject = {};
-            
+
             setlists.forEach(setlist => {
                 setlistsObject[setlist.id] = setlist;
             });
@@ -381,7 +398,7 @@ class FirebaseManager {
             const setlistsRef = this.database.ref(`users/${userId}/setlists`);
             const snapshot = await setlistsRef.once('value');
             const setlistsData = snapshot.val();
-            
+
             if (!setlistsData) {
                 return [];
             }
@@ -497,7 +514,7 @@ class FirebaseManager {
             const normalizedEmail = email.toLowerCase().trim().replace(/\./g, '_');
             const emailIndexRef = this.database.ref(`emailToUserId/${normalizedEmail}`);
             const snapshot = await emailIndexRef.once('value');
-            
+
             // Only create if it doesn't exist or points to different user
             const existingUserId = snapshot.val();
             if (!existingUserId || existingUserId !== userId) {
@@ -521,19 +538,19 @@ class FirebaseManager {
             const normalizedEmail = email.toLowerCase().trim().replace(/\./g, '_');
             const emailIndexRef = this.database.ref(`emailToUserId/${normalizedEmail}`);
             const snapshot = await emailIndexRef.once('value');
-            
+
             const userId = snapshot.val();
             if (userId) {
                 return userId;
             }
-            
+
             // Fallback: try to find user by reading their own data if they're logged in
             // This only works if the user we're looking for is the current user
             const currentUser = this.getCurrentUser();
             if (currentUser && currentUser.email && currentUser.email.toLowerCase().trim() === email.toLowerCase().trim()) {
                 return currentUser.uid;
             }
-            
+
             return null;
         } catch (error) {
             console.error('Get user by email error:', error);
@@ -553,7 +570,7 @@ class FirebaseManager {
         try {
             const pendingRef = this.database.ref(`users/${recipientUserId}/pendingSongs`);
             const pendingObject = {};
-            
+
             songs.forEach(song => {
                 const pendingId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
                 pendingObject[pendingId] = {
@@ -581,7 +598,7 @@ class FirebaseManager {
             const pendingRef = this.database.ref(`users/${userId}/pendingSongs`);
             const snapshot = await pendingRef.once('value');
             const pendingData = snapshot.val();
-            
+
             if (!pendingData) {
                 return [];
             }
@@ -607,17 +624,17 @@ class FirebaseManager {
         try {
             // Load pending songs
             const pendingSongs = await this.loadPendingSongs(userId);
-            
+
             // Filter to only the ones we want to accept
             const songsToAccept = pendingSongs.filter(p => pendingIds.includes(p.pendingId));
-            
+
             if (songsToAccept.length === 0) {
                 return { success: false, error: 'No songs to accept' };
             }
 
             // Load existing songs
             const existingSongs = await this.loadSongs(userId);
-            
+
             // Generate new IDs for accepted songs and add them
             const newSongs = songsToAccept.map(pending => {
                 const song = { ...pending.song };
@@ -628,13 +645,13 @@ class FirebaseManager {
 
             // Merge with existing songs
             const allSongs = [...existingSongs, ...newSongs];
-            
+
             // Save updated songs
             await this.saveSongs(userId, allSongs);
-            
+
             // Delete accepted pending songs
             await this.deletePendingSongs(userId, pendingIds);
-            
+
             return { success: true, acceptedCount: newSongs.length };
         } catch (error) {
             console.error('Accept pending songs error:', error);
@@ -650,7 +667,7 @@ class FirebaseManager {
         try {
             const pendingRef = this.database.ref(`users/${userId}/pendingSongs`);
             const updates = {};
-            
+
             pendingIds.forEach(id => {
                 updates[id] = null; // Set to null to delete
             });
@@ -745,7 +762,7 @@ class FirebaseManager {
 
                 // Add local songs that don't exist remotely
                 songs.forEach(localSong => {
-                    const exists = existingSongs.some(remoteSong => 
+                    const exists = existingSongs.some(remoteSong =>
                         remoteSong.id === localSong.id ||
                         (remoteSong.artist === localSong.artist && remoteSong.title === localSong.title)
                     );
@@ -756,7 +773,7 @@ class FirebaseManager {
 
                 // Add local setlists that don't exist remotely
                 setlists.forEach(localSetlist => {
-                    const exists = existingSetlists.some(remoteSetlist => 
+                    const exists = existingSetlists.some(remoteSetlist =>
                         remoteSetlist.id === localSetlist.id ||
                         remoteSetlist.name === localSetlist.name
                     );

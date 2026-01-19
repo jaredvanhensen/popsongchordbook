@@ -4105,6 +4105,11 @@ td:has(.row-edit-input.input-focused) {
     transform: scale(1.05);
 }
 
+.song-detail-action-btn#songDetailDeleteBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
 .song-detail-action-btn:hover .label {
     color: rgba(255, 255, 255, 0.9);
 }
@@ -4306,6 +4311,31 @@ td:has(.row-edit-input.input-focused) {
     padding: 0;
     font-weight: 300;
     flex-shrink: 0;
+}
+
+.song-detail-close-top {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.song-detail-close-top:hover {
+    background: rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
 }
 
 .song-detail-close.with-label {
@@ -6660,7 +6690,9 @@ td:has(.row-edit-input.input-focused) {
         font-size: 0.95em;
     }
 }
+
 /* Fix for Add to Setlist Single Modal Z-Index */
 #addToSetlistSingleModal {
-    z-index: 10005; /* Enforce higher z-index than song detail modal */
+    z-index: 10005;
+    /* Enforce higher z-index than song detail modal */
 }
