@@ -4453,6 +4453,8 @@ td:has(.row-edit-input.input-focused) {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+    line-height: 1.4;
+    /* Reduced line spacing */
 }
 
 .chord-section-content.editable-field:hover {
