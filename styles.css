@@ -5836,10 +5836,10 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(0, 0, 0, 0.03);
     border-radius: 4px;
     padding: 2px 5px;
-    width: 80px !important;
-    /* Fits approx 15 characters */
+    width: 95px !important;
+    /* Fits approx 18 characters */
     flex: 0 0 auto !important;
-    max-width: 80px !important;
+    max-width: 95px !important;
     margin-bottom: 0 !important;
     /* Reset modal input margin */
     color: #64748b;
@@ -6117,9 +6117,9 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-modal-content .cue-line-input {
-        width: 70px !important;
-        /* Extremely tight for mobile */
-        max-width: 70px !important;
+        width: 85px !important;
+        /* Slightly wider for mobile */
+        max-width: 85px !important;
         font-size: 7.5pt !important;
     }
 }
