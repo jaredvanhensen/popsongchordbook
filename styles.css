@@ -6154,6 +6154,14 @@ td:has(.row-edit-input.input-focused) {
         line-height: 1.2 !important;
         /* Restored to comfortable spacing */
     }
+
+    .chord-section-content {
+        font-size: 20px !important;
+    }
+
+    .song-chord-section.chorus-section .chord-section-content {
+        font-size: 21px !important;
+    }
 }
 
 /* Mobile landscape fixes */
