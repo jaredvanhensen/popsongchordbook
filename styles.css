@@ -4039,11 +4039,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Fix for close button overlapping icons on PC and iPad */
-@media (min-width: 768px) {
-    .song-detail-header {
-        padding-right: 80px;
-    }
-}
+/* Moved to end of file to override mobile styles */
 
 .song-detail-title-section {
     flex: 1 1 auto;
@@ -6889,5 +6885,12 @@ td:has(.row-edit-input.input-focused) {
 
     100% {
         opacity: 1;
+    }
+}
+
+/* Fix for close button overlapping icons on PC and iPad */
+@media (min-width: 768px) {
+    .song-detail-header {
+        padding-right: 80px !important;
     }
 }
