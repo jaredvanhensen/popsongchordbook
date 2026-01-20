@@ -107,6 +107,16 @@ header::before {
     align-items: center;
 }
 
+.header-top-left {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 .profile-btn {
     position: relative;
     background: rgba(255, 255, 255, 0.95);
@@ -6842,6 +6852,7 @@ td:has(.row-edit-input.input-focused) {
         margin-bottom: 2px !important;
     }
 }
+
 /* Status Indicator */
 #connection-status {
     display: inline-block;
@@ -6850,16 +6861,26 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .status-connected {
-    color: #4caf50; /* Green */
+    color: #4caf50;
+    /* Green */
 }
 
 .status-disconnected {
-    color: #f44336; /* Red */
+    color: #f44336;
+    /* Red */
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
