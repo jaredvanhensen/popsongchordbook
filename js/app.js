@@ -1,3 +1,5 @@
+import { DEFAULT_SONGS } from './data/default_songs.js';
+
 // Main Application
 class App {
     constructor() {
@@ -343,20 +345,61 @@ class App {
     }
 
     async loadDataFromFirebase() {
-        try {
-            // Load from cache first (fast, no database call)
-            // This will automatically sync with Firebase in background if needed
-            await this.songManager.loadSongs(false); // false = use cache first
-            await this.setlistManager.loadSetlists(false); // false = use cache first
+        console.log('Loading data...');
 
-            // Update UI immediately with cached data
-            this.loadAndRender();
-            this.updateSetlistSelect();
+        // Show loading indicator
+        this.showLoadingIndicator();
+
+        try {
+            // Load songs and setlists in parallel
+            const [songs, setlists] = await Promise.all([
+                this.songManager.loadSongs(),
+                this.setlistManager.loadSetlists()
+            ]);
+
+            console.log(`Loaded ${songs.length} songs and ${setlists.length} setlists`);
+
+            // Check if this is a new user (0 songs) and seed default data
+            if (songs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
+                await this.seedDefaultData();
+            }
+
+            // Sync setlists with songs (clean up deleted songs from setlists)
+            // this.setlistManager.cleanupSetlists(this.songManager.getAllSongs());
+
+            // Render the table
+            this.handleSetlistChange(this.currentSetlistId);
+
         } catch (error) {
             console.error('Error loading data:', error);
-            // Try to continue with whatever data we have
+            alert('Fout bij laden van gegevens. Probeer de pagina te vernieuwen.');
+        } finally {
+            // Hide loading indicator
+            this.hideLoadingIndicator();
+        }
+    }
+
+    async seedDefaultData() {
+        console.log("Seeding default data for new user...");
+        try {
+            // 1. Import default songs
+            // We use importSongs to handle ID generation and avoid duplicates (though here it's empty)
+            await this.songManager.importSongs(DEFAULT_SONGS);
+            const allSongs = this.songManager.getAllSongs();
+
+            // 2. Create 'DEMO' Setlist
+            const demoSetlist = await this.setlistManager.createSetlist("DEMO");
+
+            // 3. Add all song IDs to the setlist
+            const songIds = allSongs.map(s => s.id);
+            await this.setlistManager.addSongsToSetlist(demoSetlist.id, songIds);
+
+            console.log("Seeding complete: Created DEMO setlist with", songIds.length, "songs.");
+
+            // Reload to reflect changes
             this.loadAndRender();
-            this.updateSetlistSelect();
+        } catch (e) {
+            console.error("Error seeding default data:", e);
         }
     }
 
