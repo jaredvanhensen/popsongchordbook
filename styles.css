@@ -4038,6 +4038,13 @@ td:has(.row-edit-input.input-focused) {
     flex-wrap: nowrap;
 }
 
+/* Fix for close button overlapping icons on PC */
+@media (min-width: 769px) {
+    .song-detail-header {
+        padding-right: 60px;
+    }
+}
+
 .song-detail-title-section {
     flex: 1 1 auto;
     color: white;
