@@ -145,6 +145,14 @@ class App {
 
         // Load and render songs (no default songs for new users)
         this.loadAndRender();
+
+        // DEBUG: Diagnostics on Version Click
+        const versionEl = document.getElementById('site-version');
+        if (versionEl) {
+            versionEl.style.cursor = 'pointer';
+            versionEl.title = 'Click for Diagnostics';
+            versionEl.addEventListener('click', () => this.runDiagnostics());
+        }
     }
 
     async handleAuthSuccess(user) {
@@ -1602,13 +1610,6 @@ class App {
         // Setup event listeners if not already done
         this.setupYouTubeMiniPlayer();
 
-        // DEBUG: Diagnostics on Version Click
-        const versionEl = document.getElementById('site-version');
-        if (versionEl) {
-            versionEl.style.cursor = 'pointer';
-            versionEl.title = 'Click for Diagnostics';
-            versionEl.addEventListener('click', () => this.runDiagnostics());
-        }
 
         // Setup connection listener
         this.firebaseManager.setConnectionListener((isConnected) => {
