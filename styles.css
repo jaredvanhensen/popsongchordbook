@@ -13,7 +13,133 @@
     --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Default Theme (Jared2) variables */
+    --block1-bg: #e0f2fe;
+    --block1-border: #7dd3fc;
+    --block1-text: #0369a1;
+    --block2-bg: #ffedd5;
+    --block2-border: #fdba74;
+    --block2-text: #c2410c;
+    --block3-bg: #fce7f3;
+    --block3-border: #f9a8d4;
+    --block3-text: #be185d;
+    --block4-bg: #f5f3ff;
+    --block4-border: #c4b5fd;
+    --block4-text: #6d28d9;
 }
+
+/* Jared1 Theme - High Contrast */
+body.theme-jared1 {
+    --block1-bg: #dbeafe;
+    --block1-border: #93c5fd;
+    --block1-text: #1e40af;
+    --block2-bg: #fef9c3;
+    --block2-border: #fde68a;
+    --block2-text: #a16207;
+    --block3-bg: #f3e8ff;
+    --block3-border: #d8b4fe;
+    --block3-text: #6b21a8;
+    --block4-bg: #ffe4e6;
+    --block4-border: #fda4af;
+    --block4-text: #be123c;
+}
+
+/* Jared2 Theme - Sunset & Lavender */
+body.theme-jared2 {
+    --block1-bg: #e0f2fe;
+    --block1-border: #7dd3fc;
+    --block1-text: #0369a1;
+    --block2-bg: #ffedd5;
+    --block2-border: #fdba74;
+    --block2-text: #c2410c;
+    --block3-bg: #fce7f3;
+    --block3-border: #f9a8d4;
+    --block3-text: #be185d;
+    --block4-bg: #f5f3ff;
+    --block4-border: #c4b5fd;
+    --block4-text: #6d28d9;
+}
+
+/* Jared3 Theme - Electric Aura */
+body.theme-jared3 {
+    --block1-bg: #e0e7ff;
+    /* Indigo */
+    --block1-border: #a5b4fc;
+    --block1-text: #4338ca;
+    --block2-bg: #fff1f2;
+    /* Rose tint */
+    --block2-border: #fecdd3;
+    --block2-text: #e11d48;
+    --block3-bg: #ecfeff;
+    /* Cyan */
+    --block3-border: #a5f3fc;
+    --block3-text: #0891b2;
+    --block4-bg: #fafaf9;
+    /* Warm Slate */
+    --block4-border: #e7e5e4;
+    --block4-text: #44403c;
+}
+
+/* Jared0 - Absolute 1:1 Live Site Recreation (v1.17) */
+body.theme-jared-original {
+    --block1-bg: #ffffff;
+    --block1-border: transparent;
+    --block1-text: var(--text-color);
+    --block2-bg: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    --block2-border: #f59e0b;
+    --block2-text: #92400e;
+    --block3-bg: #ffffff;
+    --block3-border: transparent;
+    --block3-text: var(--text-color);
+    --block4-bg: #ffffff;
+    --block4-border: transparent;
+    --block4-text: var(--text-color);
+}
+
+/* Authentic Row Dividers and Zebra Striping */
+body.theme-jared-original .song-row {
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.theme-jared-original .song-row:nth-child(even) {
+    background: #f8fafc !important;
+}
+
+/* Header Styling - Exact Gradients from Live Site */
+body.theme-jared-original thead tr {
+    background: linear-gradient(to bottom right, #667eea, #764ba2) !important;
+}
+
+body.theme-jared-original th {
+    color: white !important;
+}
+
+body.theme-jared-original th.chorus-column {
+    background: linear-gradient(to bottom right, #fef3c7, #fde68a) !important;
+    color: #92400e !important;
+}
+
+/* Legendary 4px Column Borders */
+body.theme-jared-original .chorus-column,
+body.theme-jared-original .chorus-cell {
+    border-left: 4px solid #f59e0b !important;
+    border-right: 4px solid #f59e0b !important;
+}
+
+body.theme-jared-original .chorus-cell {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+}
+
+/* Ensure other cells inherit the row background/Zebra effect */
+body.theme-jared-original .verse-cell,
+body.theme-jared-original .prechorus-cell,
+body.theme-jared-original .bridge-cell,
+body.theme-jared-original td:not(.chorus-cell) {
+    background: transparent !important;
+}
+
+/* Jared4 removed per user request */
 
 * {
     margin: 0;
@@ -159,6 +285,54 @@ header::before {
 
 .notification-badge.hidden {
     display: none;
+}
+
+.theme-switcher-btn {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    color: var(--text-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+
+.theme-switcher-btn:hover {
+    background: white;
+    border-color: var(--secondary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.theme-switcher-btn:active {
+    transform: translateY(0);
+}
+
+/* Theme-specific Switcher UI Feedback */
+body.theme-jared-original .theme-switcher-btn {
+    border-color: #FFD23F;
+    color: #92400e;
+}
+
+body.theme-jared1 .theme-switcher-btn {
+    border-color: #93c5fd;
+    color: #1e40af;
+}
+
+body.theme-jared2 .theme-switcher-btn {
+    border-color: #fdba74;
+    color: #c2410c;
+}
+
+body.theme-jared3 .theme-switcher-btn {
+    border-color: #a5b4fc;
+    color: #4338ca;
 }
 
 .profile-btn:hover {
@@ -1157,9 +1331,9 @@ thead th {
     background: transparent;
 }
 
-thead th.chorus-column {
-    background: transparent;
-}
+/* Colour scheme Jared2 - Table Headers (Uniform) */
+/* (Currently using Jared2: Sky Blue, Sunset Orange, Pink, Lavender) */
+/* Removed individual colored headers to keep it uniform */
 
 th {
     padding: 20px 16px;
@@ -1211,26 +1385,6 @@ th.sortable.desc .sort-indicator::after {
     opacity: 1;
 }
 
-.chorus-column {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
-    border-left: 4px solid var(--chorus-border);
-    border-right: 4px solid var(--chorus-border);
-    color: #92400e !important;
-}
-
-.chorus-column.sortable:hover {
-    background: rgba(254, 243, 199, 0.9) !important;
-}
-
-.chorus-column .sort-indicator {
-    color: #92400e !important;
-    opacity: 0.8;
-}
-
-.chorus-column.sortable.asc .sort-indicator,
-.chorus-column.sortable.desc .sort-indicator {
-    opacity: 1;
-}
 
 tbody tr {
     border-bottom: 1px solid var(--border-color);
@@ -1261,10 +1415,29 @@ td {
     color: var(--text-color);
 }
 
+/* Variable-based Theme - Table Cells */
+td.verse-cell {
+    background: var(--block1-bg) !important;
+    border-left: 3px solid var(--block1-border);
+    font-weight: 500;
+}
+
 td.chorus-cell {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-left: 4px solid var(--chorus-border);
-    border-right: 4px solid var(--chorus-border);
+    background: var(--block2-bg) !important;
+    border-left: 4px solid var(--block2-border);
+    border-right: 4px solid var(--block2-border);
+    font-weight: 600;
+}
+
+td.pre-chorus-cell {
+    background: var(--block3-bg) !important;
+    border-left: 3px solid var(--block3-border);
+    font-weight: 500;
+}
+
+td.bridge-cell {
+    background: var(--block4-bg) !important;
+    border-left: 3px solid var(--block4-border);
     font-weight: 500;
 }
 
@@ -4472,11 +4645,6 @@ td:has(.row-edit-input.input-focused) {
     border-color: var(--secondary-color);
 }
 
-.song-chord-section.chorus-section {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 4px solid var(--chorus-border);
-}
-
 .chord-section-title {
     font-size: clamp(0.7em, 1.5vw, 0.85em);
     font-weight: 700;
@@ -4494,8 +4662,64 @@ td:has(.row-edit-input.input-focused) {
     flex: 1;
 }
 
-.song-chord-section.chorus-section .chord-section-title {
-    color: #92400e;
+.chord-section-title.editable-title {
+    cursor: text;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    min-width: 100px;
+    display: inline-block;
+    border: 1px dashed transparent;
+}
+
+.chord-section-title.editable-title:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.chord-section-title.editable-title:focus {
+    background: white;
+    border-style: solid;
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Variable-based Theme - Song Detail Sections */
+#verseSection {
+    background: var(--block1-bg);
+    border-color: var(--block1-border);
+}
+
+#verseSection .chord-section-title {
+    color: var(--block1-text);
+}
+
+#chorusSection {
+    background: var(--block2-bg);
+    border-color: var(--block2-border);
+}
+
+#chorusSection .chord-section-title {
+    color: var(--block2-text);
+}
+
+#preChorusSection {
+    background: var(--block3-bg);
+    border-color: var(--block3-border);
+}
+
+#preChorusSection .chord-section-title {
+    color: var(--block3-text);
+}
+
+#bridgeSection {
+    background: var(--block4-bg);
+    border-color: var(--block4-border);
+}
+
+#bridgeSection .chord-section-title {
+    color: var(--block4-text);
 }
 
 .chord-section-content {
@@ -4507,10 +4731,6 @@ td:has(.row-edit-input.input-focused) {
     word-wrap: break-word;
     min-height: 1.5em;
     display: block;
-}
-
-.song-chord-section.chorus-section .chord-section-content {
-    color: #92400e;
 }
 
 .chord-section-content.editable-field {

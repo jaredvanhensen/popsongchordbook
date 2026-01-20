@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=0.97">
+    <link rel="stylesheet" href="styles.css?v=1.17">
 </head>
 
 <body>
@@ -18,13 +18,16 @@
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span id="site-version">0.97</span></span>
+                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span id="site-version">1.17</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
                     <p class="header-subtitle">Your interactive playalong songbook</p>
                 </div>
                 <div class="header-top-actions">
+                    <button id="themeSwitcherBtn" class="theme-switcher-btn" title="Cycle Themes">
+                        <span class="icon">🎨</span>
+                    </button>
                     <button id="profileBtn" class="profile-btn with-label" title="Profile">
                         <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
                         <span class="icon">👤</span>
@@ -192,10 +195,10 @@
                             ⭐
                             <span class="sort-indicator"></span>
                         </th>
-                        <th>Verse</th>
-                        <th class="chorus-column">Chorus</th>
-                        <th>Pre-Chorus</th>
-                        <th>Bridge</th>
+                        <th class="verse-column">Block 1</th>
+                        <th class="chorus-column">Block 2</th>
+                        <th class="prechorus-column">Block 3</th>
+                        <th class="bridge-column">Block 4</th>
                         <th class="actions-column">Actions</th>
                     </tr>
                 </thead>
@@ -309,6 +312,19 @@
                     <div class="auth-form-group">
                         <label>Email address</label>
                         <div class="profile-email-display" id="profileEmail">-</div>
+                    </div>
+                </div>
+
+                <div class="profile-appearance-section">
+                    <h4>Appearance</h4>
+                    <div class="auth-form-group">
+                        <label for="profileThemeSelect">Color Scheme</label>
+                        <select id="profileThemeSelect" class="auth-input">
+                            <option value="theme-jared-original">Jared0 (Original)</option>
+                            <option value="theme-jared1">Jared1 (High Contrast)</option>
+                            <option value="theme-jared2">Jared2 (Summer/Sunset)</option>
+                            <option value="theme-jared3">Jared3 (Electric Aura)</option>
+                        </select>
                     </div>
                 </div>
 
@@ -620,7 +636,8 @@
             <div class="song-detail-body">
                 <div class="song-chord-section" id="verseSection">
                     <div class="chord-section-header">
-                        <h3 class="chord-section-title">Verse</h3>
+                        <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
+                        </h3>
                         <div class="chord-section-buttons">
                             <button class="piano-chord-btn" data-section="verse" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="verse"
@@ -633,7 +650,8 @@
                 </div>
                 <div class="song-chord-section chorus-section" id="chorusSection">
                     <div class="chord-section-header">
-                        <h3 class="chord-section-title">Chorus</h3>
+                        <h3 class="chord-section-title editable-title" id="chorusTitle" contenteditable="true">Block 2
+                        </h3>
                         <div class="chord-section-buttons">
                             <button class="piano-chord-btn" data-section="chorus" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="chorus"
@@ -646,7 +664,8 @@
                 </div>
                 <div class="song-chord-section" id="preChorusSection">
                     <div class="chord-section-header">
-                        <h3 class="chord-section-title">Pre-Chorus</h3>
+                        <h3 class="chord-section-title editable-title" id="preChorusTitle" contenteditable="true">Block
+                            3</h3>
                         <div class="chord-section-buttons">
                             <button class="piano-chord-btn" data-section="preChorus"
                                 title="Show piano chords">🎹</button>
@@ -660,7 +679,8 @@
                 </div>
                 <div class="song-chord-section" id="bridgeSection">
                     <div class="chord-section-header">
-                        <h3 class="chord-section-title">Bridge</h3>
+                        <h3 class="chord-section-title editable-title" id="bridgeTitle" contenteditable="true">Block 4
+                        </h3>
                         <div class="chord-section-buttons">
                             <button class="piano-chord-btn" data-section="bridge" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="bridge"
@@ -803,31 +823,31 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=0.97"></script>
+    <script src="js/config/firebase-config.js?v=1.17"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=0.97"></script>
-    <script src="js/models/SetlistManager.js?v=0.97"></script>
+    <script src="js/models/SongManager.js?v=1.17"></script>
+    <script src="js/models/SetlistManager.js?v=1.17"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=0.97"></script>
-    <script src="js/utils/ChordDetector.js?v=0.97"></script>
-    <script src="js/utils/KeyDetector.js?v=0.97"></script>
-    <script src="js/utils/FirebaseManager.js?v=0.97"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=0.97"></script>
+    <script src="js/utils/Sorter.js?v=1.17"></script>
+    <script src="js/utils/ChordDetector.js?v=1.17"></script>
+    <script src="js/utils/KeyDetector.js?v=1.17"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.17"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.17"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=0.97"></script>
-    <script src="js/ui/SongDetailModal.js?v=0.97"></script>
-    <script src="js/ui/TableRenderer.js?v=0.97"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=0.97"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=0.97"></script>
-    <script src="js/ui/ChordFinderModal.js?v=0.97"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=0.97"></script>
-    <script src="js/ui/AuthModal.js?v=0.97"></script>
-    <script src="js/ui/ProfileModal.js?v=0.97"></script>
-    <script src="js/ui/ShareSongsModal.js?v=0.97"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=0.97"></script>
+    <script src="js/ui/ChordModal.js?v=1.17"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.17"></script>
+    <script src="js/ui/TableRenderer.js?v=1.17"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.17"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.17"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.17"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.17"></script>
+    <script src="js/ui/AuthModal.js?v=1.17"></script>
+    <script src="js/ui/ProfileModal.js?v=1.17"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.17"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.17"></script>
     <!-- Main App -->
-    <script type="module" src="js/app.js?v=0.97"></script>
+    <script type="module" src="js/app.js?v=1.17"></script>
 </body>
 
 </html>

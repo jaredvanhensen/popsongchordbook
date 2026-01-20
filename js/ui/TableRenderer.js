@@ -17,13 +17,13 @@ class TableRenderer {
     render(songs) {
         // Save current editing state
         const wasEditing = this.editingRowId;
-        
+
         this.tbody.innerHTML = '';
         songs.forEach(song => {
             const row = this.createRow(song);
             this.tbody.appendChild(row);
         });
-        
+
         // Restore edit mode if it was active
         if (wasEditing) {
             const song = this.songManager.getSongById(wasEditing);
@@ -34,7 +34,7 @@ class TableRenderer {
                 }
             }
         }
-        
+
         this.updateSelection();
         // Update header if a row is selected - but don't call updateSelectedSongHeader here
         // because it's already called from selectRow, and calling it here causes timing issues
@@ -59,11 +59,11 @@ class TableRenderer {
         const row = document.createElement('tr');
         row.dataset.id = song.id;
         row.className = 'song-row';
-        
+
         // Make entire row clickable for selection (except when editing)
         row.addEventListener('click', (e) => {
             // Don't select if clicking on buttons or input fields
-            if (e.target.classList.contains('delete-btn') || 
+            if (e.target.classList.contains('delete-btn') ||
                 e.target.classList.contains('youtube-btn') ||
                 e.target.classList.contains('favorite-btn') ||
                 e.target.closest('.favorite-btn') ||
@@ -91,7 +91,7 @@ class TableRenderer {
         titleCell.textContent = song.title || '';
         titleCell.dataset.field = 'title';
         titleCell.dataset.songId = song.id;
-        
+
         row.appendChild(titleCell);
 
         // Favorite button
@@ -117,7 +117,7 @@ class TableRenderer {
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
-        verseCell.className += ' chord-cell';
+        verseCell.className += ' verse-cell chord-cell';
         row.appendChild(verseCell);
 
         // Chorus
@@ -127,18 +127,18 @@ class TableRenderer {
 
         // Pre-Chorus
         const preChorusCell = this.createEditableCell(song.preChorus || '', 'preChorus', song.id);
-        preChorusCell.className += ' chord-cell';
+        preChorusCell.className += ' pre-chorus-cell chord-cell';
         row.appendChild(preChorusCell);
 
         // Bridge
         const bridgeCell = this.createEditableCell(song.bridge || '', 'bridge', song.id);
-        bridgeCell.className += ' chord-cell';
+        bridgeCell.className += ' bridge-cell chord-cell';
         row.appendChild(bridgeCell);
 
         // Actions cell with Delete and YouTube buttons
         const actionsCell = document.createElement('td');
         actionsCell.className = 'actions-cell';
-        
+
         // Delete button first
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
@@ -153,24 +153,24 @@ class TableRenderer {
             }
         });
         actionsCell.appendChild(deleteBtn);
-        
+
         // YouTube button - always create but hide if no URL exists
         // Always check fresh data from songManager
         const currentSong = this.songManager.getSongById(song.id);
         const hasYouTubeUrl = currentSong && currentSong.youtubeUrl && currentSong.youtubeUrl.trim();
         const hasExternalUrl = currentSong && currentSong.externalUrl && currentSong.externalUrl.trim();
-        
+
         const youtubeBtn = document.createElement('button');
         youtubeBtn.className = 'youtube-btn';
         youtubeBtn.innerHTML = '<svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"/><path d="M 45,24 27,14 27,34" fill="#fff"/></svg>';
         youtubeBtn.title = 'Play YouTube';
         youtubeBtn.dataset.songId = song.id;
-        
+
         // Hide button if no YouTube URL
         if (!hasYouTubeUrl) {
             youtubeBtn.style.display = 'none';
         }
-        
+
         youtubeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (this.onPlayYouTube) {
@@ -178,17 +178,17 @@ class TableRenderer {
             }
         });
         actionsCell.appendChild(youtubeBtn);
-        
+
         // External URL button
         const externalBtn = document.createElement('button');
         externalBtn.className = 'external-url-btn';
         externalBtn.textContent = '🌐';
         externalBtn.title = 'Open external website';
-        
+
         if (!hasExternalUrl) {
             externalBtn.style.display = 'none';
         }
-        
+
         externalBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             let url = currentSong.externalUrl;
@@ -198,7 +198,7 @@ class TableRenderer {
             window.open(url, '_blank');
         });
         actionsCell.appendChild(externalBtn);
-        
+
         row.appendChild(actionsCell);
 
         return row;
@@ -233,28 +233,28 @@ class TableRenderer {
         const cells = row.querySelectorAll('td');
         const fieldOrder = ['artist', 'title', 'favorite', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
-        
+
         cells.forEach((cell, index) => {
             // Skip actions cell (last one)
             if (index >= cells.length - 1) return;
-            
+
             // Skip favorite cell (it's a button, not editable)
             if (cell.classList.contains('favorite-cell')) return;
-            
+
             const field = fieldOrder[index];
             if (!field) return;
 
             const currentValue = cell.textContent.trim();
-            
+
             // Create wrapper for input and chord button (for chord fields)
             const chordFields = ['verse', 'chorus', 'preChorus', 'bridge'];
             const isChordField = chordFields.includes(field);
-            
+
             if (isChordField) {
                 // Create wrapper div for input and button
                 const inputWrapper = document.createElement('div');
                 inputWrapper.className = 'chord-input-wrapper';
-                
+
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = currentValue;
@@ -265,15 +265,15 @@ class TableRenderer {
                 input.setAttribute('autocorrect', 'off');
                 input.setAttribute('autocapitalize', 'none');
                 inputs.push(input);
-                
+
                 // Make input wider on focus to show all content
                 input.addEventListener('focus', () => {
                     input.classList.add('input-focused');
-                    
+
                     // Calculate width based on actual content width
                     const minWidth = 200;
                     const maxWidth = Math.min(1000, window.innerWidth * 0.95);
-                    
+
                     // Create a temporary span to measure text width
                     const measureSpan = document.createElement('span');
                     measureSpan.style.position = 'absolute';
@@ -282,10 +282,10 @@ class TableRenderer {
                     measureSpan.style.font = window.getComputedStyle(input).font;
                     measureSpan.textContent = input.value || input.placeholder || 'M';
                     document.body.appendChild(measureSpan);
-                    
+
                     const textWidth = measureSpan.offsetWidth;
                     document.body.removeChild(measureSpan);
-                    
+
                     // Add padding (36px = 18px left + 18px right)
                     const contentWidth = textWidth + 36;
                     const finalWidth = Math.max(minWidth, Math.min(maxWidth, contentWidth));
@@ -298,7 +298,7 @@ class TableRenderer {
                     input.style.width = '';
                     input.style.minWidth = '';
                 });
-                
+
                 // Create chord modal button
                 const chordBtn = document.createElement('button');
                 chordBtn.type = 'button';
@@ -314,7 +314,7 @@ class TableRenderer {
 
                 inputWrapper.appendChild(input);
                 inputWrapper.appendChild(chordBtn);
-                
+
                 // Tab navigation between inputs
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Tab' || e.key === 'Enter') {
@@ -342,7 +342,7 @@ class TableRenderer {
                         this.cancelRowEdit(songId, row, song);
                     }
                 });
-                
+
                 cell.textContent = '';
                 cell.appendChild(inputWrapper);
             } else {
@@ -361,11 +361,11 @@ class TableRenderer {
                 // Make input wider on focus to show all content
                 input.addEventListener('focus', () => {
                     input.classList.add('input-focused');
-                    
+
                     // Calculate width based on actual content width
                     const minWidth = 200;
                     const maxWidth = Math.min(1000, window.innerWidth * 0.95);
-                    
+
                     // Create a temporary span to measure text width
                     const measureSpan = document.createElement('span');
                     measureSpan.style.position = 'absolute';
@@ -374,10 +374,10 @@ class TableRenderer {
                     measureSpan.style.font = window.getComputedStyle(input).font;
                     measureSpan.textContent = input.value || input.placeholder || 'M';
                     document.body.appendChild(measureSpan);
-                    
+
                     const textWidth = measureSpan.offsetWidth;
                     document.body.removeChild(measureSpan);
-                    
+
                     // Add padding (36px = 18px left + 18px right)
                     const contentWidth = textWidth + 36;
                     const finalWidth = Math.max(minWidth, Math.min(maxWidth, contentWidth));
@@ -433,7 +433,7 @@ class TableRenderer {
 
     cancelRowEdit(songId, row, song) {
         const inputs = row.querySelectorAll('.row-edit-input');
-        
+
         inputs.forEach(input => {
             const field = input.dataset.field;
             if (field && field !== 'favorite') {
@@ -458,7 +458,7 @@ class TableRenderer {
                     // Try to get original value from cell or song
                     const field = input.dataset.field || cell.dataset.field;
                     const originalValue = field && song[field] ? song[field] : '';
-                    
+
                     // Check if input is in a wrapper (chord field)
                     const wrapper = input.parentElement;
                     if (wrapper && wrapper.classList.contains('chord-input-wrapper')) {
@@ -485,7 +485,7 @@ class TableRenderer {
                 wrapper.remove();
             }
         });
-        
+
         const remainingInputs = row.querySelectorAll('.row-edit-input');
         remainingInputs.forEach(input => {
             const cell = input.closest('td');
@@ -508,13 +508,13 @@ class TableRenderer {
             const field = input.dataset.field;
             const value = input.value.trim();
             updates[field] = value;
-            
+
             // Restore cell content - check if input is in a wrapper
             const wrapper = input.parentElement;
-            const cell = wrapper.classList.contains('chord-input-wrapper') 
-                ? wrapper.closest('td') 
+            const cell = wrapper.classList.contains('chord-input-wrapper')
+                ? wrapper.closest('td')
                 : input.closest('td');
-            
+
             if (cell) {
                 cell.textContent = value;
                 // Remove wrapper if it exists, otherwise just remove input
@@ -576,13 +576,13 @@ class TableRenderer {
             if (this.chordModal) {
                 this.chordModal.hide();
             }
-            
+
             if (currentIndex < fieldOrder.length - 1) {
                 const nextField = fieldOrder[currentIndex + 1];
                 const row = cell.closest('tr');
-                const nextCell = row.querySelector(`td[data-field="${nextField}"]`) || 
-                                row.querySelector(`td.title-cell[data-field="${nextField}"]`);
-                
+                const nextCell = row.querySelector(`td[data-field="${nextField}"]`) ||
+                    row.querySelector(`td.title-cell[data-field="${nextField}"]`);
+
                 if (nextCell) {
                     finishEditing();
                     // Small delay to ensure the previous edit is saved

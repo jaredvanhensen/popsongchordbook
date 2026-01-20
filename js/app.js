@@ -55,6 +55,13 @@ class App {
     }
 
     async init() {
+        // Apply saved theme immediately
+        const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+        document.body.classList.add(savedTheme);
+
+        // Initialize theme switcher
+        this.setupThemeSwitcher();
+
         console.log("Pop Song Chord Book - App Initialized (v0.91)");
         // Initialize Firebase
         try {
@@ -2053,10 +2060,51 @@ class App {
             alert(`Fout bij importeren: ${error.message}`);
         }
     }
+
+    setupThemeSwitcher() {
+        const themeSwitcherBtn = document.getElementById('themeSwitcherBtn');
+        if (!themeSwitcherBtn) return;
+
+        const themes = ['theme-jared-original', 'theme-jared1', 'theme-jared2', 'theme-jared3'];
+
+        themeSwitcherBtn.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            const nextTheme = themes[nextIndex];
+
+            // Apply theme
+            document.body.classList.remove(...themes);
+            document.body.classList.add(nextTheme);
+            localStorage.setItem('user-theme', nextTheme);
+
+            // Sync with profile modal if it exists
+            if (this.profileModal) {
+                this.profileModal.setThemeDropdown(nextTheme);
+            }
+
+            this.updateThemeSwitcherUI();
+            console.log(`Theme switched to: ${nextTheme}`);
+        });
+
+        // Initial UI update
+        this.updateThemeSwitcherUI();
+    }
+
+    updateThemeSwitcherUI() {
+        const themeSwitcherBtn = document.getElementById('themeSwitcherBtn');
+        if (!themeSwitcherBtn) return;
+
+        const currentTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+
+        // This is mostly handled by CSS body classes now, but we can add 
+        // specific logic here if we want to change icons etc.
+        // For now, the CSS borders are enough.
+    }
 }
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new App();
+    window.appInstance = new App();
 });
 

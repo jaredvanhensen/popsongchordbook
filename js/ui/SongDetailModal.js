@@ -41,21 +41,25 @@ class SongDetailModal {
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
+                title: document.getElementById('verseTitle'),
                 content: document.getElementById('verseContent'),
                 cue: document.getElementById('verseCueInput')
             },
             chorus: {
                 section: document.getElementById('chorusSection'),
+                title: document.getElementById('chorusTitle'),
                 content: document.getElementById('chorusContent'),
                 cue: document.getElementById('chorusCueInput')
             },
             preChorus: {
                 section: document.getElementById('preChorusSection'),
+                title: document.getElementById('preChorusTitle'),
                 content: document.getElementById('preChorusContent'),
                 cue: document.getElementById('preChorusCueInput')
             },
             bridge: {
                 section: document.getElementById('bridgeSection'),
+                title: document.getElementById('bridgeTitle'),
                 content: document.getElementById('bridgeContent'),
                 cue: document.getElementById('bridgeCueInput')
             }
@@ -133,6 +137,19 @@ class SongDetailModal {
                 this.openYouTubeUrlModal();
             });
         }
+
+        // Setup title listeners for change detection
+        Object.values(this.sections).forEach(section => {
+            if (section.title) {
+                section.title.addEventListener('input', () => this.checkForChanges());
+                section.title.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        section.title.blur();
+                    }
+                });
+            }
+        });
 
         // Setup YouTube Play button
         if (this.youtubePlayBtn) {
@@ -323,10 +340,10 @@ class SongDetailModal {
                 if (section && section.content && this.pianoChordOverlay) {
                     const chordText = section.content.textContent || '';
                     const sectionNames = {
-                        'verse': 'Verse',
-                        'chorus': 'Chorus',
-                        'preChorus': 'Pre-Chorus',
-                        'bridge': 'Bridge'
+                        'verse': 'Block 1',
+                        'chorus': 'Block 2',
+                        'preChorus': 'Block 3',
+                        'bridge': 'Block 4'
                     };
                     const sectionName = sectionNames[sectionKey] || sectionKey;
 
@@ -350,10 +367,10 @@ class SongDetailModal {
 
                 if (section && section.content && this.chordProgressionEditor) {
                     const sectionNames = {
-                        'verse': 'Verse',
-                        'chorus': 'Chorus',
-                        'preChorus': 'Pre-Chorus',
-                        'bridge': 'Bridge'
+                        'verse': 'Block 1',
+                        'chorus': 'Block 2',
+                        'preChorus': 'Block 3',
+                        'bridge': 'Block 4'
                     };
                     const sectionName = sectionNames[sectionKey] || sectionKey;
 
@@ -806,12 +823,16 @@ class SongDetailModal {
                 artist: song.artist || '',
                 title: song.title || '',
                 verse: song.verse || '',
+                verseTitle: song.verseTitle || 'Block 1',
                 verseCue: song.verseCue || '',
                 preChorus: song.preChorus || '',
+                preChorusTitle: song.preChorusTitle || 'Block 3',
                 preChorusCue: song.preChorusCue || '',
                 chorus: song.chorus || '',
+                chorusTitle: song.chorusTitle || 'Block 2',
                 chorusCue: song.chorusCue || '',
                 bridge: song.bridge || '',
+                bridgeTitle: song.bridgeTitle || 'Block 4',
                 bridgeCue: song.bridgeCue || ''
             };
         }
@@ -823,12 +844,16 @@ class SongDetailModal {
             artist: this.artistElement ? this.artistElement.textContent : '',
             title: titleText,
             verse: this.sections.verse?.content ? this.sections.verse.content.textContent : '',
+            verseTitle: this.sections.verse?.title ? this.sections.verse.title.textContent : '',
             verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : '',
             preChorus: this.sections.preChorus?.content ? this.sections.preChorus.content.textContent : '',
+            preChorusTitle: this.sections.preChorus?.title ? this.sections.preChorus.title.textContent : '',
             preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : '',
             chorus: this.sections.chorus?.content ? this.sections.chorus.content.textContent : '',
+            chorusTitle: this.sections.chorus?.title ? this.sections.chorus.title.textContent : '',
             chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
             bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : '',
+            bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : ''
         };
 
@@ -838,12 +863,16 @@ class SongDetailModal {
             artist: (data.artist || '').trim(),
             title: (data.title || '').trim(),
             verse: (data.verse || '').trim(),
+            verseTitle: (data.verseTitle || '').trim(),
             verseCue: (data.verseCue || '').trim(),
             preChorus: (data.preChorus || '').trim(),
+            preChorusTitle: (data.preChorusTitle || '').trim(),
             preChorusCue: (data.preChorusCue || '').trim(),
             chorus: (data.chorus || '').trim(),
+            chorusTitle: (data.chorusTitle || '').trim(),
             chorusCue: (data.chorusCue || '').trim(),
             bridge: (data.bridge || '').trim(),
+            bridgeTitle: (data.bridgeTitle || '').trim(),
             bridgeCue: (data.bridgeCue || '').trim()
         });
 
@@ -912,11 +941,17 @@ class SongDetailModal {
         if (this.sections.verse?.content) {
             updates.verse = this.sections.verse.content.textContent.trim();
         }
+        if (this.sections.verse?.title) {
+            updates.verseTitle = this.sections.verse.title.textContent.trim();
+        }
         if (this.sections.verse?.cue) {
             updates.verseCue = this.sections.verse.cue.value.trim();
         }
         if (this.sections.preChorus?.content) {
             updates.preChorus = this.sections.preChorus.content.textContent.trim();
+        }
+        if (this.sections.preChorus?.title) {
+            updates.preChorusTitle = this.sections.preChorus.title.textContent.trim();
         }
         if (this.sections.preChorus?.cue) {
             updates.preChorusCue = this.sections.preChorus.cue.value.trim();
@@ -924,11 +959,17 @@ class SongDetailModal {
         if (this.sections.chorus?.content) {
             updates.chorus = this.sections.chorus.content.textContent.trim();
         }
+        if (this.sections.chorus?.title) {
+            updates.chorusTitle = this.sections.chorus.title.textContent.trim();
+        }
         if (this.sections.chorus?.cue) {
             updates.chorusCue = this.sections.chorus.cue.value.trim();
         }
         if (this.sections.bridge?.content) {
             updates.bridge = this.sections.bridge.content.textContent.trim();
+        }
+        if (this.sections.bridge?.title) {
+            updates.bridgeTitle = this.sections.bridge.title.textContent.trim();
         }
         if (this.sections.bridge?.cue) {
             updates.bridgeCue = this.sections.bridge.cue.value.trim();
@@ -1152,6 +1193,9 @@ class SongDetailModal {
         // Verse (always show, even if empty - so user can add content)
         if (this.sections.verse && this.sections.verse.content) {
             this.sections.verse.content.textContent = song.verse || '';
+            if (this.sections.verse.title) {
+                this.sections.verse.title.textContent = song.verseTitle || 'Block 1';
+            }
             if (this.sections.verse.cue) {
                 this.sections.verse.cue.value = song.verseCue || '';
             }
@@ -1165,6 +1209,9 @@ class SongDetailModal {
         // Chorus (always show)
         if (this.sections.chorus && this.sections.chorus.content) {
             this.sections.chorus.content.textContent = song.chorus || '';
+            if (this.sections.chorus.title) {
+                this.sections.chorus.title.textContent = song.chorusTitle || 'Block 2';
+            }
             if (this.sections.chorus.cue) {
                 this.sections.chorus.cue.value = song.chorusCue || '';
             }
@@ -1178,6 +1225,9 @@ class SongDetailModal {
         // Pre-Chorus (always show)
         if (this.sections.preChorus && this.sections.preChorus.content) {
             this.sections.preChorus.content.textContent = song.preChorus || '';
+            if (this.sections.preChorus.title) {
+                this.sections.preChorus.title.textContent = song.preChorusTitle || 'Block 3';
+            }
             if (this.sections.preChorus.cue) {
                 this.sections.preChorus.cue.value = song.preChorusCue || '';
             }
@@ -1191,6 +1241,9 @@ class SongDetailModal {
         // Bridge (always show)
         if (this.sections.bridge && this.sections.bridge.content) {
             this.sections.bridge.content.textContent = song.bridge || '';
+            if (this.sections.bridge.title) {
+                this.sections.bridge.title.textContent = song.bridgeTitle || 'Block 4';
+            }
             if (this.sections.bridge.cue) {
                 this.sections.bridge.cue.value = song.bridgeCue || '';
             }

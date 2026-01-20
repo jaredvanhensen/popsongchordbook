@@ -14,6 +14,7 @@ class ProfileModal {
         this.avatarPlaceholder = document.getElementById('profileAvatarPlaceholder');
         this.avatarInput = document.getElementById('profileAvatarInput');
         this.changeAvatarBtn = document.getElementById('profileChangeAvatarBtn');
+        this.themeSelect = document.getElementById('profileThemeSelect');
 
         // Avatar elements (Created dynamically if not present in HTML yet, or assumes HTML update)
         // Since I can't edit HTML easily without context, I will inject the HTML in show() if missing or use existing structure if I modify songlist.html
@@ -105,6 +106,13 @@ class ProfileModal {
             });
         }
 
+        // Theme selection
+        if (this.themeSelect) {
+            this.themeSelect.addEventListener('change', (e) => {
+                this.handleThemeChange(e.target.value);
+            });
+        }
+
         // Close on backdrop click
         if (this.modal) {
             this.modal.addEventListener('click', (e) => {
@@ -187,6 +195,17 @@ class ProfileModal {
             if (!avatarUrl) avatarUrl = user.photoURL;
 
             this.updateAvatarUI(avatarUrl);
+        }
+
+        // Initialize theme select from current body class or localStorage
+        if (this.themeSelect) {
+            const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+            this.themeSelect.value = savedTheme;
+        }
+
+        // Update switcher UI if needed
+        if (window.appInstance && window.appInstance.updateThemeSwitcherUI) {
+            window.appInstance.updateThemeSwitcherUI();
         }
 
         // Update accept songs button visibility
@@ -533,6 +552,29 @@ class ProfileModal {
             this.avatarDisplay.src = '';
             this.avatarDisplay.classList.add('hidden');
             this.avatarPlaceholder.classList.remove('hidden');
+        }
+    }
+
+    handleThemeChange(themeClass) {
+        // Remove all theme classes
+        const themes = ['theme-jared-original', 'theme-jared1', 'theme-jared2', 'theme-jared3'];
+        document.body.classList.remove(...themes);
+
+        // Add new theme class
+        document.body.classList.add(themeClass);
+
+        // Save preference
+        localStorage.setItem('user-theme', themeClass);
+
+        // Notify app to update header button UI if needed
+        if (window.appInstance && window.appInstance.updateThemeSwitcherUI) {
+            window.appInstance.updateThemeSwitcherUI();
+        }
+    }
+
+    setThemeDropdown(themeClass) {
+        if (this.themeSelect) {
+            this.themeSelect.value = themeClass;
         }
     }
 }
