@@ -272,12 +272,52 @@ class FirebaseManager {
         if (!this.currentUser) return { success: false, error: 'Not logged in' };
 
         try {
-            await this.currentUser.updateProfile({ photoURL: photoURL });
-            await this.currentUser.reload();
-            this.currentUser = this.auth.currentUser;
-            return { success: true, user: this.currentUser };
+            // For external URLs (short), we can still use updateProfile
+            if (photoURL && photoURL.length < 2000) {
+                await this.currentUser.updateProfile({ photoURL: photoURL });
+                await this.currentUser.reload();
+                this.currentUser = this.auth.currentUser;
+                return { success: true, user: this.currentUser };
+            } else {
+                // For long Data URIs, store in Realtime Database
+                // We will ALSO set a flag or short marker in photoURL if possible, 
+                // or just rely on the app checking the DB.
+                // Let's store it in DB and set photoURL to "DB_AVATAR" so the app knows to look there?
+                // improved: Just store in DB. App should check DB for custom avatar.
+                const avatarRef = this.database.ref(`users/${this.currentUser.uid}/avatar`);
+                await avatarRef.set(photoURL);
+
+                // We also update the profile with a dummy or valid "marker" URL if needed,
+                // but for now let's just use the DB.
+                // But wait, the app.js uses user.photoURL. 
+                // We should probably implement a 'getProfile' that merges auth and db data?
+                // For now, let's just return success.
+                return { success: true };
+            }
         } catch (error) {
             return { success: false, error: error.message };
+        }
+    }
+
+    async uploadUserAvatar(dataUrl) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        try {
+            const avatarRef = this.database.ref(`users/${this.currentUser.uid}/avatar`);
+            await avatarRef.set(dataUrl);
+            return { success: true };
+        } catch (e) {
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getUserAvatar(userId) {
+        if (!this.initialized) return null;
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/avatar`).once('value');
+            return snapshot.val();
+        } catch (e) {
+            console.error("Error loading avatar:", e);
+            return null;
         }
     }
 

@@ -206,15 +206,28 @@ class App {
         this.updateProfileSongCount();
     }
 
-    updateProfileLabel(user) {
+    async updateProfileLabel(user) {
         const labelElement = document.querySelector('#profileBtn .label');
         if (labelElement) {
             const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
 
             let content = '';
+            let avatarUrl = null;
+
+            if (user) {
+                try {
+                    // Try to get from DB first
+                    avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
+                } catch (e) {
+                    console.warn("Failed to load avatar from DB", e);
+                }
+                // Fallback to auth photoURL
+                if (!avatarUrl) avatarUrl = user.photoURL;
+            }
+
             // Add avatar if available
-            if (user && user.photoURL) {
-                content += `<img src="${user.photoURL}" alt="" class="header-profile-img" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;">`;
+            if (avatarUrl) {
+                content += `<img src="${avatarUrl}" alt="" class="header-profile-img" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;">`;
             } else {
                 // Default icon is handled by CSS usually, but here we might want text or emoji
                 // The HTML usually has an icon span. We are replacing "label" content.

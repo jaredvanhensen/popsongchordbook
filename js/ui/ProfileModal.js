@@ -124,6 +124,56 @@ class ProfileModal {
         }
     }
 
+    async handleAvatarUpload(file) {
+        if (!file) return;
+
+        // Basic validation
+        if (!file.type.startsWith('image/')) {
+            alert('Selecteer een afbeelding.');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            alert('Afbeelding is te groot. Max 5MB.');
+            return;
+        }
+
+        try {
+            // Show loading state
+            if (this.changeAvatarBtn) {
+                this.changeAvatarBtn.textContent = '...';
+                this.changeAvatarBtn.disabled = true;
+            }
+
+            const resizedDataUrl = await this.resizeImage(file, 200, 200);
+
+            // Save to Realtime Database via new method
+            const result = await this.firebaseManager.uploadUserAvatar(resizedDataUrl);
+
+            if (result.success) {
+                // Update UI
+                this.updateAvatarUI(resizedDataUrl);
+
+                // Trigger profile label update via global event or reload
+                // Since this is in DB now, app.js needs to know to re-fetch.
+                // We'll rely on app.js having a listener or us calling a refresh if possible.
+                // For now, page refresh is the fallback.
+            } else {
+                alert('Fout bij bijwerken profielfoto: ' + result.error);
+            }
+
+        } catch (error) {
+            console.error('Avatar upload error:', error);
+            alert('Fout bij verwerken afbeelding.');
+        } finally {
+            if (this.changeAvatarBtn) {
+                this.changeAvatarBtn.textContent = '📷';
+                this.changeAvatarBtn.disabled = false;
+            }
+            if (this.avatarInput) this.avatarInput.value = ''; // Reset input
+        }
+    }
+
     async show() {
         if (!this.modal) return;
 
@@ -132,8 +182,11 @@ class ProfileModal {
             if (this.emailDisplay) this.emailDisplay.textContent = user.email || 'Geen e-mailadres';
             if (this.usernameInput) this.usernameInput.value = user.displayName || '';
 
-            // Update Avatar UI
-            this.updateAvatarUI(user.photoURL);
+            // Update Avatar UI - Try DB first, then Auth
+            let avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
+            if (!avatarUrl) avatarUrl = user.photoURL;
+
+            this.updateAvatarUI(avatarUrl);
         }
 
         // Update accept songs button visibility
