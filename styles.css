@@ -6818,3 +6818,27 @@ td:has(.row-edit-input.input-focused) {
     z-index: 10005;
     /* Enforce higher z-index than song detail modal */
 }
+
+/* Optimized Mobile Portrait Vertical Spacing */
+@media (max-width: 480px) {
+    .chord-section-content.editable-field {
+        padding: 2px !important;
+        line-height: 1.1 !important;
+        min-height: auto !important;
+    }
+
+    .song-detail-body {
+        padding: 4px 6px !important;
+        gap: 4px !important;
+    }
+
+    .song-chord-section {
+        padding: 4px 8px !important;
+        margin-bottom: 4px !important;
+        border-width: 1px !important;
+    }
+
+    .chord-section-title {
+        margin-bottom: 2px !important;
+    }
+}
