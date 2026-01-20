@@ -4041,7 +4041,7 @@ td:has(.row-edit-input.input-focused) {
 /* Fix for close button overlapping icons on PC and iPad */
 @media (min-width: 768px) {
     .song-detail-header {
-        padding-right: 60px;
+        padding-right: 80px;
     }
 }
 
