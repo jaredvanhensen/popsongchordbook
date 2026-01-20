@@ -390,7 +390,7 @@ class App {
 
         } catch (error) {
             console.error('Error loading data:', error);
-            alert('Fout bij laden van gegevens. Probeer de pagina te vernieuwen.');
+            alert('Fout bij laden van gegevens: ' + (error.message || error));
         } finally {
             // Hide loading indicator
             this.hideLoadingIndicator();
