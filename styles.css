@@ -4510,8 +4510,6 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-chord-section.chorus-section .chord-section-content {
-    font-size: clamp(0.85em, 3vh, 1.8em);
-    font-weight: 700;
     color: #92400e;
 }
 
@@ -4657,9 +4655,7 @@ td:has(.row-edit-input.input-focused) {
         font-size: 1.3em;
     }
 
-    .song-chord-section.chorus-section .chord-section-content {
-        font-size: 1.5em;
-    }
+
 }
 
 /* Mobile devices */
@@ -4751,9 +4747,7 @@ td:has(.row-edit-input.input-focused) {
         font-size: 1.4em;
     }
 
-    .song-chord-section.chorus-section .chord-section-content {
-        font-size: 1.5em;
-    }
+
 }
 
 @media (max-width: 480px) {
@@ -4870,10 +4864,7 @@ td:has(.row-edit-input.input-focused) {
         /* Increased for better readability */
     }
 
-    .song-chord-section.chorus-section .chord-section-content {
-        font-size: 18px !important;
-        /* Increased for chorus */
-    }
+
 
     .chord-section-content.editable-field {
         padding: 6px !important;
@@ -6210,10 +6201,7 @@ td:has(.row-edit-input.input-focused) {
         /* Increased for better readability */
     }
 
-    .song-chord-section.chorus-section .chord-section-content {
-        font-size: 18px !important;
-        /* Increased for chorus */
-    }
+
 
     .chord-section-content.editable-field {
         padding: 6px !important;
@@ -6225,9 +6213,7 @@ td:has(.row-edit-input.input-focused) {
         font-size: 22px !important;
     }
 
-    .song-chord-section.chorus-section .chord-section-content {
-        font-size: 22px !important;
-    }
+
 }
 
 /* Mobile landscape fixes */
