@@ -4038,8 +4038,8 @@ td:has(.row-edit-input.input-focused) {
     flex-wrap: nowrap;
 }
 
-/* Fix for close button overlapping icons on PC */
-@media (min-width: 769px) {
+/* Fix for close button overlapping icons on PC and iPad */
+@media (min-width: 768px) {
     .song-detail-header {
         padding-right: 60px;
     }
