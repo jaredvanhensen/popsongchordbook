@@ -6842,3 +6842,24 @@ td:has(.row-edit-input.input-focused) {
         margin-bottom: 2px !important;
     }
 }
+/* Status Indicator */
+#connection-status {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.status-connected {
+    color: #4caf50; /* Green */
+}
+
+.status-disconnected {
+    color: #f44336; /* Red */
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
