@@ -26,6 +26,9 @@ class SongDetailModal {
         this.addToSetlistBtn = document.getElementById('songDetailAddToSetlistBtn');
         this.transposeUpBtn = document.getElementById('songDetailTransposeUp');
         this.transposeDownBtn = document.getElementById('songDetailTransposeDown');
+        this.transposeBtn = document.getElementById('songDetailTransposeBtn');
+        this.transposeMenu = document.getElementById('transposeMenu');
+        this.transposeResetBtn = document.getElementById('songDetailTransposeReset');
         this.youtubeUrlModal = document.getElementById('youtubeUrlModal');
         this.songKeyInput = document.getElementById('songKeyInput');
         this.youtubeUrlInput = document.getElementById('youtubeUrlInput');
@@ -60,6 +63,7 @@ class SongDetailModal {
         this.hasUnsavedChanges = false;
         this.originalSongData = null;
         this.isRandomMode = false;
+        this.transposeOffset = 0;
 
         // Initialize a single shared audio player
         this.sharedAudioPlayer = new PianoAudioPlayer();
@@ -169,7 +173,37 @@ class SongDetailModal {
         if (this.transposeDownBtn) {
             this.transposeDownBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                e.stopPropagation();
                 this.transposeChords(-1);
+            });
+        }
+
+        // Setup Transpose Menu Toggle
+        if (this.transposeBtn && this.transposeMenu) {
+            this.transposeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.transposeMenu.classList.toggle('hidden');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!this.transposeMenu.classList.contains('hidden') &&
+                    !this.transposeMenu.contains(e.target) &&
+                    e.target !== this.transposeBtn &&
+                    !this.transposeBtn.contains(e.target)) {
+                    this.transposeMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        if (this.transposeResetBtn) {
+            this.transposeResetBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.transposeOffset !== 0) {
+                    this.transposeChords(-this.transposeOffset);
+                    this.transposeOffset = 0;
+                    this.transposeMenu.classList.add('hidden');
+                }
             });
         }
 
@@ -1013,7 +1047,10 @@ class SongDetailModal {
 
         this.currentSongId = song.id;
         this.hasUnsavedChanges = false;
+        this.currentSongId = song.id;
+        this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
+        this.transposeOffset = 0;
 
         // Set originalSongData immediately when showing a song, before any user interaction
         this.originalSongData = {
@@ -1564,6 +1601,7 @@ class SongDetailModal {
         if (hasChanges) {
             // Markeer als gewijzigd
             this.checkForChanges();
+            this.transposeOffset += semitones;
         }
     }
 

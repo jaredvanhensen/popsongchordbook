@@ -4062,6 +4062,65 @@ td:has(.row-edit-input.input-focused) {
     min-width: 0;
 }
 
+/* Transpose Menu */
+.transpose-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.transpose-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 1000;
+    margin-top: 8px;
+    min-width: 100px;
+    animation: fadeIn 0.2s ease;
+}
+
+.transpose-menu.hidden {
+    display: none;
+}
+
+.transpose-menu-item {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.transpose-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.transpose-menu-item .icon {
+    width: 16px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
 .song-detail-action-btn {
     background: transparent;
     border: none;

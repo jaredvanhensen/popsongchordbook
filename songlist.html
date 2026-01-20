@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=0.93">
+    <link rel="stylesheet" href="styles.css?v=0.94">
 </head>
 
 <body>
@@ -554,16 +554,25 @@
                         contenteditable="false" spellcheck="false"></h2>
                 </div>
                 <div class="song-detail-action-buttons">
-                    <button id="songDetailTransposeDown" class="song-detail-action-btn with-label"
-                        title="Transpose chords down (half step)">
-                        <span class="icon">♭</span>
-                        <span class="label">-1</span>
-                    </button>
-                    <button id="songDetailTransposeUp" class="song-detail-action-btn with-label"
-                        title="Transpose chords up (half step)">
-                        <span class="icon">♯</span>
-                        <span class="label">+1</span>
-                    </button>
+                    <div class="transpose-menu-container">
+                        <button id="songDetailTransposeBtn" class="song-detail-action-btn with-label"
+                            title="Transpose chords">
+                            <span class="icon">♭♯</span>
+                            <span class="label">Transp</span>
+                        </button>
+                        <div id="transposeMenu" class="transpose-menu hidden">
+                            <button id="songDetailTransposeDown" class="transpose-menu-item" title="Transpose down">
+                                <span class="icon">♭</span> -1
+                            </button>
+                            <button id="songDetailTransposeUp" class="transpose-menu-item" title="Transpose up">
+                                <span class="icon">♯</span> +1
+                            </button>
+                            <button id="songDetailTransposeReset" class="transpose-menu-item"
+                                title="Reset transposition">
+                                <span class="icon">↺</span> Reset
+                            </button>
+                        </div>
+                    </div>
                     <button id="songDetailYouTubePlayBtn" class="song-detail-action-btn with-label hidden"
                         title="Play YouTube video">
                         <span class="icon youtube-icon">
@@ -801,31 +810,31 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=0.93"></script>
+    <script src="js/config/firebase-config.js?v=0.94"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=0.93"></script>
-    <script src="js/models/SetlistManager.js?v=0.93"></script>
+    <script src="js/models/SongManager.js?v=0.94"></script>
+    <script src="js/models/SetlistManager.js?v=0.94"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=0.93"></script>
-    <script src="js/utils/ChordDetector.js?v=0.93"></script>
-    <script src="js/utils/KeyDetector.js?v=0.93"></script>
-    <script src="js/utils/FirebaseManager.js?v=0.93"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=0.93"></script>
+    <script src="js/utils/Sorter.js?v=0.94"></script>
+    <script src="js/utils/ChordDetector.js?v=0.94"></script>
+    <script src="js/utils/KeyDetector.js?v=0.94"></script>
+    <script src="js/utils/FirebaseManager.js?v=0.94"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=0.94"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=0.93"></script>
-    <script src="js/ui/SongDetailModal.js?v=0.93"></script>
-    <script src="js/ui/TableRenderer.js?v=0.93"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=0.93"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=0.93"></script>
-    <script src="js/ui/ChordFinderModal.js?v=0.93"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=0.93"></script>
-    <script src="js/ui/AuthModal.js?v=0.93"></script>
-    <script src="js/ui/ProfileModal.js?v=0.93"></script>
-    <script src="js/ui/ShareSongsModal.js?v=0.93"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=0.93"></script>
+    <script src="js/ui/ChordModal.js?v=0.94"></script>
+    <script src="js/ui/SongDetailModal.js?v=0.94"></script>
+    <script src="js/ui/TableRenderer.js?v=0.94"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=0.94"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=0.94"></script>
+    <script src="js/ui/ChordFinderModal.js?v=0.94"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=0.94"></script>
+    <script src="js/ui/AuthModal.js?v=0.94"></script>
+    <script src="js/ui/ProfileModal.js?v=0.94"></script>
+    <script src="js/ui/ShareSongsModal.js?v=0.94"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=0.94"></script>
     <!-- Main App -->
-    <script type="module" src="js/app.js?v=0.93"></script>
+    <script type="module" src="js/app.js?v=0.94"></script>
 </body>
 
 </html>
