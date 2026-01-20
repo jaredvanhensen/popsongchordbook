@@ -1507,18 +1507,22 @@ class SongDetailModal {
             if (!chordString || typeof chordString !== 'string') return chordString;
 
             // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
-            const chordPattern = /([A-Ga-g][#b]?(?:m|min|maj|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)/g;
+            // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
+            // Strict pattern: Capitalized root, delimiters boundaries, strictly valid suffixes
+            const chordPattern = /(^|[\s,.;:(\[])([A-G][#b]?(?:m|min|maj|dim|aug|sus|add)?(?:[0-9]|sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug|°|ø)*(?:\/[A-G][#b]?)?)(?=$|[\s,.;:)\]])/g;
 
-            return chordString.replace(chordPattern, (match) => {
+            return chordString.replace(chordPattern, (match, prefix, chord) => {
+                let newChord;
                 // Voor slash chords (bijv. C/G), transponeer beide delen
-                if (match.includes('/')) {
-                    const parts = match.split('/');
+                if (chord.includes('/')) {
+                    const parts = chord.split('/');
                     const root = transposeSingleChord(parts[0]);
                     const bass = transposeSingleChord(parts[1]);
-                    return root + '/' + bass;
+                    newChord = root + '/' + bass;
                 } else {
-                    return transposeSingleChord(match);
+                    newChord = transposeSingleChord(chord);
                 }
+                return prefix + newChord;
             });
         };
 
