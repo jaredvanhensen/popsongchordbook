@@ -215,10 +215,6 @@ class App {
         const labelElement = profileBtn.querySelector('.label');
         const iconElement = profileBtn.querySelector('.icon');
 
-        // CLEANUP: Remove ANY existing profile images to prevent duplicates
-        const existingImages = profileBtn.querySelectorAll('.header-profile-img');
-        existingImages.forEach(img => img.remove());
-
         // Logic to get avatar URL
         let avatarUrl = null;
         if (user) {
@@ -229,6 +225,11 @@ class App {
             }
             if (!avatarUrl) avatarUrl = user.photoURL;
         }
+
+        // CLEANUP: Remove ANY existing profile images to prevent duplicates
+        // Must be done AFTER await to prevent race conditions
+        const existingImages = profileBtn.querySelectorAll('.header-profile-img');
+        existingImages.forEach(img => img.remove());
 
         // Handle Image Element
         if (avatarUrl) {
