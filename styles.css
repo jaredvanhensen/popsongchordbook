@@ -6820,7 +6820,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Optimized Mobile Portrait Vertical Spacing */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .chord-section-content.editable-field {
         padding: 2px !important;
         line-height: 1.1 !important;
