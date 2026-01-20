@@ -353,6 +353,17 @@ class App {
         }
     }
 
+    showLoadingIndicator() {
+        // Simple console log for now, or implement UI spinner if needed
+        console.log("Loading...");
+        document.body.style.cursor = 'wait';
+    }
+
+    hideLoadingIndicator() {
+        console.log("Loading complete.");
+        document.body.style.cursor = 'default';
+    }
+
     async loadDataFromFirebase() {
         console.log('Loading data...');
 

@@ -35,10 +35,8 @@ class FirebaseManager {
             this.initialized = true;
 
             // Initialize App Check (if available and configured)
-            // Skip App Check on localhost as reCAPTCHA domains need to be registered
-            const isLocalhost = window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1' ||
-                window.location.hostname === '';
+            // DISABLED TEMPORARILY due to connection issues
+            const isLocalhost = true; // FORCE SKIP APP CHECK
 
             if (!isLocalhost && typeof firebase.appCheck !== 'undefined' && typeof recaptchaSiteKey !== 'undefined' && recaptchaSiteKey !== 'JOUW_RECAPTCHA_SITE_KEY') {
                 try {
