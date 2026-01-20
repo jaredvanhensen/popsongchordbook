@@ -212,8 +212,10 @@ class App {
 
         const labelElement = profileBtn.querySelector('.label');
         const iconElement = profileBtn.querySelector('.icon');
-        // Check for existing image or create it
-        let imgElement = profileBtn.querySelector('.header-profile-img');
+
+        // CLEANUP: Remove ANY existing profile images to prevent duplicates
+        const existingImages = profileBtn.querySelectorAll('.header-profile-img');
+        existingImages.forEach(img => img.remove());
 
         // Logic to get avatar URL
         let avatarUrl = null;
@@ -228,28 +230,24 @@ class App {
 
         // Handle Image Element
         if (avatarUrl) {
-            if (!imgElement) {
-                imgElement = document.createElement('img');
-                imgElement.className = 'header-profile-img';
-                imgElement.style.cssText = "width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;";
-                // Insert before label or icon
-                if (iconElement) {
-                    profileBtn.insertBefore(imgElement, iconElement);
-                } else if (labelElement) {
-                    profileBtn.insertBefore(imgElement, labelElement);
-                } else {
-                    profileBtn.appendChild(imgElement);
-                }
+            const imgElement = document.createElement('img');
+            imgElement.className = 'header-profile-img';
+            imgElement.style.cssText = "width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;";
+
+            // Insert before label or icon
+            if (iconElement) {
+                profileBtn.insertBefore(imgElement, iconElement);
+            } else if (labelElement) {
+                profileBtn.insertBefore(imgElement, labelElement);
+            } else {
+                profileBtn.appendChild(imgElement);
             }
+
             imgElement.src = avatarUrl;
-            imgElement.classList.remove('hidden');
 
             // Hide default icon
             if (iconElement) iconElement.classList.add('hidden');
         } else {
-            // No avatar, hide/remove image
-            if (imgElement) imgElement.remove(); // Or imgElement.classList.add('hidden');
-
             // Show default icon
             if (iconElement) iconElement.classList.remove('hidden');
         }
