@@ -1629,411 +1629,431 @@ class App {
         });
     }
 
-    runDiagnostics() {
+    async runDiagnostics() {
         const user = this.firebaseManager.getCurrentUser();
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v0.77):\n`;
+        let msg = `Diagnostics (v0.82):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
-        msg += `Setlists (Local): ${setlists.length}\n`;
-        msg += `LocalStorage Key: ${this.songManager.storageKey}\n`;
-        msg += `Default Songs Loaded: ${typeof DEFAULT_SONGS !== 'undefined' ? DEFAULT_SONGS.length : 'Error'}\n`;
+        msg += `Data Source: ${this.songManager.syncEnabled ? 'Syncing' : 'Local Only'}\n`;
+
+        // Connectivity Test
+        try {
+            msg += `Testing DB Connection...\n`;
+            if (user) {
+                const testRef = this.firebaseManager.database.ref(`users/${user.uid}/_connection_test`);
+                await testRef.set({ timestamp: Date.now() });
+                msg += `✅ Database Write Success!\n`;
+            } else {
+                msg += `⚠️ Cannot test DB (Not Logged In)\n`;
+            }
+        } catch (e) {
+            msg += `❌ Database Error: ${e.code || e.message}\n`;
+            console.error("Diagnostic DB Error:", e);
+        }
 
         alert(msg);
         console.log(msg);
     }
+        msg += `Setlists (Local): ${setlists.length}\n`;
+msg += `LocalStorage Key: ${this.songManager.storageKey}\n`;
+msg += `Default Songs Loaded: ${typeof DEFAULT_SONGS !== 'undefined' ? DEFAULT_SONGS.length : 'Error'}\n`;
 
-    setupYouTubeMiniPlayer() {
-        const player = document.getElementById('youtubeMiniPlayer');
-        const closeBtn = document.getElementById('youtubePlayerClose');
-        const minimizeBtn = document.getElementById('youtubePlayerMinimize');
-        const header = player?.querySelector('.youtube-mini-player-header');
-
-        if (!player) return;
-
-        // Remove existing listeners by cloning
-        const newCloseBtn = closeBtn?.cloneNode(true);
-        const newMinimizeBtn = minimizeBtn?.cloneNode(true);
-
-        if (closeBtn && newCloseBtn) {
-            closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
-            newCloseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.hideYouTubeMiniPlayer();
-            });
-        }
-
-        if (minimizeBtn && newMinimizeBtn) {
-            minimizeBtn.parentNode.replaceChild(newMinimizeBtn, minimizeBtn);
-            newMinimizeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                player.classList.toggle('minimized');
-                newMinimizeBtn.textContent = player.classList.contains('minimized') ? '🔺' : '🔻';
-            });
-        }
-
-        // Setup drag functionality (works with mouse and touch)
-        if (header && !player.dataset.dragSetup) {
-            player.dataset.dragSetup = 'true';
-            let isDragging = false;
-            let currentX = 0;
-            let currentY = 0;
-            let initialX = 0;
-            let initialY = 0;
-            let xOffset = 0;
-            let yOffset = 0;
-
-            // Get current position from CSS
-            const updateOffset = () => {
-                const rect = player.getBoundingClientRect();
-                xOffset = rect.left;
-                yOffset = rect.top;
-            };
-
-            updateOffset();
-
-            const dragStart = (e) => {
-                // Don't drag if clicking on buttons
-                if (e.target.closest('.youtube-player-close-btn') ||
-                    e.target.closest('.youtube-player-minimize-btn')) {
-                    return;
-                }
-
-                if (e.type === 'touchstart') {
-                    initialX = e.touches[0].clientX - xOffset;
-                    initialY = e.touches[0].clientY - yOffset;
-                } else {
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
-                }
-
-                if (header.contains(e.target) || e.target === header) {
-                    isDragging = true;
-                    player.style.transition = 'none';
-                }
-            };
-
-            const drag = (e) => {
-                if (!isDragging) return;
-
-                e.preventDefault();
-
-                if (e.type === 'touchmove') {
-                    currentX = e.touches[0].clientX - initialX;
-                    currentY = e.touches[0].clientY - initialY;
-                } else {
-                    currentX = e.clientX - initialX;
-                    currentY = e.clientY - initialY;
-                }
-
-                xOffset = currentX;
-                yOffset = currentY;
-
-                // Keep player within viewport bounds
-                const maxX = window.innerWidth - player.offsetWidth;
-                const maxY = window.innerHeight - player.offsetHeight;
-
-                xOffset = Math.max(0, Math.min(xOffset, maxX));
-                yOffset = Math.max(0, Math.min(yOffset, maxY));
-
-                setTranslate(xOffset, yOffset, player);
-            };
-
-            const dragEnd = () => {
-                if (!isDragging) return;
-
-                initialX = currentX;
-                initialY = currentY;
-                isDragging = false;
-                player.style.transition = 'all 0.3s ease';
-            };
-
-            const setTranslate = (xPos, yPos, el) => {
-                el.style.transform = `translate(${xPos}px, ${yPos}px)`;
-                el.style.left = '0';
-                el.style.top = '0';
-                el.style.right = 'auto';
-                el.style.bottom = 'auto';
-            };
-
-            // Mouse events
-            header.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-
-            // Touch events (for iPad/mobile)
-            header.addEventListener('touchstart', dragStart, { passive: false });
-            document.addEventListener('touchmove', drag, { passive: false });
-            document.addEventListener('touchend', dragEnd);
-
-            // Make header cursor indicate draggable
-            header.style.cursor = 'move';
-            header.style.userSelect = 'none';
-        }
+alert(msg);
+console.log(msg);
     }
 
-    hideYouTubeMiniPlayer() {
-        const player = document.getElementById('youtubeMiniPlayer');
-        const container = document.getElementById('youtubePlayerContainer');
+setupYouTubeMiniPlayer() {
+    const player = document.getElementById('youtubeMiniPlayer');
+    const closeBtn = document.getElementById('youtubePlayerClose');
+    const minimizeBtn = document.getElementById('youtubePlayerMinimize');
+    const header = player?.querySelector('.youtube-mini-player-header');
 
-        if (player) {
-            player.classList.add('hidden');
-            player.classList.remove('minimized');
-        }
+    if (!player) return;
 
-        // Clear iframe to stop video
-        if (container) {
-            container.innerHTML = '';
-        }
-    }
+    // Remove existing listeners by cloning
+    const newCloseBtn = closeBtn?.cloneNode(true);
+    const newMinimizeBtn = minimizeBtn?.cloneNode(true);
 
-    setupImportExport() {
-        // Export functionality
-        const exportBtn = document.getElementById('exportBtn');
-        exportBtn.addEventListener('click', () => {
-            this.exportSongs();
+    if (closeBtn && newCloseBtn) {
+        closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+        newCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.hideYouTubeMiniPlayer();
         });
+    }
 
-        // Import functionality
-        const importFile = document.getElementById('importFile');
-        importFile.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                this.importSongs(file);
+    if (minimizeBtn && newMinimizeBtn) {
+        minimizeBtn.parentNode.replaceChild(newMinimizeBtn, minimizeBtn);
+        newMinimizeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            player.classList.toggle('minimized');
+            newMinimizeBtn.textContent = player.classList.contains('minimized') ? '🔺' : '🔻';
+        });
+    }
+
+    // Setup drag functionality (works with mouse and touch)
+    if (header && !player.dataset.dragSetup) {
+        player.dataset.dragSetup = 'true';
+        let isDragging = false;
+        let currentX = 0;
+        let currentY = 0;
+        let initialX = 0;
+        let initialY = 0;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // Get current position from CSS
+        const updateOffset = () => {
+            const rect = player.getBoundingClientRect();
+            xOffset = rect.left;
+            yOffset = rect.top;
+        };
+
+        updateOffset();
+
+        const dragStart = (e) => {
+            // Don't drag if clicking on buttons
+            if (e.target.closest('.youtube-player-close-btn') ||
+                e.target.closest('.youtube-player-minimize-btn')) {
+                return;
             }
-            // Reset input so same file can be selected again
-            e.target.value = '';
-        });
 
-        // Delete all songs functionality
-        const deleteAllBtn = document.getElementById('deleteAllSongsBtn');
-        if (deleteAllBtn) {
-            deleteAllBtn.addEventListener('click', () => {
-                this.deleteAllSongs();
-            });
+            if (e.type === 'touchstart') {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+
+            if (header.contains(e.target) || e.target === header) {
+                isDragging = true;
+                player.style.transition = 'none';
+            }
+        };
+
+        const drag = (e) => {
+            if (!isDragging) return;
+
+            e.preventDefault();
+
+            if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - initialX;
+                currentY = e.touches[0].clientY - initialY;
+            } else {
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+            }
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            // Keep player within viewport bounds
+            const maxX = window.innerWidth - player.offsetWidth;
+            const maxY = window.innerHeight - player.offsetHeight;
+
+            xOffset = Math.max(0, Math.min(xOffset, maxX));
+            yOffset = Math.max(0, Math.min(yOffset, maxY));
+
+            setTranslate(xOffset, yOffset, player);
+        };
+
+        const dragEnd = () => {
+            if (!isDragging) return;
+
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            player.style.transition = 'all 0.3s ease';
+        };
+
+        const setTranslate = (xPos, yPos, el) => {
+            el.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            el.style.left = '0';
+            el.style.top = '0';
+            el.style.right = 'auto';
+            el.style.bottom = 'auto';
+        };
+
+        // Mouse events
+        header.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // Touch events (for iPad/mobile)
+        header.addEventListener('touchstart', dragStart, { passive: false });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', dragEnd);
+
+        // Make header cursor indicate draggable
+        header.style.cursor = 'move';
+        header.style.userSelect = 'none';
+    }
+}
+
+hideYouTubeMiniPlayer() {
+    const player = document.getElementById('youtubeMiniPlayer');
+    const container = document.getElementById('youtubePlayerContainer');
+
+    if (player) {
+        player.classList.add('hidden');
+        player.classList.remove('minimized');
+    }
+
+    // Clear iframe to stop video
+    if (container) {
+        container.innerHTML = '';
+    }
+}
+
+setupImportExport() {
+    // Export functionality
+    const exportBtn = document.getElementById('exportBtn');
+    exportBtn.addEventListener('click', () => {
+        this.exportSongs();
+    });
+
+    // Import functionality
+    const importFile = document.getElementById('importFile');
+    importFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            this.importSongs(file);
         }
-    }
+        // Reset input so same file can be selected again
+        e.target.value = '';
+    });
 
-    setupPrintButton() {
-        const printBtn = document.getElementById('printTableBtn');
-        if (!printBtn) return;
-
-        printBtn.addEventListener('click', () => {
-            this.printTable();
+    // Delete all songs functionality
+    const deleteAllBtn = document.getElementById('deleteAllSongsBtn');
+    if (deleteAllBtn) {
+        deleteAllBtn.addEventListener('click', () => {
+            this.deleteAllSongs();
         });
     }
+}
+
+setupPrintButton() {
+    const printBtn = document.getElementById('printTableBtn');
+    if (!printBtn) return;
+
+    printBtn.addEventListener('click', () => {
+        this.printTable();
+    });
+}
 
     async deleteAllSongs() {
-        const songCount = this.songManager.getAllSongs().length;
+    const songCount = this.songManager.getAllSongs().length;
 
-        if (songCount === 0) {
-            alert('There are no songs to delete.');
-            return;
+    if (songCount === 0) {
+        alert('There are no songs to delete.');
+        return;
+    }
+
+    // Show warning with song count
+    const message = `WARNING: You are about to permanently delete all ${songCount} song(s)!\n\n` +
+        `This action cannot be undone.\n\n` +
+        `Are you sure you want to continue?`;
+
+    if (!confirm(message)) {
+        return;
+    }
+
+    // Double confirmation
+    const doubleConfirm = confirm(
+        `Final confirmation: All ${songCount} song(s) will now be deleted.\n\n` +
+        `Click "OK" to confirm or "Cancel" to abort.`
+    );
+
+    if (!doubleConfirm) {
+        return;
+    }
+
+    // Delete all songs
+    await this.songManager.deleteAllSongs();
+
+    // Re-render
+    this.loadAndRender();
+    this.updateSetlistSelect();
+
+    // Show success message
+    alert(`All ${songCount} song(s) have been successfully deleted.`);
+}
+
+exportSongs() {
+    const songs = this.songManager.getAllSongs();
+    const setlists = this.setlistManager.getAllSetlists();
+
+    const exportData = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        songs: songs,
+        setlists: setlists
+    };
+
+    const jsonString = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `popsong-chordbook-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    // Show feedback
+    const exportBtn = document.getElementById('exportBtn');
+    const iconElement = exportBtn.querySelector('.icon');
+    if (iconElement) {
+        const originalIcon = iconElement.textContent;
+        iconElement.textContent = '✓';
+        setTimeout(() => {
+            iconElement.textContent = originalIcon;
+        }, 2000);
+    } else {
+        // Fallback for old structure
+        const originalText = exportBtn.textContent;
+        exportBtn.textContent = '✓ Geëxporteerd!';
+        setTimeout(() => {
+            exportBtn.textContent = originalText;
+        }, 2000);
+    }
+}
+
+printTable() {
+    // Ensure the latest data is shown before printing
+    this.loadAndRender();
+    window.print();
+}
+
+setupResponsiveView() {
+    const checkView = () => {
+        const isPortrait = window.innerHeight > window.innerWidth;
+        const isMobile = window.innerWidth <= 768;
+
+        if (isPortrait && isMobile) {
+            if (this.viewMode !== 'simple') {
+                this.viewMode = 'simple';
+                this.updateViewMode();
+                this.loadAndRender();
+            }
+        }
+    };
+
+    // Initial check
+    checkView();
+
+    // Listen for resize which also catches orientation changes
+    window.addEventListener('resize', checkView);
+}
+
+setupToggleView() {
+    const toggleBtn = document.getElementById('toggleViewBtn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.viewMode = this.viewMode === 'full' ? 'simple' : 'full';
+            this.updateViewMode();
+            this.loadAndRender();
+        });
+        this.updateViewMode();
+    }
+}
+
+updateViewMode() {
+    const toggleBtn = document.getElementById('toggleViewBtn');
+    const table = document.getElementById('songsTable');
+    if (toggleBtn && table) {
+        const iconSpan = toggleBtn.querySelector('.icon');
+        if (iconSpan) {
+            if (this.viewMode === 'simple') {
+                iconSpan.textContent = '📊';
+                toggleBtn.title = 'Full view';
+            } else {
+                iconSpan.textContent = '📋';
+                toggleBtn.title = 'Simple view';
+            }
+        } else {
+            // Fallback for if structure is not yet set up
+            if (this.viewMode === 'simple') {
+                toggleBtn.textContent = '📊';
+                toggleBtn.title = 'Full view';
+            } else {
+                toggleBtn.textContent = '📋';
+                toggleBtn.title = 'Simple view';
+            }
+        }
+        if (this.viewMode === 'simple') {
+            table.classList.add('simple-view');
+        } else {
+            table.classList.remove('simple-view');
+        }
+    }
+}
+
+    async importSongs(file) {
+    try {
+        const text = await file.text();
+        const importData = JSON.parse(text);
+
+        // Validate structure
+        if (!importData.songs || !Array.isArray(importData.songs)) {
+            throw new Error('Ongeldig bestandsformaat: songs array ontbreekt');
         }
 
-        // Show warning with song count
-        const message = `WARNING: You are about to permanently delete all ${songCount} song(s)!\n\n` +
-            `This action cannot be undone.\n\n` +
-            `Are you sure you want to continue?`;
+        const songCount = importData.songs.length;
+        const setlistCount = importData.setlists ? importData.setlists.length : 0;
+        const currentSongCount = this.songManager.getAllSongs().length;
 
-        if (!confirm(message)) {
-            return;
+        // Ask user how to import
+        let replace = true;
+        if (currentSongCount > 0) {
+            const importChoice = confirm(
+                `How do you want to import ${songCount} song(s)?\n\n` +
+                `Click "OK" to delete current songs and import new ones.\n` +
+                `Click "Cancel" to add new songs to existing songs.`
+            );
+            replace = importChoice;
         }
 
-        // Double confirmation
-        const doubleConfirm = confirm(
-            `Final confirmation: All ${songCount} song(s) will now be deleted.\n\n` +
-            `Click "OK" to confirm or "Cancel" to abort.`
-        );
+        // Import songs
+        const result = await this.songManager.importSongs(importData.songs, replace);
 
-        if (!doubleConfirm) {
-            return;
+        // Import setlists if present
+        if (importData.setlists && Array.isArray(importData.setlists)) {
+            await this.setlistManager.importSetlists(importData.setlists);
         }
-
-        // Delete all songs
-        await this.songManager.deleteAllSongs();
 
         // Re-render
         this.loadAndRender();
         this.updateSetlistSelect();
 
-        // Show success message
-        alert(`All ${songCount} song(s) have been successfully deleted.`);
-    }
-
-    exportSongs() {
-        const songs = this.songManager.getAllSongs();
-        const setlists = this.setlistManager.getAllSetlists();
-
-        const exportData = {
-            version: '1.0',
-            exportDate: new Date().toISOString(),
-            songs: songs,
-            setlists: setlists
-        };
-
-        const jsonString = JSON.stringify(exportData, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `popsong-chordbook-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        // Show feedback
-        const exportBtn = document.getElementById('exportBtn');
-        const iconElement = exportBtn.querySelector('.icon');
-        if (iconElement) {
-            const originalIcon = iconElement.textContent;
-            iconElement.textContent = '✓';
-            setTimeout(() => {
-                iconElement.textContent = originalIcon;
-            }, 2000);
-        } else {
-            // Fallback for old structure
-            const originalText = exportBtn.textContent;
-            exportBtn.textContent = '✓ Geëxporteerd!';
-            setTimeout(() => {
-                exportBtn.textContent = originalText;
-            }, 2000);
-        }
-    }
-
-    printTable() {
-        // Ensure the latest data is shown before printing
-        this.loadAndRender();
-        window.print();
-    }
-
-    setupResponsiveView() {
-        const checkView = () => {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            const isMobile = window.innerWidth <= 768;
-
-            if (isPortrait && isMobile) {
-                if (this.viewMode !== 'simple') {
-                    this.viewMode = 'simple';
-                    this.updateViewMode();
-                    this.loadAndRender();
-                }
-            }
-        };
-
-        // Initial check
-        checkView();
-
-        // Listen for resize which also catches orientation changes
-        window.addEventListener('resize', checkView);
-    }
-
-    setupToggleView() {
-        const toggleBtn = document.getElementById('toggleViewBtn');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.viewMode = this.viewMode === 'full' ? 'simple' : 'full';
-                this.updateViewMode();
-                this.loadAndRender();
-            });
-            this.updateViewMode();
-        }
-    }
-
-    updateViewMode() {
-        const toggleBtn = document.getElementById('toggleViewBtn');
-        const table = document.getElementById('songsTable');
-        if (toggleBtn && table) {
-            const iconSpan = toggleBtn.querySelector('.icon');
-            if (iconSpan) {
-                if (this.viewMode === 'simple') {
-                    iconSpan.textContent = '📊';
-                    toggleBtn.title = 'Full view';
-                } else {
-                    iconSpan.textContent = '📋';
-                    toggleBtn.title = 'Simple view';
-                }
+        // Show success message with details
+        let message = `Succesvol geïmporteerd: ${result.added} song(s)`;
+        if (result.duplicates > 0) {
+            message += `\n\n${result.duplicates} dubbel(ling)(en) overgeslagen:`;
+            if (result.duplicateSongs.length <= 10) {
+                message += '\n' + result.duplicateSongs.join('\n');
             } else {
-                // Fallback for if structure is not yet set up
-                if (this.viewMode === 'simple') {
-                    toggleBtn.textContent = '📊';
-                    toggleBtn.title = 'Full view';
-                } else {
-                    toggleBtn.textContent = '📋';
-                    toggleBtn.title = 'Simple view';
-                }
-            }
-            if (this.viewMode === 'simple') {
-                table.classList.add('simple-view');
-            } else {
-                table.classList.remove('simple-view');
+                message += '\n' + result.duplicateSongs.slice(0, 10).join('\n');
+                message += `\n... en ${result.duplicateSongs.length - 10} meer`;
             }
         }
-    }
-
-    async importSongs(file) {
-        try {
-            const text = await file.text();
-            const importData = JSON.parse(text);
-
-            // Validate structure
-            if (!importData.songs || !Array.isArray(importData.songs)) {
-                throw new Error('Ongeldig bestandsformaat: songs array ontbreekt');
-            }
-
-            const songCount = importData.songs.length;
-            const setlistCount = importData.setlists ? importData.setlists.length : 0;
-            const currentSongCount = this.songManager.getAllSongs().length;
-
-            // Ask user how to import
-            let replace = true;
-            if (currentSongCount > 0) {
-                const importChoice = confirm(
-                    `How do you want to import ${songCount} song(s)?\n\n` +
-                    `Click "OK" to delete current songs and import new ones.\n` +
-                    `Click "Cancel" to add new songs to existing songs.`
-                );
-                replace = importChoice;
-            }
-
-            // Import songs
-            const result = await this.songManager.importSongs(importData.songs, replace);
-
-            // Import setlists if present
-            if (importData.setlists && Array.isArray(importData.setlists)) {
-                await this.setlistManager.importSetlists(importData.setlists);
-            }
-
-            // Re-render
-            this.loadAndRender();
-            this.updateSetlistSelect();
-
-            // Show success message with details
-            let message = `Succesvol geïmporteerd: ${result.added} song(s)`;
-            if (result.duplicates > 0) {
-                message += `\n\n${result.duplicates} dubbel(ling)(en) overgeslagen:`;
-                if (result.duplicateSongs.length <= 10) {
-                    message += '\n' + result.duplicateSongs.join('\n');
-                } else {
-                    message += '\n' + result.duplicateSongs.slice(0, 10).join('\n');
-                    message += `\n... en ${result.duplicateSongs.length - 10} meer`;
-                }
-            }
-            if (setlistCount > 0) {
-                message += `\n\n${setlistCount} setlist(s) geïmporteerd`;
-            }
-            alert(message);
-        } catch (error) {
-            console.error('Import error:', error);
-            alert(`Fout bij importeren: ${error.message}`);
+        if (setlistCount > 0) {
+            message += `\n\n${setlistCount} setlist(s) geïmporteerd`;
         }
+        alert(message);
+    } catch (error) {
+        console.error('Import error:', error);
+        alert(`Fout bij importeren: ${error.message}`);
     }
+}
 }
 
 // Initialize app when DOM is ready
