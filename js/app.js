@@ -207,7 +207,10 @@ class App {
     }
 
     async updateProfileLabel(user) {
-        const labelElement = document.querySelector('#profileBtn .label');
+        const profileBtn = document.getElementById('profileBtn');
+        const labelElement = profileBtn ? profileBtn.querySelector('.label') : null;
+        const iconElement = profileBtn ? profileBtn.querySelector('.icon') : null;
+
         if (labelElement) {
             const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
 
@@ -227,10 +230,13 @@ class App {
 
             // Add avatar if available
             if (avatarUrl) {
+                // Hide default icon
+                if (iconElement) iconElement.classList.add('hidden');
+
                 content += `<img src="${avatarUrl}" alt="" class="header-profile-img" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;">`;
             } else {
-                // Default icon is handled by CSS usually, but here we might want text or emoji
-                // The HTML usually has an icon span. We are replacing "label" content.
+                // Show default icon
+                if (iconElement) iconElement.classList.remove('hidden');
             }
 
             if (user && user.displayName) {
