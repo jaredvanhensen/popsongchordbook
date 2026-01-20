@@ -802,4 +802,3 @@ export const DEFAULT_SONGS = [
         "youtubeUrl": "https://youtu.be/2x8D4TTrhWY?si=xXv7t2i9Q1d5C9m0"
     }
 ]
-}
