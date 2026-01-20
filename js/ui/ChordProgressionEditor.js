@@ -186,6 +186,19 @@ class ChordProgressionEditor {
                         <div class="chord-palette-label borrowed-label">Borrowed / Common Chords:</div>
                         <div class="chord-palette borrowed" id="borrowedChords"></div>
                     </div>
+
+                    <div class="chord-finder-section" style="margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.03); border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);">
+                        <label style="display:block; margin-bottom:8px; font-weight:600; font-size:0.9em; color:#444;">Find Chord by Notes:</label>
+                        <div style="display:flex; gap:10px; margin-bottom: 8px;">
+                            <input type="text" id="chordFinderInput" placeholder="e.g. C E G or A C# E" style="flex:1; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-family:monospace; font-size:1.1em;">
+                            <button id="chordFinderBtn" class="btn-secondary" style="padding:5px 15px; font-weight:600;">Identify</button>
+                        </div>
+                        <div id="chordFinderResult" class="hidden" style="display:flex; align-items:center; gap:15px; background:white; padding:8px 12px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                            <span style="font-size:0.9em; color:#666;">Result:</span>
+                            <span id="foundChordName" style="font-weight:bold; font-size:1.2em; color:#667eea; min-width: 40px;"></span>
+                            <button id="addFoundChordBtn" class="btn-primary" style="padding:4px 12px; font-size:0.85em; margin-left:auto;">Add</button>
+                        </div>
+                    </div>
                     
                     <div class="progression-builder-section">
                         <label>Your Progression:</label>
@@ -244,6 +257,136 @@ class ChordProgressionEditor {
 
         // Setup drag and drop for the input area
         this.setupDragDrop();
+
+        // Chord Finder Listeners
+        const findBtn = this.overlay.querySelector('#chordFinderBtn');
+        const finderInput = this.overlay.querySelector('#chordFinderInput');
+        const addFoundBtn = this.overlay.querySelector('#addFoundChordBtn');
+        const resultDiv = this.overlay.querySelector('#chordFinderResult');
+        const resultName = this.overlay.querySelector('#foundChordName');
+
+        const performIdentification = () => {
+            const input = finderInput.value;
+            const chord = this.identifyChord(input);
+            if (chord) {
+                resultName.textContent = chord;
+                resultDiv.classList.remove('hidden');
+                // Play logic preview
+                this.playChord(chord);
+            } else {
+                resultName.textContent = "Unknown";
+                resultDiv.classList.remove('hidden');
+            }
+        };
+
+        findBtn.addEventListener('click', performIdentification);
+        finderInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') performIdentification();
+        });
+
+        addFoundBtn.addEventListener('click', () => {
+            const chord = resultName.textContent;
+            if (chord && chord !== "Unknown") {
+                this.addProgressionBlock(chord);
+                this.playChord(chord);
+                finderInput.value = '';
+                resultDiv.classList.add('hidden');
+            }
+        });
+    }
+
+    identifyChord(inputString) {
+        if (!inputString || !inputString.trim()) return null;
+
+        // Clean input: split by spaces or commas
+        // "C E G" -> ["C", "E", "G"]
+        const tokens = inputString.trim().split(/[\s,]+/);
+        if (tokens.length < 3) return null; // Need 3+ notes
+
+        const noteToSemitone = {
+            'C': 0, 'C#': 1, 'Db': 1,
+            'D': 2, 'D#': 3, 'Eb': 3,
+            'E': 4, 'Fb': 4,
+            'F': 5, 'F#': 6, 'Gb': 6,
+            'G': 7, 'G#': 8, 'Ab': 8,
+            'A': 9, 'A#': 10, 'Bb': 10,
+            'B': 11, 'Cb': 11
+        };
+
+        const semitoneToNote = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+
+        // Initial Bass Note (first input token)
+        const bassToken = tokens[0].toUpperCase();
+        // Extract note from token (e.g. "C#" from "C#" or "C#4")
+        const noteMatch = (t) => {
+            const m = t.match(/^([A-G])([#b]?)/i);
+            return m ? (m[1].toUpperCase() + (m[2] || '')) : null;
+        };
+
+        const bassNote = noteMatch(bassToken);
+        if (!bassNote) return null;
+
+        const bassSemi = noteToSemitone[bassNote];
+
+        const uniqueSemitones = new Set();
+        for (const token of tokens) {
+            const n = noteMatch(token);
+            if (n && noteToSemitone[n] !== undefined) {
+                uniqueSemitones.add(noteToSemitone[n]);
+            }
+        }
+
+        if (uniqueSemitones.size < 3) return null;
+
+        const semitones = Array.from(uniqueSemitones).sort((a, b) => a - b);
+
+        // Pattern Intervals (semitones)
+        const patterns = {
+            '': [0, 4, 7],      // Major
+            'm': [0, 3, 7],     // Minor
+            'dim': [0, 3, 6],   // Diminished
+            'aug': [0, 4, 8],   // Augmented
+            'sus4': [0, 5, 7],
+            'sus2': [0, 2, 7],
+            '7': [0, 4, 7, 10],     // Dominant 7
+            'maj7': [0, 4, 7, 11],  // Maj 7
+            'm7': [0, 3, 7, 10],    // min 7
+            'm7b5': [0, 3, 6, 10],  // Half dim
+            'dim7': [0, 3, 6, 9]    // Full dim
+        };
+
+        // Check each note as potential ROOT
+        for (const root of semitones) {
+            for (const [suffix, intervals] of Object.entries(patterns)) {
+                // Must have all intervals
+                const allPresent = intervals.every(interval => {
+                    const step = (root + interval) % 12;
+                    return uniqueSemitones.has(step);
+                });
+
+                // If match found
+                if (allPresent) {
+                    // Start with basic match
+                    // If unique count > interval count, it might be an 'add' chord or just extra notes
+                    // For now, prioritize exact matches or simple extensions containment
+                    // Logic: If pattern size == unique size, it's exact.
+
+                    if (intervals.length === uniqueSemitones.size) {
+                        const rootName = semitoneToNote[root];
+                        let result = rootName + suffix;
+
+                        // Inversion check
+                        if (root !== bassSemi) {
+                            const bassName = semitoneToNote[bassSemi];
+                            result += '/' + bassName;
+                        }
+                        return result;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     setupDragDrop() {
