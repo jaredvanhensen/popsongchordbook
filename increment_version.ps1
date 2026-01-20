@@ -31,13 +31,15 @@ foreach ($fileName in $files) {
         $content = Get-Content $filePath -Raw -Encoding UTF8
         
         # Update visible version span
-        # Note: We use the same pattern as reading, but globally if needed, though usually one per page
-        if ($content -match $versionPattern) {
-            $content = $content -replace $versionPattern, "<span id=`"site-version`">$newVersionStr</span>"
+        # Note: Use (?s) for single-line mode (dot matches newline) and \s+ for flexible spacing
+        $regexWithWhitespace = '(?s)<span\s+id="site-version">(\d+\.?\d*)</span>'
+        if ($content -match $regexWithWhitespace) {
+            $content = $content -replace $regexWithWhitespace, "<span id=`"site-version`">$newVersionStr</span>"
+            Write-Host "  - Found and updated version span in $fileName"
         }
-        
-        # Update connection status version (songlist.html specifically has this inline)
-        # But the span replacement above should cover it if they use the same ID.
+        else {
+            Write-Warning "  - Could NOT find version span in $fileName"
+        }
         
         # Update script/css query strings (?v=X.XX or ?v=XX)
         # Regex to match ?v=NUMBER
