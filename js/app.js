@@ -55,7 +55,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - App Initialized (v0.88)");
+        console.log("Pop Song Chord Book - App Initialized (v0.89)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
