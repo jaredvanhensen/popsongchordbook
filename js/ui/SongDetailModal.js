@@ -1643,6 +1643,9 @@ class SongDetailModal {
     }
 
     async hide() {
+        // Force a check for changes to ensure state is up to date
+        this.checkForChanges();
+
         const songIdToCheck = this.currentSongId;
         const originalDataSnapshot = this.originalSongData ? { ...this.originalSongData } : null;
 
@@ -1658,9 +1661,13 @@ class SongDetailModal {
                     const isSongEmpty = !originalDataSnapshot.artist?.trim() &&
                         !originalDataSnapshot.title?.trim() &&
                         !originalDataSnapshot.verse?.trim() &&
+                        !originalDataSnapshot.verseCue?.trim() &&
                         !originalDataSnapshot.chorus?.trim() &&
+                        !originalDataSnapshot.chorusCue?.trim() &&
                         !originalDataSnapshot.preChorus?.trim() &&
-                        !originalDataSnapshot.bridge?.trim();
+                        !originalDataSnapshot.preChorusCue?.trim() &&
+                        !originalDataSnapshot.bridge?.trim() &&
+                        !originalDataSnapshot.bridgeCue?.trim();
 
                     if (isSongEmpty) {
                         // Delete the empty song
@@ -1678,9 +1685,13 @@ class SongDetailModal {
                 const isSongEmpty = !originalDataSnapshot.artist?.trim() &&
                     !originalDataSnapshot.title?.trim() &&
                     !originalDataSnapshot.verse?.trim() &&
+                    !originalDataSnapshot.verseCue?.trim() &&
                     !originalDataSnapshot.chorus?.trim() &&
+                    !originalDataSnapshot.chorusCue?.trim() &&
                     !originalDataSnapshot.preChorus?.trim() &&
-                    !originalDataSnapshot.bridge?.trim();
+                    !originalDataSnapshot.preChorusCue?.trim() &&
+                    !originalDataSnapshot.bridge?.trim() &&
+                    !originalDataSnapshot.bridgeCue?.trim();
 
                 if (isSongEmpty) {
                     // Delete the empty song
