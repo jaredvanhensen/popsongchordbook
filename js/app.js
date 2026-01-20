@@ -55,7 +55,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - App Initialized (v0.90)");
+        console.log("Pop Song Chord Book - App Initialized (v0.91)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -855,6 +855,16 @@ class App {
         this.setupCreateSetlist();
         this.setupEditSetlist();
         this.setupDeleteSetlist();
+    }
+
+    handleSetlistChange() {
+        console.log("Setlists changed, refreshing UI...");
+        this.updateSetlistSelect();
+        // Only re-render if we are currently viewing a setlist, 
+        // to avoid jumping around if the user is browsing 'All Songs'
+        if (this.currentSetlistId) {
+            this.loadAndRender();
+        }
     }
 
     updateSetlistSelect() {
