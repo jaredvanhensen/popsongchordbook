@@ -208,44 +208,63 @@ class App {
 
     async updateProfileLabel(user) {
         const profileBtn = document.getElementById('profileBtn');
-        const labelElement = profileBtn ? profileBtn.querySelector('.label') : null;
-        const iconElement = profileBtn ? profileBtn.querySelector('.icon') : null;
+        if (!profileBtn) return;
 
+        const labelElement = profileBtn.querySelector('.label');
+        const iconElement = profileBtn.querySelector('.icon');
+        // Check for existing image or create it
+        let imgElement = profileBtn.querySelector('.header-profile-img');
+
+        // Logic to get avatar URL
+        let avatarUrl = null;
+        if (user) {
+            try {
+                avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
+            } catch (e) {
+                console.warn("Failed to load avatar from DB", e);
+            }
+            if (!avatarUrl) avatarUrl = user.photoURL;
+        }
+
+        // Handle Image Element
+        if (avatarUrl) {
+            if (!imgElement) {
+                imgElement = document.createElement('img');
+                imgElement.className = 'header-profile-img';
+                imgElement.style.cssText = "width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;";
+                // Insert before label or icon
+                if (iconElement) {
+                    profileBtn.insertBefore(imgElement, iconElement);
+                } else if (labelElement) {
+                    profileBtn.insertBefore(imgElement, labelElement);
+                } else {
+                    profileBtn.appendChild(imgElement);
+                }
+            }
+            imgElement.src = avatarUrl;
+            imgElement.classList.remove('hidden');
+
+            // Hide default icon
+            if (iconElement) iconElement.classList.add('hidden');
+        } else {
+            // No avatar, hide/remove image
+            if (imgElement) imgElement.remove(); // Or imgElement.classList.add('hidden');
+
+            // Show default icon
+            if (iconElement) iconElement.classList.remove('hidden');
+        }
+
+        // Update Label Text (Username/Profile)
         if (labelElement) {
             const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
-
-            let content = '';
-            let avatarUrl = null;
-
-            if (user) {
-                try {
-                    // Try to get from DB first
-                    avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
-                } catch (e) {
-                    console.warn("Failed to load avatar from DB", e);
-                }
-                // Fallback to auth photoURL
-                if (!avatarUrl) avatarUrl = user.photoURL;
-            }
-
-            // Add avatar if available
-            if (avatarUrl) {
-                // Hide default icon
-                if (iconElement) iconElement.classList.add('hidden');
-
-                content += `<img src="${avatarUrl}" alt="" class="header-profile-img" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;">`;
-            } else {
-                // Show default icon
-                if (iconElement) iconElement.classList.remove('hidden');
-            }
+            let textContent = '';
 
             if (user && user.displayName) {
-                content += `<span>${user.displayName}</span> ${songCountHtml}`;
+                textContent = `<span>${user.displayName}</span> ${songCountHtml}`;
             } else {
-                content += `<span>Profiel</span> ${songCountHtml}`;
+                textContent = `<span>Profiel</span> ${songCountHtml}`;
             }
-
-            labelElement.innerHTML = content;
+            labelElement.innerHTML = textContent;
         }
     }
 
