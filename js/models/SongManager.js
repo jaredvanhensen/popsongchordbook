@@ -76,6 +76,15 @@ class SongManager {
             const songs = await this.firebaseManager.loadSongs(userId);
             const normalizedSongs = this.normalizeSongs(songs);
 
+            // SAFETY CHECK: If server has 0 songs but we have local songs, 
+            // assume server save failed previously and PROTECT local data.
+            // Then, try to sync local data back to server.
+            if (normalizedSongs.length === 0 && this.songs.length > 0) {
+                console.warn(`Sync: Server has 0 songs, Local has ${this.songs.length}. Protecting local data and re-uploading.`);
+                await this.saveSongs();
+                return;
+            }
+
             // Only update if data is different (avoid unnecessary updates)
             const currentSongsStr = JSON.stringify(this.songs);
             const newSongsStr = JSON.stringify(normalizedSongs);

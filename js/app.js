@@ -1601,6 +1601,31 @@ class App {
 
         // Setup event listeners if not already done
         this.setupYouTubeMiniPlayer();
+
+        // DEBUG: Diagnostics on Version Click
+        const versionEl = document.getElementById('site-version');
+        if (versionEl) {
+            versionEl.style.cursor = 'pointer';
+            versionEl.title = 'Click for Diagnostics';
+            versionEl.addEventListener('click', () => this.runDiagnostics());
+        }
+    }
+
+    runDiagnostics() {
+        const user = this.firebaseManager.getCurrentUser();
+        const songs = this.songManager.getAllSongs();
+        const setlists = this.setlistManager.getAllSetlists();
+
+        let msg = `Diagnostics (v0.77):\n`;
+        msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
+        msg += `UID: ${user ? user.uid : 'N/A'}\n`;
+        msg += `Songs (Local): ${songs.length}\n`;
+        msg += `Setlists (Local): ${setlists.length}\n`;
+        msg += `LocalStorage Key: ${this.songManager.storageKey}\n`;
+        msg += `Default Songs Loaded: ${typeof DEFAULT_SONGS !== 'undefined' ? DEFAULT_SONGS.length : 'Error'}\n`;
+
+        alert(msg);
+        console.log(msg);
     }
 
     setupYouTubeMiniPlayer() {

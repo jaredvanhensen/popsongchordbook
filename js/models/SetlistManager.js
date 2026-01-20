@@ -70,6 +70,14 @@ class SetlistManager {
             const setlists = await this.firebaseManager.loadSetlists(userId);
             const normalizedSetlists = this.normalizeSetlists(setlists);
 
+            // SAFETY CHECK: If server has 0 setlists but we have local setlists (more than just DEMO?),
+            // assume server save failed previously and PROTECT local data.
+            if (normalizedSetlists.length === 0 && this.setlists.length > 0) {
+                console.warn(`Sync: Server has 0 setlists, Local has ${this.setlists.length}. Protecting local data and re-uploading.`);
+                await this.saveSetlists();
+                return;
+            }
+
             // Only update if data is different (avoid unnecessary updates)
             const currentSetlistsStr = JSON.stringify(this.setlists);
             const newSetlistsStr = JSON.stringify(normalizedSetlists);
