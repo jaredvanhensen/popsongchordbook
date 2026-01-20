@@ -42,6 +42,22 @@ body {
     overflow: hidden;
 }
 
+.site-version-display {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 100;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: monospace;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+}
+
 .hero-section::before {
     content: '';
     position: absolute;
@@ -70,8 +86,15 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 .hero-title {
@@ -210,18 +233,38 @@ body {
     opacity: 1;
 }
 
-.artist-card > * {
+.artist-card>* {
     position: relative;
     z-index: 1;
 }
 
-.mj-card::before { background: var(--mj-gradient); }
-.madonna-card::before { background: var(--madonna-gradient); }
-.taylor-card::before { background: var(--taylor-gradient); }
-.phil-card::before { background: var(--phil-gradient); }
-.bryan-card::before { background: var(--bryan-gradient); }
-.toto-card::before { background: var(--toto-gradient); }
-.dire-card::before { background: var(--dire-gradient); }
+.mj-card::before {
+    background: var(--mj-gradient);
+}
+
+.madonna-card::before {
+    background: var(--madonna-gradient);
+}
+
+.taylor-card::before {
+    background: var(--taylor-gradient);
+}
+
+.phil-card::before {
+    background: var(--phil-gradient);
+}
+
+.bryan-card::before {
+    background: var(--bryan-gradient);
+}
+
+.toto-card::before {
+    background: var(--toto-gradient);
+}
+
+.dire-card::before {
+    background: var(--dire-gradient);
+}
 
 .artist-card:hover {
     transform: translateY(-10px) scale(1.02);
@@ -295,14 +338,19 @@ body {
     transition: opacity 0.4s ease;
 }
 
-.guitar-card::before { background: var(--guitar-gradient); }
-.piano-card::before { background: var(--piano-gradient); }
+.guitar-card::before {
+    background: var(--guitar-gradient);
+}
+
+.piano-card::before {
+    background: var(--piano-gradient);
+}
 
 .instrument-card:hover::before {
     opacity: 1;
 }
 
-.instrument-card > * {
+.instrument-card>* {
     position: relative;
     z-index: 1;
 }
@@ -419,25 +467,25 @@ body {
     .hero-icon {
         font-size: 80px;
     }
-    
+
     .artists-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
     }
-    
+
     .artist-icon {
         font-size: 60px;
     }
-    
+
     .instrument-icon {
         font-size: 80px;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .btn {
         width: 100%;
         justify-content: center;
