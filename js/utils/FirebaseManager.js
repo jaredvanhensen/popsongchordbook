@@ -73,11 +73,27 @@ class FirebaseManager {
                 this.currentUser = user;
             });
 
+            // Set up connection state listener
+            const connectedRef = this.database.ref('.info/connected');
+            connectedRef.on('value', (snap) => {
+                if (snap.val() === true) {
+                    console.log('Firebase connected');
+                    if (this.onConnectionChanged) this.onConnectionChanged(true);
+                } else {
+                    console.log('Firebase disconnected');
+                    if (this.onConnectionChanged) this.onConnectionChanged(false);
+                }
+            });
+
             return true;
         } catch (error) {
             console.error('Firebase initialization error:', error);
             throw error;
         }
+    }
+
+    setConnectionListener(callback) {
+        this.onConnectionChanged = callback;
     }
 
     // Authentication Methods

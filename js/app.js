@@ -1609,6 +1609,15 @@ class App {
             versionEl.title = 'Click for Diagnostics';
             versionEl.addEventListener('click', () => this.runDiagnostics());
         }
+
+        // Setup connection listener
+        this.firebaseManager.setConnectionListener((isConnected) => {
+            const statusEl = document.getElementById('connection-status');
+            if (statusEl) {
+                statusEl.className = isConnected ? 'status-connected' : 'status-disconnected';
+                statusEl.title = isConnected ? 'Online (Saved)' : 'Offline (Saving locally)';
+            }
+        });
     }
 
     runDiagnostics() {
