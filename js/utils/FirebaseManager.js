@@ -267,6 +267,20 @@ class FirebaseManager {
         }
     }
 
+    async updatePhotoURL(photoURL) {
+        if (!this.initialized) return { success: false, error: 'Firebase not initialized' };
+        if (!this.currentUser) return { success: false, error: 'Not logged in' };
+
+        try {
+            await this.currentUser.updateProfile({ photoURL: photoURL });
+            await this.currentUser.reload();
+            this.currentUser = this.auth.currentUser;
+            return { success: true, user: this.currentUser };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
     async sendPasswordResetEmail(email) {
         if (!this.initialized) {
             await this.initialize();

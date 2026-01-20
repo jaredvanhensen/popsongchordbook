@@ -281,6 +281,20 @@
             </div>
             <div class="modal-body">
                 <div class="profile-info-section">
+                    <div class="profile-avatar-container" style="text-align: center; margin-bottom: 20px;">
+                        <div class="profile-avatar-wrapper"
+                            style="position: relative; width: 100px; height: 100px; margin: 0 auto 10px;">
+                            <img id="profileAvatarDisplay" src="" alt="Profile" class="profile-avatar hidden"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #eee;">
+                            <div id="profileAvatarPlaceholder" class="profile-avatar-placeholder"
+                                style="width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                                👤</div>
+                            <button id="profileChangeAvatarBtn" class="profile-change-avatar-btn" title="Change Photo"
+                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">📷</button>
+                        </div>
+                        <input type="file" id="profileAvatarInput" accept="image/*" style="display: none;">
+                    </div>
+
                     <div class="auth-form-group">
                         <label for="profileUsername">Username</label>
                         <div class="profile-username-edit-group">

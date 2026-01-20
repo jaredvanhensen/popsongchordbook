@@ -6,10 +6,21 @@ class ProfileModal {
         this.onShareSongs = onShareSongs;
         this.onAcceptSongs = onAcceptSongs;
         this.modal = document.getElementById('profileModal');
-        
+
         // Profile elements
         this.usernameInput = document.getElementById('profileUsername');
         this.updateUsernameBtn = document.getElementById('profileUpdateUsernameBtn');
+        this.avatarDisplay = document.getElementById('profileAvatarDisplay');
+        this.avatarPlaceholder = document.getElementById('profileAvatarPlaceholder');
+        this.avatarInput = document.getElementById('profileAvatarInput');
+        this.changeAvatarBtn = document.getElementById('profileChangeAvatarBtn');
+
+        // Avatar elements (Created dynamically if not present in HTML yet, or assumes HTML update)
+        // Since I can't edit HTML easily without context, I will inject the HTML in show() if missing or use existing structure if I modify songlist.html
+        // I will modify songlist.html first to add the structure.
+        // Wait, I should modify songlist.html FIRST. 
+        // Plan change: Modify songlist.html first.
+
         this.emailDisplay = document.getElementById('profileEmail');
         this.currentPasswordInput = document.getElementById('profileCurrentPassword');
         this.newPasswordInput = document.getElementById('profileNewPassword');
@@ -21,11 +32,24 @@ class ProfileModal {
         this.shareSongsBtn = document.getElementById('profileShareSongsBtn');
         this.acceptSongsBtn = document.getElementById('profileAcceptSongsBtn');
         this.closeBtn = document.getElementById('profileModalClose');
-        
+
         this.setupEventListeners();
     }
 
     setupEventListeners() {
+        // Avatar upload
+        if (this.changeAvatarBtn && this.avatarInput) {
+            this.changeAvatarBtn.addEventListener('click', () => {
+                this.avatarInput.click();
+            });
+
+            this.avatarInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    this.handleAvatarUpload(e.target.files[0]);
+                }
+            });
+        }
+
         // Update username
         if (this.updateUsernameBtn) {
             this.updateUsernameBtn.addEventListener('click', () => {
@@ -41,7 +65,7 @@ class ProfileModal {
                 this.handleChangePassword();
             });
         }
-        
+
         if (this.changePasswordBtn) {
             this.changePasswordBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -102,27 +126,26 @@ class ProfileModal {
 
     async show() {
         if (!this.modal) return;
-        
+
         const user = this.firebaseManager.getCurrentUser();
         if (user) {
-            if (this.emailDisplay) {
-                this.emailDisplay.textContent = user.email || 'Geen e-mailadres';
-            }
-            if (this.usernameInput) {
-                this.usernameInput.value = user.displayName || '';
-            }
+            if (this.emailDisplay) this.emailDisplay.textContent = user.email || 'Geen e-mailadres';
+            if (this.usernameInput) this.usernameInput.value = user.displayName || '';
+
+            // Update Avatar UI
+            this.updateAvatarUI(user.photoURL);
         }
-        
+
         // Update accept songs button visibility
         await this.updateAcceptSongsButton();
-        
+
         // Reset form
         this.clearErrors();
         this.clearSuccess();
         this.resetForm();
-        
+
         this.modal.classList.remove('hidden');
-        
+
         // Focus on current password input
         setTimeout(() => {
             if (this.currentPasswordInput) {
@@ -165,7 +188,7 @@ class ProfileModal {
 
     async handleUpdateUsername() {
         const newUsername = this.usernameInput?.value.trim();
-        
+
         if (!newUsername) {
             alert('Voer een gebruikersnaam in.');
             return;
@@ -243,12 +266,12 @@ class ProfileModal {
                 user.email,
                 currentPassword
             );
-            
+
             await user.reauthenticateWithCredential(credential);
 
             // Now change the password
             const result = await this.firebaseManager.changePassword(newPassword);
-            
+
             if (result.success) {
                 this.showSuccess('Wachtwoord succesvol gewijzigd!');
                 this.resetForm();
@@ -261,9 +284,9 @@ class ProfileModal {
             }
         } catch (error) {
             console.error('Change password error:', error);
-            const errorMessage = this.firebaseManager.getAuthErrorMessage(error.code) || 
-                               error.message || 
-                               'Er is een fout opgetreden. Probeer het opnieuw.';
+            const errorMessage = this.firebaseManager.getAuthErrorMessage(error.code) ||
+                error.message ||
+                'Er is een fout opgetreden. Probeer het opnieuw.';
             this.showError(errorMessage);
         } finally {
             this.setLoading(false);
@@ -273,7 +296,7 @@ class ProfileModal {
     async handleLogout() {
         if (confirm('Weet je zeker dat je wilt uitloggen?')) {
             const result = await this.firebaseManager.signOut();
-            
+
             if (result.success) {
                 this.hide();
                 if (this.onSignOut) {

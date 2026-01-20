@@ -210,11 +210,23 @@ class App {
         const labelElement = document.querySelector('#profileBtn .label');
         if (labelElement) {
             const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
-            if (user && user.displayName) {
-                labelElement.innerHTML = `${user.displayName} ${songCountHtml}`;
+
+            let content = '';
+            // Add avatar if available
+            if (user && user.photoURL) {
+                content += `<img src="${user.photoURL}" alt="" class="header-profile-img" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(255,255,255,0.3); object-fit: cover;">`;
             } else {
-                labelElement.innerHTML = `Profiel ${songCountHtml}`;
+                // Default icon is handled by CSS usually, but here we might want text or emoji
+                // The HTML usually has an icon span. We are replacing "label" content.
             }
+
+            if (user && user.displayName) {
+                content += `<span>${user.displayName}</span> ${songCountHtml}`;
+            } else {
+                content += `<span>Profiel</span> ${songCountHtml}`;
+            }
+
+            labelElement.innerHTML = content;
         }
     }
 
