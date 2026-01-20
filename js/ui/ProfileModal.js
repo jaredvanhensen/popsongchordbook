@@ -197,6 +197,12 @@ class ProfileModal {
         this.clearSuccess();
         this.resetForm();
 
+        // Reset scroll position
+        const modalBody = this.modal.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.scrollTop = 0;
+        }
+
         this.modal.classList.remove('hidden');
 
         // Focus on current password input
