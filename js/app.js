@@ -360,10 +360,8 @@ class App {
 
             console.log(`Loaded ${songs.length} songs and ${setlists.length} setlists`);
 
-            // Check if this is a new user (0 songs) and seed default data
-            if (songs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
-                await this.seedDefaultData();
-            }
+            // Check for default data (imports songs if empty, creates DEMO setlist if missing)
+            await this.seedDefaultData();
 
             // Sync setlists with songs (clean up deleted songs from setlists)
             // this.setlistManager.cleanupSetlists(this.songManager.getAllSongs());
@@ -381,24 +379,34 @@ class App {
     }
 
     async seedDefaultData() {
-        console.log("Seeding default data for new user...");
+        console.log("Checking default data...");
         try {
-            // 1. Import default songs
-            // We use importSongs to handle ID generation and avoid duplicates (though here it's empty)
-            await this.songManager.importSongs(DEFAULT_SONGS);
-            const allSongs = this.songManager.getAllSongs();
+            let allSongs = this.songManager.getAllSongs();
 
-            // 2. Create 'DEMO' Setlist
-            const demoSetlist = await this.setlistManager.createSetlist("DEMO");
+            // 1. If library is empty, import default songs
+            if (allSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
+                console.log("Library empty. Importing default songs...");
+                await this.songManager.importSongs(DEFAULT_SONGS);
+                allSongs = this.songManager.getAllSongs(); // Refresh list
+            }
 
-            // 3. Add all song IDs to the setlist
-            const songIds = allSongs.map(s => s.id);
-            await this.setlistManager.addSongsToSetlist(demoSetlist.id, songIds);
+            // 2. Check if 'DEMO' Setlist exists
+            const allSetlists = this.setlistManager.getAllSetlists();
+            const demoExists = allSetlists.some(sl => sl.name === "DEMO");
 
-            console.log("Seeding complete: Created DEMO setlist with", songIds.length, "songs.");
+            if (!demoExists && allSongs.length > 0) {
+                console.log("DEMO setlist missing. Creating it...");
+                const demoSetlist = await this.setlistManager.createSetlist("DEMO");
 
-            // Reload to reflect changes
-            this.loadAndRender();
+                // 3. Add all song IDs to the setlist
+                // We add ALL currently loaded songs (which should be the defaults or imported ones)
+                const songIds = allSongs.map(s => s.id);
+                await this.setlistManager.addSongsToSetlist(demoSetlist.id, songIds);
+                console.log("Created DEMO setlist with", songIds.length, "songs.");
+
+                // Reload to reflect changes
+                this.loadAndRender();
+            }
         } catch (e) {
             console.error("Error seeding default data:", e);
         }
