@@ -17,6 +17,18 @@ class ChordProgressionEditor {
         this.scaleChords = this.initializeScaleChords();
 
         this.createOverlay();
+
+        // Initialize Chord Finder Modal
+        this.chordFinderModal = new ChordFinderModal(
+            (chord) => { // onAdd
+                this.addProgressionBlock(chord);
+                this.playChord(chord);
+            },
+            (chord) => { // onPlay
+                this.playChord(chord);
+            }
+        );
+
         this.setupEventListeners();
     }
 
@@ -143,7 +155,12 @@ class ChordProgressionEditor {
             <div class="chord-progression-modal">
                 <div class="chord-progression-header">
                     <h3>Chord Progression Editor</h3>
-                    <button class="chord-progression-close" id="chordProgressionClose">&times;</button>
+                    <div style="display:flex; gap:10px;">
+                        <button id="openChordFinderBtn" class="btn-secondary" style="padding:5px 10px; font-size:0.85em;" title="Find Chord by Notes">
+                            🔍 Find Chord
+                        </button>
+                        <button class="chord-progression-close" id="chordProgressionClose">&times;</button>
+                    </div>
                 </div>
                 <div class="chord-progression-body">
                     <div class="key-selector-section">
@@ -185,19 +202,6 @@ class ChordProgressionEditor {
                         <div class="chord-palette" id="diatonicChords"></div>
                         <div class="chord-palette-label borrowed-label">Borrowed / Common Chords:</div>
                         <div class="chord-palette borrowed" id="borrowedChords"></div>
-                    </div>
-
-                    <div class="chord-finder-section" style="margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.03); border-radius: 8px; border: 1px solid rgba(0,0,0,0.05);">
-                        <label style="display:block; margin-bottom:8px; font-weight:600; font-size:0.9em; color:#444;">Find Chord by Notes:</label>
-                        <div style="display:flex; gap:10px; margin-bottom: 8px;">
-                            <input type="text" id="chordFinderInput" placeholder="e.g. C E G or A C# E" style="flex:1; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-family:monospace; font-size:1.1em;">
-                            <button id="chordFinderBtn" class="btn-secondary" style="padding:5px 15px; font-weight:600;">Identify</button>
-                        </div>
-                        <div id="chordFinderResult" class="hidden" style="display:flex; align-items:center; gap:15px; background:white; padding:8px 12px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                            <span style="font-size:0.9em; color:#666;">Result:</span>
-                            <span id="foundChordName" style="font-weight:bold; font-size:1.2em; color:#667eea; min-width: 40px;"></span>
-                            <button id="addFoundChordBtn" class="btn-primary" style="padding:4px 12px; font-size:0.85em; margin-left:auto;">Add</button>
-                        </div>
                     </div>
                     
                     <div class="progression-builder-section">
@@ -258,41 +262,15 @@ class ChordProgressionEditor {
         // Setup drag and drop for the input area
         this.setupDragDrop();
 
-        // Chord Finder Listeners
-        const findBtn = this.overlay.querySelector('#chordFinderBtn');
-        const finderInput = this.overlay.querySelector('#chordFinderInput');
-        const addFoundBtn = this.overlay.querySelector('#addFoundChordBtn');
-        const resultDiv = this.overlay.querySelector('#chordFinderResult');
-        const resultName = this.overlay.querySelector('#foundChordName');
-
-        const performIdentification = () => {
-            const input = finderInput.value;
-            const chord = this.identifyChord(input);
-            if (chord) {
-                resultName.textContent = chord;
-                resultDiv.classList.remove('hidden');
-                // Play logic preview
-                this.playChord(chord);
-            } else {
-                resultName.textContent = "Unknown";
-                resultDiv.classList.remove('hidden');
-            }
-        };
-
-        findBtn.addEventListener('click', performIdentification);
-        finderInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') performIdentification();
-        });
-
-        addFoundBtn.addEventListener('click', () => {
-            const chord = resultName.textContent;
-            if (chord && chord !== "Unknown") {
-                this.addProgressionBlock(chord);
-                this.playChord(chord);
-                finderInput.value = '';
-                resultDiv.classList.add('hidden');
-            }
-        });
+        // Chord Finder Button
+        const openFinderBtn = this.overlay.querySelector('#openChordFinderBtn');
+        if (openFinderBtn) {
+            openFinderBtn.addEventListener('click', () => {
+                if (this.chordFinderModal) {
+                    this.chordFinderModal.show();
+                }
+            });
+        }
     }
 
     identifyChord(inputString) {
