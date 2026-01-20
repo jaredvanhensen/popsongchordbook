@@ -373,5 +373,108 @@ class ProfileModal {
             this.confirmPasswordInput.value = '';
         }
     }
+
+    async handleAvatarUpload(file) {
+        if (!file) return;
+
+        // Basic validation
+        if (!file.type.startsWith('image/')) {
+            alert('Selecteer een afbeelding.');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            alert('Afbeelding is te groot. Max 5MB.');
+            return;
+        }
+
+        try {
+            // Show loading state
+            if (this.changeAvatarBtn) {
+                this.changeAvatarBtn.textContent = '...';
+                this.changeAvatarBtn.disabled = true;
+            }
+
+            const resizedDataUrl = await this.resizeImage(file, 200, 200);
+
+            // Save to Firebase Auth
+            const result = await this.firebaseManager.updatePhotoURL(resizedDataUrl);
+
+            if (result.success) {
+                // Update UI
+                this.updateAvatarUI(resizedDataUrl);
+
+                // Trigger profile label update if possible
+                if (this.onAuthSuccess) {
+                    // This might be enough to trigger app updates if passed correctly
+                    // accessing app instance is hard here, but page refresh will sort it out
+                }
+            } else {
+                alert('Fout bij bijwerken profielfoto: ' + result.error);
+            }
+
+        } catch (error) {
+            console.error('Avatar upload error:', error);
+            alert('Fout bij verwerken afbeelding.');
+        } finally {
+            if (this.changeAvatarBtn) {
+                this.changeAvatarBtn.textContent = '📷';
+                this.changeAvatarBtn.disabled = false;
+            }
+            if (this.avatarInput) this.avatarInput.value = ''; // Reset input
+        }
+    }
+
+    resizeImage(file, maxWidth, maxHeight) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    resolve(dataUrl);
+                };
+                img.onerror = reject;
+            };
+            reader.onerror = reject;
+        });
+    }
+
+    updateAvatarUI(photoURL) {
+        if (!this.avatarDisplay || !this.avatarPlaceholder) return;
+
+        if (photoURL) {
+            this.avatarDisplay.src = photoURL;
+            this.avatarDisplay.classList.remove('hidden');
+            this.avatarPlaceholder.classList.add('hidden');
+        } else {
+            this.avatarDisplay.src = '';
+            this.avatarDisplay.classList.add('hidden');
+            this.avatarPlaceholder.classList.remove('hidden');
+        }
+    }
 }
 
