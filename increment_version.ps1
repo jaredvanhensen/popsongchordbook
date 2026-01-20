@@ -1,6 +1,5 @@
 $files = @("index.html", "songlist.html")
 $versionPattern = '<span id="site-version">(\d+\.?\d*)</span>'
-$foundVersion = $false
 $currentVersion = 0.0
 
 # 1. Find current version from index.html
@@ -9,7 +8,6 @@ $indexContent = Get-Content $indexFile -Raw -Encoding UTF8
 
 if ($indexContent -match $versionPattern) {
     $currentVersion = [double]$matches[1]
-    $foundVersion = $true
 }
 else {
     Write-Error "Could not find version pattern in index.html"

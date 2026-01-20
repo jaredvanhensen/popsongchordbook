@@ -1633,23 +1633,6 @@ class App {
         this.setupYouTubeMiniPlayer();
 
 
-        // Setup connection listener
-        this.firebaseManager.setConnectionListener((isConnected) => {
-            const statusEl = document.getElementById('connection-status');
-            if (statusEl) {
-                // FORCE INLINE STYLES to bypass CSS caching issues
-                if (isConnected) {
-                    statusEl.style.color = '#4caf50'; // Green
-                    statusEl.style.animation = 'none';
-                    statusEl.title = 'Online (Saved)';
-                } else {
-                    statusEl.style.color = '#f44336'; // Red
-                    // Simple blink animation manually if CSS fails
-                    statusEl.style.animation = 'blink 1s infinite';
-                    statusEl.title = 'Offline (Saving locally)';
-                }
-            }
-        });
     }
 
     async runDiagnostics() {

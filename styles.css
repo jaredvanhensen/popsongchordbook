@@ -6895,37 +6895,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-/* Status Indicator */
-#connection-status {
-    display: inline-block;
-    margin-right: 5px;
-    font-size: 12px;
-}
 
-.status-connected {
-    color: #4caf50;
-    /* Green */
-}
-
-.status-disconnected {
-    color: #f44336;
-    /* Red */
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
 
 /* Fix for close button overlapping icons on PC and iPad */
 @media (min-width: 768px) {
