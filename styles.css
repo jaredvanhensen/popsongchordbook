@@ -4901,8 +4901,8 @@ td:has(.row-edit-input.input-focused) {
         grid-template-columns: 45px 1fr 45px;
         grid-template-rows: 55px 45px;
         grid-template-areas:
-            "prev title close"
-            "actions actions actions";
+            ". title close"
+            "prev actions next";
         align-items: center;
         gap: 0;
         border-radius: 0;
@@ -4914,6 +4914,7 @@ td:has(.row-edit-input.input-focused) {
     .song-detail-prev {
         grid-area: prev;
         justify-self: start;
+        display: flex !important;
     }
 
     .song-detail-close-top {
@@ -4921,6 +4922,17 @@ td:has(.row-edit-input.input-focused) {
         position: static !important;
         justify-self: end;
         margin: 0 !important;
+        display: flex !important;
+    }
+
+    #songDetailDeleteBtn {
+        display: none !important;
+    }
+
+    #songDetailNext {
+        grid-area: next;
+        justify-self: end;
+        display: flex !important;
     }
 
     .song-detail-title-section {
@@ -4948,14 +4960,12 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-header-right {
         display: none !important;
-        /* Move next/delete elsewhere or handle in actions if needed */
     }
 
-    /* Override hidden state for specific header right buttons if we want them in the actions row */
-    #songDetailNext,
-    #songDetailDeleteBtn {
+    /* Clear overrides for these buttons on mobile */
+    #songDetailNext.hidden,
+    #songDetailDeleteBtn.hidden {
         display: none !important;
-        /* Hide them for now to maintain stability, or we can add them to action row */
     }
 
     .song-detail-artist {
