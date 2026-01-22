@@ -181,10 +181,19 @@ body {
     text-align: center;
 }
 
+.showcase-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .showcase-icon {
-    font-size: 100px;
-    margin-top: 20px;
+    font-size: clamp(80px, 15vw, 180px);
+    margin-top: 30px;
     animation: float 3s ease-in-out infinite;
+    display: block;
+    line-height: 1;
 }
 
 /* Artists Section */
