@@ -4915,6 +4915,7 @@ td:has(.row-edit-input.input-focused) {
         grid-area: prev;
         justify-self: start;
         display: flex !important;
+        transform: translateY(-4px);
     }
 
     .song-detail-close-top {
@@ -4923,6 +4924,7 @@ td:has(.row-edit-input.input-focused) {
         justify-self: end;
         margin: 0 !important;
         display: flex !important;
+        transform: translateY(-4px);
     }
 
 
@@ -4930,6 +4932,7 @@ td:has(.row-edit-input.input-focused) {
         grid-area: next;
         justify-self: end;
         display: flex !important;
+        transform: translateY(-4px);
     }
 
     .song-detail-title-section {
@@ -4953,6 +4956,7 @@ td:has(.row-edit-input.input-focused) {
         width: 100%;
         gap: clamp(4px, 1.5vw, 10px);
         margin-top: 0;
+        transform: translateY(-4px);
     }
 
     .song-detail-header-right {
