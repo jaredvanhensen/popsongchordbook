@@ -5000,40 +5000,41 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-header {
-        padding: 10px 12px;
-        border-radius: 12px 12px 0 0;
-        flex-wrap: wrap;
-        /* Toestaan dat elementen naar de volgende regel gaan */
+        padding: 8px 12px;
+        border-radius: 0;
+        flex-wrap: nowrap;
         justify-content: space-between;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
     .song-detail-title-section {
-        width: 100%;
-        order: -1;
-        /* Zorg dat de titel bovenaan staat */
+        width: auto;
+        order: 0;
         justify-content: center;
-        text-align: center;
-        flex: none;
-        padding-bottom: 8px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
+        text-align: left;
+        flex: 1;
+        min-width: 0;
+        padding-bottom: 0;
+        border-bottom: none;
     }
 
     .song-detail-artist {
-        font-size: 0.9em;
-        white-space: normal;
-        overflow: visible;
+        font-size: 0.8em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     .song-detail-title {
-        font-size: 1.1em;
-        white-space: normal;
-        overflow: visible;
+        font-size: 1em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     /* Knoppen op de tweede regel */
