@@ -4925,9 +4925,6 @@ td:has(.row-edit-input.input-focused) {
         display: flex !important;
     }
 
-    #songDetailDeleteBtn {
-        display: none !important;
-    }
 
     #songDetailNext {
         grid-area: next;
