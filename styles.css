@@ -4881,26 +4881,30 @@ td:has(.row-edit-input.input-focused) {
 /* Mobile devices */
 @media (max-width: 768px) {
     .song-detail-modal {
-        padding: 10px;
+        padding: 0;
     }
 
     .song-detail-modal-content {
-        max-width: calc(100vw - 20px);
-        max-height: calc(100vh - 20px);
-        border-radius: 15px;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
     }
 
     .song-detail-header {
-        padding: 18px 15px;
+        padding: 12px 15px;
         flex-direction: row;
-        gap: 10px;
-        border-radius: 15px 15px 0 0;
+        gap: 8px;
+        border-radius: 0;
+        height: 70px;
+        box-sizing: border-box;
     }
 
     .song-detail-nav-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 1.4em;
+        width: 36px;
+        height: 36px;
+        font-size: 1.2em;
     }
 
     .song-detail-title-section {
@@ -4914,11 +4918,19 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-artist {
-        font-size: 1em;
+        font-size: 0.85em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     .song-detail-title {
-        font-size: 1.3em;
+        font-size: 1.1em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     .song-detail-header-right {
@@ -4956,15 +4968,21 @@ td:has(.row-edit-input.input-focused) {
 
     .song-chord-section {
         padding: 10px;
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
     }
 
     .chord-section-title {
-        font-size: 0.85em;
-        margin-bottom: 6px;
+        font-size: 0.8em;
+        margin-bottom: 4px;
+        flex-shrink: 0;
     }
 
     .chord-section-content {
         font-size: 1.4em;
+        flex: 1;
+        min-height: 1.5em;
     }
 
 
@@ -5024,17 +5042,18 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-action-buttons {
-        order: 1;
-        flex: 1;
-        justify-content: center;
+        order: 0;
+        flex: 0 1 auto;
+        justify-content: flex-end;
         display: flex;
-        gap: 8px;
+        gap: 4px;
     }
 
     .song-detail-header-right {
-        order: 2;
+        order: 0;
         display: flex;
-        gap: 8px;
+        gap: 4px;
+        align-items: center;
     }
 
     /* Verberg labels en maak knoppen compact */
