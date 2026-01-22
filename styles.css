@@ -7118,3 +7118,10 @@ td:has(.row-edit-input.input-focused) {
 .cue-line-input {
     display: none !important;
 }
+
+/* Hide Colour Scheme Button on Tablet and Mobile */
+@media (max-width: 1024px) {
+    .theme-switcher-btn {
+        display: none !important;
+    }
+}
