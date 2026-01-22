@@ -985,12 +985,16 @@ class SongDetailModal {
                 artist: savedSong.artist || '',
                 title: savedSong.title || '',
                 verse: savedSong.verse || '',
+                verseTitle: savedSong.verseTitle || 'Block 1',
                 verseCue: savedSong.verseCue || '',
                 preChorus: savedSong.preChorus || '',
+                preChorusTitle: savedSong.preChorusTitle || 'Block 3',
                 preChorusCue: savedSong.preChorusCue || '',
                 chorus: savedSong.chorus || '',
+                chorusTitle: savedSong.chorusTitle || 'Block 2',
                 chorusCue: savedSong.chorusCue || '',
                 bridge: savedSong.bridge || '',
+                bridgeTitle: savedSong.bridgeTitle || 'Block 4',
                 bridgeCue: savedSong.bridgeCue || ''
             };
         }
@@ -1098,12 +1102,16 @@ class SongDetailModal {
             artist: song.artist || '',
             title: song.title || '',
             verse: song.verse || '',
+            verseTitle: song.verseTitle || 'Block 1',
             verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
+            preChorusTitle: song.preChorusTitle || 'Block 3',
             preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
+            chorusTitle: song.chorusTitle || 'Block 2',
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
+            bridgeTitle: song.bridgeTitle || 'Block 4',
             bridgeCue: song.bridgeCue || ''
         };
 
