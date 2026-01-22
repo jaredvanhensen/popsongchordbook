@@ -1,5 +1,3 @@
-import { DEFAULT_SONGS } from './data/default_songs.js';
-
 // Main Application
 class App {
     constructor() {

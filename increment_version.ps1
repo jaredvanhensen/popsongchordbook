@@ -15,7 +15,7 @@ else {
 }
 
 # 2. Calculate new version
-$newVersionNum = $currentVersion + 0.01
+$newVersionNum = $currentVersion + 0.1
 $newVersionStr = "{0:N2}" -f $newVersionNum
 $newVersionStr = $newVersionStr.Replace(',', '.') # Ensure dot separator
 

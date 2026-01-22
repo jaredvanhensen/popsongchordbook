@@ -1,7 +1,7 @@
 // Default songs to be loaded for new users if their library is empty.
 // Exported from user "pop song chord book" on 2026-01-20
 
-export const DEFAULT_SONGS = [
+const DEFAULT_SONGS = [
     {
         "artist": "Taylor Swift",
         "bridge": "",
