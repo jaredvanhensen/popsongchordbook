@@ -5020,20 +5020,12 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Knoppen op de tweede regel */
-.song-detail-prev {
-    order: 0;
-}
-
 .song-detail-action-buttons {
-    order: 1;
-    flex: 1;
-    justify-content: center;
     display: flex;
     gap: 8px;
 }
 
 .song-detail-header-right {
-    order: 2;
     display: flex;
     gap: 8px;
 }
