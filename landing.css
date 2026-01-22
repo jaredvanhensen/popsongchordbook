@@ -174,9 +174,22 @@ body {
     font-size: 1.3em;
 }
 
+/* Showcase Section */
+.showcase-section {
+    padding: 80px 20px 40px 20px;
+    background: white;
+    text-align: center;
+}
+
+.showcase-icon {
+    font-size: 100px;
+    margin-top: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
 /* Artists Section */
 .artists-section {
-    padding: 100px 20px;
+    padding: 60px 20px 100px 20px;
     background: white;
 }
 
