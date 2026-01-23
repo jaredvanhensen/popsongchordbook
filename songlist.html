@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pop Song Chord Book</title>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸŽ¸</text></svg>">
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.66">
+    <link rel="stylesheet" href="styles.css?v=1.67">
 </head>
 
 <body>
@@ -19,7 +19,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.66</span></span>
+                            id="site-version">1.67</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -27,35 +27,35 @@
                 </div>
                 <div class="header-top-actions">
                     <button id="themeSwitcherBtn" class="theme-switcher-btn" title="Cycle Themes">
-                        <span class="icon">ðŸŽ¨</span>
+                        <span class="icon">🎨</span>
                     </button>
                     <button id="profileBtn" class="profile-btn with-label" title="Profile">
                         <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
-                        <span class="icon">ðŸ‘¤</span>
+                        <span class="icon">👤</span>
                         <span class="label">Profile <span id="profileSongCount" class="song-count">(0)</span></span>
                     </button>
                     <button id="toggleHeaderBarCollapsed" class="toggle-header-bar-btn collapsed-position"
-                        title="Show button bar">â–²</button>
+                        title="Show button bar">▲</button>
                 </div>
             </div>
             <div class="header-bar" id="headerBar">
                 <button id="toggleHeaderBar" class="toggle-header-bar-btn normal-position"
-                    title="Hide button bar">â–¼</button>
+                    title="Hide button bar">▼</button>
 
                 <!-- Filters & Search Section -->
                 <div class="header-section filters-section">
                     <div class="filter-buttons">
                         <button id="filterBtn" class="filter-btn with-label" title="Filters">
-                            <span class="icon">ðŸ”</span>
+                            <span class="icon">🔍</span>
                             <span class="label">Filters</span>
                         </button>
                     </div>
                     <div class="search-section-container">
                         <div class="search-input-wrapper">
-                            <input type="text" id="searchInput" class="search-input" placeholder="ðŸ” Artist or title..."
+                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Artist or title..."
                                 autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="none">
                             <button id="clearSearchBtn" class="clear-search-btn hidden"
-                                title="Clear search field">Ã—</button>
+                                title="Clear search field">×</button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                                     <h3>Chord Detection</h3>
                                     <div class="chord-detector-header-buttons">
                                         <button id="chordDetectorMinimize" class="chord-detector-minimize-btn"
-                                            title="Minimize">ðŸ”»</button>
+                                            title="Minimize">🔻</button>
                                     </div>
                                 </div>
                                 <div class="chord-detector-body">
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <button id="chordDetectorToggle" class="chord-detector-toggle-btn"
-                                        title="Start detection">ðŸŽ¤</button>
+                                        title="Start detection">🎤</button>
                                     <select id="microphoneSelect" class="microphone-select"
                                         title="Choose microphone"></select>
 
@@ -95,9 +95,9 @@
                                             <span>History</span>
                                             <div class="chord-history-actions">
                                                 <button id="copyChordHistory" class="copy-history-btn"
-                                                    title="Copy to clipboard">ðŸ“‹</button>
+                                                    title="Copy to clipboard">📋</button>
                                                 <button id="clearChordHistory" class="clear-history-btn"
-                                                    title="Clear history">ðŸ—‘ï¸</button>
+                                                    title="Clear history">🗑️</button>
                                             </div>
                                         </div>
                                         <div id="chordHistory" class="chord-history-list"></div>
@@ -113,12 +113,12 @@
                             <button id="createSetlistBtn" class="setlist-btn" title="New Setlist">+</button>
                             <button id="editSetlistBtn" class="setlist-btn edit-setlist-btn hidden"
                                 title="Edit setlist name">
-                                <span class="icon">âœï¸</span>
+                                <span class="icon">✏️</span>
                                 <span class="label">Rename</span>
                             </button>
                             <button id="deleteSetlistBtn" class="setlist-btn delete-setlist-btn hidden"
                                 title="Delete setlist">
-                                <span class="icon">ðŸ—‘ï¸</span>
+                                <span class="icon">🗑️</span>
                                 <span class="label">Delete</span>
                             </button>
                         </div>
@@ -128,12 +128,12 @@
                     <div class="actions-group">
                         <button id="toggleViewBtn" class="import-export-btn view-toggle-btn with-label"
                             title="Toggle between simple and full view">
-                            <span class="icon">ðŸ“‹</span>
+                            <span class="icon">📋</span>
                             <span class="label">View</span>
                         </button>
                         <button id="randomSongBtn" class="import-export-btn random-song-btn with-label"
                             title="Open a random song">
-                            <span class="icon">ðŸŽ²</span>
+                            <span class="icon">🎲</span>
                             <span class="label">Random</span>
                         </button>
                         <button id="addSongBtn" class="add-song-btn with-label" title="Add New Song">
@@ -142,23 +142,23 @@
                         </button>
                         <div class="import-export-controls">
                             <button id="exportBtn" class="import-export-btn with-label" title="Export">
-                                <span class="icon">ðŸ“¤</span>
+                                <span class="icon">📤</span>
                                 <span class="label">Export</span>
                             </button>
                             <label for="importFile" class="import-export-btn with-label" title="Import">
-                                <span class="icon">ðŸ“¥</span>
+                                <span class="icon">📥</span>
                                 <span class="label">Import</span>
                             </label>
                             <input type="file" id="importFile" accept=".json" style="display: none;">
                             <button id="deleteAllSongsBtn" class="import-export-btn delete-all-btn with-label"
                                 title="Delete all songs">
-                                <span class="icon">ðŸ—‘ï¸</span>
+                                <span class="icon">🗑️</span>
                                 <span class="label">Delete</span>
                             </button>
                         </div>
                         <button id="printTableBtn" class="import-export-btn print-btn with-label"
                             title="Print full table">
-                            <span class="icon">ðŸ–¨ï¸</span>
+                            <span class="icon">🖨️</span>
                             <span class="label">Print</span>
                         </button>
                     </div>
@@ -173,7 +173,7 @@
                 <span class="separator">-</span>
                 <span id="selectedTitle" class="selected-title"></span>
             </div>
-            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">Ã—</button>
+            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">×</button>
         </div>
 
         <!-- Black overlay when row is selected -->
@@ -199,7 +199,7 @@
                             <span class="sort-indicator"></span>
                         </th>
                         <th class="sortable favorite-column" data-column="favorite">
-                            â­
+                            ⭐
                             <span class="sort-indicator"></span>
                         </th>
                         <th class="verse-column">Block 1</th>
@@ -234,7 +234,7 @@
                     </div>
                     <div class="auth-form-group">
                         <label for="authLoginPassword">Password</label>
-                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢" required
+                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
                             autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
                     </div>
                     <div id="authLoginError" class="auth-error hidden"></div>
@@ -301,9 +301,9 @@
                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #eee;">
                             <div id="profileAvatarPlaceholder" class="profile-avatar-placeholder"
                                 style="width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
-                                ðŸ‘¤</div>
+                                👤</div>
                             <button id="profileChangeAvatarBtn" class="profile-change-avatar-btn" title="Change Photo"
-                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">ðŸ“·</button>
+                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">📷</button>
                         </div>
                         <input type="file" id="profileAvatarInput" accept="image/*" style="display: none;">
                     </div>
@@ -340,7 +340,7 @@
                     <form id="profileChangePasswordForm" class="auth-form">
                         <div class="auth-form-group">
                             <label for="profileCurrentPassword">Current password</label>
-                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢"
+                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="••••••"
                                 required autocomplete="current-password" spellcheck="false" autocorrect="off"
                                 autocapitalize="none">
                         </div>
@@ -416,7 +416,7 @@
                                     type="button">Artist</button>
                             </div>
                             <button id="toggleShareSongsSortDirection" class="selection-btn sort-direction-btn"
-                                type="button" title="Sorteer van A naar Z">A â†’ Z</button>
+                                type="button" title="Sorteer van A naar Z">A → Z</button>
                         </div>
                         <button id="selectAllShareSongs" class="selection-btn">Select all</button>
                         <button id="deselectAllShareSongs" class="selection-btn">Deselect all</button>
@@ -583,7 +583,7 @@
                                     type="button">Artist</button>
                             </div>
                             <button id="toggleSortDirection" class="selection-btn sort-direction-btn" type="button"
-                                title="Sorteer van A naar Z">A â†’ Z</button>
+                                title="Sorteer van A naar Z">A → Z</button>
                         </div>
                         <button id="selectAllSongs" class="selection-btn">Select all</button>
                         <button id="deselectAllSongs" class="selection-btn">Deselect all</button>
@@ -607,7 +607,7 @@
             <div class="song-detail-header">
                 <button class="song-detail-nav-btn song-detail-prev with-label" id="songDetailPrev"
                     title="Previous song">
-                    <span class="icon">â€¹</span>
+                    <span class="icon">‹</span>
                     <span class="label">Previous</span>
                 </button>
                 <div class="song-detail-title-section">
@@ -619,25 +619,25 @@
                 <div class="song-detail-action-buttons">
                     <button class="song-detail-action-btn with-label" id="songDetailDeleteBtn"
                         title="Delete current song">
-                        <span class="icon">ðŸ—‘ï¸</span>
+                        <span class="icon">🗑️</span>
                         <span class="label">Delete</span>
                     </button>
                     <div class="transpose-menu-container">
                         <button id="songDetailTransposeBtn" class="song-detail-action-btn with-label"
                             title="Transpose chords">
-                            <span class="icon">â™­â™¯</span>
+                            <span class="icon">♭♯</span>
                             <span class="label">Transp</span>
                         </button>
                         <div id="transposeMenu" class="transpose-menu hidden">
                             <button id="songDetailTransposeDown" class="transpose-menu-item" title="Transpose down">
-                                <span class="icon">â™­</span> -1
+                                <span class="icon">♭</span> -1
                             </button>
                             <button id="songDetailTransposeUp" class="transpose-menu-item" title="Transpose up">
-                                <span class="icon">â™¯</span> +1
+                                <span class="icon">♯</span> +1
                             </button>
                             <button id="songDetailTransposeReset" class="transpose-menu-item"
                                 title="Reset transposition">
-                                <span class="icon">â†º</span> Reset
+                                <span class="icon">↺</span> Reset
                             </button>
                         </div>
                     </div>
@@ -655,27 +655,27 @@
                     </button>
                     <button id="songDetailYouTubeBtn" class="song-detail-action-btn with-label"
                         title="Edit song details">
-                        <span class="icon">âš™ï¸</span>
+                        <span class="icon">⚙️</span>
                         <span class="label">Details</span>
                     </button>
                     <button id="songDetailExternalUrlBtn" class="song-detail-action-btn with-label hidden"
                         title="Open external website">
-                        <span class="icon">ðŸŒ</span>
+                        <span class="icon">🌐</span>
                         <span class="label">Website</span>
                     </button>
                     <button id="songDetailAddToSetlistBtn" class="song-detail-action-btn with-label"
                         title="Add to Setlist">
-                        <span class="icon">ðŸ“‹</span>
+                        <span class="icon">📋</span>
                         <span class="label">Setlist</span>
                     </button>
                     <button id="songDetailFavoriteBtn" class="song-detail-action-btn with-label"
                         title="Add to favorites">
-                        <span class="icon">â˜†</span>
+                        <span class="icon">☆</span>
                         <span class="label">Favorite</span>
                     </button>
                 </div>
                 <button class="song-detail-nav-btn song-detail-next with-label" id="songDetailNext" title="Next song">
-                    <span class="icon">â€º</span>
+                    <span class="icon">›</span>
                     <span class="label">Next</span>
                 </button>
                 <button class="song-detail-close-top" id="songDetailModalCloseTop" title="Close modal">&times;</button>
@@ -686,7 +686,7 @@
                         <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
                         </h3>
                         <div class="chord-section-buttons">
-                            <button class="piano-chord-btn" data-section="verse" title="Show piano chords">ðŸŽ¹</button>
+                            <button class="piano-chord-btn" data-section="verse" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="verse"
                                 title="Chord progression editor">?</button>
                         </div>
@@ -700,7 +700,7 @@
                         <h3 class="chord-section-title editable-title" id="chorusTitle" contenteditable="true">Block 2
                         </h3>
                         <div class="chord-section-buttons">
-                            <button class="piano-chord-btn" data-section="chorus" title="Show piano chords">ðŸŽ¹</button>
+                            <button class="piano-chord-btn" data-section="chorus" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="chorus"
                                 title="Chord progression editor">?</button>
                         </div>
@@ -715,7 +715,7 @@
                             3</h3>
                         <div class="chord-section-buttons">
                             <button class="piano-chord-btn" data-section="preChorus"
-                                title="Show piano chords">ðŸŽ¹</button>
+                                title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="preChorus"
                                 title="Chord progression editor">?</button>
                         </div>
@@ -729,7 +729,7 @@
                         <h3 class="chord-section-title editable-title" id="bridgeTitle" contenteditable="true">Block 4
                         </h3>
                         <div class="chord-section-buttons">
-                            <button class="piano-chord-btn" data-section="bridge" title="Show piano chords">ðŸŽ¹</button>
+                            <button class="piano-chord-btn" data-section="bridge" title="Show piano chords">🎹</button>
                             <button class="chord-editor-btn" data-section="bridge"
                                 title="Chord progression editor">?</button>
                         </div>
@@ -740,7 +740,7 @@
                 </div>
                 <div class="song-detail-actions">
                     <button id="songDetailSaveBtn" class="song-detail-save-btn with-label hidden">
-                        <span class="icon">ðŸ’¾</span>
+                        <span class="icon">💾</span>
                         <span class="label">Save</span>
                     </button>
                 </div>
@@ -828,7 +828,7 @@
                 <div class="filter-option-group">
                     <label class="filter-checkbox-label">
                         <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
-                        <span>â­ Only favorites</span>
+                        <span>⭐ Only favorites</span>
                     </label>
                 </div>
 
@@ -889,8 +889,8 @@
             <div class="youtube-mini-player-header">
                 <span id="youtubePlayerTitle" class="youtube-player-title"></span>
                 <div class="youtube-player-controls">
-                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">ðŸ”»</button>
-                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">Ã—</button>
+                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">🔻</button>
+                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
                 </div>
             </div>
             <div class="youtube-mini-player-body">
@@ -908,33 +908,33 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=1.66"></script>
+    <script src="js/config/firebase-config.js?v=1.67"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=1.66"></script>
-    <script src="js/models/SetlistManager.js?v=1.66"></script>
+    <script src="js/models/SongManager.js?v=1.67"></script>
+    <script src="js/models/SetlistManager.js?v=1.67"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=1.66"></script>
-    <script src="js/utils/ChordDetector.js?v=1.66"></script>
-    <script src="js/utils/KeyDetector.js?v=1.66"></script>
-    <script src="js/utils/FirebaseManager.js?v=1.66"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=1.66"></script>
+    <script src="js/utils/Sorter.js?v=1.67"></script>
+    <script src="js/utils/ChordDetector.js?v=1.67"></script>
+    <script src="js/utils/KeyDetector.js?v=1.67"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.67"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.67"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=1.66"></script>
-    <script src="js/ui/SongDetailModal.js?v=1.66"></script>
-    <script src="js/ui/TableRenderer.js?v=1.66"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=1.66"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=1.66"></script>
-    <script src="js/ui/ChordFinderModal.js?v=1.66"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=1.66"></script>
-    <script src="js/ui/AuthModal.js?v=1.66"></script>
-    <script src="js/ui/ProfileModal.js?v=1.66"></script>
-    <script src="js/ui/ShareSongsModal.js?v=1.66"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=1.66"></script>
+    <script src="js/ui/ChordModal.js?v=1.67"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.67"></script>
+    <script src="js/ui/TableRenderer.js?v=1.67"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.67"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.67"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.67"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.67"></script>
+    <script src="js/ui/AuthModal.js?v=1.67"></script>
+    <script src="js/ui/ProfileModal.js?v=1.67"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.67"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.67"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=1.66"></script>
+    <script src="js/data/default_songs.js?v=1.67"></script>
     <!-- Main App -->
-    <script src="js/app.js?v=1.63"></script>
+    <script src="js/app.js?v=1.67"></script>
 </body>
 
 </html>
