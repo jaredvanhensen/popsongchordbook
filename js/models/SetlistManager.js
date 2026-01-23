@@ -186,10 +186,15 @@ class SetlistManager {
             if (index !== -1) {
                 this.setlists[index].name = newName.trim();
                 await this.saveSetlists();
-                return true;
+
+                // Notify listeners immediately for local changes
+                if (this.onSetlistsChanged) {
+                    this.onSetlistsChanged();
+                }
+                return this.setlists[index];
             }
         }
-        return false;
+        return null;
     }
 
     getSetlist(id) {

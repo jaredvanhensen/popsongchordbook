@@ -136,6 +136,7 @@ class App {
         this.setupHeaderBarToggle();
         this.setupToggleView();
         this.setupResponsiveView();
+        this.setupCreateSongModal();
 
         // Load data from Firebase
         await this.loadDataFromFirebase();
@@ -999,14 +1000,26 @@ class App {
         const saveSetlist = async () => {
             const name = nameInput.value.trim();
             if (name) {
+                let setlist;
                 if (editingSetlistId) {
                     // Edit mode
-                    await this.setlistManager.updateSetlistName(editingSetlistId, name);
+                    setlist = await this.setlistManager.updateSetlistName(editingSetlistId, name);
                 } else {
                     // Create mode
-                    await this.setlistManager.createSetlist(name);
+                    setlist = await this.setlistManager.createSetlist(name);
                 }
-                this.updateSetlistSelect();
+
+                if (setlist) {
+                    this.currentSetlistId = setlist.id;
+                    this.updateSetlistSelect();
+                    const select = document.getElementById('setlistSelect');
+                    if (select) {
+                        select.value = setlist.id;
+                    }
+                    this.updateButtonsForSetlistMode();
+                    this.loadAndRender();
+                }
+
                 modal.classList.add('hidden');
                 resetModal();
             }
@@ -1477,8 +1490,8 @@ class App {
                 if (this.currentSetlistId) {
                     this.openAddSongsToSetlistModal();
                 } else {
-                    // Otherwise, add a new song
-                    this.addNewSong();
+                    // Otherwise, open the create song modal
+                    this.openCreateSongModal();
                 }
             });
         }
@@ -1530,10 +1543,74 @@ class App {
         }
     }
 
-    async addNewSong() {
+    setupCreateSongModal() {
+        const modal = document.getElementById('createSongModal');
+        const closeBtn = document.getElementById('createSongModalClose');
+        const submitBtn = document.getElementById('createSongSubmitBtn');
+        const artistInput = document.getElementById('newSongArtistInput');
+        const titleInput = document.getElementById('newSongTitleInput');
+        const errorMsg = document.getElementById('createSongError');
+
+        if (!modal || !submitBtn) return;
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            artistInput.value = '';
+            titleInput.value = '';
+            errorMsg.classList.add('hidden');
+        };
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        submitBtn.addEventListener('click', async () => {
+            const artist = artistInput.value.trim();
+            const title = titleInput.value.trim();
+
+            if (!artist || !title) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            errorMsg.classList.add('hidden');
+            await this.addNewSong(artist, title);
+            closeModal();
+        });
+
+        // Enter key to submit
+        [artistInput, titleInput].forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitBtn.click();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeModal();
+                }
+            });
+        });
+    }
+
+    openCreateSongModal() {
+        const modal = document.getElementById('createSongModal');
+        const artistInput = document.getElementById('newSongArtistInput');
+        if (modal) {
+            modal.classList.remove('hidden');
+            if (artistInput) {
+                setTimeout(() => artistInput.focus(), 100);
+            }
+        }
+    }
+
+    async addNewSong(artist, title) {
         const newSong = await this.songManager.addSong({
-            artist: '',
-            title: '',
+            artist: artist,
+            title: title,
             verse: '',
             chorus: '',
             preChorus: '',
@@ -1543,15 +1620,14 @@ class App {
         // Re-render table
         this.loadAndRender();
 
-        // Open the detail modal with the new empty song and auto-focus artist field
+        // Open the detail modal with the new song
         setTimeout(() => {
             const song = this.songManager.getSongById(newSong.id);
             if (song) {
-                // Select the row in the table first so loadAndRender doesn't close the modal
                 if (this.tableRenderer) {
-                    this.tableRenderer.selectRow(song.id, true); // true = skip callback
+                    this.tableRenderer.selectRow(song.id, true);
                 }
-                this.songDetailModal.show(song, true); // true = auto-edit artist field
+                this.songDetailModal.show(song, false); // false = don't auto-edit artist (already filled)
             }
         }, 50);
     }

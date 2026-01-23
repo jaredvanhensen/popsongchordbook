@@ -36,7 +36,11 @@ class SongDetailModal {
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
         this.youtubeUrlCancelBtn = document.getElementById('youtubeUrlCancelBtn');
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
-        this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
+
+        // Confirmation Modal
+        this.confirmationModal = document.getElementById('confirmationModal');
+        this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
+        this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
         // this.keyDisplay = document.getElementById('songDetailKeyDisplay'); // Removed
         this.sections = {
             verse: {
@@ -927,16 +931,22 @@ class SongDetailModal {
             return;
         }
 
+        const artist = this.artistElement ? this.artistElement.textContent.trim() : '';
+        const originalTitle = this.titleElement ? (this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '')).trim() : '';
+
+        if (!artist || !originalTitle) {
+            alert('Band/Artist Name and Song Title are required and cannot be empty.');
+            return;
+        }
+
         const updates = {};
 
         // Get current values from editable fields
         if (this.artistElement) {
-            updates.artist = this.artistElement.textContent.trim();
+            updates.artist = artist;
         }
         if (this.titleElement) {
-            // Get title from originalTitle dataset (without key) or from textContent
-            const originalTitle = this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '');
-            updates.title = originalTitle.trim();
+            updates.title = originalTitle;
         }
         if (this.sections.verse?.content) {
             updates.verse = this.sections.verse.content.textContent.trim();
@@ -1031,6 +1041,37 @@ class SongDetailModal {
         }
     }
 
+    showUnsavedChangesDialog() {
+        return new Promise((resolve) => {
+            if (!this.confirmationModal || !this.confirmSaveBtn || !this.confirmDontSaveBtn) {
+                // Fallback to confirm if elements are missing
+                const result = confirm('You have unsaved changes. Do you want to save them first?');
+                resolve(result);
+                return;
+            }
+
+            const handleSave = () => {
+                cleanup();
+                resolve(true);
+            };
+
+            const handleDontSave = () => {
+                cleanup();
+                resolve(false);
+            };
+
+            const cleanup = () => {
+                this.confirmSaveBtn.removeEventListener('click', handleSave);
+                this.confirmDontSaveBtn.removeEventListener('click', handleDontSave);
+                this.confirmationModal.classList.add('hidden');
+            };
+
+            this.confirmSaveBtn.addEventListener('click', handleSave);
+            this.confirmDontSaveBtn.addEventListener('click', handleDontSave);
+            this.confirmationModal.classList.remove('hidden');
+        });
+    }
+
     navigatePrevious() {
         if (this.isRandomMode) return;
         if (!this.currentSongId || this.allSongs.length === 0) return;
@@ -1082,7 +1123,8 @@ class SongDetailModal {
 
         // Save any unsaved changes before switching songs
         if (this.hasUnsavedChanges && this.currentSongId) {
-            if (confirm('You have unsaved changes. Do you want to save them first?')) {
+            const shouldSave = await this.showUnsavedChangesDialog();
+            if (shouldSave) {
                 await this.saveChanges();
             } else {
                 // Discard changes and reload original data
@@ -1754,7 +1796,8 @@ class SongDetailModal {
 
         // Check for unsaved changes before closing
         if (this.hasUnsavedChanges) {
-            if (confirm('You have unsaved changes. Do you want to save them first?')) {
+            const shouldSave = await this.showUnsavedChangesDialog();
+            if (shouldSave) {
                 await this.saveChanges();
             } else {
                 this.discardChanges();
