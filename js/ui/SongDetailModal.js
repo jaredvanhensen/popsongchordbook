@@ -47,7 +47,7 @@ class SongDetailModal {
         this.confirmationModal = document.getElementById('confirmationModal');
         this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
         this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
-        this.keyDisplay = document.getElementById('songDetailKeyDisplay');
+        // this.keyDisplay = document.getElementById('songDetailKeyDisplay'); // Removed
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
@@ -1207,11 +1207,13 @@ class SongDetailModal {
                 }
             }
 
-            // Display title WITHOUT key
-            this.titleElement.textContent = titleText;
-
-            // Updated key display in footer
-            this.updateKeyDisplay();
+            // Display title WITH key appended
+            const formattedKey = this.formatKeyText(keyText);
+            if (keyText.trim()) {
+                this.titleElement.textContent = `${titleText} (${formattedKey})`;
+            } else {
+                this.titleElement.textContent = titleText;
+            }
 
             // Store original title without key for editing
             this.titleElement.dataset.originalTitle = titleText;
@@ -1554,7 +1556,7 @@ class SongDetailModal {
         }
     }
 
-    updateKeyDisplay() {
+    updateTitleWithKey() {
         if (!this.titleElement || !this.currentSongId) return;
 
         const song = this.songManager.getSongById(this.currentSongId);
@@ -1562,28 +1564,23 @@ class SongDetailModal {
 
         const titleText = song.title || '';
         let keyText = song.key || '';
+        let isGuessed = false;
 
         // If no explicit key, try to detect it
         if (!keyText.trim() && this.keyDetector) {
             const detectedKey = this.keyDetector.detectFromSong(song);
             if (detectedKey) {
                 keyText = detectedKey;
+                isGuessed = true;
             }
         }
 
-        // Display title WITHOUT key
-        this.titleElement.textContent = titleText;
-
-        // Update key in footer
-        if (this.keyDisplay) {
-            const formattedKey = this.formatKeyText(keyText);
-            if (keyText.trim()) {
-                this.keyDisplay.textContent = formattedKey; // Key without brackets
-                this.keyDisplay.classList.remove('hidden');
-            } else {
-                this.keyDisplay.textContent = '';
-                this.keyDisplay.classList.add('hidden');
-            }
+        // Display title WITH key appended
+        const formattedKey = this.formatKeyText(keyText);
+        if (keyText.trim()) {
+            this.titleElement.textContent = `${titleText} (${formattedKey})`;
+        } else {
+            this.titleElement.textContent = titleText;
         }
 
         // Store original title without key for editing

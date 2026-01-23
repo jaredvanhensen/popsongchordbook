@@ -4778,28 +4778,6 @@ td:has(.row-edit-input.input-focused) {
     min-height: 0;
 }
 
-.song-detail-footer {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: clamp(11px, 1.65vh, 22px) clamp(15px, 3vw, 35px);
-    border-radius: 0 0 20px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: clamp(10px, 2vw, 20px);
-    flex-shrink: 0;
-}
-
-.song-detail-key-display {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 700;
-    font-size: clamp(14px, 1.8vh, 18px);
-    background: rgba(255, 255, 255, 0.15);
-    padding: 4px 12px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .song-chord-section {
     background: white;
     border: 2px solid var(--border-color);
