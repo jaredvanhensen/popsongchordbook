@@ -1042,9 +1042,14 @@ class SongDetailModal {
     }
 
     showUnsavedChangesDialog() {
+        // Re-fetch elements if they were not found during initialization (e.g. timing issues)
+        if (!this.confirmationModal) this.confirmationModal = document.getElementById('confirmationModal');
+        if (!this.confirmSaveBtn) this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
+        if (!this.confirmDontSaveBtn) this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
+
         return new Promise((resolve) => {
             if (!this.confirmationModal || !this.confirmSaveBtn || !this.confirmDontSaveBtn) {
-                // Fallback to confirm if elements are missing
+                // Fallback to confirm if elements are still missing
                 const result = confirm('You have unsaved changes. Do you want to save them first?');
                 resolve(result);
                 return;
