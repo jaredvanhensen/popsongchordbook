@@ -106,12 +106,58 @@ class SetlistManager {
 
     normalizeSetlists(setlists) {
         if (!Array.isArray(setlists)) return [];
-        return setlists.map(setlist => ({
+        const normalized = setlists.map(setlist => ({
             id: setlist.id || Date.now().toString() + Math.random(),
             name: setlist.name || 'Unnamed Setlist',
             songIds: Array.isArray(setlist.songIds) ? setlist.songIds : [],
             createdAt: setlist.createdAt || new Date().toISOString()
         }));
+
+        // Ensure "PRACTICE" setlist exists if not already present
+        const hasPractice = normalized.some(sl => sl.name.toUpperCase() === 'PRACTICE');
+        if (!hasPractice) {
+            normalized.push({
+                id: 'practice_setlist_id', // Stable ID for practice setlist
+                name: 'PRACTICE',
+                songIds: [],
+                createdAt: new Date().toISOString()
+            });
+        }
+        return normalized;
+    }
+
+    getPracticeSetlist() {
+        return this.setlists.find(sl => sl.name.toUpperCase() === 'PRACTICE');
+    }
+
+    isSongInPracticeSetlist(songId) {
+        const practiceSetlist = this.getPracticeSetlist();
+        return practiceSetlist ? practiceSetlist.songIds.includes(songId) : false;
+    }
+
+    async togglePracticeSong(songId) {
+        const practiceSetlist = this.getPracticeSetlist();
+        if (!practiceSetlist) {
+            // This shouldn't normally happen since normalizeSetlists ensures it
+            await this.createSetlist('PRACTICE');
+            return this.togglePracticeSong(songId);
+        }
+
+        const index = practiceSetlist.songIds.indexOf(songId);
+        if (index === -1) {
+            practiceSetlist.songIds.push(songId);
+        } else {
+            practiceSetlist.songIds.splice(index, 1);
+        }
+
+        await this.saveSetlists();
+
+        // Notify listeners
+        if (this.onSetlistsChanged) {
+            this.onSetlistsChanged();
+        }
+
+        return index === -1; // returns true if added, false if removed
     }
 
     // Set setlists (used for real-time sync from Firebase)

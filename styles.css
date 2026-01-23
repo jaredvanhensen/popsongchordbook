@@ -4496,6 +4496,16 @@ td:has(.row-edit-input.input-focused) {
     text-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
 }
 
+.song-detail-action-btn.practice-active {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+.song-detail-action-btn.practice-active:hover {
+    color: #f59e0b;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
+}
+
 .song-detail-action-btn.youtube-active {
     color: #ef4444;
     text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);

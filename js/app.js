@@ -21,7 +21,8 @@ class App {
             (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
             (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
             this.keyDetector,
-            (songId) => this.openAddToSetlistSingleModal(songId) // Pass Add to Setlist handler
+            (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
+            (songId) => this.handleTogglePractice(songId) // Pass Practice toggle handler
         );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
@@ -855,6 +856,10 @@ class App {
         this.loadAndRender();
     }
 
+    handleTogglePractice(songId) {
+        return this.setlistManager.togglePracticeSong(songId);
+    }
+
     setupSetlists() {
         this.updateSetlistSelect();
         this.setupSetlistSelect();
@@ -1473,7 +1478,9 @@ class App {
             if (this.tableRenderer) {
                 this.tableRenderer.selectRow(songId, true);
             }
+            const isInPractice = this.setlistManager.isSongInPracticeSetlist(songId);
             this.songDetailModal.show(song, false, isRandomMode);
+            this.songDetailModal.setPracticeState(isInPractice);
         }
     }
 

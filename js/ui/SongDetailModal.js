@@ -1,6 +1,6 @@
 // SongDetailModal - Modal voor song details weergave
 class SongDetailModal {
-    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null) {
+    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null) {
         this.songManager = songManager;
         this.onNavigate = onNavigate;
         this.onUpdate = onUpdate;
@@ -9,6 +9,7 @@ class SongDetailModal {
         this.onPlayYouTube = onPlayYouTube;
         this.keyDetector = keyDetector;
         this.onAddToSetlist = onAddToSetlist;
+        this.onTogglePractice = onTogglePractice;
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
@@ -20,6 +21,7 @@ class SongDetailModal {
         this.artistElement = document.getElementById('songDetailArtist');
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
+        this.practiceBtn = document.getElementById('songDetailPracticeBtn');
         this.youtubeBtn = document.getElementById('songDetailYouTubeBtn');
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
@@ -134,6 +136,16 @@ class SongDetailModal {
             this.favoriteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggleFavorite();
+            });
+        }
+
+        if (this.practiceBtn) {
+            this.practiceBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.onTogglePractice) {
+                    const isNowActive = this.onTogglePractice(this.currentSongId);
+                    this.setPracticeState(isNowActive);
+                }
             });
         }
 
@@ -1225,19 +1237,10 @@ class SongDetailModal {
             this.updateFavoriteButton(song.favorite || false);
         }
 
-        // Update YouTube button
-        if (this.youtubeBtn) {
-            this.updateYouTubeButton(song.youtubeUrl || '', song.externalUrl || '');
-        }
-
-        // Update YouTube Play button visibility
-        if (this.youtubePlayBtn) {
-            this.updateYouTubePlayButton(song.youtubeUrl || '');
-        }
-
-        // Update External URL button visibility
-        if (this.externalUrlBtn) {
-            this.updateExternalUrlButton(song.externalUrl || '');
+        // Update Practice button
+        if (this.practiceBtn) {
+            // State will be set by app.js through setPracticeState
+            // or we will check it here if onTogglePractice is available
         }
 
         // Hide save button
@@ -1421,6 +1424,15 @@ class SongDetailModal {
             this.favoriteBtn.classList.add('favorite-active');
         } else {
             this.favoriteBtn.classList.remove('favorite-active');
+        }
+    }
+
+    setPracticeState(isActive) {
+        if (!this.practiceBtn) return;
+        if (isActive) {
+            this.practiceBtn.classList.add('practice-active');
+        } else {
+            this.practiceBtn.classList.remove('practice-active');
         }
     }
 
