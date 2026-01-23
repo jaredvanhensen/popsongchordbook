@@ -4283,7 +4283,7 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 20px;
     width: 100%;
     max-width: 1200px;
-    max-height: calc(100vh - 30px);
+    height: calc(100vh - 30px);
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     animation: slideUp 0.3s ease;
