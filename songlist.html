@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.58">
+    <link rel="stylesheet" href="styles.css?v=1.59">
 </head>
 
 <body>
@@ -19,7 +19,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.58</span></span>
+                            id="site-version">1.59</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -771,6 +771,25 @@
                     <input type="url" id="externalUrlInput" placeholder="https://..." spellcheck="false"
                         autocorrect="off" autocapitalize="none" />
                 </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="patchDetailsInput">Patch Name & Number</label>
+                    <input type="text" id="patchDetailsInput" placeholder="e.g. Lead Synth - 04" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="practiceCountInput">Practice Count Teller</label>
+                    <input type="number" id="practiceCountInput" placeholder="0" min="0" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="performAbilitySelect">Perfom Ability</label>
+                    <select id="performAbilitySelect" class="filter-select">
+                        <option value="">Select Ability...</option>
+                        <option value="Good">Good</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Bad">Bad</option>
+                    </select>
+                </div>
                 <div class="modal-actions">
                     <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
                     <button id="youtubeUrlCancelBtn" class="modal-cancel-btn">Cancel</button>
@@ -870,14 +889,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=1.58"></script>
+    <script src="js/config/firebase-config.js?v=1.59"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=1.58"></script>
-    <script src="js/models/SetlistManager.js?v=1.58"></script>
+    <script src="js/models/SongManager.js?v=1.59"></script>
+    <script src="js/models/SetlistManager.js?v=1.59"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=1.58"></script>
-    <script src="js/utils/ChordDetector.js?v=1.58"></script>
+    <script src="js/utils/Sorter.js?v=1.59"></script>
+    <script src="js/utils/ChordDetector.js?v=1.59"></script>
     <script src="js/utils/KeyDetector.js?v=1.58"></script>
     <script src="js/utils/FirebaseManager.js?v=1.58"></script>
     <script src="js/utils/PianoAudioPlayer.js?v=1.58"></script>

@@ -36,6 +36,9 @@ class SongDetailModal {
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
         this.youtubeUrlCancelBtn = document.getElementById('youtubeUrlCancelBtn');
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
+        this.patchDetailsInput = document.getElementById('patchDetailsInput');
+        this.practiceCountInput = document.getElementById('practiceCountInput');
+        this.performAbilitySelect = document.getElementById('performAbilitySelect');
 
         // Confirmation Modal
         this.confirmationModal = document.getElementById('confirmationModal');
@@ -1438,6 +1441,18 @@ class SongDetailModal {
             this.externalUrlInput.value = song.externalUrl || '';
         }
 
+        if (this.patchDetailsInput) {
+            this.patchDetailsInput.value = song.patchDetails || '';
+        }
+
+        if (this.practiceCountInput) {
+            this.practiceCountInput.value = song.practiceCount || '';
+        }
+
+        if (this.performAbilitySelect) {
+            this.performAbilitySelect.value = song.performAbility || '';
+        }
+
         // Show modal
         this.youtubeUrlModal.classList.remove('hidden');
 
@@ -1463,6 +1478,15 @@ class SongDetailModal {
         if (this.externalUrlInput) {
             this.externalUrlInput.value = '';
         }
+        if (this.patchDetailsInput) {
+            this.patchDetailsInput.value = '';
+        }
+        if (this.practiceCountInput) {
+            this.practiceCountInput.value = '';
+        }
+        if (this.performAbilitySelect) {
+            this.performAbilitySelect.value = '';
+        }
     }
 
     saveYouTubeUrl() {
@@ -1473,12 +1497,18 @@ class SongDetailModal {
         const key = this.songKeyInput ? this.songKeyInput.value.trim() : '';
         const youtubeUrl = this.youtubeUrlInput ? this.youtubeUrlInput.value.trim() : '';
         const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
+        const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
+        const practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '';
+        const performAbility = this.performAbilitySelect ? this.performAbilitySelect.value : '';
 
         // Update song
         this.songManager.updateSong(this.currentSongId, {
             key: key,
             youtubeUrl: youtubeUrl,
-            externalUrl: externalUrl
+            externalUrl: externalUrl,
+            patchDetails: patchDetails,
+            practiceCount: practiceCount,
+            performAbility: performAbility
         });
 
         // Update title display with key
