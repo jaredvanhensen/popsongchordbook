@@ -1239,8 +1239,22 @@ class SongDetailModal {
 
         // Update Practice button
         if (this.practiceBtn) {
-            // State will be set by app.js through setPracticeState
-            // or we will check it here if onTogglePractice is available
+            this.practiceBtn.classList.remove('practice-active');
+        }
+
+        // Update YouTube button
+        if (this.youtubeBtn) {
+            this.updateYouTubeButton(song.youtubeUrl || '', song.externalUrl || '');
+        }
+
+        // Update YouTube Play button visibility
+        if (this.youtubePlayBtn) {
+            this.updateYouTubePlayButton(song.youtubeUrl || '');
+        }
+
+        // Update External URL button visibility
+        if (this.externalUrlBtn) {
+            this.updateExternalUrlButton(song.externalUrl || '');
         }
 
         // Hide save button
@@ -1407,6 +1421,23 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (song) {
             this.updateFavoriteButton(song.favorite || false);
+        }
+    }
+
+    updateFavoriteButton(isFavorite) {
+        if (!this.favoriteBtn) return;
+        const iconSpan = this.favoriteBtn.querySelector('.icon');
+        if (iconSpan) {
+            iconSpan.textContent = isFavorite ? '⭐' : '☆';
+        } else {
+            // Fallback for if structure is not yet set up
+            this.favoriteBtn.innerHTML = isFavorite ? '⭐' : '☆';
+        }
+        this.favoriteBtn.title = isFavorite ? 'Remove from favorites' : 'Add to favorites';
+        if (isFavorite) {
+            this.favoriteBtn.classList.add('favorite-active');
+        } else {
+            this.favoriteBtn.classList.remove('favorite-active');
         }
     }
 
