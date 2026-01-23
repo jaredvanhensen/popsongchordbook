@@ -1,6 +1,6 @@
 // SongDetailModal - Modal voor song details weergave
 class SongDetailModal {
-    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null) {
+    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null) {
         this.songManager = songManager;
         this.onNavigate = onNavigate;
         this.onUpdate = onUpdate;
@@ -10,6 +10,7 @@ class SongDetailModal {
         this.keyDetector = keyDetector;
         this.onAddToSetlist = onAddToSetlist;
         this.onTogglePractice = onTogglePractice;
+        this.isPracticeChecker = isPracticeChecker;
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
@@ -140,10 +141,10 @@ class SongDetailModal {
         }
 
         if (this.practiceBtn) {
-            this.practiceBtn.addEventListener('click', (e) => {
+            this.practiceBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 if (this.onTogglePractice) {
-                    const isNowActive = this.onTogglePractice(this.currentSongId);
+                    const isNowActive = await this.onTogglePractice(this.currentSongId);
                     this.setPracticeState(isNowActive);
                 }
             });
@@ -208,7 +209,6 @@ class SongDetailModal {
 
         if (this.transposeDownBtn) {
             this.transposeDownBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
                 e.stopPropagation();
                 this.transposeChords(-1);
             });
@@ -1237,9 +1237,10 @@ class SongDetailModal {
             this.updateFavoriteButton(song.favorite || false);
         }
 
-        // Update Practice button
+        // Update Practice button state
         if (this.practiceBtn) {
-            this.practiceBtn.classList.remove('practice-active');
+            const isPractice = this.isPracticeChecker ? this.isPracticeChecker(song.id) : false;
+            this.setPracticeState(isPractice);
         }
 
         // Update YouTube button
@@ -1441,22 +1442,6 @@ class SongDetailModal {
         }
     }
 
-    updateFavoriteButton(isFavorite) {
-        if (!this.favoriteBtn) return;
-        const iconSpan = this.favoriteBtn.querySelector('.icon');
-        if (iconSpan) {
-            iconSpan.textContent = isFavorite ? '⭐' : '☆';
-        } else {
-            // Fallback for if structure is not yet set up
-            this.favoriteBtn.innerHTML = isFavorite ? '⭐' : '☆';
-        }
-        this.favoriteBtn.title = isFavorite ? 'Remove from favorites' : 'Add to favorites';
-        if (isFavorite) {
-            this.favoriteBtn.classList.add('favorite-active');
-        } else {
-            this.favoriteBtn.classList.remove('favorite-active');
-        }
-    }
 
     setPracticeState(isActive) {
         if (!this.practiceBtn) return;

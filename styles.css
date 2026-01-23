@@ -1302,6 +1302,12 @@ table.simple-view tbody tr td:nth-child(8) {
     display: none !important;
 }
 
+.song-detail-action-btn .icon,
+.transpose-menu-item .icon {
+    pointer-events: none;
+    /* Ensure clicks register on the button element */
+}
+
 /* Smaller font size and padding in simple view to show more songs on screen */
 table.simple-view tbody tr td {
     font-size: 0.8em;
@@ -4398,15 +4404,18 @@ td:has(.row-edit-input.input-focused) {
     background: transparent;
     border: none;
     color: white;
-    padding: 8px 12px;
+    padding: 12px 16px;
+    /* Increased padding for better touch target on mobile */
     text-align: left;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    /* Increased gap */
     width: 100%;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    /* Increased font size */
     transition: background 0.2s;
     white-space: nowrap;
 }
@@ -5044,7 +5053,7 @@ td:has(.row-edit-input.input-focused) {
         border-radius: 0;
         flex-shrink: 0;
         box-sizing: border-box;
-        overflow: hidden;
+        /* overflow: hidden removed to prevent clipping of transpose menu */
     }
 
     .song-detail-prev {

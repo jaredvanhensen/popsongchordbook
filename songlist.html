@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.59">
+    <link rel="stylesheet" href="styles.css?v=1.62">
 </head>
 
 <body>
@@ -19,7 +19,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.60</span></span>
+                            id="site-version">1.62</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -666,17 +666,11 @@
                     <button id="songDetailPracticeBtn" class="song-detail-action-btn with-label"
                         title="Add to Practice list">
                         <span class="icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22"
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="22"
                                 height="22" style="vertical-align: middle;">
                                 <path
-                                    d="M6 8C7.10457 8 8 8.89543 8 10V14C8 15.1046 7.10457 16 6 16C4.89543 16 4 15.1046 4 14V10C4 8.89543 4.89543 8 6 8Z"
-                                    fill="currentColor" />
-                                <path
-                                    d="M18 8C19.1046 8 20 8.89543 20 10V14C20 15.1046 19.1046 16 18 16C16.8954 16 16 15.1046 16 14V10C16 8.89543 16.8954 8 18 8Z"
-                                    fill="currentColor" />
-                                <path d="M8 12H16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                                <path d="M3 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                <path d="M21 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    d="M22.696,15.067 C23.001,13.911 22.842,12.673 22.253,11.626 C21.664,10.559 20.697,9.771 19.537,9.417 C19.387,9.371 19.23,9.349 19.073,9.349 C18.337,9.349 17.653,9.752 17.294,10.395 L14.945,14.605 L12.022,11.682 C11.534,11.194 10.74,11.194 10.252,11.682 C9.764,12.17 9.764,12.964 10.252,13.452 L13.175,16.375 L11.458,19.453 C11.099,20.096 11.157,20.887 11.605,21.468 L14.475,25.21 C14.786,25.615 15.266,25.851 15.775,25.851 C15.823,25.851 15.871,25.849 15.919,25.844 C16.48,25.792 16.969,25.432 17.202,24.918 L19.467,19.957 C19.585,19.699 19.839,19.533 20.122,19.533 C20.187,19.533 20.253,19.541 20.318,19.558 C21.478,19.863 22.716,19.704 23.773,19.115 C24.83,18.526 25.618,17.559 25.972,16.399 L22.696,15.067 Z"
+                                    transform="scale(0.85) translate(2, -2)" />
                             </svg>
                         </span>
                         <span class="label">Practice</span>
@@ -907,33 +901,33 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=1.59"></script>
+    <script src="js/config/firebase-config.js?v=1.62"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=1.59"></script>
-    <script src="js/models/SetlistManager.js?v=1.59"></script>
+    <script src="js/models/SongManager.js?v=1.62"></script>
+    <script src="js/models/SetlistManager.js?v=1.62"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=1.59"></script>
-    <script src="js/utils/ChordDetector.js?v=1.59"></script>
-    <script src="js/utils/KeyDetector.js?v=1.58"></script>
-    <script src="js/utils/FirebaseManager.js?v=1.58"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=1.58"></script>
+    <script src="js/utils/Sorter.js?v=1.62"></script>
+    <script src="js/utils/ChordDetector.js?v=1.62"></script>
+    <script src="js/utils/KeyDetector.js?v=1.62"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.62"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.62"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=1.58"></script>
-    <script src="js/ui/SongDetailModal.js?v=1.58"></script>
-    <script src="js/ui/TableRenderer.js?v=1.58"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=1.58"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=1.58"></script>
-    <script src="js/ui/ChordFinderModal.js?v=1.58"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=1.58"></script>
-    <script src="js/ui/AuthModal.js?v=1.58"></script>
-    <script src="js/ui/ProfileModal.js?v=1.58"></script>
-    <script src="js/ui/ShareSongsModal.js?v=1.58"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=1.58"></script>
+    <script src="js/ui/ChordModal.js?v=1.62"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.62"></script>
+    <script src="js/ui/TableRenderer.js?v=1.62"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.62"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.62"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.62"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.62"></script>
+    <script src="js/ui/AuthModal.js?v=1.62"></script>
+    <script src="js/ui/ProfileModal.js?v=1.62"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.62"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.62"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=1.58"></script>
+    <script src="js/data/default_songs.js?v=1.62"></script>
     <!-- Main App -->
-    <script src="js/app.js?v=1.58"></script>
+    <script src="js/app.js?v=1.62"></script>
 </body>
 
 </html>

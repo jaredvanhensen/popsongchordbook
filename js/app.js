@@ -22,7 +22,8 @@ class App {
             (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
             this.keyDetector,
             (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
-            (songId) => this.handleTogglePractice(songId) // Pass Practice toggle handler
+            (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
+            (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
         );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
@@ -61,7 +62,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v0.91)");
+        console.log("Pop Song Chord Book - App Initialized (v1.62)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
