@@ -23,6 +23,7 @@ class SongDetailModal {
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
+        this.keyDisplay = document.getElementById('songDetailKeyDisplay');
         this.youtubeBtn = document.getElementById('songDetailYouTubeBtn');
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
@@ -47,7 +48,6 @@ class SongDetailModal {
         this.confirmationModal = document.getElementById('confirmationModal');
         this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
         this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
-        // this.keyDisplay = document.getElementById('songDetailKeyDisplay'); // Removed
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
@@ -1054,6 +1054,10 @@ class SongDetailModal {
         if (this.onUpdate) {
             this.onUpdate();
         }
+
+        // Update relevant UI parts
+        this.updateYouTubeButton();
+        this.updateKeyDisplay();
     }
 
     showUnsavedChangesDialog() {
@@ -1207,13 +1211,11 @@ class SongDetailModal {
                 }
             }
 
-            // Display title WITH key appended
-            const formattedKey = this.formatKeyText(keyText);
-            if (keyText.trim()) {
-                this.titleElement.textContent = `${titleText} (${formattedKey})`;
-            } else {
-                this.titleElement.textContent = titleText;
-            }
+            // Display title
+            this.titleElement.textContent = titleText;
+
+            // Update Key Display in Footer
+            this.updateKeyDisplay();
 
             // Store original title without key for editing
             this.titleElement.dataset.originalTitle = titleText;
@@ -1556,35 +1558,34 @@ class SongDetailModal {
         }
     }
 
-    updateTitleWithKey() {
-        if (!this.titleElement || !this.currentSongId) return;
+    /**
+     * Updates the key display in the footer
+     */
+    updateKeyDisplay() {
+        if (!this.keyDisplay || !this.currentSongId) return;
 
         const song = this.songManager.getSongById(this.currentSongId);
-        if (!song) return;
+        if (!song) {
+            this.keyDisplay.textContent = '';
+            return;
+        }
 
-        const titleText = song.title || '';
         let keyText = song.key || '';
-        let isGuessed = false;
 
         // If no explicit key, try to detect it
         if (!keyText.trim() && this.keyDetector) {
             const detectedKey = this.keyDetector.detectFromSong(song);
             if (detectedKey) {
                 keyText = detectedKey;
-                isGuessed = true;
             }
         }
 
-        // Display title WITH key appended
         const formattedKey = this.formatKeyText(keyText);
-        if (keyText.trim()) {
-            this.titleElement.textContent = `${titleText} (${formattedKey})`;
+        if (formattedKey.trim()) {
+            this.keyDisplay.textContent = formattedKey;
         } else {
-            this.titleElement.textContent = titleText;
+            this.keyDisplay.textContent = '';
         }
-
-        // Store original title without key for editing
-        this.titleElement.dataset.originalTitle = titleText;
     }
 
     updateYouTubeButton(youtubeUrl, externalUrl) {

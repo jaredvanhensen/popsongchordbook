@@ -4766,6 +4766,34 @@ td:has(.row-edit-input.input-focused) {
     transform: scale(0.95);
 }
 
+.song-detail-footer {
+    margin-top: 15px;
+    border-top: 1px solid var(--border-color);
+    padding: clamp(12px, 2vh, 25px) clamp(15px, 3vw, 35px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    border-radius: 0 0 12px 12px;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.song-detail-key-badge {
+    background: var(--accent-primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: none;
+    /* Hidden by default, shown when key exists */
+}
+
+.song-detail-key-badge:not(:empty) {
+    display: inline-block;
+}
+
 .song-detail-body {
     padding: clamp(8px, 1.5vh, 18px) clamp(12px, 2.5vw, 35px);
     display: flex;
