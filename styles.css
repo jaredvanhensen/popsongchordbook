@@ -5018,7 +5018,7 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-modal-content {
         max-width: calc(100vw - 20px);
-        max-height: calc(100vh - 20px);
+        height: calc(100vh - 20px);
     }
 
     .song-detail-header {
@@ -5064,7 +5064,6 @@ td:has(.row-edit-input.input-focused) {
         width: 100%;
         height: 100%;
         max-width: 100%;
-        max-height: 100%;
         border-radius: 0;
         margin: 0;
         overflow: visible;
