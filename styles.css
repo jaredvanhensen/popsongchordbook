@@ -5037,6 +5037,8 @@ td:has(.row-edit-input.input-focused) {
         max-height: 100%;
         border-radius: 0;
         margin: 0;
+        overflow: visible;
+        /* Ensure absolute children aren't clipped */
     }
 
     .song-detail-header {
@@ -5054,6 +5056,8 @@ td:has(.row-edit-input.input-focused) {
         flex-shrink: 0;
         box-sizing: border-box;
         /* overflow: hidden removed to prevent clipping of transpose menu */
+        z-index: 1001;
+        /* Stay above body content */
     }
 
     .song-detail-prev {
