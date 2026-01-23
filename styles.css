@@ -2372,6 +2372,10 @@ td:has(.row-edit-input.input-focused) {
     overflow-y: auto;
 }
 
+#confirmationModal {
+    z-index: 5000;
+}
+
 /* Profile modal container - ensure it stays within viewport */
 #profileModal {
     align-items: flex-start;
@@ -2399,6 +2403,7 @@ td:has(.row-edit-input.input-focused) {
 
 .confirmation-modal-content {
     max-width: 350px;
+    z-index: 5001;
 }
 
 .modal-actions-horizontal {
