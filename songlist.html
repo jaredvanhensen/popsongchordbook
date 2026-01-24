@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.93</span></span>
+                            id="site-version">1.94</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -253,7 +253,7 @@
     </div>
 
     <!-- Auth Modal -->
-    <div id="authModal" class="modal auth-modal" style="z-index: 4001;">
+    <div id="authModal" class="modal auth-modal" style="z-index: 999999;">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="authModalTitle">Login</h3>
@@ -288,8 +288,9 @@
                 <div id="authGuestSection">
                     <button type="button" id="authLocalOnlyBtn" class="modal-submit-btn auth-local-btn"
                         style="background-color: #475569; color: #ffffff; border: none; margin: 10px 0 20px;"
-                        onclick="if(window.appInstance) { window.appInstance.forceGuestLogin(); } else { alert('App not ready'); }">GUEST
-                        login</button>
+                        onclick="this.style.backgroundColor='red'; this.innerText='WORKING...'; if(window.appInstance) { window.appInstance.forceGuestLogin(); } else { alert('CRITICAL: App Logic Not Loaded'); }">
+                        GUEST login
+                    </button>
                 </div>
 
                 <!-- Create Account Form -->
