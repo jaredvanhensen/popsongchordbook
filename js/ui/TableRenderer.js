@@ -108,7 +108,8 @@ class TableRenderer {
         }
 
         // Hide favorite button for guests
-        if (this.songManager.firebaseManager.isGuest()) {
+        const isGuest = this.songManager && this.songManager.firebaseManager && this.songManager.firebaseManager.isGuest && this.songManager.firebaseManager.isGuest();
+        if (isGuest) {
             favoriteBtn.style.display = 'none';
         }
 
@@ -152,7 +153,7 @@ class TableRenderer {
         deleteBtn.title = 'Delete';
 
         // Hide delete button for guests
-        if (this.songManager.firebaseManager.isGuest()) {
+        if (isGuest) {
             deleteBtn.style.display = 'none';
         }
 

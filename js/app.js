@@ -12,6 +12,10 @@ class App {
             this.songManager = new SongManager(this.firebaseManager);
             this.setlistManager = new SetlistManager(this.firebaseManager);
 
+            console.log('App: Dependency injection complete');
+            console.log('App: firebaseManager exists:', !!this.firebaseManager);
+            console.log('App: songManager.firebaseManager exists:', !!(this.songManager && this.songManager.firebaseManager));
+
             // Initialize Firebase auth listener (for non-local modes)
             this.sorter = new Sorter();
             this.keyDetector = new KeyDetector();
@@ -69,7 +73,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.878)");
+        console.log("Pop Song Chord Book - App Initialized (v1.879)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
@@ -188,9 +192,12 @@ class App {
         }
 
         // Enforce guest UI restrictions
-        if (this.firebaseManager.isLocalOnly()) {
+        const isLocalOnly = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
+        const isGuest = this.firebaseManager && this.firebaseManager.isGuest && this.firebaseManager.isGuest();
+
+        if (isLocalOnly) {
             this.applyLocalGuestSettings();
-        } else if (this.firebaseManager.isGuest()) {
+        } else if (isGuest) {
             this.applyGuestRestrictions();
         }
 

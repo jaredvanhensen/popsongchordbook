@@ -410,7 +410,8 @@ class SongDetailModal {
 
     setupEditableFields() {
         // If guest, don't setup editing
-        if (this.songManager.firebaseManager.isGuest()) {
+        const isGuest = this.songManager && this.songManager.firebaseManager && this.songManager.firebaseManager.isGuest && this.songManager.firebaseManager.isGuest();
+        if (isGuest) {
             console.log('Guest user: Editing disabled in SongDetailModal');
             return;
         }
