@@ -220,7 +220,8 @@ class App {
             const isLocalOnlyApp = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
             if (isLocalOnlyApp) {
                 console.log('initializeApp: Loading in Local Mode');
-                // Data is already being loaded by SongManager/SetlistManager fallbacks
+                // Ensure default songs are loaded if storage is empty
+                await this.seedDefaultData();
             } else {
                 // Load data from Firebase
                 await this.loadDataFromFirebase();
