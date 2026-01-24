@@ -1881,9 +1881,6 @@ class SongDetailModal {
     }
 
     async hide() {
-        // Force a check for changes to ensure state is up to date
-        this.checkForChanges();
-
         const songIdToCheck = this.currentSongId;
         const originalDataSnapshot = this.originalSongData ? { ...this.originalSongData } : null;
 
