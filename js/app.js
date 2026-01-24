@@ -1,20 +1,28 @@
+// Global error catcher to debug silent crashes
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+    alert('GLOBAL ERROR CAUGHT:\n' + msg + '\nFile: ' + url + '\nLine: ' + lineNo + '\nError: ' + (error ? error.stack : 'N/A'));
+    return false;
+};
+
+alert('V1.883: SCRIPT LOADED');
+
 // Main Application
 class App {
     constructor() {
-        alert('DEBUG: App constructor starting...');
+        alert('V1.883: App constructor starting...');
         try {
-            alert('TR 1: FirebaseManager created');
+            alert('V1.883: TR 1: FirebaseManager creating...');
             this.firebaseManager = new FirebaseManager();
-            alert('TR 2: Managers creating...');
+            alert('V1.883: TR 2: Managers creating...');
             this.songManager = new SongManager(this.firebaseManager);
             this.setlistManager = new SetlistManager(this.firebaseManager);
-            alert('TR 3: Secondary logic starting...');
+            alert('V1.883: TR 3: Secondary logic starting...');
 
             // Initialize Firebase auth listener (for non-local modes)
             this.sorter = new Sorter();
             this.keyDetector = new KeyDetector();
             this.chordModal = new ChordModal();
-            alert('TR 4: Modals starting...');
+            alert('V1.883: TR 4: Modals starting...');
             this.songDetailModal = new SongDetailModal(
                 this.songManager,
                 (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
@@ -27,7 +35,7 @@ class App {
                 (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
                 (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
             );
-            alert('TR 5: Overlay starting...');
+            alert('V1.883: TR 5: Overlay starting...');
             this.chordDetectorOverlay = new ChordDetectorOverlay();
             this.currentFilter = {
                 favorites: false,
@@ -43,7 +51,7 @@ class App {
             this.lastAddSongsSetlistId = null;
             this.viewMode = 'full'; // 'simple' or 'full'
 
-            alert('TR 6: TableRenderer starting...');
+            alert('V1.883: TR 6: TableRenderer starting...');
             this.tableRenderer = new TableRenderer(
                 this.songManager,
                 (songId) => this.handleRowSelect(songId),
@@ -55,7 +63,7 @@ class App {
                 this.keyDetector
             );
 
-            alert('TR 7: Calling init()...');
+            alert('V1.883: TR 7: Calling init()...');
             this.init();
         } catch (error) {
             console.error('CRITICAL: App constructor failed:', error);
@@ -73,7 +81,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.882)");
+        console.log("Pop Song Chord Book - App Initialized (v1.883)");
 
         // 1. Check for persistent Local-Guest mode first
         const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
