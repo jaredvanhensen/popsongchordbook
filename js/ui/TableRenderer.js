@@ -106,6 +106,12 @@ class TableRenderer {
         if (song.favorite) {
             favoriteBtn.classList.add('favorite-active');
         }
+
+        // Hide favorite button for guests
+        if (this.songManager.firebaseManager.isGuest()) {
+            favoriteBtn.style.display = 'none';
+        }
+
         favoriteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (this.onToggleFavorite) {
@@ -144,6 +150,12 @@ class TableRenderer {
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = '🗑️';
         deleteBtn.title = 'Delete';
+
+        // Hide delete button for guests
+        if (this.songManager.firebaseManager.isGuest()) {
+            deleteBtn.style.display = 'none';
+        }
+
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (confirm(`Are you sure you want to delete "${song.title || 'this song'}"?`)) {

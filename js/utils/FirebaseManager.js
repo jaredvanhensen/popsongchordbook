@@ -145,6 +145,27 @@ class FirebaseManager {
         }
     }
 
+    async signInAnonymously() {
+        if (!this.initialized) {
+            await this.initialize();
+        }
+
+        try {
+            const userCredential = await this.auth.signInAnonymously();
+            this.currentUser = userCredential.user;
+            return {
+                success: true,
+                user: userCredential.user
+            };
+        } catch (error) {
+            console.error('Anonymous sign in error:', error);
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+
     async signIn(email, password) {
         if (!this.initialized) {
             await this.initialize();
@@ -391,11 +412,20 @@ class FirebaseManager {
         return this.currentUser !== null;
     }
 
+    isGuest() {
+        return this.currentUser !== null && this.currentUser.isAnonymous;
+    }
+
     // Database Methods
 
     async saveSongs(userId, songs) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
+        }
+
+        if (this.isGuest()) {
+            console.warn('Write operation blocked: Guest user cannot save songs to database.');
+            return { success: false, error: 'Gasten kunnen geen wijzigingen opslaan.' };
         }
 
         try {
@@ -439,6 +469,11 @@ class FirebaseManager {
     async saveSetlists(userId, setlists) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
+        }
+
+        if (this.isGuest()) {
+            console.warn('Write operation blocked: Guest user cannot save setlists to database.');
+            return { success: false, error: 'Gasten kunnen geen wijzigingen opslaan.' };
         }
 
         try {
@@ -635,6 +670,11 @@ class FirebaseManager {
             throw new Error('Firebase not initialized or recipient not specified');
         }
 
+        if (this.isGuest()) {
+            console.warn('Write operation blocked: Guest user cannot share songs.');
+            throw new Error('Gasten kunnen geen songs delen.');
+        }
+
         try {
             const pendingRef = this.database.ref(`users/${recipientUserId}/pendingSongs`);
             const pendingObject = {};
@@ -689,6 +729,10 @@ class FirebaseManager {
             throw new Error('Firebase not initialized or user not authenticated');
         }
 
+        if (this.isGuest()) {
+            throw new Error('Gasten kunnen geen songs accepteren.');
+        }
+
         try {
             // Load pending songs
             const pendingSongs = await this.loadPendingSongs(userId);
@@ -730,6 +774,10 @@ class FirebaseManager {
     async deletePendingSongs(userId, pendingIds) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
+        }
+
+        if (this.isGuest()) {
+            throw new Error('Gasten kunnen geen songs verwijderen.');
         }
 
         try {

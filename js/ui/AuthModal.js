@@ -32,10 +32,21 @@ class AuthModal {
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
 
+        // Guest element
+        this.guestBtn = document.getElementById('authGuestLoginBtn');
+
         this.setupEventListeners();
     }
 
     setupEventListeners() {
+        // Guest login
+        if (this.guestBtn) {
+            this.guestBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleGuestLogin();
+            });
+        }
+
         // Login form
         if (this.loginBtn) {
             this.loginBtn.addEventListener('click', (e) => {
@@ -221,6 +232,32 @@ class AuthModal {
         }
     }
 
+    async handleGuestLogin() {
+        // Show loading state
+        this.setGuestLoading(true);
+        this.clearErrors();
+
+        try {
+            const result = await this.firebaseManager.signInAnonymously();
+
+            if (result.success) {
+                this.clearErrors();
+                this.allowHide = true;
+                this.hide();
+                if (this.onAuthSuccess) {
+                    this.onAuthSuccess(result.user);
+                }
+            } else {
+                this.showLoginError(result.error || 'Guest login failed.');
+            }
+        } catch (error) {
+            console.error('Guest login error:', error);
+            this.showLoginError('An error occurred. Please try again.');
+        } finally {
+            this.setGuestLoading(false);
+        }
+    }
+
     async handleLogin() {
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
@@ -366,6 +403,17 @@ class AuthModal {
         if (this.createErrorMsg) {
             this.createErrorMsg.textContent = '';
             this.createErrorMsg.classList.add('hidden');
+        }
+    }
+
+    setGuestLoading(loading) {
+        if (this.guestBtn) {
+            this.guestBtn.disabled = loading;
+            if (loading) {
+                this.guestBtn.textContent = 'Entering...';
+            } else {
+                this.guestBtn.textContent = 'Continue as Guest (Read-only)';
+            }
         }
     }
 

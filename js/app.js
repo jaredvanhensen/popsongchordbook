@@ -152,6 +152,11 @@ class App {
             this.updatePendingSongsCount(count);
         });
 
+        // Enforce guest UI restrictions
+        if (this.firebaseManager.isGuest()) {
+            this.applyGuestRestrictions();
+        }
+
         // Load and render songs (no default songs for new users)
         this.loadAndRender();
 
@@ -161,6 +166,50 @@ class App {
             versionEl.style.cursor = 'pointer';
             versionEl.title = 'Click for Diagnostics';
             versionEl.addEventListener('click', () => this.runDiagnostics());
+        }
+    }
+
+    applyGuestRestrictions() {
+        console.log('Applying guest restrictions (Read-only mode)');
+
+        // Buttons to hide
+        const elementsToHide = [
+            'addSongBtn',
+            'importFile',
+            'deleteAllSongsBtn',
+            'createSetlistBtn',
+            'editSetlistBtn',
+            'deleteSetlistBtn',
+            'profileShareSongsBtn',
+            'profileAcceptSongsBtn'
+        ];
+
+        // Also labels/containers for import/export if needed
+        const labelsToHide = document.querySelectorAll('label[for="importFile"]');
+        labelsToHide.forEach(label => label.classList.add('hidden'));
+
+        elementsToHide.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
+
+        // Disable editing in TableRenderer
+        if (this.tableRenderer) {
+            // We can prevent enterEditMode by checking guest state
+            // or simply disabling the double click listener if it had one (it uses single click for select)
+            // The cells have 'editable' class, which we can remove or ignore
+            const editableCells = document.querySelectorAll('.editable');
+            editableCells.forEach(cell => cell.classList.remove('editable'));
+        }
+
+        // Update profile label to show "Guest"
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            const label = profileBtn.querySelector('.label');
+            if (label) {
+                const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
+                label.innerHTML = `<span>GUEST</span> ${songCountHtml}`;
+            }
         }
     }
 
