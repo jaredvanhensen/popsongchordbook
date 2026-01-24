@@ -73,7 +73,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.872)");
+        console.log("Pop Song Chord Book - App Initialized (v1.873)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
@@ -89,19 +89,27 @@ class App {
         // and we haven't verified a Firebase session.
         this.handleAuthFailure();
 
-        // 4. Initialize Firebase in background
-        try {
-            await this.firebaseManager.initialize();
+        // 4. Safety timeout - remove overlay after 3 seconds even if Firebase hangs
+        setTimeout(() => {
+            console.log("Initialization safety timeout reached");
+            this.removeInitOverlay();
+        }, 3000);
 
-            // 5. Setup auth state listener for automatic session restoration
+        // 5. Initialize Firebase in background
+        try {
+            console.log("Starting Firebase initialization...");
+            await this.firebaseManager.initialize();
+            console.log("Firebase initialized");
+
+            // 6. Setup auth state listener for automatic session restoration
             this.firebaseManager.onAuthStateChanged((user) => {
                 if (user && !this.isAuthenticated) {
                     console.log("Firebase session restored");
                     this.handleAuthSuccess(user);
                     if (this.authModal) this.authModal.hide();
                 } else if (!user && !this.isAuthenticated) {
-                    // No session found - we are already showing auth modal from handleAuthFailure()
-                    // Just remove the initialization overlay
+                    console.log("No Firebase session found");
+                    // Just ensure overlay is gone
                     this.removeInitOverlay();
                 }
             });
