@@ -1370,7 +1370,8 @@ class SongDetailModal {
         }
 
         // Apply guest restrictions
-        if (this.songManager.firebaseManager.isGuest()) {
+        const isGuest = this.songManager && this.songManager.firebaseManager && this.songManager.firebaseManager.isGuest && this.songManager.firebaseManager.isGuest();
+        if (isGuest) {
             const guestHiddenElements = [
                 this.deleteBtn,
                 this.youtubeBtn, // Edit Details button

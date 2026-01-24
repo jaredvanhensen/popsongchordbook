@@ -61,6 +61,7 @@ class App {
             this.init();
         } catch (error) {
             console.error('CRITICAL: App constructor failed:', error);
+            alert('CRITICAL: App constructor failed: ' + error.message + '\n\nPlease report this error.');
             this.removeInitOverlay();
         }
     }
@@ -73,10 +74,11 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.879)");
+        console.log("Pop Song Chord Book - App Initialized (v1.880)");
 
         // 1. Check for persistent Local-Guest mode first
-        if (this.firebaseManager.isLocalOnly()) {
+        const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
+        if (isLocalOnlyStart) {
             console.log("Restoring persistent Local Mode");
             this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
             return;
@@ -172,7 +174,8 @@ class App {
         this.setupCreateSongModal();
 
         // Load data - either from Firebase or Local
-        if (this.firebaseManager.isLocalOnly()) {
+        const isLocalOnlyApp = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
+        if (isLocalOnlyApp) {
             console.log('initializeApp: Loading in Local Mode');
             // Data is already being loaded by SongManager/SetlistManager fallbacks
         } else {
