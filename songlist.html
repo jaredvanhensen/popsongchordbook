@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.97</span></span>
+                            id="site-version">1.98</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -287,8 +287,9 @@
 
                 <div id="authGuestSection">
                     <button type="button" id="authLocalOnlyBtn" class="modal-submit-btn auth-local-btn"
-                        style="background-color: #475569; color: #ffffff; border: none; margin: 10px 0 20px;">
-                        GUEST login
+                        style="background-color: #475569; color: #ffffff; border: none; margin: 10px 0 20px;"
+                        onclick="nuclearGuestLogin()">
+                        GUEST login (Direct)
                     </button>
                 </div>
 
@@ -966,7 +967,62 @@
     <!-- Data -->
     <script src="js/data/default_songs.js?v=1.91"></script>
     <!-- Main App -->
-    <script src="js/app-v1.97.js?v=1.97"></script>
+    <script src="js/app-v1.98.js?v=1.98"></script>
+
+    <!-- NUCLEAR FAILSAFE SCRIPT -->
+    <script>
+        function nuclearGuestLogin() {
+            console.log("NUCLEAR GUEST LOGIN TRIGGERED");
+            const btn = document.getElementById('authLocalOnlyBtn');
+            if (btn) {
+                btn.style.backgroundColor = 'red';
+                btn.innerText = 'ENTERING...';
+            }
+
+            // 1. Force Local Mode logic
+            try {
+                localStorage.setItem('localOnlyMode', 'true');
+                console.log("Local Mode flag set.");
+            } catch (e) {
+                alert("Storage Error: " + e);
+            }
+
+            // 2. Destroy Overlays
+            const idsToHide = ['initOverlay', 'authModal', 'chordDetectorOverlay'];
+            idsToHide.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = 'none';
+                    el.classList.add('hidden');
+                }
+            });
+
+            // 3. Show Main Container
+            const main = document.getElementById('mainContainer');
+            if (main) {
+                main.style.display = 'block';
+                main.style.opacity = '1';
+                main.style.pointerEvents = 'auto'; // Force interaction
+            }
+
+            // 4. Notify App if alive (to load songs)
+            if (window.appInstance) {
+                console.log("App Instance found, triggering success...");
+                // Force seed defaults if needed
+                if (window.appInstance.seedDefaultData) {
+                    window.appInstance.seedDefaultData().then(() => {
+                        window.appInstance.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+                    });
+                } else {
+                    window.appInstance.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+                }
+            } else {
+                alert("App not loaded, but UI unlocked. Please refresh if empty.");
+                // Check if we need to reload to force app init in local mode
+                // window.location.reload(); 
+            }
+        }
+    </script>
 
     <!-- Inline Failsafe: Check if App Loaded -->
     <script>
