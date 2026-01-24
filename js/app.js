@@ -4,14 +4,19 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
     return false;
 };
 
-alert('V1.883: SCRIPT LOADED');
+// Async error catcher
+window.addEventListener('unhandledrejection', function (event) {
+    alert('UNHANDLED PROMISE REJECTION:\n' + event.reason);
+});
+
+alert('V1.884: SCRIPT LOADED');
 
 // Main Application
 class App {
     constructor() {
-        alert('V1.883: App constructor starting...');
+        alert('V1.884: App constructor starting...');
         try {
-            alert('V1.883: TR 1: FirebaseManager creating...');
+            alert('V1.884: TR 1: FirebaseManager creating...');
             this.firebaseManager = new FirebaseManager();
             alert('V1.883: TR 2: Managers creating...');
             this.songManager = new SongManager(this.firebaseManager);
@@ -63,8 +68,11 @@ class App {
                 this.keyDetector
             );
 
-            alert('V1.883: TR 7: Calling init()...');
-            this.init();
+            alert('V1.884: TR 7: Calling init()...');
+            this.init().catch(e => {
+                console.error('CRITICAL: init() promise rejected:', e);
+                alert('CRITICAL: init() promise rejected: ' + e);
+            });
         } catch (error) {
             console.error('CRITICAL: App constructor failed:', error);
             alert('CRITICAL: App constructor failed: ' + error.message + '\n\nPlease report this error.');
@@ -73,60 +81,71 @@ class App {
     }
 
     async init() {
-        alert('DEBUG: App init() starting...');
+        alert('V1.884: TR 8: App init() starting...');
         // Apply saved theme immediately
-        const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
-        document.body.classList.add(savedTheme);
-
-        // Initialize theme switcher
-        this.setupThemeSwitcher();
-
-        console.log("Pop Song Chord Book - App Initialized (v1.883)");
-
-        // 1. Check for persistent Local-Guest mode first
-        const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
-        if (isLocalOnlyStart) {
-            console.log("Restoring persistent Local Mode");
-            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-            return;
-        }
-
-        // 2. Setup auth modal IMMEDIATELY
-        this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
-
-        // 3. Show auth modal by default since we're not in local mode yet
-        // and we haven't verified a Firebase session.
-        this.handleAuthFailure();
-
-        // 4. Safety timeout - remove overlay after 3 seconds even if Firebase hangs
-        setTimeout(() => {
-            console.log("Initialization safety timeout reached");
-            this.removeInitOverlay();
-        }, 3000);
-
-        // 5. Initialize Firebase in background
         try {
-            console.log("Starting Firebase initialization...");
-            await this.firebaseManager.initialize();
-            console.log("Firebase initialized");
+            const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+            document.body.classList.add(savedTheme);
+            alert('V1.884: TR 9: Theme applied...');
 
-            // 6. Setup auth state listener for automatic session restoration
-            this.firebaseManager.onAuthStateChanged((user) => {
-                if (user && !this.isAuthenticated) {
-                    console.log("Firebase session restored");
-                    this.handleAuthSuccess(user);
-                    if (this.authModal) this.authModal.hide();
-                } else if (!user && !this.isAuthenticated) {
-                    console.log("No Firebase session found");
-                    // Just ensure overlay is gone
-                    this.removeInitOverlay();
-                }
-            });
-        } catch (error) {
-            console.error('Firebase initialization failed (falling back to guest-only view):', error);
-            this.removeInitOverlay();
-            // We don't alert here because the AuthModal is already visible
-            // and the user can still use "GUEST login" (Local).
+            // Initialize theme switcher
+            this.setupThemeSwitcher();
+            alert('V1.884: TR 10: Theme switcher setup...');
+
+            console.log("Pop Song Chord Book - App Initialized (v1.884)");
+
+            // 1. Check for persistent Local-Guest mode first
+            const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
+            alert('V1.884: TR 11: Checking local mode...');
+            if (isLocalOnlyStart) {
+                console.log("Restoring persistent Local Mode");
+                this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+                return;
+            }
+
+            // 2. Setup auth modal IMMEDIATELY
+            alert('V1.884: TR 12: Setting up AuthModal...');
+            this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
+
+            // 3. Show auth modal by default since we're not in local mode yet
+            // and we haven't verified a Firebase session.
+            this.handleAuthFailure();
+
+            // 4. Safety timeout - remove overlay after 3 seconds even if Firebase hangs
+            setTimeout(() => {
+                console.log("Initialization safety timeout reached");
+                this.removeInitOverlay();
+            }, 3000);
+
+            // 5. Initialize Firebase in background
+            try {
+                alert('V1.884: TR 13: Starting Firebase init...');
+                console.log("Starting Firebase initialization...");
+                await this.firebaseManager.initialize();
+                alert('V1.884: TR 14: Firebase initialized...');
+                console.log("Firebase initialized");
+
+                // 6. Setup auth state listener for automatic session restoration
+                this.firebaseManager.onAuthStateChanged((user) => {
+                    if (user && !this.isAuthenticated) {
+                        console.log("Firebase session restored");
+                        this.handleAuthSuccess(user);
+                        if (this.authModal) this.authModal.hide();
+                    } else if (!user && !this.isAuthenticated) {
+                        console.log("No Firebase session found");
+                        // Just ensure overlay is gone
+                        this.removeInitOverlay();
+                    }
+                });
+            } catch (error) {
+                console.error('Firebase initialization failed (falling back to guest-only view):', error);
+                this.removeInitOverlay();
+                // We don't alert here because the AuthModal is already visible
+                // and the user can still use "GUEST login" (Local).
+            }
+        } catch (e) {
+            alert('V1.884: CRITICAL ERROR IN INIT: ' + e);
+            throw e;
         }
     }
 
