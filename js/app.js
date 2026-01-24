@@ -12,13 +12,13 @@ class App {
         this.setlistManager = new SetlistManager();
 
         // Check if we are in Local-Guest mode
+        // Removed from constructor to allow init() to handle it properly with auth modal logic
+        /*
         if (this.firebaseManager.isLocalOnly()) {
             this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-            // The rest of the constructor will not be executed in local-guest mode
-            // as handleAuthSuccess will call initializeApp which sets up everything.
-            // We return here to prevent duplicate initializations.
             return;
         }
+        */
 
         // Initialize Firebase auth listener (for non-local modes)
         this.sorter = new Sorter();
@@ -73,7 +73,14 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.85)");
+        console.log("Pop Song Chord Book - App Initialized (v1.86)");
+        // Check for persistent Local-Guest mode first
+        if (this.firebaseManager.isLocalOnly()) {
+            console.log("Restoring persistent Local Mode");
+            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+            return;
+        }
+
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -133,6 +140,12 @@ class App {
             this.updateProfileLabel(user);
         };
         this.setupProfile();
+
+        // Reveal the app container
+        const container = document.querySelector('.container');
+        if (container) {
+            container.classList.remove('hidden');
+        }
 
         // Setup UI components
         this.setupSorting();
@@ -284,6 +297,9 @@ class App {
     }
 
     handleSignOut() {
+        // Clear local mode persistence
+        this.firebaseManager.setLocalOnly(false);
+
         // Remove pending songs listener
         const userId = this.firebaseManager.getCurrentUser()?.uid;
         if (userId) {
@@ -1817,7 +1833,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.85):\n`;
+        let msg = `Diagnostics (v1.86):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;

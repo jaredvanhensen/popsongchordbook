@@ -6,7 +6,7 @@ class FirebaseManager {
         this.database = null;
         this.currentUser = null;
         this.initialized = false;
-        this.localOnly = false;
+        this.localOnly = localStorage.getItem('pscb_local_only') === 'true';
         this.onAuthStateChangedCallbacks = [];
         this.songsListeners = new Map();
         this.setlistsListeners = new Map();
@@ -424,6 +424,7 @@ class FirebaseManager {
 
     setLocalOnly(value) {
         this.localOnly = value;
+        localStorage.setItem('pscb_local_only', value);
         if (value) {
             console.log("FirebaseManager: Entering Local-Only Mode (Cloud sync disabled)");
             // Ensure currentUser is reset if switching to local mode
