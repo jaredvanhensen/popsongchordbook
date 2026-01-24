@@ -15,9 +15,9 @@ else {
 }
 
 # 2. Calculate new version
-$newVersionNum = $currentVersion + 0.01
-$newVersionStr = "{0:N2}" -f $newVersionNum
-$newVersionStr = $newVersionStr.Replace(',', '.') # Ensure dot separator
+$newVersionNum = $currentVersion + 0.001
+$culture = [System.Globalization.CultureInfo]::InvariantCulture
+$newVersionStr = $newVersionNum.ToString("F3", $culture)
 
 Write-Host "Updating version from $currentVersion to $newVersionStr..."
 
@@ -43,8 +43,8 @@ foreach ($fileName in $files) {
         # Regex to match ?v=NUMBER
         $content = $content -replace '\?v=(\d+(\.\d+)?)', "?v=$newVersionStr"
 
-        # Update version in parentheses (v1.XX) - for js/app.js
-        $content = $content -replace "\(v\d+\.?\d*\)", "(v$newVersionStr)"
+        # Update version in parentheses (v1.XXX) - for js/app.js
+        $content = $content -replace "Initialized \(v\d+\.?\d*\)", "Initialized (v$newVersionStr)"
         
         [System.IO.File]::WriteAllText($filePath, $content)
         Write-Host "Updated $fileName"

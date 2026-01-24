@@ -73,7 +73,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.87)");
+        console.log("Pop Song Chord Book - App Initialized (v1.872)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
@@ -99,12 +99,24 @@ class App {
                     console.log("Firebase session restored");
                     this.handleAuthSuccess(user);
                     if (this.authModal) this.authModal.hide();
+                } else if (!user && !this.isAuthenticated) {
+                    // No session found - we are already showing auth modal from handleAuthFailure()
+                    // Just remove the initialization overlay
+                    this.removeInitOverlay();
                 }
             });
         } catch (error) {
             console.error('Firebase initialization failed (falling back to guest-only view):', error);
-            // We don't alert here because the AuthModal is already visible 
+            this.removeInitOverlay();
+            // We don't alert here because the AuthModal is already visible
             // and the user can still use "GUEST login" (Local).
+        }
+    }
+
+    removeInitOverlay() {
+        const overlay = document.getElementById('initOverlay');
+        if (overlay) {
+            overlay.style.display = 'none';
         }
     }
 
@@ -127,10 +139,11 @@ class App {
         };
         this.setupProfile();
 
-        // Reveal the app container
-        const container = document.querySelector('.container');
+        // Reveal the app container and remove init overlay
+        this.removeInitOverlay();
+        const container = document.getElementById('mainContainer');
         if (container) {
-            container.classList.remove('hidden');
+            container.style.display = 'block';
         }
 
         // Setup UI components
@@ -1819,7 +1832,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.87):\n`;
+        let msg = `Diagnostics (v1.871):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
