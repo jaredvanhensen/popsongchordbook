@@ -11,10 +11,9 @@ window.addEventListener('unhandledrejection', function (event) {
 
 alert('V1.884: SCRIPT LOADED');
 
-// Main Application
 class App {
     constructor() {
-        alert('V1.886: App constructor starting...');
+        alert('V1.888: App constructor starting...');
         try {
             alert('V1.885: TR 1: FirebaseManager creating...');
             this.firebaseManager = new FirebaseManager();
@@ -76,7 +75,8 @@ class App {
         } catch (error) {
             console.error('CRITICAL: App constructor failed:', error);
             alert('CRITICAL: App constructor failed: ' + error.message + '\n\nPlease report this error.');
-            this.removeInitOverlay();
+            const overlay = document.getElementById('initOverlay');
+            if (overlay) overlay.style.display = 'none';
         }
     }
 
@@ -114,7 +114,8 @@ class App {
             // 4. Safety timeout - remove overlay after 3 seconds even if Firebase hangs
             setTimeout(() => {
                 console.log("Initialization safety timeout reached");
-                this.removeInitOverlay();
+                const overlay = document.getElementById('initOverlay');
+                if (overlay) overlay.style.display = 'none';
             }, 3000);
 
             // 5. Initialize Firebase in background
@@ -134,12 +135,14 @@ class App {
                     } else if (!user && !this.isAuthenticated) {
                         console.log("No Firebase session found");
                         // Just ensure overlay is gone
-                        this.removeInitOverlay();
+                        const overlay = document.getElementById('initOverlay');
+                        if (overlay) overlay.style.display = 'none';
                     }
                 });
             } catch (error) {
                 console.error('Firebase initialization failed (falling back to guest-only view):', error);
-                this.removeInitOverlay();
+                const overlay = document.getElementById('initOverlay');
+                if (overlay) overlay.style.display = 'none';
                 // We don't alert here because the AuthModal is already visible
                 // and the user can still use "GUEST login" (Local).
             }
@@ -149,15 +152,8 @@ class App {
         }
     }
 
-    removeInitOverlay() {
-        const overlay = document.getElementById('initOverlay');
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
-    }
-
     async initializeApp() {
-        alert('V1.886: TR 15: App initializeApp() starting...');
+        alert('V1.888: TR 15: App initializeApp() starting...');
         try {
             this.isAuthenticated = true;
 
@@ -182,14 +178,28 @@ class App {
             this.setupProfile();
 
             // Reveal the app container and remove init overlay
-            alert('V1.885: TR 19: Removing overlay...');
-            this.removeInitOverlay();
+            // Reveal the app container and remove init overlay
+            alert('V1.888: TR 19: Removing overlay (INLINED)...');
+
+            const overlay = document.getElementById('initOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                alert('V1.888: TR 19.1: Overlay hidden...');
+            } else {
+                alert('V1.888: TR 19.1: Overlay NOT found...');
+            }
+
+            alert('V1.888: TR 19.2: Getting mainContainer...');
             const container = document.getElementById('mainContainer');
             if (container) {
                 container.style.display = 'block';
+                alert('V1.888: TR 19.3: Container shown...');
+            } else {
+                alert('V1.888: TR 19.3: Container NOT found (CRITICAL)');
             }
 
             // Setup UI components
+            alert('V1.887: TR 20: Setting up UI components...');
             this.setupSorting();
             this.setupAddSongButton();
             this.setupRandomSongButton();
