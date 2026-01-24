@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.99</span></span>
+                            id="site-version">2.00</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -969,7 +969,7 @@
     <!-- Data -->
     <script src="js/data/default_songs.js?v=1.91"></script>
     <!-- Main App -->
-    <script src="js/app-v1.99.js?v=1.99"></script>
+    <script src="js/app-v2.00.js?v=2.00"></script>
 
     <!-- NUCLEAR FAILSAFE SCRIPT -->
     <script>
@@ -1012,6 +1012,14 @@
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
             document.documentElement.style.overflow = 'auto';
+
+            // Unlock Container (Crucial Fix for v2.00)
+            const mainContainer = document.querySelector('.container');
+            if (mainContainer) {
+                mainContainer.style.overflow = 'visible';
+                mainContainer.style.height = 'auto';
+                mainContainer.style.display = 'block';
+            }
 
             // 4. Notify App if alive (to load songs)
             if (window.appInstance) {
@@ -1082,6 +1090,14 @@
                         document.body.style.overflow = 'auto';
                         document.body.style.position = 'static';
                         document.documentElement.style.overflow = 'auto';
+
+                        // Unlock Container (Crucial Fix for v2.00)
+                        const mainContainer = document.querySelector('.container');
+                        if (mainContainer) {
+                            mainContainer.style.overflow = 'visible';
+                            mainContainer.style.height = 'auto';
+                            mainContainer.style.display = 'block';
+                        }
                     } else {
                         console.error("Nuclear Login Failed:", result.error);
                         alert("Login Failed: " + (result.error || "Unknown Error"));
