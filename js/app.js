@@ -8,9 +8,9 @@ class App {
             this.isAuthenticated = false;
             this.migrationCompleted = false;
 
-            // Initialize SongManager and SetlistManager with local storage defaults
-            this.songManager = new SongManager();
-            this.setlistManager = new SetlistManager();
+            // Initialize SongManager and SetlistManager with local storage defaults and firebase dependency
+            this.songManager = new SongManager(this.firebaseManager);
+            this.setlistManager = new SetlistManager(this.firebaseManager);
 
             // Initialize Firebase auth listener (for non-local modes)
             this.sorter = new Sorter();
@@ -57,7 +57,6 @@ class App {
             this.init();
         } catch (error) {
             console.error('CRITICAL: App constructor failed:', error);
-            alert('CRITICAL: App constructor failed: ' + error.message);
             this.removeInitOverlay();
         }
     }
@@ -70,7 +69,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.877)");
+        console.log("Pop Song Chord Book - App Initialized (v1.878)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
@@ -112,7 +111,6 @@ class App {
             });
         } catch (error) {
             console.error('Firebase initialization failed (falling back to guest-only view):', error);
-            alert('Firebase initialization failed: ' + error.message);
             this.removeInitOverlay();
             // We don't alert here because the AuthModal is already visible
             // and the user can still use "GUEST login" (Local).
