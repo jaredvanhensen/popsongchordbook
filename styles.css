@@ -5153,10 +5153,22 @@ td:has(.row-edit-input.input-focused) {
         transform: translateY(-7px);
     }
 
-    /* Fix visual shift on click by preserving translateY while scaling */
+    /* Fix visual shift on click and sticky hover by preserving translateY while scaling */
+    .song-detail-nav-btn:hover,
+    .song-detail-nav-btn:active,
+    .song-detail-close-top:hover,
+    .song-detail-close-top:active,
+    #songDetailNext:hover,
+    #songDetailNext:active,
+    .song-detail-action-buttons:hover,
+    .song-detail-action-buttons:active {
+        transform: translateY(-7px) scale(1.05) !important;
+    }
+
     .song-detail-nav-btn:active,
     .song-detail-close-top:active,
-    #songDetailNext:active {
+    #songDetailNext:active,
+    .song-detail-action-buttons:active {
         transform: translateY(-7px) scale(0.95) !important;
     }
 

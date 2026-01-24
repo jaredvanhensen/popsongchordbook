@@ -1,4 +1,4 @@
-$files = @("index.html", "songlist.html")
+$files = @("index.html", "songlist.html", "js/app.js")
 $versionPattern = '<span id="site-version">(\d+\.?\d*)</span>'
 $currentVersion = 0.0
 
@@ -42,6 +42,9 @@ foreach ($fileName in $files) {
         # Update script/css query strings (?v=X.XX or ?v=XX)
         # Regex to match ?v=NUMBER
         $content = $content -replace '\?v=(\d+(\.\d+)?)', "?v=$newVersionStr"
+
+        # Update version in parentheses (v1.XX) - for js/app.js
+        $content = $content -replace "\(v\d+\.?\d*\)", "(v$newVersionStr)"
         
         [System.IO.File]::WriteAllText($filePath, $content)
         Write-Host "Updated $fileName"
