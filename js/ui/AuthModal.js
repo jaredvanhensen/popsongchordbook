@@ -242,6 +242,7 @@ class AuthModal {
     }
 
     async handleLocalOnly() {
+        alert('DEBUG: handleLocalOnly called');
         console.log('User chose Local-Only mode.');
         this.clearErrors();
 
@@ -261,6 +262,7 @@ class AuthModal {
     }
 
     async handleGuestLogin() {
+        alert('DEBUG: handleGuestLogin called');
         // Show loading state
         this.setGuestLoading(true);
         this.clearErrors();
@@ -287,6 +289,7 @@ class AuthModal {
     }
 
     async handleLogin() {
+        alert('DEBUG: handleLogin called');
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 

@@ -1,6 +1,7 @@
 // Main Application
 class App {
     constructor() {
+        alert('DEBUG: App constructor starting...');
         try {
             // Initialize Firebase Manager first
             this.firebaseManager = new FirebaseManager();
@@ -67,6 +68,7 @@ class App {
     }
 
     async init() {
+        alert('DEBUG: App init() starting...');
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
         document.body.classList.add(savedTheme);
@@ -74,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.880)");
+        console.log("Pop Song Chord Book - App Initialized (v1.881)");
 
         // 1. Check for persistent Local-Guest mode first
         const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
@@ -131,6 +133,7 @@ class App {
     }
 
     async initializeApp() {
+        alert('DEBUG: App initializeApp() starting...');
         this.isAuthenticated = true;
 
         // Setup sharing modals
