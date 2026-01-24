@@ -242,6 +242,7 @@ class AuthModal {
     }
 
     async handleLocalOnly() {
+        alert('GUEST login clicked!');
         console.log('User chose Local-Only mode.');
         this.clearErrors();
 
@@ -287,6 +288,7 @@ class AuthModal {
     }
 
     async handleLogin() {
+        alert('Login button clicked!');
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 
