@@ -73,53 +73,39 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.86)");
-        // Check for persistent Local-Guest mode first
+        console.log("Pop Song Chord Book - App Initialized (v1.87)");
+
+        // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
             console.log("Restoring persistent Local Mode");
             this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
             return;
         }
 
-        // Initialize Firebase
-        try {
-            await this.firebaseManager.initialize();
-        } catch (error) {
-            console.error('Firebase initialization failed:', error);
-            alert('Firebase initialisatie mislukt. Controleer je Firebase configuratie.');
-            return;
-        }
-
-        // Setup auth modal
+        // 2. Setup auth modal IMMEDIATELY
         this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
 
-        // Setup profile modal (will be initialized after auth)
-        this.profileModal = null;
+        // 3. Show auth modal by default since we're not in local mode yet
+        // and we haven't verified a Firebase session.
+        this.handleAuthFailure();
 
-        // Wait for auth state to be restored (handles page refresh)
-        // This ensures we wait for Firebase to restore the session before checking auth state
-        await new Promise((resolve) => {
-            let resolved = false;
-            // Setup auth state listener - wait for first state change
+        // 4. Initialize Firebase in background
+        try {
+            await this.firebaseManager.initialize();
+
+            // 5. Setup auth state listener for automatic session restoration
             this.firebaseManager.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is authenticated (either logged in or session restored)
-                    if (!this.isAuthenticated) {
-                        this.handleAuthSuccess(user);
-                    }
-                } else {
-                    // No user - show login modal
-                    if (!this.isAuthenticated) {
-                        this.handleAuthFailure();
-                    }
-                }
-                // Resolve after first auth state check (only once)
-                if (!resolved) {
-                    resolved = true;
-                    resolve();
+                if (user && !this.isAuthenticated) {
+                    console.log("Firebase session restored");
+                    this.handleAuthSuccess(user);
+                    if (this.authModal) this.authModal.hide();
                 }
             });
-        });
+        } catch (error) {
+            console.error('Firebase initialization failed (falling back to guest-only view):', error);
+            // We don't alert here because the AuthModal is already visible 
+            // and the user can still use "GUEST login" (Local).
+        }
     }
 
     async initializeApp() {
@@ -1833,7 +1819,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.86):\n`;
+        let msg = `Diagnostics (v1.87):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
