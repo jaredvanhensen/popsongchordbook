@@ -14,18 +14,18 @@ window.addEventListener('unhandledrejection', function (event) {
 class App {
     constructor() {
         try {
-            alert('V1.885: TR 1: FirebaseManager creating...');
+
             this.firebaseManager = new FirebaseManager();
-            alert('V1.883: TR 2: Managers creating...');
+
             this.songManager = new SongManager(this.firebaseManager);
             this.setlistManager = new SetlistManager(this.firebaseManager);
-            alert('V1.883: TR 3: Secondary logic starting...');
+
 
             // Initialize Firebase auth listener (for non-local modes)
             this.sorter = new Sorter();
             this.keyDetector = new KeyDetector();
             this.chordModal = new ChordModal();
-            alert('V1.883: TR 4: Modals starting...');
+
             this.songDetailModal = new SongDetailModal(
                 this.songManager,
                 (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
@@ -38,7 +38,7 @@ class App {
                 (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
                 (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
             );
-            alert('V1.883: TR 5: Overlay starting...');
+
             this.chordDetectorOverlay = new ChordDetectorOverlay();
             this.currentFilter = {
                 favorites: false,
@@ -298,20 +298,15 @@ class App {
     }
 
     async handleAuthSuccess(user) {
-        alert('V1.885: TR 11.1: handleAuthSuccess starting...');
         try {
             if (!this.isAuthenticated) {
                 // First time authentication
-                alert('V1.885: TR 11.2: Authenticating...');
                 if (!user.isLocal) {
                     // Check for migration or existing data
-                    alert('V1.885: TR 11.3: Checking migration...');
                     await this.checkAndMigrateData(user);
                 }
                 this.isAuthenticated = true;
-                alert('V1.885: TR 11.4: Calling initializeApp...');
                 await this.initializeApp();
-                alert('V1.885: TR 11.5: initializeApp returned...');
             }
 
             // Ensure email index exists for this user (for regular users)
