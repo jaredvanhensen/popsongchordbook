@@ -4510,6 +4510,22 @@ td:has(.row-edit-input.input-focused) {
     text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
 }
 
+#songDetailPracticeBtn {
+    width: clamp(80px, 16vw, 110px);
+    height: clamp(75px, 14vw, 90px);
+    gap: 4px;
+}
+
+#songDetailPracticeBtn .icon {
+    font-size: clamp(32px, 7vw, 42px);
+    width: auto;
+    height: auto;
+}
+
+#songDetailPracticeBtn .label {
+    font-size: clamp(14px, 3vw, 16px);
+}
+
 .song-detail-action-btn.practice-active:hover {
     color: #f59e0b;
     text-shadow: 0 0 15px rgba(251, 191, 36, 0.7);

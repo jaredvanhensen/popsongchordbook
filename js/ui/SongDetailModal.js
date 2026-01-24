@@ -1582,7 +1582,7 @@ class SongDetailModal {
 
         const formattedKey = this.formatKeyText(keyText);
         if (formattedKey.trim()) {
-            this.keyDisplay.textContent = formattedKey;
+            this.keyDisplay.textContent = `KEY: ${formattedKey}`;
         } else {
             this.keyDisplay.textContent = '';
         }
