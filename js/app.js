@@ -37,6 +37,9 @@ class App {
             };
             this.currentSetlistId = null;
             this.searchTerm = '';
+            this.addSongsSearchTerm = '';
+            this.addSongsSortField = 'title';
+            this.addSongsSortDirection = 'asc';
             this.lastAddSongsSetlistId = null;
             this.viewMode = 'full'; // 'simple' or 'full'
 
@@ -66,7 +69,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.875)");
+        console.log("Pop Song Chord Book - App Initialized (v1.876)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
