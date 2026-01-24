@@ -585,11 +585,40 @@ class SongDetailModal {
                 });
             }
         });
+
+        // Setup key field
+        if (this.keyDisplay) {
+            this.keyDisplay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.enterEditMode(this.keyDisplay);
+            });
+            this.keyDisplay.addEventListener('blur', (e) => {
+                // Don't blur if we're moving to next field with Tab
+                if (e.relatedTarget && e.relatedTarget.hasAttribute('contenteditable') && e.relatedTarget.getAttribute('contenteditable') === 'true') {
+                    return;
+                }
+
+                this.keyDisplay.setAttribute('contenteditable', 'false');
+                this.keyDisplay.classList.remove('editing');
+                this.checkForChanges();
+            });
+            this.keyDisplay.addEventListener('input', () => this.checkForChanges());
+            this.keyDisplay.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.moveToNextField(this.keyDisplay);
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.keyDisplay.blur();
+                }
+            });
+        }
     }
 
     moveToNextField(currentElement) {
         // Define field order: artist -> title -> verse -> chorus -> preChorus -> bridge
-        const fieldOrder = ['artist', 'title', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'verse', 'chorus', 'preChorus', 'bridge', 'key'];
         const currentField = currentElement.dataset.field;
         const currentIndex = fieldOrder.indexOf(currentField);
 
@@ -852,7 +881,8 @@ class SongDetailModal {
                 chorusCue: song.chorusCue || '',
                 bridge: song.bridge || '',
                 bridgeTitle: song.bridgeTitle || 'Block 4',
-                bridgeCue: song.bridgeCue || ''
+                bridgeCue: song.bridgeCue || '',
+                key: song.key || ''
             };
         }
 
@@ -873,7 +903,8 @@ class SongDetailModal {
             chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
             bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : '',
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
-            bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : ''
+            bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
+            key: this.keyDisplay ? this.keyDisplay.textContent : ''
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -892,7 +923,8 @@ class SongDetailModal {
             chorusCue: (data.chorusCue || '').trim(),
             bridge: (data.bridge || '').trim(),
             bridgeTitle: (data.bridgeTitle || '').trim(),
-            bridgeCue: (data.bridgeCue || '').trim()
+            bridgeCue: (data.bridgeCue || '').trim(),
+            key: (data.key || '').trim()
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -999,6 +1031,9 @@ class SongDetailModal {
         if (this.sections.bridge?.cue) {
             updates.bridgeCue = this.sections.bridge.cue.value.trim();
         }
+        if (this.keyDisplay) {
+            updates.key = this.keyDisplay.textContent.trim();
+        }
 
         // Update song
         await this.songManager.updateSong(this.currentSongId, updates);
@@ -1020,7 +1055,8 @@ class SongDetailModal {
                 chorusCue: savedSong.chorusCue || '',
                 bridge: savedSong.bridge || '',
                 bridgeTitle: savedSong.bridgeTitle || 'Block 4',
-                bridgeCue: savedSong.bridgeCue || ''
+                bridgeCue: savedSong.bridgeCue || '',
+                key: savedSong.key || ''
             };
         }
 
@@ -1581,10 +1617,18 @@ class SongDetailModal {
         }
 
         const formattedKey = this.formatKeyText(keyText);
-        if (formattedKey.trim()) {
-            this.keyDisplay.textContent = `KEY: ${formattedKey}`;
-        } else {
-            this.keyDisplay.textContent = '';
+        this.keyDisplay.textContent = formattedKey;
+
+        // Update badge visibility
+        const container = this.keyDisplay.closest('.song-detail-key-badge');
+        if (container) {
+            if (formattedKey.trim()) {
+                container.style.display = 'inline-flex';
+                container.classList.remove('hidden');
+            } else {
+                container.style.display = 'none';
+                container.classList.add('hidden');
+            }
         }
     }
 

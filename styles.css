@@ -4813,17 +4813,35 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    padding: 4px 14px;
+    padding: 6px 16px;
     border-radius: 20px;
     font-weight: 700;
     font-size: 0.95rem;
     display: none;
+    align-items: center;
     backdrop-filter: blur(4px);
-    /* Hidden by default, shown when key exists */
+    transition: all 0.2s ease;
 }
 
-.song-detail-key-badge:not(:empty) {
-    display: inline-block;
+.song-detail-key-badge .key-label {
+    opacity: 0.8;
+    margin-right: 4px;
+    user-select: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.song-detail-key-badge .key-value {
+    min-width: 20px;
+    outline: none;
+    cursor: text;
+}
+
+.song-detail-key-badge .key-value.editing {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 0 6px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .song-detail-body {
