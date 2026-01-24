@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="header-top-left">
                     <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">1.98</span></span>
+                            id="site-version">1.99</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -261,29 +261,31 @@
             </div>
             <div class="modal-body">
                 <!-- Login Form -->
-                <form id="authLoginForm" class="auth-form">
+                <form id="authLoginForm">
                     <div class="auth-form-group">
-                        <label for="authLoginEmail">Email address</label>
-                        <input type="email" id="authLoginEmail" class="auth-input" placeholder="your@email.com" required
-                            autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
+                        <label for="authLoginEmail">Email Address</label>
+                        <input type="email" id="authLoginEmail" placeholder="name@example.com" autocomplete="email">
                     </div>
                     <div class="auth-form-group">
                         <label for="authLoginPassword">Password</label>
-                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
-                            autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
+                        <input type="password" id="authLoginPassword" placeholder="••••••••"
+                            autocomplete="current-password">
+                        <div style="text-align: right; margin-top: 5px;">
+                            <a href="#" id="authForgotPassword" style="font-size: 0.8em; color: #6366f1;">Forgot
+                                password?</a>
+                        </div>
                     </div>
+                    <!-- Type=button to prevent form submit refresh -->
+                    <button type="button" id="authLoginBtn" class="modal-submit-btn" onclick="nuclearLogin()">Login
+                        (Direct)</button>
                     <div id="authLoginError" class="auth-error hidden"></div>
-                    <div id="authLoginSuccess" class="auth-success hidden"></div>
-                    <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
-
-                    <div class="auth-toggle">
-                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
-                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
-                        <span>No account yet?</span>
-                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
-                            account</button>
-                    </div>
+                    <div id="authLoginSuccess" class="auth-error hidden" style="color: #10b981;"></div>
                 </form>
+                <div class="auth-toggle">
+                    <span>No account yet?</span>
+                    <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
+                        account</button>
+                </div>
 
                 <div id="authGuestSection">
                     <button type="button" id="authLocalOnlyBtn" class="modal-submit-btn auth-local-btn"
@@ -967,7 +969,7 @@
     <!-- Data -->
     <script src="js/data/default_songs.js?v=1.91"></script>
     <!-- Main App -->
-    <script src="js/app-v1.98.js?v=1.98"></script>
+    <script src="js/app-v1.99.js?v=1.99"></script>
 
     <!-- NUCLEAR FAILSAFE SCRIPT -->
     <script>
@@ -1005,6 +1007,12 @@
                 main.style.pointerEvents = 'auto'; // Force interaction
             }
 
+            // Fix Scrolling (Nuclear Unlock)
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = 'auto';
+            document.body.style.position = 'static';
+            document.documentElement.style.overflow = 'auto';
+
             // 4. Notify App if alive (to load songs)
             if (window.appInstance) {
                 console.log("App Instance found, triggering success...");
@@ -1020,6 +1028,78 @@
                 alert("App not loaded, but UI unlocked. Please refresh if empty.");
                 // Check if we need to reload to force app init in local mode
                 // window.location.reload(); 
+            }
+        }
+
+        async function nuclearLogin() {
+            console.log("NUCLEAR NORMAL LOGIN TRIGGERED");
+            const emailField = document.getElementById('authLoginEmail');
+            const passField = document.getElementById('authLoginPassword');
+            const btn = document.getElementById('authLoginBtn');
+            const errorDiv = document.getElementById('authLoginError');
+
+            if (!emailField || !passField) return;
+
+            const email = emailField.value;
+            const pass = passField.value;
+
+            if (!email || !pass) {
+                alert("Please enter email and password");
+                return;
+            }
+
+            btn.innerText = "LOGGING IN...";
+            btn.style.backgroundColor = '#6366f1'; // Indigo
+
+            if (window.appInstance && window.appInstance.firebaseManager) {
+                try {
+                    const result = await window.appInstance.firebaseManager.signIn(email, pass);
+                    if (result.success) {
+                        console.log("Nuclear Login Success!");
+                        // Success!
+                        window.appInstance.handleAuthSuccess(result.user);
+
+                        // Force Hide Modals
+                        const idsToHide = ['initOverlay', 'authModal'];
+                        idsToHide.forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) {
+                                el.style.display = 'none';
+                                el.classList.add('hidden');
+                            }
+                        });
+
+                        // Show Main Container
+                        const main = document.getElementById('mainContainer');
+                        if (main) {
+                            main.style.display = 'block';
+                            main.style.opacity = '1';
+                            main.style.pointerEvents = 'auto';
+                        }
+
+                        // Fix Scrolling (Nuclear Unlock)
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                        document.body.style.position = 'static';
+                        document.documentElement.style.overflow = 'auto';
+                    } else {
+                        console.error("Nuclear Login Failed:", result.error);
+                        alert("Login Failed: " + (result.error || "Unknown Error"));
+                        if (errorDiv) {
+                            errorDiv.innerText = result.error;
+                            errorDiv.classList.remove('hidden');
+                        }
+                        btn.innerText = "Login (Direct)";
+                        btn.style.backgroundColor = '';
+                    }
+                } catch (e) {
+                    console.error("Nuclear Login Exception:", e);
+                    alert("Login Exception: " + e);
+                    btn.innerText = "Login (Direct)";
+                }
+            } else {
+                alert("App logic not ready. Please refresh page.");
+                btn.innerText = "Login (Direct)";
             }
         }
     </script>
