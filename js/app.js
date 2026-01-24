@@ -1,68 +1,61 @@
 // Main Application
 class App {
     constructor() {
-        // Initialize Firebase Manager first
-        this.firebaseManager = new FirebaseManager();
-        this.authModal = null;
-        this.isAuthenticated = false;
-        this.migrationCompleted = false;
+        try {
+            // Initialize Firebase Manager first
+            this.firebaseManager = new FirebaseManager();
+            this.authModal = null;
+            this.isAuthenticated = false;
+            this.migrationCompleted = false;
 
-        // Initialize SongManager and SetlistManager with local storage defaults
-        this.songManager = new SongManager();
-        this.setlistManager = new SetlistManager();
+            // Initialize SongManager and SetlistManager with local storage defaults
+            this.songManager = new SongManager();
+            this.setlistManager = new SetlistManager();
 
-        // Check if we are in Local-Guest mode
-        // Removed from constructor to allow init() to handle it properly with auth modal logic
-        /*
-        if (this.firebaseManager.isLocalOnly()) {
-            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-            return;
+            // Initialize Firebase auth listener (for non-local modes)
+            this.sorter = new Sorter();
+            this.keyDetector = new KeyDetector();
+            this.chordModal = new ChordModal();
+            this.songDetailModal = new SongDetailModal(
+                this.songManager,
+                (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
+                () => this.loadAndRender(), // Refresh table when song is updated
+                this.chordModal, // Pass chordModal for chord button
+                (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
+                (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
+                this.keyDetector,
+                (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
+                (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
+                (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
+            );
+            this.chordDetectorOverlay = new ChordDetectorOverlay();
+            this.currentFilter = {
+                favorites: false,
+                key: '',
+                withYouTube: false,
+                withoutYouTube: false
+            };
+            this.currentSetlistId = null;
+            this.searchTerm = '';
+            this.lastAddSongsSetlistId = null;
+            this.viewMode = 'full'; // 'simple' or 'full'
+
+            this.tableRenderer = new TableRenderer(
+                this.songManager,
+                (songId) => this.handleRowSelect(songId),
+                (songId, field, value) => this.handleCellEdit(songId, field, value),
+                (songId) => this.handleDelete(songId),
+                this.chordModal,
+                (songId) => this.handleToggleFavorite(songId),
+                (songId) => this.handlePlayYouTube(songId),
+                this.keyDetector
+            );
+
+            this.init();
+        } catch (error) {
+            console.error('CRITICAL: App constructor failed:', error);
+            this.removeInitOverlay();
         }
-        */
-
-        // Initialize Firebase auth listener (for non-local modes)
-        this.sorter = new Sorter();
-        this.keyDetector = new KeyDetector();
-        this.chordModal = new ChordModal();
-        this.songDetailModal = new SongDetailModal(
-            this.songManager,
-            (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
-            () => this.loadAndRender(), // Refresh table when song is updated
-            this.chordModal, // Pass chordModal for chord button
-            (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
-            (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
-            this.keyDetector,
-            (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
-            (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
-            (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
-        );
-        this.chordDetectorOverlay = new ChordDetectorOverlay();
-        this.currentFilter = {
-            favorites: false,
-            key: '',
-            withYouTube: false,
-            withoutYouTube: false
-        };
-        this.currentSetlistId = null;
-        this.searchTerm = '';
-        this.addSongsSearchTerm = '';
-        this.addSongsSortField = 'title';
-        this.addSongsSortDirection = 'asc';
-        this.lastAddSongsSetlistId = null;
-        this.viewMode = 'full'; // 'simple' or 'full'
-
-        this.tableRenderer = new TableRenderer(
-            this.songManager,
-            (songId) => this.handleRowSelect(songId),
-            (songId, field, value) => this.handleCellEdit(songId, field, value),
-            (songId) => this.handleDelete(songId),
-            this.chordModal,
-            (songId) => this.handleToggleFavorite(songId),
-            (songId) => this.handlePlayYouTube(songId),
-            this.keyDetector
-        );
-
-        this.init();
     }
 
     async init() {
@@ -73,7 +66,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.873)");
+        console.log("Pop Song Chord Book - App Initialized (v1.874)");
 
         // 1. Check for persistent Local-Guest mode first
         if (this.firebaseManager.isLocalOnly()) {
