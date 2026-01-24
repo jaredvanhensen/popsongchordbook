@@ -40,6 +40,7 @@ class AuthModal {
     }
 
     setupEventListeners() {
+        console.log('AuthModal: setupEventListeners called');
         // Guest login
         if (this.guestBtn) {
             this.guestBtn.addEventListener('click', (e) => {
@@ -242,12 +243,17 @@ class AuthModal {
     }
 
     async handleLocalOnly() {
-        alert('DEBUG: handleLocalOnly called');
         console.log('User chose Local-Only mode.');
         this.clearErrors();
 
         try {
-            this.firebaseManager.setLocalOnly(true);
+            if (this.firebaseManager) {
+                this.firebaseManager.setLocalOnly(true);
+            } else {
+                console.error('FirebaseManager not initialized in AuthModal');
+                // Try to set localStorage manually as fallback
+                localStorage.setItem('localOnlyMode', 'true');
+            }
             this.allowHide = true;
             this.hide();
 
@@ -262,12 +268,15 @@ class AuthModal {
     }
 
     async handleGuestLogin() {
-        alert('DEBUG: handleGuestLogin called');
+        console.log('Handling Guest Login...');
         // Show loading state
         this.setGuestLoading(true);
         this.clearErrors();
 
         try {
+            if (!this.firebaseManager) {
+                throw new Error('FirebaseManager not initialized');
+            }
             const result = await this.firebaseManager.signInAnonymously();
 
             if (result.success) {
@@ -289,7 +298,7 @@ class AuthModal {
     }
 
     async handleLogin() {
-        alert('DEBUG: handleLogin called');
+        console.log('Handling Regular Login...');
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 
