@@ -4506,8 +4506,18 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-detail-action-btn.practice-active {
-    color: #fbbf24;
-    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    opacity: 1 !important;
+}
+
+#songDetailPracticeBtn:not(.practice-active) .icon {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+
+#songDetailPracticeBtn:not(.practice-active) .label {
+    opacity: 0.6;
 }
 
 #songDetailPracticeBtn,
@@ -4527,6 +4537,7 @@ td:has(.row-edit-input.input-focused) {
 #songDetailPracticeBtn .label,
 #songDetailSaveBtn .label {
     font-size: clamp(14px, 3vw, 16px);
+    text-transform: lowercase;
 }
 
 .song-detail-action-btn.practice-active:hover {
