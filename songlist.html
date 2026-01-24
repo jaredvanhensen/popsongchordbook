@@ -10,51 +10,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.92">
+    <link rel="stylesheet" href="styles.css?v=1.82">
 </head>
 
 <body>
-    <div id="initOverlay" class="modal" style="z-index: 2000; background: #fff;">
-        <div class="modal-content" style="text-align: center; box-shadow: none;">
-            <div class="hero-icon" style="font-size: 40px; margin-bottom: 20px;">🎸</div>
-            <h3 id="initMessage">Initializing Chord Book...</h3>
-            <p style="color: #64748b; margin-top: 10px;">Please wait while we set things up.</p>
-        </div>
-    </div>
-
-    <!-- Inline Failsafe script -->
-    <script>
-        // Global error handler
-        window.onerror = function (message, source, lineno, colno, error) {
-            console.error('GLOBAL ERROR:', message, 'at', source, 'line', lineno);
-            // If the app is still initializing, let's at least clear the overlay
-            var overlay = document.getElementById('initOverlay');
-            if (overlay) overlay.style.display = 'none';
-            return false;
-        };
-
-        window.onunhandledrejection = function (event) {
-            console.error('UNHANDLED REJECTION:', event.reason);
-            var overlay = document.getElementById('initOverlay');
-            if (overlay) overlay.style.display = 'none';
-        };
-
-        // Ultimate failsafe: hide initializing overlay after 5 seconds no matter what
-        setTimeout(function () {
-            var overlay = document.getElementById('initOverlay');
-            if (overlay && overlay.style.display !== 'none') {
-                console.warn('Initializing overlay removed by inline failsafe');
-                overlay.style.display = 'none';
-            }
-        }, 5000);
-    </script>
-
-    <div id="mainContainer" class="container" style="display: none;">
+    <div class="container">
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
-                            id="site-version">2.00</span></span>
+                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span id="site-version">1.82</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -253,7 +217,7 @@
     </div>
 
     <!-- Auth Modal -->
-    <div id="authModal" class="modal auth-modal" style="z-index: 999999;">
+    <div id="authModal" class="modal auth-modal hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="authModalTitle">Login</h3>
@@ -261,39 +225,28 @@
             </div>
             <div class="modal-body">
                 <!-- Login Form -->
-                <form id="authLoginForm">
+                <form id="authLoginForm" class="auth-form">
                     <div class="auth-form-group">
-                        <label for="authLoginEmail">Email Address</label>
-                        <input type="email" id="authLoginEmail" placeholder="name@example.com" autocomplete="email">
+                        <label for="authLoginEmail">Email address</label>
+                        <input type="email" id="authLoginEmail" class="auth-input" placeholder="your@email.com" required
+                            autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
                     </div>
                     <div class="auth-form-group">
                         <label for="authLoginPassword">Password</label>
-                        <input type="password" id="authLoginPassword" placeholder="••••••••"
-                            autocomplete="current-password">
-                        <div style="text-align: right; margin-top: 5px;">
-                            <a href="#" id="authForgotPassword" style="font-size: 0.8em; color: #6366f1;">Forgot
-                                password?</a>
-                        </div>
+                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
+                            autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
                     </div>
-                    <!-- Type=button to prevent form submit refresh -->
-                    <button type="button" id="authLoginBtn" class="modal-submit-btn" onclick="nuclearLogin()">Login
-                        (Direct)</button>
                     <div id="authLoginError" class="auth-error hidden"></div>
-                    <div id="authLoginSuccess" class="auth-error hidden" style="color: #10b981;"></div>
+                    <div id="authLoginSuccess" class="auth-success hidden"></div>
+                    <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
+                    <div class="auth-toggle">
+                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
+                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
+                        <span>No account yet?</span>
+                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
+                            account</button>
+                    </div>
                 </form>
-                <div class="auth-toggle">
-                    <span>No account yet?</span>
-                    <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
-                        account</button>
-                </div>
-
-                <div id="authGuestSection">
-                    <button type="button" id="authLocalOnlyBtn" class="modal-submit-btn auth-local-btn"
-                        style="background-color: #475569; color: #ffffff; border: none; margin: 10px 0 20px;"
-                        onclick="nuclearGuestLogin()">
-                        GUEST login (Direct)
-                    </button>
-                </div>
 
                 <!-- Create Account Form -->
                 <form id="authCreateForm" class="auth-form hidden">
@@ -943,206 +896,33 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=1.91"></script>
+    <script src="js/config/firebase-config.js?v=1.82"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=1.91"></script>
-    <script src="js/models/SetlistManager.js?v=1.91"></script>
+    <script src="js/models/SongManager.js?v=1.82"></script>
+    <script src="js/models/SetlistManager.js?v=1.82"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=1.91"></script>
-    <script src="js/utils/ChordDetector.js?v=1.91"></script>
-    <script src="js/utils/KeyDetector.js?v=1.91"></script>
-    <script src="js/utils/FirebaseManager.js?v=1.91"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=1.91"></script>
+    <script src="js/utils/Sorter.js?v=1.82"></script>
+    <script src="js/utils/ChordDetector.js?v=1.82"></script>
+    <script src="js/utils/KeyDetector.js?v=1.82"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.82"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.82"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=1.91"></script>
-    <script src="js/ui/SongDetailModal.js?v=1.91"></script>
-    <script src="js/ui/TableRenderer.js?v=1.91"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=1.91"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=1.91"></script>
-    <script src="js/ui/ChordFinderModal.js?v=1.91"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=1.91"></script>
-    <script src="js/ui/AuthModal.js?v=1.91"></script>
-    <script src="js/ui/ProfileModal.js?v=1.91"></script>
-    <script src="js/ui/ShareSongsModal.js?v=1.91"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=1.91"></script>
+    <script src="js/ui/ChordModal.js?v=1.82"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.82"></script>
+    <script src="js/ui/TableRenderer.js?v=1.82"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.82"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.82"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.82"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.82"></script>
+    <script src="js/ui/AuthModal.js?v=1.82"></script>
+    <script src="js/ui/ProfileModal.js?v=1.82"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.82"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.82"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=1.91"></script>
+    <script src="js/data/default_songs.js?v=1.82"></script>
     <!-- Main App -->
-    <script src="js/app-v2.00.js?v=2.00"></script>
-
-    <!-- NUCLEAR FAILSAFE SCRIPT -->
-    <script>
-        function nuclearGuestLogin() {
-            console.log("NUCLEAR GUEST LOGIN TRIGGERED");
-            const btn = document.getElementById('authLocalOnlyBtn');
-            if (btn) {
-                btn.style.backgroundColor = 'red';
-                btn.innerText = 'ENTERING...';
-            }
-
-            // 1. Force Local Mode logic
-            try {
-                localStorage.setItem('localOnlyMode', 'true');
-                console.log("Local Mode flag set.");
-            } catch (e) {
-                alert("Storage Error: " + e);
-            }
-
-            // 2. Destroy Overlays
-            const idsToHide = ['initOverlay', 'authModal', 'chordDetectorOverlay'];
-            idsToHide.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.style.display = 'none';
-                    el.classList.add('hidden');
-                }
-            });
-
-            // 3. Show Main Container
-            const main = document.getElementById('mainContainer');
-            if (main) {
-                main.style.display = 'block';
-                main.style.opacity = '1';
-                main.style.pointerEvents = 'auto'; // Force interaction
-            }
-
-            // Fix Scrolling (Nuclear Unlock)
-            document.body.classList.remove('modal-open');
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'static';
-            document.documentElement.style.overflow = 'auto';
-
-            // Unlock Container (Crucial Fix for v2.00)
-            const mainContainer = document.querySelector('.container');
-            if (mainContainer) {
-                mainContainer.style.overflow = 'visible';
-                mainContainer.style.height = 'auto';
-                mainContainer.style.display = 'block';
-            }
-
-            // 4. Notify App if alive (to load songs)
-            if (window.appInstance) {
-                console.log("App Instance found, triggering success...");
-                // Force seed defaults if needed
-                if (window.appInstance.seedDefaultData) {
-                    window.appInstance.seedDefaultData().then(() => {
-                        window.appInstance.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-                    });
-                } else {
-                    window.appInstance.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-                }
-            } else {
-                alert("App not loaded, but UI unlocked. Please refresh if empty.");
-                // Check if we need to reload to force app init in local mode
-                // window.location.reload(); 
-            }
-        }
-
-        async function nuclearLogin() {
-            console.log("NUCLEAR NORMAL LOGIN TRIGGERED");
-            const emailField = document.getElementById('authLoginEmail');
-            const passField = document.getElementById('authLoginPassword');
-            const btn = document.getElementById('authLoginBtn');
-            const errorDiv = document.getElementById('authLoginError');
-
-            if (!emailField || !passField) return;
-
-            const email = emailField.value;
-            const pass = passField.value;
-
-            if (!email || !pass) {
-                alert("Please enter email and password");
-                return;
-            }
-
-            btn.innerText = "LOGGING IN...";
-            btn.style.backgroundColor = '#6366f1'; // Indigo
-
-            if (window.appInstance && window.appInstance.firebaseManager) {
-                try {
-                    const result = await window.appInstance.firebaseManager.signIn(email, pass);
-                    if (result.success) {
-                        console.log("Nuclear Login Success!");
-                        // Success!
-                        window.appInstance.handleAuthSuccess(result.user);
-
-                        // Force Hide Modals
-                        const idsToHide = ['initOverlay', 'authModal'];
-                        idsToHide.forEach(id => {
-                            const el = document.getElementById(id);
-                            if (el) {
-                                el.style.display = 'none';
-                                el.classList.add('hidden');
-                            }
-                        });
-
-                        // Show Main Container
-                        const main = document.getElementById('mainContainer');
-                        if (main) {
-                            main.style.display = 'block';
-                            main.style.opacity = '1';
-                            main.style.pointerEvents = 'auto';
-                        }
-
-                        // Fix Scrolling (Nuclear Unlock)
-                        document.body.classList.remove('modal-open');
-                        document.body.style.overflow = 'auto';
-                        document.body.style.position = 'static';
-                        document.documentElement.style.overflow = 'auto';
-
-                        // Unlock Container (Crucial Fix for v2.00)
-                        const mainContainer = document.querySelector('.container');
-                        if (mainContainer) {
-                            mainContainer.style.overflow = 'visible';
-                            mainContainer.style.height = 'auto';
-                            mainContainer.style.display = 'block';
-                        }
-                    } else {
-                        console.error("Nuclear Login Failed:", result.error);
-                        alert("Login Failed: " + (result.error || "Unknown Error"));
-                        if (errorDiv) {
-                            errorDiv.innerText = result.error;
-                            errorDiv.classList.remove('hidden');
-                        }
-                        btn.innerText = "Login (Direct)";
-                        btn.style.backgroundColor = '';
-                    }
-                } catch (e) {
-                    console.error("Nuclear Login Exception:", e);
-                    alert("Login Exception: " + e);
-                    btn.innerText = "Login (Direct)";
-                }
-            } else {
-                alert("App logic not ready. Please refresh page.");
-                btn.innerText = "Login (Direct)";
-            }
-        }
-    </script>
-
-    <!-- Inline Failsafe: Check if App Loaded -->
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                if (!window.appInstance) {
-                    alert("FATAL ERROR: The main application script failed to load.\n\nPlease check your internet connection or try clearing your browser cache.");
-                    document.getElementById('site-version').style.color = 'red';
-                    document.getElementById('site-version').innerText += " (OFFLINE)";
-                } else {
-                    console.log("App verified loaded.");
-                    // Backup Injection: If app.js didn't inject the listener for some reason
-                    const btn = document.getElementById('authLocalOnlyBtn');
-                    if (btn && !btn.onclick && !btn.getAttribute('data-has-listener')) {
-                        console.log("Injecting BACKUP listener");
-                        btn.onclick = function () {
-                            alert("Backup Listener: Calling forceGuestLogin...");
-                            if (window.appInstance) window.appInstance.forceGuestLogin();
-                        };
-                    }
-                }
-            }, 2000);
-        });
-    </script>
+    <script src="js/app.js?v=1.82"></script>
 </body>
 
 </html>

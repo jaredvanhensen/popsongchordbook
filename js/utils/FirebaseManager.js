@@ -5,12 +5,10 @@ class FirebaseManager {
         this.auth = null;
         this.database = null;
         this.currentUser = null;
-        this.initialized = false;
-        this.localOnly = localStorage.getItem('pscb_local_only') === 'true';
-        this.onAuthStateChangedCallbacks = [];
         this.songsListeners = new Map();
         this.setlistsListeners = new Map();
         this.pendingSongsListeners = new Map();
+        this.initialized = false;
     }
 
     // Initialize Firebase
@@ -143,27 +141,6 @@ class FirebaseManager {
             return {
                 success: false,
                 error: this.getAuthErrorMessage(error.code)
-            };
-        }
-    }
-
-    async signInAnonymously() {
-        if (!this.initialized) {
-            await this.initialize();
-        }
-
-        try {
-            const userCredential = await this.auth.signInAnonymously();
-            this.currentUser = userCredential.user;
-            return {
-                success: true,
-                user: userCredential.user
-            };
-        } catch (error) {
-            console.error('Anonymous sign in error:', error);
-            return {
-                success: false,
-                error: error.message
             };
         }
     }
@@ -414,37 +391,11 @@ class FirebaseManager {
         return this.currentUser !== null;
     }
 
-    isGuest() {
-        return this.currentUser !== null && this.currentUser.isAnonymous;
-    }
-
-    isLocalOnly() {
-        return this.localOnly;
-    }
-
-    setLocalOnly(value) {
-        this.localOnly = value;
-        localStorage.setItem('pscb_local_only', value);
-        if (value) {
-            console.log("FirebaseManager: Entering Local-Only Mode (Cloud sync disabled)");
-            // Ensure currentUser is reset if switching to local mode
-            this.currentUser = null;
-        }
-    }
-
     // Database Methods
 
     async saveSongs(userId, songs) {
-        if (this.isLocalOnly()) {
-            return { success: true, message: 'Saved locally' };
-        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
-        }
-
-        if (this.isGuest()) {
-            console.warn('Write operation blocked: Guest user cannot save songs to database.');
-            return { success: false, error: 'Gasten kunnen geen wijzigingen opslaan.' };
         }
 
         try {
@@ -464,9 +415,6 @@ class FirebaseManager {
     }
 
     async loadSongs(userId) {
-        if (this.isLocalOnly()) {
-            return { success: false, error: 'Local mode active' }; // Let SongManager fallback
-        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -489,16 +437,8 @@ class FirebaseManager {
     }
 
     async saveSetlists(userId, setlists) {
-        if (this.isLocalOnly()) {
-            return { success: true, message: 'Saved locally' };
-        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
-        }
-
-        if (this.isGuest()) {
-            console.warn('Write operation blocked: Guest user cannot save setlists to database.');
-            return { success: false, error: 'Gasten kunnen geen wijzigingen opslaan.' };
         }
 
         try {
@@ -518,9 +458,6 @@ class FirebaseManager {
     }
 
     async loadSetlists(userId) {
-        if (this.isLocalOnly()) {
-            return { success: false, error: 'Local mode active' }; // Let SetlistManager fallback
-        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -698,11 +635,6 @@ class FirebaseManager {
             throw new Error('Firebase not initialized or recipient not specified');
         }
 
-        if (this.isGuest()) {
-            console.warn('Write operation blocked: Guest user cannot share songs.');
-            throw new Error('Gasten kunnen geen songs delen.');
-        }
-
         try {
             const pendingRef = this.database.ref(`users/${recipientUserId}/pendingSongs`);
             const pendingObject = {};
@@ -726,9 +658,6 @@ class FirebaseManager {
     }
 
     async loadPendingSongs(userId) {
-        if (this.isLocalOnly()) {
-            return { success: true, songs: [] };
-        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -758,10 +687,6 @@ class FirebaseManager {
     async acceptPendingSongs(userId, pendingIds) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
-        }
-
-        if (this.isGuest()) {
-            throw new Error('Gasten kunnen geen songs accepteren.');
         }
 
         try {
@@ -805,10 +730,6 @@ class FirebaseManager {
     async deletePendingSongs(userId, pendingIds) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
-        }
-
-        if (this.isGuest()) {
-            throw new Error('Gasten kunnen geen songs verwijderen.');
         }
 
         try {

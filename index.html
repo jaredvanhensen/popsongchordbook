@@ -18,7 +18,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.00</span>
+            v<span id="site-version">1.82</span>
         </div>
         <div class="hero-content">
             <div class="hero-icon">
@@ -203,16 +203,40 @@
     </footer>
     </footer>
 
-    <!-- Landing Page Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Apply saved theme
-            const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
-            document.body.classList.add(savedTheme);
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
-            console.log("Pop Song Chord Book Landing Page Loaded");
-        });
-    </script>
+    <!-- Firebase Config -->
+    <script src="js/config/firebase-config.js?v=1.82"></script>
+
+    <!-- Models -->
+    <script src="js/models/SongManager.js?v=1.82"></script>
+    <script src="js/models/SetlistManager.js?v=1.82"></script>
+    <!-- Utils -->
+    <script src="js/utils/Sorter.js?v=1.82"></script>
+    <script src="js/utils/ChordDetector.js?v=1.82"></script>
+    <script src="js/utils/KeyDetector.js?v=1.82"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.82"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.82"></script>
+    <!-- UI Components -->
+    <script src="js/ui/ChordModal.js?v=1.82"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.82"></script>
+    <script src="js/ui/TableRenderer.js?v=1.82"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.82"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.82"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.82"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.82"></script>
+    <script src="js/ui/AuthModal.js?v=1.82"></script>
+    <script src="js/ui/ProfileModal.js?v=1.82"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.82"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.82"></script>
+    <!-- Main App -->
+    <!-- Data -->
+    <script src="js/data/default_songs.js?v=1.82"></script>
+    <script src="js/app.js?v=1.82"></script>
 </body>
 
 </html>

@@ -32,31 +32,10 @@ class AuthModal {
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
 
-        // Guest element
-        this.guestBtn = document.getElementById('authGuestLoginBtn');
-        this.localBtn = document.getElementById('authLocalOnlyBtn');
-
         this.setupEventListeners();
     }
 
     setupEventListeners() {
-        console.log('AuthModal: setupEventListeners called');
-        // Guest login
-        if (this.guestBtn) {
-            this.guestBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleGuestLogin();
-            });
-        }
-
-        // Local Only
-        if (this.localBtn) {
-            this.localBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleLocalOnly();
-            });
-        }
-
         // Login form
         if (this.loginBtn) {
             this.loginBtn.addEventListener('click', (e) => {
@@ -242,63 +221,7 @@ class AuthModal {
         }
     }
 
-    async handleLocalOnly() {
-        console.log('User chose Local-Only mode.');
-        this.clearErrors();
-
-        try {
-            if (this.firebaseManager) {
-                this.firebaseManager.setLocalOnly(true);
-            } else {
-                console.error('FirebaseManager not initialized in AuthModal');
-                // Try to set localStorage manually as fallback
-                localStorage.setItem('localOnlyMode', 'true');
-            }
-            this.allowHide = true;
-            this.hide();
-
-            // Re-trigger auth success but with "Local" context
-            if (this.onAuthSuccess) {
-                this.onAuthSuccess({ uid: 'local-user', isLocal: true });
-            }
-        } catch (error) {
-            console.error('Local-only transition error:', error);
-            this.showLoginError('Failed to enter local mode.');
-        }
-    }
-
-    async handleGuestLogin() {
-        console.log('Handling Guest Login...');
-        // Show loading state
-        this.setGuestLoading(true);
-        this.clearErrors();
-
-        try {
-            if (!this.firebaseManager) {
-                throw new Error('FirebaseManager not initialized');
-            }
-            const result = await this.firebaseManager.signInAnonymously();
-
-            if (result.success) {
-                this.clearErrors();
-                this.allowHide = true;
-                this.hide();
-                if (this.onAuthSuccess) {
-                    this.onAuthSuccess(result.user);
-                }
-            } else {
-                this.showLoginError(result.error || 'Guest login failed.');
-            }
-        } catch (error) {
-            console.error('Guest login error:', error);
-            this.showLoginError('An error occurred. Please try again.');
-        } finally {
-            this.setGuestLoading(false);
-        }
-    }
-
     async handleLogin() {
-        console.log('Handling Regular Login...');
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 
@@ -443,17 +366,6 @@ class AuthModal {
         if (this.createErrorMsg) {
             this.createErrorMsg.textContent = '';
             this.createErrorMsg.classList.add('hidden');
-        }
-    }
-
-    setGuestLoading(loading) {
-        if (this.guestBtn) {
-            this.guestBtn.disabled = loading;
-            if (loading) {
-                this.guestBtn.textContent = 'Entering...';
-            } else {
-                this.guestBtn.textContent = 'Guest login (Cloud Sync)';
-            }
         }
     }
 

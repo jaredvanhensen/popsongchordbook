@@ -1,392 +1,186 @@
-// Global error catcher to debug silent crashes
-window.onerror = function (msg, url, lineNo, columnNo, error) {
-    alert('GLOBAL ERROR CAUGHT:\n' + msg + '\nFile: ' + url + '\nLine: ' + lineNo + '\nError: ' + (error ? error.stack : 'N/A'));
-    return false;
-};
-
-// Async error catcher
-window.addEventListener('unhandledrejection', function (event) {
-    alert('UNHANDLED PROMISE REJECTION:\n' + event.reason);
-});
-
 // Main Application
-
 class App {
     constructor() {
-        try {
+        // Initialize Firebase Manager first
+        this.firebaseManager = new FirebaseManager();
+        this.authModal = null;
+        this.isAuthenticated = false;
+        this.migrationCompleted = false;
 
-            this.firebaseManager = new FirebaseManager();
+        // Initialize managers (will be connected to Firebase after auth)
+        this.songManager = new SongManager(this.firebaseManager);
+        this.setlistManager = new SetlistManager(this.firebaseManager);
+        this.sorter = new Sorter();
+        this.keyDetector = new KeyDetector();
+        this.chordModal = new ChordModal();
+        this.songDetailModal = new SongDetailModal(
+            this.songManager,
+            (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
+            () => this.loadAndRender(), // Refresh table when song is updated
+            this.chordModal, // Pass chordModal for chord button
+            (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
+            (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
+            this.keyDetector,
+            (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
+            (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
+            (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
+        );
+        this.chordDetectorOverlay = new ChordDetectorOverlay();
+        this.currentFilter = {
+            favorites: false,
+            key: '',
+            withYouTube: false,
+            withoutYouTube: false
+        };
+        this.currentSetlistId = null;
+        this.searchTerm = '';
+        this.addSongsSearchTerm = '';
+        this.addSongsSortField = 'title';
+        this.addSongsSortDirection = 'asc';
+        this.lastAddSongsSetlistId = null;
+        this.viewMode = 'full'; // 'simple' or 'full'
 
-            this.songManager = new SongManager(this.firebaseManager);
-            this.setlistManager = new SetlistManager(this.firebaseManager);
+        this.tableRenderer = new TableRenderer(
+            this.songManager,
+            (songId) => this.handleRowSelect(songId),
+            (songId, field, value) => this.handleCellEdit(songId, field, value),
+            (songId) => this.handleDelete(songId),
+            this.chordModal,
+            (songId) => this.handleToggleFavorite(songId),
+            (songId) => this.handlePlayYouTube(songId),
+            this.keyDetector
+        );
 
-
-            // Initialize Firebase auth listener (for non-local modes)
-            this.sorter = new Sorter();
-            this.keyDetector = new KeyDetector();
-            this.chordModal = new ChordModal();
-
-            this.songDetailModal = new SongDetailModal(
-                this.songManager,
-                (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
-                () => this.loadAndRender(), // Refresh table when song is updated
-                this.chordModal, // Pass chordModal for chord button
-                (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
-                (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
-                this.keyDetector,
-                (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
-                (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
-                (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
-            );
-
-            this.chordDetectorOverlay = new ChordDetectorOverlay();
-            this.currentFilter = {
-                favorites: false,
-                key: '',
-                withYouTube: false,
-                withoutYouTube: false
-            };
-            this.currentSetlistId = null;
-            this.searchTerm = '';
-            this.addSongsSearchTerm = '';
-            this.addSongsSortField = 'title';
-            this.addSongsSortDirection = 'asc';
-            this.lastAddSongsSetlistId = null;
-            this.viewMode = 'full'; // 'simple' or 'full'
-
-            this.tableRenderer = new TableRenderer(
-                this.songManager,
-                (songId) => this.handleRowSelect(songId),
-                (songId, field, value) => this.handleCellEdit(songId, field, value),
-                (songId) => this.handleDelete(songId),
-                this.chordModal,
-                (songId) => this.handleToggleFavorite(songId),
-                (songId) => this.handlePlayYouTube(songId),
-                this.keyDetector
-            );
-
-            this.init().catch(e => {
-                console.error('CRITICAL: init() promise rejected:', e);
-                alert('CRITICAL: init() promise rejected: ' + e);
-            });
-        } catch (error) {
-            console.error('CRITICAL: App constructor failed:', error);
-            alert('CRITICAL: App constructor failed: ' + error.message + '\n\nPlease report this error.');
-            const overlay = document.getElementById('initOverlay');
-            if (overlay) overlay.style.display = 'none';
-        }
+        this.init();
     }
 
     async init() {
         // Apply saved theme immediately
+        const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+        document.body.classList.add(savedTheme);
+
+        // Initialize theme switcher
+        this.setupThemeSwitcher();
+
+        console.log("Pop Song Chord Book - App Initialized (v1.82)");
+        // Initialize Firebase
         try {
-            const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
-            document.body.classList.add(savedTheme);
-
-            // Initialize theme switcher
-            this.setupThemeSwitcher();
-
-            console.log("Pop Song Chord Book - App Initialized (v1.89)");
-
-            // 1. Check for persistent Local-Guest mode first
-            const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
-            if (isLocalOnlyStart) {
-                console.log("Restoring persistent Local Mode");
-                this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-                return;
-            }
-
-            // 2. Setup auth modal IMMEDIATELY
-            this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
-
-            // 3. Show auth modal by default since we're not in local mode yet
-            // and we haven't verified a Firebase session.
-            this.handleAuthFailure();
-
-            // 4. Safety timeout - remove overlay after 3 seconds even if Firebase hangs
-            setTimeout(() => {
-                console.log("Initialization safety timeout reached");
-                const overlay = document.getElementById('initOverlay');
-                if (overlay) overlay.style.display = 'none';
-            }, 3000);
-
-            // EMERGENCY GUEST LOGIN INJECTION (v1.95)
-            // Attaching a capture-phase listener to ensure we catch the click before anything else
-            setTimeout(() => {
-                const guestBtn = document.getElementById('authLocalOnlyBtn');
-                if (guestBtn) {
-                    console.log("Injecting Capture-Phase Listener for Guest Button");
-                    // Remove old onclick if any (though inline attributes persist, this helps cleanliness)
-                    guestBtn.onclick = null;
-
-                    guestBtn.addEventListener('click', (e) => {
-                        console.log(">>> GUEST BUTTON CLICKED (Capture Phase) <<<");
-                        e.preventDefault();
-                        e.stopPropagation(); // Stop bubbling
-                        e.stopImmediatePropagation(); // Stop other listeners
-
-                        guestBtn.style.backgroundColor = '#10b981'; // Green
-                        guestBtn.innerText = 'LOGGING IN...';
-
-                        this.forceGuestLogin();
-                    }, { capture: true });
-                } else {
-                    console.error("Critical: Could not find authLocalOnlyBtn for injection");
-                }
-            }, 500); // Small delay to ensure DOM is settled
-
-            // 5. Initialize Firebase in background
-            try {
-                console.log("Starting Firebase initialization...");
-                await this.firebaseManager.initialize();
-                console.log("Firebase initialized");
-
-                // 6. Setup auth state listener for automatic session restoration
-                this.firebaseManager.onAuthStateChanged((user) => {
-                    if (user && !this.isAuthenticated) {
-                        console.log("Firebase session restored");
-                        this.handleAuthSuccess(user);
-                        if (this.authModal) this.authModal.hide();
-                    } else if (!user && !this.isAuthenticated) {
-                        console.log("No Firebase session found");
-                        // Just ensure overlay is gone
-                        const overlay = document.getElementById('initOverlay');
-                        if (overlay) overlay.style.display = 'none';
-                    }
-                });
-            } catch (error) {
-                console.error('Firebase initialization failed (falling back to guest-only view):', error);
-                const overlay = document.getElementById('initOverlay');
-                if (overlay) overlay.style.display = 'none';
-                // We don't alert here because the AuthModal is already visible
-                // and the user can still use "GUEST login" (Local).
-            }
-        } catch (e) {
-            console.error('CRITICAL ERROR IN INIT:', e);
-            throw e;
+            await this.firebaseManager.initialize();
+        } catch (error) {
+            console.error('Firebase initialization failed:', error);
+            alert('Firebase initialisatie mislukt. Controleer je Firebase configuratie.');
+            return;
         }
+
+        // Setup auth modal
+        this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
+
+        // Setup profile modal (will be initialized after auth)
+        this.profileModal = null;
+
+        // Wait for auth state to be restored (handles page refresh)
+        // This ensures we wait for Firebase to restore the session before checking auth state
+        await new Promise((resolve) => {
+            let resolved = false;
+            // Setup auth state listener - wait for first state change
+            this.firebaseManager.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is authenticated (either logged in or session restored)
+                    if (!this.isAuthenticated) {
+                        this.handleAuthSuccess(user);
+                    }
+                } else {
+                    // No user - show login modal
+                    if (!this.isAuthenticated) {
+                        this.handleAuthFailure();
+                    }
+                }
+                // Resolve after first auth state check (only once)
+                if (!resolved) {
+                    resolved = true;
+                    resolve();
+                }
+            });
+        });
     }
 
     async initializeApp() {
-        try {
-            this.isAuthenticated = true;
+        this.isAuthenticated = true;
 
-            // Setup sharing modals
-            this.shareSongsModal = new ShareSongsModal(this.firebaseManager, this.songManager);
-            this.acceptSongsModal = new AcceptSongsModal(this.firebaseManager, this.songManager);
+        // Setup sharing modals
+        this.shareSongsModal = new ShareSongsModal(this.firebaseManager, this.songManager);
+        this.acceptSongsModal = new AcceptSongsModal(this.firebaseManager, this.songManager);
 
-            // Setup profile modal
-            this.profileModal = new ProfileModal(
-                this.firebaseManager,
-                () => this.handleSignOut(),
-                () => this.shareSongsModal.show(),
-                () => this.acceptSongsModal.show()
-            );
+        // Setup profile modal
+        this.profileModal = new ProfileModal(
+            this.firebaseManager,
+            () => this.handleSignOut(),
+            () => this.shareSongsModal.show(),
+            () => this.acceptSongsModal.show()
+        );
+        this.profileModal.onAuthSuccess = (user) => {
+            this.updateProfileLabel(user);
+        };
+        this.setupProfile();
 
-            this.profileModal.onAuthSuccess = (user) => {
-                this.updateProfileLabel(user);
-            };
-            this.setupProfile();
+        // Setup UI components
+        this.setupSorting();
+        this.setupAddSongButton();
+        this.setupRandomSongButton();
+        this.setupFilters();
+        this.setupSearch();
+        this.setupSetlists();
+        this.setupAddSongsToSetlistModal();
+        this.setupAddToSetlistSingleModal();
+        this.setupImportExport();
+        this.setupPrintButton();
+        this.setupDeselect();
+        this.setupHeaderBarToggle();
+        this.setupToggleView();
+        this.setupResponsiveView();
+        this.setupCreateSongModal();
 
-            // Reveal the app container and remove init overlay
-            const overlay = document.getElementById('initOverlay');
-            if (overlay) {
-                overlay.style.display = 'none';
-            }
+        // Load data from Firebase
+        await this.loadDataFromFirebase();
 
-            const container = document.getElementById('mainContainer');
-            if (container) {
-                container.style.display = 'block';
-            }
+        // Setup real-time sync
+        this.setupRealtimeSync();
 
-            // Setup UI components
-            this.setupSorting();
-            this.setupAddSongButton();
-            this.setupRandomSongButton();
-            this.setupFilters();
-            this.setupSearch();
-            this.setupSetlists();
-            this.setupAddSongsToSetlistModal();
-            this.setupAddToSetlistSingleModal();
-            this.setupImportExport();
-            this.setupPrintButton();
-            this.setupDeselect();
-            this.setupHeaderBarToggle();
-            this.setupToggleView();
-            this.setupResponsiveView();
-            this.setupCreateSongModal();
-
-            // Load data - either from Firebase or Local
-            const isLocalOnlyApp = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
-            if (isLocalOnlyApp) {
-                console.log('initializeApp: Loading in Local Mode');
-                // Ensure default songs are loaded if storage is empty
-                await this.seedDefaultData();
-            } else {
-                // Load data from Firebase
-                await this.loadDataFromFirebase();
-
-                // Setup real-time sync
-                this.setupRealtimeSync();
-
-                // Initialize pending songs count
-                const userId = this.firebaseManager.getCurrentUser()?.uid;
-                if (userId) {
-                    this.firebaseManager.getPendingSongsCount(userId).then(count => {
-                        this.updatePendingSongsCount(count);
-                    });
-                }
-            }
-
-            // Enforce guest UI restrictions
-            const isLocalOnly = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
-            const isGuest = this.firebaseManager && this.firebaseManager.isGuest && this.firebaseManager.isGuest();
-
-            if (isLocalOnly) {
-                this.applyLocalGuestSettings();
-            } else if (isGuest) {
-                this.applyGuestRestrictions();
-            }
-
-            // Load and render songs (no default songs for new users)
-            this.loadAndRender();
-
-            // DEBUG: Diagnostics on Version Click
-            const versionEl = document.getElementById('site-version');
-            if (versionEl) {
-                versionEl.style.cursor = 'pointer';
-                versionEl.title = 'Click for Diagnostics';
-                versionEl.addEventListener('click', () => this.runDiagnostics());
-            }
-        } catch (e) {
-            console.error('CRITICAL ERROR IN initializeApp:', e);
-            alert('CRITICAL ERROR IN initializeApp: ' + e);
-            throw e;
-        }
-    }
-
-    forceGuestLogin() {
-        console.log("Forcing Guest Login via Bypass...");
-        try {
-            // 1. Set Local Mode Flag
-            if (this.firebaseManager) {
-                this.firebaseManager.setLocalOnly(true);
-            } else {
-                console.warn("FirebaseManager missing in forceGuestLogin, using localStorage directly");
-                localStorage.setItem('localOnlyMode', 'true');
-            }
-
-            // 2. Clear Overlay immediately (just in case)
-            const overlay = document.getElementById('initOverlay');
-            if (overlay) overlay.style.display = 'none';
-
-            // 3. Trigger Auth Success
-            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
-
-            // 4. Hide Modal
-            if (this.authModal) {
-                this.authModal.hide();
-                // Double tap: force CSS hidden
-                if (this.authModal.modal) this.authModal.modal.classList.add('hidden');
-            }
-
-            // 5. Force hiding by ID as final fallback
-            const modalEl = document.getElementById('authModal');
-            if (modalEl) {
-                modalEl.classList.add('hidden');
-                modalEl.style.display = 'none'; // Nuclear hide
-            }
-
-        } catch (e) {
-            alert("Force Guest Error: " + e);
-            console.error(e);
-        }
-    }
-
-    applyLocalGuestSettings() {
-        console.log('Applying GUEST (Local) UI settings');
-        // In local mode, we allow adding/editing since it saves to localStorage
-        // But we update the profile label to show the correct state
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            const label = profileBtn.querySelector('.label');
-            if (label) {
-                const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager.getAllSongs().length})</span>`;
-                label.innerHTML = `<span>GUEST (Local)</span> ${songCountHtml}`;
-            }
-        }
-    }
-
-    applyGuestRestrictions() {
-        console.log('Applying guest restrictions (Read-only mode)');
-
-        // Buttons to hide
-        const elementsToHide = [
-            'addSongBtn',
-            'importFile',
-            'deleteAllSongsBtn',
-            'createSetlistBtn',
-            'editSetlistBtn',
-            'deleteSetlistBtn',
-            'profileShareSongsBtn',
-            'profileAcceptSongsBtn'
-        ];
-
-        // Also labels/containers for import/export if needed
-        const labelsToHide = document.querySelectorAll('label[for="importFile"]');
-        labelsToHide.forEach(label => label.classList.add('hidden'));
-
-        elementsToHide.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.add('hidden');
+        // Initialize pending songs count
+        const userId = this.firebaseManager.getCurrentUser().uid;
+        this.firebaseManager.getPendingSongsCount(userId).then(count => {
+            this.updatePendingSongsCount(count);
         });
 
-        // Disable editing in TableRenderer
-        if (this.tableRenderer) {
-            // We can prevent enterEditMode by checking guest state
-            // or simply disabling the double click listener if it had one (it uses single click for select)
-            // The cells have 'editable' class, which we can remove or ignore
-            const editableCells = document.querySelectorAll('.editable');
-            editableCells.forEach(cell => cell.classList.remove('editable'));
-        }
+        // Load and render songs (no default songs for new users)
+        this.loadAndRender();
 
-        // Update profile label to show "Guest"
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            const label = profileBtn.querySelector('.label');
-            if (label) {
-                const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
-                label.innerHTML = `<span>GUEST</span> ${songCountHtml}`;
-            }
+        // DEBUG: Diagnostics on Version Click
+        const versionEl = document.getElementById('site-version');
+        if (versionEl) {
+            versionEl.style.cursor = 'pointer';
+            versionEl.title = 'Click for Diagnostics';
+            versionEl.addEventListener('click', () => this.runDiagnostics());
         }
     }
 
     async handleAuthSuccess(user) {
-        try {
-            if (!this.isAuthenticated) {
-                // First time authentication
-                if (!user.isLocal) {
-                    // Check for migration or existing data
-                    await this.checkAndMigrateData(user);
-                }
-                this.isAuthenticated = true;
-                await this.initializeApp();
-            }
-
-            // Ensure email index exists for this user (for regular users)
-            if (!user.isLocal && user && user.email) {
-                try {
-                    await this.firebaseManager.ensureEmailIndex(user.uid, user.email);
-                } catch (error) {
-                    console.error('Error ensuring email index:', error);
-                }
-            }
-
-            this.updateProfileLabel(user);
-        } catch (e) {
-            alert('CRITICAL ERROR IN handleAuthSuccess: ' + e);
-            console.error(e);
+        if (!this.isAuthenticated) {
+            // First time authentication - check for migration
+            await this.checkAndMigrateData(user);
+            await this.initializeApp();
         }
+
+        // Ensure email index exists for this user (for existing users)
+        if (user && user.email) {
+            try {
+                await this.firebaseManager.ensureEmailIndex(user.uid, user.email);
+            } catch (error) {
+                console.error('Error ensuring email index:', error);
+            }
+        }
+
+        this.updateProfileLabel(user);
     }
 
     handleAuthFailure() {
@@ -402,9 +196,6 @@ class App {
     }
 
     handleSignOut() {
-        // Clear local mode persistence
-        this.firebaseManager.setLocalOnly(false);
-
         // Remove pending songs listener
         const userId = this.firebaseManager.getCurrentUser()?.uid;
         if (userId) {
@@ -1938,7 +1729,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.871):\n`;
+        let msg = `Diagnostics (v1.82):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;

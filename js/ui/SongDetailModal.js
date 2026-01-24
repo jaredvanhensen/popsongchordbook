@@ -409,13 +409,6 @@ class SongDetailModal {
     }
 
     setupEditableFields() {
-        // If guest, don't setup editing
-        const isGuest = this.songManager && this.songManager.firebaseManager && this.songManager.firebaseManager.isGuest && this.songManager.firebaseManager.isGuest();
-        if (isGuest) {
-            console.log('Guest user: Editing disabled in SongDetailModal');
-            return;
-        }
-
         // Setup artist and title
         if (this.artistElement) {
             this.artistElement.addEventListener('click', (e) => {
@@ -1367,31 +1360,6 @@ class SongDetailModal {
         // Show modal
         if (this.modal) {
             this.modal.classList.remove('hidden');
-        }
-
-        // Apply guest restrictions
-        const isGuest = this.songManager && this.songManager.firebaseManager && this.songManager.firebaseManager.isGuest && this.songManager.firebaseManager.isGuest();
-        if (isGuest) {
-            const guestHiddenElements = [
-                this.deleteBtn,
-                this.youtubeBtn, // Edit Details button
-                this.saveBtn,
-                this.favoriteBtn,
-                this.practiceBtn,
-                this.addToSetlistBtn
-            ];
-            guestHiddenElements.forEach(el => {
-                if (el) el.classList.add('hidden');
-            });
-
-            // Also hide all chord editor buttons
-            const chordEditorButtons = this.modal.querySelectorAll('.chord-editor-btn');
-            chordEditorButtons.forEach(btn => btn.classList.add('hidden'));
-
-            // Hide cue inputs (readonly for guests)
-            Object.values(this.sections).forEach(section => {
-                if (section.cue) section.cue.disabled = true;
-            });
         }
 
         // Auto-focus and enter edit mode for artist field if requested (for new songs)
