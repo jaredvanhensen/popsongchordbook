@@ -7390,3 +7390,35 @@ td:has(.row-edit-input.input-focused) {
     color: #1e293b;
 }
 
+
+/* Premium Back Icon Button (v1.84) */
+.back-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    text-decoration: none;
+    margin-right: 12px;
+}
+
+.back-icon-btn:hover {
+    background-color: #f8fafc;
+    color: #1e293b;
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.back-icon-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+}
+
