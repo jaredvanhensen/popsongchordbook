@@ -7,9 +7,20 @@ class App {
         this.isAuthenticated = false;
         this.migrationCompleted = false;
 
-        // Initialize managers (will be connected to Firebase after auth)
-        this.songManager = new SongManager(this.firebaseManager);
-        this.setlistManager = new SetlistManager(this.firebaseManager);
+        // Initialize SongManager and SetlistManager with local storage defaults
+        this.songManager = new SongManager();
+        this.setlistManager = new SetlistManager();
+
+        // Check if we are in Local-Guest mode
+        if (this.firebaseManager.isLocalOnly()) {
+            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+            // The rest of the constructor will not be executed in local-guest mode
+            // as handleAuthSuccess will call initializeApp which sets up everything.
+            // We return here to prevent duplicate initializations.
+            return;
+        }
+
+        // Initialize Firebase auth listener (for non-local modes)
         this.sorter = new Sorter();
         this.keyDetector = new KeyDetector();
         this.chordModal = new ChordModal();
@@ -62,7 +73,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.83)");
+        console.log("Pop Song Chord Book - App Initialized (v1.84)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -140,20 +151,30 @@ class App {
         this.setupResponsiveView();
         this.setupCreateSongModal();
 
-        // Load data from Firebase
-        await this.loadDataFromFirebase();
+        // Load data - either from Firebase or Local
+        if (this.firebaseManager.isLocalOnly()) {
+            console.log('initializeApp: Loading in Local Mode');
+            // Data is already being loaded by SongManager/SetlistManager fallbacks
+        } else {
+            // Load data from Firebase
+            await this.loadDataFromFirebase();
 
-        // Setup real-time sync
-        this.setupRealtimeSync();
+            // Setup real-time sync
+            this.setupRealtimeSync();
 
-        // Initialize pending songs count
-        const userId = this.firebaseManager.getCurrentUser().uid;
-        this.firebaseManager.getPendingSongsCount(userId).then(count => {
-            this.updatePendingSongsCount(count);
-        });
+            // Initialize pending songs count
+            const userId = this.firebaseManager.getCurrentUser()?.uid;
+            if (userId) {
+                this.firebaseManager.getPendingSongsCount(userId).then(count => {
+                    this.updatePendingSongsCount(count);
+                });
+            }
+        }
 
         // Enforce guest UI restrictions
-        if (this.firebaseManager.isGuest()) {
+        if (this.firebaseManager.isLocalOnly()) {
+            this.applyLocalGuestSettings();
+        } else if (this.firebaseManager.isGuest()) {
             this.applyGuestRestrictions();
         }
 
@@ -166,6 +187,20 @@ class App {
             versionEl.style.cursor = 'pointer';
             versionEl.title = 'Click for Diagnostics';
             versionEl.addEventListener('click', () => this.runDiagnostics());
+        }
+    }
+
+    applyLocalGuestSettings() {
+        console.log('Applying GUEST (Local) UI settings');
+        // In local mode, we allow adding/editing since it saves to localStorage
+        // But we update the profile label to show the correct state
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            const label = profileBtn.querySelector('.label');
+            if (label) {
+                const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager.getAllSongs().length})</span>`;
+                label.innerHTML = `<span>GUEST (Local)</span> ${songCountHtml}`;
+            }
         }
     }
 
@@ -215,13 +250,17 @@ class App {
 
     async handleAuthSuccess(user) {
         if (!this.isAuthenticated) {
-            // First time authentication - check for migration
-            await this.checkAndMigrateData(user);
+            // First time authentication
+            if (!user.isLocal) {
+                // Check for migration or existing data
+                await this.checkAndMigrateData(user);
+            }
+            this.isAuthenticated = true;
             await this.initializeApp();
         }
 
-        // Ensure email index exists for this user (for existing users)
-        if (user && user.email) {
+        // Ensure email index exists for this user (for regular users)
+        if (!user.isLocal && user && user.email) {
             try {
                 await this.firebaseManager.ensureEmailIndex(user.uid, user.email);
             } catch (error) {
@@ -1778,7 +1817,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.83):\n`;
+        let msg = `Diagnostics (v1.84):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;

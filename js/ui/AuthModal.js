@@ -34,6 +34,7 @@ class AuthModal {
 
         // Guest element
         this.guestBtn = document.getElementById('authGuestLoginBtn');
+        this.localBtn = document.getElementById('authLocalOnlyBtn');
 
         this.setupEventListeners();
     }
@@ -44,6 +45,14 @@ class AuthModal {
             this.guestBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.handleGuestLogin();
+            });
+        }
+
+        // Local Only
+        if (this.localBtn) {
+            this.localBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLocalOnly();
             });
         }
 
@@ -229,6 +238,25 @@ class AuthModal {
             this.showLoginError('An error occurred. Please try again later.');
         } finally {
             this.setForgotPasswordLoading(false);
+        }
+    }
+
+    async handleLocalOnly() {
+        console.log('User chose Local-Only mode.');
+        this.clearErrors();
+
+        try {
+            this.firebaseManager.setLocalOnly(true);
+            this.allowHide = true;
+            this.hide();
+
+            // Re-trigger auth success but with "Local" context
+            if (this.onAuthSuccess) {
+                this.onAuthSuccess({ uid: 'local-user', isLocal: true });
+            }
+        } catch (error) {
+            console.error('Local-only transition error:', error);
+            this.showLoginError('Failed to enter local mode.');
         }
     }
 

@@ -5,10 +5,12 @@ class FirebaseManager {
         this.auth = null;
         this.database = null;
         this.currentUser = null;
+        this.initialized = false;
+        this.localOnly = false;
+        this.onAuthStateChangedCallbacks = [];
         this.songsListeners = new Map();
         this.setlistsListeners = new Map();
         this.pendingSongsListeners = new Map();
-        this.initialized = false;
     }
 
     // Initialize Firebase
@@ -416,9 +418,25 @@ class FirebaseManager {
         return this.currentUser !== null && this.currentUser.isAnonymous;
     }
 
+    isLocalOnly() {
+        return this.localOnly;
+    }
+
+    setLocalOnly(value) {
+        this.localOnly = value;
+        if (value) {
+            console.log("FirebaseManager: Entering Local-Only Mode (Cloud sync disabled)");
+            // Ensure currentUser is reset if switching to local mode
+            this.currentUser = null;
+        }
+    }
+
     // Database Methods
 
     async saveSongs(userId, songs) {
+        if (this.isLocalOnly()) {
+            return { success: true, message: 'Saved locally' };
+        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -445,6 +463,9 @@ class FirebaseManager {
     }
 
     async loadSongs(userId) {
+        if (this.isLocalOnly()) {
+            return { success: false, error: 'Local mode active' }; // Let SongManager fallback
+        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -467,6 +488,9 @@ class FirebaseManager {
     }
 
     async saveSetlists(userId, setlists) {
+        if (this.isLocalOnly()) {
+            return { success: true, message: 'Saved locally' };
+        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -493,6 +517,9 @@ class FirebaseManager {
     }
 
     async loadSetlists(userId) {
+        if (this.isLocalOnly()) {
+            return { success: false, error: 'Local mode active' }; // Let SetlistManager fallback
+        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
@@ -698,6 +725,9 @@ class FirebaseManager {
     }
 
     async loadPendingSongs(userId) {
+        if (this.isLocalOnly()) {
+            return { success: true, songs: [] };
+        }
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
         }
