@@ -440,7 +440,7 @@ class AuthModal {
             if (loading) {
                 this.guestBtn.textContent = 'Entering...';
             } else {
-                this.guestBtn.textContent = 'Continue as Guest (Read-only)';
+                this.guestBtn.textContent = 'Guest login (Cloud Sync)';
             }
         }
     }

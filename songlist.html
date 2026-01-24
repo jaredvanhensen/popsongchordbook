@@ -18,7 +18,8 @@
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span id="site-version">1.84</span></span>
+                    <span style="font-size: 11px; color: #64748b; margin-right: 8px;">v<span
+                            id="site-version">1.84</span></span>
                 </div>
                 <div class="header-title-group">
                     <h1>Pop Song Chord Book</h1>
@@ -240,6 +241,16 @@
                     <div id="authLoginSuccess" class="auth-success hidden"></div>
                     <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
 
+                    <div class="auth-toggle">
+                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
+                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
+                        <span>No account yet?</span>
+                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
+                            account</button>
+                    </div>
+                </form>
+
+                <div id="authGuestSection">
                     <div class="auth-divider"
                         style="text-align: center; margin: 15px 0; color: #64748b; font-size: 0.85em; position: relative;">
                         <span style="background: white; padding: 0 10px; position: relative; z-index: 1;">OR</span>
@@ -255,15 +266,7 @@
                     <button type="button" id="authLocalOnlyBtn" class="modal-submit-btn auth-local-btn"
                         style="background-color: #fff; color: #64748b; border: 1px solid #e2e8f0; margin-bottom: 20px;">GUEST
                         login</button>
-
-                    <div class="auth-toggle">
-                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
-                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
-                        <span>No account yet?</span>
-                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
-                            account</button>
-                    </div>
-                </form>
+                </div>
 
                 <!-- Create Account Form -->
                 <form id="authCreateForm" class="auth-form hidden">
