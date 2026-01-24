@@ -34,7 +34,6 @@ class SongDetailModal {
         this.transposeMenu = document.getElementById('transposeMenu');
         this.transposeResetBtn = document.getElementById('songDetailTransposeReset');
         this.youtubeUrlModal = document.getElementById('youtubeUrlModal');
-        this.songKeyInput = document.getElementById('songKeyInput');
         this.youtubeUrlInput = document.getElementById('youtubeUrlInput');
         this.externalUrlInput = document.getElementById('externalUrlInput');
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
@@ -287,17 +286,6 @@ class SongDetailModal {
             }
             if (this.externalUrlInput) {
                 this.externalUrlInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        this.saveYouTubeUrl();
-                    } else if (e.key === 'Escape') {
-                        e.preventDefault();
-                        this.closeYouTubeUrlModal();
-                    }
-                });
-            }
-            if (this.songKeyInput) {
-                this.songKeyInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         this.saveYouTubeUrl();
@@ -1497,9 +1485,6 @@ class SongDetailModal {
         if (!song) return;
 
         // Set current values in inputs
-        if (this.songKeyInput) {
-            this.songKeyInput.value = song.key || '';
-        }
         if (this.youtubeUrlInput) {
             this.youtubeUrlInput.value = song.youtubeUrl || '';
         }
@@ -1522,11 +1507,11 @@ class SongDetailModal {
         // Show modal
         this.youtubeUrlModal.classList.remove('hidden');
 
-        // Focus first input (key input)
+        // Focus first input (youtube url input)
         setTimeout(() => {
-            if (this.songKeyInput) {
-                this.songKeyInput.focus();
-                this.songKeyInput.select();
+            if (this.youtubeUrlInput) {
+                this.youtubeUrlInput.focus();
+                this.youtubeUrlInput.select();
             }
         }, 100);
     }
@@ -1534,9 +1519,6 @@ class SongDetailModal {
     closeYouTubeUrlModal() {
         if (this.youtubeUrlModal) {
             this.youtubeUrlModal.classList.add('hidden');
-        }
-        if (this.songKeyInput) {
-            this.songKeyInput.value = '';
         }
         if (this.youtubeUrlInput) {
             this.youtubeUrlInput.value = '';
@@ -1560,7 +1542,6 @@ class SongDetailModal {
             return;
         }
 
-        const key = this.songKeyInput ? this.songKeyInput.value.trim() : '';
         const youtubeUrl = this.youtubeUrlInput ? this.youtubeUrlInput.value.trim() : '';
         const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
         const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
@@ -1569,7 +1550,6 @@ class SongDetailModal {
 
         // Update song
         this.songManager.updateSong(this.currentSongId, {
-            key: key,
             youtubeUrl: youtubeUrl,
             externalUrl: externalUrl,
             patchDetails: patchDetails,
@@ -1577,8 +1557,8 @@ class SongDetailModal {
             performAbility: performAbility
         });
 
-        // Update title display with key
-        this.updateTitleWithKey();
+        // Update Key Display in Footer
+        this.updateKeyDisplay();
 
         // Update buttons state
         this.updateYouTubeButton(youtubeUrl, externalUrl);
@@ -1800,7 +1780,7 @@ class SongDetailModal {
                 // Update de key in de song (direct opslaan omdat key een metadata veld is)
                 this.songManager.updateSong(this.currentSongId, { key: transposedKey });
                 // Update de key display
-                this.updateTitleWithKey();
+                this.updateKeyDisplay();
                 // Update originalSongData zodat change tracking correct blijft
                 if (this.originalSongData) {
                     this.originalSongData.key = transposedKey;
@@ -1869,6 +1849,10 @@ class SongDetailModal {
             if (this.sections.bridge.cue) {
                 this.sections.bridge.cue.value = this.originalSongData.bridgeCue || '';
             }
+        }
+        if (this.keyDisplay) {
+            this.keyDisplay.textContent = this.originalSongData.key || '';
+            this.updateKeyDisplay(); // To handle badge visibility
         }
 
         // Reset change tracking
