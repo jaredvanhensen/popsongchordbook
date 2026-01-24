@@ -1202,7 +1202,8 @@ class SongDetailModal {
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',
-            bridgeCue: song.bridgeCue || ''
+            bridgeCue: song.bridgeCue || '',
+            key: song.key || ''
         };
 
         // Update artist and title
