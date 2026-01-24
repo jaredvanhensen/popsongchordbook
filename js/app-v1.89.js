@@ -9,11 +9,10 @@ window.addEventListener('unhandledrejection', function (event) {
     alert('UNHANDLED PROMISE REJECTION:\n' + event.reason);
 });
 
-alert('V1.884: SCRIPT LOADED');
+// Main Application
 
 class App {
     constructor() {
-        alert('V1.888: App constructor starting...');
         try {
             alert('V1.885: TR 1: FirebaseManager creating...');
             this.firebaseManager = new FirebaseManager();
@@ -55,7 +54,6 @@ class App {
             this.lastAddSongsSetlistId = null;
             this.viewMode = 'full'; // 'simple' or 'full'
 
-            alert('V1.883: TR 6: TableRenderer starting...');
             this.tableRenderer = new TableRenderer(
                 this.songManager,
                 (songId) => this.handleRowSelect(songId),
@@ -67,7 +65,6 @@ class App {
                 this.keyDetector
             );
 
-            alert('V1.884: TR 7: Calling init()...');
             this.init().catch(e => {
                 console.error('CRITICAL: init() promise rejected:', e);
                 alert('CRITICAL: init() promise rejected: ' + e);
@@ -81,22 +78,18 @@ class App {
     }
 
     async init() {
-        alert('V1.884: TR 8: App init() starting...');
         // Apply saved theme immediately
         try {
             const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
             document.body.classList.add(savedTheme);
-            alert('V1.884: TR 9: Theme applied...');
 
             // Initialize theme switcher
             this.setupThemeSwitcher();
-            alert('V1.884: TR 10: Theme switcher setup...');
 
-            console.log("Pop Song Chord Book - App Initialized (v1.885)");
+            console.log("Pop Song Chord Book - App Initialized (v1.89)");
 
             // 1. Check for persistent Local-Guest mode first
             const isLocalOnlyStart = this.firebaseManager && this.firebaseManager.isLocalOnly && this.firebaseManager.isLocalOnly();
-            alert('V1.884: TR 11: Checking local mode...');
             if (isLocalOnlyStart) {
                 console.log("Restoring persistent Local Mode");
                 this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
@@ -104,7 +97,6 @@ class App {
             }
 
             // 2. Setup auth modal IMMEDIATELY
-            alert('V1.884: TR 12: Setting up AuthModal...');
             this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
 
             // 3. Show auth modal by default since we're not in local mode yet
@@ -120,10 +112,8 @@ class App {
 
             // 5. Initialize Firebase in background
             try {
-                alert('V1.884: TR 13: Starting Firebase init...');
                 console.log("Starting Firebase initialization...");
                 await this.firebaseManager.initialize();
-                alert('V1.884: TR 14: Firebase initialized...');
                 console.log("Firebase initialized");
 
                 // 6. Setup auth state listener for automatic session restoration
@@ -147,30 +137,26 @@ class App {
                 // and the user can still use "GUEST login" (Local).
             }
         } catch (e) {
-            alert('V1.884: CRITICAL ERROR IN INIT: ' + e);
+            console.error('CRITICAL ERROR IN INIT:', e);
             throw e;
         }
     }
 
     async initializeApp() {
-        alert('V1.888: TR 15: App initializeApp() starting...');
         try {
             this.isAuthenticated = true;
 
             // Setup sharing modals
-            alert('V1.885: TR 16: Creating Share/Accept modals...');
             this.shareSongsModal = new ShareSongsModal(this.firebaseManager, this.songManager);
             this.acceptSongsModal = new AcceptSongsModal(this.firebaseManager, this.songManager);
 
             // Setup profile modal
-            alert('V1.885: TR 17: Creating ProfileModal...');
             this.profileModal = new ProfileModal(
                 this.firebaseManager,
                 () => this.handleSignOut(),
                 () => this.shareSongsModal.show(),
                 () => this.acceptSongsModal.show()
             );
-            alert('V1.885: TR 18: ProfileModal created...');
 
             this.profileModal.onAuthSuccess = (user) => {
                 this.updateProfileLabel(user);
@@ -178,28 +164,17 @@ class App {
             this.setupProfile();
 
             // Reveal the app container and remove init overlay
-            // Reveal the app container and remove init overlay
-            alert('V1.888: TR 19: Removing overlay (INLINED)...');
-
             const overlay = document.getElementById('initOverlay');
             if (overlay) {
                 overlay.style.display = 'none';
-                alert('V1.888: TR 19.1: Overlay hidden...');
-            } else {
-                alert('V1.888: TR 19.1: Overlay NOT found...');
             }
 
-            alert('V1.888: TR 19.2: Getting mainContainer...');
             const container = document.getElementById('mainContainer');
             if (container) {
                 container.style.display = 'block';
-                alert('V1.888: TR 19.3: Container shown...');
-            } else {
-                alert('V1.888: TR 19.3: Container NOT found (CRITICAL)');
             }
 
             // Setup UI components
-            alert('V1.887: TR 20: Setting up UI components...');
             this.setupSorting();
             this.setupAddSongButton();
             this.setupRandomSongButton();
@@ -258,8 +233,8 @@ class App {
                 versionEl.addEventListener('click', () => this.runDiagnostics());
             }
         } catch (e) {
+            console.error('CRITICAL ERROR IN initializeApp:', e);
             alert('CRITICAL ERROR IN initializeApp: ' + e);
-            console.error(e);
             throw e;
         }
     }
