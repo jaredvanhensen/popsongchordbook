@@ -7374,3 +7374,19 @@ td:has(.row-edit-input.input-focused) {
         display: none !important;
     }
 }
+/* Back Button Style */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 600;
+    transition: color 0.2s;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    color: #1e293b;
+}
+
