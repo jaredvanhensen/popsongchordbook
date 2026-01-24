@@ -110,6 +110,31 @@ class App {
                 if (overlay) overlay.style.display = 'none';
             }, 3000);
 
+            // EMERGENCY GUEST LOGIN INJECTION (v1.95)
+            // Attaching a capture-phase listener to ensure we catch the click before anything else
+            setTimeout(() => {
+                const guestBtn = document.getElementById('authLocalOnlyBtn');
+                if (guestBtn) {
+                    console.log("Injecting Capture-Phase Listener for Guest Button");
+                    // Remove old onclick if any (though inline attributes persist, this helps cleanliness)
+                    guestBtn.onclick = null;
+
+                    guestBtn.addEventListener('click', (e) => {
+                        console.log(">>> GUEST BUTTON CLICKED (Capture Phase) <<<");
+                        e.preventDefault();
+                        e.stopPropagation(); // Stop bubbling
+                        e.stopImmediatePropagation(); // Stop other listeners
+
+                        guestBtn.style.backgroundColor = '#10b981'; // Green
+                        guestBtn.innerText = 'LOGGING IN...';
+
+                        this.forceGuestLogin();
+                    }, { capture: true });
+                } else {
+                    console.error("Critical: Could not find authLocalOnlyBtn for injection");
+                }
+            }, 500); // Small delay to ensure DOM is settled
+
             // 5. Initialize Firebase in background
             try {
                 console.log("Starting Firebase initialization...");
