@@ -239,6 +239,44 @@ class App {
         }
     }
 
+    forceGuestLogin() {
+        console.log("Forcing Guest Login via Bypass...");
+        try {
+            // 1. Set Local Mode Flag
+            if (this.firebaseManager) {
+                this.firebaseManager.setLocalOnly(true);
+            } else {
+                console.warn("FirebaseManager missing in forceGuestLogin, using localStorage directly");
+                localStorage.setItem('localOnlyMode', 'true');
+            }
+
+            // 2. Clear Overlay immediately (just in case)
+            const overlay = document.getElementById('initOverlay');
+            if (overlay) overlay.style.display = 'none';
+
+            // 3. Trigger Auth Success
+            this.handleAuthSuccess({ uid: 'local-user', isLocal: true });
+
+            // 4. Hide Modal
+            if (this.authModal) {
+                this.authModal.hide();
+                // Double tap: force CSS hidden
+                if (this.authModal.modal) this.authModal.modal.classList.add('hidden');
+            }
+
+            // 5. Force hiding by ID as final fallback
+            const modalEl = document.getElementById('authModal');
+            if (modalEl) {
+                modalEl.classList.add('hidden');
+                modalEl.style.display = 'none'; // Nuclear hide
+            }
+
+        } catch (e) {
+            alert("Force Guest Error: " + e);
+            console.error(e);
+        }
+    }
+
     applyLocalGuestSettings() {
         console.log('Applying GUEST (Local) UI settings');
         // In local mode, we allow adding/editing since it saves to localStorage
