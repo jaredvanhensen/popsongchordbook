@@ -4510,19 +4510,22 @@ td:has(.row-edit-input.input-focused) {
     text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
 }
 
-#songDetailPracticeBtn {
+#songDetailPracticeBtn,
+#songDetailSaveBtn {
     width: clamp(80px, 16vw, 110px);
     height: clamp(75px, 14vw, 90px);
     gap: 4px;
 }
 
-#songDetailPracticeBtn .icon {
+#songDetailPracticeBtn .icon,
+#songDetailSaveBtn .icon {
     font-size: clamp(32px, 7vw, 42px);
     width: auto;
     height: auto;
 }
 
-#songDetailPracticeBtn .label {
+#songDetailPracticeBtn .label,
+#songDetailSaveBtn .label {
     font-size: clamp(14px, 3vw, 16px);
 }
 
@@ -4785,7 +4788,7 @@ td:has(.row-edit-input.input-focused) {
 .song-detail-footer {
     margin-top: 0;
     border-top: none;
-    padding: clamp(12px, 2vh, 25px) clamp(15px, 3vw, 35px);
+    padding: clamp(6px, 1vh, 12px) clamp(15px, 3vw, 35px);
     display: flex;
     justify-content: space-between;
     align-items: center;
