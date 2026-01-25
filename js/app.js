@@ -23,7 +23,8 @@ class App {
             this.keyDetector,
             (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
             (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
-            (songId) => this.setlistManager.isSongInPracticeSetlist(songId) // Pass Practice state checker
+            (songId) => this.setlistManager.isSongInPracticeSetlist(songId), // Pass Practice state checker
+            () => this.openPracticeRandomSong() // Pass Next Practice Random handler
         );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
@@ -62,7 +63,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.82)");
+        console.log("Pop Song Chord Book - App Initialized (v1.891)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1473,7 +1474,7 @@ class App {
         }
     }
 
-    navigateToSong(songId, isRandomMode = false) {
+    navigateToSong(songId, isRandomMode = false, isPracticeRandomMode = false) {
         const song = this.songManager.getSongById(songId);
         if (song) {
             // Also select the row in the table to keep in sync
@@ -1481,7 +1482,7 @@ class App {
                 this.tableRenderer.selectRow(songId, true);
             }
             const isInPractice = this.setlistManager.isSongInPracticeSetlist(songId);
-            this.songDetailModal.show(song, false, isRandomMode);
+            this.songDetailModal.show(song, false, isRandomMode, isPracticeRandomMode);
             this.songDetailModal.setPracticeState(isInPractice);
         }
     }
@@ -1560,7 +1561,7 @@ class App {
 
         const randomIndex = Math.floor(Math.random() * availableSongs.length);
         const randomSong = availableSongs[randomIndex];
-        this.navigateToSong(randomSong.id, true);
+        this.navigateToSong(randomSong.id, false, true);
     }
 
     openAddSongsToSetlistModal() {
@@ -1766,7 +1767,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v1.82):\n`;
+        let msg = `Diagnostics (v1.891):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;

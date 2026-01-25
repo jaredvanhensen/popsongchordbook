@@ -1,6 +1,6 @@
 // SongDetailModal - Modal voor song details weergave
 class SongDetailModal {
-    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null) {
+    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null) {
         this.songManager = songManager;
         this.onNavigate = onNavigate;
         this.onUpdate = onUpdate;
@@ -11,6 +11,7 @@ class SongDetailModal {
         this.onAddToSetlist = onAddToSetlist;
         this.onTogglePractice = onTogglePractice;
         this.isPracticeChecker = isPracticeChecker;
+        this.onPracticeRandomNext = onPracticeRandomNext;
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
@@ -1121,7 +1122,7 @@ class SongDetailModal {
     }
 
     navigatePrevious() {
-        if (this.isRandomMode) return;
+        if (this.isRandomMode || this.isPracticeRandomMode) return;
         if (!this.currentSongId || this.allSongs.length === 0) return;
 
         const currentIndex = this.allSongs.findIndex(song => song.id === this.currentSongId);
@@ -1135,6 +1136,13 @@ class SongDetailModal {
 
     navigateNext() {
         if (!this.currentSongId || this.allSongs.length === 0) return;
+
+        if (this.isPracticeRandomMode) {
+            if (this.onPracticeRandomNext) {
+                this.onPracticeRandomNext();
+            }
+            return;
+        }
 
         if (this.isRandomMode) {
             // Pick a random song that is not the current one
@@ -1163,7 +1171,7 @@ class SongDetailModal {
         }
     }
 
-    async show(song, autoEditArtist = false, isRandomMode = false) {
+    async show(song, autoEditArtist = false, isRandomMode = false, isPracticeRandomMode = false) {
         if (!song) {
             await this.hide();
             return;
@@ -1185,6 +1193,7 @@ class SongDetailModal {
         this.currentSongId = song.id;
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
+        this.isPracticeRandomMode = isPracticeRandomMode;
         this.transposeOffset = 0;
 
         // Set originalSongData immediately when showing a song, before any user interaction
@@ -1371,6 +1380,26 @@ class SongDetailModal {
     }
 
     updateNavigationButtons() {
+        if (this.isPracticeRandomMode) {
+            // Practice Random mode: Hide Previous, change Next to Practice Random
+            if (this.prevBtn) {
+                this.prevBtn.classList.add('hidden');
+            }
+            if (this.nextBtn) {
+                this.nextBtn.classList.remove('hidden');
+                this.nextBtn.style.opacity = '1';
+                this.nextBtn.style.cursor = 'pointer';
+                this.nextBtn.disabled = false;
+                this.nextBtn.title = 'Open another random practice song';
+
+                const iconSpan = this.nextBtn.querySelector('.icon');
+                const labelSpan = this.nextBtn.querySelector('.label');
+                if (iconSpan) iconSpan.innerHTML = '&#127919;'; // Dartboard
+                if (labelSpan) labelSpan.textContent = 'Practice';
+            }
+            return;
+        }
+
         if (this.isRandomMode) {
             // Random mode: Hide Previous, change Next to Random
             if (this.prevBtn) {
