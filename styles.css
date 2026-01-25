@@ -7422,3 +7422,17 @@ td:has(.row-edit-input.input-focused) {
     stroke-width: 2.5;
 }
 
+
+/* iOS PWA Safe Area Fixes (v1.85) */
+.container {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.song-detail-modal-content {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.song-detail-footer {
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+}
+

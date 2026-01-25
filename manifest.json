@@ -1,0 +1,16 @@
+{
+    "name": "Pop Song Chord Book",
+    "short_name": "ChordBook",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "images/premium_guitar.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
