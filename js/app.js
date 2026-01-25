@@ -127,6 +127,7 @@ class App {
         this.setupSorting();
         this.setupAddSongButton();
         this.setupRandomSongButton();
+        this.setupPracticeRandomButton();
         this.setupFilters();
         this.setupSearch();
         this.setupSetlists();
@@ -1523,6 +1524,42 @@ class App {
 
         const randomIndex = Math.floor(Math.random() * songsToChooseFrom.length);
         const randomSong = songsToChooseFrom[randomIndex];
+        this.navigateToSong(randomSong.id, true);
+    }
+
+    setupPracticeRandomButton() {
+        const practiceBtn = document.getElementById('practiceRandomBtn');
+        if (practiceBtn) {
+            practiceBtn.addEventListener('click', () => {
+                this.openPracticeRandomSong();
+            });
+        }
+    }
+
+    openPracticeRandomSong() {
+        const practiceSetlist = this.setlistManager.getPracticeSetlist();
+        if (!practiceSetlist || !practiceSetlist.songIds || practiceSetlist.songIds.length === 0) {
+            alert('Je Practice lijst is leeg. Voeg eerst songs toe aan je Practice lijst via de Song Details.');
+            return;
+        }
+
+        const practiceSongIds = practiceSetlist.songIds;
+        // Verify songs still exist
+        const availableSongs = [];
+        practiceSongIds.forEach(id => {
+            const song = this.songManager.getSongById(id);
+            if (song) {
+                availableSongs.push(song);
+            }
+        });
+
+        if (availableSongs.length === 0) {
+            alert('Geen geldige songs gevonden in je Practice lijst.');
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * availableSongs.length);
+        const randomSong = availableSongs[randomIndex];
         this.navigateToSong(randomSong.id, true);
     }
 
