@@ -7512,12 +7512,14 @@ td:has(.row-edit-input.input-focused) {
     z-index: 2000;
     /* Higher than other modals */
     display: flex;
-    align-items: center;
-    /* Center vertically */
+    align-items: flex-end;
+    /* Changed from center to flex-end to push it to the bottom */
     justify-content: center;
     /* Center horizontally */
-    background: rgba(0, 0, 0, 0.5);
-    /* Dim background */
+    background: rgba(0, 0, 0, 0.3);
+    /* Slightly lighter dimming */
+    padding-bottom: 40px;
+    /* Space from bottom */
 }
 
 .scrolling-chords-content {
@@ -7525,8 +7527,8 @@ td:has(.row-edit-input.input-focused) {
     /* Responsive width */
     max-width: 1400px;
     /* Increased max width */
-    height: 400px;
-    /* Fixed height as requested */
+    height: 250px;
+    /* Reduced height (half of original 400-500px range) */
     background: #ffffff;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -7541,53 +7543,29 @@ td:has(.row-edit-input.input-focused) {
 
 .scrolling-chords-close-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.8);
+    top: 10px;
+    right: 10px;
+    background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #475569;
-    z-index: 10;
-    transition: all 0.2s;
-}
-
-.scrolling-chords-close-btn:hover {
-    background: white;
-    transform: scale(1.05);
-    color: #1e293b;
-}
-
-.scrolling-chords-close-btn {
-    position: absolute;
-    bottom: 260px;
-    /* 250px height + 10px spacing */
-    right: 20px;
-    background: white;
-    border: none;
     border-radius: 50%;
     width: 32px;
     height: 32px;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    z-index: 2001;
+    z-index: 2002;
+    color: #64748b;
+    transition: all 0.2s;
 }
 
 .scrolling-chords-close-btn:hover {
     background: #f1f5f9;
     color: #ef4444;
+    transform: scale(1.1);
 }
 
 @keyframes slideUp {
