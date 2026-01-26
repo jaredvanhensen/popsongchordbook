@@ -867,9 +867,17 @@
                     </select>
                 </div>
                 <div class="url-input-group" style="margin-top: 15px;">
-                    <label for="chordJsonInput">Timeline JSON Data (Chords)</label>
-                    <input type="file" id="chordJsonInput" accept=".json" class="file-input"
-                        style="width: 100%; margin-top: 5px;">
+                    <label>Timeline JSON Data (Chords)</label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <label for="chordJsonInput" class="custom-file-btn"
+                            style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #475569;">
+                            📁 Select File
+                        </label>
+                        <input type="file" id="chordJsonInput" accept=".json" style="display: none;">
+                        <span id="chordJsonStatus" style="font-size: 14px; font-weight: 600;"></span>
+                        <button id="clearChordDataBtn"
+                            style="display: none; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 14px; padding: 0;">Remove</button>
+                    </div>
                     <small style="color: #64748b; display: block; margin-top: 5px;">Upload a .json file to auto-load in
                         Timeline view</small>
                 </div>

@@ -44,6 +44,9 @@ class SongDetailModal {
         this.practiceCountInput = document.getElementById('practiceCountInput');
         this.performAbilitySelect = document.getElementById('performAbilitySelect');
         this.chordJsonInput = document.getElementById('chordJsonInput');
+        this.chordJsonStatus = document.getElementById('chordJsonStatus');
+        this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
+        this.chordDataToRemove = false;
 
         // Confirmation Modal
         this.confirmationModal = document.getElementById('confirmationModal');
@@ -365,6 +368,27 @@ class SongDetailModal {
                     }
                 });
             }
+        }
+
+        // Setup Chord JSON listeners
+        if (this.chordJsonInput) {
+            this.chordJsonInput.addEventListener('change', (e) => {
+                const fileLabel = document.querySelector('label[for="chordJsonInput"]');
+                if (fileLabel && e.target.files && e.target.files[0]) {
+                    fileLabel.textContent = `📄 ${e.target.files[0].name.substring(0, 15)}...`;
+                }
+            });
+        }
+
+        if (this.clearChordDataBtn) {
+            this.clearChordDataBtn.addEventListener('click', () => {
+                this.chordDataToRemove = true;
+                if (this.chordJsonStatus) {
+                    this.chordJsonStatus.textContent = '🗑️ Marking for removal...';
+                    this.chordJsonStatus.style.color = '#f59e0b';
+                }
+                this.clearChordDataBtn.style.display = 'none';
+            });
         }
 
         this.modal.addEventListener('click', async (e) => {
@@ -1603,6 +1627,24 @@ class SongDetailModal {
             this.performAbilitySelect.value = song.performAbility || '';
         }
 
+        // Update JSON Status
+        if (this.chordJsonStatus) {
+            if (song.chordData) {
+                this.chordJsonStatus.textContent = '✅ Data loaded';
+                this.chordJsonStatus.style.color = '#10b981';
+                if (this.clearChordDataBtn) this.clearChordDataBtn.style.display = 'inline-block';
+            } else {
+                this.chordJsonStatus.textContent = '❌ No data';
+                this.chordJsonStatus.style.color = '#ef4444';
+                if (this.clearChordDataBtn) this.clearChordDataBtn.style.display = 'none';
+            }
+        }
+        this.chordDataToRemove = false;
+
+        // Reset file input label text if needed
+        const fileLabel = document.querySelector('label[for="chordJsonInput"]');
+        if (fileLabel) fileLabel.textContent = '📁 Select File';
+
         // Show modal
         this.youtubeUrlModal.classList.remove('hidden');
 
@@ -1657,6 +1699,11 @@ class SongDetailModal {
             practiceCount: practiceCount,
             performAbility: performAbility
         };
+
+        // Handle JSON removal
+        if (this.chordDataToRemove) {
+            updates.chordData = null;
+        }
 
         // Handle JSON file upload
         if (this.chordJsonInput && this.chordJsonInput.files && this.chordJsonInput.files[0]) {
