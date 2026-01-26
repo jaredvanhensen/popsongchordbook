@@ -17,8 +17,21 @@ const urlParams = new URLSearchParams(window.location.search);
 const isEmbed = urlParams.get('embed') === 'true';
 if (isEmbed) {
     document.querySelector('a[href="index.html"]').style.display = 'none';
-    document.body.style.background = 'transparent'; // Optional: transparent bg
+    document.body.style.background = 'transparent'; // Shows modal white bg
 
+    // Force black text for white background
+    const style = document.createElement('style');
+    style.textContent = `
+        body { color: #1e293b !important; }
+        #instructions { color: #64748b !important; }
+        #statusText { color: #334155 !important; }
+        .chord-item { color: #0f172a !important; text-shadow: none !important; }
+        .marker-label { color: #94a3b8 !important; }
+        #currentChordDisplay { color: #0f172a !important; text-shadow: none !important; }
+        .file-input { color: #333 !important; }
+        button { color: #000 !important; border-color: #ccc !important; }
+    `;
+    document.head.appendChild(style);
 }
 
 let midiData = null;
