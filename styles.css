@@ -4344,6 +4344,15 @@ td:has(.row-edit-input.input-focused) {
     flex-wrap: nowrap;
 }
 
+.song-detail-footer-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* Ensure vertical centering */
+    justify-content: flex-end;
+    /* Or center? User said icon is not centered. I'll check the context context. */
+}
+
 /* Fix for close button overlapping icons on PC and iPad */
 /* Moved to end of file to override mobile styles */
 
@@ -7374,6 +7383,7 @@ td:has(.row-edit-input.input-focused) {
         display: none !important;
     }
 }
+
 /* Back Button Style */
 .back-link {
     display: inline-flex;
@@ -7403,7 +7413,7 @@ td:has(.row-edit-input.input-focused) {
     border: 1px solid #e2e8f0;
     color: #475569;
     transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     text-decoration: none;
     margin-right: 12px;
 }
@@ -7412,7 +7422,7 @@ td:has(.row-edit-input.input-focused) {
     background-color: #f8fafc;
     color: #1e293b;
     border-color: #cbd5e1;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
 }
 
@@ -7436,3 +7446,27 @@ td:has(.row-edit-input.input-focused) {
     padding-bottom: calc(15px + env(safe-area-inset-bottom));
 }
 
+/* Song Detail Footer Layout */
+.song-detail-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.song-detail-center-actions {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+}
+
+.song-detail-footer-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+}

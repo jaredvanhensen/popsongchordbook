@@ -161,7 +161,8 @@ class SongDetailModal {
                 const left = (window.innerWidth - width) / 2;
                 const top = window.innerHeight - height - 50;
 
-                window.open('scrolling_chords.html', 'ScrollingChords', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=no`);
+                // Try to make it look like a popup
+                window.open('scrolling_chords.html', 'ScrollingChords', `width=${width},height=${height},left=${left},top=${top},popup=yes,toolbar=no,menubar=no,location=no,status=no`);
             });
         }
 
