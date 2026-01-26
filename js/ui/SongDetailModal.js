@@ -43,6 +43,7 @@ class SongDetailModal {
         this.patchDetailsInput = document.getElementById('patchDetailsInput');
         this.practiceCountInput = document.getElementById('practiceCountInput');
         this.performAbilitySelect = document.getElementById('performAbilitySelect');
+        this.chordJsonInput = document.getElementById('chordJsonInput');
 
         // Confirmation Modal
         this.confirmationModal = document.getElementById('confirmationModal');
@@ -166,6 +167,18 @@ class SongDetailModal {
                 // Force reload iframe on each open to ensure fresh state
                 if (scrollingChordsFrame) {
                     scrollingChordsFrame.src = 'scrolling_chords.html?embed=true&t=' + Date.now();
+
+                    // After iframe loads, send the chord data if it exists
+                    scrollingChordsFrame.onload = () => {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        if (song && song.chordData) {
+                            console.log('Sending chord data to Timeline view');
+                            scrollingChordsFrame.contentWindow.postMessage({
+                                type: 'loadChordData',
+                                data: song.chordData
+                            }, '*');
+                        }
+                    };
                 }
 
                 // Show modal overlay
@@ -1605,6 +1618,9 @@ class SongDetailModal {
         if (this.performAbilitySelect) {
             this.performAbilitySelect.value = '';
         }
+        if (this.chordJsonInput) {
+            this.chordJsonInput.value = '';
+        }
     }
 
     saveYouTubeUrl() {
@@ -1618,15 +1634,42 @@ class SongDetailModal {
         const practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '';
         const performAbility = this.performAbilitySelect ? this.performAbilitySelect.value : '';
 
-        // Update song
-        this.songManager.updateSong(this.currentSongId, {
+        const updates = {
             youtubeUrl: youtubeUrl,
             externalUrl: externalUrl,
             patchDetails: patchDetails,
             practiceCount: practiceCount,
             performAbility: performAbility
-        });
+        };
 
+        // Handle JSON file upload
+        if (this.chordJsonInput && this.chordJsonInput.files && this.chordJsonInput.files[0]) {
+            const file = this.chordJsonInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const chordData = JSON.parse(event.target.result);
+                    updates.chordData = chordData;
+
+                    // Update song with chord data
+                    await this.songManager.updateSong(this.currentSongId, updates);
+
+                    // Finalize UI updates after async save
+                    this.finalizeSave(youtubeUrl, externalUrl);
+                } catch (e) {
+                    console.error("Error parsing chord JSON:", e);
+                    alert("Invalid JSON file. Please check the file format.");
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            // No file uploaded, just update other fields
+            this.songManager.updateSong(this.currentSongId, updates);
+            this.finalizeSave(youtubeUrl, externalUrl);
+        }
+    }
+
+    finalizeSave(youtubeUrl, externalUrl) {
         // Update Key Display in Footer
         this.updateKeyDisplay();
 
