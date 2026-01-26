@@ -7510,8 +7510,8 @@ td:has(.row-edit-input.input-focused) {
     width: 100%;
     height: 250px;
     /* Fixed height as requested */
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    /* Dark background for white text */
+    background: #ffffff;
+    /* White background */
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
     pointer-events: auto;
