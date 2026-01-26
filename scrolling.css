@@ -90,10 +90,23 @@ button:disabled {
 
 #playPauseBtn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    color: white !important;
     border: none;
     min-width: 90px;
     box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+}
+
+#saveBtn {
+    background: #667eea;
+    color: white !important;
+    border: none;
+}
+
+#playPauseBtn:disabled,
+#saveBtn:disabled {
+    background: #94a3b8 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    opacity: 0.8;
 }
 
 #playPauseBtn:hover:not(:disabled) {
