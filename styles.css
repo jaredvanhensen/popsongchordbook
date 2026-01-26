@@ -4826,10 +4826,13 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 20px;
     font-weight: 700;
     font-size: 0.95rem;
-    display: none;
+    display: flex;
+    /* Changed from none to flex */
     align-items: center;
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
+    height: 36px;
+    /* Explicit height for alignment */
 }
 
 .song-detail-key-badge .key-label {
@@ -7451,7 +7454,47 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* Vertical center everything */
     position: relative;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.song-detail-footer-left {
+    display: flex;
+    align-items: center;
+    /* Vertical center for left group */
+    gap: 50px;
+}
+
+#songDetailScrollingChordsBtn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 42px;
+    /* Slightly taller to accommodate SVG shadow */
+    display: flex;
+    align-items: center;
+}
+
+#songDetailScrollingChordsBtn .icon {
+    width: 60px;
+    height: 42px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#songDetailScrollingChordsBtn .label {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: -5px;
+    /* Pull label closer to icon */
 }
 
 .song-detail-center-actions {

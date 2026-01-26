@@ -10,12 +10,11 @@ class PianoAudioPlayer {
         // Piano sound parameters
         this.baseVolume = 0.3;
 
-        // ADSR envelope parameters (in seconds)
-        // Brass has a slightly slower attack than piano
-        this.attack = 0.04;
-        this.decay = 0.2;
-        this.sustain = 0.3;
-        this.release = 0.15;
+        // Sustained Piano parameters
+        this.attack = 0.02;
+        this.decay = 0.3;
+        this.sustain = 0.7;
+        this.release = 0.8;
 
         // Harmonic overtones for realistic piano sound
         // Each overtone has: [frequency multiplier, amplitude, decay rate]
@@ -68,22 +67,21 @@ class PianoAudioPlayer {
         // ... (kept commented or unused)
     }
 
-    // Convert semitone offset (C4=0) to frequency in Hz
-    semitoneToFrequency(semitone) {
-        // C4 (middle C) = 261.63 Hz = semitone 0
-        // Each semitone is 2^(1/12) times the previous
-        const c4Frequency = 261.63;
-        return c4Frequency * Math.pow(2, semitone / 12);
+    // Convert MIDI note number to frequency in Hz
+    semitoneToFrequency(midi) {
+        // Standard MIDI frequency formula: f = 440 * 2^((midi - 69) / 12)
+        // This ensures 60 = C4 (middle C, ~261.63Hz)
+        return 440 * Math.pow(2, (midi - 69) / 12);
     }
 
-    // Play a single note with piano-like sound
-    playNote(semitone, duration = 1.5, velocity = 0.7, startTime = null) {
+    // Play a single note with Piano sound
+    playNote(semitone, duration = 10.0, velocity = 0.6, startTime = null) {
         if (!this.isInitialized) {
             console.warn('Audio not initialized. Call initialize() first.');
             return;
         }
 
-        // Resume context if suspended (required for iOS Safari)
+        // Resume context if suspended
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
@@ -91,94 +89,70 @@ class PianoAudioPlayer {
         const now = startTime || this.audioContext.currentTime;
         const frequency = this.semitoneToFrequency(semitone);
 
-        // 80s Synth Brass Architecture:
-        // Oscillators (Sawtooth) -> Filter (Lowpass with Envelope) -> VCA (Amp Envelope) -> Master
-
         // 1. Create Filter
         const filter = this.audioContext.createBiquadFilter();
         filter.type = 'lowpass';
-        filter.Q.value = 4.0; // Resonance for that "synth" bite
-
-        // Filter Envelope: Start closed, sweep open fast (attack), then decay
-        // Center frequency depends on note pitch to track roughly
-        const startFreq = frequency * 1.5;
-        const maxFreq = frequency * 6; // Opens up bright
-        const susFreq = frequency * 2; // Sustains slightly warm
-
-        filter.frequency.setValueAtTime(startFreq, now);
-        // Attack: Sweep up typically slightly slower than amp attack
-        filter.frequency.linearRampToValueAtTime(maxFreq, now + this.attack * 1.2);
-        // Decay/Sustain
-        filter.frequency.exponentialRampToValueAtTime(susFreq, now + this.attack + this.decay);
+        filter.Q.value = 1.0;
+        filter.frequency.setValueAtTime(frequency * 5, now);
 
         filter.connect(this.masterGain);
 
         // 2. Create Amp (VCA)
         const noteGain = this.audioContext.createGain();
         noteGain.gain.value = 0;
-        noteGain.connect(filter); // Connect Amp to Filter
+        noteGain.connect(filter);
 
-        // ADSR envelope for Amp
+        // ADSR envelope
         const attackEnd = now + this.attack;
         const decayEnd = attackEnd + this.decay;
         const sustainLevel = this.sustain * velocity;
         const releaseStart = now + duration;
         const releaseEnd = releaseStart + this.release;
 
-        // Apply Amp envelope
         noteGain.gain.setValueAtTime(0, now);
         noteGain.gain.linearRampToValueAtTime(velocity, attackEnd);
         noteGain.gain.linearRampToValueAtTime(sustainLevel, decayEnd);
         noteGain.gain.setValueAtTime(sustainLevel, releaseStart);
-        noteGain.gain.exponentialRampToValueAtTime(0.001, releaseEnd); // STRICT silence
+        noteGain.gain.exponentialRampToValueAtTime(0.001, releaseEnd);
 
-        // 3. Create Oscillators (Harmonics/Detuned Voices)
+        // 3. Create Oscillators (Harmonics for Piano Timbre)
         const oscillators = [];
-        const harmonicGains = [];
 
-        this.harmonics.forEach(([multiplier, amplitude, decayRate], index) => {
-            const harmonicFreq = frequency * multiplier;
+        // Harmonics: [frequency multiplier, amplitude]
+        const pianoHarmonics = [
+            [1, 1.0], [2, 0.4], [3, 0.2], [4, 0.1], [5, 0.05]
+        ];
 
-            // Skip extremely high frequencies
-            if (harmonicFreq > 10000) return;
+        pianoHarmonics.forEach(([multiplier, amplitude]) => {
+            const hFreq = frequency * multiplier;
+            if (hFreq > 15000) return;
 
             const osc = this.audioContext.createOscillator();
-            osc.type = 'sawtooth'; // Classic synth brass waveform
+            osc.type = 'triangle'; // Smoother than sawtooth for piano
+            osc.frequency.value = hFreq;
 
-            // Detune slightly for "fat" sound
-            // Random detune between -10 and +10 cents
-            const detune = (Math.random() * 20) - 10;
-            osc.detune.value = detune;
+            const hGain = this.audioContext.createGain();
+            hGain.gain.value = amplitude;
 
-            osc.frequency.value = harmonicFreq;
-
-            const harmonicGain = this.audioContext.createGain();
-            // Brass harmonics are rich, but we balance them
-            // Lower amplitudes for higher harmonics
-            const hAmp = (amplitude * 0.4) / (index + 1);
-            harmonicGain.gain.value = hAmp;
-
-            osc.connect(harmonicGain);
-            harmonicGain.connect(noteGain); // Sum into Amp
+            osc.connect(hGain);
+            hGain.connect(noteGain);
 
             osc.start(now);
-            osc.stop(releaseEnd); // Stop exactly with envelope
+            osc.stop(releaseEnd);
 
             oscillators.push(osc);
-            harmonicGains.push(harmonicGain);
         });
 
-        // Store reference for potential cleanup
+        // Store reference
         const noteId = `${semitone}-${now}`;
-        this.activeNotes.set(noteId, { oscillators, harmonicGains, noteGain, filter }); // Store filter to disconnect too
+        this.activeNotes.set(noteId, { oscillators, noteGain, filter });
 
-        // Clean up nodes after note ends
+        // Clean up
         const cleanupTime = (releaseEnd - this.audioContext.currentTime + 0.5) * 1000;
         setTimeout(() => {
             if (this.activeNotes.has(noteId)) {
                 const note = this.activeNotes.get(noteId);
                 note.oscillators.forEach(osc => { try { osc.disconnect(); } catch (e) { } });
-                note.harmonicGains.forEach(g => { try { g.disconnect(); } catch (e) { } });
                 try { note.noteGain.disconnect(); } catch (e) { }
                 try { note.filter.disconnect(); } catch (e) { }
                 this.activeNotes.delete(noteId);

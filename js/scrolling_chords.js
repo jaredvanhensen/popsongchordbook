@@ -13,6 +13,11 @@ const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 const metronomeBtn = document.getElementById('metronomeBtn');
 const saveBtn = document.getElementById('saveBtn');
+const restartBtn = document.getElementById('restartBtn');
+const audioToggleBtn = document.getElementById('audioToggleBtn');
+const countInOverlay = document.getElementById('countInOverlay');
+const countInNumber = document.getElementById('countInNumber');
+const COUNT_IN_SECONDS = 4;
 
 // Check for embed mode
 const urlParams = new URLSearchParams(window.location.search);
@@ -48,13 +53,19 @@ let isPlaying = false;
 let startTime = 0;
 let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
+let isCountingIn = false;
+let countInStartTime = 0;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const PIXELS_PER_SECOND = 200; // Speed of scrolling
 
-// Metronome state
+// Metronome/Audio state
 let metronomeEnabled = false;
+let audioEnabled = false;
 let lastBeatPlayed = -1;
+let lastChordPlayed = -1;
 let audioCtx = null;
+let pianoPlayer = null;
+let chordParser = null;
 let secondsPerBeat = 0.5; // Default 120 BPM
 let beatsPerBar = 4; // Default 4/4
 
@@ -66,10 +77,19 @@ fwdBtn.addEventListener('click', () => seek(10));
 exportBtn.addEventListener('click', exportToJSON);
 saveBtn.addEventListener('click', saveToDatabase);
 metronomeBtn.addEventListener('click', toggleMetronome);
+audioToggleBtn.addEventListener('click', toggleAudio);
+restartBtn.addEventListener('click', restart);
 
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (!pianoPlayer) {
+        pianoPlayer = new PianoAudioPlayer();
+        pianoPlayer.initialize();
+    }
+    if (!chordParser) {
+        chordParser = new ChordParser();
     }
 }
 
@@ -97,8 +117,51 @@ function playTick(isDownbeat) {
 function toggleMetronome() {
     metronomeEnabled = !metronomeEnabled;
     metronomeBtn.classList.toggle('active', metronomeEnabled);
-    metronomeBtn.innerText = metronomeEnabled ? '🎼 Metronome: On' : '🎼 Metronome: Off';
     if (metronomeEnabled) initAudio();
+}
+
+function toggleAudio() {
+    audioEnabled = !audioEnabled;
+    audioToggleBtn.classList.toggle('active', audioEnabled);
+    if (audioEnabled) initAudio();
+}
+
+function restart() {
+    if (pianoPlayer) pianoPlayer.stopAll();
+    if (isCountingIn) stopCountIn();
+
+    // Reset indices so audio triggers again at 0
+    lastBeatPlayed = -1;
+    lastChordPlayed = -1;
+
+    if (isPlaying) {
+        // Re-trigger count-in if already playing
+        isCountingIn = true;
+        countInStartTime = performance.now();
+        countInOverlay.classList.remove('hidden');
+        startTime = performance.now() + (COUNT_IN_SECONDS * 1000);
+    } else {
+        pauseTime = 0;
+        updateLoop();
+    }
+}
+
+function triggerChordAudio(chordName) {
+    if (!audioEnabled || !pianoPlayer || !chordParser) return;
+
+    // Stop previous chord for clean transition
+    pianoPlayer.stopAll();
+
+    // Resume context if needed
+    if (pianoPlayer.audioContext && pianoPlayer.audioContext.state === 'suspended') {
+        pianoPlayer.audioContext.resume();
+    }
+
+    const chord = chordParser.parse(chordName);
+    if (chord && chord.notes) {
+        // High duration since we stop it manually at next chord or pause
+        pianoPlayer.playChord(chord.notes, 10.0, 0.4, 0.05);
+    }
 }
 
 // Listen for messages from parent (for auto-loading stored data)
@@ -289,11 +352,11 @@ function saveToDatabase() {
 
     // Visual feedback
     const originalText = saveBtn.innerText;
-    saveBtn.innerText = '✅ SAVED';
-    saveBtn.style.backgroundColor = '#48bb78';
+    saveBtn.innerText = '✅ Saved';
+    saveBtn.style.backgroundColor = '#00b894';
     setTimeout(() => {
         saveBtn.innerText = originalText;
-        saveBtn.style.backgroundColor = '#667eea';
+        saveBtn.style.backgroundColor = ''; // Restore to CSS gradient
     }, 2000);
 }
 
@@ -471,18 +534,39 @@ function togglePlayPause() {
 
 function play() {
     if (isPlaying) return;
+    initAudio();
     isPlaying = true;
     playPauseBtn.innerText = '⏸ Pause';
 
-    // resume from pauseTime
-    startTime = performance.now() - (pauseTime * 1000);
+    // If starting from absolute beginning, do count-in
+    if (pauseTime === 0 && !isCountingIn) {
+        isCountingIn = true;
+        countInStartTime = performance.now();
+        countInOverlay.classList.remove('hidden');
+        // Set startTime in the future so playbackTime starts at -4
+        startTime = performance.now() + (COUNT_IN_SECONDS * 1000);
+    } else {
+        // resume from pauseTime
+        startTime = performance.now() - (pauseTime * 1000);
+    }
 
     requestAnimationFrame(updateLoop);
+}
+
+function stopCountIn() {
+    isCountingIn = false;
+    countInOverlay.classList.add('hidden');
 }
 
 function pause() {
     isPlaying = false;
     playPauseBtn.innerText = '▶ Play';
+
+    if (pianoPlayer) pianoPlayer.stopAll();
+
+    if (isCountingIn) {
+        stopCountIn();
+    }
 
     const now = performance.now();
     pauseTime = (now - startTime) / 1000;
@@ -493,6 +577,12 @@ function pause() {
 function seek(deltaSeconds) {
     let currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
     let newTime = Math.max(0, currentTime + deltaSeconds);
+
+    if (pianoPlayer) pianoPlayer.stopAll();
+
+    if (isCountingIn) {
+        stopCountIn();
+    }
 
     if (isPlaying) {
         startTime = performance.now() - (newTime * 1000);
@@ -514,6 +604,18 @@ function updateLoop() {
 
     if (isPlaying) {
         playbackTime = (now - startTime) / 1000;
+
+        // Count-in Overlay Logic
+        if (isCountingIn) {
+            const timeLeft = Math.max(0, -playbackTime);
+            const countNumber = Math.ceil(timeLeft);
+
+            if (countNumber > 0) {
+                countInNumber.innerText = countNumber;
+            } else {
+                stopCountIn();
+            }
+        }
     } else {
         playbackTime = pauseTime;
     }
@@ -527,8 +629,18 @@ function updateLoop() {
         }
         lastBeatPlayed = currentBeat;
     } else if (currentBeat < lastBeatPlayed) {
-        // Reset when seeking backwards
         lastBeatPlayed = currentBeat - 1;
+    }
+
+    // Chord Audio Logic
+    const chordIndex = chords.findLastIndex(c => c.time <= playbackTime);
+    if (chordIndex > lastChordPlayed) {
+        if (isPlaying && audioEnabled && playbackTime >= 0) {
+            triggerChordAudio(chords[chordIndex].name);
+        }
+        lastChordPlayed = chordIndex;
+    } else if (chordIndex < lastChordPlayed) {
+        lastChordPlayed = chordIndex;
     }
 
     // Don't scroll past end? Or just let it go.
