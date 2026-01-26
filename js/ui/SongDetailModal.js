@@ -164,9 +164,10 @@ class SongDetailModal {
                 e.stopPropagation();
 
                 // Open in new popup window (like YouTube player style)
-                const width = 1200;
-                const height = 800;
-                const left = (window.screen.width - width) / 2;
+                const width = window.innerWidth;
+                const height = 400;
+                // Try to align with current window
+                const left = window.screenX !== undefined ? window.screenX : window.screenLeft;
                 const top = (window.screen.height - height) / 2;
 
                 window.open(
