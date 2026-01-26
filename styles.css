@@ -7487,11 +7487,11 @@ td:has(.row-edit-input.input-focused) {
 
 /* Force Timeline Icon Size */
 #songDetailScrollingChordsBtn .icon svg {
-    width: 60px !important;
-    height: 40px !important;
+    width: 90px !important;
+    height: 60px !important;
     max-width: none !important;
     max-height: none !important;
-    min-width: 60px !important;
+    min-width: 90px !important;
     /* Prevent shrinking */
 }
 
