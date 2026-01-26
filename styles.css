@@ -7516,16 +7516,22 @@ td:has(.row-edit-input.input-focused) {
 
 /* Scrolling Chords Modal */
 .scrolling-chords-modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000 !important;
+    /* Highest priority */
+    display: flex;
     align-items: flex-end;
     /* Bottom alignment */
     justify-content: center;
-    padding: 0;
-    pointer-events: none;
-    /* Let clicks pass through background? No, usually modal blocks. But we want to mimic bottom sheet */
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     /* Dim background */
-    z-index: 10000 !important;
-    /* Ensure it's on top */
+    padding-bottom: 40px;
+    /* Default space from bottom */
+    pointer-events: auto;
 }
 
 /* Force Timeline Icon Size */
@@ -7543,26 +7549,6 @@ td:has(.row-edit-input.input-focused) {
     /* Ensure container fits content */
     align-items: center;
     justify-content: center;
-}
-
-/* Create a container for the close button to position it relative to the modal wrapper */
-.scrolling-chords-modal-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2000;
-    /* Higher than other modals */
-    display: flex;
-    align-items: flex-end;
-    /* Changed from center to flex-end to push it to the bottom */
-    justify-content: center;
-    /* Center horizontally */
-    background: rgba(0, 0, 0, 0.3);
-    /* Slightly lighter dimming */
-    padding-bottom: 40px;
-    /* Space from bottom */
 }
 
 .scrolling-chords-content {
@@ -7618,5 +7604,26 @@ td:has(.row-edit-input.input-focused) {
 
     to {
         transform: translateY(0);
+    }
+}
+
+/* Mobile Optimizations for Timeline Modal */
+@media (max-width: 768px) {
+    .scrolling-chords-modal-wrapper {
+        padding-bottom: 20px;
+    }
+
+    .scrolling-chords-content {
+        height: 180px;
+        /* Even more compact on mobile */
+        border-radius: 15px;
+    }
+
+    .scrolling-chords-close-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+        top: 5px;
+        right: 5px;
     }
 }

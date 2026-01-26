@@ -327,3 +327,98 @@ button:disabled {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    :root {
+        --font-size-chord: 44px;
+        /* Smaller chords */
+    }
+
+    .controls-container {
+        padding: 5px 10px;
+        gap: 8px;
+        flex-wrap: wrap;
+        /* Allow wrapping if many buttons */
+    }
+
+    .playback-controls {
+        gap: 4px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    button {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        min-width: auto !important;
+    }
+
+    button span {
+        display: none !important;
+        /* Hide all text labels on mobile */
+    }
+
+    #restartBtn,
+    #rwdBtn,
+    #fwdBtn {
+        padding: 8px;
+    }
+
+    #playPauseBtn {
+        padding: 6px 12px;
+        font-size: 1rem;
+        /* Keep play icon large */
+    }
+
+    #saveBtn,
+    #exportBtn {
+        display: none;
+        /* Hide these on mobile to save space, usually not needed there or handled via main UI */
+    }
+
+    #metronomeBtn,
+    #audioToggleBtn {
+        padding: 4px 8px;
+    }
+
+    #metronomeBtn span,
+    #audioToggleBtn span,
+    .metronome-btn span,
+    .audio-btn span {
+        display: none;
+        /* Hide button text, icons only */
+    }
+
+    #backBtn {
+        display: none;
+    }
+
+    #statusText {
+        display: none;
+        /* Hide status text on mobile */
+    }
+
+    .instructions {
+        font-size: 1rem;
+        padding: 10px 20px;
+        width: 80%;
+        text-align: center;
+    }
+
+    .playhead,
+    .current-chord-display,
+    .chord-track,
+    .marker-track {
+        left: 20px;
+        /* Less margin on mobile */
+    }
+
+    #countInNumber {
+        font-size: 60px;
+    }
+
+    .count-in-overlay {
+        padding: 15px 30px;
+    }
+}
