@@ -150,6 +150,21 @@ class SongDetailModal {
             });
         }
 
+        // Setup Scrolling Chords Button
+        const scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        if (scrollingChordsBtn) {
+            scrollingChordsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Open popup
+                const width = window.innerWidth * 0.9; // 90% width
+                const height = 250;
+                const left = (window.innerWidth - width) / 2;
+                const top = window.innerHeight - height - 50;
+
+                window.open('scrolling_chords.html', 'ScrollingChords', `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=no`);
+            });
+        }
+
         // Setup YouTube URL button
         if (this.youtubeBtn) {
             this.youtubeBtn.addEventListener('click', (e) => {
