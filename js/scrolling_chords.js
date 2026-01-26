@@ -43,21 +43,62 @@ timeline.addEventListener('drop', (e) => {
     e.preventDefault();
     timeline.style.backgroundColor = '';
     const file = e.dataTransfer.files[0];
-    if (file) processMidiFile(file);
+    if (file) handleFile(file);
 });
 
 
-async function handleFileSelect(e) {
+function handleFileSelect(e) {
     const file = e.target.files[0];
-    if (file) processMidiFile(file);
+    if (file) handleFile(file);
+}
+
+function handleFile(file) {
+    currentFileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+
+    if (file.name.toLowerCase().endsWith('.json')) {
+        processJsonFile(file);
+    } else {
+        processMidiFile(file);
+    }
+}
+
+async function processJsonFile(file) {
+    statusText.innerText = 'Parsing JSON...';
+    setupUIForLoading();
+
+    try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        if (!data.chords || !Array.isArray(data.chords)) {
+            throw new Error('Invalid JSON format: missing chords array');
+        }
+
+        chords = data.chords;
+        // Reconstruct markers if possible, or simple time markers
+        // For now, simpler markers based on duration
+        const duration = data.duration || (chords[chords.length - 1].time + 5);
+        const bpm = data.tempo || 120;
+
+        // Mock midi object for marker generation (reusing existing function with mock)
+        const mockMidi = {
+            duration: duration,
+            header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+        };
+        markers = generateMarkers(mockMidi);
+        midiData = mockMidi; // Store for export reuse (though re-exporting JSON is redundant)
+
+        finishLoading(chords.length, bpm);
+
+    } catch (error) {
+        console.error(error);
+        statusText.innerText = 'Error parsing JSON file. Invalid format.';
+    }
 }
 
 async function processMidiFile(file) {
     statusText.innerText = 'Parsing MIDI...';
-    playPauseBtn.disabled = true;
-    exportBtn.disabled = true;
-    instructions.style.display = 'none';
-    currentFileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+    setupUIForLoading();
 
     try {
         const arrayBuffer = await file.arrayBuffer();
@@ -75,21 +116,31 @@ async function processMidiFile(file) {
             return;
         }
 
-        statusText.innerText = `Ready! ${chords.length} chords. Tempo: ${Math.round(midi.header.tempos[0]?.bpm || 120)} BPM`;
-        playPauseBtn.disabled = false;
-        exportBtn.disabled = false;
-
-        // Reset playback
-        pause();
-        pauseTime = 0;
-
-        renderStaticElements();
-        updateLoop(); // Update once to set initial positions
+        finishLoading(chords.length, Math.round(midi.header.tempos[0]?.bpm || 120));
 
     } catch (error) {
         console.error(error);
         statusText.innerText = 'Error parsing MIDI file. Make sure it is a valid .mid file.';
     }
+}
+
+function setupUIForLoading() {
+    playPauseBtn.disabled = true;
+    exportBtn.disabled = true;
+    instructions.style.display = 'none';
+}
+
+function finishLoading(chordCount, bpm) {
+    statusText.innerText = `Ready! ${chordCount} chords. Tempo: ${bpm} BPM`;
+    playPauseBtn.disabled = false;
+    exportBtn.disabled = false;
+
+    // Reset playback
+    pause();
+    pauseTime = 0;
+
+    renderStaticElements();
+    updateLoop(); // Update once to set initial positions
 }
 
 function exportToJSON() {
