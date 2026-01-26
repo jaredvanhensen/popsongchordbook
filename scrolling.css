@@ -26,7 +26,45 @@ body {
     gap: 20px;
     align-items: center;
     z-index: 100;
+    border-bottom: 1px solid #444;
 }
+
+.playback-controls {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #555;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#playPauseBtn {
+    background: var(--highlight-color);
+    color: black;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+#playPauseBtn:hover:not(:disabled) {
+    background: #ffdb4d;
+}
+
 
 .file-input {
     color: white;
@@ -46,25 +84,44 @@ body {
 /* The 'Now Playing' line/zone on the far left */
 .playhead {
     position: absolute;
-    left: 20px;
+    left: 40px;
     /* Small padding from edge */
     top: 0;
     bottom: 0;
-    width: 5px;
+    width: 2px;
     background-color: var(--highlight-color);
     z-index: 10;
     box-shadow: 0 0 10px var(--highlight-color);
 }
 
+.playhead::after {
+    content: '▼';
+    position: absolute;
+    top: -15px;
+    left: -6px;
+    color: var(--highlight-color);
+}
+
 .chord-track {
     position: absolute;
     top: 50%;
-    left: 20px;
+    left: 40px;
     /* Start aligned with playhead */
     transform: translateY(-50%);
     white-space: nowrap;
     will-change: transform;
     /* Optimize for scrolling */
+    z-index: 5;
+}
+
+.marker-track {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 40px;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .chord-item {
@@ -76,11 +133,14 @@ body {
     color: var(--chord-color);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     transition: color 0.1s;
+    /* Center origin for scaling */
+    transform-origin: center center;
 }
 
 .chord-item.active {
     color: var(--highlight-color);
-    transform: translateX(0) translateY(-50%) scale(1.1);
+    /* Scale is handled in JS transform now or purely CSS if pos allows */
+    text-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
 }
 
 .instructions {
@@ -91,4 +151,25 @@ body {
     color: #666;
     font-size: 1.5rem;
     pointer-events: none;
+}
+
+/* Markers */
+.marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.marker-label {
+    position: absolute;
+    top: 10px;
+    left: 4px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.marker.bar {
+    background-color: rgba(255, 255, 255, 0.2);
 }
