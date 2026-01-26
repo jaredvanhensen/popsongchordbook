@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Chords</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="scrolling.css">
+</head>
+
+<body>
+
+    <div class="controls-container">
+        <a href="index.html" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
+        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi" class="file-input">
+        <div id="statusText">Upload a MIDI file to start</div>
+        <button id="playBtn" disabled>Play</button>
+        <button id="pauseBtn" disabled>Pause</button>
+    </div>
+
+    <div class="timeline-container" id="timeline">
+        <div class="playhead"></div>
+        <div class="instructions" id="instructions">Drop MIDI file here</div>
+        <!-- Chords will be injected here via JS -->
+        <div class="chord-track" id="chordTrack"></div>
+    </div>
+
+    <!-- Midi Parsing Library -->
+    <script src="https://unpkg.com/@tonejs/midi"></script>
+
+    <!-- App Logic -->
+    <script src="js/scrolling_chords.js"></script>
+
+</body>
+
+</html>

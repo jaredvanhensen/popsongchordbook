@@ -1,0 +1,94 @@
+:root {
+    --timeline-bg: #1e1e1e;
+    --chord-color: #ffffff;
+    --highlight-color: #ffcc00;
+    /* Yellow highlight for 'now playing' */
+    --font-size-chord: 72px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--timeline-bg);
+    color: white;
+    overflow: hidden;
+    /* Prevent scrollbars, we handle scrolling manually */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.controls-container {
+    padding: 20px;
+    background-color: #2d2d2d;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 100;
+}
+
+.file-input {
+    color: white;
+}
+
+.timeline-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* Mask chords outside view */
+    display: flex;
+    align-items: center;
+    /* Vertically center chords */
+}
+
+/* The 'Now Playing' line/zone on the far left */
+.playhead {
+    position: absolute;
+    left: 20px;
+    /* Small padding from edge */
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: var(--highlight-color);
+    z-index: 10;
+    box-shadow: 0 0 10px var(--highlight-color);
+}
+
+.chord-track {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    /* Start aligned with playhead */
+    transform: translateY(-50%);
+    white-space: nowrap;
+    will-change: transform;
+    /* Optimize for scrolling */
+}
+
+.chord-item {
+    position: absolute;
+    transform: translateX(0) translateY(-50%);
+    top: 50%;
+    font-size: var(--font-size-chord);
+    font-weight: 900;
+    color: var(--chord-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.1s;
+}
+
+.chord-item.active {
+    color: var(--highlight-color);
+    transform: translateX(0) translateY(-50%) scale(1.1);
+}
+
+.instructions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+    font-size: 1.5rem;
+    pointer-events: none;
+}
