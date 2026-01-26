@@ -156,8 +156,11 @@ class SongDetailModal {
         const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
         const scrollingChordsCloseBtn = document.getElementById('scrollingChordsModalClose');
 
+        console.log('Setup Scrolling Chords:', { btn: !!scrollingChordsBtn, modal: !!scrollingChordsModal });
         if (scrollingChordsBtn && scrollingChordsModal) {
             scrollingChordsBtn.addEventListener('click', (e) => {
+                console.log('Scrolling chords button clicked');
+                e.preventDefault();
                 e.stopPropagation();
 
                 // Set source if empty to load it
