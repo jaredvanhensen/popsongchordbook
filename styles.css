@@ -7470,3 +7470,80 @@ td:has(.row-edit-input.input-focused) {
     align-items: center;
     justify-content: flex-end;
 }
+
+/* Scrolling Chords Modal */
+.scrolling-chords-modal-wrapper {
+    align-items: flex-end;
+    /* Bottom alignment */
+    justify-content: center;
+    padding: 0;
+    pointer-events: none;
+    /* Let clicks pass through background? No, usually modal blocks. But we want to mimic bottom sheet */
+    background: rgba(0, 0, 0, 0.5);
+    /* Dim background */
+}
+
+.scrolling-chords-modal-wrapper.hidden {
+    display: none !important;
+}
+
+.scrolling-chords-content {
+    width: 100%;
+    height: 250px;
+    /* Fixed height as requested */
+    background: white;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    pointer-events: auto;
+    animation: slideUp 0.3s ease-out;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow: hidden;
+}
+
+/* Create a container for the close button to position it relative to the modal wrapper */
+.scrolling-chords-modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    /* Higher than other modals */
+    display: flex;
+}
+
+.scrolling-chords-close-btn {
+    position: absolute;
+    bottom: 260px;
+    /* 250px height + 10px spacing */
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    z-index: 2001;
+}
+
+.scrolling-chords-close-btn:hover {
+    background: #f1f5f9;
+    color: #ef4444;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}

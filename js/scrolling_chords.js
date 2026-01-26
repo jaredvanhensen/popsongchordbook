@@ -12,6 +12,14 @@ const markerTrack = document.getElementById('markerTrack');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 
+// Check for embed mode
+const urlParams = new URLSearchParams(window.location.search);
+const isEmbed = urlParams.get('embed') === 'true';
+if (isEmbed) {
+    document.querySelector('a[href="index.html"]').style.display = 'none';
+    document.body.style.background = 'transparent'; // Optional: transparent bg
+}
+
 let midiData = null;
 let currentFileName = 'song';
 let chords = []; // Array of { time: seconds, name: string }
