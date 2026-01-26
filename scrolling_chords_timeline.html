@@ -21,10 +21,16 @@
       position: fixed;
       top: 10px;
       left: 10px;
-      z-index: 10;
-      background: rgba(0,0,0,0.7);
-      padding: 10px;
-      border-radius: 8px;
+      z-index: 20;
+      background: rgba(0,0,0,0.8);
+      padding: 12px;
+      border-radius: 10px;
+      max-width: 340px;
+    }
+
+    #controls h3 {
+      margin: 6px 0;
+      font-size: 14px;
     }
 
     #timeline {
@@ -32,11 +38,11 @@
       top: 50%;
       left: 0;
       width: 100vw;
-      height: 120px;
+      height: 140px;
       transform: translateY(-50%);
       overflow: hidden;
-      border-top: 2px solid #444;
-      border-bottom: 2px solid #444;
+      border-top: 2px solid #333;
+      border-bottom: 2px solid #333;
     }
 
     .chord {
@@ -51,68 +57,142 @@
     .current {
       color: #00ffcc;
     }
+
+    #metronome {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background: red;
+      z-index: 5;
+    }
+
+    #dropzone {
+      border: 2px dashed #666;
+      padding: 10px;
+      margin-top: 6px;
+      text-align: center;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #444;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    button {
+      margin-top: 6px;
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div id="controls">
-    <input type="file" id="midiFile" accept=".mid,.midi" />
+    <h3>Drag & Drop MIDI</h3>
+    <div id="dropzone">Drop .mid file here</div>
+
+    <h3>OR Manual Chord List</h3>
+    <p style="font-size:11px;">Format: <code>time_in_seconds chord</code></p>
+    <textarea id="chordInput">0 E
+2 A
+4 B</textarea>
+
+    <button onclick="loadManualChords()">Load Chord List</button>
     <button onclick="start()">Start</button>
   </div>
 
-  <div id="timeline"></div>
+  <div id="timeline">
+    <div id="metronome"></div>
+  </div>
 
   <script>
     const timeline = document.getElementById('timeline');
+    const dropzone = document.getElementById('dropzone');
     let chords = [];
     let startTime = 0;
     let animationId;
+    let bpm = 120;
 
-    document.getElementById('midiFile').addEventListener('change', async (e) => {
-      const file = e.target.files[0];
+    // ---------------- MIDI DRAG & DROP ----------------
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.style.borderColor = '#00ffcc';
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.style.borderColor = '#666';
+    });
+
+    dropzone.addEventListener('drop', async e => {
+      e.preventDefault();
+      dropzone.style.borderColor = '#666';
+      const file = e.dataTransfer.files[0];
       if (!file) return;
 
-      const arrayBuffer = await file.arrayBuffer();
-      const midi = new Midi(arrayBuffer);
+      const buffer = await file.arrayBuffer();
+      const midi = new Midi(buffer);
 
+      bpm = midi.header.tempos[0]?.bpm || 120;
       chords = [];
 
-      // VERY IMPORTANT NOTE:
-      // MIDI has no true "chord" concept.
-      // Here we assume: chord = all notes starting at the same time on track 0
       const track = midi.tracks[0];
       const grouped = {};
 
-      track.notes.forEach(note => {
-        const t = note.time.toFixed(3);
+      track.notes.forEach(n => {
+        const t = n.time.toFixed(3);
         grouped[t] = grouped[t] || [];
-        grouped[t].push(note.name);
+        grouped[t].push(n.name.replace(/[0-9]/g, ''));
       });
 
-      for (const time in grouped) {
-        chords.push({
-          time: parseFloat(time),
-          label: grouped[time].join(' ')
-        });
+      for (const t in grouped) {
+        chords.push({ time: parseFloat(t), label: grouped[t].join(' ') });
       }
 
-      chords.sort((a, b) => a.time - b.time);
-      console.log('Parsed chords:', chords);
+      chords.sort((a,b) => a.time - b.time);
+      alert('MIDI loaded. BPM: ' + bpm);
     });
 
+    // ---------------- MANUAL CHORD LIST ----------------
+    function loadManualChords() {
+      const lines = document.getElementById('chordInput').value.split('\n');
+      chords = [];
+
+      lines.forEach(line => {
+        const parts = line.trim().split(/\s+/);
+        if (parts.length >= 2) {
+          chords.push({ time: parseFloat(parts[0]), label: parts[1] });
+        }
+      });
+
+      chords.sort((a,b) => a.time - b.time);
+      alert('Manual chord list loaded');
+    }
+
+    // ---------------- START & ANIMATE ----------------
     function start() {
       if (!chords.length) {
-        alert('Please load a MIDI file first');
+        alert('No chords loaded');
         return;
       }
 
-      timeline.innerHTML = '';
+      timeline.querySelectorAll('.chord').forEach(c => c.remove());
       startTime = performance.now() / 1000;
 
       chords.forEach(ch => {
         const el = document.createElement('div');
         el.className = 'chord';
-        el.textContent = simplifyChord(ch.label);
+        el.textContent = ch.label;
         ch.el = el;
         timeline.appendChild(el);
       });
@@ -124,11 +204,10 @@
     function animate() {
       const now = performance.now() / 1000 - startTime;
       const width = window.innerWidth;
-      const leadTime = 4; // seconds for chord to travel across screen
+      const leadTime = 4;
 
-      chords.forEach((ch, i) => {
-        const dx = ((ch.time - now) / leadTime) * width;
-        const x = dx;
+      chords.forEach(ch => {
+        const x = ((ch.time - now) / leadTime) * width;
         ch.el.style.left = x + 'px';
 
         if (Math.abs(ch.time - now) < 0.1) {
@@ -138,12 +217,16 @@
         }
       });
 
+      animateMetronome(now);
       animationId = requestAnimationFrame(animate);
     }
 
-    function simplifyChord(label) {
-      // crude reduction: remove octave numbers
-      return label.replace(/[0-9]/g, '');
+    // ---------------- METRONOME LINE ----------------
+    function animateMetronome(now) {
+      const beatDuration = 60 / bpm;
+      const beatPos = (now % beatDuration) / beatDuration;
+      const x = beatPos * window.innerWidth;
+      document.getElementById('metronome').style.left = x + 'px';
     }
   </script>
 
