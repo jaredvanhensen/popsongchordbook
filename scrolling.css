@@ -329,7 +329,7 @@ button:disabled {
 }
 
 /* Mobile Optimizations */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     :root {
         --font-size-chord: 44px;
         /* Smaller chords */
