@@ -7485,6 +7485,23 @@ td:has(.row-edit-input.input-focused) {
     /* Ensure it's on top */
 }
 
+/* Force Timeline Icon Size */
+#songDetailScrollingChordsBtn .icon svg {
+    width: 60px !important;
+    height: 40px !important;
+    max-width: none !important;
+    max-height: none !important;
+    min-width: 60px !important;
+    /* Prevent shrinking */
+}
+
+#songDetailScrollingChordsBtn .icon {
+    display: flex;
+    /* Ensure container fits content */
+    align-items: center;
+    justify-content: center;
+}
+
 .scrolling-chords-modal-wrapper.hidden {
     display: none !important;
 }
