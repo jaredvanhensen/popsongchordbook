@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scrolling Chords Timeline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- MIDI parser -->
+  <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi@2.0.28/build/Midi.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    #controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #timeline {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100vw;
+      height: 120px;
+      transform: translateY(-50%);
+      overflow: hidden;
+      border-top: 2px solid #444;
+      border-bottom: 2px solid #444;
+    }
+
+    .chord {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 72px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .current {
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="controls">
+    <input type="file" id="midiFile" accept=".mid,.midi" />
+    <button onclick="start()">Start</button>
+  </div>
+
+  <div id="timeline"></div>
+
+  <script>
+    const timeline = document.getElementById('timeline');
+    let chords = [];
+    let startTime = 0;
+    let animationId;
+
+    document.getElementById('midiFile').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const arrayBuffer = await file.arrayBuffer();
+      const midi = new Midi(arrayBuffer);
+
+      chords = [];
+
+      // VERY IMPORTANT NOTE:
+      // MIDI has no true "chord" concept.
+      // Here we assume: chord = all notes starting at the same time on track 0
+      const track = midi.tracks[0];
+      const grouped = {};
+
+      track.notes.forEach(note => {
+        const t = note.time.toFixed(3);
+        grouped[t] = grouped[t] || [];
+        grouped[t].push(note.name);
+      });
+
+      for (const time in grouped) {
+        chords.push({
+          time: parseFloat(time),
+          label: grouped[time].join(' ')
+        });
+      }
+
+      chords.sort((a, b) => a.time - b.time);
+      console.log('Parsed chords:', chords);
+    });
+
+    function start() {
+      if (!chords.length) {
+        alert('Please load a MIDI file first');
+        return;
+      }
+
+      timeline.innerHTML = '';
+      startTime = performance.now() / 1000;
+
+      chords.forEach(ch => {
+        const el = document.createElement('div');
+        el.className = 'chord';
+        el.textContent = simplifyChord(ch.label);
+        ch.el = el;
+        timeline.appendChild(el);
+      });
+
+      cancelAnimationFrame(animationId);
+      animate();
+    }
+
+    function animate() {
+      const now = performance.now() / 1000 - startTime;
+      const width = window.innerWidth;
+      const leadTime = 4; // seconds for chord to travel across screen
+
+      chords.forEach((ch, i) => {
+        const dx = ((ch.time - now) / leadTime) * width;
+        const x = dx;
+        ch.el.style.left = x + 'px';
+
+        if (Math.abs(ch.time - now) < 0.1) {
+          ch.el.classList.add('current');
+        } else {
+          ch.el.classList.remove('current');
+        }
+      });
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    function simplifyChord(label) {
+      // crude reduction: remove octave numbers
+      return label.replace(/[0-9]/g, '');
+    }
+  </script>
+
+</body>
+</html>
