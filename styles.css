@@ -7481,6 +7481,8 @@ td:has(.row-edit-input.input-focused) {
     /* Let clicks pass through background? No, usually modal blocks. But we want to mimic bottom sheet */
     background: rgba(0, 0, 0, 0.5);
     /* Dim background */
+    z-index: 10000 !important;
+    /* Ensure it's on top */
 }
 
 .scrolling-chords-modal-wrapper.hidden {
@@ -7491,7 +7493,8 @@ td:has(.row-edit-input.input-focused) {
     width: 100%;
     height: 250px;
     /* Fixed height as requested */
-    background: white;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    /* Dark background for white text */
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
     pointer-events: auto;
