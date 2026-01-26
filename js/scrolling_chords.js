@@ -5,6 +5,7 @@ const statusText = document.getElementById('statusText');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const rwdBtn = document.getElementById('rwdBtn');
 const fwdBtn = document.getElementById('fwdBtn');
+const exportBtn = document.getElementById('exportBtn');
 const timeline = document.getElementById('timeline');
 const chordTrack = document.getElementById('chordTrack');
 const markerTrack = document.getElementById('markerTrack');
@@ -12,6 +13,7 @@ const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 
 let midiData = null;
+let currentFileName = 'song';
 let chords = []; // Array of { time: seconds, name: string }
 let markers = []; // Array of { time: seconds, label: string, type: 'bar'|'beat' }
 let isPlaying = false;
@@ -26,6 +28,7 @@ midiInput.addEventListener('change', handleFileSelect);
 playPauseBtn.addEventListener('click', togglePlayPause);
 rwdBtn.addEventListener('click', () => seek(-10));
 fwdBtn.addEventListener('click', () => seek(10));
+exportBtn.addEventListener('click', exportToJSON);
 
 // Drag and drop support
 timeline.addEventListener('dragover', (e) => {
@@ -52,7 +55,9 @@ async function handleFileSelect(e) {
 async function processMidiFile(file) {
     statusText.innerText = 'Parsing MIDI...';
     playPauseBtn.disabled = true;
+    exportBtn.disabled = true;
     instructions.style.display = 'none';
+    currentFileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
 
     try {
         const arrayBuffer = await file.arrayBuffer();
@@ -72,6 +77,7 @@ async function processMidiFile(file) {
 
         statusText.innerText = `Ready! ${chords.length} chords. Tempo: ${Math.round(midi.header.tempos[0]?.bpm || 120)} BPM`;
         playPauseBtn.disabled = false;
+        exportBtn.disabled = false;
 
         // Reset playback
         pause();
@@ -84,6 +90,25 @@ async function processMidiFile(file) {
         console.error(error);
         statusText.innerText = 'Error parsing MIDI file. Make sure it is a valid .mid file.';
     }
+}
+
+function exportToJSON() {
+    if (!chords || chords.length === 0) return;
+
+    const exportData = {
+        name: currentFileName,
+        tempo: midiData.header.tempos[0]?.bpm || 120,
+        duration: midiData.duration,
+        chords: chords
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", currentFileName + "_chords.json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 function extractChordsFromMidi(midi) {
