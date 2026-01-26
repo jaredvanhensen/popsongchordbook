@@ -7502,25 +7502,6 @@ td:has(.row-edit-input.input-focused) {
     justify-content: center;
 }
 
-.scrolling-chords-modal-wrapper.hidden {
-    display: none !important;
-}
-
-.scrolling-chords-content {
-    width: 100%;
-    height: 250px;
-    /* Fixed height as requested */
-    background: #ffffff;
-    /* White background */
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-    position: relative;
-    pointer-events: auto;
-    animation: slideUp 0.3s ease-out;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    overflow: hidden;
-}
-
 /* Create a container for the close button to position it relative to the modal wrapper */
 .scrolling-chords-modal-wrapper {
     position: fixed;
@@ -7531,6 +7512,57 @@ td:has(.row-edit-input.input-focused) {
     z-index: 2000;
     /* Higher than other modals */
     display: flex;
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
+    /* Center horizontally */
+    background: rgba(0, 0, 0, 0.5);
+    /* Dim background */
+}
+
+.scrolling-chords-content {
+    width: 92%;
+    /* Responsive width */
+    max-width: 900px;
+    /* Max width to match likely song detail width */
+    height: 400px;
+    /* Fixed height as requested */
+    background: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    pointer-events: auto;
+    animation: fadeIn 0.2s ease-out;
+    border-radius: 20px;
+    /* Rounded corners like YouTube popup */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrolling-chords-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.scrolling-chords-close-btn:hover {
+    background: white;
+    transform: scale(1.05);
+    color: #1e293b;
 }
 
 .scrolling-chords-close-btn {
