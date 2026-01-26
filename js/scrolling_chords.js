@@ -12,6 +12,7 @@ const markerTrack = document.getElementById('markerTrack');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 const metronomeBtn = document.getElementById('metronomeBtn');
+const saveBtn = document.getElementById('saveBtn');
 
 // Check for embed mode
 const urlParams = new URLSearchParams(window.location.search);
@@ -63,6 +64,7 @@ playPauseBtn.addEventListener('click', togglePlayPause);
 rwdBtn.addEventListener('click', () => seek(-10));
 fwdBtn.addEventListener('click', () => seek(10));
 exportBtn.addEventListener('click', exportToJSON);
+saveBtn.addEventListener('click', saveToDatabase);
 metronomeBtn.addEventListener('click', toggleMetronome);
 
 function initAudio() {
@@ -228,6 +230,7 @@ async function processMidiFile(file) {
 function setupUIForLoading() {
     playPauseBtn.disabled = true;
     exportBtn.disabled = true;
+    if (saveBtn) saveBtn.disabled = true;
     instructions.style.display = 'none';
 }
 
@@ -235,6 +238,7 @@ function finishLoading(chordCount, bpm) {
     statusText.innerText = `Ready! ${chordCount} chords. Tempo: ${bpm} BPM`;
     playPauseBtn.disabled = false;
     exportBtn.disabled = false;
+    if (saveBtn) saveBtn.disabled = false;
 
     // Update metronome timing
     secondsPerBeat = 60 / bpm;
@@ -249,15 +253,20 @@ function finishLoading(chordCount, bpm) {
     updateLoop(); // Update once to set initial positions
 }
 
-function exportToJSON() {
-    if (!chords || chords.length === 0) return;
+function getExportData() {
+    if (!chords || chords.length === 0) return null;
 
-    const exportData = {
+    return {
         name: currentFileName,
-        tempo: midiData.header.tempos[0]?.bpm || 120,
-        duration: midiData.duration,
+        tempo: (midiData && midiData.header && midiData.header.tempos) ? midiData.header.tempos[0]?.bpm : (midiData?.tempo || 120),
+        duration: midiData ? midiData.duration : (chords[chords.length - 1].time + 5),
         chords: chords
     };
+}
+
+function exportToJSON() {
+    const exportData = getExportData();
+    if (!exportData) return;
 
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchorNode = document.createElement('a');
@@ -266,6 +275,26 @@ function exportToJSON() {
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+}
+
+function saveToDatabase() {
+    const exportData = getExportData();
+    if (!exportData) return;
+
+    console.log('Requesting parent to save chord data...');
+    window.parent.postMessage({
+        type: 'saveChordData',
+        data: exportData
+    }, '*');
+
+    // Visual feedback
+    const originalText = saveBtn.innerText;
+    saveBtn.innerText = '✅ SAVED';
+    saveBtn.style.backgroundColor = '#48bb78';
+    setTimeout(() => {
+        saveBtn.innerText = originalText;
+        saveBtn.style.backgroundColor = '#667eea';
+    }, 2000);
 }
 
 function extractChordsFromMidi(midi) {

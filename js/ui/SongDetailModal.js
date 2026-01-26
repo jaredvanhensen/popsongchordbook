@@ -201,6 +201,22 @@ class SongDetailModal {
                     if (scrollingChordsFrame) scrollingChordsFrame.src = ''; // Stop playback
                 }
             });
+
+            // Listen for Save message from iframe
+            window.addEventListener('message', async (event) => {
+                if (event.data && event.data.type === 'saveChordData' && this.currentSongId) {
+                    console.log('Received saveChordData from Timeline');
+                    const chordData = event.data.data;
+
+                    try {
+                        await this.songManager.updateSong(this.currentSongId, { chordData: chordData });
+                        console.log('Chord data saved to database');
+                        // No need for alert here as iframe gives feedback
+                    } catch (e) {
+                        console.error('Error saving chord data from timeline:', e);
+                    }
+                }
+            });
         }
 
         // Setup YouTube URL button
