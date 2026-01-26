@@ -7521,10 +7521,10 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .scrolling-chords-content {
-    width: 92%;
+    width: 98%;
     /* Responsive width */
-    max-width: 900px;
-    /* Max width to match likely song detail width */
+    max-width: 1400px;
+    /* Increased max width */
     height: 400px;
     /* Fixed height as requested */
     background: #ffffff;

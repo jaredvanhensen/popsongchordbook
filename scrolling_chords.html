@@ -14,8 +14,14 @@
 <body>
 
     <div class="controls-container">
-        <a href="index.html" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
-        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input">
+        <a href="index.html" id="backBtn" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
+
+        <label for="midiInput" class="custom-file-btn" title="Upload MIDI or JSON file">
+            📁 Select File
+        </label>
+        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input"
+            style="display: none;">
+
         <div class="playback-controls">
             <button id="rwdBtn" title="Rewind 10s">⏪ -10s</button>
             <button id="playPauseBtn" disabled>▶ Play</button>
