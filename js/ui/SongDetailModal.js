@@ -164,10 +164,16 @@ class SongDetailModal {
                 e.stopPropagation();
 
                 // Open in new popup window (like YouTube player style)
-                const width = window.innerWidth;
+                // Match width of the song detail modal content
+                const modalContent = document.querySelector('#songDetailModal .song-detail-modal-content');
+                const width = modalContent ? modalContent.offsetWidth : Math.min(window.innerWidth, 900);
                 const height = 400;
-                // Try to align with current window
-                const left = window.screenX !== undefined ? window.screenX : window.screenLeft;
+
+                // Try to align center relative to screen
+                const left = window.screenX !== undefined
+                    ? window.screenX + (window.outerWidth - width) / 2
+                    : (window.screen.width - width) / 2;
+
                 const top = (window.screen.height - height) / 2;
 
                 window.open(
