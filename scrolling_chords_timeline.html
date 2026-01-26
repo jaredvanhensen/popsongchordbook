@@ -5,234 +5,192 @@
   <title>Scrolling Chords Timeline</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- MIDI parser -->
   <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi@2.0.28/build/Midi.js"></script>
 
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow: hidden;
-    }
-
-    #controls {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1000;
-      background: rgba(0,0,0,0.85);
-      padding: 12px;
-      border-radius: 10px;
-      width: 340px;
-    }
-
-    #timeline {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100vw;
-      height: 150px;
-      transform: translateY(-50%);
-      overflow: hidden;
-      border-top: 2px solid #333;
-      border-bottom: 2px solid #333;
-      pointer-events: none;
-    }
-
-    .chord {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 72px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .current { color: #00ffcc; }
-
-    #metronome {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 4px;
-      background: red;
-    }
-
-    textarea {
-      width: 100%;
-      height: 90px;
-      background: #111;
-      color: #fff;
-      border: 1px solid #444;
-      font-family: monospace;
-      font-size: 12px;
-    }
-
-    button, input {
-      width: 100%;
-      margin-top: 6px;
-      padding: 6px;
-      font-size: 14px;
-    }
-
-    #bpmDisplay {
-      margin-top: 6px;
-      font-size: 14px;
-      text-align: center;
-      color: #ffcc00;
-    }
+    body { margin:0; background:#000; color:#fff; font-family:Arial,Helvetica,sans-serif; overflow:hidden; }
+    #controls { position: fixed; top:10px; left:10px; right:10px; z-index:1000; background:rgba(0,0,0,0.85); padding:8px; border-radius:10px; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start; gap:6px; }
+    #controls input, #controls button { height:28px; font-size:12px; padding:4px 6px; }
+    #bpmDisplay { font-size:12px; color:#ffcc00; margin-right:10px; }
+    #timeline { position:absolute; top:50%; left:0; width:100vw; height:150px; transform:translateY(-50%); overflow:hidden; border-top:2px solid #333; border-bottom:2px solid #333; pointer-events:none; }
+    .chord { position:absolute; top:50%; transform:translateY(-50%); font-size:72px; font-weight:bold; white-space:nowrap; }
+    .current { color:#00ffcc; }
+    .marker { position:absolute; top:5px; color:#ffcc00; font-size:14px; font-family:monospace; }
+    #metronome { position:absolute; top:0; bottom:0; left:0; width:4px; background:red; }
+    textarea { width:100%; height:90px; background:#111; color:#fff; border:1px solid #444; font-family:monospace; font-size:12px; margin-top:6px; }
   </style>
 </head>
 <body>
 
-  <div id="controls">
-    <strong>Scrolling Chords</strong>
-
-    <input type="file" id="midiPicker" accept=".mid,.midi" />
-
-    <div id="bpmDisplay">BPM: --</div>
-
-    <p style="font-size:11px;">Manual chords (seconds + chord)</p>
-    <textarea id="chordInput">0 C
+<div id="controls">
+  <input type="file" id="midiPicker" accept=".mid,.midi" />
+  <div id="bpmDisplay">BPM: --</div>
+  <button id="startPauseBtn">START</button>
+  <button id="rewindBtn">10s RWD</button>
+  <button id="forwardBtn">10s FWD</button>
+  <button id="stopRestartBtn">STOP/RESTART</button>
+  <textarea id="chordInput">0 C
 2 F
 4 G
 6 Am</textarea>
+</div>
 
-    <button id="loadBtn">Load Chord List</button>
-    <button id="startBtn">START</button>
-    <button id="stopBtn">STOP</button>
-  </div>
+<div id="timeline">
+  <div id="metronome"></div>
+</div>
 
-  <div id="timeline">
-    <div id="metronome"></div>
-  </div>
+<script>
+const midiPicker = document.getElementById('midiPicker');
+const startPauseBtn = document.getElementById('startPauseBtn');
+const stopRestartBtn = document.getElementById('stopRestartBtn');
+const rewindBtn = document.getElementById('rewindBtn');
+const forwardBtn = document.getElementById('forwardBtn');
+const bpmDisplay = document.getElementById('bpmDisplay');
+const timeline = document.getElementById('timeline');
 
-  <script>
-    const midiPicker = document.getElementById('midiPicker');
-    const loadBtn = document.getElementById('loadBtn');
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const bpmDisplay = document.getElementById('bpmDisplay');
-    const timeline = document.getElementById('timeline');
+let chords = [];
+let startTime = 0;
+let pauseTime = 0;
+let paused = false;
+let animationId;
+let bpm = 120;
 
-    let chords = [];
-    let startTime = 0;
-    let animationId;
-    let bpm = 120;
+midiPicker.addEventListener('change', loadMidi);
+startPauseBtn.addEventListener('click', startPause);
+stopRestartBtn.addEventListener('click', stopRestart);
+rewindBtn.addEventListener('click', ()=>seek(-10));
+forwardBtn.addEventListener('click', ()=>seek(10));
 
-    loadBtn.addEventListener('click', loadManualChords);
-    startBtn.addEventListener('click', start);
-    stopBtn.addEventListener('click', stop);
-    midiPicker.addEventListener('change', loadMidi);
-
-    function loadMidi(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const midi = new Midi(reader.result);
-
-        bpm = midi.header.tempos[0]?.bpm || 120;
-        bpmDisplay.textContent = `BPM: ${Math.round(bpm)}`;
-        chords = [];
-
-        // Find best track (prefer channel 1)
-        let track = midi.tracks.find(t => t.notes.some(n => n.channel === 0)) ||
-                    midi.tracks.reduce((a,b) => a.notes.length > b.notes.length ? a : b);
-
-        const groups = {};
-        track.notes.forEach(n => {
-          const t = Math.round(n.time * 10) / 10; // quantize 100ms
-          groups[t] = groups[t] || [];
-          groups[t].push(n.midi % 12);
-        });
-
-        for (const t in groups) {
-          const name = detectChord(groups[t]);
-          chords.push({ time: parseFloat(t), label: name });
-        }
-
-        chords.sort((a,b) => a.time - b.time);
-        alert(`MIDI loaded (${chords.length} chords)`);
-      };
-      reader.readAsArrayBuffer(file);
+function loadMidi(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload=()=>{
+    const midi=new Midi(reader.result);
+    bpm=midi.header.tempos[0]?.bpm||120;
+    bpmDisplay.textContent=`BPM: ${Math.round(bpm)}`;
+    chords=[];
+    let track=midi.tracks.find(t=>t.notes.some(n=>n.channel===0))||midi.tracks.reduce((a,b)=>a.notes.length>b.notes.length?a:b);
+    const groups={};
+    track.notes.forEach(n=>{
+      const t=Math.round(n.time*10)/10;
+      groups[t]=groups[t]||[];
+      groups[t].push(n.midi%12);
+    });
+    for(const t in groups){
+      const name=detectChord(groups[t]);
+      chords.push({time:parseFloat(t),label:name});
     }
+    chords.sort((a,b)=>a.time-b.time);
+    alert(`MIDI loaded (${chords.length} chords)`);
+  };
+  reader.readAsArrayBuffer(file);
+}
 
-    function loadManualChords() {
-      chords = [];
-      document.getElementById('chordInput').value.split('\n').forEach(line => {
-        const p = line.trim().split(/\s+/);
-        if (p.length >= 2) chords.push({ time: parseFloat(p[0]), label: p[1] });
-      });
-      chords.sort((a,b) => a.time - b.time);
-      alert(`Loaded ${chords.length} manual chords`);
-    }
+function loadManualChords(){
+  chords=[];
+  document.getElementById('chordInput').value.split('\n').forEach(line=>{
+    const p=line.trim().split(/\s+/);
+    if(p.length>=2) chords.push({time:parseFloat(p[0]),label:p[1]});
+  });
+  chords.sort((a,b)=>a.time-b.time);
+  alert(`Loaded ${chords.length} manual chords`);
+}
 
-    function start() {
-      if (!chords.length) return alert('No chords loaded');
-      timeline.querySelectorAll('.chord').forEach(c => c.remove());
-      startTime = performance.now() / 1000;
+function startPause(){
+  if(!chords.length) return alert('No chords loaded');
+  if(!startTime){ // first start
+    timeline.querySelectorAll('.chord, .marker').forEach(c=>c.remove());
+    startTime=performance.now()/1000;
+    chords.forEach(ch=>{
+      const el=document.createElement('div');
+      el.className='chord';
+      el.textContent=ch.label;
+      ch.el=el;
+      timeline.appendChild(el);
+    });
+    paused=false;
+    startPauseBtn.textContent='PAUSE';
+    animate();
+  } else if(paused){ // resume
+    startTime += performance.now()/1000 - pauseTime;
+    paused=false;
+    startPauseBtn.textContent='PAUSE';
+    animate();
+  } else { // pause
+    pauseTime=performance.now()/1000;
+    paused=true;
+    cancelAnimationFrame(animationId);
+    startPauseBtn.textContent='START';
+  }
+}
 
-      chords.forEach(ch => {
-        const el = document.createElement('div');
-        el.className = 'chord';
-        el.textContent = ch.label;
-        ch.el = el;
-        timeline.appendChild(el);
-      });
+function stopRestart(){
+  cancelAnimationFrame(animationId);
+  timeline.querySelectorAll('.chord, .marker').forEach(c=>c.remove());
+  startTime=0;
+  paused=false;
+  startPauseBtn.textContent='START';
+}
 
-      cancelAnimationFrame(animationId);
-      animate();
-    }
+function seek(seconds){
+  if(!startTime) return;
+  startTime -= seconds;
+  if(paused){ pauseTime += seconds; }
+}
 
-    function stop() {
-      cancelAnimationFrame(animationId);
-    }
+function animate(){
+  if(paused) return;
+  const now=performance.now()/1000 - startTime;
+  const width=window.innerWidth;
+  const leadTime=4;
 
-    function animate() {
-      const now = performance.now() / 1000 - startTime;
-      const width = window.innerWidth;
-      const leadTime = 4;
+  chords.forEach(ch=>{
+    const x=((ch.time-now)/leadTime)*width;
+    ch.el.style.left=x+'px';
+    ch.el.classList.toggle('current',Math.abs(ch.time-now)<0.1);
+  });
 
-      chords.forEach(ch => {
-        const x = ((ch.time - now) / leadTime) * width;
-        ch.el.style.left = x + 'px';
-        ch.el.classList.toggle('current', Math.abs(ch.time - now) < 0.1);
-      });
+  timeline.querySelectorAll('.marker').forEach(m=>m.remove());
 
-      animateMetronome(now);
-      animationId = requestAnimationFrame(animate);
-    }
+  const beatsPerBar = 4;
+  const secPerBeat = 60/bpm;
+  const secPerBar = beatsPerBar*secPerBeat;
+  for(let t=now; t<now+leadTime; t+=secPerBeat){
+    const x=((t-now)/leadTime)*width;
+    const marker=document.createElement('div');
+    marker.className='marker';
+    const barNum=Math.floor(t/secPerBar)+1;
+    marker.textContent=`Bar ${barNum} | ${t.toFixed(1)}s`;
+    marker.style.left=x+'px';
+    marker.style.top='5px';
+    timeline.appendChild(marker);
+  }
 
-    function animateMetronome(now) {
-      const beat = 60 / bpm;
-      const pos = (now % beat) / beat;
-      document.getElementById('metronome').style.left = (pos * window.innerWidth) + 'px';
-    }
+  animateMetronome(now);
+  animationId=requestAnimationFrame(animate);
+}
 
-    // ---------------- BASIC CHORD DETECTION ----------------
-    function detectChord(pitches) {
-      const pcs = [...new Set(pitches)].sort();
-      const names = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+function animateMetronome(now){
+  const beat=60/bpm;
+  const pos=(now%beat)/beat;
+  document.getElementById('metronome').style.left=(pos*window.innerWidth)+'px';
+}
 
-      for (let root of pcs) {
-        const intervals = pcs.map(p => (p - root + 12) % 12).sort();
-        if (match(intervals,[0,4,7])) return names[root];
-        if (match(intervals,[0,3,7])) return names[root]+'m';
-        if (match(intervals,[0,4,7,10])) return names[root]+'7';
-        if (match(intervals,[0,3,7,10])) return names[root]+'m7';
-      }
-      return names[pcs[0]];
-    }
-
-    function match(a,b) {
-      return b.every(v => a.includes(v));
-    }
-  </script>
+function detectChord(pitches){
+  const pcs=[...new Set(pitches)].sort();
+  const names=['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+  for(let root of pcs){
+    const intervals=pcs.map(p=>(p-root+12)%12).sort();
+    if(match(intervals,[0,4,7])) return names[root];
+    if(match(intervals,[0,3,7])) return names[root]+'m';
+    if(match(intervals,[0,4,7,10])) return names[root]+'7';
+    if(match(intervals,[0,3,7,10])) return names[root]+'m7';
+  }
+  return names[pcs[0]];
+}
+function match(a,b){return b.every(v=>a.includes(v));}
+</script>
 
 </body>
 </html>
