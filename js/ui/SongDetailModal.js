@@ -163,9 +163,9 @@ class SongDetailModal {
                 e.preventDefault();
                 e.stopPropagation();
 
-                // Load iframe if needed
-                if (scrollingChordsFrame && !scrollingChordsFrame.src) {
-                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true';
+                // Force reload iframe on each open to ensure fresh state
+                if (scrollingChordsFrame) {
+                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true&t=' + Date.now();
                 }
 
                 // Show modal overlay
@@ -174,8 +174,10 @@ class SongDetailModal {
 
             // Close logic
             if (scrollingChordsCloseBtn) {
-                scrollingChordsCloseBtn.addEventListener('click', () => {
+                scrollingChordsCloseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     scrollingChordsModal.classList.add('hidden');
+                    if (scrollingChordsFrame) scrollingChordsFrame.src = ''; // Stop playback
                 });
             }
 
@@ -183,6 +185,7 @@ class SongDetailModal {
             scrollingChordsModal.addEventListener('click', (e) => {
                 if (e.target === scrollingChordsModal) {
                     scrollingChordsModal.classList.add('hidden');
+                    if (scrollingChordsFrame) scrollingChordsFrame.src = ''; // Stop playback
                 }
             });
         }

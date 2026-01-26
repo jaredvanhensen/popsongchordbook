@@ -16,8 +16,12 @@ const instructions = document.getElementById('instructions');
 const urlParams = new URLSearchParams(window.location.search);
 const isEmbed = urlParams.get('embed') === 'true';
 if (isEmbed) {
-    document.querySelector('a[href="index.html"]').style.display = 'none';
-    document.body.style.background = 'transparent'; // Shows modal white bg
+    console.log("Scrolling Chords: Running in embed mode");
+    const backLink = document.querySelector('a[href="index.html"]');
+    if (backLink) backLink.style.display = 'none';
+
+    // Use a solid light background for embed mode to ensure visibility
+    document.body.style.background = '#f8fafc';
 
     // Force black text for white background
     const style = document.createElement('style');
