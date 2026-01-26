@@ -21,16 +21,11 @@
       position: fixed;
       top: 10px;
       left: 10px;
-      z-index: 20;
-      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      background: rgba(0,0,0,0.85);
       padding: 12px;
       border-radius: 10px;
-      max-width: 340px;
-    }
-
-    #controls h3 {
-      margin: 6px 0;
-      font-size: 14px;
+      width: 340px;
     }
 
     #timeline {
@@ -38,11 +33,12 @@
       top: 50%;
       left: 0;
       width: 100vw;
-      height: 140px;
+      height: 150px;
       transform: translateY(-50%);
       overflow: hidden;
       border-top: 2px solid #333;
       border-bottom: 2px solid #333;
+      pointer-events: none;
     }
 
     .chord {
@@ -54,9 +50,7 @@
       white-space: nowrap;
     }
 
-    .current {
-      color: #00ffcc;
-    }
+    .current { color: #00ffcc; }
 
     #metronome {
       position: absolute;
@@ -65,21 +59,11 @@
       left: 0;
       width: 4px;
       background: red;
-      z-index: 5;
-    }
-
-    #dropzone {
-      border: 2px dashed #666;
-      padding: 10px;
-      margin-top: 6px;
-      text-align: center;
-      font-size: 12px;
-      color: #ccc;
     }
 
     textarea {
       width: 100%;
-      height: 100px;
+      height: 90px;
       background: #111;
       color: #fff;
       border: 1px solid #444;
@@ -87,29 +71,39 @@
       font-size: 12px;
     }
 
-    button {
-      margin-top: 6px;
+    button, input {
       width: 100%;
+      margin-top: 6px;
       padding: 6px;
       font-size: 14px;
-      cursor: pointer;
+    }
+
+    #bpmDisplay {
+      margin-top: 6px;
+      font-size: 14px;
+      text-align: center;
+      color: #ffcc00;
     }
   </style>
 </head>
 <body>
 
   <div id="controls">
-    <h3>Drag & Drop MIDI</h3>
-    <div id="dropzone">Drop .mid file here</div>
+    <strong>Scrolling Chords</strong>
 
-    <h3>OR Manual Chord List</h3>
-    <p style="font-size:11px;">Format: <code>time_in_seconds chord</code></p>
-    <textarea id="chordInput">0 E
-2 A
-4 B</textarea>
+    <input type="file" id="midiPicker" accept=".mid,.midi" />
 
-    <button onclick="loadManualChords()">Load Chord List</button>
-    <button onclick="start()">Start</button>
+    <div id="bpmDisplay">BPM: --</div>
+
+    <p style="font-size:11px;">Manual chords (seconds + chord)</p>
+    <textarea id="chordInput">0 C
+2 F
+4 G
+6 Am</textarea>
+
+    <button id="loadBtn">Load Chord List</button>
+    <button id="startBtn">START</button>
+    <button id="stopBtn">STOP</button>
   </div>
 
   <div id="timeline">
@@ -117,75 +111,69 @@
   </div>
 
   <script>
+    const midiPicker = document.getElementById('midiPicker');
+    const loadBtn = document.getElementById('loadBtn');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const bpmDisplay = document.getElementById('bpmDisplay');
     const timeline = document.getElementById('timeline');
-    const dropzone = document.getElementById('dropzone');
+
     let chords = [];
     let startTime = 0;
     let animationId;
     let bpm = 120;
 
-    // ---------------- MIDI DRAG & DROP ----------------
-    dropzone.addEventListener('dragover', e => {
-      e.preventDefault();
-      dropzone.style.borderColor = '#00ffcc';
-    });
+    loadBtn.addEventListener('click', loadManualChords);
+    startBtn.addEventListener('click', start);
+    stopBtn.addEventListener('click', stop);
+    midiPicker.addEventListener('change', loadMidi);
 
-    dropzone.addEventListener('dragleave', () => {
-      dropzone.style.borderColor = '#666';
-    });
-
-    dropzone.addEventListener('drop', async e => {
-      e.preventDefault();
-      dropzone.style.borderColor = '#666';
-      const file = e.dataTransfer.files[0];
+    function loadMidi(e) {
+      const file = e.target.files[0];
       if (!file) return;
 
-      const buffer = await file.arrayBuffer();
-      const midi = new Midi(buffer);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const midi = new Midi(reader.result);
 
-      bpm = midi.header.tempos[0]?.bpm || 120;
-      chords = [];
+        bpm = midi.header.tempos[0]?.bpm || 120;
+        bpmDisplay.textContent = `BPM: ${Math.round(bpm)}`;
+        chords = [];
 
-      const track = midi.tracks[0];
-      const grouped = {};
+        // Find best track (prefer channel 1)
+        let track = midi.tracks.find(t => t.notes.some(n => n.channel === 0)) ||
+                    midi.tracks.reduce((a,b) => a.notes.length > b.notes.length ? a : b);
 
-      track.notes.forEach(n => {
-        const t = n.time.toFixed(3);
-        grouped[t] = grouped[t] || [];
-        grouped[t].push(n.name.replace(/[0-9]/g, ''));
-      });
+        const groups = {};
+        track.notes.forEach(n => {
+          const t = Math.round(n.time * 10) / 10; // quantize 100ms
+          groups[t] = groups[t] || [];
+          groups[t].push(n.midi % 12);
+        });
 
-      for (const t in grouped) {
-        chords.push({ time: parseFloat(t), label: grouped[t].join(' ') });
-      }
-
-      chords.sort((a,b) => a.time - b.time);
-      alert('MIDI loaded. BPM: ' + bpm);
-    });
-
-    // ---------------- MANUAL CHORD LIST ----------------
-    function loadManualChords() {
-      const lines = document.getElementById('chordInput').value.split('\n');
-      chords = [];
-
-      lines.forEach(line => {
-        const parts = line.trim().split(/\s+/);
-        if (parts.length >= 2) {
-          chords.push({ time: parseFloat(parts[0]), label: parts[1] });
+        for (const t in groups) {
+          const name = detectChord(groups[t]);
+          chords.push({ time: parseFloat(t), label: name });
         }
-      });
 
+        chords.sort((a,b) => a.time - b.time);
+        alert(`MIDI loaded (${chords.length} chords)`);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function loadManualChords() {
+      chords = [];
+      document.getElementById('chordInput').value.split('\n').forEach(line => {
+        const p = line.trim().split(/\s+/);
+        if (p.length >= 2) chords.push({ time: parseFloat(p[0]), label: p[1] });
+      });
       chords.sort((a,b) => a.time - b.time);
-      alert('Manual chord list loaded');
+      alert(`Loaded ${chords.length} manual chords`);
     }
 
-    // ---------------- START & ANIMATE ----------------
     function start() {
-      if (!chords.length) {
-        alert('No chords loaded yet. Please drop a MIDI file or load a chord list first.');
-        return;
-      }
-
+      if (!chords.length) return alert('No chords loaded');
       timeline.querySelectorAll('.chord').forEach(c => c.remove());
       startTime = performance.now() / 1000;
 
@@ -201,19 +189,8 @@
       animate();
     }
 
-      timeline.querySelectorAll('.chord').forEach(c => c.remove());
-      startTime = performance.now() / 1000;
-
-      chords.forEach(ch => {
-        const el = document.createElement('div');
-        el.className = 'chord';
-        el.textContent = ch.label;
-        ch.el = el;
-        timeline.appendChild(el);
-      });
-
+    function stop() {
       cancelAnimationFrame(animationId);
-      animate();
     }
 
     function animate() {
@@ -224,24 +201,36 @@
       chords.forEach(ch => {
         const x = ((ch.time - now) / leadTime) * width;
         ch.el.style.left = x + 'px';
-
-        if (Math.abs(ch.time - now) < 0.1) {
-          ch.el.classList.add('current');
-        } else {
-          ch.el.classList.remove('current');
-        }
+        ch.el.classList.toggle('current', Math.abs(ch.time - now) < 0.1);
       });
 
       animateMetronome(now);
       animationId = requestAnimationFrame(animate);
     }
 
-    // ---------------- METRONOME LINE ----------------
     function animateMetronome(now) {
-      const beatDuration = 60 / bpm;
-      const beatPos = (now % beatDuration) / beatDuration;
-      const x = beatPos * window.innerWidth;
-      document.getElementById('metronome').style.left = x + 'px';
+      const beat = 60 / bpm;
+      const pos = (now % beat) / beat;
+      document.getElementById('metronome').style.left = (pos * window.innerWidth) + 'px';
+    }
+
+    // ---------------- BASIC CHORD DETECTION ----------------
+    function detectChord(pitches) {
+      const pcs = [...new Set(pitches)].sort();
+      const names = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+
+      for (let root of pcs) {
+        const intervals = pcs.map(p => (p - root + 12) % 12).sort();
+        if (match(intervals,[0,4,7])) return names[root];
+        if (match(intervals,[0,3,7])) return names[root]+'m';
+        if (match(intervals,[0,4,7,10])) return names[root]+'7';
+        if (match(intervals,[0,3,7,10])) return names[root]+'m7';
+      }
+      return names[pcs[0]];
+    }
+
+    function match(a,b) {
+      return b.every(v => a.includes(v));
     }
   </script>
 
