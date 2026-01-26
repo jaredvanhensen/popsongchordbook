@@ -97,7 +97,7 @@ function playTick(isDownbeat) {
 function toggleMetronome() {
     metronomeEnabled = !metronomeEnabled;
     metronomeBtn.classList.toggle('active', metronomeEnabled);
-    metronomeBtn.innerText = metronomeEnabled ? '🎧 Metronome: On' : '🎧 Metronome: Off';
+    metronomeBtn.innerText = metronomeEnabled ? '🎼 Metronome: On' : '🎼 Metronome: Off';
     if (metronomeEnabled) initAudio();
 }
 
