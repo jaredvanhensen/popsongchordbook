@@ -157,33 +157,23 @@ class SongDetailModal {
         const scrollingChordsCloseBtn = document.getElementById('scrollingChordsModalClose');
 
         console.log('Setup Scrolling Chords:', { btn: !!scrollingChordsBtn, modal: !!scrollingChordsModal });
-        if (scrollingChordsBtn && scrollingChordsModal) {
+        if (scrollingChordsBtn) {
             scrollingChordsBtn.addEventListener('click', (e) => {
-                console.log('Scrolling chords button clicked');
+                console.log('Scrolling chords button clicked - opening popup');
                 e.preventDefault();
                 e.stopPropagation();
 
-                // Set source if empty to load it
-                if (scrollingChordsFrame && !scrollingChordsFrame.src) {
-                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true';
-                }
+                // Open in new popup window (like YouTube player style)
+                const width = 1200;
+                const height = 800;
+                const left = (window.screen.width - width) / 2;
+                const top = (window.screen.height - height) / 2;
 
-                // Show modal
-                scrollingChordsModal.classList.remove('hidden');
-            });
-
-            // Close logic
-            if (scrollingChordsCloseBtn) {
-                scrollingChordsCloseBtn.addEventListener('click', () => {
-                    scrollingChordsModal.classList.add('hidden');
-                });
-            }
-
-            // Close on background click
-            scrollingChordsModal.addEventListener('click', (e) => {
-                if (e.target === scrollingChordsModal) {
-                    scrollingChordsModal.classList.add('hidden');
-                }
+                window.open(
+                    'scrolling_chords.html',
+                    'scrollingChords',
+                    `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+                );
             });
         }
 
