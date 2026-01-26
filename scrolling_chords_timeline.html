@@ -182,9 +182,24 @@
     // ---------------- START & ANIMATE ----------------
     function start() {
       if (!chords.length) {
-        alert('No chords loaded');
+        alert('No chords loaded yet. Please drop a MIDI file or load a chord list first.');
         return;
       }
+
+      timeline.querySelectorAll('.chord').forEach(c => c.remove());
+      startTime = performance.now() / 1000;
+
+      chords.forEach(ch => {
+        const el = document.createElement('div');
+        el.className = 'chord';
+        el.textContent = ch.label;
+        ch.el = el;
+        timeline.appendChild(el);
+      });
+
+      cancelAnimationFrame(animationId);
+      animate();
+    }
 
       timeline.querySelectorAll('.chord').forEach(c => c.remove());
       startTime = performance.now() / 1000;
