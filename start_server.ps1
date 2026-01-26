@@ -1,7 +1,7 @@
 $http = [System.Net.HttpListener]::new() 
-$http.Prefixes.Add("http://localhost:8080/") 
+$http.Prefixes.Add("http://localhost:8081/") 
 $http.Start()
-Write-Host "Server started at http://localhost:8080/"
+Write-Host "Server started at http://localhost:8081/"
 $root = $PSScriptRoot
 
 while ($http.IsListening) {
@@ -20,14 +20,15 @@ while ($http.IsListening) {
         $extension = [System.IO.Path]::GetExtension($filepath)
         switch ($extension) {
             ".html" { $response.ContentType = "text/html" }
-            ".css"  { $response.ContentType = "text/css" }
-            ".js"   { $response.ContentType = "application/javascript" }
-            ".png"  { $response.ContentType = "image/png" }
-            ".jpg"  { $response.ContentType = "image/jpeg" }
+            ".css" { $response.ContentType = "text/css" }
+            ".js" { $response.ContentType = "application/javascript" }
+            ".png" { $response.ContentType = "image/png" }
+            ".jpg" { $response.ContentType = "image/jpeg" }
             Default { $response.ContentType = "application/octet-stream" }
         }
         $response.OutputStream.Write($bytes, 0, $bytes.Length)
-    } else {
+    }
+    else {
         $response.StatusCode = 404
     }
     $response.Close()

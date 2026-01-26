@@ -17,14 +17,19 @@
         <a href="index.html" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
         <input type="file" id="midiInput" accept=".mid,.midi,audio/midi" class="file-input">
         <div id="statusText">Upload a MIDI file to start</div>
-        <button id="playBtn" disabled>Play</button>
-        <button id="pauseBtn" disabled>Pause</button>
+        <div class="playback-controls">
+            <button id="rwdBtn" title="Rewind 10s">⏪ -10s</button>
+            <button id="playPauseBtn" disabled>▶ Play</button>
+            <button id="fwdBtn" title="Forward 10s">+10s ⏩</button>
+        </div>
     </div>
 
     <div class="timeline-container" id="timeline">
         <div class="playhead"></div>
         <div class="instructions" id="instructions">Drop MIDI file here</div>
-        <!-- Chords will be injected here via JS -->
+        <!-- Markers (bars/time) -->
+        <div class="marker-track" id="markerTrack"></div>
+        <!-- Chords -->
         <div class="chord-track" id="chordTrack"></div>
     </div>
 

@@ -2,25 +2,29 @@
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
-const playBtn = document.getElementById('playBtn');
-const pauseBtn = document.getElementById('pauseBtn');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const rwdBtn = document.getElementById('rwdBtn');
+const fwdBtn = document.getElementById('fwdBtn');
 const timeline = document.getElementById('timeline');
 const chordTrack = document.getElementById('chordTrack');
+const markerTrack = document.getElementById('markerTrack');
 const instructions = document.getElementById('instructions');
 
 let midiData = null;
 let chords = []; // Array of { time: seconds, name: string }
+let markers = []; // Array of { time: seconds, label: string, type: 'bar'|'beat' }
 let isPlaying = false;
 let startTime = 0;
-let pauseTime = 0;
+let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const PIXELS_PER_SECOND = 200; // Speed of scrolling
 
 // Setup Event Listeners
 midiInput.addEventListener('change', handleFileSelect);
-playBtn.addEventListener('click', play);
-pauseBtn.addEventListener('click', pause);
+playPauseBtn.addEventListener('click', togglePlayPause);
+rwdBtn.addEventListener('click', () => seek(-10));
+fwdBtn.addEventListener('click', () => seek(10));
 
 // Drag and drop support
 timeline.addEventListener('dragover', (e) => {
@@ -46,6 +50,7 @@ async function handleFileSelect(e) {
 
 async function processMidiFile(file) {
     statusText.innerText = 'Parsing MIDI...';
+    playPauseBtn.disabled = true;
     instructions.style.display = 'none';
 
     try {
@@ -57,15 +62,22 @@ async function processMidiFile(file) {
 
         // Extract chords
         chords = extractChordsFromMidi(midi);
+        markers = generateMarkers(midi);
 
         if (chords.length === 0) {
             statusText.innerText = 'No chords detected in MIDI file.';
             return;
         }
 
-        statusText.innerText = `Ready! ${chords.length} chords loaded. Tempo: ${Math.round(midi.header.tempos[0]?.bpm || 120)} BPM`;
-        playBtn.disabled = false;
-        renderStaticChords();
+        statusText.innerText = `Ready! ${chords.length} chords. Tempo: ${Math.round(midi.header.tempos[0]?.bpm || 120)} BPM`;
+        playPauseBtn.disabled = false;
+
+        // Reset playback
+        pause();
+        pauseTime = 0;
+
+        renderStaticElements();
+        updateLoop(); // Update once to set initial positions
 
     } catch (error) {
         console.error(error);
@@ -87,11 +99,9 @@ function extractChordsFromMidi(midi) {
         });
     });
 
-    // Sort by time
     allNotes.sort((a, b) => a.time - b.time);
 
     // 2. Group simultaneous notes (chords)
-    // We define a small window to consider notes as "simultaneous" (e.g., 50ms)
     const timeWindow = 0.05;
     const noteGroups = [];
 
@@ -102,19 +112,17 @@ function extractChordsFromMidi(midi) {
     for (let i = 1; i < allNotes.length; i++) {
         const note = allNotes[i];
         if (note.time - currentGroup.time < timeWindow) {
-            // Add to current group
             if (!currentGroup.notes.includes(note.midi)) {
                 currentGroup.notes.push(note.midi);
             }
         } else {
-            // Finalize current group and start new one
             noteGroups.push(currentGroup);
             currentGroup = { time: note.time, notes: [note.midi] };
         }
     }
     noteGroups.push(currentGroup);
 
-    // 3. Identify chords from note groups
+    // 3. Identify chords
     const detectedChords = noteGroups.map(group => {
         const chordName = identifyChord(group.notes);
         if (chordName) {
@@ -126,8 +134,7 @@ function extractChordsFromMidi(midi) {
         return null;
     }).filter(c => c !== null);
 
-    // 4. Filter out rapid changes or duplicates
-    // Only keep if chord changes
+    // 4. Filter duplicates
     const filteredChords = [];
     let lastChordName = null;
 
@@ -141,13 +148,45 @@ function extractChordsFromMidi(midi) {
     return filteredChords;
 }
 
-function identifyChord(midiNotes) {
-    if (midiNotes.length < 3) return null; // Need at least 3 notes for a triad
+function generateMarkers(midi) {
+    // Generate markers for bars and seconds
+    const markers = [];
+    const duration = midi.duration;
+    const bpm = midi.header.tempos[0]?.bpm || 120;
+    const timeSignature = midi.header.timeSignatures[0]?.timeSignature || [4, 4]; // [numerator, denominator]
 
-    // Convert to pitch classes (0-11)
+    const secondsPerBeat = 60 / bpm;
+    const secondsPerBar = secondsPerBeat * timeSignature[0];
+
+    // Add time markers (every 5 seconds)
+    for (let t = 0; t <= duration; t += 5) {
+        markers.push({
+            time: t,
+            label: formatTime(t),
+            type: 'time'
+        });
+    }
+
+    // Add bar markers
+    let barCount = 1;
+    for (let t = 0; t <= duration; t += secondsPerBar) {
+        markers.push({
+            time: t,
+            label: `Bar ${barCount}`,
+            type: 'bar'
+        });
+        barCount++;
+    }
+
+    return markers;
+}
+
+
+function identifyChord(midiNotes) {
+    if (midiNotes.length < 3) return null;
+
     const pitchClasses = [...new Set(midiNotes.map(n => n % 12))].sort((a, b) => a - b);
 
-    // Definitions
     const intervals = {
         major: [0, 4, 7],
         minor: [0, 3, 7],
@@ -158,12 +197,9 @@ function identifyChord(midiNotes) {
         dominant7: [0, 4, 7, 10]
     };
 
-    // Try each pitch as root
     for (let root of pitchClasses) {
-        // Normalize other notes relative to root
         const normalized = pitchClasses.map(p => (p - root + 12) % 12).sort((a, b) => a - b);
 
-        // Check exact match (ignoring extra notes for now, naive matching)
         if (isSubset(intervals.major, normalized)) return NOTE_NAMES[root];
         if (isSubset(intervals.minor, normalized)) return NOTE_NAMES[root] + 'm';
         if (isSubset(intervals.dominant7, normalized)) return NOTE_NAMES[root] + '7';
@@ -172,71 +208,120 @@ function identifyChord(midiNotes) {
         if (isSubset(intervals.diminished, normalized)) return NOTE_NAMES[root] + 'dim';
     }
 
-    return null; // Could not identify simple chord
+    return null;
 }
 
 function isSubset(pattern, notes) {
     return pattern.every(p => notes.includes(p));
 }
 
-function renderStaticChords() {
+function renderStaticElements() {
+    // Render chords
     chordTrack.innerHTML = '';
+
+    // Fragment for performance
+    const chordFrag = document.createDocumentFragment();
     chords.forEach((chord, index) => {
         const el = document.createElement('div');
         el.className = 'chord-item';
         el.innerText = chord.name;
         el.dataset.index = index;
-        // Initial position will be updated by animation loop
-        chordTrack.appendChild(el);
+        chordFrag.appendChild(el);
     });
+    chordTrack.appendChild(chordFrag);
+
+    // Render markers
+    markerTrack.innerHTML = '';
+    const markerFrag = document.createDocumentFragment();
+    markers.forEach(marker => {
+        const el = document.createElement('div');
+        el.className = `marker ${marker.type}`;
+
+        if (marker.label) {
+            const label = document.createElement('div');
+            label.className = 'marker-label';
+            label.innerText = marker.label;
+            el.appendChild(label);
+        }
+
+        markerFrag.appendChild(el);
+    });
+    markerTrack.appendChild(markerFrag);
+}
+
+function togglePlayPause() {
+    if (isPlaying) {
+        pause();
+    } else {
+        play();
+    }
 }
 
 function play() {
     if (isPlaying) return;
     isPlaying = true;
-    playBtn.disabled = true;
-    pauseBtn.disabled = false;
+    playPauseBtn.innerText = '⏸ Pause';
 
-    if (pauseTime > 0) {
-        startTime = performance.now() - pauseTime;
-    } else {
-        startTime = performance.now();
-    }
+    // resume from pauseTime
+    startTime = performance.now() - (pauseTime * 1000);
 
     requestAnimationFrame(updateLoop);
 }
 
 function pause() {
     isPlaying = false;
-    playBtn.disabled = false;
-    pauseBtn.disabled = true;
-    pauseTime = performance.now() - startTime;
+    playPauseBtn.innerText = '▶ Play';
+
+    const now = performance.now();
+    pauseTime = (now - startTime) / 1000;
+
     cancelAnimationFrame(animationFrame);
 }
 
-function updateLoop() {
-    if (!isPlaying) return;
+function seek(deltaSeconds) {
+    let currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+    let newTime = Math.max(0, currentTime + deltaSeconds);
 
+    if (isPlaying) {
+        startTime = performance.now() - (newTime * 1000);
+    } else {
+        pauseTime = newTime;
+        updateLoop(); // Updates position while paused
+    }
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateLoop() {
     const now = performance.now();
-    const playbackTime = (now - startTime) / 1000; // in seconds
+    let playbackTime;
+
+    if (isPlaying) {
+        playbackTime = (now - startTime) / 1000;
+    } else {
+        playbackTime = pauseTime;
+    }
+
+    // Don't scroll past end? Or just let it go.
 
     // Update chord positions
-    // We want the chord to be at x=0 (left edge / playhead) when playbackTime == chord.time
-    // position = (chord.time - playbackTime) * PIXELS_PER_SECOND
-
-    const chordElements = document.querySelectorAll('.chord-item');
-
-    chordElements.forEach((el, index) => {
-        const chord = chords[index];
+    const chordElements = chordTrack.children;
+    for (let i = 0; i < chordElements.length; i++) {
+        const el = chordElements[i];
+        const chord = chords[i];
         const dist = (chord.time - playbackTime) * PIXELS_PER_SECOND;
 
         if (dist < -200 || dist > window.innerWidth + 200) {
-            el.style.display = 'none'; // Optimize: hide if off screen
+            el.style.display = 'none';
         } else {
             el.style.display = 'block';
             el.style.transform = `translateX(${dist}px) translateY(-50%)`;
 
-            // Highlight active chord (just passed the playhead, within last 0.5s)
+            // Highlight active chord (just passed the playhead)
             const diff = playbackTime - chord.time;
             if (diff >= 0 && diff < 0.5) {
                 el.classList.add('active');
@@ -244,9 +329,30 @@ function updateLoop() {
                 el.classList.remove('active');
             }
         }
-    });
+    }
 
-    statusText.innerText = `Time: ${playbackTime.toFixed(1)}s`;
+    // Update markers
+    const markerElements = markerTrack.children;
+    for (let i = 0; i < markerElements.length; i++) {
+        const el = markerElements[i];
+        const marker = markers[i]; // Assuming direct mapping if we didn't filter
+        // Logic note: childNodes might include text nodes if not careful. children is safer.
+        // Also markers array maps 1:1 if we appended in order.
 
-    animationFrame = requestAnimationFrame(updateLoop);
+        if (marker) {
+            const dist = (marker.time - playbackTime) * PIXELS_PER_SECOND;
+            if (dist < -200 || dist > window.innerWidth + 200) {
+                el.style.display = 'none';
+            } else {
+                el.style.display = 'block';
+                el.style.transform = `translateX(${dist}px)`;
+            }
+        }
+    }
+
+    statusText.innerText = `Time: ${formatTime(playbackTime)}`;
+
+    if (isPlaying) {
+        animationFrame = requestAnimationFrame(updateLoop);
+    }
 }
