@@ -18,6 +18,19 @@ const isEmbed = urlParams.get('embed') === 'true';
 if (isEmbed) {
     document.querySelector('a[href="index.html"]').style.display = 'none';
     document.body.style.background = 'transparent'; // Optional: transparent bg
+    document.body.classList.add('embed-dark');
+
+    // Force text colors for dark background compatibility
+    const style = document.createElement('style');
+    style.textContent = `
+        body.embed-dark { color: #ffffff !important; }
+        .embed-dark #instructions { color: #e2e8f0; }
+        .embed-dark #statusText { color: #f8fafc; }
+        .embed-dark .chord-item { color: #ffffff; }
+        .embed-dark .marker-label { color: #cbd5e1; }
+        .embed-dark #currentChordDisplay { color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    `;
+    document.head.appendChild(style);
 }
 
 let midiData = null;
