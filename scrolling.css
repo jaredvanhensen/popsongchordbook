@@ -200,3 +200,14 @@ button:disabled {
     background-color: rgba(0, 0, 0, 0.1);
     width: 2px;
 }
+
+#metronomeBtn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#metronomeBtn.active {
+    background: var(--highlight-color);
+    color: white;
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.4);
+}

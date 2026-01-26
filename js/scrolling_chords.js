@@ -11,6 +11,7 @@ const chordTrack = document.getElementById('chordTrack');
 const markerTrack = document.getElementById('markerTrack');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
+const metronomeBtn = document.getElementById('metronomeBtn');
 
 // Check for embed mode
 const urlParams = new URLSearchParams(window.location.search);
@@ -49,12 +50,54 @@ let animationFrame;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const PIXELS_PER_SECOND = 200; // Speed of scrolling
 
+// Metronome state
+let metronomeEnabled = false;
+let lastBeatPlayed = -1;
+let audioCtx = null;
+let secondsPerBeat = 0.5; // Default 120 BPM
+let beatsPerBar = 4; // Default 4/4
+
 // Setup Event Listeners
 midiInput.addEventListener('change', handleFileSelect);
 playPauseBtn.addEventListener('click', togglePlayPause);
 rwdBtn.addEventListener('click', () => seek(-10));
 fwdBtn.addEventListener('click', () => seek(10));
 exportBtn.addEventListener('click', exportToJSON);
+metronomeBtn.addEventListener('click', toggleMetronome);
+
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function playTick(isDownbeat) {
+    if (!audioCtx) initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = 'sine';
+    // Subtler frequencies: 1000 for downbeat, 800 for others
+    osc.frequency.setValueAtTime(isDownbeat ? 1000 : 800, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime); // Very subtle
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.04);
+}
+
+function toggleMetronome() {
+    metronomeEnabled = !metronomeEnabled;
+    metronomeBtn.classList.toggle('active', metronomeEnabled);
+    metronomeBtn.innerText = metronomeEnabled ? '🎧 Metronome: On' : '🎧 Metronome: Off';
+    if (metronomeEnabled) initAudio();
+}
 
 // Listen for messages from parent (for auto-loading stored data)
 window.addEventListener('message', (event) => {
@@ -193,9 +236,14 @@ function finishLoading(chordCount, bpm) {
     playPauseBtn.disabled = false;
     exportBtn.disabled = false;
 
+    // Update metronome timing
+    secondsPerBeat = 60 / bpm;
+    beatsPerBar = (midiData && midiData.header.timeSignatures[0]) ? midiData.header.timeSignatures[0].timeSignature[0] : 4;
+
     // Reset playback
     pause();
     pauseTime = 0;
+    lastBeatPlayed = -1;
 
     renderStaticElements();
     updateLoop(); // Update once to set initial positions
@@ -439,6 +487,19 @@ function updateLoop() {
         playbackTime = (now - startTime) / 1000;
     } else {
         playbackTime = pauseTime;
+    }
+
+    // Metronome Logic
+    const currentBeat = Math.floor(playbackTime / secondsPerBeat);
+    if (currentBeat > lastBeatPlayed) {
+        if (isPlaying && metronomeEnabled && playbackTime >= 0) {
+            const isDownbeat = currentBeat % beatsPerBar === 0;
+            playTick(isDownbeat);
+        }
+        lastBeatPlayed = currentBeat;
+    } else if (currentBeat < lastBeatPlayed) {
+        // Reset when seeking backwards
+        lastBeatPlayed = currentBeat - 1;
     }
 
     // Don't scroll past end? Or just let it go.
