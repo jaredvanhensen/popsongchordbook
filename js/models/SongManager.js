@@ -123,7 +123,8 @@ class SongManager {
             verseCue: song.verseCue || '',
             preChorusCue: song.preChorusCue || '',
             chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || ''
+            bridgeCue: song.bridgeCue || '',
+            chordData: song.chordData || null
         }));
     }
 
@@ -184,7 +185,8 @@ class SongManager {
             verseCue: song.verseCue || '',
             preChorusCue: song.preChorusCue || '',
             chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || ''
+            bridgeCue: song.bridgeCue || '',
+            chordData: song.chordData || null
         };
         this.songs.push(newSong);
         await this.saveSongs();
@@ -229,7 +231,8 @@ class SongManager {
             verseCue: song.verseCue || '',
             preChorusCue: song.preChorusCue || '',
             chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || ''
+            bridgeCue: song.bridgeCue || '',
+            chordData: song.chordData || null
         }));
 
         // Update nextId to avoid conflicts

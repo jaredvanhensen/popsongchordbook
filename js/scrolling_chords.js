@@ -56,6 +56,14 @@ rwdBtn.addEventListener('click', () => seek(-10));
 fwdBtn.addEventListener('click', () => seek(10));
 exportBtn.addEventListener('click', exportToJSON);
 
+// Listen for messages from parent (for auto-loading stored data)
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'loadChordData') {
+        console.log('Received chord data from parent');
+        loadData(event.data.data);
+    }
+});
+
 // Drag and drop support
 timeline.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -120,6 +128,30 @@ async function processJsonFile(file) {
         console.error(error);
         statusText.innerText = 'Error parsing JSON file. Invalid format.';
     }
+}
+
+function loadData(data) {
+    if (!data || !data.chords || !Array.isArray(data.chords)) {
+        console.error('Invalid data format received');
+        return;
+    }
+
+    statusText.innerText = 'Loading stored data...';
+    setupUIForLoading();
+
+    chords = data.chords;
+    const duration = data.duration || (chords[chords.length - 1].time + 5);
+    const bpm = data.tempo || 120;
+
+    // Mock midi object for marker generation
+    const mockMidi = {
+        duration: duration,
+        header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+    };
+    markers = generateMarkers(mockMidi);
+    midiData = mockMidi;
+
+    finishLoading(chords.length, bpm);
 }
 
 async function processMidiFile(file) {
