@@ -8,6 +8,7 @@ const fwdBtn = document.getElementById('fwdBtn');
 const timeline = document.getElementById('timeline');
 const chordTrack = document.getElementById('chordTrack');
 const markerTrack = document.getElementById('markerTrack');
+const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 
 let midiData = null;
@@ -308,7 +309,15 @@ function updateLoop() {
 
     // Don't scroll past end? Or just let it go.
 
-    // Update chord positions
+    // Display current chord (Sticky)
+    const currentChord = chords.findLast(c => c.time <= playbackTime);
+    if (currentChord) {
+        currentChordDisplay.innerText = currentChord.name;
+    } else {
+        currentChordDisplay.innerText = '';
+    }
+
+    // Update scrolling chord positions
     const chordElements = chordTrack.children;
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];
@@ -318,15 +327,14 @@ function updateLoop() {
         if (dist < -200 || dist > window.innerWidth + 200) {
             el.style.display = 'none';
         } else {
-            el.style.display = 'block';
-            el.style.transform = `translateX(${dist}px) translateY(-50%)`;
-
-            // Highlight active chord (just passed the playhead)
-            const diff = playbackTime - chord.time;
-            if (diff >= 0 && diff < 0.5) {
-                el.classList.add('active');
+            // Once it hits the playhead (dist <= 0), hide it from scroll track
+            // because sticky display takes over
+            if (dist <= 0) {
+                el.style.opacity = '0';
             } else {
-                el.classList.remove('active');
+                el.style.opacity = '1';
+                el.style.display = 'block';
+                el.style.transform = `translateX(${dist}px) translateY(-50%)`;
             }
         }
     }
