@@ -7449,6 +7449,35 @@ td:has(.row-edit-input.input-focused) {
     padding-bottom: calc(15px + env(safe-area-inset-bottom));
 }
 
+.song-detail-practice-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.08);
+    /* Slightly lighter */
+    border-radius: 10px;
+    margin: 0;
+    /* Removed margin */
+}
+
+.practice-count-badge {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 14px;
+    min-width: 32px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+#songDetailPracticeIncrementBtn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
 /* Song Detail Footer Layout */
 .song-detail-footer {
     display: flex;
@@ -7464,7 +7493,9 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     align-items: center;
     /* Vertical center for left group */
-    gap: 50px;
+    gap: 20px;
+    /* Reduced from 50px to accommodate practice controls */
+    flex-wrap: wrap;
 }
 
 #songDetailScrollingChordsBtn {

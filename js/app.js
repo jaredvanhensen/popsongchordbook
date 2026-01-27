@@ -1559,9 +1559,42 @@ class App {
             return;
         }
 
-        const randomIndex = Math.floor(Math.random() * availableSongs.length);
-        const randomSong = availableSongs[randomIndex];
-        this.navigateToSong(randomSong.id, false, true);
+        // 1. Find the minimum practice count
+        const counts = availableSongs.map(s => parseInt(s.practiceCount) || 0);
+        const minCount = Math.min(...counts);
+
+        // 2. Filter all songs that have this minCount
+        let tiedSongs = availableSongs.filter(s => (parseInt(s.practiceCount) || 0) === minCount);
+
+        // 3. Get current song ID to avoid repetition if possible
+        const currentSongId = this.songDetailModal ? this.songDetailModal.currentSongId : null;
+
+        let nextSong;
+        if (tiedSongs.length > 1 && currentSongId) {
+            // Filter out current song if it's in the tied group to ensure we switch
+            const candidates = tiedSongs.filter(s => s.id !== currentSongId);
+            if (candidates.length > 0) {
+                const randomIndex = Math.floor(Math.random() * candidates.length);
+                nextSong = candidates[randomIndex];
+            } else {
+                // If only the current song is in the tied list (which means others are > minCount)
+                // we still want to pick it if there are no other tied candidates, 
+                // but the above case logic handles tiedSongs.length > 1
+                nextSong = tiedSongs[Math.floor(Math.random() * tiedSongs.length)];
+            }
+        } else if (tiedSongs.length > 0) {
+            // Only one song with min count or no current song
+            const randomIndex = Math.floor(Math.random() * tiedSongs.length);
+            nextSong = tiedSongs[randomIndex];
+        } else {
+            // Fallback (should not happen)
+            nextSong = availableSongs[0];
+        }
+
+        // Visual feedback
+        console.log(`Open next practice song: ${nextSong.title} (Practiced ${nextSong.practiceCount || 0} times)`);
+
+        this.navigateToSong(nextSong.id, false, true);
     }
 
     openAddSongsToSetlistModal() {

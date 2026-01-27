@@ -48,6 +48,8 @@ class SongDetailModal {
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
         this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        this.practiceCountDisplay = document.getElementById('songDetailPracticeCount');
+        this.practiceIncrementBtn = document.getElementById('songDetailPracticeIncrementBtn');
         this.lyricsOverlay = document.getElementById('lyricsTickerOverlay');
         this.lyricsText = document.getElementById('lyricsTickerText');
         this.closeLyricsBtn = document.getElementById('closeLyricsTicker');
@@ -412,6 +414,13 @@ class SongDetailModal {
                         console.error('Error saving chord data from timeline:', e);
                     }
                 }
+            });
+        }
+
+        if (this.practiceIncrementBtn) {
+            this.practiceIncrementBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                await this.incrementPracticeCount();
             });
         }
 
@@ -1676,6 +1685,11 @@ class SongDetailModal {
             this.modal.classList.remove('hidden');
         }
 
+        // Update practice counter display
+        if (this.practiceCountDisplay) {
+            this.practiceCountDisplay.textContent = song.practiceCount || '0';
+        }
+
         // Auto-focus and enter edit mode for artist field if requested (for new songs)
         if (autoEditArtist && this.artistElement) {
             setTimeout(() => {
@@ -2353,6 +2367,35 @@ class SongDetailModal {
                 }
             }
         });
+    }
+
+    async incrementPracticeCount() {
+        if (!this.currentSongId) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        // Ensure practiceCount is a number
+        let count = parseInt(song.practiceCount) || 0;
+        count++;
+
+        // Update in DB
+        await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+
+        // Update UI
+        if (this.practiceCountDisplay) {
+            this.practiceCountDisplay.textContent = count.toString();
+        }
+
+        // Optional: Update the details input if it's open
+        if (this.practiceCountInput) {
+            this.practiceCountInput.value = count.toString();
+        }
+
+        // Notify parent to refresh table (in case counter is visible there)
+        if (this.onUpdate) {
+            this.onUpdate();
+        }
     }
 }
 
