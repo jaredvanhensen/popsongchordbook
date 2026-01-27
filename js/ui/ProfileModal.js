@@ -34,6 +34,10 @@ class ProfileModal {
         this.acceptSongsBtn = document.getElementById('profileAcceptSongsBtn');
         this.closeBtn = document.getElementById('profileModalClose');
 
+        // Feature Toggles
+        this.lyricsToggle = document.getElementById('profileLyricsToggle');
+        this.timelineToggle = document.getElementById('profileTimelineToggle');
+
         this.setupEventListeners();
     }
 
@@ -123,11 +127,20 @@ class ProfileModal {
         }
 
         // Enter key handling for password change
-        if (this.confirmPasswordInput) {
-            this.confirmPasswordInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    this.handleChangePassword();
-                }
+        // Feature Toggles
+        if (this.lyricsToggle) {
+            this.lyricsToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                localStorage.setItem(`feature-lyrics-enabled-${uid}`, e.target.checked);
+            });
+        }
+
+        if (this.timelineToggle) {
+            this.timelineToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                localStorage.setItem(`feature-timeline-enabled-${uid}`, e.target.checked);
             });
         }
     }
@@ -223,6 +236,16 @@ class ProfileModal {
         }
 
         this.modal.classList.remove('hidden');
+
+        // Initialize feature toggles from localStorage (per-user)
+        const uid = user ? user.uid : 'guest';
+
+        if (this.lyricsToggle) {
+            this.lyricsToggle.checked = localStorage.getItem(`feature-lyrics-enabled-${uid}`) === 'true';
+        }
+        if (this.timelineToggle) {
+            this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
+        }
 
         // Focus on current password input
         setTimeout(() => {

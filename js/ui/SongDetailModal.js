@@ -46,6 +46,15 @@ class SongDetailModal {
         this.chordJsonInput = document.getElementById('chordJsonInput');
         this.chordJsonStatus = document.getElementById('chordJsonStatus');
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
+        this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
+        this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        this.lyricsOverlay = document.getElementById('lyricsTickerOverlay');
+        this.lyricsText = document.getElementById('lyricsTickerText');
+        this.closeLyricsBtn = document.getElementById('closeLyricsTicker');
+        this.fullLyricsInput = document.getElementById('fullLyricsInput');
+        this.speedUpBtn = document.getElementById('lyricsSpeedUp');
+        this.speedDownBtn = document.getElementById('lyricsSpeedDown');
+        this.lyricsSpeedFactor = 1.0;
         this.chordDataToRemove = false;
 
         // Confirmation Modal
@@ -97,6 +106,55 @@ class SongDetailModal {
         this.setupChordEditorButtons();
     }
 
+    toggleLyricsTicker() {
+        if (!this.lyricsOverlay || !this.lyricsText || !this.currentSongId) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const cues = [
+            song.verseCue,
+            song.chorusCue,
+            song.preChorusCue,
+            song.bridgeCue
+        ].filter(cue => cue && cue.trim() !== '');
+
+        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim())) {
+            alert('No lyrics found for this song. Add them in the "Details" (Gear) or "notes or lyrics" fields!');
+            return;
+        }
+
+        // Prioritize full lyrics, fallback to joined cues
+        let lyrics = '';
+        if (song.fullLyrics && song.fullLyrics.trim()) {
+            lyrics = song.fullLyrics.replace(/\n+/g, ' • '); // Replace newlines with dots
+        } else {
+            lyrics = cues.join(' • ');
+        }
+
+        this.lyricsText.textContent = lyrics;
+
+        // Calculate animation duration based on text length (approx 150px per second)
+        const charCount = lyrics.length;
+        const baseDuration = Math.max(10, charCount * 0.15); // Adjustment factor for speed
+        this.currentLyricsBaseDuration = baseDuration;
+        this.updateTickerSpeed();
+
+        this.lyricsOverlay.classList.toggle('hidden');
+    }
+
+    adjustLyricsSpeed(delta) {
+        this.lyricsSpeedFactor = Math.max(0.2, Math.min(3.0, this.lyricsSpeedFactor + delta));
+        console.log(`Lyrics Speed Factor: ${this.lyricsSpeedFactor.toFixed(1)}x`);
+        this.updateTickerSpeed();
+    }
+
+    updateTickerSpeed() {
+        if (!this.lyricsText || !this.currentLyricsBaseDuration) return;
+        const actualDuration = this.currentLyricsBaseDuration / this.lyricsSpeedFactor;
+        this.lyricsText.style.animationDuration = `${actualDuration}s`;
+    }
+
     formatKeyText(keyText) {
         if (!keyText) return '';
 
@@ -130,6 +188,34 @@ class SongDetailModal {
         this.closeBtn.addEventListener('click', () => this.hide());
         this.prevBtn.addEventListener('click', () => this.navigatePrevious());
         this.nextBtn.addEventListener('click', () => this.navigateNext());
+
+        if (this.lyricsBtn) {
+            this.lyricsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleLyricsTicker();
+            });
+        }
+
+        if (this.closeLyricsBtn) {
+            this.closeLyricsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.lyricsOverlay) this.lyricsOverlay.classList.add('hidden');
+            });
+        }
+
+        if (this.speedUpBtn) {
+            this.speedUpBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.adjustLyricsSpeed(0.2);
+            });
+        }
+
+        if (this.speedDownBtn) {
+            this.speedDownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.adjustLyricsSpeed(-0.2);
+            });
+        }
 
         if (this.saveBtn) {
             this.saveBtn.addEventListener('click', async () => {
@@ -1461,6 +1547,25 @@ class SongDetailModal {
 
         // Show modal
         if (this.modal) {
+            const user = this.songManager.firebaseManager.getCurrentUser();
+            const uid = user ? user.uid : 'guest';
+
+            const lyricsEnabled = localStorage.getItem(`feature-lyrics-enabled-${uid}`) === 'true';
+            const timelineEnabled = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
+
+            if (this.lyricsBtn) {
+                this.lyricsBtn.style.display = lyricsEnabled ? 'flex' : 'none';
+            }
+            if (this.scrollingChordsBtn) {
+                this.scrollingChordsBtn.style.display = timelineEnabled ? 'flex' : 'none';
+            }
+
+            // Hide toggle center actions container if both are hidden
+            const centerActions = document.querySelector('.song-detail-center-actions');
+            if (centerActions) {
+                centerActions.style.display = (lyricsEnabled || timelineEnabled) ? 'flex' : 'none';
+            }
+
             this.modal.classList.remove('hidden');
         }
 
@@ -1627,6 +1732,10 @@ class SongDetailModal {
             this.performAbilitySelect.value = song.performAbility || '';
         }
 
+        if (this.fullLyricsInput) {
+            this.fullLyricsInput.value = song.fullLyrics || '';
+        }
+
         // Update JSON Status
         if (this.chordJsonStatus) {
             if (song.chordData) {
@@ -1679,6 +1788,9 @@ class SongDetailModal {
         if (this.chordJsonInput) {
             this.chordJsonInput.value = '';
         }
+        if (this.fullLyricsInput) {
+            this.fullLyricsInput.value = '';
+        }
     }
 
     saveYouTubeUrl() {
@@ -1691,13 +1803,15 @@ class SongDetailModal {
         const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
         const practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '';
         const performAbility = this.performAbilitySelect ? this.performAbilitySelect.value : '';
+        const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
 
         const updates = {
             youtubeUrl: youtubeUrl,
             externalUrl: externalUrl,
             patchDetails: patchDetails,
             practiceCount: practiceCount,
-            performAbility: performAbility
+            performAbility: performAbility,
+            fullLyrics: fullLyrics
         };
 
         // Handle JSON removal
