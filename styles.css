@@ -7536,80 +7536,109 @@ td:has(.row-edit-input.input-focused) {
 
 /* Lyrics Ticker Overlay */
 .lyrics-ticker-overlay {
+    --ticker-height: 300px;
     position: absolute;
-    bottom: 80px;
-    left: 20px;
-    right: 20px;
-    height: 100px;
-    background: rgba(15, 23, 42, 0.9);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: var(--ticker-height);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 24px 24px 0 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     overflow: hidden;
     z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
 }
 
 .lyrics-ticker-content {
     flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
+    height: 100%;
+    overflow-y: scroll;
     padding: 0 40px;
+    display: block;
+    position: relative;
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.lyrics-ticker-content::-webkit-scrollbar {
+    display: none;
 }
 
 .lyrics-ticker-text {
-    display: inline-block;
-    font-size: 48px;
+    display: block;
+    font-size: 30px;
     font-weight: 800;
     color: #fff;
-    padding-left: 100%;
-    animation: lyricsMarquee linear infinite;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    white-space: pre-wrap;
+    padding-top: var(--ticker-height);
+    padding-bottom: var(--ticker-height);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
 }
 
-@keyframes lyricsMarquee {
-    0% {
-        transform: translate(0, 0);
+@media (max-width: 480px) {
+    .lyrics-ticker-overlay {
+        --ticker-height: 160px;
     }
 
-    100% {
-        transform: translate(-100%, 0);
+    .lyrics-ticker-text {
+        font-size: 10px;
+        /* ~30% of 30px */
     }
+}
+
+.lyrics-ticker-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 60px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .close-ticker-btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     border: none;
     color: white;
-    font-size: 32px;
-    width: 60px;
-    height: 100%;
+    width: 100%;
+    height: 60px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .close-ticker-btn:hover {
     background: rgba(239, 68, 68, 0.8);
 }
 
+.close-ticker-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
 .ticker-speed-controls {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 0 15px;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-evenly;
+    flex: 1;
+    padding: 10px 0;
 }
 
 .speed-btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: transparent;
     border: none;
-    color: white;
-    font-size: 20px;
+    color: rgba(255, 255, 255, 0.6);
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -7617,7 +7646,36 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.speed-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.2;
+}
+
+.speed-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: scale(1.1);
+}
+
+.speed-btn:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.speed-btn.pause-toggle-btn {
+    color: #38bdf8;
+    /* Sky blue for primary action */
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.speed-btn.pause-toggle-btn:hover {
+    background: rgba(56, 189, 248, 0.2);
+    color: #7dd3fc;
 }
 
 .speed-btn:hover {

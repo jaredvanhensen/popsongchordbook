@@ -55,6 +55,9 @@ class SongDetailModal {
         this.speedUpBtn = document.getElementById('lyricsSpeedUp');
         this.speedDownBtn = document.getElementById('lyricsSpeedDown');
         this.lyricsSpeedFactor = 1.0;
+        this.isLyricsPaused = false;
+        this.scrollAnimationId = null;
+        this.scrollListenersAdded = false;
         this.chordDataToRemove = false;
 
         // Confirmation Modal
@@ -124,35 +127,128 @@ class SongDetailModal {
             return;
         }
 
-        // Prioritize full lyrics, fallback to joined cues
-        let lyrics = '';
-        if (song.fullLyrics && song.fullLyrics.trim()) {
-            lyrics = song.fullLyrics.replace(/\n+/g, ' • '); // Replace newlines with dots
+        const lyrics = song.fullLyrics && song.fullLyrics.trim() ? song.fullLyrics : cues.join('\n\n');
+        this.lyricsText.innerText = lyrics;
+
+        if (this.lyricsOverlay.classList.contains('hidden')) {
+            this.lyricsOverlay.classList.remove('hidden');
+            this.startAutoScroll();
+            this.isLyricsPaused = false;
+            this.updatePauseButton();
         } else {
-            lyrics = cues.join(' • ');
+            this.stopAutoScroll();
+            this.lyricsOverlay.classList.add('hidden');
         }
+    }
 
-        this.lyricsText.textContent = lyrics;
+    startAutoScroll() {
+        this.stopAutoScroll();
+        const scrollContainer = this.lyricsOverlay.querySelector('.lyrics-ticker-content');
+        if (!scrollContainer) return;
 
-        // Calculate animation duration based on text length (approx 150px per second)
-        const charCount = lyrics.length;
-        const baseDuration = Math.max(10, charCount * 0.15); // Adjustment factor for speed
-        this.currentLyricsBaseDuration = baseDuration;
-        this.updateTickerSpeed();
+        // Use a persistent internal property for sub-pixel accuracy
+        if (!this.lyricsScrollPos || this.lyricsOverlay.classList.contains('hidden')) {
+            this.lyricsScrollPos = 0;
+        }
+        scrollContainer.scrollTop = this.lyricsScrollPos;
 
-        this.lyricsOverlay.classList.toggle('hidden');
+        let lastTime = performance.now();
+        const scroll = (currentTime) => {
+            if (!this.lyricsOverlay || this.lyricsOverlay.classList.contains('hidden')) return;
+
+            if (this.isLyricsPaused) {
+                this.scrollAnimationId = requestAnimationFrame(scroll);
+                lastTime = currentTime;
+                return;
+            }
+
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+
+            // Base speed: 40px per second at factor 1.0
+            const pixelsPerMs = (40 * this.lyricsSpeedFactor) / 1000;
+            this.lyricsScrollPos += pixelsPerMs * deltaTime;
+
+            // Loop reset: if we reach the end of the text
+            const maxScroll = scrollContainer.scrollHeight - scrollContainer.offsetHeight;
+            if (this.lyricsScrollPos >= maxScroll && maxScroll > 0) {
+                this.lyricsScrollPos = 0;
+            }
+
+            scrollContainer.scrollTop = this.lyricsScrollPos;
+
+            this.scrollAnimationId = requestAnimationFrame(scroll);
+        };
+        this.scrollAnimationId = requestAnimationFrame(scroll);
+
+        if (!this.scrollListenersAdded) {
+            const handleInteractStart = () => {
+                this.isUserInteracting = true;
+                this.wasPausedBeforeInteraction = this.isLyricsPaused;
+                this.isLyricsPaused = true;
+            };
+            const handleInteractEnd = () => {
+                if (this.isUserInteracting) {
+                    this.isUserInteracting = false;
+                    this.isLyricsPaused = this.wasPausedBeforeInteraction;
+                    // Sync our internal position with the user's manual scroll
+                    this.lyricsScrollPos = scrollContainer.scrollTop;
+                }
+            };
+
+            scrollContainer.addEventListener('touchstart', handleInteractStart, { passive: true });
+            scrollContainer.addEventListener('touchend', handleInteractEnd, { passive: true });
+            scrollContainer.addEventListener('mousedown', handleInteractStart);
+            window.addEventListener('mouseup', handleInteractEnd);
+
+            // Also sync during manual scroll
+            scrollContainer.addEventListener('scroll', () => {
+                if (this.isUserInteracting) {
+                    this.lyricsScrollPos = scrollContainer.scrollTop;
+                }
+            });
+
+            this.scrollListenersAdded = true;
+        }
+    }
+
+    stopAutoScroll() {
+        if (this.scrollAnimationId) {
+            cancelAnimationFrame(this.scrollAnimationId);
+            this.scrollAnimationId = null;
+        }
+    }
+
+    toggleLyricsPause() {
+        this.isLyricsPaused = !this.isLyricsPaused;
+        this.updatePauseButton();
+    }
+
+    updatePauseButton() {
+        const pauseBtn = document.getElementById('lyricsPauseBtn');
+        if (pauseBtn) {
+            const pauseIcon = pauseBtn.querySelector('.pause-icon');
+            const playIcon = pauseBtn.querySelector('.play-icon');
+
+            if (this.isLyricsPaused) {
+                if (pauseIcon) pauseIcon.classList.add('hidden');
+                if (playIcon) playIcon.classList.remove('hidden');
+                pauseBtn.title = 'Play';
+            } else {
+                if (pauseIcon) pauseIcon.classList.remove('hidden');
+                if (playIcon) playIcon.classList.add('hidden');
+                pauseBtn.title = 'Pause';
+            }
+        }
     }
 
     adjustLyricsSpeed(delta) {
-        this.lyricsSpeedFactor = Math.max(0.2, Math.min(3.0, this.lyricsSpeedFactor + delta));
+        this.lyricsSpeedFactor = Math.max(0.1, Math.min(5.0, this.lyricsSpeedFactor + delta));
         console.log(`Lyrics Speed Factor: ${this.lyricsSpeedFactor.toFixed(1)}x`);
-        this.updateTickerSpeed();
     }
 
     updateTickerSpeed() {
-        if (!this.lyricsText || !this.currentLyricsBaseDuration) return;
-        const actualDuration = this.currentLyricsBaseDuration / this.lyricsSpeedFactor;
-        this.lyricsText.style.animationDuration = `${actualDuration}s`;
+        // Obsolete in JS-scrolling mode
     }
 
     formatKeyText(keyText) {
@@ -199,7 +295,18 @@ class SongDetailModal {
         if (this.closeLyricsBtn) {
             this.closeLyricsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (this.lyricsOverlay) this.lyricsOverlay.classList.add('hidden');
+                if (this.lyricsOverlay) {
+                    this.lyricsOverlay.classList.add('hidden');
+                    this.stopAutoScroll();
+                }
+            });
+        }
+
+        const lyricsPauseBtn = document.getElementById('lyricsPauseBtn');
+        if (lyricsPauseBtn) {
+            lyricsPauseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleLyricsPause();
             });
         }
 
