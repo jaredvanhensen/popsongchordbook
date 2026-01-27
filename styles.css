@@ -7472,19 +7472,26 @@ td:has(.row-edit-input.input-focused) {
     border: none;
     padding: 0;
     margin: 0;
-    height: 42px;
+    height: 72px;
+    /* Increased from 42px */
     /* Slightly taller to accommodate SVG shadow */
     display: flex;
     align-items: center;
 }
 
 #songDetailScrollingChordsBtn .icon {
-    width: 60px;
-    height: 42px;
+    width: 120px;
+    /* Increased from 80px */
+    height: 72px;
+    /* Increased from 48px */
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #songDetailScrollingChordsBtn .label {
@@ -7536,11 +7543,11 @@ td:has(.row-edit-input.input-focused) {
 
 /* Force Timeline Icon Size */
 #songDetailScrollingChordsBtn .icon svg {
-    width: 90px !important;
-    height: 60px !important;
+    width: 70px !important;
+    height: 42px !important;
     max-width: none !important;
     max-height: none !important;
-    min-width: 90px !important;
+    min-width: 70px !important;
     /* Prevent shrinking */
 }
 

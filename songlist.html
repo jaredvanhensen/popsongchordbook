@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=1.906">
+    <link rel="stylesheet" href="styles.css?v=1.905">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -51,7 +51,7 @@
                     <!-- Version moved here -->
                     <div
                         style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">1.906</span>
+                        v<span id="site-version">1.905</span>
                     </div>
                 </div>
             </div>
@@ -774,64 +774,14 @@
                         <span id="songDetailKeyDisplay" class="key-value editable-field" data-field="key"
                             contenteditable="false"></span>
                     </div>
+                </div>
 
+                <div class="song-detail-center-actions">
                     <button id="songDetailScrollingChordsBtn" class="song-detail-action-btn with-label"
                         title="Open Scrolling Chords">
                         <span class="icon">
-                            <svg viewBox="0 0 160 115" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <!-- 3D Base -->
-                                    <rect id="pulseBase" width="140" height="90" rx="20" />
-                                    <linearGradient id="pulseSide" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#94a3b8" />
-                                        <stop offset="100%" style="stop-color:#475569" />
-                                    </linearGradient>
-                                    <linearGradient id="pulseFace" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#ffffff" />
-                                        <stop offset="100%" style="stop-color:#f1f5f9" />
-                                    </linearGradient>
-                                    <!-- Neon Pulse Chord -->
-                                    <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
-                                        <stop offset="0%" style="stop-color:#a855f7" />
-                                        <stop offset="100%" style="stop-color:#6b21a8" />
-                                    </radialGradient>
-                                    <filter id="neonBlur" x="-50%" y="-50%" width="200%" height="200%">
-                                        <feGaussianBlur stdDeviation="3" result="blur" />
-                                        <feMerge>
-                                            <feMergeNode in="blur" />
-                                            <feMergeNode in="SourceGraphic" />
-                                        </feMerge>
-                                    </filter>
-                                    <filter id="pulseShadow" x="-20%" y="-20%" width="150%" height="150%">
-                                        <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
-                                        <feOffset dx="0" dy="6" />
-                                        <feComponentTransfer>
-                                            <feFuncA type="linear" slope="0.3" />
-                                        </feComponentTransfer>
-                                        <feMerge>
-                                            <feMergeNode />
-                                            <feMergeNode in="SourceGraphic" />
-                                        </feMerge>
-                                    </filter>
-                                </defs>
-                                <g transform="translate(10,5)" filter="url(#pulseShadow)">
-                                    <!-- 3D Base -->
-                                    <use href="#pulseBase" y="10" fill="url(#pulseSide)" />
-                                    <use href="#pulseBase" fill="url(#pulseFace)" stroke="#e2e8f0" stroke-width="1.5" />
-
-                                    <!-- Minimalist Timeline -->
-                                    <line x1="20" y1="50" x2="120" y2="50" stroke="#cbd5e1" stroke-width="4"
-                                        stroke-linecap="round" />
-
-                                    <!-- Glowing Chord Indicator -->
-                                    <g filter="url(#neonBlur)">
-                                        <circle cx="70" cy="50" r="16" fill="url(#neonGlow)" />
-                                        <circle cx="70" cy="50" r="18" fill="#a855f7" opacity="0.2" />
-                                        <text x="70" y="55" font-family="sans-serif" font-weight="900" font-size="14"
-                                            text-anchor="middle" fill="white">C</text>
-                                    </g>
-                                </g>
-                            </svg>
+                            <img src="images/chordtimeline-jared2.jpg" alt="Timeline"
+                                style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;">
                         </span>
                         <span class="label">Timeline</span>
                     </button>
@@ -1014,33 +964,33 @@
         <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
         <!-- Firebase Config -->
-        <script src="js/config/firebase-config.js?v=1.906"></script>
+        <script src="js/config/firebase-config.js?v=1.905"></script>
 
         <!-- Models -->
-        <script src="js/models/SongManager.js?v=1.906"></script>
-        <script src="js/models/SetlistManager.js?v=1.906"></script>
+        <script src="js/models/SongManager.js?v=1.905"></script>
+        <script src="js/models/SetlistManager.js?v=1.905"></script>
         <!-- Utils -->
-        <script src="js/utils/Sorter.js?v=1.906"></script>
-        <script src="js/utils/ChordDetector.js?v=1.906"></script>
-        <script src="js/utils/KeyDetector.js?v=1.906"></script>
-        <script src="js/utils/FirebaseManager.js?v=1.906"></script>
-        <script src="js/utils/PianoAudioPlayer.js?v=1.906"></script>
+        <script src="js/utils/Sorter.js?v=1.905"></script>
+        <script src="js/utils/ChordDetector.js?v=1.905"></script>
+        <script src="js/utils/KeyDetector.js?v=1.905"></script>
+        <script src="js/utils/FirebaseManager.js?v=1.905"></script>
+        <script src="js/utils/PianoAudioPlayer.js?v=1.905"></script>
         <!-- UI Components -->
-        <script src="js/ui/ChordModal.js?v=1.906"></script>
-        <script src="js/ui/SongDetailModal.js?v=1.906"></script>
-        <script src="js/ui/TableRenderer.js?v=1.906"></script>
-        <script src="js/ui/ChordDetectorOverlay.js?v=1.906"></script>
-        <script src="js/ui/PianoChordOverlay.js?v=1.906"></script>
-        <script src="js/ui/ChordFinderModal.js?v=1.906"></script>
-        <script src="js/ui/ChordProgressionEditor.js?v=1.906"></script>
-        <script src="js/ui/AuthModal.js?v=1.906"></script>
-        <script src="js/ui/ProfileModal.js?v=1.906"></script>
-        <script src="js/ui/ShareSongsModal.js?v=1.906"></script>
-        <script src="js/ui/AcceptSongsModal.js?v=1.906"></script>
+        <script src="js/ui/ChordModal.js?v=1.905"></script>
+        <script src="js/ui/SongDetailModal.js?v=1.905"></script>
+        <script src="js/ui/TableRenderer.js?v=1.905"></script>
+        <script src="js/ui/ChordDetectorOverlay.js?v=1.905"></script>
+        <script src="js/ui/PianoChordOverlay.js?v=1.905"></script>
+        <script src="js/ui/ChordFinderModal.js?v=1.905"></script>
+        <script src="js/ui/ChordProgressionEditor.js?v=1.905"></script>
+        <script src="js/ui/AuthModal.js?v=1.905"></script>
+        <script src="js/ui/ProfileModal.js?v=1.905"></script>
+        <script src="js/ui/ShareSongsModal.js?v=1.905"></script>
+        <script src="js/ui/AcceptSongsModal.js?v=1.905"></script>
         <!-- Data -->
-        <script src="js/data/default_songs.js?v=1.906"></script>
+        <script src="js/data/default_songs.js?v=1.905"></script>
         <!-- Main App -->
-        <script src="js/app.js?v=1.906"></script>
+        <script src="js/app.js?v=1.905"></script>
 </body>
 
 </html>
