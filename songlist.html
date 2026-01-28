@@ -395,10 +395,10 @@
                     <div class="auth-form-group">
                         <label for="profileThemeSelect">Color Scheme</label>
                         <select id="profileThemeSelect" class="auth-input">
-                            <option value="theme-jared-original">Jared0 (Original)</option>
-                            <option value="theme-jared1">Jared1 (High Contrast)</option>
-                            <option value="theme-jared2">Jared2 (Summer/Sunset)</option>
-                            <option value="theme-jared3">Jared3 (Electric Aura)</option>
+                            <option value="theme-classic">Classic (Original)</option>
+                            <option value="theme-high-contrast">High Contrast</option>
+                            <option value="theme-sunset">Sunset & Lavender</option>
+                            <option value="theme-electric">Electric Aura</option>
                         </select>
                     </div>
                 </div>
@@ -904,202 +904,202 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- YouTube URL Modal -->
-        <div id="youtubeUrlModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Song Details</h3>
-                    <button class="modal-close" id="youtubeUrlModalClose">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="url-input-group">
-                        <label for="youtubeUrlInput">YouTube URL</label>
-                        <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=..."
-                            spellcheck="false" autocorrect="off" autocapitalize="none" />
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label for="externalUrlInput">External Website URL</label>
-                        <input type="url" id="externalUrlInput" placeholder="https://..." spellcheck="false"
-                            autocorrect="off" autocapitalize="none" />
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label for="patchDetailsInput">Patch Name & Number</label>
-                        <input type="text" id="patchDetailsInput" placeholder="e.g. Lead Synth - 04" spellcheck="false"
-                            autocorrect="off" autocapitalize="none" />
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label for="practiceCountInput">Practice Count Teller</label>
-                        <input type="number" id="practiceCountInput" placeholder="0" min="0" spellcheck="false"
-                            autocorrect="off" autocapitalize="none" />
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label for="fullLyricsInput">Full Lyrics (for Scrolling Ticker)</label>
-                        <textarea id="fullLyricsInput" placeholder="Paste full song lyrics here..."
-                            style="width: 100%; height: 120px; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-family: inherit; font-size: 14px; resize: vertical;"
-                            spellcheck="false" autocorrect="off" autocapitalize="none"></textarea>
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label for="performAbilitySelect">Perfom Ability</label>
-                        <select id="performAbilitySelect" class="filter-select">
-                            <option value="">Select Ability...</option>
-                            <option value="Good">Good</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Bad">Bad</option>
-                        </select>
-                    </div>
-                    <div class="url-input-group" style="margin-top: 15px;">
-                        <label>Timeline JSON Data (Chords)</label>
-                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                            <label for="chordJsonInput" class="custom-file-btn"
-                                style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #475569;">
-                                📁 Select File
-                            </label>
-                            <input type="file" id="chordJsonInput" accept=".json" style="display: none;">
-                            <span id="chordJsonStatus" style="font-size: 14px; font-weight: 600;"></span>
-                            <button id="clearChordDataBtn"
-                                style="display: none; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 14px; padding: 0;">Remove</button>
-                        </div>
-                        <small style="color: #64748b; display: block; margin-top: 5px;">Upload a .json file to auto-load
-                            in
-                            Timeline view</small>
-                    </div>
-                    <div class="modal-actions">
-                        <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
-                        <button id="youtubeUrlCancelBtn" class="modal-cancel-btn">Cancel</button>
-                    </div>
-                </div>
+    <!-- YouTube URL Modal -->
+    <div id="youtubeUrlModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Song Details</h3>
+                <button class="modal-close" id="youtubeUrlModalClose">&times;</button>
             </div>
-        </div>
-
-        <!-- Filter Modal -->
-        <div id="filterModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Filters</h3>
-                    <button class="modal-close" id="filterModalClose">&times;</button>
+            <div class="modal-body">
+                <div class="url-input-group">
+                    <label for="youtubeUrlInput">YouTube URL</label>
+                    <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=..."
+                        spellcheck="false" autocorrect="off" autocapitalize="none" />
                 </div>
-                <div class="modal-body">
-                    <div class="filter-option-group">
-                        <label class="filter-checkbox-label">
-                            <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
-                            <span>⭐ Only favorites</span>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="externalUrlInput">External Website URL</label>
+                    <input type="url" id="externalUrlInput" placeholder="https://..." spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="patchDetailsInput">Patch Name & Number</label>
+                    <input type="text" id="patchDetailsInput" placeholder="e.g. Lead Synth - 04" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="practiceCountInput">Practice Count Teller</label>
+                    <input type="number" id="practiceCountInput" placeholder="0" min="0" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="fullLyricsInput">Full Lyrics (for Scrolling Ticker)</label>
+                    <textarea id="fullLyricsInput" placeholder="Paste full song lyrics here..."
+                        style="width: 100%; height: 120px; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-family: inherit; font-size: 14px; resize: vertical;"
+                        spellcheck="false" autocorrect="off" autocapitalize="none"></textarea>
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label for="performAbilitySelect">Perfom Ability</label>
+                    <select id="performAbilitySelect" class="filter-select">
+                        <option value="">Select Ability...</option>
+                        <option value="Good">Good</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Bad">Bad</option>
+                    </select>
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label>Timeline JSON Data (Chords)</label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <label for="chordJsonInput" class="custom-file-btn"
+                            style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #475569;">
+                            📁 Select File
                         </label>
+                        <input type="file" id="chordJsonInput" accept=".json" style="display: none;">
+                        <span id="chordJsonStatus" style="font-size: 14px; font-weight: 600;"></span>
+                        <button id="clearChordDataBtn"
+                            style="display: none; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 14px; padding: 0;">Remove</button>
                     </div>
-
-                    <div class="filter-option-group">
-                        <label for="filterKeySelect" class="filter-label">Key:</label>
-                        <select id="filterKeySelect" class="filter-select">
-                            <option value="">All keys</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-option-group">
-                        <label class="filter-checkbox-label">
-                            <input type="checkbox" id="filterWithYouTubeCheckbox" class="filter-checkbox">
-                            <span>Only songs with YouTube link</span>
-                        </label>
-                    </div>
-
-                    <div class="filter-option-group">
-                        <label class="filter-checkbox-label">
-                            <input type="checkbox" id="filterWithoutYouTubeCheckbox" class="filter-checkbox">
-                            <span>Only songs without YouTube link</span>
-                        </label>
-                    </div>
-
-                    <div class="modal-actions">
-                        <button id="clearAllFiltersBtn" class="modal-cancel-btn">Clear All Filters</button>
-                        <button id="applyFiltersBtn" class="modal-submit-btn">Apply</button>
-                    </div>
+                    <small style="color: #64748b; display: block; margin-top: 5px;">Upload a .json file to auto-load
+                        in
+                        Timeline view</small>
+                </div>
+                <div class="modal-actions">
+                    <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
+                    <button id="youtubeUrlCancelBtn" class="modal-cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Queue/Add Single Song to Setlist Modal -->
-        <div id="addToSetlistSingleModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Add to Setlist</h3>
-                    <button class="modal-close" id="addToSetlistSingleModalClose">&times;</button>
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filters</h3>
+                <button class="modal-close" id="filterModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
+                        <span>⭐ Only favorites</span>
+                    </label>
                 </div>
-                <div class="modal-body">
-                    <div class="filter-option-group">
-                        <label for="addToSetlistSelect" class="filter-label">Choose Setlist:</label>
-                        <select id="addToSetlistSelect" class="filter-select">
-                            <option value="" disabled selected>Select a setlist...</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button id="addToSetlistSingleCancelBtn" class="modal-cancel-btn">Cancel</button>
-                        <button id="addToSetlistSingleConfirmBtn" class="modal-submit-btn">Add to Setlist</button>
-                    </div>
+
+                <div class="filter-option-group">
+                    <label for="filterKeySelect" class="filter-label">Key:</label>
+                    <select id="filterKeySelect" class="filter-select">
+                        <option value="">All keys</option>
+                    </select>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterWithYouTubeCheckbox" class="filter-checkbox">
+                        <span>Only songs with YouTube link</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterWithoutYouTubeCheckbox" class="filter-checkbox">
+                        <span>Only songs without YouTube link</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="clearAllFiltersBtn" class="modal-cancel-btn">Clear All Filters</button>
+                    <button id="applyFiltersBtn" class="modal-submit-btn">Apply</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- YouTube Mini Player -->
-        <div id="youtubeMiniPlayer" class="youtube-mini-player hidden">
-            <div class="youtube-mini-player-content">
-                <div class="youtube-mini-player-header">
-                    <span id="youtubePlayerTitle" class="youtube-player-title"></span>
-                    <div class="youtube-player-controls">
-                        <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn"
-                            title="Minimize">🔻</button>
-                        <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
-                    </div>
+    <!-- Queue/Add Single Song to Setlist Modal -->
+    <div id="addToSetlistSingleModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add to Setlist</h3>
+                <button class="modal-close" id="addToSetlistSingleModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label for="addToSetlistSelect" class="filter-label">Choose Setlist:</label>
+                    <select id="addToSetlistSelect" class="filter-select">
+                        <option value="" disabled selected>Select a setlist...</option>
+                    </select>
                 </div>
-                <div class="youtube-mini-player-body">
-                    <div id="youtubePlayerContainer" class="youtube-player-container">
-                        <!-- YouTube iframe will be inserted here -->
-                    </div>
+                <div class="modal-actions">
+                    <button id="addToSetlistSingleCancelBtn" class="modal-cancel-btn">Cancel</button>
+                    <button id="addToSetlistSingleConfirmBtn" class="modal-submit-btn">Add to Setlist</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Scrolling Chords Modal -->
-        <div id="scrollingChordsModal" class="scrolling-chords-modal-wrapper hidden">
-            <div class="scrolling-chords-content">
-                <iframe id="scrollingChordsFrame" src="" style="width:100%; height:100%; border:none;"
-                    allow="autoplay"></iframe>
-                <button id="scrollingChordsModalClose" class="scrolling-chords-close-btn" title="Close">&times;</button>
+    <!-- YouTube Mini Player -->
+    <div id="youtubeMiniPlayer" class="youtube-mini-player hidden">
+        <div class="youtube-mini-player-content">
+            <div class="youtube-mini-player-header">
+                <span id="youtubePlayerTitle" class="youtube-player-title"></span>
+                <div class="youtube-player-controls">
+                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">🔻</button>
+                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
+                </div>
+            </div>
+            <div class="youtube-mini-player-body">
+                <div id="youtubePlayerContainer" class="youtube-player-container">
+                    <!-- YouTube iframe will be inserted here -->
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Firebase SDK -->
-        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
+    <!-- Scrolling Chords Modal -->
+    <div id="scrollingChordsModal" class="scrolling-chords-modal-wrapper hidden">
+        <div class="scrolling-chords-content">
+            <iframe id="scrollingChordsFrame" src="" style="width:100%; height:100%; border:none;"
+                allow="autoplay"></iframe>
+            <button id="scrollingChordsModalClose" class="scrolling-chords-close-btn" title="Close">&times;</button>
+        </div>
+    </div>
 
-        <!-- Firebase Config -->
-        <script src="js/config/firebase-config.js?v=1.928"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
-        <!-- Models -->
-        <script src="js/models/SongManager.js?v=1.928"></script>
-        <script src="js/models/SetlistManager.js?v=1.928"></script>
-        <!-- Utils -->
-        <script src="js/utils/Sorter.js?v=1.928"></script>
-        <script src="js/utils/ChordDetector.js?v=1.928"></script>
-        <script src="js/utils/KeyDetector.js?v=1.928"></script>
-        <script src="js/utils/FirebaseManager.js?v=1.928"></script>
-        <script src="js/utils/PianoAudioPlayer.js?v=1.928"></script>
-        <!-- UI Components -->
-        <script src="js/ui/ChordModal.js?v=1.928"></script>
-        <script src="js/ui/SongDetailModal.js?v=1.928"></script>
-        <script src="js/ui/TableRenderer.js?v=1.928"></script>
-        <script src="js/ui/ChordDetectorOverlay.js?v=1.928"></script>
-        <script src="js/ui/PianoChordOverlay.js?v=1.928"></script>
-        <script src="js/ui/ChordFinderModal.js?v=1.928"></script>
-        <script src="js/ui/ChordProgressionEditor.js?v=1.928"></script>
-        <script src="js/ui/AuthModal.js?v=1.928"></script>
-        <script src="js/ui/ProfileModal.js?v=1.928"></script>
-        <script src="js/ui/ShareSongsModal.js?v=1.928"></script>
-        <script src="js/ui/AcceptSongsModal.js?v=1.928"></script>
-        <!-- Data -->
-        <script src="js/data/default_songs.js?v=1.928"></script>
-        <!-- Main App -->
-        <script src="js/app.js?v=1.928"></script>
+    <!-- Firebase Config -->
+    <script src="js/config/firebase-config.js?v=1.929"></script>
+
+    <!-- Models -->
+    <script src="js/models/SongManager.js?v=1.929"></script>
+    <script src="js/models/SetlistManager.js?v=1.929"></script>
+    <!-- Utils -->
+    <script src="js/utils/Sorter.js?v=1.929"></script>
+    <script src="js/utils/ChordDetector.js?v=1.929"></script>
+    <script src="js/utils/KeyDetector.js?v=1.929"></script>
+    <script src="js/utils/FirebaseManager.js?v=1.929"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=1.929"></script>
+    <!-- UI Components -->
+    <script src="js/ui/ChordModal.js?v=1.929"></script>
+    <script src="js/ui/SongDetailModal.js?v=1.929"></script>
+    <script src="js/ui/TableRenderer.js?v=1.929"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=1.929"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=1.929"></script>
+    <script src="js/ui/ChordFinderModal.js?v=1.929"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=1.929"></script>
+    <script src="js/ui/AuthModal.js?v=1.929"></script>
+    <script src="js/ui/ProfileModal.js?v=1.929"></script>
+    <script src="js/ui/ShareSongsModal.js?v=1.929"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=1.929"></script>
+    <!-- Data -->
+    <script src="js/data/default_songs.js?v=1.929"></script>
+    <!-- Main App -->
+    <script src="js/app.js?v=1.929"></script>
 </body>
 
 </html>

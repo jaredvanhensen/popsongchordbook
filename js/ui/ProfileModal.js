@@ -106,7 +106,11 @@ class ProfileModal {
         // Close button
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', () => {
-                this.hide();
+                if (window.appInstance) {
+                    window.appInstance.popModalState('profile');
+                } else {
+                    this.hide();
+                }
             });
         }
 
@@ -212,7 +216,7 @@ class ProfileModal {
 
         // Initialize theme select from current body class or localStorage
         if (this.themeSelect) {
-            const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+            const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
             this.themeSelect.value = savedTheme;
         }
 
@@ -229,13 +233,15 @@ class ProfileModal {
         this.clearSuccess();
         this.resetForm();
 
-        // Reset scroll position
-        const modalBody = this.modal.querySelector('.modal-body');
-        if (modalBody) {
-            modalBody.scrollTop = 0;
-        }
-
         this.modal.classList.remove('hidden');
+
+        // Reset scroll position - do it after showing to ensure browser respects it
+        setTimeout(() => {
+            const modalBody = this.modal.querySelector('.modal-body');
+            if (modalBody) {
+                modalBody.scrollTop = 0;
+            }
+        }, 50);
 
         // Initialize feature toggles from localStorage (per-user)
         const uid = user ? user.uid : 'guest';
@@ -246,13 +252,6 @@ class ProfileModal {
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
         }
-
-        // Focus on current password input
-        setTimeout(() => {
-            if (this.currentPasswordInput) {
-                this.currentPasswordInput.focus();
-            }
-        }, 100);
     }
 
     async updateAcceptSongsButton() {
@@ -278,7 +277,11 @@ class ProfileModal {
         }
     }
 
-    hide() {
+    hide(fromPopState = false) {
+        if (!fromPopState && window.appInstance) {
+            window.appInstance.popModalState('profile');
+            return;
+        }
         if (this.modal) {
             this.modal.classList.add('hidden');
         }
@@ -580,7 +583,7 @@ class ProfileModal {
 
     handleThemeChange(themeClass) {
         // Remove all theme classes
-        const themes = ['theme-jared-original', 'theme-jared1', 'theme-jared2', 'theme-jared3'];
+        const themes = ['theme-classic', 'theme-high-contrast', 'theme-sunset', 'theme-electric'];
         document.body.classList.remove(...themes);
 
         // Add new theme class

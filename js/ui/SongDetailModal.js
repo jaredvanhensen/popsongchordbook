@@ -1,6 +1,6 @@
 // SongDetailModal - Modal voor song details weergave
 class SongDetailModal {
-    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null) {
+    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
         this.onNavigate = onNavigate;
         this.onUpdate = onUpdate;
@@ -12,6 +12,7 @@ class SongDetailModal {
         this.onTogglePractice = onTogglePractice;
         this.isPracticeChecker = isPracticeChecker;
         this.onPracticeRandomNext = onPracticeRandomNext;
+        this.onPracticeRandomPrev = onPracticeRandomPrev;
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
@@ -283,7 +284,13 @@ class SongDetailModal {
     }
 
     setupEventListeners() {
-        this.closeBtn.addEventListener('click', () => this.hide());
+        this.closeBtn.addEventListener('click', () => {
+            if (window.appInstance) {
+                window.appInstance.popModalState('songDetail');
+            } else {
+                this.hide();
+            }
+        });
         this.prevBtn.addEventListener('click', () => this.navigatePrevious());
         this.nextBtn.addEventListener('click', () => this.navigateNext());
 
@@ -614,10 +621,16 @@ class SongDetailModal {
                     } else {
                         await this.hide();
                     }
-                } else if (e.key === 'ArrowLeft' && !e.target.hasAttribute('contenteditable')) {
-                    this.navigatePrevious();
-                } else if (e.key === 'ArrowRight' && !e.target.hasAttribute('contenteditable')) {
-                    this.navigateNext();
+                } else if (e.key === 'ArrowLeft') {
+                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+                    if (!isEditing) {
+                        this.navigatePrevious();
+                    }
+                } else if (e.key === 'ArrowRight') {
+                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+                    if (!isEditing) {
+                        this.navigateNext();
+                    }
                 } else if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
                     if (this.hasUnsavedChanges) {
@@ -1417,8 +1430,16 @@ class SongDetailModal {
     }
 
     navigatePrevious() {
-        if (this.isRandomMode || this.isPracticeRandomMode) return;
         if (!this.currentSongId || this.allSongs.length === 0) return;
+
+        if (this.isPracticeRandomMode) {
+            if (this.onPracticeRandomPrev) {
+                this.onPracticeRandomPrev();
+            }
+            return;
+        }
+
+        if (this.isRandomMode) return;
 
         const currentIndex = this.allSongs.findIndex(song => song.id === this.currentSongId);
         if (currentIndex > 0) {
@@ -1700,9 +1721,17 @@ class SongDetailModal {
 
     updateNavigationButtons() {
         if (this.isPracticeRandomMode) {
-            // Practice Random mode: Hide Previous, change Next to Practice Random
+            // Practice Random mode: Show Previous, change Next to Practice Random
             if (this.prevBtn) {
-                this.prevBtn.classList.add('hidden');
+                this.prevBtn.classList.remove('hidden');
+                this.prevBtn.style.opacity = '1';
+                this.prevBtn.style.cursor = 'pointer';
+                this.prevBtn.disabled = false;
+
+                const prevIconSpan = this.prevBtn.querySelector('.icon');
+                const prevLabelSpan = this.prevBtn.querySelector('.label');
+                if (prevIconSpan) prevIconSpan.textContent = '‹';
+                if (prevLabelSpan) prevLabelSpan.textContent = 'Previous';
             }
             if (this.nextBtn) {
                 this.nextBtn.classList.remove('hidden');
@@ -2290,7 +2319,13 @@ class SongDetailModal {
         });
     }
 
-    async hide() {
+    async hide(fromPopState = false) {
+        // If we are hiding NOT from a popstate event, we need to clean up the history stack
+        if (!fromPopState && window.appInstance) {
+            window.appInstance.popModalState('songDetail');
+            return; // popModalState will trigger history.back() which triggers this hide(true)
+        }
+
         const songIdToCheck = this.currentSongId;
         const originalDataSnapshot = this.originalSongData ? { ...this.originalSongData } : null;
 

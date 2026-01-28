@@ -24,7 +24,8 @@ class App {
             (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
             (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
             (songId) => this.setlistManager.isSongInPracticeSetlist(songId), // Pass Practice state checker
-            () => this.openPracticeRandomSong() // Pass Next Practice Random handler
+            () => this.openPracticeRandomSong(), // Pass Next Practice Random handler
+            () => this.handlePracticeRandomPrev() // Pass Previous Practice Random handler
         );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
@@ -40,6 +41,8 @@ class App {
         this.addSongsSortDirection = 'asc';
         this.lastAddSongsSetlistId = null;
         this.viewMode = 'full'; // 'simple' or 'full'
+        this.practiceHistory = []; // Stack to keep track of practiced songs
+        this.modalStack = []; // Stack to track open modals for history management
 
         this.tableRenderer = new TableRenderer(
             this.songManager,
@@ -57,13 +60,18 @@ class App {
 
     async init() {
         // Apply saved theme immediately
-        const savedTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+        const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
         document.body.classList.add(savedTheme);
+
+        // History management for modals
+        window.addEventListener('popstate', (event) => {
+            this.handlePopState(event);
+        });
 
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.918)");
+        console.log("Pop Song Chord Book - App Initialized (v1.929)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -72,7 +80,6 @@ class App {
             alert('Firebase initialisatie mislukt. Controleer je Firebase configuratie.');
             return;
         }
-
         // Setup auth modal
         this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
 
@@ -103,6 +110,32 @@ class App {
                 }
             });
         });
+    }
+
+    pushModalState(modalId, closeFn) {
+        this.modalStack.push({ id: modalId, close: closeFn });
+        history.pushState({ modalId: modalId }, "");
+    }
+
+    popModalState(modalId) {
+        if (history.state && history.state.modalId === modalId) {
+            history.back();
+            // Popping from stack will happen in handlePopState
+        } else {
+            const index = this.modalStack.findIndex(m => m.id === modalId);
+            if (index !== -1) {
+                this.modalStack.splice(index, 1);
+            }
+        }
+    }
+
+    handlePopState(event) {
+        if (this.modalStack.length > 0) {
+            const modal = this.modalStack.pop();
+            if (modal && typeof modal.close === 'function') {
+                modal.close();
+            }
+        }
     }
 
     async initializeApp() {
@@ -219,6 +252,7 @@ class App {
         const profileBtn = document.getElementById('profileBtn');
         if (profileBtn && this.profileModal) {
             profileBtn.addEventListener('click', () => {
+                this.pushModalState('profile', () => this.profileModal.hide(true));
                 this.profileModal.show();
             });
         }
@@ -591,6 +625,13 @@ class App {
         this.currentSongsList = allSongs;
         this.songDetailModal.setSongs(allSongs);
 
+        // Set or unset removal handler depending on setlist mode
+        if (this.currentSetlistId) {
+            this.tableRenderer.onRemoveFromSetlist = (songId) => this.handleRemoveFromSetlist(songId);
+        } else {
+            this.tableRenderer.onRemoveFromSetlist = null;
+        }
+
         this.tableRenderer.render(allSongs);
 
         // Apply view mode after rendering
@@ -636,17 +677,18 @@ class App {
         filterBtn.addEventListener('click', () => {
             this.populateKeySelect();
             this.updateFilterModalState();
+            this.pushModalState('filter', () => filterModal.classList.add('hidden'));
             filterModal.classList.remove('hidden');
         });
 
         // Close filter modal
         filterModalClose.addEventListener('click', () => {
-            filterModal.classList.add('hidden');
+            this.popModalState('filter');
         });
 
         filterModal.addEventListener('click', (e) => {
             if (e.target === filterModal) {
-                filterModal.classList.add('hidden');
+                this.popModalState('filter');
             }
         });
 
@@ -1113,12 +1155,12 @@ class App {
             this.activeAddSongsSetlistId = null;
         };
 
-        closeBtn.addEventListener('click', closeModal);
-        cancelBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', () => this.popModalState('addSongsToSetlist'));
+        cancelBtn.addEventListener('click', () => this.popModalState('addSongsToSetlist'));
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                closeModal();
+                this.popModalState('addSongsToSetlist');
             }
         });
 
@@ -1258,7 +1300,12 @@ class App {
 
         this.renderAddSongsList();
 
+        this.pushModalState('addSongsToSetlist', () => {
+            modal.classList.add('hidden');
+            this.activeAddSongsSetlistId = null;
+        });
         modal.classList.remove('hidden');
+
     }
 
     renderAddSongsList() {
@@ -1482,6 +1529,10 @@ class App {
                 this.tableRenderer.selectRow(songId, true);
             }
             const isInPractice = this.setlistManager.isSongInPracticeSetlist(songId);
+
+            // Push history state before showing modal
+            this.pushModalState('songDetail', () => this.songDetailModal.hide(true));
+
             this.songDetailModal.show(song, false, isRandomMode, isPracticeRandomMode);
             this.songDetailModal.setPracticeState(isInPractice);
         }
@@ -1594,7 +1645,23 @@ class App {
         // Visual feedback
         console.log(`Open next practice song: ${nextSong.title} (Practiced ${nextSong.practiceCount || 0} times)`);
 
+        // Push current song to history before navigating
+        if (this.songDetailModal && this.songDetailModal.currentSongId) {
+            this.practiceHistory.push(this.songDetailModal.currentSongId);
+            // Limit history size to 50
+            if (this.practiceHistory.length > 50) {
+                this.practiceHistory.shift();
+            }
+        }
+
         this.navigateToSong(nextSong.id, false, true);
+    }
+
+    handlePracticeRandomPrev() {
+        if (this.practiceHistory.length === 0) return;
+
+        const previousSongId = this.practiceHistory.pop();
+        this.navigateToSong(previousSongId, false, true);
     }
 
     openAddSongsToSetlistModal() {
@@ -1709,6 +1776,13 @@ class App {
                 this.songDetailModal.show(song, false); // false = don't auto-edit artist (already filled)
             }
         }, 50);
+    }
+
+    async handleRemoveFromSetlist(songId) {
+        if (this.currentSetlistId) {
+            await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
+            this.loadAndRender();
+        }
     }
 
     async handleDelete(songId) {
@@ -2218,10 +2292,10 @@ class App {
         const themeSwitcherBtn = document.getElementById('themeSwitcherBtn');
         if (!themeSwitcherBtn) return;
 
-        const themes = ['theme-jared-original', 'theme-jared1', 'theme-jared2', 'theme-jared3'];
+        const themes = ['theme-classic', 'theme-high-contrast', 'theme-sunset', 'theme-electric'];
 
         themeSwitcherBtn.addEventListener('click', () => {
-            const currentTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+            const currentTheme = localStorage.getItem('user-theme') || 'theme-classic';
             const currentIndex = themes.indexOf(currentTheme);
             const nextIndex = (currentIndex + 1) % themes.length;
             const nextTheme = themes[nextIndex];
@@ -2248,7 +2322,7 @@ class App {
         const themeSwitcherBtn = document.getElementById('themeSwitcherBtn');
         if (!themeSwitcherBtn) return;
 
-        const currentTheme = localStorage.getItem('user-theme') || 'theme-jared-original';
+        const currentTheme = localStorage.getItem('user-theme') || 'theme-classic';
 
         // This is mostly handled by CSS body classes now, but we can add 
         // specific logic here if we want to change icons etc.

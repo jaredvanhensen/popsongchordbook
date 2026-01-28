@@ -14,7 +14,7 @@
     --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-    /* Default Theme (Jared2) variables */
+    /* Default Theme (Sunset) variables */
     --block1-bg: #e0f2fe;
     --block1-border: #7dd3fc;
     --block1-text: #0369a1;
@@ -29,8 +29,8 @@
     --block4-text: #6d28d9;
 }
 
-/* Jared1 Theme - High Contrast */
-body.theme-jared1 {
+/* High Contrast Theme - High Contrast */
+body.theme-high-contrast {
     --block1-bg: #dbeafe;
     --block1-border: #93c5fd;
     --block1-text: #1e40af;
@@ -45,8 +45,8 @@ body.theme-jared1 {
     --block4-text: #be123c;
 }
 
-/* Jared2 Theme - Sunset & Lavender */
-body.theme-jared2 {
+/* Sunset Theme - Sunset & Lavender */
+body.theme-sunset {
     --block1-bg: #e0f2fe;
     --block1-border: #7dd3fc;
     --block1-text: #0369a1;
@@ -61,8 +61,8 @@ body.theme-jared2 {
     --block4-text: #6d28d9;
 }
 
-/* Jared3 Theme - Electric Aura */
-body.theme-jared3 {
+/* Electric Theme - Electric Aura */
+body.theme-electric {
     --block1-bg: #e0e7ff;
     /* Indigo */
     --block1-border: #a5b4fc;
@@ -81,8 +81,8 @@ body.theme-jared3 {
     --block4-text: #44403c;
 }
 
-/* Jared0 - Absolute 1:1 Live Site Recreation (v1.17) */
-body.theme-jared-original {
+/* Classic - Absolute 1:1 Live Site Recreation (v1.17) */
+body.theme-classic {
     --block1-bg: #ffffff;
     --block1-border: transparent;
     --block1-text: var(--text-color);
@@ -98,44 +98,44 @@ body.theme-jared-original {
 }
 
 /* Authentic Row Dividers and Zebra Striping */
-body.theme-jared-original .song-row {
+body.theme-classic .song-row {
     border-bottom: 1px solid #e2e8f0 !important;
 }
 
-body.theme-jared-original .song-row:nth-child(even) {
+body.theme-classic .song-row:nth-child(even) {
     background: #f8fafc !important;
 }
 
 /* Header Styling - Exact Gradients from Live Site */
-body.theme-jared-original thead tr {
+body.theme-classic thead tr {
     background: linear-gradient(to bottom right, #667eea, #764ba2) !important;
 }
 
-body.theme-jared-original th {
+body.theme-classic th {
     color: white !important;
 }
 
-body.theme-jared-original th.chorus-column {
+body.theme-classic th.chorus-column {
     background: linear-gradient(to bottom right, #fef3c7, #fde68a) !important;
     color: #92400e !important;
 }
 
 /* Legendary 4px Column Borders */
-body.theme-jared-original .chorus-column,
-body.theme-jared-original .chorus-cell {
+body.theme-classic .chorus-column,
+body.theme-classic .chorus-cell {
     border-left: 4px solid #f59e0b !important;
     border-right: 4px solid #f59e0b !important;
 }
 
-body.theme-jared-original .chorus-cell {
+body.theme-classic .chorus-cell {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
 }
 
 /* Ensure other cells inherit the row background/Zebra effect */
-body.theme-jared-original .verse-cell,
-body.theme-jared-original .prechorus-cell,
-body.theme-jared-original .bridge-cell,
-body.theme-jared-original td:not(.chorus-cell) {
+body.theme-classic .verse-cell,
+body.theme-classic .prechorus-cell,
+body.theme-classic .bridge-cell,
+body.theme-classic td:not(.chorus-cell) {
     background: transparent !important;
 }
 
@@ -315,22 +315,22 @@ header::before {
 }
 
 /* Theme-specific Switcher UI Feedback */
-body.theme-jared-original .theme-switcher-btn {
+body.theme-classic .theme-switcher-btn {
     border-color: #FFD23F;
     color: #92400e;
 }
 
-body.theme-jared1 .theme-switcher-btn {
+body.theme-high-contrast .theme-switcher-btn {
     border-color: #93c5fd;
     color: #1e40af;
 }
 
-body.theme-jared2 .theme-switcher-btn {
+body.theme-sunset .theme-switcher-btn {
     border-color: #fdba74;
     color: #c2410c;
 }
 
-body.theme-jared3 .theme-switcher-btn {
+body.theme-electric .theme-switcher-btn {
     border-color: #a5b4fc;
     color: #4338ca;
 }
@@ -1357,8 +1357,8 @@ thead th {
     background: transparent;
 }
 
-/* Colour scheme Jared2 - Table Headers (Uniform) */
-/* (Currently using Jared2: Sky Blue, Sunset Orange, Pink, Lavender) */
+/* Colour scheme Sunset - Table Headers (Uniform) */
+/* (Currently using Sunset: Sky Blue, Sunset Orange, Pink, Lavender) */
 /* Removed individual colored headers to keep it uniform */
 
 th {
@@ -1707,6 +1707,33 @@ td:has(.row-edit-input.input-focused) {
 .delete-btn:active {
     transform: translateY(0);
     background: rgba(239, 68, 68, 0.2);
+}
+
+.remove-from-setlist-btn {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 3px 6px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    opacity: 0.7;
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.remove-from-setlist-btn:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.5);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.remove-from-setlist-btn:active {
+    transform: translateY(0);
+    background: rgba(59, 130, 246, 0.2);
 }
 
 .youtube-btn {
@@ -2371,7 +2398,7 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 3000;
     backdrop-filter: blur(5px);
     padding: 20px;
     box-sizing: border-box;

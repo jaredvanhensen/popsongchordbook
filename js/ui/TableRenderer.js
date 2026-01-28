@@ -1,6 +1,6 @@
 // TableRenderer - Tabel rendering en updates
 class TableRenderer {
-    constructor(songManager, onRowSelect, onCellEdit, onDelete, chordModal, onToggleFavorite, onPlayYouTube, keyDetector) {
+    constructor(songManager, onRowSelect, onCellEdit, onDelete, chordModal, onToggleFavorite, onPlayYouTube, keyDetector, onRemoveFromSetlist = null) {
         this.songManager = songManager;
         this.onRowSelect = onRowSelect;
         this.onCellEdit = onCellEdit;
@@ -9,6 +9,7 @@ class TableRenderer {
         this.onToggleFavorite = onToggleFavorite;
         this.onPlayYouTube = onPlayYouTube;
         this.keyDetector = keyDetector;
+        this.onRemoveFromSetlist = onRemoveFromSetlist;
         this.tbody = document.getElementById('songsTableBody');
         this.selectedRowId = null;
         this.editingRowId = null;
@@ -138,6 +139,21 @@ class TableRenderer {
         // Actions cell with Delete and YouTube buttons
         const actionsCell = document.createElement('td');
         actionsCell.className = 'actions-cell';
+
+        // Remove from Setlist button (if in setlist mode)
+        if (this.onRemoveFromSetlist) {
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-from-setlist-btn';
+            removeBtn.textContent = '✖'; // Or use '-' or a custom icon
+            removeBtn.title = 'Remove from setlist';
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm(`Remove "${song.title || 'this song'}" from the current setlist?\n(Song will stay in your library)`)) {
+                    this.onRemoveFromSetlist(song.id);
+                }
+            });
+            actionsCell.appendChild(removeBtn);
+        }
 
         // Delete button first
         const deleteBtn = document.createElement('button');
