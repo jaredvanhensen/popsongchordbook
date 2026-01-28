@@ -14,19 +14,19 @@
     --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-    /* Default Theme (Sunset) variables */
-    --block1-bg: #e0f2fe;
-    --block1-border: #7dd3fc;
-    --block1-text: #0369a1;
-    --block2-bg: #ffedd5;
-    --block2-border: #fdba74;
-    --block2-text: #c2410c;
-    --block3-bg: #fce7f3;
-    --block3-border: #f9a8d4;
-    --block3-text: #be185d;
-    --block4-bg: #f5f3ff;
-    --block4-border: #c4b5fd;
-    --block4-text: #6d28d9;
+    /* Default Theme (Classic) variables */
+    --block1-bg: #ffffff;
+    --block1-border: transparent;
+    --block1-text: var(--text-color);
+    --block2-bg: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    --block2-border: #f59e0b;
+    --block2-text: #92400e;
+    --block3-bg: #ffffff;
+    --block3-border: transparent;
+    --block3-text: var(--text-color);
+    --block4-bg: #ffffff;
+    --block4-border: transparent;
+    --block4-text: var(--text-color);
 }
 
 /* High Contrast Theme - High Contrast */
