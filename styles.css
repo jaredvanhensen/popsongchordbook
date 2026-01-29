@@ -2421,6 +2421,10 @@ td:has(.row-edit-input.input-focused) {
     z-index: 3000;
 }
 
+#youtubeUrlModal .modal-content {
+    max-width: 600px;
+}
+
 .modal.hidden {
     display: none;
 }
