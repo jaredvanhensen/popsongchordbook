@@ -7979,6 +7979,10 @@ td:has(.row-edit-input.input-focused) {
         gap: 8px !important;
     }
 
+    #songDetailLyricsBtn {
+        margin-left: 5px !important;
+    }
+
     #songDetailLyricsBtn .icon {
         width: 34px !important;
         height: 34px !important;
