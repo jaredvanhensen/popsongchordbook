@@ -1,4 +1,4 @@
-// Main Application
+﻿// Main Application
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.929)");
+        console.log("Pop Song Chord Book - App Initialized (v1.930)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -2334,4 +2334,5 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
