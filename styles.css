@@ -8144,16 +8144,6 @@ td:has(.row-edit-input.input-focused) {
         width: 9px !important;
         height: 9px !important;
         flex-shrink: 0 !important;
-        display: none !important;
-    }
-
-    /* Always show the first star (anchor) */
-    .ability-star[data-value="1"] {
-        display: flex !important;
-    }
-
-    /* Show others only if they are active */
-    .ability-star.active {
         display: flex !important;
     }
 
