@@ -4900,7 +4900,7 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    padding: 6px 16px;
+    padding: 6px 18px;
     border-radius: 20px;
     font-weight: 700;
     font-size: 0.95rem;
@@ -4915,7 +4915,7 @@ td:has(.row-edit-input.input-focused) {
 
 .song-detail-key-badge .key-label {
     opacity: 0.8;
-    margin-right: 4px;
+    margin-right: 2px;
     user-select: none;
     font-size: 0.85rem;
     letter-spacing: 0.5px;
@@ -8058,7 +8058,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-key-badge {
-        padding: 3px 6px !important;
+        padding: 4px 12px !important;
         font-size: 0.8rem !important;
     }
 
