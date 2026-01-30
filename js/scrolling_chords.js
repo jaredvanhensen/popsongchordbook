@@ -56,7 +56,7 @@ let animationFrame;
 let isCountingIn = false;
 let countInStartTime = 0;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const PIXELS_PER_SECOND = 200; // Speed of scrolling
+const PIXELS_PER_SECOND = 100; // Speed of scrolling (was 200)
 
 // Metronome/Audio state
 let metronomeEnabled = false;

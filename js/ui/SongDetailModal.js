@@ -168,8 +168,8 @@ class SongDetailModal {
             const deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            // Base speed: 40px per second at factor 1.0
-            const pixelsPerMs = (40 * this.lyricsSpeedFactor) / 1000;
+            // Base speed: 20px per second at factor 1.0 (was 40)
+            const pixelsPerMs = (20 * this.lyricsSpeedFactor) / 1000;
             this.lyricsScrollPos += pixelsPerMs * deltaTime;
 
             // Loop reset: if we reach the end of the text
