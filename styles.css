@@ -7948,6 +7948,8 @@ td:has(.row-edit-input.input-focused) {
     .song-detail-footer {
         flex-direction: row !important;
         justify-content: space-between !important;
+        align-items: center !important;
+        /* Revert to center for better balance */
         padding-top: 10px !important;
         padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
         gap: 5px !important;
@@ -8004,12 +8006,20 @@ td:has(.row-edit-input.input-focused) {
 
     #songDetailLyricsBtn .label,
     #songDetailScrollingChordsBtn .label,
+    .ability-stars-container .label,
     .song-detail-footer-actions .label,
-    .song-detail-key-badge .key-label {
-        font-size: 0.6rem !important;
-        margin-top: 2px !important;
+    .song-detail-key-badge .key-label,
+    .song-detail-action-btn .label {
+        font-size: 0.65rem !important;
+        /* Slightly larger for readability */
+        margin-top: 4px !important;
+        /* Increased margin for better separation */
         color: rgba(255, 255, 255, 0.6) !important;
         font-weight: 500 !important;
+        text-transform: lowercase !important;
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
     }
 
     /* Thinner stroke for tiny mobile stars */
@@ -8149,22 +8159,21 @@ td:has(.row-edit-input.input-focused) {
 
     .ability-stars-container .stars-row {
         flex-direction: column-reverse !important;
-        height: auto !important;
+        height: 34px !important;
+        /* Keep height for vertical spacing consistency */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         gap: -2px !important;
         min-width: 0 !important;
         width: 12px !important;
-        padding-bottom: 1px !important;
+        /* Set width to fit the 9px stars */
+        padding-bottom: 0 !important;
         margin: 0 auto !important;
     }
 
-    .ability-stars-container .label {
-        font-size: 0.55rem !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        display: block !important;
-        opacity: 1 !important;
-        font-weight: 500 !important;
-        margin-top: 1px !important;
-        width: 100% !important;
-        text-align: center !important;
+    .ability-star svg {
+        pointer-events: none !important;
+        /* Fix for touch/click registration */
     }
 }
