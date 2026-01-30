@@ -11,9 +11,15 @@ class PianoChordOverlay {
         // We'll use octave 4 as base (middle C area)
         this.chordDefinitions = this.initializeChordDefinitions();
 
-        // Initialize piano audio player
         this.audioPlayer = audioPlayer || new PianoAudioPlayer();
         this.isAudioInitialized = false;
+        this.chordDuration = 0.5; // Default: 1 count halved
+
+        // Try to load saved duration
+        if (typeof localStorage !== 'undefined') {
+            const saved = localStorage.getItem('piano_chord_duration');
+            if (saved) this.chordDuration = parseFloat(saved);
+        }
 
         this.createOverlay();
         this.setupEventListeners();
@@ -139,12 +145,11 @@ class PianoChordOverlay {
             }
         }
 
-        // Calculate actual notes (semitones from C4)
-        // C4 = 0, C#4 = 1, ... B4 = 11, C5 = 12, etc.
+        // Calculate actual notes (semitones from MIDI 60 = C4)
         let notes = intervals.map(interval => {
-            let note = rootSemitone + interval;
-            // Keep notes in a reasonable range (octave 4-5)
-            while (note > 23) note -= 12; // Keep below C6
+            let note = 60 + rootSemitone + interval;
+            // Keep notes in a reasonable range (octave 4-5, i.e., MIDI 60-83)
+            while (note > 83) note -= 12; // Keep below C6 (84)
             return note;
         });
 
@@ -186,11 +191,11 @@ class PianoChordOverlay {
             // Sort notes so bass is first (lowest)
             notes.sort((a, b) => a - b);
 
-            // Ensure notes stay in reasonable range
-            while (notes[notes.length - 1] > 23) {
+            // Ensure notes stay in reasonable range (MIDI 60-83 range)
+            while (notes[notes.length - 1] > 83) {
                 notes = notes.map(n => n - 12);
             }
-            while (notes[0] < 0) {
+            while (notes[0] < 60) {
                 notes = notes.map(n => n + 12);
             }
         }
@@ -252,7 +257,27 @@ class PianoChordOverlay {
         this.overlay.innerHTML = `
             <div class="piano-chord-modal">
                 <div class="piano-chord-header">
-                    <h3 id="pianoChordTitle">Piano Chords</h3>
+                    <div class="header-main">
+                        <h3 id="pianoChordTitle">Piano Chords</h3>
+                        <div class="sound-selector-wrapper">
+                            <span class="sound-icon" title="Select Instrument">🔊</span>
+                            <select id="pianoSoundSelector" class="piano-sound-selector">
+                                <option value="piano">Piano</option>
+                                <option value="sawtooth">Sawtooth</option>
+                                <option value="brass">Brass</option>
+                                <option value="warm-pad">Warm Pad</option>
+                            </select>
+                        </div>
+                        <div class="sound-selector-wrapper">
+                            <span class="sound-icon" title="Playback Length">⏱️</span>
+                            <select id="pianoDurationSelector" class="piano-sound-selector">
+                                <option value="0.5">1 Count</option>
+                                <option value="1.0">2 Counts</option>
+                                <option value="1.5">3 Counts</option>
+                                <option value="2.0">4 Counts</option>
+                            </select>
+                        </div>
+                    </div>
                     <button class="piano-chord-close" id="pianoChordClose">&times;</button>
                 </div>
                 <div class="piano-chord-body">
@@ -284,6 +309,35 @@ class PianoChordOverlay {
                 this.hide();
             }
         });
+
+        // Sound selector dropdown
+        const soundSelector = this.overlay.querySelector('#pianoSoundSelector');
+        if (soundSelector) {
+            // Set initial value from audioPlayer
+            soundSelector.value = this.audioPlayer.currentSound || 'piano';
+
+            soundSelector.addEventListener('change', (e) => {
+                const newSound = e.target.value;
+                if (this.audioPlayer.setSound) {
+                    this.audioPlayer.setSound(newSound);
+                }
+            });
+        }
+
+        // Duration selector dropdown
+        const durationSelector = this.overlay.querySelector('#pianoDurationSelector');
+        if (durationSelector) {
+            // Set initial value from localStorage or default to 0.5
+            const savedDuration = localStorage.getItem('piano_chord_duration') || '0.5';
+            durationSelector.value = savedDuration;
+            this.chordDuration = parseFloat(savedDuration);
+
+            durationSelector.addEventListener('change', (e) => {
+                const newDuration = e.target.value;
+                this.chordDuration = parseFloat(newDuration);
+                localStorage.setItem('piano_chord_duration', newDuration);
+            });
+        }
     }
 
     createPianoKeyboard(chord, highlightedNotes) {
@@ -547,7 +601,8 @@ class PianoChordOverlay {
         if (chord && chord.notes && chord.notes.length > 0) {
             // Apply octave shift (12 semitones per octave)
             const shiftedNotes = chord.notes.map(note => note + (octaveShift * 12));
-            this.audioPlayer.playChord(shiftedNotes, 2.0, 0.6, 0.03);
+            const duration = this.chordDuration || 2.0;
+            this.audioPlayer.playChord(shiftedNotes, duration, 0.6, 0.03);
         }
     }
 
