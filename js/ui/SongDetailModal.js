@@ -43,7 +43,8 @@ class SongDetailModal {
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
         this.patchDetailsInput = document.getElementById('patchDetailsInput');
         this.practiceCountInput = document.getElementById('practiceCountInput');
-        this.performAbilitySelect = document.getElementById('performAbilitySelect');
+        this.performAbilityStars = document.getElementById('performAbilityStars');
+        this.abilityStars = this.performAbilityStars ? this.performAbilityStars.querySelectorAll('.ability-star') : [];
         this.chordJsonInput = document.getElementById('chordJsonInput');
         this.chordJsonStatus = document.getElementById('chordJsonStatus');
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
@@ -421,6 +422,13 @@ class SongDetailModal {
                         console.error('Error saving chord data from timeline:', e);
                     }
                 }
+            });
+        }
+
+        if (this.performAbilityStars) {
+            this.performAbilityStars.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.cycleAbility();
             });
         }
 
@@ -1847,6 +1855,24 @@ class SongDetailModal {
     }
 
 
+    cycleAbility() {
+        const currentValue = this.currentAbilityValue || 0;
+        const newValue = (currentValue + 1) % 4; // Cycle 0, 1, 2, 3
+        this.updateAbilityStars(newValue);
+        this.checkForChanges();
+    }
+
+    updateAbilityStars(value) {
+        this.currentAbilityValue = parseInt(value) || 0;
+        this.abilityStars.forEach((star, index) => {
+            if (index < this.currentAbilityValue) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
     setPracticeState(isActive) {
         if (!this.practiceBtn) return;
         if (isActive) {
@@ -1878,9 +1904,8 @@ class SongDetailModal {
             this.practiceCountInput.value = song.practiceCount || '';
         }
 
-        if (this.performAbilitySelect) {
-            this.performAbilitySelect.value = song.performAbility || '';
-        }
+        const abilityValue = song.performAbility || 0;
+        this.updateAbilityStars(abilityValue);
 
         if (this.fullLyricsInput) {
             this.fullLyricsInput.value = song.fullLyrics || '';
@@ -1932,9 +1957,8 @@ class SongDetailModal {
         if (this.practiceCountInput) {
             this.practiceCountInput.value = '';
         }
-        if (this.performAbilitySelect) {
-            this.performAbilitySelect.value = '';
-        }
+        this.updateAbilityStars(0);
+        this.chordDataToRemove = false;
         if (this.chordJsonInput) {
             this.chordJsonInput.value = '';
         }
@@ -1952,7 +1976,7 @@ class SongDetailModal {
         const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
         const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
         const practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '';
-        const performAbility = this.performAbilitySelect ? this.performAbilitySelect.value : '';
+        const performAbility = this.currentAbilityValue || 0;
         const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
 
         const updates = {

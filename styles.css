@@ -8138,42 +8138,43 @@ td:has(.row-edit-input.input-focused) {
     transform: scale(0.95);
 }
 
-/* 
-   FINAL MOBILE OVERRIDES (v1.933)
-   Must be at the very end to ensure precedence over general ability styles
+/*
+   FINAL MOBILE/TABLET OVERRIDES (v1.938)
+   Targets portrait orientation specifically to avoid horizontal overflow
 */
-@media (max-width: 480px) {
+@media (max-width: 900px) and (orientation: portrait) {
     .ability-stars-container {
-        padding: 0 !important;
-        gap: 1px !important;
-        min-width: 0 !important;
-        width: auto !important;
+        padding: 2px 4px !important;
+        gap: 2px !important;
     }
 
     .ability-star {
-        width: 9px !important;
-        height: 9px !important;
-        flex-shrink: 0 !important;
-        display: flex !important;
+        width: 14px !important;
+        /* Smaller in portrait */
+        height: 14px !important;
     }
 
     .ability-stars-container .stars-row {
-        flex-direction: column-reverse !important;
-        height: 34px !important;
-        /* Keep height for vertical spacing consistency */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: -2px !important;
-        min-width: 0 !important;
-        width: 12px !important;
-        /* Set width to fit the 9px stars */
-        padding-bottom: 0 !important;
-        margin: 0 auto !important;
+        flex-direction: row !important;
+        gap: 2px !important;
+        padding: 2px !important;
     }
 
+    .ability-stars-container .label {
+        font-size: 0.7em !important;
+    }
+}
+
+/* Maintain large stars for landscape/desktop */
+@media (min-width: 481px) and (orientation: landscape) {
+    .ability-star {
+        width: 24px !important;
+        height: 24px !important;
+    }
+}
+
+@media (max-width: 480px) {
     .ability-star svg {
         pointer-events: none !important;
-        /* Fix for touch/click registration */
     }
 }
