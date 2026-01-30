@@ -6668,60 +6668,90 @@ td:has(.row-edit-input.input-focused) {
 
     .piano-chord-header {
         padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .piano-chord-header .header-main {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
     .piano-chord-header h3 {
         font-size: 1.2em;
+        width: 100%;
+    }
+
+    .piano-chord-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
     }
 
     .piano-chord-body {
-        padding: 15px;
+        padding: 12px;
+    }
+
+    .piano-chord-list {
+        gap: 12px;
     }
 
     .piano-chord-card {
-        padding: 15px;
-        flex: 0 0 calc(50% - 10px);
-        min-width: 200px;
-        max-width: 100%;
+        padding: 10px;
+        flex: 0 0 calc(50% - 6px);
+        min-width: 0;
+        max-width: none;
     }
 
     .chord-card-header .chord-name {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .piano-keyboard {
-        height: 150px;
-        padding: 12px 8px 8px;
+        height: 100px;
+        margin: 8px 0;
+        padding: 8px 4px 5px;
     }
 
     .black-key {
-        width: 6%;
+        width: 6.5%;
     }
 }
 
 @media (max-width: 480px) {
+    .piano-chord-header {
+        padding: 12px 15px;
+        gap: 10px;
+    }
+
     .piano-chord-header h3 {
-        font-size: 1em;
+        font-size: 1.1em;
+        padding-right: 40px;
+        /* Room for close button */
     }
 
-    .piano-chord-close {
-        width: 36px;
-        height: 36px;
-        font-size: 1.3em;
+    .sound-selector-wrapper {
+        padding: 3px 8px;
+        gap: 4px;
     }
 
-    .piano-keyboard {
-        height: 120px;
+    .piano-sound-selector {
+        font-size: 0.75em;
     }
 
     .piano-chord-card {
-        flex: 0 0 100%;
-        min-width: 100%;
-        max-width: 100%;
+        flex: 0 0 calc(50% - 6px);
     }
 
     .chord-card-header .chord-name {
-        font-size: 1.2em;
+        font-size: 1em;
+    }
+
+    .piano-keyboard {
+        height: 85px;
     }
 
     .piano-chord-btn {
@@ -8181,10 +8211,10 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Piano Chord Overlay Styles - Selector Polish */
-.piano-chord-header .header-main { 
-    display: flex; 
-    align-items: center; 
-    gap: clamp(8px, 1.5vw, 15px); 
+.piano-chord-header .header-main {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 15px);
     flex: 1;
     justify-content: flex-end;
     margin-right: 15px;
@@ -8196,14 +8226,14 @@ td:has(.row-edit-input.input-focused) {
     white-space: nowrap;
 }
 
-.sound-selector-wrapper { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    background: rgba(255, 255, 255, 0.15); 
-    padding: 4px 10px; 
-    border-radius: 20px; 
-    border: 1px solid rgba(255, 255, 255, 0.25); 
+.sound-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     transition: all 0.2s ease;
 }
 
@@ -8212,21 +8242,21 @@ td:has(.row-edit-input.input-focused) {
     border-color: rgba(255, 255, 255, 0.4);
 }
 
-.piano-sound-selector { 
-    background: transparent; 
-    border: none; 
-    font-size: 0.8em; 
-    font-weight: 600; 
-    cursor: pointer; 
-    outline: none; 
-    color: white; 
+.piano-sound-selector {
+    background: transparent;
+    border: none;
+    font-size: 0.8em;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    color: white;
 }
 
-.piano-sound-selector option { 
-    background: #764ba2; 
-    color: white; 
+.piano-sound-selector option {
+    background: #764ba2;
+    color: white;
 }
 
-.sound-icon { 
-    font-size: 1.1em; 
+.sound-icon {
+    font-size: 1.1em;
 }
