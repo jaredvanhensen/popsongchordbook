@@ -6311,19 +6311,19 @@ td:has(.row-edit-input.input-focused) {
 
 /* Toggle Button in Header */
 .piano-toggle-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     color: white;
     padding: 0 10px;
-    height: 28px;
-    border-radius: 6px;
-    font-size: 0.8em;
-    cursor: pointer;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
     transition: all 0.2s ease;
-    user-select: none;
+    white-space: nowrap;
 }
 
 .piano-toggle-btn:hover {
@@ -6337,12 +6337,22 @@ td:has(.row-edit-input.input-focused) {
     box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
 }
 
-.piano-toggle-btn .toggle-icon {
+.piano-toggle-btn .toggle-icon,
+.piano-toggle-btn .duration-icon-container {
     font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.piano-toggle-btn .toggle-label {
-    font-weight: 600;
+.piano-toggle-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #fbbf24;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.duration-icon-container svg {
+    display: block;
 }
 
 .piano-chord-body {
@@ -6759,14 +6769,29 @@ td:has(.row-edit-input.input-focused) {
 
 @media (max-width: 480px) {
     .piano-chord-header {
-        padding: 12px 15px;
+        padding: 10px 15px;
+        flex-direction: column;
+        align-items: flex-start;
         gap: 10px;
+    }
+
+    .piano-chord-header .header-main {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        flex-wrap: wrap;
     }
 
     .piano-chord-header h3 {
         font-size: 1.1em;
-        padding-right: 40px;
-        /* Room for close button */
+        width: 100%;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        max-width: none;
+        margin-bottom: 2px;
     }
 
     .sound-selector-wrapper {
@@ -6776,18 +6801,58 @@ td:has(.row-edit-input.input-focused) {
 
     .piano-sound-selector {
         font-size: 0.75em;
+        max-width: none;
+    }
+
+    .piano-toggle-btn {
+        padding: 0 8px;
+        height: 28px;
+        min-width: auto;
+    }
+
+    .piano-toggle-btn .toggle-label {
+        display: inline;
+        font-size: 0.85em;
+    }
+
+    .piano-chord-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.2em;
+        width: 28px;
+        height: 28px;
+    }
+
+    .piano-chord-body {
+        padding: 8px;
+    }
+
+    .piano-chord-list {
+        gap: 6px;
     }
 
     .piano-chord-card {
-        flex: 0 0 calc(50% - 6px);
+        padding: 6px 8px;
+        flex: 0 0 calc(50% - 3px);
+    }
+
+    .chord-card-header {
+        margin-bottom: 4px;
     }
 
     .chord-card-header .chord-name {
-        font-size: 1em;
+        font-size: 0.9em;
+    }
+
+    .chord-card-header .play-icon-btn {
+        font-size: 0.8em;
     }
 
     .piano-keyboard {
-        height: 85px;
+        height: 70px;
+        margin: 4px 0;
+        padding: 4px 2px 3px;
     }
 
     .piano-chord-btn {
@@ -6802,7 +6867,6 @@ td:has(.row-edit-input.input-focused) {
 
     .chord-section-title {
         width: 85px !important;
-        /* Increased to fit Pre-Chorus */
         font-size: 0.85em;
     }
 
@@ -6813,23 +6877,13 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-content {
-        font-size: 17px !important;
-        /* Increased for better readability */
+        font-size: 22px !important;
     }
-
-
 
     .chord-section-content.editable-field {
         padding: 6px !important;
         line-height: 1.2 !important;
-        /* Restored to comfortable spacing */
     }
-
-    .chord-section-content {
-        font-size: 22px !important;
-    }
-
-
 }
 
 /* Mobile landscape fixes */

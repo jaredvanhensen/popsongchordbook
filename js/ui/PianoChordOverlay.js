@@ -25,8 +25,26 @@ class PianoChordOverlay {
             if (savedDeduplicate !== null) this.deduplicate = savedDeduplicate === 'true';
         }
 
+        // Define duration cycle: eighth, quarter, half, whole
+        this.durationSteps = [
+            { id: 'eighth', value: 0.25, icon: this.getNoteSVG('eighth'), label: 'Eighth' },
+            { id: 'quarter', value: 0.5, icon: this.getNoteSVG('quarter'), label: 'Quarter' },
+            { id: 'half', value: 1.0, icon: this.getNoteSVG('half'), label: 'Half' },
+            { id: 'whole', value: 2.0, icon: this.getNoteSVG('whole'), label: 'Whole' }
+        ];
+
         this.createOverlay();
         this.setupEventListeners();
+    }
+
+    getNoteSVG(type) {
+        const svgs = {
+            'eighth': `<svg viewBox="0 0 32 32" width="22" height="24"><ellipse cx="10" cy="22" rx="6" ry="4" fill="currentColor"/><path d="M16 4v18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M16 4c4 0 8 2 8 10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+            'quarter': `<svg viewBox="0 0 32 32" width="22" height="24"><ellipse cx="10" cy="22" rx="6" ry="4" fill="currentColor"/><path d="M16 4v18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+            'half': `<svg viewBox="0 0 32 32" width="22" height="24"><ellipse cx="10" cy="22" rx="6" ry="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 4v18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+            'whole': `<svg viewBox="0 0 32 32" width="24" height="24"><ellipse cx="16" cy="16" rx="10" ry="6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>`
+        };
+        return svgs[type] || svgs['quarter'];
     }
 
     initializeChordDefinitions() {
@@ -277,13 +295,9 @@ class PianoChordOverlay {
                             </select>
                         </div>
                         <div class="sound-selector-wrapper">
-                            <span class="sound-icon" title="Playback Length">⏱️</span>
-                            <select id="pianoDurationSelector" class="piano-sound-selector">
-                                <option value="0.5">1 Count</option>
-                                <option value="1.0">2 Counts</option>
-                                <option value="1.5">3 Counts</option>
-                                <option value="2.0">4 Counts</option>
-                            </select>
+                            <button id="pianoDurationCycleBtn" class="piano-toggle-btn" title="Cycle Duration">
+                                <span class="duration-icon-container"></span>
+                            </button>
                         </div>
                         <div class="sound-selector-wrapper">
                             <button id="pianoDeduplicateToggle" class="piano-toggle-btn ${this.deduplicate ? 'active' : ''}" title="Toggle Unique vs Chronological Chords">
@@ -338,18 +352,14 @@ class PianoChordOverlay {
             });
         }
 
-        // Duration selector dropdown
-        const durationSelector = this.overlay.querySelector('#pianoDurationSelector');
-        if (durationSelector) {
-            // Set initial value from localStorage or default to 0.5
-            const savedDuration = localStorage.getItem('piano_chord_duration') || '0.5';
-            durationSelector.value = savedDuration;
-            this.chordDuration = parseFloat(savedDuration);
+        // Initialize duration display
+        this.updateDurationUI();
 
-            durationSelector.addEventListener('change', (e) => {
-                const newDuration = e.target.value;
-                this.chordDuration = parseFloat(newDuration);
-                localStorage.setItem('piano_chord_duration', newDuration);
+        // Duration cycle button
+        const durationBtn = this.overlay.querySelector('#pianoDurationCycleBtn');
+        if (durationBtn) {
+            durationBtn.addEventListener('click', () => {
+                this.cycleDuration();
             });
         }
 
@@ -687,6 +697,32 @@ class PianoChordOverlay {
 
         // Restore body scroll
         document.body.style.overflow = '';
+    }
+
+    cycleDuration() {
+        const currentIndex = this.durationSteps.findIndex(s => s.value === this.chordDuration);
+        const nextIndex = (currentIndex + 1) % this.durationSteps.length;
+        const nextStep = this.durationSteps[nextIndex];
+
+        this.chordDuration = nextStep.value;
+
+        // Save preference
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('piano_chord_duration', this.chordDuration);
+        }
+
+        this.updateDurationUI();
+    }
+
+    updateDurationUI() {
+        if (!this.overlay) return;
+        const durationBtn = this.overlay.querySelector('#pianoDurationCycleBtn');
+        if (!durationBtn) return;
+
+        const currentStep = this.durationSteps.find(s => s.value === this.chordDuration) || this.durationSteps[1];
+        const iconContainer = durationBtn.querySelector('.duration-icon-container');
+
+        if (iconContainer) iconContainer.innerHTML = currentStep.icon;
     }
 }
 
