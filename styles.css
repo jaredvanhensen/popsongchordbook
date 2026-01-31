@@ -4630,11 +4630,12 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-detail-action-btn .label {
-    font-size: clamp(8px, 2vw, 10px);
+    font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;
     text-transform: lowercase;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 6px;
 }
 
 .song-detail-action-btn:hover {
@@ -7787,25 +7788,51 @@ td:has(.row-edit-input.input-focused) {
 .song-detail-practice-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 10px;
+    gap: 4px;
+    padding: 8px 10px;
     background: rgba(255, 255, 255, 0.08);
-    /* Slightly lighter */
-    border-radius: 10px;
+    border-radius: 12px;
     margin: 0;
-    /* Removed margin */
+}
+
+.song-detail-key-badge .key-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: lowercase;
 }
 
 .practice-count-badge {
     background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
     color: white;
-    padding: 4px 10px;
+    padding: 2px 8px;
     border-radius: 20px;
     font-weight: 700;
-    font-size: 14px;
-    min-width: 32px;
+    font-size: 12px;
+    min-width: 24px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    margin-right: -20px;
+    position: relative;
+    z-index: 2;
+}
+
+#songDetailPracticeIncrementBtn {
+    width: 90px !important;
+    height: 60px !important;
+}
+
+#songDetailPracticeIncrementBtn .icon {
+    font-size: 32px !important;
+    margin-top: 13px !important;
+    margin-bottom: 2px !important;
+}
+
+#songDetailPracticeIncrementBtn .label {
+    white-space: nowrap !important;
+    font-size: 0.75rem !important;
+    opacity: 0.6 !important;
+    margin-top: 8px !important;
 }
 
 #songDetailPracticeIncrementBtn:hover {
