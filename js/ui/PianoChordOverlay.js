@@ -14,11 +14,15 @@ class PianoChordOverlay {
         this.audioPlayer = audioPlayer || new PianoAudioPlayer();
         this.isAudioInitialized = false;
         this.chordDuration = 0.5; // Default: 1 count halved
+        this.deduplicate = false; // Default: chronological
 
-        // Try to load saved duration
+        // Try to load saved preferences
         if (typeof localStorage !== 'undefined') {
-            const saved = localStorage.getItem('piano_chord_duration');
-            if (saved) this.chordDuration = parseFloat(saved);
+            const savedDuration = localStorage.getItem('piano_chord_duration');
+            if (savedDuration) this.chordDuration = parseFloat(savedDuration);
+
+            const savedDeduplicate = localStorage.getItem('piano_chord_deduplicate');
+            if (savedDeduplicate !== null) this.deduplicate = savedDeduplicate === 'true';
         }
 
         this.createOverlay();
@@ -225,27 +229,31 @@ class PianoChordOverlay {
         if (!text) return [];
 
         // Common chord pattern: matches chords like C, Am, F#m7, Bb, Gsus4, etc.
-        // Note: We use (?![#b]) at the end instead of \b because # and b are not word characters,
-        // so \b doesn't work correctly after accidentals (e.g., D# would only match D)
         const chordPattern = /(?:^|[\s,|(\[])([A-Ga-g][#b]?(?:m|min|maj|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)(?=[\s,|)\]:]|$)/g;
 
         // Use matchAll to get capture groups (the chord without leading whitespace)
         const matches = [...text.matchAll(chordPattern)];
 
-        // Remove duplicates while preserving order
+        const chords = [];
         const seen = new Set();
-        const uniqueChords = [];
 
         for (const match of matches) {
             // match[1] is the captured chord (without leading whitespace/delimiter)
             const normalized = match[1].trim();
-            if (!seen.has(normalized) && this.parseChord(normalized)) {
-                seen.add(normalized);
-                uniqueChords.push(normalized);
+
+            if (this.deduplicate) {
+                if (!seen.has(normalized) && this.parseChord(normalized)) {
+                    seen.add(normalized);
+                    chords.push(normalized);
+                }
+            } else {
+                if (this.parseChord(normalized)) {
+                    chords.push(normalized);
+                }
             }
         }
 
-        return uniqueChords;
+        return chords;
     }
 
     createOverlay() {
@@ -276,6 +284,12 @@ class PianoChordOverlay {
                                 <option value="1.5">3 Counts</option>
                                 <option value="2.0">4 Counts</option>
                             </select>
+                        </div>
+                        <div class="sound-selector-wrapper">
+                            <button id="pianoDeduplicateToggle" class="piano-toggle-btn ${this.deduplicate ? 'active' : ''}" title="Toggle Unique vs Chronological Chords">
+                                <span class="toggle-icon">🗂️</span>
+                                <span class="toggle-label">${this.deduplicate ? 'Unique' : 'All'}</span>
+                            </button>
                         </div>
                     </div>
                     <button class="piano-chord-close" id="pianoChordClose">&times;</button>
@@ -336,6 +350,27 @@ class PianoChordOverlay {
                 const newDuration = e.target.value;
                 this.chordDuration = parseFloat(newDuration);
                 localStorage.setItem('piano_chord_duration', newDuration);
+            });
+        }
+
+        // Deduplication toggle
+        const deduplicateToggle = this.overlay.querySelector('#pianoDeduplicateToggle');
+        if (deduplicateToggle) {
+            deduplicateToggle.addEventListener('click', () => {
+                this.deduplicate = !this.deduplicate;
+
+                // Update UI state
+                deduplicateToggle.classList.toggle('active', this.deduplicate);
+                const label = deduplicateToggle.querySelector('.toggle-label');
+                if (label) label.textContent = this.deduplicate ? 'Unique' : 'All';
+
+                // Save preference
+                localStorage.setItem('piano_chord_deduplicate', this.deduplicate);
+
+                // Re-render current section if visible
+                if (this.isVisible && this.lastChordText) {
+                    this.show(this.sectionName, this.lastChordText);
+                }
             });
         }
     }
@@ -608,6 +643,7 @@ class PianoChordOverlay {
 
     show(sectionName, chordText) {
         this.sectionName = sectionName;
+        this.lastChordText = chordText; // Store for re-rendering on toggle
 
         // Extract chords from the text
         const chords = this.extractChordsFromText(chordText);

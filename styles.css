@@ -6309,6 +6309,42 @@ td:has(.row-edit-input.input-focused) {
     transform: scale(1.1);
 }
 
+/* Toggle Button in Header */
+.piano-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0 10px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.piano-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.piano-toggle-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #fbbf24;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.piano-toggle-btn .toggle-icon {
+    font-size: 1em;
+}
+
+.piano-toggle-btn .toggle-label {
+    font-weight: 600;
+}
+
 .piano-chord-body {
     padding: 25px;
     overflow-y: auto;
