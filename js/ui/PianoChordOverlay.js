@@ -15,6 +15,8 @@ class PianoChordOverlay {
         this.isAudioInitialized = false;
         this.chordDuration = 0.5; // Default: 1 count halved
         this.deduplicate = false; // Default: chronological
+        this.currentBlockIndex = 0;
+        this.allBlocks = []; // Array of { name, text }
 
         // Try to load saved preferences
         if (typeof localStorage !== 'undefined') {
@@ -283,8 +285,12 @@ class PianoChordOverlay {
         this.overlay.innerHTML = `
             <div class="piano-chord-modal">
                 <div class="piano-chord-header">
-                    <div class="header-main">
+                    <div class="header-row-top">
                         <h3 id="pianoChordTitle">Piano Chords</h3>
+                        <button class="piano-chord-close" id="pianoChordClose">&times;</button>
+                    </div>
+                    <div class="header-row-bottom">
+                        <button id="pianoBlockPrev" class="piano-nav-btn" title="Previous Block">‹</button>
                         <div class="sound-selector-wrapper">
                             <span class="sound-icon" title="Select Instrument">🔊</span>
                             <select id="pianoSoundSelector" class="piano-sound-selector">
@@ -305,8 +311,8 @@ class PianoChordOverlay {
                                 <span class="toggle-label">${this.deduplicate ? 'Unique' : 'All'}</span>
                             </button>
                         </div>
+                        <button id="pianoBlockNext" class="piano-nav-btn" title="Next Block">›</button>
                     </div>
-                    <button class="piano-chord-close" id="pianoChordClose">&times;</button>
                 </div>
                 <div class="piano-chord-body">
                     <div class="piano-chord-list" id="pianoChordList">
@@ -379,8 +385,26 @@ class PianoChordOverlay {
 
                 // Re-render current section if visible
                 if (this.isVisible && this.lastChordText) {
-                    this.show(this.sectionName, this.lastChordText);
+                    this.refreshChordList();
                 }
+            });
+        }
+
+        // Block Navigation
+        const prevBtn = this.overlay.querySelector('#pianoBlockPrev');
+        const nextBtn = this.overlay.querySelector('#pianoBlockNext');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.navigateBlock(-1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.navigateBlock(1);
             });
         }
     }
@@ -651,21 +675,60 @@ class PianoChordOverlay {
         }
     }
 
-    show(sectionName, chordText) {
-        this.sectionName = sectionName;
-        this.lastChordText = chordText; // Store for re-rendering on toggle
+    show(blocks, startIndex = 0) {
+        if (!Array.isArray(blocks)) {
+            // Backward compatibility for old show(sectionName, chordText) signature
+            this.allBlocks = [{ name: arguments[0], text: arguments[1] }];
+            this.currentBlockIndex = 0;
+        } else {
+            this.allBlocks = blocks;
+            this.currentBlockIndex = Math.max(0, Math.min(startIndex, blocks.length - 1));
+        }
 
-        // Extract chords from the text
-        const chords = this.extractChordsFromText(chordText);
-        this.currentChords = chords;
+        this.refreshSection();
+
+        // Show overlay
+        this.overlay.classList.remove('hidden');
+        this.isVisible = true;
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+    }
+
+    refreshSection() {
+        const currentBlock = this.allBlocks[this.currentBlockIndex];
+        if (!currentBlock) return;
+
+        this.sectionName = currentBlock.name;
+        this.lastChordText = currentBlock.text;
+
+        // Update Nav buttons visibility/state
+        const prevBtn = this.overlay.querySelector('#pianoBlockPrev');
+        const nextBtn = this.overlay.querySelector('#pianoBlockNext');
+
+        if (prevBtn) {
+            prevBtn.disabled = this.currentBlockIndex === 0;
+            prevBtn.style.visibility = this.currentBlockIndex > 0 ? 'visible' : 'hidden';
+        }
+        if (nextBtn) {
+            nextBtn.disabled = this.currentBlockIndex === this.allBlocks.length - 1;
+            nextBtn.style.visibility = this.currentBlockIndex < this.allBlocks.length - 1 ? 'visible' : 'hidden';
+        }
 
         // Update title
         const title = this.overlay.querySelector('#pianoChordTitle');
-        title.textContent = `Piano Chords - ${sectionName}`;
+        title.textContent = `Piano Chords - ${this.sectionName}`;
 
-        // Clear and populate chord list
+        this.refreshChordList();
+    }
+
+    refreshChordList() {
         const chordList = this.overlay.querySelector('#pianoChordList');
         chordList.innerHTML = '';
+
+        // Recalculate chords since deduplicate might have changed
+        const chords = this.extractChordsFromText(this.lastChordText);
+        this.currentChords = chords;
 
         if (chords.length === 0) {
             chordList.innerHTML = `
@@ -682,12 +745,6 @@ class PianoChordOverlay {
                 }
             });
         }
-
-        // Show overlay
-        this.overlay.classList.remove('hidden');
-        this.isVisible = true;
-
-        // Prevent body scroll
         document.body.style.overflow = 'hidden';
     }
 
@@ -723,6 +780,14 @@ class PianoChordOverlay {
         const iconContainer = durationBtn.querySelector('.duration-icon-container');
 
         if (iconContainer) iconContainer.innerHTML = currentStep.icon;
+    }
+
+    navigateBlock(delta) {
+        const newIndex = this.currentBlockIndex + delta;
+        if (newIndex >= 0 && newIndex < this.allBlocks.length) {
+            this.currentBlockIndex = newIndex;
+            this.refreshSection();
+        }
     }
 }
 

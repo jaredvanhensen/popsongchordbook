@@ -1188,6 +1188,103 @@ header h1 {
     }
 }
 
+/* Overlay Header Styles (Piano/Editor) */
+.piano-chord-header,
+.chord-progression-header {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    gap: 15px;
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-row-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    min-height: 30px;
+}
+
+.header-row-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.header-row-top h3 {
+    margin: 0 !important;
+    font-size: 1.3em !important;
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Nav buttons - clean character style (no ovals) */
+.piano-nav-btn {
+    background: none !important;
+    border: none !important;
+    color: white;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2.2em;
+    line-height: 1;
+    transition: all 0.2s ease;
+    user-select: none;
+    flex-shrink: 0;
+    padding: 0 10px;
+}
+
+.piano-nav-btn:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.piano-nav-btn:active {
+    transform: scale(0.9);
+}
+
+.piano-nav-btn:disabled {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.piano-chord-close,
+.chord-progression-close {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4em;
+    transition: all 0.2s ease;
+}
+
+.piano-chord-close:hover,
+.chord-progression-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
 .deselect-btn {
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -3355,8 +3452,23 @@ td:has(.row-edit-input.input-focused) {
     display: block;
     margin-bottom: 8px;
     color: var(--text-color);
-    font-weight: 500;
-    font-size: 0.95em;
+    flex-shrink: 0;
+}
+
+.piano-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.piano-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.header-right-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 /* Ensure songs-selection-container takes available space */
@@ -6712,23 +6824,48 @@ td:has(.row-edit-input.input-focused) {
         border-radius: 16px;
     }
 
-    .piano-chord-header {
-        padding: 15px 20px;
+    /* Mobile adjustments for 2-row header */
+    .piano-chord-header,
+    .chord-progression-header {
+        padding: 12px 15px;
         flex-direction: column;
+        /* Changed to column for 2-row layout */
         align-items: flex-start;
+        /* Align items to start for better layout */
+        justify-content: center;
+        /* Center content vertically */
+        min-height: 80px;
         gap: 12px;
     }
 
-    .piano-chord-header .header-main {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 10px;
-        flex-wrap: wrap;
+    .piano-chord-header h3,
+    .chord-progression-header h3 {
+        font-size: 1.2em !important;
+        /* Increased font size */
+        width: auto !important;
+        text-align: left;
+        /* Align text to left */
     }
 
-    .piano-chord-header h3 {
-        font-size: 1.2em;
-        width: 100%;
+    .header-row-top h3 {
+        font-size: 1.2em !important;
+    }
+
+    .header-row-bottom {
+        gap: 10px;
+    }
+
+    .piano-nav-btn {
+        font-size: 1.8em;
+        padding: 0 5px;
+    }
+
+    .header-main {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
     }
 
     .piano-chord-close {

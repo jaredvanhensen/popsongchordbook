@@ -662,16 +662,18 @@ class SongDetailModal {
                 const section = this.sections[sectionKey];
 
                 if (section && section.content && this.pianoChordOverlay) {
-                    const chordText = section.content.textContent || '';
-                    const sectionNames = {
-                        'verse': 'Block 1',
-                        'chorus': 'Block 2',
-                        'preChorus': 'Block 3',
-                        'bridge': 'Block 4'
-                    };
-                    const sectionName = sectionNames[sectionKey] || sectionKey;
+                    // Gather all blocks for navigation
+                    const blocks = [
+                        { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.content.textContent || '' },
+                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.content.textContent || '' },
+                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.content.textContent || '' },
+                        { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.content.textContent || '' }
+                    ];
 
-                    this.pianoChordOverlay.show(sectionName, chordText);
+                    const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
+                    const startIndex = sectionKeyToIdx[sectionKey] || 0;
+
+                    this.pianoChordOverlay.show(blocks, startIndex);
                 }
             });
         });
@@ -690,39 +692,38 @@ class SongDetailModal {
                 const section = this.sections[sectionKey];
 
                 if (section && section.content && this.chordProgressionEditor) {
-                    const sectionNames = {
-                        'verse': 'Block 1',
-                        'chorus': 'Block 2',
-                        'preChorus': 'Block 3',
-                        'bridge': 'Block 4'
-                    };
-                    const sectionName = sectionNames[sectionKey] || sectionKey;
+                    // Gather all blocks for navigation
+                    const blocks = [
+                        { name: this.sections.verse.title.textContent || 'Block 1', field: this.sections.verse.content, songKey: this.getSongKey() },
+                        { name: this.sections.chorus.title.textContent || 'Block 2', field: this.sections.chorus.content, songKey: this.getSongKey() },
+                        { name: this.sections.preChorus.title.textContent || 'Block 3', field: this.sections.preChorus.content, songKey: this.getSongKey() },
+                        { name: this.sections.bridge.title.textContent || 'Block 4', field: this.sections.bridge.content, songKey: this.getSongKey() }
+                    ];
 
-                    // Get song key (explicit or detected)
-                    let songKey = '';
-                    if (this.currentSongId) {
-                        const song = this.songManager.getSongById(this.currentSongId);
-                        if (song) {
-                            songKey = song.key || '';
-                            // If no explicit key, try to detect it
-                            if (!songKey.trim() && this.keyDetector) {
-                                songKey = this.keyDetector.detectFromSong(song) || '';
-                            }
-                        }
-                    }
+                    const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
+                    const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
                     this.chordProgressionEditor.show(
-                        sectionName,
-                        section.content,
-                        songKey,
+                        blocks,
+                        startIndex,
                         (progression) => {
-                            // Callback when chords are added
                             this.checkForChanges();
                         }
                     );
                 }
             });
         });
+    }
+
+    getSongKey() {
+        if (!this.currentSongId) return '';
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return '';
+        let songKey = song.key || '';
+        if (!songKey.trim() && this.keyDetector) {
+            songKey = this.keyDetector.detectFromSong(song) || '';
+        }
+        return songKey;
     }
 
     setupEditableFields() {

@@ -8,6 +8,8 @@ class ChordProgressionEditor {
         this.targetFieldName = '';
         this.onComplete = null;
         this.draggedProgressionBlock = null;
+        this.allBlocks = []; // Array of { name, field, songKey }
+        this.currentBlockIndex = 0;
 
         // Initialize audio player (reuse PianoAudioPlayer)
         this.audioPlayer = audioPlayer || new PianoAudioPlayer();
@@ -167,12 +169,18 @@ class ChordProgressionEditor {
         this.overlay.innerHTML = `
             <div class="chord-progression-modal">
                 <div class="chord-progression-header">
-                    <h3>Chord Progression Editor</h3>
-                    <div style="display:flex; gap:10px;">
-                        <button id="openChordFinderBtn" class="btn-secondary" style="padding:5px 10px; font-size:0.85em;" title="Find Chord by Notes">
-                            🔍 Find Chord
-                        </button>
+                    <div class="header-row-top">
+                        <h3 id="chordProgressionTitle">Chord Progression Editor</h3>
                         <button class="chord-progression-close" id="chordProgressionClose">&times;</button>
+                    </div>
+                    <div class="header-row-bottom">
+                        <button id="editorBlockPrev" class="piano-nav-btn" title="Previous Block">‹</button>
+                        <div style="display:flex; gap:10px; align-items: center;">
+                            <button id="openChordFinderBtn" class="btn-secondary" style="padding:5px 10px; font-size:0.85em;" title="Find Chord by Notes">
+                                🔍 Find Chord
+                            </button>
+                        </div>
+                        <button id="editorBlockNext" class="piano-nav-btn" title="Next Block">›</button>
                     </div>
                 </div>
                 <div class="chord-progression-body">
@@ -282,6 +290,24 @@ class ChordProgressionEditor {
                 if (this.chordFinderModal) {
                     this.chordFinderModal.show();
                 }
+            });
+        }
+
+        // Block Navigation
+        const prevBtn = this.overlay.querySelector('#editorBlockPrev');
+        const nextBtn = this.overlay.querySelector('#editorBlockNext');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.navigateBlock(-1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.navigateBlock(1);
             });
         }
     }
@@ -1012,43 +1038,23 @@ class ChordProgressionEditor {
         });
     }
 
-    show(sectionName, targetField, songKey, onComplete) {
-        this.targetField = targetField;
-        this.targetFieldName = sectionName;
-        this.onComplete = onComplete;
-        this.draggedProgressionBlock = null;
-
-        // Set the key from song or default to C
-        if (songKey && this.scaleChords[songKey]) {
-            this.currentKey = songKey;
-        } else if (songKey) {
-            // Try to find matching key (case insensitive, handle variations)
-            const normalizedKey = this.normalizeKey(songKey);
-            if (normalizedKey && this.scaleChords[normalizedKey]) {
-                this.currentKey = normalizedKey;
-            } else {
-                this.currentKey = 'C';
-            }
+    show(blocks, startIndex = 0, onComplete = null) {
+        if (!Array.isArray(blocks)) {
+            // Backward compatibility
+            this.allBlocks = [{
+                name: arguments[0],
+                field: arguments[1],
+                songKey: arguments[2]
+            }];
+            this.currentBlockIndex = 0;
+            this.onComplete = arguments[3];
         } else {
-            this.currentKey = 'C';
+            this.allBlocks = blocks;
+            this.currentBlockIndex = Math.max(0, Math.min(startIndex, blocks.length - 1));
+            this.onComplete = onComplete;
         }
 
-        // Set key selector value
-        const keySelector = this.overlay.querySelector('#keySelector');
-        keySelector.value = this.currentKey;
-
-        // Clear existing progression blocks
-        this.clearProgressionBlocks();
-
-        // Parse existing chords from field and add as blocks
-        const existingChords = targetField ? targetField.textContent.trim() : '';
-        if (existingChords) {
-            const chords = this.parseExistingChords(existingChords);
-            chords.forEach(chord => this.addProgressionBlock(chord));
-        }
-
-        // Render chord palette
-        this.renderChordPalette();
+        this.refreshEditor();
 
         // Show overlay
         this.overlay.classList.remove('hidden');
@@ -1056,6 +1062,74 @@ class ChordProgressionEditor {
 
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
+    }
+
+    refreshEditor() {
+        const currentBlock = this.allBlocks[this.currentBlockIndex];
+        if (!currentBlock) return;
+
+        this.targetField = currentBlock.field;
+        this.targetFieldName = currentBlock.name;
+        this.draggedProgressionBlock = null;
+
+        // Update Nav buttons
+        const prevBtn = this.overlay.querySelector('#editorBlockPrev');
+        const nextBtn = this.overlay.querySelector('#editorBlockNext');
+
+        if (prevBtn) {
+            prevBtn.disabled = this.currentBlockIndex === 0;
+            prevBtn.style.visibility = this.currentBlockIndex > 0 ? 'visible' : 'hidden';
+        }
+        if (nextBtn) {
+            nextBtn.disabled = this.currentBlockIndex === this.allBlocks.length - 1;
+            nextBtn.style.visibility = this.currentBlockIndex < this.allBlocks.length - 1 ? 'visible' : 'hidden';
+        }
+
+        // Update Title
+        const title = this.overlay.querySelector('#chordProgressionTitle');
+        title.textContent = `Chord Editor - ${this.targetFieldName}`;
+
+        // Set the key
+        const songKey = currentBlock.songKey;
+        if (songKey && this.scaleChords[songKey]) {
+            this.currentKey = songKey;
+        } else if (songKey) {
+            const normalizedKey = this.normalizeKey(songKey);
+            this.currentKey = (normalizedKey && this.scaleChords[normalizedKey]) ? normalizedKey : 'C';
+        } else {
+            this.currentKey = 'C';
+        }
+
+        const keySelector = this.overlay.querySelector('#keySelector');
+        keySelector.value = this.currentKey;
+
+        // Clear and load chords
+        this.clearProgressionBlocks();
+        const existingChords = this.targetField ? this.targetField.textContent.trim() : '';
+        if (existingChords) {
+            const chords = this.parseExistingChords(existingChords);
+            chords.forEach(chord => this.addProgressionBlock(chord));
+        }
+
+        this.renderChordPalette();
+    }
+
+    navigateBlock(delta) {
+        // Save current progress before switching
+        this.saveCurrentProgress();
+
+        const newIndex = this.currentBlockIndex + delta;
+        if (newIndex >= 0 && newIndex < this.allBlocks.length) {
+            this.currentBlockIndex = newIndex;
+            this.refreshEditor();
+        }
+    }
+
+    saveCurrentProgress() {
+        if (this.targetField) {
+            const chords = this.getProgressionChords();
+            this.targetField.textContent = chords.join(' ');
+        }
     }
 
     parseExistingChords(text) {
