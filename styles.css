@@ -5257,7 +5257,44 @@ td:has(.row-edit-input.input-focused) {
     display: none;
 }
 
+/* PC and iPad Landscape Two-Column Layout */
+@media (min-width: 1025px),
+(min-width: 768px) and (orientation: landscape) {
+    .song-detail-body {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "verse preChorus"
+            "chorus bridge";
+        gap: 15px;
+        align-content: start;
+    }
+
+    #verseSection {
+        grid-area: verse;
+    }
+
+    #chorusSection {
+        grid-area: chorus;
+    }
+
+    #preChorusSection {
+        grid-area: preChorus;
+    }
+
+    #bridgeSection {
+        grid-area: bridge;
+    }
+
+    /* Ensure the sections take full height of their grid area if needed, 
+       but usually we want them to wrap content */
+    .song-chord-section {
+        height: min-content;
+    }
+}
+
 /* Responsive adjustments for song detail modal */
+
 /* Tablets (iPad, etc.) */
 @media (max-width: 1024px) and (min-width: 769px) {
     .song-detail-modal {
