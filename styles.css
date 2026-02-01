@@ -1494,17 +1494,17 @@ th.sortable:hover {
 }
 
 .sort-indicator::after {
-    content: 'â‡…';
+    content: '\2195';
     opacity: 0.5;
 }
 
 th.sortable.asc .sort-indicator::after {
-    content: 'â†‘';
+    content: '\2191';
     opacity: 1;
 }
 
 th.sortable.desc .sort-indicator::after {
-    content: 'â†“';
+    content: '\2193';
     opacity: 1;
 }
 
