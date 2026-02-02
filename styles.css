@@ -7924,6 +7924,16 @@ td:has(.row-edit-input.input-focused) {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+#songDetailScrollingChordsBtn .label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+    margin-left: 0;
+    text-transform: lowercase;
+}
+
 #songDetailLyricsBtn {
     background: transparent;
     border: none;
@@ -7959,7 +7969,7 @@ td:has(.row-edit-input.input-focused) {
 
 #songDetailLyricsBtn .label {
     color: rgba(255, 255, 255, 0.6);
-    font-size: 0.75rem;
+    font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;
     letter-spacing: 0.5px;
     margin-top: 5px;
