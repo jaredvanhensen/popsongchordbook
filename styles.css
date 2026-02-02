@@ -4681,13 +4681,16 @@ td:has(.row-edit-input.input-focused) {
 #songDetailPracticeBtn,
 #songDetailSaveBtn {
     width: clamp(80px, 16vw, 110px);
-    height: clamp(75px, 14vw, 90px);
-    gap: 4px;
+    height: auto !important;
+    /* Changed from fixed height to auto for alignment */
+    gap: 0px !important;
+    /* Removing gap to use margin-top consistently */
 }
 
 #songDetailPracticeBtn .icon,
 #songDetailSaveBtn .icon {
-    font-size: clamp(32px, 7vw, 42px);
+    font-size: clamp(39px, 8.5vw, 51px);
+    /* Increased by another 10% (total ~21% from original 32px-42px) */
     width: auto;
     height: auto;
 }
@@ -4696,6 +4699,8 @@ td:has(.row-edit-input.input-focused) {
 #songDetailSaveBtn .label {
     font-size: clamp(14px, 3vw, 16px);
     text-transform: lowercase;
+    margin-top: 12px !important;
+    /* Moved down another 2px (total 12px) for final alignment */
 }
 
 .song-detail-action-btn.practice-active:hover {
@@ -7910,10 +7915,10 @@ td:has(.row-edit-input.input-focused) {
 }
 
 #songDetailScrollingChordsBtn .icon {
-    width: 120px;
-    /* Increased from 80px */
-    height: 72px;
-    /* Increased from 48px */
+    width: 100px;
+    /* Reduced from 120px */
+    height: 60px;
+    /* Reduced from 72px */
     margin: 0;
     display: flex;
     align-items: center;
@@ -7929,7 +7934,7 @@ td:has(.row-edit-input.input-focused) {
     font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;
     letter-spacing: 0.5px;
-    margin-top: 5px;
+    margin-top: 6px;
     margin-left: 0;
     text-transform: lowercase;
 }
@@ -7972,7 +7977,7 @@ td:has(.row-edit-input.input-focused) {
     font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;
     letter-spacing: 0.5px;
-    margin-top: 5px;
+    margin-top: 6px;
     margin-left: 0;
     text-transform: lowercase;
 }
@@ -8130,15 +8135,6 @@ td:has(.row-edit-input.input-focused) {
     transform: scale(0.95);
 }
 
-#songDetailScrollingChordsBtn .label {
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 5px;
-    margin-left: 0;
-}
 
 .song-detail-center-actions {
     position: absolute;
