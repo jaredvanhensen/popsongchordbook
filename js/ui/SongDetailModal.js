@@ -1543,6 +1543,9 @@ class SongDetailModal {
             return;
         }
 
+        // Reset lyrics ticker scroll position for the new song
+        this.lyricsScrollPos = 0;
+
         // Save any unsaved changes before switching songs
         if (this.hasUnsavedChanges && this.currentSongId) {
             const shouldSave = await this.showUnsavedChangesDialog();
