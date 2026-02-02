@@ -56,6 +56,11 @@ class SongDetailModal {
         this.lyricsText = document.getElementById('lyricsTickerText');
         this.closeLyricsBtn = document.getElementById('closeLyricsTicker');
         this.fullLyricsInput = document.getElementById('fullLyricsInput');
+        this.lyricsEditModal = document.getElementById('lyricsEditModal');
+        this.openLyricsModalBtn = document.getElementById('openLyricsModalBtn');
+        this.lyricsEditModalClose = document.getElementById('lyricsEditModalClose');
+        this.lyricsEditDoneBtn = document.getElementById('lyricsEditDoneBtn');
+        this.lyricsStatusText = document.getElementById('lyricsStatusText');
         this.speedUpBtn = document.getElementById('lyricsSpeedUp');
         this.speedDownBtn = document.getElementById('lyricsSpeedDown');
         this.lyricsSpeedFactor = 1.0;
@@ -444,6 +449,42 @@ class SongDetailModal {
             this.youtubeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.openYouTubeUrlModal();
+            });
+        }
+
+        // Setup Lyrics Edit Modal buttons
+        if (this.openLyricsModalBtn && this.lyricsEditModal) {
+            this.openLyricsModalBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.lyricsEditModal.classList.remove('hidden');
+                if (this.fullLyricsInput) this.fullLyricsInput.focus();
+            });
+        }
+
+        if (this.lyricsEditModalClose) {
+            this.lyricsEditModalClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+            });
+        }
+
+        if (this.lyricsEditDoneBtn) {
+            this.lyricsEditDoneBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                // Update status text in parent modal
+                if (this.lyricsStatusText && this.fullLyricsInput) {
+                    const hasLyrics = this.fullLyricsInput.value.trim() !== '';
+                    this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
+                }
+            });
+        }
+
+        if (this.lyricsEditModal) {
+            this.lyricsEditModal.addEventListener('click', (e) => {
+                if (e.target === this.lyricsEditModal) {
+                    this.lyricsEditModal.classList.add('hidden');
+                }
             });
         }
 
@@ -1910,6 +1951,11 @@ class SongDetailModal {
 
         if (this.fullLyricsInput) {
             this.fullLyricsInput.value = song.fullLyrics || '';
+        }
+
+        if (this.lyricsStatusText) {
+            const hasLyrics = song.fullLyrics && song.fullLyrics.trim() !== '';
+            this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
         }
 
         // Update JSON Status
