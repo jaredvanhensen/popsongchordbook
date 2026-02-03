@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.957)");
+        console.log("Pop Song Chord Book - App Initialized (v1.958)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -165,6 +165,7 @@ class App {
         this.setupFilters();
         this.setupSearch();
         this.setupSetlists();
+        this.setlistManager.onSetlistsChanged = () => this.handleSetlistChange();
         this.setupAddSongsToSetlistModal();
         this.setupAddToSetlistSingleModal();
         this.setupImportExport();
@@ -1231,9 +1232,9 @@ class App {
             if (this.currentSetlistId) {
                 try {
                     await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
-                    alert('Song(s) toegevoegd aan setlist!');
+                    this.showHUD('Song(s) added to the playlist');
                     this.popModalState('addSongsToSetlist');
-                    this.loadAndRender();
+                    // Refresh is now handled by onSetlistsChanged listener
                 } catch (error) {
                     console.error('Error adding songs to setlist:', error);
                     alert('Error adding songs to setlist.');
@@ -2331,13 +2332,35 @@ class App {
 
     updateThemeSwitcherUI() {
         const themeSwitcherBtn = document.getElementById('themeSwitcherBtn');
-        if (!themeSwitcherBtn) return;
+        if (themeSwitcherBtn) {
+            const currentTheme = localStorage.getItem('user-theme') || 'theme-classic';
+        }
+    }
 
-        const currentTheme = localStorage.getItem('user-theme') || 'theme-classic';
+    showHUD(message, type = 'success') {
+        let hud = document.getElementById('hud-notification');
+        if (!hud) {
+            hud = document.createElement('div');
+            hud.id = 'hud-notification';
+            hud.className = 'hud-notification';
+            document.body.appendChild(hud);
+        }
 
-        // This is mostly handled by CSS body classes now, but we can add 
-        // specific logic here if we want to change icons etc.
-        // For now, the CSS borders are enough.
+        const icon = type === 'success' ? '✓' : 'ℹ';
+        hud.innerHTML = `
+            <div class="hud-icon-circle">${icon}</div>
+            <div class="hud-message">${message}</div>
+        `;
+
+        // Force reflow
+        hud.offsetHeight;
+
+        hud.classList.add('show');
+
+        if (this.hudTimeout) clearTimeout(this.hudTimeout);
+        this.hudTimeout = setTimeout(() => {
+            hud.classList.remove('show');
+        }, 2200);
     }
 }
 
@@ -2345,6 +2368,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
