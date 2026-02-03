@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.959)");
+        console.log("Pop Song Chord Book - App Initialized (v1.960)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -601,10 +601,7 @@ class App {
 
         // Apply setlist filter if a setlist is selected
         if (this.currentSetlistId) {
-            const setlist = this.setlistManager.getSetlist(this.currentSetlistId);
-            if (setlist) {
-                allSongs = allSongs.filter(song => setlist.songIds.includes(song.id));
-            }
+            allSongs = this.setlistManager.getSongsInSetlist(this.currentSetlistId, allSongs);
         }
 
         // Apply search filter if search term exists
@@ -1790,23 +1787,45 @@ class App {
         }, 50);
     }
 
-    async handleRemoveFromSetlist(songId) {
-        if (this.currentSetlistId) {
-            await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
-            this.loadAndRender();
-        }
+    handleRemoveFromSetlist(songId) {
+        const song = this.songManager.getSongById(songId);
+        const title = song ? song.title : 'this song';
+
+        this.showConfirm({
+            title: 'Remove from setlist?',
+            message: `Remove "${title}" from the current setlist?\n(Song will stay in your library)`,
+            confirmText: 'Remove',
+            type: 'danger'
+        }, async (confirmed) => {
+            if (confirmed) {
+                await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
+                this.showHUD('Song removed from playlist');
+            }
+        });
     }
 
-    async handleDelete(songId) {
-        if (await this.songManager.deleteSong(songId)) {
-            // Remove song from all setlists
-            const setlists = this.setlistManager.getAllSetlists();
-            for (const setlist of setlists) {
-                await this.setlistManager.removeSongFromSetlist(setlist.id, songId);
+    handleDelete(songId) {
+        const song = this.songManager.getSongById(songId);
+        const title = song ? song.title : 'this song';
+
+        this.showConfirm({
+            title: 'Delete Song?',
+            message: `Are you sure you want to permanently delete "${title}"?`,
+            confirmText: 'Delete',
+            type: 'danger'
+        }, async (confirmed) => {
+            if (confirmed) {
+                if (await this.songManager.deleteSong(songId)) {
+                    // Remove song from all setlists
+                    const setlists = this.setlistManager.getAllSetlists();
+                    for (const setlist of setlists) {
+                        await this.setlistManager.removeSongFromSetlist(setlist.id, songId);
+                    }
+                    this.showHUD('Song deleted');
+                    this.loadAndRender();
+                }
             }
-            // Re-render table
-            this.loadAndRender();
-        }
+        });
     }
 
     handlePlayYouTube(songId) {
@@ -2362,12 +2381,61 @@ class App {
             hud.classList.remove('show');
         }, 2200);
     }
+
+    showConfirm(options, callback) {
+        let overlay = document.getElementById('custom-confirm-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'custom-confirm-overlay';
+            overlay.className = 'custom-confirm-overlay';
+            document.body.appendChild(overlay);
+        }
+
+        const title = options.title || 'Are you sure?';
+        const message = options.message || '';
+        const confirmText = options.confirmText || 'Confirm';
+        const cancelText = options.cancelText || 'Cancel';
+        const type = options.type || 'primary'; // 'primary' or 'danger'
+
+        const btnClass = type === 'danger' ? 'confirm-btn-danger' : 'confirm-btn-primary';
+
+        overlay.innerHTML = `
+            <div class="confirm-modal">
+                <div class="confirm-title">${title}</div>
+                <div class="confirm-message">${message}</div>
+                <div class="confirm-buttons">
+                    <button class="confirm-btn confirm-btn-cancel">${cancelText}</button>
+                    <button class="confirm-btn ${btnClass}">${confirmText}</button>
+                </div>
+            </div>
+        `;
+
+        // Force reflow
+        overlay.offsetHeight;
+        overlay.classList.add('show');
+
+        const close = (result) => {
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                if (callback) callback(result);
+            }, 300);
+        };
+
+        overlay.querySelector('.confirm-btn-cancel').onclick = () => close(false);
+        overlay.querySelector(`.confirm-btn.${btnClass}`).onclick = () => close(true);
+
+        // Close on overlay click (cancel)
+        overlay.onclick = (e) => {
+            if (e.target === overlay) close(false);
+        };
+    }
 }
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
