@@ -8751,21 +8751,25 @@ td:has(.row-edit-input.input-focused) {
     /* Solid background for visibility */
     padding: 8px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 2px solid #6366f1 !important;
+    /* Indigo diagnostic border */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
     /* Stronger shadow */
-    z-index: 10010;
+    z-index: 999999 !important;
+    /* Extreme priority */
     pointer-events: auto;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(-5px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
     width: 250px;
     /* Forces 2-3 rows on mobile */
     max-width: 90vw;
 }
 
 .title-suggestions-container.visible {
-    opacity: 1;
+    opacity: 1 !important;
+    visibility: visible !important;
     transform: translateY(0);
 }
 
