@@ -8357,8 +8357,8 @@ td:has(.row-edit-input.input-focused) {
     #songDetailPracticeBtn .icon {
         margin-top: -3px !important;
         /* Moved icon up another 3px on mobile as requested (0px -> -3px) */
-        font-size: clamp(43px, 9.4vw, 56px) !important;
-        /* Increased size by 10% for mobile (base: 39px-51px -> 43px-56px) */
+        font-size: clamp(41px, 8.9vw, 54px) !important;
+        /* Reduced size by 5% as requested (was 10% increase, now ~5% increase from base) */
     }
 
     /* Thinner stroke for tiny mobile stars */
