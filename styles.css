@@ -8742,25 +8742,26 @@ td:has(.row-edit-input.input-focused) {
 /* Block Title Suggestions */
 .title-suggestions-container {
     position: absolute;
-    bottom: calc(100% + 8px);
+    top: calc(100% + 4px);
     left: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 8px;
     border-radius: 12px;
     border: 1px solid rgba(135, 135, 135, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     z-index: 10001;
     pointer-events: auto;
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(-5px);
     transition: opacity 0.2s ease, transform 0.2s ease;
-    width: max-content;
-    max-width: 300px;
+    width: 250px;
+    /* Force wrapping on mobile by restricting width */
+    max-width: 90vw;
 }
 
 .title-suggestions-container.visible {
@@ -8769,18 +8770,20 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .suggestion-chip {
-    padding: 4px 10px;
+    padding: 5px 12px;
     background: #f1f5f9;
     color: #475569;
     border: 1px solid #e2e8f0;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .suggestion-chip:hover {
@@ -8790,10 +8793,13 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .suggestion-chip:active {
-    transform: translateY(0);
+    background: #cbd5e1;
+    transform: translateY(0) scale(0.95);
 }
 
 /* Ensure relative positioning for parents of titles */
-.header-top {
+.header-top,
+.chord-section-header {
     position: relative;
+    overflow: visible !important;
 }
