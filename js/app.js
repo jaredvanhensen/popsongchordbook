@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.962)");
+        console.log("Pop Song Chord Book - App Initialized (v1.964)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1228,8 +1228,16 @@ class App {
 
             if (this.currentSetlistId) {
                 try {
-                    await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
-                    this.showHUD('Song(s) added to the setlist');
+                    console.log(`Adding songs ${songIds} to setlist ${this.currentSetlistId}`);
+                    const success = await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
+
+                    if (success) {
+                        this.showHUD('Song(s) added to the setlist');
+                    } else {
+                        console.warn('Songs were already in the setlist or setlist not found.');
+                        this.showHUD('Song(s) are already in the setlist');
+                    }
+
                     this.popModalState('addSongsToSetlist');
                     // Refresh is now handled by onSetlistsChanged listener
                 } catch (error) {
@@ -2450,6 +2458,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
