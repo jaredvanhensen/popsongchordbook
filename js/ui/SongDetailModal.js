@@ -388,7 +388,7 @@ class SongDetailModal {
                             type: 'loadChordData',
                             data: song.chordData || { chords: [] },
                             youtubeUrl: song.youtubeUrl || '',
-                            title: song.title + ' - ' + song.artist
+                            title: song.artist + ' - ' + song.title
                         }, '*');
                     };
                 }
