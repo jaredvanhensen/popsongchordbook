@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.964)");
+        console.log("Pop Song Chord Book - App Initialized (v1.966)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -122,7 +122,7 @@ class App {
             history.back();
             // Popping from stack will happen in handlePopState
         } else {
-            const index = this.modalStack.findIndex(m => m.id === modalId);
+            const index = this.modalStack.findIndex(m => String(m.id) === String(modalId));
             if (index !== -1) {
                 this.modalStack.splice(index, 1);
             }
@@ -644,7 +644,7 @@ class App {
         // Restore selected row if it still exists (but don't open modal)
         if (currentSelectedId && this.tableRenderer) {
             // Check if the song still exists in the filtered list
-            const songExists = allSongs.some(song => song.id === currentSelectedId);
+            const songExists = allSongs.some(song => String(song.id) === String(currentSelectedId));
             if (songExists) {
                 // Small delay to ensure render is complete
                 setTimeout(() => {
@@ -2458,6 +2458,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
