@@ -2580,8 +2580,18 @@ class SongDetailModal {
 
         document.body.appendChild(container);
 
+        // Enforce critical styles for visibility and positioning
+        container.style.position = 'absolute';
+        container.style.zIndex = '10000';
+
         // Positioning
         const updatePosition = () => {
+            // Check if element is still in DOM
+            if (!document.body.contains(titleElement)) {
+                this.hideTitleSuggestions();
+                return;
+            }
+
             const rect = titleElement.getBoundingClientRect();
             // Position just below the element
             container.style.top = (rect.bottom + window.scrollY + 5) + 'px';
@@ -2589,28 +2599,19 @@ class SongDetailModal {
         };
         updatePosition();
 
-        // Listen for scroll/resize to update/close
-        // Context: On mobile, focusing input opens keyboard which triggers resize/scroll.
-        // We must delay attaching these listeners so we don't immediately hide the suggestions.
+        // Listen for scroll/resize to update position instead of closing
+        // This keeps the menu attached to the input field
         const scrollHandler = () => {
-            if (this.activeSuggestions) {
-                this.hideTitleSuggestions();
-            }
-        };
-
-        // Delay attaching listeners to allow keyboard animation to complete
-        const listenerTimeout = setTimeout(() => {
-            window.addEventListener('scroll', scrollHandler, true);
-            window.addEventListener('resize', scrollHandler);
-
-            // Re-update position in case layout shifted
             if (this.activeSuggestions) {
                 updatePosition();
             }
-        }, 500);
+        };
+
+        // Attach listeners immediately to track layout changes
+        window.addEventListener('scroll', scrollHandler, true);
+        window.addEventListener('resize', scrollHandler);
 
         this._suggestionCleanup = () => {
-            clearTimeout(listenerTimeout);
             window.removeEventListener('scroll', scrollHandler, true);
             window.removeEventListener('resize', scrollHandler);
         };
@@ -2624,6 +2625,14 @@ class SongDetailModal {
     }
 
     hideTitleSuggestions() {
+        // Safety check: Don't hide if the associated input is still focused
+        // This prevents accidental dismissal when clicking roughly or due to resize events
+        if (this.activeSuggestions &&
+            this.activeSuggestions._forElement &&
+            document.activeElement === this.activeSuggestions._forElement) {
+            return;
+        }
+
         if (this.activeSuggestions) {
             if (this.activeSuggestions.parentNode) {
                 this.activeSuggestions.parentNode.removeChild(this.activeSuggestions);
