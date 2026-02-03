@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.955)");
+        console.log("Pop Song Chord Book - App Initialized (v1.956)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1216,6 +1216,29 @@ class App {
             checkboxes.forEach(cb => cb.checked = false);
             this.updateSelectedCount();
         });
+
+        // Add selected songs
+        addBtn.addEventListener('click', async () => {
+            const container = document.getElementById('songsListContainer');
+            const checkedBoxes = container.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)');
+            const songIds = Array.from(checkedBoxes).map(cb => cb.value);
+
+            if (songIds.length === 0) {
+                alert('Please select at least one song.');
+                return;
+            }
+
+            if (this.currentSetlistId) {
+                try {
+                    await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
+                    this.popModalState('addSongsToSetlist');
+                    this.loadAndRender();
+                } catch (error) {
+                    console.error('Error adding songs to setlist:', error);
+                    alert('Error adding songs to setlist.');
+                }
+            }
+        });
     }
     setupAddToSetlistSingleModal() {
         const modal = document.getElementById('addToSetlistSingleModal');
@@ -1288,15 +1311,20 @@ class App {
         modal.classList.remove('hidden');
     }
 
-    openAddSongsToSetlistModal(setlistId) {
+    openAddSongsToSetlistModal() {
         const modal = document.getElementById('addSongsToSetlistModal');
+        const modalTitle = document.getElementById('addSongsModalTitle');
         const searchInput = document.getElementById('addSongsSearchInput');
+        const clearSearchBtn = document.getElementById('clearAddSongsSearch');
+        const setlist = this.setlistManager.getSetlist(this.currentSetlistId);
 
-        if (!modal) return;
+        if (!modal || !setlist) return;
 
-        this.activeAddSongsSetlistId = setlistId;
+        this.activeAddSongsSetlistId = this.currentSetlistId;
         this.addSongsSearchTerm = '';
         if (searchInput) searchInput.value = '';
+        if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+        if (modalTitle) modalTitle.textContent = `Add songs to "${setlist.name}"`;
 
         this.renderAddSongsList();
 
@@ -1305,7 +1333,9 @@ class App {
             this.activeAddSongsSetlistId = null;
         });
         modal.classList.remove('hidden');
-
+        if (searchInput) {
+            setTimeout(() => searchInput.focus(), 100);
+        }
     }
 
     renderAddSongsList() {
@@ -1664,30 +1694,6 @@ class App {
         this.navigateToSong(previousSongId, false, true);
     }
 
-    openAddSongsToSetlistModal() {
-        const modal = document.getElementById('addSongsToSetlistModal');
-        const modalTitle = document.getElementById('addSongsModalTitle');
-        const searchInput = document.getElementById('addSongsSearchInput');
-        const clearSearchBtn = document.getElementById('clearAddSongsSearch');
-        const setlist = this.setlistManager.getSetlist(this.currentSetlistId);
-
-        if (setlist) {
-            this.lastAddSongsSetlistId = setlist.id;
-            this.addSongsSearchTerm = '';
-            if (searchInput) {
-                searchInput.value = '';
-            }
-            if (clearSearchBtn) {
-                clearSearchBtn.classList.add('hidden');
-            }
-            modalTitle.textContent = `Add songs to "${setlist.name}"`;
-            this.populateSongsList(setlist);
-            modal.classList.remove('hidden');
-            if (searchInput) {
-                searchInput.focus();
-            }
-        }
-    }
 
     setupCreateSongModal() {
         const modal = document.getElementById('createSongModal');
@@ -2334,6 +2340,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
