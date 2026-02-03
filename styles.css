@@ -8744,53 +8744,53 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Block Title Suggestions */
-.title-suggestions-container {
+/* Block Title Suggestions (Portal) */
+.title-suggestions-portal {
     position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: white;
     padding: 8px;
     border-radius: 12px;
-    border: 1px solid rgba(135, 135, 135, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    z-index: 10001;
-    pointer-events: auto;
-    opacity: 0;
-    transform: translateY(5px);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 99999;
+    /* Top of everything */
+    width: 280px;
+    max-width: 90vw;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    width: max-content;
-    max-width: 300px;
+    opacity: 0;
+    transform: translateY(-5px);
+    pointer-events: auto;
 }
 
-.title-suggestions-container.visible {
+.title-suggestions-portal.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
 .suggestion-chip {
-    padding: 4px 10px;
+    padding: 6px 12px;
     background: #f1f5f9;
     color: #475569;
     border: 1px solid #e2e8f0;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
+    user-select: none;
     white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    touch-action: manipulation;
 }
 
 .suggestion-chip:hover {
-    background: #e2e8f0;
-    color: #0f172a;
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
     transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(99, 102, 241, 0.3);
 }
 
 .suggestion-chip:active {
