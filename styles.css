@@ -1459,7 +1459,11 @@ table.simple-view tbody tr:not(:last-child) {
 
 
 thead {
-    background: var(--bg-gradient);
+    background-color: #764ba2;
+    /* Fallback for iOS */
+    background-image: var(--bg-gradient);
+    background-attachment: scroll;
+    /* Essential for iOS sticky headers */
     position: sticky;
     top: 0;
     z-index: 100;
