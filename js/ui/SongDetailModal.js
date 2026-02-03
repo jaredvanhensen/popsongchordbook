@@ -2565,6 +2565,13 @@ class SongDetailModal {
             // Touchend/Click for selection
             chip.addEventListener('click', handleSelection);
 
+            // Add touchstart for faster/more reliable mobile interaction
+            chip.addEventListener('touchstart', (e) => {
+                // Prevent ghost clicks and focus loss
+                e.preventDefault();
+                handleSelection(e);
+            });
+
             // Critical: Prevent focus loss on mousedown to keep title active
             chip.addEventListener('mousedown', (e) => e.preventDefault());
 
@@ -2583,14 +2590,27 @@ class SongDetailModal {
         updatePosition();
 
         // Listen for scroll/resize to update/close
+        // Context: On mobile, focusing input opens keyboard which triggers resize/scroll.
+        // We must delay attaching these listeners so we don't immediately hide the suggestions.
         const scrollHandler = () => {
-            // Close on scroll to avoid detached floating menu
-            this.hideTitleSuggestions();
+            if (this.activeSuggestions) {
+                this.hideTitleSuggestions();
+            }
         };
-        window.addEventListener('scroll', scrollHandler, true);
-        window.addEventListener('resize', scrollHandler);
+
+        // Delay attaching listeners to allow keyboard animation to complete
+        const listenerTimeout = setTimeout(() => {
+            window.addEventListener('scroll', scrollHandler, true);
+            window.addEventListener('resize', scrollHandler);
+
+            // Re-update position in case layout shifted
+            if (this.activeSuggestions) {
+                updatePosition();
+            }
+        }, 500);
 
         this._suggestionCleanup = () => {
+            clearTimeout(listenerTimeout);
             window.removeEventListener('scroll', scrollHandler, true);
             window.removeEventListener('resize', scrollHandler);
         };
