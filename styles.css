@@ -107,12 +107,29 @@ body.theme-classic .song-row:nth-child(even) {
 }
 
 /* Header Styling - Exact Gradients from Live Site */
-body.theme-classic thead tr {
+body.theme-classic thead {
     background: linear-gradient(to bottom right, #667eea, #764ba2) !important;
+    border-radius: 20px 20px 0 0 !important;
+}
+
+body.theme-classic thead tr {
+    background: transparent !important;
 }
 
 body.theme-classic th {
     color: white !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Specific border-radius for corner TH elements for Safari compatibility */
+body.theme-classic th:first-child {
+    border-radius: 20px 0 0 0 !important;
+}
+
+body.theme-classic th:last-child {
+    border-radius: 0 20px 0 0 !important;
 }
 
 body.theme-classic th.chorus-column {
