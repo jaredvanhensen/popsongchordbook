@@ -8754,7 +8754,7 @@ td:has(.row-edit-input.input-focused) {
     border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     /* Stronger shadow */
-    z-index: 10001;
+    z-index: 10010;
     pointer-events: auto;
     opacity: 0;
     transform: translateY(-5px);
@@ -8799,7 +8799,12 @@ td:has(.row-edit-input.input-focused) {
     transform: translateY(0) scale(0.95);
 }
 
-/* Ensure relative positioning for parents of titles */
+/* Ensure titles are responsive and parents allow overlays */
+.chord-section-title {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+}
+
 .header-top,
 .chord-section-header {
     position: relative;
