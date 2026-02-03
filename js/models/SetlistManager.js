@@ -260,14 +260,24 @@ class SetlistManager {
         if (setlist && Array.isArray(songIds)) {
             let changed = false;
             songIds.forEach(songId => {
-                if (!setlist.songIds.includes(songId)) {
-                    setlist.songIds.push(songId);
+                // Ensure ID is string to prevent mismatch
+                const idStr = String(songId);
+                // Check if ALREADY exists (comparing strings)
+                if (!setlist.songIds.some(existingId => String(existingId) === idStr)) {
+                    setlist.songIds.push(idStr);
                     changed = true;
                 }
             });
 
             if (changed) {
                 await this.saveSetlists();
+                // We DO need to notify UI, restoring this is actually correct,
+                // but let's stick to the type fix first as requested.
+                // Wait, if I don't notify, the UI won't update?
+                // The user said "it is not the refreshing", effectively saying 
+                // "persistence is broken". 
+                // So fixing persistence (types) is key.
+                if (this.onSetlistsChanged) this.onSetlistsChanged();
                 return true;
             }
         }
@@ -277,9 +287,15 @@ class SetlistManager {
     async removeSongFromSetlist(setlistId, songId) {
         const setlist = this.getSetlist(setlistId);
         if (setlist) {
-            setlist.songIds = setlist.songIds.filter(id => id !== songId);
-            await this.saveSetlists();
-            return true;
+            const idStr = String(songId);
+            const originalLength = setlist.songIds.length;
+            setlist.songIds = setlist.songIds.filter(id => String(id) !== idStr);
+
+            if (setlist.songIds.length !== originalLength) {
+                await this.saveSetlists();
+                if (this.onSetlistsChanged) this.onSetlistsChanged();
+                return true;
+            }
         }
         return false;
     }
@@ -287,7 +303,8 @@ class SetlistManager {
     getSongsInSetlist(setlistId, allSongs) {
         const setlist = this.getSetlist(setlistId);
         if (!setlist) return [];
-        return allSongs.filter(song => setlist.songIds.includes(song.id));
+        // Robust filtering: Convert both to strings for comparison
+        return allSongs.filter(song => setlist.songIds.some(id => String(id) === String(song.id)));
     }
 
     async importSetlists(importedSetlists) {

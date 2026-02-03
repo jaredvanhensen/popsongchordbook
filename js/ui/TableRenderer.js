@@ -1,6 +1,6 @@
 // TableRenderer - Tabel rendering en updates
 class TableRenderer {
-    constructor(songManager, onRowSelect, onCellEdit, onDelete, chordModal, onToggleFavorite, onPlayYouTube, keyDetector, onRemoveFromSetlist = null) {
+    constructor(songManager, onRowSelect, onCellEdit, onDelete, chordModal, onToggleFavorite, onPlayYouTube, keyDetector, onRemoveFromSetlist = null, confirmationModal = null) {
         this.songManager = songManager;
         this.onRowSelect = onRowSelect;
         this.onCellEdit = onCellEdit;
@@ -10,6 +10,7 @@ class TableRenderer {
         this.onPlayYouTube = onPlayYouTube;
         this.keyDetector = keyDetector;
         this.onRemoveFromSetlist = onRemoveFromSetlist;
+        this.confirmationModal = confirmationModal;
         this.tbody = document.getElementById('songsTableBody');
         this.selectedRowId = null;
         this.editingRowId = null;
@@ -148,9 +149,8 @@ class TableRenderer {
             removeBtn.title = 'Remove from setlist';
             removeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (confirm(`Remove "${song.title || 'this song'}" from the current setlist?\n(Song will stay in your library)`)) {
-                    this.onRemoveFromSetlist(song.id);
-                }
+                // Directly call remove - App.js handles the confirmation
+                this.onRemoveFromSetlist(song.id);
             });
             actionsCell.appendChild(removeBtn);
         }
@@ -162,10 +162,8 @@ class TableRenderer {
         deleteBtn.title = 'Delete';
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (confirm(`Are you sure you want to delete "${song.title || 'this song'}"?`)) {
-                if (this.onDelete) {
-                    this.onDelete(song.id);
-                }
+            if (this.onDelete) {
+                this.onDelete(song.id);
             }
         });
         actionsCell.appendChild(deleteBtn);

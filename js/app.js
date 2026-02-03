@@ -44,6 +44,8 @@ class App {
         this.practiceHistory = []; // Stack to keep track of practiced songs
         this.modalStack = []; // Stack to track open modals for history management
 
+        this.confirmationModal = new ConfirmationModal(); // Initialize confirmation modal
+
         this.tableRenderer = new TableRenderer(
             this.songManager,
             (songId) => this.handleRowSelect(songId),
@@ -52,7 +54,9 @@ class App {
             this.chordModal,
             (songId) => this.handleToggleFavorite(songId),
             (songId) => this.handlePlayYouTube(songId),
-            this.keyDetector
+            this.keyDetector,
+            null, // onRemoveFromSetlist - will be set in setupSetlists or init
+            this.confirmationModal // Pass confirmation modal
         );
 
         this.init();

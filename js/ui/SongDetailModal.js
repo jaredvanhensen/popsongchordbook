@@ -491,7 +491,27 @@ class SongDetailModal {
         // Setup title listeners for change detection
         Object.values(this.sections).forEach(section => {
             if (section.title) {
-                section.title.addEventListener('input', () => this.checkForChanges());
+                section.title.addEventListener('focus', () => {
+                    this.showTitleSuggestions(section.title);
+                });
+                section.title.addEventListener('blur', () => {
+                    // Delay hide to allow click on suggestion to register
+                    setTimeout(() => this.hideTitleSuggestions(), 200);
+                });
+                section.title.addEventListener('input', () => {
+                    const text = section.title.textContent;
+                    if (text.length > 38) {
+                        section.title.textContent = text.substring(0, 38);
+                        // Move cursor to end to prevent jumping to start
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+                        range.selectNodeContents(section.title);
+                        range.collapse(false);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                    this.checkForChanges();
+                });
                 section.title.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -2504,6 +2524,95 @@ class SongDetailModal {
         // Notify parent to refresh table (in case counter is visible there)
         if (this.onUpdate) {
             this.onUpdate();
+        }
+    }
+
+    showTitleSuggestions(titleElement) {
+        if (this.activeSuggestions && this.activeSuggestions._forElement === titleElement) {
+            return;
+        }
+
+        this.hideTitleSuggestions();
+
+        const container = document.createElement('div');
+        container.className = 'title-suggestions-portal';
+        container._forElement = titleElement;
+
+        const suggestions = [
+            'INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS',
+            'BRIDGE', 'INTRO & VERSE'
+        ];
+
+        suggestions.forEach(text => {
+            const chip = document.createElement('div');
+            chip.className = 'suggestion-chip';
+            chip.textContent = text;
+
+            const handleSelection = (e) => {
+                e.preventDefault(); // Prevent blur
+                e.stopPropagation();
+                titleElement.textContent = text;
+                this.checkForChanges();
+                // Character limit check
+                if (titleElement.textContent.length > 38) {
+                    titleElement.textContent = titleElement.textContent.substring(0, 38);
+                }
+                this.hideTitleSuggestions();
+                // Blur to finish
+                titleElement.blur();
+            };
+
+            // Touchend/Click for selection
+            chip.addEventListener('click', handleSelection);
+
+            // Critical: Prevent focus loss on mousedown to keep title active
+            chip.addEventListener('mousedown', (e) => e.preventDefault());
+
+            container.appendChild(chip);
+        });
+
+        document.body.appendChild(container);
+
+        // Positioning
+        const updatePosition = () => {
+            const rect = titleElement.getBoundingClientRect();
+            // Position just below the element
+            container.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+            container.style.left = (rect.left + window.scrollX) + 'px';
+        };
+        updatePosition();
+
+        // Listen for scroll/resize to update/close
+        const scrollHandler = () => {
+            // Close on scroll to avoid detached floating menu
+            this.hideTitleSuggestions();
+        };
+        window.addEventListener('scroll', scrollHandler, true);
+        window.addEventListener('resize', scrollHandler);
+
+        this._suggestionCleanup = () => {
+            window.removeEventListener('scroll', scrollHandler, true);
+            window.removeEventListener('resize', scrollHandler);
+        };
+
+        // Animate in
+        requestAnimationFrame(() => {
+            container.classList.add('visible');
+        });
+
+        this.activeSuggestions = container;
+    }
+
+    hideTitleSuggestions() {
+        if (this.activeSuggestions) {
+            if (this.activeSuggestions.parentNode) {
+                this.activeSuggestions.parentNode.removeChild(this.activeSuggestions);
+            }
+            this.activeSuggestions = null;
+        }
+        if (this._suggestionCleanup) {
+            this._suggestionCleanup();
+            this._suggestionCleanup = null;
         }
     }
 }
