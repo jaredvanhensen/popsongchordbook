@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.960)");
+        console.log("Pop Song Chord Book - App Initialized (v1.961)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1229,7 +1229,7 @@ class App {
             if (this.currentSetlistId) {
                 try {
                     await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
-                    this.showHUD('Song(s) added to the playlist');
+                    this.showHUD('Song(s) added to the setlist');
                     this.popModalState('addSongsToSetlist');
                     // Refresh is now handled by onSetlistsChanged listener
                 } catch (error) {
@@ -1333,7 +1333,8 @@ class App {
         });
         modal.classList.remove('hidden');
         if (searchInput) {
-            setTimeout(() => searchInput.focus(), 100);
+            // Increase timeout slightly so it doesn't fight with the opening animation
+            setTimeout(() => searchInput.focus(), 350);
         }
     }
 
@@ -1350,7 +1351,11 @@ class App {
 
     populateSongsList(setlist) {
         const container = document.getElementById('songsListContainer');
-        container.innerHTML = '';
+        if (!container) return;
+
+        // Set a min-height while rebuilding to prevent the modal from collapsing
+        // and shifting its center point (the "flicker")
+        container.style.minHeight = container.offsetHeight > 0 ? `${container.offsetHeight}px` : '200px';
 
         if (typeof this.updateAddSongsSortControls === 'function') {
             this.updateAddSongsSortControls();
@@ -1395,50 +1400,59 @@ class App {
             });
         const songsInSetlist = setlist.songIds || [];
 
+        // Use DocumentFragment for atomic update
+        const fragment = document.createDocumentFragment();
+
         if (allSongs.length === 0) {
             const emptyMessage = document.createElement('p');
             emptyMessage.className = 'no-songs-message';
             emptyMessage.textContent = searchTerm ? 'No songs match your search.' : 'No songs available.';
-            container.appendChild(emptyMessage);
-            this.updateSelectedCount();
-            return;
+            fragment.appendChild(emptyMessage);
+        } else {
+            allSongs.forEach(song => {
+                const isInSetlist = songsInSetlist.includes(song.id);
+
+                const songItem = document.createElement('div');
+                songItem.className = 'song-item';
+                if (isInSetlist) {
+                    songItem.classList.add('in-setlist');
+                }
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'song-select-checkbox';
+                checkbox.value = song.id;
+                checkbox.id = `song-${song.id}`;
+                checkbox.disabled = isInSetlist;
+                if (isInSetlist) {
+                    checkbox.checked = true;
+                }
+
+                // Sync count on change
+                checkbox.addEventListener('change', () => this.updateSelectedCount());
+
+                const label = document.createElement('label');
+                label.htmlFor = `song-${song.id}`;
+                label.textContent = `${song.artist || 'Unknown'} - ${song.title || 'No title'}`;
+                if (isInSetlist) {
+                    label.innerHTML += ' <span class="in-setlist-badge">(already in setlist)</span>';
+                }
+
+                songItem.appendChild(checkbox);
+                songItem.appendChild(label);
+                fragment.appendChild(songItem);
+            });
         }
 
-        allSongs.forEach(song => {
-            const isInSetlist = songsInSetlist.includes(song.id);
+        // Apply all at once
+        container.innerHTML = '';
+        container.appendChild(fragment);
 
-            const songItem = document.createElement('div');
-            songItem.className = 'song-item';
-            if (isInSetlist) {
-                songItem.classList.add('in-setlist');
-            }
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'song-select-checkbox';
-            checkbox.value = song.id;
-            checkbox.id = `song-${song.id}`;
-            checkbox.disabled = isInSetlist;
-            if (isInSetlist) {
-                checkbox.checked = true;
-            }
-
-            // Sync count on change
-            checkbox.addEventListener('change', () => this.updateSelectedCount());
-
-            const label = document.createElement('label');
-            label.htmlFor = `song-${song.id}`;
-            label.textContent = `${song.artist || 'Unknown'} - ${song.title || 'No title'}`;
-            if (isInSetlist) {
-                label.innerHTML += ' <span class="in-setlist-badge">(already in setlist)</span>';
-            }
-
-            songItem.appendChild(checkbox);
-            songItem.appendChild(label);
-            container.appendChild(songItem);
+        // Remove min-height after a brief delay to allow layout to settle
+        requestAnimationFrame(() => {
+            container.style.minHeight = '';
+            this.updateSelectedCount();
         });
-
-        this.updateSelectedCount();
     }
 
     updateSelectedCount() {
@@ -1799,7 +1813,8 @@ class App {
         }, async (confirmed) => {
             if (confirmed) {
                 await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
-                this.showHUD('Song removed from playlist');
+                this.showHUD('Song removed from setlist');
+                this.loadAndRender();
             }
         });
     }
@@ -2435,6 +2450,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
