@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.956)");
+        console.log("Pop Song Chord Book - App Initialized (v1.957)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1231,6 +1231,7 @@ class App {
             if (this.currentSetlistId) {
                 try {
                     await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
+                    alert('Song(s) toegevoegd aan setlist!');
                     this.popModalState('addSongsToSetlist');
                     this.loadAndRender();
                 } catch (error) {
@@ -1416,12 +1417,16 @@ class App {
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
+            checkbox.className = 'song-select-checkbox';
             checkbox.value = song.id;
             checkbox.id = `song-${song.id}`;
             checkbox.disabled = isInSetlist;
             if (isInSetlist) {
                 checkbox.checked = true;
             }
+
+            // Sync count on change
+            checkbox.addEventListener('change', () => this.updateSelectedCount());
 
             const label = document.createElement('label');
             label.htmlFor = `song-${song.id}`;
@@ -2340,6 +2345,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
