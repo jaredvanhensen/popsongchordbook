@@ -8350,8 +8350,8 @@ td:has(.row-edit-input.input-focused) {
     }
 
     #songDetailPracticeBtn .label {
-        margin-top: -1px !important;
-        /* Moved up another 2px for mobile (1px -> -1px) */
+        margin-top: 4px !important;
+        /* Set 4px gap between icon and text to match Lyrics button */
     }
 
     #songDetailPracticeBtn .icon {
