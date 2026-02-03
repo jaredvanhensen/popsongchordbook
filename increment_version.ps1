@@ -1,4 +1,4 @@
-$files = @("index.html", "songlist.html", "js/app.js")
+$files = @("index.html", "songlist.html", "js/app.js", "scrolling_chords.html")
 $versionPattern = '<span id="site-version">(\d+\.?\d*)</span>'
 $currentVersion = 0.0
 
