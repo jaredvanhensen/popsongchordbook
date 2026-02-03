@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.966)");
+        console.log("Pop Song Chord Book - App Initialized (v1.971)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1226,24 +1226,35 @@ class App {
                 return;
             }
 
-            if (this.currentSetlistId) {
+            const targetSetlistId = this.activeAddSongsSetlistId || this.currentSetlistId;
+            console.log(`[AddSongs] Targeting setlist: ${targetSetlistId} (active: ${this.activeAddSongsSetlistId}, current: ${this.currentSetlistId})`);
+
+            if (targetSetlistId) {
                 try {
-                    console.log(`Adding songs ${songIds} to setlist ${this.currentSetlistId}`);
-                    const success = await this.setlistManager.addSongsToSetlist(this.currentSetlistId, songIds);
+                    console.log(`[AddSongs] Adding ${songIds.length} songs:`, songIds);
+                    const success = await this.setlistManager.addSongsToSetlist(targetSetlistId, songIds);
 
                     if (success) {
+                        console.log(`[AddSongs] Manager returned success. Refreshing UI...`);
                         this.showHUD('Song(s) added to the setlist');
+
+                        // Explicitly refresh even if listener fails to fire
+                        this.loadAndRender();
                     } else {
-                        console.warn('Songs were already in the setlist or setlist not found.');
+                        console.warn('[AddSongs] Manager returned false (songs might already be in setlist).');
                         this.showHUD('Song(s) are already in the setlist');
+                        // Still refresh to show what's there
+                        this.loadAndRender();
                     }
 
                     this.popModalState('addSongsToSetlist');
-                    // Refresh is now handled by onSetlistsChanged listener
                 } catch (error) {
-                    console.error('Error adding songs to setlist:', error);
+                    console.error('[AddSongs] Error adding songs to setlist:', error);
                     alert('Error adding songs to setlist.');
                 }
+            } else {
+                console.error('[AddSongs] No target setlist ID found!');
+                alert('Fout: Geen setlist geselecteerd.');
             }
         });
     }
@@ -2458,6 +2469,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
