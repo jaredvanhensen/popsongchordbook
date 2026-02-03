@@ -71,7 +71,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v1.948)");
+        console.log("Pop Song Chord Book - App Initialized (v1.949)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -2334,6 +2334,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
