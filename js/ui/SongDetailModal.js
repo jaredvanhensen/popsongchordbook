@@ -382,13 +382,14 @@ class SongDetailModal {
                     // After iframe loads, send the chord data if it exists
                     scrollingChordsFrame.onload = () => {
                         const song = this.songManager.getSongById(this.currentSongId);
-                        if (song && song.chordData) {
-                            console.log('Sending chord data to Timeline view');
-                            scrollingChordsFrame.contentWindow.postMessage({
-                                type: 'loadChordData',
-                                data: song.chordData
-                            }, '*');
-                        }
+                        console.log('Sending chord data to Timeline view', song);
+                        // Send data even if chordData is empty so we can init the timeline with just youtubeUrl
+                        scrollingChordsFrame.contentWindow.postMessage({
+                            type: 'loadChordData',
+                            data: song.chordData || { chords: [] },
+                            youtubeUrl: song.youtubeUrl || '',
+                            title: song.title + ' - ' + song.artist
+                        }, '*');
                     };
                 }
 

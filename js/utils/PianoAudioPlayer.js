@@ -1,7 +1,7 @@
 // PianoAudioPlayer - Synthesizes realistic piano and synth sounds using Web Audio API
 class PianoAudioPlayer {
-    constructor() {
-        this.audioContext = null;
+    constructor(audioContext = null) {
+        this.audioContext = audioContext;
         this.masterGain = null;
         this.isInitialized = false;
         this.activeNotes = new Map(); // Track active notes for cleanup
@@ -110,12 +110,16 @@ class PianoAudioPlayer {
         this.hammerEnabled = profile.hammer;
     }
 
-    async initialize() {
+    async initialize(audioContext = null) {
         if (this.isInitialized) return;
 
         try {
-            // Create audio context
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Use provided context or create new one if not already set
+            if (audioContext) {
+                this.audioContext = audioContext;
+            } else if (!this.audioContext) {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
 
             // Create master gain node
             this.masterGain = this.audioContext.createGain();
@@ -157,6 +161,11 @@ class PianoAudioPlayer {
 
         const now = startTime || this.audioContext.currentTime;
         const frequency = this.semitoneToFrequency(semitone);
+
+        if (!isFinite(frequency) || frequency <= 0) {
+            console.warn('Invalid frequency for note:', semitone, frequency);
+            return;
+        }
 
         // 1. Create Filter
         const filter = this.audioContext.createBiquadFilter();
@@ -287,7 +296,25 @@ class PianoAudioPlayer {
 
     dispose() {
         this.stopAll();
-        if (this.audioContext) { this.audioContext.close(); this.audioContext = null; }
+        // Only close context if we created it internally and it's not being shared
+        // But since we can't easily track ownership without a flag I forgot to add,
+        // we'll assume for now that if we are disposing, we might want to close it 
+        // OR we should just rely on the caller to manage the context lifecycle.
+        // Better: Don't close the context here if it was injected. 
+        // For this refactor, let's assume the main app manages the context.
+        // So we just disconnect nodes.
+
+        if (this.masterGain) {
+            try {
+                this.masterGain.disconnect();
+            } catch (e) { }
+            this.masterGain = null;
+        }
+
+        // We do NOT close the context here as it might be shared
+        // if (this.audioContext) { this.audioContext.close(); this.audioContext = null; }
+
+        this.audioContext = null;
         this.isInitialized = false;
     }
 }

@@ -1,0 +1,32 @@
+
+function clearData() {
+    if (!confirm('Warning: This will remove all chord data for this song. Are you sure?')) {
+        return;
+    }
+
+    // Clear internal data
+    chords = [];
+    markers = [];
+    midiData = null; // Or keep structure but empty chords? Better to nullify if we want fresh start, but keep duration?
+    
+    // Reset Markers to simple time
+    const duration = 300; // Default 5 mins
+    const bpm = 120;
+    const mockMidi = {
+        duration: duration,
+        header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+    };
+    markers = generateMarkers(mockMidi);
+    midiData = mockMidi;
+
+    // Reset UI
+    chordTrack.innerHTML = '';
+    markerTrack.innerHTML = '';
+    renderStaticElements();
+    
+    // Save empty state to database
+    saveToDatabase();
+    
+    // Update status
+    statusText.innerText = 'Data cleared.';
+}

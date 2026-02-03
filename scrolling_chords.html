@@ -30,6 +30,8 @@
             <button id="exportBtn" disabled title="Download chords as JSON">💾 <span>Export JSON</span></button>
             <button id="saveBtn" disabled title="Save chords directly to song database"
                 style="background-color: #667eea; color: white;">💾 <span>Save</span></button>
+            <button id="clearDataBtn" disabled title="Remove all JSON chord data"
+                style="background-color: #e53e3e; color: white;">🗑️ <span>Clear Data</span></button>
             <button id="metronomeBtn" title="Toggle Metronome Click" class="metronome-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" class="metronome-icon">
@@ -38,6 +40,9 @@
                     <path d="M12 14l3-9" />
                 </svg>
                 <span>Metronome</span>
+            </button>
+            <button id="captureBtn" title="Record usage of Space Bar to capture timing" class="capture-btn hidden">
+                🔴 <span>Capture</span>
             </button>
             <button id="audioToggleBtn" title="Toggle Chord Audio" class="audio-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -64,11 +69,22 @@
         <!-- Chords -->
         <div class="chord-track" id="chordTrack"></div>
 
-        <!-- Count-in Overlay -->
-        <div id="countInOverlay" class="count-in-overlay hidden">
-            <div id="countInNumber"></div>
-            <div class="count-in-label">Get Ready!</div>
-        </div>
+    </div>
+
+    <div id="youtubePlayerContainer" class="youtube-player-container hidden">
+        <div id="youtubePlayer"></div>
+    </div>
+
+    <!-- Count-in Overlay -->
+    <div id="countInOverlay" class="count-in-overlay hidden">
+        <div id="countInNumber"></div>
+        <div class="count-in-label">Get Ready!</div>
+    </div>
+
+    <!-- Recording Indicator -->
+    <div id="recordingIndicator" class="recording-indicator hidden">
+        🔴 RECORDING
+    </div>
     </div>
 
     <!-- Midi Parsing Library -->
@@ -77,6 +93,7 @@
     <!-- Utils -->
     <script src="js/utils/PianoAudioPlayer.js?v=1.906"></script>
     <script src="js/utils/ChordParser.js?v=1.906"></script>
+    <script src="js/ui/ConfirmationModal.js?v=1.906"></script>
 
     <!-- App Logic -->
     <script src="js/scrolling_chords.js?v=1.906"></script>

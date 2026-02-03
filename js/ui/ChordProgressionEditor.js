@@ -145,6 +145,9 @@ class ChordProgressionEditor {
     async playChord(chordName) {
         if (!this.isAudioInitialized) {
             try {
+                // If the player already has a context, this will just return.
+                // If not, it will create one (which we want to avoid if possible, but if standalone, it's needed).
+                // Ideally, we passed a player with a context.
                 await this.audioPlayer.initialize();
                 this.isAudioInitialized = true;
             } catch (error) {
