@@ -193,7 +193,7 @@ window.addEventListener('message', (event) => {
 
     if (event.data.type === 'loadChordData') {
         console.log('Received chord data from parent');
-        loadData(event.data.data, event.data.youtubeUrl, event.data.title);
+        loadData(event.data.data, event.data.youtubeUrl, event.data.title, event.data.suggestedChords);
     }
 
     // NEW: Stop Audio Command (No-Unload Strategy)
@@ -320,7 +320,8 @@ async function processJsonFile(file) {
 
 
 
-function loadData(data, url, title) {
+
+function loadData(data, url, title, suggestedChords = []) {
     if (!data || !data.chords || !Array.isArray(data.chords)) {
         console.error('Invalid data format received');
         // If we have a YouTube URL but no chords, initialize with empty chords
@@ -333,6 +334,28 @@ function loadData(data, url, title) {
 
     if (title) {
         currentFileName = title;
+    }
+
+    // Render Suggested Chords Toolbar
+    const buttonsContainer = document.getElementById('chordButtonsContainer');
+    if (buttonsContainer) {
+        buttonsContainer.innerHTML = ''; // Clear previous
+        if (suggestedChords && suggestedChords.length > 0) {
+            buttonsContainer.classList.remove('hidden');
+            suggestedChords.forEach(chordName => {
+                const btn = document.createElement('button');
+                btn.className = 'chord-suggestion-btn';
+                btn.textContent = chordName;
+                btn.onclick = () => {
+                    if (enableTimingCapture) {
+                        recordChord(chordName);
+                    }
+                };
+                buttonsContainer.appendChild(btn);
+            });
+        } else {
+            buttonsContainer.classList.add('hidden');
+        }
     }
 
     statusText.innerText = 'Loading stored data...';
@@ -950,10 +973,30 @@ function extractVideoID(url) {
 function toggleTimingCapture() {
     enableTimingCapture = !enableTimingCapture;
 
+    // Toggle touch listener for iPad
+    const timeline = document.getElementById('timeline');
+    const touchHandler = (e) => {
+        // Prevent default zoom/scroll if necessary, though we want some scrolling maybe?
+        // e.preventDefault(); 
+        if (e.target.closest('.chord-suggestion-btn')) return; // Don't trigger if clicking buttons
+
+        recordChord("?");
+    };
+
     if (enableTimingCapture) {
         captureBtn.classList.add('active');
         recordingIndicator.classList.remove('hidden');
         youtubePlayerContainer.classList.remove('hidden');
+
+        // Add Touch/Click listener to background for easy recording
+        if (timeline) {
+            timeline.addEventListener('touchstart', touchHandler, { passive: true });
+            // Also mousedown for testing on desktop
+            timeline.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.chord-suggestion-btn')) return;
+                recordChord("?");
+            });
+        }
 
         // Set up for capture
         audioEnabled = false; // Mute piano audio while recording to focus on video
@@ -973,7 +1016,7 @@ function toggleTimingCapture() {
     }
 }
 
-function recordChord() {
+function recordChord(name = "?") {
     let currentTime;
 
     if (youtubePlayer && enableTimingCapture) {
@@ -984,7 +1027,7 @@ function recordChord() {
 
     // Add new chord
     const newChord = {
-        name: "?",
+        name: name,
         time: currentTime
     };
 

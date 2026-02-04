@@ -383,12 +383,22 @@ class SongDetailModal {
                     scrollingChordsFrame.onload = () => {
                         const song = this.songManager.getSongById(this.currentSongId);
                         console.log('Sending chord data to Timeline view', song);
+
+                        // Extract unique chords from song sections for the toolbar
+                        const fullText = (song.verse || '') + ' ' + (song.chorus || '') + ' ' + (song.preChorus || '') + ' ' + (song.bridge || '');
+                        // Regex to find chords (simplistic but effective for this app format)
+                        // Looks for Word boundaries, optional Accidentals, optional modifiers
+                        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|7|9|11|13)*\b/g;
+                        const foundChords = fullText.match(chordRegex) || [];
+                        const uniqueChords = [...new Set(foundChords)].sort();
+
                         // Send data even if chordData is empty so we can init the timeline with just youtubeUrl
                         scrollingChordsFrame.contentWindow.postMessage({
                             type: 'loadChordData',
                             data: song.chordData || { chords: [] },
                             youtubeUrl: song.youtubeUrl || '',
-                            title: song.artist + ' - ' + song.title
+                            title: song.artist + ' - ' + song.title,
+                            suggestedChords: uniqueChords // NEW: Pass chords for toolbar
                         }, '*');
                     };
                 }

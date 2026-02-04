@@ -8801,3 +8801,67 @@ td:has(.row-edit-input.input-focused) {
 .header-top {
     position: relative;
 }
+
+/* Scrolling Chords Modal Wrapper - iPad Improvements */
+.scrolling-chords-modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    /* Make transparent to see underlying chords */
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    /* Allow clicking through to background if needed, but wrapper covers all. Actually, if we want to interact with background, pointer-events: none on wrapper, and auto on content. But user just said 'see'. Safe to leave pointer-events as is for now, just visual. */
+    align-items: flex-end;
+    /* Align to bottom as requested */
+    padding-bottom: 20px;
+    /* Add some spacing from the very edge */
+    z-index: 10000;
+}
+
+.scrolling-chords-modal-wrapper.hidden {
+    display: none;
+}
+
+.scrolling-chords-content {
+    width: 95%;
+    height: 50vh;
+    /* Set to 50% of screen height */
+    background: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background */
+    backdrop-filter: blur(10px);
+    /* improved readability */
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    /* Re-enable clicks */
+}
+
+.scrolling-chords-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.scrolling-chords-close-btn:hover {
+    background: white;
+    color: #ef4444;
+}
