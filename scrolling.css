@@ -244,11 +244,20 @@ button:disabled {
 
 .marker-label {
     position: absolute;
-    top: 10px;
     left: 4px;
     font-size: 0.8rem;
     color: #94a3b8;
     font-weight: 500;
+}
+
+.marker.time .marker-label {
+    top: 10px;
+    /* Time at top */
+}
+
+.marker.bar .marker-label {
+    top: 30px;
+    /* Bar labels moved down to avoid collision */
 }
 
 .marker.bar {
@@ -556,6 +565,43 @@ button:disabled {
 .chord-suggestion-btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+/* Section-specific colors for recognition */
+.chord-type-verse {
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.chord-type-chorus {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+}
+
+.chord-type-pre-chorus {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+}
+
+.chord-type-bridge {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+}
+
+.chord-toolbar-section-header {
+    display: inline-flex;
+    align-items: center;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-right: -4px;
+    margin-left: 10px;
+    height: 24px;
+    align-self: center;
+}
+
+.chord-toolbar-section-header:first-child {
+    margin-left: 0;
 }
 
 /* Modal Styles */

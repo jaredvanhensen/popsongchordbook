@@ -356,17 +356,43 @@ function loadData(data, url, title, suggestedChords = []) {
         buttonsContainer.innerHTML = ''; // Clear previous
         if (suggestedChords && suggestedChords.length > 0) {
             buttonsContainer.classList.remove('hidden');
-            suggestedChords.forEach(chordName => {
-                const btn = document.createElement('button');
-                btn.className = 'chord-suggestion-btn';
-                btn.textContent = chordName;
-                btn.onclick = () => {
-                    if (enableTimingCapture) {
-                        recordChord(chordName);
-                    }
-                };
-                buttonsContainer.appendChild(btn);
-            });
+
+            // Render suggested chords (handle both grouped and simple array)
+            const isGrouped = typeof suggestedChords[0] === 'object' && suggestedChords[0].chords;
+
+            if (isGrouped) {
+                suggestedChords.forEach(group => {
+                    // Add Section Header Label
+                    const header = document.createElement('div');
+                    header.className = 'chord-toolbar-section-header';
+                    header.textContent = group.section;
+                    buttonsContainer.appendChild(header);
+
+                    group.chords.forEach(chordName => {
+                        const btn = document.createElement('button');
+                        btn.className = `chord-suggestion-btn chord-type-${group.type}`;
+                        btn.textContent = chordName;
+                        btn.onclick = () => {
+                            if (enableTimingCapture) {
+                                recordChord(chordName);
+                            }
+                        };
+                        buttonsContainer.appendChild(btn);
+                    });
+                });
+            } else {
+                suggestedChords.forEach(chordName => {
+                    const btn = document.createElement('button');
+                    btn.className = 'chord-suggestion-btn';
+                    btn.textContent = chordName;
+                    btn.onclick = () => {
+                        if (enableTimingCapture) {
+                            recordChord(chordName);
+                        }
+                    };
+                    buttonsContainer.appendChild(btn);
+                });
+            }
 
             // Appending "?" button as requested
             const qBtn = document.createElement('button');

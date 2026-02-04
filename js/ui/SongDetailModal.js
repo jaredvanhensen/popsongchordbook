@@ -384,13 +384,24 @@ class SongDetailModal {
                         const song = this.songManager.getSongById(this.currentSongId);
                         console.log('Sending chord data to Timeline view', song);
 
-                        // Extract unique chords from song sections for the toolbar
-                        const fullText = (song.verse || '') + ' ' + (song.chorus || '') + ' ' + (song.preChorus || '') + ' ' + (song.bridge || '');
-                        // Regex to find chords (simplistic but effective for this app format)
-                        // Looks for Word boundaries, optional Accidentals, optional modifiers
-                        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|7|9|11|13)*\b/g;
-                        const foundChords = fullText.match(chordRegex) || [];
-                        const uniqueChords = [...new Set(foundChords)].sort();
+                        // Extract unique chords from song blocks for the toolbar
+                        const sections = [
+                            { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
+                            { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+                            { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+                            { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+                        ];
+
+                        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+                        const suggestedChordsGrouped = sections.map(section => {
+                            const found = section.text.match(chordRegex) || [];
+                            // Preserve appearance order by removing .sort()
+                            return {
+                                section: section.name,
+                                type: section.type,
+                                chords: [...new Set(found)]
+                            };
+                        }).filter(group => group.chords.length > 0);
 
                         // Send data even if chordData is empty so we can init the timeline with just youtubeUrl
                         scrollingChordsFrame.contentWindow.postMessage({
@@ -398,7 +409,7 @@ class SongDetailModal {
                             data: song.chordData || { chords: [] },
                             youtubeUrl: song.youtubeUrl || '',
                             title: song.artist + ' - ' + song.title,
-                            suggestedChords: uniqueChords // NEW: Pass chords for toolbar
+                            suggestedChords: suggestedChordsGrouped // Grouped by Block
                         }, '*');
                     };
                 }
