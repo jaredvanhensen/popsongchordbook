@@ -60,7 +60,7 @@ let animationFrame;
 let isCountingIn = false;
 let countInStartTime = 0;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const PIXELS_PER_SECOND = 100; // Speed of scrolling (was 200)
+const PIXELS_PER_SECOND = 150; // Speed of scrolling (was 100, originally 200)
 
 // Capture & YouTube State
 let youtubePlayer = null;
@@ -920,9 +920,9 @@ function updateLoop() {
         if (dist < -200 || dist > window.innerWidth + 200) {
             el.style.display = 'none';
         } else {
-            // Once it hits the playhead (dist <= 0), hide it from scroll track
+            // Once it hits the playhead background block (dist < ~140), hide it from scroll track
             // because sticky display takes over
-            if (dist <= 0) {
+            if (dist < 140) {
                 el.style.opacity = '0';
             } else {
                 el.style.opacity = '1';
@@ -1065,7 +1065,8 @@ function toggleTimingCapture() {
             timeline.addEventListener('touchstart', touchHandler, { passive: true });
             // Also mousedown for testing on desktop
             timeline.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.chord-suggestion-btn')) return;
+                if (!enableTimingCapture) return;
+                if (e.target.closest('.chord-suggestion-btn') || e.target.closest('.chord-item')) return;
                 recordChord("?");
             });
         }
@@ -1120,47 +1121,63 @@ function recordChord(name = "?") {
 
     chordTrack.appendChild(el);
 
-    // Pulse effect?
+    // Flash effect?
     const currentDisplay = document.getElementById('currentChordDisplay');
-    currentDisplay.innerText = "MARK";
+    const originalColor = currentDisplay.style.color;
+
+    // Pulse red briefly to show registration
     currentDisplay.style.color = "#ef4444";
     setTimeout(() => {
-        currentDisplay.style.color = "";
+        currentDisplay.style.color = originalColor;
     }, 300);
 }
 
 const confirmationModal = new ConfirmationModal();
 const chordEditModal = new ChordEditModal();
 
-// --- Drag to Scroll Logic ---
+// --- Drag to Scroll (Seeking) Logic ---
 let isDragging = false;
-let startX;
-let scrollLeft;
+let dragStartX;
+let dragStartTime;
 
 timeline.addEventListener('mousedown', (e) => {
+    // Ignore if clicking interactive elements
     if (e.target.closest('.chord-item') || e.target.closest('.chord-suggestion-btn') || e.target.closest('button')) return;
+
     isDragging = true;
     timeline.classList.add('dragging');
-    startX = e.pageX - timeline.offsetLeft;
-    scrollLeft = timeline.scrollLeft;
+    dragStartX = e.pageX;
+
+    // Remember the time when we started dragging
+    dragStartTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
 });
 
-timeline.addEventListener('mouseleave', () => {
-    isDragging = false;
-    timeline.classList.remove('dragging');
-});
-
-timeline.addEventListener('mouseup', () => {
-    isDragging = false;
-    timeline.classList.remove('dragging');
+window.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        timeline.classList.remove('dragging');
+    }
 });
 
 timeline.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
-    const x = e.pageX - timeline.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll speed multiplier
-    timeline.scrollLeft = scrollLeft - walk;
+
+    const deltaX = e.pageX - dragStartX;
+    // Map pixels back to seconds. Dragging left (negative deltaX) should advance time (positive deltaT)
+    const deltaT = deltaX / PIXELS_PER_SECOND;
+
+    let newTime = Math.max(0, dragStartTime - deltaT);
+
+    if (isPlaying) {
+        startTime = performance.now() - (newTime * 1000);
+        if (youtubePlayer && enableTimingCapture) {
+            youtubePlayer.seekTo(newTime, true);
+        }
+    } else {
+        pauseTime = newTime;
+        updateLoop(); // Update visual representative immediately
+    }
 });
 
 

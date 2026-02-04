@@ -135,15 +135,15 @@ button:disabled {
     flex: 1;
     position: relative;
     width: 100%;
-    overflow-x: auto;
-    /* Enable horizontal scrolling */
+    overflow-x: hidden;
+    /* Seeking is handled via JS dragging */
     overflow-y: hidden;
     display: flex;
     align-items: center;
     cursor: grab;
     user-select: none;
-    background: #0f172a;
-    /* Dark base for timeline area */
+    background: white;
+    /* Light base for timeline area */
 }
 
 .timeline-container:active {
@@ -171,15 +171,22 @@ button:disabled {
     transform: translateY(-50%);
     font-size: var(--font-size-chord);
     font-weight: 900;
-    color: #fff;
-    /* White for better visibility against dark bg if needed, but original was purple */
-    color: #a855f7;
-    /* Keep highlight purple */
+    color: #92400e;
+    /* Dark amber text from site theme */
     z-index: 110;
     /* Above playhead and track */
-    padding-left: 15px;
-    text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+    padding: 10px 30px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    /* Chorus colors */
+    border: 3px solid #f59e0b;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
     pointer-events: none;
+    min-width: 120px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chord-track {
@@ -531,30 +538,37 @@ button:disabled {
 
 .header-metadata {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    padding: 20px 30px;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: 'Inter', sans-serif;
     text-align: center;
 }
 
 .song-title-display {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: white;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .artist-display {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 4px 0 0 0;
-    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    line-height: 1;
+}
+
+.artist-display::before {
+    content: "•";
+    margin-right: 12px;
+    opacity: 0.6;
 }
 
 /* Remove old separator style */
