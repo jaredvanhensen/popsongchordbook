@@ -8807,19 +8807,16 @@ td:has(.row-edit-input.input-focused) {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    /* Make transparent to see underlying chords */
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    /* Darker, more focused background */
+    z-index: 9999;
     display: flex;
     justify-content: center;
-    pointer-events: none;
-    /* Allow clicking through to background if needed, but wrapper covers all. Actually, if we want to interact with background, pointer-events: none on wrapper, and auto on content. But user just said 'see'. Safe to leave pointer-events as is for now, just visual. */
-    align-items: flex-end;
-    /* Align to bottom as requested */
-    padding-bottom: 20px;
-    /* Add some spacing from the very edge */
-    z-index: 10000;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    pointer-events: auto;
 }
 
 .scrolling-chords-modal-wrapper.hidden {
@@ -8827,19 +8824,16 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .scrolling-chords-content {
-    width: 95%;
-    height: 35vh;
-    /* 35% of the screen height */
-    background: rgba(255, 255, 255, 0.8);
-    /* Semi-transparent background */
-    backdrop-filter: blur(10px);
-    /* improved readability */
-    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    background: white;
+    /* Full opaque white for standalone feel */
+    border-radius: 0;
+    /* Remove rounding for fullscreen */
     overflow: hidden;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: none;
     pointer-events: auto;
-    /* Re-enable clicks */
 }
 
 .scrolling-chords-close-btn {

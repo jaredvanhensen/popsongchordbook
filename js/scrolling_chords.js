@@ -207,9 +207,15 @@ window.addEventListener('message', (event) => {
 
     if (event.data.type === 'loadChordData') {
         console.log('Received chord data from parent');
-        loadData(event.data.data, event.data.youtubeUrl, event.data.title, event.data.suggestedChords);
+        loadData(
+            event.data.data,
+            event.data.youtubeUrl,
+            event.data.title,
+            event.data.suggestedChords,
+            event.data.artist,
+            event.data.songTitle
+        );
     }
-
     // NEW: Stop Audio Command (No-Unload Strategy)
     if (event.data.type === 'stopAudio') {
         console.log('Stopping audio via message');
@@ -335,7 +341,16 @@ async function processJsonFile(file) {
 
 
 
-function loadData(data, url, title, suggestedChords = []) {
+function loadData(data, url, title, suggestedChords = [], artist = '', songTitle = '') {
+    console.log('Loading Data:', { chordCount: data.chords?.length, url, suggestedCount: suggestedChords.length, artist, songTitle });
+
+    // Populate Metadata Header
+    const artistDisplay = document.getElementById('artistDisplay');
+    const songTitleDisplay = document.getElementById('songTitleDisplay');
+
+    if (artistDisplay) artistDisplay.textContent = artist || '';
+    if (songTitleDisplay) songTitleDisplay.textContent = songTitle || '';
+
     if (!data || !data.chords || !Array.isArray(data.chords)) {
         console.error('Invalid data format received');
         // If we have a YouTube URL but no chords, initialize with empty chords

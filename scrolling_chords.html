@@ -8,97 +8,101 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 110'><defs><linearGradient id='ps' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%2394a3b8'/><stop offset='1' stop-color='%23475569'/></linearGradient><linearGradient id='pf' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='%23f1f5f9'/></linearGradient><radialGradient id='ng' cx='50' cy='50' r='50'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%236b21a8'/></radialGradient></defs><g transform='translate(5,5)'><rect y='10' width='150' height='90' rx='20' fill='url(%23ps)'/><rect width='150' height='90' rx='20' fill='url(%23pf)' stroke='%23e2e8f0'/><line x1='30' y1='50' x2='120' y2='50' stroke='%23cbd5e1' stroke-width='6' stroke-linecap='round'/><circle cx='75' cy='50' r='20' fill='url(%23ng)'/></g></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="scrolling.css?v=1.991">
+    <link rel="stylesheet" href="scrolling.css?v=1.993">
 </head>
 
-<body>
+<div class="header-metadata">
+    <span id="songTitleDisplay" class="song-title-display"></span>
+    <span class="metadata-separator"> - </span>
+    <span id="artistDisplay" class="artist-display"></span>
+</div>
 
-    <div class="controls-container">
-        <a href="index.html" id="backBtn" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
+<div class="controls-container">
+    <a href="index.html" id="backBtn" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
 
-        <label for="midiInput" class="custom-file-btn" title="Upload MIDI or JSON file">
-            📁 Select File
-        </label>
-        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input"
-            style="display: none;">
+    <label for="midiInput" class="custom-file-btn" title="Upload MIDI or JSON file">
+        📁 Select File
+    </label>
+    <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input"
+        style="display: none;">
 
-        <div class="playback-controls">
-            <button id="restartBtn" title="Restart from beginning">⏮ <span>Restart</span></button>
-            <button id="rwdBtn" title="Rewind 10s">⏪ <span>-10s</span></button>
-            <button id="playPauseBtn" disabled>▶ <span>Play</span></button>
-            <button id="fwdBtn" title="Forward 10s"><span>+10s</span> ⏩</button>
-            <button id="exportBtn" disabled title="Download chords as JSON">💾 <span>Export JSON</span></button>
-            <button id="saveBtn" disabled title="Save chords directly to song database"
-                style="background-color: #667eea; color: white;">💾 <span>Save</span></button>
-            <button id="clearDataBtn" disabled title="Remove all JSON chord data"
-                style="background-color: #e53e3e; color: white;">🗑️ <span>Clear Data</span></button>
-            <button id="metronomeBtn" title="Toggle Metronome Click" class="metronome-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="metronome-icon">
-                    <path d="M12 2L7 22h10L12 2z" />
-                    <path d="M12 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
-                    <path d="M12 14l3-9" />
-                </svg>
-            </button>
-            <button id="captureBtn" title="Record usage of Space Bar to capture timing" class="capture-btn hidden">
-                🔴 <span>Capture</span>
-            </button>
-            <button id="audioToggleBtn" title="Toggle Chord Audio" class="audio-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="audio-icon">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                </svg>
-            </button>
-            <button id="speedBtn" title="Toggle Playback Speed (1.0x / 0.5x)">🏃 <span>1.0x</span></button>
-        </div>
-        <div id="statusText" style="font-variant-numeric: tabular-nums; min-width: 150px;">Upload a MIDI file to start
-        </div>
+    <div class="playback-controls">
+        <button id="restartBtn" title="Restart from beginning">⏮ <span>Restart</span></button>
+        <button id="rwdBtn" title="Rewind 10s">⏪ <span>-10s</span></button>
+        <button id="playPauseBtn" disabled>▶ <span>Play</span></button>
+        <button id="fwdBtn" title="Forward 10s"><span>+10s</span> ⏩</button>
+        <button id="exportBtn" disabled title="Download chords as JSON">💾 <span>Export JSON</span></button>
+        <button id="saveBtn" disabled title="Save chords directly to song database"
+            style="background-color: #667eea; color: white;">💾 <span>Save</span></button>
+        <button id="clearDataBtn" disabled title="Remove all JSON chord data"
+            style="background-color: #e53e3e; color: white;">🗑️ <span>Clear Data</span></button>
+        <button id="metronomeBtn" title="Toggle Metronome Click" class="metronome-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="metronome-icon">
+                <path d="M12 2L7 22h10L12 2z" />
+                <path d="M12 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+                <path d="M12 14l3-9" />
+            </svg>
+        </button>
+        <button id="captureBtn" title="Record usage of Space Bar to capture timing" class="capture-btn hidden">
+            🔴 <span>Capture</span>
+        </button>
+        <button id="audioToggleBtn" title="Toggle Chord Audio" class="audio-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="audio-icon">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+        </button>
+        <button id="speedBtn" title="Toggle Playback Speed (1.0x / 0.5x)">🏃 <span>1.0x</span></button>
     </div>
-
-    <!-- New Chord Toolbar -->
-    <div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
-
-    <div class="timeline-container" id="timeline">
-        <div class="playhead"></div>
-
-        <!-- Current Sticky Chord -->
-        <div id="currentChordDisplay" class="current-chord-display"></div>
-
-        <div class="instructions" id="instructions">Drop MIDI file here</div>
-        <!-- Markers (bars/time) -->
-        <div class="marker-track" id="markerTrack"></div>
-        <!-- Chords -->
-        <div class="chord-track" id="chordTrack"></div>
-
+    <div id="statusText" style="font-variant-numeric: tabular-nums; min-width: 150px;">Upload a MIDI file to start
     </div>
+</div>
 
-    <div id="youtubePlayerContainer" class="youtube-player-container hidden">
-        <div id="youtubePlayer"></div>
-    </div>
+<!-- New Chord Toolbar -->
+<div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
 
-    <!-- Count-in Overlay -->
-    <div id="countInOverlay" class="count-in-overlay hidden">
-        <div id="countInNumber"></div>
-        <div class="count-in-label">Get Ready!</div>
-    </div>
+<div class="timeline-container" id="timeline">
+    <div class="playhead"></div>
 
-    <!-- Recording Indicator -->
-    <div id="recordingIndicator" class="recording-indicator hidden">
-        🔴 RECORDING
-    </div>
-    </div>
+    <!-- Current Sticky Chord -->
+    <div id="currentChordDisplay" class="current-chord-display"></div>
 
-    <!-- Midi Parsing Library -->
-    <script src="https://unpkg.com/@tonejs/midi"></script>
+    <div class="instructions" id="instructions">Drop MIDI file here</div>
+    <!-- Markers (bars/time) -->
+    <div class="marker-track" id="markerTrack"></div>
+    <!-- Chords -->
+    <div class="chord-track" id="chordTrack"></div>
 
-    <!-- Utils -->
-    <script src="js/utils/PianoAudioPlayer.js?v=1.991"></script>
-    <script src="js/utils/ChordParser.js?v=1.991"></script>
-    <script src="js/ui/ConfirmationModal.js?v=1.991"></script>
+</div>
 
-    <!-- App Logic -->
-    <script src="js/scrolling_chords.js?v=1.991"></script>
+<div id="youtubePlayerContainer" class="youtube-player-container hidden">
+    <div id="youtubePlayer"></div>
+</div>
+
+<!-- Count-in Overlay -->
+<div id="countInOverlay" class="count-in-overlay hidden">
+    <div id="countInNumber"></div>
+    <div class="count-in-label">Get Ready!</div>
+</div>
+
+<!-- Recording Indicator -->
+<div id="recordingIndicator" class="recording-indicator hidden">
+    🔴 RECORDING
+</div>
+</div>
+
+<!-- Midi Parsing Library -->
+<script src="https://unpkg.com/@tonejs/midi"></script>
+
+<!-- Utils -->
+<script src="js/utils/PianoAudioPlayer.js?v=1.993"></script>
+<script src="js/utils/ChordParser.js?v=1.993"></script>
+<script src="js/ui/ConfirmationModal.js?v=1.993"></script>
+
+<!-- App Logic -->
+<script src="js/scrolling_chords.js?v=1.993"></script>
 
 </body>
 

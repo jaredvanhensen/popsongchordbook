@@ -395,11 +395,11 @@ class SongDetailModal {
                         const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
                         const suggestedChordsGrouped = sections.map(section => {
                             const found = section.text.match(chordRegex) || [];
-                            // Preserve appearance order by removing .sort()
+                            // MIRROR CHORDS EXACTLY: Include all duplicates
                             return {
                                 section: section.name,
                                 type: section.type,
-                                chords: [...new Set(found)]
+                                chords: found // Replaced [...new Set(found)] with found
                             };
                         }).filter(group => group.chords.length > 0);
 
@@ -408,6 +408,8 @@ class SongDetailModal {
                             type: 'loadChordData',
                             data: song.chordData || { chords: [] },
                             youtubeUrl: song.youtubeUrl || '',
+                            artist: song.artist,
+                            songTitle: song.title,
                             title: song.artist + ' - ' + song.title,
                             suggestedChords: suggestedChordsGrouped // Grouped by Block
                         }, '*');
