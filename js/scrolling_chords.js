@@ -274,17 +274,20 @@ chordTrack.addEventListener('click', (e) => {
         const index = parseInt(e.target.dataset.index);
         const currentName = chords[index].name;
 
-        // Simple prompt for now
-        // TODO: Could use a nice modal
-        const newName = prompt("Edit Chord:", currentName);
+        // Custom Professional Modal
+        chordEditModal.show(currentName, (newName) => {
+            if (newName && newName !== currentName) {
+                chords[index].name = newName;
+                e.target.innerText = newName;
 
-        if (newName !== null) {
-            chords[index].name = newName;
-            e.target.innerText = newName;
-
-            // Re-render only this item? It's already updated in DOM via innerText.
-            // But we should probably ensure state is clean or resort if time changed (can't change time here yet).
-        }
+                // If we also want to update the sticky display if it's the current chord
+                const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+                const activeIndex = chords.findLastIndex(c => c.time <= playbackTime);
+                if (activeIndex === index) {
+                    currentChordDisplay.innerText = newName;
+                }
+            }
+        });
     }
 });
 
@@ -1127,6 +1130,39 @@ function recordChord(name = "?") {
 }
 
 const confirmationModal = new ConfirmationModal();
+const chordEditModal = new ChordEditModal();
+
+// --- Drag to Scroll Logic ---
+let isDragging = false;
+let startX;
+let scrollLeft;
+
+timeline.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.chord-item') || e.target.closest('.chord-suggestion-btn') || e.target.closest('button')) return;
+    isDragging = true;
+    timeline.classList.add('dragging');
+    startX = e.pageX - timeline.offsetLeft;
+    scrollLeft = timeline.scrollLeft;
+});
+
+timeline.addEventListener('mouseleave', () => {
+    isDragging = false;
+    timeline.classList.remove('dragging');
+});
+
+timeline.addEventListener('mouseup', () => {
+    isDragging = false;
+    timeline.classList.remove('dragging');
+});
+
+timeline.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - timeline.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed multiplier
+    timeline.scrollLeft = scrollLeft - walk;
+});
+
 
 function clearData() {
     confirmationModal.show(
