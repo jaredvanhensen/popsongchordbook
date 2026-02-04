@@ -410,26 +410,36 @@ class SongDetailModal {
             // Close logic
             if (scrollingChordsCloseBtn) {
                 scrollingChordsCloseBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent any default button behavior
                     e.stopPropagation();
-                    scrollingChordsModal.classList.add('hidden');
-                    // Reformatted Cleanup: Don't unload, just stop audio to preserve focus
+
+                    console.log('Closing Scrolling Chords Modal');
+
+                    // 1. Stop Audio first
                     if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
                         scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
                     }
-                    // Restore focus to opener
-                    if (scrollingChordsBtn) scrollingChordsBtn.focus();
+
+                    // 2. Hide Modal immediately
+                    scrollingChordsModal.classList.add('hidden');
+
+                    // 3. Restore focus to opener (helps clear focus from iframe)
+                    if (scrollingChordsBtn) {
+                        scrollingChordsBtn.focus();
+                    } else {
+                        window.focus(); // Fallback
+                    }
                 });
             }
 
             // Close on background click
             scrollingChordsModal.addEventListener('click', (e) => {
                 if (e.target === scrollingChordsModal) {
-                    scrollingChordsModal.classList.add('hidden');
-                    // Reformatted Cleanup
+                    // Same logic as close button
                     if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
                         scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
                     }
-                    // Restore focus to opener
+                    scrollingChordsModal.classList.add('hidden');
                     if (scrollingChordsBtn) scrollingChordsBtn.focus();
                 }
             });

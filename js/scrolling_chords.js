@@ -143,6 +143,20 @@ function toggleMetronome() {
     if (metronomeEnabled) initAudio();
 }
 
+// Speed Toggle Logic
+const speedBtn = document.getElementById('speedBtn');
+let currentSpeed = 1.0;
+
+if (speedBtn) {
+    speedBtn.onclick = () => {
+        currentSpeed = currentSpeed === 1.0 ? 0.5 : 1.0;
+        speedBtn.innerHTML = currentSpeed === 1.0 ? '🏃 <span>1.0x</span>' : '🚶 <span>0.5x</span>';
+        if (youtubePlayer && typeof youtubePlayer.setPlaybackRate === 'function') {
+            youtubePlayer.setPlaybackRate(currentSpeed);
+        }
+    };
+}
+
 function toggleAudio() {
     audioEnabled = !audioEnabled;
     audioToggleBtn.classList.toggle('active', audioEnabled);
@@ -353,6 +367,19 @@ function loadData(data, url, title, suggestedChords = []) {
                 };
                 buttonsContainer.appendChild(btn);
             });
+
+            // Appending "?" button as requested
+            const qBtn = document.createElement('button');
+            qBtn.className = 'chord-suggestion-btn';
+            qBtn.textContent = '?';
+            qBtn.title = 'Mark unknown chord';
+            qBtn.onclick = () => {
+                if (enableTimingCapture) {
+                    recordChord("?");
+                }
+            };
+            buttonsContainer.appendChild(qBtn);
+
         } else {
             buttonsContainer.classList.add('hidden');
         }
@@ -661,6 +688,7 @@ function togglePlayPause() {
 function play() {
     if (isPlaying) return;
     initAudio();
+
     isPlaying = true;
     playPauseBtn.innerText = '⏸ Pause';
 
