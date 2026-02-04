@@ -8828,8 +8828,8 @@ td:has(.row-edit-input.input-focused) {
 
 .scrolling-chords-content {
     width: 95%;
-    height: 50vh;
-    /* Set to 50% of screen height */
+    height: 35vh;
+    /* 35% of the screen height */
     background: rgba(255, 255, 255, 0.8);
     /* Semi-transparent background */
     backdrop-filter: blur(10px);

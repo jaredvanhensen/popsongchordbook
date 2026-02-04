@@ -364,8 +364,8 @@ button:disabled {
     }
 
     button span {
-        display: none !important;
-        /* Hide all text labels on mobile */
+        display: inline-block !important;
+        /* Show labels on iPad Pro */
     }
 
     #restartBtn,
@@ -395,8 +395,8 @@ button:disabled {
     #audioToggleBtn span,
     .metronome-btn span,
     .audio-btn span {
-        display: none;
-        /* Hide button text, icons only */
+        display: inline-block;
+        /* Show button text */
     }
 
     #backBtn {
