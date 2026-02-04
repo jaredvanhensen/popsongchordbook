@@ -402,7 +402,12 @@ class SongDetailModal {
                 scrollingChordsCloseBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     scrollingChordsModal.classList.add('hidden');
-                    if (scrollingChordsFrame) scrollingChordsFrame.src = ''; // Stop playback
+                    // Reformatted Cleanup: Don't unload, just stop audio to preserve focus
+                    if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
+                        scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+                    }
+                    // Restore focus to opener
+                    if (scrollingChordsBtn) scrollingChordsBtn.focus();
                 });
             }
 
@@ -410,7 +415,12 @@ class SongDetailModal {
             scrollingChordsModal.addEventListener('click', (e) => {
                 if (e.target === scrollingChordsModal) {
                     scrollingChordsModal.classList.add('hidden');
-                    if (scrollingChordsFrame) scrollingChordsFrame.src = ''; // Stop playback
+                    // Reformatted Cleanup
+                    if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
+                        scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+                    }
+                    // Restore focus to opener
+                    if (scrollingChordsBtn) scrollingChordsBtn.focus();
                 }
             });
 

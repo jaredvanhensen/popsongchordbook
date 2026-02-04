@@ -189,9 +189,28 @@ function triggerChordAudio(chordName) {
 
 // Listen for messages from parent (for auto-loading stored data)
 window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'loadChordData') {
+    if (!event.data) return;
+
+    if (event.data.type === 'loadChordData') {
         console.log('Received chord data from parent');
         loadData(event.data.data, event.data.youtubeUrl, event.data.title);
+    }
+
+    // NEW: Stop Audio Command (No-Unload Strategy)
+    if (event.data.type === 'stopAudio') {
+        console.log('Stopping audio via message');
+        if (typeof isPlaying !== 'undefined' && isPlaying) {
+            // Assuming pause() is defined globally
+            pause();
+        }
+        // Also ensure piano player stops if it exists
+        if (typeof pianoPlayer !== 'undefined' && pianoPlayer) {
+            pianoPlayer.stopAll();
+        }
+        // Stop YouTube if playing
+        if (typeof youtubePlayer !== 'undefined' && youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
+            youtubePlayer.pauseVideo();
+        }
     }
 });
 
