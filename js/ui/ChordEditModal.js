@@ -22,8 +22,9 @@ class ChordEditModal {
                     <input type="text" id="chordEditInput" class="chord-edit-input" placeholder="e.g. C#m7">
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-danger" id="chordEditModalDelete" style="margin-right: auto;">Delete</button>
                     <button class="btn btn-primary" id="chordEditModalConfirm">OK</button>
-                    <button class="btn btn-secondary" id="chordEditModalCancel">Annuleren</button>
+                    <button class="btn btn-secondary" id="chordEditModalCancel">Cancel</button>
                 </div>
             </div>
         `;
@@ -49,6 +50,12 @@ class ChordEditModal {
             if (this.onConfirm) this.onConfirm(input.value.trim());
             this.hide();
         };
+
+        const deleteBtn = this.element.querySelector('#chordEditModalDelete');
+        deleteBtn.addEventListener('click', () => {
+            if (this.onConfirm) this.onConfirm('DELETE');
+            this.hide();
+        });
 
         confirmBtn.addEventListener('click', handleConfirm);
 

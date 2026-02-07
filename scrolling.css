@@ -18,6 +18,16 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    -webkit-text-size-adjust: 100%;
+    touch-action: none;
+    -webkit-overflow-scrolling: auto;
+    overscroll-behavior: none;
+}
+
+html {
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: none;
 }
 
 .controls-container {
@@ -97,27 +107,69 @@ button:disabled {
 }
 
 #saveBtn {
-    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-    color: white !important;
+    background: transparent;
     border: none;
-    box-shadow: 0 4px 6px -1px rgba(0, 184, 148, 0.3);
+    color: #475569;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: clamp(80px, 16vw, 110px);
+    box-shadow: none;
+}
+
+#saveBtn .icon {
+    font-size: clamp(43px, 9.4vw, 56px);
+    line-height: 1;
+}
+
+#saveBtn .label {
+    font-size: clamp(14px, 3vw, 16px);
+    text-transform: lowercase;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+#saveBtn.saved {
+    color: #00b894;
+    text-shadow: 0 0 10px rgba(0, 184, 148, 0.3);
+}
+
+#saveBtn.saved .label {
+    color: #00b894;
 }
 
 #saveBtn:hover:not(:disabled) {
-    filter: brightness(110%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px -1px rgba(0, 184, 148, 0.4);
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
 }
 
-#saveBtn:active:not(:disabled) {
-    transform: translateY(0);
+#saveBtn.hidden {
+    display: none !important;
 }
 
 #playPauseBtn:disabled,
 #saveBtn:disabled {
-    background: #94a3b8 !important;
-    color: rgba(255, 255, 255, 0.7) !important;
-    opacity: 0.8;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.chord-item {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.chord-item:active {
+    cursor: grabbing;
+    background: var(--highlight-color);
+    color: white;
+    z-index: 1000;
 }
 
 #playPauseBtn:hover:not(:disabled) {
@@ -144,6 +196,10 @@ button:disabled {
     user-select: none;
     background: white;
     /* Light base for timeline area */
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .timeline-container:active {
@@ -152,7 +208,8 @@ button:disabled {
 
 .playhead {
     position: sticky;
-    left: 40px;
+    left: 200px;
+    /* Shifted to right */
     top: 0;
     bottom: 0;
     width: 2px;
@@ -162,28 +219,60 @@ button:disabled {
     opacity: 0.8;
 }
 
+/* Red Target Arrow */
+.playhead::after {
+    content: "▼";
+    position: absolute;
+    top: -15px;
+    /* Above grid */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ef4444;
+    /* Red */
+    font-size: 24px;
+    line-height: 1;
+    z-index: 200;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* Current Sticky Chord Display */
+/* Separate Chord Display Container */
+.chord-display-container {
+    width: 100%;
+    height: 100px;
+    /* Fixed height for display area */
+    display: flex;
+    align-items: center;
+    padding-left: 200px;
+    /* Align with playhead visually */
+    background: white;
+    box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    position: relative;
+}
+
 .current-chord-display {
-    position: sticky;
+    position: absolute;
     left: 40px;
-    /* Aligned with playhead */
+    /* Fixed margin from left edge */
     top: 50%;
     transform: translateY(-50%);
-    font-size: var(--font-size-chord);
+
+    /* Dynamic width to fit before playhead (200px) */
+    width: 150px;
+
+    font-size: 60px;
+    /* Slightly smaller to prevent clipping */
     font-weight: 900;
     color: #92400e;
-    /* Dark amber text from site theme */
     z-index: 110;
-    /* Above playhead and track */
-    padding: 10px 30px;
+    padding: 10px 0;
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    /* Chorus colors */
     border: 3px solid #f59e0b;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-    pointer-events: none;
-    min-width: 120px;
     text-align: center;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,7 +281,8 @@ button:disabled {
 .chord-track {
     position: absolute;
     top: 50%;
-    left: 40px;
+    left: 200px;
+    /* Match playhead */
     transform: translateY(-50%);
     white-space: nowrap;
     will-change: transform;
@@ -203,7 +293,8 @@ button:disabled {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 40px;
+    left: 200px;
+    /* Match playhead */
     width: 100%;
     pointer-events: none;
     z-index: 1;
@@ -213,21 +304,31 @@ button:disabled {
     position: absolute;
     transform: translateX(0) translateY(-50%);
     top: 50%;
-    font-size: var(--font-size-chord);
+    font-size: 36px;
+    /* Half size */
     font-weight: 900;
-    color: #94a3b8;
-    /* Faded color for upcoming chords */
-    /* text-shadow: 2px 2px 4px rgba(0,0,0,0.1); */
-    transition: color 0.2s, transform 0.1s;
+    color: white;
+
+    /* Button Look */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 6px 16px;
+    /* Scaled down padding */
+    border-radius: 25px;
+    /* Pill shape scaled */
+    box-shadow: 0 4px 10px -2px rgba(102, 126, 234, 0.6);
+    text-shadow: none;
+
+    transition: all 0.2s;
     cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 10;
 }
 
 .chord-item:hover {
-    background: rgba(255, 255, 255, 0.5);
-    color: #333 !important;
+    filter: brightness(115%);
+    transform: translateX(0) translateY(-55%) scale(1.05);
     z-index: 100 !important;
+    /* Removed unnecessary background/color overrides since base is already styled */
 }
 
 .chord-item.active {
@@ -255,10 +356,21 @@ button:disabled {
 /* Markers */
 .marker {
     position: absolute;
+    transform: translateX(0);
     top: 0;
     bottom: 0;
     width: 1px;
     background-color: rgba(0, 0, 0, 0.05);
+    /* Very light gray for bars */
+    z-index: 5;
+}
+
+.marker.beat {
+    border-left: 1px dotted rgba(0, 0, 0, 0.1);
+    /* Dotted line for beats */
+    background-color: transparent;
+    width: 0;
+    z-index: 4;
 }
 
 .marker-label {
@@ -678,6 +790,8 @@ button:disabled {
     /* Limit height growth */
     overflow-y: auto;
     /* Allow vertical scroll if really many rows */
+    touch-action: pan-y;
+    /* Allow scrolling buttons but not zooming */
 }
 
 .chord-buttons-container.hidden {
@@ -888,4 +1002,29 @@ button:disabled {
 .btn-danger:hover {
     background: #dc2626;
     transform: translateY(-1px);
+}
+
+#closeYoutubeBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+#closeYoutubeBtn:hover {
+    background: rgba(220, 38, 38, 0.9);
 }

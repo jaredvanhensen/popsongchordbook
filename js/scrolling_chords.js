@@ -12,11 +12,13 @@ const markerTrack = document.getElementById('markerTrack');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 const metronomeBtn = document.getElementById('metronomeBtn');
+const bpmBtn = document.getElementById('bpmBtn');
 const saveBtn = document.getElementById('saveBtn');
 const clearDataBtn = document.getElementById('clearDataBtn');
 const restartBtn = document.getElementById('restartBtn');
 const audioToggleBtn = document.getElementById('audioToggleBtn');
 const captureBtn = document.getElementById('captureBtn');
+const speedBtn = document.getElementById('speedBtn'); // Fixed: Was missing
 const youtubePlayerContainer = document.getElementById('youtubePlayerContainer');
 const recordingIndicator = document.getElementById('recordingIndicator');
 const countInOverlay = document.getElementById('countInOverlay');
@@ -28,6 +30,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const isEmbed = urlParams.get('embed') === 'true';
 if (isEmbed) {
     console.log("Scrolling Chords: Running in embed mode");
+
+    // Debug Overlay removed for production
     const backLink = document.querySelector('a[href="index.html"]');
     if (backLink) backLink.style.display = 'none';
 
@@ -58,6 +62,14 @@ let startTime = 0;
 let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
+let originalChordsJson = '[]'; // For change detection
+
+// Dragging state
+let isDraggingChord = false;
+let draggedChordIndex = null;
+let dragPointerStartX = 0;
+let dragChordStartTime = 0;
+let dragHasMoved = false;
 let countInStartTime = 0;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const PIXELS_PER_SECOND = 150; // Speed of scrolling (was 100, originally 200)
@@ -71,7 +83,7 @@ let isYoutubePlaying = false;
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = false;
+let audioEnabled = true; // Default ON
 let lastBeatPlayed = -1;
 let lastChordPlayed = -1;
 let audioCtx = null;
@@ -81,25 +93,53 @@ let secondsPerBeat = 0.5; // Default 120 BPM
 let beatsPerBar = 4; // Default 4/4
 
 // Setup Event Listeners
-midiInput.addEventListener('change', handleFileSelect);
-playPauseBtn.addEventListener('click', togglePlayPause);
-rwdBtn.addEventListener('click', () => seek(-10));
-fwdBtn.addEventListener('click', () => seek(10));
-exportBtn.addEventListener('click', exportToJSON);
-saveBtn.addEventListener('click', saveToDatabase);
-clearDataBtn.addEventListener('click', clearData);
-metronomeBtn.addEventListener('click', toggleMetronome);
-if (captureBtn) captureBtn.addEventListener('click', toggleTimingCapture);
-audioToggleBtn.addEventListener('click', toggleAudio);
-restartBtn.addEventListener('click', restart);
+// Setup Event Listeners (Safe Initialization)
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Scrolling Chords: Initializing Event Listeners');
 
-// Space bar recording
+    if (midiInput) midiInput.addEventListener('change', handleFileSelect);
+    if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
+    if (rwdBtn) rwdBtn.addEventListener('click', () => seek(-10));
+    if (fwdBtn) fwdBtn.addEventListener('click', () => seek(10));
+    if (exportBtn) exportBtn.addEventListener('click', exportToJSON);
+    if (saveBtn) saveBtn.addEventListener('click', saveToDatabase);
+    if (clearDataBtn) clearDataBtn.addEventListener('click', clearData);
+    if (metronomeBtn) metronomeBtn.addEventListener('click', toggleMetronome);
+    if (bpmBtn) bpmBtn.addEventListener('click', changeBpm);
+    if (captureBtn) captureBtn.addEventListener('click', toggleTimingCapture);
+    if (audioToggleBtn) {
+        audioToggleBtn.addEventListener('click', toggleAudio);
+        // Set initial state for Default ON
+        if (audioEnabled) audioToggleBtn.classList.add('active');
+    }
+    if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // YouTube Close Button
+    const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
+    if (closeYoutubeBtn) {
+        closeYoutubeBtn.addEventListener('click', () => {
+            if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
+                youtubePlayer.pauseVideo();
+            }
+            if (youtubePlayerContainer) youtubePlayerContainer.classList.add('hidden');
+            // Also turn off capture mode if active
+            if (enableTimingCapture) toggleTimingCapture();
+        });
+    }
+});
+
+// Space bar recording or toggle play/pause (Global listener)
 document.addEventListener("keydown", e => {
-    if (!enableTimingCapture) return;
     if (e.code !== "Space") return;
 
+    // Prevent default scrolling
     e.preventDefault();
-    recordChord();
+
+    if (enableTimingCapture) {
+        recordChord();
+    } else {
+        togglePlayPause();
+    }
 });
 
 function initAudio() {
@@ -143,9 +183,35 @@ function toggleMetronome() {
     if (metronomeEnabled) initAudio();
 }
 
-// Speed Toggle Logic
-const speedBtn = document.getElementById('speedBtn');
-let currentSpeed = 1.0;
+function changeBpm() {
+    const currentBpm = Math.round(60 / secondsPerBeat);
+    const newBpm = prompt("Enter new Tempo (BPM):", currentBpm);
+
+    if (newBpm && !isNaN(newBpm)) {
+        const bpmVal = parseInt(newBpm);
+        if (bpmVal > 0) {
+            secondsPerBeat = 60 / bpmVal;
+            bpmBtn.innerText = `${bpmVal} BPM`;
+
+            // Update Midi Header Data if present
+            if (midiData && midiData.header && midiData.header.tempos) {
+                if (midiData.header.tempos.length > 0) {
+                    midiData.header.tempos[0].bpm = bpmVal;
+                } else {
+                    midiData.header.tempos.push({ bpm: bpmVal });
+                }
+            }
+
+            // Regenerate markers
+            if (midiData) {
+                markers = generateMarkers(midiData);
+                renderStaticElements();
+                updateLoop();
+            }
+        }
+    }
+}
+
 
 if (speedBtn) {
     speedBtn.onclick = () => {
@@ -183,11 +249,14 @@ function restart() {
     }
 }
 
-function triggerChordAudio(chordName) {
-    if (!audioEnabled || !pianoPlayer || !chordParser) return;
+function triggerChordAudio(chordName, duration = 10.0, force = false) {
+    // Check if we should play: either global toggle is on OR we are forcing it (toolbar click)
+    if (!pianoPlayer || !chordParser) return;
+
+    if (!audioEnabled && !force) return;
 
     // Stop previous chord for clean transition
-    pianoPlayer.stopAll();
+    try { pianoPlayer.stopAll(); } catch (e) { console.error(e); }
 
     // Resume context if needed
     if (pianoPlayer.audioContext && pianoPlayer.audioContext.state === 'suspended') {
@@ -196,43 +265,13 @@ function triggerChordAudio(chordName) {
 
     const chord = chordParser.parse(chordName);
     if (chord && chord.notes) {
-        // High duration since we stop it manually at next chord or pause
-        pianoPlayer.playChord(chord.notes, 10.0, 0.4, 0.05);
+        // Use provided duration (playback uses 10s, manual clicks use 1s)
+        pianoPlayer.playChord(chord.notes, duration, 0.4, 0.05);
     }
 }
 
 // Listen for messages from parent (for auto-loading stored data)
-window.addEventListener('message', (event) => {
-    if (!event.data) return;
-
-    if (event.data.type === 'loadChordData') {
-        console.log('Received chord data from parent');
-        loadData(
-            event.data.data,
-            event.data.youtubeUrl,
-            event.data.title,
-            event.data.suggestedChords,
-            event.data.artist,
-            event.data.songTitle
-        );
-    }
-    // NEW: Stop Audio Command (No-Unload Strategy)
-    if (event.data.type === 'stopAudio') {
-        console.log('Stopping audio via message');
-        if (typeof isPlaying !== 'undefined' && isPlaying) {
-            // Assuming pause() is defined globally
-            pause();
-        }
-        // Also ensure piano player stops if it exists
-        if (typeof pianoPlayer !== 'undefined' && pianoPlayer) {
-            pianoPlayer.stopAll();
-        }
-        // Stop YouTube if playing
-        if (typeof youtubePlayer !== 'undefined' && youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
-            youtubePlayer.pauseVideo();
-        }
-    }
-});
+// [DUPLICATE LISTENER REMOVED] - Consolidated into the standard listener at the end of the file.
 
 // Load YouTube API
 const tag = document.createElement('script');
@@ -247,6 +286,21 @@ window.onYouTubeIframeAPIReady = function () {
     }
 };
 
+// --- Gesture Suppression for iPad ---
+document.addEventListener('gesturestart', (e) => e.preventDefault());
+document.addEventListener('gesturechange', (e) => e.preventDefault());
+document.addEventListener('gestureend', (e) => e.preventDefault());
+
+// Block double-tap to zoom
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
 // Drag and drop support
 timeline.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -259,12 +313,50 @@ timeline.addEventListener('dragleave', (e) => {
 timeline.addEventListener('drop', (e) => {
     e.preventDefault();
     timeline.style.backgroundColor = '';
+
+    // Check if it's a chord drop from toolbar
+    const chordName = e.dataTransfer.getData('chordName');
+    if (chordName) {
+        const rect = timeline.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const playheadOffset = 200; // Updated to match CSS
+        const dist = x - playheadOffset;
+
+        const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+        const dropTime = Math.max(0, playbackTime + (dist / PIXELS_PER_SECOND));
+
+        recordChord(chordName, dropTime);
+        triggerChordAudio(chordName, 1.0);
+        return;
+    }
+
+    // Check if it's a file drop
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
 });
 
-// Chord Editing (Click)
+// Chord Editing (Click) & Dragging
+chordTrack.addEventListener('pointerdown', (e) => {
+    const target = e.target.closest('.chord-item');
+    if (target) {
+        e.stopPropagation(); // Prevent bubbling to timeline drag
+        isDraggingChord = true;
+        draggedChordIndex = parseInt(target.dataset.index);
+        dragPointerStartX = e.clientX;
+
+        let initialTime = chords[draggedChordIndex].time;
+        if (Number.isNaN(initialTime) || !Number.isFinite(initialTime)) initialTime = 0;
+        dragChordStartTime = initialTime;
+
+        dragHasMoved = false;
+
+        // Removed setPointerCapture to avoid potential iPad gesture conflicts
+    }
+});
+
 chordTrack.addEventListener('click', (e) => {
+    if (dragHasMoved) return; // Don't trigger edit if we were dragging
+
     if (e.target.classList.contains('chord-item')) {
         e.stopPropagation(); // prevent other clicks
 
@@ -274,11 +366,25 @@ chordTrack.addEventListener('click', (e) => {
         const index = parseInt(e.target.dataset.index);
         const currentName = chords[index].name;
 
-        // Custom Professional Modal
-        chordEditModal.show(currentName, (newName) => {
+        // Custom Professional Modal with Delete Option
+        chordEditModal.show(currentName, (result) => {
+            if (result === null) return; // Cancelled
+
+            if (result === 'DELETE') {
+                // Remove chord
+                chords.splice(index, 1);
+                // Re-render
+                renderStaticElements();
+                updateLoop();
+                checkForChanges();
+                return;
+            }
+
+            const newName = result;
             if (newName && newName !== currentName) {
                 chords[index].name = newName;
                 e.target.innerText = newName;
+                checkForChanges();
 
                 // If we also want to update the sticky display if it's the current chord
                 const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
@@ -288,6 +394,48 @@ chordTrack.addEventListener('click', (e) => {
                 }
             }
         });
+    }
+});
+
+// Global pointer listeners for the second half of dragging
+window.addEventListener('pointermove', (e) => {
+    if (!isDraggingChord || draggedChordIndex === null) return;
+
+    const deltaX = e.clientX - dragPointerStartX;
+
+    // Only start "dragging" if we moved more than a few pixels to avoid accidental drags
+    if (!dragHasMoved && Math.abs(deltaX) > 4) {
+        dragHasMoved = true;
+        if (isPlaying) pause();
+    }
+
+    if (dragHasMoved) {
+        e.preventDefault();
+        const deltaTime = deltaX / PIXELS_PER_SECOND;
+
+        // Safety check
+        if (chords[draggedChordIndex]) {
+            chords[draggedChordIndex].time = Math.max(0, dragChordStartTime + deltaTime);
+        }
+
+        // Force update loop to prevent collapse
+        updateLoop();
+    }
+});
+
+window.addEventListener('pointerup', (e) => {
+    if (isDraggingChord) {
+        isDraggingChord = false;
+
+        if (dragHasMoved) {
+            // Sort chords and re-render to fix visual order and indices
+            chords.sort((a, b) => a.time - b.time);
+            renderStaticElements();
+            updateLoop(); // Force visual refresh to prevent "bar focus loss"
+            checkForChanges();
+        }
+
+        draggedChordIndex = null;
     }
 });
 
@@ -345,7 +493,20 @@ async function processJsonFile(file) {
 
 
 function loadData(data, url, title, suggestedChords = [], artist = '', songTitle = '') {
-    console.log('Loading Data:', { chordCount: data.chords?.length, url, suggestedCount: suggestedChords.length, artist, songTitle });
+    console.log('loadData called with:', {
+        data: data ? 'present' : 'missing',
+        chordCount: data?.chords?.length,
+        url,
+        suggestedChordsType: typeof suggestedChords,
+        suggestedChordsLen: Array.isArray(suggestedChords) ? suggestedChords.length : 'N/A',
+        suggestedChordsPreview: suggestedChords,
+        artist,
+        songTitle
+    });
+
+    // Ensure suggestedChords is an array
+    if (!suggestedChords) suggestedChords = [];
+
 
     // Populate Metadata Header
     const artistDisplay = document.getElementById('artistDisplay');
@@ -390,10 +551,23 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                         const btn = document.createElement('button');
                         btn.className = `chord-suggestion-btn chord-type-${group.type}`;
                         btn.textContent = chordName;
+                        btn.draggable = true;
+
+                        // Use pointerdown for immediate audio feedback across all devices
+                        btn.onpointerdown = (e) => {
+                            initAudio(); // Ensure context is ready
+                            triggerChordAudio(chordName, 1.0, true); // Force play even if global audio is OFF
+                        };
+
                         btn.onclick = () => {
                             if (enableTimingCapture) {
                                 recordChord(chordName);
                             }
+                        };
+
+                        btn.ondragstart = (e) => {
+                            e.dataTransfer.setData('chordName', chordName);
+                            // Audio already triggered by pointerdown
                         };
                         buttonsContainer.appendChild(btn);
                     });
@@ -403,24 +577,47 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                     const btn = document.createElement('button');
                     btn.className = 'chord-suggestion-btn';
                     btn.textContent = chordName;
+                    btn.draggable = true;
+
+                    btn.onpointerdown = (e) => {
+                        if (typeof updateDebug === 'function') updateDebug(`Click: ${chordName}`);
+                        initAudio(); // Ensure context is ready
+                        triggerChordAudio(chordName, 1.0, true); // Force play even if global audio is OFF
+                    };
+
                     btn.onclick = () => {
                         if (enableTimingCapture) {
                             recordChord(chordName);
                         }
                     };
+
+                    btn.ondragstart = (e) => {
+                        e.dataTransfer.setData('chordName', chordName);
+                    };
                     buttonsContainer.appendChild(btn);
                 });
             }
 
-            // Appending "?" button as requested
+            // Appending "?" button
             const qBtn = document.createElement('button');
             qBtn.className = 'chord-suggestion-btn';
             qBtn.textContent = '?';
             qBtn.title = 'Mark unknown chord';
+            qBtn.draggable = true;
+
+            qBtn.onpointerdown = (e) => {
+                initAudio();
+                triggerChordAudio("?", 1.0, true);
+            };
+
             qBtn.onclick = () => {
                 if (enableTimingCapture) {
                     recordChord("?");
                 }
+            };
+
+            qBtn.ondragstart = (e) => {
+                e.dataTransfer.setData('chordName', "?");
             };
             buttonsContainer.appendChild(qBtn);
 
@@ -438,23 +635,39 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
             initYouTubePlayer(youtubeUrl);
         }
         if (captureBtn) captureBtn.classList.remove('hidden');
+        // Show player immediately so user can see it
+        if (youtubePlayerContainer) youtubePlayerContainer.classList.remove('hidden');
     } else {
         if (captureBtn) captureBtn.classList.add('hidden');
+        if (youtubePlayerContainer) youtubePlayerContainer.classList.add('hidden');
     }
 
-    chords = data.chords;
-    const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 300);
-    const bpm = data.tempo || 120;
+    try {
+        chords = data.chords || [];
+        const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 300);
+        const bpm = data.tempo || 120;
 
-    // Mock midi object for marker generation
-    const mockMidi = {
-        duration: duration,
-        header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
-    };
-    markers = generateMarkers(mockMidi);
-    midiData = mockMidi;
+        // Update global secondsPerBeat for metronome
+        secondsPerBeat = 60 / bpm;
+        if (bpmBtn) bpmBtn.innerText = `${Math.round(bpm)} BPM`;
 
-    finishLoading(chords.length, bpm);
+        // Mock midi object for marker generation
+        const mockMidi = {
+            duration: duration,
+            header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+        };
+        markers = generateMarkers(mockMidi);
+        midiData = mockMidi;
+
+        finishLoading(chords.length, bpm);
+
+        // Record original state for change detection
+        originalChordsJson = JSON.stringify(chords);
+        checkForChanges();
+    } catch (e) {
+        console.error(e);
+        statusText.innerText = `Error loading data: ${e.message}`;
+    }
 }
 
 async function processMidiFile(file) {
@@ -488,13 +701,16 @@ async function processMidiFile(file) {
 function setupUIForLoading() {
     playPauseBtn.disabled = true;
     exportBtn.disabled = true;
-    if (saveBtn) saveBtn.disabled = true;
+    if (saveBtn) {
+        saveBtn.disabled = true;
+        setSaveStatus(false);
+    }
     if (clearDataBtn) clearDataBtn.disabled = true;
     instructions.style.display = 'none';
 }
 
 function finishLoading(chordCount, bpm) {
-    statusText.innerText = `Ready! ${chordCount} chords. Tempo: ${bpm} BPM`;
+    statusText.innerText = `Ready! ${chordCount} chords. Tempo: ${Math.round(bpm)} BPM`;
     playPauseBtn.disabled = false;
     exportBtn.disabled = false;
     if (saveBtn) saveBtn.disabled = false;
@@ -548,13 +764,48 @@ function saveToDatabase() {
     }, '*');
 
     // Visual feedback
-    const originalText = saveBtn.innerText;
-    saveBtn.innerText = '✅ Saved';
-    saveBtn.style.backgroundColor = '#00b894';
+    setSaveStatus(true);
+
+    // Update original state and hide after a delay
+    originalChordsJson = JSON.stringify(chords);
     setTimeout(() => {
-        saveBtn.innerText = originalText;
-        saveBtn.style.backgroundColor = ''; // Restore to CSS gradient
-    }, 2000);
+        checkForChanges();
+    }, 1500);
+}
+
+function setSaveStatus(isSaved) {
+    if (!saveBtn) return;
+
+    const iconEl = saveBtn.querySelector('.icon');
+    const labelEl = saveBtn.querySelector('.label');
+
+    if (isSaved) {
+        if (iconEl) iconEl.innerText = '✅';
+        if (labelEl) labelEl.innerText = 'Saved';
+        saveBtn.classList.add('saved');
+    } else {
+        if (iconEl) iconEl.innerText = '💾';
+        if (labelEl) labelEl.innerText = 'Save';
+        saveBtn.classList.remove('saved');
+    }
+}
+
+/**
+ * Detects if current chords differ from original and toggles Save button
+ */
+function checkForChanges() {
+    if (!saveBtn) return;
+
+    const currentJson = JSON.stringify(chords);
+    const hasUnsavedChanges = currentJson !== originalChordsJson;
+
+    if (hasUnsavedChanges) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.disabled = false;
+        setSaveStatus(false);
+    } else {
+        saveBtn.classList.add('hidden');
+    }
 }
 
 function extractChordsFromMidi(midi) {
@@ -639,15 +890,31 @@ function generateMarkers(midi) {
         });
     }
 
-    // Add bar markers
-    let barCount = 1;
-    for (let t = 0; t <= duration; t += secondsPerBar) {
+    // Add bar and beat markers
+    const numBars = Math.ceil(duration / secondsPerBar);
+
+    for (let i = 0; i <= numBars; i++) {
+        const barTime = i * secondsPerBar;
+
+        // Bar Marker
         markers.push({
-            time: t,
-            label: `Bar ${barCount}`,
+            time: barTime,
+            label: `Bar ${i + 1}`,
             type: 'bar'
         });
-        barCount++;
+
+        // Beat Markers (add beats between this bar and next)
+        // For 4/4, we add beats at 1, 2, 3 offset (0 is bar start)
+        if (i < numBars) {
+            const beatsPerBar = timeSignature[0];
+            for (let b = 1; b < beatsPerBar; b++) {
+                markers.push({
+                    time: barTime + (b * secondsPerBeat),
+                    label: '',
+                    type: 'beat'
+                });
+            }
+        }
     }
 
     return markers;
@@ -849,17 +1116,16 @@ function updateLoop() {
     let playbackTime;
 
     if (isPlaying) {
-        // If Capture Mode is active with YouTube, we sync to YouTube time instead of performance.now()
-        // but only if video is actually playing to avoid drift or buffering issues
-        if (enableTimingCapture && youtubePlayer && youtubePlayer.getPlayerState() === 1) {
+        if (enableTimingCapture && youtubePlayer && typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() === 1) {
             const ytTime = youtubePlayer.getCurrentTime();
-            // Smooth out small diffs or just Use it directly? Direct use is safer for sync.
-            playbackTime = ytTime;
-
-            // Sync our startTime reverse-calc so if we toggle off, it's correct
-            startTime = now - (ytTime * 1000);
+            if (Number.isFinite(ytTime) && !Number.isNaN(ytTime)) {
+                playbackTime = ytTime;
+                startTime = now - (ytTime * 1000);
+            } else {
+                playbackTime = (now - startTime) / 1000;
+            }
         } else {
-            playbackTime = (now - startTime) / 1000;
+            playbackTime = (now - (startTime || now)) / 1000;
         }
 
         // Count-in Overlay Logic
@@ -874,7 +1140,14 @@ function updateLoop() {
             }
         }
     } else {
-        playbackTime = pauseTime;
+        playbackTime = pauseTime || 0;
+    }
+
+    // Emergency NaN Reset
+    if (Number.isNaN(playbackTime) || !Number.isFinite(playbackTime)) {
+        playbackTime = 0;
+        if (isPlaying) startTime = now;
+        else pauseTime = 0;
     }
 
     // Metronome Logic
@@ -910,24 +1183,35 @@ function updateLoop() {
         currentChordDisplay.innerText = '';
     }
 
+    // Safety for PIXELS_PER_SECOND
+    const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 150;
+
     // Update scrolling chord positions
     const chordElements = chordTrack.children;
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];
         const chord = chords[i];
-        const dist = (chord.time - playbackTime) * PIXELS_PER_SECOND;
+        if (!chord) continue;
+
+        let dist = (chord.time - playbackTime) * pps;
+
+        // Final sanity check on dist
+        if (!isFinite(dist) || isNaN(dist)) {
+            dist = 0;
+            el.style.display = 'none'; // Hide it if it's broken
+        }
 
         if (dist < -200 || dist > window.innerWidth + 200) {
             el.style.display = 'none';
         } else {
-            // Once it hits the playhead background block (dist < ~140), hide it from scroll track
-            // because sticky display takes over
-            if (dist < 140) {
-                el.style.opacity = '0';
+            el.style.display = 'block';
+            el.style.transform = `translateX(${dist}px) translateY(-50%)`;
+
+            // Fade out as it passes the playhead to the left
+            if (dist < 0) {
+                el.style.opacity = '0.5';
             } else {
                 el.style.opacity = '1';
-                el.style.display = 'block';
-                el.style.transform = `translateX(${dist}px) translateY(-50%)`;
             }
         }
     }
@@ -936,12 +1220,16 @@ function updateLoop() {
     const markerElements = markerTrack.children;
     for (let i = 0; i < markerElements.length; i++) {
         const el = markerElements[i];
-        const marker = markers[i]; // Assuming direct mapping if we didn't filter
-        // Logic note: childNodes might include text nodes if not careful. children is safer.
-        // Also markers array maps 1:1 if we appended in order.
+        const marker = markers[i];
 
         if (marker) {
-            const dist = (marker.time - playbackTime) * PIXELS_PER_SECOND;
+            let dist = (marker.time - playbackTime) * pps;
+
+            if (!isFinite(dist) || isNaN(dist)) {
+                dist = 0;
+                el.style.display = 'none';
+            }
+
             if (dist < -200 || dist > window.innerWidth + 200) {
                 el.style.display = 'none';
             } else {
@@ -965,7 +1253,8 @@ function initYouTubePlayer(url) {
     if (!videoId) return;
 
     if (youtubePlayer) {
-        youtubePlayer.loadVideoById(videoId);
+        // Use cueVideoById to load thumbnail but NOT auto-play
+        youtubePlayer.cueVideoById(videoId);
     } else {
         console.log("Initializing YouTube Player with ID:", videoId);
         youtubePlayer = new YT.Player('youtubePlayer', {
@@ -973,10 +1262,11 @@ function initYouTubePlayer(url) {
             width: '100%',
             videoId: videoId,
             playerVars: {
+                'autoplay': 0, // Ensure no autoplay on init
                 'playsinline': 1,
                 'controls': 1,
                 'rel': 0,
-                'origin': window.location.origin // standard fix for some embedded issues
+                'origin': window.location.origin
             },
             events: {
                 'onReady': onPlayerReady,
@@ -1089,13 +1379,14 @@ function toggleTimingCapture() {
     }
 }
 
-function recordChord(name = "?") {
-    let currentTime;
-
-    if (youtubePlayer && enableTimingCapture) {
-        currentTime = youtubePlayer.getCurrentTime();
-    } else {
-        currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+function recordChord(name = "?", time = null) {
+    let currentTime = time;
+    if (currentTime === null) {
+        if (youtubePlayer && enableTimingCapture) {
+            currentTime = youtubePlayer.getCurrentTime();
+        } else {
+            currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+        }
     }
 
     // Add new chord
@@ -1108,28 +1399,21 @@ function recordChord(name = "?") {
     chords.push(newChord);
     chords.sort((a, b) => a.time - b.time);
 
-    // Performance Optimization: Append single element instead of full re-render
-
-    const el = document.createElement('div');
-    el.className = 'chord-item';
-    el.innerText = newChord.name;
-    el.dataset.index = chords.length - 1;
-
-    // Initial position at 0 relative to playhead (since we just recorded it at current time)
-    el.style.transform = `translateX(0px) translateY(-50%)`;
-    el.style.display = 'block';
-
-    chordTrack.appendChild(el);
+    // Refresh all elements to ensure correct order and indices
+    renderStaticElements();
+    updateLoop(); // Ensure immediate visual alignment
+    checkForChanges();
 
     // Flash effect?
     const currentDisplay = document.getElementById('currentChordDisplay');
-    const originalColor = currentDisplay.style.color;
-
-    // Pulse red briefly to show registration
-    currentDisplay.style.color = "#ef4444";
-    setTimeout(() => {
-        currentDisplay.style.color = originalColor;
-    }, 300);
+    if (currentDisplay) {
+        const originalColor = currentDisplay.style.color;
+        // Pulse red briefly to show registration
+        currentDisplay.style.color = "#ef4444";
+        setTimeout(() => {
+            currentDisplay.style.color = originalColor || "";
+        }, 300);
+    }
 }
 
 const confirmationModal = new ConfirmationModal();
@@ -1140,34 +1424,40 @@ let isDragging = false;
 let dragStartX;
 let dragStartTime;
 
-timeline.addEventListener('mousedown', (e) => {
+timeline.addEventListener('pointerdown', (e) => {
     // Ignore if clicking interactive elements
     if (e.target.closest('.chord-item') || e.target.closest('.chord-suggestion-btn') || e.target.closest('button')) return;
 
     isDragging = true;
     timeline.classList.add('dragging');
-    dragStartX = e.pageX;
+    dragStartX = e.clientX;
 
     // Remember the time when we started dragging
-    dragStartTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+    let initialT = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+    if (Number.isNaN(initialT) || !Number.isFinite(initialT)) initialT = 0;
+    dragStartTime = initialT;
 });
 
-window.addEventListener('mouseup', () => {
+window.addEventListener('pointerup', () => {
     if (isDragging) {
         isDragging = false;
         timeline.classList.remove('dragging');
+        updateLoop(); // Final refresh after drag ends
     }
 });
 
-timeline.addEventListener('mousemove', (e) => {
+timeline.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
+
+    // On iPad, prevent default helps block browser-level gestures during drag
     e.preventDefault();
 
-    const deltaX = e.pageX - dragStartX;
+    const deltaX = e.clientX - dragStartX;
     // Map pixels back to seconds. Dragging left (negative deltaX) should advance time (positive deltaT)
     const deltaT = deltaX / PIXELS_PER_SECOND;
 
     let newTime = Math.max(0, dragStartTime - deltaT);
+    if (Number.isNaN(newTime)) newTime = 0;
 
     if (isPlaying) {
         startTime = performance.now() - (newTime * 1000);
@@ -1213,4 +1503,34 @@ function clearData() {
             statusText.innerText = 'Data cleared.';
         }
     );
+}
+
+// --- Message Listener for Parent Window (Embed Mode) ---
+window.addEventListener('message', (event) => {
+    const msg = event.data;
+
+    if (msg.type === 'loadChordData') {
+        console.log('Scrolling Chords received data:', msg);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle);
+    }
+    else if (msg.type === 'stopAudio') {
+        if (pianoPlayer) pianoPlayer.stopAll();
+        if (youtubePlayer && isYoutubePlaying && typeof youtubePlayer.pauseVideo === 'function') {
+            youtubePlayer.pauseVideo();
+        }
+        isPlaying = false;
+        if (playPauseBtn) {
+            playPauseBtn.innerHTML = '▶ <span>Play</span>';
+            playPauseBtn.classList.remove('playing');
+        }
+        cancelAnimationFrame(animationFrame);
+    }
+});
+
+// Signal that we are ready to receive data
+console.log('Scrolling Chords: Listener ready');
+if (window.parent) {
+    window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
+} else if (window.opener) {
+    window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
 }

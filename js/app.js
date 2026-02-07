@@ -128,7 +128,12 @@ class App {
         } else {
             const index = this.modalStack.findIndex(m => String(m.id) === String(modalId));
             if (index !== -1) {
+                const modal = this.modalStack[index];
                 this.modalStack.splice(index, 1);
+                // FORCE CLOSE: Ensure the close function is called even if history wasn't popped
+                if (modal && typeof modal.close === 'function') {
+                    modal.close();
+                }
             }
         }
     }

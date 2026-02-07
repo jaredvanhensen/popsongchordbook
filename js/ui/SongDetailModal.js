@@ -375,49 +375,63 @@ class SongDetailModal {
                 e.preventDefault();
                 e.stopPropagation();
 
+                // Define helper to send data
+                const sendChordData = () => {
+                    const song = this.songManager.getSongById(this.currentSongId);
+                    if (!song || !scrollingChordsFrame.contentWindow) return;
+
+                    console.log('Sending chord data to Timeline view', song);
+
+                    // Extract unique chords from song blocks for the toolbar
+                    const sections = [
+                        { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
+                        { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+                        { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+                        { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+                    ];
+
+                    const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+                    const suggestedChordsGrouped = sections.map(section => {
+                        const found = section.text.match(chordRegex) || [];
+                        // MIRROR CHORDS EXACTLY: Include all duplicates
+                        return {
+                            section: section.name,
+                            type: section.type,
+                            chords: found
+                        };
+                    }).filter(group => group.chords.length > 0);
+
+                    // Send data
+                    scrollingChordsFrame.contentWindow.postMessage({
+                        type: 'loadChordData',
+                        data: song.chordData || { chords: [] },
+                        youtubeUrl: song.youtubeUrl || '',
+                        artist: song.artist,
+                        songTitle: song.title,
+                        title: song.artist + ' - ' + song.title,
+                        suggestedChords: suggestedChordsGrouped
+                    }, '*');
+                };
+
                 // Force reload iframe on each open to ensure fresh state
                 if (scrollingChordsFrame) {
-                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true&t=' + Date.now();
-
-                    // After iframe loads, send the chord data if it exists
+                    // 1. Assign onload logic BEFORE setting src to avoid race conditions
                     scrollingChordsFrame.onload = () => {
-                        const song = this.songManager.getSongById(this.currentSongId);
-                        console.log('Sending chord data to Timeline view', song);
-
-                        // Extract unique chords from song blocks for the toolbar
-                        const sections = [
-                            { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
-                            { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-                            { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
-                            { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
-                        ];
-
-                        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
-                        const suggestedChordsGrouped = sections.map(section => {
-                            const found = section.text.match(chordRegex) || [];
-                            // MIRROR CHORDS EXACTLY: Include all duplicates
-                            return {
-                                section: section.name,
-                                type: section.type,
-                                chords: found // Replaced [...new Set(found)] with found
-                            };
-                        }).filter(group => group.chords.length > 0);
-
-                        // Send data even if chordData is empty so we can init the timeline with just youtubeUrl
-                        scrollingChordsFrame.contentWindow.postMessage({
-                            type: 'loadChordData',
-                            data: song.chordData || { chords: [] },
-                            youtubeUrl: song.youtubeUrl || '',
-                            artist: song.artist,
-                            songTitle: song.title,
-                            title: song.artist + ' - ' + song.title,
-                            suggestedChords: suggestedChordsGrouped // Grouped by Block
-                        }, '*');
+                        console.log('Iframe loaded (onload event). Waiting for Ready signal or sending data as fallback...');
+                        // Fallback: Try to send data immediately in case Ready signal was missed (though unlikely with this order)
+                        setTimeout(sendChordData, 500);
                     };
+
+                    // 2. Set src to trigger load
+                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true&t=' + Date.now();
                 }
 
                 // Show modal overlay
                 scrollingChordsModal.classList.remove('hidden');
+
+                // One-time listener for Ready signal (managed per open session for simplicity, or we check if listener exists)
+                // To avoid duplicate listeners, we can rely on a shared handler setup in constructor, OR just use the global one below.
+                // For this fix, I'll rely on the global message listener adding a specific check for 'scrollingChordsReady'
             });
 
             // Close logic
@@ -458,8 +472,52 @@ class SongDetailModal {
             });
 
             // Listen for Save message from iframe
+            // Listen for messages from iframe
             window.addEventListener('message', async (event) => {
-                if (event.data && event.data.type === 'saveChordData' && this.currentSongId) {
+                if (!event.data) return;
+
+                // 1. Handshake: Iframe says "I'm Ready"
+                if (event.data.type === 'scrollingChordsReady') {
+                    console.log('Received Ready signal from Scrolling Chords');
+                    // Find the frame and send data
+                    if (scrollingChordsFrame && !scrollingChordsModal.classList.contains('hidden')) {
+                        // Re-trigger the logic used in the click handler. 
+                        // Since we don't have easy access to the scoped sendChordData, we duplicate the minimal fetch logic here for robustness.
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        if (song) {
+                            console.log('Responding to Ready signal with Data');
+
+                            // (Simplified chord extraction for the handshake response - reusing the full logic is better but this is a patch)
+                            // Actually, let's just trigger the message directly.
+                            // To keep it DRY, ideally we'd have a method `sendDataToIframe()`, but for now I will duplicate the structure safely.
+
+                            const sections = [
+                                { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
+                                { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+                                { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+                                { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+                            ];
+                            const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+                            const suggestedChordsGrouped = sections.map(section => {
+                                const found = section.text.match(chordRegex) || [];
+                                return { section: section.name, type: section.type, chords: found };
+                            }).filter(group => group.chords.length > 0);
+
+                            scrollingChordsFrame.contentWindow.postMessage({
+                                type: 'loadChordData',
+                                data: song.chordData || { chords: [] },
+                                youtubeUrl: song.youtubeUrl || '',
+                                artist: song.artist,
+                                songTitle: song.title,
+                                title: song.artist + ' - ' + song.title,
+                                suggestedChords: suggestedChordsGrouped
+                            }, '*');
+                        }
+                    }
+                }
+
+                // 2. Save Data
+                else if (event.data.type === 'saveChordData' && this.currentSongId) {
                     console.log('Received saveChordData from Timeline');
                     const chordData = event.data.data;
 
