@@ -711,6 +711,24 @@ button:disabled {
     }
 }
 
+/* Virtual Drag Ghost */
+.chord-drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    z-index: 100000;
+    background: #667eea;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.1s;
+    white-space: nowrap;
+}
+
 .chord-edit-modal .modal-header {
     margin-bottom: 20px;
 }

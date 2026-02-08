@@ -73,6 +73,11 @@ let dragPointerStartX = 0;
 let dragChordStartTime = 0;
 let dragHasMoved = false;
 let countInStartTime = 0;
+
+// Virtual Drag State (Toolbar Chords)
+let isVirtualDragging = false;
+let virtualDraggedChord = null;
+let dragGhost = null;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const PIXELS_PER_SECOND = 150; // Speed of scrolling (was 100, originally 200)
 
@@ -418,6 +423,25 @@ chordTrack.addEventListener('click', (e) => {
 
 // Global pointer listeners for the second half of dragging
 window.addEventListener('pointermove', (e) => {
+    if (isVirtualDragging && dragGhost) {
+        updateGhostPosition(e);
+
+        // Visual feedback when over timeline
+        const timelineRect = timeline.getBoundingClientRect();
+        const overTimeline = (
+            e.clientX >= timelineRect.left &&
+            e.clientX <= timelineRect.right &&
+            e.clientY >= timelineRect.top &&
+            e.clientY <= timelineRect.bottom
+        );
+
+        if (overTimeline) {
+            timeline.style.backgroundColor = '#333';
+        } else {
+            timeline.style.backgroundColor = '';
+        }
+    }
+
     if (!isDraggingChord || draggedChordIndex === null) return;
 
     const deltaX = e.clientX - dragPointerStartX;
@@ -443,6 +467,37 @@ window.addEventListener('pointermove', (e) => {
 });
 
 window.addEventListener('pointerup', (e) => {
+    if (isVirtualDragging) {
+        const timelineRect = timeline.getBoundingClientRect();
+        const overTimeline = (
+            e.clientX >= timelineRect.left &&
+            e.clientX <= timelineRect.right &&
+            e.clientY >= timelineRect.top &&
+            e.clientY <= timelineRect.bottom
+        );
+
+        if (overTimeline && virtualDraggedChord) {
+            const x = e.clientX - timelineRect.left;
+            const playheadOffset = 200;
+            const dist = x - playheadOffset;
+
+            const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+            const dropTime = Math.max(0, playbackTime + (dist / PIXELS_PER_SECOND));
+
+            recordChord(virtualDraggedChord, dropTime);
+            triggerChordAudio(virtualDraggedChord, 1.0);
+        }
+
+        // Cleanup
+        isVirtualDragging = false;
+        virtualDraggedChord = null;
+        if (dragGhost) {
+            dragGhost.remove();
+            dragGhost = null;
+        }
+        timeline.style.backgroundColor = '';
+    }
+
     if (isDraggingChord) {
         isDraggingChord = false;
 
@@ -457,6 +512,13 @@ window.addEventListener('pointerup', (e) => {
         draggedChordIndex = null;
     }
 });
+
+function updateGhostPosition(e) {
+    if (dragGhost) {
+        dragGhost.style.left = `${e.clientX}px`;
+        dragGhost.style.top = `${e.clientY}px`;
+    }
+}
 
 
 function handleFileSelect(e) {
@@ -586,6 +648,23 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                             e.dataTransfer.setData('chordName', chordName);
                             // Audio already triggered by pointerdown
                         };
+
+                        // iPad/Touch Virtual Drag
+                        btn.addEventListener('pointerdown', (e) => {
+                            // Only start virtual drag if it's touch or long press? 
+                            // Actually, let's do it for all pointers to be robust.
+                            isVirtualDragging = true;
+                            virtualDraggedChord = chordName;
+
+                            // Create ghost element
+                            if (dragGhost) dragGhost.remove();
+                            dragGhost = document.createElement('div');
+                            dragGhost.className = 'chord-drag-ghost';
+                            dragGhost.textContent = chordName;
+                            document.body.appendChild(dragGhost);
+                            updateGhostPosition(e);
+                        });
+
                         buttonsContainer.appendChild(btn);
                     });
                 });
@@ -612,6 +691,20 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                     btn.ondragstart = (e) => {
                         e.dataTransfer.setData('chordName', chordName);
                     };
+
+                    // iPad/Touch Virtual Drag
+                    btn.addEventListener('pointerdown', (e) => {
+                        isVirtualDragging = true;
+                        virtualDraggedChord = chordName;
+
+                        if (dragGhost) dragGhost.remove();
+                        dragGhost = document.createElement('div');
+                        dragGhost.className = 'chord-drag-ghost';
+                        dragGhost.textContent = chordName;
+                        document.body.appendChild(dragGhost);
+                        updateGhostPosition(e);
+                    });
+
                     buttonsContainer.appendChild(btn);
                 });
             }
@@ -622,11 +715,25 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
             qBtn.textContent = '?';
             qBtn.title = 'Mark unknown chord';
             qBtn.draggable = true;
+            qBtn.style.touchAction = 'none';
 
             qBtn.onpointerdown = (e) => {
                 initAudio();
-                triggerChordAudio("?", 1.0, true);
+                triggerChordAudio('?', 1.0, true);
             };
+
+            // iPad/Touch Virtual Drag
+            qBtn.addEventListener('pointerdown', (e) => {
+                isVirtualDragging = true;
+                virtualDraggedChord = '?';
+
+                if (dragGhost) dragGhost.remove();
+                dragGhost = document.createElement('div');
+                dragGhost.className = 'chord-drag-ghost';
+                dragGhost.textContent = '?';
+                document.body.appendChild(dragGhost);
+                updateGhostPosition(e);
+            });
 
             qBtn.onclick = () => {
                 if (enableTimingCapture) {
