@@ -24,6 +24,7 @@ class SongDetailModal {
         this.artistElement = document.getElementById('songDetailArtist');
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
+        this.chordSearchBtn = document.getElementById('songDetailChordSearchBtn');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
         this.keyDisplay = document.getElementById('songDetailKeyDisplay');
         this.youtubeBtn = document.getElementById('songDetailYouTubeBtn');
@@ -155,6 +156,19 @@ class SongDetailModal {
             this.stopAutoScroll();
             this.lyricsOverlay.classList.add('hidden');
         }
+    }
+
+    searchChords() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const artist = song.artist || '';
+        const title = song.title || '';
+        const query = encodeURIComponent(`${artist} ${title} Chords`).replace(/%20/g, '+');
+        const searchUrl = `https://www.google.com/search?q=${query}`;
+
+        window.open(searchUrl, '_blank');
     }
 
     startAutoScroll() {
@@ -355,8 +369,12 @@ class SongDetailModal {
         if (this.favoriteBtn) {
             this.favoriteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.toggleFavorite();
+                this.onToggleFavorite(this.currentSongId);
             });
+        }
+
+        if (this.chordSearchBtn) {
+            this.chordSearchBtn.addEventListener('click', () => this.searchChords());
         }
 
         if (this.practiceBtn) {
