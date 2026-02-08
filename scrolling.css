@@ -798,7 +798,6 @@ button:disabled {
     display: none;
 }
 
-
 /* Re-enable pointer events for content since wrapper has none */
 .scrolling-chords-content {
     pointer-events: auto;
@@ -1027,4 +1026,48 @@ button:disabled {
 
 #closeYoutubeBtn:hover {
     background: rgba(220, 38, 38, 0.9);
+}
+
+/* Save Toast Notification */
+.save-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #00b894;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 25px rgba(0, 184, 148, 0.4);
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.save-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.save-toast .checkmark {
+    font-size: 1.4rem;
+    animation: scaleIn 0.3s 0.2s both cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

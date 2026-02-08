@@ -290,12 +290,15 @@ class SongManager {
     }
 
     async updateSong(id, updates) {
+        console.log('SongManager: Updating song', id, 'with updates:', updates);
         const song = this.songs.find(s => s.id === id);
         if (song) {
             Object.assign(song, updates);
+            console.log('SongManager: Song object after update:', song);
             await this.saveSongs();
             return song;
         }
+        console.warn('SongManager: Song not found for update', id);
         return null;
     }
 

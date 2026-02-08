@@ -63,6 +63,8 @@ let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
 let originalChordsJson = '[]'; // For change detection
+let originalTempo = 120; // For tempo change detection
+let currentTempo = 120; // Shared state for tempo
 
 // Dragging state
 let isDraggingChord = false;
@@ -126,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (enableTimingCapture) toggleTimingCapture();
         });
     }
+
+    // Initialize Modals
+    window.chordEditModal = new ChordEditModal();
+    window.bpmEditModal = new BpmEditModal();
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -184,12 +190,9 @@ function toggleMetronome() {
 }
 
 function changeBpm() {
-    const currentBpm = Math.round(60 / secondsPerBeat);
-    const newBpm = prompt("Enter new Tempo (BPM):", currentBpm);
-
-    if (newBpm && !isNaN(newBpm)) {
-        const bpmVal = parseInt(newBpm);
-        if (bpmVal > 0) {
+    bpmEditModal.show(currentTempo, (bpmVal) => {
+        if (bpmVal && !isNaN(bpmVal) && bpmVal > 0) {
+            currentTempo = bpmVal;
             secondsPerBeat = 60 / bpmVal;
             bpmBtn.innerText = `${bpmVal} BPM`;
 
@@ -208,8 +211,10 @@ function changeBpm() {
                 renderStaticElements();
                 updateLoop();
             }
+
+            checkForChanges();
         }
-    }
+    });
 }
 
 
@@ -516,13 +521,10 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
     if (songTitleDisplay) songTitleDisplay.textContent = songTitle || '';
 
     if (!data || !data.chords || !Array.isArray(data.chords)) {
-        console.error('Invalid data format received');
-        // If we have a YouTube URL but no chords, initialize with empty chords
-        if (url) {
-            data = { chords: [], duration: 300, tempo: 120 }; // Default 5 mins
-        } else {
-            return;
-        }
+        console.warn('Scrolling Chords: data.chords missing or invalid, using empty array');
+        // Preserve tempo if it exists even if chords are missing
+        const preservedTempo = (data && data.tempo) ? Number(data.tempo) : 120;
+        data = { chords: [], duration: 300, tempo: preservedTempo };
     }
 
     if (title) {
@@ -645,11 +647,14 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
     try {
         chords = data.chords || [];
         const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 300);
-        const bpm = data.tempo || 120;
+        const bpm = Number(data.tempo) || 120;
 
-        // Update global secondsPerBeat for metronome
+        currentTempo = bpm;
+        originalTempo = bpm;
         secondsPerBeat = 60 / bpm;
         if (bpmBtn) bpmBtn.innerText = `${Math.round(bpm)} BPM`;
+
+        console.log('Scrolling Chords: loadData - data.tempo:', data.tempo, 'bpm:', bpm, 'currentTempo:', currentTempo);
 
         // Mock midi object for marker generation
         const mockMidi = {
@@ -663,6 +668,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
 
         // Record original state for change detection
         originalChordsJson = JSON.stringify(chords);
+        originalTempo = bpm;
         checkForChanges();
     } catch (e) {
         console.error(e);
@@ -730,12 +736,21 @@ function finishLoading(chordCount, bpm) {
 }
 
 function getExportData() {
-    if (!chords || chords.length === 0) return null;
+    // Return data as long as we have a valid tempo or chords
+    if (currentTempo <= 0 && (!chords || chords.length === 0)) return null;
+
+    // Duration: Use midi duration, or last chord time + 5s, or default 300s
+    let duration = 300;
+    if (midiData) {
+        duration = midiData.duration;
+    } else if (chords && chords.length > 0) {
+        duration = chords[chords.length - 1].time + 5;
+    }
 
     return {
         name: currentFileName,
-        tempo: (midiData && midiData.header && midiData.header.tempos) ? midiData.header.tempos[0]?.bpm : (midiData?.tempo || 120),
-        duration: midiData ? midiData.duration : (chords[chords.length - 1].time + 5),
+        tempo: currentTempo,
+        duration: duration,
         chords: chords
     };
 }
@@ -757,20 +772,42 @@ function saveToDatabase() {
     const exportData = getExportData();
     if (!exportData) return;
 
-    console.log('Requesting parent to save chord data...');
+    console.log('Requesting parent to save chord data...', exportData);
     window.parent.postMessage({
         type: 'saveChordData',
         data: exportData
     }, '*');
 
     // Visual feedback
-    setSaveStatus(true);
+    showSaveToast();
 
-    // Update original state and hide after a delay
+    // Update original state IMMEDIATELY so checkForChanges reflects saved state
     originalChordsJson = JSON.stringify(chords);
+    originalTempo = currentTempo;
+
+    // Hide save button
+    if (saveBtn) {
+        saveBtn.classList.add('hidden');
+    }
+}
+
+function showSaveToast() {
+    let toast = document.querySelector('.save-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'save-toast';
+        toast.innerHTML = '<span class="checkmark">✅</span> Saved Successfully';
+        document.body.appendChild(toast);
+    }
+
+    // Reset and show
+    toast.classList.remove('show');
+    void toast.offsetWidth; // Trigger reflow
+    toast.classList.add('show');
+
     setTimeout(() => {
-        checkForChanges();
-    }, 1500);
+        toast.classList.remove('show');
+    }, 2500);
 }
 
 function setSaveStatus(isSaved) {
@@ -797,7 +834,7 @@ function checkForChanges() {
     if (!saveBtn) return;
 
     const currentJson = JSON.stringify(chords);
-    const hasUnsavedChanges = currentJson !== originalChordsJson;
+    const hasUnsavedChanges = currentJson !== originalChordsJson || currentTempo !== originalTempo;
 
     if (hasUnsavedChanges) {
         saveBtn.classList.remove('hidden');
@@ -881,7 +918,8 @@ function generateMarkers(midi) {
     const secondsPerBeat = 60 / bpm;
     const secondsPerBar = secondsPerBeat * timeSignature[0];
 
-    // Add time markers (every 5 seconds)
+    /* 
+    // Add time markers (every 5 seconds) - REMOVED per user request
     for (let t = 0; t <= duration; t += 5) {
         markers.push({
             time: t,
@@ -889,6 +927,7 @@ function generateMarkers(midi) {
             type: 'time'
         });
     }
+    */
 
     // Add bar and beat markers
     const numBars = Math.ceil(duration / secondsPerBar);

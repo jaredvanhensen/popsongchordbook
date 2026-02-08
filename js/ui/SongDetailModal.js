@@ -73,6 +73,13 @@ class SongDetailModal {
         this.confirmationModal = document.getElementById('confirmationModal');
         this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
         this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
+
+        // Info Modal
+        this.infoModal = document.getElementById('infoModal');
+        this.infoModalTitle = document.getElementById('infoModalTitle');
+        this.infoModalMessage = document.getElementById('infoModalMessage');
+        this.infoModalOkBtn = document.getElementById('infoModalOkBtn');
+        this.infoModalClose = document.getElementById('infoModalClose');
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
@@ -132,7 +139,7 @@ class SongDetailModal {
         ].filter(cue => cue && cue.trim() !== '');
 
         if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim())) {
-            alert('No lyrics found for this song. Add them in the "Details" (Gear) or "notes or lyrics" fields!');
+            this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field!"');
             return;
         }
 
@@ -518,13 +525,18 @@ class SongDetailModal {
 
                 // 2. Save Data
                 else if (event.data.type === 'saveChordData' && this.currentSongId) {
-                    console.log('Received saveChordData from Timeline');
                     const chordData = event.data.data;
+                    console.log('SongDetailModal: Received saveChordData from Timeline', chordData);
 
                     try {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        console.log('SongDetailModal: Current song data BEFORE update:', song.chordData);
+
                         await this.songManager.updateSong(this.currentSongId, { chordData: chordData });
+
+                        const updatedSong = this.songManager.getSongById(this.currentSongId);
+                        console.log('SongDetailModal: Current song data AFTER update:', updatedSong.chordData);
                         console.log('Chord data saved to database');
-                        // No need for alert here as iframe gives feedback
                     } catch (e) {
                         console.error('Error saving chord data from timeline:', e);
                     }
@@ -1599,6 +1611,44 @@ class SongDetailModal {
             this.confirmDontSaveBtn.addEventListener('click', handleDontSave);
             this.confirmationModal.classList.remove('hidden');
         });
+    }
+
+    showInfoModal(title, message) {
+        if (!this.infoModal) this.infoModal = document.getElementById('infoModal');
+        if (!this.infoModalTitle) this.infoModalTitle = document.getElementById('infoModalTitle');
+        if (!this.infoModalMessage) this.infoModalMessage = document.getElementById('infoModalMessage');
+        if (!this.infoModalOkBtn) this.infoModalOkBtn = document.getElementById('infoModalOkBtn');
+        if (!this.infoModalClose) this.infoModalClose = document.getElementById('infoModalClose');
+
+        if (!this.infoModal || !this.infoModalOkBtn) {
+            alert(message);
+            return;
+        }
+
+        this.infoModalTitle.textContent = title;
+        this.infoModalMessage.textContent = message;
+
+        const cleanup = () => {
+            this.infoModalOkBtn.removeEventListener('click', handleOk);
+            if (this.infoModalClose) this.infoModalClose.removeEventListener('click', handleOk);
+            this.infoModal.removeEventListener('click', handleBgClick);
+            this.infoModal.classList.add('hidden');
+        };
+
+        const handleOk = () => {
+            cleanup();
+        };
+
+        const handleBgClick = (e) => {
+            if (e.target === this.infoModal) {
+                cleanup();
+            }
+        };
+
+        this.infoModalOkBtn.addEventListener('click', handleOk);
+        if (this.infoModalClose) this.infoModalClose.addEventListener('click', handleOk);
+        this.infoModal.addEventListener('click', handleBgClick);
+        this.infoModal.classList.remove('hidden');
     }
 
     navigatePrevious() {
