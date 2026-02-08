@@ -792,6 +792,8 @@ button:disabled {
     /* Allow vertical scroll if really many rows */
     touch-action: pan-y;
     /* Allow scrolling buttons but not zooming */
+    overscroll-behavior-y: none;
+    /* Prevent pull-to-refresh */
 }
 
 .chord-buttons-container.hidden {
@@ -818,6 +820,10 @@ button:disabled {
     transition: all 0.2s;
     min-width: 40px;
     text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    /* Prevent selection on iOS */
+    touch-action: manipulation;
 }
 
 .chord-suggestion-btn:hover {

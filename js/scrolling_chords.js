@@ -132,6 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Modals
     window.chordEditModal = new ChordEditModal();
     window.bpmEditModal = new BpmEditModal();
+
+    // iPad Pull-to-refresh fix for chord toolbar
+    const buttonsContainer = document.getElementById('chordButtonsContainer');
+    if (buttonsContainer) {
+        buttonsContainer.addEventListener('touchmove', (e) => {
+            // Prevent pull-to-refresh when dragging chords if at the top
+            if (buttonsContainer.scrollTop <= 0 && e.touches[0].clientY > 0) {
+                // If we are at top and pulling down, we might be trying to drag a button
+                // or the browser might try to refresh. Let's prevent it.
+                // We only do this for the toolbar to be safe.
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -554,6 +568,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                         btn.className = `chord-suggestion-btn chord-type-${group.type}`;
                         btn.textContent = chordName;
                         btn.draggable = true;
+                        btn.style.touchAction = 'none'; // CRITICAL: Prevent iPad scroll while dragging
 
                         // Use pointerdown for immediate audio feedback across all devices
                         btn.onpointerdown = (e) => {
@@ -580,6 +595,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                     btn.className = 'chord-suggestion-btn';
                     btn.textContent = chordName;
                     btn.draggable = true;
+                    btn.style.touchAction = 'none'; // Prevent iPad scroll while dragging
 
                     btn.onpointerdown = (e) => {
                         if (typeof updateDebug === 'function') updateDebug(`Click: ${chordName}`);
