@@ -8151,6 +8151,36 @@ td:has(.row-edit-input.input-focused) {
     color: #7dd3fc;
 }
 
+/* Luxury Ticker Controls */
+.luxury-plus {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.luxury-minus {
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.luxury-icon {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.luxury-plus:hover,
+.luxury-minus:hover {
+    filter: brightness(1.1);
+    transform: scale(1.15) !important;
+}
+
 .speed-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);

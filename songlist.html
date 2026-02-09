@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.004">
+    <link rel="stylesheet" href="styles.css?v=2.005">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -52,7 +52,7 @@
                     <!-- Version moved here -->
                     <div
                         style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.004</span>
+                        v<span id="site-version">2.005</span>
                     </div>
                 </div>
             </div>
@@ -895,12 +895,8 @@
                         </svg>
                     </button>
                     <div class="ticker-speed-controls">
-                        <button id="lyricsSpeedUp" class="speed-btn" title="Faster">
-                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                                <polyline points="18 21 12 15 6 21"></polyline>
-                            </svg>
+                        <button id="lyricsSpeedUp" class="speed-btn luxury-plus" title="Faster">
+                            <span class="luxury-icon">+</span>
                         </button>
                         <button id="lyricsPauseBtn" class="speed-btn pause-toggle-btn" title="Pause">
                             <span class="pause-icon">
@@ -917,12 +913,8 @@
                                 </svg>
                             </span>
                         </button>
-                        <button id="lyricsSpeedDown" class="speed-btn" title="Slower">
-                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                                <polyline points="6 3 12 9 18 3"></polyline>
-                            </svg>
+                        <button id="lyricsSpeedDown" class="speed-btn luxury-minus" title="Slower">
+                            <span class="luxury-icon">−</span>
                         </button>
                     </div>
                 </div>
@@ -940,7 +932,7 @@
             <div class="modal-body">
                 <div class="url-input-group">
                     <label for="youtubeUrlInput">YouTube URL</label>
-                    <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=2.004"
+                    <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=2.005"
                         spellcheck="false" autocorrect="off" autocapitalize="none" />
                 </div>
                 <div class="url-input-group" style="margin-top: 15px;">
@@ -1119,34 +1111,34 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.004"></script>
+    <script src="js/config/firebase-config.js?v=2.005"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.004"></script>
-    <script src="js/models/SetlistManager.js?v=2.004"></script>
+    <script src="js/models/SongManager.js?v=2.005"></script>
+    <script src="js/models/SetlistManager.js?v=2.005"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=2.004"></script>
-    <script src="js/utils/ChordDetector.js?v=2.004"></script>
-    <script src="js/utils/KeyDetector.js?v=2.004"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.004"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.004"></script>
+    <script src="js/utils/Sorter.js?v=2.005"></script>
+    <script src="js/utils/ChordDetector.js?v=2.005"></script>
+    <script src="js/utils/KeyDetector.js?v=2.005"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.005"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.005"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=2.004"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.004"></script>
-    <script src="js/ui/TableRenderer.js?v=2.004"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.004"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.004"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.004"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.004"></script>
-    <script src="js/ui/AuthModal.js?v=2.004"></script>
-    <script src="js/ui/ProfileModal.js?v=2.004"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.004"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.004"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.004"></script>
+    <script src="js/ui/ChordModal.js?v=2.005"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.005"></script>
+    <script src="js/ui/TableRenderer.js?v=2.005"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.005"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.005"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.005"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.005"></script>
+    <script src="js/ui/AuthModal.js?v=2.005"></script>
+    <script src="js/ui/ProfileModal.js?v=2.005"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.005"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.005"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.005"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=2.004"></script>
+    <script src="js/data/default_songs.js?v=2.005"></script>
     <!-- Main App -->
-    <script src="js/app.js?v=2.004"></script>
+    <script src="js/app.js?v=2.005"></script>
 </body>
 
 </html>

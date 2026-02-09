@@ -132,6 +132,7 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
+        // Check if there is anything to show
         const combinedBlocks = [
             song.verse || '',
             song.preChorus || '',
@@ -151,19 +152,7 @@ class SongDetailModal {
             return;
         }
 
-        let lyrics = '';
-        if (song.fullLyrics && song.fullLyrics.trim()) {
-            lyrics = song.fullLyrics;
-        } else if (song.lyrics && song.lyrics.trim()) {
-            // Support legacy field in ticker
-            lyrics = song.lyrics;
-        } else if (cues.length > 0) {
-            lyrics = cues.join('\n\n');
-        } else {
-            lyrics = combinedBlocks;
-        }
-
-        this.lyricsText.innerText = lyrics;
+        this.updateLyricsTickerContent();
 
         if (this.lyricsOverlay.classList.contains('hidden')) {
             this.lyricsOverlay.classList.remove('hidden');
@@ -173,6 +162,47 @@ class SongDetailModal {
         } else {
             this.stopAutoScroll();
             this.lyricsOverlay.classList.add('hidden');
+        }
+    }
+
+    updateLyricsTickerContent() {
+        if (!this.lyricsOverlay || !this.lyricsText || !this.currentSongId) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const combinedBlocks = [
+            song.verse || '',
+            song.preChorus || '',
+            song.chorus || '',
+            song.bridge || ''
+        ].filter(text => text && text.trim() !== '').join('\n\n');
+
+        const cues = [
+            song.verseCue,
+            song.chorusCue,
+            song.preChorusCue,
+            song.bridgeCue
+        ].filter(cue => cue && cue.trim() !== '');
+
+        let lyrics = '';
+        if (song.fullLyrics && song.fullLyrics.trim()) {
+            lyrics = song.fullLyrics;
+        } else if (song.lyrics && song.lyrics.trim()) {
+            lyrics = song.lyrics;
+        } else if (cues.length > 0) {
+            lyrics = cues.join('\n\n');
+        } else {
+            lyrics = combinedBlocks;
+        }
+
+        this.lyricsText.innerText = lyrics;
+
+        // Reset scroll position visual state
+        const scrollContainer = this.lyricsOverlay.querySelector('.lyrics-ticker-content');
+        if (scrollContainer) {
+            this.lyricsScrollPos = 0;
+            scrollContainer.scrollTop = 0;
         }
     }
 
@@ -1760,8 +1790,11 @@ class SongDetailModal {
             return;
         }
 
-        // Reset lyrics ticker scroll position for the new song
+        // Reset lyrics ticker scroll position and content for the new song
         this.lyricsScrollPos = 0;
+        if (this.lyricsOverlay && !this.lyricsOverlay.classList.contains('hidden')) {
+            this.updateLyricsTickerContent();
+        }
 
         // Save any unsaved changes before switching songs
         if (this.hasUnsavedChanges && this.currentSongId) {
