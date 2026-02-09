@@ -146,7 +146,7 @@ class SongDetailModal {
             song.bridgeCue
         ].filter(cue => cue && cue.trim() !== '');
 
-        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && !combinedBlocks.trim()) {
+        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && (!song.lyrics || !song.lyrics.trim()) && !combinedBlocks.trim()) {
             this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field, or in the Verse/Chorus blocks!');
             return;
         }
@@ -154,6 +154,9 @@ class SongDetailModal {
         let lyrics = '';
         if (song.fullLyrics && song.fullLyrics.trim()) {
             lyrics = song.fullLyrics;
+        } else if (song.lyrics && song.lyrics.trim()) {
+            // Support legacy field in ticker
+            lyrics = song.lyrics;
         } else if (cues.length > 0) {
             lyrics = cues.join('\n\n');
         } else {
@@ -1398,7 +1401,8 @@ class SongDetailModal {
                 bridge: song.bridge || '',
                 bridgeTitle: song.bridgeTitle || 'Block 4',
                 bridgeCue: song.bridgeCue || '',
-                key: song.key || ''
+                key: song.key || '',
+                fullLyrics: song.fullLyrics || song.lyrics || ''
             };
         }
 
@@ -1795,7 +1799,7 @@ class SongDetailModal {
             bridgeTitle: song.bridgeTitle || 'Block 4',
             bridgeCue: song.bridgeCue || '',
             key: song.key || '',
-            fullLyrics: song.fullLyrics || ''
+            fullLyrics: song.fullLyrics || song.lyrics || ''
         };
 
         // Update artist and title

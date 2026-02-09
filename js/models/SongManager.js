@@ -115,17 +115,27 @@ class SongManager {
     normalizeSongs(songs) {
         if (!Array.isArray(songs)) return [];
         return songs.map(song => ({
+            // Default values
+            artist: '',
+            title: '',
+            verse: '',
+            chorus: '',
+            preChorus: '',
+            bridge: '',
+            favorite: false,
+            youtubeUrl: '',
+            externalUrl: '',
+            key: '',
+            verseCue: '',
+            preChorusCue: '',
+            chorusCue: '',
+            bridgeCue: '',
+            fullLyrics: '',
+            chordData: null,
+            // Preserve all incoming fields
             ...song,
-            favorite: song.favorite || false,
-            youtubeUrl: song.youtubeUrl || '',
-            externalUrl: song.externalUrl || '',
-            key: song.key || '',
-            verseCue: song.verseCue || '',
-            preChorusCue: song.preChorusCue || '',
-            chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || '',
-            fullLyrics: song.fullLyrics || '',
-            chordData: song.chordData || null
+            // Proactive migration: Ensure fullLyrics is never empty if legacy lyrics exist
+            fullLyrics: song.fullLyrics || song.lyrics || ''
         }));
     }
 
