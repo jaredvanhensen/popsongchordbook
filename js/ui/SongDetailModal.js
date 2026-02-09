@@ -139,6 +139,13 @@ class SongDetailModal {
             song.bridge || ''
         ].filter(text => text && text.trim() !== '').join('\n\n');
 
+        const cues = [
+            song.verseCue,
+            song.chorusCue,
+            song.preChorusCue,
+            song.bridgeCue
+        ].filter(cue => cue && cue.trim() !== '');
+
         if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && !combinedBlocks.trim()) {
             this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field, or in the Verse/Chorus blocks!');
             return;
