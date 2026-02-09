@@ -316,6 +316,13 @@ class SongManager {
         console.log('SongManager: Updating song', id, 'with updates:', updates);
         const song = this.songs.find(s => s.id === id);
         if (song) {
+            // Safety check: Prevent overwriting legacy lyrics with empty fullLyrics string
+            // unless we explicitly want to clear both.
+            if (updates.fullLyrics === '' && (song.lyrics && song.lyrics.trim() !== '')) {
+                console.warn('SongManager: Prevented overwriting legacy lyrics with empty fullLyrics. Using legacy fallback.');
+                delete updates.fullLyrics;
+            }
+
             Object.assign(song, updates);
             console.log('SongManager: Song object after update:', song);
             await this.saveSongs();

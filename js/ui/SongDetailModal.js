@@ -189,6 +189,7 @@ class SongDetailModal {
         if (song.fullLyrics && song.fullLyrics.trim()) {
             lyrics = song.fullLyrics;
         } else if (song.lyrics && song.lyrics.trim()) {
+            // Restore legacy fallback
             lyrics = song.lyrics;
         } else if (cues.length > 0) {
             lyrics = cues.join('\n\n');
@@ -1790,12 +1791,6 @@ class SongDetailModal {
             return;
         }
 
-        // Reset lyrics ticker scroll position and content for the new song
-        this.lyricsScrollPos = 0;
-        if (this.lyricsOverlay && !this.lyricsOverlay.classList.contains('hidden')) {
-            this.updateLyricsTickerContent();
-        }
-
         // Save any unsaved changes before switching songs
         if (this.hasUnsavedChanges && this.currentSongId) {
             const shouldSave = await this.showUnsavedChangesDialog();
@@ -1807,8 +1802,9 @@ class SongDetailModal {
             }
         }
 
-        this.currentSongId = song.id;
-        this.hasUnsavedChanges = false;
+        // Reset lyrics ticker scroll position for the new song
+        this.lyricsScrollPos = 0;
+
         this.currentSongId = song.id;
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
@@ -2031,9 +2027,14 @@ class SongDetailModal {
         if (this.fullLyricsInput) {
             this.fullLyricsInput.value = song.fullLyrics || song.lyrics || '';
             if (this.lyricsStatusText) {
-                const hasFullLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') || (song.lyrics && song.lyrics.trim() !== '');
-                this.lyricsStatusText.style.display = hasFullLyrics ? 'block' : 'none';
+                const hasLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') || (song.lyrics && song.lyrics.trim() !== '');
+                this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
             }
+        }
+
+        // Update lyrics ticker content if it is visible
+        if (this.lyricsOverlay && !this.lyricsOverlay.classList.contains('hidden')) {
+            this.updateLyricsTickerContent();
         }
     }
 
@@ -2632,6 +2633,15 @@ class SongDetailModal {
         if (this.keyDisplay) {
             this.keyDisplay.textContent = this.originalSongData.key || '';
             this.updateKeyDisplay(); // To handle badge visibility
+        }
+
+        // Restore Full Lyrics in UI
+        if (this.fullLyricsInput) {
+            this.fullLyricsInput.value = this.originalSongData.fullLyrics || '';
+            if (this.lyricsStatusText) {
+                const hasLyrics = this.fullLyricsInput.value.trim() !== '';
+                this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
+            }
         }
 
         // Reset change tracking
