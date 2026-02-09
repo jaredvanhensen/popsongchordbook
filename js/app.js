@@ -1,4 +1,4 @@
-// Main Application (v2.007)
+// Main Application (v2.008)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -32,7 +32,8 @@ class App {
             favorites: false,
             key: '',
             withYouTube: false,
-            withoutYouTube: false
+            withoutYouTube: false,
+            withoutLyrics: false
         };
         this.currentSetlistId = null;
         this.searchTerm = '';
@@ -75,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.007)");
+        console.log("Pop Song Chord Book - App Initialized (v2.008)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -608,6 +609,14 @@ class App {
             allSongs = allSongs.filter(song => !song.youtubeUrl || song.youtubeUrl.trim() === '');
         }
 
+        if (this.currentFilter.withoutLyrics) {
+            allSongs = allSongs.filter(song => {
+                const hasFullLyrics = song.fullLyrics && song.fullLyrics.trim() !== '';
+                const hasLegacyLyrics = song.lyrics && song.lyrics.trim() !== '';
+                return !hasFullLyrics && !hasLegacyLyrics;
+            });
+        }
+
         // Apply setlist filter if a setlist is selected
         if (this.currentSetlistId) {
             allSongs = this.setlistManager.getSongsInSetlist(this.currentSetlistId, allSongs);
@@ -679,6 +688,7 @@ class App {
         const filterKeySelect = document.getElementById('filterKeySelect');
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
+        const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
 
         // Open filter modal
         filterBtn.addEventListener('click', () => {
@@ -705,7 +715,8 @@ class App {
                 favorites: filterFavoritesCheckbox.checked,
                 key: filterKeySelect.value || '',
                 withYouTube: filterWithYouTubeCheckbox.checked,
-                withoutYouTube: filterWithoutYouTubeCheckbox.checked
+                withoutYouTube: filterWithoutYouTubeCheckbox.checked,
+                withoutLyrics: filterWithoutLyricsCheckbox.checked
             };
             this.loadAndRender();
             filterModal.classList.add('hidden');
@@ -718,11 +729,13 @@ class App {
             filterKeySelect.value = '';
             filterWithYouTubeCheckbox.checked = false;
             filterWithoutYouTubeCheckbox.checked = false;
+            if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
             this.currentFilter = {
                 favorites: false,
                 key: '',
                 withYouTube: false,
-                withoutYouTube: false
+                withoutYouTube: false,
+                withoutLyrics: false
             };
             this.loadAndRender();
             this.updateFilterButtonState();
@@ -789,6 +802,7 @@ class App {
         const filterKeySelect = document.getElementById('filterKeySelect');
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
+        const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
 
         if (filterFavoritesCheckbox) {
             filterFavoritesCheckbox.checked = this.currentFilter.favorites;
@@ -801,6 +815,9 @@ class App {
         }
         if (filterWithoutYouTubeCheckbox) {
             filterWithoutYouTubeCheckbox.checked = this.currentFilter.withoutYouTube;
+        }
+        if (filterWithoutLyricsCheckbox) {
+            filterWithoutLyricsCheckbox.checked = this.currentFilter.withoutLyrics;
         }
     }
 
