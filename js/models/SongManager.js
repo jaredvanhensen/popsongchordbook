@@ -172,23 +172,29 @@ class SongManager {
 
     async addSong(song) {
         const newSong = {
+            // Default values
+            artist: '',
+            title: '',
+            verse: '',
+            chorus: '',
+            preChorus: '',
+            bridge: '',
+            favorite: false,
+            youtubeUrl: '',
+            externalUrl: '',
+            key: '',
+            verseCue: '',
+            preChorusCue: '',
+            chorusCue: '',
+            bridgeCue: '',
+            fullLyrics: '',
+            chordData: null,
+            // Preserve all incoming fields
+            ...song,
+            // Guaranteed fields/overrides
             id: this.nextId++,
-            artist: song.artist || '',
-            title: song.title || '',
-            verse: song.verse || '',
-            chorus: song.chorus || '',
-            preChorus: song.preChorus || '',
-            bridge: song.bridge || '',
-            favorite: song.favorite || false,
-            youtubeUrl: song.youtubeUrl || '',
-            externalUrl: song.externalUrl || '',
-            key: song.key || '',
-            verseCue: song.verseCue || '',
-            preChorusCue: song.preChorusCue || '',
-            chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || '',
-            fullLyrics: song.fullLyrics || '',
-            chordData: song.chordData || null
+            // Support legacy field if present
+            fullLyrics: song.fullLyrics || song.lyrics || ''
         };
         this.songs.push(newSong);
         await this.saveSongs();
@@ -219,23 +225,29 @@ class SongManager {
     async importSongs(importedSongs, replace = true) {
         // Validate and normalize imported songs
         const normalizedSongs = importedSongs.map(song => ({
+            // Default values
+            artist: '',
+            title: '',
+            verse: '',
+            chorus: '',
+            preChorus: '',
+            bridge: '',
+            favorite: false,
+            youtubeUrl: '',
+            externalUrl: '',
+            key: '',
+            verseCue: '',
+            preChorusCue: '',
+            chorusCue: '',
+            bridgeCue: '',
+            fullLyrics: '',
+            chordData: null,
+            // Custom fields from importer (spread AFTER defaults to override)
+            ...song,
+            // Specific migrations/fixes
             id: song.id || this.nextId++,
-            artist: song.artist || '',
-            title: song.title || '',
-            verse: song.verse || '',
-            chorus: song.chorus || '',
-            preChorus: song.preChorus || '',
-            bridge: song.bridge || '',
-            favorite: song.favorite || false,
-            youtubeUrl: song.youtubeUrl || '',
-            externalUrl: song.externalUrl || '',
-            key: song.key || '',
-            verseCue: song.verseCue || '',
-            preChorusCue: song.preChorusCue || '',
-            chorusCue: song.chorusCue || '',
-            bridgeCue: song.bridgeCue || '',
-            fullLyrics: song.fullLyrics || '',
-            chordData: song.chordData || null
+            // Fallback for legacy 'lyrics' field to 'fullLyrics'
+            fullLyrics: song.fullLyrics || song.lyrics || ''
         }));
 
         // Update nextId to avoid conflicts

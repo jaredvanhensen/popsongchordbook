@@ -132,19 +132,27 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
-        const cues = [
-            song.verseCue,
-            song.chorusCue,
-            song.preChorusCue,
-            song.bridgeCue
-        ].filter(cue => cue && cue.trim() !== '');
+        const combinedBlocks = [
+            song.verse || '',
+            song.preChorus || '',
+            song.chorus || '',
+            song.bridge || ''
+        ].filter(text => text && text.trim() !== '').join('\n\n');
 
-        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim())) {
-            this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field!"');
+        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && !combinedBlocks.trim()) {
+            this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field, or in the Verse/Chorus blocks!');
             return;
         }
 
-        const lyrics = song.fullLyrics && song.fullLyrics.trim() ? song.fullLyrics : cues.join('\n\n');
+        let lyrics = '';
+        if (song.fullLyrics && song.fullLyrics.trim()) {
+            lyrics = song.fullLyrics;
+        } else if (cues.length > 0) {
+            lyrics = cues.join('\n\n');
+        } else {
+            lyrics = combinedBlocks;
+        }
+
         this.lyricsText.innerText = lyrics;
 
         if (this.lyricsOverlay.classList.contains('hidden')) {
@@ -1942,8 +1950,13 @@ class SongDetailModal {
             const lyricsEnabled = localStorage.getItem(`feature-lyrics-enabled-${uid}`) === 'true';
             const timelineEnabled = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
 
+            const hasAnyLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') ||
+                (song.lyrics && song.lyrics.trim() !== '') ||
+                (song.verseCue || song.chorusCue || song.preChorusCue || song.bridgeCue) ||
+                (song.verse || song.chorus || song.preChorus || song.bridge);
+
             if (this.lyricsBtn) {
-                this.lyricsBtn.style.display = lyricsEnabled ? 'flex' : 'none';
+                this.lyricsBtn.style.display = (hasAnyLyrics || lyricsEnabled) ? 'flex' : 'none';
             }
             if (this.scrollingChordsBtn) {
                 this.scrollingChordsBtn.style.display = timelineEnabled ? 'flex' : 'none';
@@ -1972,9 +1985,10 @@ class SongDetailModal {
 
         // Populate Full Lyrics Input
         if (this.fullLyricsInput) {
-            this.fullLyricsInput.value = song.fullLyrics || '';
+            this.fullLyricsInput.value = song.fullLyrics || song.lyrics || '';
             if (this.lyricsStatusText) {
-                this.lyricsStatusText.style.display = (song.fullLyrics && song.fullLyrics.trim() !== '') ? 'block' : 'none';
+                const hasFullLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') || (song.lyrics && song.lyrics.trim() !== '');
+                this.lyricsStatusText.style.display = hasFullLyrics ? 'block' : 'none';
             }
         }
     }
