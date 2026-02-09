@@ -1,4 +1,4 @@
-// Main Application (v2.008)
+// Main Application (v2.010)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.008)");
+        console.log("Pop Song Chord Book - App Initialized (v2.010)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -829,7 +829,8 @@ class App {
         const hasActiveFilters = this.currentFilter.favorites ||
             this.currentFilter.key !== '' ||
             this.currentFilter.withYouTube ||
-            this.currentFilter.withoutYouTube;
+            this.currentFilter.withoutYouTube ||
+            this.currentFilter.withoutLyrics;
 
         if (hasActiveFilters) {
             filterBtn.classList.add('active');
