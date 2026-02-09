@@ -65,6 +65,7 @@ let isCountingIn = false;
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
 let currentTempo = 120; // Shared state for tempo
+let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 
 // Dragging state
 let isDraggingChord = false;
@@ -245,6 +246,8 @@ if (speedBtn) {
             youtubePlayer.setPlaybackRate(currentSpeed);
         }
     };
+    // Initialize label
+    speedBtn.innerHTML = '🏃 <span>1.0x</span>';
 }
 
 function toggleAudio() {
@@ -467,6 +470,14 @@ window.addEventListener('pointermove', (e) => {
 });
 
 window.addEventListener('pointerup', (e) => {
+    // Reset Timeline Drag
+    if (isDragging) {
+        isDragging = false;
+        timeline.classList.remove('dragging');
+        updateLoop(); // Final refresh after drag ends
+    }
+
+    // Reset Virtual Drag (Toolbar Chords)
     if (isVirtualDragging) {
         const timelineRect = timeline.getBoundingClientRect();
         const overTimeline = (
@@ -498,6 +509,7 @@ window.addEventListener('pointerup', (e) => {
         timeline.style.backgroundColor = '';
     }
 
+    // Reset Chord Drag (Existing on timeline)
     if (isDraggingChord) {
         isDraggingChord = false;
 
@@ -629,7 +641,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                         const btn = document.createElement('button');
                         btn.className = `chord-suggestion-btn chord-type-${group.type}`;
                         btn.textContent = chordName;
-                        btn.draggable = true;
+                        btn.draggable = false;
                         btn.style.touchAction = 'none'; // CRITICAL: Prevent iPad scroll while dragging
 
                         // Use pointerdown for immediate audio feedback across all devices
@@ -673,7 +685,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                     const btn = document.createElement('button');
                     btn.className = 'chord-suggestion-btn';
                     btn.textContent = chordName;
-                    btn.draggable = true;
+                    btn.draggable = false;
                     btn.style.touchAction = 'none'; // Prevent iPad scroll while dragging
 
                     btn.onpointerdown = (e) => {
@@ -714,7 +726,7 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
             qBtn.className = 'chord-suggestion-btn';
             qBtn.textContent = '?';
             qBtn.title = 'Mark unknown chord';
-            qBtn.draggable = true;
+            qBtn.draggable = false;
             qBtn.style.touchAction = 'none';
 
             qBtn.onpointerdown = (e) => {
@@ -1598,14 +1610,6 @@ timeline.addEventListener('pointerdown', (e) => {
     let initialT = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
     if (Number.isNaN(initialT) || !Number.isFinite(initialT)) initialT = 0;
     dragStartTime = initialT;
-});
-
-window.addEventListener('pointerup', () => {
-    if (isDragging) {
-        isDragging = false;
-        timeline.classList.remove('dragging');
-        updateLoop(); // Final refresh after drag ends
-    }
 });
 
 timeline.addEventListener('pointermove', (e) => {
