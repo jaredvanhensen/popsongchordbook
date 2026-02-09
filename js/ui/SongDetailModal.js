@@ -609,6 +609,8 @@ class SongDetailModal {
                     const hasLyrics = this.fullLyricsInput.value.trim() !== '';
                     this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
                 }
+                // Check for changes after editing lyrics
+                this.checkForChanges();
             });
         }
 
@@ -1403,7 +1405,8 @@ class SongDetailModal {
             bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : '',
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
-            key: this.keyDisplay ? this.keyDisplay.textContent : ''
+            key: this.keyDisplay ? this.keyDisplay.textContent : '',
+            fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : ''
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -1423,7 +1426,8 @@ class SongDetailModal {
             bridge: (data.bridge || '').trim(),
             bridgeTitle: (data.bridgeTitle || '').trim(),
             bridgeCue: (data.bridgeCue || '').trim(),
-            key: (data.key || '').trim()
+            key: (data.key || '').trim(),
+            fullLyrics: (data.fullLyrics || '').trim()
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -1533,6 +1537,9 @@ class SongDetailModal {
         if (this.keyDisplay) {
             updates.key = this.keyDisplay.textContent.trim();
         }
+        if (this.fullLyricsInput) {
+            updates.fullLyrics = this.fullLyricsInput.value.trim();
+        }
 
         // Update song
         await this.songManager.updateSong(this.currentSongId, updates);
@@ -1555,7 +1562,8 @@ class SongDetailModal {
                 bridge: savedSong.bridge || '',
                 bridgeTitle: savedSong.bridgeTitle || 'Block 4',
                 bridgeCue: savedSong.bridgeCue || '',
-                key: savedSong.key || ''
+                key: savedSong.key || '',
+                fullLyrics: savedSong.fullLyrics || ''
             };
         }
 
@@ -1771,7 +1779,8 @@ class SongDetailModal {
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',
             bridgeCue: song.bridgeCue || '',
-            key: song.key || ''
+            key: song.key || '',
+            fullLyrics: song.fullLyrics || ''
         };
 
         // Update artist and title
@@ -1959,6 +1968,14 @@ class SongDetailModal {
             setTimeout(() => {
                 this.enterEditMode(this.artistElement);
             }, 100);
+        }
+
+        // Populate Full Lyrics Input
+        if (this.fullLyricsInput) {
+            this.fullLyricsInput.value = song.fullLyrics || '';
+            if (this.lyricsStatusText) {
+                this.lyricsStatusText.style.display = (song.fullLyrics && song.fullLyrics.trim() !== '') ? 'block' : 'none';
+            }
         }
     }
 

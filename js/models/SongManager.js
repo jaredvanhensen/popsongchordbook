@@ -234,6 +234,7 @@ class SongManager {
             preChorusCue: song.preChorusCue || '',
             chorusCue: song.chorusCue || '',
             bridgeCue: song.bridgeCue || '',
+            fullLyrics: song.fullLyrics || '',
             chordData: song.chordData || null
         }));
 

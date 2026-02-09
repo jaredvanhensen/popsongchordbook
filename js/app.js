@@ -1,4 +1,4 @@
-// Main Application (v2.000)
+// Main Application (v2.001)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -75,7 +75,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.000)");
+        console.log("Pop Song Chord Book - App Initialized (v2.001)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1948,7 +1948,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.000):\n`;
+        let msg = `Diagnostics (v2.001):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
