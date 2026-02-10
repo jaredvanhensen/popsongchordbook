@@ -303,13 +303,16 @@ function changeBpm() {
 if (speedBtn) {
     speedBtn.onclick = () => {
         currentSpeed = currentSpeed === 1.0 ? 0.5 : 1.0;
-        speedBtn.innerHTML = currentSpeed === 1.0 ? '🏃 <span>1.0x</span>' : '🚶 <span>0.5x</span>';
+        const icon = currentSpeed === 1.0
+            ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'
+            : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'; // Could use a different one for slow
+        speedBtn.innerHTML = `${icon} <span>${currentSpeed === 1.0 ? '1.0x' : '0.5x'}</span>`;
         if (youtubePlayer && typeof youtubePlayer.setPlaybackRate === 'function') {
             youtubePlayer.setPlaybackRate(currentSpeed);
         }
     };
     // Initialize label
-    speedBtn.innerHTML = '🏃 <span>1.0x</span>';
+    speedBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <span>1.0x</span>';
 }
 
 function toggleAudio() {
@@ -859,23 +862,30 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
 
             if (isGrouped) {
                 suggestedChords.forEach(group => {
+                    // Create a container for this section
+                    const groupContainer = document.createElement('div');
+                    groupContainer.className = 'chord-toolbar-group';
+
                     // Add Section Header Label
                     const header = document.createElement('div');
                     header.className = 'chord-toolbar-section-header';
                     header.textContent = group.section;
-                    buttonsContainer.appendChild(header);
+                    groupContainer.appendChild(header);
+
+                    // Row for buttons
+                    const buttonsRow = document.createElement('div');
+                    buttonsRow.className = 'chord-toolbar-buttons-row';
 
                     group.chords.forEach(chordName => {
                         const btn = document.createElement('button');
                         btn.className = `chord-suggestion-btn chord-type-${group.type}`;
                         btn.textContent = chordName;
                         btn.draggable = false;
-                        btn.style.touchAction = 'none'; // CRITICAL: Prevent iPad scroll while dragging
+                        btn.style.touchAction = 'none';
 
-                        // Use pointerdown for immediate audio feedback across all devices
                         btn.onpointerdown = (e) => {
-                            initAudio(); // Ensure context is ready
-                            triggerChordAudio(chordName, 1.0, true); // Force play even if global audio is OFF
+                            initAudio();
+                            triggerChordAudio(chordName, 1.0, true);
                         };
 
                         btn.onclick = () => {
@@ -884,12 +894,6 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                             }
                         };
 
-                        btn.ondragstart = (e) => {
-                            e.dataTransfer.setData('chordName', chordName);
-                            // Audio already triggered by pointerdown
-                        };
-
-                        // iPad/Touch Virtual Drag
                         btn.addEventListener('pointerdown', (e) => {
                             btn.setPointerCapture(e.pointerId);
                             potentialVirtualDrag = true;
@@ -898,8 +902,11 @@ function loadData(data, url, title, suggestedChords = [], artist = '', songTitle
                             virtualDragStartY = e.clientY;
                         });
 
-                        buttonsContainer.appendChild(btn);
+                        buttonsRow.appendChild(btn);
                     });
+
+                    groupContainer.appendChild(buttonsRow);
+                    buttonsContainer.appendChild(groupContainer);
                 });
             } else {
                 suggestedChords.forEach(chordName => {
@@ -1392,7 +1399,10 @@ function play() {
     initAudio();
 
     isPlaying = true;
-    playPauseBtn.innerHTML = '⏸ <span>Pause</span>';
+    playPauseBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        <span>Pause</span>
+    `;
 
     // If starting from absolute beginning, do count-in
     if (pauseTime === 0 && !isCountingIn) {
@@ -1422,7 +1432,10 @@ function stopCountIn() {
 
 function pause() {
     isPlaying = false;
-    playPauseBtn.innerHTML = '▶ <span>Play</span>';
+    playPauseBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Play</span>
+    `;
 
     if (pianoPlayer) pianoPlayer.stopAll();
 
@@ -1858,7 +1871,8 @@ function toggleSelectionMode() {
     isSelectionMode = !isSelectionMode;
     if (selectModeBtn) {
         selectModeBtn.classList.toggle('active', isSelectionMode);
-        selectModeBtn.innerHTML = isSelectionMode ? '👆 <span>Selecting...</span>' : '👆 <span>Select</span>';
+        const icon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5l-1 5-2-5 2-5 1 5h5"></path><circle cx="12" cy="12" r="10"></circle></svg>';
+        selectModeBtn.innerHTML = isSelectionMode ? `${icon} <span>Selecting...</span>` : `${icon} <span>Select</span>`;
     }
 
     // Clear selection when exiting mode? Optional. Let's keep it for now.

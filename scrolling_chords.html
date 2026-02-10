@@ -18,65 +18,150 @@
 </div>
 
 <div class="controls-container">
-    <a href="index.html" id="backBtn" style="color: #aaa; text-decoration: none; margin-right: 20px;">← Back</a>
+    <a href="index.html" id="backBtn" title="Back to Library">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back</span>
+    </a>
 
     <label for="midiInput" class="custom-file-btn" title="Upload MIDI or JSON file">
-        📁 Select File
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span>Open File</span>
     </label>
     <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input"
         style="display: none;">
 
     <div class="playback-controls">
-        <button id="restartBtn" title="Restart from beginning">⏮ <span>Restart</span></button>
-        <button id="rwdBtn" title="Rewind 10s">⏪ <span>-10s</span></button>
-        <button id="playPauseBtn" disabled>▶ <span>Play</span></button>
-        <button id="fwdBtn" title="Forward 10s"><span>+10s</span> ⏩</button>
-        <button id="exportBtn" disabled title="Download chords as JSON">💾 <span>Export JSON</span></button>
-        <button id="saveBtn" class="hidden" disabled title="Save chords directly to song database">
-            <span class="icon">💾</span>
-            <span class="label">Save</span>
+        <button id="restartBtn" title="Restart from beginning">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
         </button>
-        <button id="clearDataBtn" disabled title="Remove all JSON chord data"
-            style="background-color: #e53e3e; color: white;">🗑️ <span>Clear Data</span></button>
+        <button id="rwdBtn" title="Rewind 10s">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                <polygon points="22 19 13 12 22 5 22 19"></polygon>
+            </svg>
+        </button>
+        <button id="playPauseBtn" disabled>
+            <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Play</span>
+        </button>
+        <button id="fwdBtn" title="Forward 10s">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                <polygon points="2 19 11 12 2 5 2 19"></polygon>
+            </svg>
+        </button>
+
+        <div style="width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;"></div>
+
+        <button id="exportBtn" disabled title="Download chords as JSON">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export</span>
+        </button>
+        <button id="saveBtn" class="hidden" disabled title="Save chords directly to song database">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Save</span>
+        </button>
+        <button id="clearDataBtn" disabled title="Remove all JSON chord data">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+            <span>Clear</span>
+        </button>
+
+        <div style="width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;"></div>
 
         <!-- Selection Tools -->
-        <button id="selectModeBtn" title="Toggle Selection Mode">👆 <span>Select</span></button>
+        <button id="selectModeBtn" title="Toggle Selection Mode">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 12h-5l-1 5-2-5 2-5 1 5h5"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+            </svg>
+            <span>Select</span>
+        </button>
         <button id="duplicateBtn" class="hidden" title="Duplicate Selected Chords">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
-                style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
             <span>Copy</span>
         </button>
-        <button id="deleteSelectedBtn" class="hidden" title="Delete Selected Chords" style="color: #e53e3e;">✕
-            <span>Del</span></button>
+        <button id="deleteSelectedBtn" class="hidden" title="Delete Selected Chords">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Del</span>
+        </button>
+
+        <div style="width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;"></div>
 
         <button id="metronomeBtn" title="Toggle Metronome Click" class="metronome-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="metronome-icon">
-                <path d="M12 2L7 22h10L12 2z" />
-                <path d="M12 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
-                <path d="M12 14l3-9" />
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L7 22h10L12 2z"></path>
+                <circle cx="12" cy="18" r="2"></circle>
+                <path d="M12 14l3-9"></path>
             </svg>
         </button>
-        <button id="bpmBtn" title="Set Bits Per Minute" style="font-variant-numeric: tabular-nums;">120 BPM</button>
-        <button id="captureBtn" title="Record usage of Space Bar to capture timing" class="capture-btn hidden">
-            🔴 <span>Capture</span>
+        <button id="bpmBtn" title="Set Bits Per Minute">120 BPM</button>
+        <button id="captureBtn" title="Record timing" class="capture-btn hidden">
+            <circle cx="12" cy="12" r="6" fill="#ef4444"></circle>
+            <span>Capture</span>
         </button>
         <button id="audioToggleBtn" title="Toggle Chord Audio" class="audio-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="audio-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
             </svg>
         </button>
-        <button id="speedBtn" title="Toggle Playback Speed (1.0x / 0.5x)">🏃 <span>1.0x</span></button>
+        <button id="speedBtn" title="Toggle Playback Speed">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>1.0x</span>
+        </button>
     </div>
-    <div id="statusText" style="font-variant-numeric: tabular-nums; min-width: 150px;">Upload a MIDI file to start
-    </div>
+    <div id="statusText">Upload a MIDI file to start</div>
 </div>
+
 
 <!-- New Chord Toolbar -->
 <div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
