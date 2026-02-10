@@ -922,8 +922,9 @@ class App {
     }
 
     async handleToggleFavorite(songId) {
-        await this.songManager.toggleFavorite(songId);
+        const song = await this.songManager.toggleFavorite(songId);
         this.loadAndRender();
+        return song ? song.favorite : false;
     }
 
     handleTogglePractice(songId) {

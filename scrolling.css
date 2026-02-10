@@ -187,14 +187,19 @@ button:disabled {
     flex: 1;
     position: relative;
     width: 100%;
+    margin: 0;
     overflow-x: hidden;
     /* Seeking is handled via JS dragging */
     overflow-y: hidden;
+    background: transparent;
     display: flex;
     align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    /* Horizontal line at top */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Horizontal line at bottom */
     cursor: grab;
     user-select: none;
-    background: white;
     /* Light base for timeline area */
     touch-action: none;
     -webkit-user-select: none;
@@ -304,21 +309,22 @@ button:disabled {
     position: absolute;
     transform: translateX(0) translateY(-50%);
     top: 50%;
-    font-size: 36px;
-    /* Half size */
-    font-weight: 900;
+    font-size: 1.2rem;
+    /* Match ghost size */
+    font-weight: 700;
     color: white;
 
     /* Button Look */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 6px 16px;
-    /* Scaled down padding */
-    border-radius: 25px;
-    /* Pill shape scaled */
-    box-shadow: 0 4px 10px -2px rgba(102, 126, 234, 0.6);
+    padding: 8px 16px;
+    /* Match ghost padding */
+    border-radius: 8px;
+    /* Match ghost radius */
+    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
     text-shadow: none;
 
-    transition: all 0.2s;
+    /* transition: all 0.2s; */
+    transition: none;
     cursor: pointer;
     white-space: nowrap;
     z-index: 10;
@@ -360,14 +366,14 @@ button:disabled {
     top: 0;
     bottom: 0;
     width: 1px;
-    background-color: rgba(0, 0, 0, 0.05);
-    /* Very light gray for bars */
+    background-color: rgba(0, 0, 0, 0.15);
+    /* Darker than before */
     z-index: 5;
 }
 
 .marker.beat {
-    border-left: 1px dotted rgba(0, 0, 0, 0.1);
-    /* Dotted line for beats */
+    border-left: 1px dotted rgba(0, 0, 0, 0.2);
+    /* Darker dotted line */
     background-color: transparent;
     width: 0;
     z-index: 4;
@@ -392,7 +398,8 @@ button:disabled {
 }
 
 .marker.bar {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Much darker for bars */
     width: 2px;
 }
 
@@ -654,7 +661,7 @@ button:disabled {
     justify-content: center;
     align-items: baseline;
     gap: 12px;
-    padding: 10px 20px;
+    padding: clamp(8px, 1.8vh, 18px) clamp(15px, 3vw, 35px);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -985,26 +992,36 @@ button:disabled {
     gap: 12px;
 }
 
+/* Confirmation Modal Specifics */
+.confirmation-modal {
+    max-width: 400px;
+    border-top: 4px solid #667eea;
+}
+
+.confirmation-modal .modal-header {
+    background: #f8fafc;
+    padding: 16px 24px;
+}
+
+.confirmation-modal .modal-title {
+    font-size: 1.1rem;
+    color: #1e293b;
+}
+
+.confirmation-message {
+    font-size: 1.05rem;
+    color: #334155;
+    margin: 0;
+}
+
 .btn {
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     font-size: 0.95rem;
     transition: all 0.2s;
     border: 1px solid transparent;
-}
-
-.btn-secondary {
-    background: white;
-    color: #64748b;
-    border-color: #e2e8f0;
-}
-
-.btn-secondary:hover {
-    background: #f1f5f9;
-    color: #1e293b;
-    border-color: #cbd5e1;
 }
 
 .btn-primary {
@@ -1017,14 +1034,26 @@ button:disabled {
     transform: translateY(-1px);
 }
 
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
 .btn-danger {
-    background: #ef4444;
-    color: white;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
-    transform: translateY(-1px);
+    background: #fecaca;
+    color: #991b1b;
 }
 
 #closeYoutubeBtn {
@@ -1094,4 +1123,69 @@ button:disabled {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* Selection Visuals */
+.chord-item.selected {
+    border: 3px solid #facc15;
+    /* Yellow highlight */
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.6);
+    transform: translateY(-55%) scale(1.05);
+    /* Pop out a bit */
+    z-index: 50;
+    /* Above normal chords */
+}
+
+.selection-box {
+    position: absolute;
+    border: 2px dashed #667eea;
+    background-color: rgba(102, 126, 234, 0.2);
+    pointer-events: none;
+    /* Don't interfere with mouse events */
+    z-index: 1000;
+}
+
+#selectModeBtn.active {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Copy Cursor Feedback */
+body.ctrl-held .timeline-container,
+body.ctrl-held .chord-track,
+body.ctrl-held .chord-item {
+    cursor: copy !important;
+}
+
+/* Ensure Duplicate/Delete buttons appear nicely */
+#duplicateBtn,
+#deleteSelectedBtn {
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chord-drag-ghost {
+    position: fixed;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 9999;
+    font-weight: 700;
+    opacity: 0.8;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
 }

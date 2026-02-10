@@ -418,7 +418,7 @@ class SongDetailModal {
         if (this.favoriteBtn) {
             this.favoriteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.onToggleFavorite(this.currentSongId);
+                this.toggleFavorite();
             });
         }
 
@@ -523,6 +523,9 @@ class SongDetailModal {
 
                     // 2. Hide Modal immediately
                     scrollingChordsModal.classList.add('hidden');
+                    if (window.appInstance) {
+                        window.appInstance.popModalState('scrollingChords');
+                    }
 
                     // 3. Restore focus to opener (helps clear focus from iframe)
                     if (scrollingChordsBtn) {
@@ -541,7 +544,14 @@ class SongDetailModal {
                         scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
                     }
                     scrollingChordsModal.classList.add('hidden');
-                    if (scrollingChordsBtn) scrollingChordsBtn.focus();
+                    if (window.appInstance) {
+                        window.appInstance.popModalState('scrollingChords');
+                    }
+                    if (scrollingChordsBtn) {
+                        scrollingChordsBtn.focus();
+                    } else {
+                        window.focus();
+                    }
                 }
             });
 
@@ -2137,15 +2147,10 @@ class SongDetailModal {
         }
     }
 
-    toggleFavorite() {
+    async toggleFavorite() {
         if (!this.currentSongId || !this.onToggleFavorite) return;
-        this.onToggleFavorite(this.currentSongId);
-
-        // Update button state from current song data
-        const song = this.songManager.getSongById(this.currentSongId);
-        if (song) {
-            this.updateFavoriteButton(song.favorite || false);
-        }
+        const newState = await this.onToggleFavorite(this.currentSongId);
+        this.updateFavoriteButton(newState);
     }
 
     updateFavoriteButton(isFavorite) {

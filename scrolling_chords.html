@@ -13,8 +13,8 @@
 </head>
 
 <div class="header-metadata">
-    <h1 id="songTitleDisplay" class="song-title-display"></h1>
-    <h2 id="artistDisplay" class="artist-display"></h2>
+    <h1 id="artistDisplay" class="artist-display"></h1>
+    <h2 id="songTitleDisplay" class="song-title-display"></h2>
 </div>
 
 <div class="controls-container">
@@ -38,6 +38,21 @@
         </button>
         <button id="clearDataBtn" disabled title="Remove all JSON chord data"
             style="background-color: #e53e3e; color: white;">🗑️ <span>Clear Data</span></button>
+
+        <!-- Selection Tools -->
+        <button id="selectModeBtn" title="Toggle Selection Mode">👆 <span>Select</span></button>
+        <button id="duplicateBtn" class="hidden" title="Duplicate Selected Chords">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+        </button>
+        <button id="deleteSelectedBtn" class="hidden" title="Delete Selected Chords" style="color: #e53e3e;">✕
+            <span>Del</span></button>
+
         <button id="metronomeBtn" title="Toggle Metronome Click" class="metronome-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" class="metronome-icon">
