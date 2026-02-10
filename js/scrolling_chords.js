@@ -86,7 +86,10 @@ let virtualDragStartY = 0;
 let virtualDraggedChord = null;
 let dragGhost = null;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const PIXELS_PER_SECOND = 75; // Speed of scrolling (8-bar timeline at 120bpm)
+let PIXELS_PER_SECOND = 75; // Speed of scrolling (8-bar timeline at 120bpm)
+const MIN_PIXELS_PER_SECOND = 25;
+const MAX_PIXELS_PER_SECOND = 300;
+const ZOOM_FACTOR = 1.2;
 
 // Capture & YouTube State
 let youtubePlayer = null;
@@ -141,6 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioEnabled) audioToggleBtn.classList.add('active');
     }
     if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // Zoom Buttons
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    if (zoomInBtn) zoomInBtn.addEventListener('click', () => zoom(1));
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
 
     // YouTube Close Button
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
@@ -214,6 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
         dragStartTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
         timeline.classList.add('dragging');
     });
+
+    // Zoom with Wheel
+    timeline.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            const direction = e.deltaY < 0 ? 1 : -1;
+            zoom(direction);
+        }
+    }, { passive: false });
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -1855,6 +1873,18 @@ function snapToGrid(time) {
 
     // Avoid snapping to negative
     return Math.max(0, snapped);
+}
+
+// --- Zoom Logic ---
+function zoom(direction) {
+    if (direction > 0) {
+        PIXELS_PER_SECOND = Math.min(MAX_PIXELS_PER_SECOND, PIXELS_PER_SECOND * ZOOM_FACTOR);
+    } else {
+        PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, PIXELS_PER_SECOND / ZOOM_FACTOR);
+    }
+
+    // Immediate refresh
+    updateLoop();
 }
 
 // Update existing listeners to use snapToGrid
