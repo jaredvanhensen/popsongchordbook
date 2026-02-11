@@ -1719,8 +1719,12 @@ function onPlayerError(event) {
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         isYoutubePlaying = true;
+        // Sync timeline to start playing if it was paused
+        if (!isPlaying) {
+            play();
+        }
+
         if (enableTimingCapture) {
-            if (!isPlaying) play();
             setTimeout(() => {
                 if (captureBtn) captureBtn.focus();
                 else window.focus();
@@ -1728,7 +1732,8 @@ function onPlayerStateChange(event) {
         }
     } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
         isYoutubePlaying = false;
-        if (isPlaying && enableTimingCapture) {
+        // Sync timeline to pause if it was playing
+        if (isPlaying) {
             pause();
         }
     }
