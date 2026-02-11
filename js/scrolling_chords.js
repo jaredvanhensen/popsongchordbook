@@ -113,6 +113,10 @@ let selectionBoxEl = null;
 let isDraggingGroup = false;
 let isCopying = false; // Track if we are in a copy-drag operation
 
+// Pinch Zoom State
+let timelinePointers = new Map();
+let lastPinchDist = 0;
+
 // DOM Elements for Selection
 let selectModeBtn = null;
 let duplicateBtn = null;
@@ -223,6 +227,31 @@ document.addEventListener('DOMContentLoaded', () => {
         dragStartTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
         timeline.classList.add('dragging');
     });
+
+    // Support Pinch-to-Zoom (iPad/Touch) and Multi-pointer management
+    timeline.addEventListener('pointerdown', (e) => {
+        timelinePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (timelinePointers.size === 2) {
+            // Cancel scrolling drag if we start a pinch
+            isDragging = false;
+            lastPinchDist = getTimelinePinchDist();
+        }
+    });
+
+    window.addEventListener('pointerup', (e) => {
+        timelinePointers.delete(e.pointerId);
+        if (timelinePointers.size < 2) lastPinchDist = 0;
+    });
+
+    window.addEventListener('pointercancel', (e) => {
+        timelinePointers.delete(e.pointerId);
+        if (timelinePointers.size < 2) lastPinchDist = 0;
+    });
+
+    function getTimelinePinchDist() {
+        const pts = Array.from(timelinePointers.values());
+        return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+    }
 
     // Zoom with Wheel
     timeline.addEventListener('wheel', (e) => {
@@ -579,6 +608,18 @@ window.addEventListener('pointermove', (e) => {
         selectionBoxEl.style.height = height + 'px';
 
         updateSelectionFromBox();
+        return;
+    }
+
+    // 1. Timeline Pinch-to-Zoom
+    if (timelinePointers.size === 2) {
+        timelinePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        const newDist = getTimelinePinchDist();
+        if (lastPinchDist > 0 && Math.abs(newDist - lastPinchDist) > 5) {
+            const direction = newDist > lastPinchDist ? 1 : -1;
+            zoom(direction, 1.05); // Smaller zoom factor for smooth pinch
+            lastPinchDist = newDist;
+        }
         return;
     }
 
@@ -1884,11 +1925,12 @@ function snapToGrid(time) {
 }
 
 // --- Zoom Logic ---
-function zoom(direction) {
+function zoom(direction, customFactor = null) {
+    const factor = customFactor || ZOOM_FACTOR;
     if (direction > 0) {
-        PIXELS_PER_SECOND = Math.min(MAX_PIXELS_PER_SECOND, PIXELS_PER_SECOND * ZOOM_FACTOR);
+        PIXELS_PER_SECOND = Math.min(MAX_PIXELS_PER_SECOND, PIXELS_PER_SECOND * factor);
     } else {
-        PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, PIXELS_PER_SECOND / ZOOM_FACTOR);
+        PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, PIXELS_PER_SECOND / factor);
     }
 
     // Immediate refresh
