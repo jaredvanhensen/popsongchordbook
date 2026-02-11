@@ -750,11 +750,7 @@ button:disabled {
     line-height: 1;
 }
 
-.artist-display::before {
-    content: "•";
-    margin-right: 12px;
-    opacity: 0.6;
-}
+
 
 /* Remove old separator style */
 .metadata-separator {
