@@ -86,7 +86,7 @@ let virtualDragStartY = 0;
 let virtualDraggedChord = null;
 let dragGhost = null;
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-let PIXELS_PER_SECOND = 75; // Speed of scrolling (8-bar timeline at 120bpm)
+let PIXELS_PER_SECOND = 100; // Speed of scrolling (Updated for 8 subdivisions)
 const MIN_PIXELS_PER_SECOND = 25;
 const MAX_PIXELS_PER_SECOND = 300;
 const ZOOM_FACTOR = 1.2;
@@ -1621,7 +1621,7 @@ function updateLoop() {
     }
 
     // Safety for PIXELS_PER_SECOND
-    const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 75;
+    const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
 
     // Update scrolling chord positions
     const chordElements = chordTrack.children;
@@ -1641,7 +1641,7 @@ function updateLoop() {
             el.style.display = 'none';
         } else {
             el.style.display = 'block';
-            el.style.transform = `translateX(${dist}px) translateY(-50%)`;
+            el.style.transform = `translateX(${dist}px) translateX(-50%) translateY(-50%)`;
 
             if (dist < 0) {
                 el.style.opacity = '0.5';

@@ -375,16 +375,16 @@ button:disabled {
     position: absolute;
     transform: translateX(0) translateY(-50%);
     top: 50%;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     /* Match ghost size */
     font-weight: 700;
     color: white;
 
     /* Button Look */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 8px 16px;
+    padding: 6px 8px;
     /* Match ghost padding */
-    border-radius: 8px;
+    border-radius: 4px;
     /* Match ghost radius */
     box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
     text-shadow: none;
