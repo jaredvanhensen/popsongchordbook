@@ -382,11 +382,12 @@ button:disabled {
 
     /* Button Look */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 6px 8px;
-    /* Match ghost padding */
+    padding: 2px 4px;
+    /* Ultra tight for 8-snap */
     border-radius: 4px;
     /* Match ghost radius */
-    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+    box-shadow: none;
+    /* Remove shadow to save space and reduce bloat */
     text-shadow: none;
 
     /* transition: all 0.2s; */

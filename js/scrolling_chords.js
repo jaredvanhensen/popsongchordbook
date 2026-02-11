@@ -1368,7 +1368,8 @@ function generateMarkers(midi) {
         // For 4/4, we add beats at 1, 2, 3 offset (0 is bar start)
         if (i < numBars) {
             const beatsPerBar = timeSignature[0];
-            for (let b = 1; b < beatsPerBar; b++) {
+            // 8 subdivisions per bar (eighth notes)
+            for (let b = 0.5; b < beatsPerBar; b += 0.5) {
                 markers.push({
                     time: barTime + (b * secondsPerBeat),
                     label: '',
@@ -1641,7 +1642,7 @@ function updateLoop() {
             el.style.display = 'none';
         } else {
             el.style.display = 'block';
-            el.style.transform = `translateX(${dist}px) translateX(-50%) translateY(-50%)`;
+            el.style.transform = `translateX(${dist}px) translateY(-50%)`;
 
             if (dist < 0) {
                 el.style.opacity = '0.5';
