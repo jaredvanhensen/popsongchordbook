@@ -1920,7 +1920,7 @@ function snapToGrid(time) {
     if (!beatsPerBar || !secondsPerBeat || beatsPerBar <= 0) return time;
 
     const barDuration = beatsPerBar * secondsPerBeat;
-    const snapInterval = barDuration / 4; // 4 moments per bar
+    const snapInterval = barDuration / 8; // 8 moments per bar
 
     // Snap to nearest grid point
     const snapped = Math.round(time / snapInterval) * snapInterval;
