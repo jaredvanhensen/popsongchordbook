@@ -597,7 +597,15 @@ window.addEventListener('pointermove', (e) => {
         } else {
             pauseTime = newTime;
             if (youtubePlayer) {
+                // Use false for allowSeekAhead to avoid accidental playback triggers in some environments
+                // although the bug is usually caused by seekTo itself on mobile/some wrappers
                 youtubePlayer.seekTo(newTime, true);
+
+                // Extra safety: ensure it stays paused if we weren't playing
+                const state = youtubePlayer.getPlayerState();
+                if (state !== YT.PlayerState.PAUSED && state !== YT.PlayerState.BUFFERING) {
+                    youtubePlayer.pauseVideo();
+                }
             }
         }
         updateLoop();
