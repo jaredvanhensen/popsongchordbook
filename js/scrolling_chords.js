@@ -97,6 +97,7 @@ let youtubeApiReady = false;
 let youtubeUrl = null;
 let enableTimingCapture = false;
 let isYoutubePlaying = false;
+let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
@@ -278,12 +279,70 @@ document.addEventListener("keydown", e => {
         return;
     }
 
-    // Capture A-G keys for quick chord entry during recording
+    // Capture chords and modifiers during recording
     if (enableTimingCapture) {
         const key = e.key.toUpperCase();
+
+        // 1. Handle A-G base chords
         if (key.length === 1 && key >= 'A' && key <= 'G') {
             e.preventDefault();
-            recordChord(key);
+
+            // Smart matching: Look in suggested chords (Blocks)
+            let match = key;
+            const allAvailableChords = [];
+
+            if (suggestedChords && suggestedChords.length > 0) {
+                const isGrouped = typeof suggestedChords[0] === 'object' && suggestedChords[0].chords;
+                if (isGrouped) {
+                    suggestedChords.forEach(group => allAvailableChords.push(...group.chords));
+                } else {
+                    allAvailableChords.push(...suggestedChords);
+                }
+            }
+
+            // Find all chords starting with this letter (e.g., G matches G, G#m, G7)
+            const matches = [...new Set(allAvailableChords)].filter(c => c.toUpperCase().startsWith(key));
+
+            if (matches.length === 1) {
+                // If only one G-type chord exists in the blocks, use it!
+                match = matches[0];
+            } else if (matches.length > 1) {
+                // If multiple exist (e.g., G and G#m), prefer the exact letter if it exists
+                if (matches.includes(key)) {
+                    match = key;
+                } else {
+                    // Otherwise just pick the first one from the blocks as a best guess
+                    match = matches[0];
+                }
+            }
+
+            recordChord(match);
+            return;
+        }
+
+        // 2. Handle '#' or 'm' to modify the LAST recorded chord (Quick fix)
+        // If user presses 'G' (records G#m) then thinks "wait no just G", 
+        // they can still edit, but this logic helps if they actually pressed G then # (Shift+3)
+        if (e.key === '#' || e.key === 'm' || e.key === 'M') {
+            if (chords.length > 0) {
+                const lastChord = chords[chords.length - 1];
+                // Only modify if it was recorded very recently (e.g. within 2 seconds)
+                const now = youtubePlayer ? youtubePlayer.getCurrentTime() : (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime);
+                if (Math.abs(now - lastChord.time) < 2.0) {
+                    e.preventDefault();
+                    if (e.key === '#') {
+                        // Toggle sharp
+                        if (lastChord.name.includes('#')) lastChord.name = lastChord.name.replace('#', '');
+                        else lastChord.name = lastChord.name[0] + '#' + lastChord.name.slice(1);
+                    } else if (e.key.toLowerCase() === 'm') {
+                        // Toggle minor
+                        if (lastChord.name.includes('m')) lastChord.name = lastChord.name.replace('m', '');
+                        else lastChord.name += 'm';
+                    }
+                    renderStaticElements();
+                    updateLoop();
+                }
+            }
         }
     }
 });
@@ -894,21 +953,17 @@ async function processJsonFile(file) {
 
 
 
-function loadData(data, url, title, suggestedChords = [], artist = '', songTitle = '') {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '') {
     console.log('loadData called with:', {
         data: data ? 'present' : 'missing',
         chordCount: data?.chords?.length,
         url,
-        suggestedChordsType: typeof suggestedChords,
-        suggestedChordsLen: Array.isArray(suggestedChords) ? suggestedChords.length : 'N/A',
-        suggestedChordsPreview: suggestedChords,
         artist,
         songTitle
     });
 
-    // Ensure suggestedChords is an array
-    if (!suggestedChords) suggestedChords = [];
-
+    // Ensure global suggestedChords is based on input
+    suggestedChords = Array.isArray(inputSuggestedChords) ? inputSuggestedChords : [];
 
     // Populate Metadata Header
     const artistDisplay = document.getElementById('artistDisplay');
