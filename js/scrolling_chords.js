@@ -265,15 +265,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Space bar recording or toggle play/pause (Global listener)
 document.addEventListener("keydown", e => {
-    if (e.code !== "Space") return;
+    // Ignore if typing in an input field
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-    // Prevent default scrolling
-    e.preventDefault();
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (enableTimingCapture) {
+            recordChord();
+        } else {
+            togglePlayPause();
+        }
+        return;
+    }
 
+    // Capture A-G keys for quick chord entry during recording
     if (enableTimingCapture) {
-        recordChord();
-    } else {
-        togglePlayPause();
+        const key = e.key.toUpperCase();
+        if (key.length === 1 && key >= 'A' && key <= 'G') {
+            e.preventDefault();
+            recordChord(key);
+        }
     }
 });
 
