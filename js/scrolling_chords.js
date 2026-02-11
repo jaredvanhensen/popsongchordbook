@@ -1555,7 +1555,7 @@ function updateLoop() {
     let playbackTime;
 
     if (isPlaying) {
-        if (enableTimingCapture && youtubePlayer && typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() === 1) {
+        if (youtubePlayer && typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() === 1) {
             const ytTime = youtubePlayer.getCurrentTime();
             if (Number.isFinite(ytTime) && !Number.isNaN(ytTime)) {
                 playbackTime = ytTime;
