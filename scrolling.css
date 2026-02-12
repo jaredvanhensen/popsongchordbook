@@ -1909,6 +1909,8 @@ body.ctrl-held .chord-item {
     .youtube-player-container #youtubePlayer {
         margin-top: 20px !important;
         height: calc(100% - 20px) !important;
+        pointer-events: auto !important;
+        /* Re-enable click for play */
     }
 
     #closeYoutubeBtn {
