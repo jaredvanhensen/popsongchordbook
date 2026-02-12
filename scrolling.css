@@ -685,100 +685,6 @@ button:disabled {
     letter-spacing: 2px;
 }
 
-/* Mobile Optimizations */
-@media (max-width: 1024px) {
-    :root {
-        --font-size-chord: 44px;
-        /* Smaller chords */
-    }
-
-    .controls-container {
-        padding: 5px 10px;
-        gap: 8px;
-        flex-wrap: wrap;
-        /* Allow wrapping if many buttons */
-    }
-
-    .playback-controls {
-        gap: 4px;
-        width: 100%;
-        justify-content: center;
-    }
-
-    button {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        min-width: auto !important;
-    }
-
-    button span {
-        display: inline-block !important;
-        /* Show labels on iPad Pro */
-    }
-
-    #restartBtn,
-    #rwdBtn,
-    #fwdBtn {
-        padding: 8px;
-    }
-
-    #playPauseBtn {
-        padding: 6px 12px;
-        font-size: 1rem;
-        /* Keep play icon large */
-    }
-
-    #saveBtn,
-    #exportBtn {
-        display: none;
-        /* Hide these on mobile to save space, usually not needed there or handled via main UI */
-    }
-
-    #metronomeBtn,
-    #audioToggleBtn {
-        padding: 4px 8px;
-    }
-
-    #metronomeBtn span,
-    #audioToggleBtn span,
-    .metronome-btn span,
-    .audio-btn span {
-        display: inline-block;
-        /* Show button text */
-    }
-
-    #backBtn {
-        display: none;
-    }
-
-    #statusText {
-        display: none;
-        /* Hide status text on mobile */
-    }
-
-    .instructions {
-        font-size: 1rem;
-        padding: 10px 20px;
-        width: 80%;
-        text-align: center;
-    }
-
-    .playhead,
-    .current-chord-display,
-    .chord-track,
-    .marker-track {
-        left: 20px;
-        /* Less margin on mobile */
-    }
-
-    #countInNumber {
-        font-size: 60px;
-    }
-
-    .count-in-overlay {
-        padding: 15px 30px;
-    }
-}
 
 /* YouTube Player & Capture UI */
 .youtube-player-container {
@@ -979,9 +885,453 @@ button:disabled {
     border: none;
 }
 
+/* Mobile Optimizations (iPad - 1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --font-size-chord: 44px;
+    }
+
+    .controls-container {
+        padding: 5px 10px;
+        gap: 6px;
+    }
+
+    .playback-controls {
+        gap: 4px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .controls-container button,
+    .controls-container .custom-file-btn {
+        height: 40px;
+        padding: 4px 10px;
+    }
+
+    #saveBtn,
+    #exportBtn {
+        display: none;
+    }
+
+    #backBtn,
+    #statusText {
+        display: none;
+    }
+
+    .playhead,
+    .current-chord-display,
+    .chord-track,
+    .marker-track {
+        left: 20px;
+    }
+}
+
+/* Minimalist Lean Layout (Phones - 600px) */
+@media (max-width: 600px) {
+    :root {
+        --font-size-chord: 36px;
+    }
+
+    .header-metadata {
+        padding: 6px 15px;
+        gap: 8px;
+    }
+
+    .song-title-display {
+        font-size: 1.1rem;
+    }
+
+    .artist-display {
+        font-size: 0.9rem;
+    }
+
+    .controls-container {
+        padding: 4px 8px;
+        gap: 4px;
+    }
+
+    /* Lean Buttons (Small Icons) */
+    .controls-container button,
+    .controls-container .custom-file-btn {
+        height: 34px;
+        min-width: 34px;
+        width: auto;
+        padding: 0 8px;
+        border-radius: 8px;
+        box-shadow: 0 2px 0px 0px var(--btn-shadow-default), 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .controls-container button span {
+        display: none !important;
+        /* Force hide all text for minimalistic look */
+    }
+
+    .controls-container button svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    #bpmBtn {
+        font-size: 0.7rem;
+        padding: 0 5px;
+    }
+
+    /* Hide Zoom Buttons on Phone (use gestures) */
+    #zoomInBtn,
+    #zoomOutBtn {
+        display: none !important;
+    }
+
+    /* Compact Control Buttons */
+    #playPauseBtn:not(:disabled),
+    #captureBtn:not(:disabled),
+    #audioToggleBtn,
+    #clearDataBtn:not(:disabled),
+    #deleteSelectedBtn:not(:disabled),
+    .controls-container .custom-file-btn {
+        min-width: 34px !important;
+        width: 34px !important;
+        height: 34px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        /* Remove gaps for tighter fit */
+    }
+
+    /* Hide vertical spacers to save room */
+    .controls-container div[style*="width: 1px"] {
+        display: none !important;
+    }
+
+    .playback-controls {
+        display: contents;
+        /* Flattens the container so Open File flows with children */
+    }
+
+    .controls-container {
+        justify-content: center;
+        padding: 4px;
+        gap: 6px;
+    }
+
+    #statusText {
+        display: block !important;
+        width: 100%;
+        text-align: center;
+        font-size: 0.65rem;
+        padding: 2px 0;
+        margin: 0;
+        background: transparent;
+        border: none;
+    }
+
+    /* Compact Chord Suggestions */
+    .chord-buttons-container {
+        gap: 8px;
+        padding: 5px 10px;
+        max-height: 150px;
+    }
+
+    .chord-suggestion-btn {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+        min-width: 34px;
+    }
+
+    .chord-toolbar-section-header {
+        font-size: 0.5rem;
+    }
+
+    /* Micro PIP Video Window */
+    .youtube-player-container {
+        width: 80px;
+        /* Absolute minimum - basically just a moving thumbnail */
+        height: 45px;
+        bottom: 5px;
+        right: 5px;
+        border-width: 1px;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    #closeYoutubeBtn {
+        width: 16px;
+        height: 16px;
+        font-size: 11px;
+        top: -8px;
+        /* Move it slightly outside so it doesn't block the tiny image */
+        right: -8px;
+        background: #ef4444;
+        border: 1px solid white;
+    }
+
+    /* Tighten Timeline Area */
+    .chord-display-container {
+        height: 80px;
+        padding-left: 80px;
+    }
+
+    .current-chord-display {
+        left: 10px;
+        width: 60px;
+        font-size: 32px;
+        height: 60px;
+        padding: 0;
+    }
+
+    .playhead,
+    .chord-track,
+    .marker-track {
+        left: 80px;
+    }
+
+    /* Shrink Count-in */
+    .count-in-overlay {
+        padding: 10px 20px;
+        border-radius: 16px;
+    }
+
+    #countInNumber {
+        font-size: 40px;
+    }
+
+    .count-in-label {
+        font-size: 14px;
+    }
+}
+
+/* YouTube Player & Capture UI */
+.youtube-player-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    height: 180px;
+    z-index: 1000;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background: black;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid white;
+}
+
+.youtube-player-container.hidden {
+    display: none;
+}
+
+#closeYoutubeBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+#closeYoutubeBtn:hover {
+    background: rgba(220, 38, 38, 0.9);
+}
+
+.capture-btn {
+    background: #f1f5f9;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.capture-btn.active {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.capture-btn.hidden {
+    display: none;
+}
+
+.recording-indicator {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(220, 38, 38, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 16px;
+    z-index: 200;
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+    animation: blink 1.5s infinite ease-in-out;
+    pointer-events: none;
+    letter-spacing: 1px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.recording-indicator.hidden {
+    display: none;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes pulse-button {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.6);
+    }
+}
+
+/* Header Metadata */
+.header-metadata {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    gap: 12px;
+    padding: clamp(8px, 1.8vh, 18px) clamp(15px, 3vw, 35px);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.song-title-display {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: white;
+    margin: 0;
+    line-height: 1;
+}
+
+.artist-display {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    line-height: 1;
+}
+
+.metadata-separator {
+    display: none;
+}
+
+/* Chord Edit Modal Specifics */
+.chord-edit-modal {
+    width: 90%;
+    max-width: 450px;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Virtual Drag Ghost */
+.chord-drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    z-index: 100000;
+    background: #667eea;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.1s;
+    white-space: nowrap;
+}
+
+.chord-edit-modal .modal-header {
+    margin-bottom: 20px;
+}
+
+.chord-edit-modal .modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.chord-edit-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    color: #1e293b;
+    transition: all 0.2s;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.chord-edit-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.chord-edit-modal .modal-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.chord-edit-modal .btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
 .chord-edit-modal .btn-primary {
     background: #3b82f6;
-    /* Professional blue */
     color: white;
 }
 
@@ -1003,40 +1353,30 @@ button:disabled {
 .chord-buttons-container {
     display: flex;
     flex-wrap: wrap;
-    /* Wrap to multiple rows if necessary */
     gap: 16px;
     padding: 8px 15px;
     background: #f8fafc;
     border-bottom: 1px solid #e2e8f0;
     max-height: 200px;
-    /* Limit height growth */
     overflow-y: auto;
-    /* Allow vertical scroll if really many rows */
     touch-action: pan-y;
-    /* Allow scrolling buttons but not zooming */
     overscroll-behavior-y: none;
-    /* Prevent pull-to-refresh */
     align-items: flex-end;
-    /* Prevent stretching of buttons outside groups */
 }
 
 .chord-buttons-container.hidden {
     display: none;
 }
 
-/* Re-enable pointer events for content since wrapper has none */
 .scrolling-chords-content {
     pointer-events: auto;
 }
 
 .chord-suggestion-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    /* Match Play Button Gradient */
     border: none;
     color: white !important;
-    /* Force white text */
     padding: 4px 10px;
-    /* Tighter padding to match timeline feel */
     border-radius: 8px;
     font-weight: 700;
     font-size: 0.85rem;
@@ -1047,7 +1387,6 @@ button:disabled {
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
-    /* Prevent selection on iOS */
     touch-action: manipulation;
 }
 
@@ -1073,7 +1412,6 @@ button:disabled {
     background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
 }
 
-/* Section-specific colors for recognition */
 .chord-type-verse {
     background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
 }
@@ -1113,7 +1451,6 @@ button:disabled {
     margin-left: 2px;
     letter-spacing: 0.05em;
 }
-
 
 /* Modal Styles */
 .modal-overlay {
@@ -1230,6 +1567,7 @@ button:disabled {
     margin: 0;
 }
 
+/* Buttons */
 .btn {
     padding: 10px 20px;
     border-radius: 8px;
@@ -1270,31 +1608,6 @@ button:disabled {
 .btn-danger:hover {
     background: #fecaca;
     color: #991b1b;
-}
-
-#closeYoutubeBtn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    transition: background 0.2s;
-}
-
-#closeYoutubeBtn:hover {
-    background: rgba(220, 38, 38, 0.9);
 }
 
 /* Save Toast Notification */
@@ -1392,16 +1705,179 @@ body.ctrl-held .chord-item {
     }
 }
 
-.chord-drag-ghost {
-    position: fixed;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 8px;
-    pointer-events: none;
-    z-index: 9999;
-    font-weight: 700;
-    opacity: 0.8;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
+/* MEDIA QUERIES - MUST STAY AT BOTTOM */
+
+/* Mobile Optimizations (iPad - 1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --font-size-chord: 44px;
+    }
+
+    .controls-container {
+        padding: 5px 10px;
+        gap: 6px;
+    }
+
+    .playback-controls {
+        gap: 4px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .controls-container button,
+    .controls-container .custom-file-btn {
+        height: 40px;
+        padding: 4px 10px;
+    }
+
+    #saveBtn,
+    #exportBtn,
+    #backBtn,
+    #statusText {
+        display: none;
+    }
+
+    .playhead,
+    .current-chord-display,
+    .chord-track,
+    .marker-track {
+        left: 20px;
+    }
+}
+
+/* Minimalist Lean Layout (Phones - 600px) */
+@media (max-width: 600px) {
+    :root {
+        --font-size-chord: 36px !important;
+    }
+
+    .header-metadata {
+        padding: 6px 15px;
+        gap: 8px;
+    }
+
+    .song-title-display {
+        font-size: 1.1rem;
+    }
+
+    .artist-display {
+        font-size: 0.9rem;
+    }
+
+    .controls-container {
+        padding: 4px !important;
+        gap: 6px !important;
+        justify-content: center !important;
+    }
+
+    /* Lean Buttons (Small Icons) */
+    .controls-container button,
+    .controls-container .custom-file-btn {
+        height: 34px !important;
+        min-width: 34px !important;
+        width: 34px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 8px;
+        box-shadow: 0 2px 0px 0px var(--btn-shadow-default), 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .controls-container button span {
+        display: none !important;
+    }
+
+    .controls-container button svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    #bpmBtn {
+        font-size: 0.7rem;
+        padding: 0 5px;
+        width: auto !important;
+        min-width: 34px !important;
+    }
+
+    /* Hide Zoom Buttons on Phone */
+    #zoomInBtn,
+    #zoomOutBtn {
+        display: none !important;
+    }
+
+    /* Hide vertical spacers */
+    .controls-container div[style*="width: 1px"] {
+        display: none !important;
+    }
+
+    .playback-controls {
+        display: contents;
+    }
+
+    #statusText {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        font-size: 0.65rem !important;
+        padding: 2px 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        order: 100;
+        /* Force to bottom */
+    }
+
+    /* MICRO PIP Video Window */
+    .youtube-player-container {
+        width: 80px !important;
+        height: 45px !important;
+        bottom: 5px !important;
+        right: 5px !important;
+        border-width: 1px !important;
+        border-radius: 4px !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #closeYoutubeBtn {
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 11px !important;
+        top: -8px !important;
+        right: -8px !important;
+        background: #ef4444 !important;
+        border: 1px solid white !important;
+    }
+
+    /* Tighten Timeline Area */
+    .chord-display-container {
+        height: 80px !important;
+        padding-left: 80px !important;
+    }
+
+    .current-chord-display {
+        left: 10px !important;
+        width: 60px !important;
+        font-size: 32px !important;
+        height: 60px !important;
+        padding: 0 !important;
+    }
+
+    .playhead,
+    .chord-track,
+    .marker-track {
+        left: 80px !important;
+    }
+
+    /* Shrink Count-in */
+    .count-in-overlay {
+        padding: 10px 20px !important;
+        border-radius: 16px !important;
+    }
+
+    #countInNumber {
+        font-size: 40px !important;
+    }
+
+    .count-in-label {
+        font-size: 14px !important;
+    }
 }

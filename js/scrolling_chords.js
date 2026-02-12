@@ -401,7 +401,7 @@ function changeBpm() {
         if (bpmVal && !isNaN(bpmVal) && bpmVal > 0) {
             currentTempo = bpmVal;
             secondsPerBeat = 60 / bpmVal;
-            bpmBtn.innerText = `${bpmVal} BPM`;
+            bpmBtn.innerText = window.innerWidth < 600 ? `${bpmVal}` : `${bpmVal} BPM`;
 
             // Update Midi Header Data if present
             if (midiData && midiData.header && midiData.header.tempos) {
@@ -1148,7 +1148,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         currentTempo = bpm;
         originalTempo = bpm;
         secondsPerBeat = 60 / bpm;
-        if (bpmBtn) bpmBtn.innerText = `${Math.round(bpm)} BPM`;
+        if (bpmBtn) bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(bpm)}` : `${Math.round(bpm)} BPM`;
 
         console.log('Scrolling Chords: loadData - data.tempo:', data.tempo, 'bpm:', bpm, 'currentTempo:', currentTempo);
 
@@ -1212,7 +1212,8 @@ function setupUIForLoading() {
 }
 
 function finishLoading(chordCount, bpm) {
-    statusText.innerText = `Ready! ${chordCount} chords. Tempo: ${Math.round(bpm)} BPM`;
+    statusText.innerText = window.innerWidth < 600 ? `${chordCount} chords` : `Ready! ${chordCount} chords. Tempo: ${Math.round(bpm)} BPM`;
+    if (bpmBtn) bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(bpm)}` : `${Math.round(bpm)} BPM`;
     playPauseBtn.disabled = false;
     exportBtn.disabled = false;
     if (saveBtn) saveBtn.disabled = false;
