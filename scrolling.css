@@ -46,7 +46,8 @@ html {
 
 .playback-controls {
     display: flex;
-    gap: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
     align-items: center;
 }
 
@@ -80,69 +81,190 @@ button:disabled {
     background: #f1f5f9;
 }
 
-/* Premium Toolbar Buttons */
+/* Global Button Shadow Color variable */
+:root {
+    --btn-shadow-default: #cbd5e1;
+    --btn-shadow-hover: #94a3b8;
+}
+
+/* Premium Toolbar Buttons - 3D Soft UI Style */
 .controls-container button,
 .controls-container .custom-file-btn {
-    background: white;
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
     color: #475569;
-    border: 1px solid #e2e8f0;
-    padding: 8px 10px;
-    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    font-weight: 700;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 0px 0px var(--btn-shadow-default), 0 8px 15px rgba(0, 0, 0, 0.05);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    height: 38px;
+    gap: 8px;
+    height: 44px;
+    /* Standardized to 44px */
     white-space: nowrap;
-}
-
-.controls-container button span,
-.controls-container .custom-file-btn span {
-    margin-top: 1px;
+    position: relative;
+    top: 0;
 }
 
 .controls-container button:hover:not(:disabled),
 .controls-container .custom-file-btn:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    transform: translateY(-1.5px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-color: #94a3b8;
     color: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px 0px var(--btn-shadow-hover), 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
 .controls-container button:active:not(:disabled),
 .controls-container .custom-file-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transform: translateY(4px);
+    box-shadow: 0 0px 0px 0px var(--btn-shadow-hover), 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .controls-container button:disabled {
-    opacity: 0.45;
+    opacity: 0.6;
     cursor: not-allowed;
-    background: #f1f5f9;
-    filter: grayscale(1);
+    background: #e2e8f0 !important;
+    color: #64748b !important;
+    box-shadow: none !important;
+    transform: none !important;
+    border-color: #cbd5e1 !important;
+    top: 2px;
 }
 
+/* --- VIVID COLOR CATEGORIES --- */
 
-/* Primary Play/Pause Button */
-#playPauseBtn {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+/* Purple Category: Play */
+#playPauseBtn:not(:disabled) {
+    background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%) !important;
     color: white !important;
     border: none;
-    min-width: 100px;
-    padding: 8px 20px;
-    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+    min-width: 110px;
+    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 20px rgba(79, 70, 229, 0.3);
 }
 
 #playPauseBtn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    box-shadow: 0 6px 0px 0px #312e81, 0 15px 25px rgba(79, 70, 229, 0.4);
+}
+
+#playPauseBtn:active:not(:disabled) {
+    box-shadow: 0 0px 0px 0px #312e81, 0 4px 8px rgba(79, 70, 229, 0.2);
+}
+
+/* Blue Category: Navigation */
+#restartBtn:not(:disabled),
+#rwdBtn:not(:disabled),
+#fwdBtn:not(:disabled) {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 0px 0px #2a5da3, 0 8px 15px rgba(0, 210, 255, 0.2);
+}
+
+#restartBtn:hover,
+#rwdBtn:hover,
+#fwdBtn:hover {
+    box-shadow: 0 6px 0px 0px #1e4b85, 0 12px 20px rgba(0, 210, 255, 0.3);
+}
+
+#restartBtn:active,
+#rwdBtn:active,
+#fwdBtn:active {
+    box-shadow: 0 0px 0px 0px #1e4b85;
+}
+
+/* Green Category: Data/Save/Open (Deeper for white contrast) */
+#saveBtn:not(:disabled),
+#exportBtn:not(:disabled),
+.controls-container .custom-file-btn {
+    background: linear-gradient(135deg, #0d7a71 0%, #11998e 100%) !important;
+    color: white !important;
+    border: none;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    box-shadow: 0 4px 0px 0px #064d47, 0 8px 15px rgba(17, 153, 142, 0.25);
+}
+
+#saveBtn:hover,
+#exportBtn:hover,
+.controls-container .custom-file-btn:hover {
+    background: linear-gradient(135deg, #11998e 0%, #15ad9f 100%) !important;
+    box-shadow: 0 6px 0px 0px #064d47, 0 12px 20px rgba(17, 153, 142, 0.35);
     transform: translateY(-2px);
+}
+
+.controls-container .custom-file-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0px 0px #064d47;
+}
+
+/* Red/Danger Category: Deletion & Capture (Small Icon Size) */
+#clearDataBtn:not(:disabled),
+#deleteSelectedBtn:not(:disabled),
+#captureBtn:not(:disabled) {
+    background: linear-gradient(135deg, #d31027 0%, #ea384d 100%);
+    color: white !important;
+    border: none;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    box-shadow: 0 4px 0px 0px #8a0b1a, 0 8px 15px rgba(211, 16, 39, 0.25);
+}
+
+#clearDataBtn:hover,
+#deleteSelectedBtn:hover,
+#captureBtn:hover {
+    background: linear-gradient(135deg, #ea384d 0%, #f05a6b 100%);
+    box-shadow: 0 6px 0px 0px #8a0b1a, 0 12px 20px rgba(211, 16, 39, 0.35);
+}
+
+/* Orange/Gold Category: Selection Tools */
+#duplicateBtn {
+    background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 0px 0px #b56e15, 0 8px 15px rgba(247, 151, 30, 0.2);
+}
+
+#duplicateBtn:hover {
+    box-shadow: 0 6px 0px 0px #945a11, 0 12px 20px rgba(247, 151, 30, 0.3);
+}
+
+/* White/Light Buttons with Dark Icons */
+#zoomOutBtn svg,
+#zoomInBtn svg,
+#selectModeBtn svg,
+#metronomeBtn svg,
+#audioToggleBtn svg {
+    color: #000000;
+}
+
+#audioToggleBtn {
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+}
+
+#zoomInBtn:hover svg,
+#zoomOutBtn:hover svg {
+    color: #4f46e5;
+}
+
+#metronomeBtn.active {
+    background: #eef2ff;
+    border-color: #6366f1;
+    color: #4f46e5;
+    box-shadow: 0 4px 0px 0px #4f46e5, 0 8px 15px rgba(79, 70, 229, 0.1);
 }
 
 /* Secondary Actions (Restart, -10, +10) */
@@ -168,14 +290,26 @@ button:disabled {
     color: #dc2626;
 }
 
-/* Toggleable buttons (active state) */
+/* Toggleable buttons (General active state) */
 .metronome-btn.active,
-.audio-btn.active,
 .capture-btn.active,
 #selectModeBtn.active {
-    background: #eef2ff;
-    border-color: #c7d2fe;
-    color: #4f46e5;
+    background: #e0e7ff !important;
+    border-color: #818cf8 !important;
+    color: #4f46e5 !important;
+    box-shadow: 0 4px 0px 0px #818cf8, 0 8px 15px rgba(79, 70, 229, 0.2) !important;
+    transform: translateY(0) !important;
+}
+
+/* Specific Toggle State for Audio (Darker Blue) */
+#audioToggleBtn.active {
+    background: linear-gradient(135deg, #2355e3 0%, #153fb5 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 0px 0px #0e2b7d, 0 8px 15px rgba(35, 85, 227, 0.3) !important;
+}
+
+#audioToggleBtn.active svg {
+    color: #ffffff !important;
 }
 
 /* Status Text */
