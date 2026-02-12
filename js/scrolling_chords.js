@@ -19,6 +19,7 @@ const restartBtn = document.getElementById('restartBtn');
 const audioToggleBtn = document.getElementById('audioToggleBtn');
 const captureBtn = document.getElementById('captureBtn');
 const speedBtn = document.getElementById('speedBtn'); // Fixed: Was missing
+const youtubeToggleBtn = document.getElementById('youtubeToggleBtn');
 const youtubePlayerContainer = document.getElementById('youtubePlayerContainer');
 const recordingIndicator = document.getElementById('recordingIndicator');
 const countInOverlay = document.getElementById('countInOverlay');
@@ -156,11 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
 
     // YouTube Logic (Toggle & Close)
-    const youtubeToggleBtn = document.getElementById('youtubeToggleBtn');
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
 
     if (youtubeToggleBtn) {
-        youtubeToggleBtn.addEventListener('click', () => {
+        youtubeToggleBtn.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); // Prevent focus/zoom issues on mobile
             if (!youtubePlayerContainer) return;
             const isHidden = youtubePlayerContainer.classList.contains('hidden');
             if (isHidden) {
@@ -185,6 +186,45 @@ document.addEventListener('DOMContentLoaded', () => {
             if (youtubeToggleBtn) youtubeToggleBtn.classList.remove('active');
             // Also turn off capture mode if active
             if (enableTimingCapture) toggleTimingCapture();
+        });
+    }
+
+    // Draggable YouTube Player
+    const youtubeDragHandle = document.getElementById('youtubeDragHandle');
+    if (youtubeDragHandle && youtubePlayerContainer) {
+        let isMoving = false;
+        let startX, startY, initialX, initialY;
+
+        youtubeDragHandle.addEventListener('pointerdown', (e) => {
+            isMoving = true;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = youtubePlayerContainer.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+
+            youtubePlayerContainer.style.position = 'fixed';
+            youtubePlayerContainer.style.left = initialX + 'px';
+            youtubePlayerContainer.style.top = initialY + 'px';
+            youtubePlayerContainer.style.bottom = 'auto';
+            youtubePlayerContainer.style.right = 'auto';
+
+            youtubeDragHandle.setPointerCapture(e.pointerId);
+            e.preventDefault();
+        });
+
+        youtubeDragHandle.addEventListener('pointermove', (e) => {
+            if (!isMoving) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            youtubePlayerContainer.style.left = (initialX + dx) + 'px';
+            youtubePlayerContainer.style.top = (initialY + dy) + 'px';
+        });
+
+        youtubeDragHandle.addEventListener('pointerup', (e) => {
+            isMoving = false;
+            youtubeDragHandle.releasePointerCapture(e.pointerId);
         });
     }
 
