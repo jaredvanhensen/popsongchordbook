@@ -1847,7 +1847,7 @@ body.ctrl-held .chord-item {
     .youtube-player-container {
         width: 80px !important;
         height: 45px !important;
-        bottom: 5px !important;
+        bottom: 85px !important;
         right: 5px !important;
         border-width: 1px !important;
         border-radius: 4px !important;
@@ -1886,6 +1886,20 @@ body.ctrl-held .chord-item {
     .chord-buttons-container {
         flex: 1 !important;
         max-height: none !important;
+        gap: 8px !important;
+        /* Tighter gap */
+        padding: 5px !important;
+        /* Less padding */
+    }
+
+    .chord-toolbar-group {
+        margin-bottom: 2px !important;
+        /* Less vertical space between groups */
+        gap: 2px !important;
+    }
+
+    .chord-toolbar-buttons-row {
+        gap: 4px !important;
     }
 
     .playhead,
