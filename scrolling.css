@@ -241,9 +241,13 @@ button:disabled {
 #zoomInBtn svg,
 #selectModeBtn svg,
 #metronomeBtn svg,
-#audioToggleBtn svg,
-#captureBtn svg {
+#audioToggleBtn svg {
     color: #000000;
+}
+
+#captureBtn svg {
+    color: #ef4444;
+    /* Red dot when idle */
 }
 
 #audioToggleBtn {
