@@ -478,11 +478,11 @@ class SongDetailModal {
                     // Send data
                     scrollingChordsFrame.contentWindow.postMessage({
                         type: 'loadChordData',
-                        data: song.chordData || { chords: [] },
+                        data: (song.chordData && Array.isArray(song.chordData.chords)) ? song.chordData : { chords: [] },
                         youtubeUrl: song.youtubeUrl || '',
                         artist: song.artist,
                         songTitle: song.title,
-                        title: song.artist + ' - ' + song.title,
+                        title: (song.artist || '') + ' - ' + (song.title || ''),
                         suggestedChords: suggestedChordsGrouped
                     }, '*');
                 };
@@ -491,9 +491,7 @@ class SongDetailModal {
                 if (scrollingChordsFrame) {
                     // 1. Assign onload logic BEFORE setting src to avoid race conditions
                     scrollingChordsFrame.onload = () => {
-                        console.log('Iframe loaded (onload event). Waiting for Ready signal or sending data as fallback...');
-                        // Fallback: Try to send data immediately in case Ready signal was missed (though unlikely with this order)
-                        setTimeout(sendChordData, 500);
+                        console.log('Iframe loaded (onload event). Handshake will trigger data transfer.');
                     };
 
                     // 2. Set src to trigger load
@@ -589,7 +587,7 @@ class SongDetailModal {
 
                             scrollingChordsFrame.contentWindow.postMessage({
                                 type: 'loadChordData',
-                                data: song.chordData || { chords: [] },
+                                data: (song.chordData && Array.isArray(song.chordData.chords)) ? song.chordData : { chords: [] },
                                 youtubeUrl: song.youtubeUrl || '',
                                 artist: song.artist,
                                 songTitle: song.title,
