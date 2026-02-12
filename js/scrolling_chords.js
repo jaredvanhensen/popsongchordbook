@@ -1834,7 +1834,7 @@ function initYouTubePlayer(url) {
             playerVars: {
                 'autoplay': 0,
                 'playsinline': 1,
-                'controls': 1,
+                'controls': 0,
                 'rel': 0,
                 'origin': window.location.origin,
                 'fs': 0 // disable fullscreen button just in case
