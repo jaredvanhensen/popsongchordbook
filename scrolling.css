@@ -1897,18 +1897,29 @@ body.ctrl-held .chord-item {
         /* Force to bottom */
     }
 
-    /* MICRO PIP Video Window */
+    /* MICRO PIP Video Window - DOCKED MODE on Mobile */
     .youtube-player-container {
-        width: 320px !important;
-        height: 180px !important;
-        bottom: 100px;
-        right: 10px;
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        bottom: auto !important;
+        right: auto !important;
+        left: auto !important;
+        top: auto !important;
+        margin: 0 0 5px 0 !important;
         pointer-events: auto !important;
         touch-action: none !important;
-        z-index: 9999 !important;
-        border-width: 1px !important;
-        border-radius: 4px !important;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+        z-index: 100 !important;
+        border-width: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border-bottom: 1px solid #334155 !important;
+    }
+
+    /* Hide drag handle on mobile if docked */
+    .youtube-drag-handle {
+        display: none !important;
     }
 
     #closeYoutubeBtn {
@@ -1943,10 +1954,13 @@ body.ctrl-held .chord-item {
     .chord-buttons-container {
         flex: 1 !important;
         max-height: none !important;
-        gap: 8px !important;
-        /* Tighter gap */
-        padding: 5px !important;
-        /* Less padding */
+        gap: 4px !important;
+        /* Super tight gap */
+        padding: 2px !important;
+        /* Minimal padding */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 
     .chord-toolbar-group {
