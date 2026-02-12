@@ -1079,7 +1079,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
             // Appending "?" button
             const qBtn = document.createElement('button');
-            qBtn.className = 'chord-suggestion-btn';
+            qBtn.className = 'chord-suggestion-btn q-chord-btn';
             qBtn.textContent = '?';
             qBtn.title = 'Mark unknown chord';
             qBtn.draggable = false;

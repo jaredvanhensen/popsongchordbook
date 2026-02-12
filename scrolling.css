@@ -882,6 +882,8 @@ button:disabled {
     /* Allow scrolling buttons but not zooming */
     overscroll-behavior-y: none;
     /* Prevent pull-to-refresh */
+    align-items: flex-end;
+    /* Prevent stretching of buttons outside groups */
 }
 
 .chord-buttons-container.hidden {
@@ -899,8 +901,9 @@ button:disabled {
     border: none;
     color: white !important;
     /* Force white text */
-    padding: 4px 12px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    /* Tighter padding to match timeline feel */
+    border-radius: 8px;
     font-weight: 700;
     font-size: 0.85rem;
     cursor: pointer;
@@ -923,6 +926,17 @@ button:disabled {
 .chord-suggestion-btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.q-chord-btn {
+    min-width: 40px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
 }
 
 /* Section-specific colors for recognition */
