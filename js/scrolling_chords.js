@@ -189,45 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Draggable YouTube Player
-    const youtubeDragHandle = document.getElementById('youtubeDragHandle');
-    if (youtubeDragHandle && youtubePlayerContainer) {
-        let isMoving = false;
-        let startX, startY, initialX, initialY;
-
-        youtubeDragHandle.addEventListener('pointerdown', (e) => {
-            isMoving = true;
-            startX = e.clientX;
-            startY = e.clientY;
-
-            const rect = youtubePlayerContainer.getBoundingClientRect();
-            initialX = rect.left;
-            initialY = rect.top;
-
-            youtubePlayerContainer.style.position = 'fixed';
-            youtubePlayerContainer.style.left = initialX + 'px';
-            youtubePlayerContainer.style.top = initialY + 'px';
-            youtubePlayerContainer.style.bottom = 'auto';
-            youtubePlayerContainer.style.right = 'auto';
-
-            youtubeDragHandle.setPointerCapture(e.pointerId);
-            e.preventDefault();
-        });
-
-        youtubeDragHandle.addEventListener('pointermove', (e) => {
-            if (!isMoving) return;
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            youtubePlayerContainer.style.left = (initialX + dx) + 'px';
-            youtubePlayerContainer.style.top = (initialY + dy) + 'px';
-        });
-
-        youtubeDragHandle.addEventListener('pointerup', (e) => {
-            isMoving = false;
-            youtubeDragHandle.releasePointerCapture(e.pointerId);
-        });
-    }
-
     // Initialize Modals
     window.chordEditModal = new ChordEditModal();
     window.bpmEditModal = new BpmEditModal();
@@ -1834,10 +1795,9 @@ function initYouTubePlayer(url) {
             playerVars: {
                 'autoplay': 0,
                 'playsinline': 1,
-                'controls': 0,
+                'controls': 1,
                 'rel': 0,
-                'origin': window.location.origin,
-                'fs': 0 // disable fullscreen button just in case
+                'origin': window.location.origin
             },
             events: {
                 'onReady': onPlayerReady,
