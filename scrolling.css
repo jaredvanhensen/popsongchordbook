@@ -1845,12 +1845,13 @@ body.ctrl-held .chord-item {
 
     /* MICRO PIP Video Window */
     .youtube-player-container {
-        width: 160px !important;
-        height: 90px !important;
-        bottom: 85px !important;
+        width: 320px !important;
+        height: 180px !important;
+        bottom: 100px !important;
+        right: 10px !important;
         pointer-events: auto !important;
         touch-action: auto !important;
-        right: 5px !important;
+        z-index: 9999 !important;
         border-width: 1px !important;
         border-radius: 4px !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
