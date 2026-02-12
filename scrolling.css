@@ -1864,18 +1864,28 @@ body.ctrl-held .chord-item {
         border: 1px solid white !important;
     }
 
-    /* Tighten Timeline Area */
+    /* Tighten Timeline Area (50% shorter) */
     .chord-display-container {
-        height: 80px !important;
+        height: 40px !important;
         padding-left: 80px !important;
     }
 
     .current-chord-display {
         left: 10px !important;
         width: 60px !important;
-        font-size: 32px !important;
-        height: 60px !important;
+        font-size: 24px !important;
+        height: 32px !important;
         padding: 0 !important;
+    }
+
+    .timeline-container {
+        height: 140px !important;
+        flex: none !important;
+    }
+
+    .chord-buttons-container {
+        flex: 1 !important;
+        max-height: none !important;
     }
 
     .playhead,
