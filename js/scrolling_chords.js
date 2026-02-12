@@ -1836,7 +1836,8 @@ function initYouTubePlayer(url) {
                 'playsinline': 1,
                 'controls': 1,
                 'rel': 0,
-                'origin': window.location.origin
+                'origin': window.location.origin,
+                'fs': 0 // disable fullscreen button just in case
             },
             events: {
                 'onReady': onPlayerReady,
