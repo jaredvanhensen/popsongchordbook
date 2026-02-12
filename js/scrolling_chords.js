@@ -253,12 +253,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
     }
 
-    // Zoom with Wheel
+    // Zoom and Scroll with Wheel
     timeline.addEventListener('wheel', (e) => {
         if (e.ctrlKey || e.metaKey) {
             e.preventDefault();
             const direction = e.deltaY < 0 ? 1 : -1;
             zoom(direction);
+        } else {
+            // Horizontal scrolling with regular mouse wheel
+            e.preventDefault();
+            // Sensitivity: We want roughly a small jump per notch. 
+            // deltaY is typically 100 per notch. 
+            // 0.005 factor means 0.5s per notch at standard scale.
+            const scrollSensitivity = 0.005;
+            const delta = e.deltaY || e.deltaX;
+            seek(delta * scrollSensitivity);
         }
     }, { passive: false });
 });
