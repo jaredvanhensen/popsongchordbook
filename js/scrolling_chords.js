@@ -44,7 +44,6 @@ if (isEmbed) {
         body { color: #1e293b !important; }
         #instructions { color: #64748b !important; }
         #statusText { color: #334155 !important; }
-        .chord-item { color: #0f172a !important; text-shadow: none !important; }
         .marker-label { color: #94a3b8 !important; }
         #currentChordDisplay { color: #0f172a !important; text-shadow: none !important; }
         .file-input { color: #333 !important; }
@@ -1406,16 +1405,14 @@ function generateMarkers(midi) {
     const secondsPerBeat = 60 / bpm;
     const secondsPerBar = secondsPerBeat * timeSignature[0];
 
-    /* 
-    // Add time markers (every 5 seconds) - REMOVED per user request
-    for (let t = 0; t <= duration; t += 5) {
+    // Add time markers every 15 seconds
+    for (let t = 0; t <= duration; t += 15) {
         markers.push({
             time: t,
             label: formatTime(t),
             type: 'time'
         });
     }
-    */
 
     // Add bar and beat markers
     const numBars = Math.ceil(duration / secondsPerBar);
