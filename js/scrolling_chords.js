@@ -189,6 +189,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // YouTube Drag Logic (Handle)
+    const youtubeDragHandle = document.getElementById('youtubeDragHandle');
+    if (youtubeDragHandle && youtubePlayerContainer) {
+        let isDraggingPlayer = false;
+        let startX, startY, startRight, startBottom;
+
+        const onPlayerPointerDown = (e) => {
+            e.preventDefault(); // Prevent scrolling/selection
+            isDraggingPlayer = true;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const style = window.getComputedStyle(youtubePlayerContainer);
+            // Default check if not set
+            startRight = parseFloat(style.right) || 20;
+            startBottom = parseFloat(style.bottom) || 20;
+
+            youtubeDragHandle.setPointerCapture(e.pointerId);
+            youtubeDragHandle.addEventListener('pointermove', onPlayerPointerMove);
+            youtubeDragHandle.addEventListener('pointerup', onPlayerPointerUp);
+            youtubeDragHandle.style.cursor = 'grabbing';
+        };
+
+        const onPlayerPointerMove = (e) => {
+            if (!isDraggingPlayer) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            // Moving Mouse Right (positive dx) -> Container moves Right -> Right Offset decreases
+            // Moving Mouse Down (positive dy) -> Container moves Down -> Bottom Offset decreases
+            youtubePlayerContainer.style.right = (startRight - dx) + 'px';
+            youtubePlayerContainer.style.bottom = (startBottom - dy) + 'px';
+        };
+
+        const onPlayerPointerUp = (e) => {
+            isDraggingPlayer = false;
+            youtubeDragHandle.releasePointerCapture(e.pointerId);
+            youtubeDragHandle.removeEventListener('pointermove', onPlayerPointerMove);
+            youtubeDragHandle.removeEventListener('pointerup', onPlayerPointerUp);
+            youtubeDragHandle.style.cursor = 'move';
+        };
+
+        youtubeDragHandle.addEventListener('pointerdown', onPlayerPointerDown);
+    }
+
     // Initialize Modals
     window.chordEditModal = new ChordEditModal();
     window.bpmEditModal = new BpmEditModal();
