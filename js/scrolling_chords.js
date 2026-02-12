@@ -155,14 +155,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (zoomInBtn) zoomInBtn.addEventListener('click', () => zoom(1));
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
 
-    // YouTube Close Button
+    // YouTube Logic (Toggle & Close)
+    const youtubeToggleBtn = document.getElementById('youtubeToggleBtn');
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
+
+    if (youtubeToggleBtn) {
+        youtubeToggleBtn.addEventListener('click', () => {
+            if (!youtubePlayerContainer) return;
+            const isHidden = youtubePlayerContainer.classList.contains('hidden');
+            if (isHidden) {
+                youtubePlayerContainer.classList.remove('hidden');
+                youtubeToggleBtn.classList.add('active');
+            } else {
+                youtubePlayerContainer.classList.add('hidden');
+                youtubeToggleBtn.classList.remove('active');
+                if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
+                    youtubePlayer.pauseVideo();
+                }
+            }
+        });
+    }
+
     if (closeYoutubeBtn) {
         closeYoutubeBtn.addEventListener('click', () => {
             if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                 youtubePlayer.pauseVideo();
             }
             if (youtubePlayerContainer) youtubePlayerContainer.classList.add('hidden');
+            if (youtubeToggleBtn) youtubeToggleBtn.classList.remove('active');
             // Also turn off capture mode if active
             if (enableTimingCapture) toggleTimingCapture();
         });
@@ -1133,10 +1153,15 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             initYouTubePlayer(youtubeUrl);
         }
         if (captureBtn) captureBtn.classList.remove('hidden');
+        if (youtubeToggleBtn) {
+            youtubeToggleBtn.classList.remove('hidden');
+            youtubeToggleBtn.classList.add('active'); // Default to active since player starts shown
+        }
         // Show player immediately so user can see it
         if (youtubePlayerContainer) youtubePlayerContainer.classList.remove('hidden');
     } else {
         if (captureBtn) captureBtn.classList.add('hidden');
+        if (youtubeToggleBtn) youtubeToggleBtn.classList.add('hidden');
         if (youtubePlayerContainer) youtubePlayerContainer.classList.add('hidden');
     }
 

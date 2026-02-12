@@ -250,12 +250,22 @@ button:disabled {
     /* Red dot when idle */
 }
 
-#audioToggleBtn {
+#audioToggleBtn,
+#youtubeToggleBtn {
     background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
     width: 44px;
     height: 44px;
     min-width: 44px;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#youtubeToggleBtn svg {
+    width: 24px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(255, 0, 0, 0.2));
 }
 
 #zoomInBtn:hover svg,
@@ -304,6 +314,7 @@ button:disabled {
 
 /* Specific Toggle State for Audio & Metronome (Vivid Blue when active) */
 #audioToggleBtn.active,
+#youtubeToggleBtn.active,
 .metronome-btn.active {
     background: linear-gradient(135deg, #2355e3 0%, #153fb5 100%) !important;
     border: none !important;
