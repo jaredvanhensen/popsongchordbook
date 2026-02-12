@@ -864,7 +864,7 @@ window.addEventListener('pointerup', (e) => {
 
         if (overTimeline && virtualDraggedChord) {
             const x = e.clientX - timelineRect.left;
-            const playheadOffset = 200;
+            const playheadOffset = window.innerWidth < 600 ? 80 : 200;
             const dist = x - playheadOffset;
 
             const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
