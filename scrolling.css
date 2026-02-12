@@ -1901,10 +1901,10 @@ body.ctrl-held .chord-item {
     .youtube-player-container {
         width: 320px !important;
         height: 180px !important;
-        bottom: 100px !important;
-        right: 10px !important;
+        bottom: 100px;
+        right: 10px;
         pointer-events: auto !important;
-        touch-action: auto !important;
+        touch-action: none !important;
         z-index: 9999 !important;
         border-width: 1px !important;
         border-radius: 4px !important;
