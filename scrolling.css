@@ -294,7 +294,6 @@ button:disabled {
 }
 
 /* Toggleable buttons (General active state) */
-.metronome-btn.active,
 #selectModeBtn.active {
     background: #e0e7ff !important;
     border-color: #818cf8 !important;
@@ -303,14 +302,17 @@ button:disabled {
     transform: translateY(0) !important;
 }
 
-/* Specific Toggle State for Audio (Darker Blue) */
-#audioToggleBtn.active {
+/* Specific Toggle State for Audio & Metronome (Vivid Blue when active) */
+#audioToggleBtn.active,
+.metronome-btn.active {
     background: linear-gradient(135deg, #2355e3 0%, #153fb5 100%) !important;
     border: none !important;
     box-shadow: 0 4px 0px 0px #0e2b7d, 0 8px 15px rgba(35, 85, 227, 0.3) !important;
+    transform: translateY(0) !important;
 }
 
-#audioToggleBtn.active svg {
+#audioToggleBtn.active svg,
+.metronome-btn.active svg {
     color: #ffffff !important;
 }
 
