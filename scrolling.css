@@ -1962,6 +1962,7 @@ body.ctrl-held .chord-item {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start !important;
+        width: 100% !important;
     }
 
     .chord-toolbar-group {
