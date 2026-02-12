@@ -207,8 +207,7 @@ button:disabled {
 
 /* Red/Danger Category: Deletion & Capture (Small Icon Size) */
 #clearDataBtn:not(:disabled),
-#deleteSelectedBtn:not(:disabled),
-#captureBtn:not(:disabled) {
+#deleteSelectedBtn:not(:disabled) {
     background: linear-gradient(135deg, #d31027 0%, #ea384d 100%);
     color: white !important;
     border: none;
@@ -220,8 +219,7 @@ button:disabled {
 }
 
 #clearDataBtn:hover,
-#deleteSelectedBtn:hover,
-#captureBtn:hover {
+#deleteSelectedBtn:hover {
     background: linear-gradient(135deg, #ea384d 0%, #f05a6b 100%);
     box-shadow: 0 6px 0px 0px #8a0b1a, 0 12px 20px rgba(211, 16, 39, 0.35);
 }
@@ -243,7 +241,8 @@ button:disabled {
 #zoomInBtn svg,
 #selectModeBtn svg,
 #metronomeBtn svg,
-#audioToggleBtn svg {
+#audioToggleBtn svg,
+#captureBtn svg {
     color: #000000;
 }
 
@@ -292,7 +291,6 @@ button:disabled {
 
 /* Toggleable buttons (General active state) */
 .metronome-btn.active,
-.capture-btn.active,
 #selectModeBtn.active {
     background: #e0e7ff !important;
     border-color: #818cf8 !important;
@@ -309,6 +307,19 @@ button:disabled {
 }
 
 #audioToggleBtn.active svg {
+    color: #ffffff !important;
+}
+
+/* Specific Toggle State for Capture (Vivid Red when recording) */
+.capture-btn.active {
+    background: linear-gradient(135deg, #d31027 0%, #ea384d 100%) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 0px 0px #8a0b1a, 0 10px 20px rgba(211, 16, 39, 0.4) !important;
+    transform: translateY(0) !important;
+}
+
+.capture-btn.active svg {
     color: #ffffff !important;
 }
 
