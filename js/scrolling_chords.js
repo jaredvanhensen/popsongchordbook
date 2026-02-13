@@ -1044,13 +1044,11 @@ async function processJsonFile(file) {
 
 
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '') {
-    console.log('loadData called with:', {
-        data: data ? 'present' : 'missing',
-        chordCount: data?.chords?.length,
-        url,
-        artist,
-        songTitle,
-        hasFullLyrics: !!inputFullLyrics
+    console.log('loadData called for:', songTitle, {
+        hasData: !!data,
+        receivedFullLyrics: inputFullLyrics ? inputFullLyrics.substring(0, 30) + '...' : 'none',
+        receivedLyrics: inputLyrics ? inputLyrics.substring(0, 30) + '...' : 'none',
+        hasTimestamps: LyricsParser.hasTimestamps(inputFullLyrics || inputLyrics)
     });
 
     // Ensure global suggestedChords is based on input
