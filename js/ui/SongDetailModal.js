@@ -147,9 +147,12 @@ class SongDetailModal {
             song.bridgeCue
         ].filter(cue => cue && cue.trim() !== '');
 
-        if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && (!song.lyrics || !song.lyrics.trim()) && !combinedBlocks.trim()) {
+        const hasOfficialLyrics = cues.length > 0 || (song.fullLyrics && song.fullLyrics.trim()) || (song.lyrics && song.lyrics.trim());
+
+        if (!hasOfficialLyrics) {
             this.showToast('No lyrics found. Click the Gear icon to add lyrics!');
-            return;
+            // If there's absolutely no content (not even chords in blocks), stop here
+            if (!combinedBlocks.trim()) return;
         }
 
         this.updateLyricsTickerContent();
