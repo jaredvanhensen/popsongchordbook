@@ -186,11 +186,11 @@ class App {
         this.setupResponsiveView();
         this.setupCreateSongModal();
 
-        // Load data from Firebase
-        await this.loadDataFromFirebase();
-
         // Setup real-time sync
         this.setupRealtimeSync();
+
+        // Load data from Firebase
+        await this.loadDataFromFirebase();
 
         // Initialize pending songs count
         const userId = this.firebaseManager.getCurrentUser().uid;
