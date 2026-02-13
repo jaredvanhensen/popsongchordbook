@@ -2284,6 +2284,20 @@ td:has(.row-edit-input.input-focused) {
         padding: 5px 7px;
     }
 
+    #importSongFile+label .label,
+    label[for="importSongFile"] .label {
+        display: none;
+    }
+
+    #importSongFile+label::after,
+    label[for="importSongFile"]::after {
+        content: 'Import';
+        font-size: 0.6em;
+        font-weight: 500;
+        line-height: 1;
+        text-transform: lowercase;
+    }
+
     .table-wrapper {
         border-radius: 10px;
     }
