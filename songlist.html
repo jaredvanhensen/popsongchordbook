@@ -42,9 +42,9 @@
                     <button id="themeSwitcherBtn" class="theme-switcher-btn" title="Cycle Themes">
                         <span class="icon">🎨</span>
                     </button>
-                    <button id="profileBtn" class="profile-btn with-label" title="Profile">
+                    <button id="profileBtn" class="profile-btn with-label" title="Profile & Settings">
                         <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
-                        <span class="icon">👤</span>
+                        <span class="icon">👤 ⚙️</span>
                         <span class="label">Profile <span id="profileSongCount" class="song-count">(0)</span></span>
                     </button>
                     <button id="toggleHeaderBarCollapsed" class="toggle-header-bar-btn collapsed-position"
@@ -159,15 +159,17 @@
                             <span class="label">Add</span>
                         </button>
                         <div class="import-export-controls">
-                            <button id="exportBtn" class="import-export-btn with-label" title="Export">
+                            <button id="exportSongBtn" class="import-export-btn with-label"
+                                title="Export current song to JSON">
                                 <span class="icon">📤</span>
-                                <span class="label">Export</span>
+                                <span class="label">Export Song</span>
                             </button>
-                            <label for="importFile" class="import-export-btn with-label" title="Import">
+                            <label for="importSongFile" class="import-export-btn with-label"
+                                title="Import a song from JSON">
                                 <span class="icon">📥</span>
-                                <span class="label">Import</span>
+                                <span class="label">Import Song</span>
                             </label>
-                            <input type="file" id="importFile" accept=".json" style="display: none;">
+                            <input type="file" id="importSongFile" accept=".json" style="display: none;">
                             <button id="practiceRandomBtn" class="import-export-btn practice-random-btn with-label"
                                 title="Random from Practice">
                                 <span class="icon">&#127919;</span>
@@ -389,6 +391,16 @@
                         style="background: #64748b; margin-top: 10px; width: 100%;">
                         <span class="icon">🖨️</span> Print Song List
                     </button>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button id="exportBtn" class="modal-submit-btn" style="background: #475569; flex: 1;">
+                            <span class="icon">📤</span> Export Library
+                        </button>
+                        <label for="importFile" class="modal-submit-btn"
+                            style="background: #475569; flex: 1; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                            <span class="icon" style="margin-right: 8px;">📥</span> Import Library
+                        </label>
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </div>
                 </div>
 
                 <div class="profile-appearance-section">

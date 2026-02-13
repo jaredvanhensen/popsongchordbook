@@ -325,9 +325,9 @@ class App {
             let textContent = '';
 
             if (user && user.displayName) {
-                textContent = `<span>${user.displayName}</span> ${songCountHtml}`;
+                textContent = `<span>${user.displayName}</span> ⚙️ ${songCountHtml}`;
             } else {
-                textContent = `<span>Profiel</span> ${songCountHtml}`;
+                textContent = `<span>Profile</span> ⚙️ ${songCountHtml}`;
             }
             labelElement.innerHTML = textContent;
         }
@@ -2161,6 +2161,26 @@ class App {
                 this.deleteAllSongs();
             });
         }
+
+        // --- Single Song Export/Import ---
+
+        const exportSongBtn = document.getElementById('exportSongBtn');
+        if (exportSongBtn) {
+            exportSongBtn.addEventListener('click', () => {
+                this.exportSingleSong();
+            });
+        }
+
+        const importSongFile = document.getElementById('importSongFile');
+        if (importSongFile) {
+            importSongFile.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    this.importSingleSong(file);
+                }
+                e.target.value = '';
+            });
+        }
     }
 
     setupPrintButton() {
@@ -2234,20 +2254,108 @@ class App {
 
         // Show feedback
         const exportBtn = document.getElementById('exportBtn');
-        const iconElement = exportBtn.querySelector('.icon');
+        const iconElement = exportBtn ? exportBtn.querySelector('.icon') : null;
         if (iconElement) {
             const originalIcon = iconElement.textContent;
             iconElement.textContent = '✓';
             setTimeout(() => {
                 iconElement.textContent = originalIcon;
             }, 2000);
-        } else {
-            // Fallback for old structure
-            const originalText = exportBtn.textContent;
-            exportBtn.textContent = '✓ Geëxporteerd!';
-            setTimeout(() => {
-                exportBtn.textContent = originalText;
-            }, 2000);
+        }
+    }
+
+    exportSingleSong() {
+        const songId = this.tableRenderer ? this.tableRenderer.getSelectedRowId() : null;
+        if (!songId) {
+            alert('Please select a song first to export it.');
+            return;
+        }
+
+        const song = this.songManager.getSongById(songId);
+        if (!song) {
+            alert('Could not find selected song.');
+            return;
+        }
+
+        // Create export package for a single song
+        const exportData = {
+            version: '1.0',
+            exportType: 'single-song',
+            exportDate: new Date().toISOString(),
+            song: song
+        };
+
+        const fileName = `${(song.artist || 'Artist')}-${(song.title || 'Title')}`.replace(/[/\\?%*:|"<>]/g, '-');
+        const jsonString = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${fileName}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // Show feedback on the button
+        const btn = document.getElementById('exportSongBtn');
+        const icon = btn ? btn.querySelector('.icon') : null;
+        if (icon) {
+            const original = icon.textContent;
+            icon.textContent = '✓';
+            setTimeout(() => icon.textContent = original, 2000);
+        }
+    }
+
+    async importSingleSong(file) {
+        try {
+            const text = await file.text();
+            const importData = JSON.parse(text);
+
+            let songToImport = null;
+            if (importData.song) {
+                songToImport = importData.song;
+            } else if (importData.songs && importData.songs.length > 0) {
+                // If user accidentally tries to import a library as a single song, take the first one
+                songToImport = importData.songs[0];
+            } else {
+                // Maybe it's just a raw song object
+                songToImport = importData;
+            }
+
+            // Basic validation
+            if (!songToImport || (!songToImport.title && !songToImport.artist)) {
+                throw new Error('Invalid song data structure.');
+            }
+
+            // Clean data (remove redundant ID to let SongManager generate a new one if needed, 
+            // though importSongs handles duplication by ID usually)
+            // But for single import, let's treat it as a new distinct song or update existing?
+            // Usually, users want to add it.
+
+            const songName = `${songToImport.artist || 'Unknown'} - ${songToImport.title || 'Untitled'}`;
+            if (!confirm(`Import song: "${songName}"?`)) return;
+
+            // Use importSongs with a single song array, append to existing (replace = false)
+            await this.songManager.importSongs([songToImport], false);
+
+            // Re-render
+            this.loadAndRender();
+
+            // Show feedback
+            const btn = document.getElementById('importSongFile'); // label's for
+            const labelBtn = document.querySelector(`label[for="importSongFile"]`);
+            const icon = labelBtn ? labelBtn.querySelector('.icon') : null;
+            if (icon) {
+                const original = icon.textContent;
+                icon.textContent = '✓';
+                setTimeout(() => icon.textContent = original, 2000);
+            }
+
+            alert(`Successfully imported "${songName}"`);
+        } catch (error) {
+            console.error('Import Single Song error:', error);
+            alert('Import failed: ' + error.message);
         }
     }
 
