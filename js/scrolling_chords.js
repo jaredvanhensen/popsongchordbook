@@ -27,6 +27,10 @@ const countInNumber = document.getElementById('countInNumber');
 const barDecBtn = document.getElementById('barDecBtn');
 const barIncBtn = document.getElementById('barIncBtn');
 const barOffsetDisplay = document.getElementById('barOffsetDisplay');
+const toggleLyricsBtn = document.getElementById('toggleLyricsBtn');
+const lyricsHUD = document.getElementById('lyricsHUD');
+const lyricLine1 = document.getElementById('lyricLine1');
+const lyricLine2 = document.getElementById('lyricLine2');
 const COUNT_IN_SECONDS = 4;
 
 // Check for embed mode
@@ -66,6 +70,8 @@ let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
 let barOffsetInBeats = 0;
+let lyricsEnabled = false;
+let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
 let originalBarOffset = 0; // For bar offset change detection
@@ -163,6 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-1));
     if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(1));
+
+    if (toggleLyricsBtn) toggleLyricsBtn.addEventListener('click', toggleLyricsHUD);
 
     // YouTube Logic (Toggle & Close)
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
@@ -1035,13 +1043,14 @@ async function processJsonFile(file) {
 
 
 
-function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '') {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '') {
     console.log('loadData called with:', {
         data: data ? 'present' : 'missing',
         chordCount: data?.chords?.length,
         url,
         artist,
-        songTitle
+        songTitle,
+        hasFullLyrics: !!inputFullLyrics
     });
 
     // Ensure global suggestedChords is based on input
@@ -1228,6 +1237,24 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         originalBarOffset = barOffsetInBeats;
         if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
 
+        // Parse lyrics if available
+        parsedLyrics = [];
+        if (inputFullLyrics || inputLyrics) {
+            const rawLyrics = inputFullLyrics || inputLyrics;
+            if (LyricsParser.hasTimestamps(rawLyrics)) {
+                parsedLyrics = LyricsParser.parse(rawLyrics);
+                console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines');
+                if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('hidden');
+                // Default Enabled if found? Maybe not, let user decide
+            } else {
+                if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
+                hideLyricsHUD();
+            }
+        } else {
+            if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
+            hideLyricsHUD();
+        }
+
         currentTempo = bpm;
         originalTempo = bpm;
         secondsPerBeat = 60 / bpm;
@@ -1347,6 +1374,22 @@ function adjustBarOffset(deltaBeats) {
         updateLoop();
     }
     checkForChanges();
+}
+
+function toggleLyricsHUD() {
+    lyricsEnabled = !lyricsEnabled;
+    if (lyricsEnabled) {
+        lyricsHUD.classList.remove('hidden');
+        toggleLyricsBtn.classList.add('active');
+    } else {
+        hideLyricsHUD();
+    }
+}
+
+function hideLyricsHUD() {
+    lyricsEnabled = false;
+    lyricsHUD.classList.add('hidden');
+    toggleLyricsBtn.classList.remove('active');
 }
 
 function exportToJSON() {
@@ -1856,6 +1899,27 @@ function updateLoop() {
 
     statusText.innerText = `Time: ${formatTime(playbackTime)}`;
 
+    // Update Lyrics HUD
+    if (lyricsEnabled && parsedLyrics.length > 0) {
+        // Find current line
+        const currentIndex = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
+        if (currentIndex !== -1) {
+            lyricLine1.innerText = parsedLyrics[currentIndex].text;
+            // Next line
+            if (currentIndex + 1 < parsedLyrics.length) {
+                lyricLine2.innerText = parsedLyrics[currentIndex + 1].text;
+                lyricLine2.classList.remove('hidden');
+            } else {
+                lyricLine2.innerText = '';
+                lyricLine2.classList.add('hidden');
+            }
+        } else {
+            // Intro / Before first line
+            lyricLine1.innerText = '';
+            lyricLine2.innerText = parsedLyrics[0].text;
+        }
+    }
+
     if (isPlaying) {
         animationFrame = requestAnimationFrame(updateLoop);
     }
@@ -2079,7 +2143,7 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics);
     }
     else if (msg.type === 'stopAudio') {
         if (pianoPlayer) pianoPlayer.stopAll();

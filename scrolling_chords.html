@@ -168,6 +168,14 @@
                 <path d="M 45,24 27,14 27,34" fill="#fff" />
             </svg>
         </button>
+        <button id="toggleLyricsBtn" title="Toggle Lyrics Overlay" class="lyrics-btn hidden">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <line x1="9" y1="8" x2="15" y2="8"></line>
+                <line x1="9" y1="12" x2="15" y2="12"></line>
+            </svg>
+        </button>
         <button id="captureBtn" title="Record timing" class="capture-btn hidden">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <circle cx="12" cy="12" r="8"></circle>
@@ -204,6 +212,12 @@
 <!-- New Chord Toolbar -->
 <div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
 
+<!-- Lyrics HUD Overlay -->
+<div id="lyricsHUD" class="lyrics-hud hidden">
+    <div id="lyricLine1" class="lyric-line active"></div>
+    <div id="lyricLine2" class="lyric-line upcoming"></div>
+</div>
+
 <div class="timeline-container" id="timeline">
     <div class="playhead"></div>
 
@@ -236,6 +250,7 @@
 <!-- Utils -->
 <script src="js/utils/PianoAudioPlayer.js?v=2.014"></script>
 <script src="js/utils/ChordParser.js?v=2.014"></script>
+<script src="js/utils/LyricsParser.js?v=2.014"></script>
 <script src="js/ui/ConfirmationModal.js?v=2.014"></script>
 <script src="js/ui/ChordEditModal.js?v=2.014"></script>
 <script src="js/ui/BpmEditModal.js?v=2.014"></script>

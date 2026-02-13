@@ -150,7 +150,7 @@ class SongDetailModal {
         const hasOfficialLyrics = cues.length > 0 || (song.fullLyrics && song.fullLyrics.trim()) || (song.lyrics && song.lyrics.trim());
 
         if (!hasOfficialLyrics) {
-            this.showInfoModal('Lyrics Guidance', 'No lyrics found for this song. Click the Gear icon (Details) to add lyrics in the "Full Lyrics" field!');
+            this.showInfoModal('Lyrics Guidance', 'No lyrics found for this song. Click the Gear icon (Details) to add lyrics in the "Lyrics" field!');
             return;
         }
 
@@ -199,7 +199,9 @@ class SongDetailModal {
             lyrics = combinedBlocks;
         }
 
-        this.lyricsText.innerText = lyrics;
+        // Strip LRC timestamps if they exist
+        const cleanLyrics = LyricsParser.stripTimestamps(lyrics);
+        this.lyricsText.innerText = cleanLyrics;
 
         // Reset scroll position visual state
         const scrollContainer = this.lyricsOverlay.querySelector('.lyrics-ticker-content');
@@ -485,7 +487,9 @@ class SongDetailModal {
                         artist: song.artist,
                         songTitle: song.title,
                         title: (song.artist || '') + ' - ' + (song.title || ''),
-                        suggestedChords: suggestedChordsGrouped
+                        suggestedChords: suggestedChordsGrouped,
+                        fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
+                        lyrics: song.lyrics || '' // Fallback
                     }, '*');
                 };
 
@@ -594,7 +598,9 @@ class SongDetailModal {
                                 artist: song.artist,
                                 songTitle: song.title,
                                 title: song.artist + ' - ' + song.title,
-                                suggestedChords: suggestedChordsGrouped
+                                suggestedChords: suggestedChordsGrouped,
+                                fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
+                                lyrics: song.lyrics || '' // Fallback
                             }, '*');
                         }
                     }
