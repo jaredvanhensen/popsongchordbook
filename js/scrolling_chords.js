@@ -1043,7 +1043,7 @@ async function processJsonFile(file) {
 
 
 
-function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '') {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0) {
     console.log('loadData called for:', songTitle, {
         hasData: !!data,
         receivedFullLyrics: inputFullLyrics ? inputFullLyrics.substring(0, 30) + '...' : 'none',
@@ -1241,7 +1241,14 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             const rawLyrics = inputFullLyrics || inputLyrics;
             if (LyricsParser.hasTimestamps(rawLyrics)) {
                 parsedLyrics = LyricsParser.parse(rawLyrics);
-                console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines');
+
+                // Apply LyricSync offset
+                if (inputLyricOffset) {
+                    const offset = parseFloat(inputLyricOffset) || 0;
+                    parsedLyrics.forEach(l => l.time += offset);
+                }
+
+                console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines, offset:', inputLyricOffset);
                 if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('hidden');
                 // Default Enabled if found? Maybe not, let user decide
             } else {
@@ -2141,7 +2148,7 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset);
     }
     else if (msg.type === 'stopAudio') {
         if (pianoPlayer) pianoPlayer.stopAll();
