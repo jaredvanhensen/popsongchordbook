@@ -151,8 +151,7 @@ class SongDetailModal {
 
         if (!hasOfficialLyrics) {
             this.showInfoModal('Lyrics Guidance', 'No lyrics found for this song. Click the Gear icon (Details) to add lyrics in the "Full Lyrics" field!');
-            // If there's absolutely no content (not even chords in blocks), stop here
-            if (!combinedBlocks.trim()) return;
+            return;
         }
 
         this.updateLyricsTickerContent();
