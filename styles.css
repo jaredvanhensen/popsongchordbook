@@ -2565,9 +2565,115 @@ td:has(.row-edit-input.input-focused) {
     animation: slideUp 0.3s ease;
 }
 
-.confirmation-modal-content {
-    max-width: 350px;
-    z-index: 5001;
+.confirmation-modal-overlay.hidden {
+    display: none !important;
+}
+
+.confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.confirmation-modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    animation: modalScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalScaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirmation-modal .modal-header {
+    background: #f8fafc;
+    padding: 18px 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.confirmation-modal .modal-title {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.confirmation-modal .modal-body {
+    padding: 25px;
+    color: #475569;
+    font-size: 1.05em;
+    line-height: 1.5;
+}
+
+.confirmation-modal .modal-footer {
+    padding: 15px 25px 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.confirmation-modal .btn {
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.confirmation-modal .btn-secondary {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.confirmation-modal .btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.confirmation-modal .btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.confirmation-modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.confirmation-modal .btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.confirmation-modal .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
 }
 
 .modal-actions-horizontal {

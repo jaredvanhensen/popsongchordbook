@@ -13,10 +13,9 @@ class ConfirmationModal {
         this.element.className = 'modal-overlay hidden confirmation-modal-overlay';
         this.element.style.zIndex = '100000'; // Ensure it's on top of everything
         this.element.innerHTML = `
-            <div class="modal-content confirmation-modal">
+            <div class="confirmation-modal">
                 <div class="modal-header">
                     <h3 class="modal-title" id="confirmationModalTitle">Confirm</h3>
-                    <button class="modal-close" id="confirmationModalClose">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p id="confirmationModalMessage" class="confirmation-message"></p>
@@ -31,14 +30,11 @@ class ConfirmationModal {
         document.body.appendChild(this.element);
 
         // Bind events
-        const closeBtn = this.element.querySelector('#confirmationModalClose');
         const cancelBtn = this.element.querySelector('#confirmationModalCancel');
         const confirmBtn = this.element.querySelector('#confirmationModalConfirm');
         const overlay = this.element;
 
         const closeModal = () => this.hide();
-
-        closeBtn.addEventListener('click', closeModal);
         cancelBtn.addEventListener('click', () => {
             if (this.onCancel) this.onCancel();
             this.hide();
@@ -66,7 +62,7 @@ class ConfirmationModal {
         });
     }
 
-    show(title, message, onConfirm, onCancel = null) {
+    show(title, message, onConfirm, onCancel = null, confirmText = null, type = 'primary', isInfo = false) {
         if (!this.element) this.render();
 
         const titleEl = this.element.querySelector('#confirmationModalTitle');
@@ -75,17 +71,25 @@ class ConfirmationModal {
         const cancelBtn = this.element.querySelector('#confirmationModalCancel');
 
         titleEl.textContent = title || 'Confirm';
-        // Allow HTML in message for formatting (e.g. bold song titles)
         messageEl.innerHTML = message || 'Are you sure?';
 
-        // Custom button text if needed? For now, hardcode "Confirm" "Cancel"
-        // But let's check if the message implies specific actions like "Remove"
-        if (title && title.toLowerCase().includes('remove')) {
-            confirmBtn.textContent = 'Remove';
-            confirmBtn.classList.add('btn-danger'); // Add red style if we have it
+        // Set button text
+        confirmBtn.textContent = confirmText || 'OK';
+
+        // Set button style
+        confirmBtn.classList.remove('btn-primary', 'btn-danger');
+        if (type === 'danger' || (title && title.toLowerCase().includes('delete'))) {
+            confirmBtn.classList.add('btn-danger');
+            if (!confirmText) confirmBtn.textContent = 'Delete';
         } else {
-            confirmBtn.textContent = 'Confirm';
-            confirmBtn.classList.remove('btn-danger');
+            confirmBtn.classList.add('btn-primary');
+        }
+
+        // Info mode: hide cancel button
+        if (isInfo) {
+            cancelBtn.style.display = 'none';
+        } else {
+            cancelBtn.style.display = 'block';
         }
 
         this.onConfirm = onConfirm;

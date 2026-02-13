@@ -325,9 +325,9 @@ class App {
             let textContent = '';
 
             if (user && user.displayName) {
-                textContent = `<span>${user.displayName}</span> <span style="font-size: 1.2em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
+                textContent = `<span>${user.displayName}</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             } else {
-                textContent = `<span>Profile</span> <span style="font-size: 1.2em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
+                textContent = `<span>Profile</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             }
             labelElement.innerHTML = textContent;
         }
@@ -1316,14 +1316,25 @@ class App {
             if (setlistId && this.activeAddToSetlistSongId) {
                 try {
                     await this.setlistManager.addSongsToSetlist(setlistId, [this.activeAddToSetlistSongId]);
-                    alert('Song toegevoegd aan setlist!');
+                    const song = this.songManager.getSongById(this.activeAddToSetlistSongId);
+                    const title = song ? song.title : 'Song';
+
+                    this.confirmationModal.show(
+                        'Added to Setlist',
+                        `<strong>${title}</strong> has been added to the setlist.`,
+                        () => { }, // Close callback
+                        null,
+                        'Done',
+                        'primary',
+                        true // isInfo
+                    );
                     closeModal();
                 } catch (error) {
                     console.error('Error adding song to setlist:', error);
-                    alert('Fout bij toevoegen van song.');
+                    this.confirmationModal.show('Error', 'Failed to add song to setlist.', () => { }, null, 'OK', 'danger', true);
                 }
             } else {
-                alert('Selecteer eerst een setlist.');
+                this.confirmationModal.show('Wait', 'Please select a setlist first.', () => { }, null, 'OK', 'primary', true);
             }
         });
     }
@@ -2162,14 +2173,7 @@ class App {
             });
         }
 
-        // --- Single Song Export/Import ---
-
-        const exportSongBtn = document.getElementById('exportSongBtn');
-        if (exportSongBtn) {
-            exportSongBtn.addEventListener('click', () => {
-                this.exportSingleSong();
-            });
-        }
+        // --- Single Song Import ---
 
         const importSongFile = document.getElementById('importSongFile');
         if (importSongFile) {
@@ -2264,48 +2268,6 @@ class App {
         }
     }
 
-    exportSingleSong() {
-        const songId = this.tableRenderer ? this.tableRenderer.getSelectedRowId() : null;
-        if (!songId) {
-            alert('Please select a song first to export it.');
-            return;
-        }
-
-        const song = this.songManager.getSongById(songId);
-        if (!song) {
-            alert('Could not find selected song.');
-            return;
-        }
-
-        // Create export package for a single song
-        const exportData = {
-            version: '1.0',
-            exportType: 'single-song',
-            exportDate: new Date().toISOString(),
-            song: song
-        };
-
-        const fileName = `${(song.artist || 'Artist')}-${(song.title || 'Title')}`.replace(/[/\\?%*:|"<>]/g, '-');
-        const jsonString = JSON.stringify(exportData, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${fileName}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        // Show feedback on the button
-        const btn = document.getElementById('exportSongBtn');
-        const icon = btn ? btn.querySelector('.icon') : null;
-        if (icon) {
-            const original = icon.textContent;
-            icon.textContent = '✓';
-            setTimeout(() => icon.textContent = original, 2000);
-        }
-    }
 
     async importSingleSong(file) {
         try {
@@ -2334,25 +2296,39 @@ class App {
             // Usually, users want to add it.
 
             const songName = `${songToImport.artist || 'Unknown'} - ${songToImport.title || 'Untitled'}`;
-            if (!confirm(`Import song: "${songName}"?`)) return;
 
-            // Use importSongs with a single song array, append to existing (replace = false)
-            await this.songManager.importSongs([songToImport], false);
+            this.confirmationModal.show(
+                'Import Song',
+                `Do you want to import <strong>${songName}</strong> into your library?`,
+                async () => {
+                    // Use importSongs with a single song array, append to existing (replace = false)
+                    await this.songManager.importSongs([songToImport], false);
 
-            // Re-render
-            this.loadAndRender();
+                    // Re-render
+                    this.loadAndRender();
 
-            // Show feedback
-            const btn = document.getElementById('importSongFile'); // label's for
-            const labelBtn = document.querySelector(`label[for="importSongFile"]`);
-            const icon = labelBtn ? labelBtn.querySelector('.icon') : null;
-            if (icon) {
-                const original = icon.textContent;
-                icon.textContent = '✓';
-                setTimeout(() => icon.textContent = original, 2000);
-            }
-
-            alert(`Successfully imported "${songName}"`);
+                    // Show feedback
+                    const btn = document.getElementById('importSongFile'); // label's for
+                    const labelBtn = document.querySelector(`label[for="importSongFile"]`);
+                    const icon = labelBtn ? labelBtn.querySelector('.icon') : null;
+                    if (icon) {
+                        const original = icon.textContent;
+                        icon.textContent = '✓';
+                        setTimeout(() => icon.textContent = original, 2000);
+                        this.confirmationModal.show(
+                            'Import Successful',
+                            `Successfully imported <strong>${songName}</strong> into your library.`,
+                            () => { }, // Just close
+                            null,
+                            'Done',
+                            'primary',
+                            true // isInfo = true
+                        );
+                    }
+                },
+                null,
+                'Import'
+            );
         } catch (error) {
             console.error('Import Single Song error:', error);
             alert('Import failed: ' + error.message);
