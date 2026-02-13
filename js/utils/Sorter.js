@@ -28,7 +28,14 @@ class Sorter {
                 return aVal - bVal; // Non-favorites first
             }
         }
-        
+
+        // Numeric sorting for ID
+        if (column === 'id') {
+            const aVal = parseInt(a.id) || 0;
+            const bVal = parseInt(b.id) || 0;
+            return direction === 'asc' ? aVal - bVal : bVal - aVal;
+        }
+
         let aVal = a[column] || '';
         let bVal = b[column] || '';
         // Normalize for sorting (case-insensitive)
