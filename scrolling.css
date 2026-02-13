@@ -8,6 +8,10 @@
     --text-color: #1e293b;
 }
 
+.hidden {
+    display: none !important;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -974,7 +978,6 @@ button:disabled {
         padding: 4px 10px;
     }
 
-    #saveBtn,
     #exportBtn {
         display: none;
     }
@@ -1796,7 +1799,6 @@ body.ctrl-held .chord-item {
         padding: 4px 10px;
     }
 
-    #saveBtn,
     #exportBtn,
     #backBtn,
     #statusText {
