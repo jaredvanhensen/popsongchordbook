@@ -325,9 +325,9 @@ class App {
             let textContent = '';
 
             if (user && user.displayName) {
-                textContent = `<span>${user.displayName}</span> ⚙️ ${songCountHtml}`;
+                textContent = `<span>${user.displayName}</span> <span style="font-size: 1.2em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             } else {
-                textContent = `<span>Profile</span> ⚙️ ${songCountHtml}`;
+                textContent = `<span>Profile</span> <span style="font-size: 1.2em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             }
             labelElement.innerHTML = textContent;
         }
