@@ -148,7 +148,7 @@ class SongDetailModal {
         ].filter(cue => cue && cue.trim() !== '');
 
         if (cues.length === 0 && (!song.fullLyrics || !song.fullLyrics.trim()) && (!song.lyrics || !song.lyrics.trim()) && !combinedBlocks.trim()) {
-            this.showInfoModal('Lyrics', 'No lyrics found for this song. Add them in the "Details (Gear) - "lyrics" field, or in the Verse/Chorus blocks!');
+            this.showToast('No lyrics found. Click the Gear icon to add lyrics!');
             return;
         }
 
@@ -1735,6 +1735,29 @@ class SongDetailModal {
         this.infoModal.classList.remove('hidden');
     }
 
+    showToast(message, duration = 3000) {
+        let toast = document.getElementById('toastNotification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toastNotification';
+            toast.className = 'toast-notification hidden';
+            document.body.appendChild(toast);
+        }
+
+        toast.textContent = message;
+        toast.classList.remove('hidden');
+        // Force reflow
+        void toast.offsetWidth;
+        toast.classList.add('show');
+
+        if (this.toastTimeout) clearTimeout(this.toastTimeout);
+
+        this.toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('hidden');
+        }, duration);
+    }
+
     navigatePrevious() {
         if (!this.currentSongId || this.allSongs.length === 0) return;
 
@@ -2004,7 +2027,8 @@ class SongDetailModal {
                 (song.verse || song.chorus || song.preChorus || song.bridge);
 
             if (this.lyricsBtn) {
-                this.lyricsBtn.style.display = (hasAnyLyrics || lyricsEnabled) ? 'flex' : 'none';
+                // Always show the lyrics button so users can click it to see instructions if empty
+                this.lyricsBtn.style.display = 'flex';
             }
             if (this.scrollingChordsBtn) {
                 this.scrollingChordsBtn.style.display = timelineEnabled ? 'flex' : 'none';
