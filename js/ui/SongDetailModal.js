@@ -150,7 +150,7 @@ class SongDetailModal {
         const hasOfficialLyrics = cues.length > 0 || (song.fullLyrics && song.fullLyrics.trim()) || (song.lyrics && song.lyrics.trim());
 
         if (!hasOfficialLyrics) {
-            this.showToast('No lyrics found. Click the Gear icon to add lyrics!');
+            this.showInfoModal('Lyrics Guidance', 'No lyrics found for this song. Click the Gear icon (Details) to add lyrics in the "Full Lyrics" field!');
             // If there's absolutely no content (not even chords in blocks), stop here
             if (!combinedBlocks.trim()) return;
         }
@@ -1736,29 +1736,6 @@ class SongDetailModal {
         if (this.infoModalClose) this.infoModalClose.addEventListener('click', handleOk);
         this.infoModal.addEventListener('click', handleBgClick);
         this.infoModal.classList.remove('hidden');
-    }
-
-    showToast(message, duration = 3000) {
-        let toast = document.getElementById('toastNotification');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'toastNotification';
-            toast.className = 'toast-notification hidden';
-            document.body.appendChild(toast);
-        }
-
-        toast.textContent = message;
-        toast.classList.remove('hidden');
-        // Force reflow
-        void toast.offsetWidth;
-        toast.classList.add('show');
-
-        if (this.toastTimeout) clearTimeout(this.toastTimeout);
-
-        this.toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-            toast.classList.add('hidden');
-        }, duration);
     }
 
     navigatePrevious() {
