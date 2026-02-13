@@ -24,6 +24,9 @@ const youtubePlayerContainer = document.getElementById('youtubePlayerContainer')
 const recordingIndicator = document.getElementById('recordingIndicator');
 const countInOverlay = document.getElementById('countInOverlay');
 const countInNumber = document.getElementById('countInNumber');
+const barDecBtn = document.getElementById('barDecBtn');
+const barIncBtn = document.getElementById('barIncBtn');
+const barOffsetDisplay = document.getElementById('barOffsetDisplay');
 const COUNT_IN_SECONDS = 4;
 
 // Check for embed mode
@@ -62,8 +65,10 @@ let startTime = 0;
 let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
+let barOffsetInBeats = 0;
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
+let originalBarOffset = 0; // For bar offset change detection
 let currentTempo = 120; // Shared state for tempo
 let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 
@@ -155,6 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomOutBtn = document.getElementById('zoomOutBtn');
     if (zoomInBtn) zoomInBtn.addEventListener('click', () => zoom(1));
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
+
+    if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-1));
+    if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(1));
 
     // YouTube Logic (Toggle & Close)
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
@@ -1216,6 +1224,10 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 300);
         const bpm = Number(data.tempo) || 120;
 
+        barOffsetInBeats = data.barOffset || 0;
+        originalBarOffset = barOffsetInBeats;
+        if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
+
         currentTempo = bpm;
         originalTempo = bpm;
         secondsPerBeat = 60 / bpm;
@@ -1318,9 +1330,23 @@ function getExportData() {
     return {
         name: currentFileName,
         tempo: currentTempo,
+        barOffset: barOffsetInBeats,
         duration: duration,
         chords: chords
     };
+}
+
+function adjustBarOffset(deltaBeats) {
+    barOffsetInBeats += deltaBeats;
+    if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
+
+    // Regenerate markers and re-render
+    if (midiData) {
+        markers = generateMarkers(midiData);
+        renderStaticElements();
+        updateLoop();
+    }
+    checkForChanges();
 }
 
 function exportToJSON() {
@@ -1352,6 +1378,7 @@ function saveToDatabase() {
     // Update original state IMMEDIATELY so checkForChanges reflects saved state
     originalChordsJson = JSON.stringify(chords);
     originalTempo = currentTempo;
+    originalBarOffset = barOffsetInBeats;
 
     // Hide save button
     if (saveBtn) {
@@ -1402,7 +1429,9 @@ function checkForChanges() {
     if (!saveBtn) return;
 
     const currentJson = JSON.stringify(chords);
-    const hasUnsavedChanges = currentJson !== originalChordsJson || currentTempo !== originalTempo;
+    const hasUnsavedChanges = currentJson !== originalChordsJson ||
+        currentTempo !== originalTempo ||
+        barOffsetInBeats !== originalBarOffset;
 
     if (hasUnsavedChanges) {
         saveBtn.classList.remove('hidden');
@@ -1496,10 +1525,15 @@ function generateMarkers(midi) {
     }
 
     // Add bar and beat markers
+    const barOffsetSeconds = barOffsetInBeats * secondsPerBeat;
     const numBars = Math.ceil(duration / secondsPerBar);
 
-    for (let i = 0; i <= numBars; i++) {
-        const barTime = i * secondsPerBar;
+    // We start from -40 to ensure we have markers even with large offsets
+    for (let i = -40; i <= numBars + 40; i++) {
+        const barTime = (i * secondsPerBar) + barOffsetSeconds;
+
+        // Only add if within or near duration
+        if (barTime < -secondsPerBar || barTime > duration + secondsPerBar) continue;
 
         // Bar Marker
         markers.push({
@@ -1509,13 +1543,13 @@ function generateMarkers(midi) {
         });
 
         // Beat Markers (add beats between this bar and next)
-        // For 4/4, we add beats at 1, 2, 3 offset (0 is bar start)
-        if (i < numBars) {
-            const beatsPerBar = timeSignature[0];
-            // 8 subdivisions per bar (eighth notes)
-            for (let b = 0.5; b < beatsPerBar; b += 0.5) {
+        const beatsPerBar = timeSignature[0];
+        // 8 subdivisions per bar (eighth notes)
+        for (let b = 0.5; b < beatsPerBar; b += 0.5) {
+            const beatTime = barTime + (b * secondsPerBeat);
+            if (beatTime >= 0 && beatTime <= duration) {
                 markers.push({
-                    time: barTime + (b * secondsPerBeat),
+                    time: beatTime,
                     label: '',
                     type: 'beat'
                 });
@@ -1734,10 +1768,11 @@ function updateLoop() {
         else pauseTime = 0;
     }
 
-    // Metronome Logic
-    const currentBeat = Math.floor(playbackTime / secondsPerBeat);
+    // Metronome Logic (Accounts for Bar Adjust)
+    const currentBeat = Math.floor((playbackTime / secondsPerBeat) - barOffsetInBeats);
     if (currentBeat > lastBeatPlayed) {
         if (isPlaying && metronomeEnabled && playbackTime >= 0) {
+            // Check if this beat is a downbeat (Bar start)
             const isDownbeat = currentBeat % beatsPerBar === 0;
             playTick(isDownbeat);
         }

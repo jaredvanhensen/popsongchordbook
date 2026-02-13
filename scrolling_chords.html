@@ -46,7 +46,7 @@
                 <line x1="5" y1="19" x2="5" y2="5"></line>
             </svg>
         </button>
-        <button id="rwdBtn" title="Rewind 10s">
+        <button id="rwdBtn" title="Rewind 10s" class="hidden">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 19 2 12 11 5 11 19"></polygon>
@@ -60,7 +60,7 @@
             </svg>
             <span>Play</span>
         </button>
-        <button id="fwdBtn" title="Forward 10s">
+        <button id="fwdBtn" title="Forward 10s" class="hidden">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="13 19 22 12 13 5 13 19"></polygon>
@@ -153,6 +153,13 @@
             </svg>
         </button>
         <button id="bpmBtn" title="Set Bits Per Minute">120 BPM</button>
+        <div style="width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;"></div>
+        <div class="bar-adjust-controls">
+            <button id="barDecBtn" title="Shift Bar Lines Left (1 Beat)" class="mini-btn">-</button>
+            <span id="barOffsetDisplay">Bar: 0</span>
+            <button id="barIncBtn" title="Shift Bar Lines Right (1 Beat)" class="mini-btn">+</button>
+        </div>
+        <div style="width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;"></div>
         <button id="youtubeToggleBtn" title="Toggle YouTube Video">
             <svg viewBox="0 0 68 48" width="22" height="16">
                 <path
