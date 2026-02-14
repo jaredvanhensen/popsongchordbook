@@ -75,71 +75,23 @@ class ChordProgressionEditor {
     parseChord(chordName) {
         if (!chordName || typeof chordName !== 'string') return null;
 
-        const noteToSemitone = {
-            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
-            'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10,
-            'Bb': 10, 'B': 11, 'Cb': 11
-        };
+        // Use the central ChordParser for consistency
+        const parser = new ChordParser();
+        const parsed = parser.parse(chordName);
 
-        const chordIntervals = {
-            '': [0, 4, 7], 'm': [0, 3, 7], 'dim': [0, 3, 6], '7': [0, 4, 7, 10],
-            'maj7': [0, 4, 7, 11], 'm7': [0, 3, 7, 10], 'sus4': [0, 5, 7], 'sus2': [0, 2, 7]
-        };
-
-        // Parse root note
-        const rootMatch = chordName.match(/^([A-G])([#b]?)/i);
-        if (!rootMatch) return null;
-
-        const rootKey = rootMatch[1].toUpperCase() + rootMatch[2];
-        const rootSemitone = noteToSemitone[rootKey];
-        if (rootSemitone === undefined) return null;
-
-        // Separate suffix and bass note
-        let suffix = chordName.slice(rootMatch[0].length);
-        let bassNotePart = null;
-        const slashIndex = suffix.indexOf('/');
-        if (slashIndex !== -1) {
-            bassNotePart = suffix.slice(slashIndex + 1);
-            suffix = suffix.slice(0, slashIndex);
+        if (parsed) {
+            // ChordParser returns absolute MIDI notes (octave 4-5)
+            // ChordProgressionEditor.playChord expects notes that it can shift
+            // but we'll just return the pre-shifted notes if we want to match exactly.
+            // Actually, let's return notes relative to 60 if that was the original intention,
+            // or just return the notes as is and modify playChord.
+            return {
+                notes: parsed.notes,
+                rootSemitone: parsed.rootSemitone
+            };
         }
 
-        // Get intervals
-        let intervals = chordIntervals[suffix] || chordIntervals[''];
-        if (!chordIntervals[suffix]) {
-            if (suffix.startsWith('m') && !suffix.startsWith('maj')) intervals = chordIntervals['m'];
-            else if (suffix.includes('dim')) intervals = chordIntervals['dim'];
-            else if (suffix.includes('7')) intervals = chordIntervals['7'];
-        }
-
-        // Calculate notes
-        let notes = intervals.map(interval => rootSemitone + interval);
-
-        // Handle slash chord inversion
-        if (bassNotePart) {
-            const bassMatch = bassNotePart.match(/^([A-G])([#b]?)/i);
-            if (bassMatch) {
-                const bassKey = bassMatch[1].toUpperCase() + bassMatch[2];
-                const bassSemi = noteToSemitone[bassKey];
-                if (bassSemi !== undefined) {
-                    // Check if bass note is in the chord (modulo 12)
-                    const bassIndex = notes.findIndex(n => n % 12 === bassSemi);
-                    if (bassIndex !== -1) {
-                        // Move notes below/at bass note up an octave (simple inversion logic)
-                        for (let i = 0; i < notes.length; i++) {
-                            if ((notes[i] % 12) === bassSemi) {
-                                // Bass note found, but we want it as the lowest
-                                // In this simple synth, we'll just sort and ensure range later
-                            }
-                        }
-                    } else {
-                        // Add external bass note
-                        notes.push(bassSemi - 12); // Add as low bass
-                    }
-                }
-            }
-        }
-
-        return { notes, rootSemitone };
+        return null;
     }
 
     async playChord(chordName) {
@@ -158,9 +110,9 @@ class ChordProgressionEditor {
 
         const chord = this.parseChord(chordName);
         if (chord && chord.notes && chord.notes.length > 0) {
-            // Shift up 5 octaves to Middle C range (60)
-            const shiftedNotes = chord.notes.map(n => n + 60);
-            this.audioPlayer.playChord(shiftedNotes, 0.85, 0.6, 0.02);
+            // ChordParser now returns absolute MIDI notes in Middle C range (60-84)
+            // So we no longer need to manually add 60 here.
+            this.audioPlayer.playChord(chord.notes, 0.85, 0.6, 0.02);
         }
     }
 

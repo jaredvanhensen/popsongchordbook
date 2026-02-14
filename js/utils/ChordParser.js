@@ -62,33 +62,90 @@ class ChordParser {
 
         let suffix = chordName.slice(rootMatch[0].length);
 
-        // Handle slash chords
-        let suffixNoSlash = suffix;
+        // Handle slash chords (e.g., C/G)
+        let bassNotePart = null;
         const slashIndex = suffix.indexOf('/');
         if (slashIndex !== -1) {
-            suffixNoSlash = suffix.slice(0, slashIndex);
+            bassNotePart = suffix.slice(slashIndex + 1);
+            suffix = suffix.slice(0, slashIndex);
+        }
+
+        // Check for inversion indicator at the end (custom notation)
+        // "2" = 2nd inversion (Root is 2nd note in triad: G-C-E)
+        // "3" = 1st inversion (Root is 3rd note in triad: E-G-C)
+        let inversion = 0;
+        const inversionMatch = suffix.match(/([23])$/);
+        if (inversionMatch) {
+            const invNum = parseInt(inversionMatch[1]);
+            // Custom notation: "2" means 2nd inversion, "3" means 1st inversion
+            if (invNum === 2) {
+                inversion = 2; // 2nd inversion: 3rd note becomes bass
+            } else if (invNum === 3) {
+                inversion = 1; // 1st inversion: 2nd note becomes bass
+            }
+            suffix = suffix.slice(0, -1); // Remove the inversion number from suffix
         }
 
         // Find matching interval pattern
-        let intervals = this.chordIntervals[suffixNoSlash];
+        let intervals = this.chordIntervals[suffix];
 
         // Fallback for common variations
         if (!intervals) {
-            if (suffixNoSlash.startsWith('m') && !suffixNoSlash.startsWith('maj')) {
+            if (suffix.startsWith('m') && !suffix.startsWith('maj')) {
                 intervals = this.chordIntervals['m'];
             } else {
                 intervals = this.chordIntervals[''];
             }
         }
 
-        // Calculate actual notes (octave 4 by default)
-        const baseOctave = 48; // C3
+        // Calculate actual notes (octave 3 by default, MIDI 48)
+        const baseOctave = 48; // C3 area (One octave lower than Middle C)
         let notes = intervals.map(interval => rootSemitone + baseOctave + interval);
+
+        // Auto-detect inversion from slash chord if present
+        if (bassNotePart) {
+            const bassMatch = bassNotePart.match(/^([A-Ga-g])([#b]?)/);
+            if (bassMatch) {
+                const bassRoot = bassMatch[1].toUpperCase();
+                const bassAccidental = bassMatch[2];
+                const bassKey = bassRoot + bassAccidental;
+                const bassSemitone = this.noteToSemitone[bassKey];
+
+                if (bassSemitone !== undefined) {
+                    for (let i = 0; i < notes.length; i++) {
+                        if (notes[i] % 12 === bassSemitone) {
+                            inversion = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Apply inversion if specified
+        if (inversion > 0 && inversion < notes.length) {
+            // Move the first 'inversion' notes up by an octave
+            for (let i = 0; i < inversion; i++) {
+                notes[i] = notes[i] + 12;
+            }
+
+            // Sort notes so bass is first (lowest)
+            notes.sort((a, b) => a - b);
+
+            // Ensure notes stay in reasonable range (MIDI 48-72 range approx, octave 3-4)
+            while (notes[notes.length - 1] > 84) {
+                notes = notes.map(n => n - 12);
+            }
+            while (notes[0] < 48) {
+                notes = notes.map(n => n + 12);
+            }
+        }
 
         return {
             name: chordName,
             notes: notes,
-            root: rootSemitone
+            root: rootSemitone,
+            inversion: inversion
         };
     }
 }

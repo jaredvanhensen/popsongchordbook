@@ -77,6 +77,8 @@ let originalTempo = 120; // For tempo change detection
 let originalBarOffset = 0; // For bar offset change detection
 let currentTempo = 120; // Shared state for tempo
 let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
+let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
+let octaveCycleBtn = null;
 
 // Dragging state
 let isDragging = false;
@@ -160,6 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioEnabled) audioToggleBtn.classList.add('active');
     }
     if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // Octave Cycle Button
+    octaveCycleBtn = document.getElementById('octaveCycleBtn');
+    if (octaveCycleBtn) {
+        octaveCycleBtn.addEventListener('click', toggleOctavePlayback);
+    }
 
     // Zoom Buttons
     const zoomInBtn = document.getElementById('zoomInBtn');
@@ -564,9 +572,32 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
 
     const chord = chordParser.parse(chordName);
     if (chord && chord.notes) {
+        // Apply playback octave shift
+        let notes = [...chord.notes];
+        if (playbackOctave > 0) {
+            notes = notes.map(n => n + (playbackOctave * 12));
+        }
+
         // Use provided duration (playback uses 10s, manual clicks use 1s)
-        pianoPlayer.playChord(chord.notes, duration, 0.4, 0.05);
+        pianoPlayer.playChord(notes, duration, 0.4, 0.05);
     }
+}
+
+function toggleOctavePlayback() {
+    playbackOctave = (playbackOctave + 1) % 3;
+    const titles = ["Deep Range", "Middle Range", "High Range"];
+
+    if (octaveCycleBtn) {
+        octaveCycleBtn.title = titles[playbackOctave];
+        // Visual feedback based on level
+        octaveCycleBtn.classList.toggle('active', playbackOctave > 0);
+
+        // Update the icon state
+        octaveCycleBtn.dataset.octave = playbackOctave;
+    }
+
+    // Play a preview chord
+    triggerChordAudio('C', 1.0, true);
 }
 
 // Listen for messages from parent (for auto-loading stored data)
