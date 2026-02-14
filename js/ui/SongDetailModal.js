@@ -454,46 +454,7 @@ class SongDetailModal {
                 e.preventDefault();
                 e.stopPropagation();
 
-                // Define helper to send data
-                const sendChordData = () => {
-                    const song = this.songManager.getSongById(this.currentSongId);
-                    if (!song || !scrollingChordsFrame.contentWindow) return;
-
-                    console.log('Sending chord data to Timeline view', song);
-
-                    // Extract unique chords from song blocks for the toolbar
-                    const sections = [
-                        { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
-                        { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-                        { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
-                        { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
-                    ];
-
-                    const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
-                    const suggestedChordsGrouped = sections.map(section => {
-                        const found = section.text.match(chordRegex) || [];
-                        // MIRROR CHORDS EXACTLY: Include all duplicates
-                        return {
-                            section: section.name,
-                            type: section.type,
-                            chords: found
-                        };
-                    }).filter(group => group.chords.length > 0);
-
-                    // Send data
-                    scrollingChordsFrame.contentWindow.postMessage({
-                        type: 'loadChordData',
-                        data: (song.chordData && Array.isArray(song.chordData.chords)) ? song.chordData : { chords: [] },
-                        youtubeUrl: song.youtubeUrl || '',
-                        artist: song.artist,
-                        songTitle: song.title,
-                        title: (song.artist || '') + ' - ' + (song.title || ''),
-                        suggestedChords: suggestedChordsGrouped,
-                        fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
-                        lyrics: song.lyrics || '', // Fallback
-                        lyricOffset: song.lyricOffset || 0 // New Offset
-                    }, '*');
-                };
+                // Define helper to send data - replaced by this.sendDataToTimeline()
 
                 // Force reload iframe on each open to ensure fresh state
                 if (scrollingChordsFrame) {
@@ -503,15 +464,28 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    scrollingChordsFrame.src = 'scrolling_chords.html?embed=true&t=' + Date.now();
+                    const url = 'scrolling_chords.html?embed=true&t=' + Date.now();
+                    // Using location.replace prevents adding extra history entries that cause double-close issues
+                    if (scrollingChordsFrame.contentWindow) {
+                        scrollingChordsFrame.contentWindow.location.replace(url);
+                    } else {
+                        scrollingChordsFrame.src = url;
+                    }
                 }
 
                 // Show modal overlay
                 scrollingChordsModal.classList.remove('hidden');
 
-                // One-time listener for Ready signal (managed per open session for simplicity, or we check if listener exists)
-                // To avoid duplicate listeners, we can rely on a shared handler setup in constructor, OR just use the global one below.
-                // For this fix, I'll rely on the global message listener adding a specific check for 'scrollingChordsReady'
+                // Push modal state to history stack
+                if (window.appInstance) {
+                    window.appInstance.pushModalState('scrollingChords', () => {
+                        console.log('Closing Scrolling Chords Modal via state pop');
+                        if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
+                            scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+                        }
+                        scrollingChordsModal.classList.add('hidden');
+                    });
+                }
             });
 
             // Close logic
@@ -569,43 +543,8 @@ class SongDetailModal {
                 // 1. Handshake: Iframe says "I'm Ready"
                 if (event.data.type === 'scrollingChordsReady') {
                     console.log('Received Ready signal from Scrolling Chords');
-                    // Find the frame and send data
                     if (scrollingChordsFrame && !scrollingChordsModal.classList.contains('hidden')) {
-                        // Re-trigger the logic used in the click handler. 
-                        // Since we don't have easy access to the scoped sendChordData, we duplicate the minimal fetch logic here for robustness.
-                        const song = this.songManager.getSongById(this.currentSongId);
-                        if (song) {
-                            console.log('Responding to Ready signal with Data');
-
-                            // (Simplified chord extraction for the handshake response - reusing the full logic is better but this is a patch)
-                            // Actually, let's just trigger the message directly.
-                            // To keep it DRY, ideally we'd have a method `sendDataToIframe()`, but for now I will duplicate the structure safely.
-
-                            const sections = [
-                                { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
-                                { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-                                { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
-                                { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
-                            ];
-                            const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
-                            const suggestedChordsGrouped = sections.map(section => {
-                                const found = section.text.match(chordRegex) || [];
-                                return { section: section.name, type: section.type, chords: found };
-                            }).filter(group => group.chords.length > 0);
-
-                            scrollingChordsFrame.contentWindow.postMessage({
-                                type: 'loadChordData',
-                                data: (song.chordData && Array.isArray(song.chordData.chords)) ? song.chordData : { chords: [] },
-                                youtubeUrl: song.youtubeUrl || '',
-                                artist: song.artist,
-                                songTitle: song.title,
-                                title: song.artist + ' - ' + song.title,
-                                suggestedChords: suggestedChordsGrouped,
-                                fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
-                                lyrics: song.lyrics || '', // Fallback
-                                lyricOffset: song.lyricOffset || 0 // New Offset
-                            }, '*');
-                        }
+                        this.sendDataToTimeline();
                     }
                 }
 
@@ -657,6 +596,11 @@ class SongDetailModal {
             this.openLyricsModalBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.lyricsEditModal.classList.remove('hidden');
+                if (window.appInstance) {
+                    window.appInstance.pushModalState('lyricsEdit', () => {
+                        if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                    });
+                }
                 if (this.fullLyricsInput) this.fullLyricsInput.focus();
             });
         }
@@ -664,14 +608,22 @@ class SongDetailModal {
         if (this.lyricsEditModalClose) {
             this.lyricsEditModalClose.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                if (window.appInstance) {
+                    window.appInstance.popModalState('lyricsEdit');
+                } else {
+                    if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                }
             });
         }
 
         if (this.lyricsEditDoneBtn) {
             this.lyricsEditDoneBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                if (window.appInstance) {
+                    window.appInstance.popModalState('lyricsEdit');
+                } else {
+                    if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
+                }
                 // Update status text in parent modal
                 if (this.lyricsStatusText && this.fullLyricsInput) {
                     const hasLyrics = this.fullLyricsInput.value.trim() !== '';
@@ -1746,6 +1698,48 @@ class SongDetailModal {
         this.infoModal.classList.remove('hidden');
     }
 
+    sendDataToTimeline() {
+        const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
+        if (!this.currentSongId || !scrollingChordsFrame || !scrollingChordsFrame.contentWindow) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        console.log('Sending chord data to Timeline view', song);
+
+        // Extract chords from song blocks for the toolbar
+        const sections = [
+            { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
+            { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+            { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+            { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+        ];
+
+        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+        const suggestedChordsGrouped = sections.map(section => {
+            const found = section.text.match(chordRegex) || [];
+            return {
+                section: section.name,
+                type: section.type,
+                chords: found
+            };
+        }).filter(group => group.chords.length > 0);
+
+        // Send data
+        scrollingChordsFrame.contentWindow.postMessage({
+            type: 'loadChordData',
+            data: (song.chordData) ? song.chordData : { chords: [] },
+            youtubeUrl: song.youtubeUrl || '',
+            artist: song.artist,
+            songTitle: song.title,
+            title: (song.artist || '') + ' - ' + (song.title || ''),
+            suggestedChords: suggestedChordsGrouped,
+            fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
+            lyrics: song.lyrics || '', // Fallback
+            lyricOffset: song.lyricOffset || 0 // New Offset
+        }, '*');
+    }
+
     navigatePrevious() {
         if (!this.currentSongId || this.allSongs.length === 0) return;
 
@@ -2265,6 +2259,11 @@ class SongDetailModal {
 
         // Show modal
         this.youtubeUrlModal.classList.remove('hidden');
+        if (window.appInstance) {
+            window.appInstance.pushModalState('youtubeUrl', () => {
+                this._reallyCloseYouTubeUrlModal();
+            });
+        }
 
         // Focus first input (youtube url input)
         setTimeout(() => {
@@ -2276,6 +2275,16 @@ class SongDetailModal {
     }
 
     closeYouTubeUrlModal() {
+        if (window.appInstance) {
+            window.appInstance.popModalState('youtubeUrl');
+        } else {
+            if (this.youtubeUrlModal) {
+                this.youtubeUrlModal.classList.add('hidden');
+            }
+        }
+    }
+
+    _reallyCloseYouTubeUrlModal() {
         if (this.youtubeUrlModal) {
             this.youtubeUrlModal.classList.add('hidden');
         }

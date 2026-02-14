@@ -1400,19 +1400,9 @@ table.simple-view {
     table-layout: fixed;
 }
 
-/* Hide columns in simple view: Favorite (3), Verse (4), Chorus (5), Pre-Chorus (6), Bridge (7), Acties (8) */
-table.simple-view thead tr th:nth-child(3),
-table.simple-view thead tr th:nth-child(4),
-table.simple-view thead tr th:nth-child(5),
-table.simple-view thead tr th:nth-child(6),
-table.simple-view thead tr th:nth-child(7),
-table.simple-view thead tr th:nth-child(8),
-table.simple-view tbody tr td:nth-child(3),
-table.simple-view tbody tr td:nth-child(4),
-table.simple-view tbody tr td:nth-child(5),
-table.simple-view tbody tr td:nth-child(6),
-table.simple-view tbody tr td:nth-child(7),
-table.simple-view tbody tr td:nth-child(8) {
+/* Hide columns in simple view: Favorite (3), BPM (4), Verse (5), Chorus (6), Pre-Chorus (7), Bridge (8), Acties (9) */
+table.simple-view thead tr th:nth-child(n+3),
+table.simple-view tbody tr td:nth-child(n+3) {
     display: none !important;
 }
 
@@ -2071,9 +2061,16 @@ td:has(.row-edit-input.input-focused) {
     display: none;
 }
 
-.favorite-column {
+.favorite-column,
+.bpm-column {
     width: 60px;
     text-align: center;
+}
+
+.bpm-cell {
+    text-align: center;
+    font-weight: 600;
+    color: var(--accent-color);
 }
 
 .favorite-cell {
