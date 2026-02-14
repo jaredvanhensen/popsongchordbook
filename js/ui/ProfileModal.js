@@ -1,7 +1,8 @@
 // ProfileModal - Profile modal for viewing profile and changing password
 class ProfileModal {
-    constructor(firebaseManager, onSignOut = null, onShareSongs = null, onAcceptSongs = null) {
+    constructor(firebaseManager, songManager, onSignOut = null, onShareSongs = null, onAcceptSongs = null) {
         this.firebaseManager = firebaseManager;
+        this.songManager = songManager;
         this.onSignOut = onSignOut;
         this.onShareSongs = onShareSongs;
         this.onAcceptSongs = onAcceptSongs;
@@ -37,6 +38,9 @@ class ProfileModal {
         // Feature Toggles
         this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
+
+        // Database Space element
+        this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
 
         this.setupEventListeners();
     }
@@ -252,6 +256,50 @@ class ProfileModal {
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
         }
+
+        // Update database size
+        this.updateDatabaseSize();
+    }
+
+    async updateDatabaseSize() {
+        if (!this.databaseSizeDisplay || !this.songManager) return;
+
+        try {
+            const songs = this.songManager.getAllSongs();
+
+            // Calculate size by serializing the songs data to JSON
+            // We'll also include an estimate for setlists and other metadata
+            const songsJson = JSON.stringify(songs);
+
+            // Get local storage keys for this user as well (e.g. setlists stored locally or other keys)
+            // But primarily we want the DB content.
+            // approx adding 20% for overhead and other small objects like user profile/avatars etc.
+            let byteSize = songsJson.length;
+
+            // Try to add setlists size if available
+            if (window.appInstance && window.appInstance.setlistManager) {
+                const setlists = window.appInstance.setlistManager.getAllSetlists();
+                byteSize += JSON.stringify(setlists).length;
+            }
+
+            const formattedSize = this.formatBytes(byteSize);
+            this.databaseSizeDisplay.textContent = formattedSize;
+        } catch (error) {
+            console.error('Error calculating database size:', error);
+            this.databaseSizeDisplay.textContent = 'Unknown';
+        }
+    }
+
+    formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
     async updateAcceptSongsButton() {

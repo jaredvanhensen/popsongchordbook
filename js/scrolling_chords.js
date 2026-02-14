@@ -70,7 +70,7 @@ let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
 let barOffsetInBeats = 0;
-let lyricsEnabled = false;
+let lyricsEnabled = true;
 let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
@@ -1250,7 +1250,12 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
                 console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines, offset:', inputLyricOffset);
                 if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('hidden');
-                // Default Enabled if found? Maybe not, let user decide
+
+                // Show HUD if enabled by default
+                if (lyricsEnabled) {
+                    if (lyricsHUD) lyricsHUD.classList.remove('hidden');
+                    if (toggleLyricsBtn) toggleLyricsBtn.classList.add('active');
+                }
             } else {
                 if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
                 hideLyricsHUD();

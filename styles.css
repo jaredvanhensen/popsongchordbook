@@ -2682,9 +2682,9 @@ td:has(.row-edit-input.input-focused) {
 
 .modal-actions-horizontal {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 12px;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .confirm-btn {
@@ -2732,7 +2732,7 @@ td:has(.row-edit-input.input-focused) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
+    padding: 12px 20px;
     border-bottom: 2px solid var(--border-color);
     flex-shrink: 0;
 }
@@ -3103,7 +3103,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .modal-body {
-    padding: 25px;
+    padding: 15px 25px;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -3121,12 +3121,12 @@ td:has(.row-edit-input.input-focused) {
 
 .modal-body input:not([type="checkbox"]) {
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 14px;
     border: 2px solid var(--border-color);
     border-radius: 10px;
     font-size: 1em;
     font-family: inherit;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     transition: all 0.2s ease;
 }
 
@@ -3141,7 +3141,7 @@ td:has(.row-edit-input.input-focused) {
     background: var(--bg-gradient);
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-size: 1em;
     font-weight: 600;
@@ -3163,14 +3163,13 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(107, 114, 128, 0.1);
     color: var(--text-color);
     border: 2px solid rgba(107, 114, 128, 0.3);
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
-    margin-left: 10px;
 }
 
 .modal-cancel-btn:hover {
@@ -3180,10 +3179,10 @@ td:has(.row-edit-input.input-focused) {
 
 .modal-actions {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 2px solid var(--border-color);
 }
 

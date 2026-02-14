@@ -1404,7 +1404,11 @@ class SongDetailModal {
                 bridgeTitle: song.bridgeTitle || 'Block 4',
                 bridgeCue: song.bridgeCue || '',
                 key: song.key || '',
-                fullLyrics: song.fullLyrics || song.lyrics || ''
+                fullLyrics: song.fullLyrics || song.lyrics || '',
+                patchDetails: song.patchDetails || '',
+                practiceCount: song.practiceCount || '',
+                lyricOffset: song.lyricOffset || 0,
+                performAbility: song.performAbility || 0
             };
         }
 
@@ -1427,7 +1431,11 @@ class SongDetailModal {
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
             key: this.keyDisplay ? this.keyDisplay.textContent : '',
-            fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : ''
+            fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : '',
+            patchDetails: this.patchDetailsInput ? this.patchDetailsInput.value : '',
+            practiceCount: this.practiceCountInput ? this.practiceCountInput.value : '',
+            lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0,
+            performAbility: this.currentAbilityValue || 0
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -1448,7 +1456,11 @@ class SongDetailModal {
             bridgeTitle: (data.bridgeTitle || '').trim(),
             bridgeCue: (data.bridgeCue || '').trim(),
             key: (data.key || '').trim(),
-            fullLyrics: (data.fullLyrics || '').trim()
+            fullLyrics: (data.fullLyrics || '').trim(),
+            patchDetails: (data.patchDetails || '').trim(),
+            practiceCount: (data.practiceCount || '').trim(),
+            lyricOffset: parseFloat(data.lyricOffset) || 0,
+            performAbility: parseInt(data.performAbility) || 0
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -1577,6 +1589,18 @@ class SongDetailModal {
         if (this.fullLyricsInput) {
             updates.fullLyrics = this.fullLyricsInput.value.trim();
         }
+        if (this.patchDetailsInput) {
+            updates.patchDetails = this.patchDetailsInput.value.trim();
+        }
+        if (this.practiceCountInput) {
+            updates.practiceCount = this.practiceCountInput.value.trim();
+        }
+        if (this.lyricOffsetInput) {
+            updates.lyricOffset = parseFloat(this.lyricOffsetInput.value) || 0;
+        }
+        if (this.currentAbilityValue !== undefined) {
+            updates.performAbility = this.currentAbilityValue;
+        }
 
         // Update song
         await this.songManager.updateSong(this.currentSongId, updates);
@@ -1600,7 +1624,11 @@ class SongDetailModal {
                 bridgeTitle: savedSong.bridgeTitle || 'Block 4',
                 bridgeCue: savedSong.bridgeCue || '',
                 key: savedSong.key || '',
-                fullLyrics: savedSong.fullLyrics || ''
+                fullLyrics: savedSong.fullLyrics || '',
+                patchDetails: savedSong.patchDetails || '',
+                practiceCount: savedSong.practiceCount || '',
+                lyricOffset: savedSong.lyricOffset || 0,
+                performAbility: savedSong.performAbility || 0
             };
         }
 
@@ -1857,7 +1885,11 @@ class SongDetailModal {
             bridgeTitle: song.bridgeTitle || 'Block 4',
             bridgeCue: song.bridgeCue || '',
             key: song.key || '',
-            fullLyrics: song.fullLyrics || song.lyrics || ''
+            fullLyrics: song.fullLyrics || song.lyrics || '',
+            patchDetails: song.patchDetails || '',
+            practiceCount: song.practiceCount || '',
+            lyricOffset: song.lyricOffset || 0,
+            performAbility: song.performAbility || 0
         };
 
         // Update artist and title
@@ -2304,32 +2336,15 @@ class SongDetailModal {
         if (this.youtubeUrlModal) {
             this.youtubeUrlModal.classList.add('hidden');
         }
-        if (this.youtubeUrlInput) {
-            this.youtubeUrlInput.value = '';
-        }
-        if (this.externalUrlInput) {
-            this.externalUrlInput.value = '';
-        }
-        if (this.patchDetailsInput) {
-            this.patchDetailsInput.value = '';
-        }
-        if (this.practiceCountInput) {
-            this.practiceCountInput.value = '';
-        }
-        if (this.lyricOffsetInput) {
-            this.lyricOffsetInput.value = '';
-        }
-        this.updateAbilityStars(0);
-        this.chordDataToRemove = false;
+        // ONLY clear fields that are truly temporary and unique to this modal's entry state
         if (this.chordJsonInput) {
             this.chordJsonInput.value = '';
         }
-        if (this.fullLyricsInput) {
-            this.fullLyricsInput.value = '';
-        }
+        // NOTE: We do NOT clear youtubeUrlInput, externalUrlInput, patchDetailsInput, etc.
+        // as they should reflect the current song's state in the UI.
     }
 
-    saveYouTubeUrl() {
+    async saveYouTubeUrl() {
         if (!this.currentSongId) {
             return;
         }
@@ -2379,12 +2394,45 @@ class SongDetailModal {
             reader.readAsText(file);
         } else {
             // No file uploaded, just update other fields
-            this.songManager.updateSong(this.currentSongId, updates);
+            await this.songManager.updateSong(this.currentSongId, updates);
             this.finalizeSave(youtubeUrl, externalUrl);
         }
     }
 
     finalizeSave(youtubeUrl, externalUrl) {
+        // Update originalSongData to current saved values so they become the new baseline
+        const savedSong = this.songManager.getSongById(this.currentSongId);
+        if (savedSong) {
+            this.originalSongData = {
+                artist: savedSong.artist || '',
+                title: savedSong.title || '',
+                verse: savedSong.verse || '',
+                verseTitle: savedSong.verseTitle || 'Block 1',
+                verseCue: savedSong.verseCue || '',
+                preChorus: savedSong.preChorus || '',
+                preChorusTitle: savedSong.preChorusTitle || 'Block 3',
+                preChorusCue: savedSong.preChorusCue || '',
+                chorus: savedSong.chorus || '',
+                chorusTitle: savedSong.chorusTitle || 'Block 2',
+                chorusCue: savedSong.chorusCue || '',
+                bridge: savedSong.bridge || '',
+                bridgeTitle: savedSong.bridgeTitle || 'Block 4',
+                bridgeCue: savedSong.bridgeCue || '',
+                key: savedSong.key || '',
+                fullLyrics: savedSong.fullLyrics || '',
+                patchDetails: savedSong.patchDetails || '',
+                practiceCount: savedSong.practiceCount || '',
+                lyricOffset: savedSong.lyricOffset || 0,
+                performAbility: savedSong.performAbility || 0
+            };
+        }
+
+        // Reset change tracking
+        this.hasUnsavedChanges = false;
+        if (this.saveBtn) {
+            this.saveBtn.classList.add('hidden');
+        }
+
         // Update Key Display in Footer
         this.updateKeyDisplay();
 
