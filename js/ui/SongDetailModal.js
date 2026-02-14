@@ -1473,26 +1473,42 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
-        const confirmed = confirm(`Are you sure you want to delete "${song.title}" by ${song.artist}?`);
-        if (!confirmed) return;
+        const performDelete = async () => {
+            try {
+                const success = await this.songManager.deleteSong(this.currentSongId);
+                if (success) {
+                    // Allow hiding even if unsaved changes exist
+                    this.hasUnsavedChanges = false;
+                    await this.hide();
 
-        try {
-            const success = await this.songManager.deleteSong(this.currentSongId);
-            if (success) {
-                // Allow hiding even if unsaved changes exist
-                this.hasUnsavedChanges = false;
-                await this.hide();
-
-                // Refresh the song list in the main UI if callback exists
-                if (this.onUpdate) {
-                    this.onUpdate();
+                    // Refresh the song list in the main UI if callback exists
+                    if (this.onUpdate) {
+                        this.onUpdate();
+                    }
+                } else {
+                    this.showInfoModal('Delete Failed', 'Failed to delete song. Please try again.');
                 }
-            } else {
-                alert('Failed to delete song. Please try again.');
+            } catch (error) {
+                console.error('Error deleting song:', error);
+                this.showInfoModal('Error', 'An error occurred while deleting the song.');
             }
-        } catch (error) {
-            console.error('Error deleting song:', error);
-            alert('An error occurred while deleting the song.');
+        };
+
+        if (window.appInstance && window.appInstance.confirmationModal) {
+            window.appInstance.confirmationModal.show(
+                'Confirm Deletion',
+                `Are you sure you want to delete "<strong>${song.title}</strong>" by <strong>${song.artist}</strong>?`,
+                performDelete,
+                null,
+                'Delete',
+                'danger'
+            );
+        } else {
+            // Fallback to confirm if modal instance is not available
+            const confirmed = confirm(`Are you sure you want to delete "${song.title}" by ${song.artist}?`);
+            if (confirmed) {
+                performDelete();
+            }
         }
     }
 
@@ -1506,7 +1522,7 @@ class SongDetailModal {
         const originalTitle = this.titleElement ? (this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '')).trim() : '';
 
         if (!artist || !originalTitle) {
-            alert('Band/Artist Name and Song Title are required and cannot be empty.');
+            this.showInfoModal('Required Fields', 'Band/Artist Name and Song Title are required and cannot be empty.');
             return;
         }
 
@@ -2357,7 +2373,7 @@ class SongDetailModal {
                     this.finalizeSave(youtubeUrl, externalUrl);
                 } catch (e) {
                     console.error("Error parsing chord JSON:", e);
-                    alert("Invalid JSON file. Please check the file format.");
+                    this.showInfoModal('Import Error', 'Invalid JSON file. Please check the file format.');
                 }
             };
             reader.readAsText(file);
