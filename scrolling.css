@@ -445,34 +445,62 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: #f8fafc;
-    padding: 1px 6px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    font-size: 0.65rem;
-    font-weight: 700;
+    /* Reduced from 8px */
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
+    padding: 0 6px;
+    /* Reduced from 0 10px */
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    height: 44px;
+    /* Matches Play Button Height */
+    box-sizing: border-box;
+    box-shadow: 0 4px 0px 0px var(--btn-shadow-default), 0 8px 15px rgba(0, 0, 0, 0.05);
+    font-size: 0.8rem;
+    font-weight: 800;
     color: #475569;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bar-adjust-controls:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 6px 0px 0px var(--btn-shadow-hover), 0 12px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
 .mini-btn {
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
     padding: 0 !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
     line-height: 1 !important;
     background: white !important;
     border: 1px solid #cbd5e1 !important;
-    border-radius: 4px !important;
-    box-shadow: 0 1px 0px 0px #cbd5e1 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 0px 0px #cbd5e1 !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #1e293b;
+}
+
+.mini-btn:hover {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    transform: scale(1.1);
 }
 
 .mini-btn:active {
-    transform: translateY(1px) !important;
+    transform: translateY(2px) scale(0.95) !important;
     box-shadow: none !important;
+}
+
+#barOffsetDisplay {
+    min-width: 50px;
+    text-align: center;
+    letter-spacing: -0.2px;
 }
 
 #backBtn {
@@ -1885,7 +1913,8 @@ body.ctrl-held .chord-item {
     }
 
     .header-metadata {
-        padding: 6px 15px;
+        padding: 16px 15px;
+        /* Increased further to fully clear Close btn */
         gap: 8px;
     }
 
@@ -1912,7 +1941,7 @@ body.ctrl-held .chord-item {
         padding: 0 !important;
         margin: 0 !important;
         border-radius: 8px;
-        box-shadow: 0 2px 0px 0px var(--btn-shadow-default), 0 4px 10px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 0px 0px var(--btn-shadow-default), 0 4px 10px rgba(0, 0, 0, 0.05) !important;
     }
 
     .controls-container button span {
@@ -1931,9 +1960,11 @@ body.ctrl-held .chord-item {
 
     #bpmBtn {
         font-size: 0.7rem;
-        padding: 0 5px;
+        padding: 0 6px;
+        /* Reduced increase */
         width: auto !important;
-        min-width: 34px !important;
+        min-width: 37px !important;
+        /* Reduced increase */
     }
 
     .bar-adjust-controls {
