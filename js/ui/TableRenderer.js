@@ -117,11 +117,6 @@ class TableRenderer {
         favoriteCell.appendChild(favoriteBtn);
         row.appendChild(favoriteCell);
 
-        // BPM
-        const bpmValue = (song.chordData && song.chordData.tempo) ? song.chordData.tempo : '';
-        const bpmCell = this.createEditableCell(bpmValue, 'bpm', song.id);
-        bpmCell.className += ' bpm-cell';
-        row.appendChild(bpmCell);
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
@@ -251,7 +246,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'bpm', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'favorite', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -549,15 +544,7 @@ class TableRenderer {
         // Save all updates
         if (this.onCellEdit) {
             Object.keys(updates).forEach(field => {
-                // Special handling for BPM - it should go into chordData.tempo
-                if (field === 'bpm') {
-                    const song = this.songManager.getSongById(songId);
-                    const currentChordData = song.chordData || { chords: [] };
-                    const newChordData = { ...currentChordData, tempo: parseInt(updates[field]) || 120 };
-                    this.onCellEdit(songId, 'chordData', newChordData);
-                } else {
-                    this.onCellEdit(songId, field, updates[field]);
-                }
+                this.onCellEdit(songId, field, updates[field]);
             });
         }
 

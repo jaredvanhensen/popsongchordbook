@@ -36,12 +36,6 @@ class Sorter {
             return direction === 'asc' ? aVal - bVal : bVal - aVal;
         }
 
-        // Numeric sorting for BPM
-        if (column === 'bpm') {
-            const aVal = (a.chordData && a.chordData.tempo) ? parseInt(a.chordData.tempo) : 0;
-            const bVal = (b.chordData && b.chordData.tempo) ? parseInt(b.chordData.tempo) : 0;
-            return direction === 'asc' ? aVal - bVal : bVal - aVal;
-        }
 
         let aVal = a[column] || '';
         let bVal = b[column] || '';
