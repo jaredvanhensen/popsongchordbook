@@ -649,7 +649,7 @@ timeline.addEventListener('drop', (e) => {
     if (chordName) {
         const rect = timeline.getBoundingClientRect();
         const x = e.clientX - rect.left;
-        const playheadOffset = 200; // Updated to match CSS
+        const playheadOffset = 220; // Updated to match CSS
         const dist = x - playheadOffset;
 
         const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
@@ -977,7 +977,7 @@ window.addEventListener('pointerup', (e) => {
 
         if (overTimeline && virtualDraggedChord) {
             const x = e.clientX - timelineRect.left;
-            const playheadOffset = window.innerWidth < 600 ? 80 : 200;
+            const playheadOffset = window.innerWidth < 600 ? 80 : 220;
             const dist = x - playheadOffset;
 
             const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
@@ -1678,7 +1678,39 @@ function isSubset(pattern, notes) {
     return pattern.every(p => notes.includes(p));
 }
 
+/**
+ * Pre-calculates vertical offsets for chords to prevent overlaps during fast changes.
+ * Ensures that for any sequence of close chords, the first is UP and the second is DOWN.
+ */
+function determineStaggerPositions() {
+    if (!chords || chords.length === 0) return;
+
+    for (let i = 0; i < chords.length; i++) {
+        const chord = chords[i];
+        const prevChord = i > 0 ? chords[i - 1] : null;
+        const nextChord = i < chords.length - 1 ? chords[i + 1] : null;
+
+        const isCloseToPrev = prevChord && (chord.time - prevChord.time < 1.0);
+        const isCloseToNext = nextChord && (nextChord.time - chord.time < 1.0);
+
+        if (isCloseToPrev || isCloseToNext) {
+            // Part of a "close" cluster
+            if (!isCloseToPrev) {
+                // We are the START of a cluster
+                chord.yOffset = -90; // Start at UP
+            } else {
+                // Continue the zigzag from the previous chord
+                chord.yOffset = (chords[i - 1].yOffset === -90) ? -10 : -90;
+            }
+        } else {
+            // Isolated chord
+            chord.yOffset = -50; // Center
+        }
+    }
+}
+
 function renderStaticElements() {
+    determineStaggerPositions();
     // Render chords
     chordTrack.innerHTML = '';
 
@@ -1687,6 +1719,13 @@ function renderStaticElements() {
     chords.forEach((chord, index) => {
         const el = document.createElement('div');
         el.className = 'chord-item';
+
+        // Apply root color class (A-G)
+        const root = chord.name.charAt(0).toUpperCase();
+        if (root >= 'A' && root <= 'G') {
+            el.classList.add(`root-${root}`);
+        }
+
         el.innerText = chord.name;
         el.dataset.index = index;
         chordFrag.appendChild(el);
@@ -1877,63 +1916,90 @@ function updateLoop() {
     }
 
     // Display current chord (Sticky)
-    const currentChord = chords.findLast(c => c.time <= playbackTime);
+    const currentChord = chords[chordIndex]; // Use the index we found
     if (currentChord) {
         currentChordDisplay.innerText = currentChord.name;
+
+        // Remove existing root classes
+        // currentChordDisplay.className = 'current-chord-display';
+
+        // Add current root class for color
+        const root = currentChord.name.charAt(0).toUpperCase();
+        if (root >= 'A' && root <= 'G') {
+            // currentChordDisplay.classList.add(`root-${root}`);
+        }
     } else {
         currentChordDisplay.innerText = '';
+        currentChordDisplay.className = 'current-chord-display';
     }
 
     // Safety for PIXELS_PER_SECOND
     const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+    const winWidth = window.innerWidth;
+    const bufferTime = 200 / pps; // Time buffer for 200px off-screen
 
-    // Update scrolling chord positions
+    // Find the CURRENT chord index for highlighting
+    const activeIndex = chordIndex; // Reuse the index found for audio logic above
+
+    // Optimize scrolling chord positions (Visibility Windowing)
     const chordElements = chordTrack.children;
+    const visibleStartTime = playbackTime - bufferTime;
+    const visibleEndTime = playbackTime + (winWidth + 200) / pps;
+
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];
         const chord = chords[i];
         if (!chord) continue;
 
+        // Skip processing if far off-screen (basic windowing)
+        if (chord.time < visibleStartTime || chord.time > visibleEndTime) {
+            if (el.style.display !== 'none') el.style.display = 'none';
+            continue;
+        }
+
         let dist = (chord.time - playbackTime) * pps;
 
         if (!isFinite(dist) || isNaN(dist)) {
             dist = 0;
-            el.style.display = 'none';
-        }
-
-        if (dist < -200 || dist > window.innerWidth + 200) {
-            el.style.display = 'none';
+            if (el.style.display !== 'none') el.style.display = 'none';
         } else {
-            el.style.display = 'block';
-            el.style.transform = `translateX(${dist}px) translateY(-50%)`;
+            if (el.style.display !== 'block') el.style.display = 'block';
 
-            if (dist < 0) {
-                el.style.opacity = '0.5';
+            // Use pre-calculated yOffset (default to -50 if missing)
+            let yOffset = chord.yOffset || -50;
+
+            el.style.transform = `translate3d(${dist}px, ${yOffset}%, 0)`;
+
+            // Apply 'active' class to the current/passed chords
+            // Chords exactly at or past the playhead (dist <= 0) are "active" and hidden in the track
+            if (i <= activeIndex) {
+                if (!el.classList.contains('active')) el.classList.add('active');
             } else {
-                el.style.opacity = '1';
+                if (el.classList.contains('active')) el.classList.remove('active');
             }
         }
     }
 
-    // Update markers
+    // Update markers (Visibility Windowing)
     const markerElements = markerTrack.children;
     for (let i = 0; i < markerElements.length; i++) {
         const el = markerElements[i];
         const marker = markers[i];
 
         if (marker) {
+            if (marker.time < visibleStartTime || marker.time > visibleEndTime) {
+                if (el.style.display !== 'none') el.style.display = 'none';
+                continue;
+            }
+
             let dist = (marker.time - playbackTime) * pps;
 
             if (!isFinite(dist) || isNaN(dist)) {
                 dist = 0;
-                el.style.display = 'none';
-            }
-
-            if (dist < -200 || dist > window.innerWidth + 200) {
-                el.style.display = 'none';
+                if (el.style.display !== 'none') el.style.display = 'none';
             } else {
-                el.style.display = 'block';
-                el.style.transform = `translateX(${dist}px)`;
+                if (el.style.display !== 'block') el.style.display = 'block';
+                el.style.transform = `translate3d(${dist}px, 0, 0)`;
             }
         }
     }
@@ -1942,11 +2008,21 @@ function updateLoop() {
 
     // Update Lyrics HUD
     if (lyricsEnabled && parsedLyrics.length > 0) {
-        // Find current line
         const currentIndex = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
+        const nextIndex = parsedLyrics.findIndex(l => l.time > playbackTime);
+
+        let shouldShowLyrics = false;
+
+        // Show if upcoming in < 5s OR if current lyric started < 8s ago
+        if (nextIndex !== -1 && (parsedLyrics[nextIndex].time - playbackTime < 5)) {
+            shouldShowLyrics = true;
+        }
+        if (currentIndex !== -1 && (playbackTime - parsedLyrics[currentIndex].time < 8)) {
+            shouldShowLyrics = true;
+        }
+
         if (currentIndex !== -1) {
             lyricLine1.innerText = parsedLyrics[currentIndex].text;
-            // Next line
             if (currentIndex + 1 < parsedLyrics.length) {
                 lyricLine2.innerText = parsedLyrics[currentIndex + 1].text;
                 lyricLine2.classList.remove('hidden');
@@ -1955,10 +2031,18 @@ function updateLoop() {
                 lyricLine2.classList.add('hidden');
             }
         } else {
-            // Intro / Before first line
             lyricLine1.innerText = '';
             lyricLine2.innerText = parsedLyrics[0].text;
         }
+
+        // Toggle HUD visibility
+        if (shouldShowLyrics) {
+            lyricsHUD.classList.remove('hidden');
+        } else {
+            lyricsHUD.classList.add('hidden');
+        }
+    } else {
+        lyricsHUD.classList.add('hidden');
     }
 
     if (isPlaying) {
