@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyric Sync Icon Showcase</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #1e293b;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: #6d28d9;
+        }
+
+        .icon-container {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6d28d9;
+            margin-bottom: 15px;
+        }
+
+        .card-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lyric Sync Icon Alternatives</h1>
+    <div class="grid">
+        <!-- 1. Simple L + Arrow -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M7 4v16h10" />
+                    <path d="M11 8l-3 3-3-3" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="card-label">1. Classic Serif Style</div>
+        </div>
+
+        <!-- 2. Integrated Stem Arrow -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M12 4v12M9 13l3 3 3-3" />
+                    <path d="M7 20h10" />
+                    <text x="6" y="15" font-family="serif" font-weight="900" font-size="12" stroke="none"
+                        fill="currentColor">L</text>
+                </svg>
+            </div>
+            <div class="card-label">2. Vertical Sync</div>
+        </div>
+
+        <!-- 3. Circle Badge L -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" stroke-dasharray="2 2" />
+                    <path d="M9 7v10h6" stroke-width="2.5" />
+                    <path d="M12 4v4l-2-2m4 0l-2 2" fill="none" />
+                    <path d="M12 2v4M10 4l2 2 2-2" />
+                </svg>
+            </div>
+            <div class="card-label">3. Target Badge</div>
+        </div>
+
+        <!-- 4. Modern Arrow-L -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M8 4l0 10l8 0" />
+                    <path d="M8 18l0-4" stroke-width="2" />
+                    <path d="M5 16l3 3 3-3" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="card-label">4. Structural Downward</div>
+        </div>
+
+        <!-- 5. Serif Roman L with Offset Arrow -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 5v12h5v2H8V5h2z" />
+                    <path d="M16 5v8m-3-3l3 3 3-3" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="card-label">5. Roman Serif & Pointer</div>
+        </div>
+
+        <!-- 6. L pointing to bar -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M6 4v12h8" stroke-width="3" />
+                    <line x1="4" y1="20" x2="20" y2="20" stroke-width="2" stroke-opacity="0.5" />
+                    <path d="M16 10v6l-2-2m4 0l-2 2" stroke-width="2" />
+                    <path d="M16 8v8M14 14l2 2 2-2" />
+                </svg>
+            </div>
+            <div class="card-label">6. Timeline Landing</div>
+        </div>
+
+        <!-- 7. Bold Block L -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 3h4v14h8v4H6V3z" />
+                    <path d="M18 4l-4 4h8l-4-4z" transform="rotate(180 180 180) translate(-310 -355) scale(0.5)" />
+                    <path d="M15 3v6l-2-2 4 0 -2 2" stroke="white" stroke-width="1.5" fill="none" />
+                </svg>
+            </div>
+            <div class="card-label">7. Heavy Block L</div>
+        </div>
+
+        <!-- 8. L with Arrow "Check" -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M7 4v16h10" />
+                    <rect x="12" y="4" width="8" height="8" rx="1" stroke-width="1" />
+                    <path d="M16 5v6M14 9l2 2 2-2" />
+                </svg>
+            </div>
+            <div class="card-label">8. Timestamp Picker</div>
+        </div>
+
+        <!-- 9. Gradient L (Conceptual) -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M8 4s0 12 0 12s8 0 8 0" stroke-width="4" stroke="url(#grad1)" />
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6d28d9;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#4c1d95;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 4v6M10 8l2 2 2-2" />
+                </svg>
+            </div>
+            <div class="card-label">9. Modern Soft L</div>
+        </div>
+
+        <!-- 10. Minimalist L + Arrow -->
+        <div class="card">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="8 4 8 16 16 16" stroke-width="3" />
+                    <path d="M17 6l-3 3-3-3" />
+                    <path d="M14 2v7" />
+                </svg>
+            </div>
+            <div class="card-label">10. Precision Pointer</div>
+        </div>
+    </div>
+</body>
+
+</html>

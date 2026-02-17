@@ -905,8 +905,10 @@ button:disabled {
 }
 
 .marker.lyrics-sync::after {
-    content: '🎯';
+    content: 'L';
     font-size: 18px;
+    font-family: serif;
+    font-weight: 900;
 }
 
 .marker.lyrics-sync .marker-label {
