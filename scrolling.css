@@ -445,6 +445,12 @@ button:disabled {
     order: 100;
 }
 
+.adjust-controls-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 .bar-adjust-controls {
     display: flex;
     align-items: center;
@@ -2081,6 +2087,24 @@ body.ctrl-held .chord-item {
     /* Hide vertical spacers */
     .controls-container div[style*="width: 1px"] {
         display: none !important;
+    }
+
+    .adjust-controls-row {
+        order: 90 !important;
+        flex: 0 0 100% !important;
+        /* Row expands to full width */
+        display: flex !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin-top: 6px !important;
+    }
+
+    #barAdjustGroup,
+    #chordShiftGroup {
+        background: white !important;
+        /* Keep buttons visible on the row */
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
     }
 
     .playback-controls {
