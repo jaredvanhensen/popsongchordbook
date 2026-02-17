@@ -1387,6 +1387,16 @@ function finishLoading(chordCount, bpm) {
     lastBeatPlayed = -1;
 
     renderStaticElements();
+
+    // Apply responsive zoom for mobile: show ~3 bars by default
+    if (window.innerWidth < 600) {
+        const barDuration = (60 / bpm) * beatsPerBar;
+        if (barDuration > 0) {
+            const availableWidth = window.innerWidth - 80; // Margin for playhead and padding
+            PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, Math.min(MAX_PIXELS_PER_SECOND, availableWidth / (3.1 * barDuration)));
+        }
+    }
+
     updateLoop(); // Update once to set initial positions
 }
 
