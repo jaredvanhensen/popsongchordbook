@@ -1954,24 +1954,31 @@ function updateLoop() {
         lastBeatPlayed = currentBeat - 1;
     }
 
-    // Chord Audio Logic
-    let chordIndex = -1;
-    // Simple backward loop for best compatibility and to handle precision
+    // Chord Audio Logic (Precise)
+    let audioChordIndex = -1;
     for (let i = chords.length - 1; i >= 0; i--) {
-        // Small 0.05s tolerance to show first chord immediately at start
-        if (chords[i].time <= playbackTime + 0.05) {
-            chordIndex = i;
+        if (chords[i].time <= playbackTime) {
+            audioChordIndex = i;
             break;
         }
     }
 
-    if (chordIndex > lastChordPlayed) {
-        if (isPlaying && audioEnabled && playbackTime >= 0) {
-            triggerChordAudio(chords[chordIndex].name);
+    if (audioChordIndex > lastChordPlayed) {
+        if (isPlaying && audioEnabled && playbackTime >= -0.1) {
+            triggerChordAudio(chords[audioChordIndex].name);
         }
-        lastChordPlayed = chordIndex;
-    } else if (chordIndex < lastChordPlayed) {
-        lastChordPlayed = chordIndex;
+        lastChordPlayed = audioChordIndex;
+    } else if (audioChordIndex < lastChordPlayed) {
+        lastChordPlayed = audioChordIndex;
+    }
+
+    // Display chordIndex (with tolerance for smoother visual transitions)
+    let chordIndex = -1;
+    for (let i = chords.length - 1; i >= 0; i--) {
+        if (chords[i].time <= playbackTime + 0.05) {
+            chordIndex = i;
+            break;
+        }
     }
 
     // Display current chord (Sticky)
