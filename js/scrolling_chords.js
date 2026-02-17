@@ -180,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-1));
     if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(1));
 
+    const shiftChordsLeftBtn = document.getElementById('shiftChordsLeftBtn');
+    const shiftChordsRightBtn = document.getElementById('shiftChordsRightBtn');
+    if (shiftChordsLeftBtn) shiftChordsLeftBtn.addEventListener('click', () => shiftChords(-1));
+    if (shiftChordsRightBtn) shiftChordsRightBtn.addEventListener('click', () => shiftChords(1));
+
     if (toggleLyricsBtn) toggleLyricsBtn.addEventListener('click', toggleLyricsHUD);
 
     // YouTube Logic (Toggle & Close)
@@ -1437,6 +1442,29 @@ function adjustBarOffset(deltaBeats) {
         renderStaticElements();
         updateLoop();
     }
+    checkForChanges();
+}
+
+/**
+ * Shifts all chords in the timeline by a specific number of grid steps (1/8 of a bar).
+ * @param {number} deltaSteps - Number of steps to shift (+ for right, - for left)
+ */
+function shiftChords(deltaSteps) {
+    if (!chords || chords.length === 0 || !secondsPerBeat || !beatsPerBar) return;
+
+    const barDuration = beatsPerBar * secondsPerBeat;
+    const snapInterval = barDuration / 8;
+    const timeShift = deltaSteps * snapInterval;
+
+    chords.forEach(c => {
+        c.time = Math.max(0, c.time + timeShift);
+    });
+
+    // Ensure they stay sorted
+    chords.sort((a, b) => a.time - b.time);
+
+    renderStaticElements();
+    updateLoop();
     checkForChanges();
 }
 
