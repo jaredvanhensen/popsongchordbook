@@ -668,6 +668,9 @@ timeline.addEventListener('drop', (e) => {
 
 // Chord Editing (Click) & Dragging
 chordTrack.addEventListener('pointerdown', (e) => {
+    // Disable chord dragging on mobile to allow easier timeline scrolling
+    if (window.innerWidth < 600) return;
+
     const target = e.target.closest('.chord-item');
     if (target) {
         e.stopPropagation(); // Prevent bubbling to timeline drag
@@ -1905,7 +1908,16 @@ function updateLoop() {
     }
 
     // Chord Audio Logic
-    const chordIndex = chords.findLastIndex(c => c.time <= playbackTime);
+    let chordIndex = -1;
+    // Simple backward loop for best compatibility and to handle precision
+    for (let i = chords.length - 1; i >= 0; i--) {
+        // Small 0.05s tolerance to show first chord immediately at start
+        if (chords[i].time <= playbackTime + 0.05) {
+            chordIndex = i;
+            break;
+        }
+    }
+
     if (chordIndex > lastChordPlayed) {
         if (isPlaying && audioEnabled && playbackTime >= 0) {
             triggerChordAudio(chords[chordIndex].name);
@@ -2011,16 +2023,6 @@ function updateLoop() {
         const currentIndex = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
         const nextIndex = parsedLyrics.findIndex(l => l.time > playbackTime);
 
-        let shouldShowLyrics = false;
-
-        // Show if upcoming in < 5s OR if current lyric started < 8s ago
-        if (nextIndex !== -1 && (parsedLyrics[nextIndex].time - playbackTime < 5)) {
-            shouldShowLyrics = true;
-        }
-        if (currentIndex !== -1 && (playbackTime - parsedLyrics[currentIndex].time < 8)) {
-            shouldShowLyrics = true;
-        }
-
         if (currentIndex !== -1) {
             lyricLine1.innerText = parsedLyrics[currentIndex].text;
             if (currentIndex + 1 < parsedLyrics.length) {
@@ -2035,12 +2037,8 @@ function updateLoop() {
             lyricLine2.innerText = parsedLyrics[0].text;
         }
 
-        // Toggle HUD visibility
-        if (shouldShowLyrics) {
-            lyricsHUD.classList.remove('hidden');
-        } else {
-            lyricsHUD.classList.add('hidden');
-        }
+        // Always show HUD if lyrics are enabled
+        lyricsHUD.classList.remove('hidden');
     } else {
         lyricsHUD.classList.add('hidden');
     }
