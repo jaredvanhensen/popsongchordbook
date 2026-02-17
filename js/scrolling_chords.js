@@ -416,6 +416,8 @@ document.addEventListener("keydown", e => {
                 }
             }
 
+            initAudio();
+            triggerChordAudio(match, 1.0, true);
             recordChord(match);
             return;
         }
@@ -439,6 +441,10 @@ document.addEventListener("keydown", e => {
                         if (lastChord.name.includes('m')) lastChord.name = lastChord.name.replace('m', '');
                         else lastChord.name += 'm';
                     }
+
+                    initAudio();
+                    triggerChordAudio(lastChord.name, 1.0, true);
+
                     renderStaticElements();
                     updateLoop();
                 }
