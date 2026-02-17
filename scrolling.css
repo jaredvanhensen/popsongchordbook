@@ -15,6 +15,7 @@
 body {
     margin: 0;
     padding: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     font-family: 'Inter', sans-serif;
     background: var(--timeline-bg);
     color: var(--text-color);
@@ -22,6 +23,9 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height for mobile */
+    min-height: -webkit-fill-available;
     -webkit-text-size-adjust: 100%;
     touch-action: none;
     -webkit-overflow-scrolling: auto;
@@ -2163,7 +2167,8 @@ body.ctrl-held .chord-item {
         max-height: none !important;
         overflow-y: auto !important;
         gap: 2px !important;
-        padding: 4px !important;
+        padding: 4px 4px 15px 4px !important;
+        /* Added 15px extra bottom padding for Android buttons */
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
