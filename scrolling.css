@@ -2154,12 +2154,15 @@ body.ctrl-held .chord-item {
 
     .timeline-container {
         flex: none !important;
-        height: 80px !important;
-        /* Trimmed blue space */
-        padding: 0 !important;
+        height: 100px !important;
+        /* Reduced height to 100px as requested */
+        padding: 10px 0 35px 0 !important;
+        /* Bottom 35px to clear Android bar */
         background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%) !important;
         border-bottom: none !important;
         margin-bottom: 0 !important;
+        align-items: flex-start !important;
+        /* Keep chords at the top of the timeline bar */
     }
 
     .chord-buttons-container {
@@ -2167,8 +2170,7 @@ body.ctrl-held .chord-item {
         max-height: none !important;
         overflow-y: auto !important;
         gap: 2px !important;
-        padding: 4px 4px 30px 4px !important;
-        /* Added 30px extra bottom padding for Android buttons */
+        padding: 4px !important;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;

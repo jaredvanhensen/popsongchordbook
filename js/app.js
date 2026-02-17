@@ -1,4 +1,4 @@
-// Main Application (v2.025)
+// Main Application (v2.027)
 class App {
     constructor() {
         // Initialize Firebase Manager first
