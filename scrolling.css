@@ -1084,14 +1084,14 @@ button:disabled {
 .recording-indicator {
     position: absolute;
     bottom: 30px;
-    right: 30px;
+    left: 20px;
     background: rgba(220, 38, 38, 0.9);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 30px;
     font-weight: 800;
-    font-size: 16px;
-    z-index: 200;
+    font-size: 14px;
+    z-index: 9999;
     box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
     animation: blink 1.5s infinite ease-in-out;
     pointer-events: none;
