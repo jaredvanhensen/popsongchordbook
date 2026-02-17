@@ -2091,8 +2091,20 @@ function updateLoop() {
             lyricLine2.innerText = parsedLyrics[0].text;
         }
 
-        // Always show HUD if lyrics are enabled
-        lyricsHUD.classList.remove('hidden');
+        // Visibility Logic: On PC, only show if we are within 5s of the first lyric or already past it
+        let showHUD = true;
+        if (window.innerWidth >= 600) {
+            const firstLyricTime = (parsedLyrics.length > 0) ? parsedLyrics[0].time : 0;
+            if (playbackTime < firstLyricTime - 5) {
+                showHUD = false;
+            }
+        }
+
+        if (showHUD) {
+            lyricsHUD.classList.remove('hidden');
+        } else {
+            lyricsHUD.classList.add('hidden');
+        }
     } else {
         lyricsHUD.classList.add('hidden');
     }
