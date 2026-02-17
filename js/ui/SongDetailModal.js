@@ -1764,10 +1764,10 @@ class SongDetailModal {
 
         // Extract chords from song blocks for the toolbar
         const sections = [
-            { name: 'BLOCK 1', type: 'verse', text: song.verse || '' },
-            { name: 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-            { name: 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
-            { name: 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+            { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: song.verse || '' },
+            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+            { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
         const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
