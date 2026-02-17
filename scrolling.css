@@ -2167,8 +2167,8 @@ body.ctrl-held .chord-item {
         max-height: none !important;
         overflow-y: auto !important;
         gap: 2px !important;
-        padding: 4px 4px 15px 4px !important;
-        /* Added 15px extra bottom padding for Android buttons */
+        padding: 4px 4px 30px 4px !important;
+        /* Added 30px extra bottom padding for Android buttons */
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
