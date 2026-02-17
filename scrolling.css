@@ -566,7 +566,7 @@ button:disabled {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -120%);
+    transform: translate(-50%, calc(-120% - 20px));
     width: 600px;
     max-width: 90%;
     padding: 15px 25px;
@@ -885,6 +885,37 @@ button:disabled {
     background-color: rgba(0, 0, 0, 0.3);
     /* Much darker for bars */
     width: 2px;
+}
+
+.marker.lyrics-sync {
+    top: 50% !important;
+    bottom: auto !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin-top: -16px !important;
+    margin-left: -16px !important;
+    background: white !important;
+    border: 2px solid #6d28d9 !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 150 !important;
+    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4) !important;
+}
+
+.marker.lyrics-sync::after {
+    content: '🎯';
+    font-size: 18px;
+}
+
+.marker.lyrics-sync .marker-label {
+    top: -25px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    color: #6d28d9 !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
 }
 
 #metronomeBtn,

@@ -554,16 +554,27 @@ class SongDetailModal {
                     console.log('SongDetailModal: Received saveChordData from Timeline', chordData);
 
                     try {
-                        const song = this.songManager.getSongById(this.currentSongId);
-                        console.log('SongDetailModal: Current song data BEFORE update:', song.chordData);
-
                         await this.songManager.updateSong(this.currentSongId, { chordData: chordData });
-
-                        const updatedSong = this.songManager.getSongById(this.currentSongId);
-                        console.log('SongDetailModal: Current song data AFTER update:', updatedSong.chordData);
                         console.log('Chord data saved to database');
                     } catch (e) {
                         console.error('Error saving chord data from timeline:', e);
+                    }
+                }
+
+                // 3. Update lyric sync offset
+                else if (event.data.type === 'updateLyricSync' && this.currentSongId) {
+                    const offset = event.data.offset;
+                    console.log('SongDetailModal: Received updateLyricSync from Timeline', offset);
+
+                    try {
+                        if (this.lyricOffsetInput) {
+                            this.lyricOffsetInput.value = offset.toFixed(2);
+                        }
+                        // Update in memory and database
+                        await this.songManager.updateSong(this.currentSongId, { lyricOffset: offset });
+                        console.log('LyricSync offset updated in database:', offset);
+                    } catch (e) {
+                        console.error('Error updating lyric sync from timeline:', e);
                     }
                 }
             });

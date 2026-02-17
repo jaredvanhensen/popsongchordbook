@@ -79,6 +79,8 @@ let currentTempo = 120; // Shared state for tempo
 let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
 let octaveCycleBtn = null;
+let currentLyricOffset = 0; // Track current global lyrics offset
+const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
 
 // Dragging state
 let isDragging = false;
@@ -1277,13 +1279,14 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
                 parsedLyrics = LyricsParser.parse(rawLyrics);
 
                 // Apply LyricSync offset
-                if (inputLyricOffset) {
-                    const offset = parseFloat(inputLyricOffset) || 0;
-                    parsedLyrics.forEach(l => l.time += offset);
+                currentLyricOffset = parseFloat(inputLyricOffset) || 0;
+                if (currentLyricOffset) {
+                    parsedLyrics.forEach(l => l.time += currentLyricOffset);
                 }
 
-                console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines, offset:', inputLyricOffset);
+                console.log('Scrolling Chords: Timtimestamped lyrics detected and parsed.', parsedLyrics.length, 'lines, offset:', currentLyricOffset);
                 if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('hidden');
+                if (syncFirstLyricBtn) syncFirstLyricBtn.classList.remove('hidden'); // Show sync helper
 
                 // Show HUD if enabled by default
                 if (lyricsEnabled) {
@@ -1296,6 +1299,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             }
         } else {
             if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
+            if (syncFirstLyricBtn) syncFirstLyricBtn.classList.add('hidden');
             hideLyricsHUD();
         }
 
@@ -1428,6 +1432,49 @@ function toggleLyricsHUD() {
     } else {
         hideLyricsHUD();
     }
+}
+
+// Logic for the LyricSync Button
+if (syncFirstLyricBtn) {
+    syncFirstLyricBtn.onclick = () => {
+        if (!parsedLyrics || parsedLyrics.length === 0) {
+            alert("No lyrics available to sync.");
+            return;
+        }
+
+        const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+
+        // Calculate where the first lyric SHOULD be if it started at current playback time
+        // firstLyricOriginalTime = parsedLyrics[0].time - currentLyricOffset
+        // newOffset = playbackTime - firstLyricOriginalTime
+        const firstLyricOriginalTime = parsedLyrics[0].time - currentLyricOffset;
+        const newOffset = Math.round(playbackTime - firstLyricOriginalTime);
+
+        // Apply difference to all parsed lyrics
+        const diff = newOffset - currentLyricOffset;
+        parsedLyrics.forEach(l => l.time += diff);
+        currentLyricOffset = newOffset;
+
+        // Add visual marker to timeline
+        // Remove existing sync markers first to avoid clutter
+        markers = markers.filter(m => m.type !== 'lyrics-sync');
+        markers.push({
+            time: playbackTime,
+            label: '🎯 First Lyric',
+            type: 'lyrics-sync'
+        });
+
+        renderStaticElements();
+        updateLoop();
+
+        // Notify parent to update the input field
+        window.parent.postMessage({
+            type: 'updateLyricSync',
+            offset: newOffset
+        }, '*');
+
+        alert(`LyricSync value set. The first lyric line will start at this point\nOffset: ${newOffset.toFixed(2)}s`);
+    };
 }
 
 function hideLyricsHUD() {
