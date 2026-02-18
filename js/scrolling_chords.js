@@ -1,6 +1,7 @@
 // Scrolling Chords Logic
 
 const midiInput = document.getElementById('midiInput');
+const chordinoInput = document.getElementById('chordinoInput');
 const statusText = document.getElementById('statusText');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const rwdBtn = document.getElementById('rwdBtn');
@@ -117,6 +118,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 // Metronome/Audio state
 let metronomeEnabled = false;
 let audioEnabled = true; // Default ON
+let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
 let lastChordPlayed = -1;
 
@@ -149,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Scrolling Chords: Initializing Event Listeners');
 
     if (midiInput) midiInput.addEventListener('change', handleFileSelect);
+    if (chordinoInput) chordinoInput.addEventListener('change', handleChordinoSelect);
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
     if (rwdBtn) rwdBtn.addEventListener('click', () => seek(-10));
     if (fwdBtn) fwdBtn.addEventListener('click', () => seek(10));
@@ -1043,6 +1046,11 @@ function handleFileSelect(e) {
     if (file) handleFile(file);
 }
 
+function handleChordinoSelect(e) {
+    const file = e.target.files[0];
+    if (file) processChordinoFile(file);
+}
+
 function handleFile(file) {
     currentFileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
 
@@ -1060,31 +1068,132 @@ async function processJsonFile(file) {
     try {
         const text = await file.text();
         const data = JSON.parse(text);
-
-        if (!data.chords || !Array.isArray(data.chords)) {
-            throw new Error('Invalid JSON format: missing chords array');
-        }
-
-        chords = data.chords;
-        // Reconstruct markers if possible, or simple time markers
-        // For now, simpler markers based on duration
-        const duration = data.duration || (chords[chords.length - 1].time + 5);
-        const bpm = data.tempo || 120;
-
-        // Mock midi object for marker generation (reusing existing function with mock)
-        const mockMidi = {
-            duration: duration,
-            header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
-        };
-        markers = generateMarkers(mockMidi);
-        midiData = mockMidi; // Store for export reuse (though re-exporting JSON is redundant)
-
-        finishLoading(chords.length, bpm);
-
+        loadChordData(data);
     } catch (error) {
         console.error(error);
         statusText.innerText = 'Error parsing JSON file. Invalid format.';
     }
+}
+
+async function processChordinoFile(file) {
+    statusText.innerText = 'Parsing Chordino CSV...';
+    setupUIForLoading();
+
+    try {
+        const text = await file.text();
+
+        // Use current app state for context if available
+        const options = {
+            songName: file.name.replace(/\.[^/.]+$/, ""),
+            tempo: currentTempo || 120,
+            barOffset: barOffsetInBeats / 4 // Convert beats to bars (assumes 4/4)
+        };
+
+        const data = convertSonicCsvToChordJson(text, options);
+        loadChordData(data);
+
+    } catch (error) {
+        console.error(error);
+        statusText.innerText = 'Error parsing Chordino file.';
+    }
+}
+
+function loadChordData(data) {
+    if (!data.chords || !Array.isArray(data.chords)) {
+        throw new Error('Invalid data format: missing chords array');
+    }
+
+    chords = data.chords;
+    const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 60);
+    const bpm = data.tempo || 120;
+
+    // Mock midi object for marker generation
+    const mockMidi = {
+        duration: duration,
+        header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+    };
+    markers = generateMarkers(mockMidi);
+    midiData = mockMidi;
+
+    finishLoading(chords.length, bpm);
+}
+
+function convertSonicCsvToChordJson(csvText, options = {}) {
+    const {
+        songName = "Unknown Song",
+        tempo = 120,
+        barOffset = 0,
+        duration = null,
+        minDuration = 0.25, // remove glitch chords shorter than this
+        yOffsets = [-50, -90] // alternating visual positions
+    } = options;
+
+    // Parse CSV
+    const lines = csvText
+        .trim()
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+    let rawChords = [];
+
+    for (let line of lines) {
+        const parts = line.split(",");
+        if (parts.length < 2) continue;
+
+        const time = parseFloat(parts[0]);
+        const chord = parts[1].trim();
+
+        if (!isNaN(time) && chord !== "N") {
+            rawChords.push({
+                time: parseFloat(time.toFixed(2)),
+                name: chord
+            });
+        }
+    }
+
+    // Remove duplicate consecutive chords
+    let deduped = [];
+    for (let i = 0; i < rawChords.length; i++) {
+        if (
+            i === 0 ||
+            rawChords[i].name !== rawChords[i - 1].name
+        ) {
+            deduped.push(rawChords[i]);
+        }
+    }
+
+    // Remove very short glitch chords
+    let cleaned = [];
+    for (let i = 0; i < deduped.length; i++) {
+        const current = deduped[i];
+        const next = deduped[i + 1];
+
+        if (!next) {
+            cleaned.push(current);
+            break;
+        }
+
+        const duration = next.time - current.time;
+        if (duration >= minDuration) {
+            cleaned.push(current);
+        }
+    }
+
+    // Generate alternating yOffsets
+    let finalChords = cleaned.map((chord, index) => ({
+        name: chord.name,
+        time: chord.time,
+        yOffset: yOffsets[index % yOffsets.length]
+    }));
+
+    return {
+        name: songName,
+        tempo: tempo,
+        barOffset: barOffset,
+        duration: duration || (finalChords.length > 0 ? finalChords[finalChords.length - 1].time + 2 : 0),
+        chords: finalChords
+    };
 }
 
 
@@ -2236,6 +2345,7 @@ function toggleTimingCapture() {
         if (timeline) {
             timeline.addEventListener('touchstart', touchHandler, { passive: true });
         }
+        wasAudioEnabledBeforeCapture = audioEnabled;
         audioEnabled = false;
         if (audioToggleBtn) audioToggleBtn.classList.remove('active');
         statusText.innerText = "CAPTURING: Press SPACE to mark chords";
@@ -2245,6 +2355,13 @@ function toggleTimingCapture() {
         youtubePlayerContainer.classList.add('hidden');
         if (youtubePlayer) youtubePlayer.pauseVideo();
         if (isPlaying) pause();
+
+        // Restore audio state
+        audioEnabled = wasAudioEnabledBeforeCapture;
+        if (audioToggleBtn) {
+            audioToggleBtn.classList.toggle('active', audioEnabled);
+        }
+
         statusText.innerText = "Capture Stopped";
     }
 }
