@@ -2485,30 +2485,32 @@ body.ctrl-held .chord-item {
 }
 
 .octave-selector-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    display: flex;
+    gap: 0;
     background: #f1f5f9;
-    padding: 4px;
-    border-radius: 12px;
+    padding: 2px;
+    border-radius: 10px;
 }
 
-.octave-option {
+.settings-menu-popout .octave-option {
     border: none;
     background: transparent;
-    padding: 10px 4px;
+    padding: 8px 0;
     font-size: 0.85rem;
     font-weight: 700;
     color: #64748b;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
-    width: 100%;
+    flex: 1;
     margin: 0;
-    line-height: 1;
+    line-height: normal;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: auto !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 .octave-option.active {
@@ -2539,32 +2541,41 @@ body.ctrl-held .chord-item {
     gap: 8px;
 }
 
-.tool-btn {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #475569;
+.settings-menu-popout .tool-btn {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    font-family: 'Inter', sans-serif;
-    width: 100%;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    margin: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    font-family: 'Inter', sans-serif !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin: 0 !important;
+    height: auto !important;
+    text-transform: none !important;
+    transform: none !important;
 }
 
-.tool-btn:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    transform: translateY(-1px);
+.settings-menu-popout .tool-btn:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.settings-menu-popout .tool-btn:active {
+    transform: translateY(1px) !important;
 }
 
 .tool-btn.black-font {
