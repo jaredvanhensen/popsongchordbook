@@ -179,8 +179,12 @@ html {
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     color: var(--text-color) !important;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
     background-color: #f5f7fa !important;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%), url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+    /* Hack to prevent Samsung Dark Mode */
+    background-blend-mode: normal, normal;
+    background-repeat: no-repeat, repeat;
+    background-size: cover, auto;
     color-scheme: light !important;
     forced-color-adjust: none !important;
     line-height: 1.6;
