@@ -251,10 +251,10 @@ class ProfileModal {
         const uid = user ? user.uid : 'guest';
 
         if (this.lyricsToggle) {
-            this.lyricsToggle.checked = localStorage.getItem(`feature-lyrics-enabled-${uid}`) === 'true';
+            this.lyricsToggle.checked = localStorage.getItem(`feature-lyrics-enabled-${uid}`) !== 'false';
         }
         if (this.timelineToggle) {
-            this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
+            this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }
 
         // Update database size

@@ -2059,8 +2059,8 @@ class SongDetailModal {
             const user = this.songManager.firebaseManager.getCurrentUser();
             const uid = user ? user.uid : 'guest';
 
-            const lyricsEnabled = localStorage.getItem(`feature-lyrics-enabled-${uid}`) === 'true';
-            const timelineEnabled = localStorage.getItem(`feature-timeline-enabled-${uid}`) === 'true';
+            const lyricsEnabled = localStorage.getItem(`feature-lyrics-enabled-${uid}`) !== 'false';
+            const timelineEnabled = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
 
             const hasAnyLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') ||
                 (song.lyrics && song.lyrics.trim() !== '') ||
