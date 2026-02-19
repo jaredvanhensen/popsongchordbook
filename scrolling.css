@@ -2255,20 +2255,23 @@ body.ctrl-held .chord-item {
 
     .timeline-container {
         flex: none !important;
-        height: 80px !important;
-        padding: 5px 0 15px 0 !important;
+        height: 75px !important;
+        padding: 5px 0 10px 0 !important;
         background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%) !important;
+        margin-top: auto !important;
     }
 
     .chord-buttons-container {
         flex: 1 !important;
         overflow-y: auto !important;
-        gap: 2px !important;
+        gap: 5px !important;
         padding: 4px !important;
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
         width: 100% !important;
         align-items: flex-start !important;
+        max-height: none !important;
     }
 
     .chord-item {

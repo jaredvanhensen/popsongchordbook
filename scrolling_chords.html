@@ -9,374 +9,381 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 110'><defs><linearGradient id='ps' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%2394a3b8'/><stop offset='1' stop-color='%23475569'/></linearGradient><linearGradient id='pf' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='%23f1f5f9'/></linearGradient><radialGradient id='ng' cx='50' cy='50' r='50'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%236b21a8'/></radialGradient></defs><g transform='translate(5,5)'><rect y='10' width='150' height='90' rx='20' fill='url(%23ps)'/><rect width='150' height='90' rx='20' fill='url(%23pf)' stroke='%23e2e8f0'/><line x1='30' y1='50' x2='120' y2='50' stroke='%23cbd5e1' stroke-width='6' stroke-linecap='round'/><circle cx='75' cy='50' r='20' fill='url(%23ng)'/></g></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="scrolling.css?v=2.057">
+    <link rel="stylesheet" href="scrolling.css?v=2.058">
 </head>
 
-<div class="header-metadata">
-    <h1 id="artistDisplay" class="artist-display"></h1>
-    <h2 id="songTitleDisplay" class="song-title-display"></h2>
-</div>
+<body>
 
-<div class="controls-container">
-    <a href="index.html" id="backBtn" title="Back to Library">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-    </a>
-
-    <div class="playback-controls">
-        <button id="restartBtn" title="Restart from beginning">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="19 20 9 12 19 4 19 20"></polygon>
-                <line x1="5" y1="19" x2="5" y2="5"></line>
-            </svg>
-        </button>
-        <button id="rwdBtn" title="Rewind 10s" class="hidden">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="11 19 2 12 11 5 11 19"></polygon>
-                <polygon points="22 19 13 12 22 5 22 19"></polygon>
-            </svg>
-        </button>
-        <button id="playPauseBtn" disabled>
-            <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <span>Play</span>
-        </button>
-
-
-        <button id="fwdBtn" title="Forward 10s" class="hidden">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 19 22 12 13 5 13 19"></polygon>
-                <polygon points="2 19 11 12 2 5 2 19"></polygon>
-            </svg>
-        </button>
-
-        <div class="adjust-controls-row edit-only">
-            <div id="barAdjustGroup" class="bar-adjust-controls highlight-blue">
-                <button id="barDecBtn" title="Shift Bar Lines Left (1 Beat)" class="mini-btn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3" fill="none">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </button>
-                <span id="barOffsetDisplay">Bar: 0</span>
-                <button id="barIncBtn" title="Shift Bar Lines Right (1 Beat)" class="mini-btn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3" fill="none">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <div id="chordShiftGroup" class="bar-adjust-controls highlight-red">
-                <button id="shiftChordsLeftBtn" title="Shift All Chords Left (1/8 Bar)" class="mini-btn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3" fill="none">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <span class="label-chords">CHORDS</span>
-                <button id="shiftChordsRightBtn" title="Shift All Chords Right (1/8 Bar)" class="mini-btn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3" fill="none">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-
-
-        <button id="zoomOutBtn" title="Zoom Out Timeline">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-            </svg>
-        </button>
-        <button id="zoomInBtn" title="Zoom In Timeline">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-            </svg>
-        </button>
-
-
-        <button id="editModeBtn" title="Toggle Edit Mode" class="edit-btn">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-            </svg>
-            <span>EDIT</span>
-        </button>
-
-
-        <button id="selectModeBtn" title="Selection Mode" class="edit-only">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="4 4"></rect>
-            </svg>
-        </button>
-
-        <button id="duplicateBtn" title="Duplicate Selected Chords" class="edit-only">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-        </button>
-
-        <button id="deleteSelectedBtn" title="Delete Selected Chords (Scissors)" class="edit-only">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="6" cy="6" r="3"></circle>
-                <circle cx="6" cy="18" r="3"></circle>
-                <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
-                <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-                <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
-            </svg>
-        </button>
-
-        <button id="clearDataBtn" disabled title="Clear All Chords" class="edit-only">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                <line x1="10" y1="11" x2="10" y2="17"></line>
-                <line x1="14" y1="11" x2="14" y2="17"></line>
-            </svg>
-        </button>
-
-
-
-        <button id="captureBtn" title="Record timing" class="capture-btn hidden">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
-                <circle cx="12" cy="12" r="8"></circle>
-            </svg>
-        </button>
-
-        <button id="audioToggleBtn" title="Toggle Chord Audio">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-        </button>
-
-        <button id="youtubeToggleBtn" title="Toggle YouTube Video">
-            <svg viewBox="0 0 68 48" width="22" height="16">
-                <path
-                    d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
-                    fill="#FF0000" />
-                <path d="M 45,24 27,14 27,34" fill="#fff" />
-            </svg>
-        </button>
-
-        <button id="toggleLyricsBtn" title="Toggle Lyrics Overlay" class="lyrics-btn hidden">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                <line x1="9" y1="8" x2="15" y2="8"></line>
-                <line x1="9" y1="12" x2="15" y2="12"></line>
-            </svg>
-        </button>
-
-        <button id="syncFirstLyricBtn" title="Mark Start Point Lyrics" class="lyrics-btn hidden edit-only">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="-1" y="21" font-family="serif" font-weight="900" font-size="22" fill="currentColor">L</text>
-                <path d="M19 11v9m-3-3l3 3 3-3" stroke="#ef4444" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-        </button>
-
-        <button id="speedBtn" title="Toggle Playback Speed" class="edit-only">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span>1.0x</span>
-        </button>
-
-        <button id="saveBtn" title="Save Changes" class="hidden edit-only">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-        </button>
-
-        <button id="settingsBtn" title="Timeline Settings" class="settings-btn-v2">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path
-                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                </path>
-            </svg>
-        </button>
-
-        <!-- Hidden original buttons stuff kept for logic -->
-        <!-- Hidden original buttons stuff kept for logic -->
-        <button id="octaveCycleBtn" class="hidden"></button>
-        <button id="metronomeBtn" class="hidden"></button>
-        <button id="bpmBtn" class="hidden"></button>
-        <button id="exportBtn" class="hidden"></button>
+    <div class="header-metadata">
+        <h1 id="artistDisplay" class="artist-display"></h1>
+        <h2 id="songTitleDisplay" class="song-title-display"></h2>
     </div>
 
+    <div class="controls-container">
+        <a href="index.html" id="backBtn" title="Back to Library">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </a>
 
-    <!-- Settings Menu Popout -->
-    <div id="settingsMenu" class="settings-menu-popout hidden">
-        <div class="settings-menu-header">Settings & Tools</div>
-        <div class="settings-menu-items">
-            <div class="settings-menu-item" id="menuMetronomeOption">
-                <div class="item-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L7 22h10L12 2z"></path>
-                        <circle cx="12" cy="18" r="2"></circle>
-                        <path d="M12 14l3-9"></path>
-                    </svg>
-                    <span>Metronome</span>
-                </div>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="metronomeToggle">
-                    <label for="metronomeToggle"></label>
-                </div>
-            </div>
+        <div class="playback-controls">
+            <button id="restartBtn" title="Restart from beginning">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                    <line x1="5" y1="19" x2="5" y2="5"></line>
+                </svg>
+            </button>
+            <button id="rwdBtn" title="Rewind 10s" class="hidden">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                    <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                </svg>
+            </button>
+            <button id="playPauseBtn" disabled>
+                <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Play</span>
+            </button>
 
-            <div class="settings-menu-item-group">
-                <div class="item-label">Chord Octave</div>
-                <div class="octave-selector-grid">
-                    <button class="octave-option active" data-val="0">Low</button>
-                    <button class="octave-option" data-val="1">Mid</button>
-                    <button class="octave-option" data-val="2">High</button>
-                </div>
-            </div>
 
-            <div class="settings-menu-item" id="menuBpmOption">
-                <div class="item-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>Tempo (BPM)</span>
-                </div>
-                <div id="menuBpmDisplay" class="value-display">120</div>
-            </div>
+            <button id="fwdBtn" title="Forward 10s" class="hidden">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                    <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                </svg>
+            </button>
 
-            <div class="settings-menu-divider"></div>
-
-            <div class="settings-menu-item-group">
-                <div class="item-label">Data Tools</div>
-                <div class="tools-grid">
-                    <label for="midiInput" class="tool-btn" title="Open MIDI or JSON file">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="12" y1="18" x2="12" y2="12"></line>
-                            <line x1="9" y1="15" x2="15" y2="15"></line>
+            <div class="adjust-controls-row edit-only">
+                <div id="barAdjustGroup" class="bar-adjust-controls highlight-blue">
+                    <button id="barDecBtn" title="Shift Bar Lines Left (1 Beat)" class="mini-btn">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
+                            fill="none">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        Import MIDI
-                    </label>
-                    <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json"
-                        class="file-input" style="display: none;">
-
-                    <button id="menuExportBtn" class="tool-btn">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10 17 15 12 10 7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
-                        </svg>
-                        Export JSON
                     </button>
-                    <label for="chordinoInput" class="tool-btn black-font" style="color: #10b981;">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <path d="M12 18v-6m-3 3l3-3 3 3"></path>
+                    <span id="barOffsetDisplay">Bar: 0</span>
+                    <button id="barIncBtn" title="Shift Bar Lines Right (1 Beat)" class="mini-btn">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
+                            fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        Chordino CSV
-                    </label>
-                    <input type="file" id="chordinoInput" accept=".csv,text/csv" class="file-input"
-                        style="display: none;">
+                    </button>
+                </div>
+
+                <div id="chordShiftGroup" class="bar-adjust-controls highlight-red">
+                    <button id="shiftChordsLeftBtn" title="Shift All Chords Left (1/8 Bar)" class="mini-btn">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
+                            fill="none">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <span class="label-chords">CHORDS</span>
+                    <button id="shiftChordsRightBtn" title="Shift All Chords Right (1/8 Bar)" class="mini-btn">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
+                            fill="none">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+
+            <button id="zoomOutBtn" title="Zoom Out Timeline">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+            <button id="zoomInBtn" title="Zoom In Timeline">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+
+
+            <button id="editModeBtn" title="Toggle Edit Mode" class="edit-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <span>EDIT</span>
+            </button>
+
+
+            <button id="selectModeBtn" title="Selection Mode" class="edit-only">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="4 4"></rect>
+                </svg>
+            </button>
+
+            <button id="duplicateBtn" title="Duplicate Selected Chords" class="edit-only">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+
+            <button id="deleteSelectedBtn" title="Delete Selected Chords (Scissors)" class="edit-only">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                </svg>
+            </button>
+
+            <button id="clearDataBtn" disabled title="Clear All Chords" class="edit-only">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            </button>
+
+
+
+            <button id="captureBtn" title="Record timing" class="capture-btn hidden">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
+                    <circle cx="12" cy="12" r="8"></circle>
+                </svg>
+            </button>
+
+            <button id="audioToggleBtn" title="Toggle Chord Audio">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+
+            <button id="youtubeToggleBtn" title="Toggle YouTube Video">
+                <svg viewBox="0 0 68 48" width="22" height="16">
+                    <path
+                        d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                        fill="#FF0000" />
+                    <path d="M 45,24 27,14 27,34" fill="#fff" />
+                </svg>
+            </button>
+
+            <button id="toggleLyricsBtn" title="Toggle Lyrics Overlay" class="lyrics-btn hidden">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                </svg>
+            </button>
+
+            <button id="syncFirstLyricBtn" title="Mark Start Point Lyrics" class="lyrics-btn hidden edit-only">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="-1" y="21" font-family="serif" font-weight="900" font-size="22"
+                        fill="currentColor">L</text>
+                    <path d="M19 11v9m-3-3l3 3 3-3" stroke="#ef4444" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <button id="speedBtn" title="Toggle Playback Speed" class="edit-only">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>1.0x</span>
+            </button>
+
+            <button id="saveBtn" title="Save Changes" class="hidden edit-only">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+            </button>
+
+            <button id="settingsBtn" title="Timeline Settings" class="settings-btn-v2">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </button>
+
+            <!-- Hidden original buttons stuff kept for logic -->
+            <!-- Hidden original buttons stuff kept for logic -->
+            <button id="octaveCycleBtn" class="hidden"></button>
+            <button id="metronomeBtn" class="hidden"></button>
+            <button id="bpmBtn" class="hidden"></button>
+            <button id="exportBtn" class="hidden"></button>
+        </div>
+
+
+        <!-- Settings Menu Popout -->
+        <div id="settingsMenu" class="settings-menu-popout hidden">
+            <div class="settings-menu-header">Settings & Tools</div>
+            <div class="settings-menu-items">
+                <div class="settings-menu-item" id="menuMetronomeOption">
+                    <div class="item-label">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L7 22h10L12 2z"></path>
+                            <circle cx="12" cy="18" r="2"></circle>
+                            <path d="M12 14l3-9"></path>
+                        </svg>
+                        <span>Metronome</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="metronomeToggle">
+                        <label for="metronomeToggle"></label>
+                    </div>
+                </div>
+
+                <div class="settings-menu-item-group">
+                    <div class="item-label">Chord Octave</div>
+                    <div class="octave-selector-grid">
+                        <button class="octave-option active" data-val="0">Low</button>
+                        <button class="octave-option" data-val="1">Mid</button>
+                        <button class="octave-option" data-val="2">High</button>
+                    </div>
+                </div>
+
+                <div class="settings-menu-item" id="menuBpmOption">
+                    <div class="item-label">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>Tempo (BPM)</span>
+                    </div>
+                    <div id="menuBpmDisplay" class="value-display">120</div>
+                </div>
+
+                <div class="settings-menu-divider"></div>
+
+                <div class="settings-menu-item-group">
+                    <div class="item-label">Data Tools</div>
+                    <div class="tools-grid">
+                        <label for="midiInput" class="tool-btn" title="Open MIDI or JSON file">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                            Import MIDI
+                        </label>
+                        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json"
+                            class="file-input" style="display: none;">
+
+                        <button id="menuExportBtn" class="tool-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10 17 15 12 10 7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            Export JSON
+                        </button>
+                        <label for="chordinoInput" class="tool-btn black-font" style="color: #10b981;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <path d="M12 18v-6m-3 3l3-3 3 3"></path>
+                            </svg>
+                            Chordino CSV
+                        </label>
+                        <input type="file" id="chordinoInput" accept=".csv,text/csv" class="file-input"
+                            style="display: none;">
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div id="statusText">Upload a MIDI file to start</div>
     </div>
 
-    <div id="statusText">Upload a MIDI file to start</div>
-</div>
 
-
-<div id="youtubePlayerContainer" class="youtube-player-container hidden">
-    <div id="youtubeDragHandle" class="youtube-drag-handle" title="Drag to move">
-        <span>::</span>
+    <div id="youtubePlayerContainer" class="youtube-player-container hidden">
+        <div id="youtubeDragHandle" class="youtube-drag-handle" title="Drag to move">
+            <span>::</span>
+        </div>
+        <button id="closeYoutubeBtn" title="Close Video">×</button>
+        <div id="youtubePlayer"></div>
     </div>
-    <button id="closeYoutubeBtn" title="Close Video">×</button>
-    <div id="youtubePlayer"></div>
-</div>
 
-<!-- New Chord Toolbar -->
-<div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
+    <!-- New Chord Toolbar -->
+    <div id="chordButtonsContainer" class="chord-buttons-container hidden"></div>
 
-<!-- Lyrics HUD Overlay -->
-<div id="lyricsHUD" class="lyrics-hud hidden">
-    <div id="lyricLine1" class="lyric-line active"></div>
-    <div id="lyricLine2" class="lyric-line upcoming"></div>
-</div>
+    <!-- Lyrics HUD Overlay -->
+    <div id="lyricsHUD" class="lyrics-hud hidden">
+        <div id="lyricLine1" class="lyric-line active"></div>
+        <div id="lyricLine2" class="lyric-line upcoming"></div>
+    </div>
 
-<div class="timeline-container" id="timeline">
-    <div class="playhead"></div>
-    <div class="main-play-arrow"></div>
+    <div class="timeline-container" id="timeline">
+        <div class="playhead"></div>
+        <div class="main-play-arrow"></div>
 
-    <!-- Current Sticky Chord -->
-    <div id="currentChordDisplay" class="current-chord-display"></div>
+        <!-- Current Sticky Chord -->
+        <div id="currentChordDisplay" class="current-chord-display"></div>
 
-    <div class="instructions" id="instructions">Drop MIDI file here</div>
-    <!-- Markers (bars/time) -->
-    <div class="marker-track" id="markerTrack"></div>
-    <!-- Chords -->
-    <div class="chord-track" id="chordTrack"></div>
+        <div class="instructions" id="instructions">Drop MIDI file here</div>
+        <!-- Markers (bars/time) -->
+        <div class="marker-track" id="markerTrack"></div>
+        <!-- Chords -->
+        <div class="chord-track" id="chordTrack"></div>
 
-</div>
+    </div>
 
 
-<!-- Count-in Overlay -->
-<div id="countInOverlay" class="count-in-overlay hidden">
-    <div id="countInNumber"></div>
-    <div class="count-in-label">Get Ready!</div>
-</div>
+    <!-- Count-in Overlay -->
+    <div id="countInOverlay" class="count-in-overlay hidden">
+        <div id="countInNumber"></div>
+        <div class="count-in-label">Get Ready!</div>
+    </div>
 
-<!-- Recording Indicator -->
-<div id="recordingIndicator" class="recording-indicator hidden">
-    🔴 RECORDING
-</div>
+    <!-- Recording Indicator -->
+    <div id="recordingIndicator" class="recording-indicator hidden">
+        🔴 RECORDING
+    </div>
 
-<!-- Midi Parsing Library -->
-<script src="https://unpkg.com/@tonejs/midi"></script>
+    <!-- Midi Parsing Library -->
+    <script src="https://unpkg.com/@tonejs/midi"></script>
 
-<!-- Utils -->
-<script src="js/utils/PianoAudioPlayer.js?v=2.044"></script>
-<script src="js/utils/ChordParser.js?v=2.044"></script>
-<script src="js/utils/LyricsParser.js?v=2.044"></script>
-<script src="js/ui/ConfirmationModal.js?v=2.044"></script>
-<script src="js/ui/ChordEditModal.js?v=2.044"></script>
-<script src="js/ui/BpmEditModal.js?v=2.044"></script>
-<script src="js/scrolling_chords.js?v=2.044"></script>
+    <!-- Utils -->
+    <script src="js/utils/PianoAudioPlayer.js?v=2.058"></script>
+    <script src="js/utils/ChordParser.js?v=2.058"></script>
+    <script src="js/utils/LyricsParser.js?v=2.058"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.058"></script>
+    <script src="js/ui/ChordEditModal.js?v=2.058"></script>
+    <script src="js/ui/BpmEditModal.js?v=2.058"></script>
+    <script src="js/scrolling_chords.js?v=2.058"></script>
 </body>
 
 </html>
