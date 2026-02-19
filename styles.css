@@ -8093,8 +8093,8 @@ div.song-detail-practice-controls {
     position: absolute !important;
     bottom: calc(100% + 20px) !important;
     /* Float higher above footer */
-    right: 12px !important;
-    /* Center horizontally over the ~94px Practice List button */
+    right: 22px !important;
+    /* Center horizontally over the Practice List button (increased from 12px) */
     z-index: 100 !important;
 
     /* FAB Styling - Large */
