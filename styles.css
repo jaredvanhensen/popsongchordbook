@@ -7991,14 +7991,18 @@ td:has(.row-edit-input.input-focused) {
     min-width: 24px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
-    margin-right: -20px;
+    margin-right: -15px;
     position: relative;
     z-index: 2;
 }
 
 #songDetailPracticeIncrementBtn {
-    width: 90px !important;
+    width: 55px !important;
     height: 60px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 #songDetailPracticeIncrementBtn .icon {
@@ -8012,10 +8016,11 @@ td:has(.row-edit-input.input-focused) {
     font-size: 0.75rem !important;
     opacity: 0.6 !important;
     margin-top: 8px !important;
+    /* Ensure label aligns with others */
 }
 
 #songDetailPracticeIncrementBtn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: transparent !important;
     transform: translateY(-1px);
 }
 
@@ -8030,13 +8035,21 @@ td:has(.row-edit-input.input-focused) {
     border-top: 1px solid var(--border-color);
 }
 
-.song-detail-footer-left {
+/* Flatten footer structure for even distribution */
+.song-detail-footer-left,
+.song-detail-center-actions,
+.song-detail-footer-actions,
+.song-detail-practice-controls {
+    display: contents !important;
+}
+
+.song-detail-footer {
     display: flex;
-    align-items: center;
-    /* Vertical center for left group */
-    gap: 20px;
-    /* Reduced from 50px to accommodate practice controls */
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Align to bottom so labels line up */
+    padding-bottom: 12px;
+    padding-top: 12px;
 }
 
 #songDetailScrollingChordsBtn {
