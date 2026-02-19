@@ -132,8 +132,18 @@ class SongManager {
             bridgeCue: '',
             fullLyrics: '',
             chordData: null,
+            practiceCount: '0',
+            patchDetails: '',
+            lyricOffset: 0,
+            performAbility: '',
+            verseTitle: 'Block 1',
+            preChorusTitle: 'Block 3',
+            chorusTitle: 'Block 2',
+            bridgeTitle: 'Block 4',
             // Preserve all incoming fields
             ...song,
+            // Guaranteed types/migrations
+            practiceCount: (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : (song.practiceCountTeller || '0'),
             // Proactive migration: Ensure fullLyrics is never empty if legacy lyrics exist
             fullLyrics: song.fullLyrics || song.lyrics || ''
         }));
@@ -199,6 +209,14 @@ class SongManager {
             bridgeCue: '',
             fullLyrics: '',
             chordData: null,
+            practiceCount: '0',
+            patchDetails: '',
+            lyricOffset: 0,
+            performAbility: '',
+            verseTitle: 'Block 1',
+            preChorusTitle: 'Block 3',
+            chorusTitle: 'Block 2',
+            bridgeTitle: 'Block 4',
             // Preserve all incoming fields
             ...song,
             // Guaranteed fields/overrides
@@ -252,6 +270,14 @@ class SongManager {
             bridgeCue: '',
             fullLyrics: '',
             chordData: null,
+            practiceCount: song.practiceCount || '0',
+            patchDetails: song.patchDetails || '',
+            lyricOffset: song.lyricOffset || 0,
+            performAbility: song.performAbility || '',
+            verseTitle: song.verseTitle || 'Block 1',
+            preChorusTitle: song.preChorusTitle || 'Block 3',
+            chorusTitle: song.chorusTitle || 'Block 2',
+            bridgeTitle: song.bridgeTitle || 'Block 4',
             // Custom fields from importer (spread AFTER defaults to override)
             ...song,
             // Specific migrations/fixes

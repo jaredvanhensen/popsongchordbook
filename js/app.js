@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.019)");
+        console.log("Pop Song Chord Book - App Initialized (v2.034)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1321,15 +1321,7 @@ class App {
                     const song = this.songManager.getSongById(this.activeAddToSetlistSongId);
                     const title = song ? song.title : 'Song';
 
-                    this.confirmationModal.show(
-                        'Added to Setlist',
-                        `<strong>${title}</strong> has been added to the setlist.`,
-                        () => { }, // Close callback
-                        null,
-                        'Done',
-                        'primary',
-                        true // isInfo
-                    );
+                    this.showHUD('Song(s) added to the setlist');
                     closeModal();
                 } catch (error) {
                     console.error('Error adding song to setlist:', error);
@@ -2317,15 +2309,7 @@ class App {
                         const original = icon.textContent;
                         icon.textContent = '✓';
                         setTimeout(() => icon.textContent = original, 2000);
-                        this.confirmationModal.show(
-                            'Import Successful',
-                            `Successfully imported <strong>${songName}</strong> into your library.`,
-                            () => { }, // Just close
-                            null,
-                            'Done',
-                            'primary',
-                            true // isInfo = true
-                        );
+                        this.showHUD('Song imported successfully');
                     }
                 },
                 null,

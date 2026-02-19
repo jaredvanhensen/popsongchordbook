@@ -1898,7 +1898,7 @@ class SongDetailModal {
             key: song.key || '',
             fullLyrics: song.fullLyrics || song.lyrics || '',
             patchDetails: song.patchDetails || '',
-            practiceCount: song.practiceCount || '',
+            practiceCount: song.practiceCount !== undefined ? song.practiceCount.toString() : '0',
             lyricOffset: song.lyricOffset || 0,
             performAbility: song.performAbility || 0
         };
@@ -2280,7 +2280,7 @@ class SongDetailModal {
         }
 
         if (this.practiceCountInput) {
-            this.practiceCountInput.value = song.practiceCount || '';
+            this.practiceCountInput.value = (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : '0';
         }
         if (this.lyricOffsetInput) {
             this.lyricOffsetInput.value = song.lyricOffset || '';
@@ -2363,7 +2363,8 @@ class SongDetailModal {
         const youtubeUrl = this.youtubeUrlInput ? this.youtubeUrlInput.value.trim() : '';
         const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
         const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
-        const practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '';
+        let practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '0';
+        if (practiceCount === '') practiceCount = '0';
         const lyricOffset = this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0;
         const performAbility = this.currentAbilityValue || 0;
         const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
@@ -2432,7 +2433,7 @@ class SongDetailModal {
                 key: savedSong.key || '',
                 fullLyrics: savedSong.fullLyrics || '',
                 patchDetails: savedSong.patchDetails || '',
-                practiceCount: savedSong.practiceCount || '',
+                practiceCount: savedSong.practiceCount !== undefined ? savedSong.practiceCount.toString() : '0',
                 lyricOffset: savedSong.lyricOffset || 0,
                 performAbility: savedSong.performAbility || 0
             };
