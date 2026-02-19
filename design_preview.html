@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            border-radius: 20px 20px 0 0;
+            /* Simulating footer being at bottom */
+            border-radius: 20px;
+        }
+
+        .option-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .timeline-btn {
+            width: 70px;
+            height: 50px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            /* Simulating button background */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .timeline-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Or cover, depending on the test */
+        }
+
+        .label {
+            opacity: 0.8;
+            font-size: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Specific Styles for Testing */
+        .cover-fit img {
+            object-fit: cover;
+        }
+
+        .contain-fit img {
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Chord Timeline Icon Options</h2>
+
+    <div class="preview-wrapper">
+        <div class="footer-container">
+            <!-- Original -->
+            <div class="option-container">
+                <div class="timeline-btn cover-fit">
+                    <img src="images/chordtimeline-jared2.jpg" alt="Original">
+                </div>
+                <span class="label">Original (Cover)</span>
+            </div>
+
+            <!-- Option 1 -->
+            <div class="option-container">
+                <div class="timeline-btn cover-fit">
+                    <img src="images/timeline_opt1.svg" alt="Option 1">
+                </div>
+                <span class="label">Option 1: Vector Replica</span>
+            </div>
+
+            <!-- Option 2 -->
+            <div class="option-container">
+                <div class="timeline-btn cover-fit">
+                    <img src="images/timeline_opt2.svg" alt="Option 2">
+                </div>
+                <span class="label">Option 2: Flat Minimal</span>
+            </div>
+
+            <!-- Option 3 -->
+            <div class="option-container">
+                <div class="timeline-btn cover-fit">
+                    <img src="images/timeline_opt3.svg" alt="Option 3">
+                </div>
+                <span class="label">Option 3: Glassy Abstract</span>
+            </div>
+        </div>
+    </div>
+
+    <p style="text-align: center; color: #666; max-width: 600px; margin-top: 20px;">
+        Open this file in your browser to compare how the transparency and blending works against the actual footer
+        gradient.
+    </p>
+
+</body>
+
+</html>
