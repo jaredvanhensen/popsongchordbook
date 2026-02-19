@@ -474,16 +474,16 @@ button:disabled {
 .bar-adjust-controls {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
-    padding: 0 5px;
+    padding: 0 4px;
     border-radius: 12px;
     border: 1px solid #cbd5e1;
     height: 44px;
     /* Matches Play Button Height */
     box-sizing: border-box;
     box-shadow: 0 4px 0px 0px var(--btn-shadow-default), 0 8px 15px rgba(0, 0, 0, 0.05);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 800;
     color: #475569;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -526,14 +526,31 @@ button:disabled {
 }
 
 #barOffsetDisplay {
-    min-width: 42px;
+    min-width: 36px;
     text-align: center;
     letter-spacing: -0.2px;
 }
 
 .label-chords {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     opacity: 0.9;
+}
+
+.version-badge {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 1);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #backBtn {
