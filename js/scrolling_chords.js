@@ -190,6 +190,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (toggleLyricsBtn) toggleLyricsBtn.addEventListener('click', toggleLyricsHUD);
 
+    // Settings Menu Logic
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsMenu = document.getElementById('settingsMenu');
+    const metronomeToggle = document.getElementById('metronomeToggle');
+    const octaveOptions = document.querySelectorAll('.octave-option');
+    const menuBpmOption = document.getElementById('menuBpmOption');
+    const menuBpmDisplay = document.getElementById('menuBpmDisplay');
+
+    if (settingsBtn && settingsMenu) {
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = settingsMenu.classList.contains('hidden');
+            settingsMenu.classList.toggle('hidden');
+            if (!settingsMenu.classList.contains('hidden')) {
+                // Sync values when opening
+                syncSettingsMenu();
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsMenu.contains(e.target) && e.target !== settingsBtn) {
+                settingsMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    function syncSettingsMenu() {
+        if (metronomeToggle) metronomeToggle.checked = metronomeEnabled;
+        if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
+
+        octaveOptions.forEach(opt => {
+            const val = parseInt(opt.dataset.val);
+            opt.classList.toggle('active', val === playbackOctave);
+        });
+    }
+
+    // Connect menu tool buttons to main logic
+    const menuExportBtn = document.getElementById('menuExportBtn');
+    if (menuExportBtn) {
+        menuExportBtn.addEventListener('click', () => {
+            if (exportBtn) exportBtn.click();
+        });
+    }
+
+    if (metronomeToggle) {
+        metronomeToggle.addEventListener('change', () => {
+            toggleMetronome();
+        });
+    }
+
+    octaveOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+            const val = parseInt(opt.dataset.val);
+            playbackOctave = val;
+
+            // Visual feedback
+            octaveOptions.forEach(o => o.classList.toggle('active', parseInt(o.dataset.val) === val));
+
+            // Persistent storage or preview
+            triggerChordAudio('C', 1.0, true);
+        });
+    });
+
+    if (menuBpmOption) {
+        menuBpmOption.addEventListener('click', () => {
+            changeBpm();
+            setTimeout(() => {
+                if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
+            }, 100);
+        });
+    }
+
     // YouTube Logic (Toggle & Close)
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
 
@@ -1695,17 +1768,13 @@ function showSaveToast() {
 function setSaveStatus(isSaved) {
     if (!saveBtn) return;
 
-    const iconEl = saveBtn.querySelector('.icon');
-    const labelEl = saveBtn.querySelector('.label');
-
     if (isSaved) {
-        if (iconEl) iconEl.innerText = '✅';
-        if (labelEl) labelEl.innerText = 'Saved';
         saveBtn.classList.add('saved');
+        saveBtn.title = "Saved";
+        // Optionally show toast or checkmark briefly
     } else {
-        if (iconEl) iconEl.innerText = '💾';
-        if (labelEl) labelEl.innerText = 'Save';
         saveBtn.classList.remove('saved');
+        saveBtn.title = "Save Changes";
     }
 }
 
@@ -2348,7 +2417,7 @@ function toggleTimingCapture() {
         wasAudioEnabledBeforeCapture = audioEnabled;
         audioEnabled = false;
         if (audioToggleBtn) audioToggleBtn.classList.remove('active');
-        statusText.innerText = "CAPTURING: Press SPACE to mark chords";
+        statusText.innerText = "CAPTURING: Press SPACE or Chord letter to mark chords";
     } else {
         captureBtn.classList.remove('active');
         recordingIndicator.classList.add('hidden');
@@ -2550,8 +2619,6 @@ function toggleSelectionMode() {
     isSelectionMode = !isSelectionMode;
     if (selectModeBtn) {
         selectModeBtn.classList.toggle('active', isSelectionMode);
-        const icon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5l-1 5-2-5 2-5 1 5h5"></path><circle cx="12" cy="12" r="10"></circle></svg>';
-        selectModeBtn.innerHTML = isSelectionMode ? `${icon} <span>Selecting...</span>` : `${icon} <span>Select</span>`;
     }
 
     // Clear selection when exiting mode? Optional. Let's keep it for now.

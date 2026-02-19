@@ -187,7 +187,6 @@ button:disabled {
 }
 
 /* Green Category: Data/Save/Open (Deeper for white contrast) */
-#saveBtn:not(:disabled),
 #exportBtn:not(:disabled),
 .controls-container .custom-file-btn {
     background: linear-gradient(135deg, #0d7a71 0%, #11998e 100%) !important;
@@ -198,9 +197,16 @@ button:disabled {
     min-width: 44px;
     padding: 0;
     box-shadow: 0 4px 0px 0px #064d47, 0 8px 15px rgba(17, 153, 142, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#saveBtn:hover,
+#saveBtn .icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
 #exportBtn:hover,
 .controls-container .custom-file-btn:hover {
     background: linear-gradient(135deg, #11998e 0%, #15ad9f 100%) !important;
@@ -623,8 +629,9 @@ button:disabled {
 .lyrics-btn.active {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;
-    border: none !important;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+    border: 1px solid #4338ca !important;
+    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(102, 126, 234, 0.3) !important;
+    top: 0;
 }
 
 /* Timeline */
@@ -945,12 +952,31 @@ button:disabled {
     transition: transform 0.3s ease;
 }
 
-#metronomeBtn.active,
+#metronomeBtn.active {
+    background: var(--highlight-color) !important;
+    color: white !important;
+    border-color: #b45309 !important;
+    /* Slightly darker gold/amber border */
+    box-shadow: 0 4px 0px 0px #b45309, 0 10px 15px rgba(245, 158, 11, 0.3) !important;
+}
+
 #audioToggleBtn.active {
-    background: var(--highlight-color);
-    color: white;
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 10px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%) !important;
+    color: white !important;
+    border: 1px solid #2a5da3 !important;
+    box-shadow: 0 4px 0px 0px #1e4b85, 0 10px 15px rgba(58, 123, 213, 0.3) !important;
+}
+
+#selectModeBtn.active {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
+    color: white !important;
+    border: 1px solid #312e81 !important;
+    box-shadow: 0 4px 0px 0px #1e1b4b, 0 10px 15px rgba(99, 102, 241, 0.5) !important;
+}
+
+#selectModeBtn.active svg {
+    stroke-width: 4 !important;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
 }
 
 #metronomeBtn.active .metronome-icon {
@@ -2186,6 +2212,333 @@ body.ctrl-held .chord-item {
         width: 100% !important;
         padding: 8px 12px !important;
         background: rgba(255, 255, 255, 0.98) !important;
+    }
+}
+
+/* Media Query adjustments for flow */
+@media (max-width: 1024px) {
+    .playback-controls {
+        width: auto !important;
+        justify-content: flex-start !important;
+        flex: 1;
+    }
+
+    .controls-container {
+        justify-content: space-between;
+    }
+}
+
+/* Settings Button V2 */
+.settings-btn-v2 {
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%) !important;
+    border-color: #cbd5e1 !important;
+    color: #64748b !important;
+    /* Grey color */
+    transition: all 0.2s ease !important;
+}
+
+.settings-btn-v2:hover {
+    background: white !important;
+    color: #1e293b !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-2px) !important;
+}
+
+.settings-btn-v2:active {
+    transform: translateY(2px) !important;
+}
+
+/* Settings Menu Popout */
+.settings-menu-popout {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
+    z-index: 2000;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: settingsSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes settingsSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.settings-menu-header {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.settings-menu-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 4px 0;
+}
+
+.settings-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.item-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.item-label svg {
+    color: #6366f1;
+}
+
+/* Toggle Switch Styling */
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #e2e8f0;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: .3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-switch input:checked+label {
+    background: #4f46e5;
+}
+
+.toggle-switch input:checked+label:before {
+    transform: translateX(20px);
+}
+
+/* Octave Selector Grid */
+.settings-menu-item-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.octave-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.octave-option {
+    border: none;
+    background: transparent;
+    padding: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #64748b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: none !important;
+    height: auto !important;
+}
+
+.octave-option.active {
+    background: #3b82f6 !important;
+    /* Blue active octave */
+    color: white !important;
+    /* White text */
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3) !important;
+}
+
+.value-display:hover {
+    background: #e2e8f0;
+}
+
+/* Vertical Divider for Toolbar */
+.vertical-divider {
+    width: 1px;
+    height: 30px;
+    background: #e2e8f0;
+    margin: 0 8px;
+    align-self: center;
+}
+
+/* Data Tools Grid - Stylized */
+.tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.tool-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    /* Same as octave options */
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    font-family: 'Inter', sans-serif;
+}
+
+.tool-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+.tool-btn.black-font {
+    color: #000000 !important;
+}
+
+.tool-btn svg {
+    flex-shrink: 0;
+}
+
+.value-display {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.value-display:hover {
+    background: #e2e8f0;
+}
+
+/* Improved Bar/Chord adjustment visuals - SMALLER */
+.bar-adjust-controls {
+    border-radius: 12px !important;
+    border: 1.5px solid #e2e8f0 !important;
+    background: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+    overflow: hidden;
+    height: 38px !important;
+    /* Reduced from 44px */
+}
+
+.highlight-blue {
+    border-color: #e0e7ff !important;
+}
+
+.highlight-blue span {
+    color: #4f46e5;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.highlight-red {
+    border-color: #fee2e2 !important;
+}
+
+.highlight-red .label-chords {
+    color: #ef4444;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.bar-adjust-controls .mini-btn {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 28px !important;
+    /* Smaller */
+    height: 38px !important;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+.bar-adjust-controls .mini-btn:hover {
+    color: #1e293b;
+    background: #f8fafc !important;
+    transform: none !important;
+}
+
+.bar-adjust-controls .mini-btn:active {
+    background: #f1f5f9 !important;
+}
+
+/* Labels fixed for alignment - Tighter */
+#barOffsetDisplay {
+    min-width: 55px;
+    font-weight: 700;
+}
+
+.label-chords {
+    min-width: 55px;
+    text-align: center;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    .settings-menu-popout {
+        width: calc(100% - 40px);
+        right: 20px;
+        top: 50px;
     }
 }
 
