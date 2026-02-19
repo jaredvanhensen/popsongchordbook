@@ -1,4 +1,5 @@
 ﻿:root {
+    color-scheme: light;
     /* Match site theme */
     --timeline-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     --chord-color: #ffffff;
