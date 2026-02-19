@@ -1,5 +1,6 @@
 ﻿:root {
     color-scheme: light;
+    forced-color-adjust: none;
     --primary-color: #1e293b;
     --secondary-color: #6366f1;
     --accent-color: #8b5cf6;
@@ -165,14 +166,23 @@ body.theme-classic td:not(.chorus-cell) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    color-scheme: light !important;
+    background-color: #f5f7fa !important;
 }
 
 /* Disable spellcheck for all input and contenteditable elements */
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    color: var(--text-color);
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: var(--text-color) !important;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+    background-color: #f5f7fa !important;
+    color-scheme: light !important;
+    forced-color-adjust: none !important;
     line-height: 1.6;
     margin: 0;
     padding: 0;
