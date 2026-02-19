@@ -2365,11 +2365,9 @@ body.ctrl-held .chord-item {
     top: 60px;
     right: 20px;
     width: 280px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: #ffffff;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid #cbd5e1;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
     z-index: 2000;
     padding: 16px;
@@ -2525,7 +2523,7 @@ body.ctrl-held .chord-item {
 /* Data Tools Grid - Stylized */
 .tools-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 8px;
 }
 
@@ -2584,6 +2582,10 @@ body.ctrl-held .chord-item {
         width: calc(100% - 40px);
         right: 20px;
         top: 50px;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr !important;
     }
 }
 
