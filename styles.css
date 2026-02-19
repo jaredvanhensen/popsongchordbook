@@ -5444,7 +5444,7 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-modal-content {
         max-width: calc(100vw - 20px);
-        height: calc(100vh - 20px);
+        height: calc(100vh - 80px);
     }
 
     .song-detail-header {
@@ -5460,8 +5460,8 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-body {
-        padding: 12px 20px;
-        gap: 8px;
+        padding: 10px 15px;
+        gap: 6px;
     }
 
     .song-chord-section {
