@@ -119,18 +119,21 @@ button:disabled {
     top: 0;
 }
 
-/* Standardize All Toolbar Icons */
+/* Standardize All Toolbar Icons - FORCED UNIFORMITY */
 .controls-container button svg,
-.controls-container .custom-file-btn svg {
-    height: 20px !important;
-    width: auto !important;
-    max-width: 24px;
+.controls-container .custom-file-btn svg,
+.controls-container .mini-btn svg {
+    height: 18px !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    display: block;
 }
 
-/* Standardize stroke weight for non-filled icons */
-.controls-container button svg[stroke],
-.controls-container .custom-file-btn svg[stroke] {
-    stroke-width: 2px !important;
+/* Ensure consistent stroke for all non-filled icons */
+.controls-container svg[stroke] {
+    stroke-width: 2.5px !important;
+    /* Slightly bolder for clarity */
 }
 
 .controls-container button:hover:not(:disabled),
@@ -2499,73 +2502,7 @@ body.ctrl-held .chord-item {
     background: #e2e8f0;
 }
 
-/* Improved Bar/Chord adjustment visuals - SMALLER */
-.bar-adjust-controls {
-    border-radius: 12px !important;
-    border: 1.5px solid #e2e8f0 !important;
-    background: white !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
-    overflow: hidden;
-    height: 38px !important;
-    /* Reduced from 44px */
-}
 
-.highlight-blue {
-    border-color: #e0e7ff !important;
-}
-
-.highlight-blue span {
-    color: #4f46e5;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 800;
-}
-
-.highlight-red {
-    border-color: #fee2e2 !important;
-}
-
-.highlight-red .label-chords {
-    color: #ef4444;
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-}
-
-.bar-adjust-controls .mini-btn {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    width: 28px !important;
-    /* Smaller */
-    height: 38px !important;
-    color: #94a3b8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
-}
-
-.bar-adjust-controls .mini-btn:hover {
-    color: #1e293b;
-    background: #f8fafc !important;
-    transform: none !important;
-}
-
-.bar-adjust-controls .mini-btn:active {
-    background: #f1f5f9 !important;
-}
-
-/* Labels fixed for alignment - Tighter */
-#barOffsetDisplay {
-    min-width: 55px;
-    font-weight: 700;
-}
-
-.label-chords {
-    min-width: 55px;
-    text-align: center;
-}
 
 /* Mobile Adjustments */
 @media (max-width: 600px) {
