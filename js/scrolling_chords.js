@@ -2341,6 +2341,11 @@ function initYouTubePlayer(url) {
     if (!videoId) return;
 
     if (youtubePlayer) {
+        // Prevent redundant loading if it's the same video
+        const currentData = youtubePlayer.getVideoData ? youtubePlayer.getVideoData() : null;
+        if (currentData && currentData.video_id === videoId) {
+            return;
+        }
         youtubePlayer.cueVideoById(videoId);
     } else {
         youtubePlayer = new YT.Player('youtubePlayer', {
@@ -2348,7 +2353,8 @@ function initYouTubePlayer(url) {
             width: '100%',
             videoId: videoId,
             playerVars: {
-                'autoplay': 0,
+                'autoplay': 1, // Start playing to clear spinner
+                'mute': 1,     // Muted so it's allowed on mobile
                 'playsinline': 1,
                 'controls': 1,
                 'rel': 0,
@@ -2364,7 +2370,10 @@ function initYouTubePlayer(url) {
 }
 
 function onPlayerReady(event) {
-    console.log("YouTube Player Ready");
+    console.log("YouTube Player Ready - Priming for visibility");
+    // Pause immediately after starting (autoplay was 1) to clear the loader
+    // and show the video thumbnail "ready" state.
+    event.target.pauseVideo();
 }
 
 function onPlayerError(event) {
