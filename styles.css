@@ -7988,12 +7988,22 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 20px;
     font-weight: 700;
     font-size: 12px;
-    min-width: 24px;
+    min-width: 18px;
+    /* Smaller badge width */
+    height: 18px;
+    /* Fixed height for roundness */
+    line-height: 18px;
+    /* Center text vertically */
+    padding: 0 4px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
-    margin-right: -15px;
-    position: relative;
-    z-index: 2;
+    position: absolute !important;
+    top: -6px !important;
+    left: -6px !important;
+    z-index: 20;
+    margin: 0 !important;
+    /* Remove negative margin used before */
+    pointer-events: none;
 }
 
 #songDetailPracticeIncrementBtn {
@@ -8038,9 +8048,25 @@ td:has(.row-edit-input.input-focused) {
 /* Flatten footer structure for even distribution */
 .song-detail-footer-left,
 .song-detail-center-actions,
-.song-detail-footer-actions,
-.song-detail-practice-controls {
+.song-detail-footer-actions {
     display: contents !important;
+}
+
+/* Group practice controls to keep badge and button together */
+/* Group practice controls to keep badge and button together */
+.song-detail-practice-controls,
+div.song-detail-practice-controls {
+    display: flex !important;
+    position: relative !important;
+    width: 55px !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    /* Stack context */
+    align-items: center !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .song-detail-footer {
