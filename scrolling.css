@@ -2259,6 +2259,7 @@ body.ctrl-held .chord-item {
         padding: 5px 0 10px 0 !important;
         background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%) !important;
         margin-top: auto !important;
+        margin-bottom: 20px !important;
     }
 
     .chord-buttons-container {
