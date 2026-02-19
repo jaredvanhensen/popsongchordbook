@@ -2181,7 +2181,7 @@ body.ctrl-held .chord-item {
         display: none !important;
     }
 
-    .adjust-controls-row {
+    body.edit-mode-active .adjust-controls-row {
         order: 90 !important;
         flex: 0 0 100% !important;
         display: flex !important;
