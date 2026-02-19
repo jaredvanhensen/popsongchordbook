@@ -108,7 +108,8 @@ body.theme-classic .song-row:nth-child(even) {
 
 /* Header Styling - Exact Gradients from Live Site */
 body.theme-classic thead {
-    background: linear-gradient(to bottom right, #667eea, #764ba2) !important;
+    background: linear-gradient(to right, #667eea, #764ba2) !important;
+    background-attachment: fixed !important;
     border-radius: 20px 20px 0 0 !important;
 }
 
@@ -133,7 +134,8 @@ body.theme-classic th:last-child {
 }
 
 body.theme-classic th.chorus-column {
-    background: linear-gradient(to bottom right, #fef3c7, #fde68a) !important;
+    background: linear-gradient(to right, #fef3c7, #fde68a) !important;
+    background-attachment: fixed !important;
     color: #92400e !important;
 }
 
@@ -1452,8 +1454,8 @@ thead {
     background-color: #764ba2;
     /* Fallback for iOS */
     background-image: var(--bg-gradient);
-    background-attachment: scroll;
-    /* Essential for iOS sticky headers */
+    background-attachment: fixed;
+    /* Fix for iPad repeating sticky backgrounds */
     position: sticky;
     top: 0;
     z-index: 100;
