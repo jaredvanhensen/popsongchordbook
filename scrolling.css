@@ -726,13 +726,13 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 .playhead {
     position: sticky;
     left: 220px;
-    /* Moved further right to clear active chord */
     top: 0;
     bottom: 0;
-    width: 3px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+    width: 4px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.4) 15%, #ffffff 50%, rgba(255, 255, 255, 0.4) 85%, transparent 100%);
     z-index: 100;
-    opacity: 0.8;
+    opacity: 0.9;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .main-play-arrow {
@@ -1522,18 +1522,22 @@ body.edit-mode-active .adjust-controls-row.edit-only {
         padding-left: 80px;
     }
 
-    .current-chord-display {
-        left: 10px;
-        width: 60px;
-        font-size: 32px;
-        height: 60px;
-        padding: 0;
+    .playhead,
+    .marker-track,
+    .chord-track {
+        left: 80px;
     }
 
-    .playhead,
-    .chord-track,
-    .marker-track {
+    .main-play-arrow {
         left: 80px;
+    }
+
+    .current-chord-display {
+        left: 8px;
+        width: 65px;
+        font-size: 28px;
+        height: 60px;
+        padding: 0;
     }
 
     /* Shrink Count-in */
@@ -2084,10 +2088,21 @@ body.ctrl-held .chord-item {
     }
 
     .playhead,
-    .current-chord-display,
-    .chord-track,
-    .marker-track {
-        left: 120px;
+    .marker-track,
+    .chord-track {
+        left: 180px;
+    }
+
+    .main-play-arrow {
+        left: 180px;
+    }
+
+    .current-chord-display {
+        left: 15px;
+        width: 140px;
+        font-size: 48px;
+        height: 100px;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
     }
 }
 

@@ -108,8 +108,9 @@ const MAX_PIXELS_PER_SECOND = 300;
 const ZOOM_FACTOR = 1.2;
 
 function getPlayheadOffset() {
-    if (window.innerWidth < 600) return 80;
-    if (window.innerWidth < 1024) return 120;
+    const w = window.innerWidth;
+    if (w <= 600) return 80;
+    if (w <= 1024) return 180; // Updated to match CSS shift
     return 220;
 }
 
@@ -559,6 +560,9 @@ document.addEventListener("keydown", e => {
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
     }
     if (!pianoPlayer) {
         // Pass the shared audio context
@@ -2060,6 +2064,9 @@ function togglePlayPause() {
 function play() {
     if (isPlaying) return;
     initAudio();
+
+    // Extra kick for iPad/Safari
+    if (audioCtx && audioCtx.resume) audioCtx.resume();
 
     isPlaying = true;
     playPauseBtn.innerHTML = `
