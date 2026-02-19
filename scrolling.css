@@ -2274,6 +2274,19 @@ body.ctrl-held .chord-item {
         font-size: 14px !important;
     }
 
+    .chord-toolbar-group {
+        align-items: flex-start !important;
+    }
+
+    .chord-toolbar-buttons-row {
+        justify-content: flex-start !important;
+    }
+
+    .chord-toolbar-section-header {
+        justify-content: flex-start !important;
+        margin-left: 0 !important;
+    }
+
     .lyrics-hud {
         position: relative !important;
         top: auto !important;
