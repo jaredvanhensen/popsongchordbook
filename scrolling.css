@@ -2368,16 +2368,17 @@ body.ctrl-held .chord-item {
 
 /* Settings Menu Popout */
 .settings-menu-popout {
-    position: absolute;
-    top: 60px;
+    position: fixed;
+    top: 65px;
     right: 20px;
-    width: 280px;
+    width: 300px;
     background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
-    z-index: 2000;
-    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    z-index: 5000;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -2495,15 +2496,19 @@ body.ctrl-held .chord-item {
 .octave-option {
     border: none;
     background: transparent;
-    padding: 8px;
-    font-size: 0.8rem;
+    padding: 10px 4px;
+    font-size: 0.85rem;
     font-weight: 700;
     color: #64748b;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: none !important;
-    height: auto !important;
+    width: 100%;
+    margin: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .octave-option.active {
@@ -2535,22 +2540,25 @@ body.ctrl-held .chord-item {
 }
 
 .tool-btn {
-    background: white;
+    background: #ffffff;
     border: 1px solid #e2e8f0;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    /* Same as octave options */
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
     font-weight: 700;
     color: #475569;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     font-family: 'Inter', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .tool-btn:hover {
@@ -2586,13 +2594,16 @@ body.ctrl-held .chord-item {
 /* Mobile Adjustments */
 @media (max-width: 600px) {
     .settings-menu-popout {
-        width: calc(100% - 40px);
-        right: 20px;
-        top: 50px;
+        width: calc(100% - 30px);
+        left: 15px;
+        right: 15px;
+        top: 60px;
+        box-sizing: border-box;
     }
 
     .tools-grid {
         grid-template-columns: 1fr !important;
+        width: 100%;
     }
 }
 
