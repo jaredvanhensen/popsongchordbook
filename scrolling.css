@@ -2087,7 +2087,7 @@ body.ctrl-held .chord-item {
     .current-chord-display,
     .chord-track,
     .marker-track {
-        left: 20px;
+        left: 120px;
     }
 }
 

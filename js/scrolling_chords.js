@@ -107,6 +107,12 @@ const MIN_PIXELS_PER_SECOND = 25;
 const MAX_PIXELS_PER_SECOND = 300;
 const ZOOM_FACTOR = 1.2;
 
+function getPlayheadOffset() {
+    if (window.innerWidth < 600) return 80;
+    if (window.innerWidth < 1024) return 120;
+    return 220;
+}
+
 // Capture & YouTube State
 let youtubePlayer = null;
 let youtubeApiReady = false;
@@ -754,7 +760,7 @@ timeline.addEventListener('drop', (e) => {
     if (chordName) {
         const rect = timeline.getBoundingClientRect();
         const x = e.clientX - rect.left;
-        const playheadOffset = 220; // Updated to match CSS
+        const playheadOffset = getPlayheadOffset();
         const dist = x - playheadOffset;
 
         const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
@@ -1085,7 +1091,7 @@ window.addEventListener('pointerup', (e) => {
 
         if (overTimeline && virtualDraggedChord) {
             const x = e.clientX - timelineRect.left;
-            const playheadOffset = window.innerWidth < 600 ? 80 : 220;
+            const playheadOffset = getPlayheadOffset();
             const dist = x - playheadOffset;
 
             const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
