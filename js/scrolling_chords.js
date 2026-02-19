@@ -120,6 +120,7 @@ let youtubeApiReady = false;
 let youtubeUrl = null;
 let enableTimingCapture = false;
 let isYoutubePlaying = false;
+let lastYoutubeSeekTime = 0; // Throttle seeks during drag
 let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
@@ -942,19 +943,21 @@ window.addEventListener('pointermove', (e) => {
         if (isPlaying) {
             startTime = performance.now() - (newTime * 1000);
             if (youtubePlayer && isYoutubePlaying) {
-                youtubePlayer.seekTo(newTime, true);
+                // Throttle seeks to 100ms and use allowSeekAhead=false during drag 
+                // to prevent black screen/crash on mobile
+                const now = Date.now();
+                if (now - lastYoutubeSeekTime > 100) {
+                    youtubePlayer.seekTo(newTime, false);
+                    lastYoutubeSeekTime = now;
+                }
             }
         } else {
             pauseTime = newTime;
             if (youtubePlayer) {
-                // Use false for allowSeekAhead to avoid accidental playback triggers in some environments
-                // although the bug is usually caused by seekTo itself on mobile/some wrappers
-                youtubePlayer.seekTo(newTime, true);
-
-                // Extra safety: ensure it stays paused if we weren't playing
-                const state = youtubePlayer.getPlayerState();
-                if (state !== YT.PlayerState.PAUSED && state !== YT.PlayerState.BUFFERING) {
-                    youtubePlayer.pauseVideo();
+                const now = Date.now();
+                if (now - lastYoutubeSeekTime > 100) {
+                    youtubePlayer.seekTo(newTime, false);
+                    lastYoutubeSeekTime = now;
                 }
             }
         }
@@ -1078,6 +1081,13 @@ window.addEventListener('pointerup', (e) => {
     if (isDragging) {
         isDragging = false;
         timeline.classList.remove('dragging');
+
+        // Final accurate seek on release
+        if (youtubePlayer) {
+            const finalTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+            youtubePlayer.seekTo(finalTime, true);
+        }
+
         updateLoop(); // Final refresh after drag ends
     }
 
