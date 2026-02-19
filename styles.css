@@ -8091,18 +8091,18 @@ div.song-detail-practice-controls {
 /* Floating Save Button (FAB) */
 #songDetailSaveBtn {
     position: absolute !important;
-    bottom: calc(100% + 15px) !important;
-    /* Float above footer */
-    right: 5px !important;
-    /* Align with right edge/practice list */
+    bottom: calc(100% + 20px) !important;
+    /* Float higher above footer */
+    right: 12px !important;
+    /* Center horizontally over the ~94px Practice List button */
     z-index: 100 !important;
 
-    /* FAB Styling */
-    width: 44px !important;
-    height: 44px !important;
+    /* FAB Styling - Large */
+    width: 70px !important;
+    height: 70px !important;
     border-radius: 50% !important;
     background: white !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
 
     display: flex !important;
     align-items: center !important;
@@ -8124,11 +8124,14 @@ div.song-detail-practice-controls {
 }
 
 #songDetailSaveBtn .icon {
-    font-size: 22px !important;
+    font-size: 38px !important;
+    /* Doubled icon size */
     margin: 0 !important;
     line-height: 1 !important;
     filter: none !important;
     /* Ensure color is visible */
+    margin-top: -2px !important;
+    /* Optical centering fix */
 }
 
 #songDetailSaveBtn .label {
