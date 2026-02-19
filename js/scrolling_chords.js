@@ -109,7 +109,7 @@ const ZOOM_FACTOR = 1.2;
 
 function getPlayheadOffset() {
     const w = window.innerWidth;
-    if (w <= 600) return 70;
+    if (w <= 600) return 60;
     if (w <= 1024) return 180; // Updated to match CSS shift
     return 220;
 }

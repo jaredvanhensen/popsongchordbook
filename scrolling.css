@@ -2241,21 +2241,28 @@ body.ctrl-held .chord-item {
     }
 
     .chord-display-container {
-        height: 40px !important;
-        padding-left: 70px !important;
+        height: 55px !important;
+        padding-left: 60px !important;
     }
 
     .current-chord-display {
         left: 5px !important;
-        width: 60px !important;
+        width: 50px !important;
         font-size: 16px !important;
-        height: 40px !important;
+        height: 55px !important;
         padding: 0 !important;
+    }
+
+    .playhead,
+    .marker-track,
+    .chord-track,
+    .main-play-arrow {
+        left: 60px !important;
     }
 
     .timeline-container {
         flex: none !important;
-        height: 95px !important;
+        height: 115px !important;
         padding: 5px 0 10px 0 !important;
         background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%) !important;
         margin-top: auto !important;
