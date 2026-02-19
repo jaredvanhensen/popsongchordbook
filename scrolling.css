@@ -119,6 +119,20 @@ button:disabled {
     top: 0;
 }
 
+/* Standardize All Toolbar Icons */
+.controls-container button svg,
+.controls-container .custom-file-btn svg {
+    height: 20px !important;
+    width: auto !important;
+    max-width: 24px;
+}
+
+/* Standardize stroke weight for non-filled icons */
+.controls-container button svg[stroke],
+.controls-container .custom-file-btn svg[stroke] {
+    stroke-width: 2px !important;
+}
+
 .controls-container button:hover:not(:disabled),
 .controls-container .custom-file-btn:hover {
     background: white;
@@ -203,7 +217,7 @@ button:disabled {
 }
 
 #saveBtn .icon {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1;
 }
 
@@ -460,18 +474,16 @@ button:disabled {
 .bar-adjust-controls {
     display: flex;
     align-items: center;
-    gap: 4px;
-    /* Reduced from 8px */
+    gap: 3px;
     background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
-    padding: 0 6px;
-    /* Reduced from 0 10px */
+    padding: 0 5px;
     border-radius: 12px;
     border: 1px solid #cbd5e1;
     height: 44px;
     /* Matches Play Button Height */
     box-sizing: border-box;
     box-shadow: 0 4px 0px 0px var(--btn-shadow-default), 0 8px 15px rgba(0, 0, 0, 0.05);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 800;
     color: #475569;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -514,9 +526,14 @@ button:disabled {
 }
 
 #barOffsetDisplay {
-    min-width: 50px;
+    min-width: 42px;
     text-align: center;
     letter-spacing: -0.2px;
+}
+
+.label-chords {
+    font-size: 0.72rem;
+    opacity: 0.9;
 }
 
 #backBtn {
