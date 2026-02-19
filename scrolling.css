@@ -591,6 +591,31 @@ button:disabled {
 }
 
 
+/* Selection/Edit Mode Toggle Logic */
+.edit-only {
+    display: none !important;
+}
+
+body.edit-mode-active .edit-only {
+    display: inline-flex !important;
+}
+
+/* Specific flex fix for adjustment row */
+body.edit-mode-active .adjust-controls-row.edit-only {
+    display: flex !important;
+}
+
+.edit-btn.active {
+    background: #6366f1 !important;
+    color: white !important;
+    border-color: #4338ca !important;
+    box-shadow: 0 4px 0px 0px #312e81, 0 10px 15px rgba(99, 102, 241, 0.4) !important;
+}
+
+.edit-btn.active svg {
+    stroke: white !important;
+}
+
 .chord-item {
     cursor: grab;
     user-select: none;

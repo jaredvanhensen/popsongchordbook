@@ -135,7 +135,8 @@ let isCopying = false; // Track if we are in a copy-drag operation
 let timelinePointers = new Map();
 let lastPinchDist = 0;
 
-// DOM Elements for Selection
+let editModeBtn = null;
+let isEditMode = false;
 let selectModeBtn = null;
 let duplicateBtn = null;
 let deleteSelectedBtn = null;
@@ -213,6 +214,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('click', (e) => {
             if (!settingsMenu.contains(e.target) && e.target !== settingsBtn) {
                 settingsMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // Edit Mode Toggle
+    editModeBtn = document.getElementById('editModeBtn');
+    if (editModeBtn) {
+        editModeBtn.addEventListener('click', () => {
+            isEditMode = !isEditMode;
+            document.body.classList.toggle('edit-mode-active', isEditMode);
+            editModeBtn.classList.toggle('active', isEditMode);
+
+            // If turning off edit mode, also turn off selection mode if it was on
+            if (!isEditMode && isSelectionMode) {
+                toggleSelectionMode();
             }
         });
     }
