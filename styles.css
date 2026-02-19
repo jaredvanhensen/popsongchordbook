@@ -4615,7 +4615,7 @@ td:has(.row-edit-input.input-focused) {
 
 .song-detail-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: clamp(8px, 1.8vh, 18px) clamp(15px, 3vw, 35px);
+    padding: clamp(13px, 1.8vh, 23px) clamp(15px, 3vw, 35px);
     border-radius: 20px 20px 0 0;
     display: flex;
     justify-content: space-between;
@@ -5075,7 +5075,7 @@ td:has(.row-edit-input.input-focused) {
 
 .song-detail-close-top {
     position: absolute;
-    top: 15px;
+    top: 20px;
     right: 15px;
     width: 32px;
     height: 32px;
@@ -5446,7 +5446,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-header {
-        padding: 18px 20px;
+        padding: 23px 20px;
     }
 
     .song-detail-artist {
@@ -5495,7 +5495,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-header {
-        padding: 5px 15px;
+        padding: 10px 15px;
         height: 105px;
         display: grid;
         grid-template-columns: 45px 1fr 45px;

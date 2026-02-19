@@ -1211,7 +1211,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     justify-content: center;
     align-items: baseline;
     gap: 12px;
-    padding: clamp(8px, 1.8vh, 18px) clamp(15px, 3vw, 35px);
+    padding: clamp(13px, 1.8vh, 23px) clamp(15px, 3vw, 35px);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -1375,7 +1375,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     }
 
     .header-metadata {
-        padding: 6px 15px;
+        padding: 11px 15px;
         gap: 8px;
     }
 
@@ -1553,7 +1553,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     justify-content: center;
     align-items: baseline;
     gap: 12px;
-    padding: clamp(8px, 1.8vh, 18px) clamp(15px, 3vw, 35px);
+    padding: clamp(13px, 1.8vh, 23px) clamp(15px, 3vw, 35px);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -2108,7 +2108,7 @@ body.ctrl-held .chord-item {
     }
 
     .header-metadata {
-        padding: 16px 15px;
+        padding: 21px 15px;
         gap: 8px;
     }
 
