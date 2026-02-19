@@ -2122,8 +2122,9 @@ body.ctrl-held .chord-item {
 
     .controls-container {
         padding: 4px !important;
-        gap: 6px !important;
+        gap: 5px !important;
         justify-content: center !important;
+        align-items: center !important;
     }
 
     .controls-container button,
@@ -2267,6 +2268,7 @@ body.ctrl-held .chord-item {
         display: flex;
         flex-direction: column;
         width: 100% !important;
+        align-items: flex-start !important;
     }
 
     .chord-item {
