@@ -47,7 +47,7 @@ html {
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
-    z-index: 100;
+    z-index: 500;
     border-bottom: 1px solid rgba(226, 232, 240, 0.8);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
