@@ -5425,10 +5425,10 @@ td:has(.row-edit-input.input-focused) {
         grid-area: bridge;
     }
 
-    /* Ensure the sections take full height of their grid area if needed, 
-       but usually we want them to wrap content */
+    /* Ensure the sections take full height of their grid area to stay aligned */
     .song-chord-section {
-        height: min-content;
+        height: 100%;
+        box-sizing: border-box;
     }
 }
 
