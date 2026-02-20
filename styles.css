@@ -8606,10 +8606,10 @@ div.song-detail-practice-controls {
         flex-direction: row !important;
         justify-content: space-between !important;
         align-items: center !important;
-        /* Revert to center for better balance */
         padding-top: 10px !important;
         padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
-        gap: 5px !important;
+        gap: 3px !important;
+        /* Minimize gaps */
     }
 
     .song-detail-center-actions {
@@ -8699,9 +8699,12 @@ div.song-detail-practice-controls {
 
     .song-detail-key-badge,
     .song-detail-bpm-badge {
-        width: 90px !important;
-        padding: 0 8px !important;
-        height: 30px !important;
+        width: 80px !important;
+        /* Minimized width */
+        padding: 0 6px !important;
+        /* Thinner padding */
+        height: 28px !important;
+        /* Slightly shorter */
         justify-content: flex-start !important;
         display: flex !important;
     }
@@ -8711,8 +8714,10 @@ div.song-detail-practice-controls {
         width: auto !important;
         display: inline !important;
         margin-top: 0 !important;
-        font-size: 0.65rem !important;
-        opacity: 0.6 !important;
+        font-size: 0.6rem !important;
+        /* Even smaller label */
+        opacity: 0.5 !important;
+        letter-spacing: 0 !important;
     }
 
     .song-detail-key-badge .key-value,
@@ -8720,6 +8725,8 @@ div.song-detail-practice-controls {
         font-size: 0.8rem !important;
         flex: 1 !important;
         text-align: right !important;
+        font-weight: 800 !important;
+        /* Thicker for readability at small size */
     }
 }
 
