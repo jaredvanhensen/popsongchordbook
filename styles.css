@@ -8614,10 +8614,12 @@ div.song-detail-practice-controls {
     .song-detail-center-actions {
         position: static !important;
         transform: none !important;
-        gap: 12px !important;
+        gap: 16px !important;
+        /* Increased gap to spread icons */
         width: auto !important;
         flex: 1;
-        justify-content: center !important;
+        justify-content: space-around !important;
+        /* Spreads them evenly in the middle */
     }
 
     /* Footer Layout Fixes */
@@ -8685,8 +8687,8 @@ div.song-detail-practice-controls {
 
     #songDetailPracticeBtn .label,
     #songDetailPracticeIncrementBtn .label {
-        margin-top: 4px !important;
-        /* Set 4px gap between icon and text to match others */
+        margin-top: 8px !important;
+        /* Match standard 8px margin for perfect alignment */
     }
 
     #songDetailPracticeBtn .icon {
