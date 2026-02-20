@@ -5178,20 +5178,19 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    padding: 0 10px;
+    padding: 0 12px;
     border-radius: 20px;
     font-weight: 700;
     font-size: 0.85rem;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    /* Label at the left */
+    justify-content: center;
+    gap: 6px;
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
     height: 32px;
-    /* Smaller height */
-    width: 92px;
-    /* Balanced width for mobile */
+    width: fit-content;
+    min-width: 80px;
     font-family: 'Inter', sans-serif;
 }
 
@@ -5211,7 +5210,6 @@ td:has(.row-edit-input.input-focused) {
 .song-detail-bpm-badge .bpm-value {
     outline: none;
     cursor: text;
-    text-align: left;
 }
 
 .song-detail-key-badge .key-value.editing,
@@ -8699,13 +8697,12 @@ div.song-detail-practice-controls {
 
     .song-detail-key-badge,
     .song-detail-bpm-badge {
-        width: 80px !important;
-        /* Minimized width */
-        padding: 0 6px !important;
-        /* Thinner padding */
+        width: auto !important;
+        min-width: 60px !important;
+        padding: 0 8px !important;
         height: 28px !important;
-        /* Slightly shorter */
-        justify-content: flex-start !important;
+        justify-content: center !important;
+        gap: 4px !important;
         display: flex !important;
     }
 
@@ -8715,7 +8712,6 @@ div.song-detail-practice-controls {
         display: inline !important;
         margin-top: 0 !important;
         font-size: 0.6rem !important;
-        /* Even smaller label */
         opacity: 0.5 !important;
         letter-spacing: 0 !important;
     }
@@ -8723,10 +8719,9 @@ div.song-detail-practice-controls {
     .song-detail-key-badge .key-value,
     .song-detail-bpm-badge .bpm-value {
         font-size: 0.8rem !important;
-        flex: 1 !important;
-        text-align: right !important;
+        flex: none !important;
+        text-align: left !important;
         font-weight: 800 !important;
-        /* Thicker for readability at small size */
     }
 }
 
