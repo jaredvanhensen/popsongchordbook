@@ -117,6 +117,17 @@ class TableRenderer {
         favoriteCell.appendChild(favoriteBtn);
         row.appendChild(favoriteCell);
 
+        // CTL Column
+        const ctlCell = document.createElement('td');
+        ctlCell.className = 'ctl-cell';
+        const hasTimedChords = song.chordData && song.chordData.chords && song.chordData.chords.length > 0;
+        if (hasTimedChords) {
+            ctlCell.innerHTML = '<span style="color: #10b981; font-weight: bold; font-size: 1.2em;">✓</span>';
+        } else {
+            ctlCell.innerHTML = '';
+        }
+        row.appendChild(ctlCell);
+
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
@@ -246,7 +257,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -255,6 +266,9 @@ class TableRenderer {
 
             // Skip favorite cell (it's a button, not editable)
             if (cell.classList.contains('favorite-cell')) return;
+
+            // Skip CTL cell
+            if (cell.classList.contains('ctl-cell')) return;
 
             const field = fieldOrder[index];
             if (!field) return;

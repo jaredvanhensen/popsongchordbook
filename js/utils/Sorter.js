@@ -29,6 +29,19 @@ class Sorter {
             }
         }
 
+        // Special handling for CTL column (boolean based on chordData)
+        if (column === 'ctl') {
+            const hasTimedA = a.chordData && a.chordData.chords && a.chordData.chords.length > 0;
+            const hasTimedB = b.chordData && b.chordData.chords && b.chordData.chords.length > 0;
+            const aVal = hasTimedA ? 1 : 0;
+            const bVal = hasTimedB ? 1 : 0;
+            if (direction === 'asc') {
+                return bVal - aVal; // Checkmarked first
+            } else {
+                return aVal - bVal; // Non-checkmarked first
+            }
+        }
+
         // Numeric sorting for ID
         if (column === 'id') {
             const aVal = parseInt(a.id) || 0;

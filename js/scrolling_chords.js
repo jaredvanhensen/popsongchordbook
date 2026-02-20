@@ -81,6 +81,7 @@ let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
 let octaveCycleBtn = null;
 let currentLyricOffset = 0; // Track current global lyrics offset
+let originalLyricOffset = 0; // For lyric offset change detection
 const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
 
 // Dragging state
@@ -1509,6 +1510,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
                 // Apply LyricSync offset
                 currentLyricOffset = parseFloat(inputLyricOffset) || 0;
+                originalLyricOffset = currentLyricOffset;
                 if (currentLyricOffset) {
                     parsedLyrics.forEach(l => l.time += currentLyricOffset);
                 }
@@ -1728,6 +1730,7 @@ if (syncFirstLyricBtn) {
 
         renderStaticElements();
         updateLoop();
+        checkForChanges();
 
         // Notify parent to update the input field
         window.parent.postMessage({
@@ -1823,7 +1826,8 @@ function checkForChanges() {
     const currentJson = JSON.stringify(chords);
     const hasUnsavedChanges = currentJson !== originalChordsJson ||
         currentTempo !== originalTempo ||
-        barOffsetInBeats !== originalBarOffset;
+        barOffsetInBeats !== originalBarOffset ||
+        currentLyricOffset !== originalLyricOffset;
 
     if (hasUnsavedChanges) {
         saveBtn.classList.remove('hidden');

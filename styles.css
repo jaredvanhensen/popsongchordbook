@@ -2079,9 +2079,20 @@ td:has(.row-edit-input.input-focused) {
     text-align: center;
 }
 
+.ctl-column {
+    width: 60px;
+    text-align: center;
+}
+
 .favorite-cell {
     text-align: center;
     width: 60px;
+}
+
+.ctl-cell {
+    text-align: center;
+    width: 60px;
+    cursor: default;
 }
 
 .favorite-btn {
@@ -2336,14 +2347,14 @@ td:has(.row-edit-input.input-focused) {
         min-width: 0;
     }
 
-    th:nth-child(4),
-    td:nth-child(4),
     th:nth-child(5),
     td:nth-child(5),
     th:nth-child(6),
     td:nth-child(6),
     th:nth-child(7),
-    td:nth-child(7) {
+    td:nth-child(7),
+    th:nth-child(8),
+    td:nth-child(8) {
         min-width: 0;
     }
 
@@ -6460,8 +6471,10 @@ td:has(.row-edit-input.input-focused) {
     #songsTable .actions-cell,
     #songsTable .favorite-column,
     #songsTable td.favorite-cell,
-    #songsTable th:nth-child(4),
-    #songsTable td:nth-child(4),
+    #songsTable .ctl-column,
+    #songsTable td.ctl-cell,
+    #songsTable th:nth-child(5),
+    #songsTable td:nth-child(5),
     .delete-btn {
         display: none !important;
     }
@@ -6477,18 +6490,18 @@ td:has(.row-edit-input.input-focused) {
         width: 20%;
     }
 
-    #songsTable th:nth-child(5),
-    #songsTable td:nth-child(5) {
-        width: 22%;
-    }
-
     #songsTable th:nth-child(6),
     #songsTable td:nth-child(6) {
-        width: 21%;
+        width: 22%;
     }
 
     #songsTable th:nth-child(7),
     #songsTable td:nth-child(7) {
+        width: 21%;
+    }
+
+    #songsTable th:nth-child(8),
+    #songsTable td:nth-child(8) {
         width: 22%;
     }
 
