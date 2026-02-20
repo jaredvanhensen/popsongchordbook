@@ -54,6 +54,7 @@ class SongDetailModal {
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
         this.practiceCountDisplay = document.getElementById('songDetailPracticeCount');
         this.practiceIncrementBtn = document.getElementById('songDetailPracticeIncrementBtn');
+        this.practiceControlsContainer = document.querySelector('.song-detail-practice-controls');
         this.lyricsOverlay = document.getElementById('lyricsTickerOverlay');
         this.lyricsText = document.getElementById('lyricsTickerText');
         this.closeLyricsBtn = document.getElementById('closeLyricsTicker');
@@ -587,9 +588,19 @@ class SongDetailModal {
             });
         }
 
-        if (this.practiceIncrementBtn) {
-            this.practiceIncrementBtn.addEventListener('click', async (e) => {
+        if (this.practiceControlsContainer) {
+            this.practiceControlsContainer.addEventListener('click', async (e) => {
                 e.stopPropagation();
+
+                // Add visual feedback directly in JS for instant response
+                this.practiceControlsContainer.style.transition = 'transform 0.1s ease';
+                this.practiceControlsContainer.style.transform = 'scale(0.85)';
+                setTimeout(() => {
+                    if (this.practiceControlsContainer) {
+                        this.practiceControlsContainer.style.transform = '';
+                    }
+                }, 100);
+
                 await this.incrementPracticeCount();
             });
         }

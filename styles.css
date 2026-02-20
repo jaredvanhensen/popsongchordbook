@@ -4832,6 +4832,8 @@ td:has(.row-edit-input.input-focused) {
     /* Changed from fixed height to auto for alignment */
     gap: 0px !important;
     /* Removing gap to use margin-top consistently */
+    padding: 0 0 6px 0 !important;
+    margin: 0 !important;
 }
 
 #songDetailPracticeBtn .icon,
@@ -4846,8 +4848,11 @@ td:has(.row-edit-input.input-focused) {
 #songDetailSaveBtn .label {
     font-size: clamp(14px, 3vw, 16px);
     text-transform: lowercase;
-    margin-top: 12px !important;
-    /* Moved down another 2px (total 12px) for final alignment */
+    margin-top: 8px !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    line-height: 1 !important;
 }
 
 .song-detail-action-btn.practice-active:hover {
@@ -7994,54 +7999,69 @@ td:has(.row-edit-input.input-focused) {
 .practice-count-badge {
     background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
     color: white;
-    padding: 2px 8px;
+    padding: 2px 5px !important;
     border-radius: 20px;
     font-weight: 700;
-    font-size: 12px;
-    min-width: 18px;
-    /* Smaller badge width */
-    height: 18px;
-    /* Fixed height for roundness */
-    line-height: 18px;
-    /* Center text vertically */
-    padding: 0 4px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
     position: absolute !important;
-    top: -6px !important;
-    left: -6px !important;
+    top: 4px !important;
+    left: 10px !important;
     z-index: 20;
     margin: 0 !important;
-    /* Remove negative margin used before */
+    height: 18px !important;
+    min-width: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     pointer-events: none;
+    line-height: 1 !important;
 }
 
 #songDetailPracticeIncrementBtn {
-    width: 55px !important;
-    height: 60px !important;
+    width: auto !important;
+    height: auto !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    padding: 0 6px 6px 6px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 !important;
 }
 
 #songDetailPracticeIncrementBtn .icon {
     font-size: 32px !important;
-    margin-top: 13px !important;
-    margin-bottom: 2px !important;
+    margin: 0 !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 #songDetailPracticeIncrementBtn .label {
     white-space: nowrap !important;
-    font-size: 0.75rem !important;
+    font-size: clamp(14px, 3vw, 16px) !important;
     opacity: 0.6 !important;
     margin-top: 8px !important;
-    /* Ensure label aligns with others */
+    font-weight: 500 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: lowercase !important;
+    line-height: 1 !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
 }
 
 #songDetailPracticeIncrementBtn:hover {
     background: transparent !important;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+}
+
+#songDetailPracticeIncrementBtn:active {
+    transform: scale(0.9) !important;
 }
 
 /* Song Detail Footer Layout */
@@ -8068,8 +8088,8 @@ td:has(.row-edit-input.input-focused) {
 div.song-detail-practice-controls {
     display: flex !important;
     position: relative !important;
-    width: 55px !important;
-    justify-content: center !important;
+    width: auto !important;
+    justify-content: flex-end !important;
     flex-direction: column !important;
     /* Stack context */
     align-items: center !important;
@@ -8077,6 +8097,18 @@ div.song-detail-practice-controls {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    transition: transform 0.1s ease !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.song-detail-practice-controls:active {
+    transform: scale(0.9) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
 }
 
 .song-detail-footer {
@@ -8147,7 +8179,7 @@ div.song-detail-practice-controls {
 #songDetailScrollingChordsBtn {
     background: transparent;
     border: none;
-    padding: 0;
+    padding: 0 0 6px 0 !important;
     margin: 0 !important;
     height: auto;
     display: flex;
@@ -8176,15 +8208,19 @@ div.song-detail-practice-controls {
     font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;
     letter-spacing: 0.5px;
-    margin-top: 6px;
+    margin-top: 8px !important;
     margin-left: 0;
     text-transform: lowercase;
+    line-height: 1 !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
 }
 
 #songDetailLyricsBtn {
     background: transparent;
     border: none;
-    padding: 0;
+    padding: 0 0 6px 0 !important;
     margin: 0 !important;
     height: auto;
     display: flex;
@@ -8219,9 +8255,13 @@ div.song-detail-practice-controls {
     font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;
     letter-spacing: 0.5px;
-    margin-top: 6px;
+    margin-top: 8px !important;
     margin-left: 0;
     text-transform: lowercase;
+    line-height: 1 !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
 }
 
 /* Lyrics Ticker Overlay */
@@ -8610,15 +8650,17 @@ div.song-detail-practice-controls {
     .song-detail-key-badge .key-label,
     .song-detail-action-btn .label {
         font-size: 0.65rem !important;
-        /* Slightly larger for readability */
-        margin-top: 4px !important;
-        /* Increased margin for better separation */
+        margin-top: 8px !important;
         color: rgba(255, 255, 255, 0.6) !important;
         font-weight: 500 !important;
         text-transform: lowercase !important;
         text-align: center !important;
         width: 100% !important;
-        display: block !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        height: 18px !important;
     }
 
     #songDetailPracticeBtn .label {
@@ -8678,15 +8720,17 @@ div.song-detail-practice-controls {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
+    justify-content: flex-end;
+    gap: 0;
     background: transparent;
-    padding: 0;
+    padding: 0 6px 6px 6px !important;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
     min-width: 60px;
+    height: auto !important;
+    margin: 0 !important;
 }
 
 .ability-stars-container .stars-row {
@@ -8694,18 +8738,22 @@ div.song-detail-practice-controls {
     align-items: center;
     justify-content: center;
     gap: 6px !important;
-    height: 50px !important;
+    height: 60px !important;
     min-width: 140px;
     /* Prevent squashing of 3 stars */
 }
 
 .ability-stars-container .label {
-    font-size: 0.75rem;
+    font-size: clamp(14px, 3vw, 16px);
     letter-spacing: 0.5px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.6);
-    margin-top: 5px;
+    margin-top: 8px !important;
     text-transform: lowercase;
+    line-height: 1 !important;
+    height: 20px !important;
+    display: flex !important;
+    align-items: flex-end !important;
 }
 
 .ability-stars-container:hover .ability-star {

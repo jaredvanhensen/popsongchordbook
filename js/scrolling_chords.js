@@ -2441,18 +2441,12 @@ function extractVideoID(url) {
 
 function toggleTimingCapture() {
     enableTimingCapture = !enableTimingCapture;
-    const touchHandler = (e) => {
-        if (e.target.closest('.chord-suggestion-btn')) return;
-        recordChord("?");
-    };
 
     if (enableTimingCapture) {
         captureBtn.classList.add('active');
         recordingIndicator.classList.remove('hidden');
         youtubePlayerContainer.classList.remove('hidden');
-        if (timeline) {
-            timeline.addEventListener('touchstart', touchHandler, { passive: true });
-        }
+
         wasAudioEnabledBeforeCapture = audioEnabled;
         audioEnabled = false;
         if (audioToggleBtn) audioToggleBtn.classList.remove('active');
