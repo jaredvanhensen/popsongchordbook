@@ -5192,6 +5192,7 @@ td:has(.row-edit-input.input-focused) {
     width: 85px;
     /* Fixed width for stability */
     font-family: 'Inter', sans-serif;
+    cursor: pointer;
 }
 
 .song-detail-key-badge .key-label,
@@ -8704,6 +8705,7 @@ div.song-detail-practice-controls {
         justify-content: center !important;
         gap: 4px !important;
         display: flex !important;
+        cursor: pointer !important;
     }
 
     .song-detail-key-badge .key-label,

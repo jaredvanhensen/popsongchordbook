@@ -1132,7 +1132,8 @@ class SongDetailModal {
 
         // Setup key field
         if (this.keyDisplay) {
-            this.keyDisplay.addEventListener('click', (e) => {
+            const keyBadge = this.keyDisplay.closest('.song-detail-key-badge');
+            (keyBadge || this.keyDisplay).addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.enterEditMode(this.keyDisplay);
             });
@@ -1161,7 +1162,8 @@ class SongDetailModal {
 
         // Setup BPM field
         if (this.bpmDisplay) {
-            this.bpmDisplay.addEventListener('click', (e) => {
+            const bpmBadge = this.bpmDisplay.closest('.song-detail-bpm-badge');
+            (bpmBadge || this.bpmDisplay).addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.enterEditMode(this.bpmDisplay);
             });
