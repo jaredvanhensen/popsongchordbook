@@ -5189,8 +5189,8 @@ td:has(.row-edit-input.input-focused) {
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
     height: 32px;
-    width: fit-content;
-    min-width: 80px;
+    width: 85px;
+    /* Fixed width for stability */
     font-family: 'Inter', sans-serif;
 }
 
@@ -8697,8 +8697,8 @@ div.song-detail-practice-controls {
 
     .song-detail-key-badge,
     .song-detail-bpm-badge {
-        width: auto !important;
-        min-width: 60px !important;
+        width: 74px !important;
+        /* Fixed width for stability */
         padding: 0 8px !important;
         height: 28px !important;
         justify-content: center !important;
