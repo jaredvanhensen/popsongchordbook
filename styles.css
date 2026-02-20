@@ -8665,8 +8665,6 @@ div.song-detail-practice-controls {
     #songDetailScrollingChordsBtn .label,
     .ability-stars-container .label,
     .song-detail-footer-actions .label,
-    .song-detail-key-badge .key-label,
-    .song-detail-bpm-badge .bpm-label,
     .song-detail-action-btn .label {
         font-size: 0.65rem !important;
         margin-top: 8px !important;
@@ -8701,9 +8699,27 @@ div.song-detail-practice-controls {
 
     .song-detail-key-badge,
     .song-detail-bpm-badge {
-        width: 88px !important;
+        width: 90px !important;
         padding: 0 8px !important;
         height: 30px !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+    }
+
+    .song-detail-key-badge .key-label,
+    .song-detail-bpm-badge .bpm-label {
+        width: auto !important;
+        display: inline !important;
+        margin-top: 0 !important;
+        font-size: 0.65rem !important;
+        opacity: 0.6 !important;
+    }
+
+    .song-detail-key-badge .key-value,
+    .song-detail-bpm-badge .bpm-value {
+        font-size: 0.8rem !important;
+        flex: 1 !important;
+        text-align: right !important;
     }
 }
 
