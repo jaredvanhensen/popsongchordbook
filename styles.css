@@ -8664,6 +8664,7 @@ div.song-detail-practice-controls {
 
     #songDetailLyricsBtn .label,
     #songDetailScrollingChordsBtn .label,
+    #songDetailPracticeIncrementBtn .label,
     .ability-stars-container .label,
     .song-detail-footer-actions .label,
     .song-detail-action-btn .label {
@@ -8672,6 +8673,7 @@ div.song-detail-practice-controls {
         color: rgba(255, 255, 255, 0.6) !important;
         font-weight: 500 !important;
         text-transform: lowercase !important;
+        letter-spacing: normal !important;
         text-align: center !important;
         width: 100% !important;
         display: flex !important;
