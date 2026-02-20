@@ -27,6 +27,7 @@ class SongDetailModal {
         this.chordSearchBtn = document.getElementById('songDetailChordSearchBtn');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
         this.keyDisplay = document.getElementById('songDetailKeyDisplay');
+        this.bpmDisplay = document.getElementById('songDetailBpmDisplay');
         this.youtubeBtn = document.getElementById('songDetailYouTubeBtn');
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
@@ -1157,11 +1158,40 @@ class SongDetailModal {
                 }
             });
         }
+
+        // Setup BPM field
+        if (this.bpmDisplay) {
+            this.bpmDisplay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.enterEditMode(this.bpmDisplay);
+            });
+            this.bpmDisplay.addEventListener('blur', (e) => {
+                // Don't blur if we're moving to next field with Tab
+                if (e.relatedTarget && e.relatedTarget.hasAttribute('contenteditable') && e.relatedTarget.getAttribute('contenteditable') === 'true') {
+                    return;
+                }
+
+                this.bpmDisplay.setAttribute('contenteditable', 'false');
+                this.bpmDisplay.classList.remove('editing');
+                this.checkForChanges();
+            });
+            this.bpmDisplay.addEventListener('input', () => this.checkForChanges());
+            this.bpmDisplay.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.moveToNextField(this.bpmDisplay);
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.bpmDisplay.blur();
+                }
+            });
+        }
     }
 
     moveToNextField(currentElement) {
         // Define field order: artist -> title -> verse -> chorus -> preChorus -> bridge
-        const fieldOrder = ['artist', 'title', 'verse', 'chorus', 'preChorus', 'bridge', 'key'];
+        const fieldOrder = ['artist', 'title', 'verse', 'chorus', 'preChorus', 'bridge', 'key', 'tempo'];
         const currentField = currentElement.dataset.field;
         const currentIndex = fieldOrder.indexOf(currentField);
 
@@ -1426,6 +1456,7 @@ class SongDetailModal {
                 bridgeTitle: song.bridgeTitle || 'Block 4',
                 bridgeCue: song.bridgeCue || '',
                 key: song.key || '',
+                tempo: song.tempo || (song.chordData ? song.chordData.tempo : '') || '',
                 fullLyrics: song.fullLyrics || song.lyrics || '',
                 patchDetails: song.patchDetails || '',
                 practiceCount: song.practiceCount || '',
@@ -1453,6 +1484,7 @@ class SongDetailModal {
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
             key: this.keyDisplay ? this.keyDisplay.textContent : '',
+            tempo: this.bpmDisplay ? this.bpmDisplay.textContent : '',
             fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : '',
             patchDetails: this.patchDetailsInput ? this.patchDetailsInput.value : '',
             practiceCount: this.practiceCountInput ? this.practiceCountInput.value : '',
@@ -1607,6 +1639,17 @@ class SongDetailModal {
         }
         if (this.keyDisplay) {
             updates.key = this.keyDisplay.textContent.trim();
+        }
+        if (this.bpmDisplay) {
+            const newTempo = this.bpmDisplay.textContent.trim();
+            updates.tempo = newTempo;
+
+            // Sync with chordData if it exists to ensure timeline matches
+            const song = this.songManager.getSongById(this.currentSongId);
+            if (song && song.chordData) {
+                // We create a copy of chordData to avoid direct mutation before save
+                updates.chordData = { ...song.chordData, tempo: newTempo };
+            }
         }
         if (this.fullLyricsInput) {
             updates.fullLyrics = this.fullLyricsInput.value.trim();
@@ -1791,10 +1834,14 @@ class SongDetailModal {
             };
         }).filter(group => group.chords.length > 0);
 
+        // Prepare data for timeline
+        const timelineData = song.chordData ? { ...song.chordData } : { chords: [] };
+        if (song.tempo) timelineData.tempo = song.tempo;
+
         // Send data
         scrollingChordsFrame.contentWindow.postMessage({
             type: 'loadChordData',
-            data: (song.chordData) ? song.chordData : { chords: [] },
+            data: timelineData,
             youtubeUrl: song.youtubeUrl || '',
             artist: song.artist,
             songTitle: song.title,
@@ -1907,6 +1954,7 @@ class SongDetailModal {
             bridgeTitle: song.bridgeTitle || 'Block 4',
             bridgeCue: song.bridgeCue || '',
             key: song.key || '',
+            tempo: song.tempo || (song.chordData ? song.chordData.tempo : '') || '',
             fullLyrics: song.fullLyrics || song.lyrics || '',
             patchDetails: song.patchDetails || '',
             practiceCount: song.practiceCount !== undefined ? song.practiceCount.toString() : '0',
@@ -1949,6 +1997,9 @@ class SongDetailModal {
 
             // Update Key Display in Footer
             this.updateKeyDisplay();
+
+            // Update BPM Display in Footer
+            this.updateBpmDisplay();
 
             // Store original title without key for editing
             this.titleElement.dataset.originalTitle = titleText;
@@ -2498,17 +2549,52 @@ class SongDetailModal {
         const formattedKey = this.formatKeyText(keyText);
         this.keyDisplay.textContent = formattedKey;
 
-        // Update badge visibility
         const container = this.keyDisplay.closest('.song-detail-key-badge');
         if (container) {
-            if (formattedKey.trim()) {
-                container.style.display = 'inline-flex';
-                container.classList.remove('hidden');
-            } else {
-                container.style.display = 'none';
-                container.classList.add('hidden');
-            }
+            container.style.display = 'inline-flex';
+            container.classList.remove('hidden');
         }
+
+        // Update overall container visibility
+        this.updateLeftBadgesVisibility();
+    }
+
+    /**
+     * Updates the BPM display in the footer
+     */
+    updateBpmDisplay() {
+        if (!this.bpmDisplay || !this.currentSongId) return;
+
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) {
+            this.bpmDisplay.textContent = '';
+            return;
+        }
+
+        const bpmText = song.tempo || (song.chordData ? song.chordData.tempo : '') || '';
+        this.bpmDisplay.textContent = bpmText;
+
+        // Update badge visibility
+        const container = this.bpmDisplay.closest('.song-detail-bpm-badge');
+        if (container) {
+            container.style.display = 'inline-flex';
+            container.classList.remove('hidden');
+        }
+
+        // Update overall container visibility
+        this.updateLeftBadgesVisibility();
+    }
+
+    /**
+     * Helper to hide the badges container if neither key nor bpm is present
+     */
+    updateLeftBadgesVisibility() {
+        const leftBadges = document.querySelector('.song-detail-left-badges');
+        if (!leftBadges) return;
+
+        // Always show the badges container in the detail modal so user can add missing key/bpm
+        leftBadges.style.display = 'flex';
+        leftBadges.classList.remove('hidden');
     }
 
     updateYouTubeButton(youtubeUrl, externalUrl) {

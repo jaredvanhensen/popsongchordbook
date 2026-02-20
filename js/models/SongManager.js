@@ -144,6 +144,8 @@ class SongManager {
             ...song,
             // Guaranteed types/migrations
             practiceCount: (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : (song.practiceCountTeller || '0'),
+            // BPM Migration: Ensure top-level 'tempo' exists if it's in chordData
+            tempo: song.tempo || (song.chordData ? song.chordData.tempo : '') || '',
             // Proactive migration: Ensure fullLyrics is never empty if legacy lyrics exist
             fullLyrics: song.fullLyrics || song.lyrics || ''
         }));
