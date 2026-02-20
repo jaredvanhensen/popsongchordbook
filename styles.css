@@ -8643,12 +8643,25 @@ div.song-detail-practice-controls {
         margin-left: 5px !important;
     }
 
-    #songDetailLyricsBtn .icon,
-    #songDetailPracticeIncrementBtn .icon {
+    #songDetailLyricsBtn .icon {
         width: 34px !important;
         height: 34px !important;
         font-size: 16px !important;
         margin: 0 !important;
+    }
+
+    #songDetailPracticeIncrementBtn .icon {
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 !important;
+        position: relative !important;
+    }
+
+    #songDetailPracticeIncrementBtn .icon img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        opacity: 0.9 !important;
     }
 
     #songDetailScrollingChordsBtn .icon {
@@ -8685,10 +8698,13 @@ div.song-detail-practice-controls {
         height: 18px !important;
     }
 
-    #songDetailPracticeBtn .label,
-    #songDetailPracticeIncrementBtn .label {
+    #songDetailPracticeBtn .label {
         margin-top: 8px !important;
-        /* Match standard 8px margin for perfect alignment */
+    }
+
+    #songDetailPracticeIncrementBtn .label {
+        margin-top: 2px !important;
+        /* Adjusted for taller 40px icon to keep label alignment */
     }
 
     #songDetailPracticeBtn .icon {
