@@ -5178,31 +5178,33 @@ td:has(.row-edit-input.input-focused) {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    padding: 6px 0;
-    /* Remove side padding to use fixed width */
+    padding: 0 10px;
     border-radius: 20px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    /* Center content horizontally */
+    justify-content: flex-start;
+    /* Label at the left */
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
-    height: 36px;
-    width: 105px;
-    /* Fixed width for stability */
+    height: 32px;
+    /* Smaller height */
+    width: 92px;
+    /* Balanced width for mobile */
+    font-family: 'Inter', sans-serif;
 }
 
 .song-detail-key-badge .key-label,
 .song-detail-bpm-badge .bpm-label {
-    opacity: 0.8;
+    opacity: 0.7;
     margin-right: 4px;
-    /* Slightly more gap */
     user-select: none;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: lowercase;
+    flex-shrink: 0;
 }
 
 .song-detail-key-badge .key-value,
@@ -8664,6 +8666,7 @@ div.song-detail-practice-controls {
     .ability-stars-container .label,
     .song-detail-footer-actions .label,
     .song-detail-key-badge .key-label,
+    .song-detail-bpm-badge .bpm-label,
     .song-detail-action-btn .label {
         font-size: 0.65rem !important;
         margin-top: 8px !important;
@@ -8696,13 +8699,11 @@ div.song-detail-practice-controls {
         --star-stroke: 1.2;
     }
 
-    .song-detail-key-badge {
-        padding: 4px 12px !important;
-        font-size: 0.8rem !important;
-    }
-
-    .song-detail-key-badge .key-value {
-        font-size: 0.8rem !important;
+    .song-detail-key-badge,
+    .song-detail-bpm-badge {
+        width: 88px !important;
+        padding: 0 8px !important;
+        height: 30px !important;
     }
 }
 
