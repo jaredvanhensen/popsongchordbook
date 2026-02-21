@@ -2294,7 +2294,7 @@ function updateLoop() {
             dist = 0;
             if (el.style.display !== 'none') el.style.display = 'none';
         } else {
-            if (el.style.display !== 'block') el.style.display = 'block';
+            if (el.style.display === 'none' || el.style.display === 'block') el.style.display = '';
 
             // Use pre-calculated yOffset (default to -50 if missing)
             let yOffset = chord.yOffset || -50;
@@ -2329,7 +2329,7 @@ function updateLoop() {
                 dist = 0;
                 if (el.style.display !== 'none') el.style.display = 'none';
             } else {
-                if (el.style.display !== 'block') el.style.display = 'block';
+                if (el.style.display === 'none' || el.style.display === 'block') el.style.display = '';
                 el.style.transform = `translate3d(${dist}px, 0, 0)`;
             }
         }
