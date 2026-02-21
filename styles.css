@@ -5182,6 +5182,7 @@ td:has(.row-edit-input.input-focused) {
     flex-direction: column;
     gap: 6px;
     align-items: flex-start;
+    align-self: center;
 }
 
 .song-detail-key-badge,
@@ -5204,6 +5205,7 @@ td:has(.row-edit-input.input-focused) {
     /* Fixed width for stability */
     font-family: 'Inter', sans-serif;
     cursor: pointer;
+    padding-bottom: 2px;
 }
 
 .song-detail-key-badge .key-label,
