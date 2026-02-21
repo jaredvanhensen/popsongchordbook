@@ -965,7 +965,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 }
 
 .marker.lyrics-sync {
-    top: 50% !important;
+    top: 20% !important;
     bottom: auto !important;
     width: 32px !important;
     height: 32px !important;
