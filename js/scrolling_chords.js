@@ -2267,7 +2267,7 @@ function updateLoop() {
     // Safety for PIXELS_PER_SECOND
     const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
     const winWidth = window.innerWidth;
-    const bufferTime = 200 / pps; // Time buffer for 200px off-screen
+    const bufferTime = 800 / pps; // Time buffer for 800px off-screen left
 
     // Find the CURRENT chord index for highlighting
     const activeIndex = chordIndex; // Reuse the index found for audio logic above
@@ -2275,7 +2275,7 @@ function updateLoop() {
     // Optimize scrolling chord positions (Visibility Windowing)
     const chordElements = chordTrack.children;
     const visibleStartTime = playbackTime - bufferTime;
-    const visibleEndTime = playbackTime + (winWidth + 200) / pps;
+    const visibleEndTime = playbackTime + (winWidth + 800) / pps;
 
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];

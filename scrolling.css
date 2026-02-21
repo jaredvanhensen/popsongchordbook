@@ -974,7 +974,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     background: white !important;
     border: 3px solid #6d28d9 !important;
     border-radius: 12px !important;
-    display: flex !important;
+    display: flex;
     align-items: center !important;
     justify-content: center !important;
     z-index: 150 !important;
