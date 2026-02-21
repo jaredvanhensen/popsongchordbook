@@ -321,6 +321,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // YouTube Volume Slider Logic
+    const youtubeVolumeSlider = document.getElementById('youtubeVolumeSlider');
+    if (youtubeVolumeSlider) {
+        youtubeVolumeSlider.addEventListener('input', (e) => {
+            if (youtubePlayer && typeof youtubePlayer.setVolume === 'function') {
+                youtubePlayer.setVolume(e.target.value);
+            }
+        });
+
+        // Prevent drag handle from triggering when sliding volume
+        youtubeVolumeSlider.addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+        });
+    }
+
     // YouTube Drag Logic (Handle)
     const youtubeDragHandle = document.getElementById('youtubeDragHandle');
     if (youtubeDragHandle && youtubePlayerContainer) {

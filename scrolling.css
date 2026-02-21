@@ -1134,6 +1134,17 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     touch-action: none;
 }
 
+.yt-volume-slider {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 80px;
+    height: 16px;
+    z-index: 20;
+    cursor: pointer;
+    accent-color: #ef4444;
+}
+
 #closeYoutubeBtn {
     position: absolute;
     top: 0;
