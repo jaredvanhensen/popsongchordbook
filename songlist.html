@@ -718,6 +718,7 @@
                 <button class="song-detail-nav-btn song-detail-prev" id="songDetailPrev" title="Previous song">
                     <span class="icon">‹</span>
                 </button>
+                <img id="songDetailThumbnail" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
                 <div class="song-detail-title-section">
                     <h1 id="songDetailTitle" class="song-detail-title editable-field" data-field="title"
                         contenteditable="false" spellcheck="false"></h1>
@@ -822,10 +823,9 @@
                     </div>
                     <input type="text" class="cue-line-input" id="bridgeCueInput" placeholder="notes or lyrics"
                         maxlength="38">
-                    <div class="chord-section-content editable-field" data-field="bridge" id="bridgeContent"
-                        contenteditable="false" spellcheck="false"></div>
                 </div>
             </div>
+
             <div class="song-detail-footer">
                 <div class="song-detail-footer-left">
                     <div class="song-detail-left-badges">

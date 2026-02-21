@@ -2180,6 +2180,38 @@ class SongDetailModal {
         if (this.lyricsOverlay && !this.lyricsOverlay.classList.contains('hidden')) {
             this.updateLyricsTickerContent();
         }
+
+        this.fetchThumbnail(song.artist, song.title);
+    }
+
+    async fetchThumbnail(artist, title) {
+        const thumbElement = document.getElementById('songDetailThumbnail');
+        if (!thumbElement) return;
+
+        // Reset state
+        thumbElement.src = '';
+        thumbElement.classList.add('hidden');
+
+        if (!artist || !title) return;
+
+        try {
+            const query = encodeURIComponent(`${artist} ${title}`);
+            const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&entity=song&limit=1`);
+            const data = await response.json();
+
+            if (data.results && data.results.length > 0) {
+                // Get 100x100 resolution artwork
+                let artworkUrl = data.results[0].artworkUrl100;
+                if (artworkUrl) {
+                    thumbElement.src = artworkUrl;
+                    thumbElement.onload = () => {
+                        thumbElement.classList.remove('hidden');
+                    };
+                }
+            }
+        } catch (e) {
+            console.error('Error fetching album thumbnail:', e);
+        }
     }
 
     updateNavigationButtons() {

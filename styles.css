@@ -5177,6 +5177,21 @@ td:has(.row-edit-input.input-focused) {
     flex-shrink: 0;
 }
 
+.song-detail-thumbnail {
+    width: 128px;
+    height: 128px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    z-index: 15;
+    transition: opacity 0.3s;
+    flex-shrink: 0;
+}
+
+.song-detail-thumbnail.hidden {
+    display: none;
+}
+
 .song-detail-left-badges {
     display: flex;
     flex-direction: column;
