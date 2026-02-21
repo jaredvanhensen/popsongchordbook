@@ -1724,7 +1724,7 @@ if (syncFirstLyricBtn) {
         markers = markers.filter(m => m.type !== 'lyrics-sync');
         markers.push({
             time: playbackTime,
-            label: 'L First Lyric',
+            label: 'First Lyric',
             type: 'lyrics-sync'
         });
 
