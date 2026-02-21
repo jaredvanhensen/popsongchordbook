@@ -556,7 +556,14 @@ class SongDetailModal {
                     console.log('SongDetailModal: Received saveChordData from Timeline', chordData);
 
                     try {
-                        await this.songManager.updateSong(this.currentSongId, { chordData: chordData });
+                        const updates = { chordData: chordData };
+                        if (chordData.tempo) {
+                            updates.tempo = chordData.tempo;
+                            if (this.bpmDisplay) {
+                                this.bpmDisplay.textContent = Math.round(chordData.tempo);
+                            }
+                        }
+                        await this.songManager.updateSong(this.currentSongId, updates);
                         console.log('Chord data saved to database');
                     } catch (e) {
                         console.error('Error saving chord data from timeline:', e);
