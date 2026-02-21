@@ -5178,14 +5178,37 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-detail-thumbnail {
-    width: 128px;
-    height: 128px;
-    border-radius: 12px;
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     object-fit: cover;
     z-index: 15;
     transition: opacity 0.3s;
     flex-shrink: 0;
+    margin-right: 12px;
+}
+
+@media (max-width: 600px) {
+    .song-detail-header {
+        padding: clamp(18px, 2vh, 23px) clamp(10px, 2vw, 15px);
+    }
+
+    .song-detail-thumbnail {
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+        margin-right: 8px;
+        margin-left: 40px;
+    }
+}
+
+@media (min-width: 768px) {
+    .song-detail-thumbnail {
+        width: 128px;
+        height: 128px;
+        border-radius: 12px;
+    }
 }
 
 .song-detail-thumbnail.hidden {

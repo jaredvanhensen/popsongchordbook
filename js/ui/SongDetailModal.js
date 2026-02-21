@@ -2196,12 +2196,43 @@ class SongDetailModal {
 
         try {
             const query = encodeURIComponent(`${artist} ${title}`);
-            const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&entity=song&limit=1`);
-            const data = await response.json();
+            const callbackName = 'deezerCallback_' + Math.round(1000000 * Math.random());
 
-            if (data.results && data.results.length > 0) {
-                // Get 100x100 resolution artwork
-                let artworkUrl = data.results[0].artworkUrl100;
+            // Create a promise to handle the JSONP response
+            const responsePromise = new Promise((resolve, reject) => {
+                // Set timeout
+                const timeoutId = setTimeout(() => {
+                    cleanup();
+                    reject(new Error('JSONP timeout'));
+                }, 5000);
+
+                const cleanup = () => {
+                    clearTimeout(timeoutId);
+                    delete window[callbackName];
+                    if (script && script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                };
+
+                window[callbackName] = (data) => {
+                    cleanup();
+                    resolve(data);
+                };
+
+                const script = document.createElement('script');
+                script.src = `https://api.deezer.com/search?q=${query}&output=jsonp&callback=${callbackName}`;
+                script.onerror = () => {
+                    cleanup();
+                    reject(new Error('JSONP load error'));
+                };
+                document.body.appendChild(script);
+            });
+
+            const data = await responsePromise;
+
+            if (data && data.data && data.data.length > 0) {
+                // Get medium resolution artwork (250x250) from the album object
+                let artworkUrl = data.data[0].album.cover_medium || data.data[0].album.cover_small;
                 if (artworkUrl) {
                     thumbElement.src = artworkUrl;
                     thumbElement.onload = () => {
