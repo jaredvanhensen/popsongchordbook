@@ -1546,6 +1546,14 @@ body.edit-mode-active .adjust-controls-row.edit-only {
         padding: 0;
     }
 
+    .chord-item {
+        min-width: 45px;
+        height: 60px;
+        padding: 5px 8px;
+        font-size: 1.4rem;
+        border-radius: 12px;
+    }
+
     /* Shrink Count-in */
     .count-in-overlay {
         padding: 10px 20px;
