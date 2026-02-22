@@ -2341,12 +2341,12 @@ function updateLoop() {
         currentChordDisplay.innerText = currentChord.name;
 
         // Remove existing root classes
-        currentChordDisplay.className = 'current-chord-display';
+        // currentChordDisplay.className = 'current-chord-display';
 
         // Add current root class for color
         const root = currentChord.name.charAt(0).toUpperCase();
         if (root >= 'A' && root <= 'G') {
-            currentChordDisplay.classList.add(`root-${root}`);
+            // currentChordDisplay.classList.add(`root-${root}`);
         }
     } else {
         currentChordDisplay.innerText = '';
