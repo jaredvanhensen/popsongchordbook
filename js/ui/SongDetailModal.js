@@ -1845,7 +1845,8 @@ class SongDetailModal {
 
         const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
         const suggestedChordsGrouped = sections.map(section => {
-            const found = section.text.match(chordRegex) || [];
+            const trimmedText = (section.text || '').trim();
+            const found = trimmedText ? trimmedText.match(chordRegex) || [] : [];
             return {
                 section: section.name,
                 type: section.type,
