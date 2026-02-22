@@ -243,8 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (zoomInBtn) zoomInBtn.addEventListener('click', () => zoom(1));
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
 
-    if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-1));
-    if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(1));
+    if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-0.5));
+    if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(0.5));
 
     const shiftChordsLeftBtn = document.getElementById('shiftChordsLeftBtn');
     const shiftChordsRightBtn = document.getElementById('shiftChordsRightBtn');
@@ -1779,7 +1779,11 @@ function getExportData() {
 
 function adjustBarOffset(deltaBeats) {
     barOffsetInBeats += deltaBeats;
-    if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
+    if (barOffsetDisplay) {
+        // Show decimal if not whole number
+        const displayVal = barOffsetInBeats % 1 === 0 ? barOffsetInBeats : barOffsetInBeats.toFixed(1);
+        barOffsetDisplay.innerText = `Bar: ${displayVal}`;
+    }
 
     // Regenerate markers and re-render
     if (midiData) {
@@ -1798,7 +1802,7 @@ function shiftChords(deltaSteps) {
     if (!chords || chords.length === 0 || !secondsPerBeat || !beatsPerBar) return;
 
     const barDuration = beatsPerBar * secondsPerBeat;
-    const snapInterval = barDuration / 8;
+    const snapInterval = barDuration / 16; // Finer precision (1/16th bar)
     const timeShift = deltaSteps * snapInterval;
 
     chords.forEach(c => {
