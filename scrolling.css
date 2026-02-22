@@ -847,7 +847,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     box-shadow: 0 8px 0px #312e81, 0 15px 25px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.2);
 
-    transition: transform 0.1s linear, top 0.2s ease;
+    transition: top 0.2s ease;
     /* Smooth stagger transitions */
     cursor: pointer;
     white-space: nowrap;
@@ -894,14 +894,12 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 
 .chord-item:hover {
     filter: brightness(110%);
-    transform: translateX(0) translateY(-55%) scale(1.05);
     z-index: 100 !important;
 }
 
 .chord-item.drag-hover {
     border: 3px solid #facc15 !important;
     background: rgba(250, 204, 21, 0.3) !important;
-    scale: 1.1;
     z-index: 105 !important;
 }
 
