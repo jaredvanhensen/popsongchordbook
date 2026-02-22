@@ -243,8 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (zoomInBtn) zoomInBtn.addEventListener('click', () => zoom(1));
     if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => zoom(-1));
 
-    if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-0.5));
-    if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(0.5));
+    if (barDecBtn) barDecBtn.addEventListener('click', () => adjustBarOffset(-0.25));
+    if (barIncBtn) barIncBtn.addEventListener('click', () => adjustBarOffset(0.25));
 
     const shiftChordsLeftBtn = document.getElementById('shiftChordsLeftBtn');
     const shiftChordsRightBtn = document.getElementById('shiftChordsRightBtn');
@@ -1780,8 +1780,8 @@ function getExportData() {
 function adjustBarOffset(deltaBeats) {
     barOffsetInBeats += deltaBeats;
     if (barOffsetDisplay) {
-        // Show decimal if not whole number
-        const displayVal = barOffsetInBeats % 1 === 0 ? barOffsetInBeats : barOffsetInBeats.toFixed(1);
+        // Show up to 2 decimals if needed (for 0.25 increments)
+        const displayVal = barOffsetInBeats % 1 === 0 ? barOffsetInBeats : barOffsetInBeats.toFixed(2).replace(/\.?0+$/, "");
         barOffsetDisplay.innerText = `Bar: ${displayVal}`;
     }
 
