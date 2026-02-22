@@ -898,6 +898,13 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     z-index: 100 !important;
 }
 
+.chord-item.drag-hover {
+    border: 2px dashed #ffeb3b !important;
+    background: rgba(255, 235, 59, 0.2) !important;
+    scale: 1.1;
+    z-index: 105 !important;
+}
+
 .chord-item.active {
     /* Hide in the track to avoid "double" display */
     opacity: 0 !important;

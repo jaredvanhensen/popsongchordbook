@@ -889,6 +889,16 @@ class SongDetailModal {
                     if (this.hasUnsavedChanges) {
                         await this.saveChanges(false);
                     }
+                } else if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey)) {
+                    // Pass Undo command to Scrolling Chords iframe if it is open
+                    const scrollingChordsModal = document.getElementById('scrollingChordsModal');
+                    if (scrollingChordsModal && !scrollingChordsModal.classList.contains('hidden')) {
+                        e.preventDefault();
+                        const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
+                        if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
+                            scrollingChordsFrame.contentWindow.postMessage({ type: 'undoAction' }, '*');
+                        }
+                    }
                 }
             }
         });

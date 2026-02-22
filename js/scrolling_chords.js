@@ -155,6 +155,33 @@ let chordParser = null;
 let secondsPerBeat = 0.5; // Default 120 BPM
 let beatsPerBar = 4; // Default 4/4
 
+// Undo Stack
+let undoStack = [];
+const MAX_UNDO = 50;
+let dragUndoSnapshot = null; // Temporary hold for pre-drag state
+
+function saveUndoState() {
+    undoStack.push(JSON.parse(JSON.stringify(chords)));
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+}
+
+function undo() {
+    if (undoStack.length === 0) return;
+    chords = undoStack.pop();
+
+    // Attempt to clear UI selection state if that function exists
+    if (typeof clearSelection === 'function') clearSelection();
+
+    if (typeof renderStaticElements === 'function') renderStaticElements();
+    if (typeof updateLoop === 'function') updateLoop();
+    if (typeof checkForChanges === 'function') checkForChanges();
+
+    if (typeof statusText !== 'undefined' && statusText) {
+        statusText.innerText = 'Undo successful';
+        setTimeout(() => statusText.innerText = "Time: " + formatTime(typeof pauseTime !== 'undefined' ? pauseTime : 0), 2000);
+    }
+}
+
 // Setup Event Listeners
 // Setup Event Listeners (Safe Initialization)
 document.addEventListener('DOMContentLoaded', () => {
@@ -395,10 +422,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (duplicateBtn) duplicateBtn.addEventListener('click', () => duplicateSelectedChords());
     if (deleteSelectedBtn) deleteSelectedBtn.addEventListener('click', deleteSelectedChords);
 
-    // Ctrl Key Listener for Cursor Feedback
+    // Ctrl Key Listener for Cursor Feedback and Undo
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Control') {
             document.body.classList.add('ctrl-held');
+        }
+
+        // Undo shortcut: Ctrl+Z or Cmd+Z
+        if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'z')) {
+            e.preventDefault();
+            undo();
         }
     });
 
@@ -565,9 +598,9 @@ document.addEventListener("keydown", e => {
 
                     initAudio();
                     triggerChordAudio(lastChord.name, 1.0, true);
-
                     renderStaticElements();
                     updateLoop();
+                    checkForChanges();
                 }
             }
         }
@@ -869,6 +902,7 @@ chordTrack.addEventListener('pointerdown', (e) => {
         }
 
         dragHasMoved = false;
+        dragUndoSnapshot = JSON.parse(JSON.stringify(chords));
 
         // Removed setPointerCapture to avoid potential iPad gesture conflicts
     }
@@ -891,6 +925,7 @@ chordTrack.addEventListener('click', (e) => {
             if (result === null) return; // Cancelled
 
             if (result === 'DELETE') {
+                saveUndoState();
                 // Remove chord
                 chords.splice(index, 1);
                 // Re-render
@@ -902,8 +937,10 @@ chordTrack.addEventListener('click', (e) => {
 
             const newName = result;
             if (newName && newName !== currentName) {
+                saveUndoState();
                 chords[index].name = newName;
-                e.target.innerText = newName;
+                renderStaticElements();
+                updateLoop();
                 checkForChanges();
 
                 // If we also want to update the sticky display if it's the current chord
@@ -1017,6 +1054,15 @@ window.addEventListener('pointermove', (e) => {
 
         if (overTimeline) {
             timeline.style.backgroundColor = '#333';
+
+            // Highlight specific chord if hovering over it
+            const hoverTarget = document.elementFromPoint(e.clientX, e.clientY);
+            // Clear previous hover states
+            document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
+
+            if (hoverTarget && hoverTarget.classList.contains('chord-item') && hoverTarget.innerText === '?') {
+                hoverTarget.classList.add('drag-hover');
+            }
         } else {
             timeline.style.backgroundColor = '';
         }
@@ -1128,8 +1174,31 @@ window.addEventListener('pointerup', (e) => {
             const dropTime = Math.max(0, playbackTime + (dist / PIXELS_PER_SECOND));
             const snappedTime = snapToGrid(dropTime);
 
-            recordChord(virtualDraggedChord, snappedTime);
-            triggerChordAudio(virtualDraggedChord, 1.0);
+            // Check if dropped directly onto a Placeholder '?' chord
+            document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
+            const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
+
+            if (dropTarget && dropTarget.classList.contains('chord-item')) {
+                const targetIndex = parseInt(dropTarget.dataset.index);
+                if (!isNaN(targetIndex) && chords[targetIndex] && chords[targetIndex].name === '?') {
+                    // Replace existing placeholder
+                    saveUndoState();
+                    chords[targetIndex].name = virtualDraggedChord;
+                    renderStaticElements();
+                    updateLoop();
+                    checkForChanges();
+                    triggerChordAudio(virtualDraggedChord, 1.0);
+                } else {
+                    // It was dropped on an existing valid chord, could either replace it or insert near it. 
+                    // Let's default to standard placement to be safe if it's not a '?'.
+                    recordChord(virtualDraggedChord, snappedTime);
+                    triggerChordAudio(virtualDraggedChord, 1.0);
+                }
+            } else {
+                // Not dropped on a chord specifically, so place it on the timeline normally
+                recordChord(virtualDraggedChord, snappedTime);
+                triggerChordAudio(virtualDraggedChord, 1.0);
+            }
         }
 
         // Cleanup
@@ -1147,6 +1216,11 @@ window.addEventListener('pointerup', (e) => {
         isDraggingChord = false;
 
         if (dragHasMoved) {
+            if (dragUndoSnapshot) {
+                undoStack.push(dragUndoSnapshot);
+                if (undoStack.length > MAX_UNDO) undoStack.shift();
+                dragUndoSnapshot = null;
+            }
             // Sort chords and re-render to fix visual order and indices
             chords.sort((a, b) => a.time - b.time);
             renderStaticElements();
@@ -1364,7 +1438,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             const isGrouped = typeof suggestedChords[0] === 'object' && suggestedChords[0].chords;
 
             if (isGrouped) {
-                suggestedChords.forEach(group => {
+                suggestedChords.filter(group => group.chords && group.chords.length > 0).forEach(group => {
                     // Create a container for this section
                     const groupContainer = document.createElement('div');
                     groupContainer.className = 'chord-toolbar-group';
@@ -2488,6 +2562,7 @@ function toggleTimingCapture() {
 }
 
 function recordChord(name = "?", time = null) {
+    saveUndoState();
     let currentTime = time;
     if (currentTime === null) {
         if (youtubePlayer && enableTimingCapture) {
@@ -2516,6 +2591,7 @@ function recordChord(name = "?", time = null) {
 
 function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
     if (selectedIndices.size === 0) return;
+    saveUndoState();
 
     // Sort to keep order
     const indices = Array.from(selectedIndices).sort((a, b) => a - b);
@@ -2627,6 +2703,11 @@ window.addEventListener('message', (event) => {
             playPauseBtn.classList.remove('playing');
         }
         cancelAnimationFrame(animationFrame);
+    }
+    else if (msg.type === 'undoAction') {
+        if (typeof undo === 'function') {
+            undo();
+        }
     }
 });
 
@@ -2751,6 +2832,7 @@ function deleteSelectedChords() {
         'Delete Chords',
         `Are you sure you want to delete <b>${selectedIndices.size}</b> selected chords?`,
         () => {
+            saveUndoState();
             // Sort indices descending to remove safely
             const indices = Array.from(selectedIndices).sort((a, b) => b - a);
 
