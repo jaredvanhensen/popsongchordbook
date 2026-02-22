@@ -14,17 +14,19 @@ class PianoAudioPlayer {
         this.soundProfiles = {
             'piano': {
                 name: 'Piano',
-                attack: 0.005,
-                decay: 0.15,
-                sustain: 0.3,
-                release: 0.4,
-                filterMult: 5,
+                attack: 0.008, // Slightly softer attack
+                decay: 0.2,
+                sustain: 0.15,
+                release: 0.25, // Slightly longer release for resonance
+                filterMult: 8,  // Higher filter for more "sparkle"
                 harmonics: [
                     [1, 1.0, 'sine'],
-                    [2, 0.4, 'sine'],
+                    [1.003, 0.4, 'sine'],   // Slight detune for string chorus effect
+                    [2, 0.35, 'sine'],
                     [3, 0.15, 'triangle'],
-                    [4, 0.1, 'triangle'],
-                    [5, 0.05, 'triangle']
+                    [4, 0.1, 'sine'],
+                    [5, 0.05, 'triangle'],
+                    [6, 0.02, 'sine']      // Higher overtones for realism
                 ],
                 hammer: true
             },
