@@ -155,20 +155,44 @@ let chordParser = null;
 let secondsPerBeat = 0.5; // Default 120 BPM
 let beatsPerBar = 4; // Default 4/4
 
-// Undo Stack
+// Undo/Redo Stack
 let undoStack = [];
+let redoStack = [];
 const MAX_UNDO = 50;
 let dragUndoSnapshot = null; // Temporary hold for pre-drag state
 
 function saveUndoState() {
     undoStack.push(JSON.parse(JSON.stringify(chords)));
     if (undoStack.length > MAX_UNDO) undoStack.shift();
+    // Clear redo stack on new action
+    redoStack = [];
 }
 
 function undo() {
     if (undoStack.length === 0) return;
+
+    // Save current state to redo stack before applying undo
+    redoStack.push(JSON.parse(JSON.stringify(chords)));
+    if (redoStack.length > MAX_UNDO) redoStack.shift();
+
     chords = undoStack.pop();
 
+    finalizeUndoRedo('Undo successful');
+}
+
+function redo() {
+    if (redoStack.length === 0) return;
+
+    // Save current state to undo stack before applying redo
+    undoStack.push(JSON.parse(JSON.stringify(chords)));
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+
+    chords = redoStack.pop();
+
+    finalizeUndoRedo('Redo successful');
+}
+
+function finalizeUndoRedo(message) {
     // Attempt to clear UI selection state if that function exists
     if (typeof clearSelection === 'function') clearSelection();
 
@@ -177,8 +201,10 @@ function undo() {
     if (typeof checkForChanges === 'function') checkForChanges();
 
     if (typeof statusText !== 'undefined' && statusText) {
-        statusText.innerText = 'Undo successful';
-        setTimeout(() => statusText.innerText = "Time: " + formatTime(typeof pauseTime !== 'undefined' ? pauseTime : 0), 2000);
+        statusText.innerText = message;
+        setTimeout(() => {
+            if (statusText) statusText.innerText = "Time: " + formatTime(typeof pauseTime !== 'undefined' ? pauseTime : 0);
+        }, 2000);
     }
 }
 
@@ -432,6 +458,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'z')) {
             e.preventDefault();
             undo();
+        }
+
+        // Redo shortcut: Ctrl+Y or Cmd+Y
+        if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y')) {
+            e.preventDefault();
+            redo();
         }
     });
 
@@ -1219,6 +1251,7 @@ window.addEventListener('pointerup', (e) => {
             if (dragUndoSnapshot) {
                 undoStack.push(dragUndoSnapshot);
                 if (undoStack.length > MAX_UNDO) undoStack.shift();
+                redoStack = []; // Clear redo on drag drop
                 dragUndoSnapshot = null;
             }
             // Sort chords and re-render to fix visual order and indices
