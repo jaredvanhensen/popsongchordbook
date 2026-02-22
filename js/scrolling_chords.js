@@ -1060,7 +1060,7 @@ window.addEventListener('pointermove', (e) => {
             // Clear previous hover states
             document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
 
-            if (hoverTarget && hoverTarget.classList.contains('chord-item') && hoverTarget.innerText === '?') {
+            if (hoverTarget && hoverTarget.classList.contains('chord-item')) {
                 hoverTarget.classList.add('drag-hover');
             }
         } else {
@@ -1180,7 +1180,7 @@ window.addEventListener('pointerup', (e) => {
 
             if (dropTarget && dropTarget.classList.contains('chord-item')) {
                 const targetIndex = parseInt(dropTarget.dataset.index);
-                if (!isNaN(targetIndex) && chords[targetIndex] && chords[targetIndex].name === '?') {
+                if (!isNaN(targetIndex) && chords[targetIndex]) {
                     // Replace existing placeholder
                     saveUndoState();
                     chords[targetIndex].name = virtualDraggedChord;
@@ -2341,12 +2341,12 @@ function updateLoop() {
         currentChordDisplay.innerText = currentChord.name;
 
         // Remove existing root classes
-        // currentChordDisplay.className = 'current-chord-display';
+        currentChordDisplay.className = 'current-chord-display';
 
         // Add current root class for color
         const root = currentChord.name.charAt(0).toUpperCase();
         if (root >= 'A' && root <= 'G') {
-            // currentChordDisplay.classList.add(`root-${root}`);
+            currentChordDisplay.classList.add(`root-${root}`);
         }
     } else {
         currentChordDisplay.innerText = '';
