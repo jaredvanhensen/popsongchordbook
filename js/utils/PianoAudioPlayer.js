@@ -1,33 +1,35 @@
-// PianoAudioPlayer - Purely Synthesized Engine (Pre-Sampler Upgrade)
+// PianoAudioPlayer - Synthesizes realistic piano and synth sounds using Web Audio API
 class PianoAudioPlayer {
     constructor(audioContext = null) {
         this.audioContext = audioContext;
         this.masterGain = null;
         this.isInitialized = false;
+        this.activeNotes = new Map(); // Track active notes for cleanup
+        this.noiseBuffer = null; // Pre-computed hammer noise
 
-        this.activeNotes = new Map();
-        this.baseVolume = 0.5;
+        // Piano sound parameters
+        this.baseVolume = 0.3;
 
         // Sound profiles
         this.soundProfiles = {
             'piano': {
                 name: 'Piano',
                 attack: 0.005,
-                decay: 0.3,
-                sustain: 0.2,
-                release: 0.8,
-                filterMult: 3,
+                decay: 0.15,
+                sustain: 0.3,
+                release: 0.4,
+                filterMult: 5,
                 harmonics: [
-                    [1.0, 1.0, 'triangle'],
-                    [1.01, 0.4, 'sine'],
-                    [2.0, 0.3, 'sine'],
-                    [3.0, 0.1, 'sine'],
-                    [0.5, 0.2, 'sine']
+                    [1, 1.0, 'sine'],
+                    [2, 0.4, 'sine'],
+                    [3, 0.15, 'triangle'],
+                    [4, 0.1, 'triangle'],
+                    [5, 0.05, 'triangle']
                 ],
                 hammer: true
             },
             'sawtooth': {
-                name: 'Synth Saw',
+                name: 'Sawtooth',
                 attack: 0.05,
                 decay: 0.4,
                 sustain: 0.6,
@@ -37,12 +39,13 @@ class PianoAudioPlayer {
                     [1.0, 1.0, 'sawtooth'],
                     [2.0, 0.4, 'sawtooth'],
                     [1.005, 0.3, 'sawtooth'],
+                    [0.995, 0.3, 'sawtooth'],
                     [0.5, 0.2, 'triangle']
                 ],
                 hammer: false
             },
             'brass': {
-                name: 'Synth Brass',
+                name: 'Brass',
                 attack: 0.02,
                 decay: 0.2,
                 sustain: 0.7,
@@ -51,7 +54,8 @@ class PianoAudioPlayer {
                 harmonics: [
                     [1.0, 1.0, 'sawtooth'],
                     [1.01, 0.5, 'sawtooth'],
-                    [2.0, 0.3, 'sawtooth']
+                    [2.0, 0.3, 'sawtooth'],
+                    [3.0, 0.1, 'sawtooth']
                 ],
                 hammer: false
             },
@@ -292,12 +296,24 @@ class PianoAudioPlayer {
 
     dispose() {
         this.stopAll();
+        // Only close context if we created it internally and it's not being shared
+        // But since we can't easily track ownership without a flag I forgot to add,
+        // we'll assume for now that if we are disposing, we might want to close it 
+        // OR we should just rely on the caller to manage the context lifecycle.
+        // Better: Don't close the context here if it was injected. 
+        // For this refactor, let's assume the main app manages the context.
+        // So we just disconnect nodes.
+
         if (this.masterGain) {
             try {
                 this.masterGain.disconnect();
             } catch (e) { }
             this.masterGain = null;
         }
+
+        // We do NOT close the context here as it might be shared
+        // if (this.audioContext) { this.audioContext.close(); this.audioContext = null; }
+
         this.audioContext = null;
         this.isInitialized = false;
     }

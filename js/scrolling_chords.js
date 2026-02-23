@@ -776,8 +776,8 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
         }
 
         // Use provided duration (playback uses 10s, manual clicks use 1s)
-        // REVERT: Back to 0.02 stagger for the traditional responsive feel
-        pianoPlayer.playChord(notes, duration, 0.4, 0.02);
+        // REVERT: Back to 0.05 stagger exactly as it was in v2.098
+        pianoPlayer.playChord(notes, duration, 0.4, 0.05);
     }
 }
 
