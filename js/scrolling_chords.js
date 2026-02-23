@@ -548,9 +548,6 @@ document.addEventListener('DOMContentLoaded', () => {
             seek(delta * scrollSensitivity);
         }
     }, { passive: false });
-
-    // Initialize Virtual Piano
-    initVirtualPiano();
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -779,7 +776,8 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
         }
 
         // Use provided duration (playback uses 10s, manual clicks use 1s)
-        pianoPlayer.playChord(notes, duration, 0.4, 0.05);
+        // REVERT: Back to 0.02 stagger for the traditional responsive feel
+        pianoPlayer.playChord(notes, duration, 0.4, 0.02);
     }
 }
 
@@ -2898,80 +2896,10 @@ if (window.parent) {
     window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
 }
 
-// --- Virtual Piano Logic ---
-function initVirtualPiano() {
-    const keyboard = document.getElementById('pianoKeyboard');
-    if (!keyboard) return;
-
-    const renderPiano = () => {
-        keyboard.innerHTML = '';
-        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const startMidi = 48; // C3
-        const numOctaves = 2; // Locked to standard 2 octaves
-
-        for (let o = 0; o < numOctaves; o++) {
-            notes.forEach((noteName, n) => {
-                const isBlack = noteName.includes('#');
-                const midi = startMidi + (o * 12) + n;
-
-                const keyEl = document.createElement('div');
-                keyEl.className = `piano-key ${isBlack ? 'black' : 'white'}`;
-                keyEl.dataset.midi = midi;
-                keyEl.dataset.noteName = noteName.replace('#', '');
-
-                if (!isBlack) {
-                    keyEl.innerHTML = `<span>${noteName}</span>`;
-                }
-
-                const handlePress = (e) => {
-                    e.preventDefault();
-                    if (e.buttons !== undefined && e.buttons !== 1 && e.type === 'pointermove') return;
-
-                    if (keyEl.classList.contains('pressed')) return;
-
-                    keyEl.classList.add('pressed');
-                    if (!pianoPlayer) initAudio();
-                    if (pianoPlayer) {
-                        if (!pianoPlayer.isInitialized) pianoPlayer.initialize(audioCtx);
-                        pianoPlayer.playNote(midi, 0.5, 0.6);
-                    }
-                };
-
-                const handleRelease = () => {
-                    keyEl.classList.remove('pressed');
-                };
-
-                keyEl.addEventListener('pointerdown', handlePress);
-                keyEl.addEventListener('pointerenter', (e) => {
-                    if (e.buttons === 1) handlePress(e);
-                });
-                keyEl.addEventListener('pointerup', handleRelease);
-                keyEl.addEventListener('pointerleave', handleRelease);
-
-                keyboard.appendChild(keyEl);
-            });
-        }
-
-        // Add one final Top C to complete the range
-        const finalMidi = startMidi + (numOctaves * 12);
-        const finalKey = document.createElement('div');
-        finalKey.className = 'piano-key white';
-        finalKey.dataset.midi = finalMidi;
-        finalKey.dataset.noteName = 'C';
-        finalKey.innerHTML = '<span>C</span>';
-        finalKey.addEventListener('pointerdown', (e) => {
-            e.preventDefault();
-            finalKey.classList.add('pressed');
-            if (!pianoPlayer) initAudio();
-            if (pianoPlayer) {
-                if (!pianoPlayer.isInitialized) pianoPlayer.initialize(audioCtx);
-                pianoPlayer.playNote(finalMidi, 0.5, 0.6);
-            }
-        });
-        finalKey.addEventListener('pointerup', () => finalKey.classList.remove('pressed'));
-        finalKey.addEventListener('pointerleave', () => finalKey.classList.remove('pressed'));
-        keyboard.appendChild(finalKey);
-    };
-
-    renderPiano();
+// Signal that we are ready to receive data
+console.log('Scrolling Chords: Listener ready');
+if (window.parent) {
+    window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
+} else if (window.opener) {
+    window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
 }

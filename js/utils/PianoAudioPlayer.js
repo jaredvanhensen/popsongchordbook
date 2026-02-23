@@ -1,237 +1,269 @@
-// PianoAudioPlayer - Professional Piano Sampler with Synthesis Fallback
+// PianoAudioPlayer - Purely Synthesized Engine (Pre-Sampler Upgrade)
 class PianoAudioPlayer {
     constructor(audioContext = null) {
         this.audioContext = audioContext;
         this.masterGain = null;
-        this.reverbNode = null;
-        this.reverbGain = null;
         this.isInitialized = false;
 
-        this.samples = {};
-        this.isSamplesLoaded = false;
-        this.isLoading = false;
-
-        this.currentSound = 'piano'; // 'piano' (synthesized), 'sampled-piano', 'sawtooth', 'brass', 'warm-pad'
-
+        this.activeNotes = new Map();
         this.baseVolume = 0.5;
 
-        // Synthesis profiles for sounds
+        // Sound profiles
         this.soundProfiles = {
             'piano': {
-                attack: 0.005, decay: 0.3, sustain: 0.2, release: 0.8, filterMult: 3,
+                name: 'Piano',
+                attack: 0.005,
+                decay: 0.3,
+                sustain: 0.2,
+                release: 0.8,
+                filterMult: 3,
                 harmonics: [
-                    [1.0, 1.0, 'triangle'], // Fundamental
-                    [1.01, 0.4, 'sine'],    // Slight detune for richness
-                    [2.0, 0.3, 'sine'],    // Overtones
+                    [1.0, 1.0, 'triangle'],
+                    [1.01, 0.4, 'sine'],
+                    [2.0, 0.3, 'sine'],
                     [3.0, 0.1, 'sine'],
-                    [0.5, 0.2, 'sine']     // Sub-harmonic for depth
-                ]
+                    [0.5, 0.2, 'sine']
+                ],
+                hammer: true
             },
             'sawtooth': {
-                attack: 0.05, decay: 0.4, sustain: 0.6, release: 0.6, filterMult: 8,
-                harmonics: [[1.0, 1.0, 'sawtooth'], [2.0, 0.4, 'sawtooth'], [1.005, 0.3, 'sawtooth'], [0.5, 0.2, 'triangle']]
+                name: 'Synth Saw',
+                attack: 0.05,
+                decay: 0.4,
+                sustain: 0.6,
+                release: 0.6,
+                filterMult: 8,
+                harmonics: [
+                    [1.0, 1.0, 'sawtooth'],
+                    [2.0, 0.4, 'sawtooth'],
+                    [1.005, 0.3, 'sawtooth'],
+                    [0.5, 0.2, 'triangle']
+                ],
+                hammer: false
             },
             'brass': {
-                attack: 0.02, decay: 0.2, sustain: 0.7, release: 0.3, filterMult: 4,
-                harmonics: [[1.0, 1.0, 'sawtooth'], [1.01, 0.5, 'sawtooth'], [2.0, 0.3, 'sawtooth']]
+                name: 'Synth Brass',
+                attack: 0.02,
+                decay: 0.2,
+                sustain: 0.7,
+                release: 0.3,
+                filterMult: 4,
+                harmonics: [
+                    [1.0, 1.0, 'sawtooth'],
+                    [1.01, 0.5, 'sawtooth'],
+                    [2.0, 0.3, 'sawtooth']
+                ],
+                hammer: false
             },
             'warm-pad': {
-                attack: 1.2, decay: 1.0, sustain: 0.8, release: 1.5, filterMult: 2,
-                harmonics: [[1, 1.0, 'sine'], [1.002, 0.5, 'sine'], [2, 0.3, 'sine'], [0.5, 0.4, 'sine']]
+                name: 'Warm Pad',
+                attack: 1.2,
+                decay: 1.0,
+                sustain: 0.8,
+                release: 1.5,
+                filterMult: 2,
+                harmonics: [
+                    [1, 1.0, 'sine'],
+                    [1.002, 0.5, 'sine'],
+                    [2, 0.3, 'sine'],
+                    [0.5, 0.4, 'sine']
+                ],
+                hammer: false
             }
         };
 
+        this.currentSound = 'piano';
+
+        // Try to load saved sound
         if (typeof localStorage !== 'undefined') {
             const saved = localStorage.getItem('piano_audio_sound');
-            if (saved && (saved === 'sampled-piano' || this.soundProfiles[saved])) {
+            if (saved && this.soundProfiles[saved]) {
                 this.currentSound = saved;
             }
         }
+
+        this.applyProfile(this.currentSound);
+    }
+
+    setSound(soundType) {
+        if (this.soundProfiles[soundType]) {
+            this.currentSound = soundType;
+            this.applyProfile(soundType);
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('piano_audio_sound', soundType);
+            }
+        }
+    }
+
+    applyProfile(soundType) {
+        const profile = this.soundProfiles[soundType];
+        this.attack = profile.attack;
+        this.decay = profile.decay;
+        this.sustain = profile.sustain;
+        this.release = profile.release;
+        this.harmonics = profile.harmonics;
+        this.filterMult = profile.filterMult;
+        this.hammerEnabled = profile.hammer;
     }
 
     async initialize(audioContext = null) {
         if (this.isInitialized) return;
 
-        if (audioContext) this.audioContext = audioContext;
-        if (!this.audioContext) this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        // 1. Setup Audio Chain
-        this.masterGain = this.audioContext.createGain();
-        this.masterGain.gain.value = this.baseVolume;
-        this.masterGain.connect(this.audioContext.destination);
-
-        // 2. Setup Reverb for Piano
-        this.reverbNode = this.audioContext.createConvolver();
-        this.reverbNode.buffer = this.createImpulseResponse(1.8, 1.2);
-        this.reverbGain = this.audioContext.createGain();
-        this.reverbGain.gain.value = 0.4; // Wet mix
-
-        this.reverbNode.connect(this.reverbGain);
-        this.reverbGain.connect(this.masterGain);
-
-        this.isInitialized = true;
-
-        // 3. Start Loading Samples if explicitly set to sampled-piano
-        if (this.currentSound === 'sampled-piano') {
-            await this.loadSamples();
-        }
-    }
-
-    createImpulseResponse(duration, decay) {
-        const sampleRate = this.audioContext.sampleRate;
-        const length = sampleRate * duration;
-        const impulse = this.audioContext.createBuffer(2, length, sampleRate);
-        for (let i = 0; i < 2; i++) {
-            const channel = impulse.getChannelData(i);
-            for (let j = 0; j < length; j++) {
-                channel[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / length, decay);
+        try {
+            // Use provided context or create new one if not already set
+            if (audioContext) {
+                this.audioContext = audioContext;
+            } else if (!this.audioContext) {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
-        }
-        return impulse;
-    }
 
-    async loadSamples() {
-        if (this.isSamplesLoaded || this.isLoading) return;
-        this.isLoading = true;
+            // Create master gain node
+            this.masterGain = this.audioContext.createGain();
+            this.masterGain.gain.value = this.baseVolume;
+            this.masterGain.connect(this.audioContext.destination);
 
-        console.log("Loading Premium Piano Samples...");
-        const sampleBase = 'https://tonejs.github.io/audio/salamander/';
-        const notes = {
-            36: 'C2.mp3', 39: 'Ds2.mp3', 42: 'Fs2.mp3', 45: 'A2.mp3',
-            48: 'C3.mp3', 51: 'Ds3.mp3', 54: 'Fs3.mp3', 57: 'A3.mp3',
-            60: 'C4.mp3', 63: 'Ds4.mp3', 66: 'Fs4.mp3', 69: 'A4.mp3',
-            72: 'C5.mp3', 75: 'Ds5.mp3', 78: 'Fs5.mp3', 81: 'A5.mp3'
-        };
+            // Pre-compute hammer noise
+            this.precomputeNoise();
 
-        const promises = Object.entries(notes).map(async ([midi, file]) => {
-            try {
-                const response = await fetch(`${sampleBase}${file}`);
-                const arrayBuffer = await response.arrayBuffer();
-                const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-                this.samples[midi] = audioBuffer;
-            } catch (e) {
-                console.warn(`Failed to load piano sample: ${file}`, e);
-            }
-        });
-
-        await Promise.all(promises);
-        this.isSamplesLoaded = true;
-        this.isLoading = false;
-        console.log("Premium Piano Samples Loaded.");
-    }
-
-    setSound(soundType) {
-        this.currentSound = soundType;
-        if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('piano_audio_sound', soundType);
-        }
-        if (soundType === 'sampled-piano' && this.isInitialized && !this.isSamplesLoaded) {
-            this.loadSamples();
+            this.isInitialized = true;
+        } catch (error) {
+            console.error('Failed to initialize audio context:', error);
+            throw error;
         }
     }
 
-    playNote(midi, duration = 2.0, velocity = 0.6, startTime = null) {
+    precomputeNoise() {
+        const bufferSize = this.audioContext.sampleRate * 0.02; // 20ms of noise
+        this.noiseBuffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
+        const output = this.noiseBuffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.2));
+        }
+    }
+
+    // Convert MIDI note number to frequency in Hz
+    semitoneToFrequency(midi) {
+        return 440 * Math.pow(2, (midi - 69) / 12);
+    }
+
+    // Play a single note
+    playNote(semitone, duration = 10.0, velocity = 0.6, startTime = null) {
         if (!this.isInitialized) return;
-        if (this.audioContext.state === 'suspended') this.audioContext.resume();
+
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
 
         const now = startTime || this.audioContext.currentTime;
+        const frequency = this.semitoneToFrequency(semitone);
 
-        if (this.currentSound === 'sampled-piano' && this.isSamplesLoaded) {
-            this.playSampledNote(midi, duration, velocity, now);
-        } else {
-            this.playSynthesizedNote(midi, duration, velocity, now);
+        if (!isFinite(frequency) || frequency <= 0) {
+            console.warn('Invalid frequency for note:', semitone, frequency);
+            return;
         }
-    }
 
-    playSampledNote(midi, duration, velocity, now) {
-        const midis = Object.keys(this.samples).map(Number);
-        if (midis.length === 0) return this.playSynthesizedNote(midi, duration, velocity, now);
-
-        const closest = midis.reduce((prev, curr) =>
-            Math.abs(curr - midi) < Math.abs(prev - midi) ? curr : prev
-        );
-
-        const source = this.audioContext.createBufferSource();
-        source.buffer = this.samples[closest];
-        source.playbackRate.value = Math.pow(2, (midi - closest) / 12);
-
-        const noteGain = this.audioContext.createGain();
-        noteGain.gain.setValueAtTime(velocity, now);
-        noteGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-        source.connect(noteGain);
-        noteGain.connect(this.masterGain);
-        noteGain.connect(this.reverbNode);
-
-        source.start(now);
-        source.stop(now + duration + 0.1);
-
-        // Damper sound on release
-        setTimeout(() => this.playDamperSound(), duration * 400);
-    }
-
-    playDamperSound() {
-        if (!this.isInitialized) return;
-        const now = this.audioContext.currentTime;
-        const noise = this.audioContext.createBufferSource();
-        const noiseBuf = this.audioContext.createBuffer(1, this.audioContext.sampleRate * 0.1, this.audioContext.sampleRate);
-        const data = noiseBuf.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.02;
-        noise.buffer = noiseBuf;
-
+        // 1. Create Filter
         const filter = this.audioContext.createBiquadFilter();
         filter.type = 'lowpass';
-        filter.frequency.value = 400;
+        filter.Q.value = 1.0;
+        filter.frequency.setValueAtTime(frequency * (this.filterMult || 5), now);
 
-        const g = this.audioContext.createGain();
-        g.gain.setValueAtTime(0.015, now);
-        g.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-
-        noise.connect(filter);
-        filter.connect(g);
-        g.connect(this.masterGain);
-        noise.start(now);
-    }
-
-    playSynthesizedNote(midi, duration, velocity, now) {
-        const profile = this.soundProfiles[this.currentSound] || this.soundProfiles['sawtooth'];
-        const frequency = 440 * Math.pow(2, (midi - 69) / 12);
-
-        const filter = this.audioContext.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(frequency * (profile.filterMult || 4), now);
-
+        // 2. Create Amp (VCA)
         const noteGain = this.audioContext.createGain();
-        noteGain.gain.setValueAtTime(0, now);
-        noteGain.gain.linearRampToValueAtTime(velocity, now + (profile.attack || 0.01));
-        noteGain.gain.linearRampToValueAtTime(velocity * (profile.sustain || 0.5), now + (profile.attack || 0.01) + (profile.decay || 0.1));
-        noteGain.gain.setValueAtTime(velocity * (profile.sustain || 0.5), now + duration);
-        noteGain.gain.exponentialRampToValueAtTime(0.001, now + duration + (profile.release || 0.2));
+        noteGain.gain.value = 0;
 
         filter.connect(noteGain);
         noteGain.connect(this.masterGain);
 
-        profile.harmonics.forEach(([mult, amp, type]) => {
+        // 3. Add Hammer Noise
+        if (this.hammerEnabled) {
+            this.addHammerNoise(noteGain, now, velocity);
+        }
+
+        // ADSR envelope
+        const attackEnd = now + this.attack;
+        const decayEnd = attackEnd + this.decay;
+        const sustainLevel = this.sustain * velocity;
+        const releaseStart = now + duration;
+        const releaseEnd = releaseStart + this.release;
+
+        noteGain.gain.setValueAtTime(0, now);
+        noteGain.gain.linearRampToValueAtTime(velocity, attackEnd);
+        noteGain.gain.linearRampToValueAtTime(sustainLevel, decayEnd);
+        noteGain.gain.setValueAtTime(sustainLevel, releaseStart);
+        noteGain.gain.exponentialRampToValueAtTime(0.001, releaseEnd);
+
+        // 4. Create Oscillators
+        const oscillators = [];
+
+        this.harmonics.forEach(([multiplier, amplitude, type]) => {
+            const hFreq = frequency * multiplier;
+            if (hFreq > 15000) return;
+
             const osc = this.audioContext.createOscillator();
-            osc.type = type || 'sine';
-            osc.frequency.value = frequency * mult;
+            osc.type = type || 'triangle';
+            osc.frequency.value = hFreq;
+
             const hGain = this.audioContext.createGain();
-            hGain.gain.value = amp;
+            hGain.gain.value = amplitude;
+
             osc.connect(hGain);
             hGain.connect(filter);
+
             osc.start(now);
-            osc.stop(now + duration + (profile.release || 0.2));
+            osc.stop(releaseEnd);
+
+            oscillators.push(osc);
         });
+
+        // Store reference and cleanup
+        const noteId = `${semitone}-${now}`;
+        this.activeNotes.set(noteId, { oscillators, noteGain, filter });
+
+        const cleanupTime = (releaseEnd - this.audioContext.currentTime + 0.5) * 1000;
+        setTimeout(() => {
+            if (this.activeNotes.has(noteId)) {
+                const note = this.activeNotes.get(noteId);
+                note.oscillators.forEach(osc => { try { osc.disconnect(); } catch (e) { } });
+                try { note.noteGain.disconnect(); } catch (e) { }
+                try { note.filter.disconnect(); } catch (e) { }
+                this.activeNotes.delete(noteId);
+            }
+        }, Math.max(0, cleanupTime));
+    }
+
+    addHammerNoise(destination, startTime, velocity) {
+        if (!this.noiseBuffer) return;
+        const noise = this.audioContext.createBufferSource();
+        noise.buffer = this.noiseBuffer;
+        const filter = this.audioContext.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 2000;
+        filter.Q.value = 1;
+        const noiseGain = this.audioContext.createGain();
+        noiseGain.gain.value = velocity * 0.15;
+        noise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(destination);
+        noise.start(startTime);
     }
 
     playChord(semitones, duration = 2.0, velocity = 0.6, stagger = 0.02) {
         if (!this.isInitialized) {
-            this.initialize().then(() => this.playChord(semitones, duration, velocity, stagger));
-            return;
+            this.initialize().then(() => this.playChordInternal(semitones, duration, velocity, stagger));
+        } else {
+            this.playChordInternal(semitones, duration, velocity, stagger);
         }
+    }
+
+    playChordInternal(semitones, duration, velocity, stagger) {
+        if (this.audioContext.state === 'suspended') this.audioContext.resume();
         const now = this.audioContext.currentTime;
-        semitones.forEach((midi, i) => {
-            this.playNote(midi, duration, velocity, now + (i * stagger));
+        const sortedNotes = [...semitones].sort((a, b) => a - b);
+        sortedNotes.forEach((semitone, index) => {
+            const noteVelocity = velocity * (0.9 + Math.random() * 0.2);
+            this.playNote(semitone, duration, noteVelocity, now + (index * stagger));
         });
     }
 
@@ -241,23 +273,33 @@ class PianoAudioPlayer {
     }
 
     stopAll() {
-        if (this.masterGain) {
-            const now = this.audioContext.currentTime;
-            this.masterGain.gain.cancelScheduledValues(now);
-            this.masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-            setTimeout(() => { if (this.masterGain) this.masterGain.gain.value = this.baseVolume; }, 100);
-        }
+        if (!this.isInitialized) return;
+        const now = this.audioContext.currentTime;
+        this.activeNotes.forEach(({ noteGain }) => {
+            noteGain.gain.cancelScheduledValues(now);
+            noteGain.gain.setValueAtTime(noteGain.gain.value, now);
+            noteGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        });
+        this.activeNotes.clear();
     }
 
     setVolume(volume) {
-        this.baseVolume = Math.max(0, Math.min(1.5, volume));
+        this.baseVolume = Math.max(0, Math.min(1, volume));
         if (this.masterGain) this.masterGain.gain.value = this.baseVolume;
     }
 
+    getVolume() { return this.baseVolume; }
+
     dispose() {
-        this.isInitialized = false;
-        if (this.masterGain) this.masterGain.disconnect();
+        this.stopAll();
+        if (this.masterGain) {
+            try {
+                this.masterGain.disconnect();
+            } catch (e) { }
+            this.masterGain = null;
+        }
         this.audioContext = null;
+        this.isInitialized = false;
     }
 }
 
