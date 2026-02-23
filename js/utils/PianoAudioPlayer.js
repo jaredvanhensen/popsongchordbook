@@ -11,12 +11,22 @@ class PianoAudioPlayer {
         this.isSamplesLoaded = false;
         this.isLoading = false;
 
-        this.currentSound = 'piano'; // 'piano' (sampled), 'sawtooth', 'brass', 'warm-pad'
+        this.currentSound = 'piano'; // 'piano' (synthesized), 'sampled-piano', 'sawtooth', 'brass', 'warm-pad'
 
         this.baseVolume = 0.5;
 
-        // Synthesis profiles for other sounds
+        // Synthesis profiles for sounds
         this.soundProfiles = {
+            'piano': {
+                attack: 0.005, decay: 0.3, sustain: 0.2, release: 0.8, filterMult: 3,
+                harmonics: [
+                    [1.0, 1.0, 'triangle'], // Fundamental
+                    [1.01, 0.4, 'sine'],    // Slight detune for richness
+                    [2.0, 0.3, 'sine'],    // Overtones
+                    [3.0, 0.1, 'sine'],
+                    [0.5, 0.2, 'sine']     // Sub-harmonic for depth
+                ]
+            },
             'sawtooth': {
                 attack: 0.05, decay: 0.4, sustain: 0.6, release: 0.6, filterMult: 8,
                 harmonics: [[1.0, 1.0, 'sawtooth'], [2.0, 0.4, 'sawtooth'], [1.005, 0.3, 'sawtooth'], [0.5, 0.2, 'triangle']]
@@ -33,7 +43,7 @@ class PianoAudioPlayer {
 
         if (typeof localStorage !== 'undefined') {
             const saved = localStorage.getItem('piano_audio_sound');
-            if (saved && (saved === 'piano' || this.soundProfiles[saved])) {
+            if (saved && (saved === 'sampled-piano' || this.soundProfiles[saved])) {
                 this.currentSound = saved;
             }
         }
@@ -61,8 +71,8 @@ class PianoAudioPlayer {
 
         this.isInitialized = true;
 
-        // 3. Start Loading Samples if needed
-        if (this.currentSound === 'piano') {
+        // 3. Start Loading Samples if explicitly set to sampled-piano
+        if (this.currentSound === 'sampled-piano') {
             await this.loadSamples();
         }
     }
@@ -115,7 +125,7 @@ class PianoAudioPlayer {
         if (typeof localStorage !== 'undefined') {
             localStorage.setItem('piano_audio_sound', soundType);
         }
-        if (soundType === 'piano' && this.isInitialized && !this.isSamplesLoaded) {
+        if (soundType === 'sampled-piano' && this.isInitialized && !this.isSamplesLoaded) {
             this.loadSamples();
         }
     }
@@ -126,7 +136,7 @@ class PianoAudioPlayer {
 
         const now = startTime || this.audioContext.currentTime;
 
-        if (this.currentSound === 'piano' && this.isSamplesLoaded) {
+        if (this.currentSound === 'sampled-piano' && this.isSamplesLoaded) {
             this.playSampledNote(midi, duration, velocity, now);
         } else {
             this.playSynthesizedNote(midi, duration, velocity, now);
