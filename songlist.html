@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.111">
+    <link rel="stylesheet" href="styles.css?v=2.112">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -55,7 +55,7 @@
                     <!-- Version moved here -->
                     <div
                         style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.111</span>
+                        v<span id="site-version">2.112</span>
                     </div>
                 </div>
             </div>
@@ -328,6 +328,9 @@
                             <div id="profileAvatarPlaceholder" class="profile-avatar-placeholder"
                                 style="width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
                                 👤</div>
+                            <div id="profileModalLevelBadge" class="profile-level-badge hidden"
+                                style="position: absolute; top: 0; left: 0; transform: rotate(-5deg); font-size: 10px; padding: 2px 6px;">
+                                LVL -</div>
                             <button id="profileChangeAvatarBtn" class="profile-change-avatar-btn" title="Change Photo"
                                 style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">📷</button>
                         </div>
@@ -1204,35 +1207,35 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.111"></script>
+    <script src="js/config/firebase-config.js?v=2.112"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.111"></script>
-    <script src="js/models/SetlistManager.js?v=2.111"></script>
+    <script src="js/models/SongManager.js?v=2.112"></script>
+    <script src="js/models/SetlistManager.js?v=2.112"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=2.111"></script>
-    <script src="js/utils/ChordDetector.js?v=2.111"></script>
-    <script src="js/utils/KeyDetector.js?v=2.111"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.111"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.111"></script>
-    <script src="js/utils/LyricsParser.js?v=2.111"></script>
+    <script src="js/utils/Sorter.js?v=2.112"></script>
+    <script src="js/utils/ChordDetector.js?v=2.112"></script>
+    <script src="js/utils/KeyDetector.js?v=2.112"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.112"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.112"></script>
+    <script src="js/utils/LyricsParser.js?v=2.112"></script>
     <!-- UI Components -->
-    <script src="js/ui/ChordModal.js?v=2.111"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.111"></script>
-    <script src="js/ui/TableRenderer.js?v=2.111"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.111"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.111"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.111"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.111"></script>
-    <script src="js/ui/AuthModal.js?v=2.111"></script>
-    <script src="js/ui/ProfileModal.js?v=2.111"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.111"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.111"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.111"></script>
+    <script src="js/ui/ChordModal.js?v=2.112"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.112"></script>
+    <script src="js/ui/TableRenderer.js?v=2.112"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.112"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.112"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.112"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.112"></script>
+    <script src="js/ui/AuthModal.js?v=2.112"></script>
+    <script src="js/ui/ProfileModal.js?v=2.112"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.112"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.112"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.112"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=2.111"></script>
+    <script src="js/data/default_songs.js?v=2.112"></script>
     <!-- Main App -->
-    <script src="js/app.js?v=2.111"></script>
+    <script src="js/app.js?v=2.112"></script>
 </body>
 
 </html>

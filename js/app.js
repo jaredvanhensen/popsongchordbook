@@ -292,35 +292,9 @@ class App {
             if (!avatarUrl) avatarUrl = user.photoURL;
         }
 
-        // CLEANUP: Remove ANY existing profile images and badges to prevent duplicates
+        // CLEANUP: Remove ANY existing profile images to prevent duplicates
         const existingImages = profileBtn.querySelectorAll('.header-profile-img');
-        const existingBadges = profileBtn.querySelectorAll('.profile-level-badge');
         existingImages.forEach(img => img.remove());
-        existingBadges.forEach(badge => badge.remove());
-
-        // Calculate Total Practice and Level
-        const songs = this.songManager ? this.songManager.getAllSongs() : [];
-        const totalPractice = songs.reduce((sum, song) => sum + (parseInt(song.practiceCount) || 0), 0);
-
-        const awardTiers = [
-            { count: 10, name: "Riff Starter" },
-            { count: 20, name: "Melody Maker" },
-            { count: 50, name: "Mic Master" },
-            { count: 100, name: "Key Commander" },
-            { count: 200, name: "Beat Boxer" },
-            { count: 400, name: "String Sorcerer" },
-            { count: 750, name: "Jazz Legend" },
-            { count: 1000, name: "Grand Maestro" }
-        ];
-
-        let currentLevel = 0;
-        for (let i = 0; i < awardTiers.length; i++) {
-            if (totalPractice >= awardTiers[i].count) {
-                currentLevel = i + 1;
-            } else {
-                break;
-            }
-        }
 
         // Handle Image Element
         if (avatarUrl) {
@@ -339,29 +313,11 @@ class App {
 
             imgElement.src = avatarUrl;
 
-            // Add Level Badge
-            if (currentLevel > 0) {
-                const badge = document.createElement('div');
-                badge.className = 'profile-level-badge';
-                badge.textContent = `LVL ${currentLevel}`;
-                profileBtn.style.position = 'relative'; // Ensure parent has position for absolute badge
-                profileBtn.insertBefore(badge, imgElement);
-            }
-
             // Hide default icon
             if (iconElement) iconElement.classList.add('hidden');
         } else {
             // Show default icon
             if (iconElement) iconElement.classList.remove('hidden');
-
-            // Add Level Badge even to default icon
-            if (currentLevel > 0 && iconElement) {
-                const badge = document.createElement('div');
-                badge.className = 'profile-level-badge';
-                badge.textContent = `LVL ${currentLevel}`;
-                profileBtn.style.position = 'relative';
-                profileBtn.insertBefore(badge, iconElement);
-            }
         }
 
         // Update Label Text (Username/Profile)

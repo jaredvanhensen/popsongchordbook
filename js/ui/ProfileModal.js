@@ -50,6 +50,7 @@ class ProfileModal {
         this.progressText = document.getElementById('achievementProgressText');
         this.nextLevelName = document.getElementById('nextLevelName');
         this.nextLevelLvl = document.getElementById('nextLevelLvl');
+        this.levelBadge = document.getElementById('profileModalLevelBadge');
 
         this.awardTiers = [
             { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" },
@@ -294,6 +295,25 @@ class ProfileModal {
             this.totalPracticeDisplay.style.fontWeight = '700';
             this.totalPracticeDisplay.style.fontSize = '1.2em';
             this.totalPracticeDisplay.style.color = 'var(--primary-color, #6366f1)';
+        }
+
+        // Calculate and Update Level Badge
+        if (this.levelBadge) {
+            let currentLevel = 0;
+            for (let i = 0; i < this.awardTiers.length; i++) {
+                if (total >= this.awardTiers[i].count) {
+                    currentLevel = i + 1;
+                } else {
+                    break;
+                }
+            }
+
+            if (currentLevel > 0) {
+                this.levelBadge.textContent = `LVL ${currentLevel}`;
+                this.levelBadge.classList.remove('hidden');
+            } else {
+                this.levelBadge.classList.add('hidden');
+            }
         }
 
         // 2. Render Top 10 Table
