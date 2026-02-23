@@ -2963,6 +2963,60 @@ td:has(.row-edit-input.input-focused) {
     font-weight: 500;
 }
 
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.achievement-card.locked {
+    filter: grayscale(1);
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.achievement-card.unlocked:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.profile-top-songs-table-wrapper {
+    margin-top: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+}
+
+.profile-top-songs-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 0.9em;
+}
+
+.profile-top-songs-table th {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 10px;
+    text-align: left;
+    text-transform: none;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.profile-top-songs-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-top-songs-table tr:last-child td {
+    border-bottom: none;
+}
+
+.profile-top-songs-table tr:hover {
+    background: rgba(99, 102, 241, 0.02);
+}
+
 .profile-password-section {
     margin-bottom: 25px;
 }

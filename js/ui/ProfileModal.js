@@ -39,9 +39,22 @@ class ProfileModal {
         this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
 
-        // Database Space element
+        // Statistics elements
         this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
         this.totalPracticeDisplay = document.getElementById('profileTotalPractice');
+        this.achievementsList = document.getElementById('profileAchievementsList');
+        this.topSongsBody = document.getElementById('profileTopSongsBody');
+
+        this.awardTiers = [
+            { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" },
+            { count: 750, name: "Jazz Legend", icon: "🎷", color: "#8b5cf6" },
+            { count: 400, name: "String Sorcerer", icon: "🎻", color: "#ec4899" },
+            { count: 200, name: "Beat Boxer", icon: "🥁", color: "#ef4444" },
+            { count: 100, name: "Key Commander", icon: "🎹", color: "#3b82f6" },
+            { count: 50, name: "Mic Master", icon: "🎙️", color: "#10b981" },
+            { count: 20, name: "Melody Maker", icon: "🎵", color: "#6366f1" },
+            { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" }
+        ];
 
         this.setupEventListeners();
     }
@@ -258,31 +271,97 @@ class ProfileModal {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }
 
-        // Update database size
+        // Update statistics
         this.updateDatabaseSize();
-        this.updateTotalPracticeCount();
+        this.updateStatistics();
     }
 
-    async updateTotalPracticeCount() {
-        if (!this.totalPracticeDisplay || !this.songManager) return;
+    async updateStatistics() {
+        if (!this.songManager) return;
 
-        try {
-            const songs = this.songManager.getAllSongs();
-            const total = songs.reduce((sum, song) => {
-                const count = parseInt(song.practiceCount) || 0;
-                return sum + count;
-            }, 0);
+        const songs = this.songManager.getAllSongs();
 
+        // 1. Total Practice Count
+        const total = songs.reduce((sum, song) => sum + (parseInt(song.practiceCount) || 0), 0);
+        if (this.totalPracticeDisplay) {
             this.totalPracticeDisplay.textContent = total;
-
-            // Add a little styling to make it look prominent
             this.totalPracticeDisplay.style.fontWeight = '700';
             this.totalPracticeDisplay.style.fontSize = '1.2em';
             this.totalPracticeDisplay.style.color = 'var(--primary-color, #6366f1)';
-        } catch (error) {
-            console.error('Error calculating total practice sessions:', error);
-            this.totalPracticeDisplay.textContent = '0';
         }
+
+        // 2. Render Top 10 Table
+        this.renderTopSongs(songs);
+
+        // 3. Render Achievements/Awards
+        this.renderAchievements(total);
+    }
+
+    renderTopSongs(songs) {
+        if (!this.topSongsBody) return;
+
+        // Sort by practice count descending
+        const sorted = [...songs].sort((a, b) => (parseInt(b.practiceCount) || 0) - (parseInt(a.practiceCount) || 0));
+        const top10 = sorted.slice(0, 10);
+
+        this.topSongsBody.innerHTML = '';
+        top10.forEach((song, index) => {
+            const count = parseInt(song.practiceCount) || 0;
+            const award = this.getAwardForCount(count);
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td style="font-weight: 600;">${song.title}</td>
+                <td style="font-size: 0.9em; color: #64748b;">${song.artist}</td>
+                <td style="text-align: center; font-weight: 700;">${count}</td>
+                <td style="text-align: center; font-size: 1.2em;" title="${award ? award.name : 'No award yet'}">
+                    ${award ? award.icon : '-'}
+                </td>
+            `;
+            this.topSongsBody.appendChild(tr);
+        });
+    }
+
+    renderAchievements(totalPractice) {
+        if (!this.achievementsList) return;
+
+        this.achievementsList.innerHTML = '';
+
+        this.awardTiers.forEach(tier => {
+            const isUnlocked = totalPractice >= tier.count;
+            const card = document.createElement('div');
+            card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+            card.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 12px;
+                background: ${isUnlocked ? tier.color + '10' : '#f8fafc'};
+                border: 2px solid ${isUnlocked ? tier.color : '#e2e8f0'};
+                border-radius: 12px;
+                opacity: ${isUnlocked ? '1' : '0.5'};
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+            `;
+
+            if (isUnlocked) {
+                card.style.boxShadow = `0 4px 12px ${tier.color}30`;
+            }
+
+            card.innerHTML = `
+                <div style="font-size: 24px; margin-bottom: 5px;">${tier.icon}</div>
+                <div style="font-size: 10px; font-weight: 700; text-align: center; color: ${isUnlocked ? tier.color : '#64748b'}; text-transform: uppercase; letter-spacing: 0.5px;">${tier.name}</div>
+                <div style="font-size: 9px; color: #94a3b8;">${tier.count} goals</div>
+                ${!isUnlocked ? `<div style="position: absolute; top:0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.4); backdrop-filter: blur(1px);">🔒</div>` : ''}
+            `;
+            this.achievementsList.appendChild(card);
+        });
+    }
+
+    getAwardForCount(count) {
+        return this.awardTiers.find(tier => count >= tier.count);
     }
 
     async updateDatabaseSize() {
