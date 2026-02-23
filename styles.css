@@ -2952,7 +2952,8 @@ td:has(.row-edit-input.input-focused) {
     border-bottom: 2px solid var(--border-color);
 }
 
-.profile-email-display {
+.profile-email-display,
+.profile-total-practice-display {
     background: rgba(99, 102, 241, 0.05);
     border: 2px solid var(--border-color);
     border-radius: 10px;

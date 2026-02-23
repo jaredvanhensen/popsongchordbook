@@ -41,6 +41,7 @@ class ProfileModal {
 
         // Database Space element
         this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
+        this.totalPracticeDisplay = document.getElementById('profileTotalPractice');
 
         this.setupEventListeners();
     }
@@ -259,6 +260,29 @@ class ProfileModal {
 
         // Update database size
         this.updateDatabaseSize();
+        this.updateTotalPracticeCount();
+    }
+
+    async updateTotalPracticeCount() {
+        if (!this.totalPracticeDisplay || !this.songManager) return;
+
+        try {
+            const songs = this.songManager.getAllSongs();
+            const total = songs.reduce((sum, song) => {
+                const count = parseInt(song.practiceCount) || 0;
+                return sum + count;
+            }, 0);
+
+            this.totalPracticeDisplay.textContent = total;
+
+            // Add a little styling to make it look prominent
+            this.totalPracticeDisplay.style.fontWeight = '700';
+            this.totalPracticeDisplay.style.fontSize = '1.2em';
+            this.totalPracticeDisplay.style.color = 'var(--primary-color, #6366f1)';
+        } catch (error) {
+            console.error('Error calculating total practice sessions:', error);
+            this.totalPracticeDisplay.textContent = '0';
+        }
     }
 
     async updateDatabaseSize() {
