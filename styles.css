@@ -2980,6 +2980,46 @@ td:has(.row-edit-input.input-focused) {
     transform: translateY(-3px) scale(1.02);
 }
 
+.achievement-progress-container {
+    background: #f8fafc;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.achievement-progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.achievement-progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.achievement-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.achievement-progress-text {
+    font-size: 0.75em;
+    color: #64748b;
+    text-align: right;
+    font-weight: 600;
+}
+
 .profile-top-songs-table-wrapper {
     margin-top: 15px;
     border-radius: 12px;

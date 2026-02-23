@@ -45,15 +45,21 @@ class ProfileModal {
         this.achievementsList = document.getElementById('profileAchievementsList');
         this.topSongsBody = document.getElementById('profileTopSongsBody');
 
+        // Progress elements
+        this.progressFill = document.getElementById('achievementProgressFill');
+        this.progressText = document.getElementById('achievementProgressText');
+        this.nextLevelName = document.getElementById('nextLevelName');
+        this.nextLevelLvl = document.getElementById('nextLevelLvl');
+
         this.awardTiers = [
-            { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" },
-            { count: 750, name: "Jazz Legend", icon: "🎷", color: "#8b5cf6" },
-            { count: 400, name: "String Sorcerer", icon: "🎻", color: "#ec4899" },
-            { count: 200, name: "Beat Boxer", icon: "🥁", color: "#ef4444" },
-            { count: 100, name: "Key Commander", icon: "🎹", color: "#3b82f6" },
-            { count: 50, name: "Mic Master", icon: "🎙️", color: "#10b981" },
+            { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" },
             { count: 20, name: "Melody Maker", icon: "🎵", color: "#6366f1" },
-            { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" }
+            { count: 50, name: "Mic Master", icon: "🎙️", color: "#10b981" },
+            { count: 100, name: "Key Commander", icon: "🎹", color: "#3b82f6" },
+            { count: 200, name: "Beat Boxer", icon: "🥁", color: "#ef4444" },
+            { count: 400, name: "String Sorcerer", icon: "🎻", color: "#ec4899" },
+            { count: 750, name: "Jazz Legend", icon: "🎷", color: "#8b5cf6" },
+            { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" }
         ];
 
         this.setupEventListeners();
@@ -328,8 +334,14 @@ class ProfileModal {
 
         this.achievementsList.innerHTML = '';
 
-        this.awardTiers.forEach(tier => {
+        let nextTier = null;
+        let currentTierIndex = -1;
+
+        this.awardTiers.forEach((tier, index) => {
             const isUnlocked = totalPractice >= tier.count;
+            if (isUnlocked) currentTierIndex = index;
+            if (!isUnlocked && !nextTier) nextTier = tier;
+
             const card = document.createElement('div');
             card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
             card.style.cssText = `
@@ -337,10 +349,10 @@ class ProfileModal {
                 flex-direction: column;
                 align-items: center;
                 padding: 12px;
-                background: ${isUnlocked ? tier.color + '10' : '#f8fafc'};
+                background: ${isUnlocked ? tier.color + '10' : '#f1f5f9'};
                 border: 2px solid ${isUnlocked ? tier.color : '#e2e8f0'};
                 border-radius: 12px;
-                opacity: ${isUnlocked ? '1' : '0.5'};
+                opacity: ${isUnlocked ? '1' : '0.6'};
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
                 overflow: hidden;
@@ -351,17 +363,51 @@ class ProfileModal {
             }
 
             card.innerHTML = `
-                <div style="font-size: 24px; margin-bottom: 5px;">${tier.icon}</div>
+                <div style="font-size: 9px; font-weight: 800; color: ${isUnlocked ? tier.color : '#94a3b8'}; margin-bottom: 4px; text-transform: uppercase;">Level ${index + 1}</div>
+                <div style="font-size: 24px; margin-bottom: 5px; position: relative; z-index: 1;">
+                    ${tier.icon}
+                    ${!isUnlocked ? `<span style="position: absolute; bottom: -2px; right: -4px; font-size: 10px; background: white; border-radius: 50%; padding: 1px;">🔒</span>` : ''}
+                </div>
                 <div style="font-size: 10px; font-weight: 700; text-align: center; color: ${isUnlocked ? tier.color : '#64748b'}; text-transform: uppercase; letter-spacing: 0.5px;">${tier.name}</div>
-                <div style="font-size: 9px; color: #94a3b8;">${tier.count} goals</div>
-                ${!isUnlocked ? `<div style="position: absolute; top:0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.4); backdrop-filter: blur(1px);">🔒</div>` : ''}
+                <div style="font-size: 9px; color: #94a3b8;">${tier.count} Practices</div>
             `;
             this.achievementsList.appendChild(card);
         });
+
+        // Update Progress Bar
+        if (this.progressFill && this.progressText) {
+            let percentage = 0;
+            let currentGoal = 0;
+            let prevGoal = currentTierIndex >= 0 ? this.awardTiers[currentTierIndex].count : 0;
+
+            if (nextTier) {
+                currentGoal = nextTier.count;
+                // Calculate progress between tiers for a smoother feel
+                const range = currentGoal - prevGoal;
+                const progressInRange = totalPractice - prevGoal;
+                percentage = Math.min(100, Math.max(0, (progressInRange / range) * 100));
+
+                this.nextLevelName.textContent = nextTier.name;
+                this.nextLevelLvl.textContent = `Level ${this.awardTiers.indexOf(nextTier) + 1}`;
+                this.progressText.textContent = `${totalPractice} / ${currentGoal} Practices`;
+            } else {
+                // All tiers achieved
+                percentage = 100;
+                this.nextLevelName.textContent = "Grand Maestro Maxed!";
+                this.nextLevelLvl.textContent = "MAX LEVEL";
+                this.progressText.textContent = `${totalPractice} Practices Total`;
+            }
+
+            this.progressFill.style.width = `${percentage}%`;
+        }
     }
 
     getAwardForCount(count) {
-        return this.awardTiers.find(tier => count >= tier.count);
+        // Find highest tier reached (iterate backwards since tiers are now 10..1000)
+        for (let i = this.awardTiers.length - 1; i >= 0; i--) {
+            if (count >= this.awardTiers[i].count) return this.awardTiers[i];
+        }
+        return null;
     }
 
     async updateDatabaseSize() {
