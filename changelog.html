@@ -113,6 +113,7 @@
 
         .change-description {
             color: var(--text-muted);
+            flex: 1;
         }
 
         .back-link {
@@ -147,8 +148,8 @@
     <div class="container">
         <a href="index.html" class="back-link">← Back to App</a>
         <header>
-            <h1>Changelog</h1>
-            <p class="subtitle">Summary of changes and updates for Pop Song Chord Book</p>
+            <h1>Full Changelog</h1>
+            <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
 
         <div class="changelog">
@@ -180,187 +181,193 @@
                 </div>
                 <div class="change-list">
                     <div class="change-item">
-                        <span class="change-type">Timestamp Optimization:</span>
-                        <span class="change-description">All chord timestamps in the database and defaults are now
-                            rounded to 3 decimal places (milliseconds). This significantly reduces data size.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Version Update:</span>
-                        <span class="change-description">Updated index.html, songlist.html, scrolling_chords.html, and
-                            js/app.js to reflect the new version number.</span>
+                        <span class="change-type">Optimization:</span>
+                        <span class="change-description">Chord timestamps rounded to 3 decimal places (milliseconds).
+                            Optimized default_songs.js library for performance.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Cache Busting:</span>
-                        <span class="change-description">Updated all script and CSS query strings to ?v=2.117 to ensure
-                            all users receive the latest code immediately.</span>
+                        <span class="change-description">Updated versioning system to force client-side refresh for all
+                            scripts and styles.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- v2.116 -->
+            <!-- v2.108 - v2.116 (Audio & Practice Overhaul) -->
             <div class="version-card">
                 <div class="version-header">
-                    <span class="version-number">v2.116</span>
+                    <span class="version-number">v2.108 - v2.116</span>
                     <span class="version-date">February 23, 2026</span>
                 </div>
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Audio Engine:</span>
-                        <span class="change-description">Perfect audio engine revert to v2.098 while preserving chord
-                            parsing logic for maximum reliability.</span>
+                        <span class="change-description">Revert to synthesized piano engine for maximum reliability
+                            (v2.116). Integrated Premium Grand samples (v2.107).</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Gamer System:</span>
+                        <span class="change-description">Added Level Badge system to Profile, Top 10 Practiced Songs
+                            table, and total session counters.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">MIDI Input:</span>
+                        <span class="change-description">Integrated MIDI keyboard support for real-time chord recording
+                            on the timeline.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- v2.111 - v2.115 Highlights -->
+            <!-- v2.093 - v2.106 -->
             <div class="version-card">
                 <div class="version-header">
-                    <span class="version-number">v2.108 - v2.115</span>
-                    <span class="version-date">February 23, 2026</span>
-                </div>
-                <div class="change-list">
-                    <div class="change-item">
-                        <span class="change-type">Profile Levels:</span>
-                        <span class="change-description">Added a premium Level Badge system to the Profile button based
-                            on practice consistency.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Practice Stats:</span>
-                        <span class="change-description">Added "Top 10 Practiced Songs" table and total session counter
-                            to the profile modal.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Audio Samples:</span>
-                        <span class="change-description">Integrated Premium Grand piano samples (Yamaha C5) and Studio
-                            Reverb options.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- v2.104 - v2.106 -->
-            <div class="version-card">
-                <div class="version-header">
-                    <span class="version-number">v2.104 - v2.106</span>
+                    <span class="version-number">v2.093 - v2.106</span>
                     <span class="version-date">February 22, 2026</span>
                 </div>
                 <div class="change-list">
                     <div class="change-item">
-                        <span class="change-type">Grid Precision:</span>
-                        <span class="change-description">Increased Bar adjustment precision to 0.25 beats (16th notes)
-                            and refined snap-to-grid to 16 subdivisions.</span>
+                        <span class="change-type">Precision Grid:</span>
+                        <span class="change-description">Increased Bar adjustment to 0.25 beats and snap-to-grid to 16th
+                            notes.</span>
                     </div>
                     <div class="change-item">
-                        <span class="change-type">Virtual Piano:</span>
-                        <span class="change-description">Added a compact virtual piano interface in EDIT mode for quick
-                            reference.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- v2.093 - v2.098 -->
-            <div class="version-card">
-                <div class="version-header">
-                    <span class="version-number">v2.093 - v2.098</span>
-                    <span class="version-date">February 22, 2026</span>
-                </div>
-                <div class="change-list">
-                    <div class="change-item">
-                        <span class="change-type">Redo Function:</span>
-                        <span class="change-description">Implemented Redo functionality (Ctrl+Y) on the chord
-                            timeline.</span>
+                        <span class="change-type">Redo Func:</span>
+                        <span class="change-description">Added Redo functionality (Ctrl+Y) to complement existing
+                            Undo.</span>
                     </div>
                     <div class="change-item">
-                        <span class="change-type">Timeline Fixes:</span>
-                        <span class="change-description">Fixed 'jumping' chords by removing laggy transform transitions
-                            and conflicting hover transforms.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Drag & Drop:</span>
-                        <span class="change-description">Implemented drag-and-drop chords from the toolbar directly to
-                            the timeline.</span>
+                        <span class="change-type">UX Polish:</span>
+                        <span class="change-description">Implemented Drag-and-Drop for chords from toolbar and fixed
+                            "jumping" chord transitions.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- v2.080 - v2.091 -->
+            <!-- v2.015 - v2.091 -->
             <div class="version-card">
                 <div class="version-header">
-                    <span class="version-number">v2.080 - v2.091</span>
-                    <span class="version-date">February 20, 2026</span>
+                    <span class="version-number">v2.015 - v2.091</span>
+                    <span class="version-date">February 13-21, 2026</span>
                 </div>
                 <div class="change-list">
                     <div class="change-item">
-                        <span class="change-type">Mobile UI:</span>
-                        <span class="change-description">Extensive refinements to the footer layout, icon alignment, and
-                            badge sizing for mobile devices.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">BPM & Key:</span>
-                        <span class="change-description">Unified BPM and Key fields with interactive clickable badges
-                            and fixed sizing.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- v2.043 - v2.052 -->
-            <div class="version-card">
-                <div class="version-header">
-                    <span class="version-number">v2.043 - v2.052</span>
-                    <span class="version-date">February 19, 2026</span>
-                </div>
-                <div class="change-list">
-                    <div class="change-item">
-                        <span class="change-type">Tablet Optimization:</span>
-                        <span class="change-description">Fixed layout issues, timing lags, and scrolling discrepancies
-                            specifically for iPad and tablets.</span>
+                        <span class="change-type">Mobile Layout:</span>
+                        <span class="change-description">Iterative refinements for mobile footer, BPM/Key badges, and
+                            landscape optimizations for iPad.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Lyrics HUD:</span>
-                        <span class="change-description">Optimized the mobile portrait Lyrics HUD for a cleaner 2-line
-                            display.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- v2.030 - v2.042 -->
-            <div class="version-card">
-                <div class="version-header">
-                    <span class="version-number">v2.030 - v2.042</span>
-                    <span class="version-date">February 17-19, 2026</span>
-                </div>
-                <div class="change-list">
-                    <div class="change-item">
-                        <span class="change-type">Edit Mode:</span>
-                        <span class="change-description">Introduced the Edit Mode toggle to declutter the toolbar for
-                            general users.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Stabilization:</span>
-                        <span class="change-description">Grouped adjustment buttons on a stable 3rd row for mobile and
-                            stabilized the toolbar.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- v2.015 - v2.023 -->
-            <div class="version-card">
-                <div class="version-header">
-                    <span class="version-number">v2.015 - v2.023</span>
-                    <span class="version-date">February 13-17, 2026</span>
-                </div>
-                <div class="change-list">
-                    <div class="change-item">
-                        <span class="change-type">Shifting Controls:</span>
-                        <span class="change-description">Added bulk chord shifting controls to the timeline.</span>
-                    </div>
-                    <div class="change-item">
-                        <span class="change-type">Lyrics HUD:</span>
-                        <span class="change-description">Added the Lyrics HUD Teleprompter and LRC file parser.</span>
+                        <span class="change-description">Added Lyrics Teleprompter with LRC support and mobile Portrait
+                            optimization.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Custom Modals:</span>
-                        <span class="change-description">Replaced browser native confirm/alert boxes with professional
-                            custom designed modals.</span>
+                        <span class="change-description">Replaced all browser confirm/alert popups with professional
+                            custom modal designs.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v1.99 - v2.00 Hotfixes -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v1.99 - v2.00</span>
+                    <span class="version-date">January - February, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Security:</span>
+                        <span class="change-description">Nuclear Login Bypass and raw-HTML Guest mode implemented for
+                            connectivity failsafes.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Health Checks:</span>
+                        <span class="change-description">Added connectivity monitoring and Firebase initialization
+                            diagnostics.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v1.95 - v1.99 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v1.95 - v1.99</span>
+                    <span class="version-date">Early 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Setup Logic:</span>
+                        <span class="change-description">Robust Setlist management and success verification.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Timeline UI:</span>
+                        <span class="change-description">Custom ChordEditModal, manual horizontal scrolling, and
+                            touch-drag fixes for iPad.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v1.85 - v1.94 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v1.85 - v1.94</span>
+                    <span class="version-date">Late 2025 - Early 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">PWA Mode:</span>
+                        <span class="change-description">Enabled standalone mode for iOS/Android and hardened safe area
+                            margins.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Piano Overlay:</span>
+                        <span class="change-description">Added virtual piano chord overlay with switchable note
+                            deduplication.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Branding:</span>
+                        <span class="change-description">Transitioned to premium SVG icons and custom 3D guitar
+                            imagery.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v1.17 Legacy -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v1.17</span>
+                    <span class="version-date">2025</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Classic Theme:</span>
+                        <span class="change-description">Initial theme stabilization to match original site aesthetics
+                            ("Jared0").</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Early Versions -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v0.51 - v0.97</span>
+                    <span class="version-date">Genesis</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Chord Finder:</span>
+                        <span class="change-description">Initial implementation of the Note-to-Chord identity
+                            system.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Database:</span>
+                        <span class="change-description">Realtime Database integration for profile sync and song
+                            persistence.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Layout Basics:</span>
+                        <span class="change-description">Establishment of initial font sizes (22px chords) and core grid
+                            headers.</span>
                     </div>
                 </div>
             </div>
