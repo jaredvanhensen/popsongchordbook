@@ -1679,7 +1679,14 @@ function getExportData() {
         tempo: currentTempo,
         barOffset: barOffsetInBeats,
         duration: duration,
-        chords: chords,
+        chords: chords.map(c => {
+            const chord = {
+                name: c.name,
+                time: Math.round(c.time * 1000) / 1000
+            };
+            if (c.yOffset !== undefined) chord.yOffset = c.yOffset;
+            return chord;
+        }),
         useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false
     };
 }
@@ -1713,7 +1720,7 @@ function shiftChords(deltaSteps) {
     const timeShift = deltaSteps * snapInterval;
 
     chords.forEach(c => {
-        c.time = Math.max(0, c.time + timeShift);
+        c.time = Math.round(Math.max(0, c.time + timeShift) * 1000) / 1000;
     });
 
     // Ensure they stay sorted
@@ -1886,8 +1893,8 @@ function extractChordsFromMidi(midi) {
     midi.tracks.forEach(track => {
         track.notes.forEach(note => {
             allNotes.push({
-                time: note.time,
-                duration: note.duration,
+                time: Math.round(note.time * 1000) / 1000,
+                duration: Math.round(note.duration * 1000) / 1000,
                 midi: note.midi,
                 name: note.name
             });
@@ -2489,6 +2496,7 @@ function toggleTimingCapture() {
         captureBtn.classList.add('active');
         recordingIndicator.classList.remove('hidden');
         youtubePlayerContainer.classList.remove('hidden');
+        if (youtubeToggleBtn) youtubeToggleBtn.classList.add('active');
 
         wasAudioEnabledBeforeCapture = audioEnabled;
         audioEnabled = false;
@@ -2497,8 +2505,8 @@ function toggleTimingCapture() {
     } else {
         captureBtn.classList.remove('active');
         recordingIndicator.classList.add('hidden');
-        youtubePlayerContainer.classList.add('hidden');
-        if (youtubePlayer) youtubePlayer.pauseVideo();
+        // Do NOT hide or pause YouTube automatically here per user request
+
         if (isPlaying) pause();
 
         // Restore audio state
@@ -2522,6 +2530,7 @@ function recordChord(name = "?", time = null) {
         }
     }
 
+    currentTime = Math.round(currentTime * 1000) / 1000;
     chords.push({ name: name, time: currentTime });
     chords.sort((a, b) => a.time - b.time);
 
@@ -2557,7 +2566,7 @@ function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
         if (original) {
             newChords.push({
                 name: original.name,
-                time: original.time + offset,
+                time: Math.round((original.time + offset) * 1000) / 1000,
                 _isNewCopy: true // Temporary tag to find them later
             });
         }
@@ -2672,7 +2681,7 @@ function snapToGrid(time) {
     const snapped = Math.round(time / snapInterval) * snapInterval;
 
     // Avoid snapping to negative
-    return Math.max(0, snapped);
+    return Math.round(Math.max(0, snapped) * 1000) / 1000;
 }
 
 // --- Zoom Logic ---

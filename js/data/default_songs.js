@@ -1,4 +1,4 @@
-﻿// Default songs to be loaded for new users if their library is empty.
+// Default songs to be loaded for new users if their library is empty.
 // Exported from user "pop song chord book" on 2026-02-18
 
 const DEFAULT_SONGS = [
@@ -28,1147 +28,1147 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  1.4563106796116503,
+                                             "time": 1.456,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  2.3300970873786406,
+                                             "time": 2.33,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  3.786407766990291,
+                                             "time": 3.786,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  4.660194174757281,
+                                             "time": 4.66,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  6.116504854368932,
+                                             "time": 6.117,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  6.990291262135922,
+                                             "time": 6.99,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  8.446601941747572,
+                                             "time": 8.447,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  9.320388349514563,
+                                             "time": 9.32,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  10.776699029126213,
+                                             "time": 10.777,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  11.650485436893202,
+                                             "time": 11.65,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  13.106796116504853,
+                                             "time": 13.107,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  13.980582524271844,
+                                             "time": 13.981,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  15.363101053405762,
+                                             "time": 15.363,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  16.243417977111818,
+                                             "time": 16.243,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  17.77445001335144,
+                                             "time": 17.774,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  18.6104839961853,
+                                             "time": 18.61,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  19.9565970705719,
+                                             "time": 19.957,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  20.869548047683715,
+                                             "time": 20.87,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  22.353330967575072,
+                                             "time": 22.353,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  23.223662805450438,
+                                             "time": 23.224,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  24.61670512207031,
+                                             "time": 24.617,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  25.491123931335448,
+                                             "time": 25.491,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  26.885709009536743,
+                                             "time": 26.886,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  27.79880905912781,
+                                             "time": 27.799,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  29.214745087738038,
+                                             "time": 29.215,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  30.07032595803833,
+                                             "time": 30.07,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  31.5676989294281,
+                                             "time": 31.568,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  32.459487937057496,
+                                             "time": 32.459,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  33.94155897901916,
+                                             "time": 33.942,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  34.72782407247925,
+                                             "time": 34.728,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  36.189247885559084,
+                                             "time": 36.189,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  37.165251003814696,
+                                             "time": 37.165,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  38.462702020980835,
+                                             "time": 38.463,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  39.30369401525879,
+                                             "time": 39.304,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  41.79895589509582,
+                                             "time": 41.799,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  43.21521090272522,
+                                             "time": 43.215,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  43.642222019073486,
+                                             "time": 43.642,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  44.01219504768372,
+                                             "time": 44.012,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  45.45165791989136,
+                                             "time": 45.452,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  45.92327794659424,
+                                             "time": 45.923,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  46.29122119264221,
+                                             "time": 46.291,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  47.736440053405765,
+                                             "time": 47.736,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  48.209725007629395,
+                                             "time": 48.21,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  48.60038194468689,
+                                             "time": 48.6,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  50.074840946594236,
+                                             "time": 50.075,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  50.51315308392334,
+                                             "time": 50.513,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  51.05769230769231,
+                                             "time": 51.058,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  52.21153846153846,
+                                             "time": 52.212,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  52.78846153846153,
+                                             "time": 52.788,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  53.07692307692307,
+                                             "time": 53.077,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  54.51923076923077,
+                                             "time": 54.519,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  55.09615384615384,
+                                             "time": 55.096,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  55.38461538461538,
+                                             "time": 55.385,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  56.82692307692307,
+                                             "time": 56.827,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  57.403846153846146,
+                                             "time": 57.404,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  57.692307692307686,
+                                             "time": 57.692,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  59.13461538461538,
+                                             "time": 59.135,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  59.71153846153845,
+                                             "time": 59.712,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  60.28846153846153,
+                                             "time": 60.288,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  61.58873092370605,
+                                             "time": 61.589,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  62.01923076923077,
+                                             "time": 62.019,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  62.59615384615384,
+                                             "time": 62.596,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  66.23975800762939,
+                                             "time": 66.24,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  66.6877348664856,
+                                             "time": 66.688,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  67.0817690629425,
+                                             "time": 67.082,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  69.34160506103515,
+                                             "time": 69.342,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  70.82237707247924,
+                                             "time": 70.822,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  71.5974852155304,
+                                             "time": 71.597,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  73.10077604005433,
+                                             "time": 73.101,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  73.93445300190734,
+                                             "time": 73.934,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  75.42143500190735,
+                                             "time": 75.421,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  76.23279291989135,
+                                             "time": 76.233,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  77.77423303051758,
+                                             "time": 77.774,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  78.5859409885559,
+                                             "time": 78.586,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  80.02440997520446,
+                                             "time": 80.024,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  80.84603888365173,
+                                             "time": 80.846,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  82.39509311634826,
+                                             "time": 82.395,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  83.14967616593933,
+                                             "time": 83.15,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  84.62499492752075,
+                                             "time": 84.625,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  85.47006693133545,
+                                             "time": 85.47,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  86.91003815640259,
+                                             "time": 86.91,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  87.8244510705719,
+                                             "time": 87.824,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  89.17756594850158,
+                                             "time": 89.178,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  90.07997688365174,
+                                             "time": 90.08,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  91.55202499618531,
+                                             "time": 91.552,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  92.41338410490417,
+                                             "time": 92.413,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  93.76706685694886,
+                                             "time": 93.767,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  94.6595121449585,
+                                             "time": 94.66,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  96.11787710108948,
+                                             "time": 96.118,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  97.03202294468689,
+                                             "time": 97.032,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  98.49597495422363,
+                                             "time": 98.496,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  99.35065089509582,
+                                             "time": 99.351,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  100.85259904386902,
+                                             "time": 100.853,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  101.63444815640258,
+                                             "time": 101.634,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  103.15543902479553,
+                                             "time": 103.155,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Cadd9",
-                                             "time":  103.90900495803832,
+                                             "time": 103.909,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  106.34294181498719,
+                                             "time": 106.343,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  107.77162012397766,
+                                             "time": 107.772,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  108.21824581498718,
+                                             "time": 108.218,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  108.58918800953674,
+                                             "time": 108.589,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  110.08235989700317,
+                                             "time": 110.082,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  110.52660908583069,
+                                             "time": 110.527,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  110.99953,
+                                             "time": 111,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  112.27362795231629,
+                                             "time": 112.274,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  112.76105108392333,
+                                             "time": 112.761,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  113.12775209155274,
+                                             "time": 113.128,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  114.60491594659423,
+                                             "time": 114.605,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  115.01016006103515,
+                                             "time": 115.01,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  115.6504511411438,
+                                             "time": 115.65,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  116.94802605531311,
+                                             "time": 116.948,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  117.405887874115,
+                                             "time": 117.406,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  117.83213111253357,
+                                             "time": 117.832,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  119.32611295040894,
+                                             "time": 119.326,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  119.79063500762939,
+                                             "time": 119.791,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  120.13414408583068,
+                                             "time": 120.134,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  121.5430848626709,
+                                             "time": 121.543,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  122.00460389891052,
+                                             "time": 122.005,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  122.38566708392334,
+                                             "time": 122.386,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  124.13111012588502,
+                                             "time": 124.131,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  124.48426103814697,
+                                             "time": 124.484,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  124.76422482261658,
+                                             "time": 124.764,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  126.23847316021728,
+                                             "time": 126.238,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  126.6618278512268,
+                                             "time": 126.662,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  127.04674705722046,
+                                             "time": 127.047,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  129.34929690272523,
+                                             "time": 129.349,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  130.7346148550415,
+                                             "time": 130.735,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  131.22610896566772,
+                                             "time": 131.226,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  131.67883483596802,
+                                             "time": 131.679,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  133.0709780667572,
+                                             "time": 133.071,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  133.50595514305115,
+                                             "time": 133.506,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  134.4230769230769,
+                                             "time": 134.423,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  135.4799360972748,
+                                             "time": 135.48,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  135.96635999046325,
+                                             "time": 135.966,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  136.2911371811981,
+                                             "time": 136.291,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  138.7362541010895,
+                                             "time": 138.736,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  140.10772106866455,
+                                             "time": 140.108,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  140.56171711253356,
+                                             "time": 140.562,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  141.03841401525878,
+                                             "time": 141.038,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  143.5216580152588,
+                                             "time": 143.522,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  144.65104789700317,
+                                             "time": 144.651,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  145.1366088817444,
+                                             "time": 145.137,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  145.55634789318847,
+                                             "time": 145.556,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  147.99558704005432,
+                                             "time": 147.996,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  149.31899679019165,
+                                             "time": 149.319,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  149.78117912588502,
+                                             "time": 149.781,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  150.18161812779235,
+                                             "time": 150.182,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  151.57130811062623,
+                                             "time": 151.571,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  151.9941880591278,
+                                             "time": 151.994,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  152.57407606103516,
+                                             "time": 152.574,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  153.912397,
+                                             "time": 153.912,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  154.39952503623962,
+                                             "time": 154.4,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  154.7991430476837,
+                                             "time": 154.799,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  157.2396279256134,
+                                             "time": 157.24,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  158.50913001335144,
+                                             "time": 158.509,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  159.0324399809265,
+                                             "time": 159.032,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  159.4051640114441,
+                                             "time": 159.405,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  160.87520791607665,
+                                             "time": 160.875,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  161.32387301335143,
+                                             "time": 161.324,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  161.80245700953674,
+                                             "time": 161.802,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  163.1050822040863,
+                                             "time": 163.105,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  163.5715838245239,
+                                             "time": 163.572,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  164.0043420858307,
+                                             "time": 164.004,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  166.28262207629393,
+                                             "time": 166.283,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  167.7250620114441,
+                                             "time": 167.725,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  168.19065083024597,
+                                             "time": 168.191,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  168.5986901926422,
+                                             "time": 168.599,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  170.95515398283385,
+                                             "time": 170.955,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  172.33515594277955,
+                                             "time": 172.335,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  172.8077269809265,
+                                             "time": 172.808,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  173.13245107629393,
+                                             "time": 173.132,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  174.59667803433229,
+                                             "time": 174.597,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  175.08936900190736,
+                                             "time": 175.089,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  175.75565688746644,
+                                             "time": 175.756,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  176.9848470743866,
+                                             "time": 176.985,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  177.40946716975404,
+                                             "time": 177.409,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  177.82467496376037,
+                                             "time": 177.825,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  179.2426609809265,
+                                             "time": 179.243,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  179.70759909918212,
+                                             "time": 179.708,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  180.57692307692307,
+                                             "time": 180.577,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  181.53880202288818,
+                                             "time": 181.539,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  182.019740874115,
+                                             "time": 182.02,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  182.44473496948243,
+                                             "time": 182.445,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  184.02542291607665,
+                                             "time": 184.025,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  184.41972601716614,
+                                             "time": 184.42,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  184.74920202288817,
+                                             "time": 184.749,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  186.15730902861023,
+                                             "time": 186.157,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  186.60970111444092,
+                                             "time": 186.61,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  187.12359606103516,
+                                             "time": 187.124,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  188.07692307692307,
+                                             "time": 188.077,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  188.65384615384613,
+                                             "time": 188.654,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  189.44564891989137,
+                                             "time": 189.446,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  190.7704519923706,
+                                             "time": 190.77,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  191.25486001907348,
+                                             "time": 191.255,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  191.63240817166138,
+                                             "time": 191.632,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  193.9771758664856,
+                                             "time": 193.977,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  195.3822821716614,
+                                             "time": 195.382,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  195.93186104768373,
+                                             "time": 195.932,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  196.33670414305115,
+                                             "time": 196.337,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  197.65866586076356,
+                                             "time": 197.659,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  198.13609200190734,
+                                             "time": 198.136,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  198.8465430858307,
+                                             "time": 198.847,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  199.9996009885559,
+                                             "time": 200,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  200.47210494277954,
+                                             "time": 200.472,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  200.82789886648558,
+                                             "time": 200.828,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  203.20871300953675,
+                                             "time": 203.209,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  204.67357282261656,
+                                             "time": 204.674,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  205.1371969408722,
+                                             "time": 205.137,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  205.5736701087189,
+                                             "time": 205.574,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  206.9157340267029,
+                                             "time": 206.916,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  207.38969218882752,
+                                             "time": 207.39,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  208.0031439847412,
+                                             "time": 208.003,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  209.13461538461536,
+                                             "time": 209.135,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  209.71153846153845,
+                                             "time": 209.712,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  209.99999999999997,
+                                             "time": 210,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  212.3076923076923,
+                                             "time": 212.308,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  213.93881698664856,
+                                             "time": 213.939,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  214.4177230667572,
+                                             "time": 214.418,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  214.85120692370606,
+                                             "time": 214.851,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  216.20153698664856,
+                                             "time": 216.202,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  216.64534495803832,
+                                             "time": 216.645,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  217.14271116212464,
+                                             "time": 217.143,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  218.55232800190734,
+                                             "time": 218.552,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  219.00085296376037,
+                                             "time": 219.001,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  219.40473615068055,
+                                             "time": 219.405,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  221.6204039599457,
+                                             "time": 221.62,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  223.12377601335143,
+                                             "time": 223.124,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  223.583591956131,
+                                             "time": 223.584,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  223.9887320705719,
+                                             "time": 223.989,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  226.44230769230768,
+                                             "time": 226.442,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -1206,55 +1206,55 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "F",
-                                             "time":  4.0935
+                                             "time": 4.093
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  12.73034397138977
+                                             "time": 12.73
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  14.278529998092651
+                                             "time": 14.279
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  16.072933101089475
+                                             "time": 16.073
                                          },
                                          {
                                              "name":  "A#",
-                                             "time":  17.934058938964842
+                                             "time": 17.934
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  21.029178851226806
+                                             "time": 21.029
                                          },
                                          {
                                              "name":  "Am2",
-                                             "time":  22.697004089645386
+                                             "time": 22.697
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  24.60292888937378
+                                             "time": 24.603
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  26.83574512588501
+                                             "time": 26.836
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  30.26506697520447
+                                             "time": 30.265
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  32.10812484359741
+                                             "time": 32.108
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  33.468433013351444
+                                             "time": 33.468
                                          },
                                          {
                                              "name":  "A#",
-                                             "time":  35.384727116348266
+                                             "time": 35.385
                                          }
                                      ],
                           "duration":  300,
@@ -1285,192 +1285,192 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "C",
-                                             "time":  0.5406699446868897,
+                                             "time": 0.541,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  1.8685669027252196,
+                                             "time": 1.869,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  3.581542786376953,
+                                             "time": 3.582,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  5.22935286076355,
+                                             "time": 5.229,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  6.878646979019165,
+                                             "time": 6.879,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  8.429744994277954,
+                                             "time": 8.43,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  10.109468020980835,
+                                             "time": 10.109,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  11.765292826431274,
+                                             "time": 11.765,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  13.269092131607056,
+                                             "time": 13.269,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  14.921179948501587,
+                                             "time": 14.921,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  16.535026855041504,
+                                             "time": 16.535,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  18.225765767303468,
+                                             "time": 18.226,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  19.845284059127806,
+                                             "time": 19.845,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  21.458105935150147,
+                                             "time": 21.458,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  23.12533595994568,
+                                             "time": 23.125,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  24.725501887466432,
+                                             "time": 24.726,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  26.399711007629396,
+                                             "time": 26.4,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  27.957489064849852,
+                                             "time": 27.957,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  29.684689074386597,
+                                             "time": 29.685,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  31.237614019073487,
+                                             "time": 31.238,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  32.82330311062622,
+                                             "time": 32.823,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  34.487378114440915,
+                                             "time": 34.487,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  36.17822809918213,
+                                             "time": 36.178,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  37.69275391798401,
+                                             "time": 37.693,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  39.338222137329105,
+                                             "time": 39.338,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  40.947513085830685,
+                                             "time": 40.948,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  42.533779950408935,
+                                             "time": 42.534,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  44.18128595231629,
+                                             "time": 44.181,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  45.400000000000006,
+                                             "time": 45.4,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  47.369343020980835,
+                                             "time": 47.369,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  49.04163197520447,
+                                             "time": 49.042,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  50.53200106103515,
+                                             "time": 50.532,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  50.775756610900864,
+                                             "time": 50.776,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  50.775756610900864,
+                                             "time": 50.776,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  52.06278783596802,
+                                             "time": 52.063,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  53.61945185313416,
+                                             "time": 53.619,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  55.274915188827514,
+                                             "time": 55.275,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  56.833589173568726,
+                                             "time": 56.834,
                                              "yOffset":  -50
                                          },
                                          {
@@ -1485,47 +1485,47 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  61.61196305722046,
+                                             "time": 61.612,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  63.14633087602234,
+                                             "time": 63.146,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  64.71330405912781,
+                                             "time": 64.713,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  66.35929716593932,
+                                             "time": 66.359,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  67.92064283024597,
+                                             "time": 67.921,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  69.55954986457824,
+                                             "time": 69.56,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  71.15143588365173,
+                                             "time": 71.151,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  72.76664790463256,
+                                             "time": 72.767,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  74.36300895613098,
+                                             "time": 74.363,
                                              "yOffset":  -50
                                          },
                                          {
@@ -1535,502 +1535,502 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  77.60053708773803,
+                                             "time": 77.601,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  79.27448398855591,
+                                             "time": 79.274,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  80.89685591798401,
+                                             "time": 80.897,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  82.43340002670288,
+                                             "time": 82.433,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  84.10523189700318,
+                                             "time": 84.105,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  85.77737910871888,
+                                             "time": 85.777,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  87.34884777302551,
+                                             "time": 87.349,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  88.96987991989135,
+                                             "time": 88.97,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  90.61809602670289,
+                                             "time": 90.618,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  92.18138498092651,
+                                             "time": 92.181,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  93.73371905149841,
+                                             "time": 93.734,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  95.31821297711181,
+                                             "time": 95.318,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  97.088670792099,
+                                             "time": 97.089,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  98.65316091226197,
+                                             "time": 98.653,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  100.25172205722046,
+                                             "time": 100.252,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  101.79859708392334,
+                                             "time": 101.799,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  103.41110392179871,
+                                             "time": 103.411,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  104.94789103051758,
+                                             "time": 104.948,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  106.5628540629425,
+                                             "time": 106.563,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  108.28595594659424,
+                                             "time": 108.286,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  109.8825899256134,
+                                             "time": 109.883,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  111.48929501907348,
+                                             "time": 111.489,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  113.10630799809265,
+                                             "time": 113.106,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  114.718121082016,
+                                             "time": 114.718,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  116.33817800953675,
+                                             "time": 116.338,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  117.88547699427795,
+                                             "time": 117.885,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  119.46185582643128,
+                                             "time": 119.462,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  121.11552496566773,
+                                             "time": 121.116,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  122.76184011444091,
+                                             "time": 122.762,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  124.38749882452393,
+                                             "time": 124.387,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  125.96185704005433,
+                                             "time": 125.962,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  127.48632000190734,
+                                             "time": 127.486,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  129.1541118817444,
+                                             "time": 129.154,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  130.69209284550476,
+                                             "time": 130.692,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  132.3552160476837,
+                                             "time": 132.355,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  133.99293796757507,
+                                             "time": 133.993,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  135.63638696948243,
+                                             "time": 135.636,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  137.22832807247926,
+                                             "time": 137.228,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  138.8913510667572,
+                                             "time": 138.891,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  140.50690704577636,
+                                             "time": 140.507,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  142.08504797138977,
+                                             "time": 142.085,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  143.7322051411438,
+                                             "time": 143.732,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  145.38040806103515,
+                                             "time": 145.38,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  146.95499797520446,
+                                             "time": 146.955,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  148.55832106866455,
+                                             "time": 148.558,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  150.12804602098083,
+                                             "time": 150.128,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  151.67987292370606,
+                                             "time": 151.68,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  153.29572416212463,
+                                             "time": 153.296,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  154.89502986076354,
+                                             "time": 154.895,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  156.50399592370604,
+                                             "time": 156.504,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  158.08922793133544,
+                                             "time": 158.089,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  159.7552350190735,
+                                             "time": 159.755,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  161.34228293515014,
+                                             "time": 161.342,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  162.87979897138976,
+                                             "time": 162.88,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  164.5691819885559,
+                                             "time": 164.569,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  166.19804883406067,
+                                             "time": 166.198,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  167.80948399046326,
+                                             "time": 167.809,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  169.49148108201598,
+                                             "time": 169.491,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  171.01787998092652,
+                                             "time": 171.018,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  172.64350205531312,
+                                             "time": 172.644,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  174.29058098664856,
+                                             "time": 174.291,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  175.8108540629425,
+                                             "time": 175.811,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  177.42870405340577,
+                                             "time": 177.429,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  178.96978391226196,
+                                             "time": 178.97,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  180.59986691607665,
+                                             "time": 180.6,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  182.25665190844725,
+                                             "time": 182.257,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  183.93466497711182,
+                                             "time": 183.935,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  185.4950479523163,
+                                             "time": 185.495,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  187.15095398664855,
+                                             "time": 187.151,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  188.7170638283386,
+                                             "time": 188.717,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  190.37144603814698,
+                                             "time": 190.371,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  191.9280350553131,
+                                             "time": 191.928,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  193.68726615068053,
+                                             "time": 193.687,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  195.29770987030028,
+                                             "time": 195.298,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  196.96104007247925,
+                                             "time": 196.961,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  198.54766802861022,
+                                             "time": 198.548,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  200.1661910190735,
+                                             "time": 200.166,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  201.80444588746644,
+                                             "time": 201.804,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  203.49008783024598,
+                                             "time": 203.49,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G3",
-                                             "time":  204.9875611449585,
+                                             "time": 204.988,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  206.56780085122682,
+                                             "time": 206.568,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  208.14052690081786,
+                                             "time": 208.141,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  209.7372051487732,
+                                             "time": 209.737,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  211.3364910228882,
+                                             "time": 211.336,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  212.94134497138978,
+                                             "time": 212.941,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  214.58410595422365,
+                                             "time": 214.584,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  216.17174909727478,
+                                             "time": 216.172,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F2",
-                                             "time":  217.70717179019164,
+                                             "time": 217.707,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  219.2356349294281,
+                                             "time": 219.236,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bdim2",
-                                             "time":  220.87593603433228,
+                                             "time": 220.876,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  222.40051198664855,
+                                             "time": 222.401,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G2",
-                                             "time":  224.01711611253356,
+                                             "time": 224.017,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  225.66410311634826,
+                                             "time": 225.664,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  227.21187105912782,
+                                             "time": 227.212,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  228.81309997520447,
+                                             "time": 228.813,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  230.40763286076356,
+                                             "time": 230.408,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  231.9793488474121,
+                                             "time": 231.979,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Em2",
-                                             "time":  233.68046895803832,
+                                             "time": 233.68,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  235.29079787602234,
+                                             "time": 235.291,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  236.80143096185301,
+                                             "time": 236.801,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -2065,137 +2065,137 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "A",
-                                             "time":  3.859514040054321,
+                                             "time": 3.86,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  5.2489411068115235,
+                                             "time": 5.249,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  5.603049967575073,
+                                             "time": 5.603,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  8.76713809727478,
+                                             "time": 8.767,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  10.335551104904175,
+                                             "time": 10.336,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  10.732356877929687,
+                                             "time": 10.732,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  13.944824022888184,
+                                             "time": 13.945,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  15.553228828338623,
+                                             "time": 15.553,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  15.934000200271607,
+                                             "time": 15.934,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  19.062317020980835,
+                                             "time": 19.062,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  20.607357965667724,
+                                             "time": 20.607,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  21.037855030517576,
-                                             "yOffset":  -10
-                                         },
-                                         {
-                                             "name":  "B",
-                                             "time":  24.244964975204468,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "F#",
-                                             "time":  25.583310017166138,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "G#m",
-                                             "time":  26.890593942779542,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "A",
-                                             "time":  29.42350497138977,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "C#m",
-                                             "time":  30.835387965667724,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "G#m",
-                                             "time":  31.995020843597413,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "A",
-                                             "time":  33.29826783215332,
-                                             "yOffset":  -50
-                                         },
-                                         {
-                                             "name":  "G#m",
-                                             "time":  34.86158602670288,
-                                             "yOffset":  -90
-                                         },
-                                         {
-                                             "name":  "C#m",
-                                             "time":  35.26872517166138,
+                                             "time": 21.038,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  35.988579202178954,
-                                             "yOffset":  -90
+                                             "time": 24.245,
+                                             "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  37.2529289294281,
+                                             "time": 25.583,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  38.553421175476075,
+                                             "time": 26.891,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  40.97560975609756,
+                                             "time": 29.424,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  42.4390243902439,
+                                             "time": 30.835,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  43.53658536585366,
+                                             "time": 31.995,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "A",
+                                             "time": 33.298,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "G#m",
+                                             "time": 34.862,
+                                             "yOffset":  -90
+                                         },
+                                         {
+                                             "name":  "C#m",
+                                             "time": 35.269,
+                                             "yOffset":  -10
+                                         },
+                                         {
+                                             "name":  "B",
+                                             "time": 35.989,
+                                             "yOffset":  -90
+                                         },
+                                         {
+                                             "name":  "F#",
+                                             "time": 37.253,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "G#m",
+                                             "time": 38.553,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "A",
+                                             "time": 40.976,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "C#m",
+                                             "time": 42.439,
+                                             "yOffset":  -50
+                                         },
+                                         {
+                                             "name":  "G#m",
+                                             "time": 43.537,
                                              "yOffset":  -50
                                          },
                                          {
@@ -2205,187 +2205,187 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  46.46341463414634,
+                                             "time": 46.463,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  46.829268292682926,
+                                             "time": 46.829,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  47.67165907629394,
+                                             "time": 47.672,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  48.92436287411499,
+                                             "time": 48.924,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  50.14101006103515,
+                                             "time": 50.141,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  52.74261605531311,
+                                             "time": 52.743,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  53.98443106484985,
+                                             "time": 53.984,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  55.38306385122681,
+                                             "time": 55.383,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  56.64918203051758,
+                                             "time": 56.649,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  58.170731707317074,
+                                             "time": 58.171,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  58.536585365853654,
+                                             "time": 58.537,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  59.26829268292683,
+                                             "time": 59.268,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  60.36585365853659,
+                                             "time": 60.366,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  61.829268292682926,
+                                             "time": 61.829,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  64.35130218692017,
+                                             "time": 64.351,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  65.88256618119811,
+                                             "time": 65.883,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  66.30648896566773,
+                                             "time": 66.306,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  69.49832409918213,
+                                             "time": 69.498,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D3",
-                                             "time":  70.82551894277954,
+                                             "time": 70.826,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A2",
-                                             "time":  72.17323299809266,
+                                             "time": 72.173,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  73.34824711825561,
+                                             "time": 73.348,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  74.83135498474121,
+                                             "time": 74.831,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D3",
-                                             "time":  75.99519704386901,
+                                             "time": 75.995,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A2",
-                                             "time":  77.21368089891052,
+                                             "time": 77.214,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  78.61889504959106,
+                                             "time": 78.619,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  79.89235104196167,
+                                             "time": 79.892,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D3",
-                                             "time":  81.19574497711181,
+                                             "time": 81.196,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A2",
-                                             "time":  82.45221314495849,
+                                             "time": 82.452,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  83.75711096185303,
+                                             "time": 83.757,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  84.714502,
+                                             "time": 84.715,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D3",
-                                             "time":  86.37992709536744,
+                                             "time": 86.38,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A2",
-                                             "time":  87.70791803051758,
+                                             "time": 87.708,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m2",
-                                             "time":  88.90243902439025,
+                                             "time": 88.902,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  90.36585365853658,
+                                             "time": 90.366,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  91.46341463414635,
+                                             "time": 91.463,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  92.92682926829268,
+                                             "time": 92.927,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  93.65853658536585,
+                                             "time": 93.659,
                                              "yOffset":  -10
                                          }
                                      ],
@@ -2455,577 +2455,577 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "Fm",
-                                             "time":  1.8510139599456785,
+                                             "time": 1.851,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  3.371303078201294,
+                                             "time": 3.371,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  5.246174162124634,
+                                             "time": 5.246,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  7.179673959945679,
+                                             "time": 7.18,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  9.03442204196167,
+                                             "time": 9.034,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  10.939222870300293,
+                                             "time": 10.939,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  12.747384897003174,
+                                             "time": 12.747,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  14.699800122070313,
+                                             "time": 14.7,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  16.68339299809265,
+                                             "time": 16.683,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  18.54793602861023,
+                                             "time": 18.548,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  20.403483143051147,
+                                             "time": 20.403,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  22.31520908392334,
+                                             "time": 22.315,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  24.267255977111816,
+                                             "time": 24.267,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  26.18111687792969,
+                                             "time": 26.181,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  28.232788923706053,
+                                             "time": 28.233,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  29.851062082015993,
+                                             "time": 29.851,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  31.902156200271605,
+                                             "time": 31.902,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  33.70009087411499,
+                                             "time": 33.7,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  35.63597902479553,
+                                             "time": 35.636,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  37.43525713542175,
+                                             "time": 37.435,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  39.46814212779236,
+                                             "time": 39.468,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  41.285554906539915,
+                                             "time": 41.286,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  43.102587120162966,
+                                             "time": 43.103,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  45.108034019073486,
+                                             "time": 45.108,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  47.041164034332276,
+                                             "time": 47.041,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  50.81674315258789,
+                                             "time": 50.817,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#3",
-                                             "time":  52.76888308773804,
+                                             "time": 52.769,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  54.88634991035462,
+                                             "time": 54.886,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  58.419317897003175,
+                                             "time": 58.419,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#3",
-                                             "time":  60.38565497711182,
+                                             "time": 60.386,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  62.35704885122681,
+                                             "time": 62.357,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  66.08543198664856,
+                                             "time": 66.085,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  69.80450906866454,
+                                             "time": 69.805,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  73.59816990844726,
+                                             "time": 73.598,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  77.47056007629395,
+                                             "time": 77.471,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  81.38055791416932,
+                                             "time": 81.381,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  85.20506292370605,
+                                             "time": 85.205,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  88.90399089891052,
+                                             "time": 88.904,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  93.07362199618531,
+                                             "time": 93.074,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  94.62289101335143,
+                                             "time": 94.623,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  96.50398290081787,
+                                             "time": 96.504,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  98.3604380152588,
+                                             "time": 98.36,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  100.298369125885,
+                                             "time": 100.298,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  102.2875960114441,
+                                             "time": 102.288,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  104.16072108583069,
+                                             "time": 104.161,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  106.06952500572204,
+                                             "time": 106.07,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  108.32482804768371,
+                                             "time": 108.325,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  109.88327699237061,
+                                             "time": 109.883,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  111.85253683596802,
+                                             "time": 111.853,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  113.75003209727478,
+                                             "time": 113.75,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  115.62766197329712,
+                                             "time": 115.628,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  117.60597199427795,
+                                             "time": 117.606,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  119.52443618501282,
+                                             "time": 119.524,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  121.34206407820129,
+                                             "time": 121.342,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  123.25722789700318,
+                                             "time": 123.257,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  125.10130996757508,
+                                             "time": 125.101,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  126.97753602098084,
+                                             "time": 126.978,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  128.85227303242493,
+                                             "time": 128.852,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  130.8105209675751,
+                                             "time": 130.811,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  132.73944096185303,
+                                             "time": 132.739,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  134.66942512397767,
+                                             "time": 134.669,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  136.56408900190735,
+                                             "time": 136.564,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  138.5398789065399,
+                                             "time": 138.54,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  142.26616095994567,
+                                             "time": 142.266,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#3",
-                                             "time":  144.27010082643127,
+                                             "time": 144.27,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  146.14952111825562,
+                                             "time": 146.15,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  149.90017209918213,
+                                             "time": 149.9,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#3",
-                                             "time":  151.80100199809266,
+                                             "time": 151.801,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  153.7564479446869,
+                                             "time": 153.756,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  157.5349591449585,
+                                             "time": 157.535,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  161.2040608512268,
+                                             "time": 161.204,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  165.11601802098085,
+                                             "time": 165.116,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#",
-                                             "time":  168.95047798855592,
+                                             "time": 168.95,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  172.73805996185303,
+                                             "time": 172.738,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  176.532683,
+                                             "time": 176.533,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  180.3222188817444,
+                                             "time": 180.322,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  184.15446920027162,
+                                             "time": 184.154,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  186.0502779027252,
+                                             "time": 186.05,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  187.97921785694885,
+                                             "time": 187.979,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  189.8420909809265,
+                                             "time": 189.842,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  191.86110503433227,
+                                             "time": 191.861,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  193.69275986839295,
+                                             "time": 193.693,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  195.50745389509584,
+                                             "time": 195.507,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#",
-                                             "time":  197.48738691416932,
+                                             "time": 197.487,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  199.52042400190734,
+                                             "time": 199.52,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  201.56210502861023,
+                                             "time": 201.562,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab",
-                                             "time":  203.38391822315978,
+                                             "time": 203.384,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  205.30374805149842,
+                                             "time": 205.304,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm",
-                                             "time":  207.29834416593934,
+                                             "time": 207.298,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab",
-                                             "time":  210.95036008773803,
+                                             "time": 210.95,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  213.0006510514984,
+                                             "time": 213.001,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab",
-                                             "time":  214.90217900190734,
+                                             "time": 214.902,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  218.53219505722046,
+                                             "time": 218.532,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  222.33203303242493,
+                                             "time": 222.332,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  226.20424810681152,
+                                             "time": 226.204,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab",
-                                             "time":  230.18188096185304,
+                                             "time": 230.182,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  233.7873250038147,
+                                             "time": 233.787,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  237.56778583215333,
+                                             "time": 237.568,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  241.35609104577637,
+                                             "time": 241.356,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  245.20025504959108,
+                                             "time": 245.2,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  247.44166397520448,
+                                             "time": 247.442,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  249.01088583787538,
+                                             "time": 249.011,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  250.9052739141693,
+                                             "time": 250.905,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  252.8002359065399,
+                                             "time": 252.8,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  254.6870540743866,
+                                             "time": 254.687,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  256.48521102861025,
+                                             "time": 256.485,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  258.46007592370603,
+                                             "time": 258.46,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  260.637089,
+                                             "time": 260.637,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  262.354774082016,
+                                             "time": 262.355,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  264.20256011253355,
+                                             "time": 264.203,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  265.9196689961853,
+                                             "time": 265.92,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Fm",
-                                             "time":  267.98805300190736,
+                                             "time": 267.988,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Db3",
-                                             "time":  269.855232961853,
+                                             "time": 269.855,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  271.84832091989136,
+                                             "time": 271.848,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Eb",
-                                             "time":  273.7361260362396,
+                                             "time": 273.736,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -3064,622 +3064,622 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "C2",
-                                             "time":  0.4172479675750732,
+                                             "time": 0.417,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  2.9143790343322755,
+                                             "time": 2.914,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  5.436030095367432,
+                                             "time": 5.436,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  8.059125049591064,
+                                             "time": 8.059,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  10.623014030517577,
+                                             "time": 10.623,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  13.220881045776368,
+                                             "time": 13.221,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  15.736048095367432,
+                                             "time": 15.736,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  18.341059923706055,
+                                             "time": 18.341,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  20.89994682070923,
+                                             "time": 20.9,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  23.516178980926515,
+                                             "time": 23.516,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  25.940175116348268,
+                                             "time": 25.94,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  28.666734923706056,
+                                             "time": 28.667,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  31.18419413923645,
+                                             "time": 31.184,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  33.85368897329712,
+                                             "time": 33.854,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  36.40819709918213,
+                                             "time": 36.408,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  38.96528588365173,
+                                             "time": 38.965,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  41.463995003814695,
+                                             "time": 41.464,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  44.19589496757507,
+                                             "time": 44.196,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  46.817959160217285,
+                                             "time": 46.818,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  49.35317998474121,
+                                             "time": 49.353,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  51.898158038146974,
+                                             "time": 51.898,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  54.517491971389774,
+                                             "time": 54.517,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  57.082037910354614,
+                                             "time": 57.082,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  59.57912203242493,
+                                             "time": 59.579,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  62.20677111062622,
+                                             "time": 62.207,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  64.80838909346008,
+                                             "time": 64.808,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  67.35157208392334,
+                                             "time": 67.352,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  69.97426597711181,
+                                             "time": 69.974,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  72.54143000953674,
+                                             "time": 72.541,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  75.10715495994567,
+                                             "time": 75.107,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  77.68872309727477,
+                                             "time": 77.689,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  80.30600700953674,
+                                             "time": 80.306,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  82.91047713542176,
+                                             "time": 82.91,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  84.1760900152588,
+                                             "time": 84.176,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  85.43412394659424,
+                                             "time": 85.434,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  88.770837,
+                                             "time": 88.771,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  90.5805690743866,
+                                             "time": 90.581,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  93.12686010490417,
+                                             "time": 93.127,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  95.75309893515015,
+                                             "time": 95.753,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  98.32546288365174,
+                                             "time": 98.325,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  100.8656080629425,
+                                             "time": 100.866,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  103.43595609346008,
+                                             "time": 103.436,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  106.08694314305114,
+                                             "time": 106.087,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  108.64331889509583,
+                                             "time": 108.643,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  111.206893,
+                                             "time": 111.207,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  113.82084796376037,
+                                             "time": 113.821,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  116.35712602670289,
+                                             "time": 116.357,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  119.02154484931945,
+                                             "time": 119.022,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  121.54429908583069,
+                                             "time": 121.544,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  124.156249,
+                                             "time": 124.156,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  126.7101079370575,
+                                             "time": 126.71,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  129.28998793896486,
+                                             "time": 129.29,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  131.8413258550415,
+                                             "time": 131.841,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  134.45760604768373,
+                                             "time": 134.458,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  137.09677419354838,
+                                             "time": 137.097,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  139.6264900743866,
+                                             "time": 139.626,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  140.9385578950958,
+                                             "time": 140.939,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  142.21713693324278,
+                                             "time": 142.217,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  144.7973719256134,
+                                             "time": 144.797,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  147.35117913542175,
+                                             "time": 147.351,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  149.9170609408722,
+                                             "time": 149.917,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  152.50006608773805,
+                                             "time": 152.5,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  155.07140009155273,
+                                             "time": 155.071,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  157.64456509346007,
+                                             "time": 157.645,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  160.22250390844727,
+                                             "time": 160.223,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  162.8066921296997,
+                                             "time": 162.807,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  165.43685207629395,
+                                             "time": 165.437,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  167.9850639294281,
+                                             "time": 167.985,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  170.57338201716613,
+                                             "time": 170.573,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  173.1335520076294,
+                                             "time": 173.134,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  175.74963298283387,
+                                             "time": 175.75,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  178.29666890081788,
+                                             "time": 178.297,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  180.88591303051757,
+                                             "time": 180.886,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  183.453462125885,
+                                             "time": 183.453,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  186.0894181220703,
+                                             "time": 186.089,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  188.6450239256134,
+                                             "time": 188.645,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  191.21840102288817,
+                                             "time": 191.218,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  193.76451500190734,
+                                             "time": 193.765,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  196.36102907820128,
+                                             "time": 196.361,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  198.90062295422362,
+                                             "time": 198.901,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  201.51812905340577,
+                                             "time": 201.518,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  204.10720103433226,
+                                             "time": 204.107,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  206.7270040629425,
+                                             "time": 206.727,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  209.22210690081786,
+                                             "time": 209.222,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  211.85778312588502,
+                                             "time": 211.858,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  214.44018297520446,
+                                             "time": 214.44,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  216.8157029732971,
+                                             "time": 216.816,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  219.6224520038147,
+                                             "time": 219.622,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  224.7933989485016,
+                                             "time": 224.793,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  227.37658917929076,
+                                             "time": 227.377,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  229.9939649485016,
+                                             "time": 229.994,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  232.55341703433228,
+                                             "time": 232.553,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  235.12656613160706,
+                                             "time": 235.127,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  237.707781,
+                                             "time": 237.708,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  240.2985789732971,
+                                             "time": 240.299,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  242.910858956131,
+                                             "time": 242.911,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  245.45149615449523,
+                                             "time": 245.451,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  248.00944388555908,
+                                             "time": 248.009,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  250.60436596185303,
+                                             "time": 250.604,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  253.210588917984,
+                                             "time": 253.211,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  255.72847001907348,
+                                             "time": 255.728,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  258.3703580896454,
+                                             "time": 258.37,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  260.9274570190735,
+                                             "time": 260.927,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  263.4879770400543,
+                                             "time": 263.488,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  266.06165807438657,
+                                             "time": 266.062,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  268.59354718692015,
+                                             "time": 268.594,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  271.1778008683929,
+                                             "time": 271.178,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  273.83071212779237,
+                                             "time": 273.831,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  276.4028751296997,
+                                             "time": 276.403,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  278.9721599446869,
+                                             "time": 278.972,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  281.59048887983704,
+                                             "time": 281.59,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  284.18842798855593,
+                                             "time": 284.188,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  286.73360591607667,
+                                             "time": 286.734,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  289.2527190591278,
+                                             "time": 289.253,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  291.84184309346006,
+                                             "time": 291.842,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  294.41968097138977,
+                                             "time": 294.42,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  297.0397918321533,
+                                             "time": 297.04,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  299.5940110190735,
+                                             "time": 299.594,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  302.17257999237063,
+                                             "time": 302.173,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  304.7700658397827,
+                                             "time": 304.77,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  307.3694430305176,
+                                             "time": 307.369,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  309.9476509923706,
+                                             "time": 309.948,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  312.4958249523163,
+                                             "time": 312.496,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  315.139786125885,
+                                             "time": 315.14,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -3723,672 +3723,672 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  1.3714285714285714,
+                                             "time": 1.371,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  3.096586813079834,
+                                             "time": 3.097,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  4.415648164031983,
+                                             "time": 4.416,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  5.776614927520752,
+                                             "time": 5.777,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  7.090678040054321,
+                                             "time": 7.091,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  8.472402074386597,
+                                             "time": 8.472,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  9.939812051498413,
+                                             "time": 9.94,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  11.26459997138977,
+                                             "time": 11.265,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  12.586088219345093,
+                                             "time": 12.586,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  14.009723904632569,
+                                             "time": 14.01,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  15.34385611062622,
+                                             "time": 15.344,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  16.693165967575073,
+                                             "time": 16.693,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  18.02859519454956,
+                                             "time": 18.029,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  19.49114487220764,
+                                             "time": 19.491,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  20.82760909918213,
+                                             "time": 20.828,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  22.253909169754028,
+                                             "time": 22.254,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  23.548736030517578,
+                                             "time": 23.549,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  24.971749872207642,
+                                             "time": 24.972,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  26.396615032424926,
+                                             "time": 26.397,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  27.682780906539918,
+                                             "time": 27.683,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  29.038604897003175,
+                                             "time": 29.039,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  30.416670095367433,
+                                             "time": 30.417,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  31.812108851226807,
+                                             "time": 31.812,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  33.19176992752075,
+                                             "time": 33.192,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  34.564271919891354,
+                                             "time": 34.564,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  35.91667908583069,
+                                             "time": 35.917,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  37.34775595994568,
+                                             "time": 37.348,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  38.666639061035156,
+                                             "time": 38.667,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  40.06637308583069,
+                                             "time": 40.066,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  41.39403286839294,
+                                             "time": 41.394,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  42.77733802670288,
+                                             "time": 42.777,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  43.473065935150146,
+                                             "time": 43.473,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  44.213029826431274,
+                                             "time": 44.213,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  49.706095022888185,
+                                             "time": 49.706,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  50.69314589318848,
+                                             "time": 50.693,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  52.51119397138977,
+                                             "time": 52.511,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  53.44308086839295,
+                                             "time": 53.443,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  55.157065927520755,
+                                             "time": 55.157,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  56.1537688588562,
+                                             "time": 56.154,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  57.85533916784668,
+                                             "time": 57.855,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  58.848036839782715,
+                                             "time": 58.848,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  60.61681495613098,
+                                             "time": 60.617,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  61.55819199809265,
+                                             "time": 61.558,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  63.32354909346008,
+                                             "time": 63.324,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  64.37539201907349,
+                                             "time": 64.375,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  66.11875112207031,
+                                             "time": 66.119,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  67.04274118501282,
+                                             "time": 67.043,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  68.8278840629425,
+                                             "time": 68.828,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  71.61825315449524,
+                                             "time": 71.618,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  72.62473503623963,
+                                             "time": 72.625,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  74.305149,
+                                             "time": 74.305,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  79.83784382643127,
+                                             "time": 79.838,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  81.10893387220764,
+                                             "time": 81.109,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  82.52520591035461,
+                                             "time": 82.525,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  83.90246396566772,
+                                             "time": 83.902,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  85.31529991989136,
+                                             "time": 85.315,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  86.61219818501282,
+                                             "time": 86.612,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  87.97894600190735,
+                                             "time": 87.979,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  89.38191377684021,
+                                             "time": 89.382,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  90.7243440782013,
+                                             "time": 90.724,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  92.1393600629425,
+                                             "time": 92.139,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  93.4790960743866,
+                                             "time": 93.479,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  94.87524300572204,
+                                             "time": 94.875,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  96.24089892561341,
+                                             "time": 96.241,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  97.60126081307983,
+                                             "time": 97.601,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  98.96553600190735,
+                                             "time": 98.966,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  100.3989050076294,
+                                             "time": 100.399,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  101.73347295613098,
+                                             "time": 101.733,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  103.10127688555909,
+                                             "time": 103.101,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  104.49184707629395,
+                                             "time": 104.492,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  105.88550309155274,
+                                             "time": 105.886,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  107.2425509885559,
+                                             "time": 107.243,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  108.62224512779235,
+                                             "time": 108.622,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  109.98779316975403,
+                                             "time": 109.988,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  111.39834103051759,
+                                             "time": 111.398,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G#2",
-                                             "time":  112.02971100762939,
+                                             "time": 112.03,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#3",
-                                             "time":  112.7232910076294,
+                                             "time": 112.723,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  118.381422,
+                                             "time": 118.381,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  119.77333191226197,
+                                             "time": 119.773,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  120.83185187983703,
+                                             "time": 120.832,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  121.92967895422363,
+                                             "time": 121.93,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  123.6888149446869,
+                                             "time": 123.689,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  124.68670289891053,
+                                             "time": 124.687,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  126.36848205912781,
+                                             "time": 126.368,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  127.39295803623962,
+                                             "time": 127.393,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  129.19434808201598,
+                                             "time": 129.194,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  130.19204101335143,
+                                             "time": 130.192,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  131.87004194659423,
+                                             "time": 131.87,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  132.9426969885559,
+                                             "time": 132.943,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  134.6464539847412,
+                                             "time": 134.646,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  135.5603090038147,
+                                             "time": 135.56,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  137.36349602861023,
+                                             "time": 137.363,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  138.4313950705719,
+                                             "time": 138.431,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  140.07717295994567,
+                                             "time": 140.077,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  141.12643211253356,
+                                             "time": 141.126,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  142.83865601716613,
+                                             "time": 142.839,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  143.9134720076294,
+                                             "time": 143.913,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  145.62907205722047,
+                                             "time": 145.629,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  146.620550082016,
+                                             "time": 146.621,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  148.27492698283388,
+                                             "time": 148.275,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  151.1094860553131,
+                                             "time": 151.109,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  152.14542702098083,
+                                             "time": 152.145,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  153.7512010514984,
+                                             "time": 153.751,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  156.68863802098085,
+                                             "time": 156.689,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  157.60438104959107,
+                                             "time": 157.604,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  159.25841795040893,
+                                             "time": 159.258,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  160.2687110591278,
+                                             "time": 160.269,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D#m",
-                                             "time":  162.06527782452392,
+                                             "time": 162.065,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  163.0130378264313,
+                                             "time": 163.013,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  164.80847004577637,
+                                             "time": 164.808,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  165.81529397901917,
+                                             "time": 165.815,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  167.4857142857143,
+                                             "time": 167.486,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#2",
-                                             "time":  168.85714285714286,
+                                             "time": 168.857,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  170.05714285714285,
+                                             "time": 170.057,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  171.28343399809265,
+                                             "time": 171.283,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  173.05868202098083,
+                                             "time": 173.059,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  175.37142857142857,
+                                             "time": 175.371,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  178.61255101716614,
+                                             "time": 178.613,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  179.48248992752076,
+                                             "time": 179.482,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  181.19540408201598,
+                                             "time": 181.195,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  183.98219297520447,
+                                             "time": 183.982,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B3",
-                                             "time":  184.99807512779236,
+                                             "time": 184.998,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  186.66649603814696,
+                                             "time": 186.666,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  189.408900125885,
+                                             "time": 189.409,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  190.50137207629393,
+                                             "time": 190.501,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  192.16565302861022,
+                                             "time": 192.166,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  194.9251881487732,
+                                             "time": 194.925,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  195.94285796948242,
+                                             "time": 195.943,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  197.692602917984,
+                                             "time": 197.693,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  203.22683683787537,
+                                             "time": 203.227,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gb",
-                                             "time":  204.5746320667572,
+                                             "time": 204.575,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Ab2",
-                                             "time":  205.86211104196167,
+                                             "time": 205.862,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  207.39964500572205,
+                                             "time": 207.4,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bbm2",
-                                             "time":  209.41798389318848,
+                                             "time": 209.418,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -4432,417 +4432,417 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  2.2857142857142856,
+                                             "time": 2.286,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  4.571428571428571,
+                                             "time": 4.571,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  9.35169598474121,
+                                             "time": 9.352,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  11.671911061035157,
+                                             "time": 11.672,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  13.959155906539918,
+                                             "time": 13.959,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  18.52237211444092,
+                                             "time": 18.522,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  20.791798876022337,
+                                             "time": 20.792,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  23.078776156402586,
+                                             "time": 23.079,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  27.669416919891358,
+                                             "time": 27.669,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  29.978539839782716,
+                                             "time": 29.979,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  32.17786410299683,
+                                             "time": 32.178,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  36.816897017166134,
+                                             "time": 36.817,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  39.14285714285714,
+                                             "time": 39.143,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  41.17777995994568,
+                                             "time": 41.178,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  43.63822012016296,
+                                             "time": 43.638,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  46.06405008201599,
+                                             "time": 46.064,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  48.235847198364254,
+                                             "time": 48.236,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  50.4999629294281,
+                                             "time": 50.5,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  52.75919604196167,
+                                             "time": 52.759,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  55.10380797329712,
+                                             "time": 55.104,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  57.37619711825562,
+                                             "time": 57.376,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  59.632148826431276,
+                                             "time": 59.632,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  61.95025304768372,
+                                             "time": 61.95,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  64.2091010152588,
+                                             "time": 64.209,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  66.51524598664857,
+                                             "time": 66.515,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  68.78819002670288,
+                                             "time": 68.788,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  71.08374204005432,
+                                             "time": 71.084,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  73.37250500953674,
+                                             "time": 73.373,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  75.67664702288819,
+                                             "time": 75.677,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  77.93667006103516,
+                                             "time": 77.937,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  80.28571428571428,
+                                             "time": 80.286,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  82.55957901144409,
+                                             "time": 82.56,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  84.80243001907348,
+                                             "time": 84.802,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  87.07168090463257,
+                                             "time": 87.072,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  91.67454505340577,
+                                             "time": 91.675,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  93.93507401144409,
+                                             "time": 93.935,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  96.21260503242493,
+                                             "time": 96.213,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  100.78234599046326,
+                                             "time": 100.782,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  103.04816003242493,
+                                             "time": 103.048,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  105.31912507438659,
+                                             "time": 105.319,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  109.89574000190734,
+                                             "time": 109.896,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  110.42560900190735,
+                                             "time": 110.426,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  110.96122193896484,
+                                             "time": 110.961,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  111.55682998474121,
+                                             "time": 111.557,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  112.1836749408722,
+                                             "time": 112.184,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  114.56012408392334,
+                                             "time": 114.56,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  115.26730008583068,
+                                             "time": 115.267,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  115.70630487220764,
+                                             "time": 115.706,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  116.26633115449523,
+                                             "time": 116.266,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  116.86523188746644,
+                                             "time": 116.865,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  119.30233997138977,
+                                             "time": 119.302,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  121.32050295231629,
+                                             "time": 121.321,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  123.66428409346008,
+                                             "time": 123.664,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  125.88041800762939,
+                                             "time": 125.88,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  128.25676607820128,
+                                             "time": 128.257,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  130.51224712016295,
+                                             "time": 130.512,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  132.7483008474121,
+                                             "time": 132.748,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  135.03292000572205,
+                                             "time": 135.033,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  137.3602080114441,
+                                             "time": 137.36,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  139.6247611564026,
+                                             "time": 139.625,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  141.88196605340576,
+                                             "time": 141.882,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  144.23283917356872,
+                                             "time": 144.233,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  146.4804140076294,
+                                             "time": 146.48,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  148.7674020305176,
+                                             "time": 148.767,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  151.12520389318848,
+                                             "time": 151.125,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  155.64282482070922,
+                                             "time": 155.643,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  157.86079399427794,
+                                             "time": 157.861,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  160.19416504196167,
+                                             "time": 160.194,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  162.51487887983703,
+                                             "time": 162.515,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  164.821412874115,
+                                             "time": 164.821,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  167.17101299427796,
+                                             "time": 167.171,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  169.3353501220703,
+                                             "time": 169.335,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  171.66244300190735,
+                                             "time": 171.662,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  173.93419412779235,
+                                             "time": 173.934,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  176.21196081880188,
+                                             "time": 176.212,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  178.45491388937378,
+                                             "time": 178.455,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  180.79836692752076,
+                                             "time": 180.798,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  183.09803415830993,
+                                             "time": 183.098,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  185.37613994087218,
+                                             "time": 185.376,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  187.64409599427796,
+                                             "time": 187.644,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  192.2026691525879,
+                                             "time": 192.203,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B2",
-                                             "time":  194.5485659523163,
+                                             "time": 194.549,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  196.85470613160706,
+                                             "time": 196.855,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -4851,7 +4851,7 @@ const DEFAULT_SONGS = [
                           "tempo":  105
                       },
         "bridgeTitle":  "Block 4",
-        "chorusTitle":  "PRE CHORUSðŸŽµ",
+        "chorusTitle":  "PRE CHORUS🎵",
         "id":  9,
         "lyricOffset":  0,
         "patchDetails":  "",
@@ -4875,7 +4875,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:33.490] Maybe I didn\u0027t treat you\n[00:37.270] Quite as good as I should\n[00:41.140] Maybe I didn\u0027t love you\n[00:44.920] Quite as often as I could\n[00:48.820] Little things I should have said and done\n[00:52.690] I never took the time\n[00:56.290] You were always on my mind\n[01:00.160] You were always on my mind\n[01:04.270] Maybe I didn\u0027t hold you all those lonely, lonely times\n[01:11.800] And I guess I never told you, I\u0027m so happy, that you\u0027re mine\n[01:19.600] If I made you feel second best, I\u0027m so sorry, I was blind\n[01:27.070] You were always on my mind\n[01:30.880] You were always on my mind\n[01:34.360] Tell me, tell me that your sweet love hasn\u0027t died\n[01:42.040] Give me one more chance to keep you satisfiedï¼ˆsatisfiedï¼‰\n[02:05.710] Little things I should have said and done\n[02:09.640] I never took the time\n[02:13.210] You were always on my mind\n[02:17.050] You were always on my mind\n[02:20.500] Tell me, tell me that your sweet love hasn\u0027t died\n[02:28.150] Give me one more chance to keep you satisfied\n[02:36.280] You were always on my mind\n[02:40.090] You were always on my mind\n[02:44.020] You were always on my mind\n[02:47.800] You were always on my mind\n[02:51.550] You were always on my mind\n[02:55.450] You were always on my mind\n[03:07.090] Maybe I didn\u0027t treat you\n[03:11.080] Quite as good as I should\n[03:14.950] Maybe I didn\u0027t love you\n[03:18.400] Quite as often as I could\n[03:22.630] Maybe I didn\u0027t hold you all those lonely, lonely times\n[03:29.890] And I guess I never told you, I\u0027m so happy, that you\u0027re mine",
+        "fullLyrics":  "[00:33.490] Maybe I didn\u0027t treat you\n[00:37.270] Quite as good as I should\n[00:41.140] Maybe I didn\u0027t love you\n[00:44.920] Quite as often as I could\n[00:48.820] Little things I should have said and done\n[00:52.690] I never took the time\n[00:56.290] You were always on my mind\n[01:00.160] You were always on my mind\n[01:04.270] Maybe I didn\u0027t hold you all those lonely, lonely times\n[01:11.800] And I guess I never told you, I\u0027m so happy, that you\u0027re mine\n[01:19.600] If I made you feel second best, I\u0027m so sorry, I was blind\n[01:27.070] You were always on my mind\n[01:30.880] You were always on my mind\n[01:34.360] Tell me, tell me that your sweet love hasn\u0027t died\n[01:42.040] Give me one more chance to keep you satisfied（satisfied）\n[02:05.710] Little things I should have said and done\n[02:09.640] I never took the time\n[02:13.210] You were always on my mind\n[02:17.050] You were always on my mind\n[02:20.500] Tell me, tell me that your sweet love hasn\u0027t died\n[02:28.150] Give me one more chance to keep you satisfied\n[02:36.280] You were always on my mind\n[02:40.090] You were always on my mind\n[02:44.020] You were always on my mind\n[02:47.800] You were always on my mind\n[02:51.550] You were always on my mind\n[02:55.450] You were always on my mind\n[03:07.090] Maybe I didn\u0027t treat you\n[03:11.080] Quite as good as I should\n[03:14.950] Maybe I didn\u0027t love you\n[03:18.400] Quite as often as I could\n[03:22.630] Maybe I didn\u0027t hold you all those lonely, lonely times\n[03:29.890] And I guess I never told you, I\u0027m so happy, that you\u0027re mine",
         "chordData":  {
                           "duration":  300,
                           "name":  "Pet Shop Boys - Always on my mind",
@@ -4912,407 +4912,407 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "E",
-                                             "time":  0.4184829008178711,
+                                             "time": 0.418,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  3.4663099923706056,
+                                             "time": 3.466,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  6.581165040054321,
+                                             "time": 6.581,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  9.742620017166137,
+                                             "time": 9.743,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  12.912055129699707,
+                                             "time": 12.912,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  15.279903127792359,
+                                             "time": 15.28,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  16.19410791798401,
+                                             "time": 16.194,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  19.340721864578246,
+                                             "time": 19.341,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  22.45957602479553,
+                                             "time": 22.46,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  25.765860950408936,
+                                             "time": 25.766,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  28.11489492752075,
+                                             "time": 28.115,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  28.924536177383423,
+                                             "time": 28.925,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  32.13885509536743,
+                                             "time": 32.139,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  35.388509162124635,
+                                             "time": 35.389,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  38.58796397711182,
+                                             "time": 38.588,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  41.73706290081787,
+                                             "time": 41.737,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  45.055879912261965,
+                                             "time": 45.056,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  48.16129699809265,
+                                             "time": 48.161,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  51.35678203051758,
+                                             "time": 51.357,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  54.609248118255614,
+                                             "time": 54.609,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  56.21614186076355,
+                                             "time": 56.216,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  57.85694003051758,
+                                             "time": 57.857,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  60.94913703242493,
+                                             "time": 60.949,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  64.19880003814697,
+                                             "time": 64.199,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  67.4111959256134,
+                                             "time": 67.411,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  70.6357770743866,
+                                             "time": 70.636,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  73.7182990858307,
+                                             "time": 73.718,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  76.96872801907348,
+                                             "time": 76.969,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  80.18215107247924,
+                                             "time": 80.182,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  83.28683509727477,
+                                             "time": 83.287,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  86.64417290272522,
+                                             "time": 86.644,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  87.64880308583069,
+                                             "time": 87.649,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  89.74584196948243,
+                                             "time": 89.746,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  91.31959706103515,
+                                             "time": 91.32,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  93.03997804959107,
+                                             "time": 93.04,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  96.35150302861022,
+                                             "time": 96.352,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  99.39617296376038,
+                                             "time": 99.396,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  102.60242101716614,
+                                             "time": 102.602,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  105.01911504005432,
+                                             "time": 105.019,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  108.9890928626709,
+                                             "time": 108.989,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  112.18531099809265,
+                                             "time": 112.185,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  115.43608088937378,
+                                             "time": 115.436,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  117.80580398092651,
+                                             "time": 117.806,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  118.67029489318848,
+                                             "time": 118.67,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  121.84510580926514,
+                                             "time": 121.845,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  122.97598088746643,
+                                             "time": 122.976,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  123.7946759408722,
+                                             "time": 123.795,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  124.98422102288818,
+                                             "time": 124.984,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  128.16611590844727,
+                                             "time": 128.166,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  131.46325087602233,
+                                             "time": 131.463,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  132.98138309727477,
+                                             "time": 132.981,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  134.57596499427797,
+                                             "time": 134.576,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  137.7761478397827,
+                                             "time": 137.776,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  141.031136917984,
+                                             "time": 141.031,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  144.1948649885559,
+                                             "time": 144.195,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  147.38752286457824,
+                                             "time": 147.388,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  150.56225985313415,
+                                             "time": 150.562,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  153.75420396757508,
+                                             "time": 153.754,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  156.9603738550415,
+                                             "time": 156.96,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  160.19898590081786,
+                                             "time": 160.199,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  163.3981748188019,
+                                             "time": 163.398,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  166.61713988365173,
+                                             "time": 166.617,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  168.22483306103516,
+                                             "time": 168.225,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  169.83817487602235,
+                                             "time": 169.838,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  172.9780209446869,
+                                             "time": 172.978,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  173.7968530190735,
+                                             "time": 173.797,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  174.58189793515015,
+                                             "time": 174.582,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  175.55600890653992,
+                                             "time": 175.556,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  177.15917093896485,
+                                             "time": 177.159,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  178.62728504386902,
+                                             "time": 178.627,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  179.396463,
+                                             "time": 179.396,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  180.15431089318847,
+                                             "time": 180.154,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  180.96283297711182,
+                                             "time": 180.963,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  181.62874793515016,
+                                             "time": 181.629,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  185.74889485313415,
+                                             "time": 185.749,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "C#m",
-                                             "time":  186.49297887983704,
+                                             "time": 186.493,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  187.36983804196166,
+                                             "time": 187.37,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  188.10533683978272,
+                                             "time": 188.105,
                                              "yOffset":  -10
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  189.04621095422362,
+                                             "time": 189.046,
                                              "yOffset":  -90
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  195.3262890305176,
+                                             "time": 195.326,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  208.10412904196167,
+                                             "time": 208.104,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -5430,7 +5430,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:07.040] the kisses of the sun\n[00:09.260] were sweet i didn\u0027t blink,i let it in my eyes\n[00:12.980] like an exotic dream,the radio playing songs\n[00:16.580] that i have never heard,i don\u0027t know what to say\n[00:20.270] oh not another word,just la la la la la\n[00:23.900] it goes around the world,just la la la la la\n[00:27.410] it\u0027s all around the world,just la la la la la\n[00:31.190] and everybodys singin\u0027,la la la la la\n[00:34.820] and now the bells are ringin\u0027,la,la,la,la,la\n[00:37.460] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:40.730] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:44.780] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:49.310] la,la,la,la,la,la,la\n[01:05.270] inside an empty room\n[01:07.490] my inspiration flows,now wait to hear the tune\n[01:11.330] around my head it goes,the magic melody\n[01:14.810] you want to sing with me,just la la la la la\n[01:18.440] the music is the key,and now the night is gone\n[01:21.830] still it goes on and on,so deep inside of me\n[01:25.760] i long to set it free,i don\u0027t know what to do\n[01:29.300] just can\u0027t explain to you,i don\u0027t know what to say\n[01:33.020] oh not another word,just la la la la la\n[01:36.620] it goes around the world,just la la la la la\n[01:40.280] it\u0027s all around the world,just la la la la la\n[01:43.880] and everybodys singin\u0027, la la la la la\n[01:47.570] and now the bells are ringin\u0027, la,la,la,la,la\n[01:51.140] la,la,la,la,la,la,la -la,la,la,la,la\n[01:54.770] la,la,la,la,la,la,la -la,la,la,la,la,\n[01:58.400] la,la,la,la,la,la,la -la,la,la,la,la\n[02:02.060] la,la,la,la,la,la,la\n[02:19.850] The kisses of the sun\n[02:24.140] ï¼ˆaround, around, around, around, around, around the worldï¼‰\n[02:32.000] la la la la la\n[02:36.680] it goes around the world, just la la la la la\n[02:40.250] it\u0027s all around the world,just la la la la la\n[02:43.880] and everybodys signin\u0027, la la la la la\n[02:47.570] and now the bells are ringin\u0027, la,la,la,la,la\n[02:51.170] la,la,la,la,la,la,la -la,la,la,la,la\n[02:54.830] la,la,la,la,la,la,la -la,la,la,la,la\n[02:58.430] la,la,la,la,la,la,la -la,la,la,la,la\n[03:02.330] la,la,la,la,la,la,la\n[03:03.800] ï¼ˆaround,around,around,around the worldï¼‰\n[03:06.230] la,la,la,la,la\n[03:07.160] la,la,la,la,la,la,la -la,la,la,la,la\n[03:10.790] la,la,la,la,la,la,la -la,la,la,la,la\n[03:14.450] la,la,la,la,la,la,la -la,la,la,la,la...",
+        "fullLyrics":  "[00:07.040] the kisses of the sun\n[00:09.260] were sweet i didn\u0027t blink,i let it in my eyes\n[00:12.980] like an exotic dream,the radio playing songs\n[00:16.580] that i have never heard,i don\u0027t know what to say\n[00:20.270] oh not another word,just la la la la la\n[00:23.900] it goes around the world,just la la la la la\n[00:27.410] it\u0027s all around the world,just la la la la la\n[00:31.190] and everybodys singin\u0027,la la la la la\n[00:34.820] and now the bells are ringin\u0027,la,la,la,la,la\n[00:37.460] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:40.730] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:44.780] la,la,la,la,la,la,la  -la,la,la,la,la\n[00:49.310] la,la,la,la,la,la,la\n[01:05.270] inside an empty room\n[01:07.490] my inspiration flows,now wait to hear the tune\n[01:11.330] around my head it goes,the magic melody\n[01:14.810] you want to sing with me,just la la la la la\n[01:18.440] the music is the key,and now the night is gone\n[01:21.830] still it goes on and on,so deep inside of me\n[01:25.760] i long to set it free,i don\u0027t know what to do\n[01:29.300] just can\u0027t explain to you,i don\u0027t know what to say\n[01:33.020] oh not another word,just la la la la la\n[01:36.620] it goes around the world,just la la la la la\n[01:40.280] it\u0027s all around the world,just la la la la la\n[01:43.880] and everybodys singin\u0027, la la la la la\n[01:47.570] and now the bells are ringin\u0027, la,la,la,la,la\n[01:51.140] la,la,la,la,la,la,la -la,la,la,la,la\n[01:54.770] la,la,la,la,la,la,la -la,la,la,la,la,\n[01:58.400] la,la,la,la,la,la,la -la,la,la,la,la\n[02:02.060] la,la,la,la,la,la,la\n[02:19.850] The kisses of the sun\n[02:24.140] （around, around, around, around, around, around the world）\n[02:32.000] la la la la la\n[02:36.680] it goes around the world, just la la la la la\n[02:40.250] it\u0027s all around the world,just la la la la la\n[02:43.880] and everybodys signin\u0027, la la la la la\n[02:47.570] and now the bells are ringin\u0027, la,la,la,la,la\n[02:51.170] la,la,la,la,la,la,la -la,la,la,la,la\n[02:54.830] la,la,la,la,la,la,la -la,la,la,la,la\n[02:58.430] la,la,la,la,la,la,la -la,la,la,la,la\n[03:02.330] la,la,la,la,la,la,la\n[03:03.800] （around,around,around,around the world）\n[03:06.230] la,la,la,la,la\n[03:07.160] la,la,la,la,la,la,la -la,la,la,la,la\n[03:10.790] la,la,la,la,la,la,la -la,la,la,la,la\n[03:14.450] la,la,la,la,la,la,la -la,la,la,la,la...",
         "chordData":  {
                           "duration":  300,
                           "name":  "ATC - Around The World",
@@ -5457,7 +5457,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:00.000] As It Was - Harry Styles\n[00:00.063] Lyrics byï¼šHarry Styles/Kid Harpoon/Tyler Johnson\n[00:00.101] Composed byï¼šHarry Styles/Kid Harpoon/Tyler Johnson\n[00:00.140] Recorded atï¼šHighmoor Farm/Angelic Studios/Henson Studios\n[00:00.178] Produced byï¼šKid Harpoon/Tyler Johnson\n[00:00.207] Mixed byï¼šSpike Stent\n[00:00.226] Mixing Assistantï¼šMatt Wolach\n[00:00.246] Mastered byï¼šRandy Merrill\n[00:00.265] Engineered byï¼šJeremy Hatcher\n[00:00.284] Assistant Engineersï¼šKatie May/Luke Gibbs/Adele Phillips/Josh Caulder/Joe Dougherty\n[00:00.342] Vocals Tubular Bellsï¼šHarry Styles\n[00:00.366] Drumsï¼šKid Harpoon/Mitch Rowland\n[00:00.390] Drum Programming/Synthsï¼šKid Harpoon/Tyler Johnson\n[00:00.424] Bass Guitar/Synth Bassï¼šKid Harpoon\n[00:00.453] Percussion Programmingï¼šDoug Showalter\n[00:00.472] Electric Guitarsï¼šKid Harpoon/Doug Showalter\n[00:00.501] Upright Pianoï¼šTyler Johnson\n[00:00.520] Vocal Programmingï¼šJeremy Hatcher\n[00:00.540] Voice Memoï¼šRuby Winston\n[00:00.559] Come on Harry we wanna say \"Goodnight\" to you\n[00:14.562] Holding me back\n[00:16.237] Gravity\u0027s holding me back\n[00:19.091] I want you to hold out the palm of your hand\n[00:21.847] Why don\u0027t we leave it at that\n[00:25.510] Nothing to say\n[00:27.263] When everything gets in the way\n[00:30.198] Seems you cannot be replaced\n[00:33.147] And I\u0027m the one who will stay\n[00:34.900] Ooh\n[00:37.926] In this world\n[00:40.217] It\u0027s just us\n[00:44.518] You know it\u0027s not the same as it was\n[00:48.983] In this world\n[00:51.828] It\u0027s just us\n[00:55.525] You know it\u0027s not the same as it was\n[01:00.598] As it was\n[01:03.314] As it was\n[01:06.629] You know it\u0027s not the same\n[01:09.689] Answer the phone\n[01:11.495] Harry you\u0027re no good alone\n[01:14.254] Why are you sitting at home on the floor\n[01:17.279] What kind of pills are you on\n[01:20.475] Ringing the bell\n[01:22.518] And nobody\u0027s coming to help\n[01:25.290] Your daddy lives by himself\n[01:28.042] He just wants to know that you\u0027re well\n[01:30.059] Ooh\n[01:33.172] In this world\n[01:35.835] It\u0027s just us\n[01:39.646] You know it\u0027s not the same as it was\n[01:44.150] In this world\n[01:46.944] It\u0027s just us\n[01:50.672] You know it\u0027s not the same as it was\n[01:55.678] As it was\n[01:58.376] As it was\n[02:01.747] You know it\u0027s not the same\n[02:04.927] Go home\n[02:05.449] Get ahead\n[02:05.952] Light speed internet\n[02:07.386] I don\u0027t want to talk about the way that it was\n[02:10.209] Leave America\n[02:11.432] Two kids follow her\n[02:12.817] I don\u0027t want to talk about who\u0027s doing it first\n[02:18.468] Hey\n[02:23.290] As it was\n[02:26.627] You know it\u0027s not the same as it was\n[02:31.569] As it was\n[02:34.332] As it was",
+        "fullLyrics":  "[00:00.000] As It Was - Harry Styles\n[00:00.063] Lyrics by：Harry Styles/Kid Harpoon/Tyler Johnson\n[00:00.101] Composed by：Harry Styles/Kid Harpoon/Tyler Johnson\n[00:00.140] Recorded at：Highmoor Farm/Angelic Studios/Henson Studios\n[00:00.178] Produced by：Kid Harpoon/Tyler Johnson\n[00:00.207] Mixed by：Spike Stent\n[00:00.226] Mixing Assistant：Matt Wolach\n[00:00.246] Mastered by：Randy Merrill\n[00:00.265] Engineered by：Jeremy Hatcher\n[00:00.284] Assistant Engineers：Katie May/Luke Gibbs/Adele Phillips/Josh Caulder/Joe Dougherty\n[00:00.342] Vocals Tubular Bells：Harry Styles\n[00:00.366] Drums：Kid Harpoon/Mitch Rowland\n[00:00.390] Drum Programming/Synths：Kid Harpoon/Tyler Johnson\n[00:00.424] Bass Guitar/Synth Bass：Kid Harpoon\n[00:00.453] Percussion Programming：Doug Showalter\n[00:00.472] Electric Guitars：Kid Harpoon/Doug Showalter\n[00:00.501] Upright Piano：Tyler Johnson\n[00:00.520] Vocal Programming：Jeremy Hatcher\n[00:00.540] Voice Memo：Ruby Winston\n[00:00.559] Come on Harry we wanna say \"Goodnight\" to you\n[00:14.562] Holding me back\n[00:16.237] Gravity\u0027s holding me back\n[00:19.091] I want you to hold out the palm of your hand\n[00:21.847] Why don\u0027t we leave it at that\n[00:25.510] Nothing to say\n[00:27.263] When everything gets in the way\n[00:30.198] Seems you cannot be replaced\n[00:33.147] And I\u0027m the one who will stay\n[00:34.900] Ooh\n[00:37.926] In this world\n[00:40.217] It\u0027s just us\n[00:44.518] You know it\u0027s not the same as it was\n[00:48.983] In this world\n[00:51.828] It\u0027s just us\n[00:55.525] You know it\u0027s not the same as it was\n[01:00.598] As it was\n[01:03.314] As it was\n[01:06.629] You know it\u0027s not the same\n[01:09.689] Answer the phone\n[01:11.495] Harry you\u0027re no good alone\n[01:14.254] Why are you sitting at home on the floor\n[01:17.279] What kind of pills are you on\n[01:20.475] Ringing the bell\n[01:22.518] And nobody\u0027s coming to help\n[01:25.290] Your daddy lives by himself\n[01:28.042] He just wants to know that you\u0027re well\n[01:30.059] Ooh\n[01:33.172] In this world\n[01:35.835] It\u0027s just us\n[01:39.646] You know it\u0027s not the same as it was\n[01:44.150] In this world\n[01:46.944] It\u0027s just us\n[01:50.672] You know it\u0027s not the same as it was\n[01:55.678] As it was\n[01:58.376] As it was\n[02:01.747] You know it\u0027s not the same\n[02:04.927] Go home\n[02:05.449] Get ahead\n[02:05.952] Light speed internet\n[02:07.386] I don\u0027t want to talk about the way that it was\n[02:10.209] Leave America\n[02:11.432] Two kids follow her\n[02:12.817] I don\u0027t want to talk about who\u0027s doing it first\n[02:18.468] Hey\n[02:23.290] As it was\n[02:26.627] You know it\u0027s not the same as it was\n[02:31.569] As it was\n[02:34.332] As it was",
         "chordData":  {
                           "duration":  300,
                           "name":  "Harry Styles - As It Was",
@@ -5488,7 +5488,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:00.000] Ey, ey, ey, oh\n[00:02.424] Ik kan er niks aan doen, het gebeurt gewoon\n[00:06.720] Ik hou het niet tegen, ik ben machteloos\n[00:10.389] Ja, je kijkt me aan (Mhm), ziet mâ€™n Nikeâ€™s gaan\n[00:14.479] Het is al te laat (Ey)\n[00:16.277] Mâ€™n voet begint te shaken, alles gaat bewegen\n[00:20.384] Voordat ik het weet voel ik de lampen op mij\n[00:24.220] Ineens pak ik de solo, move ik als een jojo\n[00:28.381] Stoppen is een no-go\n[00:31.059] Want ik dans automatisch\n[00:34.990] Nee, stilstaan dat bestaan niet\n[00:39.000] Vanavond voelt het magisch\n[00:42.859] Zo a-a-automatisch\n[00:46.754] Want ik dans automatisch\n[00:49.601] Ja, ik snap het wel, dat je mee wilt doen\n[00:53.676] Stiekem aan het tikken met je linkervoet\n[00:57.760] Ik kijk je aan (Oh), zie je Jordanâ€™s gaan (Yeah)\n[01:01.624] Het is al te laat\n[01:03.595] Mijn hand begint te shaken, alles gaat bewegen\n[01:07.672] Voordat ik het weet voel ik de lampen op mij\n[01:11.375] Nog steeds heb ik de solo, move ik als een jojo\n[01:15.481] Stoppen is een no-go\n[01:18.331] Want ik dans automatisch\n[01:22.166] Nee, stilstaan dat bestaan niet\n[01:26.109] Vanavond voelt het magisch\n[01:29.827] Zo a-a-automatisch\n[01:34.151] Alles gaat vanzelf\n[01:35.981] Ook al is het laat, zin om door te gaan\n[01:38.001] Nee, het boeit me niet als ik\n[01:39.894] Ja, hier nog sta als de zon opgaat\n[01:41.760] Ook al is het geen gezicht\n[01:43.787] En mâ€™n hart dat slaat in dezelfde maat\n[01:45.780] Ja, ik voel de energie\n[01:47.579] En ik ben mâ€™n lichaam niet de baas\n[01:49.622] Want ik dans automatisch\n[01:52.375] Het gaat automatisch\n[01:53.600] Als ik dans op de vloer is het topprestatie\n[01:55.673] Iedereen is aan het kijken, het is de sensatie\n[01:57.618] Alle meiden zeggen: â€œDamn, heeft die boy een relatie?â€\n[01:59.621] Want (Ey, oh) hij danst super smooth\n[02:01.592] En (Ey, oh) kijk nou wat ie doet\n[02:03.635] Kom (Mee, oh) dit is hoe het moet\n[02:05.620] Vanavond is van ons, ja\n[02:09.481] We dansen automatisch (Automatisch)\n[02:13.326] Nee, stilstaan dat bestaan niet (Nee, dat bestaat niet)\n[02:17.096] Vanavond voelt het magisch (Voelt zo magisch)\n[02:21.109] Zo a-a-automatisch (Zo automatisch)\n[02:25.232] Alles gaat vanzelf (Vanzelf)\n[02:27.032] Ook al is het laat, zin om door te gaan\n[02:29.106] Nee, het boeit me niet als ik\n[02:31.174] Ja, hier nog sta als de zon opgaat\n[02:32.891] Ook al is het geen gezicht\n[02:34.959] En mâ€™n hart dat slaat in dezelfde maat\n[02:36.795] Ja, ik voel de energie\n[02:38.863] En ik ben mâ€™n lichaam niet de baas\n[02:40.916] Want ik dans automatisch",
+        "fullLyrics":  "[00:00.000] Ey, ey, ey, oh\n[00:02.424] Ik kan er niks aan doen, het gebeurt gewoon\n[00:06.720] Ik hou het niet tegen, ik ben machteloos\n[00:10.389] Ja, je kijkt me aan (Mhm), ziet m’n Nike’s gaan\n[00:14.479] Het is al te laat (Ey)\n[00:16.277] M’n voet begint te shaken, alles gaat bewegen\n[00:20.384] Voordat ik het weet voel ik de lampen op mij\n[00:24.220] Ineens pak ik de solo, move ik als een jojo\n[00:28.381] Stoppen is een no-go\n[00:31.059] Want ik dans automatisch\n[00:34.990] Nee, stilstaan dat bestaan niet\n[00:39.000] Vanavond voelt het magisch\n[00:42.859] Zo a-a-automatisch\n[00:46.754] Want ik dans automatisch\n[00:49.601] Ja, ik snap het wel, dat je mee wilt doen\n[00:53.676] Stiekem aan het tikken met je linkervoet\n[00:57.760] Ik kijk je aan (Oh), zie je Jordan’s gaan (Yeah)\n[01:01.624] Het is al te laat\n[01:03.595] Mijn hand begint te shaken, alles gaat bewegen\n[01:07.672] Voordat ik het weet voel ik de lampen op mij\n[01:11.375] Nog steeds heb ik de solo, move ik als een jojo\n[01:15.481] Stoppen is een no-go\n[01:18.331] Want ik dans automatisch\n[01:22.166] Nee, stilstaan dat bestaan niet\n[01:26.109] Vanavond voelt het magisch\n[01:29.827] Zo a-a-automatisch\n[01:34.151] Alles gaat vanzelf\n[01:35.981] Ook al is het laat, zin om door te gaan\n[01:38.001] Nee, het boeit me niet als ik\n[01:39.894] Ja, hier nog sta als de zon opgaat\n[01:41.760] Ook al is het geen gezicht\n[01:43.787] En m’n hart dat slaat in dezelfde maat\n[01:45.780] Ja, ik voel de energie\n[01:47.579] En ik ben m’n lichaam niet de baas\n[01:49.622] Want ik dans automatisch\n[01:52.375] Het gaat automatisch\n[01:53.600] Als ik dans op de vloer is het topprestatie\n[01:55.673] Iedereen is aan het kijken, het is de sensatie\n[01:57.618] Alle meiden zeggen: “Damn, heeft die boy een relatie?”\n[01:59.621] Want (Ey, oh) hij danst super smooth\n[02:01.592] En (Ey, oh) kijk nou wat ie doet\n[02:03.635] Kom (Mee, oh) dit is hoe het moet\n[02:05.620] Vanavond is van ons, ja\n[02:09.481] We dansen automatisch (Automatisch)\n[02:13.326] Nee, stilstaan dat bestaan niet (Nee, dat bestaat niet)\n[02:17.096] Vanavond voelt het magisch (Voelt zo magisch)\n[02:21.109] Zo a-a-automatisch (Zo automatisch)\n[02:25.232] Alles gaat vanzelf (Vanzelf)\n[02:27.032] Ook al is het laat, zin om door te gaan\n[02:29.106] Nee, het boeit me niet als ik\n[02:31.174] Ja, hier nog sta als de zon opgaat\n[02:32.891] Ook al is het geen gezicht\n[02:34.959] En m’n hart dat slaat in dezelfde maat\n[02:36.795] Ja, ik voel de energie\n[02:38.863] En ik ben m’n lichaam niet de baas\n[02:40.916] Want ik dans automatisch",
         "chordData":  {
                           "duration":  300,
                           "name":  "Flemming - Automatisch",
@@ -5737,7 +5737,7 @@ const DEFAULT_SONGS = [
         "title":  "Breathe",
         "verse":  "C# G# F#",
         "chorus":  "F# C# G# A#m",
-        "preChorus":  "A#m F# C# G# its two a.mâ€¦.",
+        "preChorus":  "A#m F# C# G# its two a.m….",
         "bridge":  "",
         "favorite":  false,
         "youtubeUrl":  "https://youtu.be/4sKrW3kbCdc?si=ckKqSBvjpRn0oKYF",
@@ -5792,7 +5792,7 @@ const DEFAULT_SONGS = [
         "performAbility":  0,
         "practiceCount":  "",
         "preChorusTitle":  "Block 3",
-        "verseTitle":  "Block 1ðŸŽµ"
+        "verseTitle":  "Block 1🎵"
     },
     {
         "artist":  "Paul Simon",
@@ -5809,7 +5809,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:15.120] A man walks down the street\n[00:16.560] He says why am I soft in the middle now\n[00:18.870] Why am I soft in the middle\n[00:20.340] The rest of my life is so hard\n[00:22.680] I need a photo-opportunity\n[00:24.420] I want a shot at redemption\n[00:26.130] Donï¼‡t want to end up a cartoon\n[00:27.960] In a cartoon graveyard\n[00:29.820] Bonedigger Bonedigger\n[00:31.860] Dogs in the moonlight\n[00:33.750] Far away my well-lit door\n[00:36.750] Mr. Beerbelly Beerbelly\n[00:39.000] Get these mutts away from me\n[00:40.350] You know I donï¼‡t find this stuff amusing anymore\n[00:44.670] If youï¼‡ll be my bodyguard\n[00:46.590] I can be your long lost pal\n[00:52.200] I can call you Betty\n[00:53.850] And Betty when you call me\n[00:55.320] You can call me Al\n[00:59.820] A man walks down the street\n[01:01.230] He says why am I short of attention\n[01:03.210] Got a short little span of attention\n[01:05.280] And wo mv nights are so long\n[01:07.350] Whereï¼‡s my wife and family\n[01:09.030] What if I die here\n[01:10.800] Whoï¼‡ll be my role-model\n[01:12.870] Now that my role-model is\n[01:14.550] Gone Gone\n[01:16.260] He ducked back down the alley\n[01:17.730] With some roly-poly little bat-faced girl\n[01:21.540] All along along\n[01:23.580] There were incidents and accidents\n[01:25.410] There were hints and allegations\n[01:29.610] If youï¼‡ll be my bodyguard\n[01:31.530] I can be your long lost pal\n[01:37.110] I can call you Betty\n[01:38.730] And Betty when you call me\n[01:40.380] You can call me Al\n[01:43.890] Call me Al\n[02:29.670] A man walks down the street\n[02:31.440] Itï¼‡s a street in a strange world\n[02:33.420] Maybe itï¼‡s the Third World\n[02:35.310] Maybe itï¼‡s his first time around\n[02:37.140] He doesnï¼‡t speak the language\n[02:38.670] He holds no currency\n[02:40.620] He is a foreign man\n[02:42.600] He is surrounded by the sound\n[02:45.240] The sound\n[02:46.380] Cattle in the marketplace\n[02:48.450] Scatterlings and orphanages\n[02:51.270] He looks around, around\n[02:53.460] He sees angels in the architecture\n[02:55.800] Spinning in infinity\n[02:57.270] He says Amen! and Halleluiah!\n[02:59.490] If youï¼‡ll be my bodyguard\n[03:01.380] I can be your long lost pal\n[03:06.960] I can call vou Betty\n[03:08.610] And Betty when you call me\n[03:10.230] You can call me Al\n[04:03.090] If youï¼‡ll be my bodyguard\n[04:10.590] I can call vou Betty\n[04:18.180] If youï¼‡ll be my bodyguard\n[04:25.680] I can call vou Betty",
+        "fullLyrics":  "[00:15.120] A man walks down the street\n[00:16.560] He says why am I soft in the middle now\n[00:18.870] Why am I soft in the middle\n[00:20.340] The rest of my life is so hard\n[00:22.680] I need a photo-opportunity\n[00:24.420] I want a shot at redemption\n[00:26.130] Don＇t want to end up a cartoon\n[00:27.960] In a cartoon graveyard\n[00:29.820] Bonedigger Bonedigger\n[00:31.860] Dogs in the moonlight\n[00:33.750] Far away my well-lit door\n[00:36.750] Mr. Beerbelly Beerbelly\n[00:39.000] Get these mutts away from me\n[00:40.350] You know I don＇t find this stuff amusing anymore\n[00:44.670] If you＇ll be my bodyguard\n[00:46.590] I can be your long lost pal\n[00:52.200] I can call you Betty\n[00:53.850] And Betty when you call me\n[00:55.320] You can call me Al\n[00:59.820] A man walks down the street\n[01:01.230] He says why am I short of attention\n[01:03.210] Got a short little span of attention\n[01:05.280] And wo mv nights are so long\n[01:07.350] Where＇s my wife and family\n[01:09.030] What if I die here\n[01:10.800] Who＇ll be my role-model\n[01:12.870] Now that my role-model is\n[01:14.550] Gone Gone\n[01:16.260] He ducked back down the alley\n[01:17.730] With some roly-poly little bat-faced girl\n[01:21.540] All along along\n[01:23.580] There were incidents and accidents\n[01:25.410] There were hints and allegations\n[01:29.610] If you＇ll be my bodyguard\n[01:31.530] I can be your long lost pal\n[01:37.110] I can call you Betty\n[01:38.730] And Betty when you call me\n[01:40.380] You can call me Al\n[01:43.890] Call me Al\n[02:29.670] A man walks down the street\n[02:31.440] It＇s a street in a strange world\n[02:33.420] Maybe it＇s the Third World\n[02:35.310] Maybe it＇s his first time around\n[02:37.140] He doesn＇t speak the language\n[02:38.670] He holds no currency\n[02:40.620] He is a foreign man\n[02:42.600] He is surrounded by the sound\n[02:45.240] The sound\n[02:46.380] Cattle in the marketplace\n[02:48.450] Scatterlings and orphanages\n[02:51.270] He looks around, around\n[02:53.460] He sees angels in the architecture\n[02:55.800] Spinning in infinity\n[02:57.270] He says Amen! and Halleluiah!\n[02:59.490] If you＇ll be my bodyguard\n[03:01.380] I can be your long lost pal\n[03:06.960] I can call vou Betty\n[03:08.610] And Betty when you call me\n[03:10.230] You can call me Al\n[04:03.090] If you＇ll be my bodyguard\n[04:10.590] I can call vou Betty\n[04:18.180] If you＇ll be my bodyguard\n[04:25.680] I can call vou Betty",
         "chordData":  {
                           "duration":  300,
                           "name":  "Paul Simon - You Can Call Me Al",
@@ -6002,7 +6002,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:10.140] You\u0027re  as  cold  as  ice,\n[00:13.350] you\u0027re  willing  to  sacrifice  our  love\n[00:24.930] You  never  take  advice,\n[00:28.230] someday  you\u0027ll  pay  the  price,\n[00:30.660] I  know\n[00:32.880] I\u0027ve  seen  it  before,\n[00:34.410] it  happens  all  the  time\n[00:36.570] You\u0027re  closing  the  door,\n[00:37.920] you  leave  the  world  behind\n[00:40.260] You\u0027re  digging  for  gold,\n[00:42.060] you\u0027re  throwing  away\n[00:44.040] A  fortune  in  feelings,\n[00:45.780] but  someday  you\u0027ll  pay\n[00:56.160] You\u0027re  as  cold  as  ice,\n[00:59.340] you\u0027re  willing  to  sacrifice  our  love\n[01:10.680] You  want  paradise,\n[01:13.980] but  someday  you\u0027ll  pay  the  price,\n[01:16.470] I  know\n[01:18.630] I\u0027ve  seen  it  before,\n[01:20.070] it  happens  all  the  time\n[01:22.440] You\u0027re  closing  the  door,\n[01:23.730] you  leave  the  world  behind\n[01:26.010] You\u0027re  digging  for  gold,\n[01:27.840] you\u0027re  throwing  away\n[01:29.850] A  fortune  in  feelings,\n[01:31.590] but  someday  you\u0027ll  pay\n[01:34.770] ï¼ˆSoloï¼‰\n[01:34.890] Cold  as  ice -you  know  that  you  are\n[01:56.160] Cold  as  ice -as  cold  as  ice  to  me\n[02:03.960] Cold  as  ice\n[02:29.700] You\u0027re  as  cold  as  ice,\n[02:33.900] cold  as  ice,I  know,yes  I  know\n[02:44.100] You\u0027re  as  cold  as  ice,\n[02:48.330] cold  as  ice,I  know,\n[02:52.350] oh  yes  I  know\n[02:58.500] You\u0027re  as  cold  as  ice,\n[03:02.850] cold  as  ice,I  know,oh  yes  I  know\n[03:13.050] You\u0027re  as  cold  as  ice...ï¼ˆto  fadeï¼‰",
+        "fullLyrics":  "[00:10.140] You\u0027re  as  cold  as  ice,\n[00:13.350] you\u0027re  willing  to  sacrifice  our  love\n[00:24.930] You  never  take  advice,\n[00:28.230] someday  you\u0027ll  pay  the  price,\n[00:30.660] I  know\n[00:32.880] I\u0027ve  seen  it  before,\n[00:34.410] it  happens  all  the  time\n[00:36.570] You\u0027re  closing  the  door,\n[00:37.920] you  leave  the  world  behind\n[00:40.260] You\u0027re  digging  for  gold,\n[00:42.060] you\u0027re  throwing  away\n[00:44.040] A  fortune  in  feelings,\n[00:45.780] but  someday  you\u0027ll  pay\n[00:56.160] You\u0027re  as  cold  as  ice,\n[00:59.340] you\u0027re  willing  to  sacrifice  our  love\n[01:10.680] You  want  paradise,\n[01:13.980] but  someday  you\u0027ll  pay  the  price,\n[01:16.470] I  know\n[01:18.630] I\u0027ve  seen  it  before,\n[01:20.070] it  happens  all  the  time\n[01:22.440] You\u0027re  closing  the  door,\n[01:23.730] you  leave  the  world  behind\n[01:26.010] You\u0027re  digging  for  gold,\n[01:27.840] you\u0027re  throwing  away\n[01:29.850] A  fortune  in  feelings,\n[01:31.590] but  someday  you\u0027ll  pay\n[01:34.770] （Solo）\n[01:34.890] Cold  as  ice -you  know  that  you  are\n[01:56.160] Cold  as  ice -as  cold  as  ice  to  me\n[02:03.960] Cold  as  ice\n[02:29.700] You\u0027re  as  cold  as  ice,\n[02:33.900] cold  as  ice,I  know,yes  I  know\n[02:44.100] You\u0027re  as  cold  as  ice,\n[02:48.330] cold  as  ice,I  know,\n[02:52.350] oh  yes  I  know\n[02:58.500] You\u0027re  as  cold  as  ice,\n[03:02.850] cold  as  ice,I  know,oh  yes  I  know\n[03:13.050] You\u0027re  as  cold  as  ice...（to  fade）",
         "chordData":  {
                           "duration":  300,
                           "name":  "Foreigner - Cold As Ice",
@@ -6220,7 +6220,7 @@ const DEFAULT_SONGS = [
                           "name":  "Elton John - Don\u0027t Let The Sun Go Down on Me",
                           "tempo":  135
                       },
-        "bridgeTitle":  "But losing everythingâ€¦",
+        "bridgeTitle":  "But losing everything…",
         "chorusTitle":  "VERSE",
         "id":  43,
         "lyricOffset":  0,
@@ -6361,7 +6361,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "I Wanna Feel High...",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[00:16.201] I know it sounds funny  but I just can\u0027t stand the pain\n[00:23.191] Girl  I\u0027m leaving you tomorrow\n[00:30.371] Seems to me girl  you know I\u0027ve done all I can\n[00:37.981] You see I\u0027ve begged  stole and I\u0027ve borrowed ï¼ˆyeahï¼‰\n[00:44.511] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[01:01.171] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[01:17.711] Why in the world would anybody put chains on me  ï¼ˆyeahï¼‰\n[01:23.951] I\u0027ve paid my dues to make it\n[01:31.821] Everybody wants me to be what they to want me be\n[01:39.801] I\u0027m not happy when I try to fake it  no\n[01:48.791] That\u0027s why I\u0027m easy ï¼ˆyeahï¼‰  I\u0027m easy like Sunday morning\n[01:56.531] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[02:18.121] I wanna be high  so high\n[02:25.301] I wanna be free to know the things I do are right\n[02:32.161] I wanna be free  just me  oh baby\n[03:18.331] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[03:31.621] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning  whoa\n[03:46.541] Cause I\u0027m easy ï¼ˆwooï¼‰  easy like Sunday morning  yeah\n[04:00.641] Cause I\u0027m easy  I\u0027m easy like Sunday morning  whoa",
+        "fullLyrics":  "[00:16.201] I know it sounds funny  but I just can\u0027t stand the pain\n[00:23.191] Girl  I\u0027m leaving you tomorrow\n[00:30.371] Seems to me girl  you know I\u0027ve done all I can\n[00:37.981] You see I\u0027ve begged  stole and I\u0027ve borrowed （yeah）\n[00:44.511] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[01:01.171] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[01:17.711] Why in the world would anybody put chains on me  （yeah）\n[01:23.951] I\u0027ve paid my dues to make it\n[01:31.821] Everybody wants me to be what they to want me be\n[01:39.801] I\u0027m not happy when I try to fake it  no\n[01:48.791] That\u0027s why I\u0027m easy （yeah）  I\u0027m easy like Sunday morning\n[01:56.531] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[02:18.121] I wanna be high  so high\n[02:25.301] I wanna be free to know the things I do are right\n[02:32.161] I wanna be free  just me  oh baby\n[03:18.331] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning\n[03:31.621] That\u0027s why I\u0027m easy  I\u0027m easy like Sunday morning  whoa\n[03:46.541] Cause I\u0027m easy （woo）  easy like Sunday morning  yeah\n[04:00.641] Cause I\u0027m easy  I\u0027m easy like Sunday morning  whoa",
         "chordData":  {
                           "duration":  300,
                           "name":  "Commodores - Easy",
@@ -6938,7 +6938,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1: Danny O\u0027Donoghue \u0026 will.i.am]\nYeah, you can be the greatest, you can be the best\nYou can be the King Kong bangin\u0027 on your chest\nYou can beat the world, you can beat the war\nYou can talk to God, go bangin\u0027 on his door\nYou can throw your hands up, you can beat the clock (Yeah)\nYou can move a mountain, you can break rocks\nYou can be a master, don\u0027t wait for luck\nDedicate yourself and you gon\u0027 find yourself\n\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Verse 2: Danny O\u0027Donoghue \u0026 will.i.am]\nYou can go the distance, you can run the mile\nYou can walk straight through hell with a smile\nYou can be the hero, you can get the gold\nBreakin\u0027 all the records they thought never could be broke, yeah\nDo it for your people, do it for your pride\nHow are you ever gonna know if you never even try?\nDo it for your country, do it for your name\n\u0027Cause there\u0027s gon\u0027 be a day, when you\u0027re\n\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Post-Chorus: will.i.am]\nBe a champion\nBe a champion\nBe a champion\nBe a champion\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Bridge: Danny O\u0027Donoghue]\nBe students, be teachers\nBe politicians, be preachers\nYeah\nBe believers, be leaders\nBe astronauts, be champions\nBe truth-seekers\nBe students, be teachers\nBe politicians, be preachers\nYeah\nBe believers, be leaders\nBe astronauts, be champions\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Outro: Danny O\u0027Donoghue \u0026 will.i.am]\nYou can be the greatest, you can be the best\n(Be a champion)\nYou can be the King Kong bangin\u0027 on your chest\n(You can be a champion)\nYou can beat the world, you can beat the war\n(Be a champion)\nYou can talk to God, go bangin\u0027 on his door\n(You can be a champion)\nYou can throw your hands up, you can beat the clock\n(You can be a champion)\nYou can move a mountain, you can break rocks\n(You can be a champion)\nYou can be a master, don\u0027t wait for luck\n(You can be a champion)\nDedicate yourself and you gon\u0027 find yourself\n(You can be a champion)\nStanding in the Hall of Fameâ€¦",
+        "fullLyrics":  "[Verse 1: Danny O\u0027Donoghue \u0026 will.i.am]\nYeah, you can be the greatest, you can be the best\nYou can be the King Kong bangin\u0027 on your chest\nYou can beat the world, you can beat the war\nYou can talk to God, go bangin\u0027 on his door\nYou can throw your hands up, you can beat the clock (Yeah)\nYou can move a mountain, you can break rocks\nYou can be a master, don\u0027t wait for luck\nDedicate yourself and you gon\u0027 find yourself\n\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Verse 2: Danny O\u0027Donoghue \u0026 will.i.am]\nYou can go the distance, you can run the mile\nYou can walk straight through hell with a smile\nYou can be the hero, you can get the gold\nBreakin\u0027 all the records they thought never could be broke, yeah\nDo it for your people, do it for your pride\nHow are you ever gonna know if you never even try?\nDo it for your country, do it for your name\n\u0027Cause there\u0027s gon\u0027 be a day, when you\u0027re\n\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Post-Chorus: will.i.am]\nBe a champion\nBe a champion\nBe a champion\nBe a champion\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Bridge: Danny O\u0027Donoghue]\nBe students, be teachers\nBe politicians, be preachers\nYeah\nBe believers, be leaders\nBe astronauts, be champions\nBe truth-seekers\nBe students, be teachers\nBe politicians, be preachers\nYeah\nBe believers, be leaders\nBe astronauts, be champions\n[Chorus: Danny O\u0027Donoghue \u0026 will.i.am]\nStandin\u0027 in the Hall of Fame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\n\u0027Cause you burn with the brightest flame (Yeah)\nAnd the world\u0027s gonna know your name (Yeah)\nAnd you\u0027ll be on the walls of the Hall of Fame\n\n[Outro: Danny O\u0027Donoghue \u0026 will.i.am]\nYou can be the greatest, you can be the best\n(Be a champion)\nYou can be the King Kong bangin\u0027 on your chest\n(You can be a champion)\nYou can beat the world, you can beat the war\n(Be a champion)\nYou can talk to God, go bangin\u0027 on his door\n(You can be a champion)\nYou can throw your hands up, you can beat the clock\n(You can be a champion)\nYou can move a mountain, you can break rocks\n(You can be a champion)\nYou can be a master, don\u0027t wait for luck\n(You can be a champion)\nDedicate yourself and you gon\u0027 find yourself\n(You can be a champion)\nStanding in the Hall of Fame…",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -7204,83 +7204,83 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  3.24324
+                                             "time": 3.243
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  6.48648
+                                             "time": 6.486
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  9.72972
+                                             "time": 9.73
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  12.97296
+                                             "time": 12.973
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  16.2162
+                                             "time": 16.216
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  19.45944
+                                             "time": 19.459
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  22.70268
+                                             "time": 22.703
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  38.91888
+                                             "time": 38.919
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  42.16212
+                                             "time": 42.162
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  45.40536
+                                             "time": 45.405
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  48.6486
+                                             "time": 48.649
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  51.89184
+                                             "time": 51.892
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  55.13508
+                                             "time": 55.135
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  58.37832
+                                             "time": 58.378
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  61.62156
+                                             "time": 61.622
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  64.8648
+                                             "time": 64.865
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  68.10804
+                                             "time": 68.108
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  71.35128
+                                             "time": 71.351
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  74.59452
+                                             "time": 74.595
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  77.83776
+                                             "time": 77.838
                                          },
                                          {
                                              "name":  "F#",
@@ -7288,99 +7288,99 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  84.32424
+                                             "time": 84.324
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  87.56748
+                                             "time": 87.567
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  90.81072
+                                             "time": 90.811
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  94.05396
+                                             "time": 94.054
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  97.2972
+                                             "time": 97.297
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  100.54044
+                                             "time": 100.54
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  103.78368
+                                             "time": 103.784
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  107.02692
+                                             "time": 107.027
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  110.27016
+                                             "time": 110.27
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  113.5134
+                                             "time": 113.513
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  116.75664
+                                             "time": 116.757
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  119.99988
+                                             "time": 120
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  123.24312
+                                             "time": 123.243
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  126.48636
+                                             "time": 126.486
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  129.7296
+                                             "time": 129.73
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  132.97284000000002
+                                             "time": 132.973
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  136.21608
+                                             "time": 136.216
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  139.45932
+                                             "time": 139.459
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  142.70256
+                                             "time": 142.703
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  145.94580000000002
+                                             "time": 145.946
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  149.18904
+                                             "time": 149.189
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  152.43228
+                                             "time": 152.432
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  155.67552
+                                             "time": 155.676
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  158.91876000000002
+                                             "time": 158.919
                                          },
                                          {
                                              "name":  "A",
@@ -7388,99 +7388,99 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  165.40524
+                                             "time": 165.405
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  168.64848
+                                             "time": 168.648
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  171.89172000000002
+                                             "time": 171.892
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  175.13496
+                                             "time": 175.135
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  178.3782
+                                             "time": 178.378
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  181.62144
+                                             "time": 181.621
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  184.86468000000002
+                                             "time": 184.865
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  188.10792
+                                             "time": 188.108
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  191.35116
+                                             "time": 191.351
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  194.5944
+                                             "time": 194.594
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  197.83764000000002
+                                             "time": 197.838
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  201.08088
+                                             "time": 201.081
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  204.32412
+                                             "time": 204.324
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  207.56736
+                                             "time": 207.567
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  210.81060000000002
+                                             "time": 210.811
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  214.05384
+                                             "time": 214.054
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  217.29708
+                                             "time": 217.297
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  220.54032
+                                             "time": 220.54
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  223.78356000000002
+                                             "time": 223.784
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  227.0268
+                                             "time": 227.027
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  230.27004
+                                             "time": 230.27
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  233.51328
+                                             "time": 233.513
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  236.75652000000002
+                                             "time": 236.757
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  239.99976
+                                             "time": 240
                                          },
                                          {
                                              "name":  "E",
@@ -7488,99 +7488,99 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  246.48624
+                                             "time": 246.486
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  249.72948000000002
+                                             "time": 249.729
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  252.97272
+                                             "time": 252.973
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  256.21596
+                                             "time": 256.216
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  259.4592
+                                             "time": 259.459
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  262.70244
+                                             "time": 262.702
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  265.94568000000004
+                                             "time": 265.946
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  269.18892
+                                             "time": 269.189
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  272.43216
+                                             "time": 272.432
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  275.6754
+                                             "time": 275.675
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  278.91864
+                                             "time": 278.919
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  282.16188
+                                             "time": 282.162
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  285.40512
+                                             "time": 285.405
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  288.64836
+                                             "time": 288.648
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  291.89160000000004
+                                             "time": 291.892
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  295.13484
+                                             "time": 295.135
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  298.37808
+                                             "time": 298.378
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  301.62132
+                                             "time": 301.621
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  304.86456
+                                             "time": 304.865
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  308.1078
+                                             "time": 308.108
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  311.35104
+                                             "time": 311.351
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  314.59428
+                                             "time": 314.594
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  317.83752000000004
+                                             "time": 317.838
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  321.08076
+                                             "time": 321.081
                                          },
                                          {
                                              "name":  "G",
@@ -7588,79 +7588,79 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  327.56724
+                                             "time": 327.567
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  330.81048
+                                             "time": 330.81
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  334.05372
+                                             "time": 334.054
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  337.29696
+                                             "time": 337.297
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  340.5402
+                                             "time": 340.54
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  343.78344000000004
+                                             "time": 343.783
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  347.02668
+                                             "time": 347.027
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  350.26992
+                                             "time": 350.27
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  353.51316
+                                             "time": 353.513
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  356.7564
+                                             "time": 356.756
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  359.99964
+                                             "time": 360
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  363.24288
+                                             "time": 363.243
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  366.48612
+                                             "time": 366.486
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  369.72936000000004
+                                             "time": 369.729
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  372.9726
+                                             "time": 372.973
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  376.21584
+                                             "time": 376.216
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  379.45908000000003
+                                             "time": 379.459
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  382.70232
+                                             "time": 382.702
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  385.94556
+                                             "time": 385.946
                                          }
                                      ],
                           "duration":  389.18204325000005,
@@ -7727,7 +7727,7 @@ const DEFAULT_SONGS = [
     },
     {
         "artist":  "Toto",
-        "title":  "Iâ€™ll Be Over You",
+        "title":  "I’ll Be Over You",
         "verse":  "D# F A# D#3 | D# F A# F | Cm2 D# F A#2",
         "chorus":  "F D# D#m A# F",
         "preChorus":  "A# F D# F Gm F D# F",
@@ -7744,7 +7744,7 @@ const DEFAULT_SONGS = [
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
-                          "name":  "Toto - Iâ€™ll Be Over You",
+                          "name":  "Toto - I’ll Be Over You",
                           "tempo":  82
                       },
         "bridgeTitle":  "Chorus (soon as forever..)",
@@ -7827,7 +7827,7 @@ const DEFAULT_SONGS = [
                           "tempo":  120
                       },
         "bridgeTitle":  "Block 4",
-        "chorusTitle":  "Guitar soloðŸŽµ",
+        "chorusTitle":  "Guitar solo🎵",
         "id":  86,
         "practiceCount":  "1",
         "preChorusTitle":  "Block 3",
@@ -7906,7 +7906,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "Block 4",
         "chorusTitle":  "Block 2",
         "id":  89,
-        "preChorusTitle":  "Block 3ðŸŽµ",
+        "preChorusTitle":  "Block 3🎵",
         "verseTitle":  "INTRO"
     },
     {
@@ -8103,7 +8103,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro]\n(I don\u0027t need nobody else)\n\n[Verse 1]\nWhatever, I couldn\u0027t keep it together\nDidn\u0027t know what I could be\nNever thought that life could get much better\nThought I\u0027d be here forever\nEverything was breaking me\nMy life turnedâŸintoâŸtherapy\n\n[Pre-Chorus]\nTookâŸa little whileâŸto see thatâŸI was lost, so lost\nNow I found myself, I\u0027m never gonna stop\n\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to lovÐµ myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody elsÐµ\n\n[Verse 2]\nSo lately I\u0027ve been keeping my head up\nNo one\u0027s gonna get me down\n\u0027Cause I just turned my life around\nGo crazy, I don\u0027t need your love\nSo save it, \u0027cause I have enough\nI\u0027m ready, I\u0027m ready\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\n\n[Post-Chorus]\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\n\n[Pre-Chorus]\nTook a little while to see that I was lost, so lost\nNow I found myself, I\u0027m never gonna stop\n\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody\nI don\u0027t, I don\u0027t need nobody\n[Post-Chorus]\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa (I don\u0027t need nobody)\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa",
+        "fullLyrics":  "[Intro]\n(I don\u0027t need nobody else)\n\n[Verse 1]\nWhatever, I couldn\u0027t keep it together\nDidn\u0027t know what I could be\nNever thought that life could get much better\nThought I\u0027d be here forever\nEverything was breaking me\nMy life turned into therapy\n\n[Pre-Chorus]\nTook a little while to see that I was lost, so lost\nNow I found myself, I\u0027m never gonna stop\n\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to lovе myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody elsе\n\n[Verse 2]\nSo lately I\u0027ve been keeping my head up\nNo one\u0027s gonna get me down\n\u0027Cause I just turned my life around\nGo crazy, I don\u0027t need your love\nSo save it, \u0027cause I have enough\nI\u0027m ready, I\u0027m ready\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\n\n[Post-Chorus]\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\n\n[Pre-Chorus]\nTook a little while to see that I was lost, so lost\nNow I found myself, I\u0027m never gonna stop\n\n[Chorus]\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody else\nI\u0027m ready to love myself\nI\u0027m ready to love myself\nI\u0027m ready to go\nNo, I don\u0027t, I don\u0027t need nobody\nI don\u0027t, I don\u0027t need nobody\n[Post-Chorus]\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa (I don\u0027t need nobody)\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa\nPa-da-pa-pa, pa-da-da-pa",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -8272,7 +8272,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nLet me sail, let me sail\nLet the Orinoco flow\nLet me reach, let me beach\nOn the shores of Tripoli\n\nLet me sail, let me sail\nLet me crash upon your shore\nLet me reach, let me beach\nFar beyond the Yellow Sea\n\n[Interlude]\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\n\n[Chorus]\n(Ah)\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\n[Verse 2]\nFrom Bissau to Palau\nIn the shade of Avalon\nFrom Fiji to Tiree\nAnd the Isles of Ebony\n\nFrom Peru to Cebu\nFeel the power of Babylon\nFrom Bali to Cali\nFar beneath the Coral Sea\n\n[Interlude]\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\n\n[Bridge]\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ooh)\n\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ooh)\n\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ahh)\n[Chorus]\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\n[Verse 3]\nFrom the North to the South\nEbudÃ¦ unto Khartoum\nFrom the deep Sea of Clouds\nTo the Island of the Moon\n\nCarry me on the waves\nTo the lands I\u0027ve never been\nCarry me on the waves\nTo the lands I\u0027ve never seen\n\nWe can sail, we can sail\nWith the Orinoco flow\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 4]\nWe can steer, we can near\nWith Rob Dickins at the wheel\nWe can sigh, say goodbye\nRoss and his dependency\nWe can sail, we can sail\nSail away, sail away, sail away\n[Verse 5]\nWe can reach, we can beach\nOn the shores of Tripoli\nWe can sail, we can sail\nSail away, sail away, sail away\n\nFrom Bali to Cali\nFar beneath the Coral Sea\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 6]\nFrom Bissau to Palau\nIn the shade of Avalon\nWe can sail, we can sail\nSail away, sail away, sail away\n\nWe can reach, we can beach\nFar beyond the Yellow Sea\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 7]\nFrom Peru to Cebu\nFeel the power of Babylon\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Coda]\nWe can sail, we can sail\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\nAh, ah-ah\nAh, ah-ah\nAh",
+        "fullLyrics":  "[Verse 1]\nLet me sail, let me sail\nLet the Orinoco flow\nLet me reach, let me beach\nOn the shores of Tripoli\n\nLet me sail, let me sail\nLet me crash upon your shore\nLet me reach, let me beach\nFar beyond the Yellow Sea\n\n[Interlude]\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\n\n[Chorus]\n(Ah)\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\n[Verse 2]\nFrom Bissau to Palau\nIn the shade of Avalon\nFrom Fiji to Tiree\nAnd the Isles of Ebony\n\nFrom Peru to Cebu\nFeel the power of Babylon\nFrom Bali to Cali\nFar beneath the Coral Sea\n\n[Interlude]\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\nDe-da, de-da, de\n\n[Bridge]\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ooh)\n\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ooh)\n\nTurn it up, turn it up (Ooh)\nTurn it up, up\nAdieu\n(Ahh)\n[Chorus]\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\n[Verse 3]\nFrom the North to the South\nEbudæ unto Khartoum\nFrom the deep Sea of Clouds\nTo the Island of the Moon\n\nCarry me on the waves\nTo the lands I\u0027ve never been\nCarry me on the waves\nTo the lands I\u0027ve never seen\n\nWe can sail, we can sail\nWith the Orinoco flow\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 4]\nWe can steer, we can near\nWith Rob Dickins at the wheel\nWe can sigh, say goodbye\nRoss and his dependency\nWe can sail, we can sail\nSail away, sail away, sail away\n[Verse 5]\nWe can reach, we can beach\nOn the shores of Tripoli\nWe can sail, we can sail\nSail away, sail away, sail away\n\nFrom Bali to Cali\nFar beneath the Coral Sea\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 6]\nFrom Bissau to Palau\nIn the shade of Avalon\nWe can sail, we can sail\nSail away, sail away, sail away\n\nWe can reach, we can beach\nFar beyond the Yellow Sea\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Verse 7]\nFrom Peru to Cebu\nFeel the power of Babylon\nWe can sail, we can sail\nSail away, sail away, sail away\n\n[Coda]\nWe can sail, we can sail\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\nSail away, sail away, sail away\n\nAh, ah-ah\nAh, ah-ah\nAh",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -8308,7 +8308,7 @@ const DEFAULT_SONGS = [
     {
         "artist":  "Taylor Swift",
         "title":  "Ours",
-        "verse":  "C2 Am F3 (3x)Â C2 G F G",
+        "verse":  "C2 Am F3 (3x) C2 G F G",
         "chorus":  "F G C2 Am F G Am F G",
         "preChorus":  "Am G F C 2x | F G",
         "bridge":  "",
@@ -8584,7 +8584,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Chorus: Camila Cabello]\nI love it when you call me seÃ±orita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Verse 1: Shawn Mendes]\nLand in Miami\nThe air was hot from summer rain\nSweat drippin\u0027 off me\nBefore I even knew her name, la-la-la\nIt felt like ooh-la-la-la, yeah, no\nSapphire moonlight\nWe danced for hours in the sand\nTequila Sunrise\nHer body fit right in my hands, la-la-la\nIt felt like ooh-la-la-la, yeah\n\n[Chorus: Camila Cabello \u0026 Shawn Mendes, Camila Cabello]\nI love it when you call me seÃ±orita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you know I love it when you call me seÃ±orita\nI wish it wasn\u0027t so damn hard to leave ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Verse 2: Camila Cabello, Camila Cabello \u0026 Shawn Mendes]\nLocked in the hotel\nThere\u0027s just some things that never change\nYou say we\u0027re just friends\nBut friends don\u0027t know the way you taste, la-la-la (La, la, la)\n\u0027Cause you know it\u0027s been a long time coming\nDon\u0027t ya let me fall, oh\nOoh, when your lips undress me, hooked on your tongue\nOoh, love, your kiss is deadly, don\u0027t stop\n\n[Chorus: Both, Camila Cabello \u0026 Shawn Mendes]\nI love it when you call me seÃ±orita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you know I love it when you call me seÃ±orita\nI wish it wasn\u0027t so damn hard to leave ya (So damn hard to leave ya)\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la (True la-la)\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Outro: Both, Shawn Mendes \u0026 Camila Cabello]\nAll along, I\u0027ve been coming for ya (For you)\nAnd I hope it meant something to you (Oh)\nCall my name, I\u0027ll be coming for ya (Coming for you)\nComing for ya (Coming for you)\nFor ya\nFor ya (Oh, she loves it when I call)\nFor ya\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya",
+        "fullLyrics":  "[Chorus: Camila Cabello]\nI love it when you call me señorita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Verse 1: Shawn Mendes]\nLand in Miami\nThe air was hot from summer rain\nSweat drippin\u0027 off me\nBefore I even knew her name, la-la-la\nIt felt like ooh-la-la-la, yeah, no\nSapphire moonlight\nWe danced for hours in the sand\nTequila Sunrise\nHer body fit right in my hands, la-la-la\nIt felt like ooh-la-la-la, yeah\n\n[Chorus: Camila Cabello \u0026 Shawn Mendes, Camila Cabello]\nI love it when you call me señorita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you know I love it when you call me señorita\nI wish it wasn\u0027t so damn hard to leave ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Verse 2: Camila Cabello, Camila Cabello \u0026 Shawn Mendes]\nLocked in the hotel\nThere\u0027s just some things that never change\nYou say we\u0027re just friends\nBut friends don\u0027t know the way you taste, la-la-la (La, la, la)\n\u0027Cause you know it\u0027s been a long time coming\nDon\u0027t ya let me fall, oh\nOoh, when your lips undress me, hooked on your tongue\nOoh, love, your kiss is deadly, don\u0027t stop\n\n[Chorus: Both, Camila Cabello \u0026 Shawn Mendes]\nI love it when you call me señorita\nI wish I could pretend I didn\u0027t need ya\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la\nOoh, I should be runnin\u0027\nOoh, you know I love it when you call me señorita\nI wish it wasn\u0027t so damn hard to leave ya (So damn hard to leave ya)\nBut every touch is ooh-la-la-la\nIt\u0027s true, la-la-la (True la-la)\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya\n\n[Outro: Both, Shawn Mendes \u0026 Camila Cabello]\nAll along, I\u0027ve been coming for ya (For you)\nAnd I hope it meant something to you (Oh)\nCall my name, I\u0027ll be coming for ya (Coming for you)\nComing for ya (Coming for you)\nFor ya\nFor ya (Oh, she loves it when I call)\nFor ya\nOoh, I should be runnin\u0027\nOoh, you keep me coming for ya",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -8656,7 +8656,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nI feel so high school every time I look at you\nI wanna find you in a crowd just to hide from you\n\n[Pre-Chorus]\nAnd in the blink of a crinklin\u0027 eye\nI\u0027m sinkin\u0027, our fingers entwined\nCheeks pink in the twinklin\u0027 lights\nTell me \u0027bout the first time you saw me\nI\u0027ll drink what you think and I\u0027m high\nFrom smokin\u0027 your jokes all damn night\nThe brink of a wrinkle in time\nBittersweet sixteen suddenly\n\n[Chorus]\nI\u0027m watchin\u0027 American Pie with you on a Saturday night\nYour friends are around, so be quiet\nI\u0027m tryin\u0027 to stifle my sighs\n\u0027Cause I feel so high school every time I look at you\nBut look at you\n\n[Post-Chorus]\nAh-ah, ah-ah, ah\n\n[Interlude]\nAre you gonna marry, kiss, or kill me? (Kill me)\nIt\u0027s just a game, but really (Really)\nI\u0027m bettin\u0027 on all three (All three) for us two\nGet my car door, isn\u0027t that sweet? (That sweet)\nThen pull mÐµ to the back seat (The back sÐµat)\nNo one\u0027s ever had me (Had me), not like you\n\n[Refrain]\nTruth, dare, spin bottles\nYou know how to ball, I know Aristotle\nBrand new, full throttle\nTouch me while your bros play Grand Theft Auto\nIt\u0027s true, swear, scout\u0027s honor\nYou knew what you wanted and, boy, you got her\nBrand new, full throttle\nYou already know, babe\n\n[Verse 2]\nI feel like laughin\u0027 in the middle of practice\nDo that impression you did of your dad again\nI\u0027m hearing voices like a madman\n\n[Pre-Chorus]\nAnd in the blink of a crinklin\u0027 eye\nI\u0027m sinkin\u0027, our fingers entwined\nCheeks pink in the twinklin\u0027 lights\nTell me \u0027bout the first time you saw me\nI\u0027ll drink what you think and I\u0027m high\nFrom smokin\u0027 your jokes all damn night\nThe brink of a wrinkle in time\nBittersweet sixteen suddenly\n\n[Chorus]\nI\u0027m watchin\u0027 American Pie with you on a Saturday night\nYour friends are around, so be quiet\nI\u0027m tryin\u0027 to stifle my sighs\n\u0027Cause I feel so high school (I feel so high school) every time I look at you\nBut look at you\n[Refrain]\nTruth, dare, spin bottles (Yeah)\nYou know how to ball, I know Aristotle\nBrand new, full throttle (Yeah)\nTouch me while your bros play Grand Theft Auto\nIt\u0027s true, swear, scout\u0027s honor (Yeah)\nYou knew what you wanted and, boy, you got her\nBrand new, full throttle (Yeah)\nYou already know, babe\nYou already know, babe",
+        "fullLyrics":  "[Verse 1]\nI feel so high school every time I look at you\nI wanna find you in a crowd just to hide from you\n\n[Pre-Chorus]\nAnd in the blink of a crinklin\u0027 eye\nI\u0027m sinkin\u0027, our fingers entwined\nCheeks pink in the twinklin\u0027 lights\nTell me \u0027bout the first time you saw me\nI\u0027ll drink what you think and I\u0027m high\nFrom smokin\u0027 your jokes all damn night\nThe brink of a wrinkle in time\nBittersweet sixteen suddenly\n\n[Chorus]\nI\u0027m watchin\u0027 American Pie with you on a Saturday night\nYour friends are around, so be quiet\nI\u0027m tryin\u0027 to stifle my sighs\n\u0027Cause I feel so high school every time I look at you\nBut look at you\n\n[Post-Chorus]\nAh-ah, ah-ah, ah\n\n[Interlude]\nAre you gonna marry, kiss, or kill me? (Kill me)\nIt\u0027s just a game, but really (Really)\nI\u0027m bettin\u0027 on all three (All three) for us two\nGet my car door, isn\u0027t that sweet? (That sweet)\nThen pull mе to the back seat (The back sеat)\nNo one\u0027s ever had me (Had me), not like you\n\n[Refrain]\nTruth, dare, spin bottles\nYou know how to ball, I know Aristotle\nBrand new, full throttle\nTouch me while your bros play Grand Theft Auto\nIt\u0027s true, swear, scout\u0027s honor\nYou knew what you wanted and, boy, you got her\nBrand new, full throttle\nYou already know, babe\n\n[Verse 2]\nI feel like laughin\u0027 in the middle of practice\nDo that impression you did of your dad again\nI\u0027m hearing voices like a madman\n\n[Pre-Chorus]\nAnd in the blink of a crinklin\u0027 eye\nI\u0027m sinkin\u0027, our fingers entwined\nCheeks pink in the twinklin\u0027 lights\nTell me \u0027bout the first time you saw me\nI\u0027ll drink what you think and I\u0027m high\nFrom smokin\u0027 your jokes all damn night\nThe brink of a wrinkle in time\nBittersweet sixteen suddenly\n\n[Chorus]\nI\u0027m watchin\u0027 American Pie with you on a Saturday night\nYour friends are around, so be quiet\nI\u0027m tryin\u0027 to stifle my sighs\n\u0027Cause I feel so high school (I feel so high school) every time I look at you\nBut look at you\n[Refrain]\nTruth, dare, spin bottles (Yeah)\nYou know how to ball, I know Aristotle\nBrand new, full throttle (Yeah)\nTouch me while your bros play Grand Theft Auto\nIt\u0027s true, swear, scout\u0027s honor (Yeah)\nYou knew what you wanted and, boy, you got her\nBrand new, full throttle (Yeah)\nYou already know, babe\nYou already know, babe",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -8859,623 +8859,623 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "C2",
-                                             "time":  1.386093921798706
+                                             "time": 1.386
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  3.258089005722046
+                                             "time": 3.258
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  3.968411876022339
+                                             "time": 3.968
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  5.144519019073487
+                                             "time": 5.145
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  6.304217057220459
+                                             "time": 6.304
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  7.529630007629395
+                                             "time": 7.53
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  8.671624992370605
+                                             "time": 8.672
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  9.919998778747559
+                                             "time": 9.92
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  11.128118007629395
+                                             "time": 11.128
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  12.328202914169312
+                                             "time": 12.328
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  13.519671946594238
+                                             "time": 13.52
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  14.760281969482422
+                                             "time": 14.76
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  15.927903009536744
+                                             "time": 15.928
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  17.096739017166136
+                                             "time": 17.097
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  18.322466072479248
+                                             "time": 18.322
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  19.51996195803833
+                                             "time": 19.52
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  20.681056769210816
+                                             "time": 20.681
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  21.93761816784668
+                                             "time": 21.938
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  23.0654251411438
+                                             "time": 23.065
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  24.329147104904173
+                                             "time": 24.329
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  25.56812482833862
+                                             "time": 25.568
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  26.768003954223634
+                                             "time": 26.768
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  27.952336003814697
+                                             "time": 27.952
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  29.12864988937378
+                                             "time": 29.129
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  30.312869167846678
+                                             "time": 30.313
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  31.56073702670288
+                                             "time": 31.561
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  32.658100792099
+                                             "time": 32.658
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  33.92153409727478
+                                             "time": 33.922
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  35.11983601335144
+                                             "time": 35.12
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  36.320179889373776
+                                             "time": 36.32
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  37.471896824523924
+                                             "time": 37.472
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  38.64075099809265
+                                             "time": 38.641
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  39.935307005722045
+                                             "time": 39.935
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  41.119002994277956
+                                             "time": 41.119
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  42.31175002479553
+                                             "time": 42.312
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  43.55893599809265
+                                             "time": 43.559
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  44.73637711062622
+                                             "time": 44.736
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  45.95247700953674
+                                             "time": 45.952
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  47.15371400953674
+                                             "time": 47.154
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  48.30614407820129
+                                             "time": 48.306
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  49.52107694468689
+                                             "time": 49.521
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  50.704697131607055
+                                             "time": 50.705
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  51.92781401907349
+                                             "time": 51.928
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  53.12052187411499
+                                             "time": 53.121
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  54.29713794468689
+                                             "time": 54.297
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  55.512123988555906
+                                             "time": 55.512
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  56.65633998283386
+                                             "time": 56.656
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  57.91196407247925
+                                             "time": 57.912
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  59.10479397711182
+                                             "time": 59.105
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  60.30412700953674
+                                             "time": 60.304
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  61.48059093515015
+                                             "time": 61.481
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  62.65654304768372
+                                             "time": 62.657
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  63.8801449256134
+                                             "time": 63.88
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  65.12090313542176
+                                             "time": 65.121
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  66.34450199427795
+                                             "time": 66.345
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  67.5758961411438
+                                             "time": 67.576
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  68.74460199427796
+                                             "time": 68.745
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  69.9365968588562
+                                             "time": 69.937
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  71.1516959961853
+                                             "time": 71.152
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  72.32806383787536
+                                             "time": 72.328
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  73.53602195422363
+                                             "time": 73.536
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  74.72772689128112
+                                             "time": 74.728
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  75.89600999237061
+                                             "time": 75.896
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  77.14436208964538
+                                             "time": 77.144
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  78.28010409536743
+                                             "time": 78.28
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  79.5518460705719
+                                             "time": 79.552
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  80.74460201907348
+                                             "time": 80.745
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  81.94441694659425
+                                             "time": 81.944
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  83.13566289509582
+                                             "time": 83.136
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  84.34446794659424
+                                             "time": 84.344
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  85.51338514305115
+                                             "time": 85.513
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  86.75203594850159
+                                             "time": 86.752
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  87.90468808010864
+                                             "time": 87.905
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  89.120933874115
+                                             "time": 89.121
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  90.3117939885559
+                                             "time": 90.312
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  91.52820804196168
+                                             "time": 91.528
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  92.7039619370575
+                                             "time": 92.704
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  94.00062413160705
+                                             "time": 94.001
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  95.11973502098084
+                                             "time": 95.12
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  96.35221203433227
+                                             "time": 96.352
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  97.56901182833862
+                                             "time": 97.569
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  98.7767539961853
+                                             "time": 98.777
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  99.94409399237061
+                                             "time": 99.944
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  101.14485499427795
+                                             "time": 101.145
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  102.34357582833863
+                                             "time": 102.344
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  103.55384305722046
+                                             "time": 103.554
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  104.74520184931946
+                                             "time": 104.745
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  105.92870796376037
+                                             "time": 105.929
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  107.19256895803834
+                                             "time": 107.193
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  108.39230794850158
+                                             "time": 108.392
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  109.59350487602234
+                                             "time": 109.594
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  110.7599540705719
+                                             "time": 110.76
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  111.96023712207031
+                                             "time": 111.96
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  113.17820110490418
+                                             "time": 113.178
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  114.28917315830994
+                                             "time": 114.289
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  115.52810298664856
+                                             "time": 115.528
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  116.75156591607666
+                                             "time": 116.752
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  117.90469011062622
+                                             "time": 117.905
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  119.13742299809265
+                                             "time": 119.137
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  120.34493904196167
+                                             "time": 120.345
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  121.5050140076294
+                                             "time": 121.505
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  122.76039199046326
+                                             "time": 122.76
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  123.92064187411499
+                                             "time": 123.921
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  125.36070312207032
+                                             "time": 125.361
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  127.59206718119812
+                                             "time": 127.592
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  130.02396006103515
+                                             "time": 130.024
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  132.38505086076356
+                                             "time": 132.385
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  134.7291199923706
+                                             "time": 134.729
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  137.12808803433228
+                                             "time": 137.128
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  139.61639102098084
+                                             "time": 139.616
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  142.02490691989135
+                                             "time": 142.025
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  144.3444988512268
+                                             "time": 144.344
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  146.85563697520448
+                                             "time": 146.856
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  148.0324849103546
+                                             "time": 148.032
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  149.16911304196168
+                                             "time": 149.169
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  150.32027301716613
+                                             "time": 150.32
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  151.5768480114441
+                                             "time": 151.577
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  152.76839387602234
+                                             "time": 152.768
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  153.93585096757508
+                                             "time": 153.936
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  155.18448817929078
+                                             "time": 155.184
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  156.37604686839293
+                                             "time": 156.376
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  157.55212417738343
+                                             "time": 157.552
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  158.71320514305114
+                                             "time": 158.713
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  159.90445317547608
+                                             "time": 159.904
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  161.1605819408722
+                                             "time": 161.161
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  162.3043429370575
+                                             "time": 162.304
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  163.5286548664856
+                                             "time": 163.529
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  164.79241706866455
+                                             "time": 164.792
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  165.9364198474121
+                                             "time": 165.936
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  167.15224403433228
+                                             "time": 167.152
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  168.3607450267029
+                                             "time": 168.361
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  169.60793810299683
+                                             "time": 169.608
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  170.78455502861024
+                                             "time": 170.785
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  171.98486612207031
+                                             "time": 171.985
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  173.11982286839296
+                                             "time": 173.12
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  174.33661511825562
+                                             "time": 174.337
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  175.56065188365173
+                                             "time": 175.561
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  176.7605601220703
+                                             "time": 176.761
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  177.97554791607666
+                                             "time": 177.976
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  179.1207269217987
+                                             "time": 179.121
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  180.37618004196167
+                                             "time": 180.376
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  181.54441489318847
+                                             "time": 181.544
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  182.72849591416932
+                                             "time": 182.728
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  183.96013405149841
+                                             "time": 183.96
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  185.16087013542176
+                                             "time": 185.161
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  186.40866307629395
+                                             "time": 186.409
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  187.59261497138976
+                                             "time": 187.593
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  188.7367022269745
+                                             "time": 188.737
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  189.94470096948243
+                                             "time": 189.945
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  191.18518016975403
+                                             "time": 191.185
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  192.4003668703003
+                                             "time": 192.4
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  193.5684398893738
+                                             "time": 193.568
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  194.74436304196166
+                                             "time": 194.744
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  195.92937186648558
+                                             "time": 195.929
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  197.15229191989135
+                                             "time": 197.152
                                          }
                                      ],
                           "duration":  300,
@@ -9571,7 +9571,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro]\nOh\n\n[Verse 1]\nAll her life, she has seen\nOh the meanest side of me\nThey took away the prophet\u0027s dream\nFor a profit on the street\n\n[Refrain]\nNow she\u0027s stronger than you know\nA heart of steel starts to grow\n\n[Verse 2]\nAll his life, he\u0027s been told\nHe\u0027ll be nothing when he\u0027s old\nAll the kicks and all the blows\nHe won\u0027t ever let it show\n\n[Refrain]\nBecause he\u0027s stronger than you know\nA heart of steel starts to grow\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThatâ€™s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThatâ€™s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nYou might also like\n\n[Interlude]\nOh, oh-oh, oh\nOh, oh-oh, oh\n\n[Verse 3]\nAll the hurt, all the lies\nAll the tears that they cry\nWhen the moment is just right\nYou\u0027ll see fire in their eyes\n\n[Refrain]\nBecause they\u0027re stronger than you know\nA heart of steel starts to grow\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThatâ€™s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThatâ€™s a how a superhero learns to fly (Yo, yo)\n(Every day, every hour, turn that pain into power)\n\n[Post-Chorus]\nPower, power, power, power\nPower, power, power, power\n(Every day, every hour, turn that pain into power)\nPower, power, power, power\nPower, power, power, power\n(Every day, every hour, turn that pain into power)\n[Bridge]\nShe\u0027s got lions in her heart, a fire in her soul\nHe\u0027s got a beast in his belly, but it\u0027s so hard to control\nCause they\u0027ve taken too much hits take it blow by blow\nNow light a match, stand back, watch them explode\nShe\u0027s got lions in her heart, a fire in her soul\nHe\u0027s got a beast in his belly, but it\u0027s so hard to control\nCause they\u0027ve taken too much hits, take it blow by blow\nNow light a match, stand back, watch them explode\nExplode, explode, explode, explode\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThatâ€™s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThatâ€™s a how a superhero learns to fly (Yo, yo)\n(Every day, every hour, turn that pain into power)\n\n[Post-Chorus]\nPower, power, power, power (Oh yes, ha)\nPower, power, power, power\nEvery day, every hour, turn that pain into power\nPower, power, power, power (Ooh yeah, oh)\nPower, power, power, power\nEvery day, every hour, turn that pain into power\n[Outro]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThatâ€™s a how a superhero learns to fly",
+        "fullLyrics":  "[Intro]\nOh\n\n[Verse 1]\nAll her life, she has seen\nOh the meanest side of me\nThey took away the prophet\u0027s dream\nFor a profit on the street\n\n[Refrain]\nNow she\u0027s stronger than you know\nA heart of steel starts to grow\n\n[Verse 2]\nAll his life, he\u0027s been told\nHe\u0027ll be nothing when he\u0027s old\nAll the kicks and all the blows\nHe won\u0027t ever let it show\n\n[Refrain]\nBecause he\u0027s stronger than you know\nA heart of steel starts to grow\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThat’s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThat’s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nYou might also like\n\n[Interlude]\nOh, oh-oh, oh\nOh, oh-oh, oh\n\n[Verse 3]\nAll the hurt, all the lies\nAll the tears that they cry\nWhen the moment is just right\nYou\u0027ll see fire in their eyes\n\n[Refrain]\nBecause they\u0027re stronger than you know\nA heart of steel starts to grow\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThat’s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThat’s a how a superhero learns to fly (Yo, yo)\n(Every day, every hour, turn that pain into power)\n\n[Post-Chorus]\nPower, power, power, power\nPower, power, power, power\n(Every day, every hour, turn that pain into power)\nPower, power, power, power\nPower, power, power, power\n(Every day, every hour, turn that pain into power)\n[Bridge]\nShe\u0027s got lions in her heart, a fire in her soul\nHe\u0027s got a beast in his belly, but it\u0027s so hard to control\nCause they\u0027ve taken too much hits take it blow by blow\nNow light a match, stand back, watch them explode\nShe\u0027s got lions in her heart, a fire in her soul\nHe\u0027s got a beast in his belly, but it\u0027s so hard to control\nCause they\u0027ve taken too much hits, take it blow by blow\nNow light a match, stand back, watch them explode\nExplode, explode, explode, explode\n\n[Chorus]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThat’s a how a superhero learns to fly\n(Every day, every hour, turn that pain into power)\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been working every day and night\nThat’s a how a superhero learns to fly (Yo, yo)\n(Every day, every hour, turn that pain into power)\n\n[Post-Chorus]\nPower, power, power, power (Oh yes, ha)\nPower, power, power, power\nEvery day, every hour, turn that pain into power\nPower, power, power, power (Ooh yeah, oh)\nPower, power, power, power\nEvery day, every hour, turn that pain into power\n[Outro]\nWhen you\u0027ve been fighting for it all your life\nYou\u0027ve been struggling to make things right\nThat’s a how a superhero learns to fly",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -9740,7 +9740,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nIt\u0027s close to midnight\nAnd something evil\u0027s lurking in the dark\nUnder the moonlight\nYou see a sight that almost stops your heart\nYou try to scream\nBut terror takes the sound before you make it\nYou start to freeze\nAs horror looks you right between the eyes\nYou\u0027re paralyzed\n\n[Chorus]\n\u0027Cause this is thriller, thriller night\nAnd no one\u0027s gonna save you\nFrom the beast about to strike\nYou know it\u0027s thriller, thriller night\nYou\u0027re fighting for your life inside a killer\nThriller tonight, yeah\nOoh\n\n[Verse 2]\nYou hear the door slam\nAnd realize there\u0027s nowhere left to run\nYou feel the cold hand\nAnd wonder if you\u0027ll ever see the sun\nYou close your eyes\nAnd hope that this is just imagination (Girl)\nBut all the while\nYou hear a creature creepinâ€™ up behind\nYou\u0027re out of time\n\n[Chorus]\n\u0027Cause this is thriller, thriller night\nThere ain\u0027t no second chance\nAgainst the thing with forty eyes, girl\nThriller (Ooh), thriller night\nYou\u0027re fighting for your life\nInside a killer, thriller tonight\n\n[Bridge]\nNight creatures call\nAnd the dead start to walk in their masquerade\nThere\u0027s no escaping the jaws of the alien this time\n(They\u0027re open wide)\nThis is the end of your life, ooh\n\n[Verse 3]\nThey\u0027re out to get you\nThere\u0027s demons closing in on every side (Ooh)\nThey will possess you\nUnless you change that number on your dial\nNow is the time\nFor you and I to cuddle close together, yeah\nAll through the night\nI\u0027ll save you from the terror on the screen\nI\u0027ll make you see\n[Chorus]\nThat this is thriller, thriller night\n\u0027Cause I can thrill you more\nThan any ghoul would ever dare try\nThriller (Ooh), thriller night\nSo let me hold you tight\nAnd share a killer, thriller, chiller\nThriller, here tonight\n\u0027Cause this is thriller, thriller night\nGirl, I can thrill you more\nThan any ghoul would ever dare try\nThriller (Ooh), thriller night\nSo let me hold you tight\nAnd share a killer, thriller (Ow)\n\n[Outro: Vincent Price \u0026 Michael Jackson]\nI\u0027m gonna thrill you tonight\nDarkness falls across the land\nThe midnight hour is close at hand\nCreatures crawl in search of blood\nTo terrorize y\u0027all\u0027s neighborhood (I\u0027m gonna thrill you tonight)\nAnd whosoever shall be found\nWithout the soul for getting down\nMust stand and face the hounds of hell\nAnd rot inside a corpse\u0027s shell\nI\u0027m gonna thrill you tonight\nThriller, ooh, babe (Thriller)\nI\u0027m gonna thrill you tonight (Thriller night)\nThriller, oh, darling (Oh, baby)\nI\u0027m gonna thrill you tonight (Thriller)\nOoh, babe (Thriller night)\nI\u0027m gonna thrill you tonight (Thriller)\nOh, darling (Oh, baby)\nThriller night, babe (Thriller night, babe)\nOoh\nThe foulest stench is in the air\nThe funk of forty thousand years (Thriller night, thriller)\nAnd grisly ghouls from every tomb\nAre closing in to seal your doom\nAnd though you fight to stay alive\nYour body starts to shiver (I\u0027m gonna thrill you tonight)\nFor no mere mortal can resist\nThe evil of the thriller",
+        "fullLyrics":  "[Verse 1]\nIt\u0027s close to midnight\nAnd something evil\u0027s lurking in the dark\nUnder the moonlight\nYou see a sight that almost stops your heart\nYou try to scream\nBut terror takes the sound before you make it\nYou start to freeze\nAs horror looks you right between the eyes\nYou\u0027re paralyzed\n\n[Chorus]\n\u0027Cause this is thriller, thriller night\nAnd no one\u0027s gonna save you\nFrom the beast about to strike\nYou know it\u0027s thriller, thriller night\nYou\u0027re fighting for your life inside a killer\nThriller tonight, yeah\nOoh\n\n[Verse 2]\nYou hear the door slam\nAnd realize there\u0027s nowhere left to run\nYou feel the cold hand\nAnd wonder if you\u0027ll ever see the sun\nYou close your eyes\nAnd hope that this is just imagination (Girl)\nBut all the while\nYou hear a creature creepin’ up behind\nYou\u0027re out of time\n\n[Chorus]\n\u0027Cause this is thriller, thriller night\nThere ain\u0027t no second chance\nAgainst the thing with forty eyes, girl\nThriller (Ooh), thriller night\nYou\u0027re fighting for your life\nInside a killer, thriller tonight\n\n[Bridge]\nNight creatures call\nAnd the dead start to walk in their masquerade\nThere\u0027s no escaping the jaws of the alien this time\n(They\u0027re open wide)\nThis is the end of your life, ooh\n\n[Verse 3]\nThey\u0027re out to get you\nThere\u0027s demons closing in on every side (Ooh)\nThey will possess you\nUnless you change that number on your dial\nNow is the time\nFor you and I to cuddle close together, yeah\nAll through the night\nI\u0027ll save you from the terror on the screen\nI\u0027ll make you see\n[Chorus]\nThat this is thriller, thriller night\n\u0027Cause I can thrill you more\nThan any ghoul would ever dare try\nThriller (Ooh), thriller night\nSo let me hold you tight\nAnd share a killer, thriller, chiller\nThriller, here tonight\n\u0027Cause this is thriller, thriller night\nGirl, I can thrill you more\nThan any ghoul would ever dare try\nThriller (Ooh), thriller night\nSo let me hold you tight\nAnd share a killer, thriller (Ow)\n\n[Outro: Vincent Price \u0026 Michael Jackson]\nI\u0027m gonna thrill you tonight\nDarkness falls across the land\nThe midnight hour is close at hand\nCreatures crawl in search of blood\nTo terrorize y\u0027all\u0027s neighborhood (I\u0027m gonna thrill you tonight)\nAnd whosoever shall be found\nWithout the soul for getting down\nMust stand and face the hounds of hell\nAnd rot inside a corpse\u0027s shell\nI\u0027m gonna thrill you tonight\nThriller, ooh, babe (Thriller)\nI\u0027m gonna thrill you tonight (Thriller night)\nThriller, oh, darling (Oh, baby)\nI\u0027m gonna thrill you tonight (Thriller)\nOoh, babe (Thriller night)\nI\u0027m gonna thrill you tonight (Thriller)\nOh, darling (Oh, baby)\nThriller night, babe (Thriller night, babe)\nOoh\nThe foulest stench is in the air\nThe funk of forty thousand years (Thriller night, thriller)\nAnd grisly ghouls from every tomb\nAre closing in to seal your doom\nAnd though you fight to stay alive\nYour body starts to shiver (I\u0027m gonna thrill you tonight)\nFor no mere mortal can resist\nThe evil of the thriller",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -9912,7 +9912,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro: Ginger]\nHa-ha-ha-ha-ha\n\n[Refrain: Scary, Ginger, Sporty]\nYo, I\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n\n[Verse 1: Sporty, Baby, Scary, Ginger]\nIf you want my future\nForget my past\nIf you wanna get with me\nBetter make it fast\nNow, don\u0027t go wasting\nMy precious time\nGet your act together\nWe could be just fine\n\n[Refrain: Scary, Ginger, Sporty]\nI\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n\n[Chorus: All, Baby]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give\nTaking is too easy\nBut that\u0027s the way it is\n\n[Verse 2: Sporty, Baby, Scary, Ginger, (Posh)]\nOh, what you think about that\nNow you know how I feel\nSay you could handle my love\nAre you for real? (Are you for real?)\nI won\u0027t be hasty\nI\u0027ll give you a try\nIf you really bug me\nThen I\u0027ll say goodbye\n\n[Refrain: Scary, Ginger, Sporty]\nYo, I\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n[Chorus: All, Baby, Scary]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give (You\u0027ve got to give)\nTaking is too easy\nBut that\u0027s the way it is\n\n[Verse 3: Scary, Ginger]\nSo here\u0027s a story from A to Z\nYou wanna get with me, you gotta listen carefully\nWe got Em in the place who likes it in your face\nWe got G like MC who likes it on anâ€”\nEasy V doesn\u0027t come for free, she\u0027s a real lady\nAnd as for me, ha-ha, you\u0027ll see\nSlam your body down and wind it all around\nSlam your body down and wind it all around\n\n[Chorus: All, Baby, Scary]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give (You\u0027ve got to give)\nTaking is too easy\nBut that\u0027s the way it is\n[Post-Chorus: All, Scary, Sporty]\nIf you wanna be my lover\nYou gotta, you gotta, you gotta, you gotta\nYou gotta slam, slam, slam, slam\nMake it last forever (Ha, ha, ha, ha)\nSlam your body down and wind it all around\nSlam your body down and wind it all around (Ha, ha, ha)\nSlam your body down and wind it all around\nSlam your body down and \"zig-a-zig\", ah\n\n[Outro: All]\nIf you wanna be my lover",
+        "fullLyrics":  "[Intro: Ginger]\nHa-ha-ha-ha-ha\n\n[Refrain: Scary, Ginger, Sporty]\nYo, I\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n\n[Verse 1: Sporty, Baby, Scary, Ginger]\nIf you want my future\nForget my past\nIf you wanna get with me\nBetter make it fast\nNow, don\u0027t go wasting\nMy precious time\nGet your act together\nWe could be just fine\n\n[Refrain: Scary, Ginger, Sporty]\nI\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n\n[Chorus: All, Baby]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give\nTaking is too easy\nBut that\u0027s the way it is\n\n[Verse 2: Sporty, Baby, Scary, Ginger, (Posh)]\nOh, what you think about that\nNow you know how I feel\nSay you could handle my love\nAre you for real? (Are you for real?)\nI won\u0027t be hasty\nI\u0027ll give you a try\nIf you really bug me\nThen I\u0027ll say goodbye\n\n[Refrain: Scary, Ginger, Sporty]\nYo, I\u0027ll tell you what I want, what I really, really want\nSo tell me what you want, what you really, really want\nI wanna (Hey), I wanna (Hey), I wanna (Hey), I wanna (Hey)\nI wanna really, really, really wanna \"zig-a-zig\", ah\n[Chorus: All, Baby, Scary]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give (You\u0027ve got to give)\nTaking is too easy\nBut that\u0027s the way it is\n\n[Verse 3: Scary, Ginger]\nSo here\u0027s a story from A to Z\nYou wanna get with me, you gotta listen carefully\nWe got Em in the place who likes it in your face\nWe got G like MC who likes it on an—\nEasy V doesn\u0027t come for free, she\u0027s a real lady\nAnd as for me, ha-ha, you\u0027ll see\nSlam your body down and wind it all around\nSlam your body down and wind it all around\n\n[Chorus: All, Baby, Scary]\nIf you wanna be my lover\nYou gotta get with my friends (Gotta get with my friends)\nMake it last forever\nFriendship never ends\nIf you wanna be my lover\nYou have got to give (You\u0027ve got to give)\nTaking is too easy\nBut that\u0027s the way it is\n[Post-Chorus: All, Scary, Sporty]\nIf you wanna be my lover\nYou gotta, you gotta, you gotta, you gotta\nYou gotta slam, slam, slam, slam\nMake it last forever (Ha, ha, ha, ha)\nSlam your body down and wind it all around\nSlam your body down and wind it all around (Ha, ha, ha)\nSlam your body down and wind it all around\nSlam your body down and \"zig-a-zig\", ah\n\n[Outro: All]\nIf you wanna be my lover",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -10040,7 +10040,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nWhen Emma falls in love, she paces the floor\nCloses the blinds and locks the door\nWhen Emma falls in love, she calls up her mom\nJokes about the ways that this one could go wrong\nShe waits and takes her time\n\u0027Cause Little Miss Sunshine always thinks it\u0027s gonna rain\nWhen Emma falls in love, I know\nThat boy will never be the same\n\n[Chorus]\n\u0027Cause she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n\n[Verse 2]\nWhen Emma falls in love, it\u0027s all on her face\nHangs in the air like stars in outer space\nWhen Emma falls in love, she disappears\nAnd we all just laugh after seein\u0027 it all these years\nWhen Emma falls apart, it\u0027s when she\u0027s alone\nShe takes on the pain and bears it on her own\n\u0027Cause when Emma falls in love, she\u0027s in it for keeps\nShe won\u0027t walk away unless she knows she absolutely has to leave\n\n[Chorus]\nAnd she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n\n[Bridge]\nWell, she\u0027s so New York when she\u0027s in L.A.â€‹â€‹\nShe won\u0027t lose herself in love the way that I did\n\u0027Cause she\u0027ll call you out, she\u0027ll put you in your place\nWhen Emma falls in love, I\u0027m learning\n\n[Verse 3]\nEmma met a boy with eyes like a man\nTurns out her heart fits right in the palm of his hand\nNow he\u0027ll be her shelter when it rains\nLittle does he know, his whole world\u0027s about to change\n\n[Chorus]\n\u0027Cause she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n[Outro]\nYeah, between me and you, sometimes I wish I was her",
+        "fullLyrics":  "[Verse 1]\nWhen Emma falls in love, she paces the floor\nCloses the blinds and locks the door\nWhen Emma falls in love, she calls up her mom\nJokes about the ways that this one could go wrong\nShe waits and takes her time\n\u0027Cause Little Miss Sunshine always thinks it\u0027s gonna rain\nWhen Emma falls in love, I know\nThat boy will never be the same\n\n[Chorus]\n\u0027Cause she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n\n[Verse 2]\nWhen Emma falls in love, it\u0027s all on her face\nHangs in the air like stars in outer space\nWhen Emma falls in love, she disappears\nAnd we all just laugh after seein\u0027 it all these years\nWhen Emma falls apart, it\u0027s when she\u0027s alone\nShe takes on the pain and bears it on her own\n\u0027Cause when Emma falls in love, she\u0027s in it for keeps\nShe won\u0027t walk away unless she knows she absolutely has to leave\n\n[Chorus]\nAnd she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n\n[Bridge]\nWell, she\u0027s so New York when she\u0027s in L.A.​​\nShe won\u0027t lose herself in love the way that I did\n\u0027Cause she\u0027ll call you out, she\u0027ll put you in your place\nWhen Emma falls in love, I\u0027m learning\n\n[Verse 3]\nEmma met a boy with eyes like a man\nTurns out her heart fits right in the palm of his hand\nNow he\u0027ll be her shelter when it rains\nLittle does he know, his whole world\u0027s about to change\n\n[Chorus]\n\u0027Cause she\u0027s the kind of book that you can\u0027t put down\nLike if Cleopatra grew up in a small town\nAnd all the bad boys would be good boys\nIf they only had a chance to love her\nAnd to tell you the truth, sometimes I wish I was her\n[Outro]\nYeah, between me and you, sometimes I wish I was her",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -10236,7 +10236,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro]\nShot through the heart and you\u0027re to blame\nDarling, you give love a bad name\n\n[Verse 1]\nAn angel\u0027s smile is what you sell\nYou promised me heaven, then put me through hell\nChains of love got a hold on me\nWhen passion\u0027s a prison, you can\u0027t break free\n\n[Pre-Chorus]\nWoah, you\u0027re a loaded gun, yeah\nOh, there\u0027s nowhere to run\nNo one can save me, the damage is done\n\n[Chorus]\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\nYeah, you give love a bad name\n\n[Verse 2]\nPaint your smile on your lips\nBlood red nails on your fingertips\nA school boy\u0027s dream, you act so shy\nYour very first kiss was your first kiss goodbye\n\n[Pre-Chorus]\nWoah, you\u0027re a loaded gun\nOh, there\u0027s nowhere to run\nNo one can save me, the damage is done\n\n[Chorus]\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\nYou give love aâ€”\n\n[Guitar Solo]\n\n[Chorus]\nOh, shot through the heart and you\u0027re to blame\nYou give love a bad name\nI play my part and you play your game\nYou give love a bad name (Bad name)\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\n\n[Outro]\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name",
+        "fullLyrics":  "[Intro]\nShot through the heart and you\u0027re to blame\nDarling, you give love a bad name\n\n[Verse 1]\nAn angel\u0027s smile is what you sell\nYou promised me heaven, then put me through hell\nChains of love got a hold on me\nWhen passion\u0027s a prison, you can\u0027t break free\n\n[Pre-Chorus]\nWoah, you\u0027re a loaded gun, yeah\nOh, there\u0027s nowhere to run\nNo one can save me, the damage is done\n\n[Chorus]\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\nYeah, you give love a bad name\n\n[Verse 2]\nPaint your smile on your lips\nBlood red nails on your fingertips\nA school boy\u0027s dream, you act so shy\nYour very first kiss was your first kiss goodbye\n\n[Pre-Chorus]\nWoah, you\u0027re a loaded gun\nOh, there\u0027s nowhere to run\nNo one can save me, the damage is done\n\n[Chorus]\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\nYou give love a—\n\n[Guitar Solo]\n\n[Chorus]\nOh, shot through the heart and you\u0027re to blame\nYou give love a bad name\nI play my part and you play your game\nYou give love a bad name (Bad name)\nShot through the heart and you\u0027re to blame\nYou give love a bad name (Bad name)\nI play my part and you play your game\nYou give love a bad name (Bad name)\n\n[Outro]\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name\nYou give love\nYou give love, bad name",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -10247,7 +10247,7 @@ const DEFAULT_SONGS = [
     },
     {
         "artist":  "Phil Collins",
-        "title":  "Thatâ€™s Just The Way It Is",
+        "title":  "That’s Just The Way It Is",
         "verse":  "F2 C Bb F2 Bb",
         "chorus":  "C Dm",
         "preChorus":  "",
@@ -10264,14 +10264,14 @@ const DEFAULT_SONGS = [
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
-                          "name":  "Phil Collins - Thatâ€™s Just The Way It Is",
+                          "name":  "Phil Collins - That’s Just The Way It Is",
                           "tempo":  96
                       },
         "id":  161
     },
     {
         "artist":  "Toto",
-        "title":  "I Wonâ€™t Hold You Back",
+        "title":  "I Won’t Hold You Back",
         "verse":  "D# Cm Gm3 | G# A# (3x) C",
         "chorus":  "Fm G# A#",
         "preChorus":  "",
@@ -10288,7 +10288,7 @@ const DEFAULT_SONGS = [
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
-                          "name":  "Toto - I Wonâ€™t Hold You Back",
+                          "name":  "Toto - I Won’t Hold You Back",
                           "tempo":  102
                       },
         "id":  163,
@@ -10561,7 +10561,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nA love-struck Romeo sings a streetsuss serenade\nLaying everybody low with a love song that he made\nFinds a streetlight, steps out of the shade\nSays something like, \"You and me babe, how about it?\"\nJuliet says, \"Hey, it\u0027s Romeo\nYou nearly gave me a heart attack\"\nHe\u0027s underneath the window\nShe\u0027s singing, \"Hey la, my boyfriend\u0027s back\nYou shouldn\u0027t come around here\nSinging up to people like that\nAnyway, what ya gonna do about it?\"\n\n[Chorus]\n\"Juliet, the dice was loaded from the start\nAnd I bet, when you exploded into my heart\nAnd I forget, I forget the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Verse 2]\nCome up on different streets\nThey both were streets of shame\nBoth dirty, both mean\nYes, and the dream was just the same\nAnd I dreamed your dream for you\nAnd now your dream is real\nHow can you look at me\nAs I was just another one of your deals?\nWell you can fall for chains of silver\nYou can fall for chains of gold\nYou can fall for pretty strangers\nAnd the promises they hold\nYou promised me everything\nYou promised me thick and thin, yeah\nNow you just say, \"Oh Romeo, yeah\nYou know I used to have a scene with him\"\n\n[Chorus]\n\"Juliet, when we made love you used to cry\nYou said I love you like the stars above, I\u0027ll love you â€˜til I die\nThere\u0027s a place for us, you know the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Verse 3]\n\"I can\u0027t do the talks like they talk on the TV\nAnd I can\u0027t do a love song like the way it\u0027s meant to be\nI can\u0027t do everything, but I\u0027d do anything for you\nI can\u0027t do anything except be in love with you\nAnd all I do is miss you and the way we used to be\nAll I do is keep the beat to bad company\nAnd all I do is kiss you through the bars of a rhyme\nJuliet, I\u0027d do the stars with you anytime\"\n\n[Chorus]\n\"Juliet, when we made love you used to cry\nYou said I love you like the stars above, I\u0027ll love you \u0027til I die\nThere\u0027s a place for us, you know the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Outro]\nAnd a love-struck Romeo sings a streetsuss serenade\nLaying everybody low with a love song that he made\nFinds a convenient streetlight, steps out of the shade\nSays something like, \"You and me babe, how about it?\"\n\"You and me babe, how about it?\"",
+        "fullLyrics":  "[Verse 1]\nA love-struck Romeo sings a streetsuss serenade\nLaying everybody low with a love song that he made\nFinds a streetlight, steps out of the shade\nSays something like, \"You and me babe, how about it?\"\nJuliet says, \"Hey, it\u0027s Romeo\nYou nearly gave me a heart attack\"\nHe\u0027s underneath the window\nShe\u0027s singing, \"Hey la, my boyfriend\u0027s back\nYou shouldn\u0027t come around here\nSinging up to people like that\nAnyway, what ya gonna do about it?\"\n\n[Chorus]\n\"Juliet, the dice was loaded from the start\nAnd I bet, when you exploded into my heart\nAnd I forget, I forget the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Verse 2]\nCome up on different streets\nThey both were streets of shame\nBoth dirty, both mean\nYes, and the dream was just the same\nAnd I dreamed your dream for you\nAnd now your dream is real\nHow can you look at me\nAs I was just another one of your deals?\nWell you can fall for chains of silver\nYou can fall for chains of gold\nYou can fall for pretty strangers\nAnd the promises they hold\nYou promised me everything\nYou promised me thick and thin, yeah\nNow you just say, \"Oh Romeo, yeah\nYou know I used to have a scene with him\"\n\n[Chorus]\n\"Juliet, when we made love you used to cry\nYou said I love you like the stars above, I\u0027ll love you ‘til I die\nThere\u0027s a place for us, you know the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Verse 3]\n\"I can\u0027t do the talks like they talk on the TV\nAnd I can\u0027t do a love song like the way it\u0027s meant to be\nI can\u0027t do everything, but I\u0027d do anything for you\nI can\u0027t do anything except be in love with you\nAnd all I do is miss you and the way we used to be\nAll I do is keep the beat to bad company\nAnd all I do is kiss you through the bars of a rhyme\nJuliet, I\u0027d do the stars with you anytime\"\n\n[Chorus]\n\"Juliet, when we made love you used to cry\nYou said I love you like the stars above, I\u0027ll love you \u0027til I die\nThere\u0027s a place for us, you know the movie song\nWhen you gonna realize\nIt was just that the time was wrong, Juliet?\"\n\n[Outro]\nAnd a love-struck Romeo sings a streetsuss serenade\nLaying everybody low with a love song that he made\nFinds a convenient streetlight, steps out of the shade\nSays something like, \"You and me babe, how about it?\"\n\"You and me babe, how about it?\"",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -10776,7 +10776,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nCall me good\nCall me bad\nCall me anything you want to, baby\nBut I know that youâ€™re sad\nAnd I know Iâ€™ll make you happy\nWith the one thing that you never had\n\n[Pre-Chorus]\nBaby, Iâ€™m your man\nDonâ€™t you know that?\nBaby, Iâ€™m your man\nYou bet!\n\n[Chorus]\nIf youâ€™re gonna do it, do it right (right)\nDo it with me!\nIf youâ€™re gonna do it, do it right (right)\nDo it with me!\nIf youâ€™re gonna do it, do it right (right)\nDo it with me!\nIf youâ€™re gonna do it, do it right (right)\nDo it with me!\n\n[Verse 2]\nSo good, youâ€™re divine\nWanna take you, wanna make you\nBut they tell me itâ€™s a crime!\nEverybody knows where the good people go\nBut where weâ€™re going baby\nAinâ€™t no such word as no!\n\n[Pre-Chorus]\nBaby, Iâ€™m your man\nDonâ€™t you know who I am?\nBaby, Iâ€™m your man\nYou bet!\n\n[Chorus]\nIf youâ€™re gonna do it, do it right (right)\nDo it with me (Come on baby)\nIf youâ€™re gonna do it, do it right (right)\nDo it with me (Ooh, take me home)\nIf youâ€™re gonna do it, do it right (right)\nDo it with me (Please donâ€™t leave me here)\nIf youâ€™re gonna do it, do it right\nTo do it on my own\n\n[Breakdown]\nFirst class information\nSense your inspiration\nAnd with some stimulation\nWe can do it right\n\n[Bridge]\nSo why waste time with the other guys\nWhen you can have mine?\nI ainâ€™t askinâ€™ for no sacrifice\nBaby, your friends do not need to know!\nIâ€™ve got a real nice place to go\nListen\nI donâ€™t need you to care\nI donâ€™t need you to understand, yeah\nAll I want is for you to be there\nAnd when Iâ€™m turned on, if you want me\nIâ€™m your man! (Iâ€™m your man)\n[Chorus]\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nNow listen\nIf youâ€™re gonna do it, you know what I say?\nIf youâ€™re gonna do it donâ€™t throw it away\nDonâ€™t throw it baby\n(Don\u0027t throw it, donâ€™t throw it)\n\n[Chorus 2]\nBecause\nIâ€™ll be your boy, Iâ€™ll be your man\nIâ€™ll be the one who understands\nIâ€™ll be your first, Iâ€™ll be your last\nIâ€™ll be the only one you ask\nIâ€™ll be your friend, Iâ€™ll be your toy\nIâ€™ll be the one who brings you joy\nIâ€™ll be your hope, Iâ€™ll be your pearl\nIâ€™ll take you halfway â€˜round the world!\nIâ€™ll make you rich, Iâ€™ll make you poor\nJust donâ€™t use the door\n[Outro]\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nIf youâ€™re gonna do it, do it right (right)\nDo it with me\nIf youâ€™re gonna do it, do it right (right)\nDo it with me",
+        "fullLyrics":  "[Verse 1]\nCall me good\nCall me bad\nCall me anything you want to, baby\nBut I know that you’re sad\nAnd I know I’ll make you happy\nWith the one thing that you never had\n\n[Pre-Chorus]\nBaby, I’m your man\nDon’t you know that?\nBaby, I’m your man\nYou bet!\n\n[Chorus]\nIf you’re gonna do it, do it right (right)\nDo it with me!\nIf you’re gonna do it, do it right (right)\nDo it with me!\nIf you’re gonna do it, do it right (right)\nDo it with me!\nIf you’re gonna do it, do it right (right)\nDo it with me!\n\n[Verse 2]\nSo good, you’re divine\nWanna take you, wanna make you\nBut they tell me it’s a crime!\nEverybody knows where the good people go\nBut where we’re going baby\nAin’t no such word as no!\n\n[Pre-Chorus]\nBaby, I’m your man\nDon’t you know who I am?\nBaby, I’m your man\nYou bet!\n\n[Chorus]\nIf you’re gonna do it, do it right (right)\nDo it with me (Come on baby)\nIf you’re gonna do it, do it right (right)\nDo it with me (Ooh, take me home)\nIf you’re gonna do it, do it right (right)\nDo it with me (Please don’t leave me here)\nIf you’re gonna do it, do it right\nTo do it on my own\n\n[Breakdown]\nFirst class information\nSense your inspiration\nAnd with some stimulation\nWe can do it right\n\n[Bridge]\nSo why waste time with the other guys\nWhen you can have mine?\nI ain’t askin’ for no sacrifice\nBaby, your friends do not need to know!\nI’ve got a real nice place to go\nListen\nI don’t need you to care\nI don’t need you to understand, yeah\nAll I want is for you to be there\nAnd when I’m turned on, if you want me\nI’m your man! (I’m your man)\n[Chorus]\nIf you’re gonna do it, do it right (right)\nDo it with me\nIf you’re gonna do it, do it right (right)\nDo it with me\nIf you’re gonna do it, do it right (right)\nDo it with me\nIf you’re gonna do it, do it right (right)\nDo it with me\nNow listen\nIf you’re gonna do it, you know what I say?\nIf you’re gonna do it don’t throw it away\nDon’t throw it baby\n(Don\u0027t throw it, don’t throw it)\n\n[Chorus 2]\nBecause\nI’ll be your boy, I’ll be your man\nI’ll be the one who understands\nI’ll be your first, I’ll be your last\nI’ll be the only one you ask\nI’ll be your friend, I’ll be your toy\nI’ll be the one who brings you joy\nI’ll be your hope, I’ll be your pearl\nI’ll take you halfway ‘round the world!\nI’ll make you rich, I’ll make you poor\nJust don’t use the door\n[Outro]\nIf you’re gonna do it, do it right (right)\nDo it with me\nIf you’re gonna do it, do it right (right)\nDo it with me\nIf you’re gonna do it, do it right (right)\nDo it with me",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -10796,7 +10796,7 @@ const DEFAULT_SONGS = [
         "artist":  "James Horner",
         "title":  "Legends of the Fall",
         "verse":  "D A Bm G | D F#m G A | D G A Bm G D | C G D (2x)",
-        "chorus":  "D F#m G D | D F#m G AÂ |Â Bm F#m G D | D G A",
+        "chorus":  "D F#m G D | D F#m G A | Bm F#m G D | D G A",
         "preChorus":  "D Bm G A | D F#m C Em 1:41",
         "bridge":  "Bm G A D Bm F#m A D 1:59",
         "favorite":  false,
@@ -11011,7 +11011,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Verse 1]\nThey told him, \"Don\u0027t you ever come around here\nDon\u0027t wanna see your face, you better disappear\"\nThe fire\u0027s in their eyes and their words are really clear\nSo beat it, just beat it\nYou better run, you better do what you can\nDon\u0027t wanna see no blood, don\u0027t be a macho man (Ooh)\nYou wanna be tough, better do what you can\nSo beat it, but you wanna be bad\n\n[Chorus]\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\n\n[Post-Chorus]\nJust beat it (Beat it), just beat it (Beat it)\nJust beat it (Beat it), just beat it (Beat it)\nOoh\n\n[Verse 2]\nThey\u0027re out to get you, better leave while you can\nDon\u0027t wanna be a boy, you wanna be a man\nYou wanna stay alive, better do what you can\nSo beat it, just beat it (Ooh)\nYou have to show them that you\u0027re really not scared (Ooh)\nYou\u0027re playin\u0027 with your life, this ain\u0027t no truth or dare (Ooh)\nThey\u0027ll kick you, then they\u0027ll beat you, then they\u0027ll tell you it\u0027s fair\nSo beat it, but you wanna be bad\n\n[Chorus]\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\n\n[Bridge]\nJust beat it\nBeat it\nBeat it\nBeat it\nBeat it\n\n[Guitar Solo]\n\n[Chorus]\nBeat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right (Who\u0027s wrong, who\u0027s right)\nJust beat it (Beat it; hoo-hoo), beat it (Beat it)\nNo one wants to be defeated (No, no)\nShowin\u0027 how funky and strong is your fight (Hee-hee, hee-hee-hee)\nIt doesn\u0027t matter who\u0027s wrong or right\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated (Oh, no)\nShowin\u0027 how funky and strong is your fight (Hoo-hoo, hee-hee)\nIt doesn\u0027t matter who\u0027s wrong or right (Hoo)\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right (Who\u0027s wrong, who\u0027s right)\nJust beat it (Beat it; hoo-hoo), beat it (Beat it)\nNo one wants to beâ€”",
+        "fullLyrics":  "[Verse 1]\nThey told him, \"Don\u0027t you ever come around here\nDon\u0027t wanna see your face, you better disappear\"\nThe fire\u0027s in their eyes and their words are really clear\nSo beat it, just beat it\nYou better run, you better do what you can\nDon\u0027t wanna see no blood, don\u0027t be a macho man (Ooh)\nYou wanna be tough, better do what you can\nSo beat it, but you wanna be bad\n\n[Chorus]\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\n\n[Post-Chorus]\nJust beat it (Beat it), just beat it (Beat it)\nJust beat it (Beat it), just beat it (Beat it)\nOoh\n\n[Verse 2]\nThey\u0027re out to get you, better leave while you can\nDon\u0027t wanna be a boy, you wanna be a man\nYou wanna stay alive, better do what you can\nSo beat it, just beat it (Ooh)\nYou have to show them that you\u0027re really not scared (Ooh)\nYou\u0027re playin\u0027 with your life, this ain\u0027t no truth or dare (Ooh)\nThey\u0027ll kick you, then they\u0027ll beat you, then they\u0027ll tell you it\u0027s fair\nSo beat it, but you wanna be bad\n\n[Chorus]\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right\n\n[Bridge]\nJust beat it\nBeat it\nBeat it\nBeat it\nBeat it\n\n[Guitar Solo]\n\n[Chorus]\nBeat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right (Who\u0027s wrong, who\u0027s right)\nJust beat it (Beat it; hoo-hoo), beat it (Beat it)\nNo one wants to be defeated (No, no)\nShowin\u0027 how funky and strong is your fight (Hee-hee, hee-hee-hee)\nIt doesn\u0027t matter who\u0027s wrong or right\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated (Oh, no)\nShowin\u0027 how funky and strong is your fight (Hoo-hoo, hee-hee)\nIt doesn\u0027t matter who\u0027s wrong or right (Hoo)\nJust beat it (Beat it), beat it (Beat it)\nNo one wants to be defeated\nShowin\u0027 how funky and strong is your fight\nIt doesn\u0027t matter who\u0027s wrong or right (Who\u0027s wrong, who\u0027s right)\nJust beat it (Beat it; hoo-hoo), beat it (Beat it)\nNo one wants to be—",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -11288,7 +11288,7 @@ const DEFAULT_SONGS = [
         "practiceCount":  ""
     },
     {
-        "artist":  "Guns Nâ€™ Roses",
+        "artist":  "Guns N’ Roses",
         "title":  "November Rain",
         "verse":  "E2 | C#m | B 4x",
         "chorus":  "C#m F# B 2x",
@@ -11306,7 +11306,7 @@ const DEFAULT_SONGS = [
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
-                          "name":  "Guns Nâ€™ Roses - November Rain",
+                          "name":  "Guns N’ Roses - November Rain",
                           "tempo":  80
                       },
         "id":  213
@@ -11332,299 +11332,299 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "G",
-                                             "time":  3.529408
+                                             "time": 3.529
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  7.058816
+                                             "time": 7.059
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  8.82352
+                                             "time": 8.824
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  12.352928
+                                             "time": 12.353
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  17.64704
+                                             "time": 17.647
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  21.176448
+                                             "time": 21.176
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  22.941152000000002
+                                             "time": 22.941
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  24.705856
+                                             "time": 24.706
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  25.588208
+                                             "time": 25.588
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  26.47056
+                                             "time": 26.471
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  30.867614133333333
+                                             "time": 30.868
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  31.764672
+                                             "time": 31.765
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  33.499964266666666
+                                             "time": 33.5
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  37.058784
+                                             "time": 37.059
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  38.823488
+                                             "time": 38.823
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  39.70584
+                                             "time": 39.706
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  40.588192
+                                             "time": 40.588
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  42.3087784
+                                             "time": 42.309
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  44.1176
+                                             "time": 44.118
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  45.882304000000005
+                                             "time": 45.882
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  47.617596266666666
+                                             "time": 47.618
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  51.176416
+                                             "time": 51.176
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  52.94112
+                                             "time": 52.941
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  54.705824
+                                             "time": 54.706
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  61.76464
+                                             "time": 61.765
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  65.294048
+                                             "time": 65.294
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  67.058752
+                                             "time": 67.059
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  70.58816
+                                             "time": 70.588
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  75.882272
+                                             "time": 75.882
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  79.41168
+                                             "time": 79.412
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  81.176384
+                                             "time": 81.176
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  82.94108800000001
+                                             "time": 82.941
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  83.82344
+                                             "time": 83.823
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  84.705792
+                                             "time": 84.706
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  89.10284613333333
+                                             "time": 89.103
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  89.999904
+                                             "time": 90
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  91.73519626666668
+                                             "time": 91.735
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  95.294016
+                                             "time": 95.294
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  97.05872000000001
+                                             "time": 97.059
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  97.941072
+                                             "time": 97.941
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  98.823424
+                                             "time": 98.823
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  100.5440104
+                                             "time": 100.544
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  102.352832
+                                             "time": 102.353
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  104.117536
+                                             "time": 104.118
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  105.85282826666668
+                                             "time": 105.853
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  109.411648
+                                             "time": 109.412
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  111.17635200000001
+                                             "time": 111.176
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  112.941056
+                                             "time": 112.941
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  119.99987200000001
+                                             "time": 120
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  121.764576
+                                             "time": 121.765
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  123.088104
+                                             "time": 123.088
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  123.51457413333333
+                                             "time": 123.515
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  127.058688
+                                             "time": 127.059
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  128.823392
+                                             "time": 128.823
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  130.588096
+                                             "time": 130.588
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  131.470448
+                                             "time": 131.47
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  132.3528
+                                             "time": 132.353
                                          },
                                          {
                                              "name":  "C#dim",
-                                             "time":  134.117504
+                                             "time": 134.118
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  137.64691200000001
+                                             "time": 137.647
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  141.17632
+                                             "time": 141.176
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  142.941024
+                                             "time": 142.941
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  144.705728
+                                             "time": 144.706
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  146.47043200000002
+                                             "time": 146.47
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  147.352784
+                                             "time": 147.353
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  148.235136
+                                             "time": 148.235
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  149.117488
+                                             "time": 149.117
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  149.99984
+                                             "time": 150
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  151.764544
+                                             "time": 151.765
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  153.529248
+                                             "time": 153.529
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  155.293952
+                                             "time": 155.294
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  157.058656
+                                             "time": 157.059
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  160.588064
+                                             "time": 160.588
                                          },
                                          {
                                              "name":  "Cm",
-                                             "time":  162.352768
+                                             "time": 162.353
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  164.117472
+                                             "time": 164.117
                                          }
                                      ],
                           "duration":  168.917472,
@@ -11981,7 +11981,7 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro]\nTo save you, boy, He gave his only begotten Son...\nYeah\n\n[Verse 1]\nI\u0027m a county jail revival, I\u0027m a bottle and a Bible\nI\u0027m a rolling stone disciple with a cross across my face\nI\u0027m a trailer park tornado, jagged edges on my halo\nHope the chariot gon\u0027 swing low and carry me away\n\n[Pre-Chorus]\nThis little light of mine damn near burned me alive\nLord knows that Mama tried and I don\u0027t know if I\u0027m\n\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Verse 2]\nI\u0027m a dive bar Sunday sÐµrmon, holy water with my bourbon\nStandin\u0027 on a bridge I\u0027m burning\u0027 with a can of gasoline\nAm I worth savin\u0027 if I\u0027m always fadin\u0027?\nIt feels likÐµ I\u0027m caught in-between\nSee Jelly Roll Live\nGet tickets as low as $115\nYou might also like\n7 Minute Drill\nJ. Cole\nFamily Matters\nDrake\nThe Alchemy\nTaylor Swift\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Post-Chorus]\nThis little light of mine damn near burned me alive\nLord knows that Mama tried and I don\u0027t know if I\u0027m\n\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Outro]\nHalfway to Heaven or Hell\n\nBe lost to the fiery lakes of Hell\nBecause once you believe, you have crossed over from death to life\nSo what are you waiting for? What will you do?\nWe are told simply to repent to be baptized",
+        "fullLyrics":  "[Intro]\nTo save you, boy, He gave his only begotten Son...\nYeah\n\n[Verse 1]\nI\u0027m a county jail revival, I\u0027m a bottle and a Bible\nI\u0027m a rolling stone disciple with a cross across my face\nI\u0027m a trailer park tornado, jagged edges on my halo\nHope the chariot gon\u0027 swing low and carry me away\n\n[Pre-Chorus]\nThis little light of mine damn near burned me alive\nLord knows that Mama tried and I don\u0027t know if I\u0027m\n\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Verse 2]\nI\u0027m a dive bar Sunday sеrmon, holy water with my bourbon\nStandin\u0027 on a bridge I\u0027m burning\u0027 with a can of gasoline\nAm I worth savin\u0027 if I\u0027m always fadin\u0027?\nIt feels likе I\u0027m caught in-between\nSee Jelly Roll Live\nGet tickets as low as $115\nYou might also like\n7 Minute Drill\nJ. Cole\nFamily Matters\nDrake\nThe Alchemy\nTaylor Swift\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Post-Chorus]\nThis little light of mine damn near burned me alive\nLord knows that Mama tried and I don\u0027t know if I\u0027m\n\n[Chorus]\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nHalfway to Heaven or halfway to Hell\nMy angels and demons at war with myself\nOne foot in the fire and I still can\u0027t tell\nAm I halfway to Heaven\nHalfway to Heaven or Hell?\n\n[Outro]\nHalfway to Heaven or Hell\n\nBe lost to the fiery lakes of Hell\nBecause once you believe, you have crossed over from death to life\nSo what are you waiting for? What will you do?\nWe are told simply to repent to be baptized",
         "chordData":  {
                           "barOffset":  0,
                           "duration":  300,
@@ -12065,437 +12065,437 @@ const DEFAULT_SONGS = [
         "preChorusCue":  "",
         "chorusCue":  "",
         "bridgeCue":  "",
-        "fullLyrics":  "[Intro]\nKyrie eleison\nKyrie eleison\nKyrie\n\n[Verse 1]\nThe wind blows hard against this mountainside\nAcross the sea into my soul\nIt reaches in, to where I cannot hide\nSetting my feet upon the road\n\n[Verse 2]\nMy heart is old, it holds my memories\nMy body burns a gemlike flame\nSomewhere between the soul and soft machine\nIs where I find myself again\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\n\n[Verse 3]\nWhen I was young I thought of growin\u0027 old\nOf what my life would mean to me\nWould I have followed down my chosen road\nOr only wished what I could be?\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\n\n[Bridge]\nWhoa-oh-oh\nWhoa-oh-oh\nWhoa-oh-oh\nWhoa-oh-oh\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\nKyrie eleison, down the road that I must travel (Kyrie, will you follow?)\nKyrie eleison, through the darkness of the night (Yeah)\nKyrie eleison, where I\u0027m going, will you follow? (Will you follow?)\nKyrie eleison, on a highway in the light (Yeah)\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow? (Will you follow?)\nKyrie eleison, on a highway in the light\nKyrie eleison, down the road that I must travel (Will you follow?)\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleiâ€”",
+        "fullLyrics":  "[Intro]\nKyrie eleison\nKyrie eleison\nKyrie\n\n[Verse 1]\nThe wind blows hard against this mountainside\nAcross the sea into my soul\nIt reaches in, to where I cannot hide\nSetting my feet upon the road\n\n[Verse 2]\nMy heart is old, it holds my memories\nMy body burns a gemlike flame\nSomewhere between the soul and soft machine\nIs where I find myself again\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\n\n[Verse 3]\nWhen I was young I thought of growin\u0027 old\nOf what my life would mean to me\nWould I have followed down my chosen road\nOr only wished what I could be?\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\n\n[Bridge]\nWhoa-oh-oh\nWhoa-oh-oh\nWhoa-oh-oh\nWhoa-oh-oh\n\n[Chorus]\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie eleison, on a highway in the light\nKyrie eleison, down the road that I must travel (Kyrie, will you follow?)\nKyrie eleison, through the darkness of the night (Yeah)\nKyrie eleison, where I\u0027m going, will you follow? (Will you follow?)\nKyrie eleison, on a highway in the light (Yeah)\nKyrie eleison, down the road that I must travel\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow? (Will you follow?)\nKyrie eleison, on a highway in the light\nKyrie eleison, down the road that I must travel (Will you follow?)\nKyrie eleison, through the darkness of the night\nKyrie eleison, where I\u0027m going, will you follow?\nKyrie elei—",
         "chordData":  {
                           "barOffset":  0,
                           "chords":  [
                                          {
                                              "name":  "G",
-                                             "time":  11.042240921798706
+                                             "time": 11.042
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  16.405876801635742
+                                             "time": 16.406
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  20.408778093460082
+                                             "time": 20.409
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  25.262116120162965
+                                             "time": 25.262
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  29.647617005722047
+                                             "time": 29.648
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  32.713766059127806
+                                             "time": 32.714
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  35.2115300667572
+                                             "time": 35.212
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  51.78152889891052
+                                             "time": 51.782
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  57.050125988555905
+                                             "time": 57.05
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  62.33716396566773
+                                             "time": 62.337
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  70.36244603242493
+                                             "time": 70.362
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  78.321323207901
+                                             "time": 78.321
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  83.58750589318848
+                                             "time": 83.588
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  88.98814695231628
+                                             "time": 88.988
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  94.28509591989136
+                                             "time": 94.285
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  95.51784589128113
+                                             "time": 95.518
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  96.78902605340576
+                                             "time": 96.789
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  98.17492605722046
+                                             "time": 98.175
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  98.85159216212463
+                                             "time": 98.852
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  99.50105796376037
+                                             "time": 99.501
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  100.90644899046326
+                                             "time": 100.906
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  102.1578239961853
+                                             "time": 102.158
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  103.56274110490418
+                                             "time": 103.563
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  104.21053904196167
+                                             "time": 104.211
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  104.93468301525878
+                                             "time": 104.935
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  106.20235083406067
+                                             "time": 106.202
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  107.45763187030029
+                                             "time": 107.458
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  108.79247186076356
+                                             "time": 108.792
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  109.51842397901916
+                                             "time": 109.518
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  110.15995012207031
+                                             "time": 110.16
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  111.53747003242492
+                                             "time": 111.537
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  112.85460089700318
+                                             "time": 112.855
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  114.19073712588501
+                                             "time": 114.191
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  114.84958490844727
+                                             "time": 114.85
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  120.83411190844727
+                                             "time": 120.834
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  126.19966612016296
+                                             "time": 126.2
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  131.40246501907347
+                                             "time": 131.402
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  136.78572608583067
+                                             "time": 136.786
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  141.3594550591278
+                                             "time": 141.359
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  142.08374598092652
+                                             "time": 142.084
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  143.35881804005433
+                                             "time": 143.359
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  144.72640811444091
+                                             "time": 144.726
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  146.05304014686584
+                                             "time": 146.053
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  146.72668800190735
+                                             "time": 146.727
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  147.35722101907348
+                                             "time": 147.357
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  148.80377390463258
+                                             "time": 148.804
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  150.00199602861022
+                                             "time": 150.002
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  151.36255102098085
+                                             "time": 151.363
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  152.10845813160705
+                                             "time": 152.108
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  152.77482913160705
+                                             "time": 152.775
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  154.19914304577637
+                                             "time": 154.199
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  155.38869194277953
+                                             "time": 155.389
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  156.72920808773804
+                                             "time": 156.729
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  157.37288691035462
+                                             "time": 157.373
                                          },
                                          {
                                              "name":  "C2",
-                                             "time":  158.12098715640258
+                                             "time": 158.121
                                          },
                                          {
                                              "name":  "Dm2",
-                                             "time":  159.45084897901916
+                                             "time": 159.451
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  160.62680002861023
+                                             "time": 160.627
                                          },
                                          {
                                              "name":  "Am",
-                                             "time":  162.03749204577636
+                                             "time": 162.037
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  162.7381328512268
+                                             "time": 162.738
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  164.22742404196168
+                                             "time": 164.227
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  168.7006240476837
+                                             "time": 168.701
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  173.99121697329713
+                                             "time": 173.991
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  178.95756412207032
+                                             "time": 178.958
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  184.6792649370575
+                                             "time": 184.679
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  185.9503290667572
+                                             "time": 185.95
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  187.35085687602233
+                                             "time": 187.351
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  188.51050689318848
+                                             "time": 188.511
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  191.34507403242492
+                                             "time": 191.345
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  192.57451798283387
+                                             "time": 192.575
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  193.8981001068115
+                                             "time": 193.898
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  194.5940310362396
+                                             "time": 194.594
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  195.30625603051757
+                                             "time": 195.306
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  196.7056880152588
+                                             "time": 196.706
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  197.94054110108948
+                                             "time": 197.941
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  199.34260310871886
+                                             "time": 199.343
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  199.97282005340577
+                                             "time": 199.973
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  200.6346660629425
+                                             "time": 200.635
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  202.0242959332428
+                                             "time": 202.024
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  203.17996600190736
+                                             "time": 203.18
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  204.56697701716612
+                                             "time": 204.567
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  205.24978210108947
+                                             "time": 205.25
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  206.02722098664856
+                                             "time": 206.027
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  207.40835508392334
+                                             "time": 207.408
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  208.5866698435974
+                                             "time": 208.587
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  209.87791919454955
+                                             "time": 209.878
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  210.5814991335144
+                                             "time": 210.581
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  212.58423114686585
+                                             "time": 212.584
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  213.79529716784668
+                                             "time": 213.795
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  215.28215216975403
+                                             "time": 215.282
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  215.96748909918213
+                                             "time": 215.967
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  216.63179711062622
+                                             "time": 216.632
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  218.02046907247924
+                                             "time": 218.02
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  219.31254408010864
+                                             "time": 219.313
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  220.52688109155272
+                                             "time": 220.527
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  221.2786120476837
+                                             "time": 221.279
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  221.94469200572203
+                                             "time": 221.945
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  223.29684293515015
+                                             "time": 223.297
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  224.54557317738343
+                                             "time": 224.546
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  225.81713901716614
+                                             "time": 225.817
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  226.61381201716614
+                                             "time": 226.614
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  227.31362389509582
+                                             "time": 227.314
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  228.58956207820128
+                                             "time": 228.59
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  229.87108809536744
+                                             "time": 229.871
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  231.1483709370575
+                                             "time": 231.148
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  231.95049009155272
+                                             "time": 231.95
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  233.857648043869
+                                             "time": 233.858
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  235.2509388626709
+                                             "time": 235.251
                                          },
                                          {
                                              "name":  "A",
@@ -12503,59 +12503,59 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  237.96646718882752
+                                             "time": 237.966
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  239.19001099237062
+                                             "time": 239.19
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  240.6647520782013
+                                             "time": 240.665
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  241.82454895040894
+                                             "time": 241.825
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  242.4518829065399
+                                             "time": 242.452
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  243.02078398092652
+                                             "time": 243.021
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  244.62790502479552
+                                             "time": 244.628
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  245.6724920324249
+                                             "time": 245.672
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  247.15815309727478
+                                             "time": 247.158
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  247.92306303242492
+                                             "time": 247.923
                                          },
                                          {
                                              "name":  "Em",
-                                             "time":  249.9098861773834
+                                             "time": 249.91
                                          },
                                          {
                                              "name":  "G",
-                                             "time":  252.53562591607667
+                                             "time": 252.536
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  253.21380099046326
+                                             "time": 253.214
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  253.77055998092652
+                                             "time": 253.771
                                          }
                                      ],
                           "duration":  300,
@@ -12565,7 +12565,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "Raised chorus",
         "chorusTitle":  "CHORUS",
         "id":  220,
-        "preChorusTitle":  "Oh wow wowâ€¦",
+        "preChorusTitle":  "Oh wow wow…",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
     {
@@ -12619,11 +12619,11 @@ const DEFAULT_SONGS = [
                           "chords":  [
                                          {
                                              "name":  "F#m",
-                                             "time":  0.25109381880187986
+                                             "time": 0.251
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  2.942718162124634
+                                             "time": 2.943
                                          },
                                          {
                                              "name":  "A",
@@ -12631,19 +12631,19 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  5.410421866485596
+                                             "time": 5.41
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  7.831528940872192
+                                             "time": 7.832
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  8.701543040054322
+                                             "time": 8.702
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  10.345226013351441
+                                             "time": 10.345
                                          },
                                          {
                                              "name":  "D",
@@ -12651,474 +12651,474 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  13.635750937057495
+                                             "time": 13.636
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  15.130325917984008
+                                             "time": 15.13
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  17.671709950408935
+                                             "time": 17.672
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  18.512571078201294
+                                             "time": 18.513
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  20.005383038146974
+                                             "time": 20.005
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  22.418097904632567
+                                             "time": 22.418
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  23.29740797329712
+                                             "time": 23.297
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  24.80369011062622
+                                             "time": 24.804
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  27.22181503051758
+                                             "time": 27.222
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  28.13759303051758
+                                             "time": 28.138
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  29.70265418310547
+                                             "time": 29.703
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  32.153152
+                                             "time": 32.153
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  33.02777894468689
+                                             "time": 33.028
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  34.52755215258789
+                                             "time": 34.528
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  36.94501492752075
+                                             "time": 36.945
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  37.82157506866455
+                                             "time": 37.822
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  39.40865189128113
+                                             "time": 39.409
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  41.815536099182125
+                                             "time": 41.816
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  42.729081942779544
+                                             "time": 42.729
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  44.19559397520447
+                                             "time": 44.196
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  46.57396413923645
+                                             "time": 46.574
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  47.50856503433228
+                                             "time": 47.509
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  49.10366887983704
+                                             "time": 49.104
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  51.46335195803833
+                                             "time": 51.463
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  52.356286893188475
+                                             "time": 52.356
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  53.934817047683715
+                                             "time": 53.935
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  56.35766505912781
+                                             "time": 56.358
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  57.27447085122681
+                                             "time": 57.274
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  58.74618099427796
+                                             "time": 58.746
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  61.19988104196167
+                                             "time": 61.2
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  62.06950997520447
+                                             "time": 62.07
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  63.58813398855591
+                                             "time": 63.588
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  66.02027402288819
+                                             "time": 66.02
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  66.89673208964538
+                                             "time": 66.897
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  68.47224780735779
+                                             "time": 68.472
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  70.92763504005433
+                                             "time": 70.928
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  71.83258696376038
+                                             "time": 71.833
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  73.33166313160706
+                                             "time": 73.332
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  75.76619500953674
+                                             "time": 75.766
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  76.62374613923645
+                                             "time": 76.624
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  78.171219874115
+                                             "time": 78.171
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  80.51724283024598
+                                             "time": 80.517
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  81.50362882452393
+                                             "time": 81.504
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  82.97620611253357
+                                             "time": 82.976
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  85.35270804005432
+                                             "time": 85.353
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  86.3307299294281
+                                             "time": 86.331
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  87.83124901335144
+                                             "time": 87.831
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  90.2632229332428
+                                             "time": 90.263
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  91.17582992179871
+                                             "time": 91.176
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  92.73285901144409
+                                             "time": 92.733
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  95.1335570743866
+                                             "time": 95.134
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  96.0512628035431
+                                             "time": 96.051
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  97.63551200953674
+                                             "time": 97.636
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  99.95138784550475
+                                             "time": 99.951
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  100.89971597138977
+                                             "time": 100.9
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  102.41326200572205
+                                             "time": 102.413
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  104.78196713923646
+                                             "time": 104.782
                                          },
                                          {
                                              "name":  "C#",
-                                             "time":  105.75757575757576
+                                             "time": 105.758
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  107.26030193705749
+                                             "time": 107.26
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  109.644984
+                                             "time": 109.645
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  112.13477794468689
+                                             "time": 112.135
                                          },
                                          {
                                              "name":  "Bm",
-                                             "time":  114.5851111487732
+                                             "time": 114.585
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  115.82447519454956
+                                             "time": 115.824
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  116.96969696969697
+                                             "time": 116.97
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  119.40132796948242
+                                             "time": 119.401
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  121.7576299885559
+                                             "time": 121.758
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  124.21465307629394
+                                             "time": 124.215
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  126.67141499809266
+                                             "time": 126.671
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  129.0309621487732
+                                             "time": 129.031
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  130.02681408010864
+                                             "time": 130.027
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  131.53825095803833
+                                             "time": 131.538
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  133.96668703433227
+                                             "time": 133.967
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  134.77033984741212
+                                             "time": 134.77
                                          },
                                          {
                                              "name":  "D",
-                                             "time":  136.3834222002716
+                                             "time": 136.383
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  138.83762717356873
+                                             "time": 138.838
                                          },
                                          {
                                              "name":  "A",
-                                             "time":  139.66420595803834
+                                             "time": 139.664
                                          },
                                          {
                                              "name":  "F#m",
-                                             "time":  141.13411283978272
+                                             "time": 141.134
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  145.9976361373291
+                                             "time": 145.998
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  148.36746683215333
+                                             "time": 148.367
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  149.2482361602173
+                                             "time": 149.248
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  150.81804502288819
+                                             "time": 150.818
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  153.26025219073486
+                                             "time": 153.26
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  154.1171131335144
+                                             "time": 154.117
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  155.64976208773803
+                                             "time": 155.65
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  158.11371294659423
+                                             "time": 158.114
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  158.99274097520447
+                                             "time": 158.993
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  160.51478308201598
+                                             "time": 160.515
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  162.93588103051758
+                                             "time": 162.936
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  163.78690307629395
+                                             "time": 163.787
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  165.4167710476837
+                                             "time": 165.417
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  167.8082819847412
+                                             "time": 167.808
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  168.673473874115
+                                             "time": 168.673
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  170.19850996185303
+                                             "time": 170.199
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  172.5994499408722
+                                             "time": 172.599
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  173.63203595803833
+                                             "time": 173.632
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  175.1790939847412
+                                             "time": 175.179
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  177.43436507629394
+                                             "time": 177.434
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  178.2492978703003
+                                             "time": 178.249
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  179.87224011062622
+                                             "time": 179.872
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  182.4959592307892
+                                             "time": 182.496
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  183.00141108201598
+                                             "time": 183.001
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  184.75323410490418
+                                             "time": 184.753
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  187.14707286457823
+                                             "time": 187.147
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  187.9720399294281
+                                             "time": 187.972
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  189.57649593896485
+                                             "time": 189.576
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  192.07121887220765
+                                             "time": 192.071
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  192.95013610681153
+                                             "time": 192.95
                                          },
                                          {
                                              "name":  "E",
-                                             "time":  194.42652117738342
+                                             "time": 194.427
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  196.842032043869
+                                             "time": 196.842
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  197.7256740591278
+                                             "time": 197.726
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  199.1991559885559
+                                             "time": 199.199
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  201.7125919847412
+                                             "time": 201.713
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  202.5854122193451
+                                             "time": 202.585
                                          },
                                          {
                                              "name":  "G#m",
-                                             "time":  204.15103705912782
+                                             "time": 204.151
                                          },
                                          {
                                              "name":  "F#",
-                                             "time":  207.02019706484987
+                                             "time": 207.02
                                          },
                                          {
                                              "name":  "B",
-                                             "time":  208.33600998092652
+                                             "time": 208.336
                                          }
                                      ],
                           "duration":  300,
                           "name":  "Backstreet Boys - I Want It That Way",
                           "tempo":  99
                       },
-        "bridgeTitle":  "Raised ChorUSðŸŽµ",
+        "bridgeTitle":  "Raised ChorUS🎵",
         "chorusTitle":  "CHORUS",
         "id":  222,
         "lyricOffset":  0,
@@ -13186,337 +13186,337 @@ const DEFAULT_SONGS = [
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  3.227288967575073,
+                                             "time": 3.227,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  5.270050950408936,
+                                             "time": 5.27,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  7.059809080108643,
+                                             "time": 7.06,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  11.011158005722045,
+                                             "time": 11.011,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  12.906486049591065,
+                                             "time": 12.906,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  14.785421030517577,
+                                             "time": 14.785,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  16.785322030517577,
+                                             "time": 16.785,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  20.681160034332276,
+                                             "time": 20.681,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  22.61174194659424,
+                                             "time": 22.612,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  24.54550397329712,
+                                             "time": 24.546,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  26.464642885559083,
+                                             "time": 26.465,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  30.33199508201599,
+                                             "time": 30.332,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  32.29236397711182,
+                                             "time": 32.292,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  34.20614417738342,
+                                             "time": 34.206,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  36.1235261411438,
+                                             "time": 36.124,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  38.13998804959107,
+                                             "time": 38.14,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  40.00711608201599,
+                                             "time": 40.007,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  41.93980909727478,
+                                             "time": 41.94,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  43.90795282643128,
+                                             "time": 43.908,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bb",
-                                             "time":  47.81124708773804,
+                                             "time": 47.811,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  49.72248187411499,
+                                             "time": 49.722,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  51.626517980926515,
+                                             "time": 51.627,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  53.57993515449524,
+                                             "time": 53.58,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bb",
-                                             "time":  57.44491402098083,
+                                             "time": 57.445,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  59.411485133514404,
+                                             "time": 59.411,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  61.341096076293944,
+                                             "time": 61.341,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  63.242557036239624,
+                                             "time": 63.243,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  67.14043007247925,
+                                             "time": 67.14,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  69.10867093515014,
+                                             "time": 69.109,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  71.02829795994568,
+                                             "time": 71.028,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  72.92537594277954,
+                                             "time": 72.925,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bb",
-                                             "time":  74.95711800762939,
+                                             "time": 74.957,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  76.82087695613099,
+                                             "time": 76.821,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  78.75299510681153,
+                                             "time": 78.753,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  80.70351401144408,
+                                             "time": 80.704,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  84.53589894659424,
+                                             "time": 84.536,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  88.45461517738342,
+                                             "time": 88.455,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  90.39103789318848,
+                                             "time": 90.391,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  92.290325,
+                                             "time": 92.29,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  94.20871291035462,
+                                             "time": 94.209,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  96.21131400381469,
+                                             "time": 96.211,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  100.05963413923645,
+                                             "time": 100.06,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  101.87447299046326,
+                                             "time": 101.874,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  105.79307712016296,
+                                             "time": 105.793,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  107.81825109155274,
+                                             "time": 107.818,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  109.73126605531311,
+                                             "time": 109.731,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  111.7095522193451,
+                                             "time": 111.71,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  113.6227411296997,
+                                             "time": 113.623,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  115.56821280545044,
+                                             "time": 115.568,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  117.46730797329712,
+                                             "time": 117.467,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  119.388921,
+                                             "time": 119.389,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bb",
-                                             "time":  123.28534909536744,
+                                             "time": 123.285,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  125.2109871220703,
+                                             "time": 125.211,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  127.17037915068055,
+                                             "time": 127.17,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  129.10463503242494,
+                                             "time": 129.105,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Bb",
-                                             "time":  132.95192301144408,
+                                             "time": 132.952,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  134.94387103242494,
+                                             "time": 134.944,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  136.85525394277954,
+                                             "time": 136.855,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  138.7628409446869,
+                                             "time": 138.763,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  142.65615586457824,
+                                             "time": 142.656,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  144.57503208583068,
+                                             "time": 144.575,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  146.55011501335144,
+                                             "time": 146.55,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  148.4629830591278,
+                                             "time": 148.463,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Gm",
-                                             "time":  150.38302098092652,
+                                             "time": 150.383,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "Dm",
-                                             "time":  152.34982798855592,
+                                             "time": 152.35,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "F",
-                                             "time":  154.24989298092652,
+                                             "time": 154.25,
                                              "yOffset":  -50
                                          },
                                          {
                                              "name":  "C",
-                                             "time":  156.2020419256134,
+                                             "time": 156.202,
                                              "yOffset":  -50
                                          }
                                      ],
@@ -13557,7 +13557,7 @@ const DEFAULT_SONGS = [
                           "tempo":  120
                       },
         "bridgeTitle":  "Block 4",
-        "chorusTitle":  "Block 2ðŸŽµ",
+        "chorusTitle":  "Block 2🎵",
         "id":  225,
         "lyricOffset":  0,
         "patchDetails":  "",
@@ -13567,3 +13567,4 @@ const DEFAULT_SONGS = [
         "verseTitle":  "Block 1"
     }
 ];
+
