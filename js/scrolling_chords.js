@@ -214,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Scrolling Chords: Initializing Event Listeners');
 
     if (midiInput) midiInput.addEventListener('change', handleFileSelect);
-    if (chordinoInput) chordinoInput.addEventListener('change', handleChordinoSelect);
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
     if (rwdBtn) rwdBtn.addEventListener('click', () => seek(-10));
     if (fwdBtn) fwdBtn.addEventListener('click', () => seek(10));
@@ -1308,29 +1307,6 @@ async function processJsonFile(file) {
     }
 }
 
-async function processChordinoFile(file) {
-    statusText.innerText = 'Parsing Chordino CSV...';
-    setupUIForLoading();
-
-    try {
-        const text = await file.text();
-
-        // Use current app state for context if available
-        const options = {
-            songName: file.name.replace(/\.[^/.]+$/, ""),
-            tempo: currentTempo || 120,
-            barOffset: barOffsetInBeats / 4 // Convert beats to bars (assumes 4/4)
-        };
-
-        const data = convertSonicCsvToChordJson(text, options);
-        loadChordData(data);
-
-    } catch (error) {
-        console.error(error);
-        statusText.innerText = 'Error parsing Chordino file.';
-    }
-}
-
 function loadChordData(data) {
     if (!data.chords || !Array.isArray(data.chords)) {
         throw new Error('Invalid data format: missing chords array');
@@ -1350,87 +1326,6 @@ function loadChordData(data) {
 
     finishLoading(chords.length, bpm);
 }
-
-function convertSonicCsvToChordJson(csvText, options = {}) {
-    const {
-        songName = "Unknown Song",
-        tempo = 120,
-        barOffset = 0,
-        duration = null,
-        minDuration = 0.25, // remove glitch chords shorter than this
-        yOffsets = [-50, -90] // alternating visual positions
-    } = options;
-
-    // Parse CSV
-    const lines = csvText
-        .trim()
-        .split(/\r?\n/)
-        .map(line => line.trim())
-        .filter(line => line.length > 0);
-
-    let rawChords = [];
-
-    for (let line of lines) {
-        const parts = line.split(",");
-        if (parts.length < 2) continue;
-
-        const time = parseFloat(parts[0]);
-        const chord = parts[1].trim();
-
-        if (!isNaN(time) && chord !== "N") {
-            rawChords.push({
-                time: parseFloat(time.toFixed(2)),
-                name: chord
-            });
-        }
-    }
-
-    // Remove duplicate consecutive chords
-    let deduped = [];
-    for (let i = 0; i < rawChords.length; i++) {
-        if (
-            i === 0 ||
-            rawChords[i].name !== rawChords[i - 1].name
-        ) {
-            deduped.push(rawChords[i]);
-        }
-    }
-
-    // Remove very short glitch chords
-    let cleaned = [];
-    for (let i = 0; i < deduped.length; i++) {
-        const current = deduped[i];
-        const next = deduped[i + 1];
-
-        if (!next) {
-            cleaned.push(current);
-            break;
-        }
-
-        const duration = next.time - current.time;
-        if (duration >= minDuration) {
-            cleaned.push(current);
-        }
-    }
-
-    // Generate alternating yOffsets
-    let finalChords = cleaned.map((chord, index) => ({
-        name: chord.name,
-        time: chord.time,
-        yOffset: yOffsets[index % yOffsets.length]
-    }));
-
-    return {
-        name: songName,
-        tempo: tempo,
-        barOffset: barOffset,
-        duration: duration || (finalChords.length > 0 ? finalChords[finalChords.length - 1].time + 2 : 0),
-        chords: finalChords
-    };
-}
-
-
-
 
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0) {
     console.log('loadData called for:', songTitle, {
