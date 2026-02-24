@@ -5710,8 +5710,8 @@ td:has(.row-edit-input.input-focused) {
         padding: 5px 15px;
         height: 125px;
         display: grid;
-        grid-template-columns: 58px 1fr 45px;
-        /* Wider for larger thumbnail */
+        grid-template-columns: 64px 1fr 45px;
+        /* Widened for 59px thumbnail */
         grid-template-rows: 70px 55px;
         grid-template-areas:
             "thumb title close"
@@ -5726,14 +5726,15 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-thumbnail {
         grid-area: thumb;
-        width: 54px;
-        /* Increased from 48px */
-        height: 54px;
-        /* Increased from 48px */
+        width: 59px;
+        /* Increased to 59px */
+        height: 59px;
+        /* Increased to 59px */
         border-radius: 8px;
-        margin-left: 0 !important;
-        margin-top: -15px !important;
-        /* Tucked higher into the corner */
+        margin-left: 2px !important;
+        /* Less tucked to the left */
+        margin-top: -10px !important;
+        /* Less tucked to the top */
         justify-self: start;
         align-self: center;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
