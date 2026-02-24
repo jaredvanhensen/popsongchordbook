@@ -2017,6 +2017,14 @@ function generateMarkers(midi) {
             }
         }
     }
+    // Add Lyrics Sync marker if available
+    if (typeof parsedLyrics !== 'undefined' && parsedLyrics && parsedLyrics.length > 0) {
+        markers.push({
+            time: parsedLyrics[0].time,
+            label: 'First Lyric',
+            type: 'lyrics-sync'
+        });
+    }
 
     return markers;
 }
