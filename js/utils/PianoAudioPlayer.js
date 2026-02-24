@@ -226,15 +226,44 @@ class PianoAudioPlayer {
         this.activeNotes.set(noteId, { oscillators, noteGain, filter });
 
         const cleanupTime = (releaseEnd - this.audioContext.currentTime + 0.5) * 1000;
-        setTimeout(() => {
-            if (this.activeNotes.has(noteId)) {
-                const note = this.activeNotes.get(noteId);
-                note.oscillators.forEach(osc => { try { osc.disconnect(); } catch (e) { } });
+        const timeoutId = setTimeout(() => {
+            this.forceStopNoteId(noteId);
+        }, Math.max(0, cleanupTime));
+
+        // Save timeoutId to allow clearing it if note is stopped early
+        this.activeNotes.get(noteId).timeoutId = timeoutId;
+    }
+
+    forceStopNoteId(noteId) {
+        if (this.activeNotes.has(noteId)) {
+            const note = this.activeNotes.get(noteId);
+            const now = this.audioContext.currentTime;
+
+            // Cancel any remaining envelopes and fade out quickly
+            try {
+                note.noteGain.gain.cancelScheduledValues(now);
+                note.noteGain.gain.setValueAtTime(note.noteGain.gain.value, now);
+                note.noteGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            } catch (e) { }
+
+            setTimeout(() => {
+                note.oscillators.forEach(osc => { try { osc.stop(); osc.disconnect(); } catch (e) { } });
                 try { note.noteGain.disconnect(); } catch (e) { }
                 try { note.filter.disconnect(); } catch (e) { }
                 this.activeNotes.delete(noteId);
+            }, 150);
+        }
+    }
+
+    stopNote(semitone) {
+        if (!this.isInitialized) return;
+        // Find all active instances of this semitone
+        for (const [noteId, note] of this.activeNotes.entries()) {
+            if (noteId.startsWith(`${semitone}-`)) {
+                if (note.timeoutId) clearTimeout(note.timeoutId);
+                this.forceStopNoteId(noteId);
             }
-        }, Math.max(0, cleanupTime));
+        }
     }
 
     addHammerNoise(destination, startTime, velocity) {
