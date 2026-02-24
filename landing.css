@@ -51,11 +51,22 @@ body {
     font-size: 0.9rem;
     font-weight: 500;
     font-family: monospace;
-    pointer-events: none;
     background: rgba(0, 0, 0, 0.2);
     padding: 4px 8px;
     border-radius: 6px;
     backdrop-filter: blur(4px);
+}
+
+.site-version-display a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.site-version-display a:hover {
+    opacity: 1 !important;
+    text-decoration: underline;
 }
 
 .hero-section::before {
