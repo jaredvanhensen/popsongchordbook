@@ -2375,17 +2375,14 @@ function updateLoop() {
 
     // Display current chord (Sticky)
     const currentChord = chords[chordIndex]; // Use the index we found
-    if (currentChord) {
-        currentChordDisplay.innerText = currentChord.name;
 
-        // Remove existing root classes
-        // currentChordDisplay.className = 'current-chord-display';
+    // Prioritize showing live MIDI input if a key is being held down
+    const displayString = (typeof window !== 'undefined' && window.activeMidiChord)
+        ? window.activeMidiChord
+        : (currentChord ? currentChord.name : '');
 
-        // Add current root class for color
-        const root = currentChord.name.charAt(0).toUpperCase();
-        if (root >= 'A' && root <= 'G') {
-            // currentChordDisplay.classList.add(`root-${root}`);
-        }
+    if (displayString) {
+        currentChordDisplay.innerText = displayString;
     } else {
         currentChordDisplay.innerText = '';
         currentChordDisplay.className = 'current-chord-display';
