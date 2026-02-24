@@ -5707,13 +5707,15 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-header {
-        padding: 10px 15px;
-        height: 105px;
+        padding: 5px 15px;
+        height: 115px;
+        /* Increased from 105px */
         display: grid;
         grid-template-columns: 45px 1fr 45px;
-        grid-template-rows: 55px 45px;
+        grid-template-rows: 65px 45px;
+        /* Row 1 increased from 55px to 65px */
         grid-template-areas:
-            ". title close"
+            "thumb title close"
             "prev actions next";
         align-items: center;
         gap: 0;
@@ -5797,6 +5799,18 @@ td:has(.row-edit-input.input-focused) {
     }
 
     /* Clear overrides for these buttons on mobile */
+    .song-detail-thumbnail {
+        grid-area: thumb;
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+        margin-left: 2px !important;
+        margin-top: -5px !important;
+        justify-self: start;
+        align-self: center;
+        z-index: 20;
+    }
+
     #songDetailNext.hidden,
     #songDetailDeleteBtn.hidden {
         display: none !important;
