@@ -5708,12 +5708,12 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-header {
         padding: 5px 15px;
-        height: 115px;
-        /* Increased from 105px */
+        height: 125px;
+        /* Increased from 115px */
         display: grid;
         grid-template-columns: 45px 1fr 45px;
-        grid-template-rows: 65px 45px;
-        /* Row 1 increased from 55px to 65px */
+        grid-template-rows: 70px 55px;
+        /* Row 1: 70px, Row 2: 55px */
         grid-template-areas:
             "thumb title close"
             "prev actions next";
