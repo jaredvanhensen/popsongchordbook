@@ -3044,6 +3044,14 @@ class SongDetailModal {
     async incrementPracticeCount() {
         if (!this.currentSongId) return;
 
+        // Prevent double-triggering (common on touch devices)
+        const now = Date.now();
+        if (this._lastPracticeIncrement && (now - this._lastPracticeIncrement < 500)) {
+            console.log('Practice increment: skipping double-trigger');
+            return;
+        }
+        this._lastPracticeIncrement = now;
+
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
