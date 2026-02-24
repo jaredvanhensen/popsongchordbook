@@ -1,7 +1,6 @@
 // Scrolling Chords Logic
 
 const midiInput = document.getElementById('midiInput');
-const chordinoInput = document.getElementById('chordinoInput');
 const statusText = document.getElementById('statusText');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const rwdBtn = document.getElementById('rwdBtn');
@@ -76,6 +75,7 @@ let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
 let originalBarOffset = 0; // For bar offset change detection
+let originalUseFlatNotation = false; // For notation change detection
 let currentTempo = 120; // Shared state for tempo
 let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
@@ -315,6 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (metronomeToggle) {
         metronomeToggle.addEventListener('change', () => {
             toggleMetronome();
+        });
+    }
+
+    const midiNotationToggle = document.getElementById('midiNotationToggle');
+    if (midiNotationToggle) {
+        midiNotationToggle.addEventListener('change', () => {
+            checkForChanges();
         });
     }
 
@@ -1278,10 +1285,7 @@ function handleFileSelect(e) {
     if (file) handleFile(file);
 }
 
-function handleChordinoSelect(e) {
-    const file = e.target.files[0];
-    if (file) processChordinoFile(file);
-}
+
 
 function handleFile(file) {
     currentFileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
@@ -1519,6 +1523,13 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         originalBarOffset = barOffsetInBeats;
         if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
 
+        // Set MIDI notation preference
+        const midiNotationToggle = document.getElementById('midiNotationToggle');
+        if (midiNotationToggle) {
+            midiNotationToggle.checked = !!data.useFlatNotation;
+            originalUseFlatNotation = midiNotationToggle.checked;
+        }
+
         // Parse lyrics if available
         parsedLyrics = [];
         if (inputFullLyrics || inputLyrics) {
@@ -1661,12 +1672,15 @@ function getExportData() {
         duration = chords[chords.length - 1].time + 5;
     }
 
+    const midiNotationToggle = document.getElementById('midiNotationToggle');
+
     return {
         name: currentFileName,
         tempo: currentTempo,
         barOffset: barOffsetInBeats,
         duration: duration,
-        chords: chords
+        chords: chords,
+        useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false
     };
 }
 
@@ -1800,6 +1814,11 @@ function saveToDatabase() {
     originalChordsJson = JSON.stringify(chords);
     originalTempo = currentTempo;
     originalBarOffset = barOffsetInBeats;
+    originalLyricOffset = currentLyricOffset;
+    const midiNotationToggle = document.getElementById('midiNotationToggle');
+    if (midiNotationToggle) {
+        originalUseFlatNotation = midiNotationToggle.checked;
+    }
 
     // Hide save button
     if (saveBtn) {
@@ -1849,7 +1868,8 @@ function checkForChanges() {
     const hasUnsavedChanges = currentJson !== originalChordsJson ||
         currentTempo !== originalTempo ||
         barOffsetInBeats !== originalBarOffset ||
-        currentLyricOffset !== originalLyricOffset;
+        currentLyricOffset !== originalLyricOffset ||
+        (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation);
 
     if (hasUnsavedChanges) {
         saveBtn.classList.remove('hidden');
@@ -2788,10 +2808,4 @@ if (window.parent) {
     window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
 }
 
-// Signal that we are ready to receive data
-console.log('Scrolling Chords: Listener ready');
-if (window.parent) {
-    window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
-} else if (window.opener) {
-    window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
-}
+
