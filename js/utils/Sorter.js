@@ -2,7 +2,7 @@
 class Sorter {
     constructor() {
         this.currentSort = {
-            column: null,
+            column: 'title',
             direction: 'asc'
         };
     }

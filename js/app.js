@@ -1,4 +1,4 @@
-// Main Application (v2.117)
+// Main Application (v2.118)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.044)");
+        console.log("Pop Song Chord Book - App Initialized (v2.118)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -1583,6 +1583,17 @@ class App {
 
     setupSorting() {
         const sortableHeaders = document.querySelectorAll('th.sortable');
+
+        // Initial state from sorter
+        const currentSort = this.sorter.getCurrentSort();
+        if (currentSort.column) {
+            sortableHeaders.forEach(header => {
+                if (header.dataset.column === currentSort.column) {
+                    header.classList.add(currentSort.direction);
+                }
+            });
+        }
+
         sortableHeaders.forEach(header => {
             header.addEventListener('click', () => {
                 const column = header.dataset.column;
@@ -1971,7 +1982,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.044):\n`;
+        let msg = `Diagnostics (v2.118):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;

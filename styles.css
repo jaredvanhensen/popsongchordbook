@@ -1397,21 +1397,33 @@ header h1 {
     max-width: 100%;
     -webkit-overflow-scrolling: touch;
     /* Hide scrollbar but keep scrolling functionality */
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE and Edge */
+    scrollbar-width: auto;
+    scrollbar-color: var(--secondary-color) transparent;
     /* Prevent horizontal wobbling on iPad */
     overscroll-behavior-x: none;
     overscroll-behavior-y: auto;
     touch-action: pan-y;
 }
 
-/* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+/* Custom Scrollbar for better UX */
 .table-wrapper::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 10px;
+    border: 3px solid white;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
 }
 
 
