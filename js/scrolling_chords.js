@@ -1745,7 +1745,15 @@ function toggleLyricsHUD() {
 if (syncFirstLyricBtn) {
     syncFirstLyricBtn.onclick = () => {
         if (!parsedLyrics || parsedLyrics.length === 0) {
-            alert("No lyrics available to sync.");
+            window.confirmationModal.show(
+                'Lyrics Sync',
+                'No lyrics available to sync.',
+                null,
+                null,
+                'OK',
+                'primary',
+                true // isInfo
+            );
             return;
         }
 
@@ -1781,7 +1789,15 @@ if (syncFirstLyricBtn) {
             offset: newOffset
         }, '*');
 
-        alert(`LyricSync value set. The first lyric line will start at this point\nOffset: ${newOffset.toFixed(2)}s`);
+        window.confirmationModal.show(
+            'LyricSync Updated',
+            `The first lyric line will start at this point.<br>Offset: <b>${newOffset.toFixed(2)}s</b>`,
+            null,
+            null,
+            'OK',
+            'primary',
+            true // isInfo
+        );
     };
 }
 
