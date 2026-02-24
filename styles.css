@@ -5709,11 +5709,9 @@ td:has(.row-edit-input.input-focused) {
     .song-detail-header {
         padding: 5px 15px;
         height: 125px;
-        /* Increased from 115px */
         display: grid;
-        grid-template-columns: 45px 1fr 45px;
+        grid-template-columns: 50px 1fr 45px;
         grid-template-rows: 70px 55px;
-        /* Row 1: 70px, Row 2: 55px */
         grid-template-areas:
             "thumb title close"
             "prev actions next";
@@ -5722,9 +5720,20 @@ td:has(.row-edit-input.input-focused) {
         border-radius: 0;
         flex-shrink: 0;
         box-sizing: border-box;
-        /* overflow: hidden removed to prevent clipping of transpose menu */
         z-index: 1001;
-        /* Stay above body content */
+    }
+
+    .song-detail-thumbnail {
+        grid-area: thumb;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        margin-left: 2px !important;
+        margin-top: -12px !important;
+        justify-self: start;
+        align-self: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 20;
     }
 
     .song-detail-prev {
@@ -5799,18 +5808,6 @@ td:has(.row-edit-input.input-focused) {
     }
 
     /* Clear overrides for these buttons on mobile */
-    .song-detail-thumbnail {
-        grid-area: thumb;
-        width: 48px;
-        height: 48px;
-        border-radius: 6px;
-        margin-left: 2px !important;
-        margin-top: -5px !important;
-        justify-self: start;
-        align-self: center;
-        z-index: 20;
-    }
-
     #songDetailNext.hidden,
     #songDetailDeleteBtn.hidden {
         display: none !important;
@@ -5865,8 +5862,26 @@ td:has(.row-edit-input.input-focused) {
 
 @media (max-width: 480px) {
     .song-detail-header {
-        height: 100px;
+        height: 125px;
+        /* Matches 768px rule for consistency */
         padding: 5px 10px;
+    }
+
+    .song-detail-body {
+        padding: 10px 8px;
+        /* Squeeze body padding */
+        gap: 8px;
+    }
+
+    .song-chord-section {
+        padding: 8px;
+        min-height: 60px;
+        /* Squeeze section height */
+    }
+
+    .chord-section-content {
+        font-size: 1.25em;
+        /* Slightly smaller text for better fit */
     }
 }
 
