@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - Pop Song Chord Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #6366f1;
+            --accent-light: #e0e7ff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1em;
+        }
+
+        .changelog {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .version-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .version-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 10px;
+        }
+
+        .version-number {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .version-date {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .change-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .change-item {
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .change-type {
+            font-weight: 600;
+            min-width: 140px;
+            color: var(--text-main);
+        }
+
+        .change-description {
+            color: var(--text-muted);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .change-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .change-type {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to App</a>
+        <header>
+            <h1>Changelog</h1>
+            <p class="subtitle">Summary of changes and updates for Pop Song Chord Book</p>
+        </header>
+
+        <div class="changelog">
+            <!-- v2.118 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.118</span>
+                    <span class="version-date">February 24, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Default Sorting:</span>
+                        <span class="change-description">The song list now defaults to sorting by Song Title (ascending)
+                            automatically when the app loads.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Visible Scrollbar:</span>
+                        <span class="change-description">Re-enabled the scrollbar for the song list table with a custom
+                            premium design (sleek indigo thumb).</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.117 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.117</span>
+                    <span class="version-date">February 24, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Timestamp Optimization:</span>
+                        <span class="change-description">All chord timestamps in the database and defaults are now
+                            rounded to 3 decimal places (milliseconds). This significantly reduces data size.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Version Update:</span>
+                        <span class="change-description">Updated index.html, songlist.html, scrolling_chords.html, and
+                            js/app.js to reflect the new version number.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Cache Busting:</span>
+                        <span class="change-description">Updated all script and CSS query strings to ?v=2.117 to ensure
+                            all users receive the latest code immediately.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.116 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.116</span>
+                    <span class="version-date">February 23, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Audio Engine:</span>
+                        <span class="change-description">Perfect audio engine revert to v2.098 while preserving chord
+                            parsing logic for maximum reliability.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.111 - v2.115 Highlights -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.108 - v2.115</span>
+                    <span class="version-date">February 23, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Profile Levels:</span>
+                        <span class="change-description">Added a premium Level Badge system to the Profile button based
+                            on practice consistency.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Practice Stats:</span>
+                        <span class="change-description">Added "Top 10 Practiced Songs" table and total session counter
+                            to the profile modal.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Audio Samples:</span>
+                        <span class="change-description">Integrated Premium Grand piano samples (Yamaha C5) and Studio
+                            Reverb options.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.104 - v2.106 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.104 - v2.106</span>
+                    <span class="version-date">February 22, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Grid Precision:</span>
+                        <span class="change-description">Increased Bar adjustment precision to 0.25 beats (16th notes)
+                            and refined snap-to-grid to 16 subdivisions.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Virtual Piano:</span>
+                        <span class="change-description">Added a compact virtual piano interface in EDIT mode for quick
+                            reference.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.093 - v2.098 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.093 - v2.098</span>
+                    <span class="version-date">February 22, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Redo Function:</span>
+                        <span class="change-description">Implemented Redo functionality (Ctrl+Y) on the chord
+                            timeline.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Timeline Fixes:</span>
+                        <span class="change-description">Fixed 'jumping' chords by removing laggy transform transitions
+                            and conflicting hover transforms.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Drag & Drop:</span>
+                        <span class="change-description">Implemented drag-and-drop chords from the toolbar directly to
+                            the timeline.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.080 - v2.091 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.080 - v2.091</span>
+                    <span class="version-date">February 20, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Mobile UI:</span>
+                        <span class="change-description">Extensive refinements to the footer layout, icon alignment, and
+                            badge sizing for mobile devices.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">BPM & Key:</span>
+                        <span class="change-description">Unified BPM and Key fields with interactive clickable badges
+                            and fixed sizing.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.043 - v2.052 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.043 - v2.052</span>
+                    <span class="version-date">February 19, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Tablet Optimization:</span>
+                        <span class="change-description">Fixed layout issues, timing lags, and scrolling discrepancies
+                            specifically for iPad and tablets.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Lyrics HUD:</span>
+                        <span class="change-description">Optimized the mobile portrait Lyrics HUD for a cleaner 2-line
+                            display.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.030 - v2.042 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.030 - v2.042</span>
+                    <span class="version-date">February 17-19, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Edit Mode:</span>
+                        <span class="change-description">Introduced the Edit Mode toggle to declutter the toolbar for
+                            general users.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Stabilization:</span>
+                        <span class="change-description">Grouped adjustment buttons on a stable 3rd row for mobile and
+                            stabilized the toolbar.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.015 - v2.023 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.015 - v2.023</span>
+                    <span class="version-date">February 13-17, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Shifting Controls:</span>
+                        <span class="change-description">Added bulk chord shifting controls to the timeline.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Lyrics HUD:</span>
+                        <span class="change-description">Added the Lyrics HUD Teleprompter and LRC file parser.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Custom Modals:</span>
+                        <span class="change-description">Replaced browser native confirm/alert boxes with professional
+                            custom designed modals.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer
+            style="margin-top: 60px; text-align: center; color: var(--text-muted); font-size: 0.8em; padding-bottom: 40px;">
+            &copy; 2026 Pop Song Chord Book. All rights reserved.
+        </footer>
+    </div>
+</body>
+
+</html>
