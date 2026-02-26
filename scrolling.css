@@ -2815,9 +2815,76 @@ body.ctrl-held .chord-item {
     content: "";
     position: absolute;
     bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 6px;
     height: 6px;
     background: #ef4444;
     border-radius: 50%;
     opacity: 0.8;
+}
+
+/* Inline Block Editor Styles */
+.chord-toolbar-header-actions {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.header-action-btn {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 4px;
+    box-shadow: none;
+    height: 24px;
+    width: 24px;
+}
+
+.header-action-btn:hover {
+    background: rgba(226, 232, 240, 0.5);
+    color: #1e293b;
+    transform: none;
+}
+
+.header-action-btn.save-btn {
+    color: #10b981;
+}
+
+.header-action-btn.cancel-btn {
+    color: #ef4444;
+}
+
+.chord-toolbar-section-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.chord-block-edit-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    background: white;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    margin: 4px 0;
+}
+
+.chord-toolbar-buttons-row.editing {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px dashed #cbd5e1;
 }

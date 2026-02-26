@@ -82,7 +82,9 @@ class SongDetailModal {
         this.scrollingChordsModal = document.getElementById('scrollingChordsModal');
         this.scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
         this.scrollingChordsCloseBtn = document.getElementById('scrollingChordsModalClose');
+        this.scrollingChordsMinimizeBtn = document.getElementById('scrollingChordsModalMinimize');
         this.timelineChangesResolve = null;
+        this._timelineMinimized = false;
 
         // Info Modal
         this.infoModal = document.getElementById('infoModal');
@@ -463,6 +465,19 @@ class SongDetailModal {
                 e.preventDefault();
                 e.stopPropagation();
 
+                // If timeline is minimized, just restore it instantly — no reload
+                if (this._timelineMinimized && scrollingChordsFrame.src && !scrollingChordsFrame.src.endsWith('about:blank') && scrollingChordsFrame.src !== '') {
+                    this._timelineMinimized = false;
+                    scrollingChordsModal.classList.remove('hidden');
+                    this._updateTimelineMinimizedIndicator(false);
+                    if (window.appInstance) {
+                        window.appInstance.pushModalState('scrollingChords', () => {
+                            this.handleTimelineClose();
+                        });
+                    }
+                    return;
+                }
+
                 // Define helper to send data - replaced by this.sendDataToTimeline()
 
                 // Force reload iframe on each open to ensure fresh state
@@ -493,6 +508,22 @@ class SongDetailModal {
                     });
                 }
             });
+
+            // Minimize logic
+            if (this.scrollingChordsMinimizeBtn) {
+                this.scrollingChordsMinimizeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Hide modal but keep iframe alive
+                    this._timelineMinimized = true;
+                    scrollingChordsModal.classList.add('hidden');
+                    this._updateTimelineMinimizedIndicator(true);
+                    // Pop modal state so back button / backdrop click doesn't interfere
+                    if (window.appInstance) {
+                        window.appInstance.popModalState('scrollingChords');
+                    }
+                });
+            }
 
             // Close logic
             if (this.scrollingChordsCloseBtn) {
@@ -580,6 +611,42 @@ class SongDetailModal {
                         console.log('LyricSync offset updated in database:', offset);
                     } catch (e) {
                         console.error('Error updating lyric sync from timeline:', e);
+                    }
+                }
+
+                // 4. Update Chord Block from Inline Editor in Timeline
+                else if (event.data.type === 'updateChordBlock' && this.currentSongId) {
+                    const { sectionType, text } = event.data;
+                    console.log('SongDetailModal: Received updateChordBlock from Timeline', sectionType, text);
+
+                    try {
+                        const updates = {};
+                        if (sectionType === 'verse') updates.verse = text;
+                        else if (sectionType === 'chorus') updates.chorus = text;
+                        else if (sectionType === 'pre-chorus') updates.preChorus = text;
+                        else if (sectionType === 'bridge') updates.bridge = text;
+
+                        if (Object.keys(updates).length > 0) {
+                            // Update UI textareas
+                            const section = this.sections[sectionType === 'pre-chorus' ? 'preChorus' : sectionType];
+                            if (section && section.content) {
+                                section.content.value = text;
+                                // Trigger input event to let other logic know it changed
+                                section.content.dispatchEvent(new Event('input', { bubbles: true }));
+                            }
+
+                            // Save to database
+                            await this.songManager.updateSong(this.currentSongId, updates);
+                            console.log(`Chord block ${sectionType} updated and saved.`);
+
+                            // Optionally refresh the timeline toolbar itself if needed (though it often refreshes itself by requesting data)
+                            // But usually, we send back a confirmation or trigger a re-render.
+                            // The SongDetailModal.saveChanges logic already sends updateSuggestedChords.
+                            // Let's manually trigger a toolbar refresh in the iframe to be safe.
+                            this.sendDataToTimeline();
+                        }
+                    } catch (e) {
+                        console.error('Error updating chord block from timeline:', e);
                     }
                 }
             });
@@ -1732,6 +1799,31 @@ class SongDetailModal {
             this.onUpdate();
         }
 
+        // If the Chord Timeline is alive (open or minimized), sync its toolbar with new chord data
+        if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow &&
+            this.scrollingChordsFrame.src && !this.scrollingChordsFrame.src.endsWith('about:blank')) {
+            const savedSong = this.songManager.getSongById(this.currentSongId);
+            if (savedSong) {
+                const sections = [
+                    { name: savedSong.verseTitle || 'BLOCK 1', type: 'verse', text: savedSong.verse || '' },
+                    { name: savedSong.chorusTitle || 'BLOCK 2', type: 'chorus', text: savedSong.chorus || '' },
+                    { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
+                    { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
+                ];
+                const itemRegex = /\||\b[2-4]x\b|\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+                const suggestedChordsGrouped = sections.map(section => {
+                    const trimmedText = (section.text || '').trim();
+                    const found = trimmedText ? trimmedText.match(itemRegex) || [] : [];
+                    return { section: section.name, type: section.type, chords: found };
+                }).filter(group => group.chords.length > 0);
+
+                this.scrollingChordsFrame.contentWindow.postMessage({
+                    type: 'updateSuggestedChords',
+                    suggestedChords: suggestedChordsGrouped
+                }, '*');
+            }
+        }
+
         // Update relevant UI parts
         this.updateYouTubeButton();
         this.updateKeyDisplay();
@@ -1863,9 +1955,20 @@ class SongDetailModal {
         });
     }
 
+    _updateTimelineMinimizedIndicator(minimized) {
+        if (!this.scrollingChordsBtn) return;
+        if (minimized) {
+            this.scrollingChordsBtn.classList.add('timeline-minimized');
+        } else {
+            this.scrollingChordsBtn.classList.remove('timeline-minimized');
+        }
+    }
+
     _finishClosingTimeline() {
         console.log('Finishing timeline close...');
         this.isTimelineClosing = false;
+        this._timelineMinimized = false;
+        this._updateTimelineMinimizedIndicator(false);
 
         // 1. Stop Audio
         if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {

@@ -1186,6 +1186,7 @@ window.addEventListener('pointerup', (e) => {
         // Final accurate seek on release
         if (youtubePlayer) {
             const finalTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+            youtubePlayer._syncingFromTimeline = true;
             youtubePlayer.seekTo(finalTime, true);
         }
 
@@ -1331,6 +1332,174 @@ function loadChordData(data) {
     finishLoading(chords.length, bpm);
 }
 
+// Renders just the chord suggestion toolbar from a groups array
+function renderSuggestedChords(groups) {
+    const buttonsContainer = document.getElementById('chordButtonsContainer');
+    if (!buttonsContainer) return;
+
+    try {
+        buttonsContainer.innerHTML = ''; // Clear previous
+
+        if (!groups || !Array.isArray(groups) || groups.length === 0) {
+            buttonsContainer.classList.add('hidden');
+            return;
+        }
+
+        buttonsContainer.classList.remove('hidden');
+
+        const isMarker = (item) => item === '|' || /^[2-4]x$/.test(item);
+
+        const makeChordBtn = (chordName, type) => {
+            const btn = document.createElement('button');
+            btn.className = type ? `chord-suggestion-btn chord-type-${type}` : 'chord-suggestion-btn';
+            btn.textContent = chordName;
+            btn.draggable = false;
+            btn.style.touchAction = 'none';
+            btn.onpointerdown = () => { initAudio(); triggerChordAudio(chordName, 1.0, true); };
+            btn.onclick = () => { if (enableTimingCapture) recordChord(chordName); };
+            btn.addEventListener('pointerdown', (e) => {
+                btn.setPointerCapture(e.pointerId);
+                potentialVirtualDrag = true;
+                virtualDraggedChord = chordName;
+                virtualDragStartX = e.clientX;
+                virtualDragStartY = e.clientY;
+            });
+            return btn;
+        };
+
+        const makeMarkerEl = (label) => {
+            const span = document.createElement('span');
+            span.className = 'chord-toolbar-inline-marker';
+            span.textContent = label;
+            return span;
+        };
+
+        const makeHeaderActionBtn = (iconSvg, title, className, onClick) => {
+            const btn = document.createElement('button');
+            btn.className = `header-action-btn ${className}`;
+            btn.innerHTML = iconSvg;
+            btn.title = title;
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                onClick();
+            };
+            return btn;
+        };
+
+        // Safety check for grouping
+        const isGrouped = groups.length > 0 && typeof groups[0] === 'object' && groups[0] !== null && groups[0].chords;
+
+        if (isGrouped) {
+            groups.filter(g => g && g.chords && g.chords.length > 0).forEach((group, groupIdx) => {
+                const groupContainer = document.createElement('div');
+                groupContainer.className = 'chord-toolbar-group';
+
+                const header = document.createElement('div');
+                header.className = 'chord-toolbar-section-header';
+
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = group.section;
+                header.appendChild(titleSpan);
+
+                const actions = document.createElement('div');
+                actions.className = 'chord-toolbar-header-actions';
+
+                const buttonsRow = document.createElement('div');
+                buttonsRow.className = 'chord-toolbar-buttons-row';
+
+                // Edit Button
+                const editIcon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+                const saveIcon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                const cancelIcon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
+                const startEditing = () => {
+                    buttonsRow.innerHTML = '';
+                    buttonsRow.classList.add('editing');
+                    actions.innerHTML = '';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'chord-block-edit-input';
+                    input.value = group.chords.join(' ');
+                    input.placeholder = 'Type chords...';
+
+                    const finishEdit = (save) => {
+                        if (save) {
+                            const newText = input.value;
+                            // Send to parent to sync with SongDetailModal
+                            window.parent.postMessage({
+                                type: 'updateChordBlock',
+                                sectionType: group.type,
+                                text: newText
+                            }, '*');
+                            // Local refresh will be triggered by SongDetailModal sending updateSuggestedChords back
+                        } else {
+                            // Just re-render this group locally
+                            renderSuggestedChords(groups);
+                        }
+                    };
+
+                    input.onkeydown = (e) => {
+                        if (e.key === 'Enter') finishEdit(true);
+                        if (e.key === 'Escape') finishEdit(false);
+                    };
+
+                    buttonsRow.appendChild(input);
+                    actions.appendChild(makeHeaderActionBtn(saveIcon, 'Save Chords', 'save-btn', () => finishEdit(true)));
+                    actions.appendChild(makeHeaderActionBtn(cancelIcon, 'Cancel', 'cancel-btn', () => finishEdit(false)));
+
+                    setTimeout(() => input.focus(), 50);
+                };
+
+                actions.appendChild(makeHeaderActionBtn(editIcon, 'Edit Block Chords', 'edit-btn', startEditing));
+
+                header.appendChild(actions);
+                groupContainer.appendChild(header);
+
+                group.chords.forEach(item => {
+                    if (item) {
+                        buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, group.type));
+                    }
+                });
+                groupContainer.appendChild(buttonsRow);
+                buttonsContainer.appendChild(groupContainer);
+            });
+        } else {
+            const buttonsRow = document.createElement('div');
+            buttonsRow.className = 'chord-toolbar-buttons-row';
+            groups.forEach(item => {
+                if (item) {
+                    buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, null));
+                }
+            });
+            buttonsContainer.appendChild(buttonsRow);
+        }
+
+        // Always add the "?" button at the end
+        const qBtn = document.createElement('button');
+        qBtn.className = 'chord-suggestion-btn q-chord-btn';
+        qBtn.textContent = '?';
+        qBtn.title = 'Mark unknown chord';
+        qBtn.draggable = false;
+        qBtn.style.touchAction = 'none';
+        qBtn.onpointerdown = () => { initAudio(); triggerChordAudio('?', 1.0, true); };
+        qBtn.addEventListener('pointerdown', (e) => {
+            qBtn.setPointerCapture(e.pointerId);
+            potentialVirtualDrag = true;
+            virtualDraggedChord = '?';
+            virtualDragStartX = e.clientX;
+            virtualDragStartY = e.clientY;
+        });
+        qBtn.onclick = () => { if (enableTimingCapture) recordChord('?'); };
+        qBtn.ondragstart = (e) => { e.dataTransfer.setData('chordName', '?'); };
+        buttonsContainer.appendChild(qBtn);
+
+    } catch (err) {
+        console.error("Error in renderSuggestedChords:", err);
+        buttonsContainer.classList.add('hidden');
+    }
+}
+
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0) {
     console.log('loadData called for:', songTitle, {
         hasData: !!data,
@@ -1361,117 +1530,10 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     }
 
     // Render Suggested Chords Toolbar
-    const buttonsContainer = document.getElementById('chordButtonsContainer');
-    if (buttonsContainer) {
-        buttonsContainer.innerHTML = ''; // Clear previous
-        if (suggestedChords && suggestedChords.length > 0) {
-            buttonsContainer.classList.remove('hidden');
-
-            const isMarker = (item) => item === '|' || /^[2-4]x$/.test(item);
-
-            // Helper to create a chord button
-            const makeChordBtn = (chordName, type) => {
-                const btn = document.createElement('button');
-                btn.className = type ? `chord-suggestion-btn chord-type-${type}` : 'chord-suggestion-btn';
-                btn.textContent = chordName;
-                btn.draggable = false;
-                btn.style.touchAction = 'none';
-
-                btn.onpointerdown = (e) => {
-                    initAudio();
-                    triggerChordAudio(chordName, 1.0, true);
-                };
-                btn.onclick = () => {
-                    if (enableTimingCapture) recordChord(chordName);
-                };
-                btn.addEventListener('pointerdown', (e) => {
-                    btn.setPointerCapture(e.pointerId);
-                    potentialVirtualDrag = true;
-                    virtualDraggedChord = chordName;
-                    virtualDragStartX = e.clientX;
-                    virtualDragStartY = e.clientY;
-                });
-                return btn;
-            };
-
-            // Helper to create an inline marker (| or 2x etc.)
-            const makeMarkerEl = (label) => {
-                const span = document.createElement('span');
-                span.className = 'chord-toolbar-inline-marker';
-                span.textContent = label;
-                return span;
-            };
-
-            // Render suggested chords (handle both grouped and simple array)
-            const isGrouped = typeof suggestedChords[0] === 'object' && suggestedChords[0].chords;
-
-            if (isGrouped) {
-                suggestedChords.filter(group => group.chords && group.chords.length > 0).forEach(group => {
-                    const groupContainer = document.createElement('div');
-                    groupContainer.className = 'chord-toolbar-group';
-
-                    const header = document.createElement('div');
-                    header.className = 'chord-toolbar-section-header';
-                    header.textContent = group.section;
-                    groupContainer.appendChild(header);
-
-                    const buttonsRow = document.createElement('div');
-                    buttonsRow.className = 'chord-toolbar-buttons-row';
-
-                    group.chords.forEach(item => {
-                        if (isMarker(item)) {
-                            buttonsRow.appendChild(makeMarkerEl(item));
-                        } else {
-                            buttonsRow.appendChild(makeChordBtn(item, group.type));
-                        }
-                    });
-
-                    groupContainer.appendChild(buttonsRow);
-                    buttonsContainer.appendChild(groupContainer);
-                });
-            } else {
-                const buttonsRow = document.createElement('div');
-                buttonsRow.className = 'chord-toolbar-buttons-row';
-                suggestedChords.forEach(item => {
-                    if (isMarker(item)) {
-                        buttonsRow.appendChild(makeMarkerEl(item));
-                    } else {
-                        buttonsRow.appendChild(makeChordBtn(item, null));
-                    }
-                });
-                buttonsContainer.appendChild(buttonsRow);
-            }
-
-            // Appending "?" button
-            const qBtn = document.createElement('button');
-            qBtn.className = 'chord-suggestion-btn q-chord-btn';
-            qBtn.textContent = '?';
-            qBtn.title = 'Mark unknown chord';
-            qBtn.draggable = false;
-            qBtn.style.touchAction = 'none';
-
-            qBtn.onpointerdown = (e) => {
-                initAudio();
-                triggerChordAudio('?', 1.0, true);
-            };
-            qBtn.addEventListener('pointerdown', (e) => {
-                qBtn.setPointerCapture(e.pointerId);
-                potentialVirtualDrag = true;
-                virtualDraggedChord = '?';
-                virtualDragStartX = e.clientX;
-                virtualDragStartY = e.clientY;
-            });
-            qBtn.onclick = () => {
-                if (enableTimingCapture) recordChord("?");
-            };
-            qBtn.ondragstart = (e) => {
-                e.dataTransfer.setData('chordName', "?");
-            };
-            buttonsContainer.appendChild(qBtn);
-
-        } else {
-            buttonsContainer.classList.add('hidden');
-        }
+    try {
+        renderSuggestedChords(suggestedChords);
+    } catch (err) {
+        console.error("Failed to render suggested chords during loadData:", err);
     }
 
     statusText.innerText = 'Loading stored data...';
@@ -1638,7 +1700,11 @@ function finishLoading(chordCount, bpm) {
         }
     }
 
-    updateLoop(); // Update once to set initial positions
+    // Give the browser 1 frame to render the DOM elements before updating their transform positions,
+    // which prevents the "stacked on top of each other" bug on initial load.
+    requestAnimationFrame(() => {
+        updateLoop(); // Update once to set initial positions
+    });
 }
 
 function getExportData() {
@@ -1950,7 +2016,17 @@ function extractChordsFromMidi(midi) {
 function generateMarkers(midi) {
     // Generate markers for bars and seconds
     const markers = [];
-    const duration = midi.duration;
+
+    // Ensure we generate markers for at least 30 minutes (1800s) or the YouTube video length
+    let playerDuration = 0;
+    try {
+        if (typeof youtubePlayer !== 'undefined' && youtubePlayer && typeof youtubePlayer.getDuration === 'function') {
+            playerDuration = youtubePlayer.getDuration() || 0;
+        }
+    } catch (e) { }
+
+    const duration = Math.max(midi.duration || 0, playerDuration, 1800);
+
     const bpm = midi.header.tempos[0]?.bpm || 120;
     const timeSignature = midi.header.timeSignatures[0]?.timeSignature || [4, 4]; // [numerator, denominator]
 
@@ -2204,13 +2280,14 @@ function seek(deltaSeconds) {
 
     if (isPlaying) {
         startTime = performance.now() - (newTime * 1000);
-        if (youtubePlayer && enableTimingCapture) {
+        if (youtubePlayer) {
+            youtubePlayer._syncingFromTimeline = true;
             youtubePlayer.seekTo(newTime, true);
         }
     } else {
         pauseTime = newTime;
         updateLoop(); // Updates position while paused
-        if (youtubePlayer && enableTimingCapture) {
+        if (youtubePlayer) {
             youtubePlayer.seekTo(newTime, true);
         }
     }
@@ -2534,9 +2611,6 @@ function toggleTimingCapture() {
         youtubePlayerContainer.classList.remove('hidden');
         if (youtubeToggleBtn) youtubeToggleBtn.classList.add('active');
 
-        wasAudioEnabledBeforeCapture = audioEnabled;
-        audioEnabled = false;
-        if (audioToggleBtn) audioToggleBtn.classList.remove('active');
         statusText.innerText = "CAPTURING: Press SPACE or Chord letter to mark chords";
     } else {
         captureBtn.classList.remove('active');
@@ -2545,17 +2619,23 @@ function toggleTimingCapture() {
 
         if (isPlaying) pause();
 
-        // Restore audio state
-        audioEnabled = wasAudioEnabledBeforeCapture;
-        if (audioToggleBtn) {
-            audioToggleBtn.classList.toggle('active', audioEnabled);
-        }
-
         statusText.innerText = "Capture Stopped";
     }
 }
 
+let lastRecordChordName = null;
+let lastRecordChordTime = 0;
+
 function recordChord(name = "?", time = null) {
+    const now = Date.now();
+    // Throttle duplicate calls (e.g. drag-and-drop vs click race condition)
+    if (name === lastRecordChordName && (now - lastRecordChordTime < 150)) {
+        console.log("Blocking duplicate recordChord call for:", name);
+        return;
+    }
+    lastRecordChordName = name;
+    lastRecordChordTime = now;
+
     saveUndoState();
     let currentTime = time;
     if (currentTime === null) {
@@ -2566,26 +2646,29 @@ function recordChord(name = "?", time = null) {
         }
     }
 
-    currentTime = Math.round(currentTime * 1000) / 1000;
-
     // Minimum gap enforcement: chords must be at least 1 sixteenth note apart
     const minGap = secondsPerBeat / 4; // 16th note duration
 
     // Find any existing chord that is too close to currentTime
     // If so, nudge currentTime to be minGap after the nearest chord
     let nudged = true;
-    while (nudged) {
+    let attempts = 0;
+    while (nudged && attempts < 50) {
         nudged = false;
+        attempts++;
         for (const chord of chords) {
             const diff = Math.abs(chord.time - currentTime);
-            if (diff < minGap) {
+            // Use 0.005 epsilon to avoid infinite floating-point loops where diff equals minGap but triggers < minGap
+            if (diff < (minGap - 0.005)) {
                 // Push our new chord just past this one
-                currentTime = Math.round((chord.time + minGap) * 1000) / 1000;
+                currentTime = chord.time + minGap;
                 nudged = true; // Re-check in case the nudged position still conflicts
                 break;
             }
         }
     }
+
+    currentTime = Math.round(currentTime * 1000) / 1000;
 
     chords.push({ name: name, time: currentTime });
     chords.sort((a, b) => a.time - b.time);
@@ -2745,6 +2828,13 @@ window.addEventListener('message', (event) => {
             hasChanges: hasChanges,
             currentTime: Math.max(0, currentTime)
         }, '*');
+    }
+    else if (msg.type === 'updateSuggestedChords') {
+        // Refresh just the toolbar buttons — does not affect chords, position, or any other state
+        if (Array.isArray(msg.suggestedChords)) {
+            suggestedChords = msg.suggestedChords;
+            renderSuggestedChords(suggestedChords);
+        }
     }
     else if (msg.type === 'saveChanges') {
         saveToDatabase();

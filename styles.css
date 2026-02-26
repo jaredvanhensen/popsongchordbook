@@ -8782,10 +8782,20 @@ div.song-detail-practice-controls {
     flex-direction: column;
 }
 
-.scrolling-chords-close-btn {
+/* Button group (Minimize + Close) in the top-right corner */
+.scrolling-chords-btn-group {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    z-index: 2002;
+    pointer-events: auto;
+}
+
+.scrolling-chords-close-btn,
+.scrolling-chords-minimize-btn {
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 50%;
@@ -8797,16 +8807,53 @@ div.song-detail-practice-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: auto;
-    z-index: 2002;
     color: #64748b;
     transition: all 0.2s;
+    line-height: 1;
 }
 
 .scrolling-chords-close-btn:hover {
     background: #f1f5f9;
     color: #ef4444;
     transform: scale(1.1);
+}
+
+.scrolling-chords-minimize-btn:hover {
+    background: #f1f5f9;
+    color: #3b82f6;
+    transform: scale(1.1);
+}
+
+/* Pulsing green dot on the Timeline button when minimized */
+#songDetailScrollingChordsBtn.timeline-minimized {
+    position: relative;
+}
+
+#songDetailScrollingChordsBtn.timeline-minimized::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: timeline-pulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+}
+
+@keyframes timeline-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
 }
 
 @keyframes slideUp {
@@ -9437,10 +9484,12 @@ div.song-detail-practice-controls {
     pointer-events: auto;
 }
 
-.scrolling-chords-close-btn {
-    position: absolute;
-    top: 10px;
+.scrolling-chords-btn-group {
     right: 15px;
+}
+
+.scrolling-chords-close-btn,
+.scrolling-chords-minimize-btn {
     background: rgba(255, 255, 255, 0.8);
     border: none;
     font-size: 24px;
@@ -9459,4 +9508,9 @@ div.song-detail-practice-controls {
 .scrolling-chords-close-btn:hover {
     background: white;
     color: #ef4444;
+}
+
+.scrolling-chords-minimize-btn:hover {
+    background: white;
+    color: #3b82f6;
 }
