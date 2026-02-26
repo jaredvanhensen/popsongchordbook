@@ -1793,6 +1793,29 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
 }
 
+.meta-suggestion-btn {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+    font-family: monospace;
+    font-size: 1.1rem !important;
+    min-width: 44px !important;
+}
+
+.meta-suggestion-btn:hover {
+    background: #475569 !important;
+}
+
+.chord-toolbar-inline-marker {
+    display: inline-flex;
+    align-items: center;
+    color: #475569;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-family: monospace;
+    padding: 0 1px;
+    user-select: none;
+    align-self: center;
+}
+
 .chord-toolbar-group {
     display: flex;
     flex-direction: column;
@@ -1804,6 +1827,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .chord-toolbar-section-header {

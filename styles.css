@@ -9246,7 +9246,7 @@ div.song-detail-practice-controls {
 
 /* Modal Stack fix for index consistency */
 .modal:not(.hidden) {
-    z-index: 1000;
+    z-index: 20000 !important;
 }
 
 /* Custom Confirmation Modal */
@@ -9358,7 +9358,7 @@ div.song-detail-practice-controls {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     z-index: 99999;
     /* Top of everything */
-    width: 280px;
+    width: 380px;
     max-width: 90vw;
     transition: opacity 0.2s ease, transform 0.2s ease;
     opacity: 0;

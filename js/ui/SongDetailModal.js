@@ -78,6 +78,12 @@ class SongDetailModal {
         this.confirmSaveBtn = document.getElementById('confirmSaveBtn');
         this.confirmDontSaveBtn = document.getElementById('confirmDontSaveBtn');
 
+        // Timeline Modal
+        this.scrollingChordsModal = document.getElementById('scrollingChordsModal');
+        this.scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
+        this.scrollingChordsCloseBtn = document.getElementById('scrollingChordsModalClose');
+        this.timelineChangesResolve = null;
+
         // Info Modal
         this.infoModal = document.getElementById('infoModal');
         this.infoModalTitle = document.getElementById('infoModalTitle');
@@ -483,60 +489,36 @@ class SongDetailModal {
                 if (window.appInstance) {
                     window.appInstance.pushModalState('scrollingChords', () => {
                         console.log('Closing Scrolling Chords Modal via state pop');
-                        if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
-                            scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
-                        }
-                        scrollingChordsModal.classList.add('hidden');
+                        this.handleTimelineClose();
                     });
                 }
             });
 
             // Close logic
-            if (scrollingChordsCloseBtn) {
-                scrollingChordsCloseBtn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent any default button behavior
+            if (this.scrollingChordsCloseBtn) {
+                this.scrollingChordsCloseBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     e.stopPropagation();
-
-                    console.log('Closing Scrolling Chords Modal');
-
-                    // 1. Stop Audio first
-                    if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
-                        scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
-                    }
-
-                    // 2. Hide Modal immediately
-                    scrollingChordsModal.classList.add('hidden');
                     if (window.appInstance) {
                         window.appInstance.popModalState('scrollingChords');
-                    }
-
-                    // 3. Restore focus to opener (helps clear focus from iframe)
-                    if (scrollingChordsBtn) {
-                        scrollingChordsBtn.focus();
                     } else {
-                        window.focus(); // Fallback
+                        this.handleTimelineClose();
                     }
                 });
             }
 
             // Close on background click
-            scrollingChordsModal.addEventListener('click', (e) => {
-                if (e.target === scrollingChordsModal) {
-                    // Same logic as close button
-                    if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
-                        scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+            if (this.scrollingChordsModal) {
+                this.scrollingChordsModal.addEventListener('click', (e) => {
+                    if (e.target === this.scrollingChordsModal) {
+                        if (window.appInstance) {
+                            window.appInstance.popModalState('scrollingChords');
+                        } else {
+                            this.handleTimelineClose();
+                        }
                     }
-                    scrollingChordsModal.classList.add('hidden');
-                    if (window.appInstance) {
-                        window.appInstance.popModalState('scrollingChords');
-                    }
-                    if (scrollingChordsBtn) {
-                        scrollingChordsBtn.focus();
-                    } else {
-                        window.focus();
-                    }
-                }
-            });
+                });
+            }
 
             // Listen for Save message from iframe
             // Listen for messages from iframe
@@ -546,8 +528,21 @@ class SongDetailModal {
                 // 1. Handshake: Iframe says "I'm Ready"
                 if (event.data.type === 'scrollingChordsReady') {
                     console.log('Received Ready signal from Scrolling Chords');
-                    if (scrollingChordsFrame && !scrollingChordsModal.classList.contains('hidden')) {
+                    if (this.scrollingChordsFrame && this.scrollingChordsModal && !this.scrollingChordsModal.classList.contains('hidden')) {
                         this.sendDataToTimeline();
+                    }
+                }
+
+                // 1b. Change status response
+                else if (event.data.type === 'unsavedChangesResult') {
+                    // Save the current playback position for this song
+                    if (event.data.currentTime !== undefined && this.currentSongId) {
+                        if (!this._timelinePositions) this._timelinePositions = {};
+                        this._timelinePositions[this.currentSongId] = event.data.currentTime;
+                    }
+                    if (this.timelineChangesResolve) {
+                        this.timelineChangesResolve(event.data.hasChanges);
+                        this.timelineChangesResolve = null;
                     }
                 }
 
@@ -1404,33 +1399,7 @@ class SongDetailModal {
             sectionHeader.appendChild(titleSpan);
         }
 
-        // Create divider button dynamically
-        const dividerBtn = document.createElement('button');
-        dividerBtn.type = 'button';
-        dividerBtn.className = 'bar-divider-btn-dynamic';
-        dividerBtn.innerHTML = '|';
-        dividerBtn.title = 'Add bar divider';
-        dividerBtn.style.marginLeft = '8px';
-        dividerBtn.style.padding = '2px 8px';
-        dividerBtn.style.cursor = 'pointer';
-        dividerBtn.style.background = '#f8fafc';
-        dividerBtn.style.border = '1px solid #e2e8f0';
-        dividerBtn.style.borderRadius = '4px';
-        dividerBtn.style.fontSize = '14px';
-        dividerBtn.style.fontWeight = 'bold';
-        dividerBtn.style.verticalAlign = 'middle';
-
-        dividerBtn.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-        });
-        dividerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            this.insertTextToContent(element, ' | ');
-        });
-
-        // Create chord button
+        // Create chord button (🎵)
         const chordBtn = document.createElement('button');
         chordBtn.type = 'button';
         chordBtn.className = 'chord-modal-btn-detail';
@@ -1464,7 +1433,6 @@ class SongDetailModal {
             }, 0);
         });
 
-        sectionHeader.appendChild(dividerBtn);
         sectionHeader.appendChild(chordBtn);
     }
 
@@ -1843,6 +1811,84 @@ class SongDetailModal {
         this.infoModal.classList.remove('hidden');
     }
 
+    async handleTimelineClose() {
+        if (this.isTimelineClosing) return;
+        if (!this.scrollingChordsModal || this.scrollingChordsModal.classList.contains('hidden')) {
+            console.log('Timeline already closed or closing.');
+            return;
+        }
+        this.isTimelineClosing = true;
+        console.log('Closing Scrolling Chords Modal - checking for unsaved changes');
+
+        try {
+            const hasChanges = await this.checkTimelineChanges();
+
+            if (hasChanges) {
+                const wantsToSave = await this.showUnsavedChangesDialog();
+                if (wantsToSave === true) { // Save
+                    if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+                        this.scrollingChordsFrame.contentWindow.postMessage({ type: 'saveChanges' }, '*');
+                    }
+                    // Small delay to ensure save message is processed before closing iframe
+                    await new Promise(r => setTimeout(r, 200));
+                    this._finishClosingTimeline();
+                } else if (wantsToSave === false) { // Don't Save
+                    this._finishClosingTimeline();
+                }
+                // If null (e.g. if we add cancel later), do nothing
+            } else {
+                this._finishClosingTimeline();
+            }
+        } catch (e) {
+            console.error('Error during timeline close check:', e);
+            this._finishClosingTimeline(); // Fallback
+        }
+    }
+
+    async checkTimelineChanges() {
+        if (!this.scrollingChordsFrame || !this.scrollingChordsFrame.contentWindow) return false;
+
+        return new Promise((resolve) => {
+            const timeout = setTimeout(() => {
+                this.timelineChangesResolve = null;
+                resolve(false); // Assume no changes on timeout
+            }, 600);
+
+            this.timelineChangesResolve = (hasChanges) => {
+                clearTimeout(timeout);
+                resolve(hasChanges);
+            };
+
+            this.scrollingChordsFrame.contentWindow.postMessage({ type: 'checkUnsavedChanges' }, '*');
+        });
+    }
+
+    _finishClosingTimeline() {
+        console.log('Finishing timeline close...');
+        this.isTimelineClosing = false;
+
+        // 1. Stop Audio
+        if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+            this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+        }
+
+        // 2. Hide Modal
+        if (this.scrollingChordsModal) {
+            this.scrollingChordsModal.classList.add('hidden');
+        }
+
+        if (window.appInstance) {
+            window.appInstance.popModalState('scrollingChords');
+        }
+
+        // 3. Restore focus
+        if (this.scrollingChordsBtn) {
+            this.scrollingChordsBtn.focus();
+        } else {
+            window.focus();
+        }
+    }
+
     sendDataToTimeline() {
         const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
         if (!this.currentSongId || !scrollingChordsFrame || !scrollingChordsFrame.contentWindow) return;
@@ -1860,10 +1906,10 @@ class SongDetailModal {
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
-        const chordRegex = /\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
+        const itemRegex = /\||\b[2-4]x\b|\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
-            const found = trimmedText ? trimmedText.match(chordRegex) || [] : [];
+            const found = trimmedText ? trimmedText.match(itemRegex) || [] : [];
             return {
                 section: section.name,
                 type: section.type,
@@ -1876,6 +1922,7 @@ class SongDetailModal {
         if (song.tempo) timelineData.tempo = song.tempo;
 
         // Send data
+        const lastPosition = (this._timelinePositions && this._timelinePositions[this.currentSongId]) || 0;
         scrollingChordsFrame.contentWindow.postMessage({
             type: 'loadChordData',
             data: timelineData,
@@ -1886,7 +1933,8 @@ class SongDetailModal {
             suggestedChords: suggestedChordsGrouped,
             fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
             lyrics: song.lyrics || '', // Fallback
-            lyricOffset: song.lyricOffset || 0 // New Offset
+            lyricOffset: song.lyricOffset || 0, // New Offset
+            lastPosition: lastPosition // Restore last playback position
         }, '*');
     }
 
