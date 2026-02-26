@@ -3,6 +3,7 @@ class MidiInputHandler {
         this.activeNotes = new Set();
         this.noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         this.isEnabled = true;
+        this.isInitialized = false;
 
         // Auto-unlock audio context on first UI interaction
         const unlockAudio = () => {
@@ -19,23 +20,68 @@ class MidiInputHandler {
 
     async init() {
         try {
-            if (navigator.requestMIDIAccess) {
-                const midiAccess = await navigator.requestMIDIAccess();
-                for (const input of midiAccess.inputs.values()) {
-                    input.onmidimessage = this.onMidiMessage.bind(this);
-                }
+            // 1. Identify if we are on the main songlist page
+            // We check for 'songsTableBody' because it's a unique element on the main page.
+            // This is more robust than URL checks which can vary by hosting (e.g., GitHub Pages).
+            const isMainPage = !!document.getElementById('songsTableBody');
 
-                midiAccess.onstatechange = (e) => {
-                    if (e.port.type === 'input' && e.port.state === 'connected') {
-                        e.port.onmidimessage = this.onMidiMessage.bind(this);
-                    }
-                };
-                console.log("MIDI Input Handler initialized");
-            } else {
-                console.warn("Web MIDI API not supported in this browser.");
+            if (isMainPage) {
+                console.log("MIDI: Skipping auto-prompt on main page. Will initialize in Scrolling Chords view if needed.");
+                return;
             }
+
+            if (!navigator.requestMIDIAccess) {
+                console.warn("Web MIDI API not supported in this browser.");
+                return;
+            }
+
+            // 2. Check if we already have permission - if so, init silently
+            if (navigator.permissions && navigator.permissions.query) {
+                try {
+                    const permission = await navigator.permissions.query({ name: 'midi', sysex: false });
+                    if (permission.state === 'granted') {
+                        return await this.requestAccess();
+                    }
+                } catch (e) {
+                    console.warn("MIDI permission query failed:", e);
+                }
+            }
+
+            // 3. Delayed initialization on first user interaction to avoid "immediate" popup
+            // only on non-main pages (like scrolling_chords.html)
+            const handleFirstInteraction = () => {
+                this.requestAccess();
+                document.removeEventListener('pointerdown', handleFirstInteraction);
+                document.removeEventListener('keydown', handleFirstInteraction);
+            };
+
+            document.addEventListener('pointerdown', handleFirstInteraction);
+            document.addEventListener('keydown', handleFirstInteraction);
+
         } catch (err) {
             console.error("Could not initialize MIDI", err);
+        }
+    }
+
+    async requestAccess() {
+        if (this.isInitialized) return;
+
+        try {
+            const midiAccess = await navigator.requestMIDIAccess();
+            this.isInitialized = true;
+
+            for (const input of midiAccess.inputs.values()) {
+                input.onmidimessage = this.onMidiMessage.bind(this);
+            }
+
+            midiAccess.onstatechange = (e) => {
+                if (e.port.type === 'input' && e.port.state === 'connected') {
+                    e.port.onmidimessage = this.onMidiMessage.bind(this);
+                }
+            };
+            console.log("MIDI Input Handler initialized");
+        } catch (err) {
+            console.warn("MIDI access request failed or denied:", err);
         }
     }
 

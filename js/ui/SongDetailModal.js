@@ -127,6 +127,7 @@ class SongDetailModal {
         this.setupEventListeners();
         this.setupPianoButtons();
         this.setupChordEditorButtons();
+        this.setupBarDividerButtons();
     }
 
     toggleLyricsTicker() {
@@ -905,29 +906,32 @@ class SongDetailModal {
     }
 
     setupPianoButtons() {
-        // Setup piano chord buttons for each section
         const pianoButtons = this.modal.querySelectorAll('.piano-chord-btn');
-
         pianoButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 e.preventDefault();
 
-                const sectionKey = btn.dataset.section;
-                const section = this.sections[sectionKey];
+                // If we are currently editing a field, use THAT field's starting index
+                const focusedField = document.activeElement;
+                const isChordField = focusedField &&
+                    focusedField.classList.contains('chord-section-content') &&
+                    focusedField.getAttribute('contenteditable') === 'true';
 
-                if (section && section.content && this.pianoChordOverlay) {
-                    // Gather all blocks for navigation
+                let sectionKey = btn.dataset.section;
+                if (isChordField) {
+                    sectionKey = focusedField.dataset.field || sectionKey;
+                }
+
+                if (this.sections[sectionKey] && this.pianoChordOverlay) {
                     const blocks = [
                         { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.content.textContent || '' },
                         { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.content.textContent || '' },
                         { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.content.textContent || '' },
                         { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.content.textContent || '' }
                     ];
-
                     const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[sectionKey] || 0;
-
                     this.pianoChordOverlay.show(blocks, startIndex);
                 }
             });
@@ -935,39 +939,39 @@ class SongDetailModal {
     }
 
     setupChordEditorButtons() {
-        // Setup chord progression editor buttons for each section
         const editorButtons = this.modal.querySelectorAll('.chord-editor-btn');
-
         editorButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 e.preventDefault();
 
-                const sectionKey = btn.dataset.section;
-                const section = this.sections[sectionKey];
+                const focusedField = document.activeElement;
+                const isChordField = focusedField &&
+                    focusedField.classList.contains('chord-section-content') &&
+                    focusedField.getAttribute('contenteditable') === 'true';
 
-                if (section && section.content && this.chordProgressionEditor) {
-                    // Gather all blocks for navigation
+                let sectionKey = btn.dataset.section;
+                if (isChordField) {
+                    sectionKey = focusedField.dataset.field || sectionKey;
+                }
+
+                if (this.sections[sectionKey] && this.chordProgressionEditor) {
                     const blocks = [
                         { name: this.sections.verse.title.textContent || 'Block 1', field: this.sections.verse.content, songKey: this.getSongKey() },
                         { name: this.sections.chorus.title.textContent || 'Block 2', field: this.sections.chorus.content, songKey: this.getSongKey() },
                         { name: this.sections.preChorus.title.textContent || 'Block 3', field: this.sections.preChorus.content, songKey: this.getSongKey() },
                         { name: this.sections.bridge.title.textContent || 'Block 4', field: this.sections.bridge.content, songKey: this.getSongKey() }
                     ];
-
                     const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[sectionKey] || 0;
-
-                    this.chordProgressionEditor.show(
-                        blocks,
-                        startIndex,
-                        (progression) => {
-                            this.checkForChanges();
-                        }
-                    );
+                    this.chordProgressionEditor.show(blocks, startIndex, () => this.checkForChanges());
                 }
             });
         });
+    }
+
+    setupDynamicButtons() {
+        // Placeholder kept for compatibility
     }
 
     getSongKey() {
@@ -1376,17 +1380,55 @@ class SongDetailModal {
     }
 
     addChordButton(element, fieldName) {
-        console.log('addChordButton called for field:', fieldName);
-        // Remove existing button if any
+        // Remove existing dynamic tool buttons if any
         const section = element.closest('.song-chord-section');
-        console.log('Section found:', !!section);
         if (section) {
+            const existingDynamic = section.querySelector('.bar-divider-btn-dynamic');
+            if (existingDynamic) existingDynamic.remove();
+
             const existingBtn = section.querySelector('.chord-modal-btn-detail');
-            if (existingBtn) {
-                console.log('Removing existing button');
-                existingBtn.remove();
-            }
+            if (existingBtn) existingBtn.remove();
         }
+
+        // Create tool buttons container if not exists or use section header
+        const sectionHeader = section?.querySelector('.chord-section-title');
+        if (!sectionHeader) return;
+
+        // Wrap title text in a span if not already wrapped
+        if (!sectionHeader.querySelector('.chord-section-title-text')) {
+            const titleText = sectionHeader.textContent || sectionHeader.innerText || '';
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'chord-section-title-text';
+            titleSpan.textContent = titleText;
+            sectionHeader.textContent = '';
+            sectionHeader.appendChild(titleSpan);
+        }
+
+        // Create divider button dynamically
+        const dividerBtn = document.createElement('button');
+        dividerBtn.type = 'button';
+        dividerBtn.className = 'bar-divider-btn-dynamic';
+        dividerBtn.innerHTML = '|';
+        dividerBtn.title = 'Add bar divider';
+        dividerBtn.style.marginLeft = '8px';
+        dividerBtn.style.padding = '2px 8px';
+        dividerBtn.style.cursor = 'pointer';
+        dividerBtn.style.background = '#f8fafc';
+        dividerBtn.style.border = '1px solid #e2e8f0';
+        dividerBtn.style.borderRadius = '4px';
+        dividerBtn.style.fontSize = '14px';
+        dividerBtn.style.fontWeight = 'bold';
+        dividerBtn.style.verticalAlign = 'middle';
+
+        dividerBtn.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        dividerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.insertTextToContent(element, ' | ');
+        });
 
         // Create chord button
         const chordBtn = document.createElement('button');
@@ -1394,61 +1436,36 @@ class SongDetailModal {
         chordBtn.className = 'chord-modal-btn-detail';
         chordBtn.innerHTML = '🎵';
         chordBtn.title = 'Add chords';
+        chordBtn.style.marginLeft = '5px';
         chordBtn.style.cursor = 'pointer';
-        chordBtn.style.pointerEvents = 'auto';
+        chordBtn.style.border = 'none';
+        chordBtn.style.background = 'none';
+        chordBtn.style.fontSize = '1.2em';
+        chordBtn.style.verticalAlign = 'middle';
+
         chordBtn.addEventListener('mousedown', (e) => {
-            // Use mousedown instead of click, and prevent default to avoid blur
             e.stopPropagation();
             e.preventDefault();
         });
 
         chordBtn.addEventListener('click', (e) => {
-            console.log('Chord button clicked, fieldName:', fieldName);
             e.stopPropagation();
             e.preventDefault();
-            // Prevent blur by keeping focus
             if (element.getAttribute('contenteditable') !== 'true') {
                 element.setAttribute('contenteditable', 'true');
                 element.classList.add('editing');
             }
-            // Use setTimeout to ensure click completes before any blur
             setTimeout(() => {
                 if (this.chordModal) {
-                    console.log('ChordModal exists, calling show()');
                     this.chordModal.show(element, fieldName, () => {
-                        // Callback when chords are added - check for changes
                         this.checkForChanges();
                     });
-                } else {
-                    console.error('ChordModal is null!');
                 }
             }, 0);
         });
 
-        // Insert button in the section header next to title
-        if (section) {
-            const sectionHeader = section.querySelector('.chord-section-title');
-            console.log('Section header found:', !!sectionHeader);
-            if (sectionHeader) {
-                // Wrap title text in a span if not already wrapped
-                if (!sectionHeader.querySelector('.chord-section-title-text')) {
-                    const titleText = sectionHeader.textContent || sectionHeader.innerText || '';
-                    const titleSpan = document.createElement('span');
-                    titleSpan.className = 'chord-section-title-text';
-                    titleSpan.textContent = titleText;
-                    sectionHeader.textContent = ''; // Clear first
-                    sectionHeader.appendChild(titleSpan);
-                }
-
-                sectionHeader.appendChild(chordBtn);
-                console.log('Button appended to section header');
-                console.log('Button in DOM:', document.body.contains(chordBtn));
-            } else {
-                console.error('Section header not found!');
-            }
-        } else {
-            console.error('Section not found!');
-        }
+        sectionHeader.appendChild(dividerBtn);
+        sectionHeader.appendChild(chordBtn);
     }
 
     checkForChanges() {
@@ -3194,6 +3211,95 @@ class SongDetailModal {
             this._suggestionCleanup();
             this._suggestionCleanup = null;
         }
+    }
+
+    setupBarDividerButtons() {
+        const dividerButtons = this.modal.querySelectorAll('.bar-divider-btn');
+        dividerButtons.forEach(btn => {
+            // Prevent button from stealing focus (Mouse)
+            btn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            // Prevent button from stealing focus (Touch/Mobile)
+            btn.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                e.stopPropagation();
+            }, { passive: false });
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                // If we are currently editing a field, use THAT field
+                const focusedField = document.activeElement;
+                const isChordField = focusedField &&
+                    focusedField.classList.contains('chord-section-content') &&
+                    focusedField.getAttribute('contenteditable') === 'true';
+
+                let targetElement;
+                if (isChordField) {
+                    targetElement = focusedField;
+                } else {
+                    const sectionKey = btn.dataset.section;
+                    if (!sectionKey || !this.sections[sectionKey]) return;
+                    targetElement = this.sections[sectionKey].content;
+                }
+
+                this.insertTextToContent(targetElement, ' | ');
+            });
+        });
+    }
+
+    insertTextToContent(element, text) {
+        if (!element) return;
+
+        const isAlreadyFocused = document.activeElement === element;
+
+        // If not already focused/editable, enter edit mode (which moves cursor to end)
+        if (element.getAttribute('contenteditable') !== 'true') {
+            this.enterEditMode(element);
+            // After enterEditMode, the cursor is at the end. 
+            // We use a small delay to let the browser catch up.
+            setTimeout(() => {
+                this._doInsertText(element, text);
+            }, 50);
+        } else {
+            // If already focused, just insert at current cursor
+            this._doInsertText(element, text);
+        }
+    }
+
+    _doInsertText(element, text) {
+        try {
+            // Ensure element is focused
+            if (document.activeElement !== element) {
+                element.focus();
+            }
+
+            // Try to use insertText for better undo support
+            if (!document.execCommand('insertText', false, text)) {
+                // Fallback for browsers that don't support insertText command
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode(document.createTextNode(text));
+                    // Move cursor to after the inserted text
+                    range.collapse(false);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                } else {
+                    element.textContent += text;
+                }
+            }
+        } catch (e) {
+            console.warn('Error inserting text:', e);
+            // Absolute fallback
+            element.textContent += text;
+        }
+        this.checkForChanges();
     }
 }
 

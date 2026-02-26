@@ -249,7 +249,8 @@ class PianoChordOverlay {
         if (!text) return [];
 
         // Common chord pattern: matches chords like C, Am, F#m7, Bb, Gsus4, etc.
-        const chordPattern = /(?:^|[\s,|(\[])([A-Ga-g][#b]?(?:m|min|maj|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)(?=[\s,|)\]:]|$)/g;
+        // delimiters include whitespace, comma, bar (standard and musical), parens, brackets, and repeat signs
+        const chordPattern = /(?:^|[\s,|(\[𝄀𝄁𝄆𝄇𝄈])([A-Ga-g][#b]?(?:m|min|maj|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)(?=[\s,|)\]:𝄀𝄁𝄆𝄇𝄈]|$)/g;
 
         // Use matchAll to get capture groups (the chord without leading whitespace)
         const matches = [...text.matchAll(chordPattern)];
