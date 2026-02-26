@@ -208,6 +208,75 @@ function finalizeUndoRedo(message) {
     }
 }
 
+
+// --- Handshake & Message Listener (Moved to top for performance) ---
+window.addEventListener('message', (event) => {
+    const msg = event.data;
+
+    if (msg.type === 'loadChordData') {
+        console.log('Scrolling Chords received data:', msg);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset);
+        // Restore last playback position if provided
+        if (msg.lastPosition && msg.lastPosition > 0) {
+            pauseTime = msg.lastPosition;
+            renderStaticElements();
+        }
+    }
+    else if (msg.type === 'stopAudio') {
+        if (pianoPlayer) pianoPlayer.stopAll();
+        if (youtubePlayer && isYoutubePlaying && typeof youtubePlayer.pauseVideo === 'function') {
+            youtubePlayer.pauseVideo();
+        }
+        isPlaying = false;
+        if (playPauseBtn) {
+            playPauseBtn.innerHTML = '▶ <span>Play</span>';
+            playPauseBtn.classList.remove('playing');
+        }
+        cancelAnimationFrame(animationFrame);
+    }
+    else if (msg.type === 'undoAction') {
+        if (typeof undo === 'function') {
+            undo();
+        }
+    }
+    else if (msg.type === 'checkUnsavedChanges') {
+        const currentJson = JSON.stringify(chords);
+        const hasChanges = currentJson !== originalChordsJson ||
+            currentTempo !== originalTempo ||
+            barOffsetInBeats !== originalBarOffset ||
+            currentLyricOffset !== originalLyricOffset ||
+            (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation);
+
+        // Also report current playback position so the parent can restore it
+        const currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+
+        window.parent.postMessage({
+            type: 'unsavedChangesResult',
+            hasChanges: hasChanges,
+            currentTime: Math.max(0, currentTime)
+        }, '*');
+    }
+    else if (msg.type === 'updateSuggestedChords') {
+        // Refresh just the toolbar buttons — does not affect chords, position, or any other state
+        if (Array.isArray(msg.suggestedChords)) {
+            suggestedChords = msg.suggestedChords;
+            renderSuggestedChords(suggestedChords);
+        }
+    }
+    else if (msg.type === 'saveChanges') {
+        saveToDatabase();
+    }
+});
+
+// Signal that we are ready to receive data
+console.log('Scrolling Chords: Handshake ready');
+if (window.parent) {
+    window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
+} else if (window.opener) {
+    window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
+}
+
+
 // Setup Event Listeners
 // Setup Event Listeners (Safe Initialization)
 document.addEventListener('DOMContentLoaded', () => {
@@ -334,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             octaveOptions.forEach(o => o.classList.toggle('active', parseInt(o.dataset.val) === val));
 
             // Persistent storage or preview
-            triggerChordAudio('C', 1.0, true);
+            triggerChordAudio('C', 0.5, true);
         });
     });
 
@@ -609,7 +678,7 @@ document.addEventListener("keydown", e => {
             }
 
             initAudio();
-            triggerChordAudio(match, 1.0, true);
+            triggerChordAudio(match, 0.5, true);
             recordChord(match);
             return;
         }
@@ -635,7 +704,7 @@ document.addEventListener("keydown", e => {
                     }
 
                     initAudio();
-                    triggerChordAudio(lastChord.name, 1.0, true);
+                    triggerChordAudio(lastChord.name, 0.5, true);
                     renderStaticElements();
                     updateLoop();
                     checkForChanges();
@@ -801,7 +870,7 @@ function toggleOctavePlayback() {
     }
 
     // Play a preview chord
-    triggerChordAudio('C', 1.0, true);
+    triggerChordAudio('C', 0.5, true);
 }
 
 // Listen for messages from parent (for auto-loading stored data)
@@ -861,7 +930,7 @@ timeline.addEventListener('drop', (e) => {
         const snappedTime = snapToGrid(dropTime);
 
         recordChord(chordName, snappedTime);
-        triggerChordAudio(chordName, 1.0);
+        triggerChordAudio(chordName, 0.5);
         return;
     }
 
@@ -1227,17 +1296,17 @@ window.addEventListener('pointerup', (e) => {
                     renderStaticElements();
                     updateLoop();
                     checkForChanges();
-                    triggerChordAudio(virtualDraggedChord, 1.0);
+                    triggerChordAudio(virtualDraggedChord, 0.5);
                 } else {
                     // It was dropped on an existing valid chord, could either replace it or insert near it. 
                     // Let's default to standard placement to be safe if it's not a '?'.
                     recordChord(virtualDraggedChord, snappedTime);
-                    triggerChordAudio(virtualDraggedChord, 1.0);
+                    triggerChordAudio(virtualDraggedChord, 0.5);
                 }
             } else {
                 // Not dropped on a chord specifically, so place it on the timeline normally
                 recordChord(virtualDraggedChord, snappedTime);
-                triggerChordAudio(virtualDraggedChord, 1.0);
+                triggerChordAudio(virtualDraggedChord, 0.5);
             }
         }
 
@@ -1355,7 +1424,7 @@ function renderSuggestedChords(groups) {
             btn.textContent = chordName;
             btn.draggable = false;
             btn.style.touchAction = 'none';
-            btn.onpointerdown = () => { initAudio(); triggerChordAudio(chordName, 1.0, true); };
+            btn.onpointerdown = () => { initAudio(); triggerChordAudio(chordName, 0.5, true); };
             btn.onclick = () => { if (enableTimingCapture) recordChord(chordName); };
             btn.addEventListener('pointerdown', (e) => {
                 btn.setPointerCapture(e.pointerId);
@@ -1482,7 +1551,7 @@ function renderSuggestedChords(groups) {
         qBtn.title = 'Mark unknown chord';
         qBtn.draggable = false;
         qBtn.style.touchAction = 'none';
-        qBtn.onpointerdown = () => { initAudio(); triggerChordAudio('?', 1.0, true); };
+        qBtn.onpointerdown = () => { initAudio(); triggerChordAudio('?', 0.5, true); };
         qBtn.addEventListener('pointerdown', (e) => {
             qBtn.setPointerCapture(e.pointerId);
             potentialVirtualDrag = true;
@@ -2783,64 +2852,6 @@ function clearData() {
 }
 
 // --- Message Listener for Parent Window (Embed Mode) ---
-window.addEventListener('message', (event) => {
-    const msg = event.data;
-
-    if (msg.type === 'loadChordData') {
-        console.log('Scrolling Chords received data:', msg);
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset);
-        // Restore last playback position if provided
-        if (msg.lastPosition && msg.lastPosition > 0) {
-            pauseTime = msg.lastPosition;
-            renderStaticElements();
-        }
-    }
-    else if (msg.type === 'stopAudio') {
-        if (pianoPlayer) pianoPlayer.stopAll();
-        if (youtubePlayer && isYoutubePlaying && typeof youtubePlayer.pauseVideo === 'function') {
-            youtubePlayer.pauseVideo();
-        }
-        isPlaying = false;
-        if (playPauseBtn) {
-            playPauseBtn.innerHTML = '▶ <span>Play</span>';
-            playPauseBtn.classList.remove('playing');
-        }
-        cancelAnimationFrame(animationFrame);
-    }
-    else if (msg.type === 'undoAction') {
-        if (typeof undo === 'function') {
-            undo();
-        }
-    }
-    else if (msg.type === 'checkUnsavedChanges') {
-        const currentJson = JSON.stringify(chords);
-        const hasChanges = currentJson !== originalChordsJson ||
-            currentTempo !== originalTempo ||
-            barOffsetInBeats !== originalBarOffset ||
-            currentLyricOffset !== originalLyricOffset ||
-            (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation);
-
-        // Also report current playback position so the parent can restore it
-        const currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
-
-        window.parent.postMessage({
-            type: 'unsavedChangesResult',
-            hasChanges: hasChanges,
-            currentTime: Math.max(0, currentTime)
-        }, '*');
-    }
-    else if (msg.type === 'updateSuggestedChords') {
-        // Refresh just the toolbar buttons — does not affect chords, position, or any other state
-        if (Array.isArray(msg.suggestedChords)) {
-            suggestedChords = msg.suggestedChords;
-            renderSuggestedChords(suggestedChords);
-        }
-    }
-    else if (msg.type === 'saveChanges') {
-        saveToDatabase();
-    }
-});
-
 // --- Snap to Grid Logic ---
 function snapToGrid(time) {
     if (!beatsPerBar || !secondsPerBeat || beatsPerBar <= 0) return time;
@@ -2980,12 +2991,5 @@ function deleteSelectedChords() {
 
 // duplicateSelectedChords is defined above
 
-// Signal that we are ready to receive data
-console.log('Scrolling Chords: Listener ready');
-if (window.parent) {
-    window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
-} else if (window.opener) {
-    window.opener.postMessage({ type: 'scrollingChordsReady' }, '*');
-}
 
 

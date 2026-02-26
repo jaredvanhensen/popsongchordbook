@@ -349,6 +349,33 @@
                         <label>Email address</label>
                         <div class="profile-email-display" id="profileEmail">-</div>
                     </div>
+                    <!-- Practice Streak Section -->
+                    <div class="profile-streak-section">
+                        <div class="streak-container">
+                            <div class="streak-main">
+                                <span class="streak-fire-icon">🔥</span>
+                                <div class="streak-count-wrapper">
+                                    <div id="profileCurrentStreak" class="streak-count">0</div>
+                                    <div class="streak-label">Day Streak</div>
+                                </div>
+                            </div>
+                            <div class="streak-stats-mini">
+                                <div class="streak-stat-item">Best: <span id="profileLongestStreak"
+                                        class="streak-stat-value">0</span></div>
+                                <div class="streak-stat-item">Total Days: <span id="profileTotalDaysPracticed"
+                                        class="streak-stat-value">0</span></div>
+                            </div>
+                            <div class="streak-milestones" id="streakMilestones">
+                                <div class="milestone-badge" data-days="3" title="3 Day Streak">🥉</div>
+                                <div class="milestone-badge" data-days="7" title="1 Week Streak">🥈</div>
+                                <div class="milestone-badge" data-days="10" title="10 Day Streak">⭐</div>
+                                <div class="milestone-badge" data-days="14" title="2 Week Streak">🥇</div>
+                                <div class="milestone-badge" data-days="30" title="1 Month Streak">💎</div>
+                                <div class="milestone-badge" data-days="100" title="Centurion Streak">👑</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="auth-form-group">
                         <label>Total practice sessions</label>
                         <div class="profile-total-practice-display" id="profileTotalPractice">0</div>
@@ -411,6 +438,23 @@
                             <label class="switch"
                                 style="position: relative; display: inline-block; width: 44px; height: 24px;">
                                 <input type="checkbox" id="profileLyricsToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd4e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">📜</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Text-based Notation</div>
+                                    <div style="font-size: 11px; color: #64748b;">Use plain text for chords</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileTextNotationToggle"
                                     style="opacity: 0; width: 0; height: 0;">
                                 <span class="slider"
                                     style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
@@ -832,47 +876,138 @@
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
                         </h3>
-                        <div class="chord-section-buttons">
-                            <button class="bar-divider-btn" data-section="verse" title="Add bar divider">|</button>
-                            <button class="piano-chord-btn" data-section="verse" title="Show piano chords">🎹</button>
-                            <button class="chord-editor-btn" data-section="verse"
-                                title="Chord progression editor">?</button>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn bar-divider-btn" data-section="verse"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn piano-chord-btn" data-section="verse"
+                                title="Show Piano Chords">
+                                <span class="icon">🎹</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="verse"
+                                title="Chord Progression Editor">
+                                <span class="icon">?</span>
+                            </button>
+                            <button class="header-action-btn edit-block-btn" data-section="verse" title="Edit Block">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <input type="text" class="cue-line-input" id="verseCueInput" placeholder="notes or lyrics"
                         maxlength="38">
-                    <div class="chord-section-content editable-field" data-field="verse" id="verseContent"
-                        contenteditable="false" spellcheck="false"></div>
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="verseContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="verseEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
                 </div>
                 <div class="song-chord-section chorus-section" id="chorusSection">
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="chorusTitle" contenteditable="true">Block 2
                         </h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn bar-divider-btn" data-section="chorus"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn piano-chord-btn" data-section="chorus"
+                                title="Show Piano Chords">
+                                <span class="icon">🎹</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="chorus"
+                                title="Chord Progression Editor">
+                                <span class="icon">?</span>
+                            </button>
+                            <button class="header-action-btn edit-block-btn" data-section="chorus" title="Edit Block">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <input type="text" class="cue-line-input" id="chorusCueInput" placeholder="notes or lyrics"
                         maxlength="38">
-                    <div class="chord-section-content editable-field" data-field="chorus" id="chorusContent"
-                        contenteditable="false" spellcheck="false"></div>
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="chorusContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="chorusEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
                 </div>
                 <div class="song-chord-section" id="preChorusSection">
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="preChorusTitle" contenteditable="true">Block
                             3</h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn bar-divider-btn" data-section="preChorus"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn piano-chord-btn" data-section="preChorus"
+                                title="Show Piano Chords">
+                                <span class="icon">🎹</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="preChorus"
+                                title="Chord Progression Editor">
+                                <span class="icon">?</span>
+                            </button>
+                            <button class="header-action-btn edit-block-btn" data-section="preChorus"
+                                title="Edit Block">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <input type="text" class="cue-line-input" id="preChorusCueInput" placeholder="notes or lyrics"
                         maxlength="38">
-                    <div class="chord-section-content editable-field" data-field="preChorus" id="preChorusContent"
-                        contenteditable="false" spellcheck="false"></div>
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="preChorusContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="preChorusEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
                 </div>
                 <div class="song-chord-section" id="bridgeSection">
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="bridgeTitle" contenteditable="true">Block 4
                         </h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn bar-divider-btn" data-section="bridge"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn piano-chord-btn" data-section="bridge"
+                                title="Show Piano Chords">
+                                <span class="icon">🎹</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="bridge"
+                                title="Chord Progression Editor">
+                                <span class="icon">?</span>
+                            </button>
+                            <button class="header-action-btn edit-block-btn" data-section="bridge" title="Edit Block">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <input type="text" class="cue-line-input" id="bridgeCueInput" placeholder="notes or lyrics"
                         maxlength="38">
-                    <div class="chord-section-content editable-field" data-field="bridge" id="bridgeContent"
-                        contenteditable="false" spellcheck="false"></div>
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="bridgeContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="bridgeEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
                 </div>
             </div>
 
@@ -1226,6 +1361,7 @@
     <script src="js/utils/MidiInputHandler.js?v=2.134"></script>
     <script src="js/utils/LyricsParser.js?v=2.134"></script>
     <!-- UI Components -->
+    <script src="js/utils/ChordParser.js?v=2.134"></script>
     <script src="js/ui/ChordModal.js?v=2.134"></script>
     <script src="js/ui/SongDetailModal.js?v=2.134"></script>
     <script src="js/ui/TableRenderer.js?v=2.134"></script>

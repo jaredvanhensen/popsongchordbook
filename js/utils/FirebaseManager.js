@@ -335,6 +335,29 @@ class FirebaseManager {
         }
     }
 
+    async updatePreference(key, value) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        try {
+            const preferencesRef = this.database.ref(`users/${this.currentUser.uid}/preferences/${key}`);
+            await preferencesRef.set(value);
+            return { success: true };
+        } catch (e) {
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getPreference(key, defaultValue = null) {
+        if (!this.initialized || !this.currentUser) return defaultValue;
+        try {
+            const snapshot = await this.database.ref(`users/${this.currentUser.uid}/preferences/${key}`).once('value');
+            const val = snapshot.val();
+            return val !== null ? val : defaultValue;
+        } catch (e) {
+            console.error(`Error loading preference ${key}:`, e);
+            return defaultValue;
+        }
+    }
+
     async sendPasswordResetEmail(email) {
         if (!this.initialized) {
             await this.initialize();
@@ -874,6 +897,70 @@ class FirebaseManager {
         } catch (error) {
             console.error('Migration error:', error);
             throw error;
+        }
+    }
+
+    async updatePracticeStreak(userId) {
+        if (!this.initialized || !userId) return null;
+
+        try {
+            const statsRef = this.database.ref(`users/${userId}/practiceStats`);
+            const snapshot = await statsRef.once('value');
+            const stats = snapshot.val() || {
+                currentStreak: 0,
+                longestStreak: 0,
+                lastPracticeDate: null,
+                totalDaysPracticed: 0
+            };
+
+            const now = new Date();
+            // Get date only (midnight) for comparison
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+            let lastDate = null;
+            if (stats.lastPracticeDate) {
+                const d = new Date(stats.lastPracticeDate);
+                lastDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+            }
+
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            if (lastDate === today) {
+                // Already practiced today, don't increment streak but return current stats
+                return stats;
+            }
+
+            if (lastDate === today - oneDay) {
+                // Practiced yesterday, increment streak
+                stats.currentStreak++;
+            } else {
+                // Missed a day or first time
+                stats.currentStreak = 1;
+            }
+
+            if (stats.currentStreak > stats.longestStreak) {
+                stats.longestStreak = stats.currentStreak;
+            }
+
+            stats.lastPracticeDate = now.toISOString();
+            stats.totalDaysPracticed = (stats.totalDaysPracticed || 0) + 1;
+
+            await statsRef.set(stats);
+            return stats;
+        } catch (error) {
+            console.error('Error updating practice streak:', error);
+            return null;
+        }
+    }
+
+    async getPracticeStats(userId) {
+        if (!this.initialized || !userId) return null;
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/practiceStats`).once('value');
+            return snapshot.val();
+        } catch (e) {
+            console.error("Error getting practice stats:", e);
+            return null;
         }
     }
 

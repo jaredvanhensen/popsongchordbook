@@ -4774,6 +4774,8 @@ td:has(.row-edit-input.input-focused) {
     flex-shrink: 0;
     gap: clamp(8px, 1.5vw, 15px);
     flex-wrap: nowrap;
+    min-height: 90px;
+    /* Stabilize height during thumbnail loading */
 }
 
 .song-detail-footer-actions {
@@ -5318,6 +5320,7 @@ td:has(.row-edit-input.input-focused) {
 @media (max-width: 600px) {
     .song-detail-header {
         padding: clamp(18px, 2vh, 23px) clamp(10px, 2vw, 15px);
+        min-height: 85px;
     }
 
     .song-detail-thumbnail {
@@ -5330,6 +5333,11 @@ td:has(.row-edit-input.input-focused) {
 }
 
 @media (min-width: 768px) {
+    .song-detail-header {
+        min-height: 170px;
+        /* For 128px thumbnail + padding */
+    }
+
     .song-detail-thumbnail {
         width: 128px;
         height: 128px;
@@ -9513,4 +9521,360 @@ div.song-detail-practice-controls {
 .scrolling-chords-minimize-btn:hover {
     background: white;
     color: #3b82f6;
+}
+
+/* Chord Detail Enhancement Styles (from Chord Timeline) */
+.chord-section-content-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.chord-section-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+    min-height: 40px;
+}
+
+.chord-section-edit-input {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border: 2px solid #6366f1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    background: white !important;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    margin-top: 5px;
+    resize: vertical;
+    display: block;
+}
+
+.chord-suggestion-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white !important;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+    transition: all 0.2s;
+    min-width: 48px;
+    text-align: center;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.chord-suggestion-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(102, 126, 234, 0.4);
+}
+
+.chord-suggestion-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.chord-type-verse {
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.chord-type-chorus {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+}
+
+.chord-type-pre-chorus {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+}
+
+.chord-type-bridge {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+}
+
+.chord-toolbar-inline-label,
+.chord-toolbar-inline-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #64748b !important;
+    /* Force grey */
+    background: none !important;
+    /* Force no background */
+    box-shadow: none !important;
+    /* Force no shadow */
+    min-width: unset;
+    padding: 0 1px;
+    margin: 0 -2px;
+    user-select: none;
+    border: none !important;
+}
+
+/* Marker text inheriting block colors - REMOVED for plain black */
+
+.chord-toolbar-header-actions {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.header-action-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 6px;
+    box-shadow: none !important;
+}
+
+.header-action-btn:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.header-action-btn.active {
+    background: #4f46e5;
+    color: white;
+}
+
+/* Practice Streak Styles */
+.profile-streak-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.streak-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.streak-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.streak-fire-icon {
+    font-size: 3rem;
+    animation: flicker 2s infinite ease-in-out;
+}
+
+.streak-count-wrapper {
+    text-align: left;
+}
+
+.streak-count {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #f97316;
+    line-height: 1;
+}
+
+.streak-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.streak-stats-mini {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+}
+
+.streak-stat-item {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.streak-stat-value {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.streak-milestones {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.milestone-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: #e2e8f0;
+    color: #94a3b8;
+    filter: grayscale(1);
+    opacity: 0.5;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.milestone-badge.unlocked {
+    filter: grayscale(0);
+    opacity: 1;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+    border-color: #f97316;
+}
+
+.milestone-badge::after {
+    content: attr(data-days) "d";
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-weight: 800;
+    color: #64748b;
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.2));
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 15px rgba(249, 115, 22, 0.5));
+    }
+}
+
+/* Chord Header Action Buttons - Refined Styles */
+.header-action-btn {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border: none;
+    color: white !important;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 0;
+}
+
+/* Hide ALL header icons by default for a super clean look */
+.header-action-btn {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+/* Reveal ALL icons on hover (mouse), when editing, or when toggled (touch) */
+.song-chord-section.editing .header-action-btn,
+.song-chord-section.show-icons .header-action-btn {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
+}
+
+@media (hover: hover) {
+    .song-chord-section:hover .header-action-btn {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+        pointer-events: auto !important;
+    }
+}
+
+.header-action-btn:hover {
+    background: #b91c1c !important;
+    /* DARK RED */
+    transform: translateY(-1px) scale(1.1) !important;
+    filter: brightness(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.header-action-btn.active {
+    background: #1e293b;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-action-btn .icon {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.header-action-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+.chord-text-notation {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.1;
+    padding: 2px 0 8px 0;
+    display: block;
+    word-spacing: normal;
+    letter-spacing: -0.3px;
+}
+
+/* Ensure icons inside action buttons are white */
+.header-action-btn .icon,
+.header-action-btn svg {
+    color: white !important;
+}
+
+/* Mobile Adjustments for Chords to Fit Better */
+@media (max-width: 600px) {
+    .chord-suggestion-btn {
+        padding: 4px 10px;
+        font-size: 0.9rem;
+        min-width: 40px;
+        border-radius: 8px;
+    }
+
+    .chord-toolbar-inline-label,
+    .chord-toolbar-inline-marker {
+        font-size: 1.15rem !important;
+        margin: 0 2px !important;
+    }
+
+    .chord-section-content {
+        gap: 6px;
+    }
 }

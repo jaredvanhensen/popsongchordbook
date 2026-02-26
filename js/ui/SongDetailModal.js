@@ -97,24 +97,37 @@ class SongDetailModal {
                 section: document.getElementById('verseSection'),
                 title: document.getElementById('verseTitle'),
                 content: document.getElementById('verseContent'),
+                editInput: document.getElementById('verseEditInput'),
+                editBtn: document.querySelector('.edit-block-btn[data-section="verse"]'),
+                editBtn: document.querySelector('.edit-block-btn[data-section="verse"]'),
+                dividerBtn: document.querySelector('.bar-divider-btn[data-section="verse"]'),
                 cue: document.getElementById('verseCueInput')
             },
             chorus: {
                 section: document.getElementById('chorusSection'),
                 title: document.getElementById('chorusTitle'),
                 content: document.getElementById('chorusContent'),
+                editInput: document.getElementById('chorusEditInput'),
+                editBtn: document.querySelector('.edit-block-btn[data-section="chorus"]'),
+                dividerBtn: document.querySelector('.bar-divider-btn[data-section="chorus"]'),
                 cue: document.getElementById('chorusCueInput')
             },
             preChorus: {
                 section: document.getElementById('preChorusSection'),
                 title: document.getElementById('preChorusTitle'),
                 content: document.getElementById('preChorusContent'),
+                editInput: document.getElementById('preChorusEditInput'),
+                editBtn: document.querySelector('.edit-block-btn[data-section="preChorus"]'),
+                dividerBtn: document.querySelector('.bar-divider-btn[data-section="preChorus"]'),
                 cue: document.getElementById('preChorusCueInput')
             },
             bridge: {
                 section: document.getElementById('bridgeSection'),
                 title: document.getElementById('bridgeTitle'),
                 content: document.getElementById('bridgeContent'),
+                editInput: document.getElementById('bridgeEditInput'),
+                editBtn: document.querySelector('.edit-block-btn[data-section="bridge"]'),
+                dividerBtn: document.querySelector('.bar-divider-btn[data-section="bridge"]'),
                 cue: document.getElementById('bridgeCueInput')
             }
         };
@@ -125,6 +138,7 @@ class SongDetailModal {
 
         // Initialize a single shared audio player
         this.sharedAudioPlayer = new PianoAudioPlayer();
+        this.chordParser = new ChordParser();
 
         // Initialize Piano Chord Overlay with shared player
         this.pianoChordOverlay = new PianoChordOverlay(this.sharedAudioPlayer);
@@ -136,6 +150,8 @@ class SongDetailModal {
         this.setupPianoButtons();
         this.setupChordEditorButtons();
         this.setupBarDividerButtons();
+        // this.setupBarDividerButtons(); // Replaced by inline editing
+        this.setupChordBlocks();
     }
 
     toggleLyricsTicker() {
@@ -628,11 +644,19 @@ class SongDetailModal {
 
                         if (Object.keys(updates).length > 0) {
                             // Update UI textareas
-                            const section = this.sections[sectionType === 'pre-chorus' ? 'preChorus' : sectionType];
-                            if (section && section.content) {
-                                section.content.value = text;
+                            const sectionKey = sectionType === 'pre-chorus' ? 'preChorus' : sectionType;
+                            const section = this.sections[sectionKey];
+                            if (section && section.editInput) {
+                                section.editInput.value = text;
                                 // Trigger input event to let other logic know it changed
-                                section.content.dispatchEvent(new Event('input', { bubbles: true }));
+                                section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
+                                // Re-render the buttons
+                                if (!section.editInput.classList.contains('hidden')) {
+                                    // if we are editing, we don't re-render yet? 
+                                    // Actually, if we are in view mode, we SHOULD re-render.
+                                } else {
+                                    this.renderChordBlock(sectionKey, text);
+                                }
                             }
 
                             // Save to database
@@ -987,10 +1011,10 @@ class SongDetailModal {
 
                 if (this.sections[sectionKey] && this.pianoChordOverlay) {
                     const blocks = [
-                        { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.content.textContent || '' },
-                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.content.textContent || '' },
-                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.content.textContent || '' },
-                        { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.content.textContent || '' }
+                        { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
+                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
+                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
+                        { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
                     ];
                     const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[sectionKey] || 0;
@@ -1019,10 +1043,10 @@ class SongDetailModal {
 
                 if (this.sections[sectionKey] && this.chordProgressionEditor) {
                     const blocks = [
-                        { name: this.sections.verse.title.textContent || 'Block 1', field: this.sections.verse.content, songKey: this.getSongKey() },
-                        { name: this.sections.chorus.title.textContent || 'Block 2', field: this.sections.chorus.content, songKey: this.getSongKey() },
-                        { name: this.sections.preChorus.title.textContent || 'Block 3', field: this.sections.preChorus.content, songKey: this.getSongKey() },
-                        { name: this.sections.bridge.title.textContent || 'Block 4', field: this.sections.bridge.content, songKey: this.getSongKey() }
+                        { name: this.sections.verse.title.textContent || 'Block 1', field: this.sections.verse.editInput, songKey: this.getSongKey() },
+                        { name: this.sections.chorus.title.textContent || 'Block 2', field: this.sections.chorus.editInput, songKey: this.getSongKey() },
+                        { name: this.sections.preChorus.title.textContent || 'Block 3', field: this.sections.preChorus.editInput, songKey: this.getSongKey() },
+                        { name: this.sections.bridge.title.textContent || 'Block 4', field: this.sections.bridge.editInput, songKey: this.getSongKey() }
                     ];
                     const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[sectionKey] || 0;
@@ -1030,6 +1054,242 @@ class SongDetailModal {
                 }
             });
         });
+    }
+
+    setupBarDividerButtons() {
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            if (!section.dividerBtn) return;
+
+            section.dividerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                const input = section.editInput;
+                const isEditing = !input.classList.contains('hidden');
+                let newValue;
+
+                if (!isEditing) {
+                    // Switch to edit mode first to make editing easy
+                    this.toggleBlockEdit(key);
+
+                    // Append strictly to the end since there was no cursor focus
+                    const value = input.value;
+                    const needsSpace = value.length > 0 && !value.match(/\s$/);
+                    newValue = value + (needsSpace ? ' | ' : '| ');
+                    input.value = newValue;
+
+                    // Move cursor to the absolute end
+                    input.focus();
+                    input.selectionStart = input.selectionEnd = newValue.length;
+                } else {
+                    // Already in edit mode: insert exactly at current cursor position
+                    const startPos = input.selectionStart;
+                    const endPos = input.selectionEnd;
+                    const value = input.value;
+
+                    const prefix = value.substring(0, startPos);
+                    const needsSpaceBefore = prefix.length > 0 && !prefix.match(/\s$/);
+
+                    newValue = prefix + (needsSpaceBefore ? ' | ' : '| ') + value.substring(endPos);
+                    input.value = newValue;
+
+                    // Move cursor right after the newly inserted part
+                    input.focus();
+                    const newPos = startPos + (needsSpaceBefore ? 3 : 2);
+                    input.setSelectionRange(newPos, newPos);
+                }
+
+                // Trigger change detection and re-render
+                this.renderChordBlock(key, newValue);
+                this.checkForChanges();
+            });
+        });
+    }
+
+    refreshNotation() {
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            this.renderChordBlock(key, section.editInput.value);
+        });
+    }
+
+    getUseTextNotation() {
+        const user = (window.appInstance && window.appInstance.firebaseManager) ? window.appInstance.firebaseManager.getCurrentUser() : null;
+        const uid = user ? user.uid : 'guest';
+        return localStorage.getItem(`feature-text-notation-enabled-${uid}`) === 'true';
+    }
+
+    setupChordBlocks() {
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            if (!section.editBtn) return;
+
+            section.editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleBlockEdit(key);
+            });
+
+            // Add toggle reveal for touch devices
+            const header = section.section.querySelector('.chord-section-header');
+            if (header) {
+                header.addEventListener('click', (e) => {
+                    // Don't toggle if we clicked a button or the editable title
+                    if (e.target.closest('.header-action-btn') || e.target.classList.contains('editable-title')) return;
+
+                    // Toggle tools visibility for this block
+                    section.section.classList.toggle('show-icons');
+                });
+            }
+
+            // Click anywhere on the chords to instantly switch to Text Edit mode!
+            if (section.content) {
+                section.content.addEventListener('click', (e) => {
+                    // Don't trigger if they are intentionally clicking a chord button to play it
+                    if (e.target.closest('.chord-suggestion-btn')) return;
+
+                    const isEditing = !section.editInput.classList.contains('hidden');
+                    if (!isEditing) {
+                        this.toggleBlockEdit(key);
+                    }
+                });
+            }
+
+            if (section.editInput) {
+                section.editInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.toggleBlockEdit(key);
+                    }
+                    if (e.key === 'Escape') {
+                        // Revert and close
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        if (song) {
+                            section.editInput.value = song[key] || '';
+                        }
+                        this.toggleBlockEdit(key);
+                    }
+                });
+
+                section.editInput.addEventListener('input', () => {
+                    this.hasUnsavedChanges = true;
+                    this.checkForChanges();
+                });
+            }
+        });
+    }
+
+    toggleBlockEdit(key) {
+        const section = this.sections[key];
+        const isEditing = !section.editInput.classList.contains('hidden');
+
+        if (isEditing) {
+            // Save state and switch to view
+            section.section.classList.remove('editing');
+            section.editInput.classList.add('hidden');
+            section.content.classList.remove('hidden');
+            section.editBtn.classList.remove('active');
+            section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+            this.renderChordBlock(key, section.editInput.value);
+        } else {
+            // Switch to edit
+            section.section.classList.add('editing');
+            section.editInput.classList.remove('hidden');
+            section.content.classList.add('hidden');
+            section.editBtn.classList.add('active');
+            section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            section.editInput.focus();
+        }
+    }
+
+    renderChordBlock(key, text) {
+        const section = this.sections[key];
+        if (!section.content) return;
+
+        section.content.innerHTML = '';
+        if (!text) return;
+
+        // Match dividers, repeat markers, or anything else (chords)
+        const items = text.match(/\||[2-4]x|[^\s|]+/g) || [];
+
+        if (items.length === 0) {
+            return;
+        }
+
+        if (this.getUseTextNotation()) {
+            // Text mode
+            const textSpan = document.createElement('span');
+            textSpan.className = 'chord-text-notation';
+            textSpan.textContent = items.join(' ');
+            section.content.appendChild(textSpan);
+            return;
+        }
+
+        // Button mode
+        items.forEach(item => {
+            const trimmed = item.trim();
+            if (!trimmed) return;
+
+            // Check if it's a marker (| or 2x, etc.)
+            if (trimmed === '|' || /^[2-4]x$/.test(trimmed)) {
+                const marker = document.createElement('span');
+                marker.className = 'chord-toolbar-inline-label';
+                marker.textContent = trimmed;
+                // Add explicit style to ensure it's just grey text
+                marker.style.setProperty('color', '#64748b', 'important');
+                marker.style.setProperty('background', 'none', 'important');
+                marker.style.setProperty('border', 'none', 'important');
+                marker.style.setProperty('box-shadow', 'none', 'important');
+                marker.style.display = 'inline-block';
+                marker.style.margin = '0 4px';
+                marker.style.fontSize = '1.4rem';
+                marker.style.fontWeight = 'bold';
+                section.content.appendChild(marker);
+            } else {
+                // Defensive: what if item contains a divider? (Split it further)
+                if (trimmed.includes('|')) {
+                    const parts = trimmed.split(/(\|)/);
+                    parts.forEach(part => {
+                        const p = part.trim();
+                        if (!p) return;
+                        if (p === '|') {
+                            const marker = document.createElement('span');
+                            marker.className = 'chord-toolbar-inline-label';
+                            marker.textContent = '|';
+                            marker.style.setProperty('color', '#64748b', 'important');
+                            marker.style.setProperty('background', 'none', 'important');
+                            marker.style.display = 'inline-block';
+                            marker.style.margin = '0 4px';
+                            marker.style.fontSize = '1.4rem';
+                            marker.style.fontWeight = 'bold';
+                            section.content.appendChild(marker);
+                        } else {
+                            this.createChordButton(section, key, p);
+                        }
+                    });
+                } else {
+                    this.createChordButton(section, key, trimmed);
+                }
+            }
+        });
+    }
+
+    createChordButton(section, key, chordText) {
+        const btn = document.createElement('button');
+        btn.className = `chord-suggestion-btn chord-type-${key.toLowerCase()}`;
+        btn.textContent = chordText;
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            if (this.sharedAudioPlayer) {
+                this.sharedAudioPlayer.initialize().then(() => {
+                    const chord = this.chordParser.parse(chordText);
+                    if (chord && chord.notes) {
+                        this.sharedAudioPlayer.playChord(chord.notes, 0.5);
+                    }
+                });
+            }
+        };
+        section.content.appendChild(btn);
     }
 
     setupDynamicButtons() {
@@ -1159,47 +1419,18 @@ class SongDetailModal {
             });
         }
 
-        // Setup section fields
+        // Setup section fields - Chord sections now use the Edit button instead of direct click-to-edit
         Object.values(this.sections).forEach(section => {
+            // Content editing is now handled via setupChordBlocks() and toggleBlockEdit()
+            /*
             if (section.content) {
                 section.content.addEventListener('click', (e) => {
                     e.stopPropagation();
                     this.enterEditMode(section.content);
                 });
-                section.content.addEventListener('blur', (e) => {
-                    // Don't blur if we're moving to next field with Tab
-                    if (e.relatedTarget && e.relatedTarget.hasAttribute('contenteditable') && e.relatedTarget.getAttribute('contenteditable') === 'true') {
-                        return;
-                    }
-
-                    // Use setTimeout to allow click event on button to fire first
-                    setTimeout(() => {
-                        // Check if button still exists and if we're still in edit mode
-                        const chordBtn = section.section?.querySelector('.chord-modal-btn-detail');
-                        const isStillEditing = section.content.getAttribute('contenteditable') === 'true';
-
-                        // Only exit edit mode if we're not clicking on the button
-                        // Check if the active element is the button
-                        const activeElement = document.activeElement;
-                        if (!chordBtn || (activeElement !== chordBtn && !chordBtn.contains(activeElement))) {
-                            section.content.setAttribute('contenteditable', 'false');
-                            section.content.classList.remove('editing');
-                            this.checkForChanges();
-                            // Remove chord button
-                            if (chordBtn) {
-                                chordBtn.remove();
-                            }
-                        }
-                    }, 100);
-                });
-                section.content.addEventListener('input', () => this.checkForChanges());
-                section.content.addEventListener('keydown', (e) => {
-                    if (e.key === 'Tab' && !e.shiftKey) {
-                        e.preventDefault();
-                        this.moveToNextField(section.content);
-                    }
-                });
+                // ... other listeners ...
             }
+            */
 
             if (section.cue) {
                 section.cue.addEventListener('input', () => this.checkForChanges());
@@ -1542,16 +1773,16 @@ class SongDetailModal {
         const currentData = {
             artist: this.artistElement ? this.artistElement.textContent : '',
             title: titleText,
-            verse: this.sections.verse?.content ? this.sections.verse.content.textContent : '',
+            verse: this.sections.verse?.editInput ? this.sections.verse.editInput.value : '',
             verseTitle: this.sections.verse?.title ? this.sections.verse.title.textContent : '',
             verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : '',
-            preChorus: this.sections.preChorus?.content ? this.sections.preChorus.content.textContent : '',
+            preChorus: this.sections.preChorus?.editInput ? this.sections.preChorus.editInput.value : '',
             preChorusTitle: this.sections.preChorus?.title ? this.sections.preChorus.title.textContent : '',
             preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : '',
-            chorus: this.sections.chorus?.content ? this.sections.chorus.content.textContent : '',
+            chorus: this.sections.chorus?.editInput ? this.sections.chorus.editInput.value : '',
             chorusTitle: this.sections.chorus?.title ? this.sections.chorus.title.textContent : '',
             chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
-            bridge: this.sections.bridge?.content ? this.sections.bridge.content.textContent : '',
+            bridge: this.sections.bridge?.editInput ? this.sections.bridge.editInput.value : '',
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
             key: this.keyDisplay ? this.keyDisplay.textContent : '',
@@ -1672,8 +1903,8 @@ class SongDetailModal {
         if (this.titleElement) {
             updates.title = originalTitle;
         }
-        if (this.sections.verse?.content) {
-            updates.verse = this.sections.verse.content.textContent.trim();
+        if (this.sections.verse?.editInput) {
+            updates.verse = this.sections.verse.editInput.value.trim();
         }
         if (this.sections.verse?.title) {
             updates.verseTitle = this.sections.verse.title.textContent.trim();
@@ -1681,8 +1912,8 @@ class SongDetailModal {
         if (this.sections.verse?.cue) {
             updates.verseCue = this.sections.verse.cue.value.trim();
         }
-        if (this.sections.preChorus?.content) {
-            updates.preChorus = this.sections.preChorus.content.textContent.trim();
+        if (this.sections.preChorus?.editInput) {
+            updates.preChorus = this.sections.preChorus.editInput.value.trim();
         }
         if (this.sections.preChorus?.title) {
             updates.preChorusTitle = this.sections.preChorus.title.textContent.trim();
@@ -1690,8 +1921,8 @@ class SongDetailModal {
         if (this.sections.preChorus?.cue) {
             updates.preChorusCue = this.sections.preChorus.cue.value.trim();
         }
-        if (this.sections.chorus?.content) {
-            updates.chorus = this.sections.chorus.content.textContent.trim();
+        if (this.sections.chorus?.editInput) {
+            updates.chorus = this.sections.chorus.editInput.value.trim();
         }
         if (this.sections.chorus?.title) {
             updates.chorusTitle = this.sections.chorus.title.textContent.trim();
@@ -1699,8 +1930,8 @@ class SongDetailModal {
         if (this.sections.chorus?.cue) {
             updates.chorusCue = this.sections.chorus.cue.value.trim();
         }
-        if (this.sections.bridge?.content) {
-            updates.bridge = this.sections.bridge.content.textContent.trim();
+        if (this.sections.bridge?.editInput) {
+            updates.bridge = this.sections.bridge.editInput.value.trim();
         }
         if (this.sections.bridge?.title) {
             updates.bridgeTitle = this.sections.bridge.title.textContent.trim();
@@ -1810,10 +2041,9 @@ class SongDetailModal {
                     { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
-                const itemRegex = /\||\b[2-4]x\b|\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
-                    const found = trimmedText ? trimmedText.match(itemRegex) || [] : [];
+                    const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
                     return { section: section.name, type: section.type, chords: found };
                 }).filter(group => group.chords.length > 0);
 
@@ -2009,10 +2239,9 @@ class SongDetailModal {
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
-        const itemRegex = /\||\b[2-4]x\b|\b[A-G][b#]?(?:m|maj|min|dim|aug|sus|add|[2379]|11|13)*(?!\w)/g;
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
-            const found = trimmedText ? trimmedText.match(itemRegex) || [] : [];
+            const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
             return {
                 section: section.name,
                 type: section.type,
@@ -2240,69 +2469,33 @@ class SongDetailModal {
         // Update navigation buttons
         this.updateNavigationButtons();
 
-        // Verse (always show, even if empty - so user can add content)
-        if (this.sections.verse && this.sections.verse.content) {
-            this.sections.verse.content.textContent = song.verse || '';
-            if (this.sections.verse.title) {
-                this.sections.verse.title.textContent = song.verseTitle || 'Block 1';
-            }
-            if (this.sections.verse.cue) {
-                this.sections.verse.cue.value = song.verseCue || '';
-            }
-            this.sections.verse.content.setAttribute('contenteditable', 'false');
-            this.sections.verse.content.classList.remove('editing');
-            if (this.sections.verse.section) {
-                this.sections.verse.section.classList.remove('hidden');
-            }
-        }
+        // Render sections
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            if (!section) return;
 
-        // Chorus (always show)
-        if (this.sections.chorus && this.sections.chorus.content) {
-            this.sections.chorus.content.textContent = song.chorus || '';
-            if (this.sections.chorus.title) {
-                this.sections.chorus.title.textContent = song.chorusTitle || 'Block 2';
-            }
-            if (this.sections.chorus.cue) {
-                this.sections.chorus.cue.value = song.chorusCue || '';
-            }
-            this.sections.chorus.content.setAttribute('contenteditable', 'false');
-            this.sections.chorus.content.classList.remove('editing');
-            if (this.sections.chorus.section) {
-                this.sections.chorus.section.classList.remove('hidden');
-            }
-        }
+            const text = song[key] || '';
+            const title = song[key + 'Title'] || `Block ${Object.keys(this.sections).indexOf(key) + 1}`;
+            const cue = song[key + 'Cue'] || '';
 
-        // Pre-Chorus (always show)
-        if (this.sections.preChorus && this.sections.preChorus.content) {
-            this.sections.preChorus.content.textContent = song.preChorus || '';
-            if (this.sections.preChorus.title) {
-                this.sections.preChorus.title.textContent = song.preChorusTitle || 'Block 3';
+            if (section.title) section.title.textContent = title;
+            if (section.cue) section.cue.value = cue;
+            if (section.editInput) {
+                section.editInput.value = text;
+                section.editInput.classList.add('hidden');
             }
-            if (this.sections.preChorus.cue) {
-                this.sections.preChorus.cue.value = song.preChorusCue || '';
+            if (section.content) {
+                section.content.classList.remove('hidden');
+                this.renderChordBlock(key, text);
             }
-            this.sections.preChorus.content.setAttribute('contenteditable', 'false');
-            this.sections.preChorus.content.classList.remove('editing');
-            if (this.sections.preChorus.section) {
-                this.sections.preChorus.section.classList.remove('hidden');
+            if (section.editBtn) {
+                section.editBtn.classList.remove('active');
+                section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
             }
-        }
-
-        // Bridge (always show)
-        if (this.sections.bridge && this.sections.bridge.content) {
-            this.sections.bridge.content.textContent = song.bridge || '';
-            if (this.sections.bridge.title) {
-                this.sections.bridge.title.textContent = song.bridgeTitle || 'Block 4';
+            if (section.section) {
+                section.section.classList.remove('hidden');
             }
-            if (this.sections.bridge.cue) {
-                this.sections.bridge.cue.value = song.bridgeCue || '';
-            }
-            this.sections.bridge.content.setAttribute('contenteditable', 'false');
-            this.sections.bridge.content.classList.remove('editing');
-            if (this.sections.bridge.section) {
-                this.sections.bridge.section.classList.remove('hidden');
-            }
-        }
+        });
 
         // Show modal
         if (this.modal) {
@@ -2367,9 +2560,11 @@ class SongDetailModal {
         const thumbElement = document.getElementById('songDetailThumbnail');
         if (!thumbElement) return;
 
-        // Reset state
-        thumbElement.src = '';
-        thumbElement.classList.add('hidden');
+        // Reset state without hiding immediately (to maintain height)
+        // We use visibility: hidden or just clear src to avoid display:none collapse
+        thumbElement.style.visibility = 'hidden';
+        thumbElement.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent pixel placeholder
+        thumbElement.classList.remove('hidden'); // Ensure it's not display:none
 
         if (!artist || !title) return;
 
@@ -2415,12 +2610,18 @@ class SongDetailModal {
                 if (artworkUrl) {
                     thumbElement.src = artworkUrl;
                     thumbElement.onload = () => {
+                        thumbElement.style.visibility = 'visible';
                         thumbElement.classList.remove('hidden');
                     };
+                } else {
+                    thumbElement.classList.add('hidden');
                 }
+            } else {
+                thumbElement.classList.add('hidden');
             }
         } catch (e) {
             console.error('Error fetching album thumbnail:', e);
+            thumbElement.classList.add('hidden');
         }
     }
 
@@ -2990,18 +3191,19 @@ class SongDetailModal {
             });
         };
 
-        // Transponeer alle secties
+        // Transpose all sections
         const sectionsToTranspose = ['verse', 'chorus', 'preChorus', 'bridge'];
         let hasChanges = false;
 
         sectionsToTranspose.forEach(sectionKey => {
             const section = this.sections[sectionKey];
-            if (section && section.content) {
-                const currentText = section.content.textContent || '';
+            if (section && section.editInput) {
+                const currentText = section.editInput.value || '';
                 if (currentText.trim()) {
                     const transposedText = transposeChordString(currentText);
                     if (transposedText !== currentText) {
-                        section.content.textContent = transposedText;
+                        section.editInput.value = transposedText;
+                        this.renderChordBlock(sectionKey, transposedText);
                         hasChanges = true;
                     }
                 }
@@ -3062,26 +3264,34 @@ class SongDetailModal {
                 this.titleElement.removeAttribute('data-placeholder');
             }
         }
-        if (this.sections.verse?.content) {
-            this.sections.verse.content.textContent = this.originalSongData.verse || '';
+        if (this.sections.verse?.editInput) {
+            const val = this.originalSongData.verse || '';
+            this.sections.verse.editInput.value = val;
+            this.renderChordBlock('verse', val);
             if (this.sections.verse.cue) {
                 this.sections.verse.cue.value = this.originalSongData.verseCue || '';
             }
         }
-        if (this.sections.preChorus?.content) {
-            this.sections.preChorus.content.textContent = this.originalSongData.preChorus || '';
+        if (this.sections.preChorus?.editInput) {
+            const val = this.originalSongData.preChorus || '';
+            this.sections.preChorus.editInput.value = val;
+            this.renderChordBlock('preChorus', val);
             if (this.sections.preChorus.cue) {
                 this.sections.preChorus.cue.value = this.originalSongData.preChorusCue || '';
             }
         }
-        if (this.sections.chorus?.content) {
-            this.sections.chorus.content.textContent = this.originalSongData.chorus || '';
+        if (this.sections.chorus?.editInput) {
+            const val = this.originalSongData.chorus || '';
+            this.sections.chorus.editInput.value = val;
+            this.renderChordBlock('chorus', val);
             if (this.sections.chorus.cue) {
                 this.sections.chorus.cue.value = this.originalSongData.chorusCue || '';
             }
         }
-        if (this.sections.bridge?.content) {
-            this.sections.bridge.content.textContent = this.originalSongData.bridge || '';
+        if (this.sections.bridge?.editInput) {
+            const val = this.originalSongData.bridge || '';
+            this.sections.bridge.editInput.value = val;
+            this.renderChordBlock('bridge', val);
             if (this.sections.bridge.cue) {
                 this.sections.bridge.cue.value = this.originalSongData.bridgeCue || '';
             }
@@ -3229,6 +3439,12 @@ class SongDetailModal {
 
         // Update in DB
         await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+
+        // Update Practice Streak if authenticated
+        const user = this.firebaseManager.getCurrentUser();
+        if (user) {
+            this.firebaseManager.updatePracticeStreak(user.uid);
+        }
 
         // Update UI
         if (this.practiceCountDisplay) {

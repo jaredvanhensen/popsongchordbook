@@ -38,12 +38,19 @@ class ProfileModal {
         // Feature Toggles
         this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
+        this.textNotationToggle = document.getElementById('profileTextNotationToggle');
 
         // Statistics elements
         this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
         this.totalPracticeDisplay = document.getElementById('profileTotalPractice');
         this.achievementsList = document.getElementById('profileAchievementsList');
         this.topSongsBody = document.getElementById('profileTopSongsBody');
+
+        // Streak elements
+        this.currentStreakDisplay = document.getElementById('profileCurrentStreak');
+        this.longestStreakDisplay = document.getElementById('profileLongestStreak');
+        this.totalDaysPracticedDisplay = document.getElementById('profileTotalDaysPracticed');
+        this.streakMilestones = document.getElementById('streakMilestones');
 
         // Progress elements
         this.progressFill = document.getElementById('achievementProgressFill');
@@ -172,6 +179,25 @@ class ProfileModal {
                 localStorage.setItem(`feature-timeline-enabled-${uid}`, e.target.checked);
             });
         }
+
+        if (this.textNotationToggle) {
+            this.textNotationToggle.addEventListener('change', async (e) => {
+                const isEnabled = e.target.checked;
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                localStorage.setItem(`feature-text-notation-enabled-${uid}`, isEnabled);
+
+                // Save to Firebase if authenticated
+                if (this.firebaseManager.isAuthenticated()) {
+                    await this.firebaseManager.updatePreference('useTextNotation', isEnabled);
+                }
+
+                // Call refresh on SongDetailModal if it's open and global notation changed
+                if (window.appInstance && window.appInstance.songDetailModal) {
+                    window.appInstance.songDetailModal.refreshNotation();
+                }
+            });
+        }
     }
 
     async handleAvatarUpload(file) {
@@ -278,6 +304,20 @@ class ProfileModal {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }
 
+        if (this.textNotationToggle) {
+            // Load from Firebase preference if possible, fallback to localStorage
+            let useTextNotation = localStorage.getItem(`feature-text-notation-enabled-${uid}`) === 'true';
+            if (user) {
+                const dbPref = await this.firebaseManager.getPreference('useTextNotation');
+                if (dbPref !== null) {
+                    useTextNotation = dbPref;
+                    // Sync localStorage
+                    localStorage.setItem(`feature-text-notation-enabled-${uid}`, useTextNotation);
+                }
+            }
+            this.textNotationToggle.checked = useTextNotation;
+        }
+
         // Update statistics
         this.updateDatabaseSize();
         this.updateStatistics();
@@ -321,6 +361,38 @@ class ProfileModal {
 
         // 3. Render Achievements/Awards
         this.renderAchievements(total);
+
+        // 4. Update Practice Streak
+        this.updateStreakDisplay();
+    }
+
+    async updateStreakDisplay() {
+        const user = this.firebaseManager.getCurrentUser();
+        if (!user) return;
+
+        const stats = await this.firebaseManager.getPracticeStats(user.uid);
+        if (!stats) return;
+
+        if (this.currentStreakDisplay) this.currentStreakDisplay.textContent = stats.currentStreak || 0;
+        if (this.longestStreakDisplay) this.longestStreakDisplay.textContent = stats.longestStreak || 0;
+        if (this.totalDaysPracticedDisplay) this.totalDaysPracticedDisplay.textContent = stats.totalDaysPracticed || 0;
+
+        // Unlock milestones
+        if (this.streakMilestones) {
+            const badges = this.streakMilestones.querySelectorAll('.milestone-badge');
+            badges.forEach(badge => {
+                const days = parseInt(badge.getAttribute('data-days'));
+                if (stats.longestStreak >= days) {
+                    badge.classList.add('unlocked');
+                    badge.style.opacity = '1';
+                    badge.style.filter = 'grayscale(0)';
+                } else {
+                    badge.classList.remove('unlocked');
+                    badge.style.opacity = '0.5';
+                    badge.style.filter = 'grayscale(1)';
+                }
+            });
+        }
     }
 
     renderTopSongs(songs) {
