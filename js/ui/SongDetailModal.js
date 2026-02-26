@@ -1193,6 +1193,21 @@ class SongDetailModal {
             this.renderChordBlock(key, section.editInput.value);
         } else {
             // Switch to edit
+            // Close other editing blocks first
+            Object.keys(this.sections).forEach(otherKey => {
+                if (otherKey !== key) {
+                    const otherSection = this.sections[otherKey];
+                    if (!otherSection.editInput.classList.contains('hidden')) {
+                        otherSection.section.classList.remove('editing');
+                        otherSection.editInput.classList.add('hidden');
+                        otherSection.content.classList.remove('hidden');
+                        otherSection.editBtn.classList.remove('active');
+                        otherSection.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+                        this.renderChordBlock(otherKey, otherSection.editInput.value);
+                    }
+                }
+            });
+
             section.section.classList.add('editing');
             section.editInput.classList.remove('hidden');
             section.content.classList.add('hidden');
@@ -2494,6 +2509,8 @@ class SongDetailModal {
             }
             if (section.section) {
                 section.section.classList.remove('hidden');
+                section.section.classList.remove('editing');
+                section.section.classList.remove('show-icons');
             }
         });
 
