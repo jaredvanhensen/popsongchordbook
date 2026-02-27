@@ -175,13 +175,14 @@ class SongManager {
 
         // Then save to Firebase in background (only if authenticated)
         if (this.firebaseManager && this.firebaseManager.isAuthenticated()) {
-            const userId = this.firebaseManager.getCurrentUser().uid;
-            // Save to Firebase (this will trigger real-time sync on other devices)
-            // Fire and forget to prevent UI hanging on slow/dropped connections (common on mobile)
-            this.firebaseManager.saveSongs(userId, this.songs).catch(error => {
+            try {
+                const userId = this.firebaseManager.getCurrentUser().uid;
+                // Save to Firebase (this will trigger real-time sync on other devices)
+                await this.firebaseManager.saveSongs(userId, this.songs);
+            } catch (error) {
                 console.error('Error saving songs to Firebase:', error);
                 // Data is already cached, so app continues to work offline
-            });
+            }
         }
     }
 
