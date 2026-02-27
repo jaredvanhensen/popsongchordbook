@@ -196,14 +196,13 @@ class SetlistManager {
 
         // Then save to Firebase in background (only if authenticated)
         if (this.firebaseManager && this.firebaseManager.isAuthenticated()) {
-            try {
-                const userId = this.firebaseManager.getCurrentUser().uid;
-                // Save to Firebase (this will trigger real-time sync on other devices)
-                await this.firebaseManager.saveSetlists(userId, this.setlists);
-            } catch (error) {
+            const userId = this.firebaseManager.getCurrentUser().uid;
+            // Save to Firebase (this will trigger real-time sync on other devices)
+            // Fire and forget to prevent UI hanging on slow/dropped connections
+            this.firebaseManager.saveSetlists(userId, this.setlists).catch(error => {
                 console.error('Error saving setlists to Firebase:', error);
                 // Data is already cached, so app continues to work offline
-            }
+            });
         }
     }
 
