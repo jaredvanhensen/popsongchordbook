@@ -3454,16 +3454,7 @@ class SongDetailModal {
         let count = parseInt(song.practiceCount) || 0;
         count++;
 
-        // Update in DB
-        await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
-
-        // Update Practice Streak if authenticated
-        const user = this.firebaseManager.getCurrentUser();
-        if (user) {
-            this.firebaseManager.updatePracticeStreak(user.uid);
-        }
-
-        // Update UI
+        // Update UI optimistically for instant feedback
         if (this.practiceCountDisplay) {
             this.practiceCountDisplay.textContent = count.toString();
         }
@@ -3476,6 +3467,23 @@ class SongDetailModal {
         // Notify parent to refresh table (in case counter is visible there)
         if (this.onUpdate) {
             this.onUpdate();
+        }
+
+        try {
+            // Update in DB
+            await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+
+            // Update Practice Streak if authenticated
+            const fbManager = this.firebaseManager || (window.appInstance ? window.appInstance.firebaseManager : null);
+            if (fbManager) {
+                const user = fbManager.getCurrentUser();
+                if (user) {
+                    fbManager.updatePracticeStreak(user.uid);
+                }
+            }
+        } catch (error) {
+            console.error('Failed to increment practice count in backend', error);
+            // Optional: revert UI update on failure
         }
     }
 

@@ -2086,7 +2086,7 @@ function generateMarkers(midi) {
     // Generate markers for bars and seconds
     const markers = [];
 
-    // Ensure we generate markers for at least 30 minutes (1800s) or the YouTube video length
+    // Ensure we generate markers for a reasonable amount of time without crashing the browser
     let playerDuration = 0;
     try {
         if (typeof youtubePlayer !== 'undefined' && youtubePlayer && typeof youtubePlayer.getDuration === 'function') {
@@ -2094,7 +2094,13 @@ function generateMarkers(midi) {
         }
     } catch (e) { }
 
-    const duration = Math.max(midi.duration || 0, playerDuration, 1800);
+    let maxChordTime = 0;
+    if (typeof chords !== 'undefined' && chords && chords.length > 0) {
+        maxChordTime = chords[chords.length - 1].time + 60; // 1 minute past last chord
+    }
+
+    // Base duration of 5 minutes (300s) instead of 30 minutes (1800s) to prevent DOM overload
+    const duration = Math.max(midi.duration || 0, playerDuration, maxChordTime, 300);
 
     const bpm = midi.header.tempos[0]?.bpm || 120;
     const timeSignature = midi.header.timeSignatures[0]?.timeSignature || [4, 4]; // [numerator, denominator]
