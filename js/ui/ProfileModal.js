@@ -63,11 +63,11 @@ class ProfileModal {
             { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" },
             { count: 20, name: "Melody Maker", icon: "🎵", color: "#6366f1" },
             { count: 50, name: "Mic Master", icon: "🎙️", color: "#10b981" },
-            { count: 100, name: "Key Commander", icon: "🎹", color: "#3b82f6" },
-            { count: 200, name: "Beat Boxer", icon: "🥁", color: "#ef4444" },
-            { count: 400, name: "String Sorcerer", icon: "🎻", color: "#ec4899" },
-            { count: 750, name: "Jazz Legend", icon: "🎷", color: "#8b5cf6" },
-            { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" }
+            { count: 100, name: "Key Commander", icon: "🎹", color: "#2563eb" }, // Darker Blue
+            { count: 200, name: "Rhythm Master", icon: "🥁", color: "#dc2626" }, // Bold Red
+            { count: 400, name: "String Sorcerer", icon: "🎻", color: "#d946ef" }, // Vibrant Purple/Pink
+            { count: 750, name: "Jazz Legend", icon: "🎷", color: "#8b5cf6" }, // Deep Violet
+            { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" } // Gold
         ];
 
         this.setupEventListeners();
@@ -436,29 +436,32 @@ class ProfileModal {
 
             const card = document.createElement('div');
             card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+            // Make the card slightly wider (e.g. min-width 85px to 95px) and add flex rules
             card.style.cssText = `
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                padding: 12px;
-                background: ${isUnlocked ? tier.color + '10' : '#f1f5f9'};
+                padding: 12px 8px; 
+                min-width: 95px; 
+                background: ${isUnlocked ? (tier.color + '18') : '#f8fafc'};
                 border: 2px solid ${isUnlocked ? tier.color : '#e2e8f0'};
                 border-radius: 12px;
-                opacity: ${isUnlocked ? '1' : '0.6'};
+                opacity: ${isUnlocked ? '1' : '0.5'};
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
                 overflow: hidden;
             `;
 
             if (isUnlocked) {
-                card.style.boxShadow = `0 4px 12px ${tier.color}30`;
+                card.style.boxShadow = `0 6px 16px ${tier.color}40, inset 0 2px 4px rgba(255,255,255,0.5)`;
             }
 
+            // Enhanced inner UI for the achievement cards
             card.innerHTML = `
                 <div style="font-size: 9px; font-weight: 800; color: ${isUnlocked ? tier.color : '#94a3b8'}; margin-bottom: 4px; text-transform: uppercase;">Level ${index + 1}</div>
-                <div style="font-size: 24px; margin-bottom: 5px; position: relative; z-index: 1;">
+                <div style="font-size: 28px; margin-bottom: 5px; position: relative; z-index: 1; filter: ${isUnlocked ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' : 'grayscale(100%) opacity(70%)'}; transition: filter 0.3s;">
                     ${tier.icon}
-                    ${!isUnlocked ? `<span style="position: absolute; bottom: -2px; right: -4px; font-size: 10px; background: white; border-radius: 50%; padding: 1px;">🔒</span>` : ''}
+                    ${!isUnlocked ? `<span style="position: absolute; bottom: -2px; right: -4px; font-size: 10px; background: white; border-radius: 50%; padding: 1px; filter: none !important;">🔒</span>` : ''}
                 </div>
                 <div style="font-size: 10px; font-weight: 700; text-align: center; color: ${isUnlocked ? tier.color : '#64748b'}; text-transform: uppercase; letter-spacing: 0.5px;">${tier.name}</div>
                 <div style="font-size: 9px; color: #94a3b8;">${tier.count} Practices</div>
