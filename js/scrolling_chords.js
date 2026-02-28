@@ -3064,7 +3064,7 @@ function populateSongMap() {
 
     // We want to find markers that denote the START of a section
     // Typically these have labels like "[Verse 1]" or "BLOCK 1"
-    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.label.toUpperCase().includes('BLOCK')));
+    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.label.toUpperCase().includes('BLOCK') || m.label.toUpperCase().includes('BAR')));
 
     let mapSections = [];
 
@@ -3073,7 +3073,6 @@ function populateSongMap() {
         mapSections.push({
             name: 'Full Song',
             startTime: 0,
-            endTime: chords.length > 0 ? chords[chords.length - 1].time + 10 : 300,
             chords: chords
         });
     } else {
@@ -3102,33 +3101,17 @@ function populateSongMap() {
         const card = document.createElement('div');
         card.className = 'map-section-card';
 
-        // Determine Color Based on Name
+        // Add verse class for yellow background if it's a verse
         const name = section.name.toUpperCase();
-        let sectionColor = '#6366f1'; // Default Indigo
-
-        // Try to match Block Names/Types for consistency
-        if (name.includes('VERSE') || name.includes('BLOCK 1')) {
-            sectionColor = '#f59e0b'; // Amber
-        } else if (name.includes('CHORUS') || name.includes('BLOCK 2')) {
-            sectionColor = '#ef4444'; // Red
-        } else if (name.includes('PRE') || name.includes('BLOCK 3')) {
-            sectionColor = '#10b981'; // Green
-        } else if (name.includes('BRIDGE') || name.includes('BLOCK 4')) {
-            sectionColor = '#8b5cf6'; // Purple
-        } else if (name.includes('INTRO') || name.includes('OUTRO')) {
-            sectionColor = '#3b82f6'; // Blue
-        } else if (name.includes('SOLO') || name.includes('INSTR')) {
-            sectionColor = '#f59e0b'; // Amber
+        if (name.includes('VERSE') || name.includes('BLOCK 1') || name.includes('BLOCK1')) {
+            card.classList.add('verse-card');
         }
-
-        card.style.setProperty('--section-color', sectionColor);
 
         // Card Header
         const header = document.createElement('div');
         header.className = 'map-section-header';
         header.innerHTML = `
             <span class="map-section-title">${section.name}</span>
-            <span class="map-section-time">${formatTime(section.startTime)}</span>
         `;
         card.appendChild(header);
 
@@ -3139,12 +3122,20 @@ function populateSongMap() {
         section.chords.forEach((chord) => {
             const bead = document.createElement('div');
             bead.className = 'map-chord-bead';
-            bead.textContent = chord.name;
+
+            // Apply proper Root Color Class
+            const chordName = chord.name;
+            const root = chordName.charAt(0).toUpperCase();
+            if (root >= 'A' && root <= 'G') {
+                bead.classList.add(`root-${root}`);
+            }
+
+            bead.textContent = chordName;
             content.appendChild(bead);
         });
 
         if (section.chords.length === 0) {
-            content.innerHTML = '<div style="font-size: 12px; opacity: 0.4; width: 100%; text-align: center; padding: 10px;">(Empty Section)</div>';
+            content.innerHTML = '<div style="font-size: 12px; opacity: 0.4; width: 100%; padding: 10px;">(Empty Section)</div>';
         }
 
         card.appendChild(content);
