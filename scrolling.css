@@ -3182,23 +3182,25 @@ body.ctrl-held .chord-item {
 }
 
 .map-fluid-chord-wrapper.has-label {
-    margin-left: 15px;
+    margin-left: 20px;
     /* slight spacing before new section */
 }
 
 .map-fluid-section-label {
     position: absolute;
-    top: -24px;
+    top: -26px;
     left: 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     white-space: nowrap;
-    color: #475569;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 2px 6px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 3px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    cursor: text;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .map-chord-click-target {

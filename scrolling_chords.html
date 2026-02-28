@@ -396,12 +396,33 @@
 
     <!-- Song Map Overlay -->
     <div id="songMapOverlay" class="song-map-overlay hidden">
-        <div class="song-map-header">
-            <div class="header-metadata">
-                <h1 id="mapArtistDisplay" class="artist-display"></h1>
-                <h2 id="mapSongTitleDisplay" class="song-title-display"></h2>
+        <div class="song-map-header song-detail-header">
+            <button class="song-detail-nav-btn song-detail-prev map-nav-hide" style="visibility: hidden;">
+                <span class="icon">‹</span>
+            </button>
+            <img id="mapThumbnailDisplay" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
+            <div class="song-detail-title-section">
+                <h1 id="mapSongTitleDisplay" class="song-detail-title"></h1>
+                <h2 id="mapArtistDisplay" class="song-detail-artist"></h2>
             </div>
-            <button id="closeSongMapBtn" class="close-map-btn" title="Close Map">×</button>
+            <div class="song-detail-action-buttons">
+                <!-- Drag Toggle Button -->
+                <button id="songMapDragToggleBtn" class="song-detail-action-btn" title="Toggle Drag Selection"
+                    style="background: rgba(255,255,255,0.2);">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </button>
+                <button id="closeSongMapBtn" class="song-detail-action-btn song-detail-close-btn" title="Close Map"
+                    style="position:relative; transform:none; flex-shrink:0;">
+                    <span class="icon">×</span>
+                </button>
+            </div>
         </div>
         <div id="songMapGrid" class="song-map-grid">
             <!-- Sections will be injected here -->

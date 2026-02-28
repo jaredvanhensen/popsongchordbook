@@ -3012,6 +3012,9 @@ function deleteSelectedChords() {
 // --- SONG MAP STATE & LOGIC ---
 let customMapSections = null;
 let mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
+let isMapDragMode = false;
+let isMapDraggingActive = false;
+let dragStartIndex = -1;
 
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
@@ -3020,6 +3023,17 @@ if (document.getElementById('songMapBtn')) {
 if (document.getElementById('closeSongMapBtn')) {
     document.getElementById('closeSongMapBtn').addEventListener('click', closeSongMap);
 }
+if (document.getElementById('songMapDragToggleBtn')) {
+    document.getElementById('songMapDragToggleBtn').addEventListener('click', () => {
+        isMapDragMode = !isMapDragMode;
+        document.getElementById('songMapDragToggleBtn').style.background = isMapDragMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+        document.getElementById('songMapDragToggleBtn').style.color = isMapDragMode ? '#000' : 'inherit';
+    });
+}
+// Listen for global mouse up to stop drag
+document.addEventListener('mouseup', () => {
+    isMapDraggingActive = false;
+});
 
 function openSongMap() {
     const overlay = document.getElementById('songMapOverlay');
@@ -3030,6 +3044,22 @@ function openSongMap() {
     const mapTitle = document.getElementById('mapSongTitleDisplay');
     const mainArtist = document.getElementById('artistDisplay');
     const mainTitle = document.getElementById('songTitleDisplay');
+
+    // Attempt thumbnail fetch from parent
+    const mapThumb = document.getElementById('mapThumbnailDisplay');
+    if (mapThumb) {
+        if (typeof window.parent !== 'undefined' && window.parent.document.getElementById('songDetailThumbnail')) {
+            const parentThumb = window.parent.document.getElementById('songDetailThumbnail');
+            if (parentThumb.src && !parentThumb.classList.contains('hidden')) {
+                mapThumb.src = parentThumb.src;
+                mapThumb.classList.remove('hidden');
+            } else {
+                mapThumb.classList.add('hidden');
+            }
+        } else {
+            mapThumb.classList.add('hidden');
+        }
+    }
 
     if (mapArtist && mainArtist) mapArtist.textContent = mainArtist.textContent;
     if (mapTitle && mainTitle) mapTitle.textContent = mainTitle.textContent;
@@ -3154,12 +3184,25 @@ function populateSongMap() {
             else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c';
             else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490';
 
+            // Allow double click to rename label
+            labelEl.addEventListener('dblclick', (e) => {
+                e.stopPropagation();
+                const newName = prompt("Enter new label name (e.g. INTRO, VERSE):", customSecRef.name);
+                if (newName !== null && newName.trim() !== '') {
+                    customSecRef.name = newName.toUpperCase().trim();
+                    populateSongMap();
+                }
+            });
+
+            labelEl.title = "Double-click to rename label";
             chordWrapper.appendChild(labelEl);
             chordWrapper.classList.add('has-label');
         }
 
         const btn = document.createElement('button');
         btn.className = `chord-suggestion-btn map-chord-click-target ${btnColorClass}`;
+
+        // Ensure non-assigned chords look distinct and disabled
         if (!sectionName) {
             btn.classList.add('map-unassigned-chord');
         }
@@ -3175,9 +3218,38 @@ function populateSongMap() {
             }
         }
 
+        // Drag handlers
+        btn.addEventListener('mousedown', (e) => {
+            if (isMapDragMode) {
+                e.preventDefault();
+                isMapDraggingActive = true;
+                dragStartIndex = index;
+                mapSelectionState = { active: true, startIdx: index, endIdx: index };
+                populateSongMap();
+                hideMapLabelPicker(); // Hide picker while dragging
+            }
+        });
+
+        btn.addEventListener('mouseenter', (e) => {
+            if (isMapDraggingActive && isMapDragMode) {
+                mapSelectionState.endIdx = index;
+                populateSongMap(); // Re-render rapidly for UI drag effect
+            }
+        });
+
+        btn.addEventListener('mouseup', (e) => {
+            if (isMapDragMode && isMapDraggingActive) {
+                isMapDraggingActive = false;
+                showMapLabelPicker();
+            }
+        });
+
+        // Fallback for native clicking if drag mode is off
         btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleMapChordClick(index);
+            if (!isMapDragMode) {
+                e.stopPropagation();
+                handleMapChordClick(index);
+            }
         });
 
         chordWrapper.appendChild(btn);
