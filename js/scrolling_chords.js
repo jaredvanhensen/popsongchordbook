@@ -3009,7 +3009,9 @@ function deleteSelectedChords() {
     );
 }
 
-// --- SONG MAP LOGIC ---
+// --- SONG MAP STATE & LOGIC ---
+let customMapSections = null;
+let mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
 
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
@@ -3032,6 +3034,11 @@ function openSongMap() {
     if (mapArtist && mainArtist) mapArtist.textContent = mainArtist.textContent;
     if (mapTitle && mainTitle) mapTitle.textContent = mainTitle.textContent;
 
+    // Initial parsing of markers into custom sections
+    if (!customMapSections) {
+        initCustomMapSectionsFromMarkers();
+    }
+
     populateSongMap();
     overlay.classList.remove('hidden');
 
@@ -3043,9 +3050,52 @@ function openSongMap() {
     if (isPlaying) togglePlayPause();
 }
 
+function initCustomMapSectionsFromMarkers() {
+    customMapSections = [];
+    if (!chords || chords.length === 0) return;
+
+    const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
+    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (
+        m.label.includes('[') ||
+        m.label.toUpperCase().includes('BLOCK') ||
+        m.label.toUpperCase().includes('VERSE') ||
+        m.label.toUpperCase().includes('CHORUS') ||
+        m.label.toUpperCase().includes('BRIDGE') ||
+        m.label.toUpperCase().includes('INTRO') ||
+        m.label.toUpperCase().includes('OUTRO') ||
+        m.label.toUpperCase().includes('SOLO')
+    ));
+
+    if (sectionStartMarkers.length === 0) return;
+
+    for (let i = 0; i < sectionStartMarkers.length; i++) {
+        const currentMarker = sectionStartMarkers[i];
+        const nextMarker = sectionStartMarkers[i + 1];
+
+        const startTime = currentMarker.time;
+        const endTime = nextMarker ? nextMarker.time : (chords[chords.length - 1].time + 10);
+
+        const startIdx = chords.findIndex(c => c.time >= startTime);
+        let endIdx = chords.findIndex(c => c.time >= endTime);
+        if (endIdx === -1) endIdx = chords.length - 1;
+        else endIdx--;
+
+        if (startIdx !== -1 && startIdx <= endIdx) {
+            customMapSections.push({
+                name: currentMarker.label.replace(/[\[\]]/g, '').toUpperCase().trim(),
+                startIdx: startIdx,
+                endIdx: endIdx
+            });
+        }
+    }
+}
+
 function closeSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (overlay) overlay.classList.add('hidden');
+
+    mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
+    hideMapLabelPicker();
 
     // Restore Background Displays
     if (currentChordDisplay) currentChordDisplay.classList.remove('hidden');
@@ -3058,110 +3108,186 @@ function populateSongMap() {
 
     grid.innerHTML = '';
 
-    // Sections are regions between markers that denote section starts
-    const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
+    // Create a fluid container for all chords
+    const timelineContainer = document.createElement('div');
+    timelineContainer.className = 'map-fluid-timeline';
+    grid.appendChild(timelineContainer);
 
-    // Find markers that denote the START of a section ("VERSE", "CHORUS", "BLOCK", etc.)
-    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (
-        m.label.includes('[') ||
-        m.label.toUpperCase().includes('BLOCK') ||
-        m.label.toUpperCase().includes('VERSE') ||
-        m.label.toUpperCase().includes('CHORUS') ||
-        m.label.toUpperCase().includes('BRIDGE') ||
-        m.label.toUpperCase().includes('INTRO') ||
-        m.label.toUpperCase().includes('OUTRO') ||
-        m.label.toUpperCase().includes('SOLO')
-    ));
+    chords.forEach((chord, index) => {
+        // Detect if chord falls into a custom map section
+        let sectionName = null;
+        let isSectionStart = false;
+        let btnColorClass = 'chord-type-verse';
 
-    let mapSections = [];
+        for (let i = 0; i < customMapSections.length; i++) {
+            const sec = customMapSections[i];
+            if (index >= sec.startIdx && index <= sec.endIdx) {
+                sectionName = sec.name;
+                isSectionStart = (index === sec.startIdx);
 
-    if (sectionStartMarkers.length === 0) {
-        // No explicit sections, just one full song
-        mapSections.push({
-            name: 'FULL SONG',
-            startTime: 0,
-            chords: [...chords]
-        });
-    } else {
-        // Build sections chronologically
-        for (let i = 0; i < sectionStartMarkers.length; i++) {
-            const currentMarker = sectionStartMarkers[i];
-            const nextMarker = sectionStartMarkers[i + 1];
-
-            const startTime = currentMarker.time;
-            const endTime = nextMarker ? nextMarker.time : (chords.length > 0 ? chords[chords.length - 1].time + 10 : startTime + 60);
-
-            const sectionChords = chords.filter(c => c.time >= startTime && c.time < endTime);
-
-            mapSections.push({
-                name: currentMarker.label.replace(/[\[\]]/g, '').toUpperCase().trim(),
-                startTime: startTime,
-                chords: sectionChords
-            });
+                if (sectionName.includes('VERSE') || sectionName.includes('BLOCK 1')) {
+                    btnColorClass = 'chord-type-verse'; // Blue
+                } else if (sectionName.includes('CHORUS') || sectionName.includes('BLOCK 2')) {
+                    btnColorClass = 'chord-type-chorus'; // Amber
+                } else if (sectionName.includes('PRE') || sectionName.includes('BLOCK 3')) {
+                    btnColorClass = 'chord-type-prechorus'; // Teal
+                } else if (sectionName.includes('BRIDGE') || sectionName.includes('BLOCK 4')) {
+                    btnColorClass = 'chord-type-bridge'; // Red
+                } else if (sectionName.includes('INTRO') || sectionName.includes('OUTRO')) {
+                    btnColorClass = 'chord-type-prechorus'; // Teal
+                } else {
+                    btnColorClass = 'chord-type-verse';
+                }
+                break;
+            }
         }
+
+        const chordWrapper = document.createElement('div');
+        chordWrapper.className = 'map-fluid-chord-wrapper';
+        if (isSectionStart) {
+            const labelEl = document.createElement('div');
+            labelEl.className = 'map-fluid-section-label';
+            labelEl.textContent = sectionName;
+
+            if (btnColorClass === 'chord-type-verse') labelEl.style.color = '#3730a3';
+            else if (btnColorClass === 'chord-type-chorus') labelEl.style.color = '#b45309';
+            else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c';
+            else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490';
+
+            chordWrapper.appendChild(labelEl);
+            chordWrapper.classList.add('has-label');
+        }
+
+        const btn = document.createElement('button');
+        btn.className = `chord-suggestion-btn map-chord-click-target ${btnColorClass}`;
+        if (!sectionName) {
+            btn.classList.add('map-unassigned-chord');
+        }
+
+        btn.textContent = chord.name;
+
+        // Highlight selection
+        if (mapSelectionState.active && mapSelectionState.startIdx !== -1) {
+            const minIdx = Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+            const maxIdx = Math.max(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+            if (index >= minIdx && index <= maxIdx) {
+                btn.classList.add('map-chord-selected');
+            }
+        }
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleMapChordClick(index);
+        });
+
+        chordWrapper.appendChild(btn);
+        timelineContainer.appendChild(chordWrapper);
+    });
+}
+
+function handleMapChordClick(index) {
+    if (!mapSelectionState.active || mapSelectionState.startIdx === -1) {
+        // Start new selection
+        mapSelectionState = { active: true, startIdx: index, endIdx: index };
+        populateSongMap(); // Re-render to show selection
+        showMapLabelPicker();
+    } else {
+        // Complete selection range
+        mapSelectionState.endIdx = index;
+        populateSongMap(); // Re-render to show selection
+        showMapLabelPicker();
+    }
+}
+
+function showMapLabelPicker() {
+    let picker = document.getElementById('mapLabelPicker');
+    if (!picker) {
+        picker = document.createElement('div');
+        picker.id = 'mapLabelPicker';
+        picker.className = 'map-label-picker';
+        document.getElementById('songMapOverlay').appendChild(picker);
     }
 
-    // Render Section Cards
-    mapSections.forEach(section => {
-        const card = document.createElement('div');
-        card.className = 'map-section-card';
+    picker.innerHTML = ''; // Clear existing
 
-        // Match standard block styles to apply exact modal button classes
-        let btnColorClass = 'chord-type-verse'; // Default Blue (Block 1)
+    const title = document.createElement('div');
+    title.className = 'map-label-picker-title';
+    title.textContent = 'Label Selection:';
+    picker.appendChild(title);
 
-        if (section.name.includes('VERSE') || section.name.includes('BLOCK 1') || section.name.includes('BLOCK1')) {
-            btnColorClass = 'chord-type-verse'; // Blue
-        } else if (section.name.includes('CHORUS') || section.name.includes('BLOCK 2') || section.name.includes('BLOCK2')) {
-            btnColorClass = 'chord-type-chorus'; // Amber
-            card.classList.add('block2-card'); // To apply yellow background
-        } else if (section.name.includes('PRE') || section.name.includes('BLOCK 3') || section.name.includes('BLOCK3')) {
-            btnColorClass = 'chord-type-prechorus'; // Will fall back to default purple in CSS (matches screenshot)
-        } else if (section.name.includes('BRIDGE') || section.name.includes('BLOCK 4') || section.name.includes('BLOCK4')) {
-            btnColorClass = 'chord-type-bridge'; // Red
-        } else if (section.name.includes('OUTRO')) {
-            btnColorClass = 'chord-type-prechorus'; // Purple
-        }
+    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'BLOCK 1', 'BLOCK 2', 'BLOCK 3', 'BLOCK 4', 'CLEAR'];
+    const pillContainer = document.createElement('div');
+    pillContainer.className = 'map-label-pills-container';
 
-        // Card Header (Simple title)
-        const header = document.createElement('div');
-        header.className = 'map-section-header';
-        header.innerHTML = `<span class="map-section-title">${section.name}</span>`;
-        card.appendChild(header);
+    labels.forEach(lbl => {
+        const btn = document.createElement('button');
+        btn.className = 'map-label-pill';
+        if (lbl === 'CLEAR') btn.classList.add('label-clear');
+        if (lbl.includes('VERSE') || lbl.includes('BLOCK 1')) btn.classList.add('pill-blue');
+        if (lbl.includes('CHORUS') || lbl.includes('BLOCK 2')) btn.classList.add('pill-amber');
+        if (lbl.includes('BRIDGE') || lbl.includes('BLOCK 4')) btn.classList.add('pill-red');
 
-        // Card Content (Chords)
-        const content = document.createElement('div');
-        content.className = 'map-section-content';
-
-        if (section.chords.length === 0) {
-            content.innerHTML = '<div style="font-size: 13px; opacity: 0.4; padding: 5px;">(Empty)</div>';
-        } else {
-            section.chords.forEach((chord) => {
-                const btn = document.createElement('button');
-                btn.className = `chord-suggestion-btn ${btnColorClass}`;
-                btn.textContent = chord.name;
-
-                // Allow clicking individual chord beads to jump to that precise time
-                // Disabled click bubbling so the card click doesn't trigger as well
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    jumpToTime(chord.time);
-                    closeSongMap();
-                });
-
-                content.appendChild(btn);
-            });
-        }
-
-        card.appendChild(content);
-
-        // Whole Card Navigation Logic (Jumps to start of section)
-        card.addEventListener('click', () => {
-            jumpToTime(section.startTime);
-            closeSongMap();
-        });
-
-        grid.appendChild(card);
+        btn.textContent = lbl;
+        btn.onclick = () => applyMapLabel(lbl);
+        pillContainer.appendChild(btn);
     });
+
+    picker.appendChild(pillContainer);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'map-label-close';
+    closeBtn.innerHTML = 'Cancel';
+    closeBtn.onclick = hideMapLabelPicker;
+    picker.appendChild(closeBtn);
+
+    picker.classList.remove('hidden');
+}
+
+function hideMapLabelPicker() {
+    const picker = document.getElementById('mapLabelPicker');
+    if (picker) picker.classList.add('hidden');
+    mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
+    populateSongMap(); // clear selection styles
+}
+
+function applyMapLabel(label) {
+    if (!mapSelectionState.active || mapSelectionState.startIdx === -1) return;
+
+    const minIdx = Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+    const maxIdx = Math.max(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+
+    // Remove overlapping sections entirely or truncate them
+    customMapSections = customMapSections.filter(sec => {
+        // If entirely inside the new selection, drop it
+        if (sec.startIdx >= minIdx && sec.endIdx <= maxIdx) return false;
+        return true;
+    });
+
+    // Adjust existing overlapping sections (basic truncation logic)
+    customMapSections.forEach(sec => {
+        if (sec.startIdx < minIdx && sec.endIdx >= minIdx && sec.endIdx <= maxIdx) {
+            sec.endIdx = minIdx - 1; // Touched left side
+        }
+        if (sec.startIdx >= minIdx && sec.startIdx <= maxIdx && sec.endIdx > maxIdx) {
+            sec.startIdx = maxIdx + 1; // Touched right side
+        }
+    });
+
+    if (label !== 'CLEAR') {
+        customMapSections.push({
+            name: label,
+            startIdx: minIdx,
+            endIdx: maxIdx
+        });
+    }
+
+    // Retain sorted order
+    customMapSections.sort((a, b) => a.startIdx - b.startIdx);
+
+    // Find markers backing code and sync? 
+    // Usually map annotations could optionally be synced back, but for now we keep it visual on the map.
+
+    hideMapLabelPicker(); // This clears state & re-renders
 }
 
 function jumpToTime(time) {

@@ -3162,84 +3162,163 @@ body.ctrl-held .chord-item {
     transform: translateY(-50%) rotate(90deg) scale(1.1);
 }
 
-.song-map-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 24px;
-    width: 100%;
-    margin: 0 auto;
+.map-fluid-timeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 30px;
     max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
     box-sizing: border-box;
+    align-items: flex-start;
 }
 
-@media (max-width: 1024px) {
-    .song-map-grid {
-        grid-template-columns: 1fr;
+.map-fluid-chord-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-fluid-chord-wrapper.has-label {
+    margin-left: 15px;
+    /* slight spacing before new section */
+}
+
+.map-fluid-section-label {
+    position: absolute;
+    top: -24px;
+    left: 0;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: #475569;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.map-chord-click-target {
+    transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
+    min-width: unset !important;
+    height: auto !important;
+    font-size: 1.15rem !important;
+    padding: 8px 16px !important;
+}
+
+.map-unassigned-chord {
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+    box-shadow: 0 4px 0px #cbd5e1 !important;
+}
+
+.map-chord-selected {
+    box-shadow: 0 0 0 4px #000000, 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    transform: scale(1.05) translateY(-2px);
+    z-index: 5;
+}
+
+/* Floating Label Picker */
+.map-label-picker {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    z-index: 2500;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 90%;
+    width: 500px;
+    animation: slideUpPicker 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUpPicker {
+    from {
+        transform: translate(-50%, 50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
     }
 }
 
-.map-section-card {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+.map-label-picker.hidden {
+    display: none;
 }
 
-.map-section-card.block2-card {
-    background: #ffecb3;
-    /* similar to the yellow in screenshot 1 */
-    border-color: #f7d794;
-}
-
-.map-section-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.map-section-header {
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.map-section-card.block2-card .map-section-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.map-section-title {
+.map-label-picker-title {
     font-weight: 800;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     color: #1e293b;
+    font-size: 1.1rem;
+    text-align: center;
 }
 
-.map-section-card.block2-card .map-section-title {
-    color: #92400e;
-}
-
-.map-section-content {
-    padding: 16px 20px;
+.map-label-pills-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    align-content: flex-start;
+    gap: 10px;
+    justify-content: center;
 }
 
-/* Modal Chord Button Override for specific map contexts */
-.map-section-content .chord-suggestion-btn {
-    min-width: unset;
-    height: auto;
-    font-size: 1.15rem;
-    padding: 6px 14px;
+.map-label-pill {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.map-label-pill:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.map-label-pill.pill-blue {
+    background: #e0e7ff;
+    color: #3730a3;
+    border-color: #a5b4fc;
+}
+
+.map-label-pill.pill-amber {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
+}
+
+.map-label-pill.pill-red {
+    background: #ffe4e6;
+    color: #be123c;
+    border-color: #fda4af;
+}
+
+.map-label-pill.label-clear {
+    background: transparent;
+    border: 1px dashed #94a3b8;
+    color: #64748b;
+}
+
+.map-label-close {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px;
 }
 
 /* Green Category: Song Map */
