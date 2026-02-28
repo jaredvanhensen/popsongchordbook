@@ -3058,22 +3058,29 @@ function populateSongMap() {
 
     grid.innerHTML = '';
 
-    // 1. Identify Sections from Markers
-    // Sections are regions between markers that look like [Verse], [Chorus], or "Block X"
+    // Sections are regions between markers that denote section starts
     const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
 
-    // We want to find markers that denote the START of a section
-    // Typically these have labels like "[Verse 1]" or "BLOCK 1"
-    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.label.toUpperCase().includes('BLOCK') || m.label.toUpperCase().includes('BAR')));
+    // Find markers that denote the START of a section ("VERSE", "CHORUS", "BLOCK", etc.)
+    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (
+        m.label.includes('[') ||
+        m.label.toUpperCase().includes('BLOCK') ||
+        m.label.toUpperCase().includes('VERSE') ||
+        m.label.toUpperCase().includes('CHORUS') ||
+        m.label.toUpperCase().includes('BRIDGE') ||
+        m.label.toUpperCase().includes('INTRO') ||
+        m.label.toUpperCase().includes('OUTRO') ||
+        m.label.toUpperCase().includes('SOLO')
+    ));
 
     let mapSections = [];
 
     if (sectionStartMarkers.length === 0) {
-        // No sections defined, show the whole song as one card
+        // No explicit sections, just one full song
         mapSections.push({
-            name: 'Full Song',
+            name: 'FULL SONG',
             startTime: 0,
-            chords: chords
+            chords: [...chords]
         });
     } else {
         // Build sections chronologically
@@ -3082,65 +3089,72 @@ function populateSongMap() {
             const nextMarker = sectionStartMarkers[i + 1];
 
             const startTime = currentMarker.time;
-            // End time is either the next section marker OR the end of the song
             const endTime = nextMarker ? nextMarker.time : (chords.length > 0 ? chords[chords.length - 1].time + 10 : startTime + 60);
 
-            // Filter chords belonging to this section's time window
             const sectionChords = chords.filter(c => c.time >= startTime && c.time < endTime);
 
             mapSections.push({
-                name: currentMarker.label.replace(/[\[\]]/g, ''), // Strip brackets for display
+                name: currentMarker.label.replace(/[\[\]]/g, '').toUpperCase().trim(),
                 startTime: startTime,
                 chords: sectionChords
             });
         }
     }
 
-    // 2. Render Section Cards
+    // Render Section Cards
     mapSections.forEach(section => {
         const card = document.createElement('div');
         card.className = 'map-section-card';
 
-        // Add verse class for yellow background if it's a verse
-        const name = section.name.toUpperCase();
-        if (name.includes('VERSE') || name.includes('BLOCK 1') || name.includes('BLOCK1')) {
-            card.classList.add('verse-card');
+        // Match standard block styles to apply exact modal button classes
+        let btnColorClass = 'chord-type-verse'; // Default Blue (Block 1)
+
+        if (section.name.includes('VERSE') || section.name.includes('BLOCK 1') || section.name.includes('BLOCK1')) {
+            btnColorClass = 'chord-type-verse'; // Blue
+        } else if (section.name.includes('CHORUS') || section.name.includes('BLOCK 2') || section.name.includes('BLOCK2')) {
+            btnColorClass = 'chord-type-chorus'; // Amber
+            card.classList.add('block2-card'); // To apply yellow background
+        } else if (section.name.includes('PRE') || section.name.includes('BLOCK 3') || section.name.includes('BLOCK3')) {
+            btnColorClass = 'chord-type-prechorus'; // Will fall back to default purple in CSS (matches screenshot)
+        } else if (section.name.includes('BRIDGE') || section.name.includes('BLOCK 4') || section.name.includes('BLOCK4')) {
+            btnColorClass = 'chord-type-bridge'; // Red
+        } else if (section.name.includes('OUTRO')) {
+            btnColorClass = 'chord-type-prechorus'; // Purple
         }
 
-        // Card Header
+        // Card Header (Simple title)
         const header = document.createElement('div');
         header.className = 'map-section-header';
-        header.innerHTML = `
-            <span class="map-section-title">${section.name}</span>
-        `;
+        header.innerHTML = `<span class="map-section-title">${section.name}</span>`;
         card.appendChild(header);
 
-        // Card Content (Horizontal Chords)
+        // Card Content (Chords)
         const content = document.createElement('div');
         content.className = 'map-section-content';
 
-        section.chords.forEach((chord) => {
-            const bead = document.createElement('div');
-            bead.className = 'map-chord-bead';
-
-            // Apply proper Root Color Class
-            const chordName = chord.name;
-            const root = chordName.charAt(0).toUpperCase();
-            if (root >= 'A' && root <= 'G') {
-                bead.classList.add(`root-${root}`);
-            }
-
-            bead.textContent = chordName;
-            content.appendChild(bead);
-        });
-
         if (section.chords.length === 0) {
-            content.innerHTML = '<div style="font-size: 12px; opacity: 0.4; width: 100%; padding: 10px;">(Empty Section)</div>';
+            content.innerHTML = '<div style="font-size: 13px; opacity: 0.4; padding: 5px;">(Empty)</div>';
+        } else {
+            section.chords.forEach((chord) => {
+                const btn = document.createElement('button');
+                btn.className = `chord-suggestion-btn ${btnColorClass}`;
+                btn.textContent = chord.name;
+
+                // Allow clicking individual chord beads to jump to that precise time
+                // Disabled click bubbling so the card click doesn't trigger as well
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    jumpToTime(chord.time);
+                    closeSongMap();
+                });
+
+                content.appendChild(btn);
+            });
         }
 
         card.appendChild(content);
 
-        // Navigation Logic
+        // Whole Card Navigation Logic (Jumps to start of section)
         card.addEventListener('click', () => {
             jumpToTime(section.startTime);
             closeSongMap();
