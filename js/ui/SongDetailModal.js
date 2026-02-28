@@ -855,13 +855,38 @@ class SongDetailModal {
 
             // Close menu when clicking outside
             document.addEventListener('click', (e) => {
-                if (!this.transposeMenu.classList.contains('hidden') &&
+                // Transpose Menu logic
+                if (this.transposeMenu && !this.transposeMenu.classList.contains('hidden') &&
                     !this.transposeMenu.contains(e.target) &&
                     e.target !== this.transposeBtn &&
                     !this.transposeBtn.contains(e.target)) {
                     this.transposeMenu.classList.add('hidden');
                 }
             });
+
+            // Close editing chord blocks when clicking anywhere outside of them
+            // Use capture: true to catch the event before stopPropagation() blocks it
+            document.addEventListener('mousedown', (e) => {
+                if (!this.sections) return;
+
+                // Ignore clicks inside known tool overlays that need the editor open
+                const isInsideHelper = e.target.closest(
+                    '.piano-chord-overlay, .chord-progression-overlay, .chord-finder-overlay, ' +
+                    '.title-suggestions-portal, #youtubeUrlModal, #lyricsEditModal, ' +
+                    '#confirmationModal, .confirmation-modal-overlay'
+                );
+                if (isInsideHelper) return;
+
+                Object.keys(this.sections).forEach(key => {
+                    const section = this.sections[key];
+                    if (section && section.editInput && !section.editInput.classList.contains('hidden')) {
+                        // If click is outside this specific section's container, close it
+                        if (!section.section.contains(e.target)) {
+                            this.toggleBlockEdit(key);
+                        }
+                    }
+                });
+            }, { capture: true });
         }
 
         if (this.transposeResetBtn) {
