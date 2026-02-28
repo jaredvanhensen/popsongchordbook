@@ -690,6 +690,7 @@ class SongDetailModal {
 
         if (this.practiceControlsContainer) {
             this.practiceControlsContainer.addEventListener('click', async (e) => {
+                e.preventDefault(); // Prevent accidental double-firing on some touch browsers
                 e.stopPropagation();
 
                 // Add visual feedback directly in JS for instant response
@@ -3468,10 +3469,13 @@ class SongDetailModal {
 
         // Prevent double-triggering (common on touch devices)
         const now = Date.now();
-        if (this._lastPracticeIncrement && (now - this._lastPracticeIncrement < 500)) {
-            console.log('Practice increment: skipping double-trigger');
+        const threshold = 1000; // Increased to 1 second for higher safety
+        if (this._isIncrementingPractice || (this._lastPracticeIncrement && (now - this._lastPracticeIncrement < threshold))) {
+            console.log('Practice increment: skipping duplicate call');
             return;
         }
+
+        this._isIncrementingPractice = true;
         this._lastPracticeIncrement = now;
 
         const song = this.songManager.getSongById(this.currentSongId);
@@ -3510,7 +3514,11 @@ class SongDetailModal {
             }
         } catch (error) {
             console.error('Failed to increment practice count in backend', error);
-            // Optional: revert UI update on failure
+        } finally {
+            // Wait a bit before releasing the lock to ensure all ghost events have passed
+            setTimeout(() => {
+                this._isIncrementingPractice = false;
+            }, 200);
         }
     }
 
