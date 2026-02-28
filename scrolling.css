@@ -3203,31 +3203,7 @@ body.ctrl-held .chord-item {
     transform: translateY(-2px);
 }
 
-.song-map-header .song-detail-close-btn {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    width: 30px;
-    height: 30px;
-    background: #334155;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    z-index: 50;
-    transition: all 0.2s ease;
-}
 
-.song-map-header .song-detail-close-btn:hover {
-    background: #475569;
-    transform: scale(1.1);
-}
 
 /* Hide the placeholder nav button for alignment */
 .song-map-header .song-detail-nav-btn {

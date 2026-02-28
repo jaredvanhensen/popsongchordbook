@@ -3225,7 +3225,7 @@ function populateSongMap() {
                 isMapDraggingActive = true;
                 dragStartIndex = index;
                 mapSelectionState = { active: true, startIdx: index, endIdx: index };
-                populateSongMap();
+                updateMapSelectionUI();
                 hideMapLabelPicker(); // Hide picker while dragging
             }
         });
@@ -3233,7 +3233,7 @@ function populateSongMap() {
         btn.addEventListener('mouseenter', (e) => {
             if (isMapDraggingActive && isMapDragMode) {
                 mapSelectionState.endIdx = index;
-                populateSongMap(); // Re-render rapidly for UI drag effect
+                updateMapSelectionUI(); // Smooth DOM update instead of full wipe
             }
         });
 
@@ -3257,16 +3257,30 @@ function populateSongMap() {
     });
 }
 
+function updateMapSelectionUI() {
+    const buttons = document.querySelectorAll('.map-chord-click-target');
+    const minIdx = Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+    const maxIdx = Math.max(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
+
+    buttons.forEach((btn, index) => {
+        if (mapSelectionState.active && index >= minIdx && index <= maxIdx) {
+            btn.classList.add('map-chord-selected');
+        } else {
+            btn.classList.remove('map-chord-selected');
+        }
+    });
+}
+
 function handleMapChordClick(index) {
     if (!mapSelectionState.active || mapSelectionState.startIdx === -1) {
         // Start new selection
         mapSelectionState = { active: true, startIdx: index, endIdx: index };
-        populateSongMap(); // Re-render to show selection
+        updateMapSelectionUI();
         showMapLabelPicker();
     } else {
         // Complete selection range
         mapSelectionState.endIdx = index;
-        populateSongMap(); // Re-render to show selection
+        updateMapSelectionUI();
         showMapLabelPicker();
     }
 }
