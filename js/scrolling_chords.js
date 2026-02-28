@@ -3009,7 +3009,152 @@ function deleteSelectedChords() {
     );
 }
 
-// duplicateSelectedChords is defined above
+// --- SONG MAP LOGIC ---
 
+// Event Listeners for Song Map
+if (document.getElementById('songMapBtn')) {
+    document.getElementById('songMapBtn').addEventListener('click', openSongMap);
+}
+if (document.getElementById('closeSongMapBtn')) {
+    document.getElementById('closeSongMapBtn').addEventListener('click', closeSongMap);
+}
 
+function openSongMap() {
+    const overlay = document.getElementById('songMapOverlay');
+    if (!overlay) return;
 
+    // Poplate Metadata
+    const mapArtist = document.getElementById('mapArtistDisplay');
+    const mapTitle = document.getElementById('mapSongTitleDisplay');
+    const mainArtist = document.getElementById('artistDisplay');
+    const mainTitle = document.getElementById('songTitleDisplay');
+
+    if (mapArtist && mainArtist) mapArtist.textContent = mainArtist.textContent;
+    if (mapTitle && mainTitle) mapTitle.textContent = mainTitle.textContent;
+
+    populateSongMap();
+    overlay.classList.remove('hidden');
+
+    // Stop playback while viewing map to avoid confusing visuals
+    if (isPlaying) togglePlayPause();
+}
+
+function closeSongMap() {
+    const overlay = document.getElementById('songMapOverlay');
+    if (overlay) overlay.classList.add('hidden');
+}
+
+function populateSongMap() {
+    const grid = document.getElementById('songMapGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    // 1. Identify Sections from Markers
+    // Sort markers by time
+    const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
+    const sectionMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.type === 'bar'));
+
+    // If no explicit section markers, create a single "Full Song" section
+    let mapSections = [];
+    if (sectionMarkers.length === 0) {
+        mapSections.push({
+            name: 'Full Song',
+            startTime: 0,
+            endTime: chords.length > 0 ? chords[chords.length - 1].time + 10 : 300,
+            chords: chords
+        });
+    } else {
+        // Build sections based on markers
+        for (let i = 0; i < sectionMarkers.length; i++) {
+            const currentMarker = sectionMarkers[i];
+            const nextMarker = sectionMarkers[i + 1];
+
+            const startTime = currentMarker.time;
+            const endTime = nextMarker ? nextMarker.time : (chords.length > 0 ? chords[chords.length - 1].time + 10 : startTime + 60);
+
+            // Filter chords for this time range
+            const sectionChords = chords.filter(c => c.time >= startTime && c.time < endTime);
+
+            mapSections.push({
+                name: currentMarker.label || `Section ${i + 1}`,
+                startTime: startTime,
+                endTime: endTime,
+                chords: sectionChords
+            });
+        }
+    }
+
+    // 2. Render Section Cards
+    mapSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'map-section-card';
+
+        // Apply color based on name
+        const name = section.name.toUpperCase();
+        let color = '#64748b'; // Default Slate
+
+        if (name.includes('VERSE')) color = '#10b981'; // Green
+        else if (name.includes('CHORUS')) color = '#3b82f6'; // Blue
+        else if (name.includes('BRIDGE')) color = '#ef4444'; // Red
+        else if (name.includes('INTRO') || name.includes('OUTRO')) color = '#6366f1'; // Indigo
+        else if (name.includes('SOLO') || name.includes('INSTR')) color = '#f59e0b'; // Amber
+
+        card.style.setProperty('--section-color', color);
+
+        // Card Header
+        const header = document.createElement('div');
+        header.className = 'map-section-header';
+        header.innerHTML = `
+            <span>${section.name}</span>
+            <span style="opacity: 0.7; font-size: 0.8em;">${formatTime(section.startTime)}</span>
+        `;
+        card.appendChild(header);
+
+        // Card Content (Micro Chords)
+        const content = document.createElement('div');
+        content.className = 'map-section-content';
+
+        // Group chords by bar if possible (approximate 2-4 chords per bar)
+        section.chords.forEach((chord, idx) => {
+            const bead = document.createElement('div');
+            bead.className = 'map-chord-bead';
+            bead.textContent = chord.name;
+            content.appendChild(bead);
+        });
+
+        if (section.chords.length === 0) {
+            content.innerHTML = '<div style="font-size: 10px; opacity: 0.5;">No chords in this section</div>';
+        }
+
+        card.appendChild(content);
+
+        // Navigation Logic
+        card.addEventListener('click', () => {
+            jumpToTime(section.startTime);
+            closeSongMap();
+        });
+
+        grid.appendChild(card);
+    });
+}
+
+function jumpToTime(time) {
+    if (pianoPlayer) pianoPlayer.stopAll();
+
+    if (isPlaying) {
+        startTime = performance.now() - (time * 1000);
+        if (youtubePlayer && !youtubePlayerContainer.classList.contains('hidden')) {
+            youtubePlayer.seekTo(time, true);
+        }
+    } else {
+        pauseTime = time;
+        updateLoop();
+        if (youtubePlayer && !youtubePlayerContainer.classList.contains('hidden')) {
+            youtubePlayer.seekTo(time, true);
+        }
+    }
+
+    // Smooth scroll to position (already handled by updateLoop/render)
+    statusText.innerText = "Jumped to " + formatTime(time);
+}
