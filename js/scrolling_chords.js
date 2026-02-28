@@ -3026,8 +3026,8 @@ if (document.getElementById('closeSongMapBtn')) {
 if (document.getElementById('songMapDragToggleBtn')) {
     document.getElementById('songMapDragToggleBtn').addEventListener('click', () => {
         isMapDragMode = !isMapDragMode;
-        document.getElementById('songMapDragToggleBtn').style.background = isMapDragMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.2)';
-        document.getElementById('songMapDragToggleBtn').style.color = isMapDragMode ? '#000' : 'inherit';
+        document.getElementById('songMapDragToggleBtn').style.background = isMapDragMode ? 'rgba(255, 255, 255, 0.4)' : '';
+        document.getElementById('songMapDragToggleBtn').style.color = isMapDragMode ? '#000' : '';
     });
 }
 // Listen for global mouse up to stop drag

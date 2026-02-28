@@ -3091,75 +3091,150 @@ body.ctrl-held .chord-item {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: var(--timeline-bg);
+    background: rgba(0, 0, 0, 0.95);
     z-index: 2000;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+.song-map-overlay.hidden {
+    display: none;
+}
+
+.map-modal-content {
+    background: var(--timeline-bg);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1200px;
+    height: calc(100vh - 30px);
     overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .song-map-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: clamp(13px, 1.8vh, 23px) clamp(15px, 3vw, 35px);
+    border-radius: 20px 20px 0 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    min-height: 60px;
+    position: relative;
+    flex-shrink: 0;
+    gap: clamp(8px, 1.5vw, 15px);
+    flex-wrap: nowrap;
+    min-height: 90px;
 }
 
-.song-map-header .header-metadata {
-    background: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
+.song-map-header .song-detail-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.song-map-header .song-detail-title-section {
+    flex: 1 1 auto;
+    color: white;
     display: flex;
-    align-items: baseline;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 0;
+    overflow: hidden;
 }
 
-.song-map-header .artist-display {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin: 0;
-}
-
-.song-map-header .song-title-display {
-    color: #ffffff;
-    font-size: 1.2rem;
+.song-map-header .song-detail-title {
     font-weight: 900;
     margin: 0;
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
-.close-map-btn {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
-    color: #1e293b;
+.song-map-header .song-detail-artist {
+    font-weight: 700;
+    opacity: 0.9;
+    margin: 0;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.song-map-header .song-detail-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: clamp(4px, 1.5vw, 8px);
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    min-width: 0;
+}
+
+.song-map-header .song-detail-action-btn {
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    width: 36px;
-    height: 36px;
+    color: white;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    font-size: 24px;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.song-map-header .song-detail-action-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.song-map-header .song-detail-close-btn {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 30px;
+    height: 30px;
+    background: #334155;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 50;
+    transition: all 0.2s ease;
 }
 
-.close-map-btn:hover {
-    background: white;
-    transform: translateY(-50%) rotate(90deg) scale(1.1);
+.song-map-header .song-detail-close-btn:hover {
+    background: #475569;
+    transform: scale(1.1);
+}
+
+/* Hide the placeholder nav button for alignment */
+.song-map-header .song-detail-nav-btn {
+    width: clamp(30px, 4vw, 40px);
+    height: clamp(30px, 4vw, 40px);
+    background: transparent;
+    border: none;
 }
 
 .map-fluid-timeline {

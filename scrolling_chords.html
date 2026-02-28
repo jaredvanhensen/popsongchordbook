@@ -396,36 +396,35 @@
 
     <!-- Song Map Overlay -->
     <div id="songMapOverlay" class="song-map-overlay hidden">
-        <div class="song-map-header song-detail-header">
-            <button class="song-detail-nav-btn song-detail-prev map-nav-hide" style="visibility: hidden;">
-                <span class="icon">‹</span>
-            </button>
-            <img id="mapThumbnailDisplay" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
-            <div class="song-detail-title-section">
-                <h1 id="mapSongTitleDisplay" class="song-detail-title"></h1>
-                <h2 id="mapArtistDisplay" class="song-detail-artist"></h2>
-            </div>
-            <div class="song-detail-action-buttons">
-                <!-- Drag Toggle Button -->
-                <button id="songMapDragToggleBtn" class="song-detail-action-btn" title="Toggle Drag Selection"
-                    style="background: rgba(255,255,255,0.2);">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                        </path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
+        <div class="map-modal-content">
+            <div class="song-map-header">
+                <button class="song-detail-nav-btn map-nav-hide" style="visibility: hidden;">
+                    <span class="icon">‹</span>
                 </button>
-                <button id="closeSongMapBtn" class="song-detail-action-btn song-detail-close-btn" title="Close Map"
-                    style="position:relative; transform:none; flex-shrink:0;">
-                    <span class="icon">×</span>
+                <img id="mapThumbnailDisplay" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
+                <div class="song-detail-title-section">
+                    <h1 id="mapSongTitleDisplay" class="song-detail-title"></h1>
+                    <h2 id="mapArtistDisplay" class="song-detail-artist"></h2>
+                </div>
+                <div class="song-detail-action-buttons">
+                    <!-- Drag Selection Toggle Button -->
+                    <button id="songMapDragToggleBtn" class="song-detail-action-btn" title="Selection Mode">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="4 4"></rect>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Placeholder for nice symmetry before the close button -->
+                <button class="song-detail-nav-btn map-nav-hide" style="visibility: hidden;">
+                    <span class="icon">›</span>
                 </button>
+                <!-- Outside header box close x -->
+                <button id="closeSongMapBtn" class="song-detail-close-btn" title="Close Map">&times;</button>
             </div>
-        </div>
-        <div id="songMapGrid" class="song-map-grid">
-            <!-- Sections will be injected here -->
+            <div id="songMapGrid" class="song-map-grid" style="flex:1; padding-bottom:100px;">
+                <!-- Sections will be injected here -->
+            </div>
         </div>
     </div>
 
