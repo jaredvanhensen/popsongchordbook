@@ -486,6 +486,10 @@ class SongDetailModal {
                     this._timelineMinimized = false;
                     scrollingChordsModal.classList.remove('hidden');
                     this._updateTimelineMinimizedIndicator(false);
+
+                    // Force a data refresh to ensured rendered state is restored
+                    this.sendDataToTimeline();
+
                     if (window.appInstance) {
                         window.appInstance.pushModalState('scrollingChords', () => {
                             this.handleTimelineClose();
@@ -580,7 +584,8 @@ class SongDetailModal {
                 // 1. Handshake: Iframe says "I'm Ready"
                 if (event.data.type === 'scrollingChordsReady') {
                     console.log('Received Ready signal from Scrolling Chords');
-                    if (this.scrollingChordsFrame && this.scrollingChordsModal && !this.scrollingChordsModal.classList.contains('hidden')) {
+                    // Always send data if we have the frame, even if hidden (it might be minimized)
+                    if (this.scrollingChordsFrame) {
                         this.sendDataToTimeline();
                     }
                 }
