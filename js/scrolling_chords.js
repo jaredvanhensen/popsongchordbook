@@ -3023,7 +3023,7 @@ function openSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (!overlay) return;
 
-    // Poplate Metadata
+    // Populate Metadata
     const mapArtist = document.getElementById('mapArtistDisplay');
     const mapTitle = document.getElementById('mapSongTitleDisplay');
     const mainArtist = document.getElementById('artistDisplay');
@@ -3035,6 +3035,10 @@ function openSongMap() {
     populateSongMap();
     overlay.classList.remove('hidden');
 
+    // Hide Background Displays
+    if (currentChordDisplay) currentChordDisplay.classList.add('hidden');
+    if (lyricsHUD) lyricsHUD.classList.add('hidden');
+
     // Stop playback while viewing map to avoid confusing visuals
     if (isPlaying) togglePlayPause();
 }
@@ -3042,22 +3046,30 @@ function openSongMap() {
 function closeSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (overlay) overlay.classList.add('hidden');
+
+    // Restore Background Displays
+    if (currentChordDisplay) currentChordDisplay.classList.remove('hidden');
+    // HUD will restore itself based on its own state if needed
 }
 
 function populateSongMap() {
     const grid = document.getElementById('songMapGrid');
-    if (!grid) return;
+    if (!grid || !chords) return;
 
     grid.innerHTML = '';
 
     // 1. Identify Sections from Markers
-    // Sort markers by time
+    // Sections are regions between markers that look like [Verse], [Chorus], or "Block X"
     const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
-    const sectionMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.type === 'bar'));
 
-    // If no explicit section markers, create a single "Full Song" section
+    // We want to find markers that denote the START of a section
+    // Typically these have labels like "[Verse 1]" or "BLOCK 1"
+    const sectionStartMarkers = sortedMarkers.filter(m => m.label && (m.label.includes('[') || m.label.toUpperCase().includes('BLOCK')));
+
     let mapSections = [];
-    if (sectionMarkers.length === 0) {
+
+    if (sectionStartMarkers.length === 0) {
+        // No sections defined, show the whole song as one card
         mapSections.push({
             name: 'Full Song',
             startTime: 0,
@@ -3065,21 +3077,21 @@ function populateSongMap() {
             chords: chords
         });
     } else {
-        // Build sections based on markers
-        for (let i = 0; i < sectionMarkers.length; i++) {
-            const currentMarker = sectionMarkers[i];
-            const nextMarker = sectionMarkers[i + 1];
+        // Build sections chronologically
+        for (let i = 0; i < sectionStartMarkers.length; i++) {
+            const currentMarker = sectionStartMarkers[i];
+            const nextMarker = sectionStartMarkers[i + 1];
 
             const startTime = currentMarker.time;
+            // End time is either the next section marker OR the end of the song
             const endTime = nextMarker ? nextMarker.time : (chords.length > 0 ? chords[chords.length - 1].time + 10 : startTime + 60);
 
-            // Filter chords for this time range
+            // Filter chords belonging to this section's time window
             const sectionChords = chords.filter(c => c.time >= startTime && c.time < endTime);
 
             mapSections.push({
-                name: currentMarker.label || `Section ${i + 1}`,
+                name: currentMarker.label.replace(/[\[\]]/g, ''), // Strip brackets for display
                 startTime: startTime,
-                endTime: endTime,
                 chords: sectionChords
             });
         }
@@ -3090,33 +3102,41 @@ function populateSongMap() {
         const card = document.createElement('div');
         card.className = 'map-section-card';
 
-        // Apply color based on name
+        // Determine Color Based on Name
         const name = section.name.toUpperCase();
-        let color = '#64748b'; // Default Slate
+        let sectionColor = '#6366f1'; // Default Indigo
 
-        if (name.includes('VERSE')) color = '#10b981'; // Green
-        else if (name.includes('CHORUS')) color = '#3b82f6'; // Blue
-        else if (name.includes('BRIDGE')) color = '#ef4444'; // Red
-        else if (name.includes('INTRO') || name.includes('OUTRO')) color = '#6366f1'; // Indigo
-        else if (name.includes('SOLO') || name.includes('INSTR')) color = '#f59e0b'; // Amber
+        // Try to match Block Names/Types for consistency
+        if (name.includes('VERSE') || name.includes('BLOCK 1')) {
+            sectionColor = '#f59e0b'; // Amber
+        } else if (name.includes('CHORUS') || name.includes('BLOCK 2')) {
+            sectionColor = '#ef4444'; // Red
+        } else if (name.includes('PRE') || name.includes('BLOCK 3')) {
+            sectionColor = '#10b981'; // Green
+        } else if (name.includes('BRIDGE') || name.includes('BLOCK 4')) {
+            sectionColor = '#8b5cf6'; // Purple
+        } else if (name.includes('INTRO') || name.includes('OUTRO')) {
+            sectionColor = '#3b82f6'; // Blue
+        } else if (name.includes('SOLO') || name.includes('INSTR')) {
+            sectionColor = '#f59e0b'; // Amber
+        }
 
-        card.style.setProperty('--section-color', color);
+        card.style.setProperty('--section-color', sectionColor);
 
         // Card Header
         const header = document.createElement('div');
         header.className = 'map-section-header';
         header.innerHTML = `
-            <span>${section.name}</span>
-            <span style="opacity: 0.7; font-size: 0.8em;">${formatTime(section.startTime)}</span>
+            <span class="map-section-title">${section.name}</span>
+            <span class="map-section-time">${formatTime(section.startTime)}</span>
         `;
         card.appendChild(header);
 
-        // Card Content (Micro Chords)
+        // Card Content (Horizontal Chords)
         const content = document.createElement('div');
         content.className = 'map-section-content';
 
-        // Group chords by bar if possible (approximate 2-4 chords per bar)
-        section.chords.forEach((chord, idx) => {
+        section.chords.forEach((chord) => {
             const bead = document.createElement('div');
             bead.className = 'map-chord-bead';
             bead.textContent = chord.name;
@@ -3124,7 +3144,7 @@ function populateSongMap() {
         });
 
         if (section.chords.length === 0) {
-            content.innerHTML = '<div style="font-size: 10px; opacity: 0.5;">No chords in this section</div>';
+            content.innerHTML = '<div style="font-size: 12px; opacity: 0.4; width: 100%; text-align: center; padding: 10px;">(Empty Section)</div>';
         }
 
         card.appendChild(content);
@@ -3155,6 +3175,5 @@ function jumpToTime(time) {
         }
     }
 
-    // Smooth scroll to position (already handled by updateLoop/render)
     statusText.innerText = "Jumped to " + formatTime(time);
 }
