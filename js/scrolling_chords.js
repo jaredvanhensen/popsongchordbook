@@ -2305,7 +2305,8 @@ function play() {
         startTime = performance.now() - (pauseTime * 1000);
 
         // Resume YouTube if applicable — flag to prevent circular state-change sync
-        if (youtubePlayer) {
+        // ONLY if the video container is visible
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
             youtubePlayer._syncingFromTimeline = true;
             youtubePlayer.seekTo(pauseTime, true);
             youtubePlayer.playVideo();
@@ -2355,14 +2356,14 @@ function seek(deltaSeconds) {
 
     if (isPlaying) {
         startTime = performance.now() - (newTime * 1000);
-        if (youtubePlayer) {
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
             youtubePlayer._syncingFromTimeline = true;
             youtubePlayer.seekTo(newTime, true);
         }
     } else {
         pauseTime = newTime;
         updateLoop(); // Updates position while paused
-        if (youtubePlayer) {
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
             youtubePlayer.seekTo(newTime, true);
         }
     }
@@ -2379,7 +2380,8 @@ function updateLoop() {
     let playbackTime;
 
     if (isPlaying) {
-        if (youtubePlayer && typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() === 1) {
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden') &&
+            typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() === 1) {
             const ytTime = youtubePlayer.getCurrentTime();
             if (Number.isFinite(ytTime) && !Number.isNaN(ytTime)) {
                 playbackTime = ytTime;
