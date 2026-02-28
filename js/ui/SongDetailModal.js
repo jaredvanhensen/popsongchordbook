@@ -98,8 +98,6 @@ class SongDetailModal {
                 title: document.getElementById('verseTitle'),
                 content: document.getElementById('verseContent'),
                 editInput: document.getElementById('verseEditInput'),
-                editBtn: document.querySelector('.edit-block-btn[data-section="verse"]'),
-                editBtn: document.querySelector('.edit-block-btn[data-section="verse"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="verse"]'),
                 cue: document.getElementById('verseCueInput')
             },
@@ -108,7 +106,6 @@ class SongDetailModal {
                 title: document.getElementById('chorusTitle'),
                 content: document.getElementById('chorusContent'),
                 editInput: document.getElementById('chorusEditInput'),
-                editBtn: document.querySelector('.edit-block-btn[data-section="chorus"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="chorus"]'),
                 cue: document.getElementById('chorusCueInput')
             },
@@ -117,7 +114,6 @@ class SongDetailModal {
                 title: document.getElementById('preChorusTitle'),
                 content: document.getElementById('preChorusContent'),
                 editInput: document.getElementById('preChorusEditInput'),
-                editBtn: document.querySelector('.edit-block-btn[data-section="preChorus"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="preChorus"]'),
                 cue: document.getElementById('preChorusCueInput')
             },
@@ -126,7 +122,6 @@ class SongDetailModal {
                 title: document.getElementById('bridgeTitle'),
                 content: document.getElementById('bridgeContent'),
                 editInput: document.getElementById('bridgeEditInput'),
-                editBtn: document.querySelector('.edit-block-btn[data-section="bridge"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="bridge"]'),
                 cue: document.getElementById('bridgeCueInput')
             }
@@ -1175,12 +1170,6 @@ class SongDetailModal {
     setupChordBlocks() {
         Object.keys(this.sections).forEach(key => {
             const section = this.sections[key];
-            if (!section.editBtn) return;
-
-            section.editBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.toggleBlockEdit(key);
-            });
 
             // Add toggle reveal for touch devices
             const header = section.section.querySelector('.chord-section-header');
@@ -1240,8 +1229,6 @@ class SongDetailModal {
             section.section.classList.remove('editing');
             section.editInput.classList.add('hidden');
             section.content.classList.remove('hidden');
-            section.editBtn.classList.remove('active');
-            section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
             this.renderChordBlock(key, section.editInput.value);
         } else {
             // Switch to edit
@@ -1253,8 +1240,6 @@ class SongDetailModal {
                         otherSection.section.classList.remove('editing');
                         otherSection.editInput.classList.add('hidden');
                         otherSection.content.classList.remove('hidden');
-                        otherSection.editBtn.classList.remove('active');
-                        otherSection.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
                         this.renderChordBlock(otherKey, otherSection.editInput.value);
                     }
                 }
@@ -1263,8 +1248,6 @@ class SongDetailModal {
             section.section.classList.add('editing');
             section.editInput.classList.remove('hidden');
             section.content.classList.add('hidden');
-            section.editBtn.classList.add('active');
-            section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             section.editInput.focus();
         }
     }
@@ -2554,10 +2537,6 @@ class SongDetailModal {
             if (section.content) {
                 section.content.classList.remove('hidden');
                 this.renderChordBlock(key, text);
-            }
-            if (section.editBtn) {
-                section.editBtn.classList.remove('active');
-                section.editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
             }
             if (section.section) {
                 section.section.classList.remove('hidden');
