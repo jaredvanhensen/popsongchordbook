@@ -3108,8 +3108,8 @@ body.ctrl-held .chord-item {
 .map-modal-content {
     background: var(--timeline-bg);
     border-radius: 20px;
-    width: 100%;
-    max-width: 1200px;
+    width: 98vw;
+    max-width: none;
     height: calc(100vh - 30px);
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -3265,9 +3265,9 @@ body.ctrl-held .chord-item {
 .map-fluid-timeline {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    padding: 30px;
-    max-width: 1400px;
+    gap: 40px 12px;
+    padding: 60px 40px;
+    max-width: none;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -3282,20 +3282,19 @@ body.ctrl-held .chord-item {
 }
 
 .map-fluid-chord-wrapper.has-label {
-    margin-left: 20px;
-    /* slight spacing before new section */
+    margin-left: 35px;
 }
 
 .map-fluid-section-label {
     position: absolute;
-    top: -26px;
-    left: 0;
-    font-size: 0.75rem;
+    top: -40px;
+    left: -10px;
+    font-size: 0.95rem;
     font-weight: 900;
     letter-spacing: 0.5px;
     white-space: nowrap;
     background: #ffffff;
-    padding: 3px 8px;
+    padding: 5px 12px;
     border-radius: 12px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     z-index: 2;
@@ -3421,6 +3420,43 @@ body.ctrl-held .chord-item {
     font-weight: 600;
     cursor: pointer;
     padding: 10px;
+}
+
+.map-label-input-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.map-label-custom-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    outline: none;
+}
+
+.map-label-custom-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.map-label-custom-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.map-label-custom-btn:hover {
+    background: #4f46e5;
 }
 
 /* Green Category: Song Map */

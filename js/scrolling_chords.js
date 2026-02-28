@@ -3188,12 +3188,16 @@ function populateSongMap() {
             else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c';
             else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490';
 
+            // Find current section explicitly for the edit closure
+            const sec = customMapSections.find(s => s.startIdx === index);
+
             // Allow double click to rename label
             labelEl.addEventListener('dblclick', (e) => {
                 e.stopPropagation();
-                const newName = prompt("Enter new label name (e.g. INTRO, VERSE):", customSecRef.name);
+                if (!sec) return;
+                const newName = prompt("Enter new label name (e.g. INTRO, VERSE):", sec.name);
                 if (newName !== null && newName.trim() !== '') {
-                    customSecRef.name = newName.toUpperCase().trim();
+                    sec.name = newName.toUpperCase().trim();
                     populateSongMap();
                 }
             });
@@ -3323,6 +3327,33 @@ function showMapLabelPicker() {
     });
 
     picker.appendChild(pillContainer);
+
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'map-label-input-container';
+
+    const customInput = document.createElement('input');
+    customInput.type = 'text';
+    customInput.placeholder = 'Custom Label...';
+    customInput.className = 'map-label-custom-input';
+
+    customInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && customInput.value.trim()) {
+            applyMapLabel(customInput.value.trim().toUpperCase());
+        }
+    });
+
+    const addBtn = document.createElement('button');
+    addBtn.textContent = 'Apply';
+    addBtn.className = 'map-label-custom-btn';
+    addBtn.onclick = () => {
+        if (customInput.value.trim()) {
+            applyMapLabel(customInput.value.trim().toUpperCase());
+        }
+    };
+
+    inputContainer.appendChild(customInput);
+    inputContainer.appendChild(addBtn);
+    picker.appendChild(inputContainer);
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'map-label-close';
