@@ -3026,13 +3026,17 @@ if (document.getElementById('closeSongMapBtn')) {
 if (document.getElementById('songMapDragToggleBtn')) {
     document.getElementById('songMapDragToggleBtn').addEventListener('click', () => {
         isMapDragMode = !isMapDragMode;
-        document.getElementById('songMapDragToggleBtn').style.background = isMapDragMode ? 'rgba(255, 255, 255, 0.4)' : '';
-        document.getElementById('songMapDragToggleBtn').style.color = isMapDragMode ? '#000' : '';
+        document.getElementById('songMapDragToggleBtn').classList.toggle('active', isMapDragMode);
     });
 }
 // Listen for global mouse up to stop drag
 document.addEventListener('mouseup', () => {
-    isMapDraggingActive = false;
+    if (isMapDraggingActive) {
+        isMapDraggingActive = false;
+        if (typeof showMapLabelPicker === 'function') {
+            showMapLabelPicker();
+        }
+    }
 });
 
 function openSongMap() {

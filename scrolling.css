@@ -3184,26 +3184,75 @@ body.ctrl-held .chord-item {
     min-width: 0;
 }
 
-.song-map-header .song-detail-action-btn {
-    background: rgba(255, 255, 255, 0.1);
+.song-map-header .song-detail-close-top {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.2);
     border: none;
-    color: white;
-    width: 38px;
-    height: 38px;
     border-radius: 50%;
+    color: white;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
+    z-index: 100;
+    transition: all 0.2s ease;
+    line-height: 1;
+    padding: 0;
 }
 
-.song-map-header .song-detail-action-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+.song-map-header .song-detail-close-top:hover {
+    background: rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.song-map-toolbar-btn {
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 0px 0px var(--btn-shadow-default, #cbd5e1), 0 8px 15px rgba(0, 0, 0, 0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 44px;
+}
+
+.song-map-toolbar-btn svg {
+    height: 18px !important;
+    width: 18px !important;
+    display: block;
+    stroke-width: 2.5px !important;
+}
+
+.song-map-toolbar-btn:hover {
+    background: white;
+    border-color: #94a3b8;
+    color: #1e293b;
     transform: translateY(-2px);
+    box-shadow: 0 6px 0px 0px var(--btn-shadow-hover, #94a3b8), 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
+.song-map-toolbar-btn.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    border-color: #047857 !important;
+    box-shadow: 0 4px 0px 0px #065f46 !important;
+}
 
+.song-map-toolbar-btn:active,
+.song-map-toolbar-btn.active:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0px 0px var(--btn-shadow-hover, #94a3b8), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
 
 /* Hide the placeholder nav button for alignment */
 .song-map-header .song-detail-nav-btn {
