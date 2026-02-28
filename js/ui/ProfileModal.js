@@ -424,14 +424,10 @@ class ProfileModal {
     renderAchievements(totalPractice) {
         if (!this.achievementsList) return;
 
+        // Reset container styling to use CSS Grid for perfect alignment
         this.achievementsList.innerHTML = '';
-
-        // Reset container styling if any dark mode was applied
-        this.achievementsList.style.background = 'transparent';
-        this.achievementsList.style.padding = '0';
-        this.achievementsList.style.display = 'flex';
-        this.achievementsList.style.flexWrap = 'wrap';
-        this.achievementsList.style.gap = '10px';
+        this.achievementsList.classList.add('achievements-grid');
+        this.achievementsList.style.display = 'grid'; // Ensure grid is active
 
         let nextTier = null;
         let currentTierIndex = -1;
@@ -444,32 +440,18 @@ class ProfileModal {
             const card = document.createElement('div');
             card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
 
-            // Solid Gradient Blocks Design (Option 2)
-            card.style.cssText = `
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 12px 8px; 
-                min-width: 95px; 
-                border-radius: 12px;
-                position: relative;
-                overflow: hidden;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                ${isUnlocked
-                    ? `background-color: ${tier.color}; background-image: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.25) 100%); border: none; box-shadow: 0 6px 15px ${tier.color}66; transform: translateY(-2px);`
-                    : `background: #e2e8f0; border: none; box-shadow: none;`
-                }
-            `;
+            // Use CSS variables for the dynamic color
+            card.style.setProperty('--tier-color', tier.color);
 
-            // Enhanced inner UI for the gradient achievement cards
+            // Using consistent structure with improved typography
             card.innerHTML = `
-                <div style="font-size: 9px; font-weight: 800; color: ${isUnlocked ? 'rgba(255, 255, 255, 0.75)' : '#94a3b8'}; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Level ${index + 1}</div>
-                <div style="font-size: 32px; margin-bottom: 5px; position: relative; z-index: 1; filter: ${isUnlocked ? 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' : 'grayscale(100%) opacity(40%)'}; transition: filter 0.3s; transform: ${isUnlocked ? 'scale(1.1)' : 'scale(1)'};">
+                <div class="achievement-level">Level ${index + 1}</div>
+                <div class="achievement-icon ${isUnlocked ? '' : 'grayscale'}">
                     ${tier.icon}
-                    ${!isUnlocked ? `<span style="position: absolute; bottom: -2px; right: -4px; font-size: 10px; background: #cbd5e1; color: white; border-radius: 50%; padding: 1px; filter: none !important;">🔒</span>` : ''}
+                    ${!isUnlocked ? '<span class="lock-indicator">🔒</span>' : ''}
                 </div>
-                <div style="font-size: 10px; font-weight: 700; text-align: center; color: ${isUnlocked ? 'white' : '#64748b'}; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: ${isUnlocked ? '0 1px 2px rgba(0,0,0,0.2)' : 'none'};">${tier.name}</div>
-                <div style="font-size: 9px; font-weight: ${isUnlocked ? '600' : 'normal'}; color: ${isUnlocked ? 'rgba(255, 255, 255, 0.85)' : '#94a3b8'};">${tier.count} Practices</div>
+                <div class="achievement-name">${tier.name}</div>
+                <div class="achievement-count">${tier.count} Practices</div>
             `;
             this.achievementsList.appendChild(card);
         });
