@@ -1299,7 +1299,6 @@ window.addEventListener('pointerup', (e) => {
                     triggerChordAudio(virtualDraggedChord, 0.5);
                 } else {
                     // It was dropped on an existing valid chord, could either replace it or insert near it. 
-                    // Let's default to standard placement to be safe if it's not a '?'.
                     recordChord(virtualDraggedChord, snappedTime);
                     triggerChordAudio(virtualDraggedChord, 0.5);
                 }
@@ -1308,6 +1307,10 @@ window.addEventListener('pointerup', (e) => {
                 recordChord(virtualDraggedChord, snappedTime);
                 triggerChordAudio(virtualDraggedChord, 0.5);
             }
+
+            // SET FLAG to prevent triggering the "click" event which would add another chord at the playhead
+            window.justFinishedVirtualDrag = true;
+            setTimeout(() => { window.justFinishedVirtualDrag = false; }, 200);
         }
 
         // Cleanup
@@ -1425,7 +1428,10 @@ function renderSuggestedChords(groups) {
             btn.draggable = false;
             btn.style.touchAction = 'none';
             btn.onpointerdown = () => { initAudio(); triggerChordAudio(chordName, 0.5, true); };
-            btn.onclick = () => { if (enableTimingCapture) recordChord(chordName); };
+            btn.onclick = () => {
+                if (window.justFinishedVirtualDrag) return;
+                if (enableTimingCapture) recordChord(chordName);
+            };
             btn.addEventListener('pointerdown', (e) => {
                 btn.setPointerCapture(e.pointerId);
                 potentialVirtualDrag = true;
@@ -1559,8 +1565,10 @@ function renderSuggestedChords(groups) {
             virtualDragStartX = e.clientX;
             virtualDragStartY = e.clientY;
         });
-        qBtn.onclick = () => { if (enableTimingCapture) recordChord('?'); };
-        qBtn.ondragstart = (e) => { e.dataTransfer.setData('chordName', '?'); };
+        qBtn.onclick = () => {
+            if (window.justFinishedVirtualDrag) return;
+            if (enableTimingCapture) recordChord('?');
+        };
         buttonsContainer.appendChild(qBtn);
 
     } catch (err) {
@@ -2746,6 +2754,10 @@ function recordChord(name = "?", time = null) {
     }
 
     currentTime = Math.round(currentTime * 1000) / 1000;
+
+    // Safety: Prevent adding the exact same chord at the exact same time
+    const isExactDuplicate = chords.some(c => c.name === name && Math.abs(c.time - currentTime) < 0.001);
+    if (isExactDuplicate) return;
 
     chords.push({ name: name, time: currentTime });
     chords.sort((a, b) => a.time - b.time);
