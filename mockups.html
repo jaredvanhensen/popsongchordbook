@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievement Badge Mockups</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            padding: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 50px;
+        }
+
+        .mockup-section {
+            margin-bottom: 60px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .mockup-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        /* Base styles that are shared to keep HTML clean */
+        .card-base {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            width: 95px;
+            /* Same minimum width as before */
+            padding: 12px 8px;
+        }
+
+        .level-text {
+            font-size: 9px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .icon-wrapper {
+            font-size: 32px;
+            /* Slightly larger base */
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .name-text {
+            font-size: 10px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .practices-text {
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        .lock-icon {
+            position: absolute;
+            bottom: -2px;
+            right: -4px;
+            font-size: 12px;
+            background: white;
+            border-radius: 50%;
+            padding: 1px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        /* ------------------------------------------------------------------
+           OPTION 1: The Current Version (Baseline)
+           ------------------------------------------------------------------ */
+        .opt1-card {
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .opt1-unlocked {
+            border: 2px solid #2563eb;
+            background: rgba(37, 99, 235, 0.1);
+            /* 18 opacity approx */
+            opacity: 1;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .opt1-unlocked .level-text {
+            color: #2563eb;
+        }
+
+        .opt1-unlocked .icon-wrapper {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        }
+
+        .opt1-unlocked .name-text {
+            color: #2563eb;
+        }
+
+        .opt1-unlocked .practices-text {
+            color: #94a3b8;
+        }
+
+        .opt1-locked {
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            opacity: 0.5;
+        }
+
+        .opt1-locked .level-text {
+            color: #94a3b8;
+        }
+
+        .opt1-locked .icon-wrapper {
+            filter: grayscale(100%) opacity(70%);
+            font-size: 28px;
+        }
+
+        .opt1-locked .name-text {
+            color: #64748b;
+        }
+
+        .opt1-locked .practices-text {
+            color: #94a3b8;
+        }
+
+        /* ------------------------------------------------------------------
+           OPTION 2: Solid Gradient Blocks (Bold & Graphic)
+           ------------------------------------------------------------------ */
+        .opt2-unlocked {
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .opt2-unlocked .level-text {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .opt2-unlocked .icon-wrapper {
+            font-size: 36px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .opt2-unlocked .name-text {
+            color: white;
+        }
+
+        .opt2-unlocked .practices-text {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .opt2-locked {
+            border-radius: 12px;
+            background: #e2e8f0;
+            border: none;
+            color: #64748b;
+        }
+
+        .opt2-locked .level-text {
+            color: #94a3b8;
+        }
+
+        .opt2-locked .icon-wrapper {
+            filter: grayscale(100%) opacity(40%);
+            font-size: 32px;
+        }
+
+        .opt2-locked .name-text {
+            color: #64748b;
+        }
+
+        .opt2-locked .practices-text {
+            color: #94a3b8;
+        }
+
+        .opt2-locked .lock-icon {
+            background: #cbd5e1;
+            box-shadow: none;
+            color: white;
+            text-shadow: none;
+        }
+
+
+        /* ------------------------------------------------------------------
+           OPTION 3: Playful 3D Cards (Physical Toy Feel)
+           ------------------------------------------------------------------ */
+        .opt3-card {
+            border-radius: 16px;
+            border: 2px solid #1e3a8a;
+        }
+
+        .opt3-unlocked {
+            background: #eff6ff;
+            box-shadow: 0 6px 0 #2563eb;
+            transform: translateY(-4px);
+        }
+
+        .opt3-unlocked:active {
+            box-shadow: 0 2px 0 #2563eb;
+            transform: translateY(0);
+        }
+
+        .opt3-unlocked .level-text {
+            color: #1e3a8a;
+            background: #bfdbfe;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .opt3-unlocked .icon-wrapper {
+            font-size: 38px;
+            transform: scale(1.1);
+            margin: 10px 0;
+        }
+
+        .opt3-unlocked .name-text {
+            color: #1e3a8a;
+            font-weight: 800;
+        }
+
+        .opt3-unlocked .practices-text {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .opt3-locked {
+            background: #f1f5f9;
+            box-shadow: 0 6px 0 #cbd5e1;
+            border-color: #94a3b8;
+        }
+
+        .opt3-locked .level-text {
+            color: #64748b;
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .opt3-locked .icon-wrapper {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            margin: 10px 0;
+        }
+
+        .opt3-locked .name-text {
+            color: #64748b;
+        }
+
+        .opt3-locked .practices-text {
+            color: #94a3b8;
+        }
+
+
+        /* ------------------------------------------------------------------
+           OPTION 4: Neon Glow Design (Modern Dark-mode inspired)
+           We will give this section a dark background to show it off
+           ------------------------------------------------------------------ */
+        .opt4-container {
+            background: #0f172a;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .opt4-card {
+            border-radius: 12px;
+            background: #1e293b;
+        }
+
+        .opt4-unlocked {
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .opt4-unlocked .level-text {
+            color: #60a5fa;
+            letter-spacing: 1px;
+        }
+
+        .opt4-unlocked .icon-wrapper {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            font-size: 36px;
+        }
+
+        .opt4-unlocked .name-text {
+            color: #f8fafc;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .opt4-unlocked .practices-text {
+            color: #94a3b8;
+        }
+
+        .opt4-locked {
+            border: 2px solid #334155;
+            box-shadow: none;
+            background: #0f172a;
+        }
+
+        .opt4-locked .level-text {
+            color: #475569;
+        }
+
+        .opt4-locked .icon-wrapper {
+            filter: grayscale(100%) opacity(30%);
+        }
+
+        .opt4-locked .name-text {
+            color: #64748b;
+        }
+
+        .opt4-locked .practices-text {
+            color: #475569;
+        }
+
+        .opt4-locked .lock-icon {
+            background: #334155;
+            box-shadow: none;
+        }
+
+
+        /* ------------------------------------------------------------------
+           OPTION 5: Elegant Outline / Clean Minimalist
+           ------------------------------------------------------------------ */
+        .opt5-card {
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .opt5-unlocked {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid #2563eb;
+            /* Thick colored top border */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .opt5-unlocked .level-text {
+            color: #64748b;
+        }
+
+        .opt5-unlocked .icon-wrapper {
+            font-size: 40px;
+        }
+
+        /* Huge icon */
+        .opt5-unlocked .name-text {
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 11px;
+        }
+
+        .opt5-unlocked .practices-text {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .opt5-locked {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-top: 4px solid #cbd5e1;
+        }
+
+        .opt5-locked .level-text {
+            color: #94a3b8;
+        }
+
+        .opt5-locked .icon-wrapper {
+            filter: grayscale(100%);
+            opacity: 0.3;
+            font-size: 40px;
+        }
+
+        .opt5-locked .name-text {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .opt5-locked .practices-text {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Achievement Badge Styles</h1>
+    <div class="subtitle">Open this file in your browser to view 5 different graphic directions for the trophies.</div>
+
+    <!-- OPTION 1 -->
+    <div class="mockup-section">
+        <div class="mockup-title">Option 1: The Current Version (For Comparison)</div>
+        <p style="color:#64748b; margin-top:-10px; margin-bottom: 20px; font-size: 14px;">The baseline style we just
+            implemented with the tinted background and thin border.</p>
+        <div class="card-container">
+            <div class="card-base opt1-card opt1-unlocked">
+                <div class="level-text">Level 4</div>
+                <div class="icon-wrapper">🎹</div>
+                <div class="name-text">Key Commander</div>
+                <div class="practices-text">100 Practices</div>
+            </div>
+            <div class="card-base opt1-card opt1-unlocked"
+                style="border-color: #dc2626; background: rgba(220, 38, 38, 0.1);">
+                <div class="level-text" style="color: #dc2626">Level 5</div>
+                <div class="icon-wrapper">🥁</div>
+                <div class="name-text" style="color: #dc2626">Rhythm Master</div>
+                <div class="practices-text">200 Practices</div>
+            </div>
+            <div class="card-base opt1-card opt1-locked">
+                <div class="level-text">Level 6</div>
+                <div class="icon-wrapper">🎻<span class="lock-icon">🔒</span></div>
+                <div class="name-text">String Sorcerer</div>
+                <div class="practices-text">400 Practices</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 2 -->
+    <div class="mockup-section">
+        <div class="mockup-title">Option 2: Solid Gradient Blocks</div>
+        <p style="color:#64748b; margin-top:-10px; margin-bottom: 20px; font-size: 14px;">Very bold, graphic, and
+            colorful. The icon really pops against the solid background.</p>
+        <div class="card-container">
+            <div class="card-base opt2-unlocked">
+                <div class="level-text">Level 4</div>
+                <div class="icon-wrapper">🎹</div>
+                <div class="name-text">Key Commander</div>
+                <div class="practices-text">100 Practices</div>
+            </div>
+            <div class="card-base opt2-unlocked"
+                style="background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);">
+                <div class="level-text">Level 5</div>
+                <div class="icon-wrapper">🥁</div>
+                <div class="name-text">Rhythm Master</div>
+                <div class="practices-text">200 Practices</div>
+            </div>
+            <div class="card-base opt2-locked">
+                <div class="level-text">Level 6</div>
+                <div class="icon-wrapper">🎻<span class="lock-icon">🔒</span></div>
+                <div class="name-text">String Sorcerer</div>
+                <div class="practices-text">400 Practices</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 3 -->
+    <div class="mockup-section">
+        <div class="mockup-title">Option 3: Playful 3D Cards</div>
+        <p style="color:#64748b; margin-top:-10px; margin-bottom: 20px; font-size: 14px;">Looks like physical buttons or
+            toy blocks that 'press down' when clicked. Heavy borders and shadows.</p>
+        <div class="card-container">
+            <div class="card-base opt3-card opt3-unlocked">
+                <div class="level-text">Level 4</div>
+                <div class="icon-wrapper">🎹</div>
+                <div class="name-text">Key Commander</div>
+                <div class="practices-text">100 Practices</div>
+            </div>
+            <div class="card-base opt3-card opt3-unlocked"
+                style="border-color: #991b1b; background: #fef2f2; box-shadow: 0 6px 0 #dc2626;">
+                <div class="level-text" style="color: #991b1b; background: #fecaca;">Level 5</div>
+                <div class="icon-wrapper">🥁</div>
+                <div class="name-text" style="color: #991b1b;">Rhythm Master</div>
+                <div class="practices-text">200 Practices</div>
+            </div>
+            <div class="card-base opt3-card opt3-locked">
+                <div class="level-text">Level 6</div>
+                <div class="icon-wrapper">🎻<span class="lock-icon">🔒</span></div>
+                <div class="name-text">String Sorcerer</div>
+                <div class="practices-text">400 Practices</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 4 -->
+    <div class="mockup-section">
+        <div class="mockup-title">Option 4: Arcade Neon Glow</div>
+        <p style="color:#64748b; margin-top:-10px; margin-bottom: 20px; font-size: 14px;">Great if the app ever has a
+            dark mode. Dark backgrounds with intense, glowing neon borders and icons.</p>
+        <div class="opt4-container">
+            <div class="card-container">
+                <div class="card-base opt4-card opt4-unlocked">
+                    <div class="level-text">Level 4</div>
+                    <div class="icon-wrapper">🎹</div>
+                    <div class="name-text">Key Commander</div>
+                    <div class="practices-text">100 Practices</div>
+                </div>
+                <div class="card-base opt4-card opt4-unlocked"
+                    style="border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5), inset 0 0 10px rgba(239, 68, 68, 0.2);">
+                    <div class="level-text" style="color: #fca5a5;">Level 5</div>
+                    <div class="icon-wrapper">🥁</div>
+                    <div class="name-text">Rhythm Master</div>
+                    <div class="practices-text">200 Practices</div>
+                </div>
+                <div class="card-base opt4-card opt4-locked">
+                    <div class="level-text">Level 6</div>
+                    <div class="icon-wrapper">🎻<span class="lock-icon"
+                            style="color:white; filter:none; opacity:1;">🔒</span></div>
+                    <div class="name-text">String Sorcerer</div>
+                    <div class="practices-text">400 Practices</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 5 -->
+    <div class="mockup-section">
+        <div class="mockup-title">Option 5: Elegant Minimalist</div>
+        <p style="color:#64748b; margin-top:-10px; margin-bottom: 20px; font-size: 14px;">Very clean, oversized icons.
+            White background with a colored stripe across the top and soft drop shadows.</p>
+        <div class="card-container">
+            <div class="card-base opt5-card opt5-unlocked">
+                <div class="level-text">Level 4</div>
+                <div class="icon-wrapper">🎹</div>
+                <div class="name-text">Key Commander</div>
+                <div class="practices-text">100 Practices</div>
+            </div>
+            <div class="card-base opt5-card opt5-unlocked" style="border-top-color: #ef4444;">
+                <div class="level-text">Level 5</div>
+                <div class="icon-wrapper">🥁</div>
+                <div class="name-text">Rhythm Master</div>
+                <div class="practices-text" style="color: #ef4444;">200 Practices</div>
+            </div>
+            <div class="card-base opt5-card opt5-locked">
+                <div class="level-text">Level 6</div>
+                <div class="icon-wrapper">🎻<span class="lock-icon">🔒</span></div>
+                <div class="name-text">String Sorcerer</div>
+                <div class="practices-text">400 Practices</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -35,12 +35,16 @@ class ConfirmationModal {
         const overlay = this.element;
 
         const closeModal = () => this.hide();
-        cancelBtn.addEventListener('click', () => {
+        cancelBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             if (this.onCancel) this.onCancel();
             this.hide();
         });
 
-        confirmBtn.addEventListener('click', () => {
+        confirmBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             if (this.onConfirm) this.onConfirm();
             this.hide();
         });

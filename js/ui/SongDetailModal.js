@@ -482,7 +482,7 @@ class SongDetailModal {
                 e.stopPropagation();
 
                 // If timeline is minimized, just restore it instantly — no reload
-                if (this._timelineMinimized && scrollingChordsFrame.src && !scrollingChordsFrame.src.endsWith('about:blank') && scrollingChordsFrame.src !== '') {
+                if (this._timelineMinimized) {
                     this._timelineMinimized = false;
                     scrollingChordsModal.classList.remove('hidden');
                     this._updateTimelineMinimizedIndicator(false);
@@ -556,14 +556,19 @@ class SongDetailModal {
 
             // Close on background click
             if (this.scrollingChordsModal) {
+                let isTimelineModalMouseDown = false;
+                this.scrollingChordsModal.addEventListener('mousedown', (e) => {
+                    isTimelineModalMouseDown = (e.target === this.scrollingChordsModal);
+                });
                 this.scrollingChordsModal.addEventListener('click', (e) => {
-                    if (e.target === this.scrollingChordsModal) {
+                    if (e.target === this.scrollingChordsModal && isTimelineModalMouseDown) {
                         if (window.appInstance) {
                             window.appInstance.popModalState('scrollingChords');
                         } else {
                             this.handleTimelineClose();
                         }
                     }
+                    isTimelineModalMouseDown = false;
                 });
             }
 
@@ -752,10 +757,15 @@ class SongDetailModal {
         }
 
         if (this.lyricsEditModal) {
+            let isLyricsModalMouseDown = false;
+            this.lyricsEditModal.addEventListener('mousedown', (e) => {
+                isLyricsModalMouseDown = (e.target === this.lyricsEditModal);
+            });
             this.lyricsEditModal.addEventListener('click', (e) => {
-                if (e.target === this.lyricsEditModal) {
+                if (e.target === this.lyricsEditModal && isLyricsModalMouseDown) {
                     this.lyricsEditModal.classList.add('hidden');
                 }
+                isLyricsModalMouseDown = false;
             });
         }
 
@@ -866,6 +876,7 @@ class SongDetailModal {
 
         if (this.deleteBtn) {
             this.deleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 this.handleDeleteSong();
             });
@@ -890,10 +901,15 @@ class SongDetailModal {
                     this.saveYouTubeUrl();
                 });
             }
+            let isYoutubeModalMouseDown = false;
+            this.youtubeUrlModal.addEventListener('mousedown', (e) => {
+                isYoutubeModalMouseDown = (e.target === this.youtubeUrlModal);
+            });
             this.youtubeUrlModal.addEventListener('click', (e) => {
-                if (e.target === this.youtubeUrlModal) {
+                if (e.target === this.youtubeUrlModal && isYoutubeModalMouseDown) {
                     this.closeYouTubeUrlModal();
                 }
+                isYoutubeModalMouseDown = false;
             });
             if (this.youtubeUrlInput) {
                 this.youtubeUrlInput.addEventListener('keydown', (e) => {
@@ -940,10 +956,15 @@ class SongDetailModal {
             });
         }
 
+        let isMainModalMouseDown = false;
+        this.modal.addEventListener('mousedown', (e) => {
+            isMainModalMouseDown = (e.target === this.modal);
+        });
         this.modal.addEventListener('click', async (e) => {
-            if (e.target === this.modal) {
+            if (e.target === this.modal && isMainModalMouseDown) {
                 await this.hide();
             }
+            isMainModalMouseDown = false;
         });
 
         // Make fields editable on click
@@ -3352,11 +3373,17 @@ class SongDetailModal {
     }
 
     async hide(fromPopState = false) {
+        if (!fromPopState && this._isHidingLocked) return;
+
         // If we are hiding NOT from a popstate event, we need to clean up the history stack
         if (!fromPopState && window.appInstance) {
+            this._isHidingLocked = true;
             window.appInstance.popModalState('songDetail');
+            setTimeout(() => { this._isHidingLocked = false; }, 300);
             return; // popModalState will trigger history.back() which triggers this hide(true)
         }
+
+        this._isHidingLocked = false;
 
         const songIdToCheck = this.currentSongId;
         const originalDataSnapshot = this.originalSongData ? { ...this.originalSongData } : null;
