@@ -3154,6 +3154,11 @@ body.ctrl-held .chord-item {
     color: #ef4444;
 }
 
+.song-map-close-btn-abs svg {
+    stroke-width: 1.5px !important;
+    /* Force thin icon */
+}
+
 .song-map-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: clamp(10px, 1.5vh, 18px) clamp(15px, 2vw, 25px);
@@ -3195,7 +3200,7 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-header .song-detail-title {
-    font-weight: 900;
+    font-weight: 700;
     margin: 0;
     font-size: clamp(1.4rem, 2.5vw, 2.2rem);
     white-space: nowrap;
@@ -3205,7 +3210,7 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-header .song-detail-artist {
-    font-weight: 700;
+    font-weight: 500;
     opacity: 0.9;
     margin: 0;
     font-size: clamp(1rem, 1.5vw, 1.2rem);
@@ -3270,7 +3275,7 @@ body.ctrl-held .chord-item {
     height: 18px !important;
     width: 18px !important;
     display: block;
-    stroke-width: 2.5px !important;
+    stroke-width: 1.5px !important;
 }
 
 .song-map-toolbar-btn:hover {
