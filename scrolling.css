@@ -3123,6 +3123,37 @@ body.ctrl-held .chord-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Absolute Floating Close Button (Top Right) */
+.song-map-close-btn-abs {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 38px;
+    height: 38px;
+    background: #f8fafc;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.1s, color 0.1s;
+    color: #1e293b;
+    padding: 0;
+}
+
+.song-map-close-btn-abs:hover {
+    background: #ffffff;
+    color: #ef4444;
+}
+
+.song-map-close-btn-abs:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 #cbd5e1;
+}
+
 .song-map-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: clamp(10px, 1.5vh, 18px) clamp(15px, 2vw, 25px);
