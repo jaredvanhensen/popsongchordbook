@@ -3917,10 +3917,23 @@ body.ctrl-held .chord-item {
 /* --- MOBILE FULLSCREEN SONG MAP --- */
 @media (max-width: 768px),
 (orientation: portrait) {
+
+    /* Clean Mode for Song Map (Hides background) */
+    body.song-map-active #songMapOverlay {
+        display: block !important;
+        /* Ensure overlay shows when active class is present */
+    }
+
+    body.song-map-active .controls-container,
+    body.song-map-active .header-metadata {
+        display: none !important;
+        /* This stops the ghosting/minimize button once and for all */
+    }
+
     .song-map-overlay {
         padding: 0 !important;
-        background: #000 !important;
-        /* Force true black and opaque on mobile */
+        background: rgba(0, 0, 0, 0.4) !important;
+        /* Revert to subtle overlay background */
         opacity: 1 !important;
         z-index: 10000 !important;
         position: fixed !important;
@@ -3951,8 +3964,8 @@ body.ctrl-held .chord-item {
         gap: 8px !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        background: rgba(0, 0, 0, 0.4) !important;
-        /* Darker header for better contrast */
+        background: transparent !important;
+        /* Revert header color change */
     }
 
     /* Hide desktop features to save space */

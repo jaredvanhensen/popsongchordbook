@@ -3543,6 +3543,8 @@ function _forceCloseSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (overlay) overlay.classList.add('hidden');
 
+    document.body.classList.remove('song-map-active'); // Remove clean mode class
+
     mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
     hideMapLabelPicker();
 
@@ -3555,6 +3557,7 @@ function populateSongMap() {
     const grid = document.getElementById('songMapGrid');
     if (!grid || !chords) return;
 
+    document.body.classList.add('song-map-active'); // Enable clean mode class
     grid.innerHTML = '';
 
     // Create a fluid container for all chords
