@@ -9003,6 +9003,10 @@ div.song-detail-practice-controls {
         border-radius: 15px;
     }
 
+    .scrolling-chords-minimize-btn {
+        display: none !important;
+    }
+
     .scrolling-chords-close-btn {
         width: 28px;
         height: 28px;
