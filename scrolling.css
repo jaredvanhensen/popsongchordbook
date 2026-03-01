@@ -3925,7 +3925,8 @@ body.ctrl-held .chord-item {
     }
 
     body.song-map-active .controls-container,
-    body.song-map-active .header-metadata {
+    body.song-map-active .header-metadata,
+    body.song-map-active #backBtn {
         display: none !important;
         /* This stops the ghosting/minimize button once and for all */
     }
@@ -4098,13 +4099,16 @@ body.ctrl-held .chord-item {
     .map-fluid-timeline {
         padding: 20px 0 80px 0 !important;
         /* Zero side padding */
-        gap: 35px 0 !important;
-        /* Tighter gap, zero horizontal gap */
+        gap: 35px 6px !important;
+        /* Vertical gap 35px, horizontal gap 6px */
         align-items: flex-start !important;
         /* Force to absolute LEFT */
         width: 100% !important;
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
+        /* Row for unassigned chords */
+        flex-wrap: wrap !important;
+        /* Wrap both chords and section groups */
     }
 
     /* Force section groups to the absolute left edge */
