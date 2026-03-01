@@ -3339,8 +3339,19 @@ function initCustomMapSectionsFromMarkers() {
         else endIdx--;
 
         if (startIdx !== -1 && startIdx <= endIdx) {
+            const name = currentMarker.label.replace(/[\[\]]/g, '').toUpperCase().trim();
+            let type = 'verse';
+            if (name.includes('INTRO')) type = 'intro';
+            else if (name.includes('VERSE')) type = 'verse';
+            else if (name.includes('PRE')) type = 'prechorus';
+            else if (name.includes('CHORUS')) type = 'chorus';
+            else if (name.includes('BRIDGE')) type = 'bridge';
+            else if (name.includes('OUTRO')) type = 'outro';
+            else if (name.includes('SOLO')) type = 'solo';
+
             customMapSections.push({
-                name: currentMarker.label.replace(/[\[\]]/g, '').toUpperCase().trim(),
+                name: name,
+                type: type,
                 startIdx: startIdx,
                 endIdx: endIdx
             });
@@ -3438,24 +3449,20 @@ function populateSongMap() {
                 isSectionStart = (index === sec.startIdx);
                 isSectionEnd = (index === sec.endIdx);
                 isSectionMember = true;
-                // Determine color class based on section name
-                if (sectionName.includes('VERSE')) {
-                    btnColorClass = 'chord-type-verse';
-                } else if (sectionName.includes('PRE')) {
-                    btnColorClass = 'chord-type-prechorus';
-                } else if (sectionName.includes('CHORUS')) {
-                    btnColorClass = 'chord-type-chorus';
-                } else if (sectionName.includes('BRIDGE')) {
-                    btnColorClass = 'chord-type-bridge';
-                } else if (sectionName.includes('INTRO')) {
-                    btnColorClass = 'chord-type-intro';
-                } else if (sectionName.includes('OUTRO')) {
-                    btnColorClass = 'chord-type-outro';
-                } else if (sectionName.includes('SOLO')) {
-                    btnColorClass = 'chord-type-solo';
-                } else {
-                    btnColorClass = 'chord-type-verse';
+                // Determine color class: prioritize stored type, fallback to name parsing
+                let type = sec.type;
+                if (!type) {
+                    if (sectionName.includes('VERSE')) type = 'verse';
+                    else if (sectionName.includes('PRE')) type = 'prechorus';
+                    else if (sectionName.includes('CHORUS')) type = 'chorus';
+                    else if (sectionName.includes('BRIDGE')) type = 'bridge';
+                    else if (sectionName.includes('INTRO')) type = 'intro';
+                    else if (sectionName.includes('OUTRO')) type = 'outro';
+                    else if (sectionName.includes('SOLO')) type = 'solo';
+                    else type = 'verse';
+                    sec.type = type; // persist it
                 }
+                btnColorClass = `chord-type-${type}`;
                 break;
             }
         }
@@ -3483,10 +3490,13 @@ function populateSongMap() {
             labelEl.className = 'map-fluid-section-label';
             labelEl.textContent = sectionName;
 
-            if (btnColorClass === 'chord-type-verse') labelEl.style.color = '#3730a3';
-            else if (btnColorClass === 'chord-type-chorus') labelEl.style.color = '#b45309';
-            else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c';
-            else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490';
+            if (btnColorClass === 'chord-type-verse') labelEl.style.color = '#3730a3'; // Indigo
+            else if (btnColorClass === 'chord-type-chorus') labelEl.style.color = '#b45309'; // Amber/Orange
+            else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c'; // Rose
+            else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490'; // Cyan/Teal
+            else if (btnColorClass === 'chord-type-intro') labelEl.style.color = '#701a75'; // Fuchsia
+            else if (btnColorClass === 'chord-type-outro') labelEl.style.color = '#9a3412'; // Rust
+            else if (btnColorClass === 'chord-type-solo') labelEl.style.color = '#1e1b4b'; // Deep Indigo
 
             const sec = customMapSections.find(s => s.startIdx === index);
             labelEl.addEventListener('click', (e) => {
@@ -3725,8 +3735,19 @@ function applyMapLabel(label) {
     });
 
     if (label !== 'CLEAR') {
+        let type = 'verse';
+        const up = label.toUpperCase();
+        if (up.includes('INTRO')) type = 'intro';
+        else if (up.includes('VERSE')) type = 'verse';
+        else if (up.includes('PRE CHORUS') || up.includes('PRECHORUS')) type = 'prechorus';
+        else if (up.includes('CHORUS')) type = 'chorus';
+        else if (up.includes('BRIDGE')) type = 'bridge';
+        else if (up.includes('OUTRO')) type = 'outro';
+        else if (up.includes('SOLO')) type = 'solo';
+
         customMapSections.push({
             name: label,
+            type: type,
             startIdx: minIdx,
             endIdx: maxIdx
         });
