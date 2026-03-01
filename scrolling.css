@@ -3919,8 +3919,12 @@ body.ctrl-held .chord-item {
 (orientation: portrait) {
     .song-map-overlay {
         padding: 0 !important;
-        background: #000;
-        /* Flat background for mobile for zero distractions */
+        background: #000 !important;
+        /* Force true black and opaque on mobile */
+        opacity: 1 !important;
+        z-index: 10000 !important;
+        position: fixed !important;
+        inset: 0 !important;
     }
 
     .map-modal-content {
@@ -3935,6 +3939,9 @@ body.ctrl-held .chord-item {
         border: none !important;
         position: fixed !important;
         box-shadow: none !important;
+        background: linear-gradient(135deg, #4438ca 0%, #6d28d9 100%) !important;
+        /* Force solid gradient */
+        z-index: 10001 !important;
     }
 
     .song-map-header {
@@ -3944,7 +3951,8 @@ body.ctrl-held .chord-item {
         gap: 8px !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        /* Align content to left */
+        background: rgba(0, 0, 0, 0.4) !important;
+        /* Darker header for better contrast */
     }
 
     /* Hide desktop features to save space */
