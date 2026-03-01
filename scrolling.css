@@ -4066,9 +4066,45 @@ body.ctrl-held .chord-item {
         z-index: 10003 !important;
     }
 
+    .song-map-grid {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+    }
+
     .map-fluid-timeline {
-        padding: 20px 10px 80px 10px !important;
-        gap: 35px 6px !important;
+        padding: 20px 0 80px 0 !important;
+        /* Zero side padding */
+        gap: 35px 0 !important;
+        /* Tighter gap, zero horizontal gap */
+        align-items: flex-start !important;
+        /* Force to absolute LEFT */
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Force section groups to the absolute left edge */
+    .map-section-group {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        /* Allow chords to wrap if needed */
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+    }
+
+    /* Remove any offsets from wrappers */
+    .map-fluid-chord-wrapper {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    /* Ensure time markers stay left but don't push the row */
+    .map-time-marker {
+        left: 5px !important;
+        transform: none !important;
     }
 
     /* Adjust label picker for smaller screens */
