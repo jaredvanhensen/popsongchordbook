@@ -1705,7 +1705,8 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         midiData = mockMidi;
 
         // Load custom map sections
-        customMapSections = data.customMapSections || null;
+        customMapSections = data.customMapSections || [];
+        originalMapSectionsJson = JSON.stringify(customMapSections);
 
         finishLoading(chords.length, bpm);
 
@@ -3268,8 +3269,10 @@ function openSongMap() {
     if (mapTitle && mainTitle) mapTitle.textContent = mainTitle.textContent;
 
     // Initial parsing of markers into custom sections
-    if (!customMapSections) {
+    if (customMapSections === null || customMapSections === undefined) {
         initCustomMapSectionsFromMarkers();
+        // Record this as the original state if we just generated it
+        originalMapSectionsJson = JSON.stringify(customMapSections);
     }
 
     populateSongMap();
