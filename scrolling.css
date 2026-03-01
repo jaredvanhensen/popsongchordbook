@@ -4050,14 +4050,20 @@ body.ctrl-held .chord-item {
         border-radius: 12px !important;
     }
 
+    .song-map-header .song-detail-action-buttons {
+        gap: 8px !important;
+        margin-right: 48px !important;
+        /* Move play/hamburger further left to avoid close button */
+    }
+
     .song-map-close-btn-abs {
-        position: static !important;
-        /* Move it back into flow if needed? No, user want it top right still? Actually user said skip thumb, fit title and artist in header. */
-        /* Let's keep it absolute but move it to the far right after the play/hamburger buttons if possible, or just keep it as is. */
-        order: 10;
-        margin-left: 5px;
+        position: absolute !important;
+        top: 10px !important;
+        right: 12px !important;
         width: 34px !important;
         height: 34px !important;
+        margin: 0 !important;
+        z-index: 10003 !important;
     }
 
     .map-fluid-timeline {
