@@ -3291,6 +3291,7 @@ body.ctrl-held .chord-item {
     color: white !important;
     border-color: #047857 !important;
     box-shadow: 0 4px 0px 0px #065f46 !important;
+    transform: translateY(1px);
 }
 
 .song-map-toolbar-btn:active,
@@ -3546,9 +3547,21 @@ body.ctrl-held .chord-item {
 }
 
 .map-chord-selected {
-    box-shadow: 0 0 0 4px #000000, 0 4px 10px rgba(0, 0, 0, 0.3) !important;
-    transform: scale(1.05) translateY(-2px);
-    z-index: 5;
+    background: #ffff00 !important;
+    /* Pure Yellow for high contrast */
+    color: #000000 !important;
+    /* Sharp Black text */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 5px rgba(0, 0, 0, 0.5) !important;
+    transform: scale(1.15) translateY(-3px);
+    z-index: 50;
+    font-weight: 900 !important;
+    border: 2px solid #22d3ee !important;
+    /* Neon Cyan border */
+}
+
+/* Hide the connecting tube background when a chord is selected to make it pop */
+.map-section-member.map-chord-selected::before {
+    opacity: 0.3;
 }
 
 /* THE SHOWSTOPPER: CURRENTLY PLAYING CHORD HIGHLIGHT */
