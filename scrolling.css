@@ -3605,22 +3605,57 @@ body.ctrl-held .chord-item {
     transform: translateY(-2px);
 }
 
-.map-label-pill.pill-blue {
-    background: #e0e7ff;
-    color: #3730a3;
-    border-color: #a5b4fc;
+/* EXACT COLOR PILLS TO MATCH MAP */
+.map-label-pill.pill-magenta {
+    background: #ff00ff;
+    color: #ffffff;
+    border-color: #cc00cc;
+    font-weight: 800;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-.map-label-pill.pill-amber {
-    background: #fef3c7;
-    color: #92400e;
-    border-color: #fcd34d;
+.map-label-pill.pill-cyan {
+    background: #00ffff;
+    color: #000000;
+    border-color: #00cccc;
+    font-weight: 800;
 }
 
-.map-label-pill.pill-red {
-    background: #ffe4e6;
-    color: #be123c;
-    border-color: #fda4af;
+.map-label-pill.pill-neon-green {
+    background: #39ff14;
+    color: #000000;
+    border-color: #2bce10;
+    font-weight: 800;
+}
+
+.map-label-pill.pill-neon-yellow {
+    background: #ffff00;
+    color: #000000;
+    border-color: #cccc00;
+    font-weight: 800;
+}
+
+.map-label-pill.pill-hot-pink {
+    background: #ff3366;
+    color: #ffffff;
+    border-color: #cc2952;
+    font-weight: 800;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.map-label-pill.pill-white {
+    background: #ffffff;
+    color: #000000;
+    border-color: #cccccc;
+    font-weight: 800;
+}
+
+.map-label-pill.pill-orange {
+    background: #ff6600;
+    color: #ffffff;
+    border-color: #cc5200;
+    font-weight: 800;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .map-label-pill.label-clear {

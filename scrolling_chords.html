@@ -497,8 +497,14 @@
                         <span id="mapStyleLabel" style="font-weight: 900; font-size: 1rem;">1</span>
                     </button>
                     <!-- Done button to safely close Map without closing the parent iframe -->
-                    <button id="closeSongMapBtn" class="map-label-custom-btn"
-                        style="height: 44px; margin-left: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Close</button>
+                    <button id="closeSongMapBtn" class="song-map-toolbar-btn" title="Close Map"
+                        style="color: #ef4444; margin-left: 8px;">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
                 <!-- Placeholder for nice symmetry before the close button -->
                 <button class="song-detail-nav-btn map-nav-hide" style="visibility: hidden;">

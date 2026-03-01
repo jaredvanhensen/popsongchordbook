@@ -3628,9 +3628,13 @@ function showMapLabelPicker() {
         const btn = document.createElement('button');
         btn.className = 'map-label-pill';
         if (lbl === 'CLEAR') btn.classList.add('label-clear');
-        if (lbl.includes('VERSE')) btn.classList.add('pill-blue');
-        if (lbl.includes('CHORUS')) btn.classList.add('pill-amber');
-        if (lbl.includes('BRIDGE')) btn.classList.add('pill-red');
+        else if (lbl.includes('INTRO')) btn.classList.add('pill-magenta');
+        else if (lbl.includes('VERSE')) btn.classList.add('pill-cyan');
+        else if (lbl.includes('PRE CHORUS')) btn.classList.add('pill-neon-green');
+        else if (lbl.includes('CHORUS')) btn.classList.add('pill-neon-yellow');
+        else if (lbl.includes('BRIDGE')) btn.classList.add('pill-hot-pink');
+        else if (lbl.includes('SOLO')) btn.classList.add('pill-white');
+        else if (lbl.includes('OUTRO')) btn.classList.add('pill-orange');
 
         btn.textContent = lbl;
         btn.onclick = (e) => {
