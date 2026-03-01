@@ -3491,7 +3491,7 @@ function populateSongMap() {
             labelEl.textContent = sectionName;
 
             if (btnColorClass === 'chord-type-verse') labelEl.style.color = '#3730a3'; // Indigo
-            else if (btnColorClass === 'chord-type-chorus') labelEl.style.color = '#b45309'; // Amber/Orange
+            else if (btnColorClass === 'chord-type-chorus') labelEl.style.color = '#92400e'; // Rich Amber/Brown for contrast
             else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c'; // Rose
             else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490'; // Cyan/Teal
             else if (btnColorClass === 'chord-type-intro') labelEl.style.color = '#701a75'; // Fuchsia
@@ -3644,7 +3644,7 @@ function showMapLabelPicker() {
         else if (lbl.includes('INTRO')) btn.classList.add('pill-magenta');
         else if (lbl.includes('VERSE')) btn.classList.add('pill-cyan');
         else if (lbl.includes('PRE CHORUS')) btn.classList.add('pill-neon-green');
-        else if (lbl.includes('CHORUS')) btn.classList.add('pill-neon-yellow');
+        else if (lbl.includes('CHORUS')) btn.classList.add('pill-amber');
         else if (lbl.includes('BRIDGE')) btn.classList.add('pill-hot-pink');
         else if (lbl.includes('SOLO')) btn.classList.add('pill-indigo');
         else if (lbl.includes('OUTRO')) btn.classList.add('pill-orange');

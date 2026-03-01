@@ -3371,8 +3371,8 @@ body.ctrl-held .chord-item {
 }
 
 .map-color-group-chord-type-chorus {
-    color: #ffff00;
-    /* Pure Neon Yellow */
+    color: #ffbf00;
+    /* Golden Amber */
 }
 
 .map-color-group-chord-type-bridge {
@@ -3678,11 +3678,12 @@ body.ctrl-held .chord-item {
     font-weight: 800;
 }
 
-.map-label-pill.pill-neon-yellow {
-    background: #ffff00;
+.map-label-pill.pill-amber {
+    background: #ffbf00;
     color: #000000;
-    border-color: #cccc00;
+    border-color: #d97706;
     font-weight: 800;
+    text-shadow: none;
 }
 
 .map-label-pill.pill-hot-pink {
