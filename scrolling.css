@@ -4067,17 +4067,20 @@ body.ctrl-held .chord-item {
 
     /* Toolbar Buttons adjustments */
     .song-map-toolbar-btn {
-        height: 38px !important;
-        width: 38px !important;
+        height: 30px !important;
+        /* 20% smaller */
+        width: 30px !important;
+        /* 20% smaller */
         padding: 0 !important;
         justify-content: center !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        /* Slightly tighter radius for smaller btn */
     }
 
     .song-map-header .song-detail-action-buttons {
         gap: 8px !important;
-        margin-right: 68px !important;
-        /* Moved an extra 20px left to confirm sync */
+        margin-right: 56px !important;
+        /* Adjusted for smaller buttons */
         /* Move play/hamburger further left to avoid close button */
     }
 

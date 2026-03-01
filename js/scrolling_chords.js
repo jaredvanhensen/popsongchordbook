@@ -365,47 +365,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Song Map Mobile Menu Variables
-    const songMapHamburgerBtn = document.getElementById('songMapHamburgerBtn');
-    const menuZoomOption = document.getElementById('menuZoomOption');
-    const menuEditOption = document.getElementById('menuEditOption');
-    const menuStyleOption = document.getElementById('menuStyleOption');
-    const menuZoomValue = document.getElementById('menuZoomValue');
-    const menuEditStatus = document.getElementById('menuEditStatus');
-    const menuStyleValue = document.getElementById('menuStyleValue');
-
+    // Song Map Mobile Menu Sync
     if (songMapHamburgerBtn) {
-        songMapHamburgerBtn.addEventListener('click', toggleMapMobileMenu);
-    }
-    if (menuZoomOption) {
-        menuZoomOption.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const songMapZoomBtn = document.getElementById('songMapZoomBtn');
-            if (songMapZoomBtn) songMapZoomBtn.click();
-            if (menuZoomValue) {
-                const mapZoomLabel = document.getElementById('mapZoomLabel');
-                if (mapZoomLabel) menuZoomValue.textContent = mapZoomLabel.textContent;
-            }
-        });
-    }
-    if (menuEditOption) {
-        menuEditOption.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const songMapEditBtn = document.getElementById('songMapDragToggleBtn');
-            if (songMapEditBtn) songMapEditBtn.click();
-            if (menuEditStatus) menuEditStatus.textContent = isMapDragMode ? 'ON' : 'OFF';
-        });
-    }
-    if (menuStyleOption) {
-        menuStyleOption.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const songMapStyleBtn = document.getElementById('songMapStyleBtn');
-            if (songMapStyleBtn) songMapStyleBtn.click();
-            if (menuStyleValue) {
-                const mapStyleLabel = document.getElementById('mapStyleLabel');
-                if (mapStyleLabel) menuStyleValue.textContent = mapStyleLabel.textContent;
-            }
-        });
+        // Handled by global listeners to avoid closure issues
     }
 
 
