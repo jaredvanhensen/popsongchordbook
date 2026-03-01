@@ -3939,36 +3939,65 @@ body.ctrl-held .chord-item {
 
     .song-map-header {
         border-radius: 0 !important;
-        padding: 10px 15px !important;
-        min-height: 60px !important;
-        gap: 10px !important;
+        padding: 5px 10px !important;
+        /* Pull more to the top/left */
+        min-height: 50px !important;
+        gap: 8px !important;
+        align-items: center !important;
+    }
+
+    /* Hide nav spacer to free up space */
+    .song-map-header .map-nav-hide {
+        display: none !important;
     }
 
     .song-map-header .song-detail-thumbnail {
-        width: 50px !important;
-        height: 50px !important;
-        border-radius: 8px !important;
+        width: 44px !important;
+        /* Smaller thumb */
+        height: 44px !important;
+        border-radius: 6px !important;
+    }
+
+    .song-map-header .song-detail-title-section {
+        gap: 0px !important;
     }
 
     .song-map-header .song-detail-title {
-        font-size: 1.1rem !important;
+        font-size: 0.95rem !important;
+        /* Tighter title */
     }
 
     .song-map-header .song-detail-artist {
-        font-size: 0.85rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .song-map-header .song-detail-action-buttons {
+        gap: 4px !important;
+        /* Closer buttons */
+    }
+
+    .song-map-toolbar-btn {
+        height: 38px !important;
+        /* Smaller buttons */
+        width: 38px !important;
+        border-radius: 10px !important;
+        padding: 4px !important;
+    }
+
+    .song-map-toolbar-label {
+        font-size: 0.75rem !important;
     }
 
     .song-map-close-btn-abs {
-        top: 14px !important;
-        right: 12px !important;
-        width: 36px !important;
-        /* Slightly larger for touch */
-        height: 36px !important;
+        top: 8px !important;
+        right: 8px !important;
+        width: 32px !important;
+        height: 32px !important;
     }
 
     .map-fluid-timeline {
-        padding: 40px 15px !important;
-        gap: 45px 8px !important;
+        padding: 30px 10px !important;
+        gap: 40px 6px !important;
         /* Tighter gap for mobile */
     }
 
