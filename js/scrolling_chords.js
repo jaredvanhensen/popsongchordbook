@@ -365,6 +365,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Song Map Mobile Menu Variables
+    const songMapHamburgerBtn = document.getElementById('songMapHamburgerBtn');
+    const menuZoomOption = document.getElementById('menuZoomOption');
+    const menuEditOption = document.getElementById('menuEditOption');
+    const menuStyleOption = document.getElementById('menuStyleOption');
+    const menuZoomValue = document.getElementById('menuZoomValue');
+    const menuEditStatus = document.getElementById('menuEditStatus');
+    const menuStyleValue = document.getElementById('menuStyleValue');
+
+    if (songMapHamburgerBtn) {
+        songMapHamburgerBtn.addEventListener('click', toggleMapMobileMenu);
+    }
+    if (menuZoomOption) {
+        menuZoomOption.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const songMapZoomBtn = document.getElementById('songMapZoomBtn');
+            if (songMapZoomBtn) songMapZoomBtn.click();
+            if (menuZoomValue) {
+                const mapZoomLabel = document.getElementById('mapZoomLabel');
+                if (mapZoomLabel) menuZoomValue.textContent = mapZoomLabel.textContent;
+            }
+        });
+    }
+    if (menuEditOption) {
+        menuEditOption.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const songMapEditBtn = document.getElementById('songMapDragToggleBtn');
+            if (songMapEditBtn) songMapEditBtn.click();
+            if (menuEditStatus) menuEditStatus.textContent = isMapDragMode ? 'ON' : 'OFF';
+        });
+    }
+    if (menuStyleOption) {
+        menuStyleOption.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const songMapStyleBtn = document.getElementById('songMapStyleBtn');
+            if (songMapStyleBtn) songMapStyleBtn.click();
+            if (menuStyleValue) {
+                const mapStyleLabel = document.getElementById('mapStyleLabel');
+                if (mapStyleLabel) menuStyleValue.textContent = mapStyleLabel.textContent;
+            }
+        });
+    }
+
+
     function syncSettingsMenu() {
         if (metronomeToggle) metronomeToggle.checked = metronomeEnabled;
         if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
@@ -614,6 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const direction = e.deltaY < 0 ? 1 : -1;
             zoom(direction);
+            if (menuZoomValue) menuZoomValue.textContent = `${Math.round(PIXELS_PER_SECOND / 100 * 100)}%`;
         } else {
             // Horizontal scrolling with regular mouse wheel
             e.preventDefault();
@@ -1091,6 +1136,7 @@ window.addEventListener('pointermove', (e) => {
         if (lastPinchDist > 0 && Math.abs(newDist - lastPinchDist) > 5) {
             const direction = newDist > lastPinchDist ? 1 : -1;
             zoom(direction, 1.05); // Smaller zoom factor for smooth pinch
+            if (menuZoomValue) menuZoomValue.textContent = `${Math.round(PIXELS_PER_SECOND / 100 * 100)}%`;
             lastPinchDist = newDist;
         }
         return;
@@ -1683,6 +1729,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
                 }
             } else {
                 if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
+                if (syncFirstLyricBtn) syncFirstLyricBtn.classList.add('hidden');
                 hideLyricsHUD();
             }
         } else {
@@ -3143,8 +3190,68 @@ if (document.getElementById('songMapPlayPauseBtn')) {
     document.getElementById('songMapPlayPauseBtn').addEventListener('click', togglePlayPause);
 }
 if (document.getElementById('songMapSaveBtn')) {
-    document.getElementById('songMapSaveBtn').addEventListener('click', saveToDatabase);
+    document.getElementById('songMapSaveBtn').addEventListener('click', () => saveToDatabase());
 }
+
+function toggleMapMobileMenu() {
+    const menu = document.getElementById('songMapMobileMenu');
+    if (menu) menu.classList.toggle('hidden');
+}
+
+if (document.getElementById('songMapHamburgerBtn')) {
+    document.getElementById('songMapHamburgerBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMapMobileMenu();
+    });
+}
+
+// Hamburger Menu Actions
+if (document.getElementById('menuZoomOption')) {
+    document.getElementById('menuZoomOption').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const zoomBtn = document.getElementById('songMapZoomBtn');
+        if (zoomBtn) zoomBtn.click();
+        const menuZoomValue = document.getElementById('menuZoomValue');
+        const zoomLabel = document.getElementById('mapZoomLabel');
+        if (menuZoomValue && zoomLabel) menuZoomValue.textContent = zoomLabel.textContent;
+    });
+}
+
+if (document.getElementById('menuEditOption')) {
+    document.getElementById('menuEditOption').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const editBtn = document.getElementById('songMapDragToggleBtn');
+        if (editBtn) editBtn.click();
+        const menuEditStatus = document.getElementById('menuEditStatus');
+        if (menuEditStatus) menuEditStatus.textContent = isMapDragMode ? 'ON' : 'OFF';
+
+        // Update color to show active state
+        const menuEditOption = document.getElementById('menuEditOption');
+        if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#10b981' : '#ffffff';
+    });
+}
+
+if (document.getElementById('menuStyleOption')) {
+    document.getElementById('menuStyleOption').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const styleBtn = document.getElementById('songMapStyleBtn');
+        if (styleBtn) styleBtn.click();
+        const menuStyleValue = document.getElementById('menuStyleValue');
+        const styleLabel = document.getElementById('mapStyleLabel');
+        if (menuStyleValue && styleLabel) menuStyleValue.textContent = styleLabel.textContent;
+    });
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('songMapMobileMenu');
+    const burger = document.getElementById('songMapHamburgerBtn');
+    if (menu && !menu.classList.contains('hidden')) {
+        if (!menu.contains(e.target) && !burger.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    }
+});
 
 // Window Dragging Logic
 const mapHeader = document.querySelector('.song-map-header');
@@ -3320,6 +3427,21 @@ function openSongMap() {
 
     checkForChanges(); // Sync save button state immediately on open
 
+    // Sync mobile menu labels on open
+    const isMobile = window.innerWidth < 768 || window.matchMedia("(orientation: portrait)").matches;
+    if (isMobile) {
+        const menuZoomValue = document.getElementById('menuZoomValue');
+        const zoomLabel = document.getElementById('mapZoomLabel');
+        if (menuZoomValue && zoomLabel) menuZoomValue.textContent = zoomLabel.textContent;
+
+        const menuEditStatus = document.getElementById('menuEditStatus');
+        if (menuEditStatus) menuEditStatus.textContent = isMapDragMode ? 'ON' : 'OFF';
+
+        const menuStyleValue = document.getElementById('menuStyleValue');
+        const styleLabel = document.getElementById('mapStyleLabel');
+        if (menuStyleValue && styleLabel) menuStyleValue.textContent = styleLabel.textContent;
+    }
+
     // Hide Background Displays
     if (currentChordDisplay) currentChordDisplay.classList.add('hidden');
     if (lyricsHUD) lyricsHUD.classList.add('hidden');
@@ -3381,14 +3503,36 @@ function initCustomMapSectionsFromMarkers() {
 
 function closeSongMap() {
     if (typeof checkIfHasChanges === 'function' && checkIfHasChanges()) {
+        const isMobile = window.innerWidth < 768 || window.matchMedia("(orientation: portrait)").matches;
+
         if (window.confirmationModal) {
-            window.confirmationModal.show(
-                'Unsaved Changes',
-                'You have unsaved changes. Are you sure you want to close without saving?',
-                () => {
-                    _forceCloseSongMap();
-                }
-            );
+            if (isMobile) {
+                // Mobile-Specific: SAVE or DISCARD
+                window.confirmationModal.show(
+                    'Unsaved Changes',
+                    'You have unsaved changes in your Song Map.',
+                    () => {
+                        // SAVE
+                        saveToDatabase(() => {
+                            _forceCloseSongMap();
+                        });
+                    },
+                    () => {
+                        // DISCARD
+                        _forceCloseSongMap();
+                    },
+                    'SAVE',
+                    'DISCARD'
+                );
+            } else {
+                window.confirmationModal.show(
+                    'Unsaved Changes',
+                    'You have unsaved changes. Are you sure you want to close without saving?',
+                    () => {
+                        _forceCloseSongMap();
+                    }
+                );
+            }
             return;
         }
     }

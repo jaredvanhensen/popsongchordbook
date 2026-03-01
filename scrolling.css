@@ -3939,66 +3939,130 @@ body.ctrl-held .chord-item {
 
     .song-map-header {
         border-radius: 0 !important;
-        padding: 5px 10px !important;
-        /* Pull more to the top/left */
-        min-height: 50px !important;
+        padding: 5px 12px !important;
+        min-height: 52px !important;
         gap: 8px !important;
         align-items: center !important;
+        justify-content: flex-start !important;
+        /* Align content to left */
     }
 
-    /* Hide nav spacer to free up space */
-    .song-map-header .map-nav-hide {
+    /* Hide desktop features to save space */
+    #mapThumbnailDisplay,
+    #songMapStyleBtn,
+    #songMapSaveBtn,
+    #songMapZoomBtn,
+    #songMapDragToggleBtn,
+    .map-nav-hide {
         display: none !important;
     }
 
-    .song-map-header .song-detail-thumbnail {
-        width: 44px !important;
-        /* Smaller thumb */
-        height: 44px !important;
-        border-radius: 6px !important;
+    .map-mobile-only {
+        display: flex !important;
     }
 
     .song-map-header .song-detail-title-section {
+        flex: 1 !important;
+        /* Take up all available space */
         gap: 0px !important;
+        overflow: hidden;
     }
 
     .song-map-header .song-detail-title {
         font-size: 0.95rem !important;
-        /* Tighter title */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .song-map-header .song-detail-artist {
-        font-size: 0.8rem !important;
+        font-size: 0.75rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.7;
     }
 
-    .song-map-header .song-detail-action-buttons {
-        gap: 4px !important;
-        /* Closer buttons */
+    /* Submenu Styling */
+    .song-map-mobile-menu {
+        position: absolute;
+        top: 52px;
+        left: 0;
+        right: 0;
+        background: #1e293b;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 0;
+        z-index: 10002;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        animation: slideDownMenu 0.2s ease-out;
     }
 
+    @keyframes slideDownMenu {
+        from {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .song-map-mobile-menu.hidden {
+        display: none;
+    }
+
+    .mobile-menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: white;
+        cursor: pointer;
+    }
+
+    .mobile-menu-item:last-child {
+        border-bottom: none;
+    }
+
+    .menu-item-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .menu-item-value {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #94a3b8;
+    }
+
+    /* Toolbar Buttons adjustments */
     .song-map-toolbar-btn {
         height: 38px !important;
-        /* Smaller buttons */
         width: 38px !important;
-        border-radius: 10px !important;
-        padding: 4px !important;
-    }
-
-    .song-map-toolbar-label {
-        font-size: 0.75rem !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        border-radius: 12px !important;
     }
 
     .song-map-close-btn-abs {
-        top: 8px !important;
-        right: 8px !important;
-        width: 32px !important;
-        height: 32px !important;
+        position: static !important;
+        /* Move it back into flow if needed? No, user want it top right still? Actually user said skip thumb, fit title and artist in header. */
+        /* Let's keep it absolute but move it to the far right after the play/hamburger buttons if possible, or just keep it as is. */
+        order: 10;
+        margin-left: 5px;
+        width: 34px !important;
+        height: 34px !important;
     }
 
     .map-fluid-timeline {
-        padding: 30px 10px !important;
-        gap: 40px 6px !important;
-        /* Tighter gap for mobile */
+        padding: 20px 10px 80px 10px !important;
+        gap: 35px 6px !important;
     }
 
     /* Adjust label picker for smaller screens */
@@ -4016,4 +4080,9 @@ body.ctrl-held .chord-item {
         padding: 6px 12px !important;
         font-size: 0.8rem !important;
     }
+}
+
+/* Base style for mobile-only tags */
+.map-mobile-only {
+    display: none;
 }
