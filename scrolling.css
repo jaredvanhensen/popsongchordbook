@@ -3912,3 +3912,78 @@ body.ctrl-held .chord-item {
     background: #e2e8f0;
     color: #1e293b;
 }
+
+/* --- MOBILE FULLSCREEN SONG MAP --- */
+@media (max-width: 768px),
+(orientation: portrait) {
+    .song-map-overlay {
+        padding: 0 !important;
+        background: #000;
+        /* Flat background for mobile for zero distractions */
+    }
+
+    .map-modal-content {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        position: fixed !important;
+        box-shadow: none !important;
+    }
+
+    .song-map-header {
+        border-radius: 0 !important;
+        padding: 10px 15px !important;
+        min-height: 60px !important;
+        gap: 10px !important;
+    }
+
+    .song-map-header .song-detail-thumbnail {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 8px !important;
+    }
+
+    .song-map-header .song-detail-title {
+        font-size: 1.1rem !important;
+    }
+
+    .song-map-header .song-detail-artist {
+        font-size: 0.85rem !important;
+    }
+
+    .song-map-close-btn-abs {
+        top: 14px !important;
+        right: 12px !important;
+        width: 36px !important;
+        /* Slightly larger for touch */
+        height: 36px !important;
+    }
+
+    .map-fluid-timeline {
+        padding: 40px 15px !important;
+        gap: 45px 8px !important;
+        /* Tighter gap for mobile */
+    }
+
+    /* Adjust label picker for smaller screens */
+    .map-label-picker {
+        width: 95% !important;
+        padding: 15px !important;
+        bottom: 10px !important;
+    }
+
+    .map-label-pills-container {
+        gap: 6px !important;
+    }
+
+    .map-label-pill {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }
+}
