@@ -3633,7 +3633,7 @@ function showMapLabelPicker() {
         else if (lbl.includes('PRE CHORUS')) btn.classList.add('pill-neon-green');
         else if (lbl.includes('CHORUS')) btn.classList.add('pill-neon-yellow');
         else if (lbl.includes('BRIDGE')) btn.classList.add('pill-hot-pink');
-        else if (lbl.includes('SOLO')) btn.classList.add('pill-white');
+        else if (lbl.includes('SOLO')) btn.classList.add('pill-indigo');
         else if (lbl.includes('OUTRO')) btn.classList.add('pill-orange');
 
         btn.textContent = lbl;

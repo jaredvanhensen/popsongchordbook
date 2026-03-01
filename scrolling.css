@@ -3380,8 +3380,8 @@ body.ctrl-held .chord-item {
 }
 
 .map-color-group-chord-type-solo {
-    color: #ffffff;
-    /* Brilliant White */
+    color: #6366f1;
+    /* Indigo */
 }
 
 .map-color-group-chord-type-outro {
@@ -3679,10 +3679,10 @@ body.ctrl-held .chord-item {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-.map-label-pill.pill-white {
-    background: #ffffff;
-    color: #000000;
-    border-color: #cccccc;
+.map-label-pill.pill-indigo {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #4f46e5;
     font-weight: 800;
 }
 
