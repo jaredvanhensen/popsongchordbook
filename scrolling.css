@@ -3546,17 +3546,18 @@ body.ctrl-held .chord-item {
     opacity: 0.8 !important;
 }
 
-.map-chord-selected {
+#songMapGrid .map-chord-selected {
     background: #ffff00 !important;
-    /* Pure Yellow for high contrast */
+    /* Pure Yellow */
     color: #000000 !important;
     /* Sharp Black text */
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 5px rgba(0, 0, 0, 0.5) !important;
-    transform: scale(1.15) translateY(-3px);
-    z-index: 50;
-    font-weight: 900 !important;
-    border: 2px solid #22d3ee !important;
-    /* Neon Cyan border */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 10px rgba(0, 0, 0, 0.5) !important;
+    transform: scale(1.25) translateY(-5px) !important;
+    z-index: 5000 !important;
+    font-weight: 950 !important;
+    border: 3px solid #00ffff !important;
+    /* Thicker Neon Cyan border */
+    text-shadow: none !important;
 }
 
 /* Hide the connecting tube background when a chord is selected to make it pop */
