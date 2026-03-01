@@ -1654,6 +1654,8 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         if (midiNotationToggle) {
             midiNotationToggle.checked = !!data.useFlatNotation;
             originalUseFlatNotation = midiNotationToggle.checked;
+        } else {
+            originalUseFlatNotation = !!data.useFlatNotation;
         }
 
         // Parse lyrics if available
@@ -1705,14 +1707,32 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         midiData = mockMidi;
 
         // Load custom map sections
-        customMapSections = data.customMapSections || [];
-        originalMapSectionsJson = JSON.stringify(customMapSections);
+        customMapSections = data.customMapSections || null;
+
+        // Normalize: ensures loaded sections have types for color persistence without mutation later
+        if (customMapSections && Array.isArray(customMapSections)) {
+            customMapSections.forEach(sec => {
+                if (!sec.type) {
+                    const name = sec.name ? sec.name.toUpperCase() : '';
+                    if (name.includes('INTRO')) sec.type = 'intro';
+                    else if (name.includes('VERSE')) sec.type = 'verse';
+                    else if (name.includes('PRE')) sec.type = 'prechorus';
+                    else if (name.includes('CHORUS')) sec.type = 'chorus';
+                    else if (name.includes('BRIDGE')) sec.type = 'bridge';
+                    else if (name.includes('OUTRO')) sec.type = 'outro';
+                    else if (name.includes('SOLO')) sec.type = 'solo';
+                    else sec.type = 'verse';
+                }
+            });
+        }
 
         finishLoading(chords.length, bpm);
 
         // Record original state for change detection
         originalChordsJson = JSON.stringify(chords);
         originalTempo = bpm;
+        originalBarOffset = barOffsetInBeats;
+        originalLyricOffset = currentLyricOffset;
         originalMapSectionsJson = JSON.stringify(customMapSections);
         checkForChanges();
     } catch (e) {
@@ -3460,7 +3480,7 @@ function populateSongMap() {
                     else if (sectionName.includes('OUTRO')) type = 'outro';
                     else if (sectionName.includes('SOLO')) type = 'solo';
                     else type = 'verse';
-                    sec.type = type; // persist it
+                    // NO MUTATION (sec.type = type) here, it breaks change detection if the property was missing
                 }
                 btnColorClass = `chord-type-${type}`;
                 break;
