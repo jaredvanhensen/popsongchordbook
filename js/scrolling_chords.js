@@ -31,6 +31,7 @@ const toggleLyricsBtn = document.getElementById('toggleLyricsBtn');
 const lyricsHUD = document.getElementById('lyricsHUD');
 const lyricLine1 = document.getElementById('lyricLine1');
 const lyricLine2 = document.getElementById('lyricLine2');
+const songMapPlayPauseBtn = document.getElementById('songMapPlayPauseBtn');
 const COUNT_IN_SECONDS = 4;
 
 // Check for embed mode
@@ -76,6 +77,7 @@ let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
 let originalBarOffset = 0; // For bar offset change detection
 let originalUseFlatNotation = false; // For notation change detection
+let originalMapSectionsJson = 'null'; // For section change detection
 let currentTempo = 120; // Shared state for tempo
 let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
@@ -1395,11 +1397,15 @@ function loadChordData(data) {
 
     // Mock midi object for marker generation
     const mockMidi = {
-        duration: duration,
-        header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+        tracks: [],
+        bpm: bpm,
+        timeSignature: [4, 4]
     };
     markers = generateMarkers(mockMidi);
     midiData = mockMidi;
+
+    customMapSections = data.customMapSections || null;
+    originalMapSectionsJson = JSON.stringify(customMapSections);
 
     finishLoading(chords.length, bpm);
 }
@@ -1698,11 +1704,15 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         markers = generateMarkers(mockMidi);
         midiData = mockMidi;
 
+        // Load custom map sections
+        customMapSections = data.customMapSections || null;
+
         finishLoading(chords.length, bpm);
 
         // Record original state for change detection
         originalChordsJson = JSON.stringify(chords);
         originalTempo = bpm;
+        originalMapSectionsJson = JSON.stringify(customMapSections);
         checkForChanges();
     } catch (e) {
         console.error(e);
@@ -1804,14 +1814,13 @@ function getExportData() {
         barOffset: barOffsetInBeats,
         duration: duration,
         chords: chords.map(c => {
-            const chord = {
-                name: c.name,
-                time: Math.round(c.time * 1000) / 1000
-            };
+            let chord = { time: c.time, name: c.name };
+            // Only include yOffset if it has been modified from default 0
             if (c.yOffset !== undefined) chord.yOffset = c.yOffset;
             return chord;
         }),
-        useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false
+        useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false,
+        customMapSections: customMapSections
     };
 }
 
@@ -1962,14 +1971,16 @@ function saveToDatabase() {
     originalTempo = currentTempo;
     originalBarOffset = barOffsetInBeats;
     originalLyricOffset = currentLyricOffset;
+    originalMapSectionsJson = JSON.stringify(customMapSections);
     const midiNotationToggle = document.getElementById('midiNotationToggle');
     if (midiNotationToggle) {
         originalUseFlatNotation = midiNotationToggle.checked;
     }
 
-    // Hide save button
-    if (saveBtn) {
-        saveBtn.classList.add('hidden');
+    // Update save buttons instead of unconditionally hiding
+    checkForChanges();
+    if (saveBtn && JSON.stringify(chords) === originalChordsJson) {
+        // only set the old general saveBtn conditionally hidden if we strictly wanted that, but checkForChanges covers it.
     }
 }
 
@@ -2005,25 +2016,40 @@ function setSaveStatus(isSaved) {
     }
 }
 
-/**
- * Detects if current chords differ from original and toggles Save button
- */
-function checkForChanges() {
-    if (!saveBtn) return;
-
+function checkIfHasChanges() {
     const currentJson = JSON.stringify(chords);
-    const hasUnsavedChanges = currentJson !== originalChordsJson ||
+    return currentJson !== originalChordsJson ||
         currentTempo !== originalTempo ||
         barOffsetInBeats !== originalBarOffset ||
         currentLyricOffset !== originalLyricOffset ||
-        (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation);
+        (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation) ||
+        JSON.stringify(customMapSections) !== originalMapSectionsJson;
+}
 
+function checkForChanges() {
+    if (!saveBtn) return;
+    const hasUnsavedChanges = checkIfHasChanges();
+
+    saveBtn.classList.remove('hidden');
     if (hasUnsavedChanges) {
-        saveBtn.classList.remove('hidden');
         saveBtn.disabled = false;
+        saveBtn.style.opacity = '1';
         setSaveStatus(false);
     } else {
-        saveBtn.classList.add('hidden');
+        saveBtn.disabled = true;
+        saveBtn.style.opacity = '0.5';
+    }
+
+    const mapSaveBtn = document.getElementById('songMapSaveBtn');
+    if (mapSaveBtn) {
+        mapSaveBtn.classList.remove('hidden');
+        if (hasUnsavedChanges) {
+            mapSaveBtn.disabled = false;
+            mapSaveBtn.style.opacity = '1';
+        } else {
+            mapSaveBtn.disabled = true;
+            mapSaveBtn.style.opacity = '0.5';
+        }
     }
 }
 
@@ -2300,6 +2326,14 @@ function play() {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         <span>Pause</span>
     `;
+    if (songMapPlayPauseBtn) {
+        songMapPlayPauseBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+        `;
+    }
 
     // If starting from absolute beginning, do count-in
     if (pauseTime === 0 && !isCountingIn) {
@@ -2335,6 +2369,13 @@ function pause() {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         <span>Play</span>
     `;
+    if (songMapPlayPauseBtn) {
+        songMapPlayPauseBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+        `;
+    }
 
     if (pianoPlayer) pianoPlayer.stopAll();
 
@@ -2485,6 +2526,11 @@ function updateLoop() {
 
     // Find the CURRENT chord index for highlighting
     const activeIndex = chordIndex; // Reuse the index found for audio logic above
+
+    // Also highlight in Song Map if open
+    if (!document.getElementById('songMapOverlay').classList.contains('hidden')) {
+        updateSongMapHighlight(activeIndex);
+    }
 
     // Optimize scrolling chord positions (Visibility Windowing)
     const chordElements = chordTrack.children;
@@ -3013,8 +3059,13 @@ function deleteSelectedChords() {
 let customMapSections = null;
 let mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
 let isMapDragMode = false;
-let isMapDraggingActive = false;
+let isMapDraggingActive = false; // legacy
+let isMapBoxSelecting = false;
+let mapSelectionBoxStart = null;
+let mapSelectionBoxEl = null;
 let dragStartIndex = -1;
+let isMapWindowDragging = false;
+let mapWindowDragOffset = { x: 0, y: 0 };
 
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
@@ -3024,13 +3075,128 @@ if (document.getElementById('closeSongMapBtn')) {
     document.getElementById('closeSongMapBtn').addEventListener('click', closeSongMap);
 }
 if (document.getElementById('songMapDragToggleBtn')) {
-    document.getElementById('songMapDragToggleBtn').addEventListener('click', () => {
+    const editBtn = document.getElementById('songMapDragToggleBtn');
+    editBtn.addEventListener('click', () => {
         isMapDragMode = !isMapDragMode;
-        document.getElementById('songMapDragToggleBtn').classList.toggle('active', isMapDragMode);
+        editBtn.classList.toggle('active', isMapDragMode);
+        // If we exit edit mode, clear any partial selection
+        if (!isMapDragMode) {
+            hideMapLabelPicker();
+        }
     });
 }
-// Listen for global mouse up to stop drag
-document.addEventListener('mouseup', () => {
+if (document.getElementById('songMapPlayPauseBtn')) {
+    document.getElementById('songMapPlayPauseBtn').addEventListener('click', togglePlayPause);
+}
+if (document.getElementById('songMapSaveBtn')) {
+    document.getElementById('songMapSaveBtn').addEventListener('click', saveToDatabase);
+}
+
+// Window Dragging Logic
+const mapHeader = document.querySelector('.song-map-header');
+const mapModal = document.querySelector('.map-modal-content');
+
+if (mapHeader && mapModal) {
+    mapHeader.addEventListener('pointerdown', (e) => {
+        // Only trigger drag if clicking the header itself or title section, not buttons
+        if (e.target.closest('button') || e.target.closest('.song-map-toolbar-btn')) return;
+
+        isMapWindowDragging = true;
+        const rect = mapModal.getBoundingClientRect();
+        mapWindowDragOffset.x = e.clientX - rect.left;
+        mapWindowDragOffset.y = e.clientY - rect.top;
+
+        mapHeader.setPointerCapture(e.pointerId);
+    });
+
+    mapHeader.addEventListener('pointermove', (e) => {
+        if (isMapWindowDragging) {
+            const x = e.clientX - mapWindowDragOffset.x;
+            const y = e.clientY - mapWindowDragOffset.y;
+
+            mapModal.style.left = x + 'px';
+            mapModal.style.top = y + 'px';
+            mapModal.style.margin = '0'; // Override any centering
+        }
+    });
+
+    mapHeader.addEventListener('pointerup', (e) => {
+        isMapWindowDragging = false;
+        mapHeader.releasePointerCapture(e.pointerId);
+    });
+}
+// Pointer move for seamless song map drag selection
+document.addEventListener('pointermove', (e) => {
+    if (isMapBoxSelecting && isMapDragMode && mapSelectionBoxEl) {
+        e.preventDefault();
+        const currentX = e.clientX;
+        const currentY = e.clientY;
+
+        const left = Math.min(mapSelectionBoxStart.x, currentX);
+        const top = Math.min(mapSelectionBoxStart.y, currentY);
+        const width = Math.abs(mapSelectionBoxStart.x - currentX);
+        const height = Math.abs(mapSelectionBoxStart.y - currentY);
+
+        mapSelectionBoxEl.style.left = left + 'px';
+        mapSelectionBoxEl.style.top = top + 'px';
+        mapSelectionBoxEl.style.width = width + 'px';
+        mapSelectionBoxEl.style.height = height + 'px';
+
+        updateMapSelectionFromBox();
+    }
+});
+
+function updateMapSelectionFromBox() {
+    if (!mapSelectionBoxEl) return;
+    const boxRect = mapSelectionBoxEl.getBoundingClientRect();
+    const mapGrid = document.getElementById('songMapGrid');
+    if (!mapGrid) return;
+
+    let minIdx = -1;
+    let maxIdx = -1;
+
+    const chordElements = mapGrid.querySelectorAll('.map-chord-click-target');
+
+    for (let i = 0; i < chordElements.length; i++) {
+        const el = chordElements[i];
+        const rect = el.getBoundingClientRect();
+        const overlap = !(
+            rect.right < boxRect.left ||
+            rect.left > boxRect.right ||
+            rect.bottom < boxRect.top ||
+            rect.top > boxRect.bottom
+        );
+
+        if (overlap) {
+            const index = parseInt(el.dataset.index, 10);
+            if (!isNaN(index)) {
+                if (minIdx === -1 || index < minIdx) minIdx = index;
+                if (maxIdx === -1 || index > maxIdx) maxIdx = index;
+            }
+        }
+    }
+
+    if (minIdx !== -1 && maxIdx !== -1) {
+        mapSelectionState = { active: true, startIdx: minIdx, endIdx: maxIdx };
+        updateMapSelectionUI();
+    } else {
+        mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
+        updateMapSelectionUI();
+    }
+}
+
+// Listen for global pointerup to stop drag
+document.addEventListener('pointerup', () => {
+    if (isMapBoxSelecting) {
+        isMapBoxSelecting = false;
+        if (mapSelectionBoxEl) {
+            mapSelectionBoxEl.remove();
+            mapSelectionBoxEl = null;
+        }
+        if (mapSelectionState.active && mapSelectionState.startIdx !== -1 && typeof showMapLabelPicker === 'function') {
+            showMapLabelPicker();
+        }
+    }
     if (isMapDraggingActive) {
         isMapDraggingActive = false;
         if (typeof showMapLabelPicker === 'function') {
@@ -3074,7 +3240,18 @@ function openSongMap() {
     }
 
     populateSongMap();
+
+    // Reset position to default (10vh top) which is now controlled by CSS initially, 
+    // but if it was dragged, we should clear the inline styles to let CSS take over again.
+    const mapModalEl = document.querySelector('.map-modal-content');
+    if (mapModalEl) {
+        mapModalEl.style.left = '';
+        mapModalEl.style.top = '';
+        mapModalEl.style.margin = '';
+    }
+
     overlay.classList.remove('hidden');
+    checkForChanges(); // Sync save button state immediately on open
 
     // Hide Background Displays
     if (currentChordDisplay) currentChordDisplay.classList.add('hidden');
@@ -3125,6 +3302,22 @@ function initCustomMapSectionsFromMarkers() {
 }
 
 function closeSongMap() {
+    if (typeof checkIfHasChanges === 'function' && checkIfHasChanges()) {
+        if (window.confirmationModal) {
+            window.confirmationModal.show(
+                'Unsaved Changes',
+                'You have unsaved changes. Are you sure you want to close without saving?',
+                () => {
+                    _forceCloseSongMap();
+                }
+            );
+            return;
+        }
+    }
+    _forceCloseSongMap();
+}
+
+function _forceCloseSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (overlay) overlay.classList.add('hidden');
 
@@ -3145,9 +3338,40 @@ function populateSongMap() {
     // Create a fluid container for all chords
     const timelineContainer = document.createElement('div');
     timelineContainer.className = 'map-fluid-timeline';
+
+    // Add pointerdown to the container so we can draw the selection box from anywhere
+    timelineContainer.addEventListener('pointerdown', (e) => {
+        // If clicking inside the picker or on a section label, don't start a new selection box
+        if (e.target.closest('#mapLabelPicker') || e.target.closest('.map-fluid-section-label')) return;
+
+        if (isMapDragMode) {
+            e.preventDefault();
+            isMapBoxSelecting = true;
+            mapSelectionBoxStart = { x: e.clientX, y: e.clientY };
+            mapSelectionBoxEl = document.createElement('div');
+            mapSelectionBoxEl.className = 'selection-box';
+            document.body.appendChild(mapSelectionBoxEl);
+
+            mapSelectionState = { active: false, startIdx: -1, endIdx: -1 };
+            updateMapSelectionUI();
+            hideMapLabelPicker();
+        }
+    });
+
     grid.appendChild(timelineContainer);
 
+    let lastTimeMarkerReached = -1;
+
     chords.forEach((chord, index) => {
+        const chordTimeSeconds = chord.time;
+        const timeMarkerThreshold = Math.floor(chordTimeSeconds / 30) * 30;
+        let isTimeMarkerStart = false;
+
+        if (timeMarkerThreshold > lastTimeMarkerReached) {
+            isTimeMarkerStart = true;
+            lastTimeMarkerReached = timeMarkerThreshold;
+        }
+
         // Detect if chord falls into a custom map section
         let sectionName = null;
         let isSectionStart = false;
@@ -3158,17 +3382,17 @@ function populateSongMap() {
             if (index >= sec.startIdx && index <= sec.endIdx) {
                 sectionName = sec.name;
                 isSectionStart = (index === sec.startIdx);
-
+                // ... same color logic
                 if (sectionName.includes('VERSE') || sectionName.includes('BLOCK 1')) {
-                    btnColorClass = 'chord-type-verse'; // Blue
+                    btnColorClass = 'chord-type-verse';
                 } else if (sectionName.includes('CHORUS') || sectionName.includes('BLOCK 2')) {
-                    btnColorClass = 'chord-type-chorus'; // Amber
+                    btnColorClass = 'chord-type-chorus';
                 } else if (sectionName.includes('PRE') || sectionName.includes('BLOCK 3')) {
-                    btnColorClass = 'chord-type-prechorus'; // Teal
+                    btnColorClass = 'chord-type-prechorus';
                 } else if (sectionName.includes('BRIDGE') || sectionName.includes('BLOCK 4')) {
-                    btnColorClass = 'chord-type-bridge'; // Red
+                    btnColorClass = 'chord-type-bridge';
                 } else if (sectionName.includes('INTRO') || sectionName.includes('OUTRO')) {
-                    btnColorClass = 'chord-type-prechorus'; // Teal
+                    btnColorClass = 'chord-type-prechorus';
                 } else {
                     btnColorClass = 'chord-type-verse';
                 }
@@ -3178,6 +3402,15 @@ function populateSongMap() {
 
         const chordWrapper = document.createElement('div');
         chordWrapper.className = 'map-fluid-chord-wrapper';
+
+        // Add Time Marker
+        if (isTimeMarkerStart) {
+            const timeMarkerEl = document.createElement('div');
+            timeMarkerEl.className = 'map-time-marker';
+            timeMarkerEl.textContent = formatTime(timeMarkerThreshold);
+            chordWrapper.appendChild(timeMarkerEl);
+        }
+
         if (isSectionStart) {
             const labelEl = document.createElement('div');
             labelEl.className = 'map-fluid-section-label';
@@ -3188,21 +3421,14 @@ function populateSongMap() {
             else if (btnColorClass === 'chord-type-bridge') labelEl.style.color = '#be123c';
             else if (btnColorClass === 'chord-type-prechorus') labelEl.style.color = '#0e7490';
 
-            // Find current section explicitly for the edit closure
             const sec = customMapSections.find(s => s.startIdx === index);
-
-            // Allow double click to rename label
-            labelEl.addEventListener('dblclick', (e) => {
+            labelEl.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (!sec) return;
-                const newName = prompt("Enter new label name (e.g. INTRO, VERSE):", sec.name);
-                if (newName !== null && newName.trim() !== '') {
-                    sec.name = newName.toUpperCase().trim();
-                    populateSongMap();
-                }
+                showMapRenameModal(sec);
             });
 
-            labelEl.title = "Double-click to rename label";
+            labelEl.title = "Click to rename label";
             chordWrapper.appendChild(labelEl);
             chordWrapper.classList.add('has-label');
         }
@@ -3210,14 +3436,12 @@ function populateSongMap() {
         const btn = document.createElement('button');
         btn.className = `chord-suggestion-btn map-chord-click-target ${btnColorClass}`;
 
-        // Ensure non-assigned chords look distinct and disabled
         if (!sectionName) {
             btn.classList.add('map-unassigned-chord');
         }
 
         btn.textContent = chord.name;
 
-        // Highlight selection
         if (mapSelectionState.active && mapSelectionState.startIdx !== -1) {
             const minIdx = Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
             const maxIdx = Math.max(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);
@@ -3226,38 +3450,24 @@ function populateSongMap() {
             }
         }
 
-        // Drag handlers
-        btn.addEventListener('mousedown', (e) => {
-            if (isMapDragMode) {
-                e.preventDefault();
-                isMapDraggingActive = true;
-                dragStartIndex = index;
-                mapSelectionState = { active: true, startIdx: index, endIdx: index };
-                updateMapSelectionUI();
-                hideMapLabelPicker(); // Hide picker while dragging
-            }
-        });
+        btn.dataset.index = index;
+        btn.style.touchAction = 'none';
 
-        btn.addEventListener('mouseenter', (e) => {
-            if (isMapDraggingActive && isMapDragMode) {
-                mapSelectionState.endIdx = index;
-                updateMapSelectionUI(); // Smooth DOM update instead of full wipe
-            }
-        });
-
-        btn.addEventListener('mouseup', (e) => {
-            if (isMapDragMode && isMapDraggingActive) {
-                isMapDraggingActive = false;
-                showMapLabelPicker();
-            }
-        });
-
-        // Fallback for native clicking if drag mode is off
         btn.addEventListener('click', (e) => {
-            if (!isMapDragMode) {
-                e.stopPropagation();
+            e.stopPropagation();
+            if (isMapDragMode) {
                 handleMapChordClick(index);
+            } else {
+                jumpToTime(chord.time);
             }
+        });
+
+        btn.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            // In either mode, jump to time on double click
+            jumpToTime(chord.time);
+            if (!isPlaying) togglePlayPause();
+            // Never open label picker on dblclick
         });
 
         chordWrapper.appendChild(btn);
@@ -3281,25 +3491,46 @@ function updateMapSelectionUI() {
 
 function handleMapChordClick(index) {
     if (!mapSelectionState.active || mapSelectionState.startIdx === -1) {
-        // Start new selection
+        // State 1: Nothing selected. Set the anchor point.
         mapSelectionState = { active: true, startIdx: index, endIdx: index };
-        updateMapSelectionUI();
-        showMapLabelPicker();
-    } else {
-        // Complete selection range
+    } else if (mapSelectionState.startIdx === mapSelectionState.endIdx && mapSelectionState.startIdx !== index) {
+        // State 2: Already had an anchor, establishing a range with a different chord.
         mapSelectionState.endIdx = index;
-        updateMapSelectionUI();
-        showMapLabelPicker();
+    } else {
+        // State 3: Already had a range, restart with a new anchor.
+        mapSelectionState = { active: true, startIdx: index, endIdx: index };
     }
+
+    updateMapSelectionUI();
+    showMapLabelPicker();
+}
+
+function updateSongMapHighlight(activeIndex) {
+    const mapGrid = document.getElementById('songMapGrid');
+    if (!mapGrid) return;
+
+    const buttons = mapGrid.querySelectorAll('.map-chord-click-target');
+    buttons.forEach((btn, idx) => {
+        if (idx === activeIndex) {
+            btn.classList.add('map-chord-playing');
+        } else {
+            btn.classList.remove('map-chord-playing');
+        }
+    });
 }
 
 function showMapLabelPicker() {
     let picker = document.getElementById('mapLabelPicker');
+    const modalContent = document.querySelector('.map-modal-content');
     if (!picker) {
         picker = document.createElement('div');
         picker.id = 'mapLabelPicker';
         picker.className = 'map-label-picker';
-        document.getElementById('songMapOverlay').appendChild(picker);
+        if (modalContent) {
+            modalContent.appendChild(picker);
+        } else {
+            document.getElementById('songMapOverlay').appendChild(picker);
+        }
     }
 
     picker.innerHTML = ''; // Clear existing
@@ -3322,7 +3553,10 @@ function showMapLabelPicker() {
         if (lbl.includes('BRIDGE') || lbl.includes('BLOCK 4')) btn.classList.add('pill-red');
 
         btn.textContent = lbl;
-        btn.onclick = () => applyMapLabel(lbl);
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            applyMapLabel(lbl);
+        };
         pillContainer.appendChild(btn);
     });
 
@@ -3345,7 +3579,8 @@ function showMapLabelPicker() {
     const addBtn = document.createElement('button');
     addBtn.textContent = 'Apply';
     addBtn.className = 'map-label-custom-btn';
-    addBtn.onclick = () => {
+    addBtn.onclick = (e) => {
+        e.stopPropagation();
         if (customInput.value.trim()) {
             applyMapLabel(customInput.value.trim().toUpperCase());
         }
@@ -3355,10 +3590,18 @@ function showMapLabelPicker() {
     inputContainer.appendChild(addBtn);
     picker.appendChild(inputContainer);
 
+    // Add spacer before close btn
+    const spacer = document.createElement('div');
+    spacer.style.flex = '1';
+    picker.appendChild(spacer);
+
     const closeBtn = document.createElement('button');
     closeBtn.className = 'map-label-close';
-    closeBtn.innerHTML = 'Cancel';
-    closeBtn.onclick = hideMapLabelPicker;
+    closeBtn.textContent = 'Cancel'; // Ensure simple text
+    closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        hideMapLabelPicker();
+    };
     picker.appendChild(closeBtn);
 
     picker.classList.remove('hidden');
@@ -3409,6 +3652,7 @@ function applyMapLabel(label) {
     // Usually map annotations could optionally be synced back, but for now we keep it visual on the map.
 
     hideMapLabelPicker(); // This clears state & re-renders
+    checkForChanges(); // Enable Save button
 }
 
 function jumpToTime(time) {
@@ -3428,4 +3672,75 @@ function jumpToTime(time) {
     }
 
     statusText.innerText = "Jumped to " + formatTime(time);
+}
+
+function showMapRenameModal(sec) {
+    if (!sec) return;
+
+    // Remove existing if any
+    const existing = document.getElementById('mapRenameModalOverlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'mapRenameModalOverlay';
+    overlay.className = 'map-rename-modal-overlay';
+
+    overlay.innerHTML = `
+        <div class="map-rename-modal">
+            <h3 class="map-rename-title">Rename Section</h3>
+            <div class="map-rename-input-wrap">
+                <label class="map-rename-input-label">Label Name</label>
+                <input type="text" id="mapRenameInput" class="map-rename-input" value="${sec.name}" placeholder="INTRO, VERSE, CHORUS..." />
+            </div>
+            <div class="map-rename-footer">
+                <button id="mapRenameCancel" class="map-rename-btn map-rename-btn-secondary">Cancel</button>
+                <button id="mapRenameSave" class="map-rename-btn map-rename-btn-primary">Save Changes</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const input = overlay.querySelector('#mapRenameInput');
+    const saveBtn = overlay.querySelector('#mapRenameSave');
+    const cancelBtn = overlay.querySelector('#mapRenameCancel');
+
+    input.focus();
+    input.select();
+
+    const performSave = () => {
+        const newName = input.value.trim();
+        if (newName !== '') {
+            sec.name = newName.toUpperCase();
+            populateSongMap();
+            checkForChanges();
+        }
+        overlay.remove();
+    };
+
+    saveBtn.onclick = (e) => {
+        e.stopPropagation();
+        performSave();
+    };
+
+    cancelBtn.onclick = (e) => {
+        e.stopPropagation();
+        overlay.remove();
+    };
+
+    // Close on background click
+    overlay.onclick = (e) => {
+        if (e.target === overlay) {
+            overlay.remove();
+        }
+    };
+
+    // Handle keys
+    input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            performSave();
+        } else if (e.key === 'Escape') {
+            overlay.remove();
+        }
+    };
 }
