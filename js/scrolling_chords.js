@@ -3066,6 +3066,10 @@ let mapSelectionBoxEl = null;
 let dragStartIndex = -1;
 let isMapWindowDragging = false;
 let mapWindowDragOffset = { x: 0, y: 0 };
+let currentMapStyleIndex = 0;
+const MAP_STYLES = ['map-style-metro', 'map-style-ribbon'];
+const MAP_ZOOM_LEVELS = [1.0, 1.2, 1.4, 1.6, 0.6, 0.8]; // 6-step cycle including +/- 40% and 20%
+let currentMapZoomIndex = 0;
 
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
@@ -3082,6 +3086,35 @@ if (document.getElementById('songMapDragToggleBtn')) {
         // If we exit edit mode, clear any partial selection
         if (!isMapDragMode) {
             hideMapLabelPicker();
+        }
+    });
+}
+if (document.getElementById('songMapZoomBtn')) {
+    document.getElementById('songMapZoomBtn').addEventListener('click', () => {
+        currentMapZoomIndex = (currentMapZoomIndex + 1) % MAP_ZOOM_LEVELS.length;
+        const timeline = document.querySelector('.map-fluid-timeline');
+        if (timeline) {
+            timeline.style.setProperty('--map-zoom-scale', MAP_ZOOM_LEVELS[currentMapZoomIndex]);
+        }
+        const zoomLabel = document.getElementById('mapZoomLabel');
+        if (zoomLabel) {
+            zoomLabel.textContent = Math.round(MAP_ZOOM_LEVELS[currentMapZoomIndex] * 100) + '%';
+        }
+    });
+}
+if (document.getElementById('songMapStyleBtn')) {
+    document.getElementById('songMapStyleBtn').addEventListener('click', () => {
+        currentMapStyleIndex = (currentMapStyleIndex + 1) % MAP_STYLES.length;
+        const timeline = document.querySelector('.map-fluid-timeline');
+        if (timeline) {
+            MAP_STYLES.forEach(style => timeline.classList.remove(style));
+            timeline.classList.add(MAP_STYLES[currentMapStyleIndex]);
+            // Re-apply zoom scale just in case the container was rebuilt or class-toggled
+            timeline.style.setProperty('--map-zoom-scale', MAP_ZOOM_LEVELS[currentMapZoomIndex]);
+        }
+        const styleLabel = document.getElementById('mapStyleLabel');
+        if (styleLabel) {
+            styleLabel.textContent = (currentMapStyleIndex + 1);
         }
     });
 }
@@ -3251,6 +3284,17 @@ function openSongMap() {
     }
 
     overlay.classList.remove('hidden');
+
+    // Sync style and zoom labels on open
+    const styleLabel = document.getElementById('mapStyleLabel');
+    if (styleLabel) {
+        styleLabel.textContent = (currentMapStyleIndex + 1);
+    }
+    const zoomLabel = document.getElementById('mapZoomLabel');
+    if (zoomLabel) {
+        zoomLabel.textContent = Math.round(MAP_ZOOM_LEVELS[currentMapZoomIndex] * 100) + '%';
+    }
+
     checkForChanges(); // Sync save button state immediately on open
 
     // Hide Background Displays
@@ -3337,12 +3381,16 @@ function populateSongMap() {
 
     // Create a fluid container for all chords
     const timelineContainer = document.createElement('div');
-    timelineContainer.className = 'map-fluid-timeline';
+    timelineContainer.className = `map-fluid-timeline ${MAP_STYLES[currentMapStyleIndex]}`;
+
+    timelineContainer.style.setProperty('--map-zoom-scale', MAP_ZOOM_LEVELS[currentMapZoomIndex]);
 
     // Add pointerdown to the container so we can draw the selection box from anywhere
     timelineContainer.addEventListener('pointerdown', (e) => {
-        // If clicking inside the picker or on a section label, don't start a new selection box
-        if (e.target.closest('#mapLabelPicker') || e.target.closest('.map-fluid-section-label')) return;
+        // If clicking inside the picker, on a section label, or on a chord button, don't start a new selection box
+        if (e.target.closest('#mapLabelPicker') ||
+            e.target.closest('.map-fluid-section-label') ||
+            e.target.closest('.map-chord-click-target')) return;
 
         if (isMapDragMode) {
             e.preventDefault();
@@ -3361,6 +3409,7 @@ function populateSongMap() {
     grid.appendChild(timelineContainer);
 
     let lastTimeMarkerReached = -1;
+    let currentContainer = timelineContainer; // Grouping container for Word Wrap logic
 
     chords.forEach((chord, index) => {
         const chordTimeSeconds = chord.time;
@@ -3375,6 +3424,8 @@ function populateSongMap() {
         // Detect if chord falls into a custom map section
         let sectionName = null;
         let isSectionStart = false;
+        let isSectionEnd = false;
+        let isSectionMember = false;
         let btnColorClass = 'chord-type-verse';
 
         for (let i = 0; i < customMapSections.length; i++) {
@@ -3382,17 +3433,23 @@ function populateSongMap() {
             if (index >= sec.startIdx && index <= sec.endIdx) {
                 sectionName = sec.name;
                 isSectionStart = (index === sec.startIdx);
-                // ... same color logic
-                if (sectionName.includes('VERSE') || sectionName.includes('BLOCK 1')) {
+                isSectionEnd = (index === sec.endIdx);
+                isSectionMember = true;
+                // Determine color class based on section name
+                if (sectionName.includes('VERSE')) {
                     btnColorClass = 'chord-type-verse';
-                } else if (sectionName.includes('CHORUS') || sectionName.includes('BLOCK 2')) {
+                } else if (sectionName.includes('PRE')) {
+                    btnColorClass = 'chord-type-prechorus';
+                } else if (sectionName.includes('CHORUS')) {
                     btnColorClass = 'chord-type-chorus';
-                } else if (sectionName.includes('PRE') || sectionName.includes('BLOCK 3')) {
-                    btnColorClass = 'chord-type-prechorus';
-                } else if (sectionName.includes('BRIDGE') || sectionName.includes('BLOCK 4')) {
+                } else if (sectionName.includes('BRIDGE')) {
                     btnColorClass = 'chord-type-bridge';
-                } else if (sectionName.includes('INTRO') || sectionName.includes('OUTRO')) {
-                    btnColorClass = 'chord-type-prechorus';
+                } else if (sectionName.includes('INTRO')) {
+                    btnColorClass = 'chord-type-intro';
+                } else if (sectionName.includes('OUTRO')) {
+                    btnColorClass = 'chord-type-outro';
+                } else if (sectionName.includes('SOLO')) {
+                    btnColorClass = 'chord-type-solo';
                 } else {
                     btnColorClass = 'chord-type-verse';
                 }
@@ -3402,6 +3459,13 @@ function populateSongMap() {
 
         const chordWrapper = document.createElement('div');
         chordWrapper.className = 'map-fluid-chord-wrapper';
+        if (isSectionMember) {
+            chordWrapper.classList.add('map-section-member');
+            chordWrapper.classList.add(`map-color-group-${btnColorClass}`);
+            if (isSectionStart) chordWrapper.classList.add('map-section-start');
+            if (isSectionEnd) chordWrapper.classList.add('map-section-end');
+            if (!isSectionStart && !isSectionEnd) chordWrapper.classList.add('map-section-middle');
+        }
 
         // Add Time Marker
         if (isTimeMarkerStart) {
@@ -3434,7 +3498,12 @@ function populateSongMap() {
         }
 
         const btn = document.createElement('button');
+        const rootChar = chord.name ? chord.name.charAt(0).toUpperCase() : '';
         btn.className = `chord-suggestion-btn map-chord-click-target ${btnColorClass}`;
+
+        if (rootChar >= 'A' && rootChar <= 'G') {
+            btn.classList.add(`root-${rootChar}`);
+        }
 
         if (!sectionName) {
             btn.classList.add('map-unassigned-chord');
@@ -3470,8 +3539,19 @@ function populateSongMap() {
             // Never open label picker on dblclick
         });
 
+        if (isSectionStart) {
+            const sectionGroup = document.createElement('div');
+            sectionGroup.className = 'map-section-group';
+            timelineContainer.appendChild(sectionGroup);
+            currentContainer = sectionGroup;
+        }
+
         chordWrapper.appendChild(btn);
-        timelineContainer.appendChild(chordWrapper);
+        currentContainer.appendChild(chordWrapper);
+
+        if (isSectionEnd) {
+            currentContainer = timelineContainer;
+        }
     });
 }
 
@@ -3540,7 +3620,7 @@ function showMapLabelPicker() {
     title.textContent = 'Label Selection:';
     picker.appendChild(title);
 
-    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'BLOCK 1', 'BLOCK 2', 'BLOCK 3', 'BLOCK 4', 'CLEAR'];
+    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'CLEAR'];
     const pillContainer = document.createElement('div');
     pillContainer.className = 'map-label-pills-container';
 
@@ -3548,9 +3628,9 @@ function showMapLabelPicker() {
         const btn = document.createElement('button');
         btn.className = 'map-label-pill';
         if (lbl === 'CLEAR') btn.classList.add('label-clear');
-        if (lbl.includes('VERSE') || lbl.includes('BLOCK 1')) btn.classList.add('pill-blue');
-        if (lbl.includes('CHORUS') || lbl.includes('BLOCK 2')) btn.classList.add('pill-amber');
-        if (lbl.includes('BRIDGE') || lbl.includes('BLOCK 4')) btn.classList.add('pill-red');
+        if (lbl.includes('VERSE')) btn.classList.add('pill-blue');
+        if (lbl.includes('CHORUS')) btn.classList.add('pill-amber');
+        if (lbl.includes('BRIDGE')) btn.classList.add('pill-red');
 
         btn.textContent = lbl;
         btn.onclick = (e) => {
