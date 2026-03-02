@@ -585,7 +585,14 @@ class SongDetailModal {
                     }
                 }
 
-                // 1b. Change status response
+                else if (event.data.type === 'toggleTimelineCloseBtn') {
+                    // Hide the entire group of buttons (Close/Minimize) to prevent accidental closing
+                    const btnGroup = document.querySelector('.scrolling-chords-btn-group');
+                    if (btnGroup) {
+                        btnGroup.style.display = event.data.visible ? 'flex' : 'none';
+                    }
+                }
+                // 2. Change status response
                 else if (event.data.type === 'unsavedChangesResult') {
                     // Save the current playback position for this song
                     if (event.data.currentTime !== undefined && this.currentSongId) {

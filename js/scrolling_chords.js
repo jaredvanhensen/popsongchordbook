@@ -1,4 +1,4 @@
-// Scrolling Chords Logic
+// Scrolling Chords Logic (v2.164)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -242,12 +242,7 @@ window.addEventListener('message', (event) => {
         }
     }
     else if (msg.type === 'checkUnsavedChanges') {
-        const currentJson = JSON.stringify(chords);
-        const hasChanges = currentJson !== originalChordsJson ||
-            currentTempo !== originalTempo ||
-            barOffsetInBeats !== originalBarOffset ||
-            currentLyricOffset !== originalLyricOffset ||
-            (document.getElementById('midiNotationToggle') && document.getElementById('midiNotationToggle').checked !== originalUseFlatNotation);
+        const hasChanges = checkIfHasChanges();
 
         // Also report current playback position so the parent can restore it
         const currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
@@ -256,6 +251,15 @@ window.addEventListener('message', (event) => {
             type: 'unsavedChangesResult',
             hasChanges: hasChanges,
             currentTime: Math.max(0, currentTime)
+        }, '*');
+    }
+    else if (msg.type === 'toggleTimelineCloseBtn') {
+        // This is just a signal from parent, we don't need a result usually 
+        // but let's send one if it was an inquiry
+        const hasChanges = checkIfHasChanges();
+        window.parent.postMessage({
+            type: 'unsavedChangesResult',
+            hasChanges: hasChanges
         }, '*');
     }
     else if (msg.type === 'updateSuggestedChords') {
@@ -2046,6 +2050,8 @@ function setSaveStatus(isSaved) {
     }
 }
 
+
+
 function checkIfHasChanges() {
     const currentJson = JSON.stringify(chords);
     return currentJson !== originalChordsJson ||
@@ -3378,6 +3384,11 @@ function openSongMap() {
 
     overlay.classList.remove('hidden');
 
+    // Tell parent to hide its close button to avoid 'stacked' look and accidental closing of the whole thing
+    if (window.parent && typeof window.parent.postMessage === 'function') {
+        window.parent.postMessage({ type: 'toggleTimelineCloseBtn', visible: false }, '*');
+    }
+
     // Sync style and zoom labels on open
     const styleLabel = document.getElementById('mapStyleLabel');
     if (styleLabel) {
@@ -3492,6 +3503,11 @@ function closeSongMap() {
 function _forceCloseSongMap() {
     const overlay = document.getElementById('songMapOverlay');
     if (overlay) overlay.classList.add('hidden');
+
+    // Restore parent's close button
+    if (window.parent && typeof window.parent.postMessage === 'function') {
+        window.parent.postMessage({ type: 'toggleTimelineCloseBtn', visible: true }, '*');
+    }
 
     document.body.classList.remove('song-map-active'); // Remove clean mode class
 
