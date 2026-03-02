@@ -3294,6 +3294,37 @@ body.ctrl-held .chord-item {
     transform: translateY(1px);
 }
 
+.luxury-save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    width: auto !important;
+    min-width: 65px;
+    padding: 0 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4) !important;
+    gap: 0px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.luxury-save-btn .icon {
+    font-size: 1.1rem !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.luxury-save-btn .label {
+    margin-left: 2px !important;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem !important;
+}
+
+.luxury-save-btn:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.6) !important;
+}
+
 .song-map-toolbar-btn:active,
 .song-map-toolbar-btn.active:active {
     transform: translateY(4px);
@@ -3973,7 +4004,6 @@ body.ctrl-held .chord-item {
     /* Hide specific features on narrow mobile screens where they go into hamburger */
     #mapThumbnailDisplay,
     #songMapStyleBtn,
-    #songMapSaveBtn,
     #songMapZoomBtn,
     #songMapDragToggleBtn,
     .map-nav-hide {

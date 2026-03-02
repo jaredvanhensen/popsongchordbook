@@ -2072,11 +2072,12 @@ function checkForChanges() {
 
     const mapSaveBtn = document.getElementById('songMapSaveBtn');
     if (mapSaveBtn) {
-        mapSaveBtn.classList.remove('hidden');
         if (hasUnsavedChanges) {
+            mapSaveBtn.classList.remove('hidden');
             mapSaveBtn.disabled = false;
             mapSaveBtn.style.opacity = '1';
         } else {
+            mapSaveBtn.classList.add('hidden');
             mapSaveBtn.disabled = true;
             mapSaveBtn.style.opacity = '0.5';
         }
@@ -3465,7 +3466,7 @@ function initCustomMapSectionsFromMarkers() {
 
 function closeSongMap() {
     if (typeof checkIfHasChanges === 'function' && checkIfHasChanges()) {
-        const isMobile = window.innerWidth < 768 || window.matchMedia("(orientation: portrait)").matches;
+        const isMobile = window.innerWidth < 600;
 
         if (window.confirmationModal) {
             if (isMobile) {
