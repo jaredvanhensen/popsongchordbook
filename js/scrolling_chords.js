@@ -3473,7 +3473,7 @@ function closeSongMap() {
                 // Mobile-Specific: SAVE or DISCARD
                 window.confirmationModal.show(
                     'Unsaved Changes',
-                    'You have unsaved changes in your Song Map.',
+                    'You have unsaved changes. Do you want to save them first?',
                     () => {
                         // SAVE
                         saveToDatabase(() => {
@@ -3481,11 +3481,11 @@ function closeSongMap() {
                         });
                     },
                     () => {
-                        // DISCARD
+                        // DON'T SAVE
                         _forceCloseSongMap();
                     },
                     'SAVE',
-                    'DISCARD'
+                    "DON'T SAVE"
                 );
             } else {
                 window.confirmationModal.show(

@@ -2735,6 +2735,22 @@ td:has(.row-edit-input.input-focused) {
     box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
 }
 
+.confirmation-modal .btn-soft-red {
+    background: #fee2e2 !important;
+    color: #ef4444 !important;
+}
+
+.confirmation-modal .btn-soft-red:hover {
+    background: #fecaca !important;
+    color: #dc2626 !important;
+}
+
+.confirmation-modal .btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
 .modal-actions-horizontal {
     display: flex;
     justify-content: center;

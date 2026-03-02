@@ -66,7 +66,7 @@ class ConfirmationModal {
         });
     }
 
-    show(title, message, onConfirm, onCancel = null, confirmText = null, type = 'primary', isInfo = false) {
+    show(title, message, onConfirm, onCancel = null, confirmText = null, cancelText = null, type = 'primary', isInfo = false) {
         if (!this.element) this.render();
 
         const titleEl = this.element.querySelector('#confirmationModalTitle');
@@ -77,16 +77,26 @@ class ConfirmationModal {
         titleEl.textContent = title || 'Confirm';
         messageEl.innerHTML = message || 'Are you sure?';
 
-        // Set button text
+        // Set button texts
         confirmBtn.textContent = confirmText || 'OK';
+        cancelBtn.textContent = cancelText || 'Cancel';
 
         // Set button style
-        confirmBtn.classList.remove('btn-primary', 'btn-danger');
+        confirmBtn.classList.remove('btn-primary', 'btn-danger', 'btn-warning');
+        cancelBtn.classList.remove('btn-soft-red');
+
         if (type === 'danger' || (title && title.toLowerCase().includes('delete'))) {
             confirmBtn.classList.add('btn-danger');
             if (!confirmText) confirmBtn.textContent = 'Delete';
+        } else if (type === 'warning') {
+            confirmBtn.classList.add('btn-warning');
         } else {
             confirmBtn.classList.add('btn-primary');
+        }
+
+        // Check for specific "Don't Save" style (soft red cancel button)
+        if (cancelText && cancelText.toUpperCase().includes("DON'T SAVE")) {
+            cancelBtn.classList.add('btn-soft-red');
         }
 
         // Info mode: hide cancel button
