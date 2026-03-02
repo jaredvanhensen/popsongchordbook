@@ -3915,8 +3915,7 @@ body.ctrl-held .chord-item {
 }
 
 /* --- MOBILE FULLSCREEN SONG MAP --- */
-@media (max-width: 768px),
-(orientation: portrait) {
+@media (max-width: 600px) {
 
     /* Clean Mode for Song Map (Hides background) */
     body.song-map-active #songMapOverlay {
@@ -3971,7 +3970,7 @@ body.ctrl-held .chord-item {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
-    /* Hide desktop features to save space */
+    /* Hide specific features on narrow mobile screens where they go into hamburger */
     #mapThumbnailDisplay,
     #songMapStyleBtn,
     #songMapSaveBtn,
