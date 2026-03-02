@@ -3466,36 +3466,23 @@ function initCustomMapSectionsFromMarkers() {
 
 function closeSongMap() {
     if (typeof checkIfHasChanges === 'function' && checkIfHasChanges()) {
-        const isMobile = window.innerWidth < 600;
-
         if (window.confirmationModal) {
-            if (isMobile) {
-                // Mobile-Specific: SAVE or DISCARD
-                window.confirmationModal.show(
-                    'Unsaved Changes',
-                    'You have unsaved changes. Do you want to save them first?',
-                    () => {
-                        // SAVE
-                        saveToDatabase(() => {
-                            _forceCloseSongMap();
-                        });
-                    },
-                    () => {
-                        // DON'T SAVE
+            window.confirmationModal.show(
+                'Unsaved Changes',
+                'You have unsaved changes. Do you want to save them first?',
+                () => {
+                    // SAVE
+                    saveToDatabase(() => {
                         _forceCloseSongMap();
-                    },
-                    'SAVE',
-                    "DON'T SAVE"
-                );
-            } else {
-                window.confirmationModal.show(
-                    'Unsaved Changes',
-                    'You have unsaved changes. Are you sure you want to close without saving?',
-                    () => {
-                        _forceCloseSongMap();
-                    }
-                );
-            }
+                    });
+                },
+                () => {
+                    // DON'T SAVE
+                    _forceCloseSongMap();
+                },
+                'SAVE',
+                "DON'T SAVE"
+            );
             return;
         }
     }

@@ -95,7 +95,7 @@ class ConfirmationModal {
         }
 
         // Check for specific "Don't Save" style (soft red cancel button)
-        if (cancelText && cancelText.toUpperCase().includes("DON'T SAVE")) {
+        if (typeof cancelText === 'string' && cancelText.toUpperCase().includes("DON'T SAVE")) {
             cancelBtn.classList.add('btn-soft-red');
         }
 
