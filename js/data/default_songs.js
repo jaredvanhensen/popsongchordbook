@@ -1262,7 +1262,7 @@ const DEFAULT_SONGS = [
                           "tempo":  71
                       },
         "id":  2,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Procol Harem",
@@ -2042,7 +2042,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Toto",
@@ -2051,7 +2051,7 @@ const DEFAULT_SONGS = [
         "chorus":  "B F# G#m A C#m G#m A 4x",
         "preChorus":  "F#m D3 A2 E 4x",
         "bridge":  "C#m2 E F#m E A",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/FTQbiNvZqaY?si=3zyyy4HIgRvrP0Ih",
         "externalUrl":  "",
         "key":  "F",
@@ -2399,7 +2399,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  -7,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -2441,7 +2441,7 @@ const DEFAULT_SONGS = [
         "chorus":  "Bbm Ab Eb3 2x",
         "preChorus":  "Ab Fm Db3 Eb 2x | Fm Db3 Ab2 Eb 2x",
         "bridge":  "Bbm Ab Eb 2x",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/450p7goxZqg?si=kt5ZZn9f4yLAB39F",
         "externalUrl":  "",
         "key":  "Ab",
@@ -3050,7 +3050,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/9OQBDdNHmXo?si=kQcnikQwXUdYBCGR",
         "externalUrl":  "",
         "key":  "C",
@@ -4402,7 +4402,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -5353,7 +5353,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "Block 1"
     },
@@ -5364,7 +5364,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/ijXbkWzW1BQ?si=bXVVCE2p63CYNKSa",
         "externalUrl":  "",
         "key":  "E",
@@ -5422,7 +5422,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/4O86JJHoiRg?si=XxO2ibND7LlobLIf",
         "externalUrl":  "",
         "key":  "",
@@ -5480,7 +5480,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/u3EgisYHxgs?si=2noVCrPcSNdhcr1x",
         "externalUrl":  "",
         "key":  "",
@@ -5592,7 +5592,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/6TAPqXkZW_I?si=uFJxRIrrZNEnHj3B",
         "externalUrl":  "",
         "key":  "",
@@ -5681,7 +5681,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/zA52uNzx7Y4?si=sKz9l_PCIaTLBcFr",
         "externalUrl":  "",
         "key":  "",
@@ -5708,7 +5708,7 @@ const DEFAULT_SONGS = [
         "chorus":  "F2 C A#",
         "preChorus":  "Real: Ebm B Db l F# C# B",
         "bridge":  "Bb2 C Bb2",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/6RUIeX6UCT8?si=ctaQtg95VcDw-tYT",
         "externalUrl":  "",
         "key":  "Dm",
@@ -5846,7 +5846,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Europe",
@@ -5875,7 +5875,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -5936,7 +5936,7 @@ const DEFAULT_SONGS = [
         "chorus":  "Gb Db3 Ab",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/PFW2uSCZ0uE?si=PsF1-zU-WSi-WiPN",
         "externalUrl":  "",
         "key":  "Fm",
@@ -6048,7 +6048,7 @@ const DEFAULT_SONGS = [
         "chorus":  "A# C D2",
         "preChorus":  "G C2 G A# A",
         "bridge":  "(single notes dc#c ag#g) E A2",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/WYeDsa4Tw0c?si=kMs1bIiv0mGrk7GY",
         "externalUrl":  "",
         "key":  "",
@@ -6075,7 +6075,7 @@ const DEFAULT_SONGS = [
         "chorus":  "Bb2 F Fsus4 Am",
         "preChorus":  "D5 F5 C5 Eb5 C5 Gm5",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/KmWE9UBFwtY?si=DVwan5oDqa09pMTT",
         "externalUrl":  "",
         "key":  "Dm",
@@ -6152,7 +6152,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/7Xf-Lesrkuc?si=y_6ggF3qYDIQgKxh",
         "externalUrl":  "",
         "key":  "",
@@ -6226,7 +6226,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -6264,7 +6264,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/HO7uge9UUrA?si=sRs3BRrwwiLa1yzH",
         "externalUrl":  "",
         "key":  "G",
@@ -6326,7 +6326,7 @@ const DEFAULT_SONGS = [
         "chorus":  "A Em G D",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/7Xf-Lesrkuc?si=y_6ggF3qYDIQgKxh",
         "externalUrl":  "",
         "key":  "",
@@ -6353,7 +6353,7 @@ const DEFAULT_SONGS = [
         "chorus":  "F# C# G# ... like sundaymorning",
         "preChorus":  "F# D#m | B Bbm C# ...",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/iXIVh0VkVVE?si=EpcQFT6fRBc6W3sa",
         "externalUrl":  "",
         "key":  "A#m",
@@ -6590,7 +6590,7 @@ const DEFAULT_SONGS = [
         "chorus":  "F#m E A2 D C#m C#",
         "preChorus":  "F#m D3 F#m E A2 D E A2 E F#m E D C#m3 C#3",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/9jK-NcRmVcw?si=fDZ69nzwNOSgWhay",
         "externalUrl":  "",
         "key":  "",
@@ -6617,7 +6617,7 @@ const DEFAULT_SONGS = [
         "chorus":  "Ab Cm Bb Ab Eb3 Gm Ab",
         "preChorus":  "Ab Eb Ab Bb Cm Ab Eb F",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/psuRGfAaju4?si=OwdXEMpC07OuXwC0",
         "externalUrl":  "",
         "key":  "",
@@ -6893,7 +6893,7 @@ const DEFAULT_SONGS = [
                           "tempo":  110
                       },
         "id":  67,
-        "practiceCount":  "2"
+        "practiceCount":  ""
     },
     {
         "artist":  "Phil Collins",
@@ -6978,7 +6978,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/egtD5GfAh58?si=nNbFGngFbhi8RacO",
         "externalUrl":  "",
         "key":  "Gm",
@@ -7020,7 +7020,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "BRIDGE",
         "chorusTitle":  "VERSE",
         "id":  72,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -7107,7 +7107,7 @@ const DEFAULT_SONGS = [
         "chorus":  "D2 E2 F#m2 | D E",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/htgr3pvBr-I?si=Z9_5IZg04JuoygDj",
         "externalUrl":  "",
         "key":  "F#m",
@@ -7186,7 +7186,7 @@ const DEFAULT_SONGS = [
         "chorus":  "Bm F# A E G D Em F#",
         "preChorus":  "Bm F# A E G D Em F#",
         "bridge":  "Bm F# A E G D Em F#",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/dLl4PZtxia8?si=3yMActxqSblYrEWH",
         "externalUrl":  "",
         "key":  "Bm",
@@ -7673,7 +7673,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "Block 1"
     },
@@ -7763,7 +7763,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/YkADj0TPrJA?si=_gpFS3n5arSx2e1U",
         "externalUrl":  "",
         "key":  "",
@@ -7829,7 +7829,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "Block 4",
         "chorusTitle":  "Guitar solo🎵",
         "id":  86,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -7888,7 +7888,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/u7XjPmN-tHw?si=YlGfIFK3zkaAS2hC",
         "externalUrl":  "",
         "key":  "F",
@@ -8084,7 +8084,7 @@ const DEFAULT_SONGS = [
         "id":  96,
         "lyricOffset":  0,
         "patchDetails":  "",
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "BRIDGE",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -8183,7 +8183,7 @@ const DEFAULT_SONGS = [
                           "tempo":  132
                       },
         "id":  100,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Paul Mc Cartney",
@@ -8264,7 +8264,7 @@ const DEFAULT_SONGS = [
         "chorus":  "C G Am F l D l",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/LTrk4X9ACtw?si=1l5uovwlB8U7rf5U",
         "externalUrl":  "",
         "key":  "",
@@ -8690,7 +8690,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "Block 4",
         "chorusTitle":  "CHORUS",
         "id":  121,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "BRIDGE",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -9539,7 +9539,7 @@ const DEFAULT_SONGS = [
         "chorus":  "F Bb C",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/9f06QZCVUHg?si=zBt6q2KmsgQRePKG",
         "externalUrl":  "",
         "key":  "D",
@@ -9699,7 +9699,7 @@ const DEFAULT_SONGS = [
                           "tempo":  146
                       },
         "id":  138,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Bon Jovi",
@@ -9952,7 +9952,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/WA4iX5D9Z64?si=uM7PzjZ5n9WH9Vhm",
         "externalUrl":  "",
         "key":  "",
@@ -9997,7 +9997,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  4,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -10008,7 +10008,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/6NXnxTNIWkc?si=N6SOyX8dHz4B4ufP",
         "externalUrl":  "",
         "key":  "A",
@@ -10108,7 +10108,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/ujNeHIo7oTE?si=9-R082F_SWgPU29P",
         "externalUrl":  "",
         "key":  "",
@@ -10156,7 +10156,7 @@ const DEFAULT_SONGS = [
         "chorus":  "E G#m F#",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/yKNxeF4KMsY?si=B4D6dOKMbkPqGdob",
         "externalUrl":  "",
         "key":  "B",
@@ -10399,7 +10399,7 @@ const DEFAULT_SONGS = [
         "chorus":  "G3 D2 A G D2",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/zUQiUFZ5RDw?si=AFNxHPFS4srqeSRG",
         "externalUrl":  "",
         "key":  "D",
@@ -10478,7 +10478,7 @@ const DEFAULT_SONGS = [
         "chorus":  "C2 G D2 A",
         "preChorus":  "",
         "bridge":  "Am Bm C D | Em G A",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/4Fc67yQsPqQ?si=ZzcwUM3C5dSGtI2t",
         "externalUrl":  "",
         "key":  "Em",
@@ -10573,7 +10573,7 @@ const DEFAULT_SONGS = [
         "id":  179,
         "lyricOffset":  0,
         "patchDetails":  "",
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "PRE CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -10994,7 +10994,7 @@ const DEFAULT_SONGS = [
         "id":  201,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Michael Jackson",
@@ -11058,7 +11058,7 @@ const DEFAULT_SONGS = [
         "chorus":  "",
         "preChorus":  "",
         "bridge":  "",
-        "favorite":  true,
+        "favorite":  false,
         "youtubeUrl":  "https://youtu.be/AIOAlaACuv4?si=56qFrfm3lw7Zu1CK",
         "externalUrl":  "",
         "key":  "A",
@@ -11632,7 +11632,7 @@ const DEFAULT_SONGS = [
                           "tempo":  68
                       },
         "id":  214,
-        "practiceCount":  "1"
+        "practiceCount":  ""
     },
     {
         "artist":  "Marc Cohen",
@@ -12017,7 +12017,7 @@ const DEFAULT_SONGS = [
         "id":  218,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "CHORUS",
         "verseTitle":  "INTRO"
     },
@@ -12046,7 +12046,7 @@ const DEFAULT_SONGS = [
         "bridgeTitle":  "Block 4",
         "chorusTitle":  "CHORUS",
         "id":  219,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -12595,7 +12595,7 @@ const DEFAULT_SONGS = [
         "id":  221,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "PRE CHORUS",
         "verseTitle":  "INTRO \u0026 chorus"
     },
@@ -13124,7 +13124,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "BRIDGE",
         "verseTitle":  "INTRO \u0026 VERSE"
     },
@@ -13156,7 +13156,7 @@ const DEFAULT_SONGS = [
         "lyricOffset":  0,
         "patchDetails":  "",
         "performAbility":  0,
-        "practiceCount":  "1",
+        "practiceCount":  "",
         "preChorusTitle":  "Block 3",
         "verseTitle":  "ALL SONG"
     },
@@ -13567,4 +13567,5 @@ const DEFAULT_SONGS = [
         "verseTitle":  "Block 1"
     }
 ];
+
 

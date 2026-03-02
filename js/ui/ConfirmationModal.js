@@ -83,7 +83,7 @@ class ConfirmationModal {
 
         // Set button style
         confirmBtn.classList.remove('btn-primary', 'btn-danger', 'btn-warning');
-        cancelBtn.classList.remove('btn-soft-red');
+        cancelBtn.classList.remove('btn-danger', 'btn-warning');
 
         if (type === 'danger' || (title && title.toLowerCase().includes('delete'))) {
             confirmBtn.classList.add('btn-danger');
@@ -94,9 +94,9 @@ class ConfirmationModal {
             confirmBtn.classList.add('btn-primary');
         }
 
-        // Check for specific "Don't Save" style (soft red cancel button)
+        // Check for specific "Don't Save" style (solid red cancel button)
         if (typeof cancelText === 'string' && cancelText.toUpperCase().includes("DON'T SAVE")) {
-            cancelBtn.classList.add('btn-soft-red');
+            cancelBtn.classList.add('btn-danger');
         }
 
         // Info mode: hide cancel button
