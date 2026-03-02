@@ -3190,7 +3190,7 @@ if (document.getElementById('menuEditOption')) {
 
         // Update color to show active state
         const menuEditOption = document.getElementById('menuEditOption');
-        if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#10b981' : '#ffffff';
+        if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#10b981' : '#1e293b';
     });
 }
 

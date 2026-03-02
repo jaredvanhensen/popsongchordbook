@@ -4053,11 +4053,11 @@ body.ctrl-held .chord-item {
         top: 52px;
         left: 0;
         right: 0;
-        background: #1e293b;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 10px 0;
+        background: #ffffff;
+        border-bottom: 2px solid #e2e8f0;
+        padding: 5px 0;
         z-index: 10002;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         animation: slideDownMenu 0.2s ease-out;
     }
 
@@ -4081,10 +4081,15 @@ body.ctrl-held .chord-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        color: white;
+        padding: 14px 20px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #1e293b;
         cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .mobile-menu-item:active {
+        background: #f8fafc;
     }
 
     .mobile-menu-item:last-child {
@@ -4097,12 +4102,13 @@ body.ctrl-held .chord-item {
     }
 
     .menu-item-value {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 4px 10px;
+        background: #f1f5f9;
+        padding: 4px 12px;
         border-radius: 8px;
         font-size: 0.8rem;
-        font-weight: 700;
-        color: #94a3b8;
+        font-weight: 800;
+        color: #475569;
+        border: 1px solid #e2e8f0;
     }
 
     /* Toolbar Buttons adjustments */
