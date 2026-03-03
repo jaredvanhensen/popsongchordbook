@@ -1,4 +1,4 @@
-﻿/* Scrolling CSS (v2.163) */
+﻿/* Scrolling CSS (v2.165) */
 :root {
     color-scheme: light;
     forced-color-adjust: none;
@@ -3152,7 +3152,7 @@ body.ctrl-held .chord-item {
 }
 
 .map-modal-content {
-    background: #ffffff;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     border-radius: 16px;
     width: 90vw;
     max-width: none;
@@ -3205,8 +3205,8 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-header {
-    background: #ffffff;
-    border-bottom: 1px solid #f1f5f9;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: clamp(10px, 1.5vh, 18px) clamp(15px, 2vw, 25px);
     border-radius: 12px 12px 0 0;
     display: flex;
@@ -3236,7 +3236,7 @@ body.ctrl-held .chord-item {
 
 .song-map-header .song-detail-title-section {
     flex: 1 1 auto;
-    color: #1e293b;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -3246,9 +3246,9 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-header .song-detail-title {
-    font-weight: 700;
+    font-weight: 800;
     margin: 0;
-    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-size: clamp(1.1em, 3vh, 1.6em);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3256,11 +3256,11 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-header .song-detail-artist {
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
-    font-size: clamp(0.9rem, 1.25vw, 1.1rem);
-    color: #64748b;
-    opacity: 1;
+    font-size: clamp(0.9em, 2vw, 1.2em);
+    color: inherit;
+    opacity: 0.9;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3274,6 +3274,8 @@ body.ctrl-held .chord-item {
     flex-shrink: 0;
     flex-wrap: nowrap;
     min-width: 0;
+    margin-right: 40px;
+    /* Keep buttons away from close button on PC */
 }
 
 .song-map-header .song-detail-close-top {
@@ -3626,7 +3628,7 @@ body.ctrl-held .chord-item {
     left: calc(4px * var(--map-zoom-scale));
     font-size: calc(0.55rem * var(--map-zoom-scale));
     font-weight: 700;
-    color: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.5);
     white-space: nowrap;
 }
 

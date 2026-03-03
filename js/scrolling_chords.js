@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.164)
+// Scrolling Chords Logic (v2.165)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -1636,16 +1636,17 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
     youtubeUrl = url;
     if (youtubeUrl) {
-        if (youtubeApiReady) {
-            initYouTubePlayer(youtubeUrl);
-        }
         if (captureBtn) captureBtn.classList.remove('hidden');
         if (youtubeToggleBtn) {
             youtubeToggleBtn.classList.remove('hidden');
             youtubeToggleBtn.classList.add('active'); // Default to active since player starts shown
         }
-        // Show player immediately so user can see it
+        // Show player BEFORE initialising the YT.Player so the container
+        // is visible when the iframe is injected (hidden containers cause black screens)
         if (youtubePlayerContainer) youtubePlayerContainer.classList.remove('hidden');
+        if (youtubeApiReady) {
+            initYouTubePlayer(youtubeUrl);
+        }
     } else {
         if (captureBtn) captureBtn.classList.add('hidden');
         if (youtubeToggleBtn) youtubeToggleBtn.classList.add('hidden');
@@ -2681,26 +2682,44 @@ function initYouTubePlayer(url) {
     if (!videoId) return;
 
     if (youtubePlayer) {
-        youtubePlayer.cueVideoById(videoId);
-    } else {
-        youtubePlayer = new YT.Player('youtubePlayer', {
-            height: '100%',
-            width: '100%',
-            videoId: videoId,
-            playerVars: {
-                'autoplay': 0,
-                'playsinline': 1,
-                'controls': 1,
-                'rel': 0,
-                'origin': window.location.origin
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange,
-                'onError': onPlayerError
-            }
-        });
+        // Destroy the existing player and recreate it from scratch.
+        // cueVideoById() is unreliable when the previous player was initialised
+        // while the container was hidden (causes a black screen for some songs).
+        try {
+            youtubePlayer.destroy();
+        } catch (e) {
+            console.warn('Could not destroy previous YouTube player:', e);
+        }
+        youtubePlayer = null;
+
+        // Recreate the host div that the API replaces with an <iframe>
+        const container = document.getElementById('youtubePlayerContainer');
+        if (container) {
+            const oldEl = document.getElementById('youtubePlayer');
+            if (oldEl) oldEl.remove();
+            const newEl = document.createElement('div');
+            newEl.id = 'youtubePlayer';
+            container.appendChild(newEl);
+        }
     }
+
+    youtubePlayer = new YT.Player('youtubePlayer', {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+            'autoplay': 0,
+            'playsinline': 1,
+            'controls': 1,
+            'rel': 0,
+            'origin': window.location.origin
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
 }
 
 function onPlayerReady(event) {
@@ -2765,9 +2784,17 @@ function onPlayerStateChange(event) {
 }
 
 function extractVideoID(url) {
-    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : false;
+    if (!url) return false;
+    // youtu.be short URLs: youtu.be/VIDEO_ID
+    const shortMatch = url.match(/youtu\.be\/([^#&?/]{11})/);
+    if (shortMatch) return shortMatch[1];
+    // Standard watch URL: youtube.com/watch?v=VIDEO_ID
+    const watchMatch = url.match(/[?&]v=([^#&]{11})/);
+    if (watchMatch) return watchMatch[1];
+    // Embed URL: youtube.com/embed/VIDEO_ID
+    const embedMatch = url.match(/embed\/([^#&?/]{11})/);
+    if (embedMatch) return embedMatch[1];
+    return false;
 }
 
 function toggleTimingCapture() {
