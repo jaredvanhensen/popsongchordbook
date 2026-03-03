@@ -1,4 +1,4 @@
-﻿/* Scrolling CSS (v2.165) */
+﻿/* Scrolling CSS (v2.166) */
 :root {
     color-scheme: light;
     forced-color-adjust: none;
@@ -3280,27 +3280,30 @@ body.ctrl-held .chord-item {
 
 .song-map-header .song-detail-close-top {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 15px;
     width: 32px;
     height: 32px;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 50%;
-    color: white;
+    color: #94a3b8;
     font-size: 24px;
+    font-weight: 400;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 100;
-    transition: all 0.2s ease;
+    transition: background 0.2s, color 0.2s;
     line-height: 1;
     padding: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .song-map-header .song-detail-close-top:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background: white;
+    color: #ef4444;
     transform: scale(1.1);
 }
 
