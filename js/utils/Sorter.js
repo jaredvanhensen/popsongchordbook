@@ -42,6 +42,19 @@ class Sorter {
             }
         }
 
+        // Special handling for Song Map column (boolean based on customMapSections)
+        if (column === 'songmap') {
+            const hasMapA = a.customMapSections && Array.isArray(a.customMapSections) && a.customMapSections.length > 0;
+            const hasMapB = b.customMapSections && Array.isArray(b.customMapSections) && b.customMapSections.length > 0;
+            const aVal = hasMapA ? 1 : 0;
+            const bVal = hasMapB ? 1 : 0;
+            if (direction === 'asc') {
+                return bVal - aVal; // Checkmarked first
+            } else {
+                return aVal - bVal; // Non-checkmarked first
+            }
+        }
+
         // Numeric sorting for ID
         if (column === 'id') {
             const aVal = parseInt(a.id) || 0;

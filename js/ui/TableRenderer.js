@@ -128,6 +128,17 @@ class TableRenderer {
         }
         row.appendChild(ctlCell);
 
+        // Song Map Column
+        const mapCell = document.createElement('td');
+        mapCell.className = 'songmap-cell';
+        const hasSongMap = song.customMapSections && Array.isArray(song.customMapSections) && song.customMapSections.length > 0;
+        if (hasSongMap) {
+            mapCell.innerHTML = '<span style="color: #10b981; font-weight: bold; font-size: 1.2em;">✓</span>';
+        } else {
+            mapCell.innerHTML = '';
+        }
+        row.appendChild(mapCell);
+
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
@@ -257,7 +268,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -269,6 +280,9 @@ class TableRenderer {
 
             // Skip CTL cell
             if (cell.classList.contains('ctl-cell')) return;
+
+            // Skip Song Map cell
+            if (cell.classList.contains('songmap-cell')) return;
 
             const field = fieldOrder[index];
             if (!field) return;
