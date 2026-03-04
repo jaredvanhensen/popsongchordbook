@@ -2067,14 +2067,21 @@ function checkForChanges() {
     if (!saveBtn) return;
     const hasUnsavedChanges = checkIfHasChanges();
 
-    saveBtn.classList.remove('hidden');
+    const isMobile = window.innerWidth < 768 || window.matchMedia("(orientation: portrait)").matches;
+
     if (hasUnsavedChanges) {
+        saveBtn.classList.remove('hidden');
         saveBtn.disabled = false;
         saveBtn.style.opacity = '1';
         setSaveStatus(false);
     } else {
-        saveBtn.disabled = true;
-        saveBtn.style.opacity = '0.5';
+        if (isMobile) {
+            saveBtn.classList.add('hidden');
+        } else {
+            saveBtn.classList.remove('hidden');
+            saveBtn.disabled = true;
+            saveBtn.style.opacity = '0.5';
+        }
     }
 
     const mapSaveBtn = document.getElementById('songMapSaveBtn');
@@ -3269,7 +3276,7 @@ if (mapHeader && mapModal) {
     mapHeader.addEventListener('pointermove', (e) => {
         if (isMapWindowDragging) {
             const x = e.clientX - mapWindowDragOffset.x;
-            const y = e.clientY - mapWindowDragOffset.y;
+            const y = Math.max(0, e.clientY - mapWindowDragOffset.y); // Constrain to top of screen
 
             mapModal.style.left = x + 'px';
             mapModal.style.top = y + 'px';
@@ -3962,7 +3969,7 @@ function showMapRenameModal(sec) {
             </div>
             <div class="map-rename-footer">
                 <button id="mapRenameCancel" class="map-rename-btn map-rename-btn-secondary">Cancel</button>
-                <button id="mapRenameSave" class="map-rename-btn map-rename-btn-primary">Save Changes</button>
+                <button id="mapRenameSave" class="map-rename-btn map-rename-btn-primary">SAVE</button>
             </div>
         </div>
     `;
