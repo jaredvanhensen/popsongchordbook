@@ -5492,10 +5492,10 @@ td:has(.row-edit-input.input-focused) {
 /* Specific sizing for mobile to ensures it matches precisely */
 @media (max-width: 480px) {
     #instrumentToggleBtn .icon {
-        height: 44px !important;
-        /* Increased by 10% (from 40px) */
-        font-size: 38px !important;
-        /* Increased by 10% (from 34px) */
+        height: 40px !important;
+        /* Decreased by 10% (from 44px) */
+        font-size: 34px !important;
+        /* Decreased by 10% (from 38px) */
     }
 }
 
