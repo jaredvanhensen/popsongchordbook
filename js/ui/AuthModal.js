@@ -254,6 +254,27 @@ class AuthModal {
             const result = await this.firebaseManager.signIn(email, password);
 
             if (result.success) {
+                // Email verification check
+                if (!result.user.emailVerified) {
+                    this.showLoginError('Email not verified. Please check your inbox for a verification link.');
+
+                    // Automatically resend verification email on login attempt
+                    try {
+                        await result.user.sendEmailVerification();
+                        this.showLoginSuccess('A new verification email has been sent to your address.');
+                    } catch (error) {
+                        console.error('Error resending verification email:', error);
+                        // If too many attempts, Firebase might throw an error - that's fine
+                    }
+
+                    // Clear password field for security
+                    if (this.loginPasswordInput) this.loginPasswordInput.value = '';
+
+                    // Sign out because they shouldn't be "logged in" in an unverified state
+                    await this.firebaseManager.signOut();
+                    return;
+                }
+
                 this.clearErrors();
                 this.allowHide = true; // Allow hiding after successful login
                 this.hide();
@@ -317,11 +338,15 @@ class AuthModal {
 
             if (result.success) {
                 this.clearErrors();
-                this.allowHide = true; // Allow hiding after successful account creation
-                this.hide();
-                if (this.onAuthSuccess) {
-                    this.onAuthSuccess(result.user);
-                }
+                this.switchToLoginMode();
+                this.showLoginSuccess('Account created! Please check your email to verify your account before logging in.');
+
+                // Sign out because they shouldn't be "logged in" until verified
+                await this.firebaseManager.signOut();
+
+                // Clear the password fields
+                if (this.loginPasswordInput) this.loginPasswordInput.value = '';
+                if (this.loginEmailInput) this.loginEmailInput.value = email;
             } else {
                 this.showCreateError(result.error || 'Account creation failed.');
             }

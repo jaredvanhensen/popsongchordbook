@@ -213,6 +213,16 @@ class App {
     }
 
     async handleAuthSuccess(user) {
+        // Enforce email verification
+        if (user && !user.emailVerified) {
+            console.log('User logged in but email not verified.');
+            this.handleAuthFailure();
+            if (this.authModal) {
+                this.authModal.showLoginError('Please verify your email address. Check your inbox.');
+            }
+            return;
+        }
+
         if (!this.isAuthenticated) {
             // First time authentication - check for migration
             await this.checkAndMigrateData(user);

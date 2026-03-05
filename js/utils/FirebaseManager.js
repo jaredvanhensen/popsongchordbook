@@ -132,6 +132,17 @@ class FirebaseManager {
                 }
             }
 
+            // Send email verification
+            if (this.currentUser) {
+                try {
+                    await this.currentUser.sendEmailVerification();
+                    console.log('Verification email sent to:', email);
+                } catch (error) {
+                    console.error('Error sending verification email:', error);
+                    // Don't fail signup if verification email fails to send
+                }
+            }
+
             return {
                 success: true,
                 user: this.currentUser
