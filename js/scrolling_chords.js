@@ -3141,6 +3141,8 @@ let currentMapStyleIndex = 0;
 const MAP_STYLES = ['map-style-metro', 'map-style-ribbon'];
 const MAP_ZOOM_LEVELS = [1.0, 1.2, 1.4, 1.6, 0.6, 0.8]; // 6-step cycle including +/- 40% and 20%
 let currentMapZoomIndex = 0;
+let isPickerDragging = false;
+let pickerDragOffset = { x: 0, y: 0 };
 
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
@@ -3795,9 +3797,52 @@ function showMapLabelPicker() {
 
     picker.innerHTML = ''; // Clear existing
 
+    // Close button (X) in top right
+    const closeBtnX = document.createElement('button');
+    closeBtnX.className = 'map-label-picker-close-btn';
+    closeBtnX.innerHTML = '&times;';
+    closeBtnX.title = 'Close';
+    closeBtnX.onclick = (e) => {
+        e.stopPropagation();
+        hideMapLabelPicker();
+    };
+    picker.appendChild(closeBtnX);
+
     const title = document.createElement('div');
     title.className = 'map-label-picker-title';
     title.textContent = 'Label Selection:';
+
+    // Dragging Logic for Picker
+    title.addEventListener('pointerdown', (e) => {
+        isPickerDragging = true;
+        const rect = picker.getBoundingClientRect();
+        pickerDragOffset.x = e.clientX - rect.left;
+        pickerDragOffset.y = e.clientY - rect.top;
+
+        // Switch to absolute positioning if not already
+        picker.style.bottom = 'auto';
+        picker.style.left = rect.left + 'px';
+        picker.style.top = rect.top + 'px';
+        picker.style.transform = 'none';
+        picker.style.margin = '0';
+
+        title.setPointerCapture(e.pointerId);
+    });
+
+    title.addEventListener('pointermove', (e) => {
+        if (isPickerDragging) {
+            const x = e.clientX - pickerDragOffset.x;
+            const y = e.clientY - pickerDragOffset.y;
+            picker.style.left = x + 'px';
+            picker.style.top = y + 'px';
+        }
+    });
+
+    title.addEventListener('pointerup', (e) => {
+        isPickerDragging = false;
+        title.releasePointerCapture(e.pointerId);
+    });
+
     picker.appendChild(title);
 
     const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'CLEAR'];
@@ -3853,20 +3898,6 @@ function showMapLabelPicker() {
     inputContainer.appendChild(customInput);
     inputContainer.appendChild(addBtn);
     picker.appendChild(inputContainer);
-
-    // Add spacer before close btn
-    const spacer = document.createElement('div');
-    spacer.style.flex = '1';
-    picker.appendChild(spacer);
-
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'map-label-close';
-    closeBtn.textContent = 'Cancel'; // Ensure simple text
-    closeBtn.onclick = (e) => {
-        e.stopPropagation();
-        hideMapLabelPicker();
-    };
-    picker.appendChild(closeBtn);
 
     picker.classList.remove('hidden');
 }

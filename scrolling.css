@@ -3714,6 +3714,33 @@ body.ctrl-held .chord-item {
     }
 }
 
+.map-label-picker-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+    padding: 0;
+    z-index: 10;
+}
+
+.map-label-picker-close-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+    transform: scale(1.1);
+}
+
 .map-label-picker.hidden {
     display: none;
 }
@@ -3723,6 +3750,11 @@ body.ctrl-held .chord-item {
     color: #1e293b;
     font-size: 1.1rem;
     text-align: center;
+    cursor: move;
+    user-select: none;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 5px;
 }
 
 .map-label-pills-container {
@@ -3809,13 +3841,9 @@ body.ctrl-held .chord-item {
     color: #64748b;
 }
 
+/* Obsolete cancel/close style replaced by x-btn */
 .map-label-close {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px;
+    display: none;
 }
 
 .map-label-input-container {
