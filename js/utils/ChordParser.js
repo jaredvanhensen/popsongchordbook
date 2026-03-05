@@ -145,7 +145,46 @@ class ChordParser {
             name: chordName,
             notes: notes,
             root: rootSemitone,
-            inversion: inversion
+            inversion: inversion,
+            isPiano: true
+        };
+    }
+
+    /**
+     * Parses a chord name into guitar-specific MIDI notes using fingerings.
+     * @param {string} chordName 
+     * @param {object} database GuitarChordDatabase
+     */
+    parseGuitarChord(chordName, database) {
+        if (!chordName || !database) return null;
+
+        // Simplify chord name for database lookup (e.g., C2 -> C)
+        const simplified = chordName.trim().replace(/[23]$/, '').split('/')[0];
+        const fingering = database[simplified];
+        if (!fingering) return this.parse(chordName); // Fallback to piano-style triad
+
+        // MIDI Note for each open string [E2, A2, D3, G3, B3, E4]
+        const openStrings = [40, 45, 50, 55, 59, 64];
+        const notes = [];
+
+        // Calculate MIDI notes for each string (fingering is [LowE, A, D, G, B, HighE])
+        fingering.frets.forEach((fret, stringIdx) => {
+            if (fret === 'x' || fret === null) return;
+            // fret is either a number or 'x'
+            const fretNum = parseInt(fret);
+            if (!isNaN(fretNum)) {
+                notes.push(openStrings[stringIdx] + fretNum);
+            }
+        });
+
+        // Ensure notes are sorted from lowest string to highest for strumming
+        // Footnote: The database fingerings are already in Low-to-High order,
+        // and we push them in that order.
+
+        return {
+            name: chordName,
+            notes: notes,
+            isGuitar: true
         };
     }
 }

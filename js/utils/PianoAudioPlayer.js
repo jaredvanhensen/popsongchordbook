@@ -73,6 +73,22 @@ class PianoAudioPlayer {
                     [0.5, 0.4, 'sine']
                 ],
                 hammer: false
+            },
+            'guitar-strum': {
+                name: 'Guitar',
+                attack: 0.005,
+                decay: 0.1,
+                sustain: 0.2,
+                release: 0.8,
+                filterMult: 6,
+                harmonics: [
+                    [1, 1.0, 'triangle'],
+                    [2, 0.5, 'sine'],
+                    [3, 0.3, 'triangle'],
+                    [4, 0.15, 'sine'],
+                    [6, 0.05, 'triangle']
+                ],
+                hammer: true // Reuse hammer noise for pick attack
             }
         };
 
@@ -282,21 +298,27 @@ class PianoAudioPlayer {
         noise.start(startTime);
     }
 
-    playChord(semitones, duration = 2.0, velocity = 0.6, stagger = 0.02) {
+    playChord(semitones, duration = 2.0, velocity = 0.6, stagger = 0.02, isStrum = false) {
         if (!this.isInitialized) {
-            this.initialize().then(() => this.playChordInternal(semitones, duration, velocity, stagger));
+            this.initialize().then(() => this.playChordInternal(semitones, duration, velocity, stagger, isStrum));
         } else {
-            this.playChordInternal(semitones, duration, velocity, stagger);
+            this.playChordInternal(semitones, duration, velocity, stagger, isStrum);
         }
     }
 
-    playChordInternal(semitones, duration, velocity, stagger) {
+    playChordInternal(semitones, duration, velocity, stagger, isStrum = false) {
         if (this.audioContext.state === 'suspended') this.audioContext.resume();
         const now = this.audioContext.currentTime;
+
+        // If strumming, we use a slightly longer stagger and random velocity variation
+        const actualStagger = isStrum ? 0.035 : stagger;
         const sortedNotes = [...semitones].sort((a, b) => a - b);
+
         sortedNotes.forEach((semitone, index) => {
-            const noteVelocity = velocity * (0.9 + Math.random() * 0.2);
-            this.playNote(semitone, duration, noteVelocity, now + (index * stagger));
+            // Add slight timing jitter and velocity variation for realism
+            const jitter = isStrum ? (Math.random() * 0.01) : 0;
+            const noteVelocity = velocity * (isStrum ? (0.7 + Math.random() * 0.4) : (0.9 + Math.random() * 0.2));
+            this.playNote(semitone, duration, noteVelocity, now + (index * actualStagger) + jitter);
         });
     }
 

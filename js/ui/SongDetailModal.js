@@ -1404,12 +1404,22 @@ class SongDetailModal {
             e.stopPropagation();
             if (this.sharedAudioPlayer) {
                 this.sharedAudioPlayer.initialize().then(() => {
-                    // In guitar mode, we want consistency with what's shown (the simplified chord)
-                    // In piano mode, we play exactly what was parsed from the source text.
-                    const textToPlay = (this.instrumentMode === 'guitar') ? chordText : (originalText || chordText);
-                    const chord = this.chordParser.parse(textToPlay);
-                    if (chord && chord.notes) {
-                        this.sharedAudioPlayer.playChord(chord.notes, 0.5);
+                    if (this.instrumentMode === 'guitar') {
+                        // Use guitar-specific strum and fingering
+                        this.sharedAudioPlayer.setSound('guitar-strum');
+                        const chord = this.chordParser.parseGuitarChord(chordText, window.GuitarChordDatabase);
+                        if (chord && chord.notes) {
+                            this.sharedAudioPlayer.playChord(chord.notes, 1.5, 0.4, 0.035, true);
+                        }
+                    } else {
+                        // Use piano-style sound and triad
+                        // Attempt to restore user's previous non-guitar sound if possible
+                        // For now we just use the current profile
+                        const textToPlay = (originalText || chordText);
+                        const chord = this.chordParser.parse(textToPlay);
+                        if (chord && chord.notes) {
+                            this.sharedAudioPlayer.playChord(chord.notes, 0.5);
+                        }
                     }
                 });
             }

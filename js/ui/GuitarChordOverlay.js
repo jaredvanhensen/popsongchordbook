@@ -214,9 +214,13 @@ class GuitarChordOverlay {
             e.stopPropagation();
             if (this.audioPlayer && this.chordParser) {
                 this.audioPlayer.initialize().then(() => {
-                    const chord = this.chordParser.parse(simpleName);
+                    // Switch to guitar sound profile
+                    this.audioPlayer.setSound('guitar-strum');
+
+                    // Parse based on actual guitar fingerings for a realistic strum
+                    const chord = this.chordParser.parseGuitarChord(simpleName, this.database);
                     if (chord && chord.notes) {
-                        this.audioPlayer.playChord(chord.notes, 0.5);
+                        this.audioPlayer.playChord(chord.notes, 1.5, 0.4, 0.035, true);
                     }
                 });
             }
