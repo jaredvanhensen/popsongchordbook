@@ -131,7 +131,8 @@ class TableRenderer {
         // Song Map Column
         const mapCell = document.createElement('td');
         mapCell.className = 'songmap-cell';
-        const hasSongMap = song.customMapSections && Array.isArray(song.customMapSections) && song.customMapSections.length > 0;
+        const mapSections = song.customMapSections || (song.chordData ? song.chordData.customMapSections : null);
+        const hasSongMap = mapSections && Array.isArray(mapSections) && mapSections.length > 0;
         if (hasSongMap) {
             mapCell.innerHTML = '<span style="color: #10b981; font-weight: bold; font-size: 1.2em;">✓</span>';
         } else {

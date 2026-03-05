@@ -44,8 +44,10 @@ class Sorter {
 
         // Special handling for Song Map column (boolean based on customMapSections)
         if (column === 'songmap') {
-            const hasMapA = a.customMapSections && Array.isArray(a.customMapSections) && a.customMapSections.length > 0;
-            const hasMapB = b.customMapSections && Array.isArray(b.customMapSections) && b.customMapSections.length > 0;
+            const mapSectionsA = a.customMapSections || (a.chordData ? a.chordData.customMapSections : null);
+            const mapSectionsB = b.customMapSections || (b.chordData ? b.chordData.customMapSections : null);
+            const hasMapA = mapSectionsA && Array.isArray(mapSectionsA) && mapSectionsA.length > 0;
+            const hasMapB = mapSectionsB && Array.isArray(mapSectionsB) && mapSectionsB.length > 0;
             const aVal = hasMapA ? 1 : 0;
             const bVal = hasMapB ? 1 : 0;
             if (direction === 'asc') {
