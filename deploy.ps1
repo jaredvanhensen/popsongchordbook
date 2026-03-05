@@ -8,6 +8,7 @@ param (
 $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
 $songlistFile = Join-Path $root "songlist.html"
+$quickstartFile = Join-Path $root "quickstart.html"
 $appJsFile = Join-Path $root "js\app.js"
 $stylesFile = Join-Path $root "styles.css"
 
@@ -53,9 +54,18 @@ $appJsContent = $appJsContent -replace 'App Initialized \(v[\d\.]+\)', "App Init
 Set-Content $appJsFile $appJsContent -Encoding UTF8
 Write-Host "Updated js/app.js"
 
+# 6. Update quickstart.html
+$quickstartContent = Get-Content $quickstartFile -Raw -Encoding UTF8
+# Update visual version
+$quickstartContent = $quickstartContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+# Update script versions
+$quickstartContent = $quickstartContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
+Set-Content $quickstartFile $quickstartContent -Encoding UTF8
+Write-Host "Updated quickstart.html"
+
 # 6. Git Operations
 Write-Host "Staging changes..."
-git add index.html songlist.html js/app.js styles.css
+git add index.html songlist.html quickstart.html js/app.js styles.css
 
 Write-Host "Committing..."
 git commit -m "$Message (v$newVersion)"

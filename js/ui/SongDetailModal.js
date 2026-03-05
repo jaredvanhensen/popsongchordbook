@@ -131,12 +131,20 @@ class SongDetailModal {
         this.isRandomMode = false;
         this.transposeOffset = 0;
 
+        // Initialize Instrument Mode (Piano/Guitar)
+        const user = songManager.firebaseManager ? songManager.firebaseManager.getCurrentUser() : null;
+        const uid = user ? user.uid : 'guest';
+        this.instrumentMode = localStorage.getItem(`instrument-mode-${uid}`) || 'piano';
+
         // Initialize a single shared audio player
         this.sharedAudioPlayer = new PianoAudioPlayer();
         this.chordParser = new ChordParser();
 
         // Initialize Piano Chord Overlay with shared player
         this.pianoChordOverlay = new PianoChordOverlay(this.sharedAudioPlayer);
+
+        // Initialize Guitar Chord Overlay with shared player and parser
+        this.guitarChordOverlay = new GuitarChordOverlay(this.sharedAudioPlayer, this.chordParser);
 
         // Initialize Chord Progression Editor with shared player
         this.chordProgressionEditor = new ChordProgressionEditor(this.sharedAudioPlayer);
@@ -386,6 +394,48 @@ class SongDetailModal {
         this.allSongs = songs;
     }
 
+    toggleInstrumentMode() {
+        this.instrumentMode = this.instrumentMode === 'piano' ? 'guitar' : 'piano';
+        const user = this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser() : null;
+        const uid = user ? user.uid : 'guest';
+        localStorage.setItem(`instrument-mode-${uid}`, this.instrumentMode);
+
+        this.updateInstrumentToggleUI();
+        this.refreshNotation();
+    }
+
+    updateInstrumentToggleUI() {
+        const toggleBtn = document.getElementById('instrumentToggleBtn');
+        if (toggleBtn) {
+            const icon = toggleBtn.querySelector('.icon');
+            const label = toggleBtn.querySelector('.label');
+            if (this.instrumentMode === 'guitar') {
+                if (icon) icon.textContent = '🎸';
+                if (label) label.textContent = 'guitar';
+                toggleBtn.title = 'Switch to Piano Mode';
+            } else {
+                if (icon) icon.textContent = '🎹';
+                if (label) label.textContent = 'piano';
+                toggleBtn.title = 'Switch to Guitar Mode';
+            }
+        }
+
+        // Update block headers (Show Piano/Guitar Chords buttons)
+        const blockChordBtns = this.modal.querySelectorAll('.piano-chord-btn');
+        blockChordBtns.forEach(btn => {
+            const icon = btn.querySelector('.icon');
+            if (icon) { // Check for both guitar and piano text to be sure
+                if (this.instrumentMode === 'guitar') {
+                    icon.textContent = '🎸';
+                    btn.title = 'Show Guitar Chords';
+                } else {
+                    icon.textContent = '🎹';
+                    btn.title = 'Show Piano Chords';
+                }
+            }
+        });
+    }
+
     setupEventListeners() {
         this.closeBtn.addEventListener('click', () => {
             if (window.appInstance) {
@@ -397,10 +447,12 @@ class SongDetailModal {
         this.prevBtn.addEventListener('click', () => this.navigatePrevious());
         this.nextBtn.addEventListener('click', () => this.navigateNext());
 
-        if (this.lyricsBtn) {
-            this.lyricsBtn.addEventListener('click', (e) => {
+        // Unified Instrument Mode Switcher (replaces lyrics button space)
+        const instrToggle = document.getElementById('instrumentToggleBtn');
+        if (instrToggle) {
+            instrToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.toggleLyricsTicker();
+                this.toggleInstrumentMode();
             });
         }
 
@@ -1048,33 +1100,42 @@ class SongDetailModal {
     setupPianoButtons() {
         const pianoButtons = this.modal.querySelectorAll('.piano-chord-btn');
         pianoButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            // Use onclick to overwrite any existing listeners and ensure mode check is fresh
+            btn.onclick = (e) => {
                 e.stopPropagation();
                 e.preventDefault();
 
-                // If we are currently editing a field, use THAT field's starting index
-                const focusedField = document.activeElement;
-                const isChordField = focusedField &&
-                    focusedField.classList.contains('chord-section-content') &&
-                    focusedField.getAttribute('contenteditable') === 'true';
+                if (this.instrumentMode === 'guitar') {
+                    const sectionKey = btn.dataset.section || 'verse';
+                    this.showGuitarChords(sectionKey);
+                } else if (this.pianoChordOverlay) {
+                    const focusedField = document.activeElement;
+                    const isChordField = focusedField &&
+                        focusedField.classList.contains('chord-section-content') &&
+                        focusedField.getAttribute('contenteditable') === 'true';
 
-                let sectionKey = btn.dataset.section;
-                if (isChordField) {
-                    sectionKey = focusedField.dataset.field || sectionKey;
-                }
+                    let sectionKey = btn.dataset.section;
+                    if (isChordField) {
+                        sectionKey = focusedField.dataset.field || sectionKey;
+                    }
 
-                if (this.sections[sectionKey] && this.pianoChordOverlay) {
+                    if (!this.sections[sectionKey]) {
+                        sectionKey = 'verse';
+                    }
+
                     const blocks = [
                         { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
                         { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
                         { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
                         { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
                     ];
+
                     const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[sectionKey] || 0;
+
                     this.pianoChordOverlay.show(blocks, startIndex);
                 }
-            });
+            };
         });
     }
 
@@ -1325,21 +1386,28 @@ class SongDetailModal {
                         }
                     });
                 } else {
-                    this.createChordButton(section, key, trimmed);
+                    const cleanChord = this.instrumentMode === 'guitar' ?
+                        item.trim().replace(/[23]$/, '').split('/')[0] :
+                        item.trim();
+                    this.createChordButton(section, key, cleanChord, item.trim());
                 }
             }
         });
     }
 
-    createChordButton(section, key, chordText) {
+    createChordButton(section, key, chordText, originalText = null) {
         const btn = document.createElement('button');
         btn.className = `chord-suggestion-btn chord-type-${key.toLowerCase()}`;
         btn.textContent = chordText;
+
         btn.onclick = (e) => {
             e.stopPropagation();
             if (this.sharedAudioPlayer) {
                 this.sharedAudioPlayer.initialize().then(() => {
-                    const chord = this.chordParser.parse(chordText);
+                    // In guitar mode, we want consistency with what's shown (the simplified chord)
+                    // In piano mode, we play exactly what was parsed from the source text.
+                    const textToPlay = (this.instrumentMode === 'guitar') ? chordText : (originalText || chordText);
+                    const chord = this.chordParser.parse(textToPlay);
                     if (chord && chord.notes) {
                         this.sharedAudioPlayer.playChord(chord.notes, 0.5);
                     }
@@ -1347,6 +1415,22 @@ class SongDetailModal {
             }
         };
         section.content.appendChild(btn);
+    }
+
+    showGuitarChords(sectionKey = 'verse') {
+        if (!this.guitarChordOverlay) return;
+
+        const blocks = [
+            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
+        ];
+
+        const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
+        const startIndex = sectionKeyToIdx[sectionKey] || 0;
+
+        this.guitarChordOverlay.show(blocks, startIndex);
     }
 
     setupDynamicButtons() {
@@ -2573,14 +2657,17 @@ class SongDetailModal {
                 this.scrollingChordsBtn.style.display = timelineEnabled ? 'flex' : 'none';
             }
 
-            // Hide toggle center actions container if both are hidden
+            // Always show toggle center actions container for the instrument switch visibility
             const centerActions = document.querySelector('.song-detail-center-actions');
             if (centerActions) {
-                centerActions.style.display = (lyricsEnabled || timelineEnabled) ? 'flex' : 'none';
+                centerActions.style.display = 'flex';
             }
 
             this.modal.classList.remove('hidden');
         }
+
+        // Update Instrument UI
+        this.updateInstrumentToggleUI();
 
         // Update practice counter display
         if (this.practiceCountDisplay) {
