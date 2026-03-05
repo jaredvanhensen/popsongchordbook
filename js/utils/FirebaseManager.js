@@ -133,19 +133,24 @@ class FirebaseManager {
             }
 
             // Send email verification
+            let emailSent = false;
             if (this.currentUser) {
                 try {
                     await this.currentUser.sendEmailVerification();
                     console.log('Verification email sent to:', email);
+                    emailSent = true;
                 } catch (error) {
                     console.error('Error sending verification email:', error);
-                    // Don't fail signup if verification email fails to send
+                    // Store the error code to help debugging
+                    this.lastAuthError = error.code;
                 }
             }
 
             return {
                 success: true,
-                user: this.currentUser
+                user: this.currentUser,
+                emailSent: emailSent,
+                emailError: this.lastAuthError
             };
         } catch (error) {
             console.error('Sign up error:', error);

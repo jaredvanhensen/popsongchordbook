@@ -285,7 +285,7 @@ class AuthModal {
                         this.showLoginSuccess('A new verification email has been sent to your address.');
                     } catch (error) {
                         console.error('Error resending verification email:', error);
-                        // If too many attempts, Firebase might throw an error - that's fine
+                        this.showLoginError(`Email not verified. We tried to send a new link but failed (Error: ${error.code}).`);
                     }
 
                     // Clear password field for security
@@ -359,7 +359,14 @@ class AuthModal {
 
             if (result.success) {
                 this.clearErrors();
-                this.switchToVerificationMode(email);
+
+                if (result.emailSent) {
+                    this.switchToVerificationMode(email);
+                } else {
+                    // Account created but email failed
+                    this.switchToCreateMode();
+                    this.showCreateError(`Account created, but we couldn't send the verification email (Error: ${result.emailError}). Please try logging in to resend it.`);
+                }
 
                 // Sign out because they shouldn't be "logged in" until verified
                 await this.firebaseManager.signOut();
