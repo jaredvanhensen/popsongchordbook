@@ -93,6 +93,98 @@
         .back-link:hover {
             color: #1e293b;
         }
+
+        /* Index / ToC Styles */
+        .manual-index {
+            background: white;
+            padding: 40px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .index-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .index-item:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+
+        .index-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+        }
+
+        #backToTop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #backToTop:hover {
+            transform: translateY(-5px);
+            background: #2563eb;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            #backToTop {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
     </style>
 </head>
 
@@ -113,8 +205,29 @@
         </div>
     </div>
 
+    <!-- Table of Contents -->
+    <div class="manual-index">
+        <div class="guide-container">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 10px;">Quick Navigation</h2>
+            <p style="color: #64748b; font-size: 1.1rem;">Jump to a specific section:</p>
+            <div class="index-grid">
+                <a href="#detail-screen" class="index-item"><span class="index-number">1</span> Song Detail Screen</a>
+                <a href="#setlists" class="index-item"><span class="index-number">2</span> Creating Setlists</a>
+                <a href="#piano-chords" class="index-item"><span class="index-number">3</span> Piano Chords</a>
+                <a href="#chord-editor" class="index-item"><span class="index-number">4</span> Progression Editor</a>
+                <a href="#filtering" class="index-item"><span class="index-number">5</span> Filtering by Key</a>
+                <a href="#transposing" class="index-item"><span class="index-number">6</span> Transposing Songs</a>
+                <a href="#lyrics" class="index-item"><span class="index-number">7</span> Lyrics & Auto-scroll</a>
+                <a href="#practice-mode" class="index-item"><span class="index-number">8</span> Practice Mode</a>
+                <a href="#timeline" class="index-item"><span class="index-number">9</span> Chord Timeline</a>
+                <a href="#song-map" class="index-item"><span class="index-number">10</span> Song Map</a>
+                <a href="#install" class="index-item"><span class="index-number">11</span> Install as App</a>
+            </div>
+        </div>
+    </div>
+
     <!-- 1. Detail Screen -->
-    <section class="guide-section">
+    <section class="guide-section" id="detail-screen">
         <div class="guide-container">
             <h2 class="guide-title">Song Detail Screen</h2>
             <p class="guide-text">
@@ -157,7 +270,7 @@
     </section>
 
     <!-- 2. Creating Setlists -->
-    <section class="guide-section">
+    <section class="guide-section" id="setlists">
         <div class="guide-container">
             <h2 class="guide-title">Creating a New Setlist</h2>
             <p class="guide-text">
@@ -172,7 +285,7 @@
     </section>
 
     <!-- 3. Piano Chords -->
-    <section class="guide-section">
+    <section class="guide-section" id="piano-chords">
         <div class="guide-container">
             <h2 class="guide-title">Checking Piano Chords</h2>
             <p class="guide-text">
@@ -186,7 +299,7 @@
     </section>
 
     <!-- 4. Chord Progression Editor -->
-    <section class="guide-section">
+    <section class="guide-section" id="chord-editor">
         <div class="guide-container">
             <h2 class="guide-title">Chord Progression Editor</h2>
             <p class="guide-text">
@@ -201,7 +314,7 @@
     </section>
 
     <!-- 5. Filtering -->
-    <section class="guide-section">
+    <section class="guide-section" id="filtering">
         <div class="guide-container">
             <h2 class="guide-title">Filtering by Key</h2>
             <p class="guide-text">
@@ -216,7 +329,7 @@
     </section>
 
     <!-- 6. Transposing -->
-    <section class="guide-section">
+    <section class="guide-section" id="transposing">
         <div class="guide-container">
             <h2 class="guide-title">Transposing Songs</h2>
             <p class="guide-text">
@@ -231,7 +344,7 @@
     </section>
 
     <!-- 7. Lyrics & Auto-scroll -->
-    <section class="guide-section">
+    <section class="guide-section" id="lyrics">
         <div class="guide-container">
             <h2 class="guide-title">Lyrics & Auto-scroll</h2>
             <p class="guide-text">
@@ -284,7 +397,8 @@
     </section>
 
     <!-- 8. Practice Mode -->
-    <section class="guide-section" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+    <section class="guide-section" id="practice-mode"
+        style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
         <div class="guide-container">
             <h2 class="guide-title">Practice Mode</h2>
             <p class="guide-text">
@@ -320,7 +434,7 @@
     </section>
 
     <!-- 9. Chord Timeline -->
-    <section class="guide-section" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+    <section class="guide-section" id="timeline" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
         <div class="guide-container">
             <h2 class="guide-title">Chord Timeline</h2>
             <p class="guide-text">
@@ -423,8 +537,42 @@
 
     </section>
 
-    <!-- 10. Install as App -->
-    <section class="guide-section">
+    <!-- 10. Song Map -->
+    <section class="guide-section" id="song-map" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+        <div class="guide-container">
+            <h2 class="guide-title">Song Map</h2>
+            <p class="guide-text">
+                The Song Map offers a high-level visualization of the entire song's layout. It's the perfect tool for
+                understanding complex arrangements at a glance and navigating through the track effortlessly.
+            </p>
+
+            <div
+                style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #ddd6fe;">
+                <h3 style="font-size: 1.4rem; color: #6d28d9; margin-bottom: 15px;">Features & Instructions</h3>
+                <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
+                    <li><strong>Visual Structure:</strong> Chords are grouped into color-coded sections like Intro,
+                        Verse, and Chorus, giving you a clear mental map of the song.</li>
+                    <li><strong>Real-time Playback:</strong> When the song is playing, the active chord is highlighted
+                        with a glowing effect and follow-focus, so you never lose your place.</li>
+                    <li><strong>Instant Navigation:</strong> Click or tap on any section or specific chord block to jump
+                        the playback head exactly to that moment in time.</li>
+                    <li><strong>Smart Labels:</strong> Section names are displayed prominently above each block,
+                        helpfully
+                        syncing with the labels you define in the song details.</li>
+                    <li><strong>Open the Map:</strong> Tap the 🗺️ icon in the footer of the Song Detail screen to
+                        toggle
+                        the map view.</li>
+                </ul>
+            </div>
+
+            <div class="guide-image-container">
+                <img src="images/song_map_example.png" alt="Song Map Interface" class="guide-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Install as App -->
+    <section class="guide-section" id="install">
         <div class="guide-container">
             <h2 class="guide-title">Install as App (Full Screen)</h2>
             <p class="guide-text">
@@ -466,6 +614,27 @@
             <p>&copy; 2026 Pop Song Chord Book. Your interactive playalong songbook.</p>
         </div>
     </footer>
+
+    <button id="backToTop" title="Back to Top">↑</button>
+
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 
 

@@ -1,4 +1,4 @@
-// Main Application (v2.164)
+﻿// Main Application (v2.164)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.164)");
+        console.log("Pop Song Chord Book - App Initialized (v2.165)");
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -997,7 +997,7 @@ class App {
         const editBtn = document.getElementById('editSetlistBtn');
         const addSongBtn = document.getElementById('addSongBtn');
         const importControls = document.querySelector('.import-export-controls');
-        const deleteAllBtn = document.getElementById('deleteAllSongsBtn');
+
 
         if (this.currentSetlistId) {
             // Show setlist edit and delete buttons
@@ -1016,11 +1016,7 @@ class App {
             if (importControls) {
                 importControls.classList.add('hidden');
             }
-            // Explicitly hide delete all button (double check)
-            if (deleteAllBtn) {
-                deleteAllBtn.classList.add('hidden');
-                deleteAllBtn.style.display = 'none';
-            }
+
         } else {
             // Hide setlist edit and delete buttons
             if (editBtn) {
@@ -1038,11 +1034,7 @@ class App {
             if (importControls) {
                 importControls.classList.remove('hidden');
             }
-            // Explicitly show delete all button
-            if (deleteAllBtn) {
-                deleteAllBtn.classList.remove('hidden');
-                deleteAllBtn.style.display = '';
-            }
+
         }
     }
 
@@ -2619,6 +2611,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
