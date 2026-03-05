@@ -354,6 +354,15 @@ class SongManager {
             }
 
             Object.assign(song, updates);
+
+            // Sync top-level fields from chordData if modified
+            if (updates.chordData) {
+                if (updates.chordData.tempo) song.tempo = updates.chordData.tempo;
+                if (updates.chordData.customMapSections !== undefined) {
+                    song.customMapSections = updates.chordData.customMapSections;
+                }
+            }
+
             console.log('SongManager: Song object after update:', song);
             await this.saveSongs();
             return song;
