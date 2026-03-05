@@ -311,6 +311,22 @@
                         <button type="button" id="authToggleToLogin" class="auth-toggle-link">Login</button>
                     </div>
                 </form>
+
+                <!-- Verification Sent View -->
+                <div id="authVerificationForm" class="auth-form hidden" style="text-align: center; padding: 20px 0;">
+                    <div style="font-size: 50px; margin-bottom: 15px;">✉️</div>
+                    <h3 style="margin-bottom: 15px; color: #1e293b;">Check your email</h3>
+                    <p id="authVerificationMsg" style="color: #475569; line-height: 1.6; margin-bottom: 20px;">
+                        A verification link has been sent to your email address.
+                    </p>
+                    <div
+                        style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 0.9em; color: #64748b; border: 1px solid #e2e8f0;">
+                        Please click the link in the email to activate your account. <br>
+                        <strong>Note:</strong> Check your <strong>spam/junk folder</strong> if you don't see it.
+                    </div>
+                    <button type="button" id="authContinueToLogin" class="modal-submit-btn auth-submit-btn">Back to
+                        Login</button>
+                </div>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ class AuthModal {
         this.onAuthSuccess = onAuthSuccess;
         this.modal = document.getElementById('authModal');
         this.isLoginMode = true; // true = login, false = create account
+        this.isShowingVerification = false; // flag for email verification view
         this.allowHide = false; // Prevent closing modal - login is required
 
         // Login elements
@@ -28,6 +29,11 @@ class AuthModal {
         this.toggleToLoginBtn = document.getElementById('authToggleToLogin');
         this.loginForm = document.getElementById('authLoginForm');
         this.createForm = document.getElementById('authCreateForm');
+
+        // Verification elements
+        this.verificationForm = document.getElementById('authVerificationForm');
+        this.verificationMsg = document.getElementById('authVerificationMsg');
+        this.continueToLoginBtn = document.getElementById('authContinueToLogin');
 
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
@@ -114,11 +120,10 @@ class AuthModal {
             });
         }
 
-        // Forgot password
-        if (this.forgotPasswordBtn) {
-            this.forgotPasswordBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleForgotPassword();
+        // Verification continue button
+        if (this.continueToLoginBtn) {
+            this.continueToLoginBtn.addEventListener('click', () => {
+                this.switchToLoginMode();
             });
         }
     }
@@ -146,6 +151,12 @@ class AuthModal {
             this.switchToCreateMode();
         }
 
+        // Ensure verification form is hidden on normal show
+        this.isShowingVerification = false;
+        if (this.verificationForm) {
+            this.verificationForm.classList.add('hidden');
+        }
+
         // Focus on first input
         setTimeout(() => {
             if (loginMode && this.loginEmailInput) {
@@ -168,22 +179,32 @@ class AuthModal {
 
     switchToLoginMode() {
         this.isLoginMode = true;
-        if (this.loginForm) {
-            this.loginForm.classList.remove('hidden');
-        }
-        if (this.createForm) {
-            this.createForm.classList.add('hidden');
-        }
+        this.isShowingVerification = false;
+        if (this.loginForm) this.loginForm.classList.remove('hidden');
+        if (this.createForm) this.createForm.classList.add('hidden');
+        if (this.verificationForm) this.verificationForm.classList.add('hidden');
         this.clearErrors();
     }
 
     switchToCreateMode() {
         this.isLoginMode = false;
-        if (this.loginForm) {
-            this.loginForm.classList.add('hidden');
-        }
-        if (this.createForm) {
-            this.createForm.classList.remove('hidden');
+        this.isShowingVerification = false;
+        if (this.loginForm) this.loginForm.classList.add('hidden');
+        if (this.createForm) this.createForm.classList.remove('hidden');
+        if (this.verificationForm) this.verificationForm.classList.add('hidden');
+        this.clearErrors();
+    }
+
+    switchToVerificationMode(email) {
+        this.isLoginMode = false;
+        this.isShowingVerification = true;
+        if (this.loginForm) this.loginForm.classList.add('hidden');
+        if (this.createForm) this.createForm.classList.add('hidden');
+        if (this.verificationForm) {
+            this.verificationForm.classList.remove('hidden');
+            if (this.verificationMsg) {
+                this.verificationMsg.innerHTML = `An activation link has been sent to: <br><strong>${email}</strong>`;
+            }
         }
         this.clearErrors();
     }
@@ -338,8 +359,7 @@ class AuthModal {
 
             if (result.success) {
                 this.clearErrors();
-                this.switchToLoginMode();
-                this.showLoginSuccess('Account created! Please check your email to verify your account before logging in.');
+                this.switchToVerificationMode(email);
 
                 // Sign out because they shouldn't be "logged in" until verified
                 await this.firebaseManager.signOut();

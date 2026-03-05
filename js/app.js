@@ -247,8 +247,8 @@ class App {
         this.songManager.disableSync();
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
-        // Show login modal
-        if (this.authModal) {
+        // Show login modal (unless we are showing the verification confirmation)
+        if (this.authModal && !this.authModal.isShowingVerification) {
             this.authModal.show(true);
         }
     }
