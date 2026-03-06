@@ -9197,12 +9197,12 @@ div.song-detail-practice-controls {
     .song-detail-center-actions {
         position: static !important;
         transform: none !important;
-        gap: 16px !important;
-        /* Increased gap to spread icons */
+        gap: 0px !important;
+        /* Let space-evenly handle all spacing */
         width: auto !important;
         flex: 1;
-        justify-content: space-around !important;
-        /* Spreads them evenly in the middle */
+        justify-content: space-evenly !important;
+        /* Evenly distribute piano + timeline */
     }
 
     /* Footer Layout Fixes */
