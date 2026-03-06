@@ -605,6 +605,13 @@ body.edit-mode-active .edit-only {
     display: inline-flex !important;
 }
 
+/* Speed button is always shown on desktop/landscape, but follows edit-only on mobile */
+@media (min-width: 601px) {
+    #speedBtn.edit-only {
+        display: inline-flex !important;
+    }
+}
+
 /* Specific flex fix for adjustment row */
 body.edit-mode-active .adjust-controls-row.edit-only {
     display: flex !important;
