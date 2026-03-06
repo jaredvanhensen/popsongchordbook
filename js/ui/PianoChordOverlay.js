@@ -597,14 +597,10 @@ class PianoChordOverlay {
         // Piano keyboard
         const keyboard = this.createPianoKeyboard(chord, chord.notes);
 
-        // Add octave indicator overlay
+        // Add octave indicator overlay - Empty to keep only the subtle grid dividers for a cleaner look
         const octaveHint = document.createElement('div');
         octaveHint.className = 'octave-hint';
-        octaveHint.innerHTML = `
-            <span class="octave-up">+8ve</span>
-            <span class="octave-normal">●</span>
-            <span class="octave-down">-8ve</span>
-        `;
+        octaveHint.innerHTML = ``;
         keyboard.appendChild(octaveHint);
 
         card.appendChild(header);

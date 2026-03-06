@@ -2927,14 +2927,7 @@ body.ctrl-held .chord-item {
     margin: 4px 0;
 }
 
-.chord-toolbar-buttons-row.editing {
-    align-items: center;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-    padding: 10px 20px 5px 20px;
-    border-radius: 20px 20px 0 0;
-    pointer-events: none;
-    /* Let clicks pass through background */
-}
+
 
 @media (min-width: 1025px) {
 

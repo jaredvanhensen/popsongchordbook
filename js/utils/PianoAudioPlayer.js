@@ -76,19 +76,20 @@ class PianoAudioPlayer {
             },
             'guitar-strum': {
                 name: 'Guitar',
-                attack: 0.005,
-                decay: 0.1,
-                sustain: 0.2,
-                release: 0.8,
-                filterMult: 6,
+                attack: 0.002, // Sharper attack
+                decay: 0.35,   // Natural string decay
+                sustain: 0.02, // Very low sustain to remove organ effect
+                release: 1.2,  // Natural ring out
+                filterMult: 2.5, // Warmer base tone
                 harmonics: [
-                    [1, 1.0, 'triangle'],
-                    [2, 0.5, 'sine'],
-                    [3, 0.3, 'triangle'],
-                    [4, 0.15, 'sine'],
-                    [6, 0.05, 'triangle']
+                    [1, 1.0, 'triangle'],     // Fundamental
+                    [2, 0.4, 'triangle'],     // Higher octave
+                    [3, 0.15, 'sine'],        // Fifth
+                    [4, 0.08, 'sine'],        // Second octave
+                    [5, 0.04, 'sine']         // Third
                 ],
-                hammer: true // Reuse hammer noise for pick attack
+                hammer: true,
+                hammerGain: 0.35 // Stronger pick sound
             }
         };
 
@@ -124,6 +125,7 @@ class PianoAudioPlayer {
         this.harmonics = profile.harmonics;
         this.filterMult = profile.filterMult;
         this.hammerEnabled = profile.hammer;
+        this.hammerGain = profile.hammerGain || 0.15;
     }
 
     async initialize(audioContext = null) {
@@ -187,7 +189,12 @@ class PianoAudioPlayer {
         const filter = this.audioContext.createBiquadFilter();
         filter.type = 'lowpass';
         filter.Q.value = 1.0;
-        filter.frequency.setValueAtTime(frequency * (this.filterMult || 5), now);
+
+        // Filter Envelope: Start bright, drop to base filter frequency
+        const filterStartFreq = frequency * (this.filterMult * 3 || 15);
+        const filterEndFreq = frequency * (this.filterMult || 5);
+        filter.frequency.setValueAtTime(filterStartFreq, now);
+        filter.frequency.exponentialRampToValueAtTime(filterEndFreq, now + (this.decay * 1.5));
 
         // 2. Create Amp (VCA)
         const noteGain = this.audioContext.createGain();
@@ -291,7 +298,7 @@ class PianoAudioPlayer {
         filter.frequency.value = 2000;
         filter.Q.value = 1;
         const noiseGain = this.audioContext.createGain();
-        noiseGain.gain.value = velocity * 0.15;
+        noiseGain.gain.value = velocity * (this.hammerGain || 0.15);
         noise.connect(filter);
         filter.connect(noiseGain);
         noiseGain.connect(destination);

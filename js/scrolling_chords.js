@@ -1533,10 +1533,12 @@ function renderSuggestedChords(groups) {
                     };
 
                     input.onkeydown = (e) => {
+                        e.stopPropagation(); // Prevent global timeline shortcuts from firing while typing
                         if (e.key === 'Enter') finishEdit(true);
                         if (e.key === 'Escape') finishEdit(false);
                     };
 
+                    input.style.pointerEvents = 'auto'; // Ensure it can be clicked
                     buttonsRow.appendChild(input);
                     actions.appendChild(makeHeaderActionBtn(saveIcon, 'Save Chords', 'save-btn', () => finishEdit(true)));
                     actions.appendChild(makeHeaderActionBtn(cancelIcon, 'Cancel', 'cancel-btn', () => finishEdit(false)));

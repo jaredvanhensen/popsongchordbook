@@ -2020,6 +2020,7 @@ class SongDetailModal {
                 performDelete,
                 null,
                 'Delete',
+                'Cancel',
                 'danger'
             );
         } else {
