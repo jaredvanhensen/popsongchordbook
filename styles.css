@@ -1331,7 +1331,8 @@ header h1 {
 .piano-chord-close:hover,
 .chord-progression-close:hover {
     background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-50%) scale(1.1);
+    transform: scale(1.1);
+    /* No translateY - button is positioned by top/right now */
 }
 
 .deselect-btn {
