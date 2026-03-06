@@ -55,7 +55,7 @@
                     <!-- Version moved here -->
                     <div
                         style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.168</span>
+                        v<span id="site-version">2.174</span>
                     </div>
                 </div>
             </div>
@@ -1017,6 +1017,13 @@
                             placeholder="Type chords..."></textarea>
                     </div>
                 </div>
+                <div class="song-chord-section" id="songNotesSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Notes / Tips</h3>
+                    </div>
+                    <textarea id="songDetailNotesInput" class="song-notes-textarea"
+                        placeholder="Add playing tips, hand positions, or instructions here..."></textarea>
+                </div>
             </div>
 
             <div class="song-detail-footer">
@@ -1035,7 +1042,8 @@
                     </div>
 
                     <div class="song-detail-practice-controls">
-                        <div id="songDetailPracticeCount" class="practice-count-badge" title="Practice sessions">0</div>
+                        <div id="songDetailPracticeCount" class="practice-count-badge" title="Practice sessions">0
+                        </div>
                         <button id="songDetailPracticeIncrementBtn" class="song-detail-action-btn with-label"
                             title="Increment practice counter">
                             <span class="icon">📈</span>

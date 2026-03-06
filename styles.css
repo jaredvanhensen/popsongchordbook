@@ -5893,17 +5893,61 @@ td:has(.row-edit-input.input-focused) {
     display: none;
 }
 
+/* PC / Landscape Notes Section Styles */
+#songNotesSection {
+    display: none;
+    /* Hidden by default (mobile/portrait) */
+    background: #fffdf0;
+    /* Very slight yellow tint for "notes" feel */
+    border-color: #fde68a;
+    /* Soft amber border */
+    margin-top: 15px;
+    /* Stand apart from the blocks above */
+    margin-bottom: 5px;
+    /* Tiny gap above footer padding */
+}
+
+#songNotesSection .chord-section-title {
+    color: #92400e;
+    /* Amber-800 for title */
+}
+
+.song-notes-textarea {
+    width: 100%;
+    height: 60px;
+    /* Reduced to 50% */
+    border: none !important;
+    background: transparent !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: #334155;
+    resize: none;
+    padding: 8px 10px;
+    outline: none;
+    box-sizing: border-box;
+    display: block;
+}
+
+.song-notes-textarea::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
 /* PC and iPad Landscape Two-Column Layout */
 @media (min-width: 1025px),
 (min-width: 768px) and (orientation: landscape) {
     .song-detail-body {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto 1fr;
+        /* Row 3 takes up all remaining space */
         grid-template-areas:
             "verse preChorus"
-            "chorus bridge";
+            "chorus bridge"
+            "notes .";
         gap: 15px;
-        align-content: start;
+        /* align-content: start; removed to allow row expansion */
     }
 
     #verseSection {
@@ -5920,6 +5964,15 @@ td:has(.row-edit-input.input-focused) {
 
     #bridgeSection {
         grid-area: bridge;
+    }
+
+    #songNotesSection {
+        display: block;
+        grid-area: notes;
+        height: auto !important;
+        /* Don't stretch to fill the 1fr row */
+        align-self: end;
+        /* Push to the very bottom */
     }
 
     /* Ensure the sections take full height of their grid area to stay aligned */

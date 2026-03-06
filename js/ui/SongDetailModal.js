@@ -53,6 +53,7 @@ class SongDetailModal {
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
         this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        this.notesInput = document.getElementById('songDetailNotesInput');
         this.practiceCountDisplay = document.getElementById('songDetailPracticeCount');
         this.practiceIncrementBtn = document.getElementById('songDetailPracticeIncrementBtn');
         this.practiceControlsContainer = document.querySelector('.song-detail-practice-controls');
@@ -491,6 +492,12 @@ class SongDetailModal {
         if (this.saveBtn) {
             this.saveBtn.addEventListener('click', async () => {
                 await this.saveChanges(false);
+            });
+        }
+
+        if (this.notesInput) {
+            this.notesInput.addEventListener('input', () => {
+                this.onFieldEdited();
             });
         }
 
@@ -1914,7 +1921,8 @@ class SongDetailModal {
                 patchDetails: song.patchDetails || '',
                 practiceCount: song.practiceCount || '',
                 lyricOffset: song.lyricOffset || 0,
-                performAbility: song.performAbility || 0
+                performAbility: song.performAbility || 0,
+                songNotes: song.songNotes || ''
             };
         }
 
@@ -1942,7 +1950,8 @@ class SongDetailModal {
             patchDetails: this.patchDetailsInput ? this.patchDetailsInput.value : '',
             practiceCount: this.practiceCountInput ? this.practiceCountInput.value : '',
             lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0,
-            performAbility: this.currentAbilityValue || 0
+            performAbility: this.currentAbilityValue || 0,
+            songNotes: this.notesInput ? this.notesInput.value : ''
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -1967,7 +1976,8 @@ class SongDetailModal {
             patchDetails: (data.patchDetails || '').trim(),
             practiceCount: (data.practiceCount || '').trim(),
             lyricOffset: parseFloat(data.lyricOffset) || 0,
-            performAbility: parseInt(data.performAbility) || 0
+            performAbility: parseInt(data.performAbility) || 0,
+            songNotes: (data.songNotes || '').trim()
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -2120,6 +2130,9 @@ class SongDetailModal {
         if (this.currentAbilityValue !== undefined) {
             updates.performAbility = this.currentAbilityValue;
         }
+        if (this.notesInput) {
+            updates.songNotes = this.notesInput.value.trim();
+        }
 
         // Update song
         await this.songManager.updateSong(this.currentSongId, updates);
@@ -2147,7 +2160,8 @@ class SongDetailModal {
                 patchDetails: savedSong.patchDetails || '',
                 practiceCount: savedSong.practiceCount || '',
                 lyricOffset: savedSong.lyricOffset || 0,
-                performAbility: savedSong.performAbility || 0
+                performAbility: savedSong.performAbility || 0,
+                songNotes: savedSong.songNotes || ''
             };
         }
 
@@ -2528,7 +2542,8 @@ class SongDetailModal {
             patchDetails: song.patchDetails || '',
             practiceCount: song.practiceCount !== undefined ? song.practiceCount.toString() : '0',
             lyricOffset: song.lyricOffset || 0,
-            performAbility: song.performAbility || 0
+            performAbility: song.performAbility || 0,
+            songNotes: song.songNotes || ''
         };
 
         // Update artist and title
@@ -2646,6 +2661,11 @@ class SongDetailModal {
                 section.section.classList.remove('show-icons');
             }
         });
+
+        // Update technical notes
+        if (this.notesInput) {
+            this.notesInput.value = song.songNotes || '';
+        }
 
         // Show modal
         if (this.modal) {
@@ -3102,7 +3122,8 @@ class SongDetailModal {
                 patchDetails: savedSong.patchDetails || '',
                 practiceCount: savedSong.practiceCount !== undefined ? savedSong.practiceCount.toString() : '0',
                 lyricOffset: savedSong.lyricOffset || 0,
-                performAbility: savedSong.performAbility || 0
+                performAbility: savedSong.performAbility || 0,
+                songNotes: savedSong.songNotes || ''
             };
         }
 

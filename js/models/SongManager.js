@@ -140,6 +140,7 @@ class SongManager {
             preChorusTitle: 'Block 3',
             chorusTitle: 'Block 2',
             bridgeTitle: 'Block 4',
+            songNotes: '',
             // Preserve all incoming fields
             ...song,
             // Guaranteed types/migrations
@@ -221,6 +222,7 @@ class SongManager {
             preChorusTitle: 'Block 3',
             chorusTitle: 'Block 2',
             bridgeTitle: 'Block 4',
+            songNotes: '',
             // Preserve all incoming fields
             ...song,
             // Guaranteed fields/overrides
