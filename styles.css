@@ -10175,9 +10175,12 @@ div.song-detail-practice-controls {
     text-align: center !important;
 }
 
-/* Mobile: override instrument toggle label to match other small mobile labels */
+/* Mobile: force ALL footer action labels to same small size */
 @media (max-width: 480px) {
-    #instrumentToggleBtn .label {
+
+    #instrumentToggleBtn .label,
+    #songDetailScrollingChordsBtn .label,
+    #songDetailPracticeBtn .label {
         font-size: 0.65rem !important;
         height: 18px !important;
         letter-spacing: normal !important;
