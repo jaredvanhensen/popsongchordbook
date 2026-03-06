@@ -39,6 +39,7 @@ class ProfileModal {
         this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.textNotationToggle = document.getElementById('profileTextNotationToggle');
+        this.midiToggle = document.getElementById('profileMidiToggle');
 
         // Statistics elements
         this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
@@ -198,6 +199,21 @@ class ProfileModal {
                 }
             });
         }
+
+        if (this.midiToggle) {
+            this.midiToggle.addEventListener('change', (e) => {
+                const isEnabled = e.target.checked;
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                localStorage.setItem(`feature-midi-enabled-${uid}`, isEnabled);
+                localStorage.setItem(`feature-midi-enabled-global`, isEnabled);
+
+                // Show a small hint that refresh might be needed
+                if (window.appInstance && window.appInstance.showInfoModal) {
+                    window.appInstance.showInfoModal("MIDI Support", `MIDI support is now ${isEnabled ? 'Enabled' : 'Disabled'}. Please refresh the page if you're in the Chord Timeline view for the change to take full effect.`);
+                }
+            });
+        }
     }
 
     async handleAvatarUpload(file) {
@@ -302,6 +318,9 @@ class ProfileModal {
         }
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
+        }
+        if (this.midiToggle) {
+            this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) !== 'false';
         }
 
         if (this.textNotationToggle) {

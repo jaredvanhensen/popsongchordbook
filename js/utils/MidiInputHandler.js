@@ -30,6 +30,13 @@ class MidiInputHandler {
                 return;
             }
 
+            // 0. Check User Preference FIRST - avoid prompt if disabled
+            const isMidiEnabled = localStorage.getItem('feature-midi-enabled-global') !== 'false';
+            if (!isMidiEnabled) {
+                console.log("MIDI: Disabled by user preference. Skipping initialization.");
+                return;
+            }
+
             if (!navigator.requestMIDIAccess) {
                 console.warn("Web MIDI API not supported in this browser.");
                 return;
