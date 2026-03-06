@@ -79,7 +79,7 @@ let originalBarOffset = 0; // For bar offset change detection
 let originalUseFlatNotation = false; // For notation change detection
 let originalMapSectionsJson = 'null'; // For section change detection
 let currentTempo = 120; // Shared state for tempo
-let currentSpeed = 1.0; // Playback speed (1.0x or 0.5x)
+let currentSpeed = 1.0; // Playback speed (1.0x, 0.75x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
 let octaveCycleBtn = null;
 let currentLyricOffset = 0; // Track current global lyrics offset
@@ -802,11 +802,17 @@ function changeBpm() {
 
 if (speedBtn) {
     speedBtn.onclick = () => {
-        currentSpeed = currentSpeed === 1.0 ? 0.5 : 1.0;
-        const icon = currentSpeed === 1.0
-            ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'
-            : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'; // Could use a different one for slow
-        speedBtn.innerHTML = `${icon} <span>${currentSpeed === 1.0 ? '1.0x' : '0.5x'}</span>`;
+        if (currentSpeed === 1.0) {
+            currentSpeed = 0.75;
+        } else if (currentSpeed === 0.75) {
+            currentSpeed = 0.5;
+        } else {
+            currentSpeed = 1.0;
+        }
+
+        const icon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+        speedBtn.innerHTML = `${icon} <span>${currentSpeed}x</span>`;
+
         if (youtubePlayer && typeof youtubePlayer.setPlaybackRate === 'function') {
             youtubePlayer.setPlaybackRate(currentSpeed);
         }
