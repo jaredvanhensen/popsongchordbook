@@ -31,7 +31,7 @@ class MidiInputHandler {
             }
 
             // 0. Check User Preference FIRST - avoid prompt if disabled
-            const isMidiEnabled = localStorage.getItem('feature-midi-enabled-global') !== 'false';
+            const isMidiEnabled = localStorage.getItem('feature-midi-enabled-global') === 'true';
             if (!isMidiEnabled) {
                 console.log("MIDI: Disabled by user preference. Skipping initialization.");
                 return;

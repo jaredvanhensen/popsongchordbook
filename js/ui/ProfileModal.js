@@ -320,7 +320,7 @@ class ProfileModal {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }
         if (this.midiToggle) {
-            this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) !== 'false';
+            this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) === 'true';
         }
 
         if (this.textNotationToggle) {
