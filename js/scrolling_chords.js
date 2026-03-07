@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.166)
+// Scrolling Chords Logic (v2.181)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -162,6 +162,12 @@ let undoStack = [];
 let redoStack = [];
 const MAX_UNDO = 50;
 let dragUndoSnapshot = null; // Temporary hold for pre-drag state
+let currentInstrumentMode = 'piano';
+
+function simplifyDisplayName(chordName) {
+    if (!chordName || currentInstrumentMode !== 'guitar') return chordName;
+    return chordName.split('/')[0].replace(/[23]$/, '');
+}
 
 function saveUndoState() {
     undoStack.push(JSON.parse(JSON.stringify(chords)));
@@ -217,7 +223,7 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode);
         // Restore last playback position if provided
         if (msg.lastPosition && msg.lastPosition > 0) {
             pauseTime = msg.lastPosition;
@@ -266,11 +272,17 @@ window.addEventListener('message', (event) => {
         // Refresh just the toolbar buttons — does not affect chords, position, or any other state
         if (Array.isArray(msg.suggestedChords)) {
             suggestedChords = msg.suggestedChords;
+            if (msg.instrumentMode) currentInstrumentMode = msg.instrumentMode;
             renderSuggestedChords(suggestedChords);
         }
     }
     else if (msg.type === 'saveChanges') {
         saveToDatabase();
+    }
+    else if (msg.type === 'setInstrumentMode') {
+        currentInstrumentMode = msg.instrumentMode;
+        renderStaticElements();
+        updateLoop();
     }
 });
 
@@ -415,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
             octaveOptions.forEach(o => o.classList.toggle('active', parseInt(o.dataset.val) === val));
 
             // Persistent storage or preview
-            triggerChordAudio('C', 0.5, true);
+            triggerChordAudio('C', 1.0, true);
         });
     });
 
@@ -691,7 +703,7 @@ document.addEventListener("keydown", e => {
             }
 
             initAudio();
-            triggerChordAudio(match, 0.5, true);
+            triggerChordAudio(match, 1.0, true);
             recordChord(match);
             return;
         }
@@ -717,7 +729,7 @@ document.addEventListener("keydown", e => {
                     }
 
                     initAudio();
-                    triggerChordAudio(lastChord.name, 0.5, true);
+                    triggerChordAudio(lastChord.name, 1.0, true);
                     renderStaticElements();
                     updateLoop();
                     checkForChanges();
@@ -889,7 +901,7 @@ function toggleOctavePlayback() {
     }
 
     // Play a preview chord
-    triggerChordAudio('C', 0.5, true);
+    triggerChordAudio('C', 2.0, true);
 }
 
 // Listen for messages from parent (for auto-loading stored data)
@@ -949,7 +961,7 @@ timeline.addEventListener('drop', (e) => {
         const snappedTime = snapToGrid(dropTime);
 
         recordChord(chordName, snappedTime);
-        triggerChordAudio(chordName, 0.5);
+        triggerChordAudio(chordName, 1.0);
         return;
     }
 
@@ -1316,16 +1328,16 @@ window.addEventListener('pointerup', (e) => {
                     renderStaticElements();
                     updateLoop();
                     checkForChanges();
-                    triggerChordAudio(virtualDraggedChord, 0.5);
+                    triggerChordAudio(virtualDraggedChord, 1.0);
                 } else {
                     // It was dropped on an existing valid chord, could either replace it or insert near it. 
                     recordChord(virtualDraggedChord, snappedTime);
-                    triggerChordAudio(virtualDraggedChord, 0.5);
+                    triggerChordAudio(virtualDraggedChord, 1.0);
                 }
             } else {
                 // Not dropped on a chord specifically, so place it on the timeline normally
                 recordChord(virtualDraggedChord, snappedTime);
-                triggerChordAudio(virtualDraggedChord, 0.5);
+                triggerChordAudio(virtualDraggedChord, 1.0);
             }
 
             // SET FLAG to prevent triggering the "click" event which would add another chord at the playhead
@@ -1448,10 +1460,10 @@ function renderSuggestedChords(groups) {
         const makeChordBtn = (chordName, type) => {
             const btn = document.createElement('button');
             btn.className = type ? `chord-suggestion-btn chord-type-${type}` : 'chord-suggestion-btn';
-            btn.textContent = chordName;
+            btn.textContent = simplifyDisplayName(chordName);
             btn.draggable = false;
             btn.style.touchAction = 'none';
-            btn.onpointerdown = () => { initAudio(); triggerChordAudio(chordName, 0.5, true); };
+            btn.onpointerdown = () => { initAudio(); triggerChordAudio(simplifyDisplayName(chordName), 2.0, true); };
             btn.onclick = () => {
                 if (window.justFinishedVirtualDrag) return;
                 if (enableTimingCapture) recordChord(chordName);
@@ -1459,7 +1471,7 @@ function renderSuggestedChords(groups) {
             btn.addEventListener('pointerdown', (e) => {
                 btn.setPointerCapture(e.pointerId);
                 potentialVirtualDrag = true;
-                virtualDraggedChord = chordName;
+                virtualDraggedChord = simplifyDisplayName(chordName);
                 virtualDragStartX = e.clientX;
                 virtualDragStartY = e.clientY;
             });
@@ -1583,7 +1595,7 @@ function renderSuggestedChords(groups) {
         qBtn.title = 'Mark unknown chord';
         qBtn.draggable = false;
         qBtn.style.touchAction = 'none';
-        qBtn.onpointerdown = () => { initAudio(); triggerChordAudio('?', 0.5, true); };
+        qBtn.onpointerdown = () => { initAudio(); triggerChordAudio('?', 2.0, true); };
         qBtn.addEventListener('pointerdown', (e) => {
             qBtn.setPointerCapture(e.pointerId);
             potentialVirtualDrag = true;
@@ -1603,7 +1615,8 @@ function renderSuggestedChords(groups) {
     }
 }
 
-function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0) {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano') {
+    if (inputInstrumentMode) currentInstrumentMode = inputInstrumentMode;
     console.log('loadData called for:', songTitle, {
         hasData: !!data,
         receivedFullLyrics: inputFullLyrics ? inputFullLyrics.substring(0, 30) + '...' : 'none',
@@ -2330,7 +2343,7 @@ function renderStaticElements() {
             el.classList.add(`root-${root}`);
         }
 
-        el.innerText = chord.name;
+        el.innerText = simplifyDisplayName(chord.name);
         el.dataset.index = index;
         chordFrag.appendChild(el);
     });
@@ -2541,7 +2554,7 @@ function updateLoop() {
 
     if (audioChordIndex > lastChordPlayed) {
         if (isPlaying && audioEnabled && playbackTime >= -0.1) {
-            triggerChordAudio(chords[audioChordIndex].name);
+            triggerChordAudio(simplifyDisplayName(chords[audioChordIndex].name));
         }
         lastChordPlayed = audioChordIndex;
     } else if (audioChordIndex < lastChordPlayed) {
@@ -2563,7 +2576,7 @@ function updateLoop() {
     // Prioritize showing live MIDI input if a key is being held down
     const displayString = (typeof window !== 'undefined' && window.activeMidiChord)
         ? window.activeMidiChord
-        : (currentChord ? currentChord.name : '');
+        : (currentChord ? simplifyDisplayName(currentChord.name) : '');
 
     if (displayString) {
         currentChordDisplay.innerText = displayString;
@@ -3699,7 +3712,7 @@ function populateSongMap() {
             btn.classList.add('map-unassigned-chord');
         }
 
-        btn.textContent = chord.name;
+        btn.textContent = simplifyDisplayName(chord.name);
 
         if (mapSelectionState.active && mapSelectionState.startIdx !== -1) {
             const minIdx = Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx);

@@ -16,7 +16,7 @@ class PianoAudioPlayer {
                 name: 'Piano',
                 attack: 0.005,
                 decay: 0.15,
-                sustain: 0.3,
+                sustain: 0.15,
                 release: 0.4,
                 filterMult: 5,
                 harmonics: [

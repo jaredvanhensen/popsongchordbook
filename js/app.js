@@ -1,4 +1,4 @@
-﻿// Main Application (v2.179)
+﻿// Main Application (v2.181)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.176)");
+        console.log("Pop Song Chord Book - App Initialized (v2.181)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -2228,7 +2228,7 @@ class App {
             // Map the 6 potential extractor keys into the 4 internal blocks
             // PreChorus is placed BEFORE Chorus to ensure logical song structure
             const extractorKeys = ["intro", "verse", "preChorus", "chorus", "bridge", "outro"];
-            const internalKeys = ["verse", "chorus", "preChorus", "bridge"];
+            const internalKeys = ["verse", "preChorus", "chorus", "bridge"];
 
             // Temporary copy to avoid overwriting while iterating
             const incomingData = { ...songToImport };
@@ -2263,9 +2263,7 @@ class App {
             if (isConfirmed) {
                 await this.songManager.addSong(songToImport);
                 this.loadAndRender();
-                setTimeout(() => {
-                    this.confirmationModal.show('Import Successful', `<strong>${songName}</strong> has been added to your library.`, null, null, 'Great!', '', 'primary', true);
-                }, 300);
+                console.log('Direct import successful for:', songName);
                 return;
             }
 

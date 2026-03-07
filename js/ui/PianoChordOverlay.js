@@ -13,7 +13,7 @@ class PianoChordOverlay {
 
         this.audioPlayer = audioPlayer || new PianoAudioPlayer();
         this.isAudioInitialized = false;
-        this.chordDuration = 0.5; // Default: 1 count halved
+        this.chordDuration = 1.0; // Default: 1 count doubled
         this.deduplicate = false; // Default: chronological
         this.currentBlockIndex = 0;
         this.allBlocks = []; // Array of { name, text }
@@ -29,10 +29,10 @@ class PianoChordOverlay {
 
         // Define duration cycle: eighth, quarter, half, whole
         this.durationSteps = [
-            { id: 'eighth', value: 0.25, icon: this.getNoteSVG('eighth'), label: 'Eighth' },
-            { id: 'quarter', value: 0.5, icon: this.getNoteSVG('quarter'), label: 'Quarter' },
-            { id: 'half', value: 1.0, icon: this.getNoteSVG('half'), label: 'Half' },
-            { id: 'whole', value: 2.0, icon: this.getNoteSVG('whole'), label: 'Whole' }
+            { id: 'eighth', value: 0.5, icon: this.getNoteSVG('eighth'), label: 'Eighth' },
+            { id: 'quarter', value: 1.0, icon: this.getNoteSVG('quarter'), label: 'Quarter' },
+            { id: 'half', value: 2.0, icon: this.getNoteSVG('half'), label: 'Half' },
+            { id: 'whole', value: 4.0, icon: this.getNoteSVG('whole'), label: 'Whole' }
         ];
 
         this.createOverlay();

@@ -178,28 +178,29 @@ class GuitarChordOverlay {
         const seen = new Set();
 
         for (const match of matches) {
-            const normalized = match[1].trim();
+            const raw = match[1].trim();
+            const simple = this.simplifyChord(raw);
+
             if (this.deduplicate) {
-                if (!seen.has(normalized)) {
-                    seen.add(normalized);
-                    chords.push(normalized);
+                if (!seen.has(simple)) {
+                    seen.add(simple);
+                    chords.push(simple);
                 }
             } else {
-                chords.push(normalized);
+                chords.push(simple);
             }
         }
         return chords;
     }
 
     simplifyChord(chordName) {
-        // Strip 2 and 3 digits as requested: C2 -> C, Am3 -> Am
-        // Also strip inversions (/G) for simplicity as requested?
-        // User request: "C2 will be 'C' and C3 will be 'C'. No inversions just the basic Guitar Chord."
-        let simple = chordName.replace(/[23]$/, '');
+        // Strip 2 and 3 digits: C2 -> C, Am3 -> Am
+        // Strip inversions (/G) for simplicity as requested
+        let simple = chordName;
         if (simple.includes('/')) {
             simple = simple.split('/')[0];
         }
-        return simple;
+        return simple.replace(/[23]$/, '');
     }
 
     createChordCard(chordName) {
@@ -220,7 +221,7 @@ class GuitarChordOverlay {
                     // Parse based on actual guitar fingerings for a realistic strum
                     const chord = this.chordParser.parseGuitarChord(simpleName, this.database);
                     if (chord && chord.notes) {
-                        this.audioPlayer.playChord(chord.notes, 1.5, 0.4, 0.035, true);
+                        this.audioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                     }
                 });
             }
@@ -229,8 +230,7 @@ class GuitarChordOverlay {
         const header = document.createElement('div');
         header.className = 'chord-card-header';
         header.innerHTML = `
-            <span class="chord-name">${chordName}</span>
-            ${simpleName !== chordName ? `<span class="chord-simplified-hint">(shown as ${simpleName})</span>` : ''}
+            <span class="chord-name">${simpleName}</span>
         `;
 
         const diagramContainer = document.createElement('div');

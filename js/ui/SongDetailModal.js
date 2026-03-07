@@ -102,14 +102,6 @@ class SongDetailModal {
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="verse"]'),
                 cue: document.getElementById('verseCueInput')
             },
-            chorus: {
-                section: document.getElementById('chorusSection'),
-                title: document.getElementById('chorusTitle'),
-                content: document.getElementById('chorusContent'),
-                editInput: document.getElementById('chorusEditInput'),
-                dividerBtn: document.querySelector('.bar-divider-btn[data-section="chorus"]'),
-                cue: document.getElementById('chorusCueInput')
-            },
             preChorus: {
                 section: document.getElementById('preChorusSection'),
                 title: document.getElementById('preChorusTitle'),
@@ -117,6 +109,14 @@ class SongDetailModal {
                 editInput: document.getElementById('preChorusEditInput'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="preChorus"]'),
                 cue: document.getElementById('preChorusCueInput')
+            },
+            chorus: {
+                section: document.getElementById('chorusSection'),
+                title: document.getElementById('chorusTitle'),
+                content: document.getElementById('chorusContent'),
+                editInput: document.getElementById('chorusEditInput'),
+                dividerBtn: document.querySelector('.bar-divider-btn[data-section="chorus"]'),
+                cue: document.getElementById('chorusCueInput')
             },
             bridge: {
                 section: document.getElementById('bridgeSection'),
@@ -403,6 +403,14 @@ class SongDetailModal {
 
         this.updateInstrumentToggleUI();
         this.refreshNotation();
+
+        // Sync with timeline if open
+        if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+            this.scrollingChordsFrame.contentWindow.postMessage({
+                type: 'setInstrumentMode',
+                instrumentMode: this.instrumentMode
+            }, '*');
+        }
     }
 
     updateInstrumentToggleUI() {
@@ -1394,7 +1402,7 @@ class SongDetailModal {
                     });
                 } else {
                     const cleanChord = this.instrumentMode === 'guitar' ?
-                        item.trim().replace(/[23]$/, '').split('/')[0] :
+                        item.trim().split('/')[0].replace(/[23]$/, '') :
                         item.trim();
                     this.createChordButton(section, key, cleanChord, item.trim());
                 }
@@ -1416,7 +1424,7 @@ class SongDetailModal {
                         this.sharedAudioPlayer.setSound('guitar-strum');
                         const chord = this.chordParser.parseGuitarChord(chordText, window.GuitarChordDatabase);
                         if (chord && chord.notes) {
-                            this.sharedAudioPlayer.playChord(chord.notes, 1.5, 0.4, 0.035, true);
+                            this.sharedAudioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                         }
                     } else {
                         // Use piano-style sound and triad
@@ -1425,7 +1433,7 @@ class SongDetailModal {
                         const textToPlay = (originalText || chordText);
                         const chord = this.chordParser.parse(textToPlay);
                         if (chord && chord.notes) {
-                            this.sharedAudioPlayer.playChord(chord.notes, 0.5);
+                            this.sharedAudioPlayer.playChord(chord.notes, 2.0);
                         }
                     }
                 });
@@ -1439,12 +1447,12 @@ class SongDetailModal {
 
         const blocks = [
             { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
-            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
-            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
             { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
         ];
 
-        const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
+        const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
         const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
         this.guitarChordOverlay.show(blocks, startIndex);
@@ -2203,8 +2211,8 @@ class SongDetailModal {
             if (savedSong) {
                 const sections = [
                     { name: savedSong.verseTitle || 'BLOCK 1', type: 'verse', text: savedSong.verse || '' },
-                    { name: savedSong.chorusTitle || 'BLOCK 2', type: 'chorus', text: savedSong.chorus || '' },
-                    { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
+                    { name: savedSong.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: savedSong.preChorus || '' },
+                    { name: savedSong.chorusTitle || 'BLOCK 3', type: 'chorus', text: savedSong.chorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
                 const suggestedChordsGrouped = sections.map(section => {
@@ -2215,7 +2223,8 @@ class SongDetailModal {
 
                 this.scrollingChordsFrame.contentWindow.postMessage({
                     type: 'updateSuggestedChords',
-                    suggestedChords: suggestedChordsGrouped
+                    suggestedChords: suggestedChordsGrouped,
+                    instrumentMode: this.instrumentMode
                 }, '*');
             }
         }
@@ -2432,7 +2441,8 @@ class SongDetailModal {
             fullLyrics: song.fullLyrics || '', // Pass lyrics for HUD
             lyrics: song.lyrics || '', // Fallback
             lyricOffset: song.lyricOffset || 0, // New Offset
-            lastPosition: lastPosition // Restore last playback position
+            lastPosition: lastPosition, // Restore last playback position
+            instrumentMode: this.instrumentMode
         }, '*');
     }
 
@@ -2528,10 +2538,10 @@ class SongDetailModal {
             verseTitle: song.verseTitle || 'Block 1',
             verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
-            preChorusTitle: song.preChorusTitle || 'Block 3',
+            preChorusTitle: song.preChorusTitle || 'Block 2',
             preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
-            chorusTitle: song.chorusTitle || 'Block 2',
+            chorusTitle: song.chorusTitle || 'Block 3',
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PopsongChordBook Super Converter (v3 - Multi-Section)</title>
 
     <style>
@@ -208,6 +209,70 @@
         .modal-btn-confirm:hover {
             background: #6d28d9;
             transform: translateY(-1px);
+        }
+
+        /* Mobile Optimizations */
+        @media screen and (max-width: 768px) {
+            body {
+                margin: 10px;
+                padding: 0;
+            }
+
+            .card {
+                border-radius: 8px;
+                max-width: 100%;
+            }
+
+            .card-header {
+                padding: 15px;
+            }
+
+            .card-header h2 {
+                font-size: 1.2em;
+            }
+
+            .card-body {
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            textarea {
+                height: 300px;
+                font-size: 15px;
+                margin-bottom: 15px;
+                order: 1;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                order: 3;
+            }
+
+            button {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 0;
+                padding: 14px;
+                font-size: 16px;
+                display: block;
+            }
+
+            #output {
+                padding: 12px;
+                font-size: 13px;
+                margin-top: 0;
+                margin-bottom: 15px;
+                order: 2;
+                min-height: 80px;
+            }
+
+            .btn-green {
+                order: -1;
+                /* Keep Import Now at the top once visible inside the button-group */
+            }
         }
     </style>
 </head>

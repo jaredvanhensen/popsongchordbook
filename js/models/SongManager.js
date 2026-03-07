@@ -219,8 +219,8 @@ class SongManager {
             lyricOffset: 0,
             performAbility: '',
             verseTitle: 'Block 1',
-            preChorusTitle: 'Block 3',
-            chorusTitle: 'Block 2',
+            preChorusTitle: 'Block 2',
+            chorusTitle: 'Block 3',
             bridgeTitle: 'Block 4',
             songNotes: '',
             // Preserve all incoming fields

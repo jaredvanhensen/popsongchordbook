@@ -176,6 +176,18 @@ body {
     transform: translateY(-3px);
 }
 
+.btn-guide {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-guide:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
 .btn-large {
     padding: 20px 40px;
     font-size: 1.3rem;
@@ -323,6 +335,24 @@ body {
     transition: color 0.4s ease;
 }
 
+.artist-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.artist-card:hover::before {
+    opacity: 1;
+}
+
+.artist-card:hover .artist-name,
+.artist-card:hover .artist-genre {
+    color: white;
+}
+
+.artist-card:hover .artist-icon {
+    transform: scale(1.15);
+}
+
 /* Instruments Section */
 .instruments-section {
     padding: 100px 20px;
@@ -397,6 +427,24 @@ body {
     color: #64748b;
     line-height: 1.6;
     transition: color 0.4s ease;
+}
+
+.instrument-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.instrument-card:hover::before {
+    opacity: 1;
+}
+
+.instrument-card:hover h3,
+.instrument-card:hover p {
+    color: white;
+}
+
+.instrument-card:hover .instrument-icon {
+    transform: scale(1.15);
 }
 
 

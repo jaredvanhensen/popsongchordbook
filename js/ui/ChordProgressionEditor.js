@@ -112,7 +112,7 @@ class ChordProgressionEditor {
         if (chord && chord.notes && chord.notes.length > 0) {
             // ChordParser now returns absolute MIDI notes in Middle C range (60-84)
             // So we no longer need to manually add 60 here.
-            this.audioPlayer.playChord(chord.notes, 0.85, 0.6, 0.02);
+            this.audioPlayer.playChord(chord.notes, 1.7, 0.6, 0.02);
         }
     }
 
