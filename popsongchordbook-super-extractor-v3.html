@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PopsongChordBook Converter v3</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:40px;
+}
+
+textarea{
+width:100%;
+height:260px;
+font-family:monospace;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-bottom:10px;
+}
+
+button{
+margin-top:10px;
+padding:10px 16px;
+margin-right:10px;
+font-size:15px;
+}
+
+#output{
+background:white;
+border:1px solid #ccc;
+padding:15px;
+margin-top:20px;
+white-space:pre-wrap;
+font-family:monospace;
+}
+</style>
+</head>
+
+<body>
+
+<h2>PopsongChordBook Converter v3</h2>
+
+Ultimate Guitar URL:
+
+<input id="ugurl" placeholder="Paste Ultimate Guitar URL">
+
+<button onclick="importUG()">Import From Ultimate Guitar</button>
+
+<br><br>
+
+Or paste chord sheet manually:
+
+<textarea id="input"></textarea>
+
+<br>
+
+<button onclick="extract()">Extract</button>
+<button onclick="copyJSON()">Copy JSON</button>
+<button onclick="downloadJSON()">Download JSON</button>
+
+<div id="output"></div>
+
+<script>
+
+const chordRegex=/^[A-G](#|b)?(maj7|maj|min|m|sus2|sus4|dim|aug|add9|6|7|9|11|13)?(\/[A-G](#|b)?)?$/i
+
+function rootChord(chord){
+return chord.replace(/(maj7|maj|min|m|sus2|sus4|dim|aug|add9|6|7|9|11|13).*/,"").split("/")[0]
+}
+
+function isChord(token){
+return chordRegex.test(token)
+}
+
+function isChordLine(line){
+
+let tokens=line.trim().split(/\s+/)
+
+if(tokens.length===0) return false
+
+let chordCount=0
+
+tokens.forEach(t=>{
+if(isChord(t)) chordCount++
+})
+
+return chordCount>0 && chordCount===tokens.length
+}
+
+function detectSection(line){
+
+line=line.toLowerCase()
+
+if(line.includes("verse")) return "verse"
+if(line.includes("chorus")) return "chorus"
+if(line.includes("bridge")) return "bridge"
+if(line.includes("intro")) return "intro"
+if(line.includes("outro")) return "outro"
+if(line.includes("pre-chorus")||line.includes("prechorus")) return "preChorus"
+
+return null
+}
+
+function ultraCompress(lines){
+
+let tokens=[]
+
+lines.forEach(line=>{
+tokens.push(...line.split(/\s+/))
+})
+
+let result=[]
+let i=0
+
+while(i<tokens.length){
+
+let bestPattern=null
+
+for(let len=1;len<=8 && i+len<=tokens.length;len++){
+
+let pattern=tokens.slice(i,i+len).join(" ")
+let count=1
+let pos=i+len
+
+while(pos+len<=tokens.length){
+
+if(tokens.slice(pos,pos+len).join(" ")===pattern){
+count++
+pos+=len
+}else break
+}
+
+if(count>1){
+bestPattern={pattern,len,count}
+}
+
+}
+
+if(bestPattern){
+
+result.push(bestPattern.pattern+" "+bestPattern.count+"x")
+i+=bestPattern.len*bestPattern.count
+
+}else{
+
+result.push(tokens[i])
+i++
+
+}
+
+}
+
+return result.join(" ")
+}
+
+function detectKey(allChords){
+
+let roots=allChords.map(rootChord)
+
+let freq={}
+
+roots.forEach(r=>{
+freq[r]=(freq[r]||0)+1
+})
+
+let max=0
+let key=""
+
+for(let r in freq){
+if(freq[r]>max){
+max=freq[r]
+key=r
+}
+}
+
+return key
+}
+
+let lastJSON=""
+
+function extract(){
+
+let lines=document.getElementById("input").value.split("\n")
+
+let section="verse"
+
+let sections={
+verse:[],
+chorus:[],
+preChorus:[],
+bridge:[],
+intro:[],
+outro:[]
+}
+
+let allChords=[]
+
+lines.forEach(line=>{
+
+let sec=detectSection(line)
+
+if(sec){
+section=sec
+return
+}
+
+if(isChordLine(line)){
+
+let cleaned=line.trim().replace(/\s{2,}/g," ")
+
+sections[section].push(cleaned)
+
+cleaned.split(/\s+/).forEach(c=>{
+allChords.push(c)
+})
+
+}
+
+})
+
+let result={
+artist:"",
+title:"",
+key:"",
+verse:"",
+chorus:"",
+preChorus:"",
+bridge:"",
+intro:"",
+outro:"",
+favorite:false
+}
+
+for(let key in sections){
+
+if(sections[key].length>0){
+result[key]=ultraCompress(sections[key])
+}
+
+}
+
+result.key=detectKey(allChords)
+
+lastJSON=JSON.stringify(result,null,2)
+
+document.getElementById("output").textContent=lastJSON
+
+}
+
+function copyJSON(){
+
+if(!lastJSON) return
+
+navigator.clipboard.writeText(lastJSON)
+
+alert("JSON copied")
+}
+
+function downloadJSON(){
+
+if(!lastJSON) return
+
+let blob=new Blob([lastJSON],{type:"application/json"})
+
+let a=document.createElement("a")
+
+a.href=URL.createObjectURL(blob)
+
+a.download="song.json"
+
+a.click()
+}
+
+async function importUG(){
+
+let url=document.getElementById("ugurl").value
+
+if(!url){
+alert("Paste a URL first")
+return
+}
+
+let proxy="https://api.allorigins.win/raw?url="
+
+let response=await fetch(proxy+encodeURIComponent(url))
+
+let html=await response.text()
+
+let text=html.replace(/<[^>]+>/g,"\n")
+
+text=text.replace(/\n{2,}/g,"\n")
+
+document.getElementById("input").value=text
+
+extractMeta(html)
+
+alert("Page imported. Click Extract.")
+
+}
+
+function extractMeta(html){
+
+let titleMatch=html.match(/<title>(.*?)<\/title>/i)
+
+if(titleMatch){
+
+let parts=titleMatch[1].split("-")
+
+if(parts.length>=2){
+
+let artist=parts[0].trim()
+let title=parts[1].replace("Chords","").trim()
+
+window.metaArtist=artist
+window.metaTitle=title
+
+}
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

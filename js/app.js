@@ -1,4 +1,4 @@
-﻿// Main Application (v2.164)
+﻿// Main Application (v2.179)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,10 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.168)");
+        console.log("Pop Song Chord Book - App Initialized (v2.176)");
+        // Setup message listener for UG Extractor ASAP
+        this.setupExtractorListener();
+
         // Initialize Firebase
         try {
             await this.firebaseManager.initialize();
@@ -2190,6 +2193,109 @@ class App {
                 }
                 e.target.value = '';
             });
+        }
+
+        // --- UG Import ---
+        const importUgBtn = document.getElementById('importUgBtn');
+        if (importUgBtn) {
+            importUgBtn.addEventListener('click', () => {
+                window.open('popsongchordbook-super-extractor-gemini.html', '_blank');
+            });
+        }
+    }
+
+    setupExtractorListener() {
+        console.log('UG Extractor listener initialized (v2.178)');
+        window.addEventListener('message', async (event) => {
+            if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
+                console.log('Received UG Extractor import signal from:', event.origin);
+                const songData = event.data.song;
+                const isConfirmed = event.data.confirmed || false;
+                if (songData) {
+                    console.log('Song data parsed successfully, calling handleExtractorImport (confirmed:', isConfirmed, ')');
+                    await this.handleExtractorImport(songData, isConfirmed);
+                } else {
+                    console.warn('Received import signal but song data is missing/invalid');
+                }
+            }
+        });
+    }
+
+    async handleExtractorImport(songToImport, isConfirmed = false) {
+        try {
+            console.log('Processing extractor import for:', songToImport.title);
+
+            // Map the 6 potential extractor keys into the 4 internal blocks
+            // PreChorus is placed BEFORE Chorus to ensure logical song structure
+            const extractorKeys = ["intro", "verse", "preChorus", "chorus", "bridge", "outro"];
+            const internalKeys = ["verse", "chorus", "preChorus", "bridge"];
+
+            // Temporary copy to avoid overwriting while iterating
+            const incomingData = { ...songToImport };
+
+            // Clear current internal fields in the object we're about to add
+            internalKeys.forEach(k => {
+                delete songToImport[k];
+                delete songToImport[k + 'Title'];
+            });
+
+            let internalIdx = 0;
+            extractorKeys.forEach(exKey => {
+                const content = incomingData[exKey];
+                if (content && content.trim() !== '' && internalIdx < internalKeys.length) {
+                    const intKey = internalKeys[internalIdx];
+                    songToImport[intKey] = content;
+                    // Format title: e.g. "preChorus" -> "PreChorus"
+                    songToImport[intKey + 'Title'] = exKey.charAt(0).toUpperCase() + exKey.slice(1);
+                    internalIdx++;
+                }
+            });
+
+            // Clean up original extractor-specific keys that aren't part of internal schema
+            extractorKeys.forEach(k => {
+                if (!internalKeys.includes(k)) {
+                    delete songToImport[k];
+                }
+            });
+
+            const songName = `${songToImport.artist || 'Unknown'} - ${songToImport.title || 'Untitled'}`;
+
+            if (isConfirmed) {
+                await this.songManager.addSong(songToImport);
+                this.loadAndRender();
+                setTimeout(() => {
+                    this.confirmationModal.show('Import Successful', `<strong>${songName}</strong> has been added to your library.`, null, null, 'Great!', '', 'primary', true);
+                }, 300);
+                return;
+            }
+
+            this.confirmationModal.show(
+                'Direct Import from Extractor',
+                `Do you want to import <strong>${songName}</strong> into your library?`,
+                async () => {
+                    await this.songManager.addSong(songToImport);
+                    this.loadAndRender();
+
+                    // Show success using the confirmation modal in info mode
+                    setTimeout(() => {
+                        this.confirmationModal.show(
+                            'Import Successful',
+                            `<strong>${songName}</strong> has been added to your library.`,
+                            null,
+                            null,
+                            'Great!',
+                            '',
+                            'primary',
+                            true // isInfo mode
+                        );
+                    }, 300);
+                },
+                null,
+                'Import Now'
+            );
+        } catch (error) {
+            console.error('Extractor Direct Import error:', error);
+            alert('Direct import failed: ' + error.message);
         }
     }
 
