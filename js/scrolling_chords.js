@@ -165,8 +165,13 @@ let dragUndoSnapshot = null; // Temporary hold for pre-drag state
 let currentInstrumentMode = 'piano';
 
 function simplifyDisplayName(chordName) {
-    if (!chordName || currentInstrumentMode !== 'guitar') return chordName;
-    return chordName.split('/')[0].replace(/[23]$/, '');
+    if (!chordName) return chordName;
+    if (currentInstrumentMode === 'guitar') {
+        return chordName.split('/')[0].replace(/[23]$/, '');
+    } else if (currentInstrumentMode === 'ukulele') {
+        return chordName.split('/')[0].replace(/[237]/g, '');
+    }
+    return chordName;
 }
 
 function saveUndoState() {
@@ -648,6 +653,18 @@ document.addEventListener('DOMContentLoaded', () => {
             seek(delta * scrollSensitivity);
         }
     }, { passive: false });
+
+    // Dynamic Lyrics HUD Positioning (The \"Smart Push\")
+    if (buttonsContainer) {
+        const toolbarObserver = new ResizeObserver(() => {
+            updateHUDPosition();
+        });
+        toolbarObserver.observe(buttonsContainer);
+    }
+
+    // Initial call
+    updateHUDPosition();
+    window.addEventListener('resize', updateHUDPosition);
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -1609,10 +1626,37 @@ function renderSuggestedChords(groups) {
         };
         buttonsContainer.appendChild(qBtn);
 
+        // Always recalculate HUD position after rendering new buttons
+        updateHUDPosition();
+
     } catch (err) {
         console.error("Error in renderSuggestedChords:", err);
         buttonsContainer.classList.add('hidden');
+        updateHUDPosition();
     }
+}
+
+/**
+ * Dynamically adjusts the vertical position of the Lyrics HUD based on the height
+ * of the Suggested Chords toolbar. This prevents overlap on tablets (Galaxy A9+, iPad)
+ * where the toolbar may wrap to multiple rows.
+ */
+function updateHUDPosition() {
+    const chordToolbar = document.getElementById('chordButtonsContainer');
+    const lyricsHUD = document.getElementById('lyricsHUD');
+    if (!lyricsHUD) return;
+
+    let toolbarHeight = 0;
+    if (chordToolbar && !chordToolbar.classList.contains('hidden')) {
+        toolbarHeight = chordToolbar.offsetHeight;
+    }
+
+    // Determine the base padding. 
+    // If we have a toolbar, we want it 20px below the toolbar.
+    // If no toolbar, use 100px from top (standard clear zone).
+    const topPadding = toolbarHeight > 0 ? toolbarHeight + 20 : 100;
+
+    document.documentElement.style.setProperty('--hud-top-offset', `${topPadding}px`);
 }
 
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano') {

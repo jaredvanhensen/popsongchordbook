@@ -147,6 +147,9 @@ class SongDetailModal {
         // Initialize Guitar Chord Overlay with shared player and parser
         this.guitarChordOverlay = new GuitarChordOverlay(this.sharedAudioPlayer, this.chordParser);
 
+        // Initialize Ukulele Chord Overlay
+        this.ukuleleChordOverlay = new UkuleleChordOverlay(this.sharedAudioPlayer, this.chordParser);
+
         // Initialize Chord Progression Editor with shared player
         this.chordProgressionEditor = new ChordProgressionEditor(this.sharedAudioPlayer);
 
@@ -396,7 +399,14 @@ class SongDetailModal {
     }
 
     toggleInstrumentMode() {
-        this.instrumentMode = this.instrumentMode === 'piano' ? 'guitar' : 'piano';
+        if (this.instrumentMode === 'piano') {
+            this.instrumentMode = 'guitar';
+        } else if (this.instrumentMode === 'guitar') {
+            this.instrumentMode = 'ukulele';
+        } else {
+            this.instrumentMode = 'piano';
+        }
+
         const user = this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser() : null;
         const uid = user ? user.uid : 'guest';
         localStorage.setItem(`instrument-mode-${uid}`, this.instrumentMode);
@@ -421,22 +431,51 @@ class SongDetailModal {
             if (this.instrumentMode === 'guitar') {
                 if (icon) icon.textContent = '🎸';
                 if (label) label.textContent = 'guitar';
+                toggleBtn.title = 'Switch to Ukulele Mode';
+                toggleBtn.classList.remove('instrument-ukulele');
+            } else if (this.instrumentMode === 'ukulele') {
+                if (icon) icon.innerHTML = `
+                    <svg viewBox="0 0 100 100" width="34" height="34" style="vertical-align: middle; margin-top: -2px;">
+                        <g transform="rotate(-35 50 50)">
+                            <!-- Neck -->
+                            <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                            <!-- Body -->
+                            <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                            <!-- Details -->
+                            <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                            <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                        </g>
+                    </svg>`;
+                if (label) label.textContent = 'ukulele';
                 toggleBtn.title = 'Switch to Piano Mode';
+                toggleBtn.classList.add('instrument-ukulele');
             } else {
                 if (icon) icon.textContent = '🎹';
                 if (label) label.textContent = 'piano';
                 toggleBtn.title = 'Switch to Guitar Mode';
+                toggleBtn.classList.remove('instrument-ukulele');
             }
         }
 
-        // Update block headers (Show Piano/Guitar Chords buttons)
+        // Update block headers (Show Piano/Guitar/Ukulele Chords buttons)
         const blockChordBtns = this.modal.querySelectorAll('.piano-chord-btn');
         blockChordBtns.forEach(btn => {
             const icon = btn.querySelector('.icon');
-            if (icon) { // Check for both guitar and piano text to be sure
+            if (icon) {
                 if (this.instrumentMode === 'guitar') {
                     icon.textContent = '🎸';
                     btn.title = 'Show Guitar Chords';
+                } else if (this.instrumentMode === 'ukulele') {
+                    icon.innerHTML = `
+                        <svg viewBox="0 0 100 100" width="32" height="32" style="vertical-align: middle;">
+                            <g transform="rotate(-35 50 50)">
+                                <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                            </g>
+                        </svg>`;
+                    btn.title = 'Show Ukulele Chords';
                 } else {
                     icon.textContent = '🎹';
                     btn.title = 'Show Piano Chords';
@@ -1120,33 +1159,36 @@ class SongDetailModal {
                 e.stopPropagation();
                 e.preventDefault();
 
+                const sectionKey = btn.dataset.section || 'verse';
+
                 if (this.instrumentMode === 'guitar') {
-                    const sectionKey = btn.dataset.section || 'verse';
                     this.showGuitarChords(sectionKey);
+                } else if (this.instrumentMode === 'ukulele') {
+                    this.showUkuleleChords(sectionKey);
                 } else if (this.pianoChordOverlay) {
                     const focusedField = document.activeElement;
                     const isChordField = focusedField &&
                         focusedField.classList.contains('chord-section-content') &&
                         focusedField.getAttribute('contenteditable') === 'true';
 
-                    let sectionKey = btn.dataset.section;
+                    let finalSectionKey = sectionKey;
                     if (isChordField) {
-                        sectionKey = focusedField.dataset.field || sectionKey;
+                        finalSectionKey = focusedField.dataset.field || finalSectionKey;
                     }
 
-                    if (!this.sections[sectionKey]) {
-                        sectionKey = 'verse';
+                    if (!this.sections[finalSectionKey]) {
+                        finalSectionKey = 'verse';
                     }
 
                     const blocks = [
                         { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
-                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
-                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
+                        { name: this.sections.preChorus.title.textContent || 'Block 2', text: this.sections.preChorus.editInput.value || '' },
+                        { name: this.sections.chorus.title.textContent || 'Block 3', text: this.sections.chorus.editInput.value || '' },
                         { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
                     ];
 
-                    const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
-                    const startIndex = sectionKeyToIdx[sectionKey] || 0;
+                    const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
+                    const startIndex = sectionKeyToIdx[finalSectionKey] || 0;
 
                     this.pianoChordOverlay.show(blocks, startIndex);
                 }
@@ -1401,9 +1443,12 @@ class SongDetailModal {
                         }
                     });
                 } else {
-                    const cleanChord = this.instrumentMode === 'guitar' ?
-                        item.trim().split('/')[0].replace(/[23]$/, '') :
-                        item.trim();
+                    let cleanChord = item.trim();
+                    if (this.instrumentMode === 'guitar') {
+                        cleanChord = cleanChord.split('/')[0].replace(/[23]$/, '');
+                    } else if (this.instrumentMode === 'ukulele') {
+                        cleanChord = cleanChord.split('/')[0].replace(/[237]/g, '');
+                    }
                     this.createChordButton(section, key, cleanChord, item.trim());
                 }
             }
@@ -1426,10 +1471,15 @@ class SongDetailModal {
                         if (chord && chord.notes) {
                             this.sharedAudioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                         }
+                    } else if (this.instrumentMode === 'ukulele') {
+                        // Use ukulele-specific strum
+                        this.sharedAudioPlayer.setSound('guitar-strum'); // Reuse guitar strum for now
+                        const chord = this.chordParser.parseUkuleleChord(chordText, window.UkuleleChordDatabase);
+                        if (chord && chord.notes) {
+                            this.sharedAudioPlayer.playChord(chord.notes, 2.5, 0.35, 0.02, true);
+                        }
                     } else {
                         // Use piano-style sound and triad
-                        // Attempt to restore user's previous non-guitar sound if possible
-                        // For now we just use the current profile
                         const textToPlay = (originalText || chordText);
                         const chord = this.chordParser.parse(textToPlay);
                         if (chord && chord.notes) {
@@ -1440,6 +1490,22 @@ class SongDetailModal {
             }
         };
         section.content.appendChild(btn);
+    }
+
+    showUkuleleChords(sectionKey = 'verse') {
+        if (!this.ukuleleChordOverlay) return;
+
+        const blocks = [
+            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
+        ];
+
+        const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
+        const startIndex = sectionKeyToIdx[sectionKey] || 0;
+
+        this.ukuleleChordOverlay.show(blocks, startIndex);
     }
 
     showGuitarChords(sectionKey = 'verse') {

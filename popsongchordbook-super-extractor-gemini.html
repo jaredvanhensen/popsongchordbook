@@ -324,13 +324,12 @@
             // Support No Chord notation
             if (cleanToken.toUpperCase() === "NC" || cleanToken.toUpperCase() === "N.C") return true;
 
+            // Support existing multipliers in input (e.g. 2x, 4x)
+            if (/^\d+[xX]$/.test(cleanToken)) return true;
+
             // Robust Regex for chords including slash chords (e.g., E7/G#, D/F#)
-            // Base: A-G with optional # or b
-            // Modifiers/Extensions: m, maj, min, sus, dim, aug, add, M, 2-13
-            // Slash: followed by any note A-G (+ optional # or b)
             const strictChordRegex = /^[A-G][b#]?(?:m|maj|min|sus|dim|aug|add|M)?(?:\d{0,2})(?:[b#]\d{1,2})?(?:\/[A-G][b#]?)?$/i;
 
-            // Ignore common non-chord words
             const blackList = ["I", "As", "At", "Be", "By", "Do", "He", "In", "Is", "It", "Me", "No", "Or", "So", "To", "Up", "Us", "We"];
             if (blackList.includes(cleanToken)) return false;
 
@@ -356,7 +355,8 @@
 
             while (i < tokens.length) {
                 let bestPattern = null;
-                for (let len = 1; len <= 15 && i + len <= tokens.length; len++) {
+                // Deep window (32) to catch long 8-bar phrasing
+                for (let len = 1; len <= 32 && i + len <= tokens.length; len++) {
                     let patternStr = tokens.slice(i, i + len).join(" ");
                     let count = 1;
                     let pos = i + len;
@@ -366,10 +366,16 @@
                             pos += len;
                         } else { break; }
                     }
-                    if (count > 1 && (len * count) > (bestPattern ? bestPattern.len * bestPattern.count : 0)) {
-                        bestPattern = { pattern: patternStr, len, count };
+
+                    let score = len * count;
+                    if (count > 1 && score >= (bestPattern ? bestPattern.score : 0)) {
+                        // Strict tie-breaker: favor LONGER patterns to keep blocks unified
+                        if (!bestPattern || score > bestPattern.score || (score === bestPattern.score && len > bestPattern.len)) {
+                            bestPattern = { pattern: patternStr, len, count, score };
+                        }
                     }
                 }
+
                 if (bestPattern) {
                     result.push(bestPattern.pattern + " " + bestPattern.count + "x");
                     i += bestPattern.len * bestPattern.count;
@@ -378,7 +384,61 @@
                     i++;
                 }
             }
-            return result.join(" ");
+
+            // Consolidation: Merge adjacent identical bases
+            let consolidated = [];
+            for (let k = 0; k < result.length; k++) {
+                let cur = result[k];
+                let curBase = cur.replace(/\s+\d+x$/i, "").trim();
+                let curCount = 1;
+                let match = cur.match(/\s+(\d+)x$/i);
+                if (match) curCount = parseInt(match[1]);
+
+                if (consolidated.length > 0) {
+                    let last = consolidated[consolidated.length - 1];
+                    let lastBase = last.replace(/\s+\d+x$/i, "").trim();
+                    let lastCount = 1;
+                    let lastMatch = last.match(/\s+(\d+)x$/i);
+                    if (lastMatch) lastCount = parseInt(lastMatch[1]);
+
+                    if (curBase === lastBase) {
+                        consolidated[consolidated.length - 1] = curBase + " " + (lastCount + curCount) + "x";
+                        continue;
+                    }
+                }
+                consolidated.push(cur);
+            }
+
+            return consolidated.join(" ");
+        }
+
+        // Helper for fuzzy deduplication
+        function getSimilarity(s1, s2) {
+            let longer = s1.length > s2.length ? s1 : s2;
+            let shorter = s1.length > s2.length ? s2 : s1;
+            if (longer.length === 0) return 1.0;
+            return (longer.length - editDistance(longer, shorter)) / parseFloat(longer.length);
+        }
+
+        function editDistance(s1, s2) {
+            let costs = [];
+            for (let i = 0; i <= s1.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s2.length; j++) {
+                    if (i === 0) costs[j] = j;
+                    else {
+                        if (j > 0) {
+                            let newValue = costs[j - 1];
+                            if (s1.charAt(i - 1) !== s2.charAt(j - 1))
+                                newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                            costs[j - 1] = lastValue;
+                            lastValue = newValue;
+                        }
+                    }
+                }
+                if (i > 0) costs[s2.length] = lastValue;
+            }
+            return costs[s2.length];
         }
 
         let lastJSON = "";
@@ -387,15 +447,8 @@
             let inputVal = document.getElementById("input").value;
             let lines = inputVal.split("\n");
 
-            // Structure to hold multiple instances of sections
-            // e.g. sectionInstances.verse = [ [C,G,Am], [C,G,Am] ]
             let sectionInstances = {
-                intro: [],
-                verse: [],
-                chorus: [],
-                preChorus: [],
-                bridge: [],
-                outro: []
+                intro: [], verse: [], chorus: [], preChorus: [], bridge: [], outro: []
             };
 
             let currentType = "intro";
@@ -404,10 +457,8 @@
             lines.forEach((line, idx) => {
                 const trimmed = line.trim();
                 if (!trimmed) return;
-
                 const lower = trimmed.toLowerCase();
 
-                // 1. Try to catch Artist/Title from "Chords by" pattern (usually first line)
                 if (idx < 5 && lower.includes(" chords by ")) {
                     const parts = trimmed.split(/ chords by /i);
                     title = parts[0].trim();
@@ -415,11 +466,9 @@
                     return;
                 }
 
-                // 1b. Support explicit tags
                 if (lower.startsWith("artist:")) { artist = trimmed.replace(/artist:/i, "").trim(); return; }
                 if (lower.startsWith("song:") || lower.startsWith("title:")) { title = trimmed.replace(/(song|title):/i, "").trim(); return; }
 
-                // 2. Extra Metadata: Key and BPM
                 if (lower.includes("key:")) {
                     const match = trimmed.match(/key:\s*([A-G][b#]?m?)/i);
                     if (match) key = match[1];
@@ -429,34 +478,37 @@
                     if (match) bpm = match[1];
                 }
 
-                // Skip meta-info lines for chord processing
                 if (lower.startsWith("tuning:") || lower.startsWith("key:") || lower.startsWith("capo:") || lower.startsWith("author:") || lower.includes("views")) return;
 
-                // 3. Detect Section
                 let sec = detectSection(trimmed);
                 if (sec) {
                     currentType = sec.type;
-                    sectionInstances[currentType].push({
-                        display: sec.display,
-                        chords: []
-                    });
+                    sectionInstances[currentType].push({ display: sec.display, chords: [] });
                     return;
                 }
 
-                // 4. Process Only Chords
                 const tokens = trimmed.split(/\s+/);
-                const chords = tokens.filter(t => isChord(t));
+                let chords = tokens.filter(t => isChord(t));
 
                 if (chords.length > 0 && (chords.length / tokens.length) > 0.4) {
                     if (sectionInstances[currentType].length === 0) {
                         sectionInstances[currentType].push({ display: "??", chords: [] });
                     }
                     const activeInstance = sectionInstances[currentType][sectionInstances[currentType].length - 1];
+
+                    // Unroll multipliers at the line level (e.g. "C G 2x" -> "C G C G")
+                    let lastToken = chords[chords.length - 1];
+                    if (chords.length > 1 && /^\d+[xX]$/.test(lastToken)) {
+                        let count = parseInt(lastToken);
+                        chords.pop(); // remove multiplier
+                        let base = [...chords];
+                        for (let k = 1; k < count; k++) chords.push(...base);
+                    }
+
                     activeInstance.chords.push(...chords);
                 }
             });
 
-            // Final merge and compression
             let result = {
                 artist: artist || "Unknown Artist",
                 title: title || "New Song",
@@ -468,29 +520,44 @@
             const sectionKeys = ["intro", "verse", "chorus", "preChorus", "bridge", "outro"];
             sectionKeys.forEach(key => {
                 let uniqueInstances = [];
-                let seenContents = new Set();
 
                 sectionInstances[key].forEach((instance) => {
                     if (instance.chords.length === 0) return;
                     let compressed = ultraCompress(instance.chords);
 
-                    if (!seenContents.has(compressed)) {
-                        seenContents.add(compressed);
-                        uniqueInstances.push({
-                            display: instance.display,
-                            content: compressed
-                        });
+                    // Normalize for fuzzy deduplication
+                    let normalized = compressed.replace(/[\s\dXx]/g, "").toLowerCase();
+
+                    let existingIdx = uniqueInstances.findIndex(inst => {
+                        let otherNorm = inst.content.replace(/[\s\dXx]/g, "").toLowerCase();
+
+                        // 1. Precise Match
+                        if (normalized === otherNorm) return true;
+
+                        // 2. Fuzzy Similarity Match (Threshold 85%)
+                        // Catching "Chorus 1" vs "Chorus 2" with minor typos or extra chords
+                        if (normalized.length > 15 && otherNorm.length > 15) {
+                            if (getSimilarity(normalized, otherNorm) > 0.85) return true;
+                        }
+                        return false;
+                    });
+
+                    if (existingIdx === -1) {
+                        uniqueInstances.push({ display: instance.display, content: compressed });
+                    } else {
+                        // If we find a match, keep the more "complete" (longer) version
+                        let otherNorm = uniqueInstances[existingIdx].content.replace(/[\s\dXx]/g, "").toLowerCase();
+                        if (normalized.length > otherNorm.length) {
+                            uniqueInstances[existingIdx] = { display: instance.display, content: compressed };
+                        }
                     }
                 });
 
-                // Generate the final string
                 if (uniqueInstances.length === 0) {
                     result[key] = "";
                 } else if (uniqueInstances.length === 1) {
-                    // Only one unique version, don't use (V1) labels
                     result[key] = uniqueInstances[0].content;
                 } else {
-                    // Multiple unique versions, label them
                     result[key] = uniqueInstances.map((inst, idx) => `(${inst.display}${idx + 1}) ${inst.content}`).join(" ");
                 }
             });
@@ -498,7 +565,6 @@
             lastJSON = JSON.stringify(result, null, 2);
             document.getElementById("output").textContent = lastJSON;
 
-            // Show the green import button
             const importBtn = document.getElementById("importBtn");
             if (importBtn) importBtn.style.display = "inline-block";
         }

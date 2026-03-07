@@ -234,7 +234,7 @@
         <div class="guide-container">
             <h2 class="guide-title">Song Detail Screen</h2>
             <p class="guide-text">
-                Clicking on any song brings you to the detail view. Here you can see the lyrics, chords, and playback
+                Clicking on any song brings you to the detail view. Here you can see the chords, structure, and playback
                 controls.
                 The interface is designed to be clean and easy to read while you play.
             </p>
@@ -346,40 +346,40 @@
         </div>
     </section>
 
-    <!-- 7. Lyrics & Auto-scroll -->
+    <!-- 7. Lyrics & Teleprompter -->
     <section class="guide-section" id="lyrics">
         <div class="guide-container">
-            <h2 class="guide-title">Lyrics & Auto-scroll</h2>
+            <h2 class="guide-title">Lyrics & Teleprompter</h2>
             <p class="guide-text">
-                Need to see the words while you play? Tap the microphone icon in the footer to open the lyrics overlay.
-                The lyrics will automatically scroll from bottom to top so you can keep your hands on your instrument.
+                Need to see the words while you play? Open the <strong>Chord Timeline</strong> screen and see the lyrics
+                appear just like a karaoke system.
             </p>
-            <div style="background: #f1f5f9; padding: 25px; border-radius: 16px; margin-bottom: 30px;">
-                <h3 style="font-size: 1.4rem; color: #334155; margin-bottom: 15px;">Interactive Controls</h3>
-                <ul style="font-size: 1.1rem; color: #475569; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>Auto-scroll:</strong> The text moves automatically at your chosen speed.</li>
-                    <li><strong>Pause & Play:</strong> Use the sidebar controls to stop or resume scrolling.</li>
-                    <li><strong>Manual Swipe:</strong> Drag or swipe the lyrics to move up and down. The auto-scroll
-                        will wait for you to finish!</li>
-                    <li><strong>Speed Control:</strong> Fine-tune the scroll speed using the Up and Down arrows.</li>
+            <div
+                style="background: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e2e8f0;">
+                <h3 style="font-size: 1.4rem; color: #334155; margin-bottom: 15px;">🎤 Karaoke Style (Just-in-Time)</h3>
+                <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">
+                    The lyrics are prompted <strong>just-in-time</strong> exactly when you need them. Just like a
+                    professional karaoke setup, the display shows:
+                </p>
+                <ul style="font-size: 1.1rem; color: #475569; line-height: 1.6; padding-left: 20px; margin-top: 10px;">
+                    <li><strong>Live Line:</strong> The current line is displayed prominently in the center.</li>
+                    <li><strong>Preview:</strong> The next line is shown dimmed below, so you're always prepared for
+                        what's coming next.</li>
                 </ul>
             </div>
 
             <!-- New Time-Synced Lyrics Subsection -->
             <div
                 style="background: #eff6ff; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bfdbfe;">
-                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;">✨ NEW: Time-Synced Lyrics (LRC)</h3>
+                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;">✨ LRC Time-Synced Lyrics</h3>
                 <p style="font-size: 1.1rem; color: #1e40af; line-height: 1.6; margin-bottom: 15px;">
-                    You can now get professional time-synced lyrics from sites like <strong>lrclib.net</strong> or
-                    <strong>LyricRadar.com</strong>. Just paste the <code>[00:12.34]</code> format text into the
-                    <strong>Lyrics</strong> field.
+                    To use the teleprompter, you need time-synced lyrics (LRC format) from sites like
+                    <strong>lrclib.net</strong> or <strong>LyricRadar.com</strong>. Paste the text containing
+                    <code>[00:12.34]</code> timestamps into the <strong>Lyrics</strong> field.
                 </p>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>Lyric Ticker:</strong> The app automatically filters out the <code>[00:00]</code>
-                        timestamps, so the standard scroller stays clean and readable.</li>
-                    <li><strong>Lyric Teleprompter:</strong> In the <strong>Chord Timeline</strong>, these timestamps
-                        act as a pro-grade teleprompter, showing the current and next lines exactly when they need to be
-                        sung!</li>
+                    <li><strong>Karaoke Mode:</strong> In the <strong>Chord Timeline</strong>, these timestamps
+                        trigger the lyrics exactly when they need to be sung!</li>
                     <li><strong><span
                                 style="display: inline-flex; vertical-align: middle; background: white; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px; height: 26px; width: 26px; align-items: center; justify-content: center; margin-right: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #1e293b;">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
@@ -390,20 +390,16 @@
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </span> Mark Start Point:</strong> Use this button in the Timeline view to sync lyrics
-                        instantly. Simply play the video to where the first line starts and click the target icon. The
-                        app will automatically calculate the <strong>LyricSync</strong> value for you, ensuring the
-                        first line starts right at that point!</li>
+                        instantly to the music. Simple and fast!</li>
                 </ul>
                 <p style="font-size: 1rem; color: #64748b; font-style: italic; margin-top: 15px;">
-                    <strong>Note:</strong> Standard LRC lyrics are usually mapped to the original studio record. If a
-                    YouTube video has extra silence or an intro, you can use the <strong>LyricSync</strong> setting in
-                    the song details (Gear icon) to adjust the timing.
+                    <strong>Note:</strong> You can use the <strong>LyricSync</strong> setting in the song details (Gear
+                    icon) to fine-tune the timing if the lyrics are slightly off.
                 </p>
             </div>
 
             <div class="guide-image-container">
-                <img src="images/lyrics_guide.png" alt="Lyrics & Auto-scroll" class="guide-image"
-                    style="max-width: 400px; margin: 0 auto;">
+                <img src="images/Lyrics-example.jpg" alt="Karaoke Teleprompter Interface" class="guide-image">
             </div>
         </div>
     </section>
@@ -454,6 +450,10 @@
                 real-time. This is perfect for complex songs where you need to see the exact timing of every chord
                 change.
             </p>
+
+            <div class="guide-image-container no-padding-container" style="margin-bottom: 40px;">
+                <img src="images/timeline_guide.png" alt="Chord Timeline" class="guide-image full-width-image">
+            </div>
 
             <div
                 style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bae6fd;">
@@ -521,9 +521,6 @@
                     a quantized, 3-note-minimum MIDI file on Channel 1, you'll get perfect results every time!</p>
             </div>
 
-            <div class="guide-image-container no-padding-container">
-                <img src="images/timeline_guide.png" alt="Chord Timeline" class="guide-image full-width-image">
-            </div>
         </div>
 
         <h3 style="text-align:center;">Example JSON for Chord Timeline</h3>
@@ -666,7 +663,8 @@
                     <li><strong>Audio Feedback:</strong> You'll hear a high-quality piano sound as you play, making
                         practice sessions feel more alive.</li>
                     <li><strong>Instant Chord Entry:</strong> Use your keyboard to enter chords into the
-                        <strong>Progression Editor</strong> without typing.</li>
+                        <strong>Progression Editor</strong> without typing.
+                    </li>
                 </ul>
             </div>
 

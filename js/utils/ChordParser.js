@@ -187,6 +187,43 @@ class ChordParser {
             isGuitar: true
         };
     }
+
+    /**
+     * Parses a chord name into ukulele-specific MIDI notes using fingerings.
+     * @param {string} chordName 
+     * @param {object} database UkuleleChordDatabase
+     */
+    parseUkuleleChord(chordName, database) {
+        if (!chordName || !database) return null;
+
+        // Simplify chord name for database lookup (Ukulele: remove 2, 3, 7)
+        const simplified = chordName.trim().replace(/[237]/g, '').split('/')[0];
+        const fingering = database[simplified];
+        if (!fingering || !fingering.frets) return this.parse(chordName); // Fallback to piano-style triad
+
+        // MIDI Note for each open string [G4, C4, E4, A4]
+        // Standard Ukulele tuning: g-C-E-A (Re-entrant)
+        // High G: G4 (67), Middle C: C4 (60), E4 (64), A4 (69)
+        const openStrings = [67, 60, 64, 69];
+        const notes = [];
+
+        fingering.frets.forEach((fret, stringIdx) => {
+            if (fret === 'x' || fret === null) return;
+            const fretNum = parseInt(fret);
+            if (!isNaN(fretNum)) {
+                notes.push(openStrings[stringIdx] + fretNum);
+            }
+        });
+
+        // Sort notes for consistent playback in generic synth
+        notes.sort((a, b) => a - b);
+
+        return {
+            name: chordName,
+            notes: notes,
+            isUkulele: true
+        };
+    }
 }
 
 // Global availability
