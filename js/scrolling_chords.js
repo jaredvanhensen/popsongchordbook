@@ -1642,19 +1642,25 @@ function renderSuggestedChords(groups) {
  * where the toolbar may wrap to multiple rows.
  */
 function updateHUDPosition() {
+    const header = document.querySelector('.controls-container');
     const chordToolbar = document.getElementById('chordButtonsContainer');
     const lyricsHUD = document.getElementById('lyricsHUD');
     if (!lyricsHUD) return;
 
-    let toolbarHeight = 0;
-    if (chordToolbar && !chordToolbar.classList.contains('hidden')) {
-        toolbarHeight = chordToolbar.offsetHeight;
+    let totalTopHeight = 0;
+
+    // Add Header height
+    if (header) {
+        totalTopHeight += header.offsetHeight;
     }
 
-    // Determine the base padding. 
-    // If we have a toolbar, we want it 20px below the toolbar.
-    // If no toolbar, use 100px from top (standard clear zone).
-    const topPadding = toolbarHeight > 0 ? toolbarHeight + 20 : 100;
+    // Add Chord suggested bar height
+    if (chordToolbar && !chordToolbar.classList.contains('hidden')) {
+        totalTopHeight += chordToolbar.offsetHeight;
+    }
+
+    // Position it 20px below the entire top stack
+    const topPadding = totalTopHeight > 0 ? totalTopHeight + 20 : 100;
 
     document.documentElement.style.setProperty('--hud-top-offset', `${topPadding}px`);
 }
