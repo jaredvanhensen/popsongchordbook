@@ -82,8 +82,8 @@ const GuitarChordDatabase = {
     },
     "B": {
         baseFret: 2,
-        frets: [2, 4, 4, 4, 2, 2],
-        barre: { fret: 2, fromString: 1, toString: 6 }
+        frets: ["x", 2, 4, 4, 4, 2],
+        barre: { fret: 2, fromString: 2, toString: 6 }
     },
     "Bm": {
         baseFret: 2,
