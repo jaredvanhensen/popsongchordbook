@@ -300,6 +300,62 @@
             box-shadow: none;
         }
 
+        .export-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--primary);
+            word-break: break-all;
+            position: relative;
+        }
+
+        .export-box header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            border-bottom: none;
+        }
+
+        #parametersOutput {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            width: 100%;
+            height: 60px;
+            resize: none;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .ref-table th,
+        .ref-table td {
+            text-align: left;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .ref-table th {
+            color: var(--text);
+            font-weight: 600;
+        }
+
         @media (max-width: 900px) {
             .lab-container {
                 grid-template-columns: 1fr;
@@ -363,6 +419,84 @@
                     <div class="switch-handle"></div>
                 </div>
             </div>
+
+            <div class="export-box">
+                <header>Current Parameters <span id="copyFeedback" style="display:none; color: #2ecc71;">COPIED!</span>
+                </header>
+                <textarea id="parametersOutput" readonly></textarea>
+                <button class="action-button secondary" style="padding: 0.4rem; font-size: 0.7rem; margin-top: 0.5rem;"
+                    onclick="copyParams()">Copy to Clipboard</button>
+            </div>
+
+            <table class="ref-table">
+                <thead>
+                    <tr>
+                        <th>Sound</th>
+                        <th>A</th>
+                        <th>D</th>
+                        <th>S</th>
+                        <th>R</th>
+                        <th>F</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Piano</td>
+                        <td>0.005</td>
+                        <td>0.3</td>
+                        <td>0.15</td>
+                        <td>0.8</td>
+                        <td>5x</td>
+                        <td>Balanced, natural decay</td>
+                    </tr>
+                    <tr>
+                        <td>Guitar</td>
+                        <td>0.002</td>
+                        <td>0.7</td>
+                        <td>0.05</td>
+                        <td>2.4</td>
+                        <td>2.5x</td>
+                        <td>Long ring-out, warm tone</td>
+                    </tr>
+                    <tr>
+                        <td>Uke</td>
+                        <td>0.002</td>
+                        <td>0.5</td>
+                        <td>0.05</td>
+                        <td>1.6</td>
+                        <td>3.5x</td>
+                        <td>Brighter, snappier character</td>
+                    </tr>
+                    <tr>
+                        <td>Pad</td>
+                        <td>1.2</td>
+                        <td>2.0</td>
+                        <td>0.8</td>
+                        <td>3.0</td>
+                        <td>2x</td>
+                        <td>Slow fade, atmospheric</td>
+                    </tr>
+                    <tr>
+                        <td>Pulse</td>
+                        <td>0.05</td>
+                        <td>0.8</td>
+                        <td>0.6</td>
+                        <td>1.2</td>
+                        <td>8x</td>
+                        <td>Sharp sawtooth harmonics</td>
+                    </tr>
+                    <tr>
+                        <td>Brass</td>
+                        <td>0.02</td>
+                        <td>0.4</td>
+                        <td>0.7</td>
+                        <td>0.6</td>
+                        <td>4x</td>
+                        <td>Tight and punchy</td>
+                    </tr>
+                </tbody>
+            </table>
         </aside>
 
         <!-- Main Workspace -->
@@ -383,7 +517,19 @@
                     <span class="instrument-name">Guitar</span>
                 </div>
                 <div class="instrument-card" data-sound="ukulele">
-                    <span class="instrument-icon">🪕</span>
+                    <span class="instrument-icon">
+                        <svg viewBox="0 0 100 100" width="34" height="34" style="vertical-align: middle;">
+                            <g transform="rotate(-35 50 50)">
+                                <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037"
+                                    stroke-width="2" />
+                                <path
+                                    d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28"
+                                    fill="#c08e51" stroke="#5d4037" stroke-width="3" />
+                                <circle cx="50" cy="65" r="9" fill="#3e2723" />
+                                <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723" />
+                            </g>
+                        </svg>
+                    </span>
                     <span class="instrument-name">Ukulele</span>
                 </div>
                 <div class="instrument-card" data-sound="warm-pad">

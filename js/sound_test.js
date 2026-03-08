@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         release: document.getElementById('releaseSlider'),
         filter: document.getElementById('filterSlider'),
         reverb: document.getElementById('reverbSlider'),
-        volume: document.getElementById('volumeSlider')
+        volume: document.getElementById('volumeSlider'),
+        paramsOutput: document.getElementById('parametersOutput')
     };
 
     const displays = {
@@ -43,7 +44,35 @@ document.addEventListener('DOMContentLoaded', () => {
         displays.filter.textContent = parseFloat(sliders.filter.value).toFixed(1) + 'x';
         displays.reverb.textContent = Math.round(parseFloat(sliders.reverb.value) * 100) + '%';
         displays.volume.textContent = Math.round(parseFloat(sliders.volume.value) * 100) + '%';
+
+        updateExportString();
     }
+
+    function updateExportString() {
+        const activeCard = document.querySelector('.instrument-card.active');
+        const instrument = activeCard ? activeCard.querySelector('.instrument-name').textContent : 'Custom';
+
+        const params = [
+            instrument,
+            parseFloat(sliders.attack.value).toFixed(3),
+            parseFloat(sliders.decay.value).toFixed(2),
+            parseFloat(sliders.sustain.value).toFixed(2),
+            parseFloat(sliders.release.value).toFixed(2),
+            parseFloat(sliders.filter.value).toFixed(1) + 'x',
+            Math.round(parseFloat(sliders.reverb.value) * 100) + '%'
+        ];
+
+        sliders.paramsOutput.value = params.join('\t');
+    }
+
+    window.copyParams = function () {
+        sliders.paramsOutput.select();
+        document.execCommand('copy');
+
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'inline';
+        setTimeout(() => feedback.style.display = 'none', 2000);
+    };
 
     // Slider Events
     Object.keys(sliders).forEach(key => {
