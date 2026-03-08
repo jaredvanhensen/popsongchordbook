@@ -2189,13 +2189,13 @@ body.ctrl-held .chord-item {
     }
 
     .playhead,
-    .marker-track,
-    .chord-track {
+    .main-play-arrow {
         left: 180px;
     }
 
-    .main-play-arrow {
-        left: 180px;
+    .marker-track,
+    .chord-track {
+        left: 0;
     }
 
     .current-chord-display {
@@ -2352,7 +2352,7 @@ body.ctrl-held .chord-item {
 
     .chord-display-container {
         height: 55px !important;
-        padding-left: 60px !important;
+        padding-left: 80px !important;
     }
 
     .current-chord-display {
@@ -2364,10 +2364,13 @@ body.ctrl-held .chord-item {
     }
 
     .playhead,
-    .marker-track,
-    .chord-track,
     .main-play-arrow {
-        left: 60px !important;
+        left: 80px !important;
+    }
+
+    .marker-track,
+    .chord-track {
+        left: 0 !important;
     }
 
     .timeline-container {
