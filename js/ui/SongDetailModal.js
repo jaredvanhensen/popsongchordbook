@@ -1472,11 +1472,11 @@ class SongDetailModal {
                             this.sharedAudioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                         }
                     } else if (this.instrumentMode === 'ukulele') {
-                        // Use ukulele-specific strum
-                        this.sharedAudioPlayer.setSound('guitar-strum'); // Reuse guitar strum for now
+                        // Use dedicated ukulele sound profile
+                        this.sharedAudioPlayer.setSound('ukulele');
                         const chord = this.chordParser.parseUkuleleChord(chordText, window.UkuleleChordDatabase);
                         if (chord && chord.notes) {
-                            this.sharedAudioPlayer.playChord(chord.notes, 2.5, 0.35, 0.02, true);
+                            this.sharedAudioPlayer.playChord(chord.notes, 2.0, 0.4, 0.03, true);
                         }
                     } else {
                         // Use piano-style sound and triad

@@ -812,23 +812,32 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 
 /* root-B display color removed */
 
+.tracks-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+}
+
 .chord-track {
     position: absolute;
     top: 50%;
-    left: 220px;
-    /* Match new playhead position */
+    left: 0;
     transform: translateY(-50%);
     white-space: nowrap;
-    will-change: transform;
     z-index: 5;
+    pointer-events: none;
 }
 
 .marker-track {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 220px;
-    /* Align with track start */
+    left: 0;
     width: 100%;
     pointer-events: none;
     z-index: 1;
@@ -836,9 +845,11 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 
 .chord-item {
     position: absolute;
-    transform: translate3d(0, -50%, 0);
-    /* GPU Accelerated */
+    transform: translateY(-50%);
     top: 50%;
+    pointer-events: auto;
+    will-change: auto;
+    /* Optimized: only on when needed, or just remove if causing memory issues */
     font-size: 2.2rem;
     /* Massive chords as per image */
     font-weight: 900;
@@ -939,7 +950,6 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 /* Markers */
 .marker {
     position: absolute;
-    transform: translateX(0);
     top: 0;
     bottom: 0;
     width: 1px;
@@ -1392,10 +1402,8 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     }
 
     .playhead,
-    .current-chord-display,
-    .chord-track,
-    .marker-track {
-        left: 20px;
+    .current-chord-display {
+        left: 180px;
     }
 }
 
@@ -1545,11 +1553,6 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     }
 
     .playhead,
-    .marker-track,
-    .chord-track {
-        left: 80px;
-    }
-
     .main-play-arrow {
         left: 80px;
     }

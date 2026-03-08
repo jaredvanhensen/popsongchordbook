@@ -15,9 +15,9 @@ class PianoAudioPlayer {
             'piano': {
                 name: 'Piano',
                 attack: 0.005,
-                decay: 0.15,
-                sustain: 0.15,
-                release: 0.4,
+                decay: 0.3,      // Reduced 50% from 0.6
+                sustain: 0.15,   // Reverted to 0.15
+                release: 0.8,    // Reduced 50% from 1.6
                 filterMult: 5,
                 harmonics: [
                     [1, 1.0, 'sine'],
@@ -31,9 +31,9 @@ class PianoAudioPlayer {
             'sawtooth': {
                 name: 'Sawtooth',
                 attack: 0.05,
-                decay: 0.4,
+                decay: 0.8,      // Reduced 50% from 1.6
                 sustain: 0.6,
-                release: 0.6,
+                release: 1.2,    // Reduced 50% from 2.4
                 filterMult: 8,
                 harmonics: [
                     [1.0, 1.0, 'sawtooth'],
@@ -47,9 +47,9 @@ class PianoAudioPlayer {
             'brass': {
                 name: 'Brass',
                 attack: 0.02,
-                decay: 0.2,
+                decay: 0.4,      // Reduced 50% from 0.8
                 sustain: 0.7,
-                release: 0.3,
+                release: 0.6,    // Reduced 50% from 1.2
                 filterMult: 4,
                 harmonics: [
                     [1.0, 1.0, 'sawtooth'],
@@ -62,9 +62,9 @@ class PianoAudioPlayer {
             'warm-pad': {
                 name: 'Warm Pad',
                 attack: 1.2,
-                decay: 1.0,
+                decay: 2.0,      // Reduced 50% from 4.0
                 sustain: 0.8,
-                release: 1.5,
+                release: 3.0,    // Reduced 50% from 6.0
                 filterMult: 2,
                 harmonics: [
                     [1, 1.0, 'sine'],
@@ -77,9 +77,9 @@ class PianoAudioPlayer {
             'guitar-strum': {
                 name: 'Guitar',
                 attack: 0.002, // Sharper attack
-                decay: 0.35,   // Natural string decay
-                sustain: 0.02, // Very low sustain to remove organ effect
-                release: 1.2,  // Natural ring out
+                decay: 0.7,   // Reduced 50% from 1.4
+                sustain: 0.05,  // Reduced 50% from 0.1
+                release: 2.4,  // Reduced 50% from 4.8
                 filterMult: 2.5, // Warmer base tone
                 harmonics: [
                     [1, 1.0, 'triangle'],     // Fundamental
@@ -90,6 +90,23 @@ class PianoAudioPlayer {
                 ],
                 hammer: true,
                 hammerGain: 0.35 // Stronger pick sound
+            },
+            'ukulele': {
+                name: 'Ukulele',
+                attack: 0.002,
+                decay: 0.5,    // Reduced 50% from 1.0
+                sustain: 0.05,  // Reduced 50% from 0.1
+                release: 1.6,  // Reduced 50% from 3.2
+                filterMult: 3.5, // Brighter tone
+                harmonics: [
+                    [1, 1.0, 'sine'],
+                    [1.001, 0.3, 'sine'],     // Minimal detune
+                    [2, 0.6, 'triangle'],     // Strong second harmonic
+                    [3, 0.2, 'sine'],
+                    [4, 0.1, 'sine']
+                ],
+                hammer: true,
+                hammerGain: 0.3
             }
         };
 
@@ -142,16 +159,57 @@ class PianoAudioPlayer {
             // Create master gain node
             this.masterGain = this.audioContext.createGain();
             this.masterGain.gain.value = this.baseVolume;
-            this.masterGain.connect(this.audioContext.destination);
+            // Create reverb chain
+            this.reverbNode = this.audioContext.createConvolver();
+            this.reverbGain = this.audioContext.createGain();
+            this.reverbGain.gain.value = 0.3; // Default level
 
-            // Pre-compute hammer noise
-            this.precomputeNoise();
+            // Create a simple algorithm impulse
+            this.reverbNode.buffer = this.createImpulseResponse(2.5, 2.0);
+
+            this.reverbNode.connect(this.reverbGain);
+            this.reverbGain.connect(this.masterGain);
+            this.masterGain.connect(this.audioContext.destination);
 
             this.isInitialized = true;
         } catch (error) {
             console.error('Failed to initialize audio context:', error);
             throw error;
         }
+    }
+
+    createImpulseResponse(duration, decay) {
+        const sampleRate = this.audioContext.sampleRate;
+        const length = sampleRate * duration;
+        const impulse = this.audioContext.createBuffer(2, length, sampleRate);
+        const left = impulse.getChannelData(0);
+        const right = impulse.getChannelData(1);
+
+        for (let i = 0; i < length; i++) {
+            const n = length - i;
+            const envelope = Math.pow(n / length, decay);
+            left[i] = (Math.random() * 2 - 1) * envelope;
+            right[i] = (Math.random() * 2 - 1) * envelope;
+        }
+        return impulse;
+    }
+
+    setReverb(level) {
+        const val = Math.max(0, Math.min(1, level));
+        if (this.reverbGain) {
+            this.reverbGain.gain.setTargetAtTime(val, this.audioContext.currentTime, 0.05);
+        }
+    }
+
+    setADSR(a, d, s, r) {
+        if (a !== undefined) this.attack = a;
+        if (d !== undefined) this.decay = d;
+        if (s !== undefined) this.sustain = s;
+        if (r !== undefined) this.release = r;
+    }
+
+    setFilterMult(m) {
+        this.filterMult = m;
     }
 
     precomputeNoise() {
@@ -202,6 +260,9 @@ class PianoAudioPlayer {
 
         filter.connect(noteGain);
         noteGain.connect(this.masterGain);
+        if (this.reverbNode) {
+            noteGain.connect(this.reverbNode);
+        }
 
         // 3. Add Hammer Noise
         if (this.hammerEnabled) {

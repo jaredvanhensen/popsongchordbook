@@ -421,10 +421,13 @@
         <div id="currentChordDisplay" class="current-chord-display"></div>
 
         <div class="instructions" id="instructions">Drop MIDI file here</div>
-        <!-- Markers (bars/time) -->
-        <div class="marker-track" id="markerTrack"></div>
-        <!-- Chords -->
-        <div class="chord-track" id="chordTrack"></div>
+        <!-- Tracks Wrapper for optimized scrolling -->
+        <div id="tracksContainer" class="tracks-container">
+            <!-- Markers (bars/time) -->
+            <div class="marker-track" id="markerTrack"></div>
+            <!-- Chords -->
+            <div class="chord-track" id="chordTrack"></div>
+        </div>
 
     </div>
 
@@ -548,6 +551,8 @@
         <script src="js/ui/ConfirmationModal.js?v=2.181" defer></script>
         <script src="js/ui/ChordEditModal.js?v=2.181" defer></script>
         <script src="js/ui/BpmEditModal.js?v=2.181" defer></script>
+        <script src="js/data/GuitarChordDatabase.js?v=2.181" defer></script>
+        <script src="js/data/UkuleleChordDatabase.js?v=2.181" defer></script>
         <script src="js/scrolling_chords.js?v=2.181" defer></script>
 </body>
 

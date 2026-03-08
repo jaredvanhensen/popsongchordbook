@@ -9,6 +9,7 @@ const exportBtn = document.getElementById('exportBtn');
 const timeline = document.getElementById('timeline');
 const chordTrack = document.getElementById('chordTrack');
 const markerTrack = document.getElementById('markerTrack');
+const tracksContainer = document.getElementById('tracksContainer');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
 const metronomeBtn = document.getElementById('metronomeBtn');
@@ -110,10 +111,13 @@ const MIN_PIXELS_PER_SECOND = 25;
 const MAX_PIXELS_PER_SECOND = 300;
 const ZOOM_FACTOR = 1.2;
 
+window.lastActiveIndex = -1;
+window.lastLyricIndex = -1;
+
 function getPlayheadOffset() {
     const w = window.innerWidth;
-    if (w <= 600) return 60;
-    if (w <= 1024) return 180; // Updated to match CSS shift
+    if (w <= 600) return 80;
+    if (w <= 1024) return 180;
     return 220;
 }
 
@@ -890,7 +894,27 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
         pianoPlayer.audioContext.resume();
     }
 
-    const chord = chordParser.parse(chordName);
+    // Set sound based on mode
+    let actualStagger = 0.05;
+    if (currentInstrumentMode === 'guitar') {
+        pianoPlayer.setSound('guitar-strum');
+        actualStagger = 0.035;
+    } else if (currentInstrumentMode === 'ukulele') {
+        pianoPlayer.setSound('ukulele');
+        actualStagger = 0.03;
+    } else {
+        pianoPlayer.setSound('piano');
+    }
+
+    let chord;
+    if (currentInstrumentMode === 'guitar' && window.GuitarChordDatabase) {
+        chord = chordParser.parseGuitarChord(chordName, window.GuitarChordDatabase);
+    } else if (currentInstrumentMode === 'ukulele' && window.UkuleleChordDatabase) {
+        chord = chordParser.parseUkuleleChord(chordName, window.UkuleleChordDatabase);
+    } else {
+        chord = chordParser.parse(chordName);
+    }
+
     if (chord && chord.notes) {
         // Apply playback octave shift
         let notes = [...chord.notes];
@@ -899,8 +923,7 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
         }
 
         // Use provided duration (playback uses 10s, manual clicks use 1s)
-        // REVERT: Back to 0.05 stagger exactly as it was in v2.098
-        pianoPlayer.playChord(notes, duration, 0.4, 0.05);
+        pianoPlayer.playChord(notes, duration, 0.4, actualStagger, currentInstrumentMode !== 'piano');
     }
 }
 
@@ -2402,6 +2425,11 @@ function renderStaticElements() {
 
         el.innerText = simplifyDisplayName(chord.name);
         el.dataset.index = index;
+
+        // Optimized: Position once
+        const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+        el.style.left = `${Math.round(chord.time * pps)}px`;
+
         chordFrag.appendChild(el);
     });
     chordTrack.appendChild(chordFrag);
@@ -2409,13 +2437,14 @@ function renderStaticElements() {
     // Render markers
     markerTrack.innerHTML = '';
 
-    // Debug markers
-    console.log(`Rendering ${markers.length} markers.`);
-
     const markerFrag = document.createDocumentFragment();
     markers.forEach(marker => {
         const el = document.createElement('div');
         el.className = `marker ${marker.type}`;
+
+        // Optimized: Position once
+        const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+        el.style.left = `${Math.round(marker.time * pps)}px`;
 
         if (marker.label) {
             const label = document.createElement('div');
@@ -2630,131 +2659,123 @@ function updateLoop() {
     // Display current chord (Sticky)
     const currentChord = chords[chordIndex]; // Use the index we found
 
-    // Prioritize showing live MIDI input if a key is being held down
     const displayString = (typeof window !== 'undefined' && window.activeMidiChord)
         ? window.activeMidiChord
         : (currentChord ? simplifyDisplayName(currentChord.name) : '');
 
     if (displayString) {
-        currentChordDisplay.innerText = displayString;
+        if (currentChordDisplay.innerText !== displayString) {
+            currentChordDisplay.innerText = displayString;
+        }
     } else {
-        currentChordDisplay.innerText = '';
-        currentChordDisplay.className = 'current-chord-display';
+        if (currentChordDisplay.innerText !== '') {
+            currentChordDisplay.innerText = '';
+        }
     }
 
     // Safety for PIXELS_PER_SECOND
     const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
-    const winWidth = window.innerWidth;
-    const bufferTime = 800 / pps; // Time buffer for 800px off-screen left
+    const playheadOffset = getPlayheadOffset();
 
-    // Find the CURRENT chord index for highlighting
-    const activeIndex = chordIndex; // Reuse the index found for audio logic above
-
-    // Also highlight in Song Map if open
-    if (!document.getElementById('songMapOverlay').classList.contains('hidden')) {
-        updateSongMapHighlight(activeIndex);
+    // PERFORMANCE CRITICAL: Use a single transform for all tracks
+    if (tracksContainer) {
+        const containerX = Math.round(playheadOffset - (playbackTime * pps));
+        tracksContainer.style.transform = `translate3d(${containerX}px, 0, 0)`;
     }
 
-    // Optimize scrolling chord positions (Visibility Windowing)
-    const chordElements = chordTrack.children;
-    const visibleStartTime = playbackTime - bufferTime;
-    const visibleEndTime = playbackTime + (winWidth + 800) / pps;
+    // Highlighting Logic in Song Map
+    const activeIndex = chordIndex; // Reuse the index found for audio logic above
+    if (activeIndex !== window.lastActiveIndex) {
+        if (!document.getElementById('songMapOverlay').classList.contains('hidden')) {
+            updateSongMapHighlight(activeIndex);
+        }
+        window.lastActiveIndex = activeIndex;
+    }
 
+    // Windowing Visibility & Active State (Optimized)
+    // Instead of transforming EVERY element, we only toggle classes and display
+    const winWidth = window.innerWidth;
+    const bufferPx = 1000; // Increased buffer for smoother scrolling
+    const viewLeft = playbackTime * pps - bufferPx;
+    const viewRight = playbackTime * pps + winWidth + bufferPx;
+
+    // We still iterate to handle "active" class (hiding played chords) 
+    // and basic windowing for rendering performance.
+    const chordElements = chordTrack.children;
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];
         const chord = chords[i];
         if (!chord) continue;
 
-        // Skip processing if far off-screen (basic windowing)
-        if (chord.time < visibleStartTime || chord.time > visibleEndTime) {
-            if (el.style.display !== 'none') el.style.display = 'none';
-            continue;
-        }
+        // Windowing: Hide if far off-screen
+        const absX = chord.time * pps;
+        const isVisible = absX >= viewLeft && absX <= viewRight;
 
-        let dist = (chord.time - playbackTime) * pps;
-
-        if (!isFinite(dist) || isNaN(dist)) {
-            dist = 0;
-            if (el.style.display !== 'none') el.style.display = 'none';
-        } else {
-            if (el.style.display === 'none' || el.style.display === 'block') el.style.display = '';
-
-            // Use pre-calculated yOffset (default to -50 if missing)
-            let yOffset = chord.yOffset || -50;
-
-            el.style.transform = `translate3d(${dist}px, ${yOffset}%, 0)`;
-
-            // Apply 'active' class to the current/passed chords
-            // Chords exactly at or past the playhead (dist <= 0) are "active" and hidden in the track
+        if (isVisible) {
+            if (el.style.display === 'none') el.style.display = '';
+            // Toggle active state
             if (i <= activeIndex) {
                 if (!el.classList.contains('active')) el.classList.add('active');
             } else {
                 if (el.classList.contains('active')) el.classList.remove('active');
             }
+        } else {
+            if (el.style.display !== 'none') el.style.display = 'none';
         }
     }
 
-    // Update markers (Visibility Windowing)
+    // Marker windowing (Only if there are many markers)
     const markerElements = markerTrack.children;
-    for (let i = 0; i < markerElements.length; i++) {
-        const el = markerElements[i];
-        const marker = markers[i];
-
-        if (marker) {
-            if (marker.time < visibleStartTime || marker.time > visibleEndTime) {
-                if (el.style.display !== 'none') el.style.display = 'none';
-                continue;
-            }
-
-            let dist = (marker.time - playbackTime) * pps;
-
-            if (!isFinite(dist) || isNaN(dist)) {
-                dist = 0;
-                if (el.style.display !== 'none') el.style.display = 'none';
+    if (markerElements.length > 50) {
+        for (let i = 0; i < markerElements.length; i++) {
+            const el = markerElements[i];
+            const marker = markers[i];
+            const absX = marker.time * pps;
+            const isVisible = absX >= viewLeft && absX <= viewRight;
+            if (isVisible) {
+                if (el.style.display === 'none') el.style.display = '';
             } else {
-                if (el.style.display === 'none' || el.style.display === 'block') el.style.display = '';
-                el.style.transform = `translate3d(${dist}px, 0, 0)`;
+                if (el.style.display !== 'none') el.style.display = 'none';
             }
         }
     }
 
-    statusText.innerText = `Time: ${formatTime(playbackTime)}`;
+    // Throttle non-critical text updates
+    if (!window._lastUIUpdate || now - window._lastUIUpdate > 100) {
+        statusText.innerText = `Time: ${formatTime(playbackTime)}`;
+        window._lastUIUpdate = now;
+    }
 
-    // Update Lyrics HUD
+    // Update Lyrics HUD (Optimized)
     if (lyricsEnabled && parsedLyrics.length > 0) {
         const currentIndex = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
-        const nextIndex = parsedLyrics.findIndex(l => l.time > playbackTime);
-
-        if (currentIndex !== -1) {
-            lyricLine1.innerText = parsedLyrics[currentIndex].text;
-            if (currentIndex + 1 < parsedLyrics.length) {
-                lyricLine2.innerText = parsedLyrics[currentIndex + 1].text;
-                lyricLine2.classList.remove('hidden');
+        if (currentIndex !== window.lastLyricIndex) {
+            if (currentIndex !== -1) {
+                lyricLine1.innerText = parsedLyrics[currentIndex].text;
+                if (currentIndex + 1 < parsedLyrics.length) {
+                    lyricLine2.innerText = parsedLyrics[currentIndex + 1].text;
+                    lyricLine2.classList.remove('hidden');
+                } else {
+                    lyricLine2.innerText = '';
+                    lyricLine2.classList.add('hidden');
+                }
             } else {
-                lyricLine2.innerText = '';
-                lyricLine2.classList.add('hidden');
+                lyricLine1.innerText = '';
+                lyricLine2.innerText = parsedLyrics[0].text;
             }
-        } else {
-            lyricLine1.innerText = '';
-            lyricLine2.innerText = parsedLyrics[0].text;
+            window.lastLyricIndex = currentIndex;
         }
 
-        // Visibility Logic: On PC, only show if we are within 5s of the first lyric or already past it
-        let showHUD = true;
-        if (window.innerWidth >= 600) {
-            const firstLyricTime = (parsedLyrics.length > 0) ? parsedLyrics[0].time : 0;
-            if (playbackTime < firstLyricTime - 5) {
-                showHUD = false;
-            }
-        }
-
-        if (showHUD) {
-            lyricsHUD.classList.remove('hidden');
+        // HUD Visibility Logic
+        const firstLyricTime = (parsedLyrics.length > 0) ? parsedLyrics[0].time : 0;
+        const shouldShowHUD = playbackTime >= firstLyricTime - 5;
+        if (shouldShowHUD) {
+            if (lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.remove('hidden');
         } else {
-            lyricsHUD.classList.add('hidden');
+            if (!lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.add('hidden');
         }
     } else {
-        lyricsHUD.classList.add('hidden');
+        if (!lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.add('hidden');
     }
 
     if (isPlaying) {

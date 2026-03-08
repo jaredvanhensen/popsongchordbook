@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Sound Lab - Premium Audio Testing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #f43f5e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .lab-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .settings-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .value-badge {
+            color: var(--primary);
+            font-family: monospace;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transition: transform 0.1s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .main-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .instrument-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .instrument-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 1rem;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .instrument-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .instrument-card.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+        }
+
+        .instrument-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .instrument-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .visualizer-container {
+            height: 200px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--glass-border);
+        }
+
+        #visualizer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .pad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .sound-pad {
+            aspect-ratio: 1;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sound-pad:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sound-pad[data-type="chord"] {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .pad-label {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .pad-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--glass);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .switch {
+            width: 50px;
+            height: 26px;
+            background: #334155;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .switch.on {
+            background: var(--primary);
+        }
+
+        .switch-handle {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: left 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .switch.on .switch-handle {
+            left: 27px;
+        }
+
+        .chord-test-row {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .action-button.secondary {
+            background: #334155;
+            box-shadow: none;
+        }
+
+        @media (max-width: 900px) {
+            .lab-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Sound Lab</h1>
+        <p>Expert-level audio diagnostics. Tweak envelopes, filters, and reverb to find your perfect sonic profile.</p>
+    </header>
+
+    <div class="lab-container">
+        <!-- Dashboard Sidebar -->
+        <aside class="glass-panel settings-grid">
+            <h2 style="font-size: 1.2rem; margin-bottom: 1rem; color: #fff;">Signal Parameters</h2>
+
+            <div class="setting-group">
+                <label>Attack <span class="value-badge" id="attackVal">0.005s</span></label>
+                <input type="range" id="attackSlider" min="0.001" max="1.5" step="0.001" value="0.005">
+            </div>
+
+            <div class="setting-group">
+                <label>Decay <span class="value-badge" id="decayVal">0.3s</span></label>
+                <input type="range" id="decaySlider" min="0.01" max="3" step="0.01" value="0.3">
+            </div>
+
+            <div class="setting-group">
+                <label>Sustain <span class="value-badge" id="sustainVal">0.15</span></label>
+                <input type="range" id="sustainSlider" min="0" max="1" step="0.01" value="0.15">
+            </div>
+
+            <div class="setting-group">
+                <label>Release <span class="value-badge" id="releaseVal">0.8s</span></label>
+                <input type="range" id="releaseSlider" min="0.01" max="5" step="0.01" value="0.8">
+            </div>
+
+            <div class="setting-group">
+                <label>Filter Brightness <span class="value-badge" id="filterVal">5x</span></label>
+                <input type="range" id="filterSlider" min="1" max="20" step="0.1" value="5">
+            </div>
+
+            <div style="margin: 1rem 0; border-top: 1px solid var(--glass-border);"></div>
+
+            <div class="setting-group">
+                <label>Reverb Dry/Wet <span class="value-badge" id="reverbVal">30%</span></label>
+                <input type="range" id="reverbSlider" min="0" max="1" step="0.01" value="0.3">
+            </div>
+
+            <div class="setting-group">
+                <label>Master Volume <span class="value-badge" id="volumeVal">30%</span></label>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+            </div>
+
+            <div class="switch-container">
+                <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-muted);">Hammer/Pick Noise</span>
+                <div class="switch on" id="hammerSwitch">
+                    <div class="switch-handle"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-deck">
+            <!-- Visualizer -->
+            <div class="visualizer-container">
+                <canvas id="visualizer"></canvas>
+            </div>
+
+            <!-- Instrument Selector -->
+            <div class="instrument-selector">
+                <div class="instrument-card active" data-sound="piano">
+                    <span class="instrument-icon">🎹</span>
+                    <span class="instrument-name">Piano</span>
+                </div>
+                <div class="instrument-card" data-sound="guitar-strum">
+                    <span class="instrument-icon">🎸</span>
+                    <span class="instrument-name">Guitar</span>
+                </div>
+                <div class="instrument-card" data-sound="ukulele">
+                    <span class="instrument-icon">🪕</span>
+                    <span class="instrument-name">Ukulele</span>
+                </div>
+                <div class="instrument-card" data-sound="warm-pad">
+                    <span class="instrument-icon">☁️</span>
+                    <span class="instrument-name">Warm Pad</span>
+                </div>
+                <div class="instrument-card" data-sound="sawtooth">
+                    <span class="instrument-icon">⚡</span>
+                    <span class="instrument-name">Pulse</span>
+                </div>
+                <div class="instrument-card" data-sound="brass">
+                    <span class="instrument-icon">🎺</span>
+                    <span class="instrument-name">Brass</span>
+                </div>
+            </div>
+
+            <!-- Pads -->
+            <div class="pad-grid">
+                <div class="sound-pad" data-note="60">
+                    <span class="pad-label">C4</span>
+                    <span class="pad-sub">Middle C</span>
+                </div>
+                <div class="sound-pad" data-note="64">
+                    <span class="pad-label">E4</span>
+                    <span class="pad-sub">Major Third</span>
+                </div>
+                <div class="sound-pad" data-note="67">
+                    <span class="pad-label">G4</span>
+                    <span class="pad-sub">Perfect Fifth</span>
+                </div>
+                <div class="sound-pad" data-note="72">
+                    <span class="pad-label">C5</span>
+                    <span class="pad-sub">Octave</span>
+                </div>
+
+                <!-- Chords Row -->
+                <div class="sound-pad" data-type="chord" data-notes="48,52,55">
+                    <span class="pad-label">C</span>
+                    <span class="pad-sub">Major Triad</span>
+                </div>
+                <div class="sound-pad" data-type="chord" data-notes="45,49,52">
+                    <span class="pad-label">A</span>
+                    <span class="pad-sub">Major Triad</span>
+                </div>
+                <div class="sound-pad" data-type="chord" data-notes="53,57,60">
+                    <span class="pad-label">F</span>
+                    <span class="pad-sub">Major Triad</span>
+                </div>
+                <div class="sound-pad" data-type="chord" data-notes="55,59,62">
+                    <span class="pad-label">G</span>
+                    <span class="pad-sub">Major Triad</span>
+                </div>
+            </div>
+
+            <div class="chord-test-row">
+                <button class="action-button" id="playSequence">Play Arpeggio Test</button>
+                <button class="action-button secondary" id="stopAll">Stop All Output</button>
+            </div>
+
+            <div
+                style="background: var(--glass); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border); line-height: 1.6;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--primary);">Lab Notes:</h4>
+                <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <li><strong>Attack:</strong> Fade-in time. Guitar/Ukulele use extremely short values.</li>
+                    <li><strong>Decay/Sustain:</strong> Decay is how fast the initial pluck drops to the sustain level.
+                    </li>
+                    <li><strong>Release:</strong> How long the sound lingers after stopping. Higher values = longer
+                        sustain feel.</li>
+                    <li><strong>Strum Stagger (Internal):</strong> When playing chords, the notes are slightly staggered
+                        (30-50ms) to simulate a pick.</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils/PianoAudioPlayer.js"></script>
+    <script src="js/sound_test.js"></script>
+</body>
+
+</html>

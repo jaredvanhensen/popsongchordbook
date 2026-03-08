@@ -9,6 +9,7 @@
     --dire-gradient: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
     --guitar-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
     --piano-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    --ukulele-gradient: linear-gradient(135deg, #fff9c4 0%, #ffcc80 100%);
 }
 
 * {
@@ -397,6 +398,10 @@ body {
     background: var(--piano-gradient);
 }
 
+.ukelele-card::before {
+    background: var(--ukulele-gradient);
+}
+
 
 
 .instrument-card>* {
@@ -429,23 +434,8 @@ body {
     transition: color 0.4s ease;
 }
 
-.instrument-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
+/* Removed hover effects from instrument cards as they are not clickable */
 
-.instrument-card:hover::before {
-    opacity: 1;
-}
-
-.instrument-card:hover h3,
-.instrument-card:hover p {
-    color: white;
-}
-
-.instrument-card:hover .instrument-icon {
-    transform: scale(1.15);
-}
 
 
 

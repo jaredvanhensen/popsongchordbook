@@ -185,7 +185,24 @@ class UkuleleChordOverlay {
         if (!chordInfo) return null;
 
         const card = document.createElement('div');
-        card.className = 'piano-chord-card'; // Reuse piano card styles
+        card.className = 'piano-chord-card ukulele-card';
+        card.style.cursor = 'pointer';
+
+        card.onclick = (e) => {
+            e.stopPropagation();
+            if (this.audioPlayer && this.chordParser) {
+                this.audioPlayer.initialize().then(() => {
+                    // Switch to ukulele sound profile
+                    this.audioPlayer.setSound('ukulele');
+
+                    // Parse based on actual fingerings for accurate voicing
+                    const chord = this.chordParser.parseUkuleleChord(chordName, this.database);
+                    if (chord && chord.notes) {
+                        this.audioPlayer.playChord(chord.notes, 2.5, 0.4, 0.03, true);
+                    }
+                });
+            }
+        };
 
         card.innerHTML = `
             <div class="chord-card-title">${chordName}</div>
@@ -194,16 +211,6 @@ class UkuleleChordOverlay {
             </div>
             <button class="sound-preview-btn" title="Play Chord">🔊</button>
         `;
-
-        const playBtn = card.querySelector('.sound-preview-btn');
-        playBtn.onclick = (e) => {
-            e.stopPropagation();
-            if (this.audioPlayer) {
-                // For now use piano audio player for ukulele (as it sounds generically pleasant for chords)
-                // Or if we have ukulele sounds we can swap
-                this.audioPlayer.playChord(chordName);
-            }
-        };
 
         return card;
     }
