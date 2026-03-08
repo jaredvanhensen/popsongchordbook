@@ -1642,25 +1642,32 @@ function renderSuggestedChords(groups) {
  * where the toolbar may wrap to multiple rows.
  */
 function updateHUDPosition() {
-    const header = document.querySelector('.controls-container');
+    const headerMetadata = document.querySelector('.header-metadata');
+    const controlsContainer = document.querySelector('.controls-container');
     const chordToolbar = document.getElementById('chordButtonsContainer');
     const lyricsHUD = document.getElementById('lyricsHUD');
+
     if (!lyricsHUD) return;
 
-    let totalTopHeight = 0;
+    let finalTop = 0;
 
-    // Add Header height
-    if (header) {
-        totalTopHeight += header.offsetHeight;
-    }
-
-    // Add Chord suggested bar height
+    // We want to find the bottom-most point of the UI stack (Metadata + Controls + Toolbar)
     if (chordToolbar && !chordToolbar.classList.contains('hidden')) {
-        totalTopHeight += chordToolbar.offsetHeight;
+        const rect = chordToolbar.getBoundingClientRect();
+        finalTop = rect.bottom;
+    } else if (controlsContainer) {
+        const rect = controlsContainer.getBoundingClientRect();
+        finalTop = rect.bottom;
+    } else if (headerMetadata) {
+        const rect = headerMetadata.getBoundingClientRect();
+        finalTop = rect.bottom;
+    } else {
+        // Fallback if everything is missing
+        finalTop = 100;
     }
 
-    // Position it 20px below the entire top stack
-    const topPadding = totalTopHeight > 0 ? totalTopHeight + 20 : 100;
+    // Add 20px of breathing room
+    const topPadding = finalTop + 20;
 
     document.documentElement.style.setProperty('--hud-top-offset', `${topPadding}px`);
 }
