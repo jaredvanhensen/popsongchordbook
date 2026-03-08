@@ -119,6 +119,32 @@ document.addEventListener('DOMContentLoaded', () => {
         player.hammerEnabled = hammerSwitch.classList.contains('on');
     });
 
+    // Reset Button
+    const resetBtn = document.getElementById('resetDefaultsBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            const activeCard = document.querySelector('.instrument-card.active');
+            const type = activeCard ? activeCard.dataset.sound : 'piano';
+            player.setSound(type);
+
+            // App defaults
+            player.setReverb(0.3);
+            sliders.reverb.value = 0.3;
+            player.setVolume(0.3);
+            sliders.volume.value = 0.3;
+
+            syncUI();
+
+            // Feedback
+            resetBtn.textContent = 'RESET DONE!';
+            resetBtn.style.background = '#2ecc71';
+            setTimeout(() => {
+                resetBtn.textContent = 'Reset to App Defaults';
+                resetBtn.style.background = '#64748b';
+            }, 1000);
+        });
+    }
+
     // Pads
     document.querySelectorAll('.sound-pad').forEach(pad => {
         pad.addEventListener('mousedown', () => {
@@ -128,11 +154,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (pad.dataset.type === 'chord') {
                 const notes = pad.dataset.notes.split(',').map(n => parseInt(n));
-                const isStrum = (player.currentSound === 'guitar-strum' || player.currentSound === 'ukulele');
-                player.playChord(notes, 2.0, 0.6, 0.03, isStrum);
+                const type = player.currentSound;
+
+                // Match SongDetailModal.js exactly:
+                let dur = 2.0, vel = 0.6, stag = 0.02, isStrum = false;
+
+                if (type === 'guitar-strum') {
+                    dur = 3.0; vel = 0.4; stag = 0.035; isStrum = true;
+                } else if (type === 'ukulele') {
+                    dur = 2.0; vel = 0.4; stag = 0.03; isStrum = true;
+                } else if (type === 'warm-pad' || type === 'sawtooth' || type === 'brass') {
+                    vel = 0.5; // Slightly lower for synths
+                }
+
+                player.playChord(notes, dur, vel, stag, isStrum);
             } else {
                 const note = parseInt(pad.dataset.note);
-                player.playNote(note, 2.0, 0.6);
+                const type = player.currentSound;
+                let vel = 0.6;
+                if (type === 'guitar-strum' || type === 'ukulele') vel = 0.4;
+
+                player.playNote(note, 2.0, vel);
             }
 
             // Visual glow
