@@ -121,12 +121,20 @@ class ChordProgressionEditor {
         this.overlay.id = 'chordProgressionEditor';
         this.overlay.className = 'chord-progression-overlay hidden';
 
+        const isTimeline = window.location.href.includes('scrolling_chords.html');
+
         this.overlay.innerHTML = `
             <div class="chord-progression-modal">
                 <div class="chord-progression-header">
                     <div class="header-row-top">
-                        <h3 id="chordProgressionTitle">Chord Progression Editor</h3>
-                        <button class="chord-progression-close" id="chordProgressionClose">&times;</button>
+                        <h3 id="chordProgressionTitle">${isTimeline ? 'Chord Timeline Progression Editor' : 'Chord Progression Editor'}</h3>
+                        <button class="chord-progression-close" id="chordProgressionClose" title="Close Editor">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
                     </div>
                     <div class="header-row-bottom">
                         <button id="editorBlockPrev" class="piano-nav-btn" title="Previous Block">‹</button>
@@ -1042,7 +1050,11 @@ class ChordProgressionEditor {
 
         // Update Title
         const title = this.overlay.querySelector('#chordProgressionTitle');
-        title.textContent = `Chord Editor - ${this.targetFieldName}`;
+        if (this.targetFieldName && this.targetFieldName.includes('Timeline')) {
+            title.textContent = this.targetFieldName;
+        } else {
+            title.textContent = `Chord Editor - ${this.targetFieldName}`;
+        }
 
         // Set the key
         const songKey = currentBlock.songKey;
@@ -1060,7 +1072,16 @@ class ChordProgressionEditor {
 
         // Clear and load chords
         this.clearProgressionBlocks();
-        const existingChords = this.targetField ? this.targetField.textContent.trim() : '';
+
+        let existingChords = '';
+        if (this.targetField) {
+            if (this.targetField.tagName === 'INPUT' || this.targetField.tagName === 'TEXTAREA') {
+                existingChords = this.targetField.value.trim();
+            } else {
+                existingChords = this.targetField.textContent.trim();
+            }
+        }
+
         if (existingChords) {
             const chords = this.parseExistingChords(existingChords);
             chords.forEach(chord => this.addProgressionBlock(chord));
@@ -1083,7 +1104,14 @@ class ChordProgressionEditor {
     saveCurrentProgress() {
         if (this.targetField) {
             const chords = this.getProgressionChords();
-            this.targetField.textContent = chords.join(' ');
+            const progression = chords.join(' ');
+
+            if (this.targetField.tagName === 'INPUT' || this.targetField.tagName === 'TEXTAREA') {
+                this.targetField.value = progression;
+                this.targetField.dispatchEvent(new Event('input', { bubbles: true }));
+            } else {
+                this.targetField.textContent = progression;
+            }
         }
     }
 
@@ -1129,16 +1157,28 @@ class ChordProgressionEditor {
 
     complete() {
         const chords = this.getProgressionChords();
+        console.log("ChordProgressionEditor: Completing with chords:", chords);
         const progression = chords.join(' ');
 
         // Update the target field
         if (this.targetField) {
-            this.targetField.textContent = progression;
+            console.log("ChordProgressionEditor: Updating target field:", this.targetFieldName);
+            if (this.targetField.tagName === 'INPUT' || this.targetField.tagName === 'TEXTAREA') {
+                this.targetField.value = progression;
+                // Dispatch input event to notify listeners
+                this.targetField.dispatchEvent(new Event('input', { bubbles: true }));
+                this.targetField.dispatchEvent(new Event('change', { bubbles: true }));
+            } else {
+                this.targetField.textContent = progression;
+            }
         }
 
         // Call completion callback
         if (this.onComplete) {
+            console.log("ChordProgressionEditor: Calling onComplete callback");
             this.onComplete(progression);
+        } else {
+            console.warn("ChordProgressionEditor: No onComplete callback defined");
         }
 
         this.hide();

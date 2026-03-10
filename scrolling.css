@@ -275,6 +275,7 @@ button:disabled {
 /* White/Light Buttons with Dark Icons */
 #zoomOutBtn svg,
 #zoomInBtn svg,
+#chordProgressionBtn svg,
 #selectModeBtn svg,
 #metronomeBtn svg,
 #audioToggleBtn svg {
@@ -304,6 +305,7 @@ button:disabled {
 }
 
 #zoomInBtn:hover svg,
+#chordProgressionBtn:hover svg,
 #zoomOutBtn:hover svg {
     color: #4f46e5;
 }
@@ -609,7 +611,9 @@ body.edit-mode-active .edit-only {
 
 /* Speed button is always shown on desktop/landscape, but follows edit-only on mobile */
 @media (min-width: 601px) {
-    #speedBtn.edit-only {
+
+    #speedBtn.edit-only,
+    #chordProgressionBtn.edit-only {
         display: inline-flex !important;
     }
 }
@@ -4374,4 +4378,538 @@ body.ctrl-held .chord-item {
 /* Base style for mobile-only tags */
 .map-mobile-only {
     display: none;
+}
+
+/* Chord Progression Editor Overlay */
+.chord-progression-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    padding: 20px;
+}
+
+.chord-progression-overlay.hidden {
+    display: none;
+}
+
+.chord-progression-modal {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chord-progression-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.header-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.chord-progression-header h3 {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.chord-progression-close {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.chord-progression-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.chord-progression-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Key Selector */
+.key-selector-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.key-selector-section label {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.key-selector {
+    padding: 10px 16px;
+    font-size: 1em;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+}
+
+.key-selector:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* Chord Palette */
+.chord-palette-section {
+    margin-bottom: 20px;
+}
+
+.chord-palette-label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chord-palette-label.borrowed-label {
+    margin-top: 15px;
+}
+
+.chord-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Chord Block */
+.chord-block {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1em;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    position: relative;
+    min-width: 55px;
+    text-align: center;
+}
+
+.chord-block:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.chord-block:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.chord-block.playing {
+    animation: chordPulse 0.2s ease-out;
+}
+
+.chord-block.added {
+    animation: chordAdded 0.3s ease-out;
+}
+
+@keyframes chordPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes chordAdded {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.15);
+        box-shadow: 0 0 25px rgba(34, 197, 94, 0.7);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    }
+}
+
+.chord-block.dragging {
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+.chord-block.borrowed {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    box-shadow: 0 3px 10px rgba(100, 116, 139, 0.3);
+}
+
+.chord-block.borrowed:hover {
+    box-shadow: 0 6px 20px rgba(100, 116, 139, 0.4);
+}
+
+.chord-block-label {
+    display: block;
+    font-size: 0.65em;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+/* Touch drag clone */
+.chord-block.drag-clone {
+    position: fixed;
+    z-index: 10002;
+    pointer-events: none;
+    opacity: 0.9;
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Progression Builder */
+.progression-builder-section {
+    margin-top: 20px;
+}
+
+.progression-builder-section label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.progression-drop-zone {
+    min-height: 100px;
+    padding: 16px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.progression-drop-zone.drag-over {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.08);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.progression-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 40px;
+}
+
+.progression-block {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    padding: 10px 14px;
+    padding-right: 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1em;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.15s ease;
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.progression-block:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.progression-block:active {
+    cursor: grabbing;
+}
+
+.progression-block.playing {
+    animation: blockPulse 0.2s ease-out;
+}
+
+@keyframes blockPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.progression-block.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+.progression-block.removing {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.progression-block-chord {
+    pointer-events: none;
+}
+
+.progression-block-delete {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.progression-block-delete:hover {
+    opacity: 1;
+    background: rgba(239, 68, 68, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.progression-block.drag-clone {
+    position: fixed;
+    z-index: 10002;
+    pointer-events: none;
+    opacity: 0.9;
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.drop-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.drop-placeholder.hidden {
+    display: none;
+}
+
+.drop-placeholder span {
+    text-align: center;
+}
+
+.insertion-indicator {
+    width: 3px;
+    height: 40px;
+    background: #764ba2;
+    border-radius: 2px;
+    flex-shrink: 0;
+    animation: indicatorPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes indicatorPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.progression-hint {
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-top: 10px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Footer */
+.chord-progression-footer {
+    padding: 15px 20px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.chord-progression-footer .btn-cancel {
+    padding: 12px 24px;
+    font-size: 1em;
+    font-weight: 600;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chord-progression-footer .btn-cancel:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.chord-progression-footer .btn-done {
+    padding: 12px 28px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background: #6366f1 !important;
+    color: white !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+.chord-progression-footer .btn-done:hover {
+    background: #4f46e5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* Responsive styles for Chord Progression Editor */
+@media (max-width: 768px) {
+    .chord-progression-overlay {
+        padding: 10px;
+    }
+
+    .chord-progression-modal {
+        max-height: 95vh;
+        border-radius: 16px;
+    }
+
+    .chord-progression-header {
+        padding: 15px 20px;
+    }
+
+    .chord-progression-header h3 {
+        font-size: 1.1em;
+    }
+
+    .chord-progression-body {
+        padding: 15px;
+    }
+
+    .chord-block {
+        padding: 10px 14px;
+        font-size: 1em;
+        min-width: 48px;
+    }
+
+    .chord-editor-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .chord-progression-header h3 {
+        font-size: 1em;
+    }
+
+    .chord-progression-close {
+        width: 32px;
+        height: 32px;
+        font-size: 1.2em;
+    }
+
+    .key-selector {
+        min-width: 120px;
+        padding: 8px 12px;
+    }
+
+    .chord-block {
+        padding: 8px 12px;
+        font-size: 0.95em;
+        min-width: 42px;
+    }
+
+    .progression-input {
+        font-size: 1em;
+        padding: 12px;
+    }
+
+    .chord-progression-footer {
+        padding: 12px 15px;
+    }
+
+    .chord-progression-footer .btn-cancel,
+    .chord-progression-footer .btn-done {
+        padding: 10px 18px;
+        font-size: 0.95em;
+    }
 }

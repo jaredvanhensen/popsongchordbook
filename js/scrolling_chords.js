@@ -33,6 +33,8 @@ const lyricsHUD = document.getElementById('lyricsHUD');
 const lyricLine1 = document.getElementById('lyricLine1');
 const lyricLine2 = document.getElementById('lyricLine2');
 const songMapPlayPauseBtn = document.getElementById('songMapPlayPauseBtn');
+const chordProgressionBtn = document.getElementById('chordProgressionBtn');
+let chordProgressionEditor = null;
 const COUNT_IN_SECONDS = 4;
 
 // Check for embed mode
@@ -330,6 +332,66 @@ document.addEventListener('DOMContentLoaded', () => {
     octaveCycleBtn = document.getElementById('octaveCycleBtn');
     if (octaveCycleBtn) {
         octaveCycleBtn.addEventListener('click', toggleOctavePlayback);
+    }
+
+    if (chordProgressionBtn) {
+        chordProgressionBtn.addEventListener('click', () => {
+            if (typeof ChordProgressionEditor === 'undefined') {
+                console.error("ChordProgressionEditor script not loaded yet.");
+                return;
+            }
+
+            if (!chordProgressionEditor) {
+                // Initialize if not already done
+                // Use the existing pianoPlayer if it exists, but editor can create its own
+                chordProgressionEditor = new ChordProgressionEditor(pianoPlayer);
+            }
+
+            // Create a temporary target field to hold the editor's output
+            const tempInput = document.createElement('textarea');
+            tempInput.value = ""; // Start empty
+
+            const blocks = [
+                {
+                    name: 'Chord Timeline Progression Editor',
+                    field: tempInput,
+                    songKey: currentFileName || 'song'
+                }
+            ];
+
+            chordProgressionEditor.show(blocks, 0, () => {
+                // When "Done" is clicked, we take the chords and add them to suggested toolbar
+                const chordString = tempInput.value;
+                console.log("Timeline Editor Callback: Received chords from tempInput:", chordString);
+
+                if (chordString && chordString.trim()) {
+                    // Split by spaces, commas, or pipes and filter out empty strings
+                    const newChords = chordString.trim().split(/[\s,\|]+/).filter(c => c);
+
+                    if (newChords.length > 0) {
+                        // Append to the global suggestedChords list instead of replacing it
+                        console.log("Timeline Editor Callback: Appending to suggestedChords:", newChords);
+                        const customGroup = {
+                            title: 'Editor Result',
+                            chords: newChords
+                        };
+
+                        // Add to current global state
+                        suggestedChords.push(customGroup);
+
+                        // Render the fully merged set
+                        renderSuggestedChords(suggestedChords);
+
+                        // Ensure the toolbar is centered/positioned correctly
+                        if (typeof updateHUDPosition === 'function') {
+                            updateHUDPosition();
+                        }
+                    }
+                } else {
+                    console.warn("Timeline Editor Callback: No chords found in tempInput.value");
+                }
+            });
+        });
     }
 
     // Zoom Buttons
