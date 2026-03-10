@@ -1075,6 +1075,10 @@ chordTrack.addEventListener('pointerdown', (e) => {
         // Copy on Drag: Just flag it, don't duplicate yet
         // We wait for actual movement to "peel off" the copy
         if (e.ctrlKey) {
+            // Ensure the chord we are dragging is actually selected so duplication works
+            if (!selectedIndices.has(index)) {
+                selectChord(index, false); // exclusive selection
+            }
             isCopying = true;
         } else {
             isCopying = false;
@@ -2394,14 +2398,14 @@ function determineStaggerPositions() {
             // Part of a "close" cluster
             if (!isCloseToPrev) {
                 // We are the START of a cluster
-                chord.yOffset = -90; // Start at UP
+                chord.yOffset = -64; // Start at UP (36% Top)
             } else {
                 // Continue the zigzag from the previous chord
-                chord.yOffset = (chords[i - 1].yOffset === -90) ? -10 : -90;
+                chord.yOffset = (chords[i - 1].yOffset === -64) ? -36 : -64; // Alternate between 36% and 64%
             }
         } else {
             // Isolated chord
-            chord.yOffset = -50; // Center
+            chord.yOffset = -50; // Center (50% Top)
         }
     }
 }

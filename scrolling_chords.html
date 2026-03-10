@@ -429,131 +429,136 @@
             <div class="chord-track" id="chordTrack"></div>
         </div>
 
-    </div>
-
-
-    <!-- Count-in Overlay -->
-    <div id="countInOverlay" class="count-in-overlay hidden">
-        <div id="countInNumber"></div>
-        <div class="count-in-label">Get Ready!</div>
-    </div>
-
-    <!-- Song Map Overlay -->
-    <div id="songMapOverlay" class="song-map-overlay hidden">
-        <div class="map-modal-content">
-            <!-- Absolute Top Right Close Button (Circular) -->
-            <button id="closeSongMapBtn" class="song-map-close-btn-abs" title="Close Map">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-
-            <div class="song-map-header">
-                <img id="mapThumbnailDisplay" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
-                <div class="song-detail-title-section">
-                    <h1 id="mapSongTitleDisplay" class="song-detail-title"></h1>
-                    <h2 id="mapArtistDisplay" class="song-detail-artist"></h2>
-                </div>
-                <div class="song-detail-action-buttons">
-                    <!-- Play/Pause Button in Map -->
-                    <button id="songMapPlayPauseBtn" class="song-map-toolbar-btn" title="Play/Pause">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                    </button>
-
-                    <!-- Hamburger Button (Mobile Only) -->
-                    <button id="songMapHamburgerBtn" class="song-map-toolbar-btn map-mobile-only" title="More Options">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-
-                    <!-- Zoom Button in Map -->
-                    <button id="songMapZoomBtn" class="song-map-toolbar-btn" title="Cycle Zoom Levels"
-                        style="width: auto; padding: 0 10px; gap: 6px;">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            <line x1="11" y1="8" x2="11" y2="14"></line>
-                            <line x1="8" y1="11" x2="14" y2="11"></line>
-                        </svg>
-                        <span id="mapZoomLabel" style="font-weight: 800; font-size: 0.85rem;">100%</span>
-                    </button>
-
-                    <!-- Drag Selection Toggle Button (Edit Mode) -->
-                    <button id="songMapDragToggleBtn" class="song-map-toolbar-btn" title="Edit Mode"
-                        style="width: auto; padding: 0 15px; gap: 8px;">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="4 4"></rect>
-                        </svg>
-                        <span style="font-weight: 800; font-size: 0.9rem;">EDIT</span>
-                    </button>
-
-                    <!-- Save Button -->
-                    <button id="songMapSaveBtn" class="song-map-toolbar-btn luxury-save-btn hidden"
-                        title="Save Changes">
-                        <span class="icon">💾</span>
-                        <span class="label" style="font-weight: 800; font-size: 0.8rem; margin-left: 5px;">SAVE</span>
-                    </button>
-
-                    <!-- Style Toggle Button in Map -->
-                    <button id="songMapStyleBtn" class="song-map-toolbar-btn" title="Cycle Map Styles"
-                        style="width: auto; padding: 0 12px; gap: 6px;">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                        <span id="mapStyleLabel" style="font-weight: 900; font-size: 1rem;">1</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Hamburger Submenu (Mobile Only) -->
-            <div id="songMapMobileMenu" class="song-map-mobile-menu hidden">
-                <div class="menu-items-container">
-                    <div id="menuZoomOption" class="mobile-menu-item">
-                        <span class="menu-item-label">Zoom Level</span>
-                        <span id="menuZoomValue" class="menu-item-value">100%</span>
-                    </div>
-                    <div id="menuEditOption" class="mobile-menu-item">
-                        <span class="menu-item-label">Edit Mode</span>
-                        <span id="menuEditStatus" class="menu-item-value">OFF</span>
-                    </div>
-                    <div id="menuStyleOption" class="mobile-menu-item">
-                        <span class="menu-item-label">Map Style</span>
-                        <span id="menuStyleValue" class="menu-item-value">1</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="songMapGrid" class="song-map-grid" style="flex:1; padding-bottom:100px; overflow-y: auto;">
-                <!-- Sections injected here -->
-            </div>
+        <!-- Recording Indicator -->
+        <div id="recordingIndicator" class="recording-indicator hidden">
+            <div class="recording-dot"></div>
+            <span>RECORDING</span>
         </div>
 
-        <!-- Midi Parsing Library -->
-        <script src="https://unpkg.com/@tonejs/midi" defer></script>
+        <!-- Count-in Overlay -->
+        <div id="countInOverlay" class="count-in-overlay hidden">
+            <div id="countInNumber"></div>
+            <div class="count-in-label">Get Ready!</div>
+        </div>
 
-        <!-- Utils -->
-        <script src="js/utils/PianoAudioPlayer.js?v=2.181" defer></script>
-        <script src="js/utils/ChordParser.js?v=2.181" defer></script>
-        <script src="js/utils/MidiInputHandler.js?v=2.181" defer></script>
-        <script src="js/utils/LyricsParser.js?v=2.181" defer></script>
-        <script src="js/ui/ConfirmationModal.js?v=2.181" defer></script>
-        <script src="js/ui/ChordEditModal.js?v=2.181" defer></script>
-        <script src="js/ui/BpmEditModal.js?v=2.181" defer></script>
-        <script src="js/data/GuitarChordDatabase.js?v=2.181" defer></script>
-        <script src="js/data/UkuleleChordDatabase.js?v=2.181" defer></script>
-        <script src="js/scrolling_chords.js?v=2.181" defer></script>
+        <!-- Song Map Overlay -->
+        <div id="songMapOverlay" class="song-map-overlay hidden">
+            <div class="map-modal-content">
+                <!-- Absolute Top Right Close Button (Circular) -->
+                <button id="closeSongMapBtn" class="song-map-close-btn-abs" title="Close Map">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <div class="song-map-header">
+                    <img id="mapThumbnailDisplay" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
+                    <div class="song-detail-title-section">
+                        <h1 id="mapSongTitleDisplay" class="song-detail-title"></h1>
+                        <h2 id="mapArtistDisplay" class="song-detail-artist"></h2>
+                    </div>
+                    <div class="song-detail-action-buttons">
+                        <!-- Play/Pause Button in Map -->
+                        <button id="songMapPlayPauseBtn" class="song-map-toolbar-btn" title="Play/Pause">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </button>
+
+                        <!-- Hamburger Button (Mobile Only) -->
+                        <button id="songMapHamburgerBtn" class="song-map-toolbar-btn map-mobile-only"
+                            title="More Options">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
+                            </svg>
+                        </button>
+
+                        <!-- Zoom Button in Map -->
+                        <button id="songMapZoomBtn" class="song-map-toolbar-btn" title="Cycle Zoom Levels"
+                            style="width: auto; padding: 0 10px; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                            <span id="mapZoomLabel" style="font-weight: 800; font-size: 0.85rem;">100%</span>
+                        </button>
+
+                        <!-- Drag Selection Toggle Button (Edit Mode) -->
+                        <button id="songMapDragToggleBtn" class="song-map-toolbar-btn" title="Edit Mode"
+                            style="width: auto; padding: 0 15px; gap: 8px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="4 4"></rect>
+                            </svg>
+                            <span style="font-weight: 800; font-size: 0.9rem;">EDIT</span>
+                        </button>
+
+                        <!-- Save Button -->
+                        <button id="songMapSaveBtn" class="song-map-toolbar-btn luxury-save-btn hidden"
+                            title="Save Changes">
+                            <span class="icon">💾</span>
+                            <span class="label"
+                                style="font-weight: 800; font-size: 0.8rem; margin-left: 5px;">SAVE</span>
+                        </button>
+
+                        <!-- Style Toggle Button in Map -->
+                        <button id="songMapStyleBtn" class="song-map-toolbar-btn" title="Cycle Map Styles"
+                            style="width: auto; padding: 0 12px; gap: 6px;">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                            <span id="mapStyleLabel" style="font-weight: 900; font-size: 1rem;">1</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hamburger Submenu (Mobile Only) -->
+                <div id="songMapMobileMenu" class="song-map-mobile-menu hidden">
+                    <div class="menu-items-container">
+                        <div id="menuZoomOption" class="mobile-menu-item">
+                            <span class="menu-item-label">Zoom Level</span>
+                            <span id="menuZoomValue" class="menu-item-value">100%</span>
+                        </div>
+                        <div id="menuEditOption" class="mobile-menu-item">
+                            <span class="menu-item-label">Edit Mode</span>
+                            <span id="menuEditStatus" class="menu-item-value">OFF</span>
+                        </div>
+                        <div id="menuStyleOption" class="mobile-menu-item">
+                            <span class="menu-item-label">Map Style</span>
+                            <span id="menuStyleValue" class="menu-item-value">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="songMapGrid" class="song-map-grid" style="flex:1; padding-bottom:100px; overflow-y: auto;">
+                    <!-- Sections injected here -->
+                </div>
+            </div>
+
+            <!-- Midi Parsing Library -->
+            <script src="https://unpkg.com/@tonejs/midi" defer></script>
+
+            <!-- Utils -->
+            <script src="js/utils/PianoAudioPlayer.js?v=2.181" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.181" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.181" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.181" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.181" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.181" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.181" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.181" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.181" defer></script>
+            <script src="js/scrolling_chords.js?v=2.181" defer></script>
 </body>
 
 </html>
