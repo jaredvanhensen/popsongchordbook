@@ -2426,9 +2426,12 @@ function renderStaticElements() {
         el.innerText = simplifyDisplayName(chord.name);
         el.dataset.index = index;
 
-        // Optimized: Position once
         const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
         el.style.left = `${Math.round(chord.time * pps)}px`;
+
+        // Apply staggering offset
+        const y = chord.yOffset !== undefined ? (chord.yOffset + 100) : 50;
+        el.style.top = `${y}%`;
 
         chordFrag.appendChild(el);
     });
@@ -2713,6 +2716,12 @@ function updateLoop() {
 
         if (isVisible) {
             if (el.style.display === 'none') el.style.display = '';
+
+            // PERFORMANCE: Re-sync position during loop to support dragging and zoom feedback
+            el.style.left = `${Math.round(absX)}px`;
+            const y = chord.yOffset !== undefined ? (chord.yOffset + 100) : 50;
+            el.style.top = `${y}%`;
+
             // Toggle active state
             if (i <= activeIndex) {
                 if (!el.classList.contains('active')) el.classList.add('active');
@@ -2734,6 +2743,8 @@ function updateLoop() {
             const isVisible = absX >= viewLeft && absX <= viewRight;
             if (isVisible) {
                 if (el.style.display === 'none') el.style.display = '';
+                // Sync position for zoom support
+                el.style.left = `${Math.round(absX)}px`;
             } else {
                 if (el.style.display !== 'none') el.style.display = 'none';
             }
