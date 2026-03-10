@@ -2614,6 +2614,7 @@ class SongDetailModal {
             bridgeCue: song.bridgeCue || '',
             key: song.key || '',
             tempo: song.tempo || (song.chordData ? song.chordData.tempo : '') || '',
+            youtubeUrl: song.youtubeUrl || '',
             fullLyrics: song.fullLyrics || song.lyrics || '',
             patchDetails: song.patchDetails || '',
             practiceCount: song.practiceCount !== undefined ? song.practiceCount.toString() : '0',
@@ -3124,53 +3125,78 @@ class SongDetailModal {
         }
 
         const youtubeUrl = this.youtubeUrlInput ? this.youtubeUrlInput.value.trim() : '';
-        const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
-        const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
-        let practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '0';
-        if (practiceCount === '') practiceCount = '0';
-        const lyricOffset = this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0;
-        const performAbility = this.currentAbilityValue || 0;
-        const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
+        const originalYoutubeUrl = this.originalSongData ? (this.originalSongData.youtubeUrl || '') : '';
 
-        const updates = {
-            youtubeUrl: youtubeUrl,
-            externalUrl: externalUrl,
-            patchDetails: patchDetails,
-            practiceCount: practiceCount,
-            lyricOffset: lyricOffset,
-            performAbility: performAbility,
-            fullLyrics: fullLyrics
+        const performSave = async () => {
+            const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
+            const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
+            let practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '0';
+            if (practiceCount === '') practiceCount = '0';
+            const lyricOffset = this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0;
+            const performAbility = this.currentAbilityValue || 0;
+            const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
+
+            const updates = {
+                youtubeUrl: youtubeUrl,
+                externalUrl: externalUrl,
+                patchDetails: patchDetails,
+                practiceCount: practiceCount,
+                lyricOffset: lyricOffset,
+                performAbility: performAbility,
+                fullLyrics: fullLyrics
+            };
+
+            // Handle JSON removal
+            if (this.chordDataToRemove) {
+                updates.chordData = null;
+            }
+
+            // Handle JSON file upload
+            if (this.chordJsonInput && this.chordJsonInput.files && this.chordJsonInput.files[0]) {
+                const file = this.chordJsonInput.files[0];
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    try {
+                        const chordData = JSON.parse(event.target.result);
+                        updates.chordData = chordData;
+
+                        // Update song with chord data
+                        await this.songManager.updateSong(this.currentSongId, updates);
+
+                        // Finalize UI updates after async save
+                        this.finalizeSave(youtubeUrl, externalUrl);
+                    } catch (e) {
+                        console.error("Error parsing chord JSON:", e);
+                        this.showInfoModal('Import Error', 'Invalid JSON file. Please check the file format.');
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                // No file uploaded, just update other fields
+                await this.songManager.updateSong(this.currentSongId, updates);
+                this.finalizeSave(youtubeUrl, externalUrl);
+            }
         };
 
-        // Handle JSON removal
-        if (this.chordDataToRemove) {
-            updates.chordData = null;
-        }
-
-        // Handle JSON file upload
-        if (this.chordJsonInput && this.chordJsonInput.files && this.chordJsonInput.files[0]) {
-            const file = this.chordJsonInput.files[0];
-            const reader = new FileReader();
-            reader.onload = async (event) => {
-                try {
-                    const chordData = JSON.parse(event.target.result);
-                    updates.chordData = chordData;
-
-                    // Update song with chord data
-                    await this.songManager.updateSong(this.currentSongId, updates);
-
-                    // Finalize UI updates after async save
-                    this.finalizeSave(youtubeUrl, externalUrl);
-                } catch (e) {
-                    console.error("Error parsing chord JSON:", e);
-                    this.showInfoModal('Import Error', 'Invalid JSON file. Please check the file format.');
+        // Check if YouTube URL has changed and show warning
+        if (youtubeUrl !== originalYoutubeUrl && originalYoutubeUrl !== '') {
+            if (window.appInstance && window.appInstance.confirmationModal) {
+                window.appInstance.confirmationModal.show(
+                    'YouTube URL Changed',
+                    'Changing this will affect the timing of the lyrics and chords on the Chord Timeline. These might not be in Sync anymore, please check',
+                    () => performSave(),
+                    null,
+                    'Update Anyway',
+                    'Cancel',
+                    'warning'
+                );
+            } else {
+                if (confirm('Changing this will affect the timing of the lyrics and chords on the Chord Timeline. These might not be in Sync anymore, please check')) {
+                    performSave();
                 }
-            };
-            reader.readAsText(file);
+            }
         } else {
-            // No file uploaded, just update other fields
-            await this.songManager.updateSong(this.currentSongId, updates);
-            this.finalizeSave(youtubeUrl, externalUrl);
+            performSave();
         }
     }
 
@@ -3194,6 +3220,8 @@ class SongDetailModal {
                 bridgeTitle: savedSong.bridgeTitle || 'Block 4',
                 bridgeCue: savedSong.bridgeCue || '',
                 key: savedSong.key || '',
+                tempo: savedSong.tempo || (savedSong.chordData ? savedSong.chordData.tempo : '') || '',
+                youtubeUrl: savedSong.youtubeUrl || '',
                 fullLyrics: savedSong.fullLyrics || '',
                 patchDetails: savedSong.patchDetails || '',
                 practiceCount: savedSong.practiceCount !== undefined ? savedSong.practiceCount.toString() : '0',

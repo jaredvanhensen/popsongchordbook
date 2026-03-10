@@ -5036,12 +5036,14 @@ td:has(.row-edit-input.input-focused) {
 
 .song-detail-action-btn.with-label {
     flex-direction: column;
-    gap: 2px;
-    width: clamp(40px, 8vw, 55px);
-    height: clamp(38px, 7vw, 45px);
+    gap: 0;
+    width: clamp(55px, 12vw, 70px);
+    height: clamp(52px, 10vw, 65px);
+    padding: 8px 4px;
     box-sizing: border-box;
-    flex-shrink: 1;
+    flex-shrink: 0;
     min-width: 0;
+    justify-content: center;
 }
 
 .song-detail-action-btn .icon {
@@ -10261,4 +10263,41 @@ div.song-detail-practice-controls {
 #instrumentToggleBtn.instrument-ukulele .icon svg {
     margin-bottom: -2px;
     /* Slight offset for visual center */
+}
+
+/* Hide chord blocks in main table ONLY on mobile (below 769px) */
+@media (max-width: 768px) {
+
+    #songsTable .verse-column,
+    #songsTable .chorus-column,
+    #songsTable .prechorus-column,
+    #songsTable .bridge-column,
+    #songsTable td.verse-cell,
+    #songsTable td.chorus-cell,
+    #songsTable td.pre-chorus-cell,
+    #songsTable td.bridge-cell {
+        display: none !important;
+    }
+
+    /* Ensure table doesn't try to maintain huge min-width on mobile */
+    #songsTable {
+        min-width: 0 !important;
+        table-layout: auto !important;
+    }
+}
+
+/* Specific fix for Chord Timeline button hit area (Request 1) */
+#songDetailScrollingChordsBtn {
+    position: relative;
+    overflow: visible;
+}
+
+#songDetailScrollingChordsBtn::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    /* Expanding the hit area even further than the button background */
 }

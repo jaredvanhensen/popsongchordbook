@@ -2696,6 +2696,11 @@ function updateLoop() {
     }
 
     // Windowing Visibility & Active State (Optimized)
+    // RECALCULATE stagger when dragging to see gaps live
+    if (isDraggingChord || isBoxSelecting) {
+        determineStaggerPositions();
+    }
+
     // Instead of transforming EVERY element, we only toggle classes and display
     const winWidth = window.innerWidth;
     const bufferPx = 1000; // Increased buffer for smoother scrolling
