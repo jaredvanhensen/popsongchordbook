@@ -10219,9 +10219,68 @@ div.song-detail-practice-controls {
     }
 }
 
+/* Song Map Button - PC/Landscape Only */
+#songDetailSongMapBtn {
+    display: none !important;
+}
+
+@media (min-width: 1024px) {
+    #songDetailSongMapBtn {
+        display: flex !important;
+    }
+}
+
+/* Match Song Map button to Instrument/Timeline styling */
+#songDetailSongMapBtn {
+    background: transparent !important;
+    border: none !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 0 6px 0 !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+}
+
+#songDetailSongMapBtn:active,
+#songDetailSongMapBtn:hover {
+    transform: scale(1.05) !important;
+}
+
+#songDetailSongMapBtn:active {
+    transform: scale(0.97) !important;
+}
+
+#songDetailSongMapBtn .icon {
+    width: auto !important;
+    height: 53px !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    font-size: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+    margin-bottom: 0px !important;
+    color: white !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
+}
+
+#songDetailSongMapBtn .icon svg {
+    width: 44px !important;
+    height: 44px !important;
+}
+
 /* FORCE SYNC ALL FOOTER ACTION LABELS */
 #instrumentToggleBtn .label,
 #songDetailScrollingChordsBtn .label,
+#songDetailSongMapBtn .label,
 #songDetailPracticeBtn .label,
 .ability-stars-container .label {
     font-size: clamp(14px, 3vw, 16px) !important;

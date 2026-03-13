@@ -40,6 +40,7 @@ const COUNT_IN_SECONDS = 4;
 // Check for embed mode
 const urlParams = new URLSearchParams(window.location.search);
 const isEmbed = urlParams.get('embed') === 'true';
+const autoOpenMap = urlParams.get('openMap') === 'true';
 if (isEmbed) {
     console.log("Scrolling Chords: Running in embed mode");
 
@@ -1926,6 +1927,16 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
         originalLyricOffset = currentLyricOffset;
         originalMapSectionsJson = JSON.stringify(customMapSections);
         checkForChanges();
+
+        // Auto-open Song Map if requested via URL param (e.g. from Song Detail Modal)
+        if (typeof autoOpenMap !== 'undefined' && autoOpenMap) {
+            console.log("Scrolling Chords: Auto-opening Song Map...");
+            setTimeout(() => {
+                if (typeof openSongMap === 'function') {
+                    openSongMap();
+                }
+            }, 300); // Small delay to ensure everything is rendered
+        }
     } catch (e) {
         console.error(e);
         statusText.innerText = `Error loading data: ${e.message}`;

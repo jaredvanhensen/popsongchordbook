@@ -53,6 +53,7 @@ class SongDetailModal {
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
         this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        this.songMapBtn = document.getElementById('songDetailSongMapBtn');
         this.notesInput = document.getElementById('songDetailNotesInput');
         this.practiceCountDisplay = document.getElementById('songDetailPracticeCount');
         this.practiceIncrementBtn = document.getElementById('songDetailPracticeIncrementBtn');
@@ -569,6 +570,16 @@ class SongDetailModal {
             });
         }
 
+        if (this.songMapBtn) {
+            this.songMapBtn.addEventListener('click', (e) => {
+                console.log('Song Map button clicked - opening overlay with map flag');
+                this._shouldOpenSongMap = true;
+                if (this.scrollingChordsBtn) {
+                    this.scrollingChordsBtn.click();
+                }
+            });
+        }
+
         // Setup Scrolling Chords Button
         const scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
         const scrollingChordsModal = document.getElementById('scrollingChordsModal');
@@ -609,7 +620,12 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    const url = 'scrolling_chords.html?embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?embed=true&t=' + Date.now();
+                    if (this._shouldOpenSongMap) {
+                        url += '&openMap=true';
+                        this._shouldOpenSongMap = false; // Reset flag
+                    }
+
                     // Using location.replace prevents adding extra history entries that cause double-close issues
                     if (scrollingChordsFrame.contentWindow) {
                         scrollingChordsFrame.contentWindow.location.replace(url);
