@@ -8637,7 +8637,6 @@ td:has(.row-edit-input.input-focused) {
 #songDetailPracticeIncrementBtn .label {
     white-space: nowrap !important;
     font-size: clamp(14px, 3vw, 16px) !important;
-    opacity: 0.6 !important;
     margin-top: 8px !important;
     font-weight: 500 !important;
     letter-spacing: 0.5px !important;
@@ -10282,10 +10281,11 @@ div.song-detail-practice-controls {
 #songDetailScrollingChordsBtn .label,
 #songDetailSongMapBtn .label,
 #songDetailPracticeBtn .label,
+#songDetailPracticeIncrementBtn .label,
 .ability-stars-container .label {
     font-size: clamp(14px, 3vw, 16px) !important;
     margin-top: 8px !important;
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
     text-transform: lowercase !important;
     font-weight: 500 !important;
     letter-spacing: 0.5px !important;
