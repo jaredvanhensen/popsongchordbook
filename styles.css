@@ -9353,31 +9353,26 @@ div.song-detail-practice-controls {
 
     .song-detail-key-badge,
     .song-detail-bpm-badge {
-        width: 74px !important;
-        /* Fixed width for stability */
-        padding: 0 8px !important;
+        width: 44px !important;
+        /* Reclaimed space by hiding labels */
+        padding: 0 4px !important;
         height: 28px !important;
         justify-content: center !important;
-        gap: 4px !important;
+        gap: 0 !important;
         display: flex !important;
         cursor: pointer !important;
     }
 
     .song-detail-key-badge .key-label,
     .song-detail-bpm-badge .bpm-label {
-        width: auto !important;
-        display: inline !important;
-        margin-top: 0 !important;
-        font-size: 0.6rem !important;
-        opacity: 0.5 !important;
-        letter-spacing: 0 !important;
+        display: none !important;
     }
 
     .song-detail-key-badge .key-value,
     .song-detail-bpm-badge .bpm-value {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         flex: none !important;
-        text-align: left !important;
+        text-align: center !important;
         font-weight: 800 !important;
     }
 }
@@ -10301,10 +10296,22 @@ div.song-detail-practice-controls {
 /* Mobile: force ALL footer action labels to same small size */
 @media (max-width: 480px) {
 
-    #songDetailPracticeBtn .label {
+    #songDetailPracticeBtn .label,
+    #songDetailPracticeIncrementBtn .label,
+    #instrumentToggleBtn .label,
+    #songDetailSongMapBtn .label,
+    #songDetailScrollingChordsBtn .label,
+    .ability-stars-container .label {
         font-size: 0.65rem !important;
         height: 18px !important;
         letter-spacing: normal !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        font-weight: 500 !important;
+    }
+
+    /* Make Song Map SVG 10% smaller specifically on mobile */
+    #songDetailSongMapBtn .icon svg {
+        transform: scale(0.9) !important;
     }
 }
 
