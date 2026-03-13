@@ -658,7 +658,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Timeline Interaction (Scroll or Select)
     timeline.addEventListener('pointerdown', (e) => {
-        if (isSelectionMode) {
+        // Toggle box selection if in Selection Mode OR if in Edit Mode on PC (Mouse)
+        if (isSelectionMode || (isEditMode && e.pointerType === 'mouse')) {
             // Start selection box
             isBoxSelecting = true;
             selectionBoxStart = { x: e.clientX, y: e.clientY };
