@@ -10293,8 +10293,33 @@ div.song-detail-practice-controls {
     text-align: center !important;
 }
 
-/* Mobile: force ALL footer action labels to same small size */
 @media (max-width: 480px) {
+
+    /* Harmonize all action items for alignment */
+    #songDetailPracticeBtn,
+    #songDetailPracticeIncrementBtn,
+    #songDetailSongMapBtn,
+    #songDetailScrollingChordsBtn,
+    .ability-stars-container {
+        height: 65px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        padding-bottom: 4px !important;
+        min-width: 55px !important;
+    }
+
+    #songDetailPracticeBtn .icon,
+    #songDetailPracticeIncrementBtn .icon,
+    #songDetailScrollingChordsBtn .icon,
+    #songDetailSongMapBtn .icon {
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+    }
 
     #songDetailPracticeBtn .label,
     #songDetailPracticeIncrementBtn .label,
@@ -10303,10 +10328,14 @@ div.song-detail-practice-controls {
     #songDetailScrollingChordsBtn .label,
     .ability-stars-container .label {
         font-size: 0.65rem !important;
-        height: 18px !important;
+        height: 14px !important;
+        margin-top: 6px !important;
         letter-spacing: normal !important;
         color: rgba(255, 255, 255, 0.6) !important;
         font-weight: 500 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     /* Make Song Map SVG 10% smaller specifically on mobile */
