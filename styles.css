@@ -10313,6 +10313,11 @@ div.song-detail-practice-controls {
     #songDetailSongMapBtn .icon svg {
         transform: scale(0.9) !important;
     }
+
+    /* Hide Instrument selection button on mobile footer */
+    #instrumentToggleBtn {
+        display: none !important;
+    }
 }
 
 #instrumentToggleBtn.instrument-ukulele .icon {
