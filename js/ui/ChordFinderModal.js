@@ -16,7 +16,7 @@ class ChordFinderModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center;
+            display: none; justify-content: center; align-items: center;
             z-index: 10010; /* Above editor */
             backdrop-filter: blur(2px);
         `;
@@ -80,6 +80,7 @@ class ChordFinderModal {
 
         const close = () => {
             this.overlay.classList.add('hidden');
+            this.overlay.style.display = 'none';
             this.isVisible = false;
         };
 
@@ -133,6 +134,7 @@ class ChordFinderModal {
 
     show() {
         this.overlay.classList.remove('hidden');
+        this.overlay.style.display = 'flex';
         this.isVisible = true;
         const input = this.overlay.querySelector('#finderModalInput');
         input.value = '';

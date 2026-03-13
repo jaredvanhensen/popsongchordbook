@@ -27,6 +27,8 @@ class ChordModal {
 
     renderChords(containerId, chords) {
         const container = document.getElementById(containerId);
+        if (!container) return; // Prevent crashes on index.html
+        
         container.innerHTML = '';
         chords.forEach(chord => {
             const btn = document.createElement('button');
@@ -38,6 +40,8 @@ class ChordModal {
     }
 
     setupEventListeners() {
+        if (!this.modal || !this.closeBtn || !this.customInput || !this.addCustomBtn) return; // Prevent crashes on index.html
+        
         this.closeBtn.addEventListener('click', () => this.hide());
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) {
