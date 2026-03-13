@@ -366,34 +366,34 @@
     <script src="js/app.js?v=2.186"></script>
     
     <!-- Instrument Selection Modal -->
-    <div id="chooseInstrumentModal" class="modal" style="display: none; align-items: center; justify-content: center; z-index: 10000; background-color: rgba(0,0,0,0.6);">
-        <div class="modal-content" style="max-width: 600px; text-align: center; border-radius: 12px; padding-bottom: 20px;">
+    <div id="chooseInstrumentModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
             <div class="modal-header" style="justify-content: center; position: relative; padding: 25px 20px 10px;">
-                <h2 style="font-size: 1.5rem; font-weight: 700;">Choose Your Instrument</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Choose Your Instrument</h2>
                 <span class="close-modal" id="closeInstrumentModal" style="position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer;">&times;</span>
             </div>
             <div class="modal-body">
-                <div class="instruments-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; padding: 10px 20px;">
+                <div class="instruments-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; padding: 10px 0;">
 
-                    <div class="instrument-card guitar-card" onclick="selectInstrument('guitar')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                    <div class="instrument-card guitar-card" onclick="selectInstrument('guitar')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                         <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎸</div>
-                        <h3 style="font-size: 1.1rem; margin: 0;">Guitar</h3>
+                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Guitar</h3>
                     </div>
 
-                    <div class="instrument-card piano-card" onclick="selectInstrument('piano')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                    <div class="instrument-card piano-card" onclick="selectInstrument('piano')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                         <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎹</div>
-                        <h3 style="font-size: 1.1rem; margin: 0;">Piano</h3>
+                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Piano</h3>
                     </div>
 
-                    <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                    <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')" style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                         <div class="instrument-icon" style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px; height: 50px;">
-                            <img src="images/ukelele-svgrepo-com.svg" alt="Ukulele" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+                            <img src="images/ukelele-svgrepo-com.svg" alt="Ukulele" style="width: 50px; height: 50px; object-fit: contain;">
                         </div>
-                        <h3 style="font-size: 1.1rem; margin: 0;">Ukulele</h3>
+                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Ukulele</h3>
                     </div>
 
                 </div>
-                <p style="margin-top: 15px; color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">You can always change this later in any song.</p>
+                <p style="margin-top: 20px; color: #64748b; font-size: 0.9rem;">You can always change this later in any song.</p>
             </div>
         </div>
     </div>
@@ -411,20 +411,23 @@
                     if (window.innerWidth <= 480) {
                         e.preventDefault();
                         instrumentModal.style.display = 'flex';
+                        // Add class for animation
+                        document.body.style.overflow = 'hidden'; 
                     }
-                    // On PC/Landscape, we ignore this and let the <a> tag navigate normally to songlist.html
                 });
             }
 
             if (closeModalBtn && instrumentModal) {
                 closeModalBtn.addEventListener('click', () => {
                     instrumentModal.style.display = 'none';
+                    document.body.style.overflow = '';
                 });
             }
 
             window.addEventListener('click', (e) => {
                 if (e.target === instrumentModal) {
                     instrumentModal.style.display = 'none';
+                    document.body.style.overflow = '';
                 }
             });
 
