@@ -10313,7 +10313,8 @@ div.song-detail-practice-controls {
     #songDetailPracticeBtn .icon,
     #songDetailPracticeIncrementBtn .icon,
     #songDetailScrollingChordsBtn .icon,
-    #songDetailSongMapBtn .icon {
+    #songDetailSongMapBtn .icon,
+    .ability-stars-container .stars-row {
         height: 40px !important;
         display: flex !important;
         align-items: center !important;
@@ -10336,6 +10337,11 @@ div.song-detail-practice-controls {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+    }
+
+    /* Nudge ability label up slightly to match others */
+    .ability-stars-container .label {
+        margin-top: 1px !important;
     }
 
     /* Make Song Map SVG 10% smaller specifically on mobile */
