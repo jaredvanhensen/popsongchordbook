@@ -748,6 +748,15 @@ document.addEventListener("keydown", e => {
         return;
     }
 
+    // Delete selected chords in Chord Timeline (Edit Mode only)
+    if (e.key === "Delete" && isEditMode) {
+        if (typeof selectedIndices !== 'undefined' && selectedIndices.size > 0) {
+            e.preventDefault();
+            deleteSelectedChords();
+            return;
+        }
+    }
+
     // Capture chords and modifiers during recording
     if (enableTimingCapture) {
         const key = e.key.toUpperCase();
