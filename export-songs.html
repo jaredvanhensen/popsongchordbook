@@ -123,18 +123,20 @@ async function exportSongs() {
         const today = new Date().toISOString().split('T')[0];
         const js = `// Default songs to be loaded for new users if their library is empty.\n// Exported from user "${currentUser.email}" on ${today}\n\nconst DEFAULT_SONGS = ${JSON.stringify(songs, null, 4)};\n`;
 
+        const filename = `default_songs_${today}.js`;
+
         // Download the file
         const blob = new Blob([js], { type: 'text/javascript' });
         const url  = URL.createObjectURL(blob);
         const a    = document.createElement('a');
         a.href = url;
-        a.download = 'default_songs.js';
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        setStatus('success', `✅ Exported ${songs.length} songs! Check your Downloads folder for default_songs.js.`);
+        setStatus('success', `✅ Exported ${songs.length} songs! File saved as: ${filename}`);
         btn.textContent = `✅ Exported ${songs.length} songs`;
     } catch (err) {
         console.error(err);
