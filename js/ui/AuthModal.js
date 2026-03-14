@@ -277,7 +277,7 @@ class AuthModal {
                     if (this.loginPasswordInput) this.loginPasswordInput.value = '';
 
                     // Sign out because they shouldn't be "logged in" in an unverified state
-                    await this.firebaseManager.signOut();
+                    await this.signOutAndKeepModal();
                     return;
                 }
 
@@ -330,7 +330,7 @@ class AuthModal {
                     }
                 }
                 
-                await this.firebaseManager.signOut();
+                await this.signOutAndKeepModal();
                 if (this.loginPasswordInput) this.loginPasswordInput.value = '';
             } else {
                 this.showLoginError(result.error || 'Failed to verify credentials.');
@@ -427,6 +427,18 @@ class AuthModal {
             this.loginErrorMsg.textContent = message;
             this.loginErrorMsg.classList.remove('hidden');
         }
+        if (this.loginSuccessMsg) {
+            this.loginSuccessMsg.classList.add('hidden');
+        }
+    }
+
+    async signOutAndKeepModal() {
+        this.isBusy = true;
+        await this.firebaseManager.signOut();
+        // Keep isBusy true for a while to prevent App.js from resetting the modal state
+        setTimeout(() => {
+            this.isBusy = false;
+        }, 2000);
     }
 
     showCreateError(message) {

@@ -1,4 +1,4 @@
-// Main Application (v2.200)
+// Main Application (v2.201)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.200)");
+        console.log("Pop Song Chord Book - App Initialized (v2.201)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -250,12 +250,22 @@ class App {
         this.songManager.disableSync();
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
-        // Show login modal (unless we are showing the verification confirmation or signing up)
+
+        // Show login modal (unless we are showing the verification confirmation or signing up/busy)
         if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {
-            console.log('handleAuthFailure: logic triggered - showing login modal');
-            this.authModal.show(true);
+            // Only call show() if the modal isn't already visible to avoid resetting its state (like error messages)
+            const isModalVisible = this.authModal.modal && 
+                                 (this.authModal.modal.style.display === 'flex' || 
+                                  !this.authModal.modal.classList.contains('hidden'));
+            
+            if (!isModalVisible) {
+                console.log('handleAuthFailure: logic triggered - showing login modal');
+                this.authModal.show(true);
+            } else {
+                console.log('handleAuthFailure: logic suppressed - modal already visible');
+            }
         } else {
-            console.log('handleAuthFailure: logic suppressed (verification modal or signup in progress)');
+            console.log('handleAuthFailure: logic suppressed (verification modal or busy)');
         }
     }
 
