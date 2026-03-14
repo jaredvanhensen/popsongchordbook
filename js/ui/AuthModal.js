@@ -61,13 +61,6 @@ class AuthModal {
 
     setupEventListeners() {
         // Login form
-        if (this.loginBtn) {
-            this.loginBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleLogin();
-            });
-        }
-
         if (this.loginForm) {
             this.loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -76,13 +69,6 @@ class AuthModal {
         }
 
         // Create account form
-        if (this.createBtn) {
-            this.createBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleCreateAccount();
-            });
-        }
-
         if (this.createForm) {
             this.createForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -104,11 +90,8 @@ class AuthModal {
         }
 
         // Close button - disabled for auth modal (login is required)
-        // Do not allow closing the modal - user must login or create account
         if (this.closeBtn) {
-            // Hide the close button
             this.closeBtn.style.display = 'none';
-            // Remove any existing click handlers
             this.closeBtn.removeEventListener('click', this.hide);
         }
 
@@ -117,23 +100,6 @@ class AuthModal {
             this.modal.addEventListener('click', (e) => {
                 if (e.target === this.modal) {
                     // Don't allow closing by clicking backdrop - login is required
-                }
-            });
-        }
-
-        // Enter key handling
-        if (this.loginPasswordInput) {
-            this.loginPasswordInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    this.handleLogin();
-                }
-            });
-        }
-
-        if (this.createConfirmPasswordInput) {
-            this.createConfirmPasswordInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    this.handleCreateAccount();
                 }
             });
         }
@@ -262,6 +228,8 @@ class AuthModal {
     }
 
     async handleLogin() {
+        if (this.isLoading) return;
+
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 
@@ -287,6 +255,7 @@ class AuthModal {
         }
 
         // Show loading state
+        this.isLoading = true;
         this.setLoginLoading(true);
         this.clearErrors();
 
@@ -323,11 +292,13 @@ class AuthModal {
             console.error('Login error:', error);
             this.showLoginError('An error occurred. Please try again.');
         } finally {
+            this.isLoading = false;
             this.setLoginLoading(false);
         }
     }
 
     async handleResendVerification() {
+        if (this.isLoading) return;
         const email = this.loginEmailInput?.value.trim();
         const password = this.loginPasswordInput?.value;
 
@@ -336,6 +307,7 @@ class AuthModal {
             return;
         }
 
+        this.isLoading = true;
         this.setLoginLoading(true);
         this.clearErrors();
 
@@ -365,11 +337,14 @@ class AuthModal {
             console.error('Resend verification error:', error);
             this.showLoginError('An error occurred. Please try again.');
         } finally {
+            this.isLoading = false;
             this.setLoginLoading(false);
         }
     }
 
     async handleCreateAccount() {
+        if (this.isLoading) return;
+        
         const username = this.createUsernameInput?.value.trim();
         const email = this.createEmailInput?.value.trim();
         const password = this.createPasswordInput?.value;
@@ -407,6 +382,7 @@ class AuthModal {
         }
 
         // Show loading state
+        this.isLoading = true;
         this.setCreateLoading(true);
         this.clearErrors();
 
@@ -437,6 +413,7 @@ class AuthModal {
             console.error('Create account error:', error);
             this.showCreateError('An error occurred. Please try again.');
         } finally {
+            this.isLoading = false;
             this.setCreateLoading(false);
         }
     }
