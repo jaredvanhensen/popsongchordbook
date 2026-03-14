@@ -318,8 +318,14 @@ class AuthModal {
 
             if (result.success) {
                 if (!result.user.emailVerified) {
-                    await result.user.sendEmailVerification();
-                    this.showLoginSuccess('A new verification link has been sent to your email.');
+                    // Send with custom action URL so email scanners can't invalidate the token.
+                    // The link will go to our verify-email.html page which requires a button click.
+                    const actionCodeSettings = {
+                        url: window.location.origin + '/verify-email.html',
+                        handleCodeInApp: false
+                    };
+                    await result.user.sendEmailVerification(actionCodeSettings);
+                    this.showLoginSuccess('A verification link has been sent! Open it and click the button inside to verify.');
                     if (this.resendVerificationBtn) {
                         this.resendVerificationBtn.style.display = 'none';
                     }

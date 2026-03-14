@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - Pop Song Chord Book</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+
+        .icon { font-size: 64px; margin-bottom: 20px; }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .status {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status.success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+        .status.error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+        .status.info    { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; display: block; }
+
+        .loading { animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        #pendingSection { display: none; }
+        #successSection { display: none; }
+        #errorSection   { display: none; }
+        #loadingSection { display: block; }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <!-- Loading State -->
+        <div id="loadingSection">
+            <div class="icon">⏳</div>
+            <h1>Loading...</h1>
+            <p>Please wait while we prepare your verification.</p>
+        </div>
+
+        <!-- Pending — user must click button (NOT auto-applied, defeats scanners) -->
+        <div id="pendingSection">
+            <div class="icon">✉️</div>
+            <h1>Confirm your email</h1>
+            <p>Click the button below to complete your email verification for <strong id="pendingEmail"></strong>.</p>
+            <div id="pendingStatus" class="status"></div>
+            <button class="btn" id="verifyBtn" onclick="applyVerification()">✅ Verify my email</button>
+            <a href="songlist.html" class="btn btn-secondary">Back to Song Book</a>
+        </div>
+
+        <!-- Success State -->
+        <div id="successSection">
+            <div class="icon">🎉</div>
+            <h1>Email Verified!</h1>
+            <p>Your account is now fully activated. You can log in and start using the Pop Song Chord Book.</p>
+            <a href="songlist.html" class="btn">Go to Song List</a>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorSection">
+            <div class="icon">❌</div>
+            <h1>Verification Failed</h1>
+            <p id="errorMsg">This link may have expired. Please log in and request a new verification email.</p>
+            <a href="songlist.html" class="btn">Go to Song List</a>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="js/config/firebase-config.js"></script>
+
+    <script>
+        // ------------------------------------------------------------
+        // Parse URL query params
+        // ------------------------------------------------------------
+        const params = new URLSearchParams(window.location.search);
+        const mode   = params.get('mode');
+        const oobCode = params.get('oobCode');
+
+        // ------------------------------------------------------------
+        // Initialize Firebase
+        // ------------------------------------------------------------
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+
+        // ------------------------------------------------------------
+        // Show / hide sections helpers
+        // ------------------------------------------------------------
+        function show(id) {
+            ['loadingSection','pendingSection','successSection','errorSection']
+                .forEach(s => document.getElementById(s).style.display = (s === id ? 'block' : 'none'));
+        }
+
+        function setStatus(id, type, msg) {
+            const el = document.getElementById(id);
+            el.className = 'status ' + type;
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        // ------------------------------------------------------------
+        // On load — verify the oobCode exists and check its info
+        // ------------------------------------------------------------
+        window.addEventListener('load', async () => {
+            if (mode !== 'verifyEmail' || !oobCode) {
+                show('errorSection');
+                document.getElementById('errorMsg').textContent =
+                    'Invalid or missing verification link. Please request a new one from the login screen.';
+                return;
+            }
+
+            try {
+                // Check the action code info to get the email address (does NOT consume the token)
+                const info = await auth.checkActionCode(oobCode);
+                const email = info.data.email || '';
+                document.getElementById('pendingEmail').textContent = email;
+                show('pendingSection');
+            } catch (err) {
+                console.error('checkActionCode error:', err);
+                show('errorSection');
+                document.getElementById('errorMsg').textContent =
+                    'This verification link has expired or already been used. Please log in and click "Need a new verification link?" to get a fresh one.';
+            }
+        });
+
+        // ------------------------------------------------------------
+        // Called when user clicks the BUTTON — now we apply the code
+        // ------------------------------------------------------------
+        async function applyVerification() {
+            const btn = document.getElementById('verifyBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading">⏳</span> Verifying...';
+            setStatus('pendingStatus', 'info', 'Applying verification code...');
+
+            try {
+                await auth.applyActionCode(oobCode);
+                show('successSection');
+            } catch (err) {
+                console.error('applyActionCode error:', err);
+                btn.disabled = false;
+                btn.textContent = '✅ Verify my email';
+                if (err.code === 'auth/invalid-action-code' || err.code === 'auth/expired-action-code') {
+                    setStatus('pendingStatus', 'error',
+                        'This link has already been used or has expired. Please request a fresh verification email from the login screen.');
+                } else {
+                    setStatus('pendingStatus', 'error', 'Something went wrong: ' + err.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
