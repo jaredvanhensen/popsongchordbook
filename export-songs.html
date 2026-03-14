@@ -104,12 +104,13 @@ async function exportSongs() {
             return;
         }
 
-        // Convert Firebase object → clean array (strip Firebase keys / favorites)
+        // Convert Firebase object → clean array (strip personal/user-specific fields)
         const songs = Object.values(raw).map(song => {
-            // Deep-clone and reset personal fields
+            // Deep-clone and reset all personal fields
             const s = JSON.parse(JSON.stringify(song));
-            delete s.id;        // Firebase key — not needed
-            s.favorite = false; // New users start with no favorites
+            delete s.id;               // Firebase key — not needed
+            s.favorite = false;        // Reset to unfavorited
+            s.practiceCount = '';      // Reset practice teller / count
             return s;
         });
 
