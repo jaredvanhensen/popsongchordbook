@@ -38,6 +38,24 @@ class AuthModal {
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
 
+        if (this.loginForm) {
+            this.resendVerificationBtn = document.createElement('button');
+            this.resendVerificationBtn.type = 'button';
+            this.resendVerificationBtn.className = 'auth-toggle-link';
+            this.resendVerificationBtn.style.display = 'none';
+            this.resendVerificationBtn.style.margin = '10px auto';
+            this.resendVerificationBtn.textContent = 'Need a new verification link?';
+            
+            const toggleDiv = this.loginForm.querySelector('.auth-toggle');
+            if (toggleDiv) {
+                this.loginForm.insertBefore(this.resendVerificationBtn, toggleDiv);
+            }
+            
+            this.resendVerificationBtn.addEventListener('click', () => {
+                this.handleResendVerification();
+            });
+        }
+
         this.setupEventListeners();
     }
 
@@ -183,6 +201,7 @@ class AuthModal {
         if (this.loginForm) this.loginForm.classList.remove('hidden');
         if (this.createForm) this.createForm.classList.add('hidden');
         if (this.verificationForm) this.verificationForm.classList.add('hidden');
+        if (this.resendVerificationBtn) this.resendVerificationBtn.style.display = 'none';
         this.clearErrors();
     }
 
@@ -279,13 +298,8 @@ class AuthModal {
                 if (!result.user.emailVerified) {
                     this.showLoginError('Email not verified. Please check your inbox for a verification link.');
 
-                    // Automatically resend verification email on login attempt
-                    try {
-                        await result.user.sendEmailVerification();
-                        this.showLoginSuccess('A new verification email has been sent to your address.');
-                    } catch (error) {
-                        console.error('Error resending verification email:', error);
-                        this.showLoginError(`Email not verified. We tried to send a new link but failed (Error: ${error.code}).`);
+                    if (this.resendVerificationBtn) {
+                        this.resendVerificationBtn.style.display = 'block';
                     }
 
                     // Clear password field for security
@@ -307,6 +321,48 @@ class AuthModal {
             }
         } catch (error) {
             console.error('Login error:', error);
+            this.showLoginError('An error occurred. Please try again.');
+        } finally {
+            this.setLoginLoading(false);
+        }
+    }
+
+    async handleResendVerification() {
+        const email = this.loginEmailInput?.value.trim();
+        const password = this.loginPasswordInput?.value;
+
+        if (!email || !password) {
+            this.showLoginError('Please enter your email and password above, then click this button to resend.');
+            return;
+        }
+
+        this.setLoginLoading(true);
+        this.clearErrors();
+
+        try {
+            const result = await this.firebaseManager.signIn(email, password);
+
+            if (result.success) {
+                if (!result.user.emailVerified) {
+                    await result.user.sendEmailVerification();
+                    this.showLoginSuccess('A new verification link has been sent to your email.');
+                    if (this.resendVerificationBtn) {
+                        this.resendVerificationBtn.style.display = 'none';
+                    }
+                } else {
+                    this.showLoginSuccess('This email is already verified. You can log in.');
+                    if (this.resendVerificationBtn) {
+                        this.resendVerificationBtn.style.display = 'none';
+                    }
+                }
+                
+                await this.firebaseManager.signOut();
+                if (this.loginPasswordInput) this.loginPasswordInput.value = '';
+            } else {
+                this.showLoginError(result.error || 'Failed to verify credentials.');
+            }
+        } catch (error) {
+            console.error('Resend verification error:', error);
             this.showLoginError('An error occurred. Please try again.');
         } finally {
             this.setLoginLoading(false);

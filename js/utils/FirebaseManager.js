@@ -991,6 +991,7 @@ class FirebaseManager {
             'auth/user-disabled': 'Dit account is uitgeschakeld.',
             'auth/user-not-found': 'Geen account gevonden met dit e-mailadres.',
             'auth/wrong-password': 'Onjuist wachtwoord.',
+            'auth/invalid-credential': 'Not a registered user - Please create an account first.',
             'auth/too-many-requests': 'Te veel mislukte pogingen. Probeer later opnieuw.',
             'auth/network-request-failed': 'Netwerkfout. Controleer je internetverbinding.',
             'auth/requires-recent-login': 'Voor deze actie moet je recent zijn ingelogd. Log uit en log opnieuw in.'
