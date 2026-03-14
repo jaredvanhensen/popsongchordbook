@@ -128,9 +128,7 @@ class FirebaseManager {
                 }
             }
 
-            // Send verification email — Firebase will use the custom action URL
-            // configured in Firebase Console > Authentication > Templates > Email address verification
-            // so the link goes to verify-email.html (not Firebase's default page)
+            // Send verification email — Firebase console template routes link to verify-email.html
             let emailSent = false;
             if (this.currentUser) {
                 try {
@@ -142,9 +140,8 @@ class FirebaseManager {
                 }
             }
 
-            // Sign out — user must verify before they can log in
-            await this.signOut();
-
+            // NOTE: We do NOT sign out here. The caller (AuthModal) will sign out
+            // AFTER showing the verification screen, to avoid race conditions.
             return {
                 success: true,
                 user: { email: email },

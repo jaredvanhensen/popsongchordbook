@@ -404,25 +404,26 @@ class AuthModal {
                 if (this.loginEmailInput) this.loginEmailInput.value = email;
 
                 if (result.emailSent) {
-                    // Show "Check your email" screen
+                    // Show "Check your email" screen FIRST, then sign out
                     this.switchToVerificationMode(email);
+                    // Now sign out — isBusy keeps the modal from being reset
+                    await this.signOutAndKeepModal();
                 } else {
-                    // Email sending failed — tell user to request one manually
+                    // Email sending failed — sign out and tell user to request manually
+                    await this.signOutAndKeepModal();
                     this.switchToLoginMode();
                     this.showLoginError(`Account created! We couldn't send the verification email automatically. Please log in and click "Need a new verification link?".`);
                 }
             } else {
+                this.isBusy = false;
                 this.showCreateError(result.error || 'Account creation failed.');
             }
         } catch (error) {
             console.error('Create account error:', error);
+            this.isBusy = false;
             this.showCreateError('An error occurred. Please try again.');
         } finally {
             this.isLoading = false;
-            // Wait slightly before clearing isBusy to allow auth state listeners to settle
-            setTimeout(() => {
-                this.isBusy = false;
-            }, 2000);
             this.setCreateLoading(false);
         }
     }

@@ -1,4 +1,4 @@
-// Main Application (v2.203)
+// Main Application (v2.204)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.203)");
+        console.log("Pop Song Chord Book - App Initialized (v2.204)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -219,6 +219,11 @@ class App {
         // Enforce email verification
         if (user && !user.emailVerified) {
             console.log('User logged in but email not verified.');
+            // If signup is in progress, ignore this intermediate state
+            if (this.authModal && this.authModal.isBusy) {
+                console.log('handleAuthSuccess: unverified user ignored - signup in progress');
+                return;
+            }
             this.handleAuthFailure();
             if (this.authModal) {
                 this.authModal.showLoginError('Please verify your email address. Check your inbox.');
@@ -281,9 +286,16 @@ class App {
         this.songManager.disableSync();
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
-        // Show login modal
-        if (this.authModal) {
-            this.authModal.show(true);
+        // Show login modal — but NOT if signup/verification is in progress
+        if (this.authModal && !this.authModal.isBusy && !this.authModal.isShowingVerification) {
+            const isModalVisible = this.authModal.modal &&
+                                 (this.authModal.modal.style.display === 'flex' ||
+                                  !this.authModal.modal.classList.contains('hidden'));
+            if (!isModalVisible) {
+                this.authModal.show(true);
+            }
+        } else {
+            console.log('handleSignOut: modal show suppressed (busy or showing verification)');
         }
     }
 
