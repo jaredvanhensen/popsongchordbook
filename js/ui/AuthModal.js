@@ -318,14 +318,10 @@ class AuthModal {
 
             if (result.success) {
                 if (!result.user.emailVerified) {
-                    // Send with custom action URL so email scanners can't invalidate the token.
-                    // The link will go to our verify-email.html page which requires a button click.
-                    const actionCodeSettings = {
-                        url: window.location.origin + '/verify-email.html',
-                        handleCodeInApp: false
-                    };
-                    await result.user.sendEmailVerification(actionCodeSettings);
-                    this.showLoginSuccess('A verification link has been sent! Open it and click the button inside to verify.');
+                    // No actionCodeSettings needed — Firebase console template already routes
+                    // links through verify-email.html automatically.
+                    await result.user.sendEmailVerification();
+                    this.showLoginSuccess('A new verification link has been sent! Open the email and click the button to verify.');
                     if (this.resendVerificationBtn) {
                         this.resendVerificationBtn.style.display = 'none';
                     }
@@ -407,11 +403,14 @@ class AuthModal {
                 if (this.loginPasswordInput) this.loginPasswordInput.value = '';
                 if (this.loginEmailInput) this.loginEmailInput.value = email;
 
-                // Success message and transition to login
-                this.showLoginSuccess('Account created successfully! Please log in to receive your activation link.');
-                setTimeout(() => {
+                if (result.emailSent) {
+                    // Show "Check your email" screen
+                    this.switchToVerificationMode(email);
+                } else {
+                    // Email sending failed — tell user to request one manually
                     this.switchToLoginMode();
-                }, 2000);
+                    this.showLoginError(`Account created! We couldn't send the verification email automatically. Please log in and click "Need a new verification link?".`);
+                }
             } else {
                 this.showCreateError(result.error || 'Account creation failed.');
             }

@@ -128,12 +128,27 @@ class FirebaseManager {
                 }
             }
 
-            // SIGN OUT immediately. Verification will be handled via Login.
+            // Send verification email — Firebase will use the custom action URL
+            // configured in Firebase Console > Authentication > Templates > Email address verification
+            // so the link goes to verify-email.html (not Firebase's default page)
+            let emailSent = false;
+            if (this.currentUser) {
+                try {
+                    await this.currentUser.sendEmailVerification();
+                    console.log('Verification email sent to:', email);
+                    emailSent = true;
+                } catch (err) {
+                    console.error('Error sending verification email:', err);
+                }
+            }
+
+            // Sign out — user must verify before they can log in
             await this.signOut();
 
             return {
                 success: true,
-                user: { email: email, uid: userCredential.user.uid }
+                user: { email: email },
+                emailSent: emailSent
             };
         } catch (error) {
             console.error('Sign up error:', error);
