@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Songs - Pop Song Chord Book</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .card {
+            background: white; border-radius: 24px; padding: 48px 40px;
+            max-width: 520px; width: 100%; text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+        h1 { font-size: 1.75rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; }
+        p  { color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+        .btn {
+            display: block; width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; border-radius: 12px;
+            padding: 16px 32px; font-size: 1rem; font-weight: 600;
+            font-family: 'Inter',sans-serif; cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s; margin-bottom: 12px;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .status {
+            padding: 14px; border-radius: 10px; margin-bottom: 16px;
+            font-size: 0.9rem; font-weight: 500; display: none;
+        }
+        .status.info    { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; display: block; }
+        .status.success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+        .status.error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+        #userInfo { font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div style="font-size:48px;margin-bottom:16px;">📤</div>
+    <h1>Export My Songs</h1>
+    <p>This tool exports all your songs from Firebase and downloads a <code>default_songs.js</code> file that can be used as the new default library for all users.</p>
+    <div id="status" class="status info">Initializing Firebase...</div>
+    <div id="userInfo"></div>
+    <button class="btn" id="exportBtn" onclick="exportSongs()" disabled>⏳ Loading...</button>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="js/config/firebase-config.js"></script>
+<script>
+let currentUser = null;
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.database();
+
+function setStatus(type, msg) {
+    const el = document.getElementById('status');
+    el.className = 'status ' + type;
+    el.textContent = msg;
+}
+
+auth.onAuthStateChanged(user => {
+    const btn = document.getElementById('exportBtn');
+    if (user && user.emailVerified) {
+        currentUser = user;
+        document.getElementById('userInfo').textContent = 'Logged in as: ' + user.email;
+        setStatus('info', 'Ready to export. Click the button below.');
+        btn.disabled = false;
+        btn.textContent = '📥 Export & Download default_songs.js';
+    } else {
+        currentUser = null;
+        document.getElementById('userInfo').textContent = '';
+        setStatus('error', 'You must be logged in as a verified user to export songs. Please open songlist.html first to log in, then come back here.');
+        btn.disabled = true;
+        btn.textContent = 'Not logged in';
+    }
+});
+
+async function exportSongs() {
+    if (!currentUser) return;
+    const btn = document.getElementById('exportBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Exporting...';
+    setStatus('info', 'Reading songs from Firebase...');
+
+    try {
+        const uid = currentUser.uid;
+        const snap = await db.ref(`users/${uid}/songs`).once('value');
+        const raw = snap.val();
+
+        if (!raw) {
+            setStatus('error', 'No songs found in your library.');
+            btn.disabled = false;
+            btn.textContent = '📥 Export & Download default_songs.js';
+            return;
+        }
+
+        // Convert Firebase object → clean array (strip Firebase keys / favorites)
+        const songs = Object.values(raw).map(song => {
+            // Deep-clone and reset personal fields
+            const s = JSON.parse(JSON.stringify(song));
+            delete s.id;        // Firebase key — not needed
+            s.favorite = false; // New users start with no favorites
+            return s;
+        });
+
+        // Sort by artist then title
+        songs.sort((a, b) => {
+            const artistCmp = (a.artist || '').localeCompare(b.artist || '');
+            return artistCmp !== 0 ? artistCmp : (a.title || '').localeCompare(b.title || '');
+        });
+
+        const today = new Date().toISOString().split('T')[0];
+        const js = `// Default songs to be loaded for new users if their library is empty.\n// Exported from user "${currentUser.email}" on ${today}\n\nconst DEFAULT_SONGS = ${JSON.stringify(songs, null, 4)};\n`;
+
+        // Download the file
+        const blob = new Blob([js], { type: 'text/javascript' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url;
+        a.download = 'default_songs.js';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        setStatus('success', `✅ Exported ${songs.length} songs! Check your Downloads folder for default_songs.js.`);
+        btn.textContent = `✅ Exported ${songs.length} songs`;
+    } catch (err) {
+        console.error(err);
+        setStatus('error', 'Export failed: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = '📥 Export & Download default_songs.js';
+    }
+}
+</script>
+</body>
+</html>
