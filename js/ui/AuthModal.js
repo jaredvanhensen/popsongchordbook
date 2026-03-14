@@ -397,20 +397,15 @@ class AuthModal {
             if (result.success) {
                 this.clearErrors();
 
-                if (result.emailSent) {
-                    this.switchToVerificationMode(email);
-                } else {
-                    // Account created but email failed
-                    this.switchToCreateMode();
-                    this.showCreateError(`Account created, but we couldn't send the verification email (Error: ${result.emailError}). Please try logging in to resend it.`);
-                }
-
-                // Sign out because they shouldn't be "logged in" until verified
-                await this.firebaseManager.signOut();
-
                 // Clear the password fields
                 if (this.loginPasswordInput) this.loginPasswordInput.value = '';
                 if (this.loginEmailInput) this.loginEmailInput.value = email;
+
+                // Success message and transition to login
+                this.showLoginSuccess('Account created successfully! Please log in to receive your activation link.');
+                setTimeout(() => {
+                    this.switchToLoginMode();
+                }, 2000);
             } else {
                 this.showCreateError(result.error || 'Account creation failed.');
             }

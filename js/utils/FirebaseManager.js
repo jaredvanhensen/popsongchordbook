@@ -110,9 +110,6 @@ class FirebaseManager {
                 await this.currentUser.updateProfile({
                     displayName: username
                 });
-                // Reload user to get updated profile
-                await this.currentUser.reload();
-                this.currentUser = this.auth.currentUser;
             }
 
             // Store email in database for email lookup
@@ -128,30 +125,15 @@ class FirebaseManager {
                     await this.ensureEmailIndex(this.currentUser.uid, email);
                 } catch (error) {
                     console.error('Error storing email in database:', error);
-                    // Don't fail signup if this fails
                 }
             }
 
-            // Send email verification
-            let emailSent = false;
-            if (this.currentUser) {
-                try {
-                    console.log('Attempting to send verification email to:', this.currentUser.email);
-                    await this.currentUser.sendEmailVerification();
-                    console.log('Verification email SENT successfully.');
-                    emailSent = true;
-                } catch (error) {
-                    console.error('Error sending verification email:', error);
-                    // Store the error code to help debugging
-                    this.lastAuthError = error.code;
-                }
-            }
+            // SIGN OUT immediately. Verification will be handled via Login.
+            await this.signOut();
 
             return {
                 success: true,
-                user: this.currentUser,
-                emailSent: emailSent,
-                emailError: this.lastAuthError
+                user: { email: email, uid: userCredential.user.uid }
             };
         } catch (error) {
             console.error('Sign up error:', error);
