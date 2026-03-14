@@ -7,6 +7,8 @@ class AuthModal {
         this.isLoginMode = true; // true = login, false = create account
         this.isShowingVerification = false; // flag for email verification view
         this.allowHide = false; // Prevent closing modal - login is required
+        this.isLoading = false;
+        this.isBusy = false; // Flag for active signup/login process
 
         // Login elements
         this.loginEmailInput = document.getElementById('authLoginEmail');
@@ -343,7 +345,10 @@ class AuthModal {
     }
 
     async handleCreateAccount() {
-        if (this.isLoading) return;
+        if (this.isLoading || this.isBusy) return;
+        
+        console.log('Starting account creation flow...');
+        this.isBusy = true;
         
         const username = this.createUsernameInput?.value.trim();
         const email = this.createEmailInput?.value.trim();
@@ -414,6 +419,10 @@ class AuthModal {
             this.showCreateError('An error occurred. Please try again.');
         } finally {
             this.isLoading = false;
+            // Wait slightly before clearing isBusy to allow auth state listeners to settle
+            setTimeout(() => {
+                this.isBusy = false;
+            }, 2000);
             this.setCreateLoading(false);
         }
     }

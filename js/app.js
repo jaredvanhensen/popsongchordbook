@@ -1,4 +1,4 @@
-// Main Application (v2.198)
+// Main Application (v2.199)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.198)");
+        console.log("Pop Song Chord Book - App Initialized (v2.199)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -250,9 +250,12 @@ class App {
         this.songManager.disableSync();
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
-        // Show login modal (unless we are showing the verification confirmation)
-        if (this.authModal && !this.authModal.isShowingVerification) {
+        // Show login modal (unless we are showing the verification confirmation or signing up)
+        if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {
+            console.log('handleAuthFailure: logic triggered - showing login modal');
             this.authModal.show(true);
+        } else {
+            console.log('handleAuthFailure: logic suppressed (verification modal or signup in progress)');
         }
     }
 

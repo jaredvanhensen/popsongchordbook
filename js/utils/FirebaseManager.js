@@ -136,8 +136,9 @@ class FirebaseManager {
             let emailSent = false;
             if (this.currentUser) {
                 try {
+                    console.log('Attempting to send verification email to:', this.currentUser.email);
                     await this.currentUser.sendEmailVerification();
-                    console.log('Verification email sent to:', email);
+                    console.log('Verification email SENT successfully.');
                     emailSent = true;
                 } catch (error) {
                     console.error('Error sending verification email:', error);
