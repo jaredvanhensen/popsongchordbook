@@ -465,6 +465,12 @@ class ChordTrainer {
                     this.userSelection = this.userSelection.filter(n => n !== noteObj.value);
                 }
                 this.updatePianoHighlightsForNotes();
+
+                // Proactive check if user has selected enough notes
+                const uniqueTargetCount = new Set(this.currentChord.noteNames).size;
+                if (this.userSelection.length >= uniqueTargetCount) {
+                    this.checkAnswer(true);
+                }
             });
             this.dom.answerOptions.appendChild(btn);
         });
