@@ -373,8 +373,7 @@ class ChordTrainer {
 
     showChordOptions() {
         this.dom.answerOptions.classList.remove('hidden');
-        const correct = this.currentChord.name;
-        const options = [correct];
+        const options = [this.currentChord.name];
         
         // Use matching types for distractors based on level
         const roots = ['C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
@@ -387,7 +386,13 @@ class ChordTrainer {
             const root = roots[Math.floor(Math.random() * roots.length)];
             const type = types[Math.floor(Math.random() * types.length)];
             const opt = root + type;
-            if (!options.includes(opt)) options.push(opt);
+            
+            // Avoid duplicate enharmonic options
+            const isDuplicate = options.some(o => 
+                this.normalizeChordName(o) === this.normalizeChordName(opt)
+            );
+            
+            if (!isDuplicate) options.push(opt);
         }
         
         options.sort(() => Math.random() - 0.5);
@@ -450,8 +455,19 @@ class ChordTrainer {
 
     handleSelection(selection) {
         if (this.currentMode <= 2) {
-            this.validate(selection === this.currentChord.name);
+            const isCorrect = this.normalizeChordName(selection) === this.normalizeChordName(this.currentChord.name);
+            this.validate(isCorrect);
         }
+    }
+
+    normalizeChordName(name) {
+        if (!name) return "";
+        return name
+            .replace(/C#/g, 'Db')
+            .replace(/D#/g, 'Eb')
+            .replace(/F#/g, 'Gb')
+            .replace(/G#/g, 'Ab')
+            .replace(/A#/g, 'Bb');
     }
 
     checkAnswer(isAuto = false) {

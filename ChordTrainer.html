@@ -129,6 +129,31 @@
         </div>
     </div>
 
+    <!-- Session Complete Modal -->
+    <div id="sessionModal" class="modal-overlay">
+        <div class="modal-card flashy-card">
+            <div class="modal-header center">
+                <h2 class="flashy-title">🎉 SESSION COMPLETE!</h2>
+            </div>
+            <div class="modal-body">
+                <div class="session-results">
+                    <div class="result-stat">
+                        <span class="label">FINAL SCORE</span>
+                        <span id="sessionScore" class="value">0</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">ACCURACY</span>
+                        <span id="sessionAccuracy" class="value">0%</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">CHORDS PLAYED</span>
+                        <span id="sessionCount" class="value">0</span>
+                    </div>
+                </div>
+                <button id="sessionOkBtn" class="btn btn-primary btn-full flashy-btn">AWESOME!</button>
+            </div>
+        </div>
+    </div>
     <!-- Background Scripts -->
     <script src="js/utils/PianoAudioPlayer.js"></script>
     <script src="js/utils/ChordParser.js"></script>
