@@ -741,6 +741,10 @@ document.addEventListener("keydown", e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if (e.code === "Space") {
+        // Ignore if Song Map is open
+        const songMapOverlay = document.getElementById('songMapOverlay');
+        if (songMapOverlay && !songMapOverlay.classList.contains('hidden')) return;
+
         e.preventDefault();
         if (enableTimingCapture) {
             recordChord();
@@ -830,6 +834,14 @@ document.addEventListener("keydown", e => {
                 }
             }
         }
+    }
+
+    // Explicitly handle 'F' to prevent YouTube fullscreen interception if parent has focus
+    if (e.key.toLowerCase() === 'f') {
+        // Only prevent if not in an input, which is handled at the start of the listener
+        e.preventDefault();
+        console.log("Scrolling Chords: Intercepted 'F' key to prevent YouTube fullscreen");
+        // Future: could trigger a timeline-specific find or fullscreen here
     }
 });
 
@@ -2107,6 +2119,7 @@ if (syncFirstLyricBtn) {
                 null,
                 null,
                 'OK',
+                null,
                 'primary',
                 true // isInfo
             );
@@ -2151,6 +2164,7 @@ if (syncFirstLyricBtn) {
             null,
             null,
             'OK',
+            null,
             'primary',
             true // isInfo
         );
@@ -3492,6 +3506,15 @@ if (mapHeader && mapModal) {
         isMapWindowDragging = false;
         mapHeader.releasePointerCapture(e.pointerId);
     });
+
+    // CRITICAL: Prevent clicks and drags on the Song Map from bubbling to the parent timeline
+    // This stops the parent window from scrolling when dragging the Song Map
+    mapModal.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+    });
+    mapModal.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+    });
 }
 // Pointer move for seamless song map drag selection
 document.addEventListener('pointermove', (e) => {
@@ -3660,6 +3683,16 @@ function openSongMap() {
 
     // Stop playback while viewing map to avoid confusing visuals
     if (isPlaying) togglePlayPause();
+
+    // Ensure focus is on the document so we can catch keyboard events
+    window.focus();
+}
+
+// Global listener for the overlay to catch any clicks/drags that missed the modal content
+if (document.getElementById('songMapOverlay')) {
+    const mapOverlay = document.getElementById('songMapOverlay');
+    mapOverlay.addEventListener('pointerdown', (e) => e.stopPropagation());
+    mapOverlay.addEventListener('mousedown', (e) => e.stopPropagation());
 }
 
 function initCustomMapSectionsFromMarkers() {
@@ -3736,6 +3769,11 @@ function closeSongMap() {
         }
     }
     _forceCloseSongMap();
+}
+
+if (document.getElementById('closeSongMapBtn')) {
+    document.getElementById('closeSongMapBtn').addEventListener('pointerdown', (e) => e.stopPropagation());
+    document.getElementById('closeSongMapBtn').addEventListener('mousedown', (e) => e.stopPropagation());
 }
 
 function _forceCloseSongMap() {

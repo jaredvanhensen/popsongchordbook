@@ -3194,8 +3194,10 @@ class SongDetailModal {
             }
         };
 
-        // Check if YouTube URL has changed and show warning
-        if (youtubeUrl !== originalYoutubeUrl && originalYoutubeUrl !== '') {
+        // Check if YouTube URL has changed and show warning, but only when there are actual chords on the timeline
+        const song = this.songManager.getSongById(this.currentSongId);
+        const hasChords = song && song.chordData && Array.isArray(song.chordData.chords) && song.chordData.chords.length > 0;
+        if (youtubeUrl !== originalYoutubeUrl && originalYoutubeUrl !== '' && hasChords) {
             if (window.appInstance && window.appInstance.confirmationModal) {
                 window.appInstance.confirmationModal.show(
                     'YouTube URL Changed',
