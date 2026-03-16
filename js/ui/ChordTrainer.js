@@ -20,6 +20,7 @@ class ChordTrainer {
         
         this.userSelection = []; // Used for "Chord -> Keys" mode
         this.stats = JSON.parse(localStorage.getItem('chordTrainerStats') || '{}');
+        this.isQuestionHandled = false;
         
         this.init();
     }
@@ -280,6 +281,7 @@ class ChordTrainer {
     }
 
     nextQuestion() {
+        this.isQuestionHandled = false;
         this.clearBoard();
         this.generateRandomChord();
         this.setupQuestionByMode();
@@ -501,8 +503,11 @@ class ChordTrainer {
     }
 
     validate(isCorrect) {
+        if (this.isQuestionHandled && isCorrect) return;
+        
         this.totalQuestions++;
         if (isCorrect) {
+            this.isQuestionHandled = true;
             this.correctAnswers++;
             this.currentScore += 10;
             this.streak++;
