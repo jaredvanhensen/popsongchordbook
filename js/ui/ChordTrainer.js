@@ -221,7 +221,7 @@ class ChordTrainer {
                 this.audioPlayer.playNote(noteIndex + 12, 1.0, 0.8);
             }
             
-            // Collect notes for validation in Mode 3
+            // Collect notes for validation in Mode 3 & 4
             if (this.currentMode === 3) {
                 if (this.userSelection.includes(noteIndex)) {
                     // Toggle OFF if already selected
@@ -236,6 +236,32 @@ class ChordTrainer {
                     if (this.userSelection.length >= this.currentChord.notes.length) {
                         this.checkAnswer(true); // silent check
                     }
+                }
+            } else if (this.currentMode === 4) {
+                const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+                const noteName = noteNames[noteIndex % 12];
+                
+                // Toggle the button state and selection
+                if (this.userSelection.includes(noteName)) {
+                    this.userSelection = this.userSelection.filter(n => n !== noteName);
+                } else {
+                    this.userSelection.push(noteName);
+                }
+                
+                // Update UI buttons to reflect selection
+                document.querySelectorAll('#answerOptions .mode-btn').forEach(btn => {
+                    const btnLabel = btn.textContent;
+                    if (btnLabel.includes(noteName)) {
+                        btn.classList.toggle('active', this.userSelection.includes(noteName));
+                    }
+                });
+                
+                this.updatePianoHighlightsForNotes();
+
+                // Proactive check if user has selected enough notes
+                const uniqueTargetCount = new Set(this.currentChord.noteNames).size;
+                if (this.userSelection.length >= uniqueTargetCount) {
+                    this.checkAnswer(true);
                 }
             }
         } else {
