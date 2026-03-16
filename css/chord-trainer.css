@@ -215,7 +215,7 @@ body {
 }
 
 .chord-box {
-    width: 280px;
+    width: 320px;
     height: 180px;
     background: var(--chord-box-bg);
     border: 5px solid var(--chord-box-border);
@@ -228,6 +228,7 @@ body {
     position: relative;
     transform: rotateX(10deg);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0 15px;
 }
 
 .chord-box:hover {
@@ -235,13 +236,14 @@ body {
 }
 
 .chord-name {
-    font-size: 5rem;
+    font-size: 3.8rem;
     font-weight: 900;
     color: #92400e;
     margin: 0;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     line-height: 1;
     text-align: center;
+    width: 100%;
 }
 
 .chord-notes {
