@@ -367,7 +367,7 @@ class ChordTrainer {
                 break;
             case 4: // Chord -> Notes
                 this.dom.chordDisplay.textContent = this.currentChord.name;
-                this.dom.notesDisplay.textContent = 'Select the constituent notes:';
+                this.dom.notesDisplay.textContent = 'Select the right notes';
                 this.showNoteOptions();
                 break;
         }
@@ -410,20 +410,33 @@ class ChordTrainer {
 
     showNoteOptions() {
         this.dom.answerOptions.classList.remove('hidden');
-        const allNotes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'Bb', 'B'];
+        const notes = [
+            { label: 'C', value: 'C' },
+            { label: 'C#/Db', value: 'C#' },
+            { label: 'D', value: 'D' },
+            { label: 'D#/Eb', value: 'D#' },
+            { label: 'E', value: 'E' },
+            { label: 'F', value: 'F' },
+            { label: 'F#/Gb', value: 'F#' },
+            { label: 'G', value: 'G' },
+            { label: 'G#/Ab', value: 'G#' },
+            { label: 'A', value: 'A' },
+            { label: 'A#/Bb', value: 'A#' },
+            { label: 'B', value: 'B' }
+        ];
         
-        allNotes.forEach(note => {
+        notes.forEach(noteObj => {
             const btn = document.createElement('button');
             btn.className = 'mode-btn';
-            btn.style.minWidth = '50px';
+            btn.style.minWidth = '75px';
             btn.style.padding = '10px';
-            btn.textContent = note;
+            btn.textContent = noteObj.label;
             btn.addEventListener('click', () => {
                 btn.classList.toggle('active');
                 if (btn.classList.contains('active')) {
-                    this.userSelection.push(note);
+                    this.userSelection.push(noteObj.value);
                 } else {
-                    this.userSelection = this.userSelection.filter(n => n !== note);
+                    this.userSelection = this.userSelection.filter(n => n !== noteObj.value);
                 }
                 this.updatePianoHighlightsForNotes();
             });
