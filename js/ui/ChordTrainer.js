@@ -89,10 +89,20 @@ class ChordTrainer {
         if (this.dom.difficultyLabel) {
             this.dom.difficultyLabel.textContent = diffLabels[this.difficultyLevel];
         }
+
+        if (this.dom.modeCycleBtn) {
+            const modeNames = {
+                1: '1. Play the Chord',
+                2: '2. Notes → Chord',
+                3: '3. Shape to Chord',
+                4: '4. Chord → Notes'
+            };
+            this.dom.modeCycleBtn.textContent = `🔄 ${modeNames[this.currentMode]}`;
+        }
     }
 
     isMobile() {
-        return window.innerWidth < 600;
+        return window.innerWidth < 640 || window.matchMedia("(pointer: coarse)").matches;
     }
 
     setupDOM() {
@@ -127,7 +137,8 @@ class ChordTrainer {
             sessionAccuracy: document.getElementById('sessionAccuracy'),
             sessionCount: document.getElementById('sessionCount'),
             toggleKeyboardBtn: document.getElementById('toggleKeyboardBtn'),
-            keyboardSection: document.querySelector('.keyboard-section')
+            keyboardSection: document.querySelector('.keyboard-section'),
+            modeCycleBtn: document.getElementById('modeCycleBtn')
         };
     }
 
@@ -138,10 +149,21 @@ class ChordTrainer {
                 document.querySelectorAll('.mode-btn[data-mode]').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 this.currentMode = parseInt(btn.dataset.mode);
-                this.resetSession();
+                this.updateToggleLabels();
+                this.resetSession(); // Reset session when changing mode via desktop buttons
                 this.nextQuestion();
             });
         });
+
+        // Mode Cycle button (Mobile)
+        if (this.dom.modeCycleBtn) {
+            this.dom.modeCycleBtn.addEventListener('click', () => {
+                this.currentMode = (this.currentMode % 4) + 1;
+                this.updateToggleLabels();
+                this.resetSession(); // Reset session when changing mode via mobile cycle button
+                this.nextQuestion();
+            });
+        }
 
         // Timer buttons
         if (this.dom.timerCycleBtn) {
@@ -276,8 +298,8 @@ class ChordTrainer {
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         
         const isMobile = this.isMobile();
-        const numOctaves = isMobile ? 1.5 : 3;
-        const startOctave = isMobile ? 5 : 4; // Mobile: C4 to G5 (MIDI 60 to 79), Desktop: C3 to B5 (MIDI 48 to 83)
+        const numOctaves = isMobile ? 2 : 3;
+        const startOctave = isMobile ? 5 : 4; // Mobile: C4 to B5 (24 keys), Desktop: C3 to B5 (36 keys)
         const totalKeys = Math.floor(numOctaves * 12);
 
         let keyCount = 0;
@@ -578,7 +600,7 @@ class ChordTrainer {
         
         options.forEach(opt => {
             const btn = document.createElement('button');
-            btn.className = 'mode-btn';
+            btn.className = this.isMobile() ? 'mode-btn small-btn' : 'mode-btn';
             btn.textContent = opt;
             btn.addEventListener('click', () => this.handleSelection(opt));
             this.dom.answerOptions.appendChild(btn);
@@ -587,6 +609,12 @@ class ChordTrainer {
 
     showNoteOptions() {
         this.dom.answerOptions.classList.remove('hidden');
+        if (this.isMobile()) {
+            this.dom.answerOptions.classList.add('note-grid');
+        } else {
+            this.dom.answerOptions.classList.remove('note-grid');
+        }
+        
         const notes = [
             { label: 'C', value: 'C' },
             { label: 'C#/Db', value: 'C#' },
@@ -764,12 +792,26 @@ class ChordTrainer {
     }
 
     updateStatsDisplay() {
+        const isMob = this.isMobile();
         this.dom.currentScore.textContent = this.currentScore;
-        this.dom.bestStreak.textContent = this.bestStreak;
-        this.dom.totalChords.textContent = this.totalQuestions;
-        
-        const acc = this.totalQuestions > 0 ? Math.round((this.correctAnswers / this.totalQuestions) * 100) : 0;
-        this.dom.accuracyValue.textContent = `${acc}%`;
+        this.dom.accuracyValue.textContent = `${this.totalQuestions === 0 ? 0 : Math.round((this.correctAnswers / this.totalQuestions) * 100)}%`;
+        this.dom.bestStreak.textContent = this.streak;
+        this.dom.totalChords.textContent = this.correctAnswers;
+
+        // Space saving labels for footer on mobile
+        // Space saving labels for footer on mobile
+        const footerLabels = document.querySelectorAll('.stats-panel .stat-item .stat-label');
+        if (isMob && footerLabels.length >= 4) {
+            footerLabels[0].textContent = 'SCORE';
+            footerLabels[1].textContent = 'ACC';
+            footerLabels[2].textContent = 'STREAK';
+            footerLabels[3].textContent = 'TOTAL';
+        } else if (!isMob && footerLabels.length >= 4) {
+            footerLabels[0].textContent = 'Current Score';
+            footerLabels[1].textContent = 'Accuracy';
+            footerLabels[2].textContent = 'Best Streak';
+            footerLabels[3].textContent = 'Session Chords';
+        }
     }
 
     getNoteName(noteIndex, rootOverride = null) {

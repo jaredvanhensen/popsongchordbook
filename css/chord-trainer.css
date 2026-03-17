@@ -92,6 +92,15 @@ body {
     color: white;
 }
 
+/* Visibility Utilities */
+.mobile-only { display: none !important; }
+.desktop-only { display: block !important; }
+
+@media (max-width: 600px) {
+    .mobile-only { display: block !important; }
+    .desktop-only { display: none !important; }
+}
+
 /* HUD Row Layout */
 .trainer-meta-row {
     padding: 10px 30px;
@@ -618,24 +627,26 @@ body {
         box-sizing: border-box;
     }
     
-    /* Grid instead of scroll for modes */
+    /* Mode Selector Refinements */
     .mode-selector { 
         width: 100%; 
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
+        display: block;
         padding: 0;
         box-sizing: border-box;
     }
-    .mode-btn { 
-        font-size: 0.7rem; 
-        padding: 8px 4px; 
+    .mode-selector .mode-btn[data-mode] { 
+        display: none; 
+    }
+    #modeCycleBtn {
+        display: block !important;
         width: 100%;
-        text-align: center;
-        border-radius: 6px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        margin-bottom: 8px;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        color: #1e293b;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 12px;
     }
     
     .control-group { 
@@ -658,10 +669,44 @@ body {
         min-width: 60px;
         text-align: center;
     }
-    .open-stats-btn { min-width: 0; padding: 10px 15px; }
-    .open-stats-btn .label { display: none; }
+    /* Tight Answer Row for Modes 2 & 3 */
+    #answerOptions {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        justify-content: center;
+        padding: 5px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
     
-    .trainer-workbench { padding: 10px; }
+    /* Specific Grid for Mode 4 Note Selection */
+    #answerOptions.note-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 4px !important;
+        padding: 5px !important;
+    }
+    
+    .small-btn {
+        flex: 1;
+        min-width: 0 !important;
+        font-size: 0.65rem !important;
+        padding: 8px 2px !important;
+        border-radius: 6px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+    }
+    
+    #answerOptions.note-grid .small-btn {
+        font-size: 0.6rem !important;
+        padding: 10px 1px !important;
+    }
     
     .chord-box {
         width: 160px;
@@ -672,8 +717,9 @@ body {
     .chord-name { font-size: 2rem !important; }
     .chord-notes { font-size: 0.8rem !important; }
     
-    .white-key { width: 45px; height: 140px; }
-    .black-key { width: 28px; height: 90px; margin-left: -14px; margin-right: -14px; }
+    .piano { height: 140px !important; }
+    .white-key { width: 25px; height: 130px; }
+    .black-key { width: 16px; height: 85px; margin-left: -8px; margin-right: -8px; }
     
     .key-label {
         bottom: 5px;
@@ -699,7 +745,21 @@ body {
     }
 
     /* Horizontal Stat Items on Mobile */
-    .trainer-footer { padding: 5px; }
+    .trainer-footer { 
+        padding: 4px 6px; 
+    }
+    .trainer-footer .stat-item {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 4px;
+    }
+    .trainer-footer .stat-item .label {
+        font-size: 0.6rem !important;
+        opacity: 0.7;
+    }
+    .trainer-footer .stat-item .value {
+        font-size: 0.8rem !important;
+    }
     .stats-panel { 
         padding: 10px 15px; 
         gap: 5px; 
