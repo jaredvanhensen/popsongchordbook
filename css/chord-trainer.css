@@ -215,7 +215,7 @@ body {
 }
 
 .chord-box {
-    width: 280px;
+    width: 420px;
     height: 180px;
     background: var(--chord-box-bg);
     border: 5px solid var(--chord-box-border);

@@ -191,7 +191,7 @@ class ChordTrainer {
         this.dom.piano.innerHTML = '';
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         const numOctaves = 3;
-        const startOctave = 3; // C3 to B5
+        const startOctave = 4; // C3 to B5 (MIDI 48 to 83)
 
         for (let o = 0; o < numOctaves; o++) {
             notes.forEach((note, i) => {
@@ -217,8 +217,7 @@ class ChordTrainer {
         if (isPressed) {
             key.classList.add('active');
             if (isMouse && this.isAudioEnabled) {
-                // Play 1 octave higher (+12 semitones)
-                this.audioPlayer.playNote(noteIndex + 12, 1.0, 0.8);
+                this.audioPlayer.playNote(noteIndex, 1.0, 0.8);
             }
             
             // Collect notes for validation in Mode 3 & 4
@@ -385,7 +384,7 @@ class ChordTrainer {
             baseName: chordName,
             root: root,
             notes: adjustedNotes,
-            noteNames: adjustedNotes.map(n => this.getNoteName(n)),
+            noteNames: adjustedNotes.map(n => this.getNoteName(n, root)),
             inversion: inversion
         };
     }
@@ -640,8 +639,15 @@ class ChordTrainer {
         this.dom.accuracyValue.textContent = `${acc}%`;
     }
 
-    getNoteName(noteIndex) {
-        const names = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+    getNoteName(noteIndex, rootOverride = null) {
+        const sharps = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const flats = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+        
+        const root = rootOverride || (this.currentChord ? this.currentChord.root : 'C');
+        // Chords that should prefer flats to follow 'skip one letter' rule (e.g., Cm needs Eb, Gm needs Bb)
+        const preferFlats = root.includes('b') || ['F', 'C', 'G'].includes(root);
+        
+        const names = preferFlats ? flats : sharps;
         return names[noteIndex % 12];
     }
 
