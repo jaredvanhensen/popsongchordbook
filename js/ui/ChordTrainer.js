@@ -250,8 +250,8 @@ class ChordTrainer {
                 
                 // Update UI buttons to reflect selection
                 document.querySelectorAll('#answerOptions .mode-btn').forEach(btn => {
-                    const btnLabel = btn.textContent;
-                    if (btnLabel.includes(noteName)) {
+                    const btnValue = btn.dataset.value;
+                    if (btnValue === noteName) {
                         btn.classList.toggle('active', this.userSelection.includes(noteName));
                     }
                 });
@@ -335,31 +335,48 @@ class ChordTrainer {
             types = ['7', 'maj7', 'm7', 'maj9', 'm9', 'sus2', 'sus4', 'add9', 'dim7'];
         }
         
-        const root = roots[Math.floor(Math.random() * roots.length)];
-        const type = types[Math.floor(Math.random() * types.length)];
-        let chordName = root + type;
-        
-        const parsed = this.chordParser.parse(chordName) || this.chordParser.parse('C');
-        let notes = parsed && parsed.notes ? [...parsed.notes] : [48, 52, 55];
-        
-        // Handle random inversion / slash chords
-        let inversion = 0;
-        let displayName = chordName;
-        
-        if (this.useInversions && Math.random() > 0.4) {
-            inversion = Math.floor(Math.random() * notes.length);
+        let root, type, chordName, displayName, notes, inversion;
+
+        // Loop to ensure the new chord is different from the current one
+        do {
+            root = roots[Math.floor(Math.random() * roots.length)];
+            type = types[Math.floor(Math.random() * types.length)];
+            chordName = root + type;
+            
+            const parsed = this.chordParser.parse(chordName) || this.chordParser.parse('C');
+            notes = parsed && parsed.notes ? [...parsed.notes] : [48, 52, 55];
+            
+            // Handle random inversion / slash chords
+            inversion = 0;
+            displayName = chordName;
+            
+            if (this.useInversions && Math.random() > 0.4) {
+                inversion = Math.floor(Math.random() * notes.length);
+                if (inversion > 0) {
+                    // Check bass note for display name without permanent mutation yet
+                    const n0 = notes[inversion % notes.length]; 
+                    // This is simple logic: notes[inversion] is roughly the new bass if we rotated
+                    // But notes.shift() is what actually happens in the original code. 
+                    // Let's just do a mock rotation.
+                    const tempNotesForDisplay = [...notes];
+                    for(let i=0; i<inversion; i++) {
+                        const n = tempNotesForDisplay.shift();
+                        tempNotesForDisplay.push(n + 12);
+                    }
+                    const bassNote = this.getNoteName(tempNotesForDisplay[0]);
+                    displayName = `${chordName}/${bassNote}`;
+                }
+            }
+        } while (this.currentChord && displayName === this.currentChord.name);
+
+        // Finalize the notes after uniqueness check
+        if (inversion > 0) {
             for(let i=0; i<inversion; i++) {
                 const n = notes.shift();
                 notes.push(n + 12);
             }
-            
-            if (inversion > 0) {
-                const bassNote = this.getNoteName(notes[0]);
-                displayName = `${chordName}/${bassNote}`;
-            }
         }
 
-        // Apply base octave (range C3-B5 is 48-71)
         const adjustedNotes = notes.map(n => n); 
 
         this.currentChord = {
@@ -457,6 +474,7 @@ class ChordTrainer {
             btn.style.minWidth = '75px';
             btn.style.padding = '10px';
             btn.textContent = noteObj.label;
+            btn.dataset.value = noteObj.value; // Store value for exact matching
             btn.addEventListener('click', () => {
                 btn.classList.toggle('active');
                 if (btn.classList.contains('active')) {
