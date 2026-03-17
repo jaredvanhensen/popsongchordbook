@@ -277,7 +277,7 @@ class ChordTrainer {
         
         const isMobile = this.isMobile();
         const numOctaves = isMobile ? 1.5 : 3;
-        const startOctave = 4; // C3 to B5 (MIDI 48 to 83)
+        const startOctave = isMobile ? 5 : 4; // Mobile: C4 to G5 (MIDI 60 to 79), Desktop: C3 to B5 (MIDI 48 to 83)
         const totalKeys = Math.floor(numOctaves * 12);
 
         let keyCount = 0;
