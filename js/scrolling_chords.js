@@ -15,6 +15,8 @@ const instructions = document.getElementById('instructions');
 const metronomeBtn = document.getElementById('metronomeBtn');
 const bpmBtn = document.getElementById('bpmBtn');
 const saveBtn = document.getElementById('saveBtn');
+const undoBtn = document.getElementById('undoBtn');
+const redoBtn = document.getElementById('redoBtn');
 const clearDataBtn = document.getElementById('clearDataBtn');
 const restartBtn = document.getElementById('restartBtn');
 const audioToggleBtn = document.getElementById('audioToggleBtn');
@@ -319,6 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fwdBtn) fwdBtn.addEventListener('click', () => seek(10));
     if (exportBtn) exportBtn.addEventListener('click', exportToJSON);
     if (saveBtn) saveBtn.addEventListener('click', saveToDatabase);
+    if (undoBtn) undoBtn.addEventListener('click', undo);
+    if (redoBtn) redoBtn.addEventListener('click', redo);
     if (clearDataBtn) clearDataBtn.addEventListener('click', clearData);
     if (metronomeBtn) metronomeBtn.addEventListener('click', toggleMetronome);
     if (bpmBtn) bpmBtn.addEventListener('click', changeBpm);
@@ -2271,31 +2275,28 @@ function checkForChanges() {
     if (!saveBtn) return;
     const hasUnsavedChanges = checkIfHasChanges();
 
-    const isMobile = window.innerWidth < 768 || window.matchMedia("(orientation: portrait)").matches;
-
     if (hasUnsavedChanges) {
         saveBtn.classList.remove('hidden');
+        saveBtn.classList.add('unsaved-changes');
         saveBtn.disabled = false;
         saveBtn.style.opacity = '1';
         setSaveStatus(false);
     } else {
-        if (isMobile) {
-            saveBtn.classList.add('hidden');
-        } else {
-            saveBtn.classList.remove('hidden');
-            saveBtn.disabled = true;
-            saveBtn.style.opacity = '0.5';
-        }
+        saveBtn.classList.add('hidden');
+        saveBtn.classList.remove('unsaved-changes');
+        saveBtn.disabled = true;
     }
 
     const mapSaveBtn = document.getElementById('songMapSaveBtn');
     if (mapSaveBtn) {
         if (hasUnsavedChanges) {
             mapSaveBtn.classList.remove('hidden');
+            mapSaveBtn.classList.add('unsaved-changes');
             mapSaveBtn.disabled = false;
             mapSaveBtn.style.opacity = '1';
         } else {
             mapSaveBtn.classList.add('hidden');
+            mapSaveBtn.classList.remove('unsaved-changes');
             mapSaveBtn.disabled = true;
             mapSaveBtn.style.opacity = '0.5';
         }

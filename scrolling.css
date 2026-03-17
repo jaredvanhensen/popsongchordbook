@@ -260,6 +260,35 @@ button:disabled {
     box-shadow: 0 6px 0px 0px #8a0b1a, 0 12px 20px rgba(211, 16, 39, 0.35);
 }
 
+/* Primary/Navigation: Undo/Redo */
+#undoBtn:not(:disabled),
+#redoBtn:not(:disabled) {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%) !important;
+    color: white !important;
+    border: none;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    box-shadow: 0 4px 0px 0px #312e81, 0 8px 15px rgba(99, 102, 241, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+#undoBtn:hover:not(:disabled),
+#redoBtn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%) !important;
+    box-shadow: 0 6px 0px 0px #312e81, 0 12px 20px rgba(99, 102, 241, 0.35);
+    transform: translateY(-2px);
+}
+
+#undoBtn:active, #redoBtn:active {
+    transform: translateY(2px);
+    box-shadow: 0 0px 0px 0px #312e81;
+}
+
 /* Orange/Gold Category: Selection Tools */
 #duplicateBtn {
     background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
@@ -597,6 +626,20 @@ button:disabled {
     background: #f0fdf4;
     border-color: #bbf7d0;
     color: #16a34a;
+}
+
+#saveBtn.unsaved-changes {
+    background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 0px 0px #8b4513, 0 8px 20px rgba(255, 69, 0, 0.4) !important;
+    animation: saveButtonPulse 2s infinite;
+}
+
+@keyframes saveButtonPulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.2); transform: scale(1.05); }
+    100% { filter: brightness(1); }
 }
 
 
@@ -4456,8 +4499,8 @@ body.ctrl-held .chord-item {
 }
 
 .chord-progression-close svg {
-    width: 22px;
-    height: 22px;
+    width: 24px !important;
+    height: 24px !important;
     display: block;
 }
 
