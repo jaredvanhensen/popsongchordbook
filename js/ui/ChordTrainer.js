@@ -37,6 +37,62 @@ class ChordTrainer {
         if (window.midiInputHandler) {
             this.setupMidiHook();
         }
+
+        // Listen for resize to update keyboard on mobile
+        window.addEventListener('resize', () => {
+            const wasMobile = this.isMobile();
+            if (this.lastWasMobile !== wasMobile) {
+                this.generateKeys();
+                this.updateToggleLabels();
+                this.updateToggleKeyboardBtnLabel();
+                this.updateTimerBtnLabel();
+                this.lastWasMobile = wasMobile;
+            }
+        });
+        this.lastWasMobile = this.isMobile();
+        this.updateToggleLabels();
+        this.updateToggleKeyboardBtnLabel();
+        this.updateTimerBtnLabel();
+    }
+
+    updateTimerBtnLabel() {
+        if (!this.dom.timerCycleBtn) return;
+        const isMob = this.isMobile();
+        const times = [0, 60, 120, 180];
+        const labels = isMob 
+            ? ['⏱ FREE', '⏱ 1M', '⏱ 2M', '⏱ 3M']
+            : ['⏱ FREE PLAY', '⏱ 1 MIN', '⏱ 2 MIN', '⏱ 3 MIN'];
+        
+        let currentIdx = times.indexOf(this.timerLimit || 0);
+        this.dom.timerCycleBtn.textContent = labels[currentIdx];
+    }
+
+    updateToggleLabels() {
+        const isMob = this.isMobile();
+        
+        // Audio
+        this.dom.audioToggle.querySelector('.label').textContent = this.isAudioEnabled 
+            ? (isMob ? 'ON' : 'AUDIO ON') 
+            : (isMob ? 'OFF' : 'AUDIO OFF');
+        this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
+
+        // Inversions
+        this.dom.inversionToggle.querySelector('.label').textContent = this.useInversions 
+            ? (isMob ? 'INV' : 'INVERSIONS ON') 
+            : (isMob ? 'NO INV' : 'INVERSIONS OFF');
+
+        // Difficulty
+        const diffLabels = isMob 
+            ? { 1: 'LVL 1', 2: 'LVL 2', 3: 'LVL 3' } 
+            : { 1: 'LEVEL 1: TRIADS', 2: 'LEVEL 2: INVERSIONS', 3: 'LEVEL 3: 4-NOTE' };
+        
+        if (this.dom.difficultyLabel) {
+            this.dom.difficultyLabel.textContent = diffLabels[this.difficultyLevel];
+        }
+    }
+
+    isMobile() {
+        return window.innerWidth < 600;
     }
 
     setupDOM() {
@@ -69,7 +125,9 @@ class ChordTrainer {
             sessionOkBtn: document.getElementById('sessionOkBtn'),
             sessionScore: document.getElementById('sessionScore'),
             sessionAccuracy: document.getElementById('sessionAccuracy'),
-            sessionCount: document.getElementById('sessionCount')
+            sessionCount: document.getElementById('sessionCount'),
+            toggleKeyboardBtn: document.getElementById('toggleKeyboardBtn'),
+            keyboardSection: document.querySelector('.keyboard-section')
         };
     }
 
@@ -88,8 +146,11 @@ class ChordTrainer {
         // Timer buttons
         if (this.dom.timerCycleBtn) {
             this.dom.timerCycleBtn.addEventListener('click', () => {
+                const isMob = this.isMobile();
                 const times = [0, 60, 120, 180];
-                const labels = ['⏱ FREE PLAY', '⏱ 1 MIN', '⏱ 2 MIN', '⏱ 3 MIN'];
+                const labels = isMob 
+                    ? ['⏱ FREE', '⏱ 1M', '⏱ 2M', '⏱ 3M']
+                    : ['⏱ FREE PLAY', '⏱ 1 MIN', '⏱ 2 MIN', '⏱ 3 MIN'];
                 
                 // Find current index
                 let currentIdx = times.indexOf(this.timerLimit || 0);
@@ -107,14 +168,13 @@ class ChordTrainer {
         this.dom.audioToggle.addEventListener('click', () => {
             this.isAudioEnabled = !this.isAudioEnabled;
             this.dom.audioToggle.classList.toggle('active', this.isAudioEnabled);
-            this.dom.audioToggle.querySelector('.label').textContent = this.isAudioEnabled ? 'AUDIO ON' : 'AUDIO OFF';
-            this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
+            this.updateToggleLabels();
         });
 
         this.dom.inversionToggle.addEventListener('click', () => {
             this.useInversions = !this.useInversions;
             this.dom.inversionToggle.classList.toggle('active', this.useInversions);
-            this.dom.inversionToggle.querySelector('.label').textContent = this.useInversions ? 'INVERSIONS ON' : 'INVERSIONS OFF';
+            this.updateToggleLabels();
             
             // If we disable inversions, regenerate to fix the display name immediately
             if (!this.useInversions && this.currentChord && this.currentChord.inversion > 0) {
@@ -126,24 +186,17 @@ class ChordTrainer {
         if (this.dom.difficultyToggle) {
             this.dom.difficultyToggle.addEventListener('click', () => {
                 this.difficultyLevel = (this.difficultyLevel % 3) + 1;
-                const labels = {
-                    1: 'LEVEL 1: TRIADS',
-                    2: 'LEVEL 2: INVERSIONS',
-                    3: 'LEVEL 3: 4-NOTE'
-                };
-                this.dom.difficultyLabel.textContent = labels[this.difficultyLevel];
                 
                 // Set inversion setting based on level
                 if (this.difficultyLevel >= 2) {
                     this.useInversions = true;
                     this.dom.inversionToggle.classList.add('active');
-                    this.dom.inversionToggle.querySelector('.label').textContent = 'INVERSIONS ON';
                 } else {
                     this.useInversions = false;
                     this.dom.inversionToggle.classList.remove('active');
-                    this.dom.inversionToggle.querySelector('.label').textContent = 'INVERSIONS OFF';
                 }
                 
+                this.updateToggleLabels();
                 this.nextQuestion();
             });
         }
@@ -165,6 +218,37 @@ class ChordTrainer {
                 this.resetSession();
                 this.nextQuestion();
             });
+        }
+
+        if (this.dom.toggleKeyboardBtn) {
+            this.dom.toggleKeyboardBtn.addEventListener('click', () => {
+                this.dom.keyboardSection.classList.toggle('hidden');
+                const isHidden = this.dom.keyboardSection.classList.contains('hidden');
+                
+                // When showing in Chord -> Notes, ensure it's not 'invisible'
+                if (!isHidden) this.dom.keyboardSection.classList.remove('invisible');
+                
+                // Icon only for mobile or both? User said "replace text by icon". 
+                // I'll update it for both but keep it clean.
+                this.updateToggleKeyboardBtnLabel();
+            });
+        }
+    }
+
+    updateToggleKeyboardBtnLabel() {
+        if (!this.dom.toggleKeyboardBtn) return;
+        const isHidden = this.dom.keyboardSection.classList.contains('hidden');
+        if (this.isMobile()) {
+            this.dom.toggleKeyboardBtn.textContent = '🎹';
+            // Slate theme instead of yellow
+            this.dom.toggleKeyboardBtn.style.background = isHidden ? '#e2e8f0' : '#94a3b8';
+            this.dom.toggleKeyboardBtn.style.color = isHidden ? '#475569' : '#ffffff';
+            this.dom.toggleKeyboardBtn.style.boxShadow = isHidden ? 'none' : 'inset 0 2px 4px rgba(0,0,0,0.1)';
+        } else {
+            this.dom.toggleKeyboardBtn.textContent = isHidden ? 'SHOW KEYBOARD' : 'HIDE KEYBOARD';
+            this.dom.toggleKeyboardBtn.style.background = isHidden ? '#fbbf24' : '#f59e0b';
+            this.dom.toggleKeyboardBtn.style.color = isHidden ? '#78350f' : '#ffffff';
+            this.dom.toggleKeyboardBtn.style.boxShadow = 'none';
         }
     }
 
@@ -190,23 +274,50 @@ class ChordTrainer {
     generateKeys() {
         this.dom.piano.innerHTML = '';
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const numOctaves = 3;
+        
+        const isMobile = this.isMobile();
+        const numOctaves = isMobile ? 1.5 : 3;
         const startOctave = 4; // C3 to B5 (MIDI 48 to 83)
+        const totalKeys = Math.floor(numOctaves * 12);
 
-        for (let o = 0; o < numOctaves; o++) {
-            notes.forEach((note, i) => {
+        let keyCount = 0;
+        for (let o = 0; o < Math.ceil(numOctaves); o++) {
+            for (let i = 0; i < 12; i++) {
+                if (keyCount >= totalKeys) break;
+                
+                const noteName = notes[i];
                 const noteIndex = (startOctave + o) * 12 + i;
-                const isBlack = note.includes('#');
+                
+                const isBlack = noteName.includes('#');
                 const key = document.createElement('div');
                 key.className = isBlack ? 'black-key' : 'white-key';
                 key.dataset.note = noteIndex;
                 
-                key.addEventListener('mousedown', () => this.handleKeyPress(noteIndex, true, true));
+                // Add note name to white keys on mobile
+                if (!isBlack && isMobile) {
+                    const label = document.createElement('span');
+                    label.className = 'key-label';
+                    label.textContent = noteName;
+                    key.appendChild(label);
+                }
+
+                key.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    this.handleKeyPress(noteIndex, true, true);
+                });
                 key.addEventListener('mouseup', () => this.handleKeyPress(noteIndex, false, true));
                 key.addEventListener('mouseleave', () => this.handleKeyPress(noteIndex, false, true));
                 
+                // Touch support
+                key.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.handleKeyPress(noteIndex, true, true);
+                });
+                key.addEventListener('touchend', () => this.handleKeyPress(noteIndex, false, true));
+
                 this.dom.piano.appendChild(key);
-            });
+                keyCount++;
+            }
         }
     }
 
@@ -324,6 +435,15 @@ class ChordTrainer {
         document.querySelectorAll('.white-key, .black-key').forEach(k => {
             k.classList.remove('correct', 'wrong', 'active');
         });
+
+        // Reset keyboard visibility
+        if (this.dom.keyboardSection) {
+            this.dom.keyboardSection.classList.remove('hidden');
+        }
+        if (this.dom.toggleKeyboardBtn) {
+            this.dom.toggleKeyboardBtn.classList.add('hidden');
+            this.updateToggleKeyboardBtnLabel();
+        }
     }
 
     generateRandomChord() {
@@ -393,18 +513,22 @@ class ChordTrainer {
         if (!this.currentChord) this.generateRandomChord();
 
         switch (this.currentMode) {
-            case 1: // Play the Chord (was Mode 3)
+            case 1: // Play the Chord
                 this.dom.chordDisplay.textContent = this.currentChord.name;
                 this.dom.notesDisplay.textContent = 'Play the correct keys!';
+                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
+                this.dom.answerOptions.classList.add('hidden');
                 break;
-            case 2: // Notes -> Chord (was Mode 1)
+            case 2: // Notes -> Chord
                 this.dom.chordDisplay.textContent = '?';
                 this.dom.notesDisplay.textContent = this.currentChord.noteNames.join(' - ');
+                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
                 this.showChordOptions();
                 break;
-            case 3: // Chord Shape to Chord (was Mode 2)
+            case 3: // Chord Shape to Chord
                 this.dom.chordDisplay.textContent = '?';
                 this.dom.notesDisplay.textContent = 'Identify this chord shape:';
+                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
                 this.highlightKeys(this.currentChord.notes, 'correct');
                 this.showChordOptions();
                 break;
@@ -412,6 +536,15 @@ class ChordTrainer {
                 this.dom.chordDisplay.textContent = this.currentChord.name;
                 this.dom.notesDisplay.textContent = 'Select the right notes';
                 this.showNoteOptions();
+                
+                // Hide keyboard visually but keep space
+                if (this.dom.keyboardSection) {
+                    this.dom.keyboardSection.classList.add('hidden');
+                }
+                if (this.dom.toggleKeyboardBtn) {
+                    this.dom.toggleKeyboardBtn.classList.remove('hidden');
+                    this.updateToggleKeyboardBtnLabel();
+                }
                 break;
         }
     }
