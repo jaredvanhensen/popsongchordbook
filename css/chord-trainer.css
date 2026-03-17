@@ -792,6 +792,30 @@ body {
         min-width: 20px;
         text-align: right;
     }
+
+    /* Session Results Overrides */
+    .flashy-title {
+        font-size: 1.8rem !important;
+        margin: 10px 0 !important;
+    }
+    .session-results {
+        gap: 10px !important;
+        margin: 20px 0 !important;
+    }
+    .result-stat {
+        min-width: 110px !important;
+        padding: 15px 10px !important;
+    }
+    .result-stat .value {
+        font-size: 1.9rem !important;
+    }
+    .result-stat .label {
+        font-size: 0.65rem !important;
+    }
+    .flashy-btn {
+        padding: 15px 30px !important;
+        font-size: 1.2rem !important;
+    }
 }
 /* Session Results Modal */
 .session-modal {
