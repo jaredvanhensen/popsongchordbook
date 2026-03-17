@@ -10,6 +10,7 @@ class ChordProgressionEditor {
         this.draggedProgressionBlock = null;
         this.allBlocks = []; // Array of { name, field, songKey }
         this.currentBlockIndex = 0;
+        this.keyManuallyChanged = false;
 
         // Initialize audio player (reuse PianoAudioPlayer)
         this.audioPlayer = audioPlayer || new PianoAudioPlayer();
@@ -226,6 +227,7 @@ class ChordProgressionEditor {
         const keySelector = this.overlay.querySelector('#keySelector');
         keySelector.addEventListener('change', (e) => {
             this.currentKey = e.target.value;
+            this.keyManuallyChanged = true;
             this.renderChordPalette();
         });
 
@@ -1016,6 +1018,7 @@ class ChordProgressionEditor {
             this.currentBlockIndex = Math.max(0, Math.min(startIndex, blocks.length - 1));
             this.onComplete = onComplete;
         }
+        this.keyManuallyChanged = false;
 
         this.refreshEditor();
 
@@ -1056,15 +1059,17 @@ class ChordProgressionEditor {
             title.textContent = `Chord Editor - ${this.targetFieldName}`;
         }
 
-        // Set the key
-        const songKey = currentBlock.songKey;
-        if (songKey && this.scaleChords[songKey]) {
-            this.currentKey = songKey;
-        } else if (songKey) {
-            const normalizedKey = this.normalizeKey(songKey);
-            this.currentKey = (normalizedKey && this.scaleChords[normalizedKey]) ? normalizedKey : 'C';
-        } else {
-            this.currentKey = 'C';
+        // Set the key (only if not manually changed in this session)
+        if (!this.keyManuallyChanged) {
+            const songKey = currentBlock.songKey;
+            if (songKey && this.scaleChords[songKey]) {
+                this.currentKey = songKey;
+            } else if (songKey) {
+                const normalizedKey = this.normalizeKey(songKey);
+                this.currentKey = (normalizedKey && this.scaleChords[normalizedKey]) ? normalizedKey : 'C';
+            } else {
+                this.currentKey = 'C';
+            }
         }
 
         const keySelector = this.overlay.querySelector('#keySelector');

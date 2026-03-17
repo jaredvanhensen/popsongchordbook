@@ -1546,6 +1546,12 @@ class SongDetailModal {
 
     getSongKey() {
         if (!this.currentSongId) return '';
+
+        // Prioritize currently edited UI value if available
+        if (this.keyDisplay && this.keyDisplay.textContent.trim()) {
+            return this.keyDisplay.textContent.trim();
+        }
+
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return '';
         let songKey = song.key || '';
@@ -2524,7 +2530,8 @@ class SongDetailModal {
             lyrics: song.lyrics || '', // Fallback
             lyricOffset: song.lyricOffset || 0, // New Offset
             lastPosition: lastPosition, // Restore last playback position
-            instrumentMode: this.instrumentMode
+            instrumentMode: this.instrumentMode,
+            key: this.getSongKey() || 'C'
         }, '*');
     }
 

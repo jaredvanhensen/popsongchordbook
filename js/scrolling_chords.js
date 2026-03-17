@@ -67,6 +67,7 @@ if (isEmbed) {
 
 let midiData = null;
 let currentFileName = 'song';
+let currentSongKey = 'C';
 let chords = []; // Array of { time: seconds, name: string }
 let markers = []; // Array of { time: seconds, label: string, type: 'bar'|'beat' }
 let isPlaying = false;
@@ -235,7 +236,7 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode);
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode, msg.key);
         // Restore last playback position if provided
         if (msg.lastPosition && msg.lastPosition > 0) {
             pauseTime = msg.lastPosition;
@@ -356,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     name: 'Chord Timeline Progression Editor',
                     field: tempInput,
-                    songKey: currentFileName || 'song'
+                    songKey: currentSongKey || 'C'
                 }
             ];
 
@@ -1784,7 +1785,8 @@ function updateHUDPosition() {
     document.documentElement.style.setProperty('--hud-top-offset', `${topPadding}px`);
 }
 
-function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano') {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano', key = 'C') {
+    if (key) currentSongKey = key;
     if (inputInstrumentMode) currentInstrumentMode = inputInstrumentMode;
     console.log('loadData called for:', songTitle, {
         hasData: !!data,
