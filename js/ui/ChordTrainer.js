@@ -23,6 +23,7 @@ class ChordTrainer {
         this.stats = JSON.parse(localStorage.getItem('chordTrainerStats') || '{}');
         this.isQuestionHandled = false;
         this.isGuideEnabled = false;
+        this.currentOptions = [];
         
         this.init();
     }
@@ -102,6 +103,9 @@ class ChordTrainer {
             // Apply global show/hide to piano
             if (this.dom.piano) {
                 this.dom.piano.classList.toggle('show-labels', this.isGuideEnabled);
+                if (this.isGuideEnabled) {
+                    this.updateKeyLabels();
+                }
             }
         }
 
@@ -647,6 +651,10 @@ class ChordTrainer {
                 this.updateToggleKeyboardBtnLabel();
                 break;
         }
+
+        if (this.isGuideEnabled) {
+            this.updateKeyLabels();
+        }
     }
 
     showChordOptions() {
@@ -674,6 +682,7 @@ class ChordTrainer {
             if (!isDuplicate) options.push(opt);
         }
         
+        this.currentOptions = options;
         options.sort(() => Math.random() - 0.5);
         
         options.forEach(opt => {
@@ -845,6 +854,40 @@ class ChordTrainer {
                     label.classList.add('highlighted');
                 }
             }
+        });
+    }
+
+    updateKeyLabels() {
+        if (!this.currentChord) return;
+
+        let preferFlats = false;
+
+        // 1. Check current chord name
+        if (this.currentChord.name.includes('b')) preferFlats = true;
+
+        // 2. Check chord root
+        if (this.currentChord.root.includes('b') || this.currentChord.root === 'F') preferFlats = true;
+
+        // 3. Match distractors/options
+        if (this.currentOptions && this.currentOptions.length > 0) {
+            if (this.currentOptions.some(opt => opt.includes('b'))) {
+                preferFlats = true;
+            }
+        }
+
+        // 4. Check shown note names (Mode 3)
+        if (this.currentChord.noteNames && this.currentChord.noteNames.some(n => n.includes('b'))) {
+            preferFlats = true;
+        }
+
+        const sharps = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const flats = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+        const names = preferFlats ? flats : sharps;
+
+        this.dom.piano.querySelectorAll('.key-note-label').forEach(label => {
+            const key = label.parentElement;
+            const index = parseInt(key.dataset.note);
+            label.textContent = names[index % 12];
         });
     }
 
