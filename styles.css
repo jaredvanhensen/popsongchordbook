@@ -1312,26 +1312,34 @@ header h1 {
 .chord-progression-close {
     position: absolute;
     right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.2);
+    top: 25px;
+    background: white;
     border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
+    color: #667eea;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     z-index: 100;
+}
+
+.piano-chord-close svg,
+.chord-progression-close svg {
+    width: 22px;
+    height: 22px;
+    display: block;
 }
 
 .piano-chord-close:hover,
 .chord-progression-close:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: translateY(-50%) scale(1.1);
+    background: #f8fafc;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .deselect-btn {

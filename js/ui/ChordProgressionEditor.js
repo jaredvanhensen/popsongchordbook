@@ -130,7 +130,7 @@ class ChordProgressionEditor {
                     <div class="header-row-top">
                         <h3 id="chordProgressionTitle">${isTimeline ? 'Chord Timeline Progression Editor' : 'Chord Progression Editor'}</h3>
                         <button class="chord-progression-close" id="chordProgressionClose" title="Close Editor">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line>
                                 <line x1="6" y1="6" x2="18" y2="18"></line>
