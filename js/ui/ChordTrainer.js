@@ -137,6 +137,7 @@ class ChordTrainer {
             sessionAccuracy: document.getElementById('sessionAccuracy'),
             sessionCount: document.getElementById('sessionCount'),
             toggleKeyboardBtn: document.getElementById('toggleKeyboardBtn'),
+            toggleKeyboardToolbarBtn: document.getElementById('toggleKeyboardToolbarBtn'),
             keyboardSection: document.querySelector('.keyboard-section'),
             modeCycleBtn: document.getElementById('modeCycleBtn')
         };
@@ -243,18 +244,19 @@ class ChordTrainer {
         }
 
         if (this.dom.toggleKeyboardBtn) {
-            this.dom.toggleKeyboardBtn.addEventListener('click', () => {
-                this.dom.keyboardSection.classList.toggle('hidden');
-                const isHidden = this.dom.keyboardSection.classList.contains('hidden');
-                
-                // When showing in Chord -> Notes, ensure it's not 'invisible'
-                if (!isHidden) this.dom.keyboardSection.classList.remove('invisible');
-                
-                // Icon only for mobile or both? User said "replace text by icon". 
-                // I'll update it for both but keep it clean.
-                this.updateToggleKeyboardBtnLabel();
-            });
+            this.dom.toggleKeyboardBtn.addEventListener('click', () => this.toggleKeyboard());
         }
+        if (this.dom.toggleKeyboardToolbarBtn) {
+            this.dom.toggleKeyboardToolbarBtn.addEventListener('click', () => this.toggleKeyboard());
+        }
+    }
+
+    toggleKeyboard() {
+        if (!this.dom.keyboardSection) return;
+        this.dom.keyboardSection.classList.toggle('hidden');
+        const isHidden = this.dom.keyboardSection.classList.contains('hidden');
+        if (!isHidden) this.dom.keyboardSection.classList.remove('invisible');
+        this.updateToggleKeyboardBtnLabel();
     }
 
     updateToggleKeyboardBtnLabel() {
@@ -266,6 +268,11 @@ class ChordTrainer {
             this.dom.toggleKeyboardBtn.style.background = isHidden ? '#e2e8f0' : '#94a3b8';
             this.dom.toggleKeyboardBtn.style.color = isHidden ? '#475569' : '#ffffff';
             this.dom.toggleKeyboardBtn.style.boxShadow = isHidden ? 'none' : 'inset 0 2px 4px rgba(0,0,0,0.1)';
+            
+            if (this.dom.toggleKeyboardToolbarBtn) {
+                this.dom.toggleKeyboardToolbarBtn.style.background = isHidden ? '#e2e8f0' : '#94a3b8';
+                this.dom.toggleKeyboardToolbarBtn.style.color = isHidden ? '#475569' : '#ffffff';
+            }
         } else {
             this.dom.toggleKeyboardBtn.textContent = isHidden ? 'SHOW KEYBOARD' : 'HIDE KEYBOARD';
             this.dom.toggleKeyboardBtn.style.background = isHidden ? '#fbbf24' : '#f59e0b';
@@ -299,7 +306,7 @@ class ChordTrainer {
         
         const isMobile = this.isMobile();
         const numOctaves = isMobile ? 2 : 3;
-        const startOctave = isMobile ? 5 : 4; // Mobile: C4 to B5 (24 keys), Desktop: C3 to B5 (36 keys)
+        const startOctave = isMobile ? 4 : 4; // Mobile: C3 to B4 (24 keys), Desktop: C3 to B5 (36 keys)
         const totalKeys = Math.floor(numOctaves * 12);
 
         let keyCount = 0;
@@ -454,6 +461,11 @@ class ChordTrainer {
         this.dom.chordBoxContainer.style.display = 'block';
         this.dom.resultOverlay.classList.remove('show');
         
+        // Hide toolbar toggle by default
+        if (this.dom.toggleKeyboardToolbarBtn) {
+            this.dom.toggleKeyboardToolbarBtn.style.display = 'none';
+        }
+        
         document.querySelectorAll('.white-key, .black-key').forEach(k => {
             k.classList.remove('correct', 'wrong', 'active');
         });
@@ -519,11 +531,10 @@ class ChordTrainer {
             }
         }
 
-        // Ensure notes are within the visible keyboard range
-        // Mobile: C4(60) to B5(83), Desktop: C3(48) to B5(83)
+        // Mobile: C3(48) to B4(71), Desktop: C3(48) to B5(83)
         const isMob = this.isMobile();
-        const minMIDI = isMob ? 60 : 48;
-        const maxMIDI = 83;
+        const minMIDI = isMob ? 48 : 48;
+        const maxMIDI = isMob ? 71 : 83;
         
         // Final sort to be sure
         notes.sort((a, b) => a - b);
@@ -583,8 +594,12 @@ class ChordTrainer {
                 }
                 if (this.dom.toggleKeyboardBtn) {
                     this.dom.toggleKeyboardBtn.classList.remove('hidden');
-                    this.updateToggleKeyboardBtnLabel();
                 }
+                // Show toolbar toggle ONLY for mode 4 on mobile
+                if (this.dom.toggleKeyboardToolbarBtn) {
+                    this.dom.toggleKeyboardToolbarBtn.style.display = this.isMobile() ? 'block' : 'none';
+                }
+                this.updateToggleKeyboardBtnLabel();
                 break;
         }
     }
