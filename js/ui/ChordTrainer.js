@@ -95,8 +95,8 @@ class ChordTrainer {
         // Guide
         if (this.dom.guideLabel) {
             this.dom.guideLabel.textContent = this.isGuideEnabled 
-                ? (isMob ? 'GUIDE ON' : 'BEGINNER GUIDE: ON') 
-                : (isMob ? 'GUIDE OFF' : 'BEGINNER GUIDE: OFF');
+                ? (isMob ? '' : 'BEGINNER GUIDE: ON') 
+                : (isMob ? '' : 'BEGINNER GUIDE: OFF');
             this.dom.guideToggle.classList.toggle('active', this.isGuideEnabled);
             
             // Apply global show/hide to piano
@@ -632,8 +632,13 @@ class ChordTrainer {
                 if (this.dom.keyboardSection) {
                     this.dom.keyboardSection.classList.add('hidden');
                 }
+                // Hide the bottom keyboard button on mobile (obsolete with toolbar icon)
                 if (this.dom.toggleKeyboardBtn) {
-                    this.dom.toggleKeyboardBtn.classList.remove('hidden');
+                    if (this.isMobile()) {
+                        this.dom.toggleKeyboardBtn.classList.add('hidden');
+                    } else {
+                        this.dom.toggleKeyboardBtn.classList.remove('hidden');
+                    }
                 }
                 // Show toolbar toggle ONLY for mode 4 on mobile
                 if (this.dom.toggleKeyboardToolbarBtn) {

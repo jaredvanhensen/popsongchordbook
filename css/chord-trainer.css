@@ -692,6 +692,9 @@ body {
     .trainer-title { font-size: 1rem; }
     
     #midiStatus { display: none !important; }
+    #inversionToggle { display: none !important; }
+    #guideToggle .label { display: none !important; }
+    #guideToggle .icon { font-size: 1.2rem; }
     
     .header-toggle { 
         min-width: 0; 
