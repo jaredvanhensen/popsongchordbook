@@ -22,6 +22,7 @@ class ChordTrainer {
         this.userSelection = []; // Used for "Play the Chord" mode
         this.stats = JSON.parse(localStorage.getItem('chordTrainerStats') || '{}');
         this.isQuestionHandled = false;
+        this.isGuideEnabled = false;
         
         this.init();
     }
@@ -91,6 +92,19 @@ class ChordTrainer {
             this.dom.difficultyLabel.textContent = diffLabels[this.difficultyLevel];
         }
 
+        // Guide
+        if (this.dom.guideLabel) {
+            this.dom.guideLabel.textContent = this.isGuideEnabled 
+                ? (isMob ? 'GUIDE ON' : 'BEGINNER GUIDE: ON') 
+                : (isMob ? 'GUIDE OFF' : 'BEGINNER GUIDE: OFF');
+            this.dom.guideToggle.classList.toggle('active', this.isGuideEnabled);
+            
+            // Apply global show/hide to piano
+            if (this.dom.piano) {
+                this.dom.piano.classList.toggle('show-labels', this.isGuideEnabled);
+            }
+        }
+
         if (this.dom.modeCycleBtn) {
             const modeNames = {
                 1: '1. Shape to Chord',
@@ -141,7 +155,9 @@ class ChordTrainer {
             toggleKeyboardBtn: document.getElementById('toggleKeyboardBtn'),
             toggleKeyboardToolbarBtn: document.getElementById('toggleKeyboardToolbarBtn'),
             keyboardSection: document.querySelector('.keyboard-section'),
-            modeCycleBtn: document.getElementById('modeCycleBtn')
+            modeCycleBtn: document.getElementById('modeCycleBtn'),
+            guideToggle: document.getElementById('guideToggle'),
+            guideLabel: document.getElementById('guideLabel')
         };
     }
 
@@ -248,6 +264,14 @@ class ChordTrainer {
         if (this.dom.toggleKeyboardBtn) {
             this.dom.toggleKeyboardBtn.addEventListener('click', () => this.toggleKeyboard());
         }
+
+        if (this.dom.guideToggle) {
+            this.dom.guideToggle.addEventListener('click', () => {
+                this.isGuideEnabled = !this.isGuideEnabled;
+                this.updateToggleLabels();
+                this.setupQuestionByMode(); // Refresh immediately
+            });
+        }
         if (this.dom.toggleKeyboardToolbarBtn) {
             this.dom.toggleKeyboardToolbarBtn.addEventListener('click', () => this.toggleKeyboard());
         }
@@ -345,6 +369,12 @@ class ChordTrainer {
                     this.handleKeyPress(noteIndex, true, true);
                 });
                 key.addEventListener('touchend', () => this.handleKeyPress(noteIndex, false, true));
+
+                // Add universal note label for Beginner Guide
+                const label = document.createElement('span');
+                label.className = 'key-note-label';
+                label.textContent = noteName;
+                key.appendChild(label);
 
                 this.dom.piano.appendChild(key);
                 keyCount++;
@@ -470,7 +500,10 @@ class ChordTrainer {
         }
         
         document.querySelectorAll('.white-key, .black-key').forEach(k => {
-            k.classList.remove('correct', 'wrong', 'active', 'selected-key');
+            k.classList.remove('correct', 'wrong', 'active', 'selected-key', 'guide-hint');
+            // Remove highlight class from labels but KEEP the labels themselves
+            const labels = k.querySelectorAll('.key-note-label');
+            labels.forEach(l => l.classList.remove('highlighted'));
         });
 
         // Reset keyboard visibility
@@ -565,6 +598,8 @@ class ChordTrainer {
 
     setupQuestionByMode() {
         if (!this.currentChord) this.generateRandomChord();
+        this.dom.answerOptions.innerHTML = '';
+        this.clearGuides();
 
         switch (this.currentMode) {
             case 1: // 1. Shape to Chord
@@ -572,12 +607,14 @@ class ChordTrainer {
                 this.dom.notesDisplay.textContent = 'Identify this chord shape:';
                 if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
                 this.highlightKeys(this.currentChord.notes, 'correct');
+                if (this.isGuideEnabled) this.applyGuides();
                 this.showChordOptions();
                 break;
             case 2: // 2. Play the Chord
                 this.dom.chordDisplay.textContent = this.currentChord.name;
                 this.dom.notesDisplay.textContent = 'Play the correct keys!';
                 if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
+                if (this.isGuideEnabled) this.applyGuides();
                 this.dom.answerOptions.classList.add('hidden');
                 break;
             case 3: // 3. Notes -> Chord
@@ -784,6 +821,34 @@ class ChordTrainer {
             this.updateChordStats(this.currentChord.name, false);
         }
         this.updateStatsDisplay();
+    }
+
+    applyGuides() {
+        if (!this.currentChord) return;
+        
+        this.currentChord.notes.forEach((n, i) => {
+            const key = this.dom.piano.querySelector(`[data-note="${n}"]`);
+            if (key) {
+                // Show blue pulse/dots for Mode 2
+                if (this.currentMode === 2) {
+                    key.classList.add('guide-hint');
+                }
+                
+                // Highlight the specific chord note labels
+                const label = key.querySelector('.key-note-label');
+                if (label) {
+                    label.classList.add('highlighted');
+                }
+            }
+        });
+    }
+
+    clearGuides() {
+        document.querySelectorAll('.white-key, .black-key').forEach(k => {
+            k.classList.remove('guide-hint');
+            const labels = k.querySelectorAll('.key-note-label');
+            labels.forEach(l => l.classList.remove('highlighted'));
+        });
     }
 
     showFeedback(isCorrect) {
