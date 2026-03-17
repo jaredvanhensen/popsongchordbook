@@ -1,4 +1,4 @@
-// Main Application (v2.204)
+// Main Application (v2.265)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.204)");
+        console.log("Pop Song Chord Book - App Initialized (v2.265)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -1749,36 +1749,40 @@ class App {
             return;
         }
 
-        // 1. Find the minimum practice count
-        const counts = availableSongs.map(s => parseInt(s.practiceCount) || 0);
+        // 1. Get current song ID and previous song ID to avoid immediate repetition
+        const currentSongId = this.songDetailModal ? this.songDetailModal.currentSongId : null;
+        const previousSongId = (this.practiceHistory.length > 0) ? this.practiceHistory[this.practiceHistory.length - 1] : null;
+
+        // 2. Filter out current song to find candidates for "Next"
+        let candidates = availableSongs.filter(s => s.id !== currentSongId);
+        
+        // If no candidates (only 1 song in list), we HAVE to pick the current one again (fallback)
+        if (candidates.length === 0) {
+            candidates = availableSongs;
+        }
+
+        // 3. Find the minimum practice count among the candidates
+        const counts = candidates.map(s => parseInt(s.practiceCount) || 0);
         const minCount = Math.min(...counts);
 
-        // 2. Filter all songs that have this minCount
-        let tiedSongs = availableSongs.filter(s => (parseInt(s.practiceCount) || 0) === minCount);
+        // 4. Get the group of "neediest" candidates
+        let tiedSongs = candidates.filter(s => (parseInt(s.practiceCount) || 0) === minCount);
 
-        // 3. Get current song ID to avoid repetition if possible
-        const currentSongId = this.songDetailModal ? this.songDetailModal.currentSongId : null;
-
+        // 5. If we have multiple tied songs, try to avoid the one we JUST came from (prevent toggling)
         let nextSong;
-        if (tiedSongs.length > 1 && currentSongId) {
-            // Filter out current song if it's in the tied group to ensure we switch
-            const candidates = tiedSongs.filter(s => s.id !== currentSongId);
-            if (candidates.length > 0) {
-                const randomIndex = Math.floor(Math.random() * candidates.length);
-                nextSong = candidates[randomIndex];
+        if (tiedSongs.length > 1 && previousSongId) {
+            const nonRepeatCandidates = tiedSongs.filter(s => s.id !== previousSongId);
+            if (nonRepeatCandidates.length > 0) {
+                const randomIndex = Math.floor(Math.random() * nonRepeatCandidates.length);
+                nextSong = nonRepeatCandidates[randomIndex];
             } else {
-                // If only the current song is in the tied list (which means others are > minCount)
-                // we still want to pick it if there are no other tied candidates, 
-                // but the above case logic handles tiedSongs.length > 1
-                nextSong = tiedSongs[Math.floor(Math.random() * tiedSongs.length)];
+                const randomIndex = Math.floor(Math.random() * tiedSongs.length);
+                nextSong = tiedSongs[randomIndex];
             }
-        } else if (tiedSongs.length > 0) {
-            // Only one song with min count or no current song
+        } else {
+            // Only one song with min count or no previous song history
             const randomIndex = Math.floor(Math.random() * tiedSongs.length);
             nextSong = tiedSongs[randomIndex];
-        } else {
-            // Fallback (should not happen)
-            nextSong = availableSongs[0];
         }
 
         // Visual feedback
