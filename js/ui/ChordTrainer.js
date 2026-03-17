@@ -494,7 +494,8 @@ class ChordTrainer {
         this.dom.chordDisplay.textContent = '?';
         this.dom.notesDisplay.textContent = '';
         this.dom.answerOptions.innerHTML = '';
-        this.dom.answerOptions.classList.add('hidden');
+        this.dom.answerOptions.classList.add('invisible');
+        this.dom.answerOptions.classList.remove('hidden');
         this.dom.chordBoxContainer.style.display = 'block';
         this.dom.resultOverlay.classList.remove('show');
         
@@ -619,7 +620,8 @@ class ChordTrainer {
                 this.dom.notesDisplay.textContent = 'Play the correct keys!';
                 if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
                 if (this.isGuideEnabled) this.applyGuides();
-                this.dom.answerOptions.classList.add('hidden');
+                this.dom.answerOptions.classList.add('invisible');
+                this.dom.answerOptions.classList.remove('hidden');
                 break;
             case 3: // 3. Notes -> Chord
                 this.dom.chordDisplay.textContent = '?';
@@ -658,7 +660,7 @@ class ChordTrainer {
     }
 
     showChordOptions() {
-        this.dom.answerOptions.classList.remove('hidden');
+        this.dom.answerOptions.classList.remove('hidden', 'invisible');
         const options = [this.currentChord.name];
         
         // Use matching types for distractors based on level
@@ -695,7 +697,8 @@ class ChordTrainer {
     }
 
     showNoteOptions() {
-        this.dom.answerOptions.classList.remove('hidden');
+        this.dom.answerOptions.classList.remove('hidden', 'invisible');
+        this.dom.answerOptions.style.display = 'flex'; // Ensure flex
         if (this.isMobile()) {
             this.dom.answerOptions.classList.add('note-grid');
         } else {

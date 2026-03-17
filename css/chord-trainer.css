@@ -226,6 +226,13 @@ body {
     gap: 20px;
 }
 
+#answerOptions {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .action-buttons {
     margin-top: auto;
     padding: 20px 0;
