@@ -3610,6 +3610,11 @@ body.ctrl-held .chord-item {
     /* Indigo */
 }
 
+.map-color-group-chord-type-instrumental {
+    color: #8b5cf6;
+    /* Vivid Purple */
+}
+
 .map-color-group-chord-type-outro {
     color: #ff6600;
     /* Pure International Orange */
@@ -3622,7 +3627,8 @@ body.ctrl-held .chord-item {
 .map-color-group-chord-type-prechorus::before,
 .map-color-group-chord-type-bridge::before,
 .map-color-group-chord-type-solo::before,
-.map-color-group-chord-type-outro::before {
+.map-color-group-chord-type-outro::before,
+.map-color-group-chord-type-instrumental::before {
     background: currentColor;
 }
 
@@ -3962,6 +3968,14 @@ body.ctrl-held .chord-item {
     background: #ff6600;
     color: #ffffff;
     border-color: #cc5200;
+    font-weight: 800;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.map-label-pill.pill-purple {
+    background: #8b5cf6;
+    color: #ffffff;
+    border-color: #7c3aed;
     font-weight: 800;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }

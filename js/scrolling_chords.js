@@ -3871,6 +3871,7 @@ function populateSongMap() {
                     else if (sectionName.includes('INTRO')) type = 'intro';
                     else if (sectionName.includes('OUTRO')) type = 'outro';
                     else if (sectionName.includes('SOLO')) type = 'solo';
+                    else if (sectionName.includes('INSTRUMENTAL')) type = 'instrumental';
                     else type = 'verse';
                     // NO MUTATION (sec.type = type) here, it breaks change detection if the property was missing
                 }
@@ -4088,21 +4089,22 @@ function showMapLabelPicker() {
 
     picker.appendChild(title);
 
-    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'CLEAR'];
+    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'INSTRUMENTAL', 'REMOVE'];
     const pillContainer = document.createElement('div');
     pillContainer.className = 'map-label-pills-container';
 
     labels.forEach(lbl => {
         const btn = document.createElement('button');
         btn.className = 'map-label-pill';
-        if (lbl === 'CLEAR') btn.classList.add('label-clear');
-        else if (lbl.includes('INTRO')) btn.classList.add('pill-magenta');
+        if (lbl.includes('INTRO')) btn.classList.add('pill-magenta');
         else if (lbl.includes('VERSE')) btn.classList.add('pill-cyan');
         else if (lbl.includes('PRE CHORUS')) btn.classList.add('pill-neon-green');
         else if (lbl.includes('CHORUS')) btn.classList.add('pill-amber');
         else if (lbl.includes('BRIDGE')) btn.classList.add('pill-hot-pink');
         else if (lbl.includes('SOLO')) btn.classList.add('pill-indigo');
         else if (lbl.includes('OUTRO')) btn.classList.add('pill-orange');
+        else if (lbl.includes('INSTRUMENTAL')) btn.classList.add('pill-purple');
+        else if (lbl === 'REMOVE') btn.classList.add('label-clear');
 
         btn.textContent = lbl;
         btn.onclick = (e) => {
@@ -4175,7 +4177,7 @@ function applyMapLabel(label) {
         }
     });
 
-    if (label !== 'CLEAR') {
+    if (label !== 'REMOVE') {
         let type = 'verse';
         const up = label.toUpperCase();
         if (up.includes('INTRO')) type = 'intro';
@@ -4185,6 +4187,7 @@ function applyMapLabel(label) {
         else if (up.includes('BRIDGE')) type = 'bridge';
         else if (up.includes('OUTRO')) type = 'outro';
         else if (up.includes('SOLO')) type = 'solo';
+        else if (up.includes('INSTRUMENTAL')) type = 'instrumental';
 
         customMapSections.push({
             name: label,
