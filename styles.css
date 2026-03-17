@@ -7979,6 +7979,7 @@ td:has(.row-edit-input.input-focused) {
 
 .chord-progression-modal {
     background: white;
+    color: #1e293b;
     border-radius: 20px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     width: 100%;
@@ -7994,8 +7995,9 @@ td:has(.row-edit-input.input-focused) {
     color: white;
     padding: 18px 25px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
 }
 
 .chord-progression-header h3 {
@@ -8021,7 +8023,7 @@ td:has(.row-edit-input.input-focused) {
 
 .key-selector-section label {
     font-weight: 600;
-    color: var(--text-color);
+    color: #1e293b;
 }
 
 .key-selector {
@@ -8030,7 +8032,7 @@ td:has(.row-edit-input.input-focused) {
     border: 2px solid #e2e8f0;
     border-radius: 10px;
     background: white;
-    color: var(--text-color);
+    color: #1e293b;
     cursor: pointer;
     transition: all 0.2s ease;
     min-width: 140px;
@@ -8050,7 +8052,7 @@ td:has(.row-edit-input.input-focused) {
 .chord-palette-label {
     font-size: 0.85em;
     font-weight: 600;
-    color: var(--text-light);
+    color: #64748b;
     margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
