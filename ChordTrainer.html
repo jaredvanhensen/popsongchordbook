@@ -44,11 +44,11 @@
 
     <div class="trainer-meta-row">
         <div class="mode-selector">
-            <button class="mode-btn active" data-mode="1">Play the Chord</button>
-            <button class="mode-btn" data-mode="2">Notes → Chord</button>
-            <button class="mode-btn" data-mode="3">Shape to Chord</button>
-            <button class="mode-btn" data-mode="4">Chord → Notes</button>
-            <button id="modeCycleBtn" class="mode-btn mode-cycle-btn mobile-only">🔄 Play the Chord</button>
+            <button class="mode-btn" data-mode="1">1. Shape to Chord</button>
+            <button class="mode-btn active" data-mode="2">2. Play the Chord</button>
+            <button class="mode-btn" data-mode="3">3. Notes → Chord</button>
+            <button class="mode-btn" data-mode="4">4. Chord → Notes</button>
+            <button id="modeCycleBtn" class="mode-btn mode-cycle-btn mobile-only">🔄 1. Shape to Chord</button>
         </div>
 
         <div class="control-group" style="display: flex; gap: 12px; align-items: center;">
@@ -150,6 +150,10 @@
                     <div class="result-stat">
                         <span class="label">ACCURACY</span>
                         <span id="sessionAccuracy" class="value">0%</span>
+                    </div>
+                    <div class="result-stat" style="background: #fff7ed; border-color: #ffedd5;">
+                        <span class="label" style="color: #9a3412;">HIGH SCORE</span>
+                        <span id="sessionHighScore" class="value" style="color: #ea580c;">0</span>
                     </div>
                     <div class="result-stat">
                         <span class="label">CHORDS PLAYED</span>

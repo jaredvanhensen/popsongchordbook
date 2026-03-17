@@ -373,6 +373,16 @@ body {
     background: linear-gradient(to bottom, #dc2626 0%, #991b1b 100%) !important;
     border-color: #7f1d1d !important;
     box-shadow: inset 0 -5px 0 #7f1d1d !important;
+}.white-key.selected-key {
+    background: linear-gradient(to bottom, #6366f1 0%, #4f46e5 100%) !important;
+    border-color: #3730a3 !important;
+    box-shadow: inset 0 -8px 0 #3730a3 !important;
+}
+
+.black-key.selected-key {
+    background: linear-gradient(to bottom, #4f46e5 0%, #3730a3 100%) !important;
+    border-color: #1e1b4b !important;
+    box-shadow: inset 0 -5px 0 #1e1b4b !important;
 }
 
 /* Feedback Overlays */
@@ -799,12 +809,17 @@ body {
         margin: 10px 0 !important;
     }
     .session-results {
-        gap: 10px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
         margin: 20px 0 !important;
     }
     .result-stat {
-        min-width: 110px !important;
+        flex: 1 1 40% !important;
+        min-width: 120px !important;
         padding: 15px 10px !important;
+        box-sizing: border-box;
     }
     .result-stat .value {
         font-size: 1.9rem !important;
@@ -864,9 +879,10 @@ body {
 
 .session-results {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
-    margin: 40px 0;
+    margin: 30px 0;
 }
 
 .result-stat {
@@ -874,11 +890,13 @@ body {
     flex-direction: column;
     align-items: center;
     background: #fdf2f8; /* Soft pink */
-    padding: 25px 15px;
+    padding: 20px 15px;
     border-radius: 24px;
-    min-width: 130px;
+    min-width: 150px;
+    flex: 1 1 40%;
     border: 3px solid #fce7f3;
     transition: transform 0.3s;
+    box-sizing: border-box;
 }
 
 .result-stat:hover {

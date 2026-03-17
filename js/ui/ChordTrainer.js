@@ -3,13 +3,14 @@ class ChordTrainer {
         this.audioPlayer = new PianoAudioPlayer();
         this.chordParser = new ChordParser();
         
-        this.currentMode = 1;
+        this.currentMode = 2; // Default to "Play the Chord" (now mode 2)
         this.currentChord = null;
         this.currentScore = 0;
         this.totalQuestions = 0;
         this.correctAnswers = 0;
         this.streak = 0;
         this.bestStreak = parseInt(localStorage.getItem('chordTrainerBestStreak') || '0');
+        this.highScores = JSON.parse(localStorage.getItem('chordTrainerHighScores') || '{}');
         
         this.timerSeconds = 0;
         this.timerLimit = 0;
@@ -92,9 +93,9 @@ class ChordTrainer {
 
         if (this.dom.modeCycleBtn) {
             const modeNames = {
-                1: '1. Play the Chord',
-                2: '2. Notes → Chord',
-                3: '3. Shape to Chord',
+                1: '1. Shape to Chord',
+                2: '2. Play the Chord',
+                3: '3. Notes → Chord',
                 4: '4. Chord → Notes'
             };
             this.dom.modeCycleBtn.textContent = `🔄 ${modeNames[this.currentMode]}`;
@@ -135,6 +136,7 @@ class ChordTrainer {
             sessionOkBtn: document.getElementById('sessionOkBtn'),
             sessionScore: document.getElementById('sessionScore'),
             sessionAccuracy: document.getElementById('sessionAccuracy'),
+            sessionHighScore: document.getElementById('sessionHighScore'),
             sessionCount: document.getElementById('sessionCount'),
             toggleKeyboardBtn: document.getElementById('toggleKeyboardBtn'),
             toggleKeyboardToolbarBtn: document.getElementById('toggleKeyboardToolbarBtn'),
@@ -360,16 +362,17 @@ class ChordTrainer {
                 this.audioPlayer.playNote(noteIndex, 1.0, 0.8);
             }
             
-            // Collect notes for validation in Mode 1
-            if (this.currentMode === 1) {
+            // Collect notes for validation in Mode 2 (Play the Chord)
+            if (this.currentMode === 2) {
                 if (this.userSelection.includes(noteIndex)) {
                     // Toggle OFF if already selected
                     this.userSelection = this.userSelection.filter(n => n !== noteIndex);
-                    key.classList.remove('wrong');
+                    key.classList.remove('selected-key');
                 } else {
                     // Toggle ON
                     this.userSelection.push(noteIndex);
-                    key.classList.add('wrong');
+                    // Light blue selection highlight
+                    key.classList.add('selected-key');
                     
                     // Proactive check for MIDI/Piano users
                     if (this.userSelection.length >= this.currentChord.notes.length) {
@@ -467,7 +470,7 @@ class ChordTrainer {
         }
         
         document.querySelectorAll('.white-key, .black-key').forEach(k => {
-            k.classList.remove('correct', 'wrong', 'active');
+            k.classList.remove('correct', 'wrong', 'active', 'selected-key');
         });
 
         // Reset keyboard visibility
@@ -564,26 +567,26 @@ class ChordTrainer {
         if (!this.currentChord) this.generateRandomChord();
 
         switch (this.currentMode) {
-            case 1: // Play the Chord
-                this.dom.chordDisplay.textContent = this.currentChord.name;
-                this.dom.notesDisplay.textContent = 'Play the correct keys!';
-                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
-                this.dom.answerOptions.classList.add('hidden');
-                break;
-            case 2: // Notes -> Chord
-                this.dom.chordDisplay.textContent = '?';
-                this.dom.notesDisplay.textContent = this.currentChord.noteNames.join(' - ');
-                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
-                this.showChordOptions();
-                break;
-            case 3: // Chord Shape to Chord
+            case 1: // 1. Shape to Chord
                 this.dom.chordDisplay.textContent = '?';
                 this.dom.notesDisplay.textContent = 'Identify this chord shape:';
                 if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
                 this.highlightKeys(this.currentChord.notes, 'correct');
                 this.showChordOptions();
                 break;
-            case 4: // Chord -> Notes
+            case 2: // 2. Play the Chord
+                this.dom.chordDisplay.textContent = this.currentChord.name;
+                this.dom.notesDisplay.textContent = 'Play the correct keys!';
+                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
+                this.dom.answerOptions.classList.add('hidden');
+                break;
+            case 3: // 3. Notes -> Chord
+                this.dom.chordDisplay.textContent = '?';
+                this.dom.notesDisplay.textContent = this.currentChord.noteNames.join(' - ');
+                if (this.dom.keyboardSection) this.dom.keyboardSection.classList.remove('hidden', 'invisible');
+                this.showChordOptions();
+                break;
+            case 4: // 4. Chord -> Notes
                 this.dom.chordDisplay.textContent = this.currentChord.name;
                 this.dom.notesDisplay.textContent = 'Select the right notes';
                 this.showNoteOptions();
@@ -714,7 +717,7 @@ class ChordTrainer {
     }
 
     handleSelection(selection) {
-        if (this.currentMode === 2 || this.currentMode === 3) {
+        if (this.currentMode === 1 || this.currentMode === 3) {
             const isCorrect = this.normalizeChordName(selection) === this.normalizeChordName(this.currentChord.name);
             this.validate(isCorrect);
         }
@@ -733,14 +736,14 @@ class ChordTrainer {
     checkAnswer(isAuto = false) {
         let isCorrect = false;
 
-        if (this.currentMode === 2 || this.currentMode === 3) {
+        if (this.currentMode === 1 || this.currentMode === 3) {
             // For multiple choice, Check Answer can act as a "Show Answer" or validate selected button
             // But since buttons are clicked directly, we'll just show the keys as feedback
             this.highlightKeys(this.currentChord.notes, 'correct');
             return;
         }
 
-        if (this.currentMode === 1) {
+        if (this.currentMode === 2) {
             const targetSemitones = this.currentChord.notes.map(n => n % 12).sort();
             const userSemitones = [...new Set(this.userSelection.map(n => n % 12))].sort();
             isCorrect = JSON.stringify(targetSemitones) === JSON.stringify(userSemitones);
@@ -790,7 +793,12 @@ class ChordTrainer {
         }
 
         // For identifying modes, show the correct keys as feedback
-        if (this.currentMode === 2 || this.currentMode === 3) {
+        if (this.currentMode === 1 || this.currentMode === 3) {
+            this.highlightKeys(this.currentChord.notes, 'correct');
+        }
+
+        // For "Play the Chord" mode, highlight user selection results
+        if (this.currentMode === 2) {
             this.highlightKeys(this.currentChord.notes, 'correct');
         }
 
@@ -811,7 +819,10 @@ class ChordTrainer {
     highlightKeys(notes, className) {
         notes.forEach(n => {
             const key = this.dom.piano.querySelector(`[data-note="${n}"]`);
-            if (key) key.classList.add(className);
+            if (key) {
+                key.classList.remove('selected-key', 'wrong', 'correct');
+                key.classList.add(className);
+            }
         });
     }
 
@@ -900,13 +911,25 @@ class ChordTrainer {
     showSessionComplete() {
         const acc = this.totalQuestions > 0 ? Math.round((this.correctAnswers / this.totalQuestions) * 100) : 0;
         
+        // Track High Score
+        const modeKey = `mode${this.currentMode}`;
+        const prevHigh = this.highScores[modeKey] || 0;
+        if (this.currentScore > prevHigh) {
+            this.highScores[modeKey] = this.currentScore;
+            localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+        }
+        const currentHigh = this.highScores[modeKey] || 0;
+
         if (this.dom.sessionModal) {
             this.dom.sessionScore.textContent = this.currentScore;
             this.dom.sessionAccuracy.textContent = `${acc}%`;
             this.dom.sessionCount.textContent = this.totalQuestions;
+            if (this.dom.sessionHighScore) {
+                this.dom.sessionHighScore.textContent = currentHigh;
+            }
             this.dom.sessionModal.classList.add('show');
         } else {
-            alert(`Time's up!\nScore: ${this.currentScore}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
+            alert(`Time's up!\nScore: ${this.currentScore}\nHigh Score: ${currentHigh}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
             this.resetSession();
             this.nextQuestion();
         }

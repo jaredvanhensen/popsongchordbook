@@ -46,6 +46,7 @@ class ProfileModal {
         this.totalPracticeDisplay = document.getElementById('profileTotalPractice');
         this.achievementsList = document.getElementById('profileAchievementsList');
         this.topSongsBody = document.getElementById('profileTopSongsBody');
+        this.highScoresList = document.getElementById('chordTrainerHighScoresList');
 
         // Streak elements
         this.currentStreakDisplay = document.getElementById('profileCurrentStreak');
@@ -381,7 +382,10 @@ class ProfileModal {
         // 3. Render Achievements/Awards
         this.renderAchievements(total);
 
-        // 4. Update Practice Streak
+        // 4. Render Chord Trainer High Scores
+        this.renderHighScores();
+
+        // 5. Update Practice Streak
         this.updateStreakDisplay();
     }
 
@@ -411,6 +415,39 @@ class ProfileModal {
                     badge.style.filter = 'grayscale(1)';
                 }
             });
+        }
+    }
+
+    renderHighScores() {
+        if (!this.highScoresList) return;
+
+        const highScores = JSON.parse(localStorage.getItem('chordTrainerHighScores') || '{}');
+        const modeNames = {
+            1: '1. Shape to Chord',
+            2: '2. Play the Chord',
+            3: '3. Notes → Chord',
+            4: '4. Chord → Notes'
+        };
+        const modeIcons = {
+            1: '👁️',
+            2: '🎹',
+            3: '📝',
+            4: '👂'
+        };
+
+        this.highScoresList.innerHTML = '';
+        for (let i = 1; i <= 4; i++) {
+            const score = highScores[`mode${i}`] || 0;
+            const card = document.createElement('div');
+            card.className = 'achievement-card unlocked';
+            card.style.setProperty('--tier-color', '#6366f1');
+            card.innerHTML = `
+                <div class="achievement-level" style="color: rgba(255,255,255,0.85);">Mode ${i}</div>
+                <div class="achievement-icon" style="font-size: 1.5rem; margin: 5px 0;">${modeIcons[i]}</div>
+                <div class="achievement-name" style="font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${modeNames[i]}">${modeNames[i]}</div>
+                <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
+            `;
+            this.highScoresList.appendChild(card);
         }
     }
 
