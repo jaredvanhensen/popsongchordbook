@@ -332,7 +332,8 @@ class ChordTrainer {
         let types = ['', 'm']; // Default for Levels 1 & 2 (Triads)
         
         if (this.difficultyLevel === 3) {
-            types = ['7', 'maj7', 'm7', 'maj9', 'm9', 'sus2', 'sus4', 'add9', 'dim7'];
+            // Strictly 4-note max chords
+            types = ['7', 'maj7', 'm7', '6', 'm6', '7sus4', 'add9', 'dim7'];
         }
         
         let root, type, chordName, displayName, notes, inversion;
@@ -424,7 +425,8 @@ class ChordTrainer {
         const roots = ['C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
         let types = ['', 'm'];
         if (this.difficultyLevel === 3) {
-            types = ['7', 'maj7', 'm7', 'maj9', 'm9', 'sus2', 'sus4', 'add9', 'dim7'];
+            // Match Level 3 chords (4-note max)
+            types = ['7', 'maj7', 'm7', '6', 'm6', '7sus4', 'add9', 'dim7'];
         }
         
         while(options.length < 4) {
