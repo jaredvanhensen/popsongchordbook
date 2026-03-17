@@ -18,7 +18,7 @@ class ChordTrainer {
         this.useInversions = false;
         this.difficultyLevel = 1; // 1: Triads, 2: Triads + Inversions, 3: 4-Note Chords
         
-        this.userSelection = []; // Used for "Chord -> Keys" mode
+        this.userSelection = []; // Used for "Play the Chord" mode
         this.stats = JSON.parse(localStorage.getItem('chordTrainerStats') || '{}');
         this.isQuestionHandled = false;
         
@@ -220,8 +220,8 @@ class ChordTrainer {
                 this.audioPlayer.playNote(noteIndex, 1.0, 0.8);
             }
             
-            // Collect notes for validation in Mode 3 & 4
-            if (this.currentMode === 3) {
+            // Collect notes for validation in Mode 1
+            if (this.currentMode === 1) {
                 if (this.userSelection.includes(noteIndex)) {
                     // Toggle OFF if already selected
                     this.userSelection = this.userSelection.filter(n => n !== noteIndex);
@@ -393,20 +393,20 @@ class ChordTrainer {
         if (!this.currentChord) this.generateRandomChord();
 
         switch (this.currentMode) {
-            case 1: // Notes -> Chord
+            case 1: // Play the Chord (was Mode 3)
+                this.dom.chordDisplay.textContent = this.currentChord.name;
+                this.dom.notesDisplay.textContent = 'Play the correct keys!';
+                break;
+            case 2: // Notes -> Chord (was Mode 1)
                 this.dom.chordDisplay.textContent = '?';
                 this.dom.notesDisplay.textContent = this.currentChord.noteNames.join(' - ');
                 this.showChordOptions();
                 break;
-            case 2: // Visual -> Notes
+            case 3: // Chord Shape to Chord (was Mode 2)
                 this.dom.chordDisplay.textContent = '?';
-                this.dom.notesDisplay.textContent = 'Identify this chord highlighted:';
+                this.dom.notesDisplay.textContent = 'Identify this chord shape:';
                 this.highlightKeys(this.currentChord.notes, 'correct');
                 this.showChordOptions();
-                break;
-            case 3: // Chord -> Keys
-                this.dom.chordDisplay.textContent = this.currentChord.name;
-                this.dom.notesDisplay.textContent = 'Play the correct keys!';
                 break;
             case 4: // Chord -> Notes
                 this.dom.chordDisplay.textContent = this.currentChord.name;
@@ -520,7 +520,7 @@ class ChordTrainer {
     }
 
     handleSelection(selection) {
-        if (this.currentMode <= 2) {
+        if (this.currentMode === 2 || this.currentMode === 3) {
             const isCorrect = this.normalizeChordName(selection) === this.normalizeChordName(this.currentChord.name);
             this.validate(isCorrect);
         }
@@ -539,14 +539,14 @@ class ChordTrainer {
     checkAnswer(isAuto = false) {
         let isCorrect = false;
 
-        if (this.currentMode === 1 || this.currentMode === 2) {
+        if (this.currentMode === 2 || this.currentMode === 3) {
             // For multiple choice, Check Answer can act as a "Show Answer" or validate selected button
             // But since buttons are clicked directly, we'll just show the keys as feedback
             this.highlightKeys(this.currentChord.notes, 'correct');
             return;
         }
 
-        if (this.currentMode === 3) {
+        if (this.currentMode === 1) {
             const targetSemitones = this.currentChord.notes.map(n => n % 12).sort();
             const userSemitones = [...new Set(this.userSelection.map(n => n % 12))].sort();
             isCorrect = JSON.stringify(targetSemitones) === JSON.stringify(userSemitones);
@@ -596,7 +596,7 @@ class ChordTrainer {
         }
 
         // For identifying modes, show the correct keys as feedback
-        if (this.currentMode === 1 || this.currentMode === 2) {
+        if (this.currentMode === 2 || this.currentMode === 3) {
             this.highlightKeys(this.currentChord.notes, 'correct');
         }
 
