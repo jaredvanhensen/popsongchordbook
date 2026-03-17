@@ -505,7 +505,7 @@ class ChordTrainer {
                         const n = tempNotesForDisplay.shift();
                         tempNotesForDisplay.push(n + 12);
                     }
-                    const bassNote = this.getNoteName(tempNotesForDisplay[0]);
+                    const bassNote = this.getNoteName(tempNotesForDisplay[0], root);
                     displayName = `${chordName}/${bassNote}`;
                 }
             }
@@ -519,7 +519,25 @@ class ChordTrainer {
             }
         }
 
-        const adjustedNotes = notes.map(n => n); 
+        // Ensure notes are within the visible keyboard range
+        // Mobile: C4(60) to B5(83), Desktop: C3(48) to B5(83)
+        const isMob = this.isMobile();
+        const minMIDI = isMob ? 60 : 48;
+        const maxMIDI = 83;
+        
+        // Final sort to be sure
+        notes.sort((a, b) => a - b);
+        
+        // Safety shift up if the bass is below our view
+        while (notes[0] < minMIDI) {
+            notes = notes.map(n => n + 12);
+        }
+        // Safety shift down if the top is above our view
+        while (notes[notes.length - 1] > maxMIDI) {
+            notes = notes.map(n => n - 12);
+        }
+
+        const adjustedNotes = [...notes]; 
 
         this.currentChord = {
             name: displayName,
@@ -819,8 +837,8 @@ class ChordTrainer {
         const flats = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
         
         const root = rootOverride || (this.currentChord ? this.currentChord.root : 'C');
-        // Chords that should prefer flats to follow 'skip one letter' rule (e.g., Cm needs Eb, Gm needs Bb)
-        const preferFlats = root.includes('b') || ['F', 'C', 'G'].includes(root);
+        // Chords that should prefer flats (F, Bb, Eb, etc.)
+        const preferFlats = root.includes('b') || ['F'].includes(root);
         
         const names = preferFlats ? flats : sharps;
         return names[noteIndex % 12];
