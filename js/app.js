@@ -1,4 +1,4 @@
-// Main Application (v2.277)
+// Main Application (v2.279)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.277)");
+        console.log("Pop Song Chord Book - App Initialized (v2.279)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 

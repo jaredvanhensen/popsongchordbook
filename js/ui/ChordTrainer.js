@@ -52,11 +52,8 @@ class ChordTrainer {
 
         this.nextQuestion();
         
-        // Listen for MIDI if handler exists
-        if (window.midiInputHandler) {
-            this.setupMidiHook();
-        }
-
+        this.nextQuestion();
+        
         // Listen for resize to update keyboard on mobile
         window.addEventListener('resize', () => {
             const wasMobile = this.isMobile();
@@ -94,11 +91,6 @@ class ChordTrainer {
             ? (isMob ? 'ON' : 'AUDIO ON') 
             : (isMob ? 'OFF' : 'AUDIO OFF');
         this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
-
-        // Inversions
-        this.dom.inversionToggle.querySelector('.label').textContent = this.useInversions 
-            ? (isMob ? 'INV' : 'INVERSIONS ON') 
-            : (isMob ? 'NO INV' : 'INVERSIONS OFF');
 
         // Difficulty
         const diffLabels = isMob 
@@ -153,9 +145,6 @@ class ChordTrainer {
             countdown: document.getElementById('countdown'),
             timerCycleBtn: document.getElementById('timerCycleBtn'),
             audioToggle: document.getElementById('audioToggle'),
-            inversionToggle: document.getElementById('inversionToggle'),
-            midiStatus: document.getElementById('midiStatus'),
-            midiLabel: document.getElementById('midiLabel'),
             difficultyToggle: document.getElementById('difficultyToggle'),
             difficultyLabel: document.getElementById('difficultyLabel'),
             resultOverlay: document.getElementById('resultOverlay'),
@@ -232,17 +221,6 @@ class ChordTrainer {
             this.updateToggleLabels();
         });
 
-        this.dom.inversionToggle.addEventListener('click', () => {
-            this.useInversions = !this.useInversions;
-            this.dom.inversionToggle.classList.toggle('active', this.useInversions);
-            this.updateToggleLabels();
-            
-            // If we disable inversions, regenerate to fix the display name immediately
-            if (!this.useInversions && this.currentChord && this.currentChord.inversion > 0) {
-                this.nextQuestion();
-            }
-        });
-
         // Difficulty Toggle (Cycle 1, 2, 3)
         if (this.dom.difficultyToggle) {
             this.dom.difficultyToggle.addEventListener('click', () => {
@@ -251,10 +229,8 @@ class ChordTrainer {
                 // Set inversion setting based on level
                 if (this.difficultyLevel >= 2) {
                     this.useInversions = true;
-                    this.dom.inversionToggle.classList.add('active');
                 } else {
                     this.useInversions = false;
-                    this.dom.inversionToggle.classList.remove('active');
                 }
                 
                 this.updateToggleLabels();
@@ -325,25 +301,6 @@ class ChordTrainer {
             this.dom.toggleKeyboardBtn.style.color = isHidden ? '#78350f' : '#ffffff';
             this.dom.toggleKeyboardBtn.style.boxShadow = 'none';
         }
-    }
-
-    setupMidiHook() {
-        const originalHandleNoteOn = window.midiInputHandler.handleNoteOn.bind(window.midiInputHandler);
-        const originalHandleNoteOff = window.midiInputHandler.handleNoteOff.bind(window.midiInputHandler);
-
-        window.midiInputHandler.handleNoteOn = (noteIndex, velocity) => {
-            originalHandleNoteOn(noteIndex, velocity);
-            this.handleKeyPress(noteIndex, true);
-        };
-
-        window.midiInputHandler.handleNoteOff = (noteIndex) => {
-            originalHandleNoteOff(noteIndex);
-            this.handleKeyPress(noteIndex, false);
-        };
-
-        // Update MIDI label
-        this.dom.midiLabel.textContent = 'MIDI READY';
-        this.dom.midiStatus.classList.add('active');
     }
 
     generateKeys() {

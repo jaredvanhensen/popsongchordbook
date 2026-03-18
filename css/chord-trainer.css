@@ -310,16 +310,21 @@ body {
 
 .piano {
     display: flex;
+    justify-content: center;
     position: relative;
-    height: 200px;
+    height: clamp(140px, 25vh, 200px);
     background: #111;
     padding: 3px;
     border-radius: 10px;
     user-select: none;
+    overflow: hidden;
+    --wk-width: clamp(32px, 5.5vw, 60px);
+    --bk-width: calc(var(--wk-width) * 0.5);
 }
 
 .white-key {
-    width: 60px;
+    flex-shrink: 0;
+    width: var(--wk-width);
     height: 100%;
     background: linear-gradient(to bottom, #fff 0%, #f1f5f9 100%);
     border: 1px solid #94a3b8;
@@ -338,13 +343,14 @@ body {
 }
 
 .black-key {
-    width: 36px;
-    height: 145px;
+    flex-shrink: 0;
+    width: var(--bk-width);
+    height: 72.5%;
     background: linear-gradient(to bottom, #2d3748 0%, #000 100%);
     border-radius: 0 0 6px 6px;
     cursor: pointer;
-    margin-left: -18px;
-    margin-right: -18px;
+    margin-left: calc(var(--bk-width) / -2);
+    margin-right: calc(var(--bk-width) / -2);
     z-index: 2;
     box-shadow: inset 0 -5px 0 #111, 0 6px 15px rgba(0, 0, 0, 0.5);
     transition: all 0.1s;
