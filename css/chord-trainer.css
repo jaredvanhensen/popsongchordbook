@@ -1039,3 +1039,24 @@ body {
 .flashy-btn:active {
     transform: scale(0.98);
 }
+
+/* Full-Page Scaling (Option 3) */
+#trainerRoot {
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.zoom-85#trainerRoot {
+    transform: scale(0.85);
+    width: 117.65% !important;
+    margin-left: -8.825% !important;
+    height: 117.65vh !important;
+}
+
+.zoom-70#trainerRoot {
+    transform: scale(0.70);
+    width: 142.85% !important;
+    margin-left: -21.425% !important;
+    height: 142.85vh !important;
+}
