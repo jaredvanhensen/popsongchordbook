@@ -3164,6 +3164,93 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
+/* Leaderboard & Category Tabs */
+.mini-tab-btn, .mode-tab-btn {
+    border: 1px solid #e2e8f0;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mini-tab-btn.active, .mode-tab-btn.active {
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.mode-tab-btn {
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.leaderboard-list {
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    min-height: 100px;
+}
+
+.leaderboard-entry {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.leaderboard-entry:last-child {
+    border-bottom: none;
+}
+
+.rank-badge {
+    width: 24px;
+    height: 24px;
+    background: #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.rank-1 .rank-badge { background: #ffd700; color: #856404; }
+.rank-2 .rank-badge { background: #c0c0c0; color: #495057; }
+.rank-3 .rank-badge { background: #cd7f32; color: #ffffff; }
+
+.leaderboard-name {
+    flex-grow: 1;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leaderboard-score {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #6366f1;
+}
+
+.leaderboard-empty {
+    padding: 30px 20px;
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 13px;
+}
+
 .achievement-progress-container {
     background: #f8fafc;
     border: 2px solid var(--border-color);

@@ -995,6 +995,52 @@ class FirebaseManager {
         }
     }
 
+    async updateLeaderboard(modeKey, score, username) {
+        if (!this.initialized || !score || !username) return;
+        try {
+            const leaderboardRef = this.database.ref(`leaderboards/${modeKey}`);
+            
+            // Check if user already has a score on THIS specific leaderboard
+            // (Wait, simpler: Just add the score and then prune to top 100? No.)
+            // Best way: Use the user's UID as the key so each user only has ONE entry per mode.
+            const user = this.getCurrentUser();
+            if (!user) return;
+            
+            const userEntryRef = leaderboardRef.child(user.uid);
+            const snapshot = await userEntryRef.once('value');
+            const currentEntry = snapshot.val();
+            
+            // Only update if new score is higher
+            if (!currentEntry || score > currentEntry.score) {
+                await userEntryRef.set({
+                    username: username,
+                    score: score,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } catch (e) {
+            console.error("Error updating leaderboard:", e);
+        }
+    }
+
+    async getLeaderboard(modeKey) {
+        if (!this.initialized) return [];
+        try {
+            const leaderboardRef = this.database.ref(`leaderboards/${modeKey}`);
+            // Get all user entries, then sort by score descending
+            const snapshot = await leaderboardRef.once('value');
+            const data = snapshot.val();
+            if (!data) return [];
+            
+            return Object.values(data)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10); // Return Top 10
+        } catch (e) {
+            console.error("Error getting leaderboard:", e);
+            return [];
+        }
+    }
+
     async getSeedingStatus(userId) {
         if (!this.initialized || !userId) return true; // Assume true for safety
         try {

@@ -55,7 +55,7 @@
                     <!-- Version moved here -->
                     <div
                         style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.276</span>
+                        v<span id="site-version">2.277</span>
                     </div>
                 </div>
             </div>
@@ -445,8 +445,29 @@
                     <div class="profile-high-scores-section" style="margin-top: 25px;">
                         <h4>Chord Trainer High Scores</h4>
                         <div class="achievements-grid" id="chordTrainerHighScoresList"
-                            style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <!-- High scores will be inserted here -->
+                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <!-- High scores will be inserted here (12 tiles) -->
+                        </div>
+                    </div>
+
+                    <!-- Global Leaderboards -->
+                    <div class="profile-leaderboard-section" style="margin-top: 25px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="margin: 0;">Global Leaderboards</h4>
+                            <div class="leaderboard-time-tabs" style="display: flex; gap: 5px;">
+                                <button class="mini-tab-btn active" data-time="1">1M</button>
+                                <button class="mini-tab-btn" data-time="2">2M</button>
+                                <button class="mini-tab-btn" data-time="3">3M</button>
+                            </div>
+                        </div>
+                        <div class="leaderboard-tabs" style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
+                            <button class="mode-tab-btn active" data-mode="1">1. Shape</button>
+                            <button class="mode-tab-btn" data-mode="2">2. Play</button>
+                            <button class="mode-tab-btn" data-mode="3">3. Notes</button>
+                            <button class="mode-tab-btn" data-mode="4">4. Chord</button>
+                        </div>
+                        <div id="globalLeaderboardList" class="leaderboard-list">
+                            <!-- Top 10 users will be listed here -->
                         </div>
                     </div>
                 </div>

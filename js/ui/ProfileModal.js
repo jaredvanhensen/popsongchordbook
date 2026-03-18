@@ -72,6 +72,11 @@ class ProfileModal {
             { count: 1000, name: "Grand Maestro", icon: "🏆", color: "#f59e0b" } // Gold
         ];
 
+        // Leaderboard elements
+        this.leaderboardList = document.getElementById('globalLeaderboardList');
+        this.currentLeaderboardMode = 1;
+        this.currentLeaderboardTime = 1;
+
         this.setupEventListeners();
     }
 
@@ -147,6 +152,25 @@ class ProfileModal {
                 }
             });
         }
+
+        // Leaderboard Tab listeners
+        document.querySelectorAll('.mini-tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.mini-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.currentLeaderboardTime = parseInt(btn.dataset.time);
+                this.renderLeaderboard();
+            });
+        });
+
+        document.querySelectorAll('.mode-tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.mode-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.currentLeaderboardMode = parseInt(btn.dataset.mode);
+                this.renderLeaderboard();
+            });
+        });
 
         // Theme selection
         if (this.themeSelect) {
@@ -423,10 +447,10 @@ class ProfileModal {
 
         const highScores = JSON.parse(localStorage.getItem('chordTrainerHighScores') || '{}');
         const modeNames = {
-            1: '1. Shape to Chord',
-            2: '2. Play the Chord',
-            3: '3. Notes → Chord',
-            4: '4. Chord → Notes'
+            1: 'Shape / Chord',
+            2: 'Play Chord',
+            3: 'Notes / Chord',
+            4: 'Chord / Notes'
         };
         const modeIcons = {
             1: '👁️',
@@ -434,21 +458,61 @@ class ProfileModal {
             3: '📝',
             4: '👂'
         };
+        const timeColors = {
+            1: '#10b981', // 1M - Emerald
+            2: '#3b82f6', // 2M - Blue
+            3: '#8b5cf6'  // 3M - Violet
+        };
 
         this.highScoresList.innerHTML = '';
-        for (let i = 1; i <= 4; i++) {
-            const score = highScores[`mode${i}`] || 0;
-            const card = document.createElement('div');
-            card.className = 'achievement-card unlocked';
-            card.style.setProperty('--tier-color', '#6366f1');
-            card.innerHTML = `
-                <div class="achievement-level" style="color: rgba(255,255,255,0.85);">Mode ${i}</div>
-                <div class="achievement-icon" style="font-size: 1.5rem; margin: 5px 0;">${modeIcons[i]}</div>
-                <div class="achievement-name" style="font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${modeNames[i]}">${modeNames[i]}</div>
-                <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
-            `;
-            this.highScoresList.appendChild(card);
+        
+        // Render 12 tiles (4 modes x 3 time limits)
+        for (let m = 1; m <= 4; m++) {
+            for (let t = 1; t <= 3; t++) {
+                const score = highScores[`mode${m}_${t}m`] || 0;
+                const card = document.createElement('div');
+                card.className = 'achievement-card unlocked';
+                card.style.setProperty('--tier-color', timeColors[t]);
+                card.innerHTML = `
+                    <div class="achievement-level" style="color: rgba(255,255,255,0.85);">${t} MINUTE</div>
+                    <div class="achievement-icon" style="font-size: 1.4rem; margin: 5px 0;">${modeIcons[m]}</div>
+                    <div class="achievement-name" style="font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 900;" title="${modeNames[m]}">${modeNames[m]}</div>
+                    <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
+                `;
+                this.highScoresList.appendChild(card);
+            }
         }
+        
+        // Also render first leaderboard
+        this.renderLeaderboard();
+    }
+
+    async renderLeaderboard() {
+        if (!this.leaderboardList) return;
+        
+        this.leaderboardList.innerHTML = '<div class="leaderboard-empty">Loading leaderboard...</div>';
+        
+        const modeKey = `mode${this.currentLeaderboardMode}_${this.currentLeaderboardTime}m`;
+        const top10 = await this.firebaseManager.getLeaderboard(modeKey);
+        
+        this.leaderboardList.innerHTML = '';
+        
+        if (top10.length === 0) {
+            this.leaderboardList.innerHTML = '<div class="leaderboard-empty">No scores yet for this category. Be the first!</div>';
+            return;
+        }
+        
+        top10.forEach((entry, index) => {
+            const rank = index + 1;
+            const entryEl = document.createElement('div');
+            entryEl.className = `leaderboard-entry rank-${rank}`;
+            entryEl.innerHTML = `
+                <div class="rank-badge">${rank}</div>
+                <div class="leaderboard-name">${entry.username || 'Anonymous'}</div>
+                <div class="leaderboard-score">${entry.score} pts</div>
+            `;
+            this.leaderboardList.appendChild(entryEl);
+        });
     }
 
     renderTopSongs(songs) {

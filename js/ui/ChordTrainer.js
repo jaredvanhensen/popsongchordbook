@@ -1056,20 +1056,30 @@ class ChordTrainer {
     showSessionComplete() {
         const acc = this.totalQuestions > 0 ? Math.round((this.correctAnswers / this.totalQuestions) * 100) : 0;
         
-        // Track High Score
-        const modeKey = `mode${this.currentMode}`;
-        const prevHigh = this.highScores[modeKey] || 0;
-        if (this.currentScore > prevHigh) {
-            this.highScores[modeKey] = this.currentScore;
-            localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+        // Track High Score with Time Categories (1M, 2M, 3M)
+        if (this.timerLimit > 0) {
+            const modeKey = `mode${this.currentMode}_${this.timerLimit}m`;
+            const prevHigh = this.highScores[modeKey] || 0;
             
-            // Sync with Firebase if possible
-            if (window.firebaseManager && window.firebaseManager.isAuthenticated()) {
-                const userId = window.firebaseManager.getCurrentUser().uid;
-                window.firebaseManager.saveHighScores(userId, this.highScores);
+            if (this.currentScore > prevHigh) {
+                this.highScores[modeKey] = this.currentScore;
+                localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+                
+                // Sync with Firebase User Profile
+                if (window.firebaseManager && window.firebaseManager.isAuthenticated()) {
+                    const user = window.firebaseManager.getCurrentUser();
+                    window.firebaseManager.saveHighScores(user.uid, this.highScores);
+                    
+                    // NEW: Update Global Leaderboard
+                    const username = user.displayName || localStorage.getItem('popsongUsername') || 'New Player';
+                    window.firebaseManager.updateLeaderboard(modeKey, this.currentScore, username);
+                }
             }
         }
-        const currentHigh = this.highScores[modeKey] || 0;
+        
+        // Fallback for UI display (current high for this mode)
+        const uiKey = this.timerLimit > 0 ? `mode${this.currentMode}_${this.timerLimit}m` : `mode${this.currentMode}`;
+        const currentHigh = this.highScores[uiKey] || 0;
 
         if (this.dom.sessionModal) {
             this.dom.sessionScore.textContent = this.currentScore;
