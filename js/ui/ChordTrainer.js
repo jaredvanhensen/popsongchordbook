@@ -177,9 +177,7 @@ class ChordTrainer {
             keyboardSection: document.querySelector('.keyboard-section'),
             modeCycleBtn: document.getElementById('modeCycleBtn'),
             guideToggle: document.getElementById('guideToggle'),
-            guideLabel: document.getElementById('guideLabel'),
-            zoomToggle: document.getElementById('zoomToggle'),
-            zoomLabel: document.getElementById('zoomLabel')
+            guideLabel: document.getElementById('guideLabel')
         };
     }
 
@@ -244,13 +242,6 @@ class ChordTrainer {
                 this.nextQuestion();
             }
         });
-
-        // Zoom Toggle
-        if (this.dom.zoomToggle) {
-            this.dom.zoomToggle.addEventListener('click', () => {
-                this.cycleZoom();
-            });
-        }
 
         // Difficulty Toggle (Cycle 1, 2, 3)
         if (this.dom.difficultyToggle) {
@@ -1102,29 +1093,6 @@ class ChordTrainer {
             alert(`Time's up!\nScore: ${this.currentScore}\nHigh Score: ${currentHigh}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
             this.resetSession();
             this.nextQuestion();
-        }
-    }
-
-    cycleZoom() {
-        if (!this.zoomLevel) this.zoomLevel = 1;
-        this.zoomLevel = (this.zoomLevel % 3) + 1;
-        
-        const root = document.documentElement;
-        const isMob = this.isMobile();
-        
-        // Settings for each level
-        const settings = {
-            1: { width: isMob ? 45 : 60, height: isMob ? 160 : 200, label: '100%' },
-            2: { width: isMob ? 38 : 50, height: isMob ? 136 : 170, label: '85%' },
-            3: { width: isMob ? 32 : 42, height: isMob ? 112 : 140, label: '70%' }
-        };
-        
-        const zoom = settings[this.zoomLevel];
-        root.style.setProperty('--key-width', `${zoom.width}px`);
-        root.style.setProperty('--key-height', `${zoom.height}px`);
-        
-        if (this.dom.zoomLabel) {
-            this.dom.zoomLabel.textContent = isMob ? zoom.label : `ZOOM: ${zoom.label}`;
         }
     }
 }
