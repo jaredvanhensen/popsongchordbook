@@ -975,6 +975,26 @@ class FirebaseManager {
         }
     }
 
+    async saveHighScores(userId, highScores) {
+        if (!this.initialized || !userId) return;
+        try {
+            await this.database.ref(`users/${userId}/highScores`).set(highScores);
+        } catch (e) {
+            console.error("Error saving high scores:", e);
+        }
+    }
+
+    async getHighScores(userId) {
+        if (!this.initialized || !userId) return null;
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/highScores`).once('value');
+            return snapshot.val();
+        } catch (e) {
+            console.error("Error getting high scores:", e);
+            return null;
+        }
+    }
+
     // Helper Methods
 
     getAuthErrorMessage(errorCode) {

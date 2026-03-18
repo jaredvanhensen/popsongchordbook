@@ -1,4 +1,4 @@
-// Main Application (v2.274)
+// Main Application (v2.275)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.274)");
+        console.log("Pop Song Chord Book - App Initialized (v2.275)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -204,6 +204,22 @@ class App {
         });
 
         // Load and render songs (no default songs for new users)
+        // Initialize and sync Chord Trainer high scores
+        const user = this.firebaseManager.getCurrentUser();
+        if (user) {
+            this.firebaseManager.getHighScores(user.uid).then(dbScores => {
+                if (dbScores) {
+                    const localScores = JSON.parse(localStorage.getItem('chordTrainerHighScores') || '{}');
+                    const merged = { ...localScores, ...dbScores };
+                    localStorage.setItem('chordTrainerHighScores', JSON.stringify(merged));
+                    // Re-render profile if open
+                    if (this.profileModal && !this.profileModal.modal.classList.contains('hidden')) {
+                        this.profileModal.updateStatistics();
+                    }
+                }
+            });
+        }
+
         this.loadAndRender();
 
         // DEBUG: Diagnostics on Version Click
@@ -497,8 +513,9 @@ class App {
         try {
             let allSongs = this.songManager.getAllSongs();
 
-            // 1. If library is empty, import default songs
-            if (allSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
+            // 1. If library is empty, import default songs (ONLY FOR GUESTS - NEVER AUTO-SEED AUTHENTICATED USERS)
+            const user = this.firebaseManager.getCurrentUser();
+            if (allSongs.length === 0 && !user && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
                 console.log("Library empty. Importing default songs...");
                 await this.songManager.importSongs(DEFAULT_SONGS);
                 allSongs = this.songManager.getAllSongs(); // Refresh list

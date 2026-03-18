@@ -34,6 +34,22 @@ class ChordTrainer {
         this.setupEventListeners();
         this.generateKeys();
         this.updateStatsDisplay();
+
+        // 5. Sync High Scores from Firebase once authenticated
+        if (window.firebaseManager) {
+            window.firebaseManager.onAuthStateChanged(async (user) => {
+                if (user) {
+                    const dbScores = await window.firebaseManager.getHighScores(user.uid);
+                    if (dbScores) {
+                        // Merge db scores into highScores (db wins if different)
+                        this.highScores = { ...this.highScores, ...dbScores };
+                        localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+                        this.updateStatsDisplay();
+                    }
+                }
+            });
+        }
+
         this.nextQuestion();
         
         // Listen for MIDI if handler exists
@@ -1046,6 +1062,12 @@ class ChordTrainer {
         if (this.currentScore > prevHigh) {
             this.highScores[modeKey] = this.currentScore;
             localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+            
+            // Sync with Firebase if possible
+            if (window.firebaseManager && window.firebaseManager.isAuthenticated()) {
+                const userId = window.firebaseManager.getCurrentUser().uid;
+                window.firebaseManager.saveHighScores(userId, this.highScores);
+            }
         }
         const currentHigh = this.highScores[modeKey] || 0;
 
