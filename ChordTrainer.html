@@ -9,170 +9,167 @@
     <link rel="stylesheet" href="css/chord-trainer.css">
 </head>
 <body>
-    <div id="trainerRoot">
-        <header class="trainer-header">
-            <div class="trainer-title-group">
-                <a href="index.html" class="back-link" style="color: white; text-decoration: none; font-size: 1.5rem; margin-right: 15px;">‹</a>
-                <h1 class="trainer-title">🎹 CHORD TRAINER</h1>
+    <header class="trainer-header">
+        <div class="trainer-title-group">
+            <a href="index.html" class="back-link" style="color: white; text-decoration: none; font-size: 1.5rem; margin-right: 15px;">‹</a>
+            <h1 class="trainer-title">🎹 CHORD TRAINER</h1>
+        </div>
+        
+        <div class="trainer-header-actions">
+            <!-- Difficulty Level -->
+            <div id="difficultyToggle" class="header-toggle active">
+                <span class="icon">📈</span>
+                <span id="difficultyLabel" class="label">LEVEL 1: TRIADS</span>
+            </div>
+
+            <!-- Audio Toggle -->
+            <div id="audioToggle" class="header-toggle active">
+                <span class="icon">🔊</span>
+                <span class="label">AUDIO ON</span>
             </div>
             
-            <div class="trainer-header-actions">
-                <!-- Difficulty Level -->
-                <div id="difficultyToggle" class="header-toggle active">
-                    <span class="icon">📈</span>
-                    <span id="difficultyLabel" class="label">LEVEL 1: TRIADS</span>
-                </div>
-
-                <!-- Audio Toggle -->
-                <div id="audioToggle" class="header-toggle active">
-                    <span class="icon">🔊</span>
-                    <span class="label">AUDIO ON</span>
-                </div>
-                
-                <!-- Inversions Toggle -->
-                <div id="inversionToggle" class="header-toggle">
-                    <span class="icon">🔄</span>
-                    <span class="label">INVERSIONS OFF</span>
-                </div>
-
-                <!-- Beginner Guide Toggle -->
-                <div id="guideToggle" class="header-toggle">
-                    <span class="icon">💡</span>
-                    <span id="guideLabel" class="label">GUIDE OFF</span>
-                </div>
-                
-                <!-- Zoom Toggle -->
-                <div id="zoomToggle" class="header-toggle" title="Scale Interface">
-                    <span class="icon">🔍</span>
-                    <span id="zoomLabel" class="label">ZOOM: 100%</span>
-                </div>
-            </div>
-        </header>
-
-        <div class="trainer-meta-row">
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="1">1. Shape to Chord</button>
-                <button class="mode-btn" data-mode="2">2. Play the Chord</button>
-                <button class="mode-btn" data-mode="3">3. Notes → Chord</button>
-                <button class="mode-btn" data-mode="4">4. Chord → Notes</button>
-                <button id="modeCycleBtn" class="mode-btn mode-cycle-btn mobile-only">🔄 1. Shape to Chord</button>
+            <!-- Inversions Toggle -->
+            <div id="inversionToggle" class="header-toggle">
+                <span class="icon">🔄</span>
+                <span class="label">INVERSIONS OFF</span>
             </div>
 
-            <div class="control-group" style="display: flex; gap: 12px; align-items: center;">
-                <button id="timerCycleBtn" class="mode-btn" style="min-width: 120px;">⏱ FREE PLAY</button>
-                <div id="countdown" class="countdown-display">00:00</div>
-                <button id="openStatsBtn" class="open-stats-btn">
-                    <span class="icon">📊</span>
-                    <span class="label">STATS</span>
-                </button>
-                <button id="toggleKeyboardToolbarBtn" class="mode-btn" style="display: none; min-width: 44px; padding: 0; font-size: 1.2rem;">🎹</button>
+            <!-- Beginner Guide Toggle -->
+            <div id="guideToggle" class="header-toggle">
+                <span class="icon">💡</span>
+                <span id="guideLabel" class="label">GUIDE OFF</span>
+            </div>
+            
+            <!-- MIDI Status -->
+            <div id="midiStatus" class="header-toggle" title="MIDI Keyboard Support">
+                <span class="icon">⌨️</span>
+                <span id="midiLabel" class="label">MIDI DISCONNECTED</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="trainer-meta-row">
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="1">1. Shape to Chord</button>
+            <button class="mode-btn" data-mode="2">2. Play the Chord</button>
+            <button class="mode-btn" data-mode="3">3. Notes → Chord</button>
+            <button class="mode-btn" data-mode="4">4. Chord → Notes</button>
+            <button id="modeCycleBtn" class="mode-btn mode-cycle-btn mobile-only">🔄 1. Shape to Chord</button>
+        </div>
+
+        <div class="control-group" style="display: flex; gap: 12px; align-items: center;">
+            <button id="timerCycleBtn" class="mode-btn" style="min-width: 120px;">⏱ FREE PLAY</button>
+            <div id="countdown" class="countdown-display">00:00</div>
+            <button id="openStatsBtn" class="open-stats-btn">
+                <span class="icon">📊</span>
+                <span class="label">STATS</span>
+            </button>
+            <button id="toggleKeyboardToolbarBtn" class="mode-btn" style="display: none; min-width: 44px; padding: 0; font-size: 1.2rem;">🎹</button>
+        </div>
+    </div>
+
+    <main class="trainer-workbench">
+        <!-- The Result Overlay (Shown for correct answers) -->
+        <div id="resultOverlay" class="result-overlay">
+            <span class="checkmark">✓</span>
+        </div>
+
+        <!-- The Chord Box -->
+        <div id="chordBoxContainer" class="chord-box-container">
+            <div class="chord-box">
+                <h2 id="chordDisplay" class="chord-name">?</h2>
+                <div id="notesDisplay" class="chord-notes"></div>
             </div>
         </div>
 
-        <main class="trainer-workbench">
-            <!-- The Result Overlay (Shown for correct answers) -->
-            <div id="resultOverlay" class="result-overlay">
-                <span class="checkmark">✓</span>
-            </div>
-
-            <!-- The Chord Box -->
-            <div id="chordBoxContainer" class="chord-box-container">
-                <div class="chord-box">
-                    <h2 id="chordDisplay" class="chord-name">?</h2>
-                    <div id="notesDisplay" class="chord-notes"></div>
+        <!-- Workbench Center Area (Keyboard & Options) -->
+        <div class="workbench-center">
+            <!-- The Keyboard -->
+            <div class="keyboard-section">
+                <div id="piano" class="piano">
+                    <!-- Keys will be generated by JS -->
                 </div>
             </div>
 
-            <!-- Workbench Center Area (Keyboard & Options) -->
-            <div class="workbench-center">
-                <!-- The Keyboard -->
-                <div class="keyboard-section">
-                    <div id="piano" class="piano">
-                        <!-- Keys will be generated by JS -->
-                    </div>
-                </div>
-
-                <!-- Multiple Choice Answers (For modes 1 and 2) -->
-                <div id="answerOptions" class="mode-selector hidden" style="margin-top: -10px;">
-                    <!-- Buttons injected by JS -->
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons" style="display: flex; gap: 20px; z-index: 10;">
-                <button id="toggleKeyboardBtn" class="mode-btn hidden" style="background: #fbbf24; color: #78350f; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">SHOW KEYBOARD</button>
-                <button id="checkBtn" class="mode-btn" style="background: #10b981; color: white; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">CHECK ANSWER</button>
-                <button id="nextBtn" class="mode-btn" style="background: #4f46e5; color: white; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">NEXT CHORD</button>
-            </div>
-        </main>
-
-        <footer class="trainer-footer">
-            <div class="stats-panel">
-                <div class="stat-item">
-                    <span class="stat-label">Current Score</span>
-                    <span id="currentScore" class="stat-value highlight">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Accuracy</span>
-                    <span id="accuracyValue" class="stat-value">0%</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Best Streak</span>
-                    <span id="bestStreak" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Session Chords</span>
-                    <span id="totalChords" class="stat-value">0</span>
-                </div>
-            </div>
-        </footer>
-
-        <!-- Statistics Modal -->
-        <div id="statsModal" class="modal-overlay">
-            <div class="modal-card">
-                <div class="modal-header">
-                    <h2>📊 CHORD MASTERY</h2>
-                    <button id="closeStatsBtn" class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div id="statsContent" class="stats-grid">
-                        <!-- Stats rows injected by JS -->
-                    </div>
-                </div>
+            <!-- Multiple Choice Answers (For modes 1 and 2) -->
+            <div id="answerOptions" class="mode-selector hidden" style="margin-top: -10px;">
+                <!-- Buttons injected by JS -->
             </div>
         </div>
 
-        <!-- Session Complete Modal -->
-        <div id="sessionModal" class="modal-overlay">
-            <div class="modal-card flashy-card">
-                <div class="modal-header center">
-                    <h2 class="flashy-title">🎉 SESSION COMPLETE!</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="session-results">
-                        <div class="result-stat">
-                            <span class="label">FINAL SCORE</span>
-                            <span id="sessionScore" class="value">0</span>
-                        </div>
-                        <div class="result-stat">
-                            <span class="label">ACCURACY</span>
-                            <span id="sessionAccuracy" class="value">0%</span>
-                        </div>
-                        <div class="result-stat" style="background: #fff7ed; border-color: #ffedd5;">
-                            <span class="label" style="color: #9a3412;">HIGH SCORE</span>
-                            <span id="sessionHighScore" class="value" style="color: #ea580c;">0</span>
-                        </div>
-                        <div class="result-stat">
-                            <span class="label">CHORDS PLAYED</span>
-                            <span id="sessionCount" class="value">0</span>
-                        </div>
-                    </div>
-                    <button id="sessionOkBtn" class="btn btn-primary btn-full flashy-btn">AWESOME!</button>
+        <!-- Action Buttons -->
+        <div class="action-buttons" style="display: flex; gap: 20px; z-index: 10;">
+            <button id="toggleKeyboardBtn" class="mode-btn hidden" style="background: #fbbf24; color: #78350f; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">SHOW KEYBOARD</button>
+            <button id="checkBtn" class="mode-btn" style="background: #10b981; color: white; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">CHECK ANSWER</button>
+            <button id="nextBtn" class="mode-btn" style="background: #4f46e5; color: white; border: none; min-width: 150px; font-size: 1.1rem; padding: 12px 24px;">NEXT CHORD</button>
+        </div>
+    </main>
+
+    <footer class="trainer-footer">
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Current Score</span>
+                <span id="currentScore" class="stat-value highlight">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Accuracy</span>
+                <span id="accuracyValue" class="stat-value">0%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Best Streak</span>
+                <span id="bestStreak" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Session Chords</span>
+                <span id="totalChords" class="stat-value">0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Statistics Modal -->
+    <div id="statsModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>📊 CHORD MASTERY</h2>
+                <button id="closeStatsBtn" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="statsContent" class="stats-grid">
+                    <!-- Stats rows injected by JS -->
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Session Complete Modal -->
+    <div id="sessionModal" class="modal-overlay">
+        <div class="modal-card flashy-card">
+            <div class="modal-header center">
+                <h2 class="flashy-title">🎉 SESSION COMPLETE!</h2>
+            </div>
+            <div class="modal-body">
+                <div class="session-results">
+                    <div class="result-stat">
+                        <span class="label">FINAL SCORE</span>
+                        <span id="sessionScore" class="value">0</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">ACCURACY</span>
+                        <span id="sessionAccuracy" class="value">0%</span>
+                    </div>
+                    <div class="result-stat" style="background: #fff7ed; border-color: #ffedd5;">
+                        <span class="label" style="color: #9a3412;">HIGH SCORE</span>
+                        <span id="sessionHighScore" class="value" style="color: #ea580c;">0</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">CHORDS PLAYED</span>
+                        <span id="sessionCount" class="value">0</span>
+                    </div>
+                </div>
+                <button id="sessionOkBtn" class="btn btn-primary btn-full flashy-btn">AWESOME!</button>
+            </div>
+        </div>
+    </div>
     <!-- Background Scripts -->
     <script src="js/utils/PianoAudioPlayer.js"></script>
     <script src="js/utils/ChordParser.js"></script>

@@ -52,6 +52,11 @@ class ChordTrainer {
 
         this.nextQuestion();
         
+        // Listen for MIDI if handler exists
+        if (window.midiInputHandler) {
+            this.setupMidiHook();
+        }
+
         // Listen for resize to update keyboard on mobile
         window.addEventListener('resize', () => {
             const wasMobile = this.isMobile();
@@ -149,6 +154,8 @@ class ChordTrainer {
             timerCycleBtn: document.getElementById('timerCycleBtn'),
             audioToggle: document.getElementById('audioToggle'),
             inversionToggle: document.getElementById('inversionToggle'),
+            midiStatus: document.getElementById('midiStatus'),
+            midiLabel: document.getElementById('midiLabel'),
             difficultyToggle: document.getElementById('difficultyToggle'),
             difficultyLabel: document.getElementById('difficultyLabel'),
             resultOverlay: document.getElementById('resultOverlay'),
@@ -170,10 +177,7 @@ class ChordTrainer {
             keyboardSection: document.querySelector('.keyboard-section'),
             modeCycleBtn: document.getElementById('modeCycleBtn'),
             guideToggle: document.getElementById('guideToggle'),
-            guideLabel: document.getElementById('guideLabel'),
-            zoomToggle: document.getElementById('zoomToggle'),
-            zoomLabel: document.getElementById('zoomLabel'),
-            trainerRoot: document.getElementById('trainerRoot')
+            guideLabel: document.getElementById('guideLabel')
         };
     }
 
@@ -238,13 +242,6 @@ class ChordTrainer {
                 this.nextQuestion();
             }
         });
-
-        // Zoom Toggle (New Option 3 version)
-        if (this.dom.zoomToggle) {
-            this.dom.zoomToggle.addEventListener('click', () => {
-                this.cycleZoom();
-            });
-        }
 
         // Difficulty Toggle (Cycle 1, 2, 3)
         if (this.dom.difficultyToggle) {
@@ -328,6 +325,25 @@ class ChordTrainer {
             this.dom.toggleKeyboardBtn.style.color = isHidden ? '#78350f' : '#ffffff';
             this.dom.toggleKeyboardBtn.style.boxShadow = 'none';
         }
+    }
+
+    setupMidiHook() {
+        const originalHandleNoteOn = window.midiInputHandler.handleNoteOn.bind(window.midiInputHandler);
+        const originalHandleNoteOff = window.midiInputHandler.handleNoteOff.bind(window.midiInputHandler);
+
+        window.midiInputHandler.handleNoteOn = (noteIndex, velocity) => {
+            originalHandleNoteOn(noteIndex, velocity);
+            this.handleKeyPress(noteIndex, true);
+        };
+
+        window.midiInputHandler.handleNoteOff = (noteIndex) => {
+            originalHandleNoteOff(noteIndex);
+            this.handleKeyPress(noteIndex, false);
+        };
+
+        // Update MIDI label
+        this.dom.midiLabel.textContent = 'MIDI READY';
+        this.dom.midiStatus.classList.add('active');
     }
 
     generateKeys() {
@@ -1077,31 +1093,6 @@ class ChordTrainer {
             alert(`Time's up!\nScore: ${this.currentScore}\nHigh Score: ${currentHigh}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
             this.resetSession();
             this.nextQuestion();
-        }
-    }
-
-    cycleZoom() {
-        if (!this.zoomLevel) this.zoomLevel = 1;
-        this.zoomLevel = (this.zoomLevel % 3) + 1;
-        
-        const root = this.dom.trainerRoot || document.getElementById('trainerRoot');
-        if (!root) return;
-
-        // Reset classes
-        root.classList.remove('zoom-85', 'zoom-70');
-        
-        let labelText = "100%";
-        if (this.zoomLevel === 2) {
-            root.classList.add('zoom-85');
-            labelText = "85%";
-        } else if (this.zoomLevel === 3) {
-            root.classList.add('zoom-70');
-            labelText = "70%";
-        }
-        
-        if (this.dom.zoomLabel) {
-            const isMob = this.isMobile();
-            this.dom.zoomLabel.textContent = isMob ? labelText : `ZOOM: ${labelText}`;
         }
     }
 }
