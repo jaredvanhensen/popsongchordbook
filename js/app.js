@@ -891,7 +891,7 @@ class App {
             // Max width: 240px -> font-size: 0.95em
             const minWidth = 120;
             const maxWidth = 240;
-            const APP_VERSION = 'v2.274';
+            const minFontSize = 0.7;
             const maxFontSize = 0.95;
 
             // Clamp the width
