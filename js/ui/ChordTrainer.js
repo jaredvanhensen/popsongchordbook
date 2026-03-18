@@ -337,10 +337,10 @@ class ChordTrainer {
         const isMobile = this.isMobile();
         const numOctaves = isMobile ? 2 : 3;
         const startOctave = isMobile ? 4 : 4; // Mobile: C3 to B4 (24 keys), Desktop: C3 to B5 (36 keys)
-        const totalKeys = Math.floor(numOctaves * 12);
+        const totalKeys = (numOctaves * 12) + 1; // Include final C
 
         let keyCount = 0;
-        for (let o = 0; o < Math.ceil(numOctaves); o++) {
+        for (let o = 0; o <= numOctaves; o++) {
             for (let i = 0; i < 12; i++) {
                 if (keyCount >= totalKeys) break;
                 
@@ -572,21 +572,34 @@ class ChordTrainer {
             }
         }
 
-        // Mobile: C3(48) to B4(71), Desktop: C3(48) to B5(83)
+        // Mobile: C3(48) to C5(72), Desktop: C3(48) to C5(72) + octave?
         const isMob = this.isMobile();
-        const minMIDI = isMob ? 48 : 48;
-        const maxMIDI = isMob ? 71 : 83;
+        const minMIDI = 48; // C3
+        const maxMIDI = isMob ? 72 : 84; // Mobile 2 octaves + C, Desktop 3 octaves
         
         // Final sort to be sure
         notes.sort((a, b) => a - b);
         
-        // Safety shift up if the bass is below our view
-        while (notes[0] < minMIDI) {
-            notes = notes.map(n => n + 12);
-        }
-        // Safety shift down if the top is above our view
-        while (notes[notes.length - 1] > maxMIDI) {
-            notes = notes.map(n => n - 12);
+        // Intelligent centering loop: shift chord until it fits properly
+        // We try to keep it as centered as possible, but priority is fitting within view.
+        let shiftCount = 0;
+        const maxShifts = 10; // Prevent infinite loops
+        
+        while (shiftCount < maxShifts) {
+            const currentMin = notes[0];
+            const currentMax = notes[notes.length - 1];
+            
+            if (currentMin < minMIDI) {
+                notes = notes.map(n => n + 12);
+                shiftCount++;
+                continue;
+            }
+            if (currentMax > maxMIDI) {
+                notes = notes.map(n => n - 12);
+                shiftCount++;
+                continue;
+            }
+            break; // Fits!
         }
 
         const adjustedNotes = [...notes]; 

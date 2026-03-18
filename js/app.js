@@ -1,4 +1,4 @@
-// Main Application (v2.273)
+// Main Application (v2.274)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.273)");
+        console.log("Pop Song Chord Book - App Initialized (v2.274)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -891,7 +891,7 @@ class App {
             // Max width: 240px -> font-size: 0.95em
             const minWidth = 120;
             const maxWidth = 240;
-            const minFontSize = 0.7;
+            const APP_VERSION = 'v2.274';
             const maxFontSize = 0.95;
 
             // Clamp the width
