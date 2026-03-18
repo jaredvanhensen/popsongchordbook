@@ -3283,7 +3283,7 @@ body.ctrl-held .chord-item {
 }
 
 .map-modal-content {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    background: #541fa5; /* Darker purple requested by user */
     border-radius: 16px;
     width: 90vw;
     max-width: none;
@@ -4225,7 +4225,7 @@ body.ctrl-held .chord-item {
         border: none !important;
         position: fixed !important;
         box-shadow: none !important;
-        background: linear-gradient(135deg, #4438ca 0%, #6d28d9 100%) !important;
+        background: #541fa5 !important;
         /* Force solid gradient */
         z-index: 10001 !important;
     }

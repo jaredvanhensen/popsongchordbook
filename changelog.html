@@ -153,6 +153,43 @@
         </header>
 
         <div class="changelog">
+            <!-- v2.273 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.273</span>
+                    <span class="version-date">March 17, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Chord Trainer:</span>
+                        <span class="change-description">The Chord Trainer now defaults to '1. Shape to Chord' mode on
+                            startup, providing a consistent entry point for practice. Adjusted the UI butons to reflect
+                            this state immediately.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Song Map:</span>
+                        <span class="change-description">Darkened the Song Map background to HEX #541fa5 for better
+                            contrast and visual consistency with the parent window theme.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- v2.272 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.272</span>
+                    <span class="version-date">March 17, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Performance:</span>
+                        <span class="change-description">Implemented local thumbnail caching for song album artwork.
+                            The app now prioritizes local files for faster loading and offline availability, with a seamless
+                            fallback to the Deezer API when needed.</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- v2.271 -->
             <div class="version-card">
                 <div class="version-header">
@@ -162,7 +199,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Song Map Polish:</span>
-                        <span class="change-description">Renamed the 'CLEAR' label to 'INSTRUMENTAL' in the Song Map label picker and added a new 'REMOVE' option for clearing sections. Introduced a new vivid purple color for Instrumental sections to match the existing neon theme.</span>
+                        <span class="change-description">Renamed the 'CLEAR' label to 'INSTRUMENTAL' in the Song Map
+                            label picker and added a new 'REMOVE' option for clearing sections. Introduced a new vivid
+                            purple color for Instrumental sections to match the existing neon theme.</span>
                     </div>
                 </div>
             </div>
@@ -175,7 +214,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Timeline Features:</span>
-                        <span class="change-description">Added Undo and Redo buttons to the Chord Timeline toolbar (visible in Edit Mode). Improved the Save button behavior: it now remains hidden when there are no changes and pulses with a high-contrast orange color when unsaved changes exist. Further polished the editor's close button for maximum visibility.</span>
+                        <span class="change-description">Added Undo and Redo buttons to the Chord Timeline toolbar
+                            (visible in Edit Mode). Improved the Save button behavior: it now remains hidden when there
+                            are no changes and pulses with a high-contrast orange color when unsaved changes exist.
+                            Further polished the editor's close button for maximum visibility.</span>
                     </div>
                 </div>
             </div>
@@ -188,7 +230,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Redesigned the Chord Progression Editor's CLOSE button. It now features a high-contrast white circle with a bold, themed X icon, ensuring it is clearly visible against the purple gradient header in both the main app and the timeline view. Fixed a jumpy transition on hover.</span>
+                        <span class="change-description">Redesigned the Chord Progression Editor's CLOSE button. It now
+                            features a high-contrast white circle with a bold, themed X icon, ensuring it is clearly
+                            visible against the purple gradient header in both the main app and the timeline view. Fixed
+                            a jumpy transition on hover.</span>
                     </div>
                 </div>
             </div>
@@ -201,7 +246,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Editor Polish:</span>
-                        <span class="change-description">Fixed a CSS conflict in the Chord Timeline where the Key Selector text and dropdown options were invisible (white-on-white). Improved the layout and color consistency of the Chord Progression Editor across all views.</span>
+                        <span class="change-description">Fixed a CSS conflict in the Chord Timeline where the Key
+                            Selector text and dropdown options were invisible (white-on-white). Improved the layout and
+                            color consistency of the Chord Progression Editor across all views.</span>
                     </div>
                 </div>
             </div>
@@ -214,7 +261,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Editor Fix:</span>
-                        <span class="change-description">Fixed an issue where the Chord Progression Editor (in both the Song Detail Modal and the Chord Timeline) would not recognize or remember the song's musical key. The editor now correctly inherits the song's key from the modal footer and maintains your manually selected key when switching between song blocks.</span>
+                        <span class="change-description">Fixed an issue where the Chord Progression Editor (in both the
+                            Song Detail Modal and the Chord Timeline) would not recognize or remember the song's musical
+                            key. The editor now correctly inherits the song's key from the modal footer and maintains
+                            your manually selected key when switching between song blocks.</span>
                     </div>
                 </div>
             </div>
@@ -227,7 +277,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Practice Rotation:</span>
-                        <span class="change-description">Improved the "Practice" button logic to prevent getting stuck on a single song. The selection now intelligently filters out the current song and avoids immediate repeats, rotating through all songs with the lowest practice counts in your list.</span>
+                        <span class="change-description">Improved the "Practice" button logic to prevent getting stuck
+                            on a single song. The selection now intelligently filters out the current song and avoids
+                            immediate repeats, rotating through all songs with the lowest practice counts in your
+                            list.</span>
                     </div>
                 </div>
             </div>
@@ -240,7 +293,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Stability:</span>
-                        <span class="change-description">Fixed a layout shift where the virtual keyboard would move down in Practice Mode 2. The height of the multiple-choice area is now reserved even when no buttons are present, keeping the keyboard centered and stable.</span>
+                        <span class="change-description">Fixed a layout shift where the virtual keyboard would move down
+                            in Practice Mode 2. The height of the multiple-choice area is now reserved even when no
+                            buttons are present, keeping the keyboard centered and stable.</span>
                     </div>
                 </div>
             </div>
@@ -253,7 +308,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Intelligent Labels:</span>
-                        <span class="change-description">The Beginner Guide keyboard labels are now context-aware. If the current chord or the available answer options use flats (like Bb or Eb), the guide will automatically switch all black key labels from sharps to flats to match the context.</span>
+                        <span class="change-description">The Beginner Guide keyboard labels are now context-aware. If
+                            the current chord or the available answer options use flats (like Bb or Eb), the guide will
+                            automatically switch all black key labels from sharps to flats to match the context.</span>
                     </div>
                 </div>
             </div>
@@ -266,7 +323,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Polish:</span>
-                        <span class="change-description">Removed the small redundant "C" and "F" orientation labels from the top of the keys on mobile whenever the Beginner Guide is enabled. This removes visual clutter now that every key has a clear label.</span>
+                        <span class="change-description">Removed the small redundant "C" and "F" orientation labels from
+                            the top of the keys on mobile whenever the Beginner Guide is enabled. This removes visual
+                            clutter now that every key has a clear label.</span>
                     </div>
                 </div>
             </div>
@@ -279,7 +338,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile UI Detail:</span>
-                        <span class="change-description">Adjusted the positioning of note labels on mobile devices. Labels are now moved lower on the keys to align perfectly with the beginner guide indicator dots, creating a cleaner and more integrated look.</span>
+                        <span class="change-description">Adjusted the positioning of note labels on mobile devices.
+                            Labels are now moved lower on the keys to align perfectly with the beginner guide indicator
+                            dots, creating a cleaner and more integrated look.</span>
                     </div>
                 </div>
             </div>
@@ -292,7 +353,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile UI Polish:</span>
-                        <span class="change-description">Refined the mobile header by hiding the inversion toggle and transforming the Beginner Guide into a compact, icon-only button (Lightbulb 💡). This saves valuable screen space on mobile devices.</span>
+                        <span class="change-description">Refined the mobile header by hiding the inversion toggle and
+                            transforming the Beginner Guide into a compact, icon-only button (Lightbulb 💡). This saves
+                            valuable screen space on mobile devices.</span>
                     </div>
                 </div>
             </div>
@@ -305,7 +368,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile UI Cleanup:</span>
-                        <span class="change-description">Removed the redundant "KEYBOARD" button from the bottom action bar in Practice Mode 4 on mobile, as it is already accessible via the toolbar icon. This declutters the mobile interface.</span>
+                        <span class="change-description">Removed the redundant "KEYBOARD" button from the bottom action
+                            bar in Practice Mode 4 on mobile, as it is already accessible via the toolbar icon. This
+                            declutters the mobile interface.</span>
                     </div>
                 </div>
             </div>
@@ -318,7 +383,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Bug Fix:</span>
-                        <span class="change-description">Fixed a bug where toggling the Beginner Guide caused duplicate note selection buttons to appear in "Chord -> Notes" mode. Also ensured that guide highlights are properly cleared when the guide is switched off.</span>
+                        <span class="change-description">Fixed a bug where toggling the Beginner Guide caused duplicate
+                            note selection buttons to appear in "Chord -> Notes" mode. Also ensured that guide
+                            highlights are properly cleared when the guide is switched off.</span>
                     </div>
                 </div>
             </div>
@@ -331,7 +398,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancement:</span>
-                        <span class="change-description">Updated the Beginner Guide note labels on white keys to use a solid black font for improved readability against the light background.</span>
+                        <span class="change-description">Updated the Beginner Guide note labels on white keys to use a
+                            solid black font for improved readability against the light background.</span>
                     </div>
                 </div>
             </div>
@@ -344,7 +412,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancement:</span>
-                        <span class="change-description">Updated the Beginner Guide note labels on black keys to be styled as high-contrast white circles with black text, improving visibility and aesthetic consistency.</span>
+                        <span class="change-description">Updated the Beginner Guide note labels on black keys to be
+                            styled as high-contrast white circles with black text, improving visibility and aesthetic
+                            consistency.</span>
                     </div>
                 </div>
             </div>
@@ -357,7 +427,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Fixed a positioning bug where note labels and guide hints for black keys were floating at the bottom of the piano instead of appearing on the keys themselves. Improved key alignment for better readability.</span>
+                        <span class="change-description">Fixed a positioning bug where note labels and guide hints for
+                            black keys were floating at the bottom of the piano instead of appearing on the keys
+                            themselves. Improved key alignment for better readability.</span>
                     </div>
                 </div>
             </div>
@@ -370,7 +442,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancement:</span>
-                        <span class="change-description">Enhanced the "Beginner Guide" to show note names on ALL piano keys when enabled. Specifically highlighted chord notes are now prioritized with a vibrant indigo background for easier identification during practice.</span>
+                        <span class="change-description">Enhanced the "Beginner Guide" to show note names on ALL piano
+                            keys when enabled. Specifically highlighted chord notes are now prioritized with a vibrant
+                            indigo background for easier identification during practice.</span>
                     </div>
                 </div>
             </div>
@@ -383,7 +457,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">New Feature:</span>
-                        <span class="change-description">Introduced the "Beginner Guide" mode for practice routines 1 and 2. When enabled via the header toggle, it adds visual pulsing dots and note name labels directly onto the virtual keyboard to assist new learners.</span>
+                        <span class="change-description">Introduced the "Beginner Guide" mode for practice routines 1
+                            and 2. When enabled via the header toggle, it adds visual pulsing dots and note name labels
+                            directly onto the virtual keyboard to assist new learners.</span>
                     </div>
                 </div>
             </div>
@@ -396,7 +472,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Bug Fix:</span>
-                        <span class="change-description">Fixed a logic error in "2. Play the Chord" mode where selected keys weren't highlighting correctly and validation was skipped. Introduced a new "selected" blue highlight for active piano keys to provide better visual feedback during practice.</span>
+                        <span class="change-description">Fixed a logic error in "2. Play the Chord" mode where selected
+                            keys weren't highlighting correctly and validation was skipped. Introduced a new "selected"
+                            blue highlight for active piano keys to provide better visual feedback during
+                            practice.</span>
                     </div>
                 </div>
             </div>
@@ -409,7 +488,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Reordered and renumbered the Chord Trainer practice routines. "1. Shape to Chord" is now the first routine, followed by "2. Play the Chord". Updated high score tracking and profile displays to match the new numbering.</span>
+                        <span class="change-description">Reordered and renumbered the Chord Trainer practice routines.
+                            "1. Shape to Chord" is now the first routine, followed by "2. Play the Chord". Updated high
+                            score tracking and profile displays to match the new numbering.</span>
                     </div>
                 </div>
             </div>
@@ -422,7 +503,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Updated the color of the High Score cards on the Profile page to use the 'Melody Maker' indigo blue (#6366f1) and switched text to white for a cleaner, consistent look.</span>
+                        <span class="change-description">Updated the color of the High Score cards on the Profile page
+                            to use the 'Melody Maker' indigo blue (#6366f1) and switched text to white for a cleaner,
+                            consistent look.</span>
                     </div>
                 </div>
             </div>
@@ -435,7 +518,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Adjusted the session complete modal for desktop and landscape views. The results (High Score, etc.) now wrap into two rows, matching the mobile functionality to prevent content from overflowing the screen.</span>
+                        <span class="change-description">Adjusted the session complete modal for desktop and landscape
+                            views. The results (High Score, etc.) now wrap into two rows, matching the mobile
+                            functionality to prevent content from overflowing the screen.</span>
                     </div>
                 </div>
             </div>
@@ -448,7 +533,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">New Feature:</span>
-                        <span class="change-description">Implemented a High Score ranking system for the Chord Trainer. Tracks personal bests for each practice mode individually. High scores are now displayed in the session complete modal and summarized in a new section on the Profile page.</span>
+                        <span class="change-description">Implemented a High Score ranking system for the Chord Trainer.
+                            Tracks personal bests for each practice mode individually. High scores are now displayed in
+                            the session complete modal and summarized in a new section on the Profile page.</span>
                     </div>
                 </div>
             </div>
@@ -461,7 +548,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Improved the session results layout on mobile. Stats now wrap to multiple rows, allowing 'Chords Played' to sit centered on its own row instead of being cut off on smaller screens.</span>
+                        <span class="change-description">Improved the session results layout on mobile. Stats now wrap
+                            to multiple rows, allowing 'Chords Played' to sit centered on its own row instead of being
+                            cut off on smaller screens.</span>
                     </div>
                 </div>
             </div>
@@ -474,7 +563,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Logic Polish:</span>
-                        <span class="change-description">Fixed a visibility override where the keyboard toggle icon was appearing in all modes on mobile. It is now strictly limited to 'Chord → Notes' mode as intended.</span>
+                        <span class="change-description">Fixed a visibility override where the keyboard toggle icon was
+                            appearing in all modes on mobile. It is now strictly limited to 'Chord → Notes' mode as
+                            intended.</span>
                     </div>
                 </div>
             </div>
@@ -487,7 +578,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Toggle Fix:</span>
-                        <span class="change-description">Added a secondary keyboard toggle icon (🎹) directly to the white toolbar in 'Chord → Notes' mode on mobile. This makes it much easier to show and hide the keyboard for reference without losing your place in the exercise.</span>
+                        <span class="change-description">Added a secondary keyboard toggle icon (🎹) directly to the
+                            white toolbar in 'Chord → Notes' mode on mobile. This makes it much easier to show and hide
+                            the keyboard for reference without losing your place in the exercise.</span>
                     </div>
                 </div>
             </div>
@@ -500,7 +593,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Layout Fix:</span>
-                        <span class="change-description">Shifted the 2-octave mobile keyboard to start at C3 instead of Middle C (C4). This centering provides more room to the right, ensuring that chord shapes in identifying modes (like Shape to Chord) are fully visible and not cut off on the screen.</span>
+                        <span class="change-description">Shifted the 2-octave mobile keyboard to start at C3 instead of
+                            Middle C (C4). This centering provides more room to the right, ensuring that chord shapes in
+                            identifying modes (like Shape to Chord) are fully visible and not cut off on the
+                            screen.</span>
                     </div>
                 </div>
             </div>
@@ -513,7 +609,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Fix:</span>
-                        <span class="change-description">Optimized the 'Session Complete' screen for mobile phones. Shrunk the Final Score and Accuracy cards by 15% and reduced gaps to ensure no information is cut off on narrow screens.</span>
+                        <span class="change-description">Optimized the 'Session Complete' screen for mobile phones.
+                            Shrunk the Final Score and Accuracy cards by 15% and reduced gaps to ensure no information
+                            is cut off on narrow screens.</span>
                     </div>
                 </div>
             </div>
@@ -526,7 +624,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Range Optimization:</span>
-                        <span class="change-description">Implemented chord transposing logic to ensure all generated chords fall strictly within the visible keyboard range (C4–B5 for mobile, C3–B5 for desktop). This fixes issues where chord shapes or individual notes (like Bm) were appearing off-screen on mobile devices.</span>
+                        <span class="change-description">Implemented chord transposing logic to ensure all generated
+                            chords fall strictly within the visible keyboard range (C4–B5 for mobile, C3–B5 for
+                            desktop). This fixes issues where chord shapes or individual notes (like Bm) were appearing
+                            off-screen on mobile devices.</span>
                     </div>
                 </div>
             </div>
@@ -539,7 +640,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Logic Fix:</span>
-                        <span class="change-description">Fixed an enharmonic naming bug where inversion bass notes (like C#) were sometimes labeled incorrectly (as Db) depending on the previous chord's state. Naming now strictly follows the scale of the current chord's root.</span>
+                        <span class="change-description">Fixed an enharmonic naming bug where inversion bass notes (like
+                            C#) were sometimes labeled incorrectly (as Db) depending on the previous chord's state.
+                            Naming now strictly follows the scale of the current chord's root.</span>
                     </div>
                 </div>
             </div>
@@ -552,7 +655,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Vertical Optimization:</span>
-                        <span class="change-description">Trimmed the excess black space underneath the virtual keyboard on mobile, significantly reducing vertical scrolling and making the action buttons more accessible.</span>
+                        <span class="change-description">Trimmed the excess black space underneath the virtual keyboard
+                            on mobile, significantly reducing vertical scrolling and making the action buttons more
+                            accessible.</span>
                     </div>
                 </div>
             </div>
@@ -565,7 +670,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Final Mobile Polish:</span>
-                        <span class="change-description">Fixed a container target bug in the score bar; labels like 'SCORE' and 'ACC' now correctly appear on mobile. Shifted the 2-octave virtual keyboard to start at Middle C (C4) for optimal practice range. Enhanced device detection to ensure mobile styles apply correctly to all touch-screen devices.</span>
+                        <span class="change-description">Fixed a container target bug in the score bar; labels like
+                            'SCORE' and 'ACC' now correctly appear on mobile. Shifted the 2-octave virtual keyboard to
+                            start at Middle C (C4) for optimal practice range. Enhanced device detection to ensure
+                            mobile styles apply correctly to all touch-screen devices.</span>
                     </div>
                 </div>
             </div>
@@ -578,7 +686,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancements:</span>
-                        <span class="change-description">Expanded the mobile virtual keyboard to a full 2 octaves (starting at C4) for better practice range. Compacted the bottom score bar on mobile with shorter labels (ACC, TOTAL, etc.) to ensure information fits perfectly on smaller screens.</span>
+                        <span class="change-description">Expanded the mobile virtual keyboard to a full 2 octaves
+                            (starting at C4) for better practice range. Compacted the bottom score bar on mobile with
+                            shorter labels (ACC, TOTAL, etc.) to ensure information fits perfectly on smaller
+                            screens.</span>
                     </div>
                 </div>
             </div>
@@ -591,11 +702,14 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Navigation:</span>
-                        <span class="change-description">Numbered all practice modes (1-4) in the cycle button for easier navigation.</span>
+                        <span class="change-description">Numbered all practice modes (1-4) in the cycle button for
+                            easier navigation.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Chord -> Notes Overhaul:</span>
-                        <span class="change-description">Redesigned the note selection screen on mobile. All 12 notes are now visible simultaneously in a clean 4-column grid, eliminating the need to scroll or guess hidden options.</span>
+                        <span class="change-description">Redesigned the note selection screen on mobile. All 12 notes
+                            are now visible simultaneously in a clean 4-column grid, eliminating the need to scroll or
+                            guess hidden options.</span>
                     </div>
                 </div>
             </div>
@@ -608,7 +722,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Efficiency:</span>
-                        <span class="change-description">Replaced the 2x2 mode grid with a single 'Cycle' button (🔄) on mobile to save significant vertical space. Optimized the answer options for 'Notes -> Chord' and 'Shape to Chord' modes to fit horizontally in a tight row, ensuring they no longer overflow the screen.</span>
+                        <span class="change-description">Replaced the 2x2 mode grid with a single 'Cycle' button (🔄) on
+                            mobile to save significant vertical space. Optimized the answer options for 'Notes -> Chord'
+                            and 'Shape to Chord' modes to fit horizontally in a tight row, ensuring they no longer
+                            overflow the screen.</span>
                     </div>
                 </div>
             </div>
@@ -621,7 +738,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile UX:</span>
-                        <span class="change-description">Adjusted the 1.5 octave virtual keyboard on mobile to start from C4 (Middle C) for a better playing experience.</span>
+                        <span class="change-description">Adjusted the 1.5 octave virtual keyboard on mobile to start
+                            from C4 (Middle C) for a better playing experience.</span>
                     </div>
                 </div>
             </div>
@@ -634,7 +752,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Layout Fixes:</span>
-                        <span class="change-description">Fixed grid overflow to prevent buttons from being chopped off on small screens. Shrunk the 'FREE' timer button to fit perfectly. Switched the mobile keyboard toggle to a professional slate-grey theme. Reduced font sizes and added truncation to action buttons to ensure 'CHECK ANSWER' fits on all narrow devices.</span>
+                        <span class="change-description">Fixed grid overflow to prevent buttons from being chopped off
+                            on small screens. Shrunk the 'FREE' timer button to fit perfectly. Switched the mobile
+                            keyboard toggle to a professional slate-grey theme. Reduced font sizes and added truncation
+                            to action buttons to ensure 'CHECK ANSWER' fits on all narrow devices.</span>
                     </div>
                 </div>
             </div>
@@ -647,7 +768,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile Polish:</span>
-                        <span class="change-description">Fixed a bug where the 'SHOW KEYBOARD' text would revert on mobile; it is now strictly a compact keyboard icon (🎹). Further reduced the timer button width by shortening labels to '⏱ FREE' and '⏱ 1M' on mobile devices.</span>
+                        <span class="change-description">Fixed a bug where the 'SHOW KEYBOARD' text would revert on
+                            mobile; it is now strictly a compact keyboard icon (🎹). Further reduced the timer button
+                            width by shortening labels to '⏱ FREE' and '⏱ 1M' on mobile devices.</span>
                     </div>
                 </div>
             </div>
@@ -658,7 +781,9 @@
                 </div>
                 <div class="change-list">
                     <div class="change-item">
-                        <span class="change-description">Shortened 'Shape to Chord' practice mode name. Replaced the manual 'SHOW KEYBOARD' button with a compact keyboard icon (🎹). Reduced the width of the Free Play timer button on mobile for a tighter fit.</span>
+                        <span class="change-description">Shortened 'Shape to Chord' practice mode name. Replaced the
+                            manual 'SHOW KEYBOARD' button with a compact keyboard icon (🎹). Reduced the width of the
+                            Free Play timer button on mobile for a tighter fit.</span>
                     </div>
                 </div>
             </div>
@@ -671,7 +796,10 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Mobile UX:</span>
-                        <span class="change-description">Complete redesign of the mobile interface. Replaced scollbars with a clean 2x2 grid for practice modes, implemented a 1.5 octave piano with note labels, hidden the MIDI button on mobile for clarity, and 'lined out' the score bar statistics. Toggles now use compact labels (LVL 1, INV, etc.) to ensure status is always visible.</span>
+                        <span class="change-description">Complete redesign of the mobile interface. Replaced scollbars
+                            with a clean 2x2 grid for practice modes, implemented a 1.5 octave piano with note labels,
+                            hidden the MIDI button on mobile for clarity, and 'lined out' the score bar statistics.
+                            Toggles now use compact labels (LVL 1, INV, etc.) to ensure status is always visible.</span>
                     </div>
                 </div>
             </div>
@@ -684,7 +812,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Fix:</span>
-                        <span class="change-description">Restored the virtual keyboard in 'Notes -> Chord' mode. It is now visible as a reference while resolving chord names.</span>
+                        <span class="change-description">Restored the virtual keyboard in 'Notes -> Chord' mode. It is
+                            now visible as a reference while resolving chord names.</span>
                     </div>
                 </div>
             </div>
@@ -697,11 +826,14 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Enhanced 'Chord -> Notes' mode with auto-hidden keyboard and manual toggle to improve focus.</span>
+                        <span class="change-description">Enhanced 'Chord -> Notes' mode with auto-hidden keyboard and
+                            manual toggle to improve focus.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">UI Stability:</span>
-                        <span class="change-description">Locked layout to 100vh and implemented 'invisible' states for UI components. This ensures the Chord Box, Piano, and Buttons remain perfectly stable without shifting when switching modes.</span>
+                        <span class="change-description">Locked layout to 100vh and implemented 'invisible' states for
+                            UI components. This ensures the Chord Box, Piano, and Buttons remain perfectly stable
+                            without shifting when switching modes.</span>
                     </div>
                 </div>
             </div>
@@ -714,7 +846,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Enhanced the 'Chord -> Notes' mode by hiding the virtual keyboard by default to improve focus on note identification. Added a 'Show Keyboard' toggle for cases where visual assistance is needed.</span>
+                        <span class="change-description">Enhanced the 'Chord -> Notes' mode by hiding the virtual
+                            keyboard by default to improve focus on note identification. Added a 'Show Keyboard' toggle
+                            for cases where visual assistance is needed.</span>
                     </div>
                 </div>
             </div>
@@ -727,7 +861,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Reorganized practice modes. 'Play the Chord' is now the primary mode. Renamed 'Visual -> Notes' to 'Chord Shape to Chord' for better clarity.</span>
+                        <span class="change-description">Reorganized practice modes. 'Play the Chord' is now the primary
+                            mode. Renamed 'Visual -> Notes' to 'Chord Shape to Chord' for better clarity.</span>
                     </div>
                 </div>
             </div>
@@ -740,7 +875,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">MIDI Integration:</span>
-                        <span class="change-description">Aligned the virtual keyboard octaves with standard MIDI message indices. Pressing the lowest C on a physical MIDI keyboard will now correctly highlight the first C on the screen (C3/MIDI 48).</span>
+                        <span class="change-description">Aligned the virtual keyboard octaves with standard MIDI message
+                            indices. Pressing the lowest C on a physical MIDI keyboard will now correctly highlight the
+                            first C on the screen (C3/MIDI 48).</span>
                     </div>
                 </div>
             </div>
@@ -753,7 +890,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Tweaks:</span>
-                        <span class="change-description">Increased the width of the chord display box in the Trainer to prevent longer chord names (like Ebm/A#) from overflowing.</span>
+                        <span class="change-description">Increased the width of the chord display box in the Trainer to
+                            prevent longer chord names (like Ebm/A#) from overflowing.</span>
                     </div>
                 </div>
             </div>
@@ -766,7 +904,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Fixed mixed note notation (sharps/flats) in Practice Mode 1. Added context-aware note naming to ensure chords follow the "skip one letter" rule (e.g., Cm now correctly shows Eb, and E major shows G#).</span>
+                        <span class="change-description">Fixed mixed note notation (sharps/flats) in Practice Mode 1.
+                            Added context-aware note naming to ensure chords follow the "skip one letter" rule (e.g., Cm
+                            now correctly shows Eb, and E major shows G#).</span>
                     </div>
                 </div>
             </div>
@@ -779,7 +919,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Strictly limited Level 3 difficulty to 4-note chords maximum (removed maj9, m9). Added 6th and 7sus4 chords to maintain a challenging variety.</span>
+                        <span class="change-description">Strictly limited Level 3 difficulty to 4-note chords maximum
+                            (removed maj9, m9). Added 6th and 7sus4 chords to maintain a challenging variety.</span>
                     </div>
                 </div>
             </div>
@@ -792,7 +933,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Enhanced the random chord generator to ensure you never get the same chord twice in a row.</span>
+                        <span class="change-description">Enhanced the random chord generator to ensure you never get the
+                            same chord twice in a row.</span>
                     </div>
                 </div>
             </div>
@@ -805,11 +947,13 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancement:</span>
-                        <span class="change-description">Updated landing page with new premium button styles: Emerald for Chord Trainer and Glass for Quick Start Guide.</span>
+                        <span class="change-description">Updated landing page with new premium button styles: Emerald
+                            for Chord Trainer and Glass for Quick Start Guide.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Bug Fix:</span>
-                        <span class="change-description">Fixed a precision issue in Practice Mode 4 where multiple note buttons would highlight incorrectly when clicking a single piano key.</span>
+                        <span class="change-description">Fixed a precision issue in Practice Mode 4 where multiple note
+                            buttons would highlight incorrectly when clicking a single piano key.</span>
                     </div>
                 </div>
             </div>
@@ -823,7 +967,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Revert:</span>
-                        <span class="change-description">Restored original chord box dimensions and font size to maintain layout stability across practice modes.</span>
+                        <span class="change-description">Restored original chord box dimensions and font size to
+                            maintain layout stability across practice modes.</span>
                     </div>
                 </div>
             </div>
@@ -836,7 +981,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Layout:</span>
-                        <span class="change-description">Widen the main chord display box and reduced font size for complex slash chords (e.g., F#m/C#) to ensure they fit perfectly without overflow.</span>
+                        <span class="change-description">Widen the main chord display box and reduced font size for
+                            complex slash chords (e.g., F#m/C#) to ensure they fit perfectly without overflow.</span>
                     </div>
                 </div>
             </div>
@@ -850,7 +996,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Enabled real-time auto-validation for manual note selection in Practice Mode 4. The trainer now recognizes the correct answer immediately as you toggle the buttons.</span>
+                        <span class="change-description">Enabled real-time auto-validation for manual note selection in
+                            Practice Mode 4. The trainer now recognizes the correct answer immediately as you toggle the
+                            buttons.</span>
                     </div>
                 </div>
             </div>
@@ -864,7 +1012,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">MIDI Integration:</span>
-                        <span class="change-description">Extended MIDI and Piano support to Practice Mode 4. You can now select notes using your MIDI keyboard or by clicking the on-screen piano keys.</span>
+                        <span class="change-description">Extended MIDI and Piano support to Practice Mode 4. You can now
+                            select notes using your MIDI keyboard or by clicking the on-screen piano keys.</span>
                     </div>
                 </div>
             </div>
@@ -877,7 +1026,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Refinement:</span>
-                        <span class="change-description">Simplified the prompt in Practice Mode 4 to "Select the right notes" for better clarity and brevity.</span>
+                        <span class="change-description">Simplified the prompt in Practice Mode 4 to "Select the right
+                            notes" for better clarity and brevity.</span>
                     </div>
                 </div>
             </div>
@@ -890,7 +1040,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Optimizaton:</span>
-                        <span class="change-description">Combined enharmonic sharp/flat buttons (e.g., C#/Db) into single buttons in "Chord to Notes" mode for a cleaner, more intuitive interface.</span>
+                        <span class="change-description">Combined enharmonic sharp/flat buttons (e.g., C#/Db) into
+                            single buttons in "Chord to Notes" mode for a cleaner, more intuitive interface.</span>
                     </div>
                 </div>
             </div>
@@ -904,7 +1055,8 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Polish:</span>
-                        <span class="change-description">Centered the "AWESOME!" button in the session results modal for better visual balance.</span>
+                        <span class="change-description">Centered the "AWESOME!" button in the session results modal for
+                            better visual balance.</span>
                     </div>
                 </div>
             </div>
@@ -917,7 +1069,9 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Scoring Fix:</span>
-                        <span class="change-description">Resolved a vulnerability where users could repeatedly gain points by clicking "Check Answer" multiple times on a single correct response. Each question now rewards points only once.</span>
+                        <span class="change-description">Resolved a vulnerability where users could repeatedly gain
+                            points by clicking "Check Answer" multiple times on a single correct response. Each question
+                            now rewards points only once.</span>
                     </div>
                 </div>
             </div>
@@ -931,11 +1085,13 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Enharmonics:</span>
-                        <span class="change-description">Implemented enharmonic awareness across all modes. C# and Db are now treated as identical for scoring and distractor filtering.</span>
+                        <span class="change-description">Implemented enharmonic awareness across all modes. C# and Db
+                            are now treated as identical for scoring and distractor filtering.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">UX Refinement:</span>
-                        <span class="change-description">Widened the chord name boxes in the Mastery Stats popup to ensure longer chord names fit perfectly.</span>
+                        <span class="change-description">Widened the chord name boxes in the Mastery Stats popup to
+                            ensure longer chord names fit perfectly.</span>
                     </div>
                 </div>
             </div>
@@ -948,11 +1104,13 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">Chord Trainer:</span>
-                        <span class="change-description">Major overhaul including a new flashy results modal, centered instructions, and pedagogical triad filtering for Level 1.</span>
+                        <span class="change-description">Major overhaul including a new flashy results modal, centered
+                            instructions, and pedagogical triad filtering for Level 1.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">UI Polish:</span>
-                        <span class="change-description">Stabilized toolbar button widths to prevent layout shifts and added red selection highlights with toggle support for the piano.</span>
+                        <span class="change-description">Stabilized toolbar button widths to prevent layout shifts and
+                            added red selection highlights with toggle support for the piano.</span>
                     </div>
                 </div>
             </div>
@@ -965,11 +1123,14 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Refinement:</span>
-                        <span class="change-description">Enhanced the "+1 practice" label visibility in the Song Detail Modal. Removed greyed-out opacity to match the prominence of the piano, song map, and timeline icons.</span>
+                        <span class="change-description">Enhanced the "+1 practice" label visibility in the Song Detail
+                            Modal. Removed greyed-out opacity to match the prominence of the piano, song map, and
+                            timeline icons.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Consistency:</span>
-                        <span class="change-description">Unified label casing across the footer actions. All primary action labels are now consistently lowercase for a more cohesive aesthetic.</span>
+                        <span class="change-description">Unified label casing across the footer actions. All primary
+                            action labels are now consistently lowercase for a more cohesive aesthetic.</span>
                     </div>
                 </div>
             </div>
@@ -983,15 +1144,18 @@
                 <div class="change-list">
                     <div class="change-item">
                         <span class="change-type">UI Enhancement:</span>
-                        <span class="change-description">Added "Show Song Map" button to the Song Detail Modal footer for PC/Landscape mode, providing quick access to song structure.</span>
+                        <span class="change-description">Added "Show Song Map" button to the Song Detail Modal footer
+                            for PC/Landscape mode, providing quick access to song structure.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Integration:</span>
-                        <span class="change-description">Implemented Song Map auto-opening logic in the Scrolling Chords iframe via URL parameters for a seamless transition.</span>
+                        <span class="change-description">Implemented Song Map auto-opening logic in the Scrolling Chords
+                            iframe via URL parameters for a seamless transition.</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Aesthetics:</span>
-                        <span class="change-description">Refined footer icon sizing and alignment in the Song Detail Modal to ensure a perfectly balanced, premium visual look.</span>
+                        <span class="change-description">Refined footer icon sizing and alignment in the Song Detail
+                            Modal to ensure a perfectly balanced, premium visual look.</span>
                     </div>
                 </div>
             </div>

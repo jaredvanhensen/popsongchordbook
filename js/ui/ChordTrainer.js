@@ -3,7 +3,7 @@ class ChordTrainer {
         this.audioPlayer = new PianoAudioPlayer();
         this.chordParser = new ChordParser();
         
-        this.currentMode = 2; // Default to "Play the Chord" (now mode 2)
+        this.currentMode = 1; // Default to "Shape to Chord" (mode 1)
         this.currentChord = null;
         this.currentScore = 0;
         this.totalQuestions = 0;

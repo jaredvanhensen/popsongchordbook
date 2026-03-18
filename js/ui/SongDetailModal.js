@@ -2836,18 +2836,41 @@ class SongDetailModal {
         // Reset state without hiding immediately (to maintain height)
         // We use visibility: hidden or just clear src to avoid display:none collapse
         thumbElement.style.visibility = 'hidden';
-        thumbElement.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent pixel placeholder
+        thumbElement.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent placeholder
         thumbElement.classList.remove('hidden'); // Ensure it's not display:none
 
         if (!artist || !title) return;
 
+        // 1. Try Local Backup First (for fallback and offline support)
+        const safeArtist = artist.replace(/[<>:"/\\|?*]/g, '');
+        const safeTitle = title.replace(/[<>:"/\\|?*]/g, '');
+        const localPath = `assets/thumbnails/${safeArtist}-${safeTitle}.jpg`;
+
+        try {
+            const localExists = await new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = localPath;
+            });
+
+            if (localExists) {
+                thumbElement.src = localPath;
+                thumbElement.style.visibility = 'visible';
+                thumbElement.classList.remove('hidden');
+                return; // Local copy used, skip API call
+            }
+        } catch (e) {
+            console.log("Local thumbnail check failed, trying Deezer.");
+        }
+
+        // 2. Fallback to Deezer API
         try {
             const query = encodeURIComponent(`${artist} ${title}`);
             const callbackName = 'deezerCallback_' + Math.round(1000000 * Math.random());
 
             // Create a promise to handle the JSONP response
             const responsePromise = new Promise((resolve, reject) => {
-                // Set timeout
                 const timeoutId = setTimeout(() => {
                     cleanup();
                     reject(new Error('JSONP timeout'));
@@ -2878,7 +2901,6 @@ class SongDetailModal {
             const data = await responsePromise;
 
             if (data && data.data && data.data.length > 0) {
-                // Get medium resolution artwork (250x250) from the album object
                 let artworkUrl = data.data[0].album.cover_medium || data.data[0].album.cover_small;
                 if (artworkUrl) {
                     thumbElement.src = artworkUrl;

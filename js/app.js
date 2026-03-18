@@ -1,4 +1,4 @@
-// Main Application (v2.271)
+// Main Application (v2.273)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.271)");
+        console.log("Pop Song Chord Book - App Initialized (v2.273)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -259,10 +259,10 @@ class App {
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
         if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {
             // Only call show() if the modal isn't already visible to avoid resetting its state (like error messages)
-            const isModalVisible = this.authModal.modal && 
-                                 (this.authModal.modal.style.display === 'flex' || 
-                                  !this.authModal.modal.classList.contains('hidden'));
-            
+            const isModalVisible = this.authModal.modal &&
+                (this.authModal.modal.style.display === 'flex' ||
+                    !this.authModal.modal.classList.contains('hidden'));
+
             if (!isModalVisible) {
                 console.log('handleAuthFailure: logic triggered - showing login modal');
                 this.authModal.show(true);
@@ -289,8 +289,8 @@ class App {
         // Show login modal — but NOT if signup/verification is in progress
         if (this.authModal && !this.authModal.isBusy && !this.authModal.isShowingVerification) {
             const isModalVisible = this.authModal.modal &&
-                                 (this.authModal.modal.style.display === 'flex' ||
-                                  !this.authModal.modal.classList.contains('hidden'));
+                (this.authModal.modal.style.display === 'flex' ||
+                    !this.authModal.modal.classList.contains('hidden'));
             if (!isModalVisible) {
                 this.authModal.show(true);
             }
@@ -1755,7 +1755,7 @@ class App {
 
         // 2. Filter out current song to find candidates for "Next"
         let candidates = availableSongs.filter(s => s.id !== currentSongId);
-        
+
         // If no candidates (only 1 song in list), we HAVE to pick the current one again (fallback)
         if (candidates.length === 0) {
             candidates = availableSongs;
