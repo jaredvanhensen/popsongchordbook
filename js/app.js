@@ -1,4 +1,4 @@
-// Main Application (v2.275)
+// Main Application (v2.276)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.275)");
+        console.log("Pop Song Chord Book - App Initialized (v2.276)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -426,34 +426,19 @@ class App {
                 const setlists = localSetlists ? JSON.parse(localSetlists) : [];
 
                 if (songs.length > 0 || setlists.length > 0) {
-                    // Ask user if they want to migrate (only for new accounts with local data)
-                    const shouldMigrate = confirm(
-                        `Je hebt ${songs.length} song(s) en ${setlists.length} setlist(s) lokaal opgeslagen.\n\n` +
-                        `Wil je deze data naar je nieuwe Firebase account migreren?\n\n` +
-                        `Klik "OK" om te migreren, of "Annuleren" om te starten met een lege collectie.`
-                    );
+                    // Automatically migrate for new accounts without asking
+                    console.log("Auto-migrating local data to new Firebase account...");
+                    const result = await this.firebaseManager.migrateLocalDataToFirebase(userId, songs, setlists);
 
-                    if (shouldMigrate) {
-                        const result = await this.firebaseManager.migrateLocalDataToFirebase(userId, songs, setlists);
-
-                        if (result.merged) {
-                            alert(
-                                `Migratie voltooid!\n\n` +
-                                `${result.songsAdded} nieuwe song(s) toegevoegd.\n` +
-                                `${result.setlistsAdded} nieuwe setlist(s) toegevoegd.`
-                            );
-                        } else {
-                            alert(
-                                `Migratie voltooid!\n\n` +
-                                `${result.songsAdded} song(s) gemigreerd.\n` +
-                                `${result.setlistsAdded} setlist(s) gemigreerd.`
-                            );
-                        }
+                    if (result.merged) {
+                        console.log(`Migration: ${result.songsAdded} songs and ${result.setlistsAdded} setlists merged.`);
+                    } else {
+                        console.log(`Migration: ${result.songsAdded} songs and ${result.setlistsAdded} setlists uploaded.`);
                     }
-
-                    // Mark migration as completed (even if user declined)
-                    localStorage.setItem(migrationKey, 'true');
                 }
+                
+                // Mark migration as completed
+                localStorage.setItem(migrationKey, 'true');
             } catch (error) {
                 console.error('Migration error:', error);
                 alert('Er is een fout opgetreden bij het migreren van data.');
@@ -513,11 +498,25 @@ class App {
         try {
             let allSongs = this.songManager.getAllSongs();
 
-            // 1. If library is empty, import default songs (ONLY FOR GUESTS - NEVER AUTO-SEED AUTHENTICATED USERS)
+            // 1. Automatic Seeding for Guests AND New Accounts
             const user = this.firebaseManager.getCurrentUser();
-            if (allSongs.length === 0 && !user && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
-                console.log("Library empty. Importing default songs...");
-                await this.songManager.importSongs(DEFAULT_SONGS);
+            
+            if (allSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
+                if (!user) {
+                    // Guest case: Just seed
+                    console.log("Empty guest library. Seeding defaults...");
+                    await this.songManager.importSongs(DEFAULT_SONGS);
+                } else {
+                    // Logged in user case: Check cloud flag to see if they've EVER been seeded
+                    const seedingDone = await this.firebaseManager.getSeedingStatus(user.uid);
+                    if (!seedingDone) {
+                        console.log("New account detected. Seeding defaults automatically...");
+                        await this.songManager.importSongs(DEFAULT_SONGS);
+                        await this.firebaseManager.setSeedingStatus(user.uid, true);
+                    } else {
+                        console.log("Account already initialized. Skipping auto-seed.");
+                    }
+                }
                 allSongs = this.songManager.getAllSongs(); // Refresh list
             }
 

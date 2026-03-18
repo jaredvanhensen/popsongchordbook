@@ -995,6 +995,26 @@ class FirebaseManager {
         }
     }
 
+    async getSeedingStatus(userId) {
+        if (!this.initialized || !userId) return true; // Assume true for safety
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/metadata/seedingCompleted`).once('value');
+            return snapshot.val() === true;
+        } catch (e) {
+            console.error("Error checking seeding status:", e);
+            return true;
+        }
+    }
+
+    async setSeedingStatus(userId, completed = true) {
+        if (!this.initialized || !userId) return;
+        try {
+            await this.database.ref(`users/${userId}/metadata/seedingCompleted`).set(completed);
+        } catch (e) {
+            console.error("Error setting seeding status:", e);
+        }
+    }
+
     // Helper Methods
 
     getAuthErrorMessage(errorCode) {
