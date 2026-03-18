@@ -17,6 +17,10 @@
     --key-wrong: #ef4444;
     --key-active: #7c3aed;
     --font-family: 'Inter', sans-serif;
+    
+    /* Keyboard Scaling Variables */
+    --key-width: 60px;
+    --key-height: 200px;
 }
 
 body {
@@ -311,7 +315,7 @@ body {
 .piano {
     display: flex;
     position: relative;
-    height: 200px;
+    height: var(--key-height);
     background: #111;
     padding: 3px;
     border-radius: 10px;
@@ -319,7 +323,7 @@ body {
 }
 
 .white-key {
-    width: 60px;
+    width: var(--key-width);
     height: 100%;
     background: linear-gradient(to bottom, #fff 0%, #f1f5f9 100%);
     border: 1px solid #94a3b8;
@@ -338,13 +342,13 @@ body {
 }
 
 .black-key {
-    width: 36px;
-    height: 145px;
+    width: calc(var(--key-width) * 0.6);
+    height: calc(var(--key-height) * 0.725);
     background: linear-gradient(to bottom, #2d3748 0%, #000 100%);
     border-radius: 0 0 6px 6px;
     cursor: pointer;
-    margin-left: -18px;
-    margin-right: -18px;
+    margin-left: calc(var(--key-width) * -0.3);
+    margin-right: calc(var(--key-width) * -0.3);
     z-index: 2;
     box-shadow: inset 0 -5px 0 #111, 0 6px 15px rgba(0, 0, 0, 0.5);
     transition: all 0.1s;
