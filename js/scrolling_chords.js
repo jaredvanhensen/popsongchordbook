@@ -2587,7 +2587,7 @@ function play() {
     `;
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="6" y="4" width="4" height="16"></rect>
                 <rect x="14" y="4" width="4" height="16"></rect>
             </svg>
@@ -2630,8 +2630,8 @@ function pause() {
     `;
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
             </svg>
         `;
     }
@@ -3422,10 +3422,12 @@ function toggleMapMobileMenu() {
     if (menu) menu.classList.toggle('hidden');
 }
 
-if (document.getElementById('songMapHamburgerBtn')) {
-    document.getElementById('songMapHamburgerBtn').addEventListener('click', (e) => {
+if (document.getElementById('songMapYouTubeBtn')) {
+    document.getElementById('songMapYouTubeBtn').addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleMapMobileMenu();
+        if (window.parent && typeof window.parent.postMessage === 'function') {
+            window.parent.postMessage({ type: 'openYouTubeCapture' }, '*');
+        }
     });
 }
 

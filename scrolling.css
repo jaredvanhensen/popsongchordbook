@@ -4409,6 +4409,7 @@ body.ctrl-held .chord-item {
 
     .song-map-toolbar-btn,
     #songMapPlayPauseBtn,
+    #songMapYouTubeBtn,
     #songMapZoomBtn,
     #songMapDragToggleBtn,
     #songMapStyleBtn {
@@ -4426,11 +4427,19 @@ body.ctrl-held .chord-item {
         justify-content: center !important;
         opacity: 0.9 !important;
         filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
-        transition: transform 0.1s, opacity 0.1s !important;
+        transition: transform 0.1s, opacity 0.1s, color 0.1s !important;
+    }
+
+    /* Visual feedback for Active Mode (Edit Mode) */
+    .song-map-toolbar-btn.active {
+        color: #ffd700 !important; /* Gold for active state */
+        opacity: 1 !important;
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)) !important;
     }
 
     .song-map-toolbar-btn:active,
     #songMapPlayPauseBtn:active,
+    #songMapYouTubeBtn:active,
     #songMapZoomBtn:active,
     #songMapDragToggleBtn:active,
     #songMapStyleBtn:active {
