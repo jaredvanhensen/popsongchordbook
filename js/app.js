@@ -1,4 +1,4 @@
-// Main Application (v2.315)
+// Main Application (v2.316)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.315)");
+        console.log("Pop Song Chord Book - App Initialized (v2.316)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -118,6 +118,9 @@ class App {
                 }
             });
         });
+
+        // Setup Chord Trainer navigation
+        this.setupChordTrainer();
     }
 
     pushModalState(modalId, closeFn) {
@@ -321,6 +324,26 @@ class App {
             }
         } else {
             console.log('handleSignOut: modal show suppressed (busy or showing verification)');
+        }
+    }
+
+    setupChordTrainer() {
+        const desktopBtn = document.getElementById('headerTrainerBtn');
+        const mobileBtn = document.getElementById('mobileTrainerBtn');
+
+        const navigateToTrainer = () => {
+            window.location.href = 'ChordTrainer.html';
+        };
+
+        if (desktopBtn) {
+            desktopBtn.addEventListener('click', navigateToTrainer);
+        }
+        if (mobileBtn) {
+            // Already handled by inline onclick, but adding listener won't hurt
+            // unless it double navigates. 
+            // Actually, I'll remove the inline onclick later if needed.
+            // But let's just make it robust.
+            mobileBtn.addEventListener('click', navigateToTrainer);
         }
     }
 
@@ -2041,7 +2064,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.315):\n`;
+        let msg = `Diagnostics (v2.316):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2259,7 +2282,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.315)');
+        console.log('UG Extractor listener initialized (v2.316)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

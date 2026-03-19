@@ -10574,3 +10574,11 @@ div.song-detail-practice-controls {
     }
 }
 
+
+/* Mobile specific Trainer Button */
+.mobile-trainer-btn { display: none; }
+
+.trainer-btn { display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; color: #475569; border-radius: 8px; padding: 6px 12px; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; gap: 6px; }
+.trainer-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+@media (max-width: 480px) { #headerTrainerBtn { display: none !important; } .mobile-trainer-btn { display: flex !important; align-items: center; gap: 8px; background: #10b981; color: white; border: none; border-radius: 12px; padding: 10px 16px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); flex: 1; justify-content: center; margin: 0 5px; white-space: nowrap; animation: btn-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); } .mobile-trainer-btn:hover { background: #059669; } .mobile-trainer-btn .icon { font-size: 1.2rem; } }
+@keyframes btn-pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
