@@ -4245,10 +4245,10 @@ body.ctrl-held .chord-item {
     .song-map-header {
         border-radius: 0 !important;
         padding: 5px 15px !important;
-        height: 125px !important;
+        height: 115px !important;
         display: grid !important;
         grid-template-columns: 64px 1fr 45px !important;
-        grid-template-rows: 70px 55px !important;
+        grid-template-rows: 60px 55px !important;
         grid-template-areas:
             "thumb title close"
             ". actions ." !important;
@@ -4407,9 +4407,11 @@ body.ctrl-held .chord-item {
         padding-bottom: 5px !important;
     }
 
-    /* Style for the 'graphic' standalone icons on mobile */
     .song-map-toolbar-btn,
-    #songMapPlayPauseBtn {
+    #songMapPlayPauseBtn,
+    #songMapZoomBtn,
+    #songMapDragToggleBtn,
+    #songMapStyleBtn {
         display: flex !important;
         background: transparent !important;
         border: none !important;
@@ -4417,8 +4419,8 @@ body.ctrl-held .chord-item {
         box-shadow: none !important;
         color: #ffffff !important;
         padding: 0 !important;
-        width: 36px !important;
-        height: 36px !important;
+        width: 38px !important;
+        height: 38px !important;
         min-width: 0 !important;
         align-items: center !important;
         justify-content: center !important;
@@ -4428,14 +4430,17 @@ body.ctrl-held .chord-item {
     }
 
     .song-map-toolbar-btn:active,
-    #songMapPlayPauseBtn:active {
+    #songMapPlayPauseBtn:active,
+    #songMapZoomBtn:active,
+    #songMapDragToggleBtn:active,
+    #songMapStyleBtn:active {
         transform: scale(0.85) !important;
         opacity: 1 !important;
     }
 
     #songMapPlayPauseBtn svg {
-        width: 22px !important;
-        height: 22px !important;
+        width: 24px !important;
+        height: 24px !important;
         stroke-width: 2px !important;
     }
 
@@ -4446,9 +4451,11 @@ body.ctrl-held .chord-item {
         display: none !important;
     }
 
-    /* Hide save button on mobile as it's typically auto or in menu */
-    #songMapSaveBtn {
-        display: none !important;
+    /* Target SVGs for other buttons too if needed */
+    .song-map-toolbar-btn svg {
+        width: 22px !important;
+        height: 22px !important;
+        stroke-width: 2px !important;
     }
 
     .song-map-close-btn-abs {
