@@ -24,6 +24,7 @@ class ChordTrainer {
         this.isQuestionHandled = false;
         this.isGuideEnabled = false;
         this.currentOptions = [];
+        this.lastSessionWasHigh = false;
         
         this.init();
     }
@@ -74,10 +75,10 @@ class ChordTrainer {
     updateTimerBtnLabel() {
         if (!this.dom.timerCycleBtn) return;
         const isMob = this.isMobile();
-        const times = [0, 60, 120, 180];
+        const times = [0, 120];
         const labels = isMob 
-            ? ['⏱ FREE', '⏱ 1M', '⏱ 2M', '⏱ 3M']
-            : ['⏱ FREE PLAY', '⏱ 1 MIN', '⏱ 2 MIN', '⏱ 3 MIN'];
+            ? ['⏱ FREE', '⏱ 2M']
+            : ['⏱ FREE PLAY', '⏱ 2 MIN'];
         
         let currentIdx = times.indexOf(this.timerLimit || 0);
         this.dom.timerCycleBtn.textContent = labels[currentIdx];
@@ -166,7 +167,19 @@ class ChordTrainer {
             keyboardSection: document.querySelector('.keyboard-section'),
             modeCycleBtn: document.getElementById('modeCycleBtn'),
             guideToggle: document.getElementById('guideToggle'),
-            guideLabel: document.getElementById('guideLabel')
+            guideLabel: document.getElementById('guideLabel'),
+            leaderboardModal: document.getElementById('leaderboardModal'),
+            openLeaderboardBtn: document.getElementById('openLeaderboardBtn'),
+            closeLeaderboardBtn: document.getElementById('closeLeaderboardBtn'),
+            chordTrainerHighScoresGrid: document.getElementById('chordTrainerHighScoresGrid'),
+            leaderboardLists: {
+                1: document.getElementById('leaderboardList1'),
+                2: document.getElementById('leaderboardList2'),
+                3: document.getElementById('leaderboardList3'),
+                4: document.getElementById('leaderboardList4')
+            },
+            countdownOverlay: document.getElementById('countdownOverlay'),
+            countdownNumber: document.getElementById('countdownNumber')
         };
     }
 
@@ -178,6 +191,12 @@ class ChordTrainer {
                 btn.classList.add('active');
                 this.currentMode = parseInt(btn.dataset.mode);
                 this.updateToggleLabels();
+                
+                // Reset to FREE PLAY when switching modes
+                this.timerLimit = 0;
+                this.updateTimerBtnLabel();
+                this.stopTimer();
+                
                 this.resetSession(); // Reset session when changing mode via desktop buttons
                 this.nextQuestion();
             });
@@ -188,6 +207,12 @@ class ChordTrainer {
             this.dom.modeCycleBtn.addEventListener('click', () => {
                 this.currentMode = (this.currentMode % 4) + 1;
                 this.updateToggleLabels();
+                
+                // Reset to FREE PLAY when switching modes
+                this.timerLimit = 0;
+                this.updateTimerBtnLabel();
+                this.stopTimer();
+                
                 this.resetSession(); // Reset session when changing mode via mobile cycle button
                 this.nextQuestion();
             });
@@ -196,21 +221,23 @@ class ChordTrainer {
         // Timer buttons
         if (this.dom.timerCycleBtn) {
             this.dom.timerCycleBtn.addEventListener('click', () => {
-                const isMob = this.isMobile();
-                const times = [0, 60, 120, 180];
-                const labels = isMob 
-                    ? ['⏱ FREE', '⏱ 1M', '⏱ 2M', '⏱ 3M']
-                    : ['⏱ FREE PLAY', '⏱ 1 MIN', '⏱ 2 MIN', '⏱ 3 MIN'];
+                const limits = [0, 120];
+                let currentIdx = limits.indexOf(this.timerLimit || 0);
+                const nextLimit = limits[(currentIdx + 1) % limits.length];
                 
-                // Find current index
-                let currentIdx = times.indexOf(this.timerLimit || 0);
-                let nextIdx = (currentIdx + 1) % times.length;
-                
-                this.timerLimit = times[nextIdx];
-                this.dom.timerCycleBtn.textContent = labels[nextIdx];
-                this.dom.timerCycleBtn.classList.toggle('active', this.timerLimit > 0);
-                
-                this.startTimer(this.timerLimit);
+                if (nextLimit === 120) {
+                    this.startPreflightCountdown(() => {
+                        this.timerLimit = nextLimit;
+                        this.updateTimerBtnLabel();
+                        this.dom.timerCycleBtn.classList.add('active');
+                        this.startTimer(this.timerLimit);
+                    });
+                } else {
+                    this.timerLimit = nextLimit;
+                    this.updateTimerBtnLabel();
+                    this.dom.timerCycleBtn.classList.remove('active');
+                    this.stopTimer();
+                }
             });
         }
 
@@ -252,8 +279,15 @@ class ChordTrainer {
         if (this.dom.sessionOkBtn) {
             this.dom.sessionOkBtn.addEventListener('click', () => {
                 this.dom.sessionModal.classList.remove('show');
+                const wasHigh = this.lastSessionWasHigh;
+                this.lastSessionWasHigh = false; // Reset early to avoid double triggers
+                
                 this.resetSession();
                 this.nextQuestion();
+                
+                if (wasHigh) {
+                    this.showLeaderboards();
+                }
             });
         }
 
@@ -270,6 +304,19 @@ class ChordTrainer {
         }
         if (this.dom.toggleKeyboardToolbarBtn) {
             this.dom.toggleKeyboardToolbarBtn.addEventListener('click', () => this.toggleKeyboard());
+        }
+
+        // Leaderboard modal
+        if (this.dom.openLeaderboardBtn) {
+            this.dom.openLeaderboardBtn.addEventListener('click', () => this.showLeaderboards());
+        }
+        if (this.dom.closeLeaderboardBtn) {
+            this.dom.closeLeaderboardBtn.addEventListener('click', () => this.hideLeaderboards());
+        }
+        if (this.dom.leaderboardModal) {
+            this.dom.leaderboardModal.addEventListener('click', (e) => {
+                if (e.target === this.dom.leaderboardModal) this.hideLeaderboards();
+            });
         }
     }
 
@@ -421,14 +468,14 @@ class ChordTrainer {
         }
     }
 
-    startTimer(minutes) {
+    startTimer(seconds) {
         clearInterval(this.timerInterval);
-        if (minutes === 0) {
-            this.dom.countdown.textContent = '00:00';
+        if (seconds === 0) {
+            this.stopTimer();
             return;
         }
 
-        this.timerSeconds = minutes;
+        this.timerSeconds = seconds;
         this.updateTimerDisplay();
 
         this.timerInterval = setInterval(() => {
@@ -439,6 +486,16 @@ class ChordTrainer {
                 this.showSessionComplete();
             }
         }, 1000);
+    }
+
+    stopTimer() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        this.timerSeconds = 0;
+        this.timerLimit = 0;
+        if (this.dom.countdown) {
+            this.dom.countdown.textContent = '00:00';
+        }
     }
 
     updateTimerDisplay() {
@@ -1012,31 +1069,35 @@ class ChordTrainer {
 
     showSessionComplete() {
         const acc = this.totalQuestions > 0 ? Math.round((this.correctAnswers / this.totalQuestions) * 100) : 0;
+        let isNewHigh = false;
         
-        // Track High Score with Time Categories (1M, 2M, 3M)
+        // Track High Score with Time Category (Now only 2M)
         if (this.timerLimit > 0) {
-            const modeKey = `mode${this.currentMode}_${this.timerLimit}m`;
+            const minutes = Math.round(this.timerLimit / 60);
+            const modeKey = `mode${this.currentMode}_${minutes}m`;
             const prevHigh = this.highScores[modeKey] || 0;
             
+            // Always sync current score to high scores if it's better than previous local high
             if (this.currentScore > prevHigh) {
                 this.highScores[modeKey] = this.currentScore;
                 localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
-                
-                // Sync with Firebase User Profile
-                if (window.firebaseManager && window.firebaseManager.isAuthenticated()) {
-                    const user = window.firebaseManager.getCurrentUser();
-                    window.firebaseManager.saveHighScores(user.uid, this.highScores);
-                    
-                    // NEW: Update Global Leaderboard
-                    const username = user.displayName || localStorage.getItem('popsongUsername') || 'New Player';
-                    window.firebaseManager.updateLeaderboard(modeKey, this.currentScore, username);
-                }
+                isNewHigh = true;
+            }
+            
+            // Proactively Sync with Firebase and Global Leaderboard
+            if (window.firebaseManager && window.firebaseManager.isAuthenticated()) {
+                const user = window.firebaseManager.getCurrentUser();
+                window.firebaseManager.saveHighScores(user.uid, this.highScores);
+                const username = user.displayName || localStorage.getItem('popsongUsername') || 'New Player';
+                window.firebaseManager.updateLeaderboard(modeKey, this.currentScore, username);
             }
         }
         
         // Fallback for UI display (current high for this mode)
-        const uiKey = this.timerLimit > 0 ? `mode${this.currentMode}_${this.timerLimit}m` : `mode${this.currentMode}`;
+        const minutesSuffix = this.timerLimit > 0 ? `_${Math.round(this.timerLimit / 60)}m` : "";
+        const uiKey = `mode${this.currentMode}${minutesSuffix}`;
         const currentHigh = this.highScores[uiKey] || 0;
+        this.lastSessionWasHigh = isNewHigh; // Store for the 'AWESOME' click
 
         if (this.dom.sessionModal) {
             this.dom.sessionScore.textContent = this.currentScore;
@@ -1045,12 +1106,167 @@ class ChordTrainer {
             if (this.dom.sessionHighScore) {
                 this.dom.sessionHighScore.textContent = currentHigh;
             }
+            
+            const card = this.dom.sessionModal.querySelector('.flashy-card');
+            const title = this.dom.sessionModal.querySelector('.flashy-title');
+            
+            if (isNewHigh && this.currentScore > 0) {
+                if (title) title.textContent = "🏆 NEW HIGH SCORE!";
+                if (card) card.classList.add('new-high-score-card');
+                if (this.isAudioEnabled) this.audioPlayer.playTriumph();
+                this.spawnConfetti();
+            } else {
+                if (title) title.textContent = "🎉 SESSION COMPLETE!";
+                if (card) card.classList.remove('new-high-score-card');
+            }
+            
             this.dom.sessionModal.classList.add('show');
         } else {
             alert(`Time's up!\nScore: ${this.currentScore}\nHigh Score: ${currentHigh}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
             this.resetSession();
             this.nextQuestion();
         }
+    }
+
+    showLeaderboards() {
+        if (!this.dom.leaderboardModal) return;
+        this.dom.leaderboardModal.classList.add('show');
+        this.renderHighScoresGrid();
+        this.renderGlobalLeaderboards();
+    }
+
+    hideLeaderboards() {
+        if (!this.dom.leaderboardModal) return;
+        this.dom.leaderboardModal.classList.remove('show');
+    }
+
+    renderHighScoresGrid() {
+        if (!this.dom.chordTrainerHighScoresGrid) return;
+        this.dom.chordTrainerHighScoresGrid.innerHTML = '';
+        
+        const modeNames = { 1: 'SHAPE / CHORD', 2: 'PLAY CHORD', 3: 'NOTES / CHORD', 4: 'CHORD / NOTES' };
+        const modeIcons = { 1: '👁️', 2: '🎹', 3: '📝', 4: '👂' };
+        
+        for (let m = 1; m <= 4; m++) {
+            const score = this.highScores[`mode${m}_2m`] || 0;
+            const card = document.createElement('div');
+            card.className = 'achievement-card unlocked';
+            card.style.background = 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)';
+            card.style.padding = '15px';
+            card.style.borderRadius = '12px';
+            card.style.display = 'flex';
+            card.style.flexDirection = 'column';
+            card.style.alignItems = 'center';
+            card.style.justifyContent = 'center';
+            card.style.color = 'white';
+            card.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+            
+            card.innerHTML = `
+                <div style="font-size: 0.6rem; opacity: 0.8; font-weight: 800; margin-bottom: 5px;">2 MINUTE</div>
+                <div style="font-size: 1.5rem; margin-bottom: 8px;">${modeIcons[m]}</div>
+                <div style="font-size: 0.65rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">${modeNames[m]}</div>
+                <div style="font-size: 1.2rem; font-weight: 900;">${score} <span style="font-size: 0.7rem; opacity: 0.7;">pts</span></div>
+            `;
+            this.dom.chordTrainerHighScoresGrid.appendChild(card);
+        }
+    }
+
+    async renderGlobalLeaderboards() {
+        if (!window.firebaseManager) return;
+        
+        for (let m = 1; m <= 4; m++) {
+            const listEl = this.dom.leaderboardLists[m];
+            if (!listEl) continue;
+
+            listEl.innerHTML = '<div style="text-align:center; padding: 10px; font-size: 0.7rem; color: #94a3b8;">Loading...</div>';
+            
+            const modeKey = `mode${m}_2m`;
+            const top10 = await window.firebaseManager.getLeaderboard(modeKey);
+            
+            listEl.innerHTML = '';
+            
+            if (!top10 || top10.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding: 10px; font-size: 0.7rem; color: #94a3b8;">No scores yet</div>';
+            } else {
+                top10.forEach((entry, index) => {
+                    const rank = index + 1;
+                    const entryEl = document.createElement('div');
+                    entryEl.className = `leaderboard-entry rank-${rank} compact`;
+                    entryEl.style.display = 'flex';
+                    entryEl.style.alignItems = 'center';
+                    entryEl.style.gap = '8px';
+                    entryEl.style.padding = '4px 8px';
+                    entryEl.style.marginBottom = '4px';
+                    entryEl.style.background = 'white';
+                    entryEl.style.borderRadius = '6px';
+                    entryEl.style.fontSize = '0.7rem';
+                    
+                    entryEl.innerHTML = `
+                        <div class="rank-badge" style="width: 18px; height: 18px; min-width: 18px; border-radius: 50%; background: #e2e8f0; color: #475569; font-size: 0.6rem; font-weight: 800; display: flex; align-items: center; justify-content: center;">${rank}</div>
+                        <div style="flex: 1; font-weight: 600; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${entry.username || 'Anon'}</div>
+                        <div style="color: #4f46e5; font-weight: 700;">${entry.score}</div>
+                    `;
+                    listEl.appendChild(entryEl);
+                });
+            }
+        }
+    }
+
+    spawnConfetti() {
+        const emojis = ['🎉', '🏆', '✨', '🎈', '⭐', '🎊'];
+        const container = this.dom.sessionModal || document.body;
+        
+        for (let i = 0; i < 30; i++) {
+            const span = document.createElement('span');
+            span.className = 'confetti';
+            span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            span.style.left = (Math.random() * 100) + '%';
+            span.style.top = (60 + Math.random() * 20) + '%';
+            span.style.animationDelay = (Math.random() * 0.5) + 's';
+            container.appendChild(span);
+            
+            // Cleanup
+            setTimeout(() => span.remove(), 2000);
+        }
+    }
+
+    startPreflightCountdown(onComplete) {
+        if (!this.dom.countdownOverlay) {
+            onComplete();
+            return;
+        }
+
+        this.dom.countdownOverlay.style.display = 'flex';
+        this.dom.countdownOverlay.style.opacity = '1';
+        this.dom.countdownOverlay.style.pointerEvents = 'all';
+
+        let count = 3;
+        this.dom.countdownNumber.textContent = count;
+        if (this.isAudioEnabled) this.audioPlayer.playCountdownTick(false);
+
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                this.dom.countdownNumber.textContent = count;
+                this.dom.countdownNumber.style.transform = 'scale(1.2)';
+                setTimeout(() => this.dom.countdownNumber.style.transform = 'scale(1)', 100);
+                if (this.isAudioEnabled) this.audioPlayer.playCountdownTick(false);
+            } else if (count === 0) {
+                this.dom.countdownNumber.textContent = 'GO!';
+                this.dom.countdownNumber.style.color = '#10b981';
+                this.dom.countdownNumber.style.transform = 'scale(1.5)';
+                if (this.isAudioEnabled) this.audioPlayer.playCountdownTick(true);
+            } else {
+                clearInterval(interval);
+                this.dom.countdownOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    this.dom.countdownOverlay.style.display = 'none';
+                    this.dom.countdownNumber.style.color = 'white';
+                    this.dom.countdownNumber.style.transform = 'scale(1)';
+                    onComplete();
+                }, 300);
+            }
+        }, 1000);
     }
 }
 

@@ -73,9 +73,13 @@ class ProfileModal {
         ];
 
         // Leaderboard elements
-        this.leaderboardList = document.getElementById('globalLeaderboardList');
-        this.currentLeaderboardMode = 1;
-        this.currentLeaderboardTime = 1;
+        this.leaderboardLists = {
+            1: document.getElementById('leaderboardList1'),
+            2: document.getElementById('leaderboardList2'),
+            3: document.getElementById('leaderboardList3'),
+            4: document.getElementById('leaderboardList4')
+        };
+        this.currentLeaderboardTime = 2; // Locked to 2 minutes
 
         this.setupEventListeners();
     }
@@ -153,24 +157,7 @@ class ProfileModal {
             });
         }
 
-        // Leaderboard Tab listeners
-        document.querySelectorAll('.mini-tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.mini-tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.currentLeaderboardTime = parseInt(btn.dataset.time);
-                this.renderLeaderboard();
-            });
-        });
-
-        document.querySelectorAll('.mode-tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.mode-tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.currentLeaderboardMode = parseInt(btn.dataset.mode);
-                this.renderLeaderboard();
-            });
-        });
+        // Leaderboard (Tabs removed, now 4 columns)
 
         // Theme selection
         if (this.themeSelect) {
@@ -458,61 +445,61 @@ class ProfileModal {
             3: '📝',
             4: '👂'
         };
-        const timeColors = {
-            1: '#10b981', // 1M - Emerald
-            2: '#3b82f6', // 2M - Blue
-            3: '#8b5cf6'  // 3M - Violet
-        };
+        const timeColor = '#3b82f6'; // 2M - Blue
 
         this.highScoresList.innerHTML = '';
         
-        // Render 12 tiles (4 modes x 3 time limits)
+        // Render 4 tiles (4 modes, 2 MIN)
         for (let m = 1; m <= 4; m++) {
-            for (let t = 1; t <= 3; t++) {
-                const score = highScores[`mode${m}_${t}m`] || 0;
-                const card = document.createElement('div');
-                card.className = 'achievement-card unlocked';
-                card.style.setProperty('--tier-color', timeColors[t]);
-                card.innerHTML = `
-                    <div class="achievement-level" style="color: rgba(255,255,255,0.85);">${t} MINUTE</div>
-                    <div class="achievement-icon" style="font-size: 1.4rem; margin: 5px 0;">${modeIcons[m]}</div>
-                    <div class="achievement-name" style="font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 900;" title="${modeNames[m]}">${modeNames[m]}</div>
-                    <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
-                `;
-                this.highScoresList.appendChild(card);
-            }
+            const score = highScores[`mode${m}_2m`] || 0;
+            const card = document.createElement('div');
+            card.className = 'achievement-card unlocked';
+            card.style.setProperty('--tier-color', timeColor);
+            card.innerHTML = `
+                <div class="achievement-level" style="color: rgba(255,255,255,0.85);">2 MINUTE</div>
+                <div class="achievement-icon" style="font-size: 1.4rem; margin: 5px 0;">${modeIcons[m]}</div>
+                <div class="achievement-name" style="font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 900;" title="${modeNames[m]}">${modeNames[m]}</div>
+                <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
+            `;
+            this.highScoresList.appendChild(card);
         }
         
-        // Also render first leaderboard
+        // Also render leadereboards
         this.renderLeaderboard();
     }
 
     async renderLeaderboard() {
-        if (!this.leaderboardList) return;
-        
-        this.leaderboardList.innerHTML = '<div class="leaderboard-empty">Loading leaderboard...</div>';
-        
-        const modeKey = `mode${this.currentLeaderboardMode}_${this.currentLeaderboardTime}m`;
-        const top10 = await this.firebaseManager.getLeaderboard(modeKey);
-        
-        this.leaderboardList.innerHTML = '';
-        
-        if (top10.length === 0) {
-            this.leaderboardList.innerHTML = '<div class="leaderboard-empty">No scores yet for this category. Be the first!</div>';
-            return;
+        // Render ALL 4 categories into their respective columns
+        for (let m = 1; m <= 4; m++) {
+            const listEl = this.leaderboardLists[m];
+            if (!listEl) continue;
+
+            listEl.innerHTML = '<div class="leaderboard-empty" style="font-size: 0.6rem;">...</div>';
+            
+            const modeKey = `mode${m}_2m`;
+            const top10 = await this.firebaseManager.getLeaderboard(modeKey);
+            
+            listEl.innerHTML = '';
+            
+            if (top10.length === 0) {
+                listEl.innerHTML = '<div class="leaderboard-empty" style="font-size: 0.6rem; color: #94a3b8; text-align: center; padding: 10px 0;">No scores yet</div>';
+            } else {
+                top10.forEach((entry, index) => {
+                    const rank = index + 1;
+                    const entryEl = document.createElement('div');
+                    entryEl.className = `leaderboard-entry rank-${rank} compact`;
+                    entryEl.style.fontSize = '0.7rem';
+                    entryEl.style.padding = '4px 6px';
+                    entryEl.style.marginBottom = '2px';
+                    entryEl.innerHTML = `
+                        <div class="rank-badge" style="width: 16px; height: 16px; font-size: 0.6rem; min-width: 16px;">${rank}</div>
+                        <div class="leaderboard-name" style="font-size: 0.65rem; max-width: 60px; overflow: hidden; text-overflow: ellipsis;">${entry.username || 'Anon'}</div>
+                        <div class="leaderboard-score" style="font-size: 0.6rem; font-weight: 700;">${entry.score}</div>
+                    `;
+                    listEl.appendChild(entryEl);
+                });
+            }
         }
-        
-        top10.forEach((entry, index) => {
-            const rank = index + 1;
-            const entryEl = document.createElement('div');
-            entryEl.className = `leaderboard-entry rank-${rank}`;
-            entryEl.innerHTML = `
-                <div class="rank-badge">${rank}</div>
-                <div class="leaderboard-name">${entry.username || 'Anonymous'}</div>
-                <div class="leaderboard-score">${entry.score} pts</div>
-            `;
-            this.leaderboardList.appendChild(entryEl);
-        });
     }
 
     renderTopSongs(songs) {

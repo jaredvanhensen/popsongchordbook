@@ -443,31 +443,33 @@
 
                     <!-- Chord Trainer High Scores -->
                     <div class="profile-high-scores-section" style="margin-top: 25px;">
-                        <h4>Chord Trainer High Scores</h4>
+                        <h4>Chord Trainer High Scores (2 MIN)</h4>
                         <div class="achievements-grid" id="chordTrainerHighScoresList"
-                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                            <!-- High scores will be inserted here (12 tiles) -->
+                            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                            <!-- High scores will be inserted here (4 tiles, one for each mode) -->
                         </div>
                     </div>
 
                     <!-- Global Leaderboards -->
                     <div class="profile-leaderboard-section" style="margin-top: 25px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <h4 style="margin: 0;">Global Leaderboards</h4>
-                            <div class="leaderboard-time-tabs" style="display: flex; gap: 5px;">
-                                <button class="mini-tab-btn active" data-time="1">1M</button>
-                                <button class="mini-tab-btn" data-time="2">2M</button>
-                                <button class="mini-tab-btn" data-time="3">3M</button>
+                        <h4 style="margin-bottom: 15px;">Global Leaderboards (2 MIN)</h4>
+                        <div id="globalLeaderboardGrid" class="leaderboard-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">1. SHAPE</h5>
+                                <div id="leaderboardList1" class="leaderboard-list compact"></div>
                             </div>
-                        </div>
-                        <div class="leaderboard-tabs" style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
-                            <button class="mode-tab-btn active" data-mode="1">1. Shape</button>
-                            <button class="mode-tab-btn" data-mode="2">2. Play</button>
-                            <button class="mode-tab-btn" data-mode="3">3. Notes</button>
-                            <button class="mode-tab-btn" data-mode="4">4. Chord</button>
-                        </div>
-                        <div id="globalLeaderboardList" class="leaderboard-list">
-                            <!-- Top 10 users will be listed here -->
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">2. PLAY</h5>
+                                <div id="leaderboardList2" class="leaderboard-list compact"></div>
+                            </div>
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">3. NOTES</h5>
+                                <div id="leaderboardList3" class="leaderboard-list compact"></div>
+                            </div>
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">4. CHORD</h5>
+                                <div id="leaderboardList4" class="leaderboard-list compact"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Exported from user "jared@vanhensen.nl" on 2026-03-14
+// Exported from user "jared@vanhensen.nl" on 2026-03-14 (v2.282)
 
 const DEFAULT_SONGS = [
     {

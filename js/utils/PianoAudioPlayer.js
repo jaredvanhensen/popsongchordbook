@@ -395,6 +395,33 @@ class PianoAudioPlayer {
         if (chord && chord.notes) this.playChord(chord.notes);
     }
 
+    playTriumph() {
+        if (!this.isInitialized) return;
+        if (this.audioContext.state === 'suspended') this.audioContext.resume();
+        const now = this.audioContext.currentTime;
+        
+        // Celebratory C Major 7 sequence
+        const notes = [48, 52, 55, 59, 60, 64, 67, 72]; // C3, E3, G3, B3, C4, E4, G4, C5
+        notes.forEach((note, i) => {
+            this.playNote(note, 2.0, 0.5 + (i * 0.05), now + (i * 0.1));
+        });
+        
+        // Final big chord
+        this.playChord([60, 64, 67, 71, 72], 3.0, 0.8, 0.02, true);
+    }
+
+    playCountdownTick(isFinal = false) {
+        if (!this.isInitialized) return;
+        if (this.audioContext.state === 'suspended') this.audioContext.resume();
+        const now = this.audioContext.currentTime;
+        if (isFinal) {
+            this.playNote(48, 1.0, 0.8, now); // C3
+            this.playChord([60, 64, 67], 1.5, 0.7, 0, false); // C4 Chord
+        } else {
+            this.playNote(84, 0.2, 0.6, now); // C6
+        }
+    }
+
     stopAll() {
         if (!this.isInitialized) return;
         const now = this.audioContext.currentTime;

@@ -1045,3 +1045,32 @@ body {
 .flashy-btn:active {
     transform: scale(0.98);
 }
+
+/* High Score Animations */
+@keyframes rainbow-border {
+  0% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+  20% { border-color: #ff9900; box-shadow: 0 0 20px #ff9900; }
+  40% { border-color: #33cc33; box-shadow: 0 0 20px #33cc33; }
+  60% { border-color: #0066ff; box-shadow: 0 0 20px #0066ff; }
+  80% { border-color: #9900cc; box-shadow: 0 0 20px #9900cc; }
+  100% { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+}
+
+.new-high-score-card {
+  animation: rainbow-border 2s infinite linear;
+  border-width: 4px !important;
+  transform: scale(1.05);
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+}
+
+.confetti {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  animation: float-up 1.5s forwards ease-out;
+}
+

@@ -41,6 +41,15 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
         ".read": "auth != null",
         ".write": "auth != null && newData.val() === auth.uid"
       }
+    },
+    "leaderboards": {
+      ".read": true,
+      ".write": "auth != null",
+      "$modeKey": {
+        "$userId": {
+          ".write": "$userId === auth.uid"
+        }
+      }
     }
   }
 }
