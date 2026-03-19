@@ -4249,9 +4249,7 @@ body.ctrl-held .chord-item {
         gap: 8px !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        /* Revert to glassy original */
-        backdrop-filter: blur(10px) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
