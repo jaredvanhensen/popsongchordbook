@@ -458,10 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Song Map Mobile Menu Sync
-    if (songMapHamburgerBtn) {
-        // Handled by global listeners to avoid closure issues
-    }
 
 
     function syncSettingsMenu() {
@@ -3480,7 +3476,7 @@ document.addEventListener('click', (e) => {
     const menu = document.getElementById('songMapMobileMenu');
     const burger = document.getElementById('songMapHamburgerBtn');
     if (menu && !menu.classList.contains('hidden')) {
-        if (!menu.contains(e.target) && !burger.contains(e.target)) {
+        if (!menu.contains(e.target) && (!burger || !burger.contains(e.target))) {
             menu.classList.add('hidden');
         }
     }
