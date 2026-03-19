@@ -4260,7 +4260,6 @@ body.ctrl-held .chord-item {
 
 
     /* Hide specific features on narrow mobile screens where they go into hamburger */
-    #mapThumbnailDisplay,
     #songMapStyleBtn,
     #songMapZoomBtn,
     #songMapDragToggleBtn,
@@ -4274,9 +4273,25 @@ body.ctrl-held .chord-item {
 
     .song-map-header .song-detail-title-section {
         flex: 1 !important;
-        /* Take up all available space */
-        gap: 0px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding-right: 30px !important;
+        /* Counterbalance the thumbnail for visual centering */
+        gap: 2px !important;
         overflow: hidden;
+    }
+
+    #mapThumbnailDisplay {
+        display: block !important;
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 10px !important;
+        object-fit: cover !important;
+        flex-shrink: 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
     }
 
     .song-map-header .song-detail-title {
@@ -4372,9 +4387,17 @@ body.ctrl-held .chord-item {
 
     .song-map-header .song-detail-action-buttons {
         gap: 8px !important;
-        margin-right: 56px !important;
-        /* Adjusted for smaller buttons */
-        /* Move play/hamburger further left to avoid close button */
+        margin-right: 0 !important;
+        margin-left: auto !important;
+        /* Push to the far right */
+    }
+
+    #songMapPlayPauseBtn,
+    #songMapHamburgerBtn,
+    #songMapZoomBtn,
+    #songMapDragToggleBtn,
+    #songMapStyleBtn {
+        display: none !important;
     }
 
     .song-map-close-btn-abs {
