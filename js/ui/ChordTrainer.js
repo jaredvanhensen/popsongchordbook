@@ -36,10 +36,13 @@ class ChordTrainer {
         this.generateKeys();
         this.updateStatsDisplay();
 
-        // 5. Sync High Scores from Firebase once authenticated
+        // 5. Sync High Scores from Firebase once authenticated / Force Login
         if (window.firebaseManager) {
+            // Wait for auth to be determined
+            let authResolved = false;
             window.firebaseManager.onAuthStateChanged(async (user) => {
                 if (user) {
+                    authResolved = true;
                     const dbScores = await window.firebaseManager.getHighScores(user.uid);
                     if (dbScores) {
                         // Merge db scores into highScores (db wins if different)
@@ -47,6 +50,14 @@ class ChordTrainer {
                         localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
                         this.updateStatsDisplay();
                     }
+                } else {
+                    // Start checking for redirect after a brief delay so Firebase has time to restore session
+                    setTimeout(() => {
+                        if (!authResolved && !window.firebaseManager.getCurrentUser()) {
+                            console.log('ChordTrainer: No authenticated user. Redirecting to login...');
+                            window.location.href = 'songlist.html?redirect=ChordTrainer.html';
+                        }
+                    }, 2000);
                 }
             });
         }
