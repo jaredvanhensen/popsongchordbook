@@ -1,4 +1,4 @@
-// Main Application (v2.332)
+// Main Application (v2.333)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -76,7 +76,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.332)");
+        console.log("Pop Song Chord Book - App Initialized (v2.333)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -2064,7 +2064,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.332):\n`;
+        let msg = `Diagnostics (v2.333):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2282,7 +2282,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.332)');
+        console.log('UG Extractor listener initialized (v2.333)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);
@@ -2438,10 +2438,15 @@ class App {
         const a = document.createElement('a');
         a.href = url;
         a.download = `popsong-chordbook-${new Date().toISOString().split('T')[0]}.json`;
+        a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        
+        // Robust cleanup with delay to ensure browser initiation
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 500);
 
         // Show feedback
         const exportBtn = document.getElementById('exportBtn');
