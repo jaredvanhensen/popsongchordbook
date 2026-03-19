@@ -4393,7 +4393,10 @@ body.ctrl-held .chord-item {
     }
 
     #songMapPlayPauseBtn,
-    #songMapHamburgerBtn,
+    #songMapHamburgerBtn {
+        display: flex !important;
+    }
+
     #songMapZoomBtn,
     #songMapDragToggleBtn,
     #songMapStyleBtn {
