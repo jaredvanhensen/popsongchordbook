@@ -708,10 +708,14 @@ class SongDetailModal {
                 }
 
                 else if (event.data.type === 'toggleTimelineCloseBtn') {
-                    // Hide the entire group of buttons (Close/Minimize) to prevent accidental closing
+                    // Hide/Show the entire group of buttons (Close/Minimize) to prevent accidental closing
                     const btnGroup = document.querySelector('.scrolling-chords-btn-group');
                     if (btnGroup) {
                         btnGroup.style.display = event.data.visible ? 'flex' : 'none';
+                    }
+                    // ALSO hide the main Song Detail Close button while Song Map is active to avoid 'double X'
+                    if (this.closeBtn) {
+                        this.closeBtn.style.display = event.data.visible ? 'flex' : 'none';
                     }
                 }
                 // 2. Change status response
