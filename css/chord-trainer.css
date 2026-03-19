@@ -779,7 +779,7 @@ body {
     #startRankedBtn {
         flex: 0 0 50px !important;
         min-width: 50px !important;
-        padding: 0 !important;
+        padding: 8px 0 !important;
         font-size: 1.2rem !important;
     }
 
