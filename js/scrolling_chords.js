@@ -3771,7 +3771,15 @@ function closeSongMap() {
             return;
         }
     }
-    _forceCloseSongMap();
+    // If we were opened purely as a map (from songlist), close the entire parent modal
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openMap') === 'true') {
+        if (window.parent && typeof window.parent.postMessage === 'function') {
+            window.parent.postMessage({ type: 'closeScrollingChordsModal' }, '*');
+        }
+    } else {
+        _forceCloseSongMap();
+    }
 }
 
 if (document.getElementById('closeSongMapBtn')) {

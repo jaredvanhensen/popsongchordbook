@@ -718,6 +718,10 @@ class SongDetailModal {
                         this.closeBtn.style.display = event.data.visible ? 'flex' : 'none';
                     }
                 }
+                else if (event.data.type === 'closeScrollingChordsModal') {
+                    // Force complete close of the modal (iframe) from the Map's close button
+                    this.handleTimelineClose();
+                }
                 // 2. Change status response
                 else if (event.data.type === 'unsavedChangesResult') {
                     // Save the current playback position for this song
