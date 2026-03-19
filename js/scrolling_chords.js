@@ -3662,8 +3662,11 @@ function openSongMap() {
     overlay.classList.remove('hidden');
 
     // Tell parent to hide its close button to avoid 'stacked' look and accidental closing of the whole thing
+    // ONLY do this on small mobile screens where the map is fullscreen and the close button is integrated.
+    // On Desktop, let the parent's close buttons remain visible at the top of the screen.
+    const isSmallScreen = window.innerWidth <= 600;
     if (window.parent && typeof window.parent.postMessage === 'function') {
-        window.parent.postMessage({ type: 'toggleTimelineCloseBtn', visible: false }, '*');
+        window.parent.postMessage({ type: 'toggleTimelineCloseBtn', visible: !isSmallScreen }, '*');
     }
 
     // Sync style and zoom labels on open
