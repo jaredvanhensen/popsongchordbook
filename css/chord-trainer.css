@@ -766,14 +766,14 @@ body {
         border: 2px solid #facc15;
         color: #1e293b;
         font-weight: 900;
-        font-size: 0.8rem;
-        padding: 12px;
+        font-size: 0.7rem;
+        min-height: 32px;
+        padding: 2px 10px;
         align-items: center;
         justify-content: center;
-        min-height: 40px;
         border-radius: 30px;
-        box-shadow: 0 6px 15px rgba(250, 204, 21, 0.5);
-        text-transform: none; /* Keep natural case for desktop consistency */
+        box-shadow: 0 4px 10px rgba(250, 204, 21, 0.4);
+        text-transform: none;
         letter-spacing: normal;
         text-shadow: none;
     }
@@ -783,11 +783,11 @@ body {
         align-items: center;
         justify-content: center;
         border-radius: 40px;
-        height: 40px;
-        min-width: 40px;
+        height: 32px;
+        min-width: 32px;
         background: white;
         border: 2px solid #e2e8f0;
-        font-size: 1rem;
+        font-size: 0.85rem;
     }
     
     .control-group { 
