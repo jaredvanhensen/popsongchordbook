@@ -4179,18 +4179,29 @@ function applyMapLabel(label) {
 
     if (label !== 'REMOVE') {
         let type = 'verse';
+        let finalLabel = label;
         const up = label.toUpperCase();
-        if (up.includes('INTRO')) type = 'intro';
-        else if (up.includes('VERSE')) type = 'verse';
-        else if (up.includes('PRE CHORUS') || up.includes('PRECHORUS')) type = 'prechorus';
-        else if (up.includes('CHORUS')) type = 'chorus';
-        else if (up.includes('BRIDGE')) type = 'bridge';
-        else if (up.includes('OUTRO')) type = 'outro';
-        else if (up.includes('SOLO')) type = 'solo';
-        else if (up.includes('INSTRUMENTAL')) type = 'instrumental';
+
+        // Intelligent numbering for VERSE label
+        if (up === 'VERSE') {
+            // Count how many existing sections have "VERSE" in their name
+            const verseCount = customMapSections.filter(sec => sec.name.toUpperCase().includes('VERSE')).length;
+            finalLabel = `VERSE ${verseCount + 1}`;
+            type = 'verse';
+        } else {
+            // Standard detection for other labels
+            if (up.includes('INTRO')) type = 'intro';
+            else if (up.includes('VERSE')) type = 'verse';
+            else if (up.includes('PRE CHORUS') || up.includes('PRECHORUS')) type = 'prechorus';
+            else if (up.includes('CHORUS')) type = 'chorus';
+            else if (up.includes('BRIDGE')) type = 'bridge';
+            else if (up.includes('OUTRO')) type = 'outro';
+            else if (up.includes('SOLO')) type = 'solo';
+            else if (up.includes('INSTRUMENTAL')) type = 'instrumental';
+        }
 
         customMapSections.push({
-            name: label,
+            name: finalLabel,
             type: type,
             startIdx: minIdx,
             endIdx: maxIdx
