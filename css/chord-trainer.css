@@ -743,16 +743,36 @@ body {
     .mode-selector .mode-btn[data-mode] { 
         display: none; 
     }
+    .mobile-mode-row {
+        align-items: stretch !important;
+        margin-bottom: 12px;
+    }
+    
     #modeCycleBtn {
         display: block !important;
         width: 100%;
-        margin-bottom: 8px;
+        margin-bottom: 0; /* Reset margin */
         background: #f8fafc;
         border: 2px solid #e2e8f0;
         color: #1e293b;
         font-weight: 600;
         font-size: 0.85rem;
         padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    .mobile-mode-row .open-stats-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        border-radius: 40px;
+        height: 48px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        font-size: 1.2rem;
     }
     
     .control-group { 

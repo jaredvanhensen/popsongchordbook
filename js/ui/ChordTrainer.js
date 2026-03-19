@@ -130,7 +130,7 @@ class ChordTrainer {
                 3: '3. Notes → Chord',
                 4: '4. Chord → Notes'
             };
-            this.dom.modeCycleBtn.textContent = `🔄 ${modeNames[this.currentMode]}`;
+            this.dom.modeCycleBtn.textContent = (isMob ? "" : "🔄 ") + modeNames[this.currentMode];
         }
     }
 
@@ -175,6 +175,7 @@ class ChordTrainer {
             guideLabel: document.getElementById('guideLabel'),
             leaderboardModal: document.getElementById('leaderboardModal'),
             openLeaderboardBtn: document.getElementById('openLeaderboardBtn'),
+            openLeaderboardBtnMobile: document.getElementById('openLeaderboardBtnMobile'),
             closeLeaderboardBtn: document.getElementById('closeLeaderboardBtn'),
             chordTrainerHighScoresGrid: document.getElementById('chordTrainerHighScoresGrid'),
             leaderboardLists: {
@@ -185,7 +186,8 @@ class ChordTrainer {
             },
             countdownOverlay: document.getElementById('countdownOverlay'),
             countdownNumber: document.getElementById('countdownNumber'),
-            startRankedBtn: document.getElementById('startRankedBtn')
+            startRankedBtn: document.getElementById('startRankedBtn'),
+            openStatsBtnMobile: document.getElementById('openStatsBtnMobile')
         };
     }
 
@@ -278,7 +280,9 @@ class ChordTrainer {
         this.dom.nextBtn.addEventListener('click', () => this.nextQuestion());
 
         // Modal
-        this.dom.openStatsBtn.addEventListener('click', () => this.showStats());
+        const statsBtns = [this.dom.openStatsBtn, this.dom.openStatsBtnMobile];
+        statsBtns.forEach(btn => btn && btn.addEventListener('click', () => this.showStats()));
+        
         this.dom.closeStatsBtn.addEventListener('click', () => this.hideStats());
         this.dom.statsModal.addEventListener('click', (e) => {
             if (e.target === this.dom.statsModal) this.hideStats();
@@ -315,9 +319,9 @@ class ChordTrainer {
         }
 
         // Leaderboard modal
-        if (this.dom.openLeaderboardBtn) {
-            this.dom.openLeaderboardBtn.addEventListener('click', () => this.showLeaderboards());
-        }
+        const leaderboardBtns = [this.dom.openLeaderboardBtn, this.dom.openLeaderboardBtnMobile];
+        leaderboardBtns.forEach(btn => btn && btn.addEventListener('click', () => this.showLeaderboards()));
+        
         if (this.dom.closeLeaderboardBtn) {
             this.dom.closeLeaderboardBtn.addEventListener('click', () => this.hideLeaderboards());
         }
