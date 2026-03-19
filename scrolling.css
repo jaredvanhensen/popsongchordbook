@@ -4460,11 +4460,15 @@ body.ctrl-held .chord-item {
         display: none !important;
     }
 
-    /* Target SVGs for other buttons too if needed */
     .song-map-toolbar-btn svg {
         width: 22px !important;
         height: 22px !important;
         stroke-width: 2px !important;
+    }
+
+    /* Force truly hidden state for elements like Save button on mobile */
+    .song-map-header .hidden {
+        display: none !important;
     }
 
     .song-map-close-btn-abs {
