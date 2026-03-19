@@ -762,16 +762,19 @@ body {
         display: flex !important;
         flex: 2; /* Takes most space but shares row */
         margin-bottom: 0;
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        color: #1e293b;
-        font-weight: 600;
-        font-size: 0.85rem;
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border: none;
+        color: white;
+        font-weight: 900;
+        font-size: 0.9rem;
         padding: 12px;
         align-items: center;
         justify-content: center;
         min-height: 48px;
         border-radius: 30px;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .mobile-mode-row .open-stats-btn {
