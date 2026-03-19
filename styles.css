@@ -10586,7 +10586,7 @@ div.song-detail-practice-controls {
     border: 2px solid var(--border-color);
     color: var(--text-color); 
     border-radius: 8px; 
-    padding: 6px 12px; 
+    padding: 8px 12px; 
     font-size: 0.9em; 
     font-weight: 500; 
     cursor: pointer; 
@@ -10629,3 +10629,4 @@ div.song-detail-practice-controls {
     .mobile-trainer-btn .icon { font-size: 1.1rem; } 
 }
 @keyframes btn-pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.trainer-btn .icon { font-size: 1.1em; }
