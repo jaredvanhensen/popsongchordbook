@@ -517,21 +517,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
 
     if (youtubeToggleBtn) {
-        youtubeToggleBtn.addEventListener('pointerdown', (e) => {
-            e.preventDefault(); // Prevent focus/zoom issues on mobile
+        const toggleYT = (e) => {
+            if (e) e.preventDefault();
             if (!youtubePlayerContainer) return;
             const isHidden = youtubePlayerContainer.classList.contains('hidden');
             if (isHidden) {
                 youtubePlayerContainer.classList.remove('hidden');
                 youtubeToggleBtn.classList.add('active');
+                if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.add('active');
+                if (youtubePlayer && typeof youtubePlayer.playVideo === 'function') {
+                    youtubePlayer.playVideo();
+                }
             } else {
                 youtubePlayerContainer.classList.add('hidden');
                 youtubeToggleBtn.classList.remove('active');
+                if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.remove('active');
                 if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                     youtubePlayer.pauseVideo();
                 }
             }
-        });
+        };
+        window.toggleYouTubePlayer = toggleYT;
+        youtubeToggleBtn.addEventListener('pointerdown', toggleYT);
+        youtubeToggleBtn.addEventListener('click', toggleYT);
     }
 
     if (closeYoutubeBtn) {
@@ -3428,8 +3436,8 @@ function toggleMapMobileMenu() {
 if (document.getElementById('songMapYouTubeBtn')) {
     document.getElementById('songMapYouTubeBtn').addEventListener('click', (e) => {
         e.stopPropagation();
-        if (typeof toggleTimingCapture === 'function') {
-            toggleTimingCapture();
+        if (typeof window.toggleYouTubePlayer === 'function') {
+            window.toggleYouTubePlayer(e);
         }
     });
 }
@@ -3701,6 +3709,8 @@ if (document.getElementById('songMapOverlay')) {
     const mapOverlay = document.getElementById('songMapOverlay');
     mapOverlay.addEventListener('pointerdown', (e) => e.stopPropagation());
     mapOverlay.addEventListener('mousedown', (e) => e.stopPropagation());
+    mapOverlay.addEventListener('wheel', (e) => e.stopPropagation());
+    mapOverlay.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
 }
 
 function initCustomMapSectionsFromMarkers() {
