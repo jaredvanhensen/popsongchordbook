@@ -583,7 +583,7 @@ body {
     background: white;
     width: 600px;
     max-width: 90%;
-    max-height: 80vh;
+    max-height: 85vh;
     border-radius: 24px;
     display: flex;
     flex-direction: column;
@@ -591,6 +591,10 @@ body {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     transform: translateY(20px);
     transition: transform 0.3s;
+}
+
+#leaderboardModal .modal-card {
+    max-height: 92vh;
 }
 
 .modal-overlay.show .modal-card {
