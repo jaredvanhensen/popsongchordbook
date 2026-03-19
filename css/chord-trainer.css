@@ -803,10 +803,11 @@ body {
     }
 
     #startRankedBtn {
-        flex: 0 0 50px !important;
-        min-width: 50px !important;
-        padding: 8px 0 !important;
-        font-size: 1.2rem !important;
+        flex: 1 !important;
+        min-width: 70px !important;
+        padding: 8px 4px !important;
+        font-size: 0.75rem !important; /* Match RANKED button font size */
+        border-radius: 30px;
     }
 
     /* Tight Answer Row for Modes 2 & 3 */
@@ -913,23 +914,24 @@ body {
         font-size: 0.8rem !important;
     }
     .stats-panel { 
-        padding: 10px 15px; 
-        gap: 5px; 
-        width: 95%;
+        padding: 8px 10px; 
+        gap: 3px; 
+        width: 100%;
         border-radius: 12px;
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-wrap: nowrap !important;
+        justify-content: space-evenly;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        box-sizing: border-box;
     }
     .stat-item {
         flex-direction: row;
-        gap: 5px;
+        gap: 3px;
         align-items: baseline;
-        padding: 2px 5px;
-        flex: 1 1 45%;
-        justify-content: space-between;
+        padding: 2px 2px;
+        flex: none;
+        justify-content: center;
     }
     .stat-label { 
         font-size: 0.6rem; 
