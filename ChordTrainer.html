@@ -6,7 +6,7 @@
     <title>Chord Trainer | PopSongChordBook</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 110'><defs><linearGradient id='ps' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%2394a3b8'/><stop offset='1' stop-color='%23475569'/></linearGradient><linearGradient id='pf' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='%23f1f5f9'/></linearGradient><radialGradient id='ng' cx='50' cy='50' r='50'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%236b21a8'/></radialGradient></defs><g transform='translate(5,5)'><rect y='10' width='150' height='90' rx='20' fill='url(%23ps)'/><rect width='150' height='90' rx='20' fill='url(%23pf)' stroke='%23e2e8f0'/><line x1='30' y1='50' x2='120' y2='50' stroke='%23cbd5e1' stroke-width='6' stroke-linecap='round'/><circle cx='75' cy='50' r='20' fill='url(%23ng)'/></g></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/chord-trainer.css?v=2.302">
+    <link rel="stylesheet" href="css/chord-trainer.css?v=2.303">
 </head>
 <body>
     <header class="trainer-header">
@@ -44,23 +44,21 @@
             <button class="mode-btn" data-mode="3">3. Notes → Chord</button>
             <button class="mode-btn" data-mode="4">4. Chord → Notes</button>
             
-            <!-- Mobile Only: Top Row with Mode (50%) + Icons -->
-            <div class="mobile-mode-row mobile-only" style="display: flex; gap: 8px; width: 100%; margin-bottom: 8px;">
-                <button id="modeCycleBtn" class="mode-btn mode-cycle-btn" style="flex: 2; margin-bottom: 0;">1. Shape to Chord</button>
-                <button id="openStatsBtnMobile" class="open-stats-btn" style="flex: 0.8; margin: 0; min-width: 44px; padding: 0;">
+            <div class="mobile-mode-row mobile-only">
+                <button id="modeCycleBtn" class="mode-btn mode-cycle-btn">1. Shape to Chord</button>
+                <button id="openStatsBtnMobile" class="open-stats-btn" style="flex: 0.8; margin: 0;">
                     <span class="icon">📊</span>
                 </button>
-                <button id="openLeaderboardBtnMobile" class="open-stats-btn" style="border-color: #fbbf24; color: #92400e; flex: 0.8; margin: 0; min-width: 44px; padding: 0;">
+                <button id="openLeaderboardBtnMobile" class="open-stats-btn" style="border-color: #fbbf24; color: #92400e; flex: 0.8; margin: 0;">
                     <span class="icon">🏆</span>
                 </button>
             </div>
         </div>
 
-        <div class="control-group" style="display: flex; gap: 12px; align-items: center;">
+        <div class="control-group" style="display: flex; gap: 8px; align-items: center; justify-content: center;">
             <button id="timerCycleBtn" class="mode-btn" style="min-width: 120px;">⏱ FREE PLAY</button>
-            <button id="startRankedBtn" class="mode-btn" style="display: none; background: #ef4444; color: white; border-color: #ef4444; min-width: 60px; font-weight: 900; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);">
-                <span class="desktop-only">START</span>
-                <span class="mobile-only">▶️</span>
+            <button id="startRankedBtn" class="mode-btn" style="display: none; background: #ef4444; color: white; border-color: #ef4444; min-width: 80px; font-weight: 900; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);">
+                <span>START</span>
             </button>
             <div id="countdown" class="countdown-display">00:00</div>
             
@@ -231,11 +229,11 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <!-- Firebase Config & Managers -->
-    <script src="js/config/firebase-config.js?v=2.302"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.302"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.302"></script>
-    <script src="js/utils/ChordParser.js?v=2.302"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.302"></script>
-    <script src="js/ui/ChordTrainer.js?v=2.302"></script>
+    <script src="js/config/firebase-config.js?v=2.303"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.303"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.303"></script>
+    <script src="js/utils/ChordParser.js?v=2.303"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.303"></script>
+    <script src="js/ui/ChordTrainer.js?v=2.303"></script>
 </body>
 </html>

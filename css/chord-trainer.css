@@ -744,24 +744,29 @@ body {
         display: none; 
     }
     .mobile-mode-row {
-        align-items: stretch !important;
-        margin-bottom: 12px;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px;
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     #modeCycleBtn {
-        display: block !important;
-        width: 100%;
-        margin-bottom: 0; /* Reset margin */
+        display: flex !important;
+        flex: 2; /* Takes most space but shares row */
+        margin-bottom: 0;
         background: #f8fafc;
         border: 2px solid #e2e8f0;
         color: #1e293b;
         font-weight: 600;
         font-size: 0.85rem;
         padding: 12px;
-        display: flex;
         align-items: center;
         justify-content: center;
         min-height: 48px;
+        border-radius: 30px;
     }
 
     .mobile-mode-row .open-stats-btn {
@@ -770,6 +775,7 @@ body {
         justify-content: center;
         border-radius: 40px;
         height: 48px;
+        min-width: 48px;
         background: white;
         border: 2px solid #e2e8f0;
         font-size: 1.2rem;
