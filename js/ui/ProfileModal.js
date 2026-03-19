@@ -519,9 +519,6 @@ class ProfileModal {
                 <td style="font-weight: 600;">${song.title}</td>
                 <td style="font-size: 0.9em; color: #64748b;">${song.artist}</td>
                 <td style="text-align: center; font-weight: 700;">${count}</td>
-                <td style="text-align: center; font-size: 1.2em;" title="${award ? award.name : 'No award yet'}">
-                    ${award ? award.icon : '-'}
-                </td>
             `;
             this.topSongsBody.appendChild(tr);
         });
