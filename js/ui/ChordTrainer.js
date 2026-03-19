@@ -94,8 +94,8 @@ class ChordTrainer {
         
         // Audio
         this.dom.audioToggle.querySelector('.label').textContent = this.isAudioEnabled 
-            ? (isMob ? 'ON' : 'AUDIO ON') 
-            : (isMob ? 'OFF' : 'AUDIO OFF');
+            ? (isMob ? '' : 'AUDIO ON') 
+            : (isMob ? '' : 'AUDIO OFF');
         this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
 
         // Difficulty
