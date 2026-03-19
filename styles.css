@@ -9329,6 +9329,10 @@ div.song-detail-practice-controls {
 
 /* Refined Horizontal Mobile Layout (Prevent Collision & Save Space) */
 @media (max-width: 480px) {
+    #performAbilityStars {
+        display: none !important;
+    }
+
     .song-detail-footer {
         flex-direction: row !important;
         justify-content: space-between !important;
