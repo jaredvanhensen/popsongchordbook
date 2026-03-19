@@ -4245,10 +4245,10 @@ body.ctrl-held .chord-item {
     .song-map-header {
         border-radius: 0 !important;
         padding: 5px 15px !important;
-        height: 115px !important;
+        height: 100px !important;
         display: grid !important;
         grid-template-columns: 64px 1fr 45px !important;
-        grid-template-rows: 60px 55px !important;
+        grid-template-rows: 55px 45px !important;
         grid-template-areas:
             "thumb title close"
             ". actions ." !important;
@@ -4285,7 +4285,7 @@ body.ctrl-held .chord-item {
         text-align: center !important;
         padding-right: 0 !important;
         /* Reset padding for grid centering */
-        margin-top: -10px !important;
+        margin-top: 0 !important;
         gap: 2px !important;
         overflow: hidden;
     }
@@ -4301,7 +4301,7 @@ body.ctrl-held .chord-item {
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
         margin-left: 2px !important;
-        margin-top: -10px !important;
+        margin-top: 0 !important;
     }
 
     .song-map-header .song-detail-title {
@@ -4403,8 +4403,9 @@ body.ctrl-held .chord-item {
         justify-content: center !important;
         gap: 12px !important;
         margin: 0 auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 2px !important;
         width: 100% !important;
-        padding-bottom: 5px !important;
     }
 
     .song-map-toolbar-btn,
