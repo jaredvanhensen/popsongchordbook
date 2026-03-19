@@ -4452,8 +4452,8 @@ body.ctrl-held .chord-item {
     }
 
     .map-fluid-timeline {
-        padding: 20px 0 80px 0 !important;
-        /* Zero side padding, much less top padding */
+        padding: 40px 0 80px 0 !important;
+        /* Increased top padding from 20px to avoid section labels overlapping header */
         gap: 35px 6px !important;
         /* Vertical gap 35px, horizontal gap 6px */
         align-items: flex-start !important;
