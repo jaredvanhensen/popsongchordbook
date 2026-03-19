@@ -58,8 +58,10 @@ body {
 
 .trainer-header-actions {
     display: flex;
-    gap: 15px;
+    gap: 8px; /* Slightly tighter */
     align-items: center;
+    justify-content: flex-end; /* Push right */
+    flex: 2;
 }
 
 /* Switches & Toggles */
@@ -721,13 +723,32 @@ body {
     #guideToggle .icon { font-size: 1.2rem; }
     
     .header-toggle { 
-        min-width: 0; 
-        padding: 6px 8px; 
-        flex: 1;
-        font-size: 0.8rem;
+        min-width: 44px; 
+        height: 44px !important;
+        padding: 4px 6px; 
+        flex: none; /* Don't grow, keep them uniform */
+        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column; /* Stack icon/label */
+        justify-content: center;
+        gap: 2px;
+        margin-left: 5px;
     }
-    .header-toggle .label { display: block; font-size: 0.7rem; }
-    .header-toggle .icon { font-size: 1rem; }
+    .header-toggle .label { 
+        display: block; 
+        font-size: 0.6rem !important; 
+        line-height: 1;
+        white-space: pre-line; /* Allow stacking */
+        text-align: center;
+    }
+    .header-toggle .icon { font-size: 1.1rem; }
+    
+    /* Move actions right */
+    .trainer-header-actions {
+        justify-content: flex-end !important;
+        gap: 6px !important;
+        margin-left: auto;
+    }
     
     .trainer-meta-row { 
         padding: 5px 10px; 
