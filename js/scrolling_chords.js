@@ -3028,13 +3028,20 @@ function toggleTimingCapture() {
 
     if (enableTimingCapture) {
         captureBtn.classList.add('active');
+        if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.add('active');
         recordingIndicator.classList.remove('hidden');
         youtubePlayerContainer.classList.remove('hidden');
         if (youtubeToggleBtn) youtubeToggleBtn.classList.add('active');
 
         statusText.innerText = "CAPTURING: Press SPACE or Chord letter to mark chords";
+
+        // Auto-play video when entering capture mode from the map/header
+        if (youtubePlayer && typeof youtubePlayer.playVideo === 'function') {
+            youtubePlayer.playVideo();
+        }
     } else {
         captureBtn.classList.remove('active');
+        if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.remove('active');
         recordingIndicator.classList.add('hidden');
         // Do NOT hide or pause YouTube automatically here per user request
 
@@ -3425,8 +3432,8 @@ function toggleMapMobileMenu() {
 if (document.getElementById('songMapYouTubeBtn')) {
     document.getElementById('songMapYouTubeBtn').addEventListener('click', (e) => {
         e.stopPropagation();
-        if (window.parent && typeof window.parent.postMessage === 'function') {
-            window.parent.postMessage({ type: 'openYouTubeCapture' }, '*');
+        if (typeof toggleTimingCapture === 'function') {
+            toggleTimingCapture();
         }
     });
 }
