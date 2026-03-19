@@ -10581,23 +10581,26 @@ div.song-detail-practice-controls {
 .trainer-btn { 
     display: flex; 
     align-items: center; 
-    gap: 8px; 
-    background: rgba(255, 255, 255, 0.95) !important; 
-    color: var(--text-color) !important; 
-    border: 2px solid var(--border-color); 
-    border-radius: 25px; 
-    padding: 6px 16px; 
+    gap: 6px; 
+    background: rgba(255, 255, 255, 0.95); 
+    border: 2px solid var(--border-color);
+    color: var(--text-color); 
+    border-radius: 8px; 
+    padding: 6px 12px; 
     font-size: 0.9em; 
     font-weight: 500; 
     cursor: pointer; 
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    transition: all 0.3s ease; 
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
     white-space: nowrap; 
     margin-right: 12px;
+    font-family: inherit;
 }
 .trainer-btn:hover { 
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 15px rgba(118, 75, 162, 0.35); 
+    background: white;
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .theme-switcher-btn { display: none !important; }
 @media (max-width: 480px) { 
