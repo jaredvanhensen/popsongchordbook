@@ -75,13 +75,18 @@ class ChordTrainer {
     updateTimerBtnLabel() {
         if (!this.dom.timerCycleBtn) return;
         const isMob = this.isMobile();
-        const times = [0, 120];
+        const times = [0, 60];
         const labels = isMob 
-            ? ['⏱ FREE', '⏱ 2M']
-            : ['⏱ FREE PLAY', '⏱ 2 MIN'];
+            ? ['⏱ FREE', '⏱ RANKED']
+            : ['⏱ FREE PLAY', '⏱ RANKED'];
         
         let currentIdx = times.indexOf(this.timerLimit || 0);
         this.dom.timerCycleBtn.textContent = labels[currentIdx];
+
+        // Toggle Start button visibility
+        if (this.dom.startRankedBtn) {
+            this.dom.startRankedBtn.style.display = (this.timerLimit === 60) ? 'block' : 'none';
+        }
     }
 
     updateToggleLabels() {
@@ -179,7 +184,8 @@ class ChordTrainer {
                 4: document.getElementById('leaderboardList4')
             },
             countdownOverlay: document.getElementById('countdownOverlay'),
-            countdownNumber: document.getElementById('countdownNumber')
+            countdownNumber: document.getElementById('countdownNumber'),
+            startRankedBtn: document.getElementById('startRankedBtn')
         };
     }
 
@@ -221,23 +227,25 @@ class ChordTrainer {
         // Timer buttons
         if (this.dom.timerCycleBtn) {
             this.dom.timerCycleBtn.addEventListener('click', () => {
-                const limits = [0, 120];
+                const limits = [0, 60];
                 let currentIdx = limits.indexOf(this.timerLimit || 0);
-                const nextLimit = limits[(currentIdx + 1) % limits.length];
+                this.timerLimit = limits[(currentIdx + 1) % limits.length];
                 
-                if (nextLimit === 120) {
-                    this.startPreflightCountdown(() => {
-                        this.timerLimit = nextLimit;
-                        this.updateTimerBtnLabel();
-                        this.dom.timerCycleBtn.classList.add('active');
-                        this.startTimer(this.timerLimit);
-                    });
-                } else {
-                    this.timerLimit = nextLimit;
-                    this.updateTimerBtnLabel();
-                    this.dom.timerCycleBtn.classList.remove('active');
+                this.updateTimerBtnLabel();
+                this.dom.timerCycleBtn.classList.toggle('active', this.timerLimit > 0);
+                
+                if (this.timerLimit === 0) {
                     this.stopTimer();
                 }
+            });
+        }
+
+        if (this.dom.startRankedBtn) {
+            this.dom.startRankedBtn.addEventListener('click', () => {
+                this.startPreflightCountdown(() => {
+                    this.startTimer(this.timerLimit);
+                    this.dom.startRankedBtn.style.display = 'none'; // Hide once started
+                });
             });
         }
 
@@ -1148,7 +1156,7 @@ class ChordTrainer {
         const modeIcons = { 1: '👁️', 2: '🎹', 3: '📝', 4: '👂' };
         
         for (let m = 1; m <= 4; m++) {
-            const score = this.highScores[`mode${m}_2m`] || 0;
+            const score = this.highScores[`mode${m}_1m`] || 0;
             const card = document.createElement('div');
             card.className = 'achievement-card unlocked';
             card.style.background = 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)';
@@ -1162,7 +1170,6 @@ class ChordTrainer {
             card.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
             
             card.innerHTML = `
-                <div style="font-size: 0.6rem; opacity: 0.8; font-weight: 800; margin-bottom: 5px;">2 MINUTE</div>
                 <div style="font-size: 1.5rem; margin-bottom: 8px;">${modeIcons[m]}</div>
                 <div style="font-size: 0.65rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">${modeNames[m]}</div>
                 <div style="font-size: 1.2rem; font-weight: 900;">${score} <span style="font-size: 0.7rem; opacity: 0.7;">pts</span></div>
@@ -1180,7 +1187,7 @@ class ChordTrainer {
 
             listEl.innerHTML = '<div style="text-align:center; padding: 10px; font-size: 0.7rem; color: #94a3b8;">Loading...</div>';
             
-            const modeKey = `mode${m}_2m`;
+            const modeKey = `mode${m}_1m`;
             const top10 = await window.firebaseManager.getLeaderboard(modeKey);
             
             listEl.innerHTML = '';
@@ -1237,7 +1244,7 @@ class ChordTrainer {
         }
 
         this.dom.countdownOverlay.style.display = 'flex';
-        this.dom.countdownOverlay.style.opacity = '1';
+        setTimeout(() => this.dom.countdownOverlay.classList.add('show'), 10);
         this.dom.countdownOverlay.style.pointerEvents = 'all';
 
         let count = 3;
@@ -1258,10 +1265,10 @@ class ChordTrainer {
                 if (this.isAudioEnabled) this.audioPlayer.playCountdownTick(true);
             } else {
                 clearInterval(interval);
-                this.dom.countdownOverlay.style.opacity = '0';
+                this.dom.countdownOverlay.classList.remove('show');
                 setTimeout(() => {
                     this.dom.countdownOverlay.style.display = 'none';
-                    this.dom.countdownNumber.style.color = 'white';
+                    this.dom.countdownNumber.style.color = '#4f46e5';
                     this.dom.countdownNumber.style.transform = 'scale(1)';
                     onComplete();
                 }, 300);

@@ -79,7 +79,7 @@ class ProfileModal {
             3: document.getElementById('leaderboardList3'),
             4: document.getElementById('leaderboardList4')
         };
-        this.currentLeaderboardTime = 2; // Locked to 2 minutes
+        this.currentLeaderboardTime = 1; // Locked to 1 minute
 
         this.setupEventListeners();
     }
@@ -449,14 +449,13 @@ class ProfileModal {
 
         this.highScoresList.innerHTML = '';
         
-        // Render 4 tiles (4 modes, 2 MIN)
+        // Render 4 tiles (4 modes, 1 MIN)
         for (let m = 1; m <= 4; m++) {
-            const score = highScores[`mode${m}_2m`] || 0;
+            const score = highScores[`mode${m}_1m`] || 0;
             const card = document.createElement('div');
             card.className = 'achievement-card unlocked';
             card.style.setProperty('--tier-color', timeColor);
             card.innerHTML = `
-                <div class="achievement-level" style="color: rgba(255,255,255,0.85);">2 MINUTE</div>
                 <div class="achievement-icon" style="font-size: 1.4rem; margin: 5px 0;">${modeIcons[m]}</div>
                 <div class="achievement-name" style="font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 900;" title="${modeNames[m]}">${modeNames[m]}</div>
                 <div class="achievement-count" style="font-size: 1.1rem; font-weight: 900; color: white;">${score} <span style="font-size: 0.6rem; opacity: 0.7;">pts</span></div>
@@ -476,7 +475,7 @@ class ProfileModal {
 
             listEl.innerHTML = '<div class="leaderboard-empty" style="font-size: 0.6rem;">...</div>';
             
-            const modeKey = `mode${m}_2m`;
+            const modeKey = `mode${m}_1m`;
             const top10 = await this.firebaseManager.getLeaderboard(modeKey);
             
             listEl.innerHTML = '';
