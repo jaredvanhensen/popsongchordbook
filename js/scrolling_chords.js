@@ -538,7 +538,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         window.toggleYouTubePlayer = toggleYT;
-        youtubeToggleBtn.addEventListener('pointerdown', toggleYT);
         youtubeToggleBtn.addEventListener('click', toggleYT);
     }
 
@@ -3464,7 +3463,7 @@ if (document.getElementById('menuEditOption')) {
 
         // Update color to show active state
         const menuEditOption = document.getElementById('menuEditOption');
-        if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#10b981' : '#1e293b';
+        if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#6366f1' : '#1e293b';
     });
 }
 

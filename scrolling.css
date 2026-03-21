@@ -3482,11 +3482,11 @@ body.ctrl-held .chord-item {
 }
 
 .song-map-toolbar-btn.active {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;
-    border-color: #047857 !important;
-    box-shadow: 0 4px 0px 0px #065f46 !important;
-    transform: translateY(1px);
+    border: none !important;
+    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(102, 126, 234, 0.3) !important;
+    transform: translateY(0) !important;
 }
 
 .luxury-save-btn {
@@ -4433,9 +4433,12 @@ body.ctrl-held .chord-item {
 
     /* Visual feedback for Active Mode (Edit Mode) */
     .song-map-toolbar-btn.active {
-        color: #ffd700 !important; /* Gold for active state */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(102, 126, 234, 0.3) !important;
+        transform: scale(0.85) translateY(0) !important;
         opacity: 1 !important;
-        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)) !important;
     }
 
     .song-map-toolbar-btn:active,

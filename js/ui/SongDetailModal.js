@@ -3829,7 +3829,7 @@ class SongDetailModal {
 
         const suggestions = [
             'INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS',
-            'BRIDGE', 'INTRO & VERSE'
+            'BRIDGE', 'SOLO', 'INTRO & VERSE'
         ];
 
         suggestions.forEach(text => {
