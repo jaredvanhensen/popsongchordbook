@@ -1560,11 +1560,11 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     #youtubeToggleBtn.active,
     #selectModeBtn.active,
     #audioToggleBtn.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background: #3b82f6 !important; /* Vivid Blue */
         color: white !important;
         border: none !important;
-        box-shadow: 0 4px 0px 0px #3730a3, 0 8px 15px rgba(102, 126, 234, 0.4) !important;
-        transform: translateY(0) !important;
+        box-shadow: 0 4px 0px 0px #1d4ed8, 0 8px 15px rgba(59, 130, 246, 0.4) !important;
+        transform: scale(1.05) translateY(0) !important;
     }
 
     #editModeBtn.active svg,
