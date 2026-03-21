@@ -3030,6 +3030,7 @@ function toggleTimingCapture() {
     enableTimingCapture = !enableTimingCapture;
 
     if (enableTimingCapture) {
+        document.body.classList.add('recording-active');
         captureBtn.classList.add('active');
         if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.add('active');
         recordingIndicator.classList.remove('hidden');
@@ -3043,6 +3044,7 @@ function toggleTimingCapture() {
             youtubePlayer.playVideo();
         }
     } else {
+        document.body.classList.remove('recording-active');
         captureBtn.classList.remove('active');
         if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.remove('active');
         recordingIndicator.classList.add('hidden');
