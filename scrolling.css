@@ -4502,11 +4502,15 @@ body.ctrl-held .chord-item {
         stroke-width: 2px !important;
     }
 
-    /* Hide text labels entirely for graphic look */
+    .song-map-toolbar-btn .label,
     #mapZoomLabel,
-    #mapStyleLabel,
-    .song-map-toolbar-btn span {
+    #mapStyleLabel {
         display: none !important;
+    }
+
+    .song-map-toolbar-btn .icon {
+        display: flex !important;
+        font-size: 14px !important; /* Scaled for mobile */
     }
 
     .song-map-toolbar-btn svg {
