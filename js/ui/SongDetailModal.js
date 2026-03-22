@@ -2311,6 +2311,16 @@ class SongDetailModal {
                     { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
+
+                // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
+                sections.sort((a, b) => {
+                    const getNum = (s) => {
+                        const m = s.match(/BLOCK\s*(\d+)/i);
+                        return m ? parseInt(m[1], 10) : 999;
+                    };
+                    return getNum(a.name) - getNum(b.name);
+                });
+
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
                     const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
@@ -2509,6 +2519,15 @@ class SongDetailModal {
             { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
+
+        // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
+        sections.sort((a, b) => {
+            const getNum = (s) => {
+                const m = s.match(/BLOCK\s*(\d+)/i);
+                return m ? parseInt(m[1], 10) : 999;
+            };
+            return getNum(a.name) - getNum(b.name);
+        });
 
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
