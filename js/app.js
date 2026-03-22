@@ -224,6 +224,16 @@ class App {
         }
 
         this.loadAndRender();
+        
+        // Handle direct song navigation via URL (back from Trainer)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlSongId = urlParams.get('songId') || urlParams.get('id');
+        if (urlSongId) {
+            console.log('Direct navigation to song ID:', urlSongId);
+            setTimeout(() => {
+                this.navigateToSong(urlSongId);
+            }, 300); // Small delay to ensure everything is ready
+        }
 
         // DEBUG: Diagnostics on Version Click
         const versionEl = document.getElementById('site-version');

@@ -110,6 +110,11 @@ class MidiInputHandler {
         this.activeNotes.add(noteIndex);
 
         this.playNoteFeedback(noteIndex, velocity);
+        
+        // Dispatch custom event for UI components
+        window.dispatchEvent(new CustomEvent('midi-note-on', { 
+            detail: { note: noteIndex, velocity: velocity } 
+        }));
 
         this.evaluateInput();
     }
@@ -150,6 +155,12 @@ class MidiInputHandler {
         this.activeNotes.delete(noteIndex);
 
         this.stopNoteFeedback(noteIndex);
+        
+        // Dispatch custom event for UI components
+        window.dispatchEvent(new CustomEvent('midi-note-off', { 
+            detail: { note: noteIndex } 
+        }));
+
         this.updateDisplay(); // Instantly update display when lifting keys
     }
 

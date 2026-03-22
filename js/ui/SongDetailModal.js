@@ -54,6 +54,7 @@ class SongDetailModal {
         this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
         this.songMapBtn = document.getElementById('songDetailSongMapBtn');
+        this.chordTrainerBtn = document.getElementById('songDetailChordTrainerBtn');
         this.notesInput = document.getElementById('songDetailNotesInput');
         this.practiceCountDisplay = document.getElementById('songDetailPracticeCount');
         this.practiceIncrementBtn = document.getElementById('songDetailPracticeIncrementBtn');
@@ -493,6 +494,14 @@ class SongDetailModal {
                 this.hide();
             }
         });
+        if (this.chordTrainerBtn) {
+            this.chordTrainerBtn.onclick = () => {
+                if (!this.currentSongId) return;
+                const url = `ChordTrainer.html?songId=${this.currentSongId}&mode=songPractice`;
+                console.log('Redirecting to Chord Trainer:', url);
+                window.location.href = url;
+            };
+        }
         this.prevBtn.addEventListener('click', () => this.navigatePrevious());
         this.nextBtn.addEventListener('click', () => this.navigateNext());
 

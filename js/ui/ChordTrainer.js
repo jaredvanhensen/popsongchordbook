@@ -26,15 +26,45 @@ class ChordTrainer {
         this.currentOptions = [];
         this.lastSessionWasHigh = false;
         
+        // Song Practice Mode Properties
+        this.isSongPracticeMode = false;
+        this.songData = null;
+        this.songChords = [];
+        this.songChordIndex = 0;
+        this.songPracticePhase = 'demo'; // 'demo' or 'practice'
+        this.songPracticeComplexity = 'basic'; // 'basic' or 'inversion'
+        this.helpShowTimer = null;
+        
         this.init();
     }
 
     async init() {
         await this.audioPlayer.initialize();
         this.setupDOM();
+        
+        // Check for Song Practice Mode
+        const params = new URLSearchParams(window.location.search);
+        const mode = params.get('mode');
+        const sid = params.get('songId');
+        
+        console.log('ChordTrainer init - Params:', { mode, sid });
+        
+        if (mode === 'songPractice' && sid) {
+            console.log('ChordTrainer: Starting song practice mode for ID:', sid);
+            this.isSongPracticeMode = true;
+            this.songId = sid;
+            this.songManager = new SongManager();
+            await this.loadSongForPractice();
+        }
+
         this.setupEventListeners();
         this.generateKeys();
         this.updateStatsDisplay();
+
+        if (this.isSongPracticeMode) {
+            console.log('ChordTrainer: Applying practice UI');
+            this.applySongPracticeModeUI();
+        }
 
         // 5. Sync High Scores from Firebase once authenticated / Force Login
         if (window.firebaseManager) {
@@ -198,7 +228,22 @@ class ChordTrainer {
             countdownOverlay: document.getElementById('countdownOverlay'),
             countdownNumber: document.getElementById('countdownNumber'),
             startRankedBtn: document.getElementById('startRankedBtn'),
-            openStatsBtnMobile: document.getElementById('openStatsBtnMobile')
+            openStatsBtnMobile: document.getElementById('openStatsBtnMobile'),
+            openLeaderboardBtnMobile: document.getElementById('openLeaderboardBtnMobile'),
+            
+            // Song Practice Elements
+            songTitlePill: document.getElementById('songTitlePill'),
+            practicingSongThumbnail: document.getElementById('practicingSongThumbnail'),
+            practicingSongName: document.getElementById('practicingSongName'),
+            practicingSongChords: document.getElementById('practicingSongChords'),
+            chordComplexityToggle: document.getElementById('chordComplexityToggle'),
+            chordComplexityCycleBtn: document.getElementById('chordComplexityCycleBtn'),
+            complexityText: document.getElementById('complexityText'),
+            complexityIcon: document.getElementById('complexityIcon'),
+            songPracticeButtons: document.getElementById('songPracticeButtons'),
+            showChordBtn: document.getElementById('showChordBtn'),
+            songPracticeNextBtn: document.getElementById('songPracticeNextBtn'),
+            chordBox: document.getElementById('chordBox')
         };
     }
 
@@ -341,6 +386,33 @@ class ChordTrainer {
                 if (e.target === this.dom.leaderboardModal) this.hideLeaderboards();
             });
         }
+
+        // MIDI Input Listeners
+        window.addEventListener('midi-note-on', (e) => {
+            this.handleKeyPress(e.detail.note, true, false); // false = not mouse
+        });
+        window.addEventListener('midi-note-off', (e) => {
+            this.handleKeyPress(e.detail.note, false, false);
+        });
+
+        // Song Practice Listeners
+        if (this.dom.showChordBtn) {
+            this.dom.showChordBtn.onclick = () => this.showChordForSeconds(5);
+        }
+        if (this.dom.songPracticeNextBtn) {
+            this.dom.songPracticeNextBtn.onclick = () => this.handleSongPracticeNext();
+        }
+        if (this.dom.chordBox) {
+            this.dom.chordBox.onclick = () => {
+                if (this.currentChord && this.isAudioEnabled) {
+                    this.audioPlayer.playChord(this.currentChord.notes, 1.0);
+                }
+            };
+        }
+
+        if (this.dom.chordComplexityCycleBtn) {
+            this.dom.chordComplexityCycleBtn.onclick = () => this.cycleSongPracticeComplexity();
+        }
     }
 
     toggleKeyboard() {
@@ -439,8 +511,8 @@ class ChordTrainer {
                 this.audioPlayer.playNote(noteIndex, 1.0, 0.8);
             }
             
-            // Collect notes for validation in Mode 2 (Play the Chord)
-            if (this.currentMode === 2) {
+            // Collect notes for validation in Mode 2 (Play the Chord) OR Song Practice Mode
+            if (this.currentMode === 2 || this.isSongPracticeMode) {
                 if (this.userSelection.includes(noteIndex)) {
                     // Toggle OFF if already selected
                     this.userSelection = this.userSelection.filter(n => n !== noteIndex);
@@ -448,11 +520,16 @@ class ChordTrainer {
                 } else {
                     // Toggle ON
                     this.userSelection.push(noteIndex);
-                    // Light blue selection highlight
+                    // Blue selection highlight
                     key.classList.add('selected-key');
                     
+                    // Check answer immediately in song practice mode (practice phase)
+                    if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
+                        this.checkAnswer(true); // silent check for auto-advance
+                    }
+                    
                     // Proactive check for MIDI/Piano users
-                    if (this.userSelection.length >= this.currentChord.notes.length) {
+                    if (this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
                         this.checkAnswer(true); // silent check
                     }
                 }
@@ -538,8 +615,13 @@ class ChordTrainer {
     nextQuestion() {
         this.isQuestionHandled = false;
         this.clearBoard();
-        this.generateRandomChord();
-        this.setupQuestionByMode();
+        
+        if (this.isSongPracticeMode) {
+            this.setupSongPracticeQuestion();
+        } else {
+            this.generateRandomChord();
+            this.setupQuestionByMode();
+        }
     }
 
     clearBoard() {
@@ -853,7 +935,12 @@ class ChordTrainer {
             .replace(/A#/g, 'Bb');
     }
 
-    checkAnswer(isAuto = false) {
+    checkAnswer(silent) {
+        if (this.isSongPracticeMode) {
+            this.checkSongPracticeAnswer(silent);
+            return;
+        }
+
         let isCorrect = false;
 
         if (this.currentMode === 1 || this.currentMode === 3) {
@@ -878,7 +965,7 @@ class ChordTrainer {
 
         if (isCorrect) {
             this.validate(true);
-        } else if (!isAuto) {
+        } else if (!silent) {
             this.validate(false);
         }
     }
@@ -970,12 +1057,18 @@ class ChordTrainer {
 
     showFeedback(isCorrect) {
         // Reveal the name in the golden box
-        if (this.dom.chordDisplay) {
-            this.dom.chordDisplay.textContent = this.currentChord.name;
-        }
+            if (this.dom.chordDisplay) {
+                if (this.songPracticePhase === 'demo') {
+                    this.dom.chordDisplay.textContent = this.currentChord.name;
+                    this.dom.chordDisplay.style.opacity = '1';
+                } else {
+                    this.dom.chordDisplay.textContent = '?';
+                    this.dom.chordDisplay.style.opacity = '1';
+                }
+            }
 
         // For identifying modes, show the correct keys as feedback
-        if (this.currentMode === 1 || this.currentMode === 3) {
+        if ((this.currentMode === 1 || this.currentMode === 3) && !this.isSongPracticeMode) {
             this.highlightKeys(this.currentChord.notes, 'correct');
         }
 
@@ -995,6 +1088,17 @@ class ChordTrainer {
             if (this.isAudioEnabled) {
                 this.audioPlayer.playNote(36, 0.5, 0.5); // Low C for error
             }
+        }
+    }
+
+    showResultOverlay(correct) {
+        if (!this.dom.resultOverlay) return;
+        
+        if (correct) {
+            this.dom.resultOverlay.classList.add('show');
+            setTimeout(() => {
+                this.dom.resultOverlay.classList.remove('show');
+            }, 800);
         }
     }
 
@@ -1289,6 +1393,393 @@ class ChordTrainer {
                 }, 300);
             }
         }, 1000);
+    }
+    
+    // --- Song Practice Mode Helper Methods ---
+    async loadSongForPractice() {
+        try {
+            console.log('loadSongForPractice starting for ID:', this.songId);
+            await this.songManager.loadSongs();
+            
+            const songCount = this.songManager.songs.length;
+            console.log('loadSongForPractice - Total songs loaded:', songCount);
+            
+            // Try both string and numeric matching because SongManager uses strict equality (===)
+            let song = this.songManager.getSongById(this.songId);
+            if (!song && !isNaN(this.songId)) {
+                song = this.songManager.getSongById(Number(this.songId));
+            }
+            
+            if (!song) {
+                alert(`CHORD TRAINER ERROR: Song not found with ID ${this.songId}.\n(Total songs in manager: ${songCount})`);
+                throw new Error('Song not found');
+            }
+            
+            this.songData = song;
+            
+            if (this.dom.practicingSongName) {
+                const artist = song.artist || 'Unknown';
+                const title = song.title || 'Untitled';
+                this.dom.practicingSongName.textContent = `${artist} - ${title}`;
+                
+                // Update Back button to return to THIS SPECIFIC song detail
+                const backLink = document.querySelector('.back-link');
+                if (backLink) {
+                    backLink.href = `songlist.html?id=${this.songId}`;
+                }
+            }
+
+            if (this.dom.practicingSongThumbnail) {
+                const artist = song.artist || 'Unknown';
+                const title = song.title || 'Untitled';
+                this.updateSongPracticeThumbnail(artist, title);
+            }
+            
+            if (this.songData) {
+                // Extract unique chords and filter based on complexity
+                let chordsList = this.getUniqueChordsFromSong(this.songData);
+                
+                if (this.songPracticeComplexity === 'basic') {
+                    // Simplify chords e.g., C2 -> C
+                    chordsList = [...new Set(chordsList.map(c => this.simplifyChord(c)))];
+                }
+                
+                this.songChords = chordsList;
+                
+                // Populate the pill container
+                this.dom.practicingSongChords.innerHTML = '';
+                this.songChords.forEach(c => {
+                    const span = document.createElement('span');
+                    const rootMatch = c.match(/^[A-G]#?/);
+                    const root = rootMatch ? rootMatch[0] : 'C';
+                    span.className = `song-chord-pill ${this.getChordColorClass(root)}`;
+                    span.textContent = c;
+                    span.style.cursor = 'pointer';
+                    
+                    // Add click listener to play the chord
+                    span.onclick = (e) => {
+                        e.stopPropagation();
+                        const parsed = this.chordParser.parse(c);
+                        if (parsed && parsed.notes) {
+                            if (this.isAudioEnabled) this.audioPlayer.playChord(parsed.notes, 1.0);
+                            
+                            // Reset keyboard to "blanc" mode first
+                            this.dom.piano.querySelectorAll('.correct, .incorrect, .selected-key').forEach(k => {
+                                k.classList.remove('correct', 'incorrect', 'selected-key');
+                            });
+                            
+                            // Show the correct keys when clicked
+                            this.highlightKeys(parsed.notes, 'correct');
+                            
+                            // Clear selections to avoid confusion
+                            this.clearGuides();
+                        }
+                    };
+                    
+                    this.dom.practicingSongChords.appendChild(span);
+                });
+            }
+            
+            if (this.songChords.length === 0) {
+                alert('CHORD TRAINER ERROR: No chords found for this song.');
+                this.isSongPracticeMode = false;
+            }
+
+            this.updateComplexityButtons(); // Update button states after loading
+        } catch (e) {
+            console.error('Failed to load song for practice:', e);
+            this.isSongPracticeMode = false;
+        }
+    }
+
+    getUniqueChordsFromSong(song) {
+        const uniqueNames = new Set();
+        
+        // 1. Extract from space-separated strings in verse/chorus/etc.
+        const stringFields = ['verse', 'chorus', 'preChorus', 'bridge'];
+        const isChord = (s) => /^[A-G][b#]?/.test(s) && !s.includes('(');
+
+        stringFields.forEach(field => {
+            if (song[field] && typeof song[field] === 'string') {
+                const parts = song[field].split(/[\s|]+/); // Split by space or pipe
+                parts.forEach(p => {
+                    const trimmed = p.trim();
+                    if (trimmed && trimmed !== '?' && trimmed !== 'N.C.' && isChord(trimmed)) {
+                        uniqueNames.add(trimmed);
+                    }
+                });
+            }
+        });
+
+        // 2. Extract from chordData.chords array if present
+        if (song.chordData && Array.isArray(song.chordData.chords)) {
+            song.chordData.chords.forEach(c => {
+                const name = c.name || c.chord;
+                if (name && name !== '?' && name !== 'N.C.') {
+                    uniqueNames.add(name);
+                }
+            });
+        }
+        
+        return Array.from(uniqueNames);
+    }
+
+    applySongPracticeModeUI() {
+        // Hide standard UI elements
+        // Selectively hide standard header buttons, but KEEP the complexity toggle visible
+        const headerActions = document.querySelector('.trainer-header-actions');
+        if (headerActions) {
+            headerActions.classList.remove('hidden'); // Parent must stay visible
+            headerActions.style.display = 'flex';
+            // Hide siblings of the toggle
+            Array.from(headerActions.children).forEach(child => {
+                if (child.id !== 'chordComplexityToggle') {
+                    child.classList.add('hidden');
+                }
+            });
+        }
+        
+        const modeSelector = document.querySelector('.mode-selector');
+        if (modeSelector) modeSelector.classList.add('hidden');
+        
+        if (this.dom.timerCycleBtn) this.dom.timerCycleBtn.classList.add('hidden');
+        if (this.dom.countdown) this.dom.countdown.classList.add('hidden');
+        if (this.dom.openLeaderboardBtn) this.dom.openLeaderboardBtn.classList.add('hidden');
+        if (this.dom.openStatsBtn) this.dom.openStatsBtn.classList.add('hidden');
+        if (this.dom.openStatsBtnMobile) this.dom.openStatsBtnMobile.classList.add('hidden');
+        if (this.dom.openLeaderboardBtnMobile) this.dom.openLeaderboardBtnMobile.classList.add('hidden');
+        
+        document.querySelectorAll('.control-group').forEach(cg => cg.classList.add('hidden'));
+        
+        const metaRow = document.querySelector('.trainer-meta-row');
+        if (metaRow) {
+            metaRow.style.justifyContent = 'flex-start';
+            metaRow.style.width = '100vw'; // Force full width
+            metaRow.style.maxWidth = 'none'; // Clear any caps
+            metaRow.style.background = 'white'; // Ensure background is consistent
+        }
+        
+        const footer = document.querySelector('.trainer-footer');
+        if (footer) footer.classList.add('hidden');
+        
+        const actionButtons = document.querySelector('.action-buttons');
+        if (actionButtons) actionButtons.classList.add('hidden');
+
+        if (this.dom.songTitlePill) this.dom.songTitlePill.classList.remove('hidden');
+        if (this.dom.practicingSongChords) this.dom.practicingSongChords.classList.remove('hidden');
+        if (this.dom.chordComplexityToggle) {
+            this.dom.chordComplexityToggle.classList.remove('hidden');
+            this.dom.chordComplexityToggle.style.display = 'flex';
+        }
+        
+        if (this.dom.songPracticeButtons) this.dom.songPracticeButtons.classList.remove('hidden');
+        if (this.dom.checkBtn) this.dom.checkBtn.classList.add('hidden');
+        if (this.dom.nextBtn) this.dom.nextBtn.classList.add('hidden');
+        
+        // Hide multiple choice UI container if present
+        if (this.dom.answerOptions) this.dom.answerOptions.id = 'answerOptionsSongPlaceholder'; // prevent interference
+    }
+
+    setupSongPracticeQuestion() {
+        if (!this.songChords[this.songChordIndex]) {
+            this.songChordIndex = 0;
+            if (this.songChords.length === 0) {
+                alert('No chords found for this song.');
+                window.location.href = 'songlist.html';
+                return;
+            }
+        }
+        if (this.songChordIndex >= this.songChords.length) this.songChordIndex = 0;
+        
+        let chordString = this.songChords[this.songChordIndex];
+        
+        // If basic, ensure the display is simplified
+        if (this.songPracticeComplexity === 'basic') {
+            chordString = this.simplifyChord(chordString);
+        }
+
+        const parsed = this.chordParser.parse(chordString) || this.chordParser.parse('C');
+        const notes = parsed && parsed.notes ? [...parsed.notes] : [48, 52, 55];
+        
+        // Shift to be visible
+        let shifted = notes;
+        while (shifted[0] < 48) shifted = shifted.map(n => n + 12);
+        while (shifted[shifted.length - 1] > 72) shifted = shifted.map(n => n - 12);
+
+        this.currentChord = {
+            name: chordString,
+            notes: shifted,
+            noteNames: shifted.map(n => this.getNoteName(n, chordString[0]))
+        };
+
+        if (this.dom.chordDisplay) {
+            this.dom.chordDisplay.textContent = this.currentChord.name;
+        }
+        
+        if (this.songPracticePhase === 'demo') {
+            this.dom.notesDisplay.textContent = 'DEMONSTRATION';
+            this.highlightKeys(this.currentChord.notes, 'correct');
+            this.dom.showChordBtn.classList.add('hidden');
+            this.dom.songPracticeNextBtn.textContent = 'NEXT';
+        } else {
+            this.dom.notesDisplay.textContent = 'RECREATE THIS CHORD';
+            this.clearGuides();
+            this.dom.showChordBtn.classList.remove('hidden');
+            this.dom.songPracticeNextBtn.textContent = 'SKIP CHORD';
+        }
+    }
+
+    handleSongPracticeNext() {
+        if (this.songPracticePhase === 'demo') {
+            this.songPracticePhase = 'practice';
+            this.nextQuestion();
+        } else {
+            // User wants next chord
+            this.songPracticePhase = 'demo';
+            this.songChordIndex = (this.songChordIndex + 1) % this.songChords.length;
+            this.nextQuestion();
+        }
+    }
+
+    showChordForSeconds(seconds) {
+        if (this.helpShowTimer) clearTimeout(this.helpShowTimer);
+        
+        this.highlightKeys(this.currentChord.notes, 'correct');
+        this.helpShowTimer = setTimeout(() => {
+            if (this.songPracticePhase === 'practice') {
+                this.dom.piano.querySelectorAll('.white-key, .black-key').forEach(k => k.classList.remove('correct'));
+            }
+            this.helpShowTimer = null;
+        }, seconds * 1000);
+    }
+
+    checkSongPracticeAnswer(silent) {
+        if (this.songPracticePhase !== 'practice') return;
+        
+        const targetNotesSet = new Set(this.currentChord.notes.map(n => n % 12));
+        const userNotesSet = new Set(this.userSelection.map(n => n % 12));
+
+        if (targetNotesSet.size === userNotesSet.size && 
+            [...targetNotesSet].every(n => userNotesSet.has(n))) {
+            
+            if (this.isQuestionHandled) return;
+            this.isQuestionHandled = true;
+            this.showResultOverlay(true);
+            if (this.isAudioEnabled) this.audioPlayer.playChord(this.currentChord.notes, 1.0);
+            
+            // Automatically move to demo of next chord after a delay
+            setTimeout(() => {
+                this.songPracticePhase = 'demo';
+                this.songChordIndex = (this.songChordIndex + 1) % this.songChords.length;
+                this.nextQuestion();
+            }, 1000);
+        }
+    }
+
+    getChordColorClass(root) {
+        const rootMap = {
+            'C': 'chord-tp-c',
+            'C#': 'chord-tp-db',
+            'D': 'chord-tp-d',
+            'D#': 'chord-tp-eb',
+            'E': 'chord-tp-e',
+            'F': 'chord-tp-f',
+            'F#': 'chord-tp-gb',
+            'G': 'chord-tp-g',
+            'G#': 'chord-tp-ab',
+            'A': 'chord-tp-a',
+            'A#': 'chord-tp-bb',
+            'B': 'chord-tp-b'
+        };
+        return rootMap[root] || 'chord-tp-c';
+    }
+
+    cycleSongPracticeComplexity() {
+        const nextMode = this.songPracticeComplexity === 'basic' ? 'inversion' : 'basic';
+        this.songPracticeComplexity = nextMode;
+        this.updateComplexityButtons();
+        this.loadSongForPractice(); // Refresh chords list
+    }
+
+    updateComplexityButtons() {
+        if (!this.dom.chordComplexityCycleBtn) return;
+        
+        const isBasic = this.songPracticeComplexity === 'basic';
+        if (this.dom.complexityText) this.dom.complexityText.textContent = isBasic ? 'BASIC' : 'INVERSIONS';
+        if (this.dom.complexityIcon) this.dom.complexityIcon.textContent = isBasic ? '🔘' : '🔄';
+        
+        // Highlight effect when active
+        this.dom.chordComplexityCycleBtn.style.background = isBasic ? 'rgba(255,255,255,0.2)' : '#fbbf24';
+        this.dom.chordComplexityCycleBtn.style.color = isBasic ? 'white' : '#92400e';
+        this.dom.chordComplexityCycleBtn.style.borderColor = isBasic ? 'rgba(255,255,255,0.3)' : '#f59e0b';
+    }
+
+    async updateSongPracticeThumbnail(artist, title) {
+        if (!this.dom.practicingSongThumbnail) return;
+        
+        const thumbElement = this.dom.practicingSongThumbnail;
+        thumbElement.style.visibility = 'hidden';
+        thumbElement.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+        
+        if (!artist || !title) return;
+
+        // 1. Try Local Assets First
+        const safeArtist = artist.replace(/[<>:"/\\|?]|\*/g, '').trim();
+        const safeTitle = title.replace(/[<>:"/\\|?]|\*/g, '').trim();
+        const localPath = `assets/thumbnails/${safeArtist}-${safeTitle}.jpg`;
+
+        const localExists = await new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = localPath;
+        });
+
+        if (localExists) {
+            thumbElement.src = localPath;
+            thumbElement.style.visibility = 'visible';
+            thumbElement.classList.remove('hidden');
+            thumbElement.style.display = 'block';
+            return;
+        }
+
+        // 2. Fallback to Deezer API (JSONP)
+        try {
+            const query = encodeURIComponent(`${artist} ${title}`);
+            const callbackName = 'deezerTrainer_' + Math.round(1000000 * Math.random());
+            
+            const data = await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                window[callbackName] = (res) => {
+                    document.body.removeChild(script);
+                    delete window[callbackName];
+                    resolve(res);
+                };
+                script.src = `https://api.deezer.com/search?q=${query}&output=jsonp&callback=${callbackName}`;
+                script.onerror = () => reject('JSONP Error');
+                document.body.appendChild(script);
+            });
+
+            if (data && data.data && data.data.length > 0) {
+                const artworkUrl = data.data[0].album.cover_medium || data.data[0].album.cover_small;
+                if (artworkUrl) {
+                    thumbElement.src = artworkUrl;
+                    thumbElement.onload = () => {
+                        thumbElement.style.visibility = 'visible';
+                        thumbElement.classList.remove('hidden');
+                        thumbElement.style.display = 'block';
+                    };
+                }
+            }
+        } catch (e) {
+            console.warn('Deezer thumbnail fallback failed:', e);
+        }
+    }
+
+    simplifyChord(name) {
+        if (!name) return "";
+        // Remove trailing numbers (2, 3, 7, etc.)
+        return name.replace(/\d+$/, '');
     }
 }
 
