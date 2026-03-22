@@ -1560,11 +1560,12 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     #youtubeToggleBtn.active,
     #selectModeBtn.active,
     #audioToggleBtn.active {
-        background: #1e3a8a !important; /* Dark Blue (Blue-900) */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; /* Elegant Purple Gradient */
         color: white !important;
-        border: 2px solid #3b82f6 !important; /* Lighter blue border for definition */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-        transform: scale(1.05) translateY(0) !important;
+        border: none !important;
+        border-radius: 12px !important; /* More rounded as requested */
+        box-shadow: 0 4px 0px 0px #37306b, 0 10px 15px rgba(102, 126, 234, 0.4) !important;
+        transform: translateY(-2px) !important; /* Slight lift */
     }
 
     #editModeBtn.active svg,
@@ -4473,16 +4474,16 @@ body.ctrl-held .chord-item {
         transition: transform 0.1s, opacity 0.1s, color 0.1s !important;
     }
 
-    /* Visual feedback for Active Mode (Edit Mode) - Darker Blue for Contrast */
-    /* Using ID high specificity to override shared transparent background */
+    /* Visual feedback for Active Mode (Edit Mode) - Rounded Purple Gradient */
     #songMapDragToggleBtn.active,
     #songMapYouTubeBtn.active,
     .song-map-toolbar-btn.active {
-        background: #1e3a8a !important; /* Dark Blue (Blue-900) */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
-        border: 2px solid #3b82f6 !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-        transform: scale(1.1) translateY(0) !important;
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 4px 0px 0px #37306b, 0 10px 15px rgba(102, 126, 234, 0.3) !important;
+        transform: translateY(-2px) !important;
         opacity: 1 !important;
         z-index: 10 !important;
     }
