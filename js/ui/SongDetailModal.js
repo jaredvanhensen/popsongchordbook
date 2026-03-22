@@ -1206,12 +1206,12 @@ class SongDetailModal {
 
                     const blocks = [
                         { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
-                        { name: this.sections.preChorus.title.textContent || 'Block 2', text: this.sections.preChorus.editInput.value || '' },
-                        { name: this.sections.chorus.title.textContent || 'Block 3', text: this.sections.chorus.editInput.value || '' },
+                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
+                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
                         { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
                     ];
 
-                    const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
+                    const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
                     const startIndex = sectionKeyToIdx[finalSectionKey] || 0;
 
                     this.pianoChordOverlay.show(blocks, startIndex);
@@ -1521,12 +1521,12 @@ class SongDetailModal {
 
         const blocks = [
             { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
-            { name: (this.sections.preChorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
-            { name: (this.sections.chorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
             { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
         ];
 
-        const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
+        const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
         const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
         this.ukuleleChordOverlay.show(blocks, startIndex);
@@ -1537,12 +1537,12 @@ class SongDetailModal {
 
         const blocks = [
             { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
-            { name: (this.sections.preChorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
-            { name: (this.sections.chorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
             { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
         ];
 
-        const sectionKeyToIdx = { 'verse': 0, 'preChorus': 1, 'chorus': 2, 'bridge': 3 };
+        const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
         const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
         this.guitarChordOverlay.show(blocks, startIndex);
@@ -2307,8 +2307,8 @@ class SongDetailModal {
             if (savedSong) {
                 const sections = [
                     { name: savedSong.verseTitle || 'BLOCK 1', type: 'verse', text: savedSong.verse || '' },
-                    { name: savedSong.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: savedSong.preChorus || '' },
-                    { name: savedSong.chorusTitle || 'BLOCK 3', type: 'chorus', text: savedSong.chorus || '' },
+                    { name: savedSong.chorusTitle || 'BLOCK 2', type: 'chorus', text: savedSong.chorus || '' },
+                    { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
                 const suggestedChordsGrouped = sections.map(section => {
@@ -2635,10 +2635,10 @@ class SongDetailModal {
             verseTitle: song.verseTitle || 'Block 1',
             verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
-            preChorusTitle: song.preChorusTitle || 'Block 2',
+            preChorusTitle: song.preChorusTitle || 'Block 3',
             preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
-            chorusTitle: song.chorusTitle || 'Block 3',
+            chorusTitle: song.chorusTitle || 'Block 2',
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',
