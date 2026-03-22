@@ -2313,13 +2313,16 @@ class SongDetailModal {
                 ];
 
                 // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
+                console.log('Pre-sync sort:', sections.map(s => s.name));
                 sections.sort((a, b) => {
-                    const getNum = (s) => {
-                        const m = s.match(/BLOCK\s*(\d+)/i);
-                        return m ? parseInt(m[1], 10) : 999;
+                    const getNum = (item) => {
+                        const s = String(item.name || '');
+                        const m = s.match(/\d+/); // Just Find any number
+                        return m ? parseInt(m[0], 10) : 999;
                     };
-                    return getNum(a.name) - getNum(b.name);
+                    return getNum(a) - getNum(b);
                 });
+                console.log('Post-sync sort:', sections.map(s => s.name));
 
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
@@ -2521,13 +2524,16 @@ class SongDetailModal {
         ];
 
         // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
+        console.log('Pre-load sort:', sections.map(s => s.name));
         sections.sort((a, b) => {
-            const getNum = (s) => {
-                const m = s.match(/BLOCK\s*(\d+)/i);
-                return m ? parseInt(m[1], 10) : 999;
+            const getNum = (item) => {
+                const s = String(item.name || '');
+                const m = s.match(/\d+/); // Find any number
+                return m ? parseInt(m[0], 10) : 999;
             };
-            return getNum(a.name) - getNum(b.name);
+            return getNum(a) - getNum(b);
         });
+        console.log('Post-load sort:', sections.map(s => s.name));
 
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
