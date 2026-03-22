@@ -4449,12 +4449,13 @@ body.ctrl-held .chord-item {
         width: 100% !important;
     }
 
-    .song-map-toolbar-btn,
-    #songMapPlayPauseBtn,
-    #songMapYouTubeBtn,
-    #songMapZoomBtn,
-    #songMapDragToggleBtn,
-    #songMapStyleBtn {
+    .song-map-toolbar-btn:not(.hidden),
+    #songMapPlayPauseBtn:not(.hidden),
+    #songMapYouTubeBtn:not(.hidden),
+    #songMapZoomBtn:not(.hidden),
+    #songMapDragToggleBtn:not(.hidden),
+    #songMapStyleBtn:not(.hidden),
+    #songMapSaveBtn:not(.hidden) {
         display: flex !important;
         background: transparent !important;
         border: none !important;
@@ -4468,18 +4469,22 @@ body.ctrl-held .chord-item {
         align-items: center !important;
         justify-content: center !important;
         opacity: 0.9 !important;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
         transition: transform 0.1s, opacity 0.1s, color 0.1s !important;
     }
 
     /* Visual feedback for Active Mode (Edit Mode) - Darker Blue for Contrast */
+    /* Using ID high specificity to override shared transparent background */
+    #songMapDragToggleBtn.active,
+    #songMapYouTubeBtn.active,
     .song-map-toolbar-btn.active {
         background: #1e3a8a !important; /* Dark Blue (Blue-900) */
         color: white !important;
         border: 2px solid #3b82f6 !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-        transform: scale(0.95) translateY(0) !important;
+        transform: scale(1.1) translateY(0) !important;
         opacity: 1 !important;
+        z-index: 10 !important;
     }
 
     .song-map-toolbar-btn:active,
@@ -4593,10 +4598,9 @@ body.ctrl-held .chord-item {
         max-width: 400px !important;
         height: auto !important;
         max-height: 80vh !important;
-        overflow-y: auto !important;
         padding: 16px !important;
-        bottom: 20px !important;
-        left: 50% !important;
+        bottom: 20px; /* REMOVED !important: Prevents stretching when DRAGGED and 'top' is set via JS */
+        left: 50%; /* REMOVED !important: Allows JS to override horizontal position if dragged */
         transform: translateX(-50%) !important;
         touch-action: none;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
