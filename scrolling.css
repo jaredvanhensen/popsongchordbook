@@ -1583,8 +1583,8 @@ body.edit-mode-active .adjust-controls-row.edit-only {
         height: auto !important;
         max-height: 80vh !important;
         padding: 16px !important;
-        bottom: 20px !important;
-        left: 50% !important;
+        bottom: 20px; /* REMOVED !important: Prevents stretching when DRAGGED and 'top' is set via JS */
+        left: 50%; /* REMOVED !important: Allows JS to override horizontal position if dragged */
         transform: translateX(-50%) !important;
         overflow-y: auto !important;
         touch-action: none; /* Critical for dragging logic */
