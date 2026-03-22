@@ -425,7 +425,7 @@ class SongManager {
     }
 
     getSongById(id) {
-        return this.songs.find(s => s.id === id);
+        return this.songs.find(s => String(s.id) === String(id));
     }
 }
 

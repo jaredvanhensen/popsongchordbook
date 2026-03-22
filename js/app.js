@@ -227,12 +227,25 @@ class App {
         
         // Handle direct song navigation via URL (back from Trainer)
         const urlParams = new URLSearchParams(window.location.search);
-        const urlSongId = urlParams.get('songId') || urlParams.get('id');
+        const urlSongId = (urlParams.get('songId') || urlParams.get('id'))?.trim();
         if (urlSongId) {
-            console.log('Direct navigation to song ID:', urlSongId);
-            setTimeout(() => {
-                this.navigateToSong(urlSongId);
-            }, 300); // Small delay to ensure everything is ready
+            console.log('App: Auto-navigating to song ID:', urlSongId);
+            let attempts = 0;
+            const checkAndNavigate = () => {
+                const song = this.songManager.getSongById(urlSongId);
+                if (song) {
+                    console.log('App: Song found, opening modal');
+                    this.navigateToSong(urlSongId);
+                    // Clear the parameter from URL to prevent reopening on manual refresh
+                    window.history.replaceState({}, '', window.location.pathname);
+                } else if (attempts < 20) {
+                    attempts++;
+                    setTimeout(checkAndNavigate, 200);
+                } else {
+                    console.warn('App: Could not find song with ID after several attempts:', urlSongId);
+                }
+            };
+            checkAndNavigate();
         }
 
         // DEBUG: Diagnostics on Version Click
