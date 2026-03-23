@@ -25,6 +25,7 @@ class ChordTrainer {
         this.isGuideEnabled = false;
         this.currentOptions = [];
         this.lastSessionWasHigh = false;
+        this.tipQuestionCounter = 0; // Counts questions; tip shows every 4
         
         // Song Practice Mode Properties
         this.isSongPracticeMode = false;
@@ -243,7 +244,9 @@ class ChordTrainer {
             songPracticeButtons: document.getElementById('songPracticeButtons'),
             showChordBtn: document.getElementById('showChordBtn'),
             songPracticeNextBtn: document.getElementById('songPracticeNextBtn'),
-            chordBox: document.getElementById('chordBox')
+            chordBox: document.getElementById('chordBox'),
+            chordTipBar: document.getElementById('chordTipBar'),
+            chordTipText: document.getElementById('chordTipText')
         };
     }
 
@@ -301,6 +304,8 @@ class ChordTrainer {
         if (this.dom.startRankedBtn) {
             this.dom.startRankedBtn.addEventListener('click', () => {
                 this.startPreflightCountdown(() => {
+                    // Hide tip bar for ranked sessions
+                    if (this.dom.chordTipBar) this.dom.chordTipBar.classList.add('hidden');
                     this.startTimer(this.timerLimit);
                     this.dom.startRankedBtn.style.display = 'none'; // Hide once started
                 });
@@ -614,6 +619,7 @@ class ChordTrainer {
 
     nextQuestion() {
         this.isQuestionHandled = false;
+        clearTimeout(this.autoAdvanceTimer); // Cancel any pending auto-advance
         this.clearBoard();
         
         if (this.isSongPracticeMode) {
@@ -622,6 +628,80 @@ class ChordTrainer {
             this.generateRandomChord();
             this.setupQuestionByMode();
         }
+
+        // Update tip bar (once every 4 questions, never in ranked mode)
+        this.tipQuestionCounter++;
+        if (this.tipQuestionCounter % 4 === 1) {
+            this.updateTip();
+        }
+    }
+
+    // --- Chord Tips System ---
+    updateTip() {
+        if (!this.dom.chordTipBar || !this.dom.chordTipText) return;
+
+        // Hide tips in ranked mode (timer is running)
+        if (this.timerInterval !== null) {
+            this.dom.chordTipBar.classList.add('hidden');
+            return;
+        }
+
+        const TIPS = {
+            // Shown only on Level 1 (basic triads)
+            basic: [
+                'Major chord formula: Root → skip 3 keys → skip 2 keys. Example: C major = C – E – G.',
+                'Minor chord formula: ROOT → skip 2 keys → MIDDLE → skip 3 keys → TOP. Example: A minor = A – C – E.',
+                'Memory trick: Major chords sound happy ☀️, minor chords sound sad 🌧️. The smaller first gap (2 skips) gives minor its darker colour.',
+            ],
+            // Shown only on Level 2 (inversions)
+            inversion: [
+                'Spot the big gap: When two chord notes have 4 skipped keys between them, the key just above that gap is the chord\'s root note.',
+                'Slash chord (e.g. C/G): The note after the slash is the lowest note you play. For example C/G would be G–C–E.',
+                '1st Inversion (C/E): The middle note of the root chord goes to the bottom. C major (C–E–G) becomes E–G–C.',
+                '2nd Inversion (C/G): The top note of the root chord goes to the bottom. C major (C–E–G) becomes G–C–E.',
+                'Shortcut: Play any slash chord like C/G by holding a G bass note with your left hand and a normal C chord with your right hand.',
+            ],
+            // Shown only on Level 3 (4-note chords)
+            fourNote: [
+                'Dominant 7th (e.g. C7): Take a major triad, then skip 3 more keys above the top note. C7 = C – E – G – B♭.',
+                'Major 7th (e.g. Cmaj7): Take a major triad, then skip 4 keys above the top note. Cmaj7 = C – E – G – B.',
+                'Minor 7th (e.g. Cm7): Take a minor triad, then skip 3 keys above the top note. Cm7 = C – E♭ – G – B♭.',
+                'Sus2 chord (e.g. Csus2): Replace the middle note with a 2-skip from the root. Csus2 = C – D – G. No major or minor feel — very open sounding.',
+                'Sus4 chord (e.g. Csus4): Replace the middle note with a 5-skip from the root. Csus4 = C – F – G. Often used as a tension before resolving to a major chord.',
+                'Dim7 chord (e.g. Bdim7): Four notes, each exactly 3 keys apart. Very tense — used to build suspense before the next chord.',
+            ],
+            // Always in the pool regardless of level
+            general: [
+                'The chord name always tells you the root note. In root position, the root is the lowest key you play.',
+                'C, F, and G major are best friends — they form the I–IV–V of the key of C and appear in countless pop songs.',
+            ],
+        };
+
+        // Build the tip pool based on current level
+        let pool = [...TIPS.general];
+        if (this.difficultyLevel === 1) {
+            pool = [...TIPS.basic, ...TIPS.general];
+        } else if (this.difficultyLevel === 2) {
+            pool = [...TIPS.inversion, ...TIPS.general];
+        } else if (this.difficultyLevel === 3) {
+            pool = [...TIPS.fourNote, ...TIPS.general];
+        }
+
+        // Pick a random tip (avoid repeating the current one if possible)
+        let tip;
+        const current = this.dom.chordTipText.textContent;
+        const filtered = pool.filter(t => t !== current);
+        tip = (filtered.length > 0 ? filtered : pool)[Math.floor(Math.random() * (filtered.length > 0 ? filtered.length : pool.length))];
+
+        // Swap in with a re-trigger of the animation
+        this.dom.chordTipText.textContent = tip;
+        this.dom.chordTipBar.classList.remove('hidden');
+
+        // Re-trigger CSS animation by cloning the node
+        const bar = this.dom.chordTipBar;
+        bar.style.animation = 'none';
+        bar.offsetHeight; // force reflow
+        bar.style.animation = '';
     }
 
     clearBoard() {
@@ -1080,8 +1160,15 @@ class ChordTrainer {
         if (isCorrect) {
             this.dom.resultOverlay.classList.add('show');
             if (this.isAudioEnabled) {
-                // Play chord 1 octave higher (previously noteIndex-12 was used, now n directly)
                 this.audioPlayer.playChord(this.currentChord.notes.map(n => n), 1.0, 1.0);
+            }
+
+            // Auto-advance after 4 seconds (not in ranked mode or song practice)
+            if (!this.isSongPracticeMode && this.timerInterval === null) {
+                clearTimeout(this.autoAdvanceTimer);
+                this.autoAdvanceTimer = setTimeout(() => {
+                    this.nextQuestion();
+                }, 3000);
             }
         } else {
             // Error sound
