@@ -2532,18 +2532,7 @@ class SongDetailModal {
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
-        // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
-        console.log('Pre-load sort:', sections.map(s => s.name));
-        sections.sort((a, b) => {
-            const getNum = (item) => {
-                const s = String(item.name || '');
-                const m = s.match(/\d+/); // Find any number
-                return m ? parseInt(m[0], 10) : 999;
-            };
-            return getNum(a) - getNum(b);
-        });
-        console.log('Post-load sort:', sections.map(s => s.name));
-
+        // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
             const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];

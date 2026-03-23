@@ -1561,16 +1561,7 @@ class ChordTrainer {
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
-        // Sort sections by block number
-        sections.sort((a, b) => {
-            const getNum = (item) => {
-                const s = String(item.name || '');
-                const m = s.match(/\d+/);
-                return m ? parseInt(m[0], 10) : 999;
-            };
-            return getNum(a) - getNum(b);
-        });
-
+        // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
         const grouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
             const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
