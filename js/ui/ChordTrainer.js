@@ -523,31 +523,38 @@ class ChordTrainer {
                     // Toggle OFF if already selected
                     this.userSelection = this.userSelection.filter(n => n !== noteIndex);
                     key.classList.remove('selected-key');
-                } else {
-                    // Toggle ON
-                    this.userSelection.push(noteIndex);
-                    // Blue selection highlight
-                    key.classList.add('selected-key');
-                    
-                    // 1. Check answer immediately in song practice mode (practice phase)
-                    if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
-                        const targetCount = this.currentChord.notes.length;
-                        if (this.userSelection.length >= targetCount) {
-                            // Hit limit: trigger audible check (which shows outcome/X)
-                            setTimeout(() => this.checkAnswer(false), 100);
-                        } else {
-                            // Silent check for auto-advance (optional, usually hits limit first)
-                            this.checkAnswer(true); 
-                        }
-                    }
+                    return; // Early return for toggle off
+                } 
 
-                    // 2. Limit to 3 keys for Level 1 & 2 (Triads / Inversions) in Trainer Mode 2
-                    if (!this.isSongPracticeMode && this.currentMode === 2 && this.difficultyLevel <= 2 && this.userSelection.length >= 3) {
-                        // Delay slightly so the final key turns blue before the check
+                // --- Selection Limit Guards ---
+                
+                // 1. Song Practice Limit (match target chord note count)
+                if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
+                    if (this.userSelection.length >= (this.currentChord ? this.currentChord.notes.length : 3)) return;
+                }
+                
+                // 2. Trainer Level 1&2 Limit (3 notes)
+                if (!this.isSongPracticeMode && this.currentMode === 2 && this.difficultyLevel <= 2) {
+                    if (this.userSelection.length >= 3) return;
+                }
+
+                // --- Proceed with valid selection ---
+                this.userSelection.push(noteIndex);
+                key.classList.add('selected-key');
+                
+                // Perform checks
+                if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
+                    const targetCount = this.currentChord.notes.length;
+                    if (this.userSelection.length >= targetCount) {
                         setTimeout(() => this.checkAnswer(false), 100);
-                    } else if (!this.isSongPracticeMode && this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
-                        // 3. Proactive check for larger chords or other levels in Trainer mode
-                        this.checkAnswer(true); // silent check
+                    } else {
+                        this.checkAnswer(true); // Silent check
+                    }
+                } else if (this.currentMode === 2) {
+                    if (this.difficultyLevel <= 2 && this.userSelection.length >= 3) {
+                        setTimeout(() => this.checkAnswer(false), 100);
+                    } else if (this.userSelection.length >= this.currentChord.notes.length) {
+                        this.checkAnswer(true);
                     }
                 }
             } else if (this.currentMode === 4) {
