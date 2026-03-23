@@ -1336,6 +1336,10 @@ class ChordTrainer {
             }
             
             this.dom.sessionModal.classList.add('show');
+            
+            // User request: Clear highlighted keys and show START button again
+            this.clearBoard();
+            this.updateTimerBtnLabel();
         } else {
             alert(`Time's up!\nScore: ${this.currentScore}\nHigh Score: ${currentHigh}\nAccuracy: ${acc}%\nChords: ${this.totalQuestions}`);
             this.resetSession();
