@@ -529,13 +529,17 @@ class ChordTrainer {
                     // Blue selection highlight
                     key.classList.add('selected-key');
                     
-                    // Check answer immediately in song practice mode (practice phase)
+                    // 1. Check answer immediately in song practice mode (practice phase)
                     if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
                         this.checkAnswer(true); // silent check for auto-advance
                     }
-                    
-                    // Proactive check for MIDI/Piano users
-                    if (this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
+
+                    // 2. Limit to 3 keys for Level 1 & 2 (Triads / Inversions) in Trainer Mode 2
+                    if (!this.isSongPracticeMode && this.currentMode === 2 && this.difficultyLevel <= 2 && this.userSelection.length >= 3) {
+                        // Delay slightly so the final key turns blue before the check
+                        setTimeout(() => this.checkAnswer(false), 100);
+                    } else if (this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
+                        // 3. Proactive check for larger chords or other levels
                         this.checkAnswer(true); // silent check
                     }
                 }
@@ -1159,12 +1163,13 @@ class ChordTrainer {
         }
 
         if (isCorrect) {
-            this.dom.resultOverlay.classList.add('show');
+            this.dom.resultOverlay.classList.remove('incorrect');
+            this.dom.resultOverlay.classList.add('correct', 'show');
             if (this.isAudioEnabled) {
                 this.audioPlayer.playChord(this.currentChord.notes.map(n => n), 1.0, 1.0);
             }
 
-            // Auto-advance after 4 seconds (not in ranked mode or song practice)
+            // Auto-advance after 3 seconds (not in ranked mode or song practice)
             if (!this.isSongPracticeMode && this.timerInterval === null) {
                 clearTimeout(this.autoAdvanceTimer);
                 this.autoAdvanceTimer = setTimeout(() => {
@@ -1172,6 +1177,26 @@ class ChordTrainer {
                 }, 3000);
             }
         } else {
+            this.dom.resultOverlay.classList.remove('correct');
+            this.dom.resultOverlay.classList.add('incorrect', 'show');
+            
+            // Level 1 & 2 reset after 2 seconds for another attempt
+            if (this.currentMode === 2 && this.difficultyLevel <= 2 && !this.isSongPracticeMode) {
+                setTimeout(() => {
+                    this.dom.resultOverlay.classList.remove('show');
+                    // Reset only the user selection and key classes - keep the question!
+                    this.userSelection = [];
+                    document.querySelectorAll('.white-key, .black-key').forEach(k => {
+                        k.classList.remove('selected-key', 'wrong', 'active');
+                    });
+                }, 2000);
+            } else {
+                // For other modes/levels, just fade it out after 1 sec
+                setTimeout(() => {
+                    this.dom.resultOverlay.classList.remove('show');
+                }, 1000);
+            }
+
             // Error sound
             if (this.isAudioEnabled) {
                 this.audioPlayer.playNote(36, 0.5, 0.5); // Low C for error

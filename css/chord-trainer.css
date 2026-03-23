@@ -547,10 +547,22 @@ body {
     transform: translate(-50%, -50%) scale(1.5);
 }
 
-.checkmark {
+.result-overlay .checkmark, 
+.result-overlay .crossmark {
+    display: none;
     font-size: 10rem;
+}
+
+.result-overlay.correct .checkmark {
+    display: block;
     color: #10b981;
     filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.6));
+}
+
+.result-overlay.incorrect .crossmark {
+    display: block;
+    color: #ef4444;
+    filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.6));
 }
 
 /* Animations */
