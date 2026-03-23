@@ -936,13 +936,14 @@ body {
     }
     
     .chord-box {
-        width: 140px;
-        height: 80px;
+        width: min(85vw, 320px);
+        height: 70px;
         border-width: 2px;
         border-radius: 12px;
     }
-    .chord-name { font-size: 1.5rem !important; }
-    .chord-notes { font-size: 0.8rem !important; }
+    .chord-name { font-size: 1.4rem !important; }
+    .chord-notes { font-size: 0.72rem !important; }
+    .chord-box-container { margin-bottom: 8px !important; }
     
     .piano { height: 120px !important; }
     .white-key { width: 22px; height: 110px; }
