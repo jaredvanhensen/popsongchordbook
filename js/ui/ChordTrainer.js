@@ -1533,22 +1533,6 @@ class ChordTrainer {
                 }
                 
                 this.songChords = chordsList;
-                
-                // Populate the pill container
-                this.dom.practicingSongChords.innerHTML = '';
-                this.songChords.forEach(c => {
-                    const span = document.createElement('span');
-                    const rootMatch = c.match(/^[A-G]#?/);
-                    const root = rootMatch ? rootMatch[0] : 'C';
-                    span.className = `song-chord-pill ${this.getChordColorClass(root)}`;
-                    span.textContent = c;
-                    span.style.cursor = 'pointer';
-                    
-                    // Add click listener to play the chord
-                    span.onclick = () => this.playAndShowChord(c);
-                    
-                    this.dom.practicingSongChords.appendChild(span);
-                });
             }
             
             if (this.songChords.length === 0) {
@@ -1716,10 +1700,16 @@ class ChordTrainer {
         
         const metaRow = document.querySelector('.trainer-meta-row');
         if (metaRow) {
+            metaRow.style.display = 'flex';
+            metaRow.style.alignItems = 'center';
             metaRow.style.justifyContent = 'flex-start';
-            metaRow.style.width = '100vw'; // Force full width
-            metaRow.style.maxWidth = 'none'; // Clear any caps
-            metaRow.style.background = 'white'; // Ensure background is consistent
+            metaRow.style.width = '100%';
+            metaRow.style.maxWidth = 'none';
+            metaRow.style.background = 'white';
+            metaRow.style.padding = '4px 10px';
+            metaRow.style.boxSizing = 'border-box';
+            metaRow.style.borderBottom = '1px solid #e2e8f0';
+            metaRow.style.minHeight = '60px';
         }
         
         const footer = document.querySelector('.trainer-footer');
@@ -1729,7 +1719,6 @@ class ChordTrainer {
         if (actionButtons) actionButtons.classList.add('hidden');
 
         if (this.dom.songTitlePill) this.dom.songTitlePill.classList.remove('hidden');
-        if (this.dom.practicingSongChords) this.dom.practicingSongChords.classList.add('hidden');
         if (this.dom.chordButtonsContainer) this.dom.chordButtonsContainer.classList.remove('hidden');
         
         if (this.dom.chordComplexityToggle) {
