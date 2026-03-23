@@ -887,11 +887,11 @@ body {
         align-items: center;
     }
     #timerCycleBtn { 
-        max-width: 80px; 
+        max-width: 120px; 
         min-width: 0 !important;
-        flex: 1; 
+        flex: 1.5; 
         font-size: 0.7rem; 
-        padding: 8px !important;
+        padding: 8px 4px !important;
     }
     #countdown { 
         font-size: 0.9rem; 
@@ -901,8 +901,8 @@ body {
     }
 
     #startRankedBtn {
-        flex: 1 !important;
-        min-width: 70px !important;
+        flex: 0.8 !important;
+        min-width: 60px !important;
         padding: 8px 4px !important;
         font-size: 0.75rem !important; /* Match RANKED button font size */
         border-radius: 30px;
