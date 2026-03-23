@@ -780,10 +780,15 @@ body {
         min-height: 50px !important;
     }
     .trainer-header {
+        display: flex !important; /* Switch from grid to flex to allow push-right */
+        justify-content: space-between !important;
         padding: 4px 10px;
         height: 50px;
+        grid-template-columns: none !important; /* Disable grid */
     }
-    .trainer-title { font-size: 0.9rem; }
+    .trainer-header-spacer { display: none !important; }
+    .trainer-title { font-size: 0.9rem; flex-shrink: 0; }
+
     
     #midiStatus { display: none !important; }
     #inversionToggle { display: none !important; }
@@ -813,8 +818,10 @@ body {
     
     /* Move actions right */
     .trainer-header-actions {
+        display: flex !important;
         justify-content: flex-end !important;
         gap: 6px !important;
+        flex: 1 !important; /* Grow to push right */
         margin-left: auto;
     }
     
@@ -1340,6 +1347,10 @@ body {
         display: block;
     }
 
+    .keyboard-section {
+        padding: 10px 10px 5px 10px !important; /* Tighter padding, especially bottom */
+    }
+
     .chord-buttons-container {
         padding: 2px 0 !important;
         gap: 6px 4px !important; /* Tighter vertical gap */
@@ -1376,6 +1387,7 @@ body {
         gap: 10px;
         width: 100%;
         justify-content: center;
+        margin-top: 5px !important; /* Move closer to piano */
     }
     
     .song-practice-btn {
