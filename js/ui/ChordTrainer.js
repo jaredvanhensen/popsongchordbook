@@ -1838,8 +1838,7 @@ class ChordTrainer {
             
             if (this.isQuestionHandled) return;
             this.isQuestionHandled = true;
-            this.showResultOverlay(true);
-            if (this.isAudioEnabled) this.audioPlayer.playChord(this.currentChord.notes, 1.0);
+            this.showFeedback(true);
             
             // Automatically move to demo of next chord after a delay
             setTimeout(() => {
