@@ -1418,7 +1418,7 @@ class SongDetailModal {
         if (!text) return;
 
         // Match dividers, repeat markers, or anything else (chords)
-        const items = text.match(/\||[2-4]x|[^\s|]+/g) || [];
+        const items = text.match(/\||\d+x|[^\s|]+/g) || [];
 
         if (items.length === 0) {
             return;
@@ -1439,7 +1439,7 @@ class SongDetailModal {
             if (!trimmed) return;
 
             // Check if it's a marker (| or 2x, etc.)
-            if (trimmed === '|' || /^[2-4]x$/.test(trimmed)) {
+            if (trimmed === '|' || /^\d+x$/.test(trimmed)) {
                 const marker = document.createElement('span');
                 marker.className = 'chord-toolbar-inline-label';
                 marker.textContent = trimmed;
@@ -2335,7 +2335,7 @@ class SongDetailModal {
 
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
-                    const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
+                    const found = trimmedText ? trimmedText.match(/\||\d+x|[^\s|]+/g) || [] : [];
                     return { section: section.name, type: section.type, chords: found };
                 }).filter(group => group.chords.length > 0);
 
@@ -2535,7 +2535,7 @@ class SongDetailModal {
         // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
-            const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
+            const found = trimmedText ? trimmedText.match(/\||\d+x|[^\s|]+/g) || [] : [];
             return {
                 section: section.name,
                 type: section.type,

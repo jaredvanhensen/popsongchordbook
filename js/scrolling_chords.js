@@ -1592,7 +1592,7 @@ function renderSuggestedChords(groups) {
 
         buttonsContainer.classList.remove('hidden');
 
-        const isMarker = (item) => item === '|' || /^[2-4]x$/.test(item);
+        const isMarker = (item) => item === '|' || /^\d+x$/.test(item);
 
         const makeChordBtn = (chordName, type) => {
             const btn = document.createElement('button');

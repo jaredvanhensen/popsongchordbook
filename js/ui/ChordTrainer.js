@@ -1564,7 +1564,7 @@ class ChordTrainer {
         // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
         const grouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
-            const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
+            const found = trimmedText ? trimmedText.match(/\||\d+x|[^\s|]+/g) || [] : [];
             return {
                 section: section.name,
                 type: section.type,
@@ -1590,7 +1590,7 @@ class ChordTrainer {
             buttonsRow.className = 'chord-toolbar-buttons-row';
 
             group.chords.forEach(chord => {
-                if (chord === '|' || /^[2-4]x$/.test(chord)) {
+                if (chord === '|' || /^\d+x$/.test(chord)) {
                     const marker = document.createElement('span');
                     marker.className = 'chord-toolbar-inline-marker';
                     marker.textContent = chord;
