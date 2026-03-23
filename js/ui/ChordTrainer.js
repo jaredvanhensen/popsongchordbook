@@ -1636,10 +1636,15 @@ class ChordTrainer {
                 } else {
                     const btn = document.createElement('button');
                     btn.className = `chord-suggestion-btn chord-type-${group.type}`;
-                    btn.textContent = chord;
+                    
+                    // Apply complexity simplification to button label
+                    const displayChord = this.songPracticeComplexity === 'basic' ? this.simplifyChord(chord) : chord;
+                    btn.textContent = displayChord;
+                    
                     btn.onclick = (e) => {
                         e.stopPropagation();
-                        this.playAndShowChord(chord);
+                        // When clicked, play and show the version matching current mode
+                        this.playAndShowChord(displayChord);
                     };
                     buttonsRow.appendChild(btn);
                 }
