@@ -245,6 +245,7 @@ class ChordTrainer {
             showChordBtn: document.getElementById('showChordBtn'),
             songPracticeNextBtn: document.getElementById('songPracticeNextBtn'),
             chordBox: document.getElementById('chordBox'),
+            chordButtonsContainer: document.getElementById('chordButtonsContainer'),
             chordTipBar: document.getElementById('chordTipBar'),
             chordTipText: document.getElementById('chordTipText')
         };
@@ -1544,24 +1545,7 @@ class ChordTrainer {
                     span.style.cursor = 'pointer';
                     
                     // Add click listener to play the chord
-                    span.onclick = (e) => {
-                        e.stopPropagation();
-                        const parsed = this.chordParser.parse(c);
-                        if (parsed && parsed.notes) {
-                            if (this.isAudioEnabled) this.audioPlayer.playChord(parsed.notes, 1.0);
-                            
-                            // Reset keyboard to "blanc" mode first
-                            this.dom.piano.querySelectorAll('.correct, .incorrect, .selected-key').forEach(k => {
-                                k.classList.remove('correct', 'incorrect', 'selected-key');
-                            });
-                            
-                            // Show the correct keys when clicked
-                            this.highlightKeys(parsed.notes, 'correct');
-                            
-                            // Clear selections to avoid confusion
-                            this.clearGuides();
-                        }
-                    };
+                    span.onclick = () => this.playAndShowChord(c);
                     
                     this.dom.practicingSongChords.appendChild(span);
                 });
@@ -1572,10 +1556,102 @@ class ChordTrainer {
                 this.isSongPracticeMode = false;
             }
 
+            this.renderSongChordToolbar(song);
             this.updateComplexityButtons(); // Update button states after loading
         } catch (e) {
             console.error('Failed to load song for practice:', e);
             this.isSongPracticeMode = false;
+        }
+    }
+
+    renderSongChordToolbar(song) {
+        if (!this.dom.chordButtonsContainer) return;
+        
+        this.dom.chordButtonsContainer.innerHTML = '';
+        this.dom.chordButtonsContainer.classList.remove('hidden');
+
+        const sections = [
+            { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: song.verse || '' },
+            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+            { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+        ];
+
+        // Sort sections by block number
+        sections.sort((a, b) => {
+            const getNum = (item) => {
+                const s = String(item.name || '');
+                const m = s.match(/\d+/);
+                return m ? parseInt(m[0], 10) : 999;
+            };
+            return getNum(a) - getNum(b);
+        });
+
+        const grouped = sections.map(section => {
+            const trimmedText = (section.text || '').trim();
+            const found = trimmedText ? trimmedText.match(/\||[2-4]x|[^\s|]+/g) || [] : [];
+            return {
+                section: section.name,
+                type: section.type,
+                chords: found
+            };
+        }).filter(group => group.chords.length > 0);
+
+        if (grouped.length === 0) {
+            this.dom.chordButtonsContainer.classList.add('hidden');
+            return;
+        }
+
+        grouped.forEach(group => {
+            const groupEl = document.createElement('div');
+            groupEl.className = 'chord-toolbar-group';
+
+            const header = document.createElement('div');
+            header.className = 'chord-toolbar-section-header';
+            header.textContent = group.section;
+            groupEl.appendChild(header);
+
+            const buttonsRow = document.createElement('div');
+            buttonsRow.className = 'chord-toolbar-buttons-row';
+
+            group.chords.forEach(chord => {
+                if (chord === '|' || /^[2-4]x$/.test(chord)) {
+                    const marker = document.createElement('span');
+                    marker.className = 'chord-toolbar-inline-marker';
+                    marker.textContent = chord;
+                    buttonsRow.appendChild(marker);
+                } else {
+                    const btn = document.createElement('button');
+                    btn.className = `chord-suggestion-btn chord-type-${group.type}`;
+                    btn.textContent = chord;
+                    btn.onclick = (e) => {
+                        e.stopPropagation();
+                        this.playAndShowChord(chord);
+                    };
+                    buttonsRow.appendChild(btn);
+                }
+            });
+
+            groupEl.appendChild(buttonsRow);
+            this.dom.chordButtonsContainer.appendChild(groupEl);
+        });
+    }
+
+    playAndShowChord(chordName) {
+        const parsed = this.chordParser.parse(chordName);
+        if (parsed && parsed.notes) {
+            if (this.isAudioEnabled) this.audioPlayer.playChord(parsed.notes, 1.0);
+            
+            // Reset keyboard to "blanc" mode first
+            this.dom.piano.querySelectorAll('.correct, .incorrect, .selected-key').forEach(k => {
+                k.classList.remove('correct', 'incorrect', 'selected-key');
+            });
+            
+            // Show the correct keys when clicked
+            this.highlightKeys(parsed.notes, 'correct');
+            
+            // Clear selections to avoid confusion
+            this.clearGuides();
         }
     }
 
@@ -1653,7 +1729,9 @@ class ChordTrainer {
         if (actionButtons) actionButtons.classList.add('hidden');
 
         if (this.dom.songTitlePill) this.dom.songTitlePill.classList.remove('hidden');
-        if (this.dom.practicingSongChords) this.dom.practicingSongChords.classList.remove('hidden');
+        if (this.dom.practicingSongChords) this.dom.practicingSongChords.classList.add('hidden');
+        if (this.dom.chordButtonsContainer) this.dom.chordButtonsContainer.classList.remove('hidden');
+        
         if (this.dom.chordComplexityToggle) {
             this.dom.chordComplexityToggle.classList.remove('hidden');
             this.dom.chordComplexityToggle.style.display = 'flex';

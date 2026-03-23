@@ -1312,6 +1312,103 @@ body {
     }
 }
 
+/* Replicated Chord Toolbar Styles from Timeline */
+.chord-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto 20px auto;
+    width: 90%;
+    max-width: 800px;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.chord-buttons-container.hidden {
+    display: none !important;
+}
+
+.chord-suggestion-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white !important;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.4);
+    transition: all 0.2s;
+    min-width: 50px;
+    text-align: center;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.chord-suggestion-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(102, 126, 234, 0.4);
+}
+
+.chord-suggestion-btn:active {
+    transform: translateY(0);
+}
+
+.chord-type-verse { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important; }
+.chord-type-chorus { background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important; }
+.chord-type-pre-chorus { background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important; }
+.chord-type-bridge { background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important; }
+
+.chord-toolbar-inline-marker {
+    display: inline-flex;
+    align-items: center;
+    color: #475569;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: monospace;
+    padding: 0 6px;
+    user-select: none;
+    align-self: center;
+}
+
+.chord-toolbar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.chord-toolbar-group:last-child {
+    margin-bottom: 0;
+}
+
+.chord-toolbar-buttons-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.chord-toolbar-section-header {
+    display: flex;
+    align-items: center;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 2px;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
 /* Mobile Adjustments for Song Practice */
 @media (max-width: 768px) {
     .chord-box {
@@ -1328,5 +1425,24 @@ body {
     .chord-notes {
         font-size: 0.85rem !important;
         letter-spacing: 1px;
+    }
+
+    /* Compact Chord Toolbar for Mobile */
+    .chord-buttons-container {
+        gap: 8px;
+        padding: 8px;
+        max-height: 150px;
+        margin-bottom: 10px;
+        width: 95%;
+    }
+
+    .chord-suggestion-btn {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        min-width: 36px;
+    }
+
+    .chord-toolbar-section-header {
+        font-size: 0.55rem;
     }
 }
