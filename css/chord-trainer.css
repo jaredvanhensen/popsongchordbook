@@ -1306,30 +1306,38 @@ body {
 
 @media (max-width: 600px) {
     .song-practice-pill {
-        margin: 0;
+        margin: 5px 0 !important;
         width: 100%;
         box-sizing: border-box;
-        padding: 5px 12px !important; /* Extremely thin */
-        align-items: flex-start !important; /* Thumbnail at top left */
-        border-radius: 8px !important;
-        background: rgba(254, 243, 199, 0.95) !important; /* Slightly more translucent */
-        gap: 12px !important;
-        position: relative;
-    }
-
-    #practicingSongThumbnail {
-        width: 38px !important; /* Slightly smaller */
-        height: 38px !important;
-        margin-top: 4px; /* Padding from top edge of pill */
+        padding: 6px 15px 6px 58px !important; /* Extra left padding for thumb */
+        align-items: center !important; 
+        border-radius: 12px !important;
+        background: rgba(254, 243, 199, 0.98) !important; 
+        position: relative !important;
+        min-height: 50px;
         border-width: 2px !important;
     }
 
+    #practicingSongThumbnail {
+        position: absolute !important;
+        top: 6px !important; /* Padding from top edge */
+        left: 10px !important;
+        width: 38px !important;
+        height: 38px !important;
+        margin-top: 0 !important;
+        border-width: 2px !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+
     .song-name-label {
-        font-size: 0.85rem !important; /* Smaller text */
-        line-height: 1.25;
-        margin-top: 4px; /* Align with thumbnail top */
+        font-size: 0.75rem !important; /* Even smaller */
+        line-height: 1.2;
         font-weight: 800;
-        max-width: calc(100% - 60px); /* Leave room for thumbnail */
+        margin: 0 !important;
+        text-align: left !important;
+        width: 100%;
+        display: block;
     }
 
     .chord-buttons-container {
@@ -1357,6 +1365,12 @@ body {
         font-size: 0.65rem !important;
     }
 
+    /* Fixed position for BASIC toggler specifically on mobile */
+    #chordComplexityToggle {
+        order: 10 !important;
+        margin-right: 0 !important;
+        margin-left: 5px !important;
+    }
     
     .song-practice-buttons {
         gap: 10px;
