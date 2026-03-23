@@ -531,15 +531,22 @@ class ChordTrainer {
                     
                     // 1. Check answer immediately in song practice mode (practice phase)
                     if (this.isSongPracticeMode && this.songPracticePhase === 'practice') {
-                        this.checkAnswer(true); // silent check for auto-advance
+                        const targetCount = this.currentChord.notes.length;
+                        if (this.userSelection.length >= targetCount) {
+                            // Hit limit: trigger audible check (which shows outcome/X)
+                            setTimeout(() => this.checkAnswer(false), 100);
+                        } else {
+                            // Silent check for auto-advance (optional, usually hits limit first)
+                            this.checkAnswer(true); 
+                        }
                     }
 
                     // 2. Limit to 3 keys for Level 1 & 2 (Triads / Inversions) in Trainer Mode 2
                     if (!this.isSongPracticeMode && this.currentMode === 2 && this.difficultyLevel <= 2 && this.userSelection.length >= 3) {
                         // Delay slightly so the final key turns blue before the check
                         setTimeout(() => this.checkAnswer(false), 100);
-                    } else if (this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
-                        // 3. Proactive check for larger chords or other levels
+                    } else if (!this.isSongPracticeMode && this.currentMode === 2 && this.userSelection.length >= this.currentChord.notes.length) {
+                        // 3. Proactive check for larger chords or other levels in Trainer mode
                         this.checkAnswer(true); // silent check
                     }
                 }
@@ -1180,8 +1187,10 @@ class ChordTrainer {
             this.dom.resultOverlay.classList.remove('correct');
             this.dom.resultOverlay.classList.add('incorrect', 'show');
             
-            // Level 1 & 2 reset after 2 seconds for another attempt
-            if (this.currentMode === 2 && this.difficultyLevel <= 2 && !this.isSongPracticeMode) {
+            // Level 1 & 2 (or Song Practice) reset after 2 seconds for another attempt
+            const shouldAutoReset = (this.currentMode === 2 && this.difficultyLevel <= 2) || 
+                                   (this.isSongPracticeMode && this.songPracticePhase === 'practice');
+            if (shouldAutoReset) {
                 setTimeout(() => {
                     this.dom.resultOverlay.classList.remove('show');
                     // Reset only the user selection and key classes - keep the question!
