@@ -1434,12 +1434,19 @@ body {
 
     .chord-buttons-container {
         padding: 5px;
-        gap: 10px;
-        max-height: 120px;
-        overflow-x: scroll;
+        gap: 15px 10px; /* Vertical gap 15px, horizontal 10px */
+        max-height: none !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
         flex: none;
         width: 100%;
         justify-content: flex-start;
+        flex-wrap: wrap !important;
+    }
+    
+    .chord-toolbar-buttons-row {
+        flex-wrap: wrap !important;
+        gap: 8px 4px !important;
     }
     
     .chord-toolbar-section-header {
