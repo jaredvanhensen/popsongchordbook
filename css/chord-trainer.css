@@ -1309,7 +1309,54 @@ body {
         margin: 0;
         width: 100%;
         box-sizing: border-box;
+        padding: 5px 12px !important; /* Extremely thin */
+        align-items: flex-start !important; /* Thumbnail at top left */
+        border-radius: 8px !important;
+        background: rgba(254, 243, 199, 0.95) !important; /* Slightly more translucent */
+        gap: 12px !important;
+        position: relative;
     }
+
+    #practicingSongThumbnail {
+        width: 38px !important; /* Slightly smaller */
+        height: 38px !important;
+        margin-top: 4px; /* Padding from top edge of pill */
+        border-width: 2px !important;
+    }
+
+    .song-name-label {
+        font-size: 0.85rem !important; /* Smaller text */
+        line-height: 1.25;
+        margin-top: 4px; /* Align with thumbnail top */
+        font-weight: 800;
+        max-width: calc(100% - 60px); /* Leave room for thumbnail */
+    }
+
+    .chord-buttons-container {
+        padding: 2px 0 !important;
+        gap: 6px 4px !important; /* Tighter vertical gap */
+    }
+
+    .chord-toolbar-group {
+        gap: 1px !important;
+    }
+
+    .chord-toolbar-section-header {
+        font-size: 0.45rem !important; /* Even smaller headers */
+        margin-bottom: 0px !important;
+    }
+
+    .chord-suggestion-btn {
+        padding: 0px 8px !important;
+        font-size: 0.65rem !important;
+        min-width: 32px;
+        height: 24px !important; /* Very short buttons */
+    }
+
+    .chord-toolbar-inline-marker {
+        font-size: 0.65rem !important;
+    }
+
     
     .song-practice-buttons {
         gap: 10px;
