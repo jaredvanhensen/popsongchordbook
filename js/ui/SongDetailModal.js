@@ -423,6 +423,11 @@ class SongDetailModal {
                 instrumentMode: this.instrumentMode
             }, '*');
         }
+
+        // Sync with Profile Modal if it exists
+        if (window.appInstance && window.appInstance.profileModal) {
+            window.appInstance.profileModal.updateInstrumentUI(this.instrumentMode);
+        }
     }
 
     updateInstrumentToggleUI() {

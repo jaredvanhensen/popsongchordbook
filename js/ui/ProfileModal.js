@@ -7,6 +7,7 @@ class ProfileModal {
         this.onShareSongs = onShareSongs;
         this.onAcceptSongs = onAcceptSongs;
         this.modal = document.getElementById('profileModal');
+        this.selectedLvl = 1; // Default to Level 1
 
         // Profile elements
         this.usernameInput = document.getElementById('profileUsername');
@@ -16,6 +17,7 @@ class ProfileModal {
         this.avatarInput = document.getElementById('profileAvatarInput');
         this.changeAvatarBtn = document.getElementById('profileChangeAvatarBtn');
         this.themeSelect = document.getElementById('profileThemeSelect');
+        this.instrumentBtns = document.querySelectorAll('.profile-instrument-btn');
 
         // Avatar elements (Created dynamically if not present in HTML yet, or assumes HTML update)
         // Since I can't edit HTML easily without context, I will inject the HTML in show() if missing or use existing structure if I modify songlist.html
@@ -38,7 +40,6 @@ class ProfileModal {
         // Feature Toggles
         this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
-        this.textNotationToggle = document.getElementById('profileTextNotationToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
 
         // Statistics elements
@@ -157,7 +158,41 @@ class ProfileModal {
             });
         }
 
+        // Leaderboard Level Switcher
+        const levelBtns = this.modal.querySelectorAll('.mode-lvl-btn');
+        if (levelBtns.length > 0) {
+            levelBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lvl = parseInt(btn.dataset.lvl);
+                    this.selectedLvl = lvl;
+                    
+                    // Update UI state of buttons
+                    levelBtns.forEach(b => {
+                        const isActive = parseInt(b.dataset.lvl) === lvl;
+                        b.classList.toggle('active', isActive);
+                        b.style.borderColor = isActive ? '#6366f1' : '#e2e8f0';
+                        b.style.background = isActive ? '#eff6ff' : '#fff';
+                        b.style.color = isActive ? '#6366f1' : '#64748b';
+                    });
+                    
+                    // Refresh data
+                    this.renderHighScores();
+                });
+            });
+        }
+
         // Leaderboard (Tabs removed, now 4 columns)
+
+        // Instrument selection
+        if (this.instrumentBtns && this.instrumentBtns.length > 0) {
+            this.instrumentBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const instrument = btn.dataset.instrument;
+                    this.updateInstrumentUI(instrument);
+                    this.handleInstrumentChange(instrument);
+                });
+            });
+        }
 
         // Theme selection
         if (this.themeSelect) {
@@ -193,24 +228,7 @@ class ProfileModal {
             });
         }
 
-        if (this.textNotationToggle) {
-            this.textNotationToggle.addEventListener('change', async (e) => {
-                const isEnabled = e.target.checked;
-                const user = this.firebaseManager.getCurrentUser();
-                const uid = user ? user.uid : 'guest';
-                localStorage.setItem(`feature-text-notation-enabled-${uid}`, isEnabled);
-
-                // Save to Firebase if authenticated
-                if (this.firebaseManager.isAuthenticated()) {
-                    await this.firebaseManager.updatePreference('useTextNotation', isEnabled);
-                }
-
-                // Call refresh on SongDetailModal if it's open and global notation changed
-                if (window.appInstance && window.appInstance.songDetailModal) {
-                    window.appInstance.songDetailModal.refreshNotation();
-                }
-            });
-        }
+        // (removed textNotationToggle)
 
         if (this.midiToggle) {
             this.midiToggle.addEventListener('change', (e) => {
@@ -282,14 +300,15 @@ class ProfileModal {
         if (!this.modal) return;
 
         const user = this.firebaseManager.getCurrentUser();
+        const uid = user ? user.uid : 'guest';
+        
         if (user) {
             if (this.emailDisplay) this.emailDisplay.textContent = user.email || 'Geen e-mailadres';
             if (this.usernameInput) this.usernameInput.value = user.displayName || '';
-
+            
             // Update Avatar UI - Try DB first, then Auth
             let avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
             if (!avatarUrl) avatarUrl = user.photoURL;
-
             this.updateAvatarUI(avatarUrl);
         }
 
@@ -322,9 +341,11 @@ class ProfileModal {
             }
         }, 50);
 
-        // Initialize feature toggles from localStorage (per-user)
-        const uid = user ? user.uid : 'guest';
+        // Initialize instrument selection
+        const savedInstrument = localStorage.getItem(`instrument-mode-${uid}`) || 'piano';
+        this.updateInstrumentUI(savedInstrument);
 
+        // Initialize feature toggles from localStorage (per-user)
         if (this.lyricsToggle) {
             this.lyricsToggle.checked = localStorage.getItem(`feature-lyrics-enabled-${uid}`) !== 'false';
         }
@@ -333,20 +354,6 @@ class ProfileModal {
         }
         if (this.midiToggle) {
             this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) === 'true';
-        }
-
-        if (this.textNotationToggle) {
-            // Load from Firebase preference if possible, fallback to localStorage
-            let useTextNotation = localStorage.getItem(`feature-text-notation-enabled-${uid}`) === 'true';
-            if (user) {
-                const dbPref = await this.firebaseManager.getPreference('useTextNotation');
-                if (dbPref !== null) {
-                    useTextNotation = dbPref;
-                    // Sync localStorage
-                    localStorage.setItem(`feature-text-notation-enabled-${uid}`, useTextNotation);
-                }
-            }
-            this.textNotationToggle.checked = useTextNotation;
         }
 
         // Update statistics
@@ -433,6 +440,7 @@ class ProfileModal {
         if (!this.highScoresList) return;
 
         const highScores = JSON.parse(localStorage.getItem('chordTrainerHighScores') || '{}');
+        const diffSuffix = this.selectedLvl > 1 ? `_L${this.selectedLvl}` : "";
         const modeNames = {
             1: 'Shape / Chord',
             2: 'Play Chord',
@@ -451,7 +459,8 @@ class ProfileModal {
         
         // Render 4 tiles (4 modes, 1 MIN)
         for (let m = 1; m <= 4; m++) {
-            const score = highScores[`mode${m}_1m`] || 0;
+            const scoreKey = `mode${m}${diffSuffix}_1m`;
+            const score = highScores[scoreKey] || 0;
             const card = document.createElement('div');
             card.className = 'achievement-card unlocked';
             card.style.setProperty('--tier-color', timeColor);
@@ -475,7 +484,8 @@ class ProfileModal {
 
             listEl.innerHTML = '<div class="leaderboard-empty" style="font-size: 0.6rem;">...</div>';
             
-            const modeKey = `mode${m}_1m`;
+            const diffSuffix = this.selectedLvl > 1 ? `_L${this.selectedLvl}` : "";
+            const modeKey = `mode${m}${diffSuffix}_1m`;
             const top10 = await this.firebaseManager.getLeaderboard(modeKey);
             
             listEl.innerHTML = '';
@@ -984,6 +994,43 @@ class ProfileModal {
         if (this.themeSelect) {
             this.themeSelect.value = themeClass;
         }
+    }
+    handleInstrumentChange(instrument) {
+        const user = this.firebaseManager.getCurrentUser();
+        const uid = user ? user.uid : 'guest';
+        localStorage.setItem(`instrument-mode-${uid}`, instrument);
+
+        // Notify SongDetailModal if it exists
+        if (window.appInstance && window.appInstance.songDetailModal) {
+            window.appInstance.songDetailModal.instrumentMode = instrument;
+            window.appInstance.songDetailModal.updateInstrumentToggleUI();
+            window.appInstance.songDetailModal.refreshNotation();
+
+            // Sync with timeline if open
+            if (window.appInstance.songDetailModal.scrollingChordsFrame && window.appInstance.songDetailModal.scrollingChordsFrame.contentWindow) {
+                window.appInstance.songDetailModal.scrollingChordsFrame.contentWindow.postMessage({
+                    type: 'setInstrumentMode',
+                    instrumentMode: instrument
+                }, '*');
+            }
+        }
+    }
+
+    updateInstrumentUI(instrument) {
+        if (!this.instrumentBtns) return;
+        this.instrumentBtns.forEach(btn => {
+            const isActive = btn.dataset.instrument === instrument;
+            btn.classList.toggle('active', isActive);
+            btn.style.borderColor = isActive ? '#6366f1' : '#e2e8f0';
+            btn.style.background = isActive ? '#eff6ff' : '#f8fafc';
+            const icon = btn.children[0];
+            const label = btn.children[1];
+            if (label) label.style.color = isActive ? '#6366f1' : '#1e293b';
+            if (icon) icon.style.transform = isActive ? 'scale(1.15)' : 'scale(1)';
+            if (icon && icon.tagName === 'IMG') {
+                icon.style.filter = isActive ? 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' : 'none';
+            }
+        });
     }
 }
 

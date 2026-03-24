@@ -1330,7 +1330,8 @@ class ChordTrainer {
         // Track High Score with Time Category (Now only 2M)
         if (this.timerLimit > 0) {
             const minutes = Math.round(this.timerLimit / 60);
-            const modeKey = `mode${this.currentMode}_${minutes}m`;
+            const diffSuffix = this.difficultyLevel > 1 ? `_L${this.difficultyLevel}` : "";
+            const modeKey = `mode${this.currentMode}${diffSuffix}_${minutes}m`;
             const prevHigh = this.highScores[modeKey] || 0;
             
             // Always sync current score to high scores if it's better than previous local high
@@ -1349,9 +1350,10 @@ class ChordTrainer {
             }
         }
         
-        // Fallback for UI display (current high for this mode)
+        // Fallback for UI display (current high for this mode & level)
+        const diffSuffix = this.difficultyLevel > 1 ? `_L${this.difficultyLevel}` : "";
         const minutesSuffix = this.timerLimit > 0 ? `_${Math.round(this.timerLimit / 60)}m` : "";
-        const uiKey = `mode${this.currentMode}${minutesSuffix}`;
+        const uiKey = `mode${this.currentMode}${diffSuffix}${minutesSuffix}`;
         const currentHigh = this.highScores[uiKey] || 0;
         this.lastSessionWasHigh = isNewHigh; // Store for the 'AWESOME' click
 
@@ -1408,7 +1410,8 @@ class ChordTrainer {
         const modeIcons = { 1: '👁️', 2: '🎹', 3: '📝', 4: '👂' };
         
         for (let m = 1; m <= 4; m++) {
-            const score = this.highScores[`mode${m}_1m`] || 0;
+            const diffSuffix = this.difficultyLevel > 1 ? `_L${this.difficultyLevel}` : "";
+            const score = this.highScores[`mode${m}${diffSuffix}_1m`] || 0;
             const card = document.createElement('div');
             card.className = 'achievement-card unlocked';
             card.style.background = 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)';
