@@ -2321,8 +2321,8 @@ class SongDetailModal {
             if (savedSong) {
                 const sections = [
                     { name: savedSong.verseTitle || 'BLOCK 1', type: 'verse', text: savedSong.verse || '' },
-                    { name: savedSong.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: savedSong.preChorus || '' },
-                    { name: savedSong.chorusTitle || 'BLOCK 3', type: 'chorus', text: savedSong.chorus || '' },
+                    { name: savedSong.chorusTitle || 'BLOCK 2', type: 'chorus', text: savedSong.chorus || '' },
+                    { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
 
@@ -2520,8 +2520,8 @@ class SongDetailModal {
         // Extract chords from song blocks for the toolbar
         const sections = [
             { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: song.verse || '' },
-            { name: song.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: song.preChorus || '' },
-            { name: song.chorusTitle || 'BLOCK 3', type: 'chorus', text: song.chorus || '' },
+            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
+            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
