@@ -1392,6 +1392,13 @@ class ChordTrainer {
 
     showLeaderboards() {
         if (!this.dom.leaderboardModal) return;
+        
+        // Update Title to show level
+        const titleEl = document.getElementById('trainerLeaderboardTitle');
+        if (titleEl) {
+            titleEl.textContent = `🏆 LEADERBOARDS - LEVEL ${this.difficultyLevel}`;
+        }
+
         this.dom.leaderboardModal.classList.add('show');
         this.renderHighScoresGrid();
         this.renderGlobalLeaderboards();
@@ -1442,7 +1449,8 @@ class ChordTrainer {
 
             listEl.innerHTML = '<div style="text-align:center; padding: 10px; font-size: 0.7rem; color: #94a3b8;">Loading...</div>';
             
-            const modeKey = `mode${m}_1m`;
+            const diffSuffix = this.difficultyLevel > 1 ? `_L${this.difficultyLevel}` : "";
+            const modeKey = `mode${m}${diffSuffix}_1m`;
             const top10 = await window.firebaseManager.getLeaderboard(modeKey);
             
             listEl.innerHTML = '';
