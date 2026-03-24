@@ -2532,8 +2532,8 @@ class SongDetailModal {
         // Extract chords from song blocks for the toolbar
         const sections = [
             { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: song.verse || '' },
-            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
+            { name: song.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: song.preChorus || '' },
+            { name: song.chorusTitle || 'BLOCK 3', type: 'chorus', text: song.chorus || '' },
             { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
         ];
 
@@ -2663,10 +2663,10 @@ class SongDetailModal {
             verseTitle: song.verseTitle || 'Block 1',
             verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
-            preChorusTitle: song.preChorusTitle || 'Block 3',
+            preChorusTitle: song.preChorusTitle || 'Block 2',
             preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
-            chorusTitle: song.chorusTitle || 'Block 2',
+            chorusTitle: song.chorusTitle || 'Block 3',
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',
