@@ -9,6 +9,8 @@ $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
 $songlistFile = Join-Path $root "songlist.html"
 $quickstartFile = Join-Path $root "quickstart.html"
+$trainerFile = Join-Path $root "ChordTrainer.html"
+$scrollingFile = Join-Path $root "scrolling_chords.html"
 $appJsFile = Join-Path $root "js\app.js"
 $stylesFile = Join-Path $root "styles.css"
 
@@ -63,9 +65,21 @@ $quickstartContent = $quickstartContent -replace '\?v=[\d\.]+"', "?v=$newVersion
 Set-Content $quickstartFile $quickstartContent -Encoding UTF8
 Write-Host "Updated quickstart.html"
 
-# 6. Git Operations
+# 6. Update ChordTrainer.html
+$trainerContent = Get-Content $trainerFile -Raw -Encoding UTF8
+$trainerContent = $trainerContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
+Set-Content $trainerFile $trainerContent -Encoding UTF8
+Write-Host "Updated ChordTrainer.html"
+
+# 7. Update scrolling_chords.html
+$scrollingContent = Get-Content $scrollingFile -Raw -Encoding UTF8
+$scrollingContent = $scrollingContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
+Set-Content $scrollingFile $scrollingContent -Encoding UTF8
+Write-Host "Updated scrolling_chords.html"
+
+# 8. Git Operations
 Write-Host "Staging changes..."
-git add index.html songlist.html quickstart.html js/app.js styles.css
+git add index.html songlist.html quickstart.html ChordTrainer.html scrolling_chords.html js/app.js styles.css js/ui/* images/*.png changelog.html
 
 Write-Host "Committing..."
 git commit -m "$Message (v$newVersion)"

@@ -1638,15 +1638,8 @@ function renderSuggestedChords(groups) {
         const isGrouped = groups.length > 0 && typeof groups[0] === 'object' && groups[0] !== null && groups[0].chords;
 
         if (isGrouped) {
-            // Sort groups by block number (fail-safe for display order)
-            const sortedGroups = groups.filter(g => g && g.chords && g.chords.length > 0).sort((a,b) => {
-                const getNum = (item) => {
-                    const s = String(item.section || '');
-                    const m = s.match(/\d+/);
-                    return m ? parseInt(m[0], 10) : 999;
-                };
-                return getNum(a) - getNum(b);
-            });
+            // Use the groups in the order received from the parent
+            const sortedGroups = groups.filter(g => g && g.chords && g.chords.length > 0);
             
             sortedGroups.forEach((group, groupIdx) => {
                 const groupContainer = document.createElement('div');
@@ -1814,6 +1807,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
     // Ensure global suggestedChords is based on input
     suggestedChords = Array.isArray(inputSuggestedChords) ? inputSuggestedChords : [];
+    console.log('%%% RECEIVED BLOCK ORDER %%%', suggestedChords.map(g => g.section));
 
     // Populate Metadata Header
     const artistDisplay = document.getElementById('artistDisplay');
