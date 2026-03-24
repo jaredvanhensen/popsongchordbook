@@ -2321,22 +2321,10 @@ class SongDetailModal {
             if (savedSong) {
                 const sections = [
                     { name: savedSong.verseTitle || 'BLOCK 1', type: 'verse', text: savedSong.verse || '' },
-                    { name: savedSong.chorusTitle || 'BLOCK 2', type: 'chorus', text: savedSong.chorus || '' },
-                    { name: savedSong.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: savedSong.preChorus || '' },
+                    { name: savedSong.preChorusTitle || 'BLOCK 2', type: 'pre-chorus', text: savedSong.preChorus || '' },
+                    { name: savedSong.chorusTitle || 'BLOCK 3', type: 'chorus', text: savedSong.chorus || '' },
                     { name: savedSong.bridgeTitle || 'BLOCK 4', type: 'bridge', text: savedSong.bridge || '' }
                 ];
-
-                // Sort sections by block number if present (to handle old songs showing 1, 3, 2, 4)
-                console.log('Pre-sync sort:', sections.map(s => s.name));
-                sections.sort((a, b) => {
-                    const getNum = (item) => {
-                        const s = String(item.name || '');
-                        const m = s.match(/\d+/); // Just Find any number
-                        return m ? parseInt(m[0], 10) : 999;
-                    };
-                    return getNum(a) - getNum(b);
-                });
-                console.log('Post-sync sort:', sections.map(s => s.name));
 
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
