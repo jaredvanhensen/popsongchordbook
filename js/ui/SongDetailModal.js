@@ -2536,6 +2536,8 @@ class SongDetailModal {
             };
         }).filter(group => group.chords.length > 0);
 
+        console.log('%%% TIMELINE BLOCK ORDER %%%', suggestedChordsGrouped.map(g => g.section));
+
         // Prepare data for timeline
         const timelineData = song.chordData ? { ...song.chordData } : { chords: [] };
         if (song.tempo) timelineData.tempo = song.tempo;
