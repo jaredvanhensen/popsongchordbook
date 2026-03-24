@@ -1050,9 +1050,24 @@ class ChordTrainer {
         }
 
         if (this.currentMode === 2) {
-            const targetSemitones = this.currentChord.notes.map(n => n % 12).sort();
-            const userSemitones = [...new Set(this.userSelection.map(n => n % 12))].sort();
-            isCorrect = JSON.stringify(targetSemitones) === JSON.stringify(userSemitones);
+            const targetSet = [...new Set(this.currentChord.notes.map(n => n % 12))].sort();
+            const userSet = [...new Set(this.userSelection.map(n => n % 12))].sort();
+            const notesMatch = JSON.stringify(targetSet) === JSON.stringify(userSet);
+
+            if (notesMatch) {
+                // If Level 2 (Inversions) or Level 3, be strict about the bass note
+                if (this.difficultyLevel >= 2) {
+                    const sortedUser = [...this.userSelection].sort((a,b) => a - b);
+                    const userBass = sortedUser[0] % 12;
+                    const targetBass = this.currentChord.notes[0] % 12;
+                    isCorrect = (userBass === targetBass);
+                } else {
+                    // Level 1: Lenient
+                    isCorrect = true;
+                }
+            } else {
+                isCorrect = false;
+            }
         } else if (this.currentMode === 4) {
             const targetNotes = [...new Set(this.currentChord.noteNames)].sort();
             const userNotes = [...new Set(this.userSelection)].sort();
@@ -1867,6 +1882,14 @@ class ChordTrainer {
 
         if (targetNotesSet.size === userNotesSet.size && 
             [...targetNotesSet].every(n => userNotesSet.has(n))) {
+            
+            // If in Inversion mode, also check the bass note
+            if (this.songPracticeComplexity === 'inversion') {
+                const sortedUser = [...this.userSelection].sort((a,b) => a - b);
+                const userBass = sortedUser[0] % 12;
+                const targetBass = this.currentChord.notes[0] % 12;
+                if (userBass !== targetBass) return; // Note match but wrong bass
+            }
             
             if (this.isQuestionHandled) return;
             this.isQuestionHandled = true;
