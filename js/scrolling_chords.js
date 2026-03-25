@@ -1807,8 +1807,6 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
     // Ensure global suggestedChords is based on input
     suggestedChords = Array.isArray(inputSuggestedChords) ? inputSuggestedChords : [];
-    console.log('%%% RECEIVED BLOCK ORDER %%%', suggestedChords.map(g => g.section));
-
     // Populate Metadata Header
     const artistDisplay = document.getElementById('artistDisplay');
     const songTitleDisplay = document.getElementById('songTitleDisplay');
@@ -3410,22 +3408,7 @@ if (document.getElementById('songMapZoomBtn')) {
         }
     });
 }
-if (document.getElementById('songMapStyleBtn')) {
-    document.getElementById('songMapStyleBtn').addEventListener('click', () => {
-        currentMapStyleIndex = (currentMapStyleIndex + 1) % MAP_STYLES.length;
-        const timeline = document.querySelector('.map-fluid-timeline');
-        if (timeline) {
-            MAP_STYLES.forEach(style => timeline.classList.remove(style));
-            timeline.classList.add(MAP_STYLES[currentMapStyleIndex]);
-            // Re-apply zoom scale just in case the container was rebuilt or class-toggled
-            timeline.style.setProperty('--map-zoom-scale', MAP_ZOOM_LEVELS[currentMapZoomIndex]);
-        }
-        const styleLabel = document.getElementById('mapStyleLabel');
-        if (styleLabel) {
-            styleLabel.textContent = (currentMapStyleIndex + 1);
-        }
-    });
-}
+
 if (document.getElementById('songMapPlayPauseBtn')) {
     document.getElementById('songMapPlayPauseBtn').addEventListener('click', togglePlayPause);
 }
@@ -3473,16 +3456,7 @@ if (document.getElementById('menuEditOption')) {
     });
 }
 
-if (document.getElementById('menuStyleOption')) {
-    document.getElementById('menuStyleOption').addEventListener('click', (e) => {
-        e.stopPropagation();
-        const styleBtn = document.getElementById('songMapStyleBtn');
-        if (styleBtn) styleBtn.click();
-        const menuStyleValue = document.getElementById('menuStyleValue');
-        const styleLabel = document.getElementById('mapStyleLabel');
-        if (menuStyleValue && styleLabel) menuStyleValue.textContent = styleLabel.textContent;
-    });
-}
+
 
 // Close menu when clicking outside
 document.addEventListener('click', (e) => {

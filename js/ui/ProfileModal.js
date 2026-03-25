@@ -35,6 +35,7 @@ class ProfileModal {
         this.logoutBtn = document.getElementById('profileLogoutBtn');
         this.shareSongsBtn = document.getElementById('profileShareSongsBtn');
         this.acceptSongsBtn = document.getElementById('profileAcceptSongsBtn');
+        this.reseedSongsBtn = document.getElementById('reseedSongsBtn');
         this.closeBtn = document.getElementById('profileModalClose');
 
         // Feature Toggles
@@ -144,6 +145,13 @@ class ProfileModal {
                 if (this.onAcceptSongs) {
                     this.onAcceptSongs();
                 }
+            });
+        }
+
+        // Reseed Songs button
+        if (this.reseedSongsBtn) {
+            this.reseedSongsBtn.addEventListener('click', () => {
+                this.handleReseedToDefaults();
             });
         }
 
@@ -800,6 +808,61 @@ class ProfileModal {
                 }
             } else {
                 alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
+            }
+        }
+    }
+
+    async handleReseedToDefaults() {
+        const user = this.firebaseManager.getCurrentUser();
+        if (!user) {
+            alert('Must be logged in to reseed songs.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to reset your library? This will replace EVERYTHING with the recommended default song set (default_songs.js). ALL your current songs and edits will be LOST.')) {
+            try {
+                // Show loading indicator
+                if (this.reseedSongsBtn) {
+                    const originalText = this.reseedSongsBtn.innerHTML;
+                    this.reseedSongsBtn.disabled = true;
+                    this.reseedSongsBtn.innerHTML = '🔄 Reseeding...';
+
+                    // Perform the reseed
+                    // DEFAULT_SONGS is global from default_songs.js
+                    if (typeof DEFAULT_SONGS !== 'undefined' && DEFAULT_SONGS.length > 0) {
+                        try {
+                            await this.songManager.importSongs(DEFAULT_SONGS, true);
+                            
+                            // Also update seeding status in Firebase just in case
+                            await this.firebaseManager.setSeedingStatus(user.uid, true);
+
+                            alert('Library successfully reset to recommended defaults!');
+                            
+                            // Close modal
+                            this.hide();
+                            
+                            // Refresh UI if possible
+                            if (window.appInstance && window.appInstance.renderSongTable) {
+                                window.appInstance.renderSongTable();
+                            }
+                        } catch (e) {
+                            console.error('Import error during reseed:', e);
+                            alert('Reseed failed: ' + e.message);
+                        }
+                    } else {
+                        alert('Could not find default songs data.');
+                    }
+
+                    this.reseedSongsBtn.disabled = false;
+                    this.reseedSongsBtn.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error('Fatal reseed error:', error);
+                alert('Fatal error during reset: ' + error.message);
+                if (this.reseedSongsBtn) {
+                    this.reseedSongsBtn.disabled = false;
+                    this.reseedSongsBtn.innerHTML = '<span class="icon">🔄</span> Reset to Recommended Songs';
+                }
             }
         }
     }
