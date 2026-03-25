@@ -559,7 +559,7 @@ class SongDetailModal {
 
         if (this.notesInput) {
             this.notesInput.addEventListener('input', () => {
-                this.onFieldEdited();
+                this.checkForChanges();
             });
         }
 
