@@ -1,4 +1,4 @@
-// Main Application (v2.410)
+// Main Application (v2.419)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -190,7 +190,7 @@ class App {
         this.setupDeselect();
         this.setupHeaderBarToggle();
         this.setupToggleView();
-        this.setupSortById();
+
         this.setupResponsiveView();
         this.setupCreateSongModal();
 
@@ -2632,37 +2632,7 @@ class App {
         }
     }
 
-    setupSortById() {
-        const sortBtn = document.getElementById('sortByIdBtn');
-        if (!sortBtn) return;
 
-        sortBtn.addEventListener('click', () => {
-            const currentSort = this.sorter.getCurrentSort();
-            let newDirection = 'desc'; // Default to newest first (descending ID)
-
-            if (currentSort.column === 'id') {
-                newDirection = currentSort.direction === 'desc' ? 'asc' : 'desc';
-            }
-
-            this.sorter.currentSort = { column: 'id', direction: newDirection };
-
-            // Update UI: clear other sort indicators (though ID sort doesn't have a header indicator yet)
-            document.querySelectorAll('th.sortable').forEach(h => {
-                h.classList.remove('asc', 'desc');
-            });
-
-            // Reload and render
-            this.loadAndRender();
-
-            // Flash feedback icon
-            const icon = sortBtn.querySelector('.icon');
-            if (icon) {
-                const original = icon.textContent;
-                icon.textContent = '✓';
-                setTimeout(() => icon.textContent = original, 1000);
-            }
-        });
-    }
 
     updateViewMode() {
         const toggleBtn = document.getElementById('toggleViewBtn');
