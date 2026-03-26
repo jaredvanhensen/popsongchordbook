@@ -224,6 +224,42 @@ class ChordParser {
             isUkulele: true
         };
     }
+    /**
+     * Transposes a chord name by a number of semitones.
+     * @param {string} chordName 
+     * @param {number} semitones 
+     */
+    transpose(chordName, semitones) {
+        if (!chordName || semitones === 0) return chordName;
+
+        const transposePart = (part) => {
+            // Updated regex to handle sharps and flats correctly
+            const match = part.match(/^([A-G][#b]?)(.*)/i);
+            if (!match) return part;
+
+            let root = match[1];
+            // Normalize root capitalization but keep accidental as is initially
+            root = root.charAt(0).toUpperCase() + root.slice(1);
+            const suffix = match[2];
+
+            const startSemitone = this.noteToSemitone[root];
+            if (startSemitone === undefined) return part;
+
+            let target = (startSemitone + semitones) % 12;
+            if (target < 0) target += 12;
+
+            // Preferred note names for transposition (avoid double sharps/flats for display)
+            const notes = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+            return notes[target] + suffix;
+        };
+
+        if (chordName.includes('/')) {
+            const [chord, bass] = chordName.split('/');
+            return transposePart(chord) + '/' + transposePart(bass);
+        }
+
+        return transposePart(chordName);
+    }
 }
 
 // Global availability

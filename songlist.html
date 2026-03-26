@@ -487,24 +487,6 @@
                     <h4>Feature Settings</h4>
                     <div class="feature-toggle-group"
                         style="margin-top: 10px; display: flex; flex-direction: column; gap: 12px;">
-                        <div class="feature-toggle"
-                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">🎤</span>
-                                <div>
-                                    <div style="font-weight: 600; font-size: 14px;">Lyrics Scrolling</div>
-                                    <div style="font-size: 11px; color: #64748b;">Show lyrics in song detail</div>
-                                </div>
-                            </div>
-                            <label class="switch"
-                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
-                                <input type="checkbox" id="profileLyricsToggle"
-                                    style="opacity: 0; width: 0; height: 0;">
-                                <span class="slider"
-                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd4e1; transition: .4s; border-radius: 24px;"></span>
-                            </label>
-                        </div>
-
 
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
@@ -923,6 +905,22 @@
                                 title="Reset transposition">
                                 <span class="icon">↺</span> Reset
                             </button>
+                        </div>
+                    </div>
+                    <!-- Capo Selector for Mobile -->
+                    <div id="capoMenuContainer" class="transpose-menu-container hidden">
+                        <button id="songDetailCapoBtn" class="song-detail-action-btn" title="Select Capo (0-6)">
+                            <span class="icon">🎸</span>
+                            <span id="capoBadge" class="capo-badge hidden">0</span>
+                        </button>
+                        <div id="capoMenu" class="transpose-menu hidden">
+                            <button class="transpose-menu-item capo-menu-item" data-capo="0">None (0)</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="1">Capo 1</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="2">Capo 2</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="3">Capo 3</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="4">Capo 4</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="5">Capo 5</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="6">Capo 6</button>
                         </div>
                     </div>
                     <button id="songDetailYouTubePlayBtn" class="song-detail-action-btn hidden"

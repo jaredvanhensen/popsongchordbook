@@ -75,6 +75,7 @@ class SongDetailModal {
         this.scrollAnimationId = null;
         this.scrollListenersAdded = false;
         this.chordDataToRemove = false;
+        this.capoValue = 0; // Display-only capo (0-6)
 
         // Confirmation Modal
         this.confirmationModal = document.getElementById('confirmationModal');
@@ -95,6 +96,10 @@ class SongDetailModal {
         this.infoModalMessage = document.getElementById('infoModalMessage');
         this.infoModalOkBtn = document.getElementById('infoModalOkBtn');
         this.infoModalClose = document.getElementById('infoModalClose');
+        this.capoMenuContainer = document.getElementById('capoMenuContainer');
+        this.capoBtn = document.getElementById('songDetailCapoBtn');
+        this.capoMenu = document.getElementById('capoMenu');
+        this.capoBadge = document.getElementById('capoBadge');
         this.sections = {
             verse: {
                 section: document.getElementById('verseSection'),
@@ -489,6 +494,45 @@ class SongDetailModal {
                 }
             }
         });
+
+        const isGuitar = this.instrumentMode === 'guitar';
+        const transposeContainer = this.transposeBtn ? this.transposeBtn.closest('.transpose-menu-container') : null;
+
+        if (isGuitar) {
+            // Unify: Switch Transpose for Capo button on ALL devices
+            if (transposeContainer) transposeContainer.classList.add('hidden');
+            if (this.capoMenuContainer) this.capoMenuContainer.classList.remove('hidden');
+            this.updateCapoUI();
+        } else {
+            if (this.capoMenuContainer) this.capoMenuContainer.classList.add('hidden');
+            if (transposeContainer) transposeContainer.classList.remove('hidden');
+        }
+    }
+
+
+
+    updateCapoUI() {
+        // Update Mobile Button/Menu UI
+        if (this.capoBadge) {
+            if (this.capoValue > 0) {
+                this.capoBadge.textContent = this.capoValue;
+                this.capoBadge.classList.remove('hidden');
+            } else {
+                this.capoBadge.classList.add('hidden');
+            }
+        }
+
+        if (this.capoMenu) {
+            const items = this.capoMenu.querySelectorAll('.capo-menu-item');
+            items.forEach(item => {
+                const val = parseInt(item.getAttribute('data-capo'));
+                if (val === this.capoValue) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
     }
 
     setupEventListeners() {
@@ -516,6 +560,38 @@ class SongDetailModal {
             instrToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggleInstrumentMode();
+            });
+        }
+
+
+
+        if (this.capoBtn && this.capoMenu) {
+            this.capoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.capoMenu.classList.toggle('hidden');
+            });
+
+            // Handle Capo Menu selection
+            const capoMenuItems = this.capoMenu.querySelectorAll('.capo-menu-item');
+            capoMenuItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const val = parseInt(item.getAttribute('data-capo'));
+                    this.capoValue = val;
+                    this.updateCapoUI();
+                    this.refreshNotation();
+                    this.capoMenu.classList.add('hidden');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (this.capoMenu && !this.capoMenu.classList.contains('hidden') &&
+                    !this.capoMenu.contains(e.target) &&
+                    e.target !== this.capoBtn &&
+                    !this.capoBtn.contains(e.target)) {
+                    this.capoMenu.classList.add('hidden');
+                }
             });
         }
 
@@ -1477,11 +1553,21 @@ class SongDetailModal {
                             marker.style.fontWeight = 'bold';
                             section.content.appendChild(marker);
                         } else {
-                            this.createChordButton(section, key, p);
+                            let cleanP = p;
+                            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                                cleanP = this.chordParser.transpose(cleanP, -this.capoValue);
+                            }
+                            this.createChordButton(section, key, cleanP, p);
                         }
                     });
                 } else {
                     let cleanChord = item.trim();
+
+                    // Apply display-only Capo transposition if in Guitar mode
+                    if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                        cleanChord = this.chordParser.transpose(cleanChord, -this.capoValue);
+                    }
+
                     if (this.instrumentMode === 'guitar') {
                         cleanChord = cleanChord.split('/')[0].replace(/[23]$/, '');
                     } else if (this.instrumentMode === 'ukulele') {
@@ -1502,23 +1588,23 @@ class SongDetailModal {
             e.stopPropagation();
             if (this.sharedAudioPlayer) {
                 this.sharedAudioPlayer.initialize().then(() => {
+                    const textToPlay = (originalText || chordText);
                     if (this.instrumentMode === 'guitar') {
                         // Use guitar-specific strum and fingering
                         this.sharedAudioPlayer.setSound('guitar-strum');
-                        const chord = this.chordParser.parseGuitarChord(chordText, window.GuitarChordDatabase);
+                        const chord = this.chordParser.parseGuitarChord(textToPlay, window.GuitarChordDatabase);
                         if (chord && chord.notes) {
                             this.sharedAudioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                         }
                     } else if (this.instrumentMode === 'ukulele') {
                         // Use dedicated ukulele sound profile
                         this.sharedAudioPlayer.setSound('ukulele');
-                        const chord = this.chordParser.parseUkuleleChord(chordText, window.UkuleleChordDatabase);
+                        const chord = this.chordParser.parseUkuleleChord(textToPlay, window.UkuleleChordDatabase);
                         if (chord && chord.notes) {
                             this.sharedAudioPlayer.playChord(chord.notes, 2.0, 0.4, 0.03, true);
                         }
                     } else {
                         // Use piano-style sound and triad
-                        const textToPlay = (originalText || chordText);
                         const chord = this.chordParser.parse(textToPlay);
                         if (chord && chord.notes) {
                             this.sharedAudioPlayer.playChord(chord.notes, 2.0);
@@ -1530,14 +1616,28 @@ class SongDetailModal {
         section.content.appendChild(btn);
     }
 
+    formatBlockTextForOverlay(rawText) {
+        if (!rawText || this.capoValue <= 0) return rawText || '';
+        
+        // Match dividers, repeat markers, or chords
+        const items = rawText.match(/\||\d+x|[^\s|]+/g) || [];
+        return items.map(item => {
+            const trimmed = item.trim();
+            if (trimmed === '|' || /^\d+x$/.test(trimmed)) return trimmed;
+            
+            // Transpose for Capo: e.g. G with Capo 2 -> F
+            return this.chordParser.transpose(trimmed, -this.capoValue);
+        }).join(' ');
+    }
+
     showUkuleleChords(sectionKey = 'verse') {
         if (!this.ukuleleChordOverlay) return;
 
         const blocks = [
-            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
-            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
-            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
-            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
+            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.verse.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.bridge.editInput.value || '') }
         ];
 
         const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
@@ -1550,10 +1650,10 @@ class SongDetailModal {
         if (!this.guitarChordOverlay) return;
 
         const blocks = [
-            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.verse.editInput.value || '') },
-            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.chorus.editInput.value || '') },
-            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.preChorus.editInput.value || '') },
-            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: (this.sections.bridge.editInput.value || '') }
+            { name: (this.sections.verse.title.textContent || 'Block 1').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.verse.editInput.value || '') },
+            { name: (this.sections.chorus.title.textContent || 'Block 2').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.chorus.editInput.value || '') },
+            { name: (this.sections.preChorus.title.textContent || 'Block 3').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.preChorus.editInput.value || '') },
+            { name: (this.sections.bridge.title.textContent || 'Block 4').replace(/\s*\([^)]*\)\s*$/, ''), text: this.formatBlockTextForOverlay(this.sections.bridge.editInput.value || '') }
         ];
 
         const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
@@ -2640,6 +2740,8 @@ class SongDetailModal {
         this.lyricsScrollPos = 0;
 
         this.currentSongId = song.id;
+        this.capoValue = 0; // Reset Capo for new song
+        this.updateCapoUI();
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
         this.isPracticeRandomMode = isPracticeRandomMode;

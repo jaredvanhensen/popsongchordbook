@@ -39,7 +39,6 @@ class ProfileModal {
         this.closeBtn = document.getElementById('profileModalClose');
 
         // Feature Toggles
-        this.lyricsToggle = document.getElementById('profileLyricsToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
 
@@ -220,13 +219,7 @@ class ProfileModal {
 
         // Enter key handling for password change
         // Feature Toggles
-        if (this.lyricsToggle) {
-            this.lyricsToggle.addEventListener('change', (e) => {
-                const user = this.firebaseManager.getCurrentUser();
-                const uid = user ? user.uid : 'guest';
-                localStorage.setItem(`feature-lyrics-enabled-${uid}`, e.target.checked);
-            });
-        }
+
 
         if (this.timelineToggle) {
             this.timelineToggle.addEventListener('change', (e) => {
@@ -354,9 +347,6 @@ class ProfileModal {
         this.updateInstrumentUI(savedInstrument);
 
         // Initialize feature toggles from localStorage (per-user)
-        if (this.lyricsToggle) {
-            this.lyricsToggle.checked = localStorage.getItem(`feature-lyrics-enabled-${uid}`) !== 'false';
-        }
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }
