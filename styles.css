@@ -2340,9 +2340,9 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .add-song-btn.with-label {
-        min-width: 54px;
-        max-width: 54px;
-        padding: 5px 4px;
+        min-width: 62px;
+        max-width: 62px;
+        padding: 5px 2px;
     }
 
     .actions-group {
@@ -2363,9 +2363,9 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .import-export-btn.with-label {
-        min-width: 54px;
-        max-width: 54px;
-        padding: 5px 4px;
+        min-width: 62px;
+        max-width: 62px;
+        padding: 5px 2px;
     }
 
     #importSongFile+label .label,
@@ -2508,9 +2508,9 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .add-song-btn.with-label {
-        min-width: 42px;
-        max-width: 42px;
-        padding: 4px 6px;
+        min-width: 62px;
+        max-width: 62px;
+        padding: 4px 2px;
     }
 
     .actions-group {
@@ -2519,9 +2519,9 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .import-export-btn.with-label {
-        min-width: 42px;
-        max-width: 42px;
-        padding: 4px 6px;
+        min-width: 62px;
+        max-width: 62px;
+        padding: 4px 2px;
     }
 
     .table-wrapper {
