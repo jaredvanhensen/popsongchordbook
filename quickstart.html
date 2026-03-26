@@ -216,19 +216,20 @@
                 <a href="#setlists" class="index-item"><span class="index-number">2</span> Creating Setlists</a>
                 <a href="#piano-chords" class="index-item"><span class="index-number">3</span> Piano Chords</a>
                 <a href="#guitar-chords" class="index-item"><span class="index-number">4</span> Guitar Chords</a>
-                <a href="#chord-editor" class="index-item"><span class="index-number">5</span> Progression Editor</a>
-                <a href="#filtering" class="index-item"><span class="index-number">6</span> Filtering by Key</a>
-                <a href="#transposing" class="index-item"><span class="index-number">7</span> Transposing Songs</a>
-                <a href="#lyrics" class="index-item"><span class="index-number">8</span> Lyrics & Auto-scroll</a>
-                <a href="#practice-mode" class="index-item"><span class="index-number">9</span> Practice List</a>
-                <a href="#chord-trainer" class="index-item"><span class="index-number">10</span> Chord Trainer & Song
+                <a href="#capo" class="index-item"><span class="index-number">5</span> Capo Feature</a>
+                <a href="#chord-editor" class="index-item"><span class="index-number">6</span> Progression Editor</a>
+                <a href="#filtering" class="index-item"><span class="index-number">7</span> Filtering by Key</a>
+                <a href="#transposing" class="index-item"><span class="index-number">8</span> Transposing Songs</a>
+                <a href="#lyrics" class="index-item"><span class="index-number">9</span> Lyrics & Auto-scroll</a>
+                <a href="#practice-mode" class="index-item"><span class="index-number">10</span> Practice List</a>
+                <a href="#chord-trainer" class="index-item"><span class="index-number">11</span> Chord Trainer & Song
                     Practice</a>
-                <a href="#timeline" class="index-item"><span class="index-number">11</span> Chord Timeline</a>
-                <a href="#song-map" class="index-item"><span class="index-number">12</span> Song Map</a>
-                <a href="#midi-support" class="index-item"><span class="index-number">13</span> MIDI Keyboard
+                <a href="#timeline" class="index-item"><span class="index-number">12</span> Chord Timeline</a>
+                <a href="#song-map" class="index-item"><span class="index-number">13</span> Song Map</a>
+                <a href="#midi-support" class="index-item"><span class="index-number">14</span> MIDI Keyboard
                     Support</a>
-                <a href="#install" class="index-item"><span class="index-number">14</span> Install as App</a>
-                <a href="#pro-tips" class="index-item"><span class="index-number">15</span> PRO TIPS</a>
+                <a href="#install" class="index-item"><span class="index-number">15</span> Install as App</a>
+                <a href="#pro-tips" class="index-item"><span class="index-number">16</span> PRO TIPS</a>
             </div>
         </div>
     </div>
@@ -317,7 +318,6 @@
                 <h3 style="font-size: 1.4rem; color: #b91c1c; margin-bottom: 15px;">🏁 Guitar Mode Features</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
                     <li><strong>Chord Diagrams:</strong> See clear, vertical neck diagrams with finger positions and open/muted string indicators.</li>
-                    <li><strong>Transposable Diagrams:</strong> If you use the <strong>Capo</strong> feature, the diagrams automatically update to show the shapes relative to the capo position!</li>
                     <li><strong>Ukulele Support:</strong> You can even switch to Ukulele mode (u) to see 4-string fretboard diagrams for every chord.</li>
                 </ul>
             </div>
@@ -328,7 +328,30 @@
         </div>
     </section>
 
-    <!-- 5. Chord Progression Editor -->
+    <!-- 5. Capo Feature -->
+    <section class="guide-section" id="capo" style="background: white;">
+        <div class="guide-container">
+            <h2 class="guide-title">Capo Feature</h2>
+            <p class="guide-text">
+                The Capo feature allows you to transpose your song visually without changing the target sound. This is perfect for guitar players who want to use familiar chord shapes while playing in a different key.
+            </p>
+            
+            <div style="background: #fffbeb; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #fde68a;">
+                <h3 style="font-size: 1.4rem; color: #92400e; margin-bottom: 15px;">🎸 Using the Capo (0-6)</h3>
+                <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
+                    <li><strong>Capo Selector:</strong> When in Guitar mode, the standard Transpose buttons are replaced by a Capo icon (🎸) and a level selector (0-6).</li>
+                    <li><strong>Smart Fingering:</strong> When you set a capo (e.g., Capo 2), the chord diagrams in the "Show Guitar Chords" modal automatically update. They will show you the physical fingering shape you need to hold relative to your capo to produce the correct chord!</li>
+                    <li><strong>Visual Feedback:</strong> A yellow indicator badge on the guitar icon helps you remember that a capo transpose is currently active.</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <img src="images/capo_example.png" alt="Capo Feature Interface" style="max-width: 100%; border-radius: 16px; box-shadow: var(--shadow);">
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Chord Progression Editor -->
     <section class="guide-section" id="chord-editor">
         <div class="guide-container">
             <h2 class="guide-title">Chord Progression Editor</h2>
@@ -343,7 +366,7 @@
         </div>
     </section>
 
-    <!-- 6. Filtering -->
+    <!-- 7. Filtering -->
     <section class="guide-section" id="filtering">
         <div class="guide-container">
             <h2 class="guide-title">Filtering by Key</h2>
@@ -358,7 +381,7 @@
         </div>
     </section>
 
-    <!-- 7. Transposing -->
+    <!-- 8. Transposing -->
     <section class="guide-section" id="transposing">
         <div class="guide-container">
             <h2 class="guide-title">Transposing Songs</h2>
@@ -372,7 +395,7 @@
         </div>
     </section>
 
-    <!-- 8. Lyrics & Teleprompter -->
+    <!-- 9. Lyrics & Teleprompter -->
     <section class="guide-section" id="lyrics">
         <div class="guide-container">
             <h2 class="guide-title">Lyrics & Teleprompter</h2>
@@ -430,7 +453,7 @@
         </div>
     </section>
 
-    <!-- 9. Practice List -->
+    <!-- 10. Practice List -->
     <section class="guide-section" id="practice-mode"
         style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
         <div class="guide-container">
@@ -450,7 +473,7 @@
         </div>
     </section>
 
-    <!-- 10. Chord Trainer & Song Practice -->
+    <!-- 11. Chord Trainer & Song Practice -->
     <section class="guide-section" id="chord-trainer"
         style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
         <div class="guide-container">
@@ -498,7 +521,7 @@
         </div>
     </section>
 
-    <!-- 11. Chord Timeline -->
+    <!-- 12. Chord Timeline -->
     <section class="guide-section" id="timeline" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
         <div class="guide-container">
             <h2 class="guide-title">Chord Timeline</h2>
@@ -603,7 +626,7 @@
 
     </section>
 
-    <!-- 12. Song Map -->
+    <!-- 13. Song Map -->
     <section class="guide-section" id="song-map" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
         <div class="guide-container">
             <h2 class="guide-title">Song Map</h2>
@@ -683,7 +706,7 @@
         </div>
     </section>
 
-    <!-- 13. MIDI Keyboard Support -->
+    <!-- 14. MIDI Keyboard Support -->
     <section class="guide-section" id="midi-support"
         style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);">
         <div class="guide-container">
@@ -732,7 +755,7 @@
         </div>
     </section>
 
-    <!-- 14. Install as App -->
+    <!-- 15. Install as App -->
     <section class="guide-section" id="install">
         <div class="guide-container">
             <h2 class="guide-title">Install as App (Full Screen)</h2>
@@ -769,7 +792,7 @@
         </div>
     </section>
 
-    <!-- 15. PRO TIPS -->
+    <!-- 16. PRO TIPS -->
     <section class="guide-section" id="pro-tips" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
         <div class="guide-container">
             <h2 class="guide-title">PRO TIPS</h2>
