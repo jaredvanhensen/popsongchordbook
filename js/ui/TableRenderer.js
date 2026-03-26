@@ -139,6 +139,13 @@ class TableRenderer {
             mapCell.innerHTML = '';
         }
         row.appendChild(mapCell);
+        
+        // ID Column
+        const idCell = document.createElement('td');
+        idCell.className = 'id-cell';
+        idCell.textContent = song.id || '';
+        idCell.dataset.field = 'id';
+        row.appendChild(idCell);
 
 
         // Verse
@@ -269,7 +276,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'id', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -284,6 +291,9 @@ class TableRenderer {
 
             // Skip Song Map cell
             if (cell.classList.contains('songmap-cell')) return;
+
+            // Skip ID cell
+            if (cell.classList.contains('id-cell')) return;
 
             const field = fieldOrder[index];
             if (!field) return;

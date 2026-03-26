@@ -1610,10 +1610,19 @@ td {
 
 .favorite-column,
 .ctl-column,
-.songmap-column {
+.songmap-column,
+.id-column {
     width: 60px;
     min-width: 60px;
     text-align: center;
+}
+
+.id-cell {
+    width: 60px;
+    min-width: 60px;
+    text-align: center;
+    font-size: 0.8em;
+    color: #94a3b8;
 }
 
 /* Variable-based Theme - Table Cells */
@@ -2408,7 +2417,9 @@ td:has(.row-edit-input.input-focused) {
     th:nth-child(7),
     td:nth-child(7),
     th:nth-child(8),
-    td:nth-child(8) {
+    td:nth-child(8),
+    th:nth-child(9),
+    td:nth-child(9) {
         min-width: 0;
     }
 
@@ -7160,6 +7171,8 @@ td:has(.row-edit-input.input-focused) {
     #songsTable td.ctl-cell,
     #songsTable th:nth-child(5),
     #songsTable td:nth-child(5),
+    #songsTable th:nth-child(6),
+    #songsTable td:nth-child(6),
     .delete-btn {
         display: none !important;
     }
@@ -7175,18 +7188,18 @@ td:has(.row-edit-input.input-focused) {
         width: 20%;
     }
 
-    #songsTable th:nth-child(6),
-    #songsTable td:nth-child(6) {
-        width: 22%;
-    }
-
     #songsTable th:nth-child(7),
     #songsTable td:nth-child(7) {
-        width: 21%;
+        width: 22%;
     }
 
     #songsTable th:nth-child(8),
     #songsTable td:nth-child(8) {
+        width: 21%;
+    }
+
+    #songsTable th:nth-child(9),
+    #songsTable td:nth-child(9) {
         width: 22%;
     }
 
