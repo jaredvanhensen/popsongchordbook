@@ -62,6 +62,8 @@ class ProfileModal {
         this.nextLevelLvl = document.getElementById('nextLevelLvl');
         this.levelBadge = document.getElementById('profileModalLevelBadge');
 
+        this.generalConfirmModal = document.getElementById('generalConfirmModal');
+
         this.awardTiers = [
             { count: 10, name: "Riff Starter", icon: "🎸", color: "#64748b" },
             { count: 20, name: "Melody Maker", icon: "🎵", color: "#6366f1" },
@@ -788,19 +790,40 @@ class ProfileModal {
     }
 
     async handleLogout() {
-        if (confirm('Weet je zeker dat je wilt uitloggen?')) {
-            const result = await this.firebaseManager.signOut();
-
-            if (result.success) {
-                this.hide();
-                if (this.onSignOut) {
-                    this.onSignOut();
+        if (window.appInstance && window.appInstance.showGeneralConfirm) {
+            window.appInstance.showGeneralConfirm(
+                "Logout",
+                "Are you sure you want to log out?",
+                async () => {
+                    const result = await this.firebaseManager.signOut();
+                    if (result.success) {
+                        this.hide();
+                        if (this.onSignOut) {
+                            this.onSignOut();
+                        }
+                    } else {
+                        alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
+                    }
+                },
+                "Log Out",
+                "Stay Logged In"
+            );
+        } else {
+            // Fallback to standard confirm if appInstance is not available
+            if (confirm('Are you sure you want to log out?')) {
+                const result = await this.firebaseManager.signOut();
+                if (result.success) {
+                    this.hide();
+                    if (this.onSignOut) {
+                        this.onSignOut();
+                    }
+                } else {
+                    alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
                 }
-            } else {
-                alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
             }
         }
     }
+
 
     async handleReseedToDefaults() {
         const user = this.firebaseManager.getCurrentUser();
@@ -809,7 +832,7 @@ class ProfileModal {
             return;
         }
 
-        if (confirm('Are you sure you want to reset your library? This will replace EVERYTHING with the recommended default song set (default_songs.js). ALL your current songs and edits will be LOST.')) {
+        const reseedAction = async () => {
             try {
                 // Show loading indicator
                 if (this.reseedSongsBtn) {
@@ -818,41 +841,57 @@ class ProfileModal {
                     this.reseedSongsBtn.innerHTML = '🔄 Reseeding...';
 
                     // Perform the reseed
-                    // DEFAULT_SONGS is global from default_songs.js
                     if (typeof DEFAULT_SONGS !== 'undefined' && DEFAULT_SONGS.length > 0) {
                         try {
                             await this.songManager.importSongs(DEFAULT_SONGS, true);
-                            
-                            // Also update seeding status in Firebase just in case
                             await this.firebaseManager.setSeedingStatus(user.uid, true);
 
-                            alert('Library successfully reset to recommended defaults!');
+                            // Show professional success info
+                            if (window.appInstance && window.appInstance.showInfoModal) {
+                                window.appInstance.showInfoModal("Success", "Library successfully reset to default song set!");
+                            } else {
+                                alert('Library successfully reset to default song set!');
+                            }
                             
-                            // Close modal
                             this.hide();
-                            
-                            // Refresh UI if possible
                             if (window.appInstance && window.appInstance.renderSongTable) {
                                 window.appInstance.renderSongTable();
                             }
                         } catch (e) {
                             console.error('Import error during reseed:', e);
                             alert('Reseed failed: ' + e.message);
+                        } finally {
+                            this.reseedSongsBtn.disabled = false;
+                            this.reseedSongsBtn.innerHTML = originalText;
                         }
                     } else {
                         alert('Could not find default songs data.');
+                        this.reseedSongsBtn.disabled = false;
+                        this.reseedSongsBtn.innerHTML = originalText;
                     }
-
-                    this.reseedSongsBtn.disabled = false;
-                    this.reseedSongsBtn.innerHTML = originalText;
                 }
             } catch (error) {
                 console.error('Fatal reseed error:', error);
                 alert('Fatal error during reset: ' + error.message);
                 if (this.reseedSongsBtn) {
                     this.reseedSongsBtn.disabled = false;
-                    this.reseedSongsBtn.innerHTML = '<span class="icon">🔄</span> Reset to Recommended Songs';
+                    this.reseedSongsBtn.innerHTML = originalText;
                 }
+            }
+        };
+
+        if (window.appInstance && window.appInstance.showGeneralConfirm) {
+            window.appInstance.showGeneralConfirm(
+                "Reset Library", 
+                "Are you sure you want to reset your library? This will replace EVERYTHING with the default song set. ALL your current songs and edits will be LOST.",
+                reseedAction,
+                "Reset Library",
+                "Keep My Data"
+            );
+        } else {
+            // Fallback
+            if (confirm('Are you sure you want to reset your library? This will replace EVERYTHING with the default song set. ALL your current songs and edits will be LOST.')) {
+                reseedAction();
             }
         }
     }

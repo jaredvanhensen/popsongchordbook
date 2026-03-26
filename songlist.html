@@ -543,7 +543,7 @@
                     </div>
                     <button id="reseedSongsBtn" class="modal-submit-btn"
                         style="background: #3b82f6; margin-top: 10px; width: 100%;">
-                        <span class="icon">🔄</span> Reset to Recommended Songs
+                        <span class="icon">🔄</span> Reset to default song set
                     </button>
                     <button id="deleteAllSongsBtn" class="modal-submit-btn"
                         style="background: #ef4444; margin-top: 10px; width: 100%;">
@@ -821,6 +821,23 @@
                 <p id="infoModalMessage"></p>
                 <div class="modal-actions-horizontal">
                     <button id="infoModalOkBtn" class="confirm-btn confirm-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Confirmation Modal -->
+    <div id="generalConfirmModal" class="modal hidden">
+        <div class="modal-content confirmation-modal-content">
+            <div class="modal-header">
+                <h3 id="generalConfirmTitle">Confirm Action</h3>
+                <button class="modal-close" id="generalConfirmClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="generalConfirmMessage"></p>
+                <div class="modal-actions-horizontal">
+                    <button id="generalConfirmCancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
+                    <button id="generalConfirmOkBtn" class="confirm-btn">Confirm</button>
                 </div>
             </div>
         </div>

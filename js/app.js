@@ -2406,42 +2406,91 @@ class App {
         });
     }
 
+    showInfoModal(title, message) {
+        const modal = document.getElementById('infoModal');
+        const titleEl = document.getElementById('infoModalTitle');
+        const messageEl = document.getElementById('infoModalMessage');
+        const okBtn = document.getElementById('infoModalOkBtn');
+        const closeBtn = document.getElementById('infoModalClose');
+
+        if (!modal) return;
+
+        if (titleEl) titleEl.textContent = title;
+        if (messageEl) messageEl.textContent = message;
+
+        const hideModal = () => modal.classList.add('hidden');
+
+        if (okBtn) okBtn.onclick = hideModal;
+        if (closeBtn) closeBtn.onclick = hideModal;
+
+        modal.classList.remove('hidden');
+    }
+
+    showGeneralConfirm(title, message, okCallback, okText = "Confirm", cancelText = "Cancel") {
+        const modal = document.getElementById('generalConfirmModal');
+        const titleEl = document.getElementById('generalConfirmTitle');
+        const messageEl = document.getElementById('generalConfirmMessage');
+        const okBtn = document.getElementById('generalConfirmOkBtn');
+        const cancelBtn = document.getElementById('generalConfirmCancelBtn');
+        const closeBtn = document.getElementById('generalConfirmClose');
+
+        if (!modal) return;
+
+        if (titleEl) titleEl.textContent = title;
+        if (messageEl) messageEl.textContent = message;
+
+        if (okBtn) {
+            okBtn.textContent = okText;
+            // Clean up old listeners
+            const newBtn = okBtn.cloneNode(true);
+            okBtn.parentNode.replaceChild(newBtn, okBtn);
+            newBtn.addEventListener('click', () => {
+                okCallback();
+                modal.classList.add('hidden');
+            });
+        }
+
+        if (cancelBtn) {
+            cancelBtn.textContent = cancelText;
+            cancelBtn.onclick = () => modal.classList.add('hidden');
+        }
+
+        if (closeBtn) {
+            closeBtn.onclick = () => modal.classList.add('hidden');
+        }
+
+        modal.classList.remove('hidden');
+    }
+
     async deleteAllSongs() {
         const songCount = this.songManager.getAllSongs().length;
 
         if (songCount === 0) {
-            alert('There are no songs to delete.');
+            this.showInfoModal('Notification', 'There are no songs to delete.');
             return;
         }
 
-        // Show warning with song count
-        const message = `WARNING: You are about to permanently delete all ${songCount} song(s)!\n\n` +
-            `This action cannot be undone.\n\n` +
-            `Are you sure you want to continue?`;
+        const message = `WARNING: You are about to PERMANENTLY delete all ${songCount} song(s)! This action cannot be undone and ALL your data will be lost. Are you sure you want to continue?`;
 
-        if (!confirm(message)) {
-            return;
-        }
-
-        // Double confirmation
-        const doubleConfirm = confirm(
-            `Final confirmation: All ${songCount} song(s) will now be deleted.\n\n` +
-            `Click "OK" to confirm or "Cancel" to abort.`
+        this.showGeneralConfirm(
+            "Delete All Songs",
+            message,
+            async () => {
+                try {
+                    // Delete all songs
+                    await this.songManager.deleteAllSongs();
+                    // Re-render
+                    this.loadAndRender();
+                    this.updateSetlistSelect(); // Ensure setlist select is updated after deletion
+                    this.showInfoModal("Success", "All songs have been permanently deleted.");
+                } catch (err) {
+                    console.error("Delete all error:", err);
+                    this.showInfoModal("Error", "Delete failed: " + err.message);
+                }
+            },
+            "Yes, DELETE EVERYTHING",
+            "Keep My Songs"
         );
-
-        if (!doubleConfirm) {
-            return;
-        }
-
-        // Delete all songs
-        await this.songManager.deleteAllSongs();
-
-        // Re-render
-        this.loadAndRender();
-        this.updateSetlistSelect();
-
-        // Show success message
-        alert(`All ${songCount} song(s) have been successfully deleted.`);
     }
 
     exportSongs() {
