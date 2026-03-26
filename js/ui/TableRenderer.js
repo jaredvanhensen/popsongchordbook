@@ -147,6 +147,28 @@ class TableRenderer {
         idCell.dataset.field = 'id';
         row.appendChild(idCell);
 
+        // Date Added Column
+        const dateAddedCell = document.createElement('td');
+        dateAddedCell.className = 'date-added-cell';
+        let dateDisplay = '';
+        if (song.dateAdded) {
+            try {
+                const dateObj = new Date(song.dateAdded);
+                if (!isNaN(dateObj)) {
+                    dateDisplay = dateObj.toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    });
+                }
+            } catch (e) {
+                console.error('Error formatting date:', e);
+            }
+        }
+        dateAddedCell.textContent = dateDisplay;
+        dateAddedCell.dataset.field = 'dateAdded';
+        row.appendChild(dateAddedCell);
+
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
@@ -276,7 +298,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'id', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'id', 'dateAdded', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -294,6 +316,9 @@ class TableRenderer {
 
             // Skip ID cell
             if (cell.classList.contains('id-cell')) return;
+
+            // Skip Date Added cell
+            if (cell.classList.contains('date-added-cell')) return;
 
             const field = fieldOrder[index];
             if (!field) return;

@@ -64,6 +64,14 @@ class Sorter {
             return direction === 'asc' ? aVal - bVal : bVal - aVal;
         }
 
+        if (column === 'dateAdded') {
+            const aVal = a.dateAdded || '';
+            const bVal = b.dateAdded || '';
+            return direction === 'asc' 
+                ? aVal.localeCompare(bVal) 
+                : bVal.localeCompare(aVal);
+        }
+
 
         let aVal = a[column] || '';
         let bVal = b[column] || '';

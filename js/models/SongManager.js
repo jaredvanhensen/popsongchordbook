@@ -150,7 +150,9 @@ class SongManager {
             // Map Migration: Ensure top-level 'customMapSections' exists if it's in chordData
             customMapSections: song.customMapSections || (song.chordData ? song.chordData.customMapSections : null) || null,
             // Proactive migration: Ensure fullLyrics is never empty if legacy lyrics exist
-            fullLyrics: song.fullLyrics || song.lyrics || ''
+            fullLyrics: song.fullLyrics || song.lyrics || '',
+            // Date Added Migration: Infer from ID if missing and ID looks like a timestamp
+            dateAdded: song.dateAdded || (typeof song.id === 'string' && song.id.length >= 13 && !isNaN(song.id.substring(0, 13)) ? new Date(parseInt(song.id.substring(0, 13))).toISOString() : (typeof song.id === 'number' && song.id > 1000000000000 ? new Date(song.id).toISOString() : null))
         }));
     }
 
@@ -227,6 +229,7 @@ class SongManager {
             ...song,
             // Guaranteed fields/overrides
             id: this.nextId++,
+            dateAdded: new Date().toISOString(),
             // Support legacy field if present
             fullLyrics: song.fullLyrics || song.lyrics || ''
         };
@@ -288,6 +291,7 @@ class SongManager {
             ...song,
             // Specific migrations/fixes
             id: song.id || this.nextId++,
+            dateAdded: song.dateAdded || new Date().toISOString(),
             // Fallback for legacy 'lyrics' field to 'fullLyrics'
             fullLyrics: song.fullLyrics || song.lyrics || ''
         }));
