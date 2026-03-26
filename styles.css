@@ -5704,7 +5704,7 @@ td:has(.row-edit-input.input-focused) {
 
 /* Guitar Overlay Styles */
 .guitar-header {
-    background: linear-gradient(135deg, #a52a2a 0%, #5d0c0c 100%) !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
