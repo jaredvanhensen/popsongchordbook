@@ -10,7 +10,8 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f0f2f5;
-            margin: 40px;
+            margin: 20px;
+            padding-bottom: 50px;
             color: #1a1a1a;
         }
 
@@ -19,7 +20,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
@@ -32,6 +33,10 @@
             gap: 15px;
         }
 
+        .card-header.json-header {
+            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+        }
+
         .card-header h2 {
             margin: 0;
             color: white;
@@ -41,6 +46,42 @@
 
         .card-body {
             padding: 25px;
+        }
+
+        .json-import-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-input-wrapper {
+            width: 100%;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+        }
+
+        .file-input-wrapper span {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .file-input-wrapper p {
+            margin: 0;
+            color: #4b5563;
+            font-weight: 500;
         }
 
         textarea {
@@ -279,9 +320,27 @@
 
 <body>
 
+    <!-- 1. JSON Import Section (Top) -->
+    <div class="card">
+        <div class="card-header json-header">
+            <h2>📄 Quick JSON Import</h2>
+        </div>
+        <div class="card-body">
+            <div class="json-import-container">
+                <label for="quickJsonInput" class="file-input-wrapper">
+                    <span>📥</span>
+                    <p id="jsonFileName">Selecteer een .json liedje bestand...</p>
+                    <input type="file" id="quickJsonInput" accept=".json" style="display: none;">
+                </label>
+                <button id="importJsonBtn" class="btn-primary" style="display: none; width: 100%; border-radius: 12px; height: 50px; font-size: 1.1em;" onclick="importSelectedJson()">Import Selected JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. UG Import Section (Existing) -->
     <div class="card">
         <div class="card-header">
-            <h2>🎸 Import from Ultimate Guitar</h2>
+            <h2>🎸 Extract from Ultimate Guitar</h2>
         </div>
         <div class="card-body">
             <textarea id="input"
@@ -315,6 +374,61 @@
     </div>
 
     <script>
+        let selectedJsonData = null;
+
+        // --- JSON Import Handling ---
+        document.getElementById('quickJsonInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            document.getElementById('jsonFileName').textContent = `Selected: ${file.name}`;
+            document.getElementById('importJsonBtn').style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                try {
+                    selectedJsonData = JSON.parse(event.target.result);
+                    console.log("JSON parsed successfully:", selectedJsonData.title);
+                } catch (err) {
+                    alert("Ongeldig JSON bestand.");
+                    selectedJsonData = null;
+                    document.getElementById('importJsonBtn').style.display = 'none';
+                    document.getElementById('jsonFileName').textContent = "Selecteer een .json liedje bestand...";
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        function importSelectedJson() {
+            if (!selectedJsonData) return;
+            postToMain(selectedJsonData);
+        }
+
+        function postToMain(song) {
+            if (window.opener) {
+                try {
+                    window.opener.postMessage({
+                        type: 'UG_EXTRACTOR_IMPORT',
+                        song: song,
+                        confirmed: false // Prompt for confirmation on main screen for JSON
+                    }, '*');
+
+                    // Visual feedback
+                    const btn = document.getElementById("importJsonBtn");
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = "✅ IMPORTED!";
+                    btn.style.background = "#059669";
+
+                    setTimeout(() => {
+                        window.close(); // Close window after import for mobile-like feel
+                    }, 1000);
+                } catch (e) {
+                    alert("Main window not found. Please try again.");
+                }
+            } else {
+                alert("Hoofdvenster niet gevonden.");
+            }
+        }
 
         function isChord(token) {
             // Remove common UG characters and punctuation that might be attached to chords
@@ -583,12 +697,13 @@
             modal.classList.remove('hidden');
 
             confirmBtn.onclick = () => {
+                const songName = `${song.artist || 'Unknown'} - ${song.title || 'Untitled'}`;
                 if (window.opener) {
                     try {
                         window.opener.postMessage({
                             type: 'UG_EXTRACTOR_IMPORT',
                             song: song,
-                            confirmed: true // Tell app we already confirmed here
+                            confirmed: true // Already confirmed here for UG extractor
                         }, '*');
 
                         // Show success feedback on the main button
@@ -598,15 +713,14 @@
                         importBtn.style.background = "#059669";
 
                         setTimeout(() => {
-                            importBtn.innerHTML = originalText;
-                            importBtn.style.background = "";
-                        }, 3000);
+                            window.close(); // Close on mobile-like feel
+                        }, 1000);
                     } catch (e) {
                         console.error("PostMessage failed", e);
-                        alert("Connection lost. Refresh both windows.");
+                        alert("Verbinding verbroken.");
                     }
                 } else {
-                    alert("Main window not found. Please Copy/Paste.");
+                    alert("Main window not found.");
                 }
                 closeModal();
             };

@@ -10733,6 +10733,10 @@ div.song-detail-practice-controls {
     .hidden-mobile { display: none !important; }
 }
 
+@media (min-width: 769px) {
+    .hidden-desktop { display: none !important; }
+}
+
 /* Capo Badge for Mobile Button */
 .capo-badge {
     position: absolute;
