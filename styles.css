@@ -2350,29 +2350,18 @@ td:has(.row-edit-input.input-focused) {
         flex-wrap: nowrap;
     }
 
-    .import-export-controls {
-        flex: 1;
-        display: flex;
-        justify-content: space-between;
-        gap: 4px;
-        min-width: 0;
-    }
-
-    .import-export-btn {
+    /* Mobile button styles - will be applied to all direct siblings in actions-group */
+    .actions-group > .import-export-btn,
+    .actions-group > .add-song-btn {
         height: 38px;
         flex: 1;
         min-width: 0;
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 4px 2px;
-    }
-
-    .import-export-btn.with-label {
-        min-width: 0;
-        max-width: none;
-        padding: 4px 2px;
+        border-radius: 8px;
     }
 
     /* Reset special width for UG button on mobile */
@@ -2528,18 +2517,14 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .add-song-btn {
-        flex: 1;
-        min-width: 0;
-        height: 38px;
-        padding: 4px 2px;
-        font-size: 0.85em;
+        height: 38px; /* Already handled by sibling selector but keep for robustness */
     }
 
     .add-song-btn.with-label {
         min-width: 0;
         max-width: none;
         padding: 4px 2px;
-        height: 38px; /* Sync with others */
+        transform: none;
     }
 
     .actions-group {
@@ -2548,13 +2533,15 @@ td:has(.row-edit-input.input-focused) {
         justify-content: space-between;
         gap: 4px;
         flex-wrap: nowrap;
+        align-items: stretch; /* All same height */
     }
 
-    .import-export-btn.with-label {
+    .import-export-btn.with-label,
+    .add-song-btn.with-label {
         flex: 1;
         min-width: 0;
         max-width: none;
-        padding: 4px 2px;
+        padding: 4px 1px;
     }
 
     /* Target ONLY import ug to be slightly wider */
