@@ -1,7 +1,7 @@
 $http = [System.Net.HttpListener]::new() 
-$http.Prefixes.Add("http://localhost:8081/") 
+$http.Prefixes.Add("http://localhost:8080/") 
 $http.Start()
-Write-Host "Server started at http://localhost:8081/"
+Write-Host "Server started at http://localhost:8080/"
 $root = $PSScriptRoot
 
 while ($http.IsListening) {

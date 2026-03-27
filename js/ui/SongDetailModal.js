@@ -405,7 +405,7 @@ class SongDetailModal {
         this.allSongs = songs;
     }
 
-    toggleInstrumentMode() {
+    async toggleInstrumentMode() {
         if (this.instrumentMode === 'piano') {
             this.instrumentMode = 'guitar';
         } else if (this.instrumentMode === 'guitar') {
@@ -416,7 +416,20 @@ class SongDetailModal {
 
         const user = this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser() : null;
         const uid = user ? user.uid : 'guest';
+        
+        // Save to LocalStorage
         localStorage.setItem(`instrument-mode-${uid}`, this.instrumentMode);
+        // Fallback for index.html/other parts
+        localStorage.setItem('instrumentMode', this.instrumentMode);
+
+        // Save to Firebase if authenticated
+        if (user && this.songManager.firebaseManager) {
+            try {
+                await this.songManager.firebaseManager.updatePreference('instrument', this.instrumentMode);
+            } catch (e) {
+                console.error('Error saving instrument to Firebase:', e);
+            }
+        }
 
         this.updateInstrumentToggleUI();
         this.refreshNotation();

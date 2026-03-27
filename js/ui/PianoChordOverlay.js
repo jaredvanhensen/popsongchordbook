@@ -469,8 +469,18 @@ class PianoChordOverlay {
         // Get the range: 2 white keys before first chord white key, 2 after last
         const firstChordIndex = Math.min(...chordIndices);
         const lastChordIndex = Math.max(...chordIndices);
-        const startIndex = Math.max(0, firstChordIndex - 2);
-        const endIndex = Math.min(allWhiteKeys.length - 1, lastChordIndex + 2);
+        let startIndex = Math.max(0, firstChordIndex - 2);
+        let endIndex = Math.min(allWhiteKeys.length - 1, lastChordIndex + 2);
+
+        // Snap to logical start (C or F) to keep black key groups (2 and 3) intact
+        while (startIndex > 0 && !['C', 'F'].includes(allWhiteKeys[startIndex].name)) {
+            startIndex--;
+        }
+        
+        // Snap to logical end (E or B) to keep black key groups intact and balanced
+        while (endIndex < allWhiteKeys.length - 1 && !['E', 'B'].includes(allWhiteKeys[endIndex].name)) {
+            endIndex++;
+        }
 
         // Extract the white keys we need
         const whiteKeys = allWhiteKeys.slice(startIndex, endIndex + 1).map((wk, idx) => ({

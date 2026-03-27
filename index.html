@@ -198,8 +198,14 @@
                 </div>
                 <div class="instrument-card ukelele-card">
                     <div class="instrument-icon">
-                        <img src="images/ukelele-svgrepo-com.svg" alt="Ukulele"
-                            style="width: 140px; height: 140px; object-fit: contain;">
+                        <svg viewBox="0 0 100 100" width="140" height="140" style="vertical-align: middle;">
+                            <g transform="rotate(-35 50 50)">
+                                <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                            </g>
+                        </svg>
                     </div>
                     <h3>Ukulele</h3>
                     <p>Simplified ukulele chords for easy strumming and playalong</p>
@@ -427,8 +433,14 @@
                         style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                         <div class="instrument-icon"
                             style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px; height: 50px;">
-                            <img src="images/ukelele-svgrepo-com.svg" alt="Ukulele"
-                                style="width: 50px; height: 50px; object-fit: contain;">
+                            <svg viewBox="0 0 100 100" width="50" height="50" style="vertical-align: middle;">
+                                <g transform="rotate(-35 50 50)">
+                                    <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                    <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                    <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                    <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                                </g>
+                            </svg>
                         </div>
                         <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Ukulele</h3>
                     </div>
@@ -441,19 +453,55 @@
 
     <script>
         // Open Chord Book Modal Logic
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const browseBtn = document.getElementById('browseSongListBtn');
             const instrumentModal = document.getElementById('chooseInstrumentModal');
             const closeModalBtn = document.getElementById('closeInstrumentModal');
 
+            // Initialize FirebaseManager
+            const firebaseManager = new FirebaseManager();
+            let currentUser = null;
+
+            try {
+                await firebaseManager.initialize();
+                firebaseManager.onAuthStateChanged((user) => {
+                    currentUser = user;
+                });
+            } catch (err) {
+                console.warn('Firebase login check failed:', err);
+            }
+
             if (browseBtn && instrumentModal) {
-                browseBtn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Always prevent default if it's a button
-                    if (window.innerWidth <= 480) {
+                browseBtn.addEventListener('click', async (e) => {
+                    e.preventDefault(); 
+                    
+                    // Always redirect to songlist if not on mobile portrait
+                    if (window.innerWidth > 480) {
+                        window.location.href = 'songlist.html';
+                        return;
+                    }
+
+                    // On mobile: Check if we already have a saved instrument (LocalStorage or Firebase)
+                    let savedInstrument = localStorage.getItem('instrumentMode');
+                    
+                    if (!savedInstrument && currentUser) {
+                        try {
+                            savedInstrument = await firebaseManager.getPreference('instrument');
+                            if (savedInstrument) {
+                                localStorage.setItem('instrumentMode', savedInstrument);
+                            }
+                        } catch (e) {
+                            console.error('Error fetching instrument preference:', e);
+                        }
+                    }
+
+                    if (savedInstrument) {
+                        // Already chose an instrument - skip the modal
+                        window.location.href = 'songlist.html';
+                    } else {
+                        // Needs to choose - show the modal
                         instrumentModal.style.display = 'flex';
                         document.body.style.overflow = 'hidden';
-                    } else {
-                        window.location.href = 'songlist.html';
                     }
                 });
             }
@@ -472,8 +520,18 @@
                 }
             });
 
-            window.selectInstrument = function (instrument) {
+            window.selectInstrument = async function (instrument) {
                 localStorage.setItem('instrumentMode', instrument);
+                
+                // If user is logged in, also store preference in Firebase
+                if (currentUser) {
+                    try {
+                        await firebaseManager.updatePreference('instrument', instrument);
+                    } catch (e) {
+                        console.error('Error saving instrument preference to database:', e);
+                    }
+                }
+                
                 window.location.href = 'songlist.html';
             };
 

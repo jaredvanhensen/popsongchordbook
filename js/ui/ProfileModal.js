@@ -20,11 +20,6 @@ class ProfileModal {
         this.instrumentBtns = document.querySelectorAll('.profile-instrument-btn');
 
         // Avatar elements (Created dynamically if not present in HTML yet, or assumes HTML update)
-        // Since I can't edit HTML easily without context, I will inject the HTML in show() if missing or use existing structure if I modify songlist.html
-        // I will modify songlist.html first to add the structure.
-        // Wait, I should modify songlist.html FIRST. 
-        // Plan change: Modify songlist.html first.
-
         this.emailDisplay = document.getElementById('profileEmail');
         this.currentPasswordInput = document.getElementById('profileCurrentPassword');
         this.newPasswordInput = document.getElementById('profileNewPassword');
@@ -1087,10 +1082,23 @@ class ProfileModal {
             this.themeSelect.value = themeClass;
         }
     }
-    handleInstrumentChange(instrument) {
+    async handleInstrumentChange(instrument) {
         const user = this.firebaseManager.getCurrentUser();
         const uid = user ? user.uid : 'guest';
+        
+        // Save to LocalStorage
         localStorage.setItem(`instrument-mode-${uid}`, instrument);
+        // Fallback for legacy components or index.html
+        localStorage.setItem('instrumentMode', instrument);
+
+        // Save to Firebase if authenticated
+        if (user) {
+            try {
+                await this.firebaseManager.updatePreference('instrument', instrument);
+            } catch (e) {
+                console.error('Error saving instrument to Firebase:', e);
+            }
+        }
 
         // Notify SongDetailModal if it exists
         if (window.appInstance && window.appInstance.songDetailModal) {

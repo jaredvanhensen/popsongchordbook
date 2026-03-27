@@ -453,57 +453,81 @@ class ChordTrainer {
 
     generateKeys() {
         this.dom.piano.innerHTML = '';
-        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         
         const isMobile = this.isMobile();
-        const numOctaves = isMobile ? 2 : 3;
-        const startOctave = isMobile ? 4 : 4; // Mobile: C3 to B4 (24 keys), Desktop: C3 to B5 (36 keys)
+        let numOctaves = isMobile ? 2 : 3;
+        
+        // Default start octave (C3 = 48)
+        let startNote = 48; 
+        
+        // If we have a chord, try to center it or shift the keyboard so it fits
+        if (this.currentChord && this.currentChord.notes) {
+            const minNote = Math.min(...this.currentChord.notes);
+            const maxNote = Math.max(...this.currentChord.notes);
+            
+            // Heuristic for starting note: 2 or 3 white keys buffer
+            let idealStart = minNote - 4;
+            
+            // Snap the startNote to C or F to maintain the visual groups of black keys
+            while (idealStart > 24) {
+                const semitone = idealStart % 12;
+                if (semitone === 0 || semitone === 5) {
+                    startNote = idealStart;
+                    break;
+                }
+                idealStart--;
+            }
+
+            // After snapping start, check if we need more octaves to fit the chord
+            const rangeNeeded = Math.ceil((maxNote - startNote + 5) / 12);
+            numOctaves = Math.max(numOctaves, rangeNeeded);
+        }
+
+        this.currentPianoStart = startNote;
+        this.currentPianoOctaves = numOctaves;
+
         const totalKeys = (numOctaves * 12) + 1; // Include final C
 
-        let keyCount = 0;
-        for (let o = 0; o <= numOctaves; o++) {
-            for (let i = 0; i < 12; i++) {
-                if (keyCount >= totalKeys) break;
-                
-                const noteName = notes[i];
-                const noteIndex = (startOctave + o) * 12 + i;
-                
-                const isBlack = noteName.includes('#');
-                const key = document.createElement('div');
-                key.className = isBlack ? 'black-key' : 'white-key';
-                key.dataset.note = noteIndex;
-                
-                // Add note name to white keys on mobile
-                if (!isBlack && isMobile) {
-                    const label = document.createElement('span');
-                    label.className = 'key-label';
-                    label.textContent = noteName;
-                    key.appendChild(label);
-                }
-
-                key.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    this.handleKeyPress(noteIndex, true, true);
-                });
-                key.addEventListener('mouseup', () => this.handleKeyPress(noteIndex, false, true));
-                key.addEventListener('mouseleave', () => this.handleKeyPress(noteIndex, false, true));
-                
-                // Touch support
-                key.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    this.handleKeyPress(noteIndex, true, true);
-                });
-                key.addEventListener('touchend', () => this.handleKeyPress(noteIndex, false, true));
-
-                // Add universal note label for Beginner Guide
+        for (let n = 0; n < totalKeys; n++) {
+            const absoluteNote = startNote + n;
+            const noteInOctave = absoluteNote % 12;
+            const noteName = noteNames[noteInOctave];
+            
+            const isBlack = noteName.includes('#');
+            const key = document.createElement('div');
+            key.className = isBlack ? 'black-key' : 'white-key';
+            key.dataset.note = absoluteNote;
+            
+            // Add note name to white keys on mobile
+            if (!isBlack && isMobile) {
                 const label = document.createElement('span');
-                label.className = 'key-note-label';
+                label.className = 'key-label';
                 label.textContent = noteName;
                 key.appendChild(label);
-
-                this.dom.piano.appendChild(key);
-                keyCount++;
             }
+
+            key.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.handleKeyPress(absoluteNote, true, true);
+            });
+            key.addEventListener('mouseup', () => this.handleKeyPress(absoluteNote, false, true));
+            key.addEventListener('mouseleave', () => this.handleKeyPress(absoluteNote, false, true));
+            
+            // Touch support
+            key.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.handleKeyPress(absoluteNote, true, true);
+            });
+            key.addEventListener('touchend', () => this.handleKeyPress(absoluteNote, false, true));
+
+            // Add universal note label for Beginner Guide
+            const label = document.createElement('span');
+            label.className = 'key-note-label';
+            label.textContent = noteName;
+            key.appendChild(label);
+
+            this.dom.piano.appendChild(key);
         }
     }
 
@@ -645,6 +669,21 @@ class ChordTrainer {
             this.setupSongPracticeQuestion();
         } else {
             this.generateRandomChord();
+        }
+
+        // Re-generate keys if the current range doesn't fit the new chord
+        if (this.currentChord && this.currentChord.notes) {
+            const min = Math.min(...this.currentChord.notes);
+            const max = Math.max(...this.currentChord.notes);
+            const currentStart = this.currentPianoStart || 48;
+            const currentEnd = currentStart + (this.currentPianoOctaves || 2) * 12;
+            
+            if (min < currentStart || max > currentEnd - 2) {
+                this.generateKeys();
+            }
+        }
+
+        if (!this.isSongPracticeMode) {
             this.setupQuestionByMode();
         }
 
@@ -685,9 +724,8 @@ class ChordTrainer {
                 'Dominant 7th (e.g. C7): Take a major triad, then skip 3 more keys above the top note. C7 = C – E – G – B♭.',
                 'Major 7th (e.g. Cmaj7): Take a major triad, then skip 4 keys above the top note. Cmaj7 = C – E – G – B.',
                 'Minor 7th (e.g. Cm7): Take a minor triad, then skip 3 keys above the top note. Cm7 = C – E♭ – G – B♭.',
-                'Sus2 chord (e.g. Csus2): Replace the middle note with a 2-skip from the root. Csus2 = C – D – G. No major or minor feel — very open sounding.',
-                'Sus4 chord (e.g. Csus4): Replace the middle note with a 5-skip from the root. Csus4 = C – F – G. Often used as a tension before resolving to a major chord.',
-                'Dim7 chord (e.g. Bdim7): Four notes, each exactly 3 keys apart. Very tense — used to build suspense before the next chord.',
+                'Major 6th (e.g. C6): A major triad with an extra note just 2 keys above the 5th. C6 = C – E – G – A.',
+                'Add9 chord (e.g. Cadd9): A major triad with the 2nd note from the next octave added. Cadd9 = C – E – G – D.',
             ],
             // Always in the pool regardless of level
             general: [
@@ -760,8 +798,8 @@ class ChordTrainer {
         let types = ['', 'm']; // Default for Levels 1 & 2 (Triads)
         
         if (this.difficultyLevel === 3) {
-            // Strictly 4-note max chords
-            types = ['7', 'maj7', 'm7', '6', 'm6', '7sus4', 'add9', 'dim7'];
+            // Strictly common 4-note max chords for pop practice
+            types = ['7', 'maj7', 'm7', '6', 'add9'];
         }
         
         let root, type, chordName, displayName, notes, inversion;
@@ -914,8 +952,8 @@ class ChordTrainer {
         const roots = ['C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
         let types = ['', 'm'];
         if (this.difficultyLevel === 3) {
-            // Match Level 3 chords (4-note max)
-            types = ['7', 'maj7', 'm7', '6', 'm6', '7sus4', 'add9', 'dim7'];
+            // Match Level 3 common pop chords
+            types = ['7', 'maj7', 'm7', '6', 'add9'];
         }
         
         while(options.length < 4) {

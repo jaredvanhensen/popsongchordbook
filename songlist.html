@@ -378,6 +378,36 @@
                         <label>Email address</label>
                         <div class="profile-email-display" id="profileEmail">-</div>
                     </div>
+
+                    <div class="profile-instrument-section" style="margin-bottom: 25px;">
+                        <h4 style="margin-bottom: 12px;">Choose Your Instrument</h4>
+                        <div class="instrument-selector" id="profileInstrumentSwitcher"
+                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <button class="profile-instrument-btn" data-instrument="piano"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <span style="font-size: 28px;">🎹</span>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Keyboard</span>
+                            </button>
+                            <button class="profile-instrument-btn" data-instrument="guitar"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <span style="font-size: 28px;">🎸</span>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Guitar</span>
+                            </button>
+                            <button class="profile-instrument-btn" data-instrument="ukulele"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <svg viewBox="0 0 100 100" width="28" height="28" style="vertical-align: middle;">
+                                    <g transform="rotate(-35 50 50)">
+                                        <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                        <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                        <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                        <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                                    </g>
+                                </svg>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Ukulele</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Practice Streak Section -->
                     <div class="profile-streak-section">
                         <div class="streak-container">
@@ -453,9 +483,15 @@
                     <div class="profile-high-scores-section" style="margin-top: 25px;">
                         <h4 style="margin-bottom: 12px;">Chord Trainer High Scores</h4>
                         <div class="mode-lvl-switcher" style="display: flex; gap: 8px; margin-bottom: 15px;">
-                            <button class="mode-lvl-btn active" data-lvl="1" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #6366f1; background: #eff6ff; color: #6366f1; cursor: pointer; transition: all 0.2s;">LVL 1</button>
-                            <button class="mode-lvl-btn" data-lvl="2" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL 2</button>
-                            <button class="mode-lvl-btn" data-lvl="3" style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL 3</button>
+                            <button class="mode-lvl-btn active" data-lvl="1"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #6366f1; background: #eff6ff; color: #6366f1; cursor: pointer; transition: all 0.2s;">LVL
+                                1</button>
+                            <button class="mode-lvl-btn" data-lvl="2"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL
+                                2</button>
+                            <button class="mode-lvl-btn" data-lvl="3"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL
+                                3</button>
                         </div>
                         <div class="achievements-grid" id="chordTrainerHighScoresList">
                             <!-- High scores will be inserted here (4 tiles, one for each mode) -->
@@ -467,19 +503,23 @@
                         <h4 style="margin-bottom: 15px;">Global Leaderboards</h4>
                         <div id="globalLeaderboardGrid" class="leaderboard-grid">
                             <div class="leaderboard-column">
-                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">1. SHAPE</h5>
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    1. SHAPE</h5>
                                 <div id="leaderboardList1" class="leaderboard-list compact"></div>
                             </div>
                             <div class="leaderboard-column">
-                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">2. PLAY</h5>
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    2. PLAY</h5>
                                 <div id="leaderboardList2" class="leaderboard-list compact"></div>
                             </div>
                             <div class="leaderboard-column">
-                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">3. NOTES</h5>
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    3. NOTES</h5>
                                 <div id="leaderboardList3" class="leaderboard-list compact"></div>
                             </div>
                             <div class="leaderboard-column">
-                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">4. CHORD</h5>
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    4. CHORD</h5>
                                 <div id="leaderboardList4" class="leaderboard-list compact"></div>
                             </div>
                         </div>
@@ -552,24 +592,6 @@
                         style="background: #ef4444; margin-top: 10px; width: 100%;">
                         <span class="icon">🗑️</span> Delete All Songs
                     </button>
-                </div>
-
-                <div class="profile-instrument-section" style="margin-bottom: 25px;">
-                    <h4 style="margin-bottom: 12px;">Choose Your Instrument</h4>
-                    <div class="instrument-selector" id="profileInstrumentSwitcher" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <button class="profile-instrument-btn" data-instrument="piano" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                            <span style="font-size: 28px;">🎹</span>
-                            <span style="font-size: 11px; font-weight: 700; color: #64748b;">Keyboard</span>
-                        </button>
-                        <button class="profile-instrument-btn" data-instrument="guitar" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                            <span style="font-size: 28px;">🎸</span>
-                            <span style="font-size: 11px; font-weight: 700; color: #64748b;">Guitar</span>
-                        </button>
-                        <button class="profile-instrument-btn" data-instrument="ukulele" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                            <img src="images/ukelele-svgrepo-com.svg" alt="Ukulele" style="width: 28px; height: 28px; object-fit: contain;">
-                            <span style="font-size: 11px; font-weight: 700; color: #64748b;">Ukulele</span>
-                        </button>
-                    </div>
                 </div>
 
                 <div class="profile-appearance-section">

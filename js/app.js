@@ -298,6 +298,9 @@ class App {
         }
 
         this.updateProfileLabel(user);
+        
+        // Sync preferences (Instrument choice, etc.)
+        await this.syncUserPreferences(user);
     }
 
     handleAuthFailure() {
@@ -501,6 +504,41 @@ class App {
         } else {
             // No local data, mark migration as completed
             localStorage.setItem(migrationKey, 'true');
+        }
+    }
+
+    async syncUserPreferences(user) {
+        if (!user) return;
+        
+        try {
+            console.log('App: Syncing user preferences from Firebase...');
+            // 1. Sync Instrument Choice
+            let instrument = await this.firebaseManager.getPreference('instrument');
+            
+            if (instrument) {
+                console.log('App: Found instrument in database:', instrument);
+                localStorage.setItem(`instrument-mode-${user.uid}`, instrument);
+                localStorage.setItem('instrumentMode', instrument); // Fallback for index.html/other parts
+                
+                // Update active instances if they already exist
+                if (this.songDetailModal) {
+                    this.songDetailModal.instrumentMode = instrument;
+                    this.songDetailModal.updateInstrumentToggleUI();
+                    this.songDetailModal.refreshNotation();
+                }
+                if (this.profileModal) {
+                    this.profileModal.updateInstrumentUI(instrument);
+                }
+            } else {
+                // Not in database? Check if we have it locally from index.html (guest session)
+                const localInstrument = localStorage.getItem('instrumentMode') || localStorage.getItem(`instrument-mode-${user.uid}`);
+                if (localInstrument && localInstrument !== 'piano') { // pianos is default anyway
+                    console.log('App: Pushing local instrument to database:', localInstrument);
+                    await this.firebaseManager.updatePreference('instrument', localInstrument);
+                }
+            }
+        } catch (error) {
+            console.error('App: Error syncing preferences:', error);
         }
     }
 
