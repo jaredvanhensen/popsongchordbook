@@ -141,6 +141,7 @@ class SongManager {
             chorusTitle: 'Block 2',
             bridgeTitle: 'Block 4',
             songNotes: '',
+            capo: 0,
             // Preserve all incoming fields
             ...song,
             // Guaranteed types/migrations
@@ -225,6 +226,7 @@ class SongManager {
             chorusTitle: 'Block 2',
             bridgeTitle: 'Block 4',
             songNotes: '',
+            capo: 0,
             // Preserve all incoming fields
             ...song,
             // Guaranteed fields/overrides

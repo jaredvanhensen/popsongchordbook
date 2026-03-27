@@ -593,6 +593,7 @@ class SongDetailModal {
                     this.capoValue = val;
                     this.updateCapoUI();
                     this.refreshNotation();
+                    this.checkForChanges(); // Trigger change check
                     this.capoMenu.classList.add('hidden');
                 });
             });
@@ -1630,7 +1631,7 @@ class SongDetailModal {
     }
 
     formatBlockTextForOverlay(rawText) {
-        if (!rawText || this.capoValue <= 0) return rawText || '';
+        if (!rawText || this.instrumentMode !== 'guitar' || this.capoValue <= 0) return rawText || '';
         
         // Match dividers, repeat markers, or chords
         const items = rawText.match(/\||\d+x|[^\s|]+/g) || [];
@@ -2153,7 +2154,8 @@ class SongDetailModal {
                 practiceCount: song.practiceCount || '',
                 lyricOffset: song.lyricOffset || 0,
                 performAbility: song.performAbility || 0,
-                songNotes: song.songNotes || ''
+                songNotes: song.songNotes || '',
+                capo: song.capo || 0
             };
         }
 
@@ -2182,7 +2184,8 @@ class SongDetailModal {
             practiceCount: this.practiceCountInput ? this.practiceCountInput.value : '',
             lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0,
             performAbility: this.currentAbilityValue || 0,
-            songNotes: this.notesInput ? this.notesInput.value : ''
+            songNotes: this.notesInput ? this.notesInput.value : '',
+            capo: this.capoValue || 0
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -2208,7 +2211,8 @@ class SongDetailModal {
             practiceCount: (data.practiceCount || '').trim(),
             lyricOffset: parseFloat(data.lyricOffset) || 0,
             performAbility: parseInt(data.performAbility) || 0,
-            songNotes: (data.songNotes || '').trim()
+            songNotes: (data.songNotes || '').trim(),
+            capo: parseInt(data.capo) || 0
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -2364,6 +2368,9 @@ class SongDetailModal {
         if (this.notesInput) {
             updates.songNotes = this.notesInput.value.trim();
         }
+        if (this.capoValue !== undefined) {
+            updates.capo = parseInt(this.capoValue) || 0;
+        }
 
         // Update song
         await this.songManager.updateSong(this.currentSongId, updates);
@@ -2392,7 +2399,8 @@ class SongDetailModal {
                 practiceCount: savedSong.practiceCount || '',
                 lyricOffset: savedSong.lyricOffset || 0,
                 performAbility: savedSong.performAbility || 0,
-                songNotes: savedSong.songNotes || ''
+                songNotes: savedSong.songNotes || '',
+                capo: savedSong.capo || 0
             };
         }
 
@@ -2753,7 +2761,7 @@ class SongDetailModal {
         this.lyricsScrollPos = 0;
 
         this.currentSongId = song.id;
-        this.capoValue = 0; // Reset Capo for new song
+        this.capoValue = parseInt(song.capo) || 0; // Load Capo from song
         this.updateCapoUI();
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
@@ -2784,7 +2792,8 @@ class SongDetailModal {
             practiceCount: song.practiceCount !== undefined ? song.practiceCount.toString() : '0',
             lyricOffset: song.lyricOffset || 0,
             performAbility: song.performAbility || 0,
-            songNotes: song.songNotes || ''
+            songNotes: song.songNotes || '',
+            capo: song.capo || 0
         };
 
         // Update artist and title
