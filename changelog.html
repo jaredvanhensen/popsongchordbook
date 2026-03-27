@@ -153,6 +153,36 @@
         </header>
 
         <div class="changelog">
+            <!-- v2.428 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.428</span>
+                    <span class="version-date">March 27, 2026</span>
+                </div>
+                <div class="change-list">
+                    <div class="change-item">
+                        <span class="change-type">Piano Interaction:</span>
+                        <span class="change-description">Enhanced the piano keyboard rendering logic. The viewport now automatically "snaps" to logical note boundaries (C/F and E/B) to ensure black key groups are never cut off. This provides better visual context and a more professional layout for all chord diagrams.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Chord Trainer:</span>
+                        <span class="change-description">Optimized Level 3 for efficiency by narrowing the focus to the five most common 4-note pop chords (7, maj7, m7, 6, and add9). Removed less frequent types (dim7, m6, 7sus4) to ensure practice remains relevant for most song libraries.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Chord Trainer:</span>
+                        <span class="change-description">Implemented dynamic centering for the trainer's virtual keyboard. It now automatically shifts its range to center the current chord's notes, preventing high or low notes (like D5) from being cut off on mobile devices.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">Sync & Persistence:</span>
+                        <span class="change-description">Integrated Firebase for cross-device instrument preference storage. Your choice of Piano, Guitar, or Ukulele is now persisted in the cloud and synced instantly when you log in on a new device.</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="change-type">UI Fix:</span>
+                        <span class="change-description">Restored the Ukulele icons on the landing page and in the profile modal using high-quality inline SVG vectors, resolving an issue with broken image links.</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- v2.421 -->
             <div class="version-card">
                 <div class="version-header">
