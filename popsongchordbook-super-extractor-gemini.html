@@ -329,7 +329,7 @@
             <div class="json-import-container">
                 <label for="quickJsonInput" class="file-input-wrapper">
                     <span>📥</span>
-                    <p id="jsonFileName">Selecteer een .json liedje bestand...</p>
+                    <p id="jsonFileName">Select a song in .json file format</p>
                     <input type="file" id="quickJsonInput" accept=".json" style="display: none;">
                 </label>
                 <button id="importJsonBtn" class="btn-primary" style="display: none; width: 100%; border-radius: 12px; height: 50px; font-size: 1.1em;" onclick="importSelectedJson()">Import Selected JSON</button>
@@ -390,10 +390,10 @@
                     selectedJsonData = JSON.parse(event.target.result);
                     console.log("JSON parsed successfully:", selectedJsonData.title);
                 } catch (err) {
-                    alert("Ongeldig JSON bestand.");
+                    alert("Invalid JSON file.");
                     selectedJsonData = null;
                     document.getElementById('importJsonBtn').style.display = 'none';
-                    document.getElementById('jsonFileName').textContent = "Selecteer een .json liedje bestand...";
+                    document.getElementById('jsonFileName').textContent = "Select a song in .json file format";
                 }
             };
             reader.readAsText(file);
@@ -426,7 +426,7 @@
                     alert("Main window not found. Please try again.");
                 }
             } else {
-                alert("Hoofdvenster niet gevonden.");
+                alert("Main window not found.");
             }
         }
 
