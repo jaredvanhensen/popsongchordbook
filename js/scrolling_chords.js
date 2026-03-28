@@ -744,8 +744,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const isPortrait = window.innerHeight > window.innerWidth;
             const hasTouch = window.matchMedia("(pointer: coarse)").matches || window.devicePixelRatio > 1.5;
             
-            // Mobile Phone Landscape typically has a very short height
-            const isPhoneLandscape = !isPortrait && window.innerHeight <= 500 && hasTouch;
+            // Mobile Phone / Small Tablet Landscape height inclusion
+            const isPhoneLandscape = !isPortrait && window.innerHeight <= 768 && hasTouch;
             // Standard mobile/tablet check
             const isMobile = window.innerWidth <= 768 || (isPortrait && hasTouch) || isPhoneLandscape;
 
