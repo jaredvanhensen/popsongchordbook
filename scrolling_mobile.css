@@ -1,0 +1,140 @@
+
+/* --- v2.447 MOBILE LANDSCAPE: PURE TIMELINE MODE --- */
+body.is-mobile-landscape .controls-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 10px 15px !important;
+    height: auto !important;
+    min-height: auto !important;
+    pointer-events: none;
+    z-index: 2000;
+}
+
+body.is-mobile-landscape .controls-container > * {
+    display: none !important;
+}
+
+/* Show only YouTube button in landscape */
+body.is-mobile-landscape #youtubeToggleBtn {
+    display: flex !important;
+    pointer-events: auto;
+    margin-left: auto;
+    opacity: 0.7;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: none !important;
+    width: 44px !important;
+}
+
+/* Reposition Header during landscape - Moving slightly higher (v2.448) */
+body.is-mobile-landscape .header-metadata {
+    position: absolute !important;
+    top: 5px !important;
+    left: 15px !important;
+    margin: 0 !important;
+    pointer-events: none;
+    z-index: 2000;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    background: transparent !important;
+}
+
+body.is-mobile-landscape .artist-display { font-size: 0.7rem !important; opacity: 0.8 !important; color: white !important; }
+body.is-mobile-landscape .song-title-display { font-size: 0.9rem !important; margin-top: 0 !important; color: white !important; }
+
+/* Push Bar Labels lower in landscape to avoid metadata collision (v2.448) */
+body.is-mobile-landscape .marker.bar .marker-label {
+    top: 45px !important;
+    font-size: 0.75rem !important;
+    opacity: 0.7 !important;
+}
+
+/* 100% Timeline Coverage */
+body.is-mobile-landscape .timeline-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    padding: 0 !important;
+    z-index: 500;
+}
+
+/* Slightly Larger YouTube Player for Landscape Seeking (v2.447) */
+body.is-mobile-landscape .youtube-player-container {
+    width: 160px !important;
+    height: 90px !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    border-radius: 8px !important;
+    border-width: 1px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+}
+
+body.is-mobile-landscape .yt-volume-slider,
+body.is-mobile-landscape .youtube-drag-handle {
+    display: none !important; /* Hide tiny noise */
+}
+
+/* Enable Lyrics in Landscape - High Visibility Override (v2.447) */
+body.is-mobile-landscape .lyrics-hud {
+    display: flex !important;
+    flex-direction: column !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    bottom: 15px !important;
+    top: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    min-width: 240px !important;
+    max-width: 90% !important;
+    padding: 10px 25px !important;
+    background: rgba(0, 0, 0, 0.7) !important; /* Dark theme for landscape */
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    z-index: 2001 !important; /* Above EVERYTHING */
+    pointer-events: none;
+    gap: 4px !important;
+}
+
+/* In Landscape, we force visibility but we respect the "hidden" class if script needs it */
+/* Actually user wants "just in time" so let's let script control opacity/transform */
+body.is-mobile-landscape .lyrics-hud.hidden {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(20px) !important;
+    pointer-events: none !important;
+}
+
+body.is-mobile-landscape .lyric-line.active {
+    font-size: 1.0rem !important; /* Slightly smaller to fit two lines */
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+body.is-mobile-landscape .lyric-line.upcoming {
+    display: block !important; /* Restore upcoming sentence */
+    font-size: 0.8rem !important;
+    opacity: 0.6 !important;
+    color: #ffffff !important;
+}
+
+body.is-mobile-landscape .chord-buttons-container,
+body.is-mobile-landscape #statusText {
+    display: none !important;
+}
+
+/* Adjust Playhead/Arrow for full-height timeline */
+body.is-mobile-landscape .main-play-arrow {
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+}

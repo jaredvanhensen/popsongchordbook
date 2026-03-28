@@ -738,9 +738,34 @@ document.addEventListener('DOMContentLoaded', () => {
         toolbarObserver.observe(buttonsContainer);
     }
 
-    // Initial call
-    updateHUDPosition();
-    window.addEventListener('resize', updateHUDPosition);
+    // --- Robust Mobile Orientation Detection (for v2.441 Landscape Timeline) ---
+    const setupResponsiveView = () => {
+        const checkView = () => {
+            const isPortrait = window.innerHeight > window.innerWidth;
+            const isHighDensity = window.devicePixelRatio > 1.5;
+            const isTypicalMobileWidth = window.innerWidth <= 1080;
+            const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
+
+            if (isMobile) {
+                document.body.classList.add('is-mobile-view');
+                if (!isPortrait) {
+                    document.body.classList.add('is-mobile-landscape');
+                } else {
+                    document.body.classList.remove('is-mobile-landscape');
+                }
+            } else {
+                document.body.classList.remove('is-mobile-view');
+                document.body.classList.remove('is-mobile-landscape');
+            }
+        };
+
+        window.addEventListener('resize', checkView);
+        window.addEventListener('orientationchange', checkView);
+        checkView(); // Initial call
+        updateHUDPosition();
+    };
+
+    setupResponsiveView();
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -2887,6 +2912,7 @@ function updateLoop() {
             } else {
                 lyricLine1.innerText = '';
                 lyricLine2.innerText = parsedLyrics[0].text;
+                lyricLine2.classList.remove('hidden');
             }
             window.lastLyricIndex = currentIndex;
         }
