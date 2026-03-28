@@ -759,11 +759,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        window.addEventListener('resize', () => { checkView(); renderStaticElements(); });
-        window.addEventListener('orientationchange', () => { checkView(); renderStaticElements(); });
-        checkView(); // Initial call
-        updateHUDPosition();
-        renderStaticElements(); // Force layout sync
+        const forceOrientationRefresh = () => {
+            checkView();
+            updateHUDPosition();
+            renderStaticElements(); // Force staggering/size recalculation on rotation
+        };
+
+        window.addEventListener('resize', forceOrientationRefresh);
+        window.addEventListener('orientationchange', forceOrientationRefresh);
+        forceOrientationRefresh(); // Initial call
     };
 
     setupResponsiveView();
