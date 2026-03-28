@@ -2516,26 +2516,22 @@ function isSubset(pattern, notes) {
 function determineStaggerPositions() {
     if (!chords || chords.length === 0) return;
 
+    // Ensure sorted for predictable zig-zag
+    chords.sort((a, b) => a.time - b.time);
+
+    const THRESHOLD = 2.0; // Seconds (Increased for better spacing - v2.453)
+
     for (let i = 0; i < chords.length; i++) {
         const chord = chords[i];
         const prevChord = i > 0 ? chords[i - 1] : null;
-        const nextChord = i < chords.length - 1 ? chords[i + 1] : null;
 
-        const isCloseToPrev = prevChord && (chord.time - prevChord.time < 1.0);
-        const isCloseToNext = nextChord && (nextChord.time - chord.time < 1.0);
-
-        if (isCloseToPrev || isCloseToNext) {
-            // Part of a "close" cluster
-            if (!isCloseToPrev) {
-                // We are the START of a cluster
-                chord.yOffset = -64; // Start at UP (36% Top)
-            } else {
-                // Continue the zigzag from the previous chord
-                chord.yOffset = (chords[i - 1].yOffset === -64) ? -36 : -64; // Alternate between 36% and 64%
-            }
+        // Simplified Zig-Zag: If close to previous, switch from previous offset
+        if (prevChord && (chord.time - prevChord.time < THRESHOLD)) {
+            // Pick opposite: if prev was -65 (UP), we become -35 (DOWN) and vice versa
+            chord.yOffset = (prevChord.yOffset === -65) ? -35 : -65;
         } else {
-            // Isolated chord
-            chord.yOffset = -50; // Center (50% Top)
+            // Isolated chord: Center (50% Top)
+            chord.yOffset = -50;
         }
     }
 }
