@@ -2567,8 +2567,9 @@ function renderStaticElements() {
         const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
         el.style.left = `${Math.round(chord.time * pps)}px`;
 
-        // Apply staggering offset
-        const y = chord.yOffset !== undefined ? (chord.yOffset + 100) : 50;
+        // Apply staggering offset (Baseline moved to 40% in landscape v2.456)
+        const baseline = document.body.classList.contains('is-mobile-landscape') ? 90 : 100;
+        const y = chord.yOffset !== undefined ? (chord.yOffset + baseline) : 50;
         el.style.top = `${y}%`;
 
         chordFrag.appendChild(el);

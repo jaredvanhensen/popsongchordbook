@@ -1,5 +1,5 @@
 
-/* --- v2.455 MOBILE LANDSCAPE: PURE TIMELINE MODE --- */
+/* --- v2.456 MOBILE LANDSCAPE: PURE TIMELINE MODE --- */
 body.is-mobile-landscape .controls-container {
     background: transparent !important;
     box-shadow: none !important;
@@ -32,7 +32,7 @@ body.is-mobile-landscape #youtubeToggleBtn {
     width: 44px !important;
 }
 
-/* Reposition Header during landscape - Moving slightly higher (v2.455) */
+/* Reposition Header during landscape - Moving slightly higher (v2.456) */
 body.is-mobile-landscape .header-metadata {
     position: absolute !important;
     top: 5px !important;
@@ -47,14 +47,14 @@ body.is-mobile-landscape .header-metadata {
 body.is-mobile-landscape .artist-display { font-size: 0.7rem !important; opacity: 0.8 !important; color: white !important; }
 body.is-mobile-landscape .song-title-display { font-size: 0.9rem !important; margin-top: 0 !important; color: white !important; }
 
-/* Push Bar Labels lower in landscape to avoid metadata collision (v2.455) */
+/* Push Bar Labels lower in landscape to avoid metadata collision (v2.456) */
 body.is-mobile-landscape .marker.bar .marker-label {
     top: 45px !important;
     font-size: 0.75rem !important;
     opacity: 0.7 !important;
 }
 
-/* 100% Timeline Coverage - Using d-vh for mobile browser bars (v2.455) */
+/* 100% Timeline Coverage - Using d-vh for mobile browser bars (v2.456) */
 body.is-mobile-landscape .timeline-container {
     position: fixed !important;
     top: 0 !important;
@@ -68,25 +68,24 @@ body.is-mobile-landscape .timeline-container {
     z-index: 500;
 }
 
-/* Shrink Chords MUCH smaller (65px) in landscape (v2.455) */
-/* Nuclear Specificity Override */
+/* Shrink Chords MUCH smaller (65px) in landscape (v2.456) */
+/* Nuclear Specificity Override: Removed top:40% !important to allow staggering */
 body.is-mobile-landscape #timeline .chord-item {
     width: 65px !important;
     height: 65px !important;
     font-size: 1.2rem !important;
     border-radius: 6px !important;
-    top: 40% !important; /* Pushed UP to give room for Lyrics HUD */
     transform: translateY(-50%) !important;
 }
 
-/* Also shrink lyrics sync marker fonts (v2.455) */
+/* Also shrink lyrics sync marker fonts (v2.456) */
 body.is-mobile-landscape .marker.lyrics-sync .marker-label {
     font-size: 0.5rem !important;
     opacity: 0.8 !important;
     color: white !important;
 }
 
-/* Slightly Larger YouTube Player for Landscape Seeking (v2.455) - Shifting HIGHER */
+/* Slightly Larger YouTube Player for Landscape Seeking (v2.456) - Shifting HIGHER */
 body.is-mobile-landscape .youtube-player-container {
     width: 160px !important;
     height: 90px !important;
@@ -103,7 +102,7 @@ body.is-mobile-landscape .youtube-drag-handle {
     display: none !important; /* Hide tiny noise */
 }
 
-/* Enable Lyrics in Landscape - High Visibility Override (v2.455) - Shifting HIGHER */
+/* Enable Lyrics in Landscape - High Visibility Override (v2.456) - Shifting HIGHER */
 body.is-mobile-landscape .lyrics-hud {
     display: flex !important;
     flex-direction: column !important;
