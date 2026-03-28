@@ -6566,10 +6566,20 @@ td:has(.row-edit-input.input-focused) {
     flex-wrap: nowrap;
 }
 
+/* Default for portrait/small screens under 1080px */
 .song-detail-action-btn .icon {
     font-size: clamp(16px, 3.5vw, 20px);
     width: clamp(16px, 3.5vw, 20px);
     height: clamp(16px, 3.5vw, 20px);
+}
+
+/* Force 200% scaling if in landscape orientation, overriding the 1080px downsizing */
+@media (orientation: landscape) {
+    .song-detail-action-btn .icon {
+        font-size: clamp(36px, 8vw, 48px);
+        width: clamp(36px, 8vw, 48px);
+        height: clamp(36px, 8vw, 48px);
+    }
 }
 
 .song-detail-body {
