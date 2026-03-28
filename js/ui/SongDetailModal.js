@@ -17,21 +17,25 @@ class SongDetailModal {
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
         this.closeBtn = document.getElementById('songDetailModalCloseTop');
-        this.deleteBtn = document.getElementById('songDetailDeleteBtn');
+        this.deleteBtn = document.getElementById('menuDeleteSong');
         this.prevBtn = document.getElementById('songDetailPrev');
         this.nextBtn = document.getElementById('songDetailNext');
         this.saveBtn = document.getElementById('songDetailSaveBtn');
         this.artistElement = document.getElementById('songDetailArtist');
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
-        this.chordSearchBtn = document.getElementById('songDetailChordSearchBtn');
+        this.chordSearchBtn = document.getElementById('menuSearchGoogle');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
         this.keyDisplay = document.getElementById('songDetailKeyDisplay');
         this.bpmDisplay = document.getElementById('songDetailBpmDisplay');
         this.youtubeBtn = document.getElementById('songDetailYouTubeBtn');
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
-        this.addToSetlistBtn = document.getElementById('songDetailAddToSetlistBtn');
+        this.addToSetlistBtn = document.getElementById('menuAddToSetlist');
+
+        this.hamburgerBtn = document.getElementById('songDetailHamburgerBtn');
+        this.hamburgerMenu = document.getElementById('songDetailHamburgerMenu');
+        this.instrumentHeaderBtn = document.getElementById('songDetailInstrumentHeaderBtn');
         this.transposeUpBtn = document.getElementById('songDetailTransposeUp');
         this.transposeDownBtn = document.getElementById('songDetailTransposeDown');
         this.transposeBtn = document.getElementById('songDetailTransposeBtn');
@@ -482,17 +486,16 @@ class SongDetailModal {
             }
         }
 
-        // Update block headers (Show Piano/Guitar/Ukulele Chords buttons)
-        const blockChordBtns = this.modal.querySelectorAll('.piano-chord-btn');
-        blockChordBtns.forEach(btn => {
-            const icon = btn.querySelector('.icon');
+        // Update header block instrument button
+        if (this.instrumentHeaderBtn) {
+            const icon = this.instrumentHeaderBtn.querySelector('.icon');
             if (icon) {
                 if (this.instrumentMode === 'guitar') {
                     icon.textContent = '🎸';
-                    btn.title = 'Show Guitar Chords';
+                    this.instrumentHeaderBtn.title = 'Show Guitar Chords';
                 } else if (this.instrumentMode === 'ukulele') {
                     icon.innerHTML = `
-                        <svg viewBox="0 0 100 100" width="32" height="32" style="vertical-align: middle;">
+                        <svg viewBox="0 0 100 100" width="20" height="20" style="vertical-align: middle;">
                             <g transform="rotate(-35 50 50)">
                                 <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
                                 <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
@@ -500,13 +503,13 @@ class SongDetailModal {
                                 <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
                             </g>
                         </svg>`;
-                    btn.title = 'Show Ukulele Chords';
+                    this.instrumentHeaderBtn.title = 'Show Ukulele Chords';
                 } else {
                     icon.textContent = '🎹';
-                    btn.title = 'Show Piano Chords';
+                    this.instrumentHeaderBtn.title = 'Show Piano Chords';
                 }
             }
-        });
+        }
 
         const isGuitar = this.instrumentMode === 'guitar';
         const transposeContainer = this.transposeBtn ? this.transposeBtn.closest('.transpose-menu-container') : null;
@@ -661,7 +664,13 @@ class SongDetailModal {
         }
 
         if (this.chordSearchBtn) {
-            this.chordSearchBtn.addEventListener('click', () => this.searchChords());
+            this.chordSearchBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.searchChords();
+            });
         }
 
         if (this.practiceBtn) {
@@ -724,7 +733,7 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=2.457&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=2.459&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag
@@ -1062,10 +1071,24 @@ class SongDetailModal {
             });
         }
 
+        // Setup Delete Song button
+        if (this.deleteBtn) {
+            this.deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.handleDeleteSong();
+            });
+        }
+
         // Setup Add To Setlist button
         if (this.addToSetlistBtn) {
             this.addToSetlistBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
                 if (this.onAddToSetlist && this.currentSongId) {
                     this.onAddToSetlist(this.currentSongId);
                 }
@@ -1094,6 +1117,14 @@ class SongDetailModal {
                 this.transposeMenu.classList.toggle('hidden');
             });
 
+            // Hamburger Menu Toggle
+            if (this.hamburgerBtn && this.hamburgerMenu) {
+                this.hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.hamburgerMenu.classList.toggle('hidden');
+                });
+            }
+
             // Close menu when clicking outside
             document.addEventListener('click', (e) => {
                 // Transpose Menu logic
@@ -1102,6 +1133,14 @@ class SongDetailModal {
                     e.target !== this.transposeBtn &&
                     !this.transposeBtn.contains(e.target)) {
                     this.transposeMenu.classList.add('hidden');
+                }
+
+                // Hamburger Menu logic
+                if (this.hamburgerMenu && !this.hamburgerMenu.classList.contains('hidden') &&
+                    !this.hamburgerMenu.contains(e.target) &&
+                    e.target !== this.hamburgerBtn &&
+                    !this.hamburgerBtn.contains(e.target)) {
+                    this.hamburgerMenu.classList.add('hidden');
                 }
             });
 
@@ -1280,48 +1319,33 @@ class SongDetailModal {
     }
 
     setupPianoButtons() {
-        const pianoButtons = this.modal.querySelectorAll('.piano-chord-btn');
-        pianoButtons.forEach(btn => {
-            // Use onclick to overwrite any existing listeners and ensure mode check is fresh
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                e.preventDefault();
+        if (!this.instrumentHeaderBtn) return;
 
-                const sectionKey = btn.dataset.section || 'verse';
+        this.instrumentHeaderBtn.onclick = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
 
-                if (this.instrumentMode === 'guitar') {
-                    this.showGuitarChords(sectionKey);
-                } else if (this.instrumentMode === 'ukulele') {
-                    this.showUkuleleChords(sectionKey);
-                } else if (this.pianoChordOverlay) {
-                    const focusedField = document.activeElement;
-                    const isChordField = focusedField &&
-                        focusedField.classList.contains('chord-section-content') &&
-                        focusedField.getAttribute('contenteditable') === 'true';
+            // Always show overlay for the last active section or verse by default
+            const sectionKey = this._lastActiveSection || 'verse';
 
-                    let finalSectionKey = sectionKey;
-                    if (isChordField) {
-                        finalSectionKey = focusedField.dataset.field || finalSectionKey;
-                    }
+            if (this.instrumentMode === 'guitar') {
+                this.showGuitarChords(sectionKey);
+            } else if (this.instrumentMode === 'ukulele') {
+                this.showUkuleleChords(sectionKey);
+            } else if (this.pianoChordOverlay) {
+                const blocks = [
+                    { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
+                    { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
+                    { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
+                    { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
+                ];
 
-                    if (!this.sections[finalSectionKey]) {
-                        finalSectionKey = 'verse';
-                    }
+                const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
+                const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
-                    const blocks = [
-                        { name: this.sections.verse.title.textContent || 'Block 1', text: this.sections.verse.editInput.value || '' },
-                        { name: this.sections.chorus.title.textContent || 'Block 2', text: this.sections.chorus.editInput.value || '' },
-                        { name: this.sections.preChorus.title.textContent || 'Block 3', text: this.sections.preChorus.editInput.value || '' },
-                        { name: this.sections.bridge.title.textContent || 'Block 4', text: this.sections.bridge.editInput.value || '' }
-                    ];
-
-                    const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
-                    const startIndex = sectionKeyToIdx[finalSectionKey] || 0;
-
-                    this.pianoChordOverlay.show(blocks, startIndex);
-                }
-            };
-        });
+                this.pianoChordOverlay.show(blocks, startIndex);
+            }
+        };
     }
 
     setupChordEditorButtons() {
@@ -1428,6 +1452,7 @@ class SongDetailModal {
             const header = section.section.querySelector('.chord-section-header');
             if (header) {
                 header.addEventListener('click', (e) => {
+                    this._lastActiveSection = key;
                     // Don't toggle if we clicked a button or the editable title
                     if (e.target.closest('.header-action-btn') || e.target.classList.contains('editable-title')) return;
 
@@ -1439,6 +1464,7 @@ class SongDetailModal {
             // Click anywhere on the chords to instantly switch to Text Edit mode!
             if (section.content) {
                 section.content.addEventListener('click', (e) => {
+                    this._lastActiveSection = key;
                     // Don't trigger if they are intentionally clicking a chord button to play it
                     if (e.target.closest('.chord-suggestion-btn')) return;
 
@@ -1451,6 +1477,7 @@ class SongDetailModal {
 
             if (section.editInput) {
                 section.editInput.addEventListener('keydown', (e) => {
+                    this._lastActiveSection = key;
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         this.toggleBlockEdit(key);
@@ -1502,6 +1529,7 @@ class SongDetailModal {
             section.editInput.classList.remove('hidden');
             section.content.classList.add('hidden');
             section.editInput.focus();
+            this._lastActiveSection = key;
         }
     }
 

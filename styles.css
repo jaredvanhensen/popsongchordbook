@@ -1294,9 +1294,113 @@ header h1 {
     padding: 0 10px;
 }
 
-.piano-nav-btn:hover {
-    transform: scale(1.2);
-    opacity: 0.8;
+/* Song Detail Hamburger Menu & Header Buttons */
+.song-detail-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.hamburger-menu-container {
+    position: relative;
+}
+
+.song-hamburger-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 240px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+    overflow: hidden;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top right;
+}
+
+.song-hamburger-menu.hidden {
+    display: none;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.hamburger-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.hamburger-menu-item:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--secondary-color);
+}
+
+.hamburger-menu-item .icon {
+    font-size: 1.2rem;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-menu-item#menuDeleteSong:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* Header Instrument Button Styling */
+#songDetailInstrumentHeaderBtn {
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+#songDetailInstrumentHeaderBtn:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--secondary-color);
+}
+
+/* Capo and Transpose badging in header */
+.header-badge-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.song-detail-header-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--secondary-color);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: 1px solid white;
 }
 
 .piano-nav-btn:active {
@@ -5246,18 +5350,18 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-detail-action-btn .icon {
-    font-size: clamp(18px, 4vw, 24px);
+    font-size: clamp(36px, 8vw, 48px);
     line-height: 1;
-    width: clamp(18px, 4vw, 24px);
-    height: clamp(18px, 4vw, 24px);
+    width: clamp(36px, 8vw, 48px);
+    height: clamp(36px, 8vw, 48px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .song-detail-action-btn .icon.youtube-icon svg {
-    width: 28px;
-    height: 20px;
+    width: clamp(28px, 6vw, 56px);
+    height: clamp(20px, 4vw, 40px);
     display: block;
 }
 

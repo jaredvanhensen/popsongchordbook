@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.457">
+    <link rel="stylesheet" href="styles.css?v=2.459">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -939,8 +939,8 @@
                         contenteditable="false" spellcheck="false"></h2>
                 </div>
                 <div class="song-detail-action-buttons">
-                    <button class="song-detail-action-btn" id="songDetailDeleteBtn" title="Delete current song">
-                        <span class="icon">🗑️</span>
+                    <button id="songDetailInstrumentHeaderBtn" class="song-detail-action-btn" title="Show Chord Shapes">
+                        <span class="icon">🎹</span>
                     </button>
                     <div class="transpose-menu-container">
                         <button id="songDetailTransposeBtn" class="song-detail-action-btn" title="Transpose chords">
@@ -993,20 +993,34 @@
                         title="Open external website">
                         <span class="icon">🌐</span>
                     </button>
-                    <button id="songDetailAddToSetlistBtn" class="song-detail-action-btn" title="Add to Setlist">
-                        <span class="icon">📋</span>
-                    </button>
-                    <button id="songDetailChordSearchBtn" class="song-detail-action-btn"
-                        title="Search chords on Google">
-                        <span class="icon">🔍</span>
-                    </button>
                     <button id="songDetailChordTrainerBtn" class="song-detail-action-btn" title="Chord Trainer for this song">
                         <span class="icon">🎓</span>
                     </button>
                     <button id="songDetailFavoriteBtn" class="song-detail-action-btn" title="Add to favorites">
                         <span class="icon">☆</span>
                     </button>
+                    <!-- Hamburger Menu -->
+                    <div class="hamburger-menu-container">
+                        <button id="songDetailHamburgerBtn" class="song-detail-action-btn" title="More options">
+                            <span class="icon">☰</span>
+                        </button>
+                        <div id="songDetailHamburgerMenu" class="song-hamburger-menu hidden">
+                            <button id="menuAddToSetlist" class="hamburger-menu-item">
+                                <span class="icon">📋</span>
+                                <span>Add To Setlist</span>
+                            </button>
+                            <button id="menuSearchGoogle" class="hamburger-menu-item">
+                                <span class="icon">🔍</span>
+                                <span>Search Chords On Google</span>
+                            </button>
+                            <button id="menuDeleteSong" class="hamburger-menu-item">
+                                <span class="icon">🗑️</span>
+                                <span>Delete Current Song</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
                 <button class="song-detail-nav-btn song-detail-next" id="songDetailNext" title="Next song">
                     <span class="icon">›</span>
                 </button>
@@ -1021,10 +1035,6 @@
                             <button class="header-action-btn bar-divider-btn" data-section="verse"
                                 title="Add Bar Divider">
                                 <span class="icon">|</span>
-                            </button>
-                            <button class="header-action-btn piano-chord-btn" data-section="verse"
-                                title="Show Piano Chords">
-                                <span class="icon">🎹</span>
                             </button>
                             <button class="header-action-btn chord-editor-btn" data-section="verse"
                                 title="Chord Progression Editor">
@@ -1055,10 +1065,6 @@
                                 title="Add Bar Divider">
                                 <span class="icon">|</span>
                             </button>
-                            <button class="header-action-btn piano-chord-btn" data-section="chorus"
-                                title="Show Piano Chords">
-                                <span class="icon">🎹</span>
-                            </button>
                             <button class="header-action-btn chord-editor-btn" data-section="chorus"
                                 title="Chord Progression Editor">
                                 <span class="icon">
@@ -1087,10 +1093,6 @@
                             <button class="header-action-btn bar-divider-btn" data-section="preChorus"
                                 title="Add Bar Divider">
                                 <span class="icon">|</span>
-                            </button>
-                            <button class="header-action-btn piano-chord-btn" data-section="preChorus"
-                                title="Show Piano Chords">
-                                <span class="icon">🎹</span>
                             </button>
                             <button class="header-action-btn chord-editor-btn" data-section="preChorus"
                                 title="Chord Progression Editor">
@@ -1121,10 +1123,6 @@
                             <button class="header-action-btn bar-divider-btn" data-section="bridge"
                                 title="Add Bar Divider">
                                 <span class="icon">|</span>
-                            </button>
-                            <button class="header-action-btn piano-chord-btn" data-section="bridge"
-                                title="Show Piano Chords">
-                                <span class="icon">🎹</span>
                             </button>
                             <button class="header-action-btn chord-editor-btn" data-section="bridge"
                                 title="Chord Progression Editor">
