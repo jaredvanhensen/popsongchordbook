@@ -749,9 +749,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Standard mobile/tablet check
             const isMobile = window.innerWidth <= 768 || (isPortrait && hasTouch) || isPhoneLandscape;
 
-            if (isMobile) {
+            if (isMobile || window.forcePureMode) {
                 document.body.classList.add('is-mobile-view');
-                if (isPhoneLandscape && !window.forceFullMode) {
+                if ((isPhoneLandscape || window.forcePureMode) && !window.forceFullMode) {
                     document.body.classList.add('is-mobile-landscape');
                 } else {
                     document.body.classList.remove('is-mobile-landscape');
@@ -774,11 +774,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Setup the Pure Timeline Buttons
         window.forceFullMode = false;
+        window.forcePureMode = false;
         
         const pureFullModeBtn = document.getElementById('pureTimelineFullModeBtn');
         if (pureFullModeBtn) {
             pureFullModeBtn.addEventListener('click', () => {
                 window.forceFullMode = true;
+                window.forcePureMode = false; // Reset pure mode if they exit it
                 forceOrientationRefresh();
             });
         }
@@ -834,6 +836,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (switchToPureBtn) {
             switchToPureBtn.addEventListener('click', () => {
                 window.forceFullMode = false; // Override the previously clicked "Full Mode"
+                window.forcePureMode = true;  // Explicitly request the Pure View
                 forceOrientationRefresh();
             });
         }
