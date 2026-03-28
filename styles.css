@@ -10788,3 +10788,13 @@ div.song-detail-practice-controls {
     font-size: 15px !important;
     padding: 10px 15px !important;
 }
+
+/* Bulletproof Body Class Based Mobile Overrides (fixes Motorola G51 issues) */
+body.is-mobile-view #headerTrainerBtn { display: none !important; }
+body.is-mobile-view .mobile-trainer-btn { display: flex !important; }
+body.is-mobile-view #instrumentToggleBtn { display: none !important; }
+body.is-mobile-view .chord-trainer-btn { 
+    display: none !important;  /* Hides desktop trainer in detail modal */
+} 
+/* Add back explicitly for detailed modal if needed */
+body.is-mobile-view .song-detail-modal-chord-trainer { display: flex !important; }

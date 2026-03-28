@@ -2650,11 +2650,14 @@ class App {
             const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
 
             if (isPortrait && isMobile) {
+                document.body.classList.add('is-mobile-view');
                 if (this.viewMode !== 'simple') {
                     this.viewMode = 'simple';
                     this.updateViewMode();
                     this.loadAndRender();
                 }
+            } else {
+                document.body.classList.remove('is-mobile-view');
             }
         };
 
