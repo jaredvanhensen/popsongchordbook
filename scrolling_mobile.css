@@ -32,7 +32,7 @@ body.is-mobile-landscape #youtubeToggleBtn {
     width: 44px !important;
 }
 
-/* Reposition Header during landscape - Moving slightly higher (v2.448) */
+/* Reposition Header during landscape - Moving slightly higher (v2.449) */
 body.is-mobile-landscape .header-metadata {
     position: absolute !important;
     top: 5px !important;
@@ -47,24 +47,34 @@ body.is-mobile-landscape .header-metadata {
 body.is-mobile-landscape .artist-display { font-size: 0.7rem !important; opacity: 0.8 !important; color: white !important; }
 body.is-mobile-landscape .song-title-display { font-size: 0.9rem !important; margin-top: 0 !important; color: white !important; }
 
-/* Push Bar Labels lower in landscape to avoid metadata collision (v2.448) */
+/* Push Bar Labels lower in landscape to avoid metadata collision (v2.449) */
 body.is-mobile-landscape .marker.bar .marker-label {
     top: 45px !important;
     font-size: 0.75rem !important;
     opacity: 0.7 !important;
 }
 
-/* 100% Timeline Coverage */
+/* 100% Timeline Coverage - Using d-vh for mobile browser bars (v2.449) */
 body.is-mobile-landscape .timeline-container {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    height: 100vh !important;
+    height: 100% !important;
+    height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
     z-index: 500;
+}
+
+/* Shrink Chords in Landscape for better vertical clearance (v2.449) */
+body.is-mobile-landscape .chord-item {
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 2.0rem !important;
+    border-radius: 12px !important;
+    margin-top: -50px !important; /* Adjust since we changed height */
 }
 
 /* Slightly Larger YouTube Player for Landscape Seeking (v2.447) */
