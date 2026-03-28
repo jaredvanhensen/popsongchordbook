@@ -46,7 +46,7 @@ body.is-mobile-landscape .landscape-header-bar {
     background: linear-gradient(135deg, rgba(88, 28, 135, 1) 0%, rgba(126, 34, 206, 1) 100%);
     align-items: center;
     justify-content: space-between;
-    padding: 0 80px 0 20px; /* Leave generous space right for Song Detail Modal X button */
+    padding: 0 110px 0 20px; /* Shifted left to clear minimize/close buttons in parent modal */
     z-index: 2005;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
