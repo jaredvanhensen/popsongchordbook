@@ -2493,7 +2493,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .container {
         padding: 10px 8px;
     }
@@ -3011,7 +3011,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     #profileModal .modal-content {
         width: 95%;
         max-width: 95vw;
@@ -3202,7 +3202,7 @@ td:has(.row-edit-input.input-focused) {
     font-weight: 400;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .achievements-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -4268,7 +4268,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     #shareSongsModal .modal-content {
         max-height: 98vh;
         height: 98vh;
@@ -5705,7 +5705,7 @@ td:has(.row-edit-input.input-focused) {
 /* Sycned footer labels handled at end of file */
 
 /* Specific sizing for mobile to ensures it matches precisely */
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     #instrumentToggleBtn .icon {
         height: 34px !important;
         /* Matched to timeline icon height for alignment */
@@ -6404,7 +6404,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .song-detail-header {
         height: 125px;
         /* Matches 768px rule for consistency */
@@ -7106,7 +7106,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .chord-detector-overlay {
         top: 5px;
         right: 5px;
@@ -7910,7 +7910,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .piano-chord-header {
         padding: 10px 15px;
         flex-direction: column;
@@ -8630,7 +8630,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .chord-progression-header h3 {
         font-size: 1em;
     }
@@ -9116,7 +9116,7 @@ div.song-detail-practice-controls {
     width: 100%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .lyrics-ticker-overlay {
         --ticker-height: 160px;
     }
@@ -9729,7 +9729,7 @@ div.song-detail-practice-controls {
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     .ability-star svg {
         pointer-events: none !important;
     }
@@ -10502,7 +10502,7 @@ div.song-detail-practice-controls {
     text-align: center !important;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
 
     /* Harmonize all action items for alignment */
     #songDetailPracticeBtn,
