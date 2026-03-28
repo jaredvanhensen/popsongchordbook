@@ -743,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkView = () => {
             const isPortrait = window.innerHeight > window.innerWidth;
             const isHighDensity = window.devicePixelRatio > 1.5;
-            const isTypicalMobileWidth = window.innerWidth <= 1280;
+            const isTypicalMobileWidth = window.innerWidth <= 3000;
             const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
 
             if (isMobile) {
