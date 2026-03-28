@@ -5350,18 +5350,18 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .song-detail-action-btn .icon {
-    font-size: clamp(36px, 8vw, 48px);
+    font-size: clamp(27px, 6vw, 36px);
     line-height: 1;
-    width: clamp(36px, 8vw, 48px);
-    height: clamp(36px, 8vw, 48px);
+    width: clamp(27px, 6vw, 36px);
+    height: clamp(27px, 6vw, 36px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .song-detail-action-btn .icon.youtube-icon svg {
-    width: clamp(28px, 6vw, 56px);
-    height: clamp(20px, 4vw, 40px);
+    width: clamp(28px, 5vw, 42px);
+    height: clamp(20px, 3.5vw, 30px);
     display: block;
 }
 
@@ -6573,12 +6573,12 @@ td:has(.row-edit-input.input-focused) {
     height: clamp(16px, 3.5vw, 20px);
 }
 
-/* Force 200% scaling if in landscape orientation, overriding the 1080px downsizing */
+/* Force 150% scaling if in landscape orientation, overriding the 1080px downsizing */
 @media (orientation: landscape) {
     .song-detail-action-btn .icon {
-        font-size: clamp(36px, 8vw, 48px);
-        width: clamp(36px, 8vw, 48px);
-        height: clamp(36px, 8vw, 48px);
+        font-size: clamp(27px, 6vw, 36px);
+        width: clamp(27px, 6vw, 36px);
+        height: clamp(27px, 6vw, 36px);
     }
 }
 
