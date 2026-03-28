@@ -742,13 +742,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupResponsiveView = () => {
         const checkView = () => {
             const isPortrait = window.innerHeight > window.innerWidth;
-            const isHighDensity = window.devicePixelRatio > 1.5;
-            const isTypicalMobileWidth = window.innerWidth <= 3000;
-            const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
+            const hasTouch = window.matchMedia("(pointer: coarse)").matches || window.devicePixelRatio > 1.5;
+            
+            // Mobile Phone Landscape typically has a very short height
+            const isPhoneLandscape = !isPortrait && window.innerHeight <= 500 && hasTouch;
+            // Standard mobile/tablet check
+            const isMobile = window.innerWidth <= 768 || (isPortrait && hasTouch) || isPhoneLandscape;
 
             if (isMobile) {
                 document.body.classList.add('is-mobile-view');
-                if (!isPortrait) {
+                if (isPhoneLandscape) {
                     document.body.classList.add('is-mobile-landscape');
                 } else {
                     document.body.classList.remove('is-mobile-landscape');
