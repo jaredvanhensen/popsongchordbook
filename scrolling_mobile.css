@@ -128,7 +128,7 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 50px !important; /* Shifting up for 100% clearance */
+    bottom: 12px !important; /* Move to the absolute bottom to avoid chord box overlap */
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
