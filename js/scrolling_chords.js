@@ -743,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkView = () => {
             const isPortrait = window.innerHeight > window.innerWidth;
             const isHighDensity = window.devicePixelRatio > 1.5;
-            const isTypicalMobileWidth = window.innerWidth <= 1080;
+            const isTypicalMobileWidth = window.innerWidth <= 1280;
             const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
 
             if (isMobile) {
@@ -759,10 +759,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        window.addEventListener('resize', checkView);
-        window.addEventListener('orientationchange', checkView);
+        window.addEventListener('resize', () => { checkView(); renderStaticElements(); });
+        window.addEventListener('orientationchange', () => { checkView(); renderStaticElements(); });
         checkView(); // Initial call
         updateHUDPosition();
+        renderStaticElements(); // Force layout sync
     };
 
     setupResponsiveView();
@@ -2519,19 +2520,26 @@ function determineStaggerPositions() {
     // Ensure sorted for predictable zig-zag
     chords.sort((a, b) => a.time - b.time);
 
-    const THRESHOLD = 2.0; // Seconds (Increased for better spacing - v2.453)
+    const THRESHOLD = 2.5; // Seconds (Higher for better spacing - v2.454)
+    let lastOffset = -50; 
 
     for (let i = 0; i < chords.length; i++) {
         const chord = chords[i];
         const prevChord = i > 0 ? chords[i - 1] : null;
+        const nextChord = i < chords.length - 1 ? chords[i + 1] : null;
 
-        // Simplified Zig-Zag: If close to previous, switch from previous offset
-        if (prevChord && (chord.time - prevChord.time < THRESHOLD)) {
-            // Pick opposite: if prev was -65 (UP), we become -35 (DOWN) and vice versa
-            chord.yOffset = (prevChord.yOffset === -65) ? -35 : -65;
+        // Is this chord part of a "close" cluster?
+        const isCluster = (prevChord && (chord.time - prevChord.time < THRESHOLD)) || 
+                          (nextChord && (nextChord.time - chord.time < THRESHOLD));
+
+        if (isCluster) {
+            // Pick the opposite of the last used stagger position
+            lastOffset = (lastOffset === -65) ? -35 : -65;
+            chord.yOffset = lastOffset;
         } else {
             // Isolated chord: Center (50% Top)
             chord.yOffset = -50;
+            lastOffset = -50; // Reset state machine
         }
     }
 }
