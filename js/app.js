@@ -2645,7 +2645,9 @@ class App {
     setupResponsiveView() {
         const checkView = () => {
             const isPortrait = window.innerHeight > window.innerWidth;
-            const isMobile = window.innerWidth <= 768;
+            const isHighDensity = window.devicePixelRatio > 1.5;
+            const isTypicalMobileWidth = window.innerWidth <= 1080;
+            const isMobile = isTypicalMobileWidth || (isPortrait && isHighDensity);
 
             if (isPortrait && isMobile) {
                 if (this.viewMode !== 'simple') {
@@ -2659,8 +2661,30 @@ class App {
         // Initial check
         checkView();
 
-        // Listen for resize which also catches orientation changes
         window.addEventListener('resize', checkView);
+
+        // Debug info if requested via URL (?debug=true) for troubleshooting resolution issues
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('debug') === 'true') {
+            const debugDiv = document.createElement('div');
+            debugDiv.id = 'resolution-debug-info';
+            debugDiv.style.cssText = 'position:fixed;bottom:10px;left:10px;background:rgba(0,0,0,0.85);color:#0f0;z-index:99999;padding:8px;font-size:11px;pointer-events:none;border-radius:4px;font-family:monospace;border:1px solid #0f0;box-shadow:0 10px 20px rgba(0,0,0,0.5);line-height:1.4;';
+            const updateDebug = () => {
+                const isPortrait = window.innerHeight > window.innerWidth;
+                const isMobileJS = window.innerWidth <= 1080;
+                debugDiv.innerHTML = `
+                    <b>DISPLAY DEBUG</b><br>
+                    SCREEN: ${window.screen.width}x${window.screen.height}<br>
+                    VALS: W=${window.innerWidth} H=${window.innerHeight}<br>
+                    DPR: ${window.devicePixelRatio.toFixed(3)}<br>
+                    MOBILE_JS: ${isMobileJS && isPortrait ? 'YES' : 'NO'}<br>
+                    UA: ${navigator.userAgent.substring(0, 40)}...
+                `;
+            };
+            document.body.appendChild(debugDiv);
+            updateDebug();
+            window.addEventListener('resize', updateDebug);
+        }
     }
 
     setupToggleView() {

@@ -153,6 +153,34 @@
         </header>
 
         <div class="changelog">
+            <!-- v2.437 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.437</span>
+                    <span class="version-date">March 28, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Mobile Fix:</span>
+                        <div class="change-description">
+                            <strong>Enhanced Viewport Detection:</strong> Increased the mobile detection threshold to 1080px to correctly identify high-resolution phones (like Motorola G51) as mobile devices in portrait mode. Combined with Device Pixel Ratio (DPR) detection for maximum accuracy.
+                        </div>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI Refinement:</span>
+                        <div class="change-description">
+                            <strong>Song Detail Footer:</strong> Eliminated button/icon overlaps on narrow screens by removing absolute centering constraints and implementing a more flexible flexbox layout for footer actions.
+                        </div>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Diagnostics:</span>
+                        <div class="change-description">
+                            <strong>Resolution HUD:</strong> Added a hidden diagnostic overlay that can be triggered by adding <code>?debug=true</code> to the URL, helping troubleshoot screen scaling and DPR issues.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <!-- v2.430 -->
             <div class="version-card">
                 <div class="version-header">

@@ -610,7 +610,7 @@ header h1 {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .header-section:not(:last-child)::after {
         display: none;
     }
@@ -1219,7 +1219,7 @@ header h1 {
 }
 
 /* Responsive adjustments for selected song header */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .selected-song-header {
         padding: 15px 20px;
         margin-bottom: 15px;
@@ -1445,6 +1445,13 @@ table {
 }
 
 /* Simple view - only show Artist and Title columns */
+/* Base table behavior for tablets/large phones */
+@media (max-width: 1080px) {
+    .column-to-hide {
+        display: none !important;
+    }
+}
+
 table.simple-view {
     min-width: 100%;
     border-spacing: 0;
@@ -2200,7 +2207,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .container {
         padding: 15px 10px;
     }
@@ -4131,7 +4138,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Share Songs Modal - Mobile Optimizations */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     #shareSongsModal .modal-content {
         max-height: 95vh;
         height: 95vh;
@@ -4910,7 +4917,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Mobile devices */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .chord-modal-content {
         width: 95%;
         max-height: calc(100vh - 20px);
@@ -5036,7 +5043,7 @@ td:has(.row-edit-input.input-focused) {
     min-width: 80px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .song-detail-key-display {
         font-size: 1.8rem;
         padding: 8px 15px;
@@ -6223,7 +6230,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Mobile devices */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .song-detail-modal {
         padding: 0;
     }
@@ -7080,7 +7087,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Responsive design for chord detector */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .chord-detector-overlay {
         top: 10px;
         right: 10px;
@@ -7813,7 +7820,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Responsive styles for piano overlay */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .piano-chord-overlay {
         padding: 10px;
     }
@@ -8588,7 +8595,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Responsive styles for Chord Progression Editor */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .chord-progression-overlay {
         padding: 10px;
     }
@@ -8668,7 +8675,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 /* Optimized Mobile Portrait Vertical Spacing */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .chord-section-content.editable-field {
         padding: 2px !important;
         line-height: 1.1 !important;
@@ -9245,16 +9252,13 @@ div.song-detail-practice-controls {
 
 
 .song-detail-center-actions {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative; /* Changed from absolute to prevent overlapping side items on narrower screens */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 80px;
-    /* Increased gap to prevent collision */
-    width: max-content;
+    gap: clamp(10px, 4vw, 50px); /* Reduced from 80px to prevent overflow */
     z-index: 10;
+    flex: 1;
 }
 
 .song-detail-footer-actions {
@@ -9432,7 +9436,7 @@ div.song-detail-practice-controls {
 }
 
 /* Refined Horizontal Mobile Layout (Prevent Collision & Save Space) */
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     #performAbilityStars {
         display: none !important;
     }
@@ -10572,7 +10576,7 @@ div.song-detail-practice-controls {
 }
 
 /* Hide chord blocks in main table ONLY on mobile (below 769px) */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
 
     #songsTable .verse-column,
     #songsTable .chorus-column,
@@ -10675,7 +10679,7 @@ div.song-detail-practice-controls {
     font-weight: 700;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .leaderboard-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
@@ -10742,7 +10746,7 @@ div.song-detail-practice-controls {
 /* Utility: Hide elements */
 .hidden { display: none !important; }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .hidden-mobile { display: none !important; }
 }
 
