@@ -180,26 +180,26 @@ body.is-mobile-landscape .main-play-arrow {
 }
 /* Reusing Song Detail Action Button styles natively within the pure timeline */
 .song-detail-action-btn {
-    background: none;
+    background: transparent;
     border: none;
-    color: white;
+    color: rgba(255, 255, 255, 0.8) !important; /* Force light color to match screenshot */
     font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 8px;
-    opacity: 0.8;
     transition: all 0.2s;
 }
 .song-detail-action-btn:hover {
-    opacity: 1;
+    color: white !important;
     transform: scale(1.1);
 }
 .song-detail-action-btn .icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 .pure-timeline-menu-container {
     position: relative;
@@ -210,12 +210,12 @@ body.is-mobile-landscape .main-play-arrow {
     top: 100%;
     right: -10px;
     margin-top: 15px;
-    background: #1e293b;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: white; /* Light mode popout */
+    border: 1px solid rgba(0,0,0,0.1);
     border-radius: 12px;
     padding: 8px 0;
-    min-width: 190px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     z-index: 2006;
     display: flex;
     flex-direction: column;
@@ -226,14 +226,22 @@ body.is-mobile-landscape .main-play-arrow {
 .pure-timeline-hamburger-menu .hamburger-menu-item {
     background: transparent;
     border: none;
-    color: white;
+    color: #1e293b; /* Dark text for light background */
     padding: 12px 16px;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 .pure-timeline-hamburger-menu .hamburger-menu-item:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.05);
 }
+.pure-timeline-hamburger-menu .hamburger-menu-item:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
 
