@@ -68,11 +68,12 @@ body.is-mobile-landscape .timeline-container {
     z-index: 500;
 }
 
-/* Shrink Chords MUCH smaller (50% of default) in landscape (v2.451) */
-body.is-mobile-landscape .chord-item {
+/* Shrink Chords MUCH smaller (50% of default) in landscape (v2.452) */
+/* Using more specific selector to ensure override */
+body.is-mobile-landscape .timeline-container .chord-item {
     width: 70px !important;
     height: 70px !important;
-    font-size: 1.4rem !important;
+    font-size: 1.3rem !important;
     border-radius: 8px !important;
     top: 40% !important; /* Pushed UP to give room for Lyrics HUD */
     transform: translateY(-50%) !important;
