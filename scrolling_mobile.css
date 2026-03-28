@@ -32,20 +32,35 @@ body.is-mobile-landscape #youtubeToggleBtn {
     width: 44px !important;
 }
 
-/* Reposition Header during landscape - Moving slightly higher (v2.457) */
-body.is-mobile-landscape .header-metadata {
-    position: absolute !important;
-    top: 5px !important;
-    left: 15px !important;
-    margin: 0 !important;
-    pointer-events: none;
-    z-index: 2000;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    background: transparent !important;
+/* New Full-Width Persistent Header (v2.472) */
+.landscape-header-bar {
+    display: none;
+}
+body.is-mobile-landscape .landscape-header-bar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(88, 28, 135, 1) 0%, rgba(126, 34, 206, 1) 100%);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px 0 20px; /* Leave generous space right for Song Detail Modal X button */
+    z-index: 2005;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-body.is-mobile-landscape .artist-display { font-size: 0.7rem !important; opacity: 0.8 !important; color: white !important; }
-body.is-mobile-landscape .song-title-display { font-size: 0.9rem !important; margin-top: 0 !important; color: white !important; }
+body.is-mobile-landscape .header-metadata {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.is-mobile-landscape .artist-display { font-size: 0.8rem !important; opacity: 0.8 !important; color: white !important; margin: 0 !important; }
+body.is-mobile-landscape .song-title-display { font-size: 1.1rem !important; margin: 0 !important; color: white !important; font-weight: 800; }
 
 /* Push Bar Labels lower in landscape to avoid metadata collision (v2.457) */
 body.is-mobile-landscape .marker.bar .marker-label {
@@ -65,6 +80,7 @@ body.is-mobile-landscape .timeline-container {
     height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
+    padding-top: 60px !important; /* Leave room for the purple header */
     z-index: 500;
 }
 
@@ -150,49 +166,40 @@ body.is-mobile-landscape #statusText {
     display: none !important;
 }
 
-/* Adjust Playhead/Arrow for full-height timeline */
+/* Adjust Playhead/Arrow for full-height timeline under header */
 body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
-    top: 50% !important;
+    top: calc(50% + 30px) !important; /* Offset by header height */
 }
 
-/* --- Pure Timeline Additional UI Controls (v2.470) --- */
+/* --- Pure Timeline Additional UI Controls (v2.472) --- */
 .pure-timeline-controls {
-    display: none;
-}
-body.is-mobile-landscape .pure-timeline-controls {
     display: flex;
-    position: absolute;
-    top: 5px;
-    right: 60px; /* Shifted left to clear the Song Detail X button */
-    z-index: 2005;
-    gap: 10px;
-    pointer-events: auto;
+    gap: 15px;
+    align-items: center;
 }
-.pure-timeline-btn {
-    background: rgba(255, 255, 255, 0.15); /* Website glassmorphism match */
-    border: 1px solid rgba(255, 255, 255, 0.4);
+/* Reusing Song Detail Action Button styles natively within the pure timeline */
+.song-detail-action-btn {
+    background: none;
+    border: none;
     color: white;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 1.5rem;
     cursor: pointer;
-    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, transform 0.1s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    padding: 8px;
+    opacity: 0.8;
+    transition: all 0.2s;
 }
-.pure-timeline-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+.song-detail-action-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
 }
-.pure-timeline-btn:active {
-    transform: scale(0.95);
-}
-.pure-timeline-btn.hamburger-btn {
-    padding: 6px;
+.song-detail-action-btn .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .pure-timeline-menu-container {
     position: relative;
@@ -201,8 +208,8 @@ body.is-mobile-landscape .pure-timeline-controls {
 .pure-timeline-hamburger-menu {
     position: absolute;
     top: 100%;
-    right: 0;
-    margin-top: 8px;
+    right: -10px;
+    margin-top: 15px;
     background: #1e293b;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;

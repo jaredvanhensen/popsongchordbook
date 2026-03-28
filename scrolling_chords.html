@@ -12,39 +12,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.471">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.471">
+    <link rel="stylesheet" href="scrolling.css?v=2.472">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.472">
 </head>
 
 <body>
 
-    <div class="header-metadata">
-        <h1 id="artistDisplay" class="artist-display"></h1>
-        <h2 id="songTitleDisplay" class="song-title-display"></h2>
-    </div>
-
-    <!-- Pure Timeline Controls (Visible only in Landscape Mobile) -->
-    <div id="pureTimelineControls" class="pure-timeline-controls">
-        <button id="pureTimelineFullModeBtn" class="pure-timeline-btn" title="Switch to FULL mode">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5 12 12 5 19 12"></polyline>
-            </svg>
-        </button>
-
-        <div class="pure-timeline-menu-container">
-            <button id="pureTimelineMenuBtn" class="pure-timeline-btn hamburger-btn" title="More Options">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+    <!-- Merged Purple Header for Mobile Landscape (v2.472) -->
+    <div id="landscapeHeaderBar" class="landscape-header-bar hidden">
+        <div class="header-metadata">
+            <h1 id="artistDisplay" class="artist-display"></h1>
+            <h2 id="songTitleDisplay" class="song-title-display"></h2>
+        </div>
+        
+        <div id="pureTimelineControls" class="pure-timeline-controls">
+            <button id="pureTimelineFullModeBtn" class="song-detail-action-btn" title="Switch to FULL mode">
+                <span class="icon" style="font-size: 1.4rem; padding-bottom: 2px;">↑</span>
             </button>
-            <div id="pureTimelineMenu" class="song-detail-hamburger-menu pure-timeline-hamburger-menu hidden">
-                <button class="hamburger-menu-item" id="pureMenuLyricsBtn">Enable Lyrics Overlay</button>
-                <button class="hamburger-menu-item" id="pureMenuAudioBtn">Enable Chord Audio</button>
-                <button class="hamburger-menu-item" id="pureMenuZoomInBtn">Zoom In ⊕</button>
-                <button class="hamburger-menu-item" id="pureMenuZoomOutBtn">Zoom Out ⊖</button>
+
+            <div class="pure-timeline-menu-container">
+                <button id="pureTimelineMenuBtn" class="song-detail-action-btn" title="More Options">
+                    <span class="icon">☰</span>
+                </button>
+                <div id="pureTimelineMenu" class="song-detail-hamburger-menu pure-timeline-hamburger-menu hidden">
+                    <button class="hamburger-menu-item" id="pureMenuLyricsBtn">Enable Lyrics Overlay</button>
+                    <button class="hamburger-menu-item" id="pureMenuAudioBtn">Enable Chord Audio</button>
+                    <button class="hamburger-menu-item" id="pureMenuZoomInBtn">Zoom In ⊕</button>
+                    <button class="hamburger-menu-item" id="pureMenuZoomOutBtn">Zoom Out ⊖</button>
+                </div>
             </div>
         </div>
     </div>
@@ -588,18 +583,18 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.471" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.471" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.471" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.471" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.471" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.471" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.471" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.471" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.471" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.471" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.471" defer></script>
-            <script src="js/scrolling_chords.js?v=2.471" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.472" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.472" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.472" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.472" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.472" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.472" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.472" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.472" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.472" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.472" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.472" defer></script>
+            <script src="js/scrolling_chords.js?v=2.472" defer></script>
 </body>
 
 </html>
