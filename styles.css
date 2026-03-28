@@ -10715,7 +10715,7 @@ div.song-detail-practice-controls {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .theme-switcher-btn { display: none !important; }
-@media (max-width: 480px) { 
+@media (max-width: 1080px) { 
     #headerTrainerBtn { display: none !important; } 
     .mobile-trainer-btn { 
         display: flex !important; 
