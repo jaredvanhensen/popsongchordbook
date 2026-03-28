@@ -751,7 +751,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isMobile) {
                 document.body.classList.add('is-mobile-view');
-                if (isPhoneLandscape) {
+                if (isPhoneLandscape && !window.forceFullMode) {
                     document.body.classList.add('is-mobile-landscape');
                 } else {
                     document.body.classList.remove('is-mobile-landscape');
@@ -771,6 +771,61 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', forceOrientationRefresh);
         window.addEventListener('orientationchange', forceOrientationRefresh);
         forceOrientationRefresh(); // Initial call
+
+        // Setup the Pure Timeline Buttons
+        window.forceFullMode = false;
+        
+        const pureFullModeBtn = document.getElementById('pureTimelineFullModeBtn');
+        if (pureFullModeBtn) {
+            pureFullModeBtn.addEventListener('click', () => {
+                window.forceFullMode = true;
+                forceOrientationRefresh();
+            });
+        }
+
+        const pureMenuBtn = document.getElementById('pureTimelineMenuBtn');
+        const pureMenuMenu = document.getElementById('pureTimelineMenu');
+        if (pureMenuBtn && pureMenuMenu) {
+            pureMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                pureMenuMenu.classList.toggle('hidden');
+                
+                // Update labels for toggles
+                const lyricsBtn = document.getElementById('pureMenuLyricsBtn');
+                if (lyricsBtn) {
+                    const isLyricsActive = !(document.getElementById('lyricsHUD') && document.getElementById('lyricsHUD').classList.contains('hidden'));
+                    lyricsBtn.innerText = isLyricsActive ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
+                }
+                const audioBtn = document.getElementById('pureMenuAudioBtn');
+                if (audioBtn) {
+                    audioBtn.innerText = audioEnabled ? "Disable Chord Audio" : "Enable Chord Audio";
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!pureMenuMenu.contains(e.target) && e.target !== pureMenuBtn) {
+                    pureMenuMenu.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('pureMenuLyricsBtn')?.addEventListener('click', () => {
+                if (typeof toggleLyricsHUD === 'function') toggleLyricsHUD();
+                pureMenuMenu.classList.add('hidden');
+            });
+
+            document.getElementById('pureMenuAudioBtn')?.addEventListener('click', () => {
+                if (typeof toggleAudio === 'function') toggleAudio();
+                pureMenuMenu.classList.add('hidden');
+            });
+
+            document.getElementById('pureMenuZoomInBtn')?.addEventListener('click', () => {
+                if (typeof zoom === 'function') zoom(1);
+            });
+
+            document.getElementById('pureMenuZoomOutBtn')?.addEventListener('click', () => {
+                if (typeof zoom === 'function') zoom(-1);
+            });
+        }
     };
 
     setupResponsiveView();

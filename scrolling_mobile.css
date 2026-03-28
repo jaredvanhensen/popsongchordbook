@@ -156,3 +156,74 @@ body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
     top: 50% !important;
 }
+
+/* --- Pure Timeline Additional UI Controls (v2.470) --- */
+.pure-timeline-controls {
+    display: none;
+}
+body.is-mobile-landscape .pure-timeline-controls {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    z-index: 2005;
+    gap: 10px;
+    pointer-events: auto;
+}
+.pure-timeline-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.pure-timeline-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.pure-timeline-btn.hamburger-btn {
+    padding: 6px;
+}
+.pure-timeline-menu-container {
+    position: relative;
+    pointer-events: auto;
+}
+.pure-timeline-hamburger-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: #1e293b;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 8px 0;
+    min-width: 190px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    z-index: 2006;
+    display: flex;
+    flex-direction: column;
+}
+.pure-timeline-hamburger-menu.hidden {
+    display: none;
+}
+.pure-timeline-hamburger-menu .hamburger-menu-item {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+}
+.pure-timeline-hamburger-menu .hamburger-menu-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
