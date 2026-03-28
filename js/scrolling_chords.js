@@ -793,12 +793,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Update labels for toggles
                 const lyricsBtn = document.getElementById('pureMenuLyricsBtn');
                 if (lyricsBtn) {
+                    const label = lyricsBtn.querySelector('.label');
                     const isLyricsActive = !(document.getElementById('lyricsHUD') && document.getElementById('lyricsHUD').classList.contains('hidden'));
-                    lyricsBtn.innerText = isLyricsActive ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
+                    if (label) label.innerText = isLyricsActive ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
                 }
                 const audioBtn = document.getElementById('pureMenuAudioBtn');
                 if (audioBtn) {
-                    audioBtn.innerText = audioEnabled ? "Disable Chord Audio" : "Enable Chord Audio";
+                    const label = audioBtn.querySelector('.label');
+                    if (label) label.innerText = audioEnabled ? "Disable Chord Audio" : "Enable Chord Audio";
                 }
             });
 
