@@ -57,6 +57,9 @@ body.is-mobile-landscape .header-metadata {
     justify-content: center;
     margin: 0 !important;
     padding: 0 !important;
+    background: transparent !important; /* Remove the separate gradient box */
+    box-shadow: none !important;
+    border: none !important;
 }
 
 body.is-mobile-landscape .artist-display { font-size: 0.8rem !important; opacity: 0.8 !important; color: white !important; margin: 0 !important; }
@@ -180,9 +183,9 @@ body.is-mobile-landscape .main-play-arrow {
 }
 /* Reusing Song Detail Action Button styles natively within the pure timeline */
 .song-detail-action-btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.8) !important; /* Force light color to match screenshot */
+    background: transparent !important;
+    border: none !important;
+    color: white !important; /* Force white icons like Screenshot 2 */
     font-size: 1.5rem;
     cursor: pointer;
     display: flex;
@@ -190,9 +193,10 @@ body.is-mobile-landscape .main-play-arrow {
     justify-content: center;
     padding: 8px;
     transition: all 0.2s;
+    opacity: 0.8;
 }
 .song-detail-action-btn:hover {
-    color: white !important;
+    opacity: 1;
     transform: scale(1.1);
 }
 .song-detail-action-btn .icon {
@@ -200,6 +204,7 @@ body.is-mobile-landscape .main-play-arrow {
     align-items: center;
     justify-content: center;
     pointer-events: none;
+    color: white !important;
 }
 .pure-timeline-menu-container {
     position: relative;
