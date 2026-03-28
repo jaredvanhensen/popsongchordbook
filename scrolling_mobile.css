@@ -1,5 +1,5 @@
 
-/* --- v2.447 MOBILE LANDSCAPE: PURE TIMELINE MODE --- */
+/* --- v2.451 MOBILE LANDSCAPE: PURE TIMELINE MODE --- */
 body.is-mobile-landscape .controls-container {
     background: transparent !important;
     box-shadow: none !important;
@@ -32,7 +32,7 @@ body.is-mobile-landscape #youtubeToggleBtn {
     width: 44px !important;
 }
 
-/* Reposition Header during landscape - Moving slightly higher (v2.449) */
+/* Reposition Header during landscape - Moving slightly higher (v2.451) */
 body.is-mobile-landscape .header-metadata {
     position: absolute !important;
     top: 5px !important;
@@ -47,14 +47,14 @@ body.is-mobile-landscape .header-metadata {
 body.is-mobile-landscape .artist-display { font-size: 0.7rem !important; opacity: 0.8 !important; color: white !important; }
 body.is-mobile-landscape .song-title-display { font-size: 0.9rem !important; margin-top: 0 !important; color: white !important; }
 
-/* Push Bar Labels lower in landscape to avoid metadata collision (v2.449) */
+/* Push Bar Labels lower in landscape to avoid metadata collision (v2.451) */
 body.is-mobile-landscape .marker.bar .marker-label {
     top: 45px !important;
     font-size: 0.75rem !important;
     opacity: 0.7 !important;
 }
 
-/* 100% Timeline Coverage - Using d-vh for mobile browser bars (v2.449) */
+/* 100% Timeline Coverage - Using d-vh for mobile browser bars (v2.451) */
 body.is-mobile-landscape .timeline-container {
     position: fixed !important;
     top: 0 !important;
@@ -68,28 +68,28 @@ body.is-mobile-landscape .timeline-container {
     z-index: 500;
 }
 
-/* Shrink Chords in Landscape for better vertical clearance (v2.450) */
+/* Shrink Chords MUCH smaller (50% of default) in landscape (v2.451) */
 body.is-mobile-landscape .chord-item {
-    width: 80px !important;
-    height: 80px !important;
-    font-size: 1.6rem !important;
-    border-radius: 10px !important;
-    top: 45% !important; /* Push slightly UP for lyrics room */
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 1.4rem !important;
+    border-radius: 8px !important;
+    top: 40% !important; /* Pushed UP to give room for Lyrics HUD */
     transform: translateY(-50%) !important;
 }
 
-/* Also shrink lyrics sync marker fonts (v2.450) */
+/* Also shrink lyrics sync marker fonts (v2.451) */
 body.is-mobile-landscape .marker.lyrics-sync .marker-label {
-    font-size: 0.6rem !important;
+    font-size: 0.5rem !important;
     opacity: 0.8 !important;
     color: white !important;
 }
 
-/* Slightly Larger YouTube Player for Landscape Seeking (v2.450) - Shifting HIGHER */
+/* Slightly Larger YouTube Player for Landscape Seeking (v2.451) - Shifting HIGHER */
 body.is-mobile-landscape .youtube-player-container {
     width: 160px !important;
     height: 90px !important;
-    bottom: 40px !important;
+    bottom: 50px !important; /* More clearance for browser bars */
     right: 15px !important;
     border-radius: 8px !important;
     border-width: 1px !important;
@@ -102,14 +102,14 @@ body.is-mobile-landscape .youtube-drag-handle {
     display: none !important; /* Hide tiny noise */
 }
 
-/* Enable Lyrics in Landscape - High Visibility Override (v2.450) - Shifting HIGHER */
+/* Enable Lyrics in Landscape - High Visibility Override (v2.451) - Shifting HIGHER */
 body.is-mobile-landscape .lyrics-hud {
     display: flex !important;
     flex-direction: column !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 40px !important; /* Shifting up for clearance */
+    bottom: 50px !important; /* Shifting up for 100% clearance */
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -126,7 +126,6 @@ body.is-mobile-landscape .lyrics-hud {
 }
 
 /* In Landscape, we force visibility but we respect the "hidden" class if script needs it */
-/* Actually user wants "just in time" so let's let script control opacity/transform */
 body.is-mobile-landscape .lyrics-hud.hidden {
     opacity: 0 !important;
     transform: translateX(-50%) translateY(20px) !important;

@@ -1130,8 +1130,8 @@ timeline.addEventListener('drop', (e) => {
 
 // Chord Editing (Click) & Dragging
 chordTrack.addEventListener('pointerdown', (e) => {
-    // Disable chord dragging on mobile to allow easier timeline scrolling
-    if (window.innerWidth < 600) return;
+    // Disable chord dragging on touch devices unless EDIT mode is ON to allow easier timeline scrolling
+    if (e.pointerType === 'touch' && !isEditMode) return;
 
     const target = e.target.closest('.chord-item');
     if (target) {
