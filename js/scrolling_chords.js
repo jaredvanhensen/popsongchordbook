@@ -828,6 +828,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof zoom === 'function') zoom(-1);
             });
         }
+
+        // --- Switch TO Pure View Button (from Full Mode) ---
+        const switchToPureBtn = document.getElementById('switchToPureBtn');
+        if (switchToPureBtn) {
+            switchToPureBtn.addEventListener('click', () => {
+                window.forceFullMode = false; // Override the previously clicked "Full Mode"
+                forceOrientationRefresh();
+            });
+        }
     };
 
     setupResponsiveView();
