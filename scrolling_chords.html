@@ -12,13 +12,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.498">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.498">
+    <link rel="stylesheet" href="scrolling.css?v=2.500">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.500">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.498) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.500) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata">
             <h1 id="artistDisplay" class="artist-display"></h1>
@@ -259,9 +259,8 @@
             <button id="syncFirstLyricBtn" title="Sync first lyric to current time" class="edit-only">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                    <line x1="12" y1="19" x2="12" y2="22"></line>
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                    <line x1="4" y1="22" x2="4" y2="15"></line>
                 </svg>
             </button>
             <button id="duplicateBtn" title="Duplicate Selected Chords" class="edit-only">
@@ -326,15 +325,14 @@
                     </svg>
                 </button>
                 <div id="timelineHamburgerMenu" class="pure-timeline-hamburger-menu hidden">
-                    <button id="toggleLyricsBtn" class="hamburger-menu-item lyrics-btn">
+                    <div id="toggleLyricsBtn" class="hamburger-menu-item lyrics-btn" role="button" tabindex="0">
                         <span class="icon">🎤</span>
                         <span class="label">Enable/Disable Lyrics Overlay</span>
-                    </button>
-                    <!-- Switch to Pure button moved here -->
-                    <button id="switchToPureBtn" class="hamburger-menu-item" style="display: none;">
+                    </div>
+                    <div id="switchToPureBtn" class="hamburger-menu-item" style="display: none;" role="button" tabindex="0">
                         <span class="icon">📱</span>
                         <span class="label">Switch To Timeline PLAY mode</span>
-                    </button>
+                    </div>
                     <div id="menuMetronomeOption" class="hamburger-menu-item-static">
                         <div class="item-label">
                             <span class="icon">⏳</span>
@@ -345,16 +343,21 @@
                             <label for="metronomeToggle"></label>
                         </div>
                     </div>
-                    <button id="menuBpmOption" class="hamburger-menu-item">
+                    <div id="menuBpmOption" class="hamburger-menu-item" role="button" tabindex="0">
                         <span class="icon">⏱️</span>
-                        <span class="label">Tempo (BPM): <span id="menuBpmDisplay" class="value-display">120</span></span>
-                    </button>
+                        <div class="label">
+                            Tempo (BPM)
+                            <span id="menuBpmDisplay" class="value-highlight">--</span>
+                        </div>
+                    </div>
 
-                    <!-- Chord Octave Cycle Switcher -->
-                    <button id="menuOctaveCycleBtn" class="hamburger-menu-item">
+                    <div id="menuOctaveCycleBtn" class="hamburger-menu-item" role="button" tabindex="0">
                         <span class="icon">🎹</span>
-                        <span class="label">Chord Octave: <span id="menuOctaveValue" class="value-highlight">MID</span></span>
-                    </button>
+                        <div class="label">
+                            Chord Octave
+                            <span id="menuOctaveValue" class="value-highlight">MID</span>
+                        </div>
+                    </div>
 
                     <div class="hamburger-menu-item-static">
                         <div class="item-label">
@@ -373,10 +376,10 @@
                     </label>
                     <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input" style="display: none;">
                     
-                    <button id="menuExportBtn" class="hamburger-menu-item">
+                    <div id="menuExportBtn" class="hamburger-menu-item" role="button" tabindex="0">
                         <span class="icon">📤</span>
-                        <span class="label">Export JSON</span>
-                    </button>
+                        <span class="label">Export JSON (Chord Timeline)</span>
+                    </div>
                 </div>
             </div>
 
@@ -542,18 +545,18 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.498" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.498" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.498" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.498" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.498" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.498" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.498" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.498" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.498" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.498" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.498" defer></script>
-            <script src="js/scrolling_chords.js?v=2.498" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.500" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.500" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.500" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.500" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.500" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.500" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.500" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.500" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.500" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.500" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.500" defer></script>
+            <script src="js/scrolling_chords.js?v=2.500" defer></script>
 </body>
 
 </html>

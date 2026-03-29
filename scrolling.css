@@ -81,7 +81,6 @@ button {
 button:hover:not(:disabled) {
     background: #f8fafc;
     border-color: #cbd5e1;
-    transform: translateY(-1px);
 }
 
 button:active:not(:disabled) {
