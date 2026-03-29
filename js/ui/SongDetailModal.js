@@ -4185,18 +4185,38 @@ class SongDetailModal {
                 element.focus();
             }
 
+            // Verify the current selection is ACTUALLY inside the expected element!
+            // If the user clicked/tapped the button rapidly, the selection might have moved to the button text.
+            const selection = window.getSelection();
+            let isSelectionInside = false;
+
+            if (selection && selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                if (element.contains(range.commonAncestorContainer) || element === range.commonAncestorContainer) {
+                    isSelectionInside = true;
+                }
+            }
+
+            // If selection is outside the element (like on the button itself), force caret to the end of the element.
+            if (!isSelectionInside && selection) {
+                const newRange = document.createRange();
+                newRange.selectNodeContents(element);
+                newRange.collapse(false); // collapse to end
+                selection.removeAllRanges();
+                selection.addRange(newRange);
+            }
+
             // Try to use insertText for better undo support
             if (!document.execCommand('insertText', false, text)) {
                 // Fallback for browsers that don't support insertText command
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    const range = selection.getRangeAt(0);
-                    range.deleteContents();
-                    range.insertNode(document.createTextNode(text));
+                if (selection && selection.rangeCount > 0) {
+                    const fallbackRange = selection.getRangeAt(0);
+                    fallbackRange.deleteContents();
+                    fallbackRange.insertNode(document.createTextNode(text));
                     // Move cursor to after the inserted text
-                    range.collapse(false);
+                    fallbackRange.collapse(false);
                     selection.removeAllRanges();
-                    selection.addRange(range);
+                    selection.addRange(fallbackRange);
                 } else {
                     element.textContent += text;
                 }
