@@ -2741,9 +2741,10 @@ body.ctrl-held .chord-item {
 }
 
 .pure-timeline-hamburger-menu .label,
-.pure-timeline-hamburger-menu .item-label {
+.pure-timeline-hamburger-menu .item-label,
+.pure-timeline-hamburger-menu .value-display {
     flex: 1;
-    font-weight: 500; /* Not bold anymore */
+    font-weight: 500 !important; /* Force uniform weight */
 }
 
 .pure-timeline-hamburger-menu .value-display {
@@ -2753,6 +2754,13 @@ body.ctrl-held .chord-item {
     border-radius: 8px;
     font-size: 0.82rem;
     color: #475569;
+}
+
+.pure-timeline-hamburger-menu .value-highlight {
+    margin-left: 4px;
+    color: #1e40af; /* Dark Blue */
+    font-weight: 800; /* Make the value itself more prominent */
+    text-transform: uppercase;
 }
 
 /* Octave Selector Redesign for Menu */

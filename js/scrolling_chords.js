@@ -471,6 +471,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (metronomeToggle) metronomeToggle.checked = metronomeEnabled;
         if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
 
+        // Sync Octave Display
+        if (menuOctaveValue) {
+            const labels = ["LOW", "MID", "HIGH"];
+            menuOctaveValue.innerText = labels[playbackOctave] || "MID";
+        }
+
         octaveOptions.forEach(opt => {
             const val = parseInt(opt.dataset.val);
             opt.classList.toggle('active', val === playbackOctave);
@@ -492,6 +498,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // Close the menu
             if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
+        });
+    }
+
+    // Chord Octave Cycle Switcher
+    const menuOctaveCycleBtn = document.getElementById('menuOctaveCycleBtn');
+    const menuOctaveValue = document.getElementById('menuOctaveValue');
+    if (menuOctaveCycleBtn) {
+        menuOctaveCycleBtn.addEventListener('click', () => {
+            // Cycle: 0 (Low) -> 1 (Mid) -> 2 (High) -> 0
+            playbackOctave = (playbackOctave + 1) % 3;
+            
+            // Visual feedback via trigger (optional)
+            if (typeof triggerChordAudio === 'function') triggerChordAudio('C', 1.0, true);
+            
+            // Sync visibility
+            if (typeof syncSettingsMenu === 'function') syncSettingsMenu();
         });
     }
 

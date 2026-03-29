@@ -12,13 +12,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.489">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.489">
+    <link rel="stylesheet" href="scrolling.css?v=2.490">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.490">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.489) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.490) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata">
             <h1 id="artistDisplay" class="artist-display"></h1>
@@ -319,7 +319,6 @@
                     </svg>
                 </button>
                 <div id="timelineHamburgerMenu" class="pure-timeline-hamburger-menu hidden">
-                    <div class="hamburger-menu-header">Playback & View</div>
                     <button id="toggleLyricsBtn" class="hamburger-menu-item lyrics-btn">
                         <span class="icon">🎤</span>
                         <span class="label">Enable/Disable Lyrics Overlay</span>
@@ -344,20 +343,16 @@
                         <span class="label">Tempo (BPM): <span id="menuBpmDisplay" class="value-display">120</span></span>
                     </button>
 
-                    <div class="hamburger-menu-divider"></div>
-                    <div class="hamburger-menu-header">Audio & Notation</div>
-                    <div class="hamburger-menu-item-static-column">
-                        <div class="item-label" style="margin-bottom: 8px;">Chord Octave</div>
-                        <div class="octave-selector-grid">
-                            <button class="octave-option active" data-val="0">Low</button>
-                            <button class="octave-option" data-val="1">Mid</button>
-                            <button class="octave-option" data-val="2">High</button>
-                        </div>
-                    </div>
+                    <!-- Chord Octave Cycle Switcher -->
+                    <button id="menuOctaveCycleBtn" class="hamburger-menu-item">
+                        <span class="icon">🎹</span>
+                        <span class="label">Chord Octave: <span id="menuOctaveValue" class="value-highlight">MID</span></span>
+                    </button>
+
                     <div class="hamburger-menu-item-static">
                         <div class="item-label">
                             <span class="icon">♭</span>
-                            <span>Flat Notation</span>
+                            <span>Flat notation MIDI input</span>
                         </div>
                         <div class="toggle-switch">
                             <input type="checkbox" id="midiNotationToggle">
@@ -365,8 +360,6 @@
                         </div>
                     </div>
 
-                    <div class="hamburger-menu-divider"></div>
-                    <div class="hamburger-menu-header">Data Tools</div>
                     <label for="midiInput" class="hamburger-menu-item" style="cursor: pointer;">
                         <span class="icon">📥</span>
                         <span class="label">Import MIDI/JSON</span>
@@ -542,18 +535,18 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.489" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.489" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.489" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.489" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.489" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.489" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.489" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.489" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.489" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.489" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.489" defer></script>
-            <script src="js/scrolling_chords.js?v=2.489" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.490" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.490" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.490" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.490" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.490" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.490" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.490" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.490" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.490" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.490" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.490" defer></script>
+            <script src="js/scrolling_chords.js?v=2.490" defer></script>
 </body>
 
 </html>
