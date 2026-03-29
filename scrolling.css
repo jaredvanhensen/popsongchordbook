@@ -2681,15 +2681,19 @@ body.ctrl-held .chord-item {
     min-width: 260px !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
     z-index: 2500 !important; /* Above ALL other UI */
-    display: flex !important;
+    display: flex; /* DO NOT USE !IMPORTANT HERE - It overrides .hidden */
     flex-direction: column !important;
+}
+
+.pure-timeline-hamburger-menu.hidden {
+    display: none !important; /* FORCE HIDDEN */
 }
 
 /* Base item class for all menu rows - High specificity to override mobile generic button styles */
 .pure-timeline-hamburger-menu .hamburger-menu-item,
 .pure-timeline-hamburger-menu .hamburger-menu-item-static,
 .pure-timeline-hamburger-menu .hamburger-menu-item-static-column {
-    display: flex !important; /* Ensure vertical stack via flex-direction column on parent */
+    display: flex !important;
     align-items: center !important;
     padding: 12px 18px !important;
     color: #475569 !important; /* Balanced gray-blue */
@@ -2699,12 +2703,15 @@ body.ctrl-held .chord-item {
     transition: background 0.2s ease !important;
     border: none !important;
     background: transparent !important;
-    width: 100% !important; /* Prevent collapsing into tiny boxes */
+    width: 100% !important;
     height: auto !important;
-    min-height: 48px !important; /* Standard touch target height */
+    min-height: 48px !important;
     box-sizing: border-box !important;
-    flex-shrink: 0 !important; /* Do not squash items */
+    flex-shrink: 0 !important;
     margin: 0 !important;
+    box-shadow: none !important; /* Remove inherited button shadows */
+    transform: none !important; /* Remove inherited button transforms */
+    top: auto !important; /* Reset inherited button positioning */
 }
 
 .pure-timeline-hamburger-menu .hamburger-menu-item {
