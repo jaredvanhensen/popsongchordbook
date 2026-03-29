@@ -2023,12 +2023,10 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
                     if (toggleLyricsBtn) toggleLyricsBtn.classList.add('active');
                 }
             } else {
-                if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
                 if (syncFirstLyricBtn) syncFirstLyricBtn.classList.add('hidden');
                 hideLyricsHUD();
             }
         } else {
-            if (toggleLyricsBtn) toggleLyricsBtn.classList.add('hidden');
             if (syncFirstLyricBtn) syncFirstLyricBtn.classList.add('hidden');
             hideLyricsHUD();
         }
