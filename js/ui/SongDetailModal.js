@@ -4107,22 +4107,13 @@ class SongDetailModal {
     setupBarDividerButtons() {
         const dividerButtons = this.modal.querySelectorAll('.bar-divider-btn');
         dividerButtons.forEach(btn => {
-            // Prevent button from stealing focus (Mouse)
+            // Desktop: prevent button from stealing focus
             btn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
             });
 
-            // Prevent button from stealing focus (Touch/Mobile)
-            btn.addEventListener('touchstart', (e) => {
-                if (e.cancelable) e.preventDefault();
-                e.stopPropagation();
-            }, { passive: false });
-
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-
+            const insertDivider = () => {
                 // If we are currently editing a field, use THAT field
                 const focusedField = document.activeElement;
                 const isChordField = focusedField &&
@@ -4139,6 +4130,31 @@ class SongDetailModal {
                 }
 
                 this.insertTextToContent(targetElement, ' | ');
+            };
+
+            // Mobile: execute action directly on touch to prevent focus loss issues,
+            // while preventing default so keyboard doesn't hide.
+            let lastTouchTime = 0;
+            btn.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                e.stopPropagation();
+                
+                const now = Date.now();
+                if (now - lastTouchTime < 300) return; // Prevent double trigger
+                lastTouchTime = now;
+                
+                insertDivider();
+            }, { passive: false });
+
+            // Desktop / General Click
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                // If touchstart already handled it recently, ignore click
+                if (Date.now() - lastTouchTime < 300) return;
+                
+                insertDivider();
             });
         });
     }
