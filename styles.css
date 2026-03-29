@@ -5791,12 +5791,12 @@ td:has(.row-edit-input.input-focused) {
 
 #instrumentToggleBtn .icon {
     width: auto !important;
-    height: 53px !important;
-    /* Increased by 10% (from 48px) */
+    height: 48px !important;
+    /* Reverted back to original 100% (was 53px) */
     background: transparent !important;
     border-radius: 0 !important;
-    font-size: 44px !important;
-    /* Increased by 10% (from 40px) */
+    font-size: 40px !important;
+    /* Reverted back to original 100% (was 44px) */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -6369,10 +6369,10 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-thumbnail {
         grid-area: thumb;
-        width: 59px;
-        /* Increased to 59px */
-        height: 59px;
-        /* Increased to 59px */
+        width: 50px;
+        /* Reverted back to original 100% (was 59px) */
+        height: 50px;
+        /* Reverted back to original 100% (was 59px) */
         border-radius: 8px;
         margin-left: 2px !important;
         /* Less tucked to the left */
@@ -6573,12 +6573,12 @@ td:has(.row-edit-input.input-focused) {
     height: clamp(16px, 3.5vw, 20px);
 }
 
-/* Force 150% scaling if in landscape orientation, overriding the 1080px downsizing */
+/* Force more moderate scaling if in landscape orientation, matching original proportions */
 @media (orientation: landscape) {
     .song-detail-action-btn .icon {
-        font-size: clamp(27px, 6vw, 36px);
-        width: clamp(27px, 6vw, 36px);
-        height: clamp(27px, 6vw, 36px);
+        font-size: clamp(20px, 4.5vw, 26px);
+        width: clamp(20px, 4.5vw, 26px);
+        height: clamp(20px, 4.5vw, 26px);
     }
 }
 
