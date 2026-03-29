@@ -10830,29 +10830,35 @@ div.song-detail-practice-controls {
 }
 .theme-switcher-btn { display: none !important; }
 @media (max-width: 1080px) { 
-    #headerTrainerBtn { display: none !important; } 
-    .mobile-trainer-btn { 
+    #headerTrainerBtn { 
         display: flex !important; 
         align-items: center; 
         gap: 5px; 
         background: rgba(255, 255, 255, 0.98) !important; 
         color: var(--text-color) !important; 
-        border: 2px solid var(--border-color); 
-        border-radius: 25px; 
-        padding: 4px 11px; 
-        font-weight: 500; 
-        font-size: 0.78rem; 
-        cursor: pointer; 
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
-        flex: 1; 
-        max-width: 170px;
-        justify-content: center; 
-        margin: 0 45px 0 4px; 
-        white-space: nowrap; 
-        animation: btn-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        border: 2px solid var(--border-color) !important; 
+        border-radius: 25px !important; 
+        padding: 4px 11px !important; 
+        font-weight: 500 !important; 
+        font-size: 0.78rem !important; 
+        cursor: pointer !important; 
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important; 
+        flex: 1 !important; 
+        max-width: 170px !important;
+        justify-content: center !important; 
+        margin: 0 45px 0 4px !important; 
+        white-space: nowrap !important; 
+        animation: btn-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important; 
+        flex-direction: row !important; /* Ensure horizontal on mobile */
+        height: auto !important;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        transform: none !important;
     } 
-    .mobile-trainer-btn:active { transform: scale(0.98); opacity: 0.9; }
-    .mobile-trainer-btn .icon { font-size: 1.1rem; } 
+    #headerTrainerBtn:active { transform: scale(0.98); opacity: 0.9; }
+    #headerTrainerBtn .icon { font-size: 1.1rem !important; } 
+    #headerTrainerBtn .label { display: inline-block !important; font-size: inherit !important; text-transform: none !important; }
 }
 @keyframes btn-pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .trainer-btn .icon { font-size: 1.1em; }
@@ -10904,8 +10910,7 @@ div.song-detail-practice-controls {
 }
 
 /* Bulletproof Body Class Based Mobile Overrides (fixes Motorola G51 issues) */
-body.is-mobile-view #headerTrainerBtn { display: none !important; }
-body.is-mobile-view .mobile-trainer-btn { display: flex !important; }
+body.is-mobile-view #headerTrainerBtn { display: flex !important; }
 body.is-mobile-view #instrumentToggleBtn { display: none !important; }
 body.is-mobile-view .chord-trainer-btn { 
     display: none !important;  /* Hides desktop trainer in detail modal */

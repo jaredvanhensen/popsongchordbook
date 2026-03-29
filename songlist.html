@@ -42,10 +42,6 @@
                     <p class="header-subtitle">Your interactive playalong songbook</p>
                 </div>
                 <div class="header-top-actions" style="flex-wrap: wrap; justify-content: flex-end;">
-                    <button id="headerTrainerBtn" class="trainer-btn with-label" title="Chord Trainer">
-                        <span class="icon">🎓</span>
-                        <span class="label">Chord Trainer</span>
-                    </button>
                     <button id="profileBtn" class="profile-btn with-label" title="Profile & Settings">
                         <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
                         <span class="icon">👤</span>
@@ -70,12 +66,12 @@
                             <span class="icon">🔍</span>
                             <span class="label">Filters</span>
                         </button>
+                        <button id="headerTrainerBtn" class="trainer-btn with-label" title="Chord Trainer">
+                            <span class="icon">🎓</span>
+                            <span class="label">Chord Trainer</span>
+                        </button>
                     </div>
-                    <!-- Mobile Trainer Button -->
-                    <button id="mobileTrainerBtn" class="mobile-trainer-btn">
-                        <span class="icon">🎓</span>
-                        <span class="label">Chord Trainer</span>
-                    </button>
+                    <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
                     <div class="search-section-container">
                         <div class="search-input-wrapper">
                             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Artist or title..."
@@ -169,8 +165,8 @@
                             <span class="label">Add</span>
                         </button>
 
-                        <!-- Combined Import Button for Mobile -->
-                        <button id="combinedImportBtn" class="import-export-btn with-label hidden-desktop"
+                        <!-- Combined Import Button (for both Mobile & Desktop) -->
+                        <button id="combinedImportBtn" class="import-export-btn with-label"
                             title="Import Song (JSON or UG)">
                             <span class="icon">📥</span>
                             <span class="label">import</span>
@@ -181,26 +177,10 @@
                             <span class="icon">&#127919;</span>
                             <span class="label">Practice</span>
                         </button>
-
-                        <!-- Existing buttons hidden on mobile -->
-                        <div class="import-export-controls hidden-mobile">
-                            <label for="importSongFile" class="import-export-btn with-label"
-                                title="Import a song from JSON">
-                                <span class="icon">📥</span>
-                                <span class="label">Import Song</span>
-                            </label>
-                            <input type="file" id="importSongFile" accept=".json" style="display: none;">
-                            <button id="importUgBtn" class="import-export-btn with-label"
-                                title="Import from Ultimate Guitar">
-                                <span class="icon">🎸</span>
-                                <span class="label">Import UG</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
         </header>
-
         <!-- Selected song header - appears when a row is selected -->
         <div id="selectedSongHeader" class="selected-song-header hidden">
             <div class="selected-song-info">
