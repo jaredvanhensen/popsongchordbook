@@ -5377,7 +5377,7 @@ td:has(.row-edit-input.input-focused) {
 .song-detail-action-btn:hover {
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.9);
-    transform: scale(1.05);
+    /* Removed scale effect to prevent layout shift */
 }
 
 .song-detail-action-btn#songDetailDeleteBtn:hover {
@@ -5781,8 +5781,8 @@ td:has(.row-edit-input.input-focused) {
 
 #instrumentToggleBtn:active,
 #instrumentToggleBtn:hover {
-    transform: scale(1.05) !important;
-    /* Allow scale but never translateY */
+    /* Removed scale effect to prevent layout shift */
+    opacity: 0.9;
 }
 
 #instrumentToggleBtn:active {
@@ -9164,7 +9164,8 @@ div.song-detail-practice-controls {
 }
 
 #songDetailLyricsBtn:hover .icon {
-    transform: scale(1.1);
+    /* Removed scale effect to prevent layout shift */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 #songDetailLyricsBtn .label {
@@ -10478,7 +10479,7 @@ div.song-detail-practice-controls {
 .header-action-btn:hover {
     background: #b91c1c !important;
     /* DARK RED */
-    transform: translateY(-1px) scale(1.1) !important;
+    transform: translateY(-1px) !important;
     filter: brightness(1.1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -10567,7 +10568,7 @@ div.song-detail-practice-controls {
 
 #songDetailSongMapBtn:active,
 #songDetailSongMapBtn:hover {
-    transform: scale(1.05) !important;
+    opacity: 1;
 }
 
 #songDetailSongMapBtn:active {

@@ -1248,9 +1248,6 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     border: 2px solid white;
 }
 
-.youtube-player-container.hidden {
-    display: none;
-}
 
 .youtube-drag-handle {
     position: absolute;
@@ -2670,6 +2667,22 @@ body.ctrl-held .chord-item {
     letter-spacing: 0.08em;
     padding: 12px 18px 4px;
     background: transparent; /* No more solid header gray */
+}
+
+.pure-timeline-hamburger-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    margin-top: 15px !important;
+    background: white !important; /* Forces solid background for readability */
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    border-radius: 12px !important;
+    padding: 6px 0 !important;
+    min-width: 260px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    z-index: 2500 !important; /* Above ALL other UI */
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 /* Base item class for all menu rows - High specificity to override mobile generic button styles */
