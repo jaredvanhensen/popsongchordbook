@@ -210,45 +210,6 @@ body.is-mobile-landscape .main-play-arrow {
     position: relative;
     pointer-events: auto;
 }
-.pure-timeline-hamburger-menu {
-    position: absolute;
-    top: 100%;
-    right: -10px;
-    margin-top: 15px;
-    background: white; /* Light mode popout */
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 8px 0;
-    min-width: 220px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    z-index: 2006;
-    display: flex;
-    flex-direction: column;
-}
-.pure-timeline-hamburger-menu.hidden {
-    display: none;
-}
-.pure-timeline-hamburger-menu .hamburger-menu-item {
-    background: transparent;
-    border: none;
-    color: #1e293b; /* Dark text for light background */
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.pure-timeline-hamburger-menu .hamburger-menu-item:hover {
-    background: rgba(0,0,0,0.05);
-}
-.pure-timeline-hamburger-menu .hamburger-menu-item:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
 /* Show Pure View switcher in hamburger menu when on mobile */
 body.is-mobile-view #switchToPureBtn {
     display: flex !important;
