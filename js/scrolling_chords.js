@@ -443,6 +443,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Timeline Hamburger Menu Logic
+    const timelineHamburgerBtn = document.getElementById('timelineHamburgerBtn');
+    const timelineHamburgerMenu = document.getElementById('timelineHamburgerMenu');
+    if (timelineHamburgerBtn && timelineHamburgerMenu) {
+        timelineHamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            timelineHamburgerMenu.classList.toggle('hidden');
+            
+            // Update label for lyrics toggle inside this menu
+            const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
+            if (menuLyricsBtn) {
+                const label = menuLyricsBtn.querySelector('.label');
+                if (label) label.innerText = lyricsEnabled ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!timelineHamburgerMenu.contains(e.target) && e.target !== timelineHamburgerBtn) {
+                timelineHamburgerMenu.classList.add('hidden');
+            }
+        });
+    }
+
     // Edit Mode Toggle
     editModeBtn = document.getElementById('editModeBtn');
     if (editModeBtn) {
@@ -2214,11 +2238,16 @@ function shiftChords(deltaSteps) {
 
 function toggleLyricsHUD() {
     lyricsEnabled = !lyricsEnabled;
+    const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
+    const label = menuLyricsBtn ? menuLyricsBtn.querySelector('.label') : null;
+
     if (lyricsEnabled) {
         lyricsHUD.classList.remove('hidden');
-        toggleLyricsBtn.classList.add('active');
+        if (toggleLyricsBtn) toggleLyricsBtn.classList.add('active');
+        if (label) label.innerText = "Disable Lyrics Overlay";
     } else {
         hideLyricsHUD();
+        if (label) label.innerText = "Enable Lyrics Overlay";
     }
 }
 
@@ -2287,7 +2316,12 @@ if (syncFirstLyricBtn) {
 function hideLyricsHUD() {
     lyricsEnabled = false;
     lyricsHUD.classList.add('hidden');
-    toggleLyricsBtn.classList.remove('active');
+    if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('active');
+    const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
+    if (menuLyricsBtn) {
+        const label = menuLyricsBtn.querySelector('.label');
+        if (label) label.innerText = "Enable Lyrics Overlay";
+    }
 }
 
 function exportToJSON() {
