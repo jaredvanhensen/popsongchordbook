@@ -2644,98 +2644,150 @@ body.ctrl-held .chord-item {
     transform: translateY(2px) !important;
 }
 
-/* Timeline Hamburger Menu Enhancements */
-.hamburger-menu-header {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 12px 16px 6px;
-    background: #f8fafc;
-}
-
-.hamburger-menu-divider {
-    height: 1px;
-    background: #f1f5f9;
-    margin: 4px 0;
-}
-
-.hamburger-menu-item-static {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    color: #1e293b;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.hamburger-menu-item-static-column {
-    display: flex;
-    flex-direction: column;
-    padding: 12px 16px;
-    color: #1e293b;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
+/* Timeline Hamburger Menu Enhancements (Higher Fidelity) */
 .pure-timeline-hamburger-menu {
     position: absolute;
     top: 100%;
     right: -10px;
     margin-top: 15px;
-    background: white; /* Light mode popout */
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 0; /* Changed to 0 to allow header background matching */
-    min-width: 250px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08); /* Sharper border */
+    border-radius: 16px; /* Slightly more rounded */
+    padding: 6px 0;
+    min-width: 260px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12); /* Softer, premium shadow */
     z-index: 5001;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* For rounded corners with header background */
+    overflow: hidden;
 }
 
-/* Custom Styles for items inside Hamburger */
-.pure-timeline-hamburger-menu .hamburger-menu-item {
-    background: transparent;
-    border: none;
-    color: #1e293b;
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    width: 100%;
+.hamburger-menu-header {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8; /* Subtle blue-gray */
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 18px 4px;
+    background: transparent; /* No more solid header gray */
+}
+
+.hamburger-menu-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 6px 0;
+}
+
+/* Base item class for all menu rows */
+.pure-timeline-hamburger-menu .hamburger-menu-item,
+.pure-timeline-hamburger-menu .hamburger-menu-item-static,
+.pure-timeline-hamburger-menu .hamburger-menu-item-static-column {
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: background 0.2s;
+    padding: 12px 18px;
+    color: #334155; /* Sharp dark gray */
+    font-size: 0.92rem;
+    font-weight: 600; /* Consistent weight */
+    text-align: left;
+    transition: background 0.2s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pure-timeline-hamburger-menu .hamburger-menu-item {
+    cursor: pointer;
+    gap: 12px;
 }
 
 .pure-timeline-hamburger-menu .hamburger-menu-item:hover {
-    background: #f1f5f9;
+    background: #f8fafc;
+}
+
+/* Specific overrides for buttons that had old classes */
+.pure-timeline-hamburger-menu .lyrics-btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #334155 !important;
+    width: 100% !important;
+    padding: 12px 18px !important;
+    height: auto !important;
+}
+/* No active gradient for items in this menu */
+.pure-timeline-hamburger-menu .lyrics-btn.active {
+    background: #eff6ff !important; /* Subtle blue highlight */
+    color: #2563eb !important; /* Brighter blue for text */
+}
+
+.pure-timeline-hamburger-menu .hamburger-menu-item-static {
+    justify-content: space-between;
+}
+
+.pure-timeline-hamburger-menu .hamburger-menu-item-static-column {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .pure-timeline-hamburger-menu .icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     width: 24px;
-    display: inline-flex;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+}
+
+.pure-timeline-hamburger-menu .label {
+    flex: 1;
 }
 
 .pure-timeline-hamburger-menu .value-display {
-    margin-left: auto;
+    margin-left: 8px;
     background: #f1f5f9;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
     color: #475569;
 }
 
-/* Existing Settings Menu styles (some reused or redirected) */
+/* Octave Selector Redesign for Menu */
+.pure-timeline-hamburger-menu .octave-selector-grid {
+    display: flex;
+    gap: 4px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.pure-timeline-hamburger-menu .octave-option {
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    padding: 6px 0 !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    border-radius: 9px !important;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    transition: all 0.2s;
+}
+
+.pure-timeline-hamburger-menu .octave-option.active {
+    background: white !important; /* Pill style */
+    color: #2563eb !important;
+    border: 1px solid rgba(37, 99, 235, 0.1) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Existing Settings Menu styles (legacy) */
 .settings-menu-popout {
     position: fixed;
     top: 65px;
