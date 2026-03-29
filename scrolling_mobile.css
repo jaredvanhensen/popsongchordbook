@@ -249,11 +249,9 @@ body.is-mobile-landscape .main-play-arrow {
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Show Pure View switcher only in landscape when in full mode */
-@media (orientation: landscape) and (max-height: 768px) {
-    body:not(.is-mobile-landscape) #switchToPureBtn {
-        display: flex !important;
-    }
+/* Show Pure View switcher in hamburger menu when on mobile */
+body.is-mobile-view #switchToPureBtn {
+    display: flex !important;
 }
 
 

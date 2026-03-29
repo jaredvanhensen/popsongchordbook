@@ -12,13 +12,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.486">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.486">
+    <link rel="stylesheet" href="scrolling.css?v=2.487">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.487">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.486) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.487) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata">
             <h1 id="artistDisplay" class="artist-display"></h1>
@@ -319,38 +319,66 @@
                     </svg>
                 </button>
                 <div id="timelineHamburgerMenu" class="pure-timeline-hamburger-menu hidden">
+                    <div class="hamburger-menu-header">Playback & View</div>
                     <button id="toggleLyricsBtn" class="hamburger-menu-item lyrics-btn hidden">
-                        <span class="icon">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                <line x1="12" y1="19" x2="12" y2="23"></line>
-                                <line x1="8" y1="23" x2="16" y2="23"></line>
-                            </svg>
-                        </span>
+                        <span class="icon">📝</span>
                         <span class="label">Toggle Lyrics Overlay</span>
+                    </button>
+                    <!-- Switch to Pure button moved here -->
+                    <button id="switchToPureBtn" class="hamburger-menu-item" style="display: none;">
+                        <span class="icon">📱</span>
+                        <span class="label">Switch to Pure View</span>
+                    </button>
+                    <div id="menuMetronomeOption" class="hamburger-menu-item-static">
+                        <div class="item-label">
+                            <span class="icon">⏳</span>
+                            <span>Metronome</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="metronomeToggle">
+                            <label for="metronomeToggle"></label>
+                        </div>
+                    </div>
+                    <button id="menuBpmOption" class="hamburger-menu-item">
+                        <span class="icon">⏱️</span>
+                        <span class="label">Tempo (BPM): <span id="menuBpmDisplay" class="value-display">120</span></span>
+                    </button>
+
+                    <div class="hamburger-menu-divider"></div>
+                    <div class="hamburger-menu-header">Audio & Notation</div>
+                    <div class="hamburger-menu-item-static-column">
+                        <div class="item-label" style="margin-bottom: 8px;">Chord Octave</div>
+                        <div class="octave-selector-grid">
+                            <button class="octave-option active" data-val="0">Low</button>
+                            <button class="octave-option" data-val="1">Mid</button>
+                            <button class="octave-option" data-val="2">High</button>
+                        </div>
+                    </div>
+                    <div class="hamburger-menu-item-static">
+                        <div class="item-label">
+                            <span class="icon">♭</span>
+                            <span>Flat Notation</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="midiNotationToggle">
+                            <label for="midiNotationToggle"></label>
+                        </div>
+                    </div>
+
+                    <div class="hamburger-menu-divider"></div>
+                    <div class="hamburger-menu-header">Data Tools</div>
+                    <label for="midiInput" class="hamburger-menu-item" style="cursor: pointer;">
+                        <span class="icon">📥</span>
+                        <span class="label">Import MIDI/JSON</span>
+                    </label>
+                    <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input" style="display: none;">
+                    
+                    <button id="menuExportBtn" class="hamburger-menu-item">
+                        <span class="icon">📤</span>
+                        <span class="label">Export JSON</span>
                     </button>
                 </div>
             </div>
-
-
-            <button id="syncFirstLyricBtn" title="Mark Start Point Lyrics" class="lyrics-btn hidden edit-only">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <text x="-1" y="21" font-family="serif" font-weight="900" font-size="22"
-                        fill="currentColor">L</text>
-                    <path d="M19 11v9m-3-3l3 3 3-3" stroke="#ef4444" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </button>
-
-            <button id="speedBtn" title="Toggle Playback Speed" class="edit-only">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>1.0x</span>
-            </button>
 
             <button id="saveBtn" title="Save Changes" class="hidden">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -361,24 +389,6 @@
                 </svg>
             </button>
 
-            <button id="settingsBtn" title="Timeline Settings" class="settings-btn-v2">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path
-                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                    </path>
-                </svg>
-            </button>
-
-            <button id="switchToPureBtn" title="Switch to Pure (Minimal) View" class="settings-btn-v2" style="display: none;">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
-            </button>
-
-            <!-- Hidden original buttons stuff kept for logic -->
             <!-- Hidden original buttons stuff kept for logic -->
             <button id="octaveCycleBtn" class="hidden"></button>
             <button id="metronomeBtn" class="hidden"></button>
@@ -386,104 +396,9 @@
             <button id="exportBtn" class="hidden"></button>
         </div>
 
-
-        <!-- Settings Menu Popout -->
-        <div id="settingsMenu" class="settings-menu-popout hidden">
-            <div class="settings-menu-header">Settings & Tools</div>
-            <div class="settings-menu-items">
-                <div class="settings-menu-item" id="menuMetronomeOption">
-                    <div class="item-label">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L7 22h10L12 2z"></path>
-                            <circle cx="12" cy="18" r="2"></circle>
-                            <path d="M12 14l3-9"></path>
-                        </svg>
-                        <span>Metronome</span>
-                    </div>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="metronomeToggle">
-                        <label for="metronomeToggle"></label>
-                    </div>
-                </div>
-
-                <div class="settings-menu-item-group">
-                    <div class="item-label">Chord Octave</div>
-                    <div class="octave-selector-grid">
-                        <button class="octave-option active" data-val="0">Low</button>
-                        <button class="octave-option" data-val="1">Mid</button>
-                        <button class="octave-option" data-val="2">High</button>
-                    </div>
-                </div>
-
-                <div class="settings-menu-item" id="menuBpmOption">
-                    <div class="item-label">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        <span>Tempo (BPM)</span>
-                    </div>
-                    <div id="menuBpmDisplay" class="value-display">120</div>
-                </div>
-
-                <div class="settings-menu-divider"></div>
-
-                <div class="settings-menu-item-group">
-                    <div class="item-label">MIDI Settings</div>
-                    <div class="settings-menu-item" style="padding: 0; margin-top: 8px; border: none;">
-                        <div class="item-label"
-                            style="margin-bottom: 0; font-size: 0.9em; font-weight: normal; color: var(--text-light);">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 18V5l12-2v13"></path>
-                                <circle cx="6" cy="18" r="3"></circle>
-                                <circle cx="18" cy="16" r="3"></circle>
-                            </svg>
-                            <span style="margin-left: 8px;">Use Flat Notation (♭)</span>
-                        </div>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="midiNotationToggle">
-                            <label for="midiNotationToggle"></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="settings-menu-divider"></div>
-
-                <div class="settings-menu-item-group">
-                    <div class="item-label">Data Tools</div>
-                    <div class="tools-grid">
-                        <label for="midiInput" class="tool-btn" title="Open MIDI or JSON file">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="12" y1="18" x2="12" y2="12"></line>
-                                <line x1="9" y1="15" x2="15" y2="15"></line>
-                            </svg>
-                            Import MIDI
-                        </label>
-                        <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json"
-                            class="file-input" style="display: none;">
-
-                        <button id="menuExportBtn" class="tool-btn">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                                <polyline points="10 17 15 12 10 7"></polyline>
-                                <line x1="15" y1="12" x2="3" y2="12"></line>
-                            </svg>
-                            Export JSON
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="statusText">Upload a MIDI file to start</div>
     </div>
+
 
 
     <div id="youtubePlayerContainer" class="youtube-player-container hidden">
@@ -627,18 +542,18 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.486" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.486" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.486" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.486" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.486" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.486" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.486" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.486" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.486" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.486" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.486" defer></script>
-            <script src="js/scrolling_chords.js?v=2.486" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.487" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.487" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.487" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.487" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.487" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.487" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.487" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.487" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.487" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.487" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.487" defer></script>
+            <script src="js/scrolling_chords.js?v=2.487" defer></script>
 </body>
 
 </html>

@@ -416,33 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (toggleLyricsBtn) toggleLyricsBtn.addEventListener('click', toggleLyricsHUD);
 
-    // Settings Menu Logic
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsMenu = document.getElementById('settingsMenu');
-    const metronomeToggle = document.getElementById('metronomeToggle');
-    const octaveOptions = document.querySelectorAll('.octave-option');
-    const menuBpmOption = document.getElementById('menuBpmOption');
-    const menuBpmDisplay = document.getElementById('menuBpmDisplay');
-
-    if (settingsBtn && settingsMenu) {
-        settingsBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isHidden = settingsMenu.classList.contains('hidden');
-            settingsMenu.classList.toggle('hidden');
-            if (!settingsMenu.classList.contains('hidden')) {
-                // Sync values when opening
-                syncSettingsMenu();
-            }
-        });
-
-        // Close when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!settingsMenu.contains(e.target) && e.target !== settingsBtn) {
-                settingsMenu.classList.add('hidden');
-            }
-        });
-    }
-
     // Timeline Hamburger Menu Logic
     const timelineHamburgerBtn = document.getElementById('timelineHamburgerBtn');
     const timelineHamburgerMenu = document.getElementById('timelineHamburgerMenu');
@@ -451,6 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             timelineHamburgerMenu.classList.toggle('hidden');
             
+            if (!timelineHamburgerMenu.classList.contains('hidden')) {
+                // Sync values when opening
+                if (typeof syncSettingsMenu === 'function') syncSettingsMenu();
+            }
+
             // Update label for lyrics toggle inside this menu
             const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
             if (menuLyricsBtn) {
@@ -484,6 +462,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    const metronomeToggle = document.getElementById('metronomeToggle');
+    const octaveOptions = document.querySelectorAll('.octave-option');
+    const menuBpmOption = document.getElementById('menuBpmOption');
+    const menuBpmDisplay = document.getElementById('menuBpmDisplay');
+
     function syncSettingsMenu() {
         if (metronomeToggle) metronomeToggle.checked = metronomeEnabled;
         if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
@@ -491,6 +474,24 @@ document.addEventListener('DOMContentLoaded', () => {
         octaveOptions.forEach(opt => {
             const val = parseInt(opt.dataset.val);
             opt.classList.toggle('active', val === playbackOctave);
+        });
+    }
+
+    // Pure View Toggle inside Hamburger (if it exists)
+    const switchToPureBtn = document.getElementById('switchToPureBtn');
+    if (switchToPureBtn) {
+        switchToPureBtn.addEventListener('click', () => {
+            window.forcePureMode = true;
+            window.forceFullMode = false;
+            // Force refresh of the orientation/view logic
+            if (typeof forceOrientationRefresh === 'function') {
+                forceOrientationRefresh();
+            } else {
+                // If the function is not in current scope, we just trigger a resize
+                window.dispatchEvent(new Event('resize'));
+            }
+            // Close the menu
+            if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
         });
     }
 

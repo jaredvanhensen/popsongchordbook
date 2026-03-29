@@ -2644,7 +2644,98 @@ body.ctrl-held .chord-item {
     transform: translateY(2px) !important;
 }
 
-/* Settings Menu Popout */
+/* Timeline Hamburger Menu Enhancements */
+.hamburger-menu-header {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 16px 6px;
+    background: #f8fafc;
+}
+
+.hamburger-menu-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 4px 0;
+}
+
+.hamburger-menu-item-static {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.hamburger-menu-item-static-column {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.pure-timeline-hamburger-menu {
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    margin-top: 15px;
+    background: white; /* Light mode popout */
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 0; /* Changed to 0 to allow header background matching */
+    min-width: 250px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 5001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* For rounded corners with header background */
+}
+
+/* Custom Styles for items inside Hamburger */
+.pure-timeline-hamburger-menu .hamburger-menu-item {
+    background: transparent;
+    border: none;
+    color: #1e293b;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s;
+}
+
+.pure-timeline-hamburger-menu .hamburger-menu-item:hover {
+    background: #f1f5f9;
+}
+
+.pure-timeline-hamburger-menu .icon {
+    font-size: 1.2rem;
+    width: 24px;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.pure-timeline-hamburger-menu .value-display {
+    margin-left: auto;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #475569;
+}
+
+/* Existing Settings Menu styles (some reused or redirected) */
 .settings-menu-popout {
     position: fixed;
     top: 65px;
