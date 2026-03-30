@@ -305,6 +305,10 @@ class ChordTrainer {
         if (this.dom.startRankedBtn) {
             this.dom.startRankedBtn.addEventListener('click', () => {
                 this.startPreflightCountdown(() => {
+                    // Reset stats and board FOR the ranked session
+                    this.resetSession();
+                    this.nextQuestion();
+                    
                     // Hide tip bar for ranked sessions
                     if (this.dom.chordTipBar) this.dom.chordTipBar.classList.add('hidden');
                     this.startTimer(this.timerLimit);
@@ -1237,11 +1241,21 @@ class ChordTrainer {
             }
 
             // Auto-advance after 3 seconds (not in ranked mode or song practice)
-            if (!this.isSongPracticeMode && this.timerInterval === null) {
-                clearTimeout(this.autoAdvanceTimer);
-                this.autoAdvanceTimer = setTimeout(() => {
-                    this.nextQuestion();
-                }, 3000);
+            // Auto-advance
+            if (!this.isSongPracticeMode) {
+                if (this.timerInterval === null) {
+                    // Free Play: 3 second delay so user can see their success
+                    clearTimeout(this.autoAdvanceTimer);
+                    this.autoAdvanceTimer = setTimeout(() => {
+                        this.nextQuestion();
+                    }, 3000);
+                } else {
+                    // Ranked Mode: Immediate transition (fast-paced)
+                    clearTimeout(this.autoAdvanceTimer);
+                    this.autoAdvanceTimer = setTimeout(() => {
+                        this.nextQuestion();
+                    }, 600); // Short delay for better UX
+                }
             }
         } else {
             this.dom.resultOverlay.classList.remove('correct');
