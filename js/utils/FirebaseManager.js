@@ -470,6 +470,102 @@ class FirebaseManager {
         }
     }
 
+    // Public Songs Methods
+
+    async loadPublicSongs() {
+        if (!this.initialized) {
+            throw new Error('Firebase not initialized');
+        }
+
+        try {
+            const publicRef = this.database.ref('publicSongs');
+            const snapshot = await publicRef.once('value');
+            const publicData = snapshot.val();
+
+            if (!publicData) {
+                return [];
+            }
+
+            // Convert object to array
+            return Object.values(publicData).map(song => ({
+                ...song,
+                isPublic: true // Ensure flag is set
+            }));
+        } catch (error) {
+            console.error('Load public songs error:', error);
+            return [];
+        }
+    }
+
+    async savePublicSong(song) {
+        if (!this.initialized) {
+            throw new Error('Firebase not initialized');
+        }
+
+        try {
+            const songToSave = {
+                ...song,
+                isPublic: true,
+                lastModified: new Date().toISOString()
+            };
+            const publicRef = this.database.ref(`publicSongs/${song.id}`);
+            await publicRef.set(songToSave);
+            
+            // Also ensure it's in the public setlist
+            await this.ensurePublicSetlist(song.id);
+            
+            return { success: true };
+        } catch (error) {
+            console.error('Save public song error:', error);
+            throw error;
+        }
+    }
+
+    async ensurePublicSetlist(songId) {
+        try {
+            const setlistRef = this.database.ref('publicSetlist');
+            const snapshot = await setlistRef.once('value');
+            let publicSetlist = snapshot.val();
+            
+            if (!publicSetlist) {
+                publicSetlist = {
+                    id: 'public-setlist',
+                    name: 'PUBLIC SONGS',
+                    songIds: [songId],
+                    isPublic: true,
+                    dateCreated: new Date().toISOString()
+                };
+            } else {
+                if (!publicSetlist.songIds) {
+                    publicSetlist.songIds = [songId];
+                } else if (!publicSetlist.songIds.includes(songId)) {
+                    publicSetlist.songIds.push(songId);
+                }
+            }
+            
+            await setlistRef.set(publicSetlist);
+        } catch (error) {
+            console.error('Ensure public setlist error:', error);
+        }
+    }
+
+    isAdmin(uid) {
+        const user = this.auth.currentUser;
+        if (!user || user.uid !== uid) return false;
+        return user.email === 'jared@vanhensen.nl';
+    }
+
+    onPublicSongsChange(callback) {
+        if (!this.initialized) return;
+        
+        const publicRef = this.database.ref('publicSongs');
+        return publicRef.on('value', (snapshot) => {
+            const publicData = snapshot.val();
+            const songs = publicData ? Object.values(publicData).map(s => ({ ...s, isPublic: true })) : [];
+            callback(songs);
+        });
+    }
+
     async saveSetlists(userId, setlists) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
@@ -1058,6 +1154,67 @@ class FirebaseManager {
             await this.database.ref(`users/${userId}/metadata/seedingCompleted`).set(completed);
         } catch (e) {
             console.error("Error setting seeding status:", e);
+        }
+    }
+
+    // ── Public Song API ─────────────────────────────────────────────────
+
+    /**
+     * Returns true if the given uid belongs to the admin email.
+     * @param {string} uid - Firebase user UID to check
+     */
+    isAdmin(uid) {
+        if (!this.initialized || !uid) return false;
+        const user = this.getCurrentUser();
+        if (!user) return false;
+        // Check by UID match OR by email (email is more reliable)
+        const adminEmail = 'jared@vanhensen.nl';
+        return user.email === adminEmail;
+    }
+
+    /**
+     * Loads all public songs from the shared /publicSongs Firebase node.
+     * @returns {Promise<Array>} Array of public song objects
+     */
+    async loadPublicSongs() {
+        if (!this.initialized) return [];
+        try {
+            const snapshot = await this.database.ref('publicSongs').once('value');
+            const data = snapshot.val();
+            if (!data) return [];
+            return Object.values(data);
+        } catch (error) {
+            console.error('Error loading public songs:', error);
+            return [];
+        }
+    }
+
+    /**
+     * Saves (creates or updates) a single public song in /publicSongs.
+     * @param {Object} song - song object with isPublic=true
+     */
+    async savePublicSong(song) {
+        if (!this.initialized || !song || !song.id) return;
+        try {
+            await this.database.ref(`publicSongs/${song.id}`).set(song);
+            console.log('FirebaseManager: Public song saved:', song.id);
+        } catch (error) {
+            console.error('Error saving public song:', error);
+        }
+    }
+
+    /**
+     * Deletes a public song from /publicSongs.
+     * Only callable by the submitter or admin.
+     * @param {string} songId
+     */
+    async deletePublicSong(songId) {
+        if (!this.initialized || !songId) return;
+        try {
+            await this.database.ref(`publicSongs/${songId}`).remove();
+            console.log('FirebaseManager: Public song deleted:', songId);
+        } catch (error) {
+            console.error('Error deleting public song:', error);
         }
     }
 

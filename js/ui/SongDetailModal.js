@@ -2000,6 +2000,16 @@ class SongDetailModal {
             }
         });
 
+        if (!this.currentSongId) return;
+        
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (song && song.isPublic) {
+            if (!this.songManager.canEditPublicSong(song)) {
+                this.showInfoModal('Access Denied', 'Editing this public song is restricted to the original submitter or an admin.');
+                return;
+            }
+        }
+
         // Remove placeholder when entering edit mode
         if (element.classList.contains('empty-field')) {
             element.classList.remove('empty-field');
@@ -2183,7 +2193,8 @@ class SongDetailModal {
                 lyricOffset: song.lyricOffset || 0,
                 performAbility: song.performAbility || 0,
                 songNotes: song.songNotes || '',
-                capo: song.capo || 0
+                capo: song.capo || 0,
+                isPublic: song.isPublic || false
             };
         }
 
@@ -2213,7 +2224,8 @@ class SongDetailModal {
             lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0,
             performAbility: this.currentAbilityValue || 0,
             songNotes: this.notesInput ? this.notesInput.value : '',
-            capo: this.capoValue || 0
+            capo: this.capoValue || 0,
+            isPublic: this.originalSongData ? this.originalSongData.isPublic : false
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -2240,7 +2252,8 @@ class SongDetailModal {
             lyricOffset: parseFloat(data.lyricOffset) || 0,
             performAbility: parseInt(data.performAbility) || 0,
             songNotes: (data.songNotes || '').trim(),
-            capo: parseInt(data.capo) || 0
+            capo: parseInt(data.capo) || 0,
+            isPublic: !!data.isPublic
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -2308,6 +2321,15 @@ class SongDetailModal {
     async saveChanges(shouldClose = false) {
         if (!this.currentSongId || !this.hasUnsavedChanges) {
             if (shouldClose) await this.hide();
+            return;
+        }
+
+        // Permission check: cannot save public songs if user is not owner or admin
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+            this.showInfoModal('Permission Denied', 'You cannot edit this public song. Only the original submitter and the admin can make changes.');
+            this.hasUnsavedChanges = false;
+            if (this.saveBtn) this.saveBtn.classList.add('hidden');
             return;
         }
 
@@ -2428,7 +2450,8 @@ class SongDetailModal {
                 lyricOffset: savedSong.lyricOffset || 0,
                 performAbility: savedSong.performAbility || 0,
                 songNotes: savedSong.songNotes || '',
-                capo: savedSong.capo || 0
+                capo: savedSong.capo || 0,
+                isPublic: savedSong.isPublic || false
             };
         }
 
@@ -2821,8 +2844,34 @@ class SongDetailModal {
             lyricOffset: song.lyricOffset || 0,
             performAbility: song.performAbility || 0,
             songNotes: song.songNotes || '',
-            capo: song.capo || 0
+            capo: song.capo || 0,
+            isPublic: song.isPublic || false,
+            submittedBy: song.submittedBy || ''
         };
+
+        // Add Public badge if necessary, and enforce read-only mode for non-owners
+        const canEdit = this.songManager.canEditPublicSong(song);
+        if (this.titleElement) {
+            const existingBadge = this.titleElement.querySelector('.public-badge-detail');
+            if (existingBadge) existingBadge.remove();
+            
+            if (song.isPublic) {
+                const badge = document.createElement('span');
+                badge.className = 'public-badge-detail';
+                badge.textContent = 'PUBLIC';
+                badge.style.cssText = "font-size: 0.5em; vertical-align: middle; background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: bold;";
+                this.titleElement.appendChild(badge);
+            }
+        }
+
+        // Apply read-only mode for public songs the user cannot edit
+        if (this.modal) {
+            if (song.isPublic && !canEdit) {
+                this.modal.classList.add('public-read-only');
+            } else {
+                this.modal.classList.remove('public-read-only');
+            }
+        }
 
         // Update artist and title
         if (this.artistElement) {

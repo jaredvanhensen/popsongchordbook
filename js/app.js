@@ -1,4 +1,4 @@
-// Main Application (v2.503)
+// Main Application (v2.504)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -33,7 +33,8 @@ class App {
             key: '',
             withYouTube: false,
             withoutYouTube: false,
-            withoutLyrics: false
+            withoutLyrics: false,
+            noPublic: false
         };
         this.currentSetlistId = null;
         this.searchTerm = '';
@@ -76,7 +77,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.503)");
+        console.log("Pop Song Chord Book - App Initialized (v2.504)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -765,8 +766,15 @@ class App {
             });
         }
 
+        if (this.currentFilter.noPublic) {
+            allSongs = allSongs.filter(song => !song.isPublic);
+        }
+
         // Apply setlist filter if a setlist is selected
-        if (this.currentSetlistId) {
+        if (this.currentSetlistId === '__public__') {
+            // Virtual: show only public songs
+            allSongs = allSongs.filter(song => song.isPublic);
+        } else if (this.currentSetlistId) {
             allSongs = this.setlistManager.getSongsInSetlist(this.currentSetlistId, allSongs);
         }
 
@@ -790,7 +798,7 @@ class App {
         this.songDetailModal.setSongs(allSongs);
 
         // Set or unset removal handler depending on setlist mode
-        if (this.currentSetlistId) {
+        if (this.currentSetlistId && this.currentSetlistId !== '__public__') {
             this.tableRenderer.onRemoveFromSetlist = (songId) => this.handleRemoveFromSetlist(songId);
         } else {
             this.tableRenderer.onRemoveFromSetlist = null;
@@ -837,6 +845,7 @@ class App {
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
+        const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
 
         // Open filter modal
         filterBtn.addEventListener('click', () => {
@@ -864,7 +873,8 @@ class App {
                 key: filterKeySelect.value || '',
                 withYouTube: filterWithYouTubeCheckbox.checked,
                 withoutYouTube: filterWithoutYouTubeCheckbox.checked,
-                withoutLyrics: filterWithoutLyricsCheckbox.checked
+                withoutLyrics: filterWithoutLyricsCheckbox.checked,
+                noPublic: filterNoPublicCheckbox.checked
             };
             this.loadAndRender();
             filterModal.classList.add('hidden');
@@ -878,12 +888,14 @@ class App {
             filterWithYouTubeCheckbox.checked = false;
             filterWithoutYouTubeCheckbox.checked = false;
             if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
+            if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
             this.currentFilter = {
                 favorites: false,
                 key: '',
                 withYouTube: false,
                 withoutYouTube: false,
-                withoutLyrics: false
+                withoutLyrics: false,
+                noPublic: false
             };
             this.loadAndRender();
             this.updateFilterButtonState();
@@ -951,6 +963,7 @@ class App {
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
+        const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
 
         if (filterFavoritesCheckbox) {
             filterFavoritesCheckbox.checked = this.currentFilter.favorites;
@@ -967,6 +980,9 @@ class App {
         if (filterWithoutLyricsCheckbox) {
             filterWithoutLyricsCheckbox.checked = this.currentFilter.withoutLyrics;
         }
+        if (filterNoPublicCheckbox) {
+            filterNoPublicCheckbox.checked = this.currentFilter.noPublic;
+        }
     }
 
     updateFilterButtonState() {
@@ -978,7 +994,8 @@ class App {
             this.currentFilter.key !== '' ||
             this.currentFilter.withYouTube ||
             this.currentFilter.withoutYouTube ||
-            this.currentFilter.withoutLyrics;
+            this.currentFilter.withoutLyrics ||
+            this.currentFilter.noPublic;
 
         if (hasActiveFilters) {
             filterBtn.classList.add('active');
@@ -1102,6 +1119,15 @@ class App {
         const currentValue = select.value;
         select.innerHTML = '<option value="">All Songs</option>';
 
+        // Add virtual "Public Songs" option if there are any public songs
+        const hasPublicSongs = this.songManager.getAllSongs().some(s => s.isPublic);
+        if (hasPublicSongs) {
+            const publicOption = document.createElement('option');
+            publicOption.value = '__public__';
+            publicOption.textContent = '🌐 Public Songs';
+            select.appendChild(publicOption);
+        }
+
         this.setlistManager.getAllSetlists().forEach(setlist => {
             const option = document.createElement('option');
             option.value = setlist.id;
@@ -1136,8 +1162,8 @@ class App {
         const importControls = document.querySelector('.import-export-controls');
 
 
-        if (this.currentSetlistId) {
-            // Show setlist edit and delete buttons
+        if (this.currentSetlistId && this.currentSetlistId !== '__public__') {
+            // Show setlist edit and delete buttons for real setlists only
             if (editBtn) {
                 editBtn.classList.remove('hidden');
             }
@@ -1926,6 +1952,7 @@ class App {
         const submitBtn = document.getElementById('createSongSubmitBtn');
         const artistInput = document.getElementById('newSongArtistInput');
         const titleInput = document.getElementById('newSongTitleInput');
+        const isPublicCheckbox = document.getElementById('newSongIsPublic');
         const errorMsg = document.getElementById('createSongError');
 
         if (!modal || !submitBtn) return;
@@ -1934,6 +1961,7 @@ class App {
             modal.classList.add('hidden');
             artistInput.value = '';
             titleInput.value = '';
+            if (isPublicCheckbox) isPublicCheckbox.checked = false;
             errorMsg.classList.add('hidden');
         };
 
@@ -1948,6 +1976,7 @@ class App {
         submitBtn.addEventListener('click', async () => {
             const artist = artistInput.value.trim();
             const title = titleInput.value.trim();
+            const isPublic = isPublicCheckbox ? isPublicCheckbox.checked : false;
 
             if (!artist || !title) {
                 errorMsg.classList.remove('hidden');
@@ -1955,7 +1984,7 @@ class App {
             }
 
             errorMsg.classList.add('hidden');
-            await this.addNewSong(artist, title);
+            await this.addNewSong(artist, title, isPublic);
             closeModal();
         });
 
@@ -1984,15 +2013,19 @@ class App {
         }
     }
 
-    async addNewSong(artist, title) {
+    async addNewSong(artist, title, isPublic = false) {
         const newSong = await this.songManager.addSong({
             artist: artist,
             title: title,
             verse: '',
             chorus: '',
             preChorus: '',
-            bridge: ''
+            bridge: '',
+            isPublic: isPublic
         });
+
+        // Show feedback
+        this.showHUD('Song added to library');
 
         // Re-render table to include the new song
         this.loadAndRender();
@@ -2125,7 +2158,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.503):\n`;
+        let msg = `Diagnostics (v2.504):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2350,7 +2383,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.503)');
+        console.log('UG Extractor listener initialized (v2.504)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

@@ -153,8 +153,42 @@
         </header>
 
         <div class="changelog">
-            <!-- v2.459 -->
+            <!-- v2.504 -->
             <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.504</span>
+                    <span class="version-date">March 30, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">New Feature</span>
+                        <span class="change-description">Introduced <strong>Public Song Sharing</strong>. When adding a new song, users can now check "Share as PUBLIC Song 🌐" to publish it to a shared library visible to all users. Public songs are stored in a separate root-level Firebase node and merged into each user's song list automatically.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI</span>
+                        <span class="change-description">Public songs are visually distinguished in the song list with a 🌐 globe icon prefix and a subtle blue row tint. A <strong>PUBLIC</strong> badge also appears in the Song Detail modal header.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Access Control</span>
+                        <span class="change-description">Only the original submitter and the admin (jared@vanhensen.nl) can edit or delete public songs. Non-owners see a 🔒 read-only banner in the Song Detail modal, with all edit controls visually disabled.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Setlist</span>
+                        <span class="change-description">Added a virtual <strong>🌐 Public Songs</strong> entry to the setlist dropdown. Selecting it filters the song list to show only public songs — no separate Firebase setlist required.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Filters</span>
+                        <span class="change-description">Repositioned the "🔒 No Public Songs (Private only)" filter to appear directly below "⭐ Only Favorites" in the filter modal for better discoverability.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Sync</span>
+                        <span class="change-description">Improved background sync logic to always merge public songs alongside private songs, even when serving initial data from local cache. Real-time sync listener also preserves public songs when private data updates.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.459 -->
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.459</span>
                     <span class="version-date">March 28, 2026</span>

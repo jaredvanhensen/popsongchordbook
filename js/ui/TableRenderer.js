@@ -61,6 +61,9 @@ class TableRenderer {
         const row = document.createElement('tr');
         row.dataset.id = song.id;
         row.className = 'song-row';
+        if (song.isPublic) {
+            row.classList.add('public-song');
+        }
 
         // Make entire row clickable for selection (except when editing)
         row.addEventListener('click', (e) => {
@@ -90,7 +93,13 @@ class TableRenderer {
         // Songtitel (clickable for selection)
         const titleCell = document.createElement('td');
         titleCell.className = 'title-cell editable';
-        titleCell.textContent = song.title || '';
+        
+        let titleHtml = song.title || '';
+        if (song.isPublic) {
+            titleHtml = `<span class="public-icon" title="Public Song">🌐</span> ${titleHtml}`;
+        }
+        titleCell.innerHTML = titleHtml;
+        
         titleCell.dataset.field = 'title';
         titleCell.dataset.songId = song.id;
 
