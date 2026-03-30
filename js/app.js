@@ -198,8 +198,8 @@ class App {
         // Setup real-time sync
         this.setupRealtimeSync();
 
-        // Load data from Firebase
-        await this.loadDataFromFirebase();
+        // Load data from Firebase - force fresh after login
+        await this.loadDataFromFirebase(true);
 
         // Initialize pending songs count
         const userId = this.firebaseManager.getCurrentUser().uid;
@@ -277,6 +277,10 @@ class App {
         if (!this.isAuthenticated) {
             // First time authentication - check for migration
             await this.checkAndMigrateData(user);
+            // Clear any stale state before initializing for the new user
+            this.songManager.clearLibrary();
+            this.setlistManager.clearLibrary && this.setlistManager.clearLibrary();
+            
             await this.initializeApp();
             
             // Handle redirect if present in URL
@@ -335,11 +339,12 @@ class App {
         if (userId) {
             this.firebaseManager.removePendingSongsListener(userId);
         }
-        this.updatePendingSongsCount(0);
         this.isAuthenticated = false;
-        // Disable sync
+        // Disable sync and clear library to prevent cross-user data exposure
         this.songManager.disableSync();
+        this.songManager.clearLibrary();
         this.setlistManager.disableSync();
+        this.setlistManager.clearLibrary && this.setlistManager.clearLibrary();
         this.updateProfileLabel(null);
         // Show login modal — but NOT if signup/verification is in progress
         if (this.authModal && !this.authModal.isBusy && !this.authModal.isShowingVerification) {
@@ -554,7 +559,7 @@ class App {
         document.body.style.cursor = 'default';
     }
 
-    async loadDataFromFirebase() {
+    async loadDataFromFirebase(forceFresh = false) {
         console.log('Loading data...');
 
         // Show loading indicator
@@ -562,8 +567,9 @@ class App {
 
         try {
             // Load songs and setlists in parallel
+            // Always force fresh from Firebase if forceFresh is true (e.g. after login)
             const [songs, setlists] = await Promise.all([
-                this.songManager.loadSongs(),
+                this.songManager.loadSongs(forceFresh),
                 this.setlistManager.loadSetlists()
             ]);
 
@@ -595,17 +601,22 @@ class App {
             // 1. Automatic Seeding for Guests AND New Accounts
             const user = this.firebaseManager.getCurrentUser();
             
-            if (allSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
+            // Separate private and public songs
+            const privateSongs = allSongs.filter(s => !s.isPublic);
+            const publicSongs = allSongs.filter(s => s.isPublic);
+
+            if (privateSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
                 if (!user) {
-                    // Guest case: Just seed
-                    console.log("Empty guest library. Seeding defaults...");
-                    await this.songManager.importSongs(DEFAULT_SONGS);
+                    // Guest case: Just seed (keep any public songs found in cache)
+                    console.log("Empty guest private library. Seeding defaults...");
+                    await this.songManager.importSongs(DEFAULT_SONGS, false); // merge=true (replace=false)
                 } else {
                     // Logged in user case: Check cloud flag to see if they've EVER been seeded
                     const seedingDone = await this.firebaseManager.getSeedingStatus(user.uid);
                     if (!seedingDone) {
                         console.log("New account detected. Seeding defaults automatically...");
-                        await this.songManager.importSongs(DEFAULT_SONGS);
+                        // Use importSongs with replace=false to merge with public songs
+                        await this.songManager.importSongs(DEFAULT_SONGS, false); 
                         await this.firebaseManager.setSeedingStatus(user.uid, true);
                     } else {
                         console.log("Account already initialized. Skipping auto-seed.");

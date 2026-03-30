@@ -1,13 +1,15 @@
 // SongManager - Data management met Firebase en localStorage fallback
 class SongManager {
     constructor(firebaseManager = null) {
-        this.storageKey = 'popsongChordBook';
+        this.baseStorageKey = 'popsongChordBook';
+        this.storageKey = this.baseStorageKey; // Default
         this.firebaseManager = firebaseManager;
         this.songs = [];
         this.nextId = 1;
         this.syncEnabled = false;
         this.onSongsChanged = null; // Callback for when songs change externally
         this.publicSongs = []; // Cache for public songs
+        this.currentUserId = null; 
     }
 
     async loadSongs(forceFromFirebase = false) {
@@ -85,7 +87,10 @@ class SongManager {
         }
 
         try {
-            const userId = this.firebaseManager.getCurrentUser().uid;
+            const user = this.firebaseManager.getCurrentUser();
+            if (!user) return;
+            const userId = user.uid;
+            
             // Load both private and public songs in one sync pass
             const [privateSongsRaw, publicSongsRaw] = await Promise.all([
                 this.firebaseManager.loadSongs(userId),
@@ -94,19 +99,28 @@ class SongManager {
             const normalizedPrivate = this.normalizeSongs(privateSongsRaw);
             const normalizedPublic = this.normalizeSongs(publicSongsRaw);
 
-            // SAFETY CHECK: If server has 0 private songs but we have local private songs, 
-            // assume server save failed previously and PROTECT local data.
-            const localPrivate = this.songs.filter(s => !s.isPublic);
-            if (normalizedPrivate.length === 0 && localPrivate.length > 0) {
-                console.warn(`Sync: Server has 0 private songs, Local has ${localPrivate.length}. Protecting local data and re-uploading.`);
-                await this.saveSongs();
-                // Still merge in public songs after upload
-            }
+            // Update user-specific storage key if needed
+            this.updateStorageKey(userId);
 
-            // Merge: private first, public after (no duplicates)
+            // Merge logic
             this.publicSongs = normalizedPublic;
             const publicIds = new Set(normalizedPublic.map(s => String(s.id)));
             const privateOnly = normalizedPrivate.filter(s => !publicIds.has(String(s.id)));
+            
+            // If server has 0 private songs, we should only trust local cache if it is specifically for THIS user.
+            const localPrivate = this.songs.filter(s => !s.isPublic);
+            if (normalizedPrivate.length === 0 && localPrivate.length > 0) {
+                // If currentUserId matches, we can trust local data as 'not yet saved'.
+                // If it doesn't match, this is cache from a PREVIOUS user and must be discarded.
+                if (this.currentUserId === userId) {
+                    console.log(`Sync: New account ${userId} with local data. Re-uploading.`);
+                    await this.saveSongs();
+                } else {
+                    console.warn(`Sync: Cache belongs to different user. Discarding local data.`);
+                    this.songs = [...this.publicSongs];
+                }
+            }
+
             const mergedSongs = [...privateOnly, ...normalizedPublic];
 
             // Only update if data is different (avoid unnecessary updates)
@@ -400,13 +414,153 @@ class SongManager {
         };
     }
 
+    /**
+     * Resets the internal song library. Useful when switching users.
+     */
+    clearLibrary() {
+        this.songs = [];
+        this.publicSongs = [];
+        this.currentUserId = null;
+        this.storageKey = this.baseStorageKey;
+    }
+
+    /**
+     * Enables real-time synchronization for both private and public songs.
+     * @param {string} userId - The current user's UID
+     */
+    enableSync(userId) {
+        if (!this.firebaseManager || this.syncEnabled) return;
+        this.syncEnabled = true;
+        this.currentUserId = userId;
+        this.updateStorageKey(userId);
+
+        // Listener for private songs
+        this.firebaseManager.onSongsChange(userId, (privateSongsRaw) => {
+            const normalizedPrivate = this.normalizeSongs(privateSongsRaw);
+            const publicIds = new Set(this.publicSongs.map(s => String(s.id)));
+            const privateOnly = normalizedPrivate.filter(s => !publicIds.has(String(s.id)));
+            
+            this.songs = [...privateOnly, ...this.publicSongs];
+            this.updateNextId();
+            this.cacheSongs();
+            if (this.onSongsChanged) this.onSongsChanged();
+        });
+
+        // Listener for public songs
+        this.firebaseManager.onPublicSongsChange(userId, (publicSongsRaw) => {
+            const normalizedPublic = this.normalizeSongs(publicSongsRaw);
+            this.publicSongs = normalizedPublic;
+            
+            const publicIds = new Set(normalizedPublic.map(s => String(s.id)));
+            const privateOnly = this.songs.filter(s => !s.isPublic && !publicIds.has(String(s.id)));
+
+            this.songs = [...privateOnly, ...normalizedPublic];
+            this.updateNextId();
+            this.cacheSongs();
+            if (this.onSongsChanged) this.onSongsChanged();
+        });
+    }
+
+    /**
+     * Disables real-time synchronization.
+     */
+    disableSync() {
+        this.syncEnabled = false;
+        this.currentUserId = null;
+    }
+
+    /**
+     * Updates the local storage key to be user-specific.
+     * @param {string} userId - The current user's UID
+     */
+    updateStorageKey(userId) {
+        if (userId) {
+            this.storageKey = `${this.baseStorageKey}_${userId}`;
+        } else {
+            this.storageKey = this.baseStorageKey;
+        }
+    }
+
+    /**
+     * Resets the internal song library. Useful when switching users.
+     */
+    clearLibrary() {
+        this.songs = [];
+        this.publicSongs = [];
+        this.currentUserId = null;
+        this.storageKey = this.baseStorageKey;
+    }
+
+    /**
+     * Updates the local storage key to be user-specific.
+     * @param {string} userId - The current user's UID
+     */
+    updateStorageKey(userId) {
+        if (userId) {
+            this.storageKey = `${this.baseStorageKey}_${userId}`;
+        } else {
+            this.storageKey = this.baseStorageKey;
+        }
+    }
+
+    /**
+     * Enables real-time synchronization for both private and public songs.
+     * @param {string} userId - The current user's UID
+     */
+    enableSync(userId) {
+        if (!this.firebaseManager || this.syncEnabled) return;
+        this.syncEnabled = true;
+        this.currentUserId = userId;
+        this.updateStorageKey(userId);
+
+        // Listener for private songs
+        this.firebaseManager.onSongsChange(userId, (privateSongsRaw) => {
+            const normalizedPrivate = this.normalizeSongs(privateSongsRaw);
+            const publicIds = new Set(this.publicSongs.map(s => String(s.id)));
+            const privateOnly = normalizedPrivate.filter(s => !publicIds.has(String(s.id)));
+            
+            this.songs = [...privateOnly, ...this.publicSongs];
+            this.updateNextId();
+            this.cacheSongs();
+            if (this.onSongsChanged) this.onSongsChanged();
+        });
+
+        // Listener for public songs
+        this.firebaseManager.onPublicSongsChange(userId, (publicSongsRaw) => {
+            const normalizedPublic = this.normalizeSongs(publicSongsRaw);
+            this.publicSongs = normalizedPublic;
+            
+            const publicIds = new Set(normalizedPublic.map(s => String(s.id)));
+            const privateOnly = this.songs.filter(s => !s.isPublic && !publicIds.has(String(s.id)));
+
+            this.songs = [...privateOnly, ...normalizedPublic];
+            this.updateNextId();
+            this.cacheSongs();
+            if (this.onSongsChanged) this.onSongsChanged();
+        });
+    }
+
+    /**
+     * Disables real-time synchronization.
+     */
+    disableSync() {
+        if (this.firebaseManager && this.syncEnabled) {
+            if (this.currentUserId) {
+                this.firebaseManager.removeSongsListener(this.currentUserId);
+            }
+            this.syncEnabled = false;
+            this.currentUserId = null;
+        }
+    }
+
     async updateSong(id, updates) {
         console.log('SongManager: Updating song', id, 'with updates:', updates);
-        const song = this.songs.find(s => s.id === id);
+        const song = this.songs.find(s => String(s.id) === String(id));
         if (song) {
             // Permission check for public songs
             if (song.isPublic && this.firebaseManager) {
-                const userId = this.firebaseManager.getCurrentUser().uid;
+                const user = this.firebaseManager.getCurrentUser();
+                const userId = user ? user.uid : null;
                 const isAdmin = this.firebaseManager.isAdmin(userId);
                 const isSubmitter = song.submittedBy === userId;
 
@@ -417,7 +571,6 @@ class SongManager {
             }
 
             // Safety check: Prevent overwriting legacy lyrics with empty fullLyrics string
-            // unless we explicitly want to clear both.
             if (updates.fullLyrics === '' && (song.lyrics && song.lyrics.trim() !== '')) {
                 console.warn('SongManager: Prevented overwriting legacy lyrics with empty fullLyrics. Using legacy fallback.');
                 delete updates.fullLyrics;
@@ -432,8 +585,6 @@ class SongManager {
                     song.customMapSections = updates.chordData.customMapSections;
                 }
             }
-
-            console.log('SongManager: Song object after update:', song);
             
             // Save to correct location
             if (song.isPublic && this.firebaseManager) {
@@ -453,9 +604,7 @@ class SongManager {
             const song = this.songs[index];
             this.songs.splice(index, 1);
 
-            // If it's a public song, also remove from the shared Firebase node
             if (song.isPublic && this.firebaseManager) {
-                // Only allow deletion by owner or admin
                 if (this.canEditPublicSong(song)) {
                     await this.firebaseManager.deletePublicSong(song.id);
                 } else {
@@ -469,49 +618,6 @@ class SongManager {
         return false;
     }
 
-    // Enable real-time sync from Firebase
-    enableSync(userId) {
-        if (!this.firebaseManager || this.syncEnabled) {
-            return;
-        }
-
-        this.syncEnabled = true;
-        this.firebaseManager.onSongsChange(userId, (songs) => {
-            // Merge incoming private songs with existing public songs
-            const newPrivateSongs = this.normalizeSongs(songs);
-            const existingPublic = this.songs.filter(s => s.isPublic);
-            const publicIds = new Set(existingPublic.map(s => String(s.id)));
-            const privateOnly = newPrivateSongs.filter(s => !publicIds.has(String(s.id)));
-            const mergedSongs = [...privateOnly, ...existingPublic];
-
-            const currentSongsStr = JSON.stringify(this.songs);
-            const newSongsStr = JSON.stringify(mergedSongs);
-
-            if (currentSongsStr !== newSongsStr) {
-                // Update songs without triggering save (to avoid infinite loop)
-                this.songs = mergedSongs;
-                this.updateNextId();
-                // Update cache
-                this.cacheSongs();
-                // Notify listeners
-                if (this.onSongsChanged) {
-                    this.onSongsChanged();
-                }
-            }
-        });
-    }
-
-    // Disable real-time sync
-    disableSync() {
-        if (this.firebaseManager && this.syncEnabled) {
-            const userId = this.firebaseManager.getCurrentUser()?.uid;
-            if (userId) {
-                this.firebaseManager.removeSongsListener(userId);
-            }
-            this.syncEnabled = false;
-        }
-    }
-
     getSongById(id) {
         return this.songs.find(s => String(s.id) === String(id));
     }
@@ -520,7 +626,10 @@ class SongManager {
         if (!song || !song.isPublic) return true;
         if (!this.firebaseManager || !this.firebaseManager.isAuthenticated()) return false;
 
-        const userId = this.firebaseManager.getCurrentUser().uid;
+        const user = this.firebaseManager.getCurrentUser();
+        if (!user) return false;
+        
+        const userId = user.uid;
         const isAdmin = this.firebaseManager.isAdmin(userId);
         const isSubmitter = song.submittedBy === userId;
 

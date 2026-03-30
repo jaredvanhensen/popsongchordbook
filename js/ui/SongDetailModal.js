@@ -32,6 +32,7 @@ class SongDetailModal {
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
         this.addToSetlistBtn = document.getElementById('menuAddToSetlist');
+        this.publishSongBtn = document.getElementById('menuPublishSong');
 
         this.hamburgerBtn = document.getElementById('songDetailHamburgerBtn');
         this.hamburgerMenu = document.getElementById('songDetailHamburgerMenu');
@@ -1092,6 +1093,17 @@ class SongDetailModal {
                 if (this.onAddToSetlist && this.currentSongId) {
                     this.onAddToSetlist(this.currentSongId);
                 }
+            });
+        }
+
+        // Setup Publish Song button
+        if (this.publishSongBtn) {
+            this.publishSongBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.handlePublishSong();
             });
         }
 
@@ -2318,6 +2330,65 @@ class SongDetailModal {
         }
     }
 
+    async handlePublishSong() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        if (song.isPublic) {
+            this.showInfoModal('Already Public', 'This song is already published online.');
+            return;
+        }
+
+        const performPublish = async () => {
+            if (!this.firebaseManager || !this.firebaseManager.isAuthenticated()) {
+                this.showInfoModal('Login Required', 'You must be logged in to publish a song.');
+                return;
+            }
+
+            const user = this.firebaseManager.getCurrentUser();
+            
+            try {
+                // Update song with public flag and submitter
+                await this.songManager.updateSong(this.currentSongId, {
+                    isPublic: true,
+                    submittedBy: user.uid
+                });
+                
+                // Show success feedback
+                if (window.appInstance && window.appInstance.confirmationModal) {
+                     this.showInfoModal('Success!', `"${song.title}" is now published online and visible to everyone.`);
+                } else {
+                    alert(`"${song.title}" is now published online!`);
+                }
+                
+                // Refresh full UI by re-showing the current song (this updates the badge and the hamburger menu)
+                const updatedSong = this.songManager.getSongById(this.currentSongId);
+                await this.show(updatedSong, false, this.isRandomMode, this.isPracticeRandomMode);
+                
+            } catch (error) {
+                console.error('Publish error:', error);
+                this.showInfoModal('Publish Failed', 'An error occurred while uploading. Please check your connection.');
+            }
+        };
+
+        if (window.appInstance && window.appInstance.confirmationModal) {
+            window.appInstance.confirmationModal.show(
+                'Publish Song Online',
+                `Do you want to publish "<strong>${song.title}</strong>" by <strong>${song.artist}</strong> online? It will be shared in the public library and visible to all users.`,
+                performPublish,
+                null,
+                'Publish Online',
+                'Cancel',
+                'primary'
+            );
+        } else {
+            if (confirm(`Do you want to publish "${song.title}" online?`)) {
+                performPublish();
+            }
+        }
+    }
+
     async saveChanges(shouldClose = false) {
         if (!this.currentSongId || !this.hasUnsavedChanges) {
             if (shouldClose) await this.hide();
@@ -2870,6 +2941,17 @@ class SongDetailModal {
                 this.modal.classList.add('public-read-only');
             } else {
                 this.modal.classList.remove('public-read-only');
+            }
+        }
+
+        // Handle 'Publish' button visibility in hamburger menu
+        if (this.publishSongBtn) {
+            // Only show 'Publish' for private songs.
+            // If it's already public, doesn't make sense to 'Publish' again.
+            if (song.isPublic) {
+                this.publishSongBtn.style.display = 'none';
+            } else {
+                this.publishSongBtn.style.display = ''; // Reset to default
             }
         }
 

@@ -644,6 +644,35 @@ class FirebaseManager {
         this.songsListeners.set(userId, listener);
     }
 
+    /**
+     * Set up a real-time listener for the shared public songs.
+     * @param {string} listenerId - A unique key for this listener (e.g. current user uid)
+     * @param {function} callback - Callback function receiving current public songs array
+     */
+    onPublicSongsChange(listenerId, callback) {
+        if (!this.initialized) return;
+
+        // Remove existing listener if any
+        if (this.publicSongsListeners.has(listenerId)) {
+            const oldListener = this.publicSongsListeners.get(listenerId);
+            if (typeof oldListener === 'function') oldListener();
+        }
+
+        const publicRef = this.database.ref('publicSongs');
+        const listener = publicRef.on('value', (snapshot) => {
+            if (!snapshot || !this.initialized || !this.database) return;
+            try {
+                const data = snapshot.val();
+                const publicSongs = data ? Object.values(data) : [];
+                callback(publicSongs);
+            } catch (e) {
+                console.error('Error in public songs listener:', e);
+            }
+        });
+
+        this.publicSongsListeners.set(listenerId, listener);
+    }
+
     onSetlistsChange(userId, callback) {
         if (!this.initialized || !userId) {
             throw new Error('Firebase not initialized or user not authenticated');
