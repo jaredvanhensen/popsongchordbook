@@ -1615,7 +1615,7 @@ table.simple-view td.status-cell {
 
 table.simple-view th.artist-cell,
 table.simple-view td.artist-cell {
-    width: 40% !important;
+    width: 35% !important;
 }
 
 table.simple-view th.title-cell,
@@ -1680,13 +1680,13 @@ th.sortable {
 }
 
 .artist-cell {
-    width: 28.5% !important; /* Balanced proportion */
-    min-width: 170px !important;
+    width: 23.5% !important; /* Reduced to make room for Title */
+    min-width: 130px !important;
 }
 
 .title-cell {
-    width: 25.5% !important; /* Restored some width */
-    min-width: 150px !important;
+    width: 30.5% !important; /* 5 characters wider than before */
+    min-width: 190px !important;
 }
 
 .status-cell .public-icon,
