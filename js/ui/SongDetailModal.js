@@ -2442,7 +2442,8 @@ class SongDetailModal {
             this.hasUnsavedChanges = false;
             
             // Refresh modal UI to show private status (e.g. badge update)
-            await this.show(newSong.id);
+            // CRITICAL: Pass the full song object, not just the ID, because show() expects an object
+            await this.show(newSong, false, this.isRandomMode, this.isPracticeRandomMode);
             
             this.showInfoModal('Private Copy Created', 'This is a public song. A private copy has been created in your library for your edits.');
             
@@ -2557,6 +2558,8 @@ class SongDetailModal {
         if (song && song.isPublic && !canEdit) {
             console.log('SongDetailModal: Detected public song edit on save - creating private copy...');
             await this.forkCurrentSong(updates);
+            if (shouldClose) await this.hide();
+            return; // Exit as forkCurrentSong handles its own workflow
         } else {
             await this.songManager.updateSong(this.currentSongId, updates);
         }
