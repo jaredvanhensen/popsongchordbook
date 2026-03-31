@@ -1654,11 +1654,35 @@ th.sortable {
 
 .status-column,
 .status-cell {
-    width: 45px !important;
-    min-width: 45px !important;
+    width: 50px !important;
+    min-width: 50px !important;
     text-align: center;
     padding: 0 4px !important;
     font-size: 1.25em;
+    vertical-align: middle;
+}
+
+.artist-cell {
+    width: 32% !important; /* Made wider */
+    min-width: 180px !important;
+}
+
+.title-cell {
+    width: 22% !important; /* Slightly narrower to compensate */
+    min-width: 140px !important;
+}
+
+.status-cell .public-icon,
+.status-cell .private-icon {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 0.9em;
     vertical-align: middle;
 }
 
@@ -1668,8 +1692,7 @@ th.sortable {
 
 .status-cell .private-icon {
     color: #94a3b8; /* Grey for private */
-    opacity: 0.5;
-    font-size: 0.9em;
+    opacity: 0.7;
 }
 
 th.sortable:hover {
@@ -1735,20 +1758,6 @@ tbody tr.public-song:hover {
 tbody tr.public-song.selected {
     background: rgba(99, 102, 241, 0.15) !important;
     border-left: 4px solid #3b82f6 !important;
-}
-
-.public-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #eff6ff;
-    color: #3b82f6;
-    border-radius: 4px;
-    padding: 2px 4px;
-    font-size: 0.85em;
-    margin-right: 6px;
-    border: 1px solid #dbeafe;
-    vertical-align: middle;
 }
 
 .public-tag {

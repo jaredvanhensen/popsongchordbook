@@ -98,6 +98,7 @@ class TableRenderer {
 
         // Artiest
         const artistCell = this.createEditableCell(song.artist, 'artist', song.id);
+        artistCell.classList.add('artist-cell');
         row.appendChild(artistCell);
 
         // Songtitel (clickable for selection)
