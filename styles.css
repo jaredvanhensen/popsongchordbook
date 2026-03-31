@@ -1563,9 +1563,9 @@ table.simple-view {
     table-layout: fixed;
 }
 
-/* Hide columns in simple view: Favorite (3), CTL (4), MAP (5), Verse (6), Chorus (7), Pre-Chorus (8), Bridge (9), Acties (10) */
-table.simple-view thead tr th:nth-child(n+3),
-table.simple-view tbody tr td:nth-child(n+3) {
+/* Hide columns in simple view: Favorite (4), CTL (5), MAP (6), Added (7), Verse (8), Chorus (9), Pre-Chorus (10), Bridge (11), Actions (12) */
+table.simple-view thead tr th:nth-child(n+4),
+table.simple-view tbody tr td:nth-child(n+4) {
     display: none !important;
 }
 
@@ -1650,6 +1650,26 @@ th.sortable {
     position: relative;
     padding-right: 35px;
     transition: background-color 0.2s ease;
+}
+
+.status-column,
+.status-cell {
+    width: 45px !important;
+    min-width: 45px !important;
+    text-align: center;
+    padding: 0 4px !important;
+    font-size: 1.25em;
+    vertical-align: middle;
+}
+
+.status-cell .public-icon {
+    color: #3b82f6; /* Blue for public */
+}
+
+.status-cell .private-icon {
+    color: #94a3b8; /* Grey for private */
+    opacity: 0.5;
+    font-size: 0.9em;
 }
 
 th.sortable:hover {

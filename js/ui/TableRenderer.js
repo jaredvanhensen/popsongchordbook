@@ -85,6 +85,16 @@ class TableRenderer {
             }
             this.selectRow(song.id);
         });
+        
+        // Status (Public/Private)
+        const statusCell = document.createElement('td');
+        statusCell.className = 'status-cell';
+        if (song.isPublic) {
+            statusCell.innerHTML = '<span class="public-icon" title="Public Song">🌐</span>';
+        } else {
+            statusCell.innerHTML = '<span class="private-icon" title="Private Song (Library Only)">🔒</span>';
+        }
+        row.appendChild(statusCell);
 
         // Artiest
         const artistCell = this.createEditableCell(song.artist, 'artist', song.id);
@@ -93,16 +103,9 @@ class TableRenderer {
         // Songtitel (clickable for selection)
         const titleCell = document.createElement('td');
         titleCell.className = 'title-cell editable';
-        
-        let titleHtml = song.title || '';
-        if (song.isPublic) {
-            titleHtml = `<span class="public-icon" title="Public Song">🌐</span> ${titleHtml}`;
-        }
-        titleCell.innerHTML = titleHtml;
-        
+        titleCell.textContent = song.title || '';
         titleCell.dataset.field = 'title';
         titleCell.dataset.songId = song.id;
-
         row.appendChild(titleCell);
 
         // Favorite button
@@ -302,12 +305,15 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['artist', 'title', 'favorite', 'ctl', 'songmap', 'dateAdded', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['status', 'artist', 'title', 'favorite', 'ctl', 'songmap', 'dateAdded', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
             // Skip actions cell (last one)
             if (index >= cells.length - 1) return;
+
+            // Skip status cell
+            if (cell.classList.contains('status-cell')) return;
 
             // Skip favorite cell (it's a button, not editable)
             if (cell.classList.contains('favorite-cell')) return;
@@ -317,8 +323,6 @@ class TableRenderer {
 
             // Skip Song Map cell
             if (cell.classList.contains('songmap-cell')) return;
-
-
 
             // Skip Date Added cell
             if (cell.classList.contains('date-added-cell')) return;

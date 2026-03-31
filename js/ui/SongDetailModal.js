@@ -2987,20 +2987,11 @@ class SongDetailModal {
             submittedBy: song.submittedBy || ''
         };
 
-        // Add Public globe if necessary, and enforce read-only mode for non-owners
+        // Enforce read-only mode for non-owners
         const canEdit = this.songManager.canEditPublicSong(song);
         if (this.titleElement) {
             const existingBadge = this.titleElement.querySelector('.public-badge-detail');
             if (existingBadge) existingBadge.remove();
-            
-            if (song.isPublic) {
-                const badge = document.createElement('span');
-                badge.className = 'public-badge-detail';
-                badge.textContent = '🌐';
-                badge.title = 'Public song';
-                badge.style.cssText = "font-size: 0.8em; vertical-align: middle; margin-right: 8px;";
-                this.titleElement.prepend(badge);
-            }
         }
 
         // Apply read-only mode for public songs the user cannot edit
