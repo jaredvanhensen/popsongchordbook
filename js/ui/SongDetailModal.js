@@ -856,13 +856,26 @@ class SongDetailModal {
                     console.log('SongDetailModal: Received saveChordData from Timeline', chordData);
 
                     try {
+                        const song = this.songManager.getSongById(this.currentSongId);
                         const updates = { chordData: chordData };
+                        
                         if (chordData.tempo) {
                             updates.tempo = chordData.tempo;
                             if (this.bpmDisplay) {
                                 this.bpmDisplay.textContent = Math.round(chordData.tempo);
                             }
                         }
+
+                        // FORK CHECK: If this is a public song we don't own, fork it first
+                        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                            console.log('SongDetailModal: Forking public song on timeline save...');
+                            const newSong = await this.forkCurrentSong(updates);
+                            if (newSong) {
+                                console.log('SongDetailModal: Successfully forked song during timeline save:', newSong.id);
+                            }
+                            return;
+                        }
+
                         await this.songManager.updateSong(this.currentSongId, updates);
                         console.log('Chord data saved to database');
                     } catch (e) {
@@ -876,11 +889,22 @@ class SongDetailModal {
                     console.log('SongDetailModal: Received updateLyricSync from Timeline', offset);
 
                     try {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        const updates = { lyricOffset: offset };
+
                         if (this.lyricOffsetInput) {
                             this.lyricOffsetInput.value = offset.toFixed(2);
                         }
+
+                        // FORK CHECK: If this is a public song we don't own, fork it first
+                        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                            console.log('SongDetailModal: Forking public song on lyric sync update...');
+                            await this.forkCurrentSong(updates);
+                            return;
+                        }
+
                         // Update in memory and database
-                        await this.songManager.updateSong(this.currentSongId, { lyricOffset: offset });
+                        await this.songManager.updateSong(this.currentSongId, updates);
                         console.log('LyricSync offset updated in database:', offset);
                     } catch (e) {
                         console.error('Error updating lyric sync from timeline:', e);
@@ -893,6 +917,7 @@ class SongDetailModal {
                     console.log('SongDetailModal: Received updateChordBlock from Timeline', sectionType, text);
 
                     try {
+                        const song = this.songManager.getSongById(this.currentSongId);
                         const updates = {};
                         if (sectionType === 'verse') updates.verse = text;
                         else if (sectionType === 'chorus') updates.chorus = text;
@@ -908,22 +933,23 @@ class SongDetailModal {
                                 // Trigger input event to let other logic know it changed
                                 section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
                                 // Re-render the buttons
-                                if (!section.editInput.classList.contains('hidden')) {
-                                    // if we are editing, we don't re-render yet? 
-                                    // Actually, if we are in view mode, we SHOULD re-render.
-                                } else {
+                                if (section.editInput.classList.contains('hidden')) {
                                     this.renderChordBlock(sectionKey, text);
                                 }
+                            }
+
+                            // FORK CHECK: If this is a public song we don't own, fork it first
+                            if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                                console.log('SongDetailModal: Forking public song on block update...');
+                                await this.forkCurrentSong(updates);
+                                return;
                             }
 
                             // Save to database
                             await this.songManager.updateSong(this.currentSongId, updates);
                             console.log(`Chord block ${sectionType} updated and saved.`);
 
-                            // Optionally refresh the timeline toolbar itself if needed (though it often refreshes itself by requesting data)
-                            // But usually, we send back a confirmation or trigger a re-render.
-                            // The SongDetailModal.saveChanges logic already sends updateSuggestedChords.
-                            // Let's manually trigger a toolbar refresh in the iframe to be safe.
+                            // Optionally refresh the timeline toolbar itself if needed
                             this.sendDataToTimeline();
                         }
                     } catch (e) {
@@ -2390,20 +2416,53 @@ class SongDetailModal {
         }
     }
 
+    async forkCurrentSong(updates = {}) {
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return null;
+
+        const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+        const uid = user ? user.uid : 'guest';
+
+        // Prepare forked song data
+        const forkData = {
+            ...song,
+            ...updates,
+            id: null, // Let SongManager generate a new one
+            isPublic: false,
+            favorite: false,
+            submittedBy: uid,
+            dateAdded: new Date().toISOString()
+        };
+
+        // Add as new song
+        const newSong = await this.songManager.addSong(forkData);
+        if (newSong) {
+            // Update modal state to point to the new song
+            this.currentSongId = newSong.id;
+            this.hasUnsavedChanges = false;
+            
+            // Refresh modal UI to show private status (e.g. badge update)
+            await this.show(newSong.id);
+            
+            this.showInfoModal('Private Copy Created', 'This is a public song. A private copy has been created in your library for your edits.');
+            
+            // Notify global app instance to refresh the main table
+            if (this.onUpdate) {
+                this.onUpdate();
+            }
+        }
+        return newSong;
+    }
+
     async saveChanges(shouldClose = false) {
-        if (!this.currentSongId || !this.hasUnsavedChanges) {
+        if (!this.currentSongId || (!this.hasUnsavedChanges && !shouldClose)) {
             if (shouldClose) await this.hide();
             return;
         }
 
         // Permission check: cannot save public songs if user is not owner or admin
         const song = this.songManager.getSongById(this.currentSongId);
-        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
-            this.showInfoModal('Permission Denied', 'You cannot edit this public song. Only the original submitter and the admin can make changes.');
-            this.hasUnsavedChanges = false;
-            if (this.saveBtn) this.saveBtn.classList.add('hidden');
-            return;
-        }
+        const canEdit = this.songManager.canEditPublicSong(song);
 
         const artist = this.artistElement ? this.artistElement.textContent.trim() : '';
         const originalTitle = this.titleElement ? (this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '')).trim() : '';
@@ -2494,8 +2553,13 @@ class SongDetailModal {
             updates.capo = parseInt(this.capoValue) || 0;
         }
 
-        // Update song
-        await this.songManager.updateSong(this.currentSongId, updates);
+        // Update song or create fork
+        if (song && song.isPublic && !canEdit) {
+            console.log('SongDetailModal: Detected public song edit on save - creating private copy...');
+            await this.forkCurrentSong(updates);
+        } else {
+            await this.songManager.updateSong(this.currentSongId, updates);
+        }
 
         // Update originalSongData to current saved values so they become the new baseline
         const savedSong = this.songManager.getSongById(this.currentSongId);
@@ -2801,7 +2865,9 @@ class SongDetailModal {
             lyricOffset: song.lyricOffset || 0, // New Offset
             lastPosition: lastPosition, // Restore last playback position
             instrumentMode: this.instrumentMode,
-            key: this.getSongKey() || 'C'
+            key: this.getSongKey() || 'C',
+            isPublic: !!song.isPublic,
+            canEdit: this.songManager.canEditPublicSong(song)
         }, '*');
     }
 
@@ -2921,7 +2987,7 @@ class SongDetailModal {
             submittedBy: song.submittedBy || ''
         };
 
-        // Add Public badge if necessary, and enforce read-only mode for non-owners
+        // Add Public globe if necessary, and enforce read-only mode for non-owners
         const canEdit = this.songManager.canEditPublicSong(song);
         if (this.titleElement) {
             const existingBadge = this.titleElement.querySelector('.public-badge-detail');
@@ -2930,9 +2996,10 @@ class SongDetailModal {
             if (song.isPublic) {
                 const badge = document.createElement('span');
                 badge.className = 'public-badge-detail';
-                badge.textContent = 'PUBLIC';
-                badge.style.cssText = "font-size: 0.5em; vertical-align: middle; background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: bold;";
-                this.titleElement.appendChild(badge);
+                badge.textContent = '🌐';
+                badge.title = 'Public song';
+                badge.style.cssText = "font-size: 0.8em; vertical-align: middle; margin-right: 8px;";
+                this.titleElement.prepend(badge);
             }
         }
 

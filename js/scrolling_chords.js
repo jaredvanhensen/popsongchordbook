@@ -92,6 +92,8 @@ let octaveCycleBtn = null;
 let currentLyricOffset = 0; // Track current global lyrics offset
 let originalLyricOffset = 0; // For lyric offset change detection
 const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
+let isPublicMode = false;
+let canEditPublic = false;
 
 // Dragging state
 let isDragging = false;
@@ -238,6 +240,8 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
+        if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
+        if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
         loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode, msg.key);
         // Restore last playback position if provided
         if (msg.lastPosition && msg.lastPosition > 0) {
@@ -2368,8 +2372,11 @@ function saveToDatabase() {
         data: exportData
     }, '*');
 
-    // Visual feedback
-    showSaveToast();
+    // Visual feedback - Only show local toast if we are NOT forking.
+    // If forking, parent will show the "Private Copy Created" modal.
+    if (!isPublicMode || canEditPublic) {
+        showSaveToast();
+    }
 
     // Update original state IMMEDIATELY so checkForChanges reflects saved state
     originalChordsJson = JSON.stringify(chords);

@@ -151,8 +151,65 @@
             <h1>Full Changelog</h1>
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
-
         <div class="changelog">
+            <!-- v2.510 -->
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.510</span>
+                    <span class="version-date">March 31, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">UI Fix</span>
+                        <span class="change-description">Enabled the <strong>Save</strong> button in read-only public song mode to allow one-click forking into a private copy.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UX Refinement</span>
+                        <span class="change-description">Enhanced notification layering to ensure the <strong>"Private Copy Created"</strong> alert always appears on top of the chord timeline.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Timeline Fix</span>
+                        <span class="change-description">Suppressed the local "Saved Successfully" toast in the timeline when forking a public song, ensuring clear feedback via the parent notification instead.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.509 -->
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.509</span>
+                    <span class="version-date">March 31, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">UI Refinement</span>
+                        <span class="change-description">Replaced the text-based <strong>PUBLIC</strong> badge in the modal header with a more subtle <strong>globe icon (🌐)</strong> to prevent layout overflow on smaller screens.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI Fix</span>
+                        <span class="change-description">Removed the vertical "Read-only" side banner that could overlap content or appear outside the screen in specific orientations. The public status is now clearly indicated by the globe icon in the title.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.508 -->
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.508</span>
+                    <span class="version-date">March 31, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">New Feature</span>
+                        <span class="change-description">Introduced <strong>Save as Private Copy</strong> for public songs. If you attempt to edit a public song that you don't own, the app now automatically forks it into your private library. This ensures your edits are preserved without affecting the original public version.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI</span>
+                        <span class="change-description">All saving mechanisms (Song Detail edits and Chord Timeline dragging) now trigger a friendly notification: <em>"This is a public song. A private copy has been created for your edits."</em></span>
+                    </li>
+                </ul>
+            </div>
+
             <!-- v2.507 -->
             <div class="version-card current">
                 <div class="version-header">

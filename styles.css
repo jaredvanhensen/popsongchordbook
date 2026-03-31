@@ -1762,25 +1762,12 @@ tbody tr.public-song.selected {
 #songDetailModal.public-read-only .bar-divider-btn,
 #songDetailModal.public-read-only .chord-editor-btn,
 #songDetailModal.public-read-only .chord-section-edit-btn,
-#songDetailModal.public-read-only #songDetailSaveBtn,
 #songDetailModal.public-read-only #menuDeleteSong {
     pointer-events: none;
     opacity: 0.3;
 }
 
-/* Info banner shown above header when in read-only mode */
-#songDetailModal.public-read-only::before {
-    content: '🔒 Read-only — You can view but not edit this public song';
-    display: block;
-    background: #eff6ff;
-    color: #2563eb;
-    border-bottom: 1px solid #bfdbfe;
-    padding: 6px 16px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 0.2px;
-}
+/* Read-only mode for public songs (non-owner/non-admin viewers) */
 
 
 td {
@@ -2847,7 +2834,7 @@ td:has(.row-edit-input.input-focused) {
 }
 
 #infoModal {
-    z-index: 6000;
+    z-index: 12000;
 }
 
 /* Profile modal container - ensure it stays within viewport */
