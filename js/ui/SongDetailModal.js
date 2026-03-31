@@ -34,6 +34,7 @@ class SongDetailModal {
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
         this.addToSetlistBtn = document.getElementById('menuAddToSetlist');
         this.publishSongBtn = document.getElementById('menuPublishSong');
+        this.statusIcon = document.getElementById('songDetailStatusIcon');
 
         this.hamburgerBtn = document.getElementById('songDetailHamburgerBtn');
         this.hamburgerMenu = document.getElementById('songDetailHamburgerMenu');
@@ -2995,6 +2996,15 @@ class SongDetailModal {
         if (this.titleElement) {
             const existingBadge = this.titleElement.querySelector('.public-badge-detail');
             if (existingBadge) existingBadge.remove();
+        }
+
+        // Update Status Icon (🔒 for Public, Hidden for Private)
+        if (this.statusIcon) {
+            if (song.isPublic) {
+                this.statusIcon.classList.remove('hidden');
+            } else {
+                this.statusIcon.classList.add('hidden');
+            }
         }
 
         // Apply read-only mode for public songs the user cannot edit

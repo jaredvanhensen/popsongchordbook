@@ -92,7 +92,7 @@ class TableRenderer {
         if (song.isPublic) {
             statusCell.innerHTML = '<span class="public-icon" title="Public Song">🌍</span>';
         } else {
-            statusCell.innerHTML = '<span class="private-icon" title="Private Song (Library Only)">🔒</span>';
+            statusCell.innerHTML = '<span class="private-icon" title="Private Song (Editable)">✏️</span>';
         }
         row.appendChild(statusCell);
 

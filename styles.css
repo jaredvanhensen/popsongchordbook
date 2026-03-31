@@ -11029,4 +11029,44 @@ body.is-mobile-view .chord-trainer-btn {
     display: none !important;  /* Hides desktop trainer in detail modal */
 } 
 /* Add back explicitly for detailed modal if needed */
-body.is-mobile-view .song-detail-modal-chord-trainer { display: flex !important; }
+.song-detail-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: auto;
+}
+
+/* Status Icon for Song Detail Modal (🔒 for Public) */
+.song-detail-status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none;
+    -webkit-user-drag: none;
+    line-height: 1;
+}
+
+.song-detail-status-icon.hidden {
+    display: none !important;
+}
+
+@media (max-width: 1080px) {
+    .song-detail-title-section {
+        align-items: center !important;
+    }
+
+    .song-detail-title-row {
+        justify-content: center;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .song-detail-status-icon {
+        font-size: 16px !important;
+    }
+}
+
