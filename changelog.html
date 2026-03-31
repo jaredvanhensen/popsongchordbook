@@ -153,6 +153,36 @@
         </header>
 
         <div class="changelog">
+            <!-- v2.507 -->
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.507</span>
+                    <span class="version-date">March 31, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Critical Fix</span>
+                        <span class="change-description">Fixed a critical bug where <strong>public songs were never loading</strong> due to <code>this.publicSongsListeners</code> not being initialized in the FirebaseManager constructor. Calling <code>.has()</code> on <code>undefined</code> caused a silent <code>TypeError</code> that crashed the entire <code>enableSync()</code> call, meaning the real-time public songs listener was never registered.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Critical Fix</span>
+                        <span class="change-description">Removed a duplicate <code>onPublicSongsChange</code> method from FirebaseManager that was causing ambiguity. The obsolete single-argument version conflicted with the correct two-argument implementation.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Bug Fix</span>
+                        <span class="change-description">Fixed a race condition where a song would <strong>visually disappear</strong> from the list immediately after being published. The private songs real-time listener fired before the public songs listener updated, creating a brief window where the song appeared in neither list. Fixed by immediately updating the local <code>publicSongs</code> cache after saving to Firebase.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Fix</span>
+                        <span class="change-description">Added <code>publicSongsListeners</code> cleanup to the <code>signOut()</code> method to prevent stale listeners from running after a user logs out.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Fix</span>
+                        <span class="change-description">Fixed missing <code>this.firebaseManager</code> assignment in the <code>SongDetailModal</code> constructor. The property was accessed in <code>handlePublishSong()</code> but never stored on the class instance, causing the "Publish This Song Online" button to fail with an error even when logged in.</span>
+                    </li>
+                </ul>
+            </div>
+
             <!-- v2.504 -->
             <div class="version-card current">
                 <div class="version-header">

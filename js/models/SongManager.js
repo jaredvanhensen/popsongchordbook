@@ -589,6 +589,14 @@ class SongManager {
             // Save to correct location
             if (song.isPublic && this.firebaseManager) {
                 await this.firebaseManager.savePublicSong(song);
+                
+                // Immediately update local publicSongs cache so that the private songs
+                // listener (onSongsChange) doesn't momentarily lose this song during
+                // the race between the two real-time listeners.
+                const alreadyInPublic = this.publicSongs.some(s => String(s.id) === String(song.id));
+                if (!alreadyInPublic) {
+                    this.publicSongs.push(song);
+                }
             }
             
             await this.saveSongs();

@@ -8,6 +8,7 @@ class FirebaseManager {
         this.songsListeners = new Map();
         this.setlistsListeners = new Map();
         this.pendingSongsListeners = new Map();
+        this.publicSongsListeners = new Map();
         this.initialized = false;
     }
 
@@ -250,6 +251,19 @@ class FirebaseManager {
                 }
             });
             this.pendingSongsListeners.clear();
+
+            this.publicSongsListeners.forEach((listener, listenerId) => {
+                try {
+                    if (typeof listener === 'function') {
+                        listener();
+                    } else if (listener && typeof listener.off === 'function') {
+                        listener.off();
+                    }
+                } catch (error) {
+                    console.error('Error removing public songs listener:', error);
+                }
+            });
+            this.publicSongsListeners.clear();
 
             // Small delay to ensure listeners are fully removed
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -555,16 +569,6 @@ class FirebaseManager {
         return user.email === 'jared@vanhensen.nl';
     }
 
-    onPublicSongsChange(callback) {
-        if (!this.initialized) return;
-        
-        const publicRef = this.database.ref('publicSongs');
-        return publicRef.on('value', (snapshot) => {
-            const publicData = snapshot.val();
-            const songs = publicData ? Object.values(publicData).map(s => ({ ...s, isPublic: true })) : [];
-            callback(songs);
-        });
-    }
 
     async saveSetlists(userId, setlists) {
         if (!this.initialized || !userId) {

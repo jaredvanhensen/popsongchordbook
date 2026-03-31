@@ -13,6 +13,7 @@ class SongDetailModal {
         this.isPracticeChecker = isPracticeChecker;
         this.onPracticeRandomNext = onPracticeRandomNext;
         this.onPracticeRandomPrev = onPracticeRandomPrev;
+        this.firebaseManager = songManager.firebaseManager;
         this.currentSongId = null;
         this.allSongs = [];
         this.modal = document.getElementById('songDetailModal');
@@ -2946,9 +2947,9 @@ class SongDetailModal {
 
         // Handle 'Publish' button visibility in hamburger menu
         if (this.publishSongBtn) {
-            // Only show 'Publish' for private songs.
-            // If it's already public, doesn't make sense to 'Publish' again.
-            if (song.isPublic) {
+            // Only show 'Publish' for private songs that the user has permission to edit.
+            // (For private songs, canEdit is generally true unless it's someone else's song shared via local cache)
+            if (song.isPublic || !canEdit) {
                 this.publishSongBtn.style.display = 'none';
             } else {
                 this.publishSongBtn.style.display = ''; // Reset to default
