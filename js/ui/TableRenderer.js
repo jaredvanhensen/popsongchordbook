@@ -90,7 +90,7 @@ class TableRenderer {
         const statusCell = document.createElement('td');
         statusCell.className = 'status-cell';
         if (song.isPublic) {
-            statusCell.innerHTML = '<span class="public-icon" title="Public Song">🌐</span>';
+            statusCell.innerHTML = '<span class="public-icon" title="Public Song">🌍</span>';
         } else {
             statusCell.innerHTML = '<span class="private-icon" title="Private Song (Library Only)">🔒</span>';
         }

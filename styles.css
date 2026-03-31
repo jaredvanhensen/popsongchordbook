@@ -1663,13 +1663,13 @@ th.sortable {
 }
 
 .artist-cell {
-    width: 32% !important; /* Made wider */
-    min-width: 180px !important;
+    width: 28.5% !important; /* Balanced proportion */
+    min-width: 170px !important;
 }
 
 .title-cell {
-    width: 22% !important; /* Slightly narrower to compensate */
-    min-width: 140px !important;
+    width: 25.5% !important; /* Restored some width */
+    min-width: 150px !important;
 }
 
 .status-cell .public-icon,
