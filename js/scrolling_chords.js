@@ -94,6 +94,7 @@ let originalLyricOffset = 0; // For lyric offset change detection
 const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
 let isPublicMode = false;
 let canEditPublic = false;
+let currentCapoValue = 0; // The Capo value from the parent modal (Guitar only)
 
 // Dragging state
 let isDragging = false;
@@ -176,14 +177,25 @@ const MAX_UNDO = 50;
 let dragUndoSnapshot = null; // Temporary hold for pre-drag state
 let currentInstrumentMode = 'piano';
 
-function simplifyDisplayName(chordName) {
+function simplifyDisplayName(chordName, isForAudio = false) {
     if (!chordName) return chordName;
-    if (currentInstrumentMode === 'guitar') {
-        return chordName.split('/')[0].replace(/[23]$/, '');
-    } else if (currentInstrumentMode === 'ukulele') {
-        return chordName.split('/')[0].replace(/[237]/g, '');
+    
+    let resultName = chordName;
+
+    // Apply CAPO for visual display ONLY
+    // We transpose AWAY from original key (-capoValue) for display
+    if (!isForAudio && currentInstrumentMode === 'guitar' && currentCapoValue > 0) {
+        if (chordParser) {
+            resultName = chordParser.transpose(resultName, -currentCapoValue);
+        }
     }
-    return chordName;
+
+    if (currentInstrumentMode === 'guitar') {
+        return resultName.split('/')[0].replace(/[23]$/, '');
+    } else if (currentInstrumentMode === 'ukulele') {
+        return resultName.split('/')[0].replace(/[237]/g, '');
+    }
+    return resultName;
 }
 
 function saveUndoState() {
@@ -242,7 +254,8 @@ window.addEventListener('message', (event) => {
         console.log('Scrolling Chords received data:', msg);
         if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
         if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
-        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode, msg.key);
+        if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode, msg.key, currentCapoValue);
         // Restore last playback position if provided
         if (msg.lastPosition && msg.lastPosition > 0) {
             pauseTime = msg.lastPosition;
@@ -1753,7 +1766,7 @@ function renderSuggestedChords(groups) {
             btn.textContent = simplifyDisplayName(chordName);
             btn.draggable = false;
             btn.style.touchAction = 'none';
-            btn.onpointerdown = () => { initAudio(); triggerChordAudio(simplifyDisplayName(chordName), 2.0, true); };
+            btn.onpointerdown = () => { initAudio(); triggerChordAudio(simplifyDisplayName(chordName, true), 2.0, true); };
             btn.onclick = () => {
                 if (window.justFinishedVirtualDrag) return;
                 if (enableTimingCapture) recordChord(chordName);
@@ -1761,7 +1774,7 @@ function renderSuggestedChords(groups) {
             btn.addEventListener('pointerdown', (e) => {
                 btn.setPointerCapture(e.pointerId);
                 potentialVirtualDrag = true;
-                virtualDraggedChord = simplifyDisplayName(chordName);
+                virtualDraggedChord = chordName; // Use original name for storage/undo consistency
                 virtualDragStartX = e.clientX;
                 virtualDragStartY = e.clientY;
             });
@@ -1948,11 +1961,19 @@ function updateHUDPosition() {
     document.documentElement.style.setProperty('--hud-top-offset', `${topPadding}px`);
 }
 
-function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano', key = 'C') {
+function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano', key = 'C', capo = 0) {
     if (key) currentSongKey = key;
     if (inputInstrumentMode) currentInstrumentMode = inputInstrumentMode;
+    currentCapoValue = capo || 0;
+
+    // Ensure chord parser is ready for simplifyDisplayName
+    if (typeof ChordParser !== 'undefined' && !chordParser) {
+        chordParser = new ChordParser();
+    }
+    
     console.log('loadData called for:', songTitle, {
         hasData: !!data,
+        capo: currentCapoValue,
         receivedFullLyrics: inputFullLyrics ? inputFullLyrics.substring(0, 30) + '...' : 'none',
         receivedLyrics: inputLyrics ? inputLyrics.substring(0, 30) + '...' : 'none',
         hasTimestamps: LyricsParser.hasTimestamps(inputFullLyrics || inputLyrics)
@@ -2920,7 +2941,7 @@ function updateLoop() {
 
     if (audioChordIndex > lastChordPlayed) {
         if (isPlaying && audioEnabled && playbackTime >= -0.1) {
-            triggerChordAudio(simplifyDisplayName(chords[audioChordIndex].name));
+            triggerChordAudio(simplifyDisplayName(chords[audioChordIndex].name, true));
         }
         lastChordPlayed = audioChordIndex;
     } else if (audioChordIndex < lastChordPlayed) {

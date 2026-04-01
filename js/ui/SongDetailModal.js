@@ -2937,6 +2937,7 @@ class SongDetailModal {
             lastPosition: lastPosition, // Restore last playback position
             instrumentMode: this.instrumentMode,
             key: this.getSongKey() || 'C',
+            capo: this.capoValue || 0,
             isPublic: !!song.isPublic,
             canEdit: this.songManager.canEditPublicSong(song)
         }, '*');
