@@ -1634,7 +1634,8 @@ class ChordTrainer {
     async loadSongForPractice() {
         try {
             console.log('loadSongForPractice starting for ID:', this.songId);
-            await this.songManager.loadSongs();
+            // Force load from Firebase (true) to bypass guest-seeded localStorage cache on new laptops
+            await this.songManager.loadSongs(true);
             
             const songCount = this.songManager.songs.length;
             console.log('loadSongForPractice - Total songs loaded:', songCount);
