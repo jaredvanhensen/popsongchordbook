@@ -54,7 +54,31 @@ class ChordTrainer {
             console.log('ChordTrainer: Starting song practice mode for ID:', sid);
             this.isSongPracticeMode = true;
             this.songId = sid;
-            this.songManager = new SongManager();
+            
+            // Critical Fix: Pass the global firebaseManager to SongManager so it can load from DB
+            this.songManager = new SongManager(window.firebaseManager);
+            
+            // Ensure Firebase is initialized before loading songs
+            if (window.firebaseManager) {
+                await window.firebaseManager.initialize();
+                
+                // If not authenticated, we might need to wait for Firebase to restore session
+                if (!window.firebaseManager.isAuthenticated()) {
+                    console.log('ChordTrainer: Waiting for auth to resolve before loading song...');
+                    await new Promise(resolve => {
+                        const unspent = window.firebaseManager.onAuthStateChanged(user => {
+                            if (user) {
+                                unspent(); // Correctly stop listening in Firebase compat
+                                resolve();
+                            } else {
+                                // If no user after 2 seconds, stop waiting (redirect logic below will handle it)
+                                setTimeout(() => { unspent(); resolve(); }, 2000);
+                            }
+                        });
+                    });
+                }
+            }
+            
             await this.loadSongForPractice();
         }
 

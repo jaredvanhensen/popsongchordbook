@@ -423,11 +423,14 @@ class FirebaseManager {
 
     onAuthStateChanged(callback) {
         if (!this.initialized) {
+            // If not initialized, we can't get the unsubscribe function immediately sync.
+            // But initialize() is usually called early. Let's return a dummy function or wait.
             this.initialize().then(() => {
                 this.auth.onAuthStateChanged(callback);
             });
+            return () => {}; // Dummy unsubscribe for now
         } else {
-            this.auth.onAuthStateChanged(callback);
+            return this.auth.onAuthStateChanged(callback);
         }
     }
 
