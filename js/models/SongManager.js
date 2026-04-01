@@ -53,6 +53,9 @@ class SongManager {
                 const privateSongs = privateNormalized.filter(s => !publicIds.has(String(s.id)));
                 this.songs = [...privateSongs, ...this.publicSongs];
                 
+                // CRITICAL: Deduplicate IDs to prevent same-id collision (e.g. ID 1 vs ID 1)
+                this.deduplicateIds();
+                
                 this.updateNextId();
                 // Cache the data
                 this.cacheSongs();
@@ -201,10 +204,47 @@ class SongManager {
 
     updateNextId() {
         if (this.songs.length > 0) {
-            this.nextId = Math.max(...this.songs.map(s => s.id)) + 1;
+            // Filter out string IDs that aren't numeric to avoid NaN
+            const numericIds = this.songs
+                .map(s => Number(s.id))
+                .filter(id => !isNaN(id));
+            
+            if (numericIds.length > 0) {
+                this.nextId = Math.max(...numericIds) + 1;
+            } else {
+                this.nextId = 1;
+            }
         } else {
             this.nextId = 1;
         }
+    }
+
+    /**
+     * Ensures all songs in the current library have unique IDs.
+     * If duplicates are found, it re-assigns them.
+     */
+    deduplicateIds() {
+        const seenIds = new Set();
+        let changed = false;
+
+        this.songs.forEach(song => {
+            const sid = String(song.id);
+            if (!song.id || seenIds.has(sid)) {
+                // Collision detected! Generate a truly unique ID
+                song.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+                changed = true;
+            }
+            seenIds.add(String(song.id));
+        });
+
+        return changed;
+    }
+
+    /**
+     * Generates a truly unique ID.
+     */
+    generateUniqueId() {
+        return Date.now().toString() + Math.random().toString(36).substr(2, 9);
     }
 
     // Set songs (used for real-time sync from Firebase)
@@ -286,7 +326,7 @@ class SongManager {
             // Preserve all incoming fields
             ...song,
             // Guaranteed fields/overrides
-            id: song.id || (Date.now().toString() + Math.random().toString(36).substr(2, 5)), // Better ID for public collision prevention
+            id: song.id || this.generateUniqueId(), 
             dateAdded: new Date().toISOString(),
             // Support legacy field if present
             fullLyrics: song.fullLyrics || song.lyrics || '',
@@ -327,46 +367,53 @@ class SongManager {
 
     async importSongs(importedSongs, replace = true) {
         // Validate and normalize imported songs
-        const normalizedSongs = importedSongs.map(song => ({
-            // Default values
-            artist: '',
-            title: '',
-            verse: '',
-            chorus: '',
-            preChorus: '',
-            bridge: '',
-            favorite: false,
-            youtubeUrl: '',
-            externalUrl: '',
-            key: '',
-            verseCue: '',
-            preChorusCue: '',
-            chorusCue: '',
-            bridgeCue: '',
-            fullLyrics: '',
-            chordData: null,
-            practiceCount: song.practiceCount || '0',
-            patchDetails: song.patchDetails || '',
-            lyricOffset: song.lyricOffset || 0,
-            performAbility: song.performAbility || '',
-            verseTitle: song.verseTitle || 'Block 1',
-            preChorusTitle: song.preChorusTitle || 'Block 3',
-            chorusTitle: song.chorusTitle || 'Block 2',
-            bridgeTitle: song.bridgeTitle || 'Block 4',
-            // Custom fields from importer (spread AFTER defaults to override)
-            ...song,
-            // Specific migrations/fixes
-            id: song.id || this.nextId++,
-            dateAdded: song.dateAdded || new Date().toISOString(),
-            // Fallback for legacy 'lyrics' field to 'fullLyrics'
-            fullLyrics: song.fullLyrics || song.lyrics || ''
-        }));
+        const normalizedSongs = importedSongs.map((song, index) => {
+            // Check if this ID already exists in the manager OR in earlier songs of this import
+            const existingSid = song.id ? String(song.id) : null;
+            const isColliding = existingSid && (
+                this.songs.some(s => String(s.id) === existingSid) || 
+                importedSongs.slice(0, index).some(s => String(s.id) === existingSid)
+            );
 
-        // Update nextId to avoid conflicts
-        if (normalizedSongs.length > 0) {
-            const maxId = Math.max(...normalizedSongs.map(s => s.id));
-            this.nextId = Math.max(this.nextId, maxId + 1);
-        }
+            return {
+                // Default values
+                artist: '',
+                title: '',
+                verse: '',
+                chorus: '',
+                preChorus: '',
+                bridge: '',
+                favorite: false,
+                youtubeUrl: '',
+                externalUrl: '',
+                key: '',
+                verseCue: '',
+                preChorusCue: '',
+                chorusCue: '',
+                bridgeCue: '',
+                fullLyrics: '',
+                chordData: null,
+                practiceCount: song.practiceCount || '0',
+                patchDetails: song.patchDetails || '',
+                lyricOffset: song.lyricOffset || 0,
+                performAbility: song.performAbility || '',
+                verseTitle: song.verseTitle || 'Block 1',
+                preChorusTitle: song.preChorusTitle || 'Block 3',
+                chorusTitle: song.chorusTitle || 'Block 2',
+                bridgeTitle: song.bridgeTitle || 'Block 4',
+                // Custom fields from importer (spread AFTER defaults to override)
+                ...song,
+                // Specific migrations/fixes
+                // If collision or missing, generate a unique ID
+                id: (song.id && !isColliding) ? song.id : this.generateUniqueId(),
+                dateAdded: song.dateAdded || new Date().toISOString(),
+                // Fallback for legacy 'lyrics' field to 'fullLyrics'
+                fullLyrics: song.fullLyrics || song.lyrics || ''
+            };
+        });
+
+        // Update nextId base
+        this.updateNextId();
 
         if (replace) {
             // Replace all songs
@@ -441,6 +488,7 @@ class SongManager {
             const privateOnly = normalizedPrivate.filter(s => !publicIds.has(String(s.id)));
             
             this.songs = [...privateOnly, ...this.publicSongs];
+            this.deduplicateIds(); // Resolve any sync collisions
             this.updateNextId();
             this.cacheSongs();
             if (this.onSongsChanged) this.onSongsChanged();
