@@ -595,9 +595,21 @@ class SongDetailModal {
             capoMenuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    const oldCapo = this.capoValue || 0;
                     const val = parseInt(item.getAttribute('data-capo'));
                     this.capoValue = val;
                     this.updateCapoUI();
+
+                    // If a chord block is currently being edited, update its text to match new Capo
+                    Object.keys(this.sections).forEach(key => {
+                        const section = this.sections[key];
+                        if (section.editInput && !section.editInput.classList.contains('hidden')) {
+                            // Convert current display text back to original, then to new transposed version
+                            const originalText = this.transposeBlockText(section.editInput.value, oldCapo);
+                            section.editInput.value = this.transposeBlockText(originalText, -this.capoValue);
+                        }
+                    });
+
                     this.refreshNotation();
                     this.checkForChanges(); // Trigger change check
                     this.capoMenu.classList.add('hidden');
@@ -1474,7 +1486,17 @@ class SongDetailModal {
     refreshNotation() {
         Object.keys(this.sections).forEach(key => {
             const section = this.sections[key];
-            this.renderChordBlock(key, section.editInput.value);
+            const isEditing = !section.editInput.classList.contains('hidden');
+            
+            // If we are currently editing, we may need to RE-TRANSPOSE the textarea content
+            // However, since we don't store "lastCapo", this is tricky if we trigger refreshNotation 
+            // after a Capo change.
+            // For now, let's just re-render the view blocks.
+            // (The Capo menu selection logic handles the current open block if needed? Actually it doesn't!)
+            
+            if (!isEditing) {
+                this.renderChordBlock(key, section.editInput.value);
+            }
         });
     }
 
@@ -1545,6 +1567,11 @@ class SongDetailModal {
         const isEditing = !section.editInput.classList.contains('hidden');
 
         if (isEditing) {
+            // TRANSPOSE BACK: If we were editing transposed chords, convert back to original before saving/viewing
+            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                section.editInput.value = this.transposeBlockText(section.editInput.value, this.capoValue);
+            }
+
             // Save state and switch to view
             section.section.classList.remove('editing');
             section.editInput.classList.add('hidden');
@@ -1557,13 +1584,16 @@ class SongDetailModal {
                 if (otherKey !== key) {
                     const otherSection = this.sections[otherKey];
                     if (!otherSection.editInput.classList.contains('hidden')) {
-                        otherSection.section.classList.remove('editing');
-                        otherSection.editInput.classList.add('hidden');
-                        otherSection.content.classList.remove('hidden');
-                        this.renderChordBlock(otherKey, otherSection.editInput.value);
+                        // RECURSIVE-ISH: Close this block by calling toggleBlockEdit or manually
+                        this.toggleBlockEdit(otherKey);
                     }
                 }
             });
+
+            // TRANSPOSE FOR DISPLAY: Show the chords relative to the Capo in the textarea
+            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                section.editInput.value = this.transposeBlockText(section.editInput.value, -this.capoValue);
+            }
 
             section.section.classList.add('editing');
             section.editInput.classList.remove('hidden');
@@ -1659,6 +1689,43 @@ class SongDetailModal {
                 }
             }
         });
+    }
+
+    /**
+     * Transposes an entire block of text (chords and markers) by the given semitones.
+     */
+    transposeBlockText(text, semitones) {
+        if (!text || semitones === 0) return text || '';
+        
+        // Match markers (| or 2x, etc.) or words (chords)
+        const items = text.match(/\||\d+x|[^\s|]+/g) || [];
+        return items.map(item => {
+            const trimmed = item.trim();
+            // Don't transpose musical markers
+            if (trimmed === '|' || /^\d+x$/.test(trimmed)) return trimmed;
+            
+            return this.chordParser.transpose(trimmed, semitones);
+        }).join(' ');
+    }
+
+    /**
+     * Safety helper to get the original (non-transposed) chord text for a section,
+     * regardless of whether the user is currently editing it in transposed mode.
+     */
+    getOriginalSectionValue(key) {
+        const section = this.sections[key];
+        if (!section || !section.editInput) return '';
+
+        const isEditing = !section.editInput.classList.contains('hidden');
+        let value = section.editInput.value || '';
+
+        // If currently editing in Guitar mode with a Capo, the value in the textarea
+        // is transposed for the user's convenience. We must transpose it BACK 
+        // to original semitones for comparison/saving.
+        if (isEditing && this.instrumentMode === 'guitar' && this.capoValue > 0) {
+            value = this.transposeBlockText(value, this.capoValue);
+        }
+        return value;
     }
 
     createChordButton(section, key, chordText, originalText = null) {
@@ -2244,16 +2311,16 @@ class SongDetailModal {
         const currentData = {
             artist: this.artistElement ? this.artistElement.textContent : '',
             title: titleText,
-            verse: this.sections.verse?.editInput ? this.sections.verse.editInput.value : '',
+            verse: this.getOriginalSectionValue('verse'),
             verseTitle: this.sections.verse?.title ? this.sections.verse.title.textContent : '',
             verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : '',
-            preChorus: this.sections.preChorus?.editInput ? this.sections.preChorus.editInput.value : '',
+            preChorus: this.getOriginalSectionValue('preChorus'),
             preChorusTitle: this.sections.preChorus?.title ? this.sections.preChorus.title.textContent : '',
             preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : '',
-            chorus: this.sections.chorus?.editInput ? this.sections.chorus.editInput.value : '',
+            chorus: this.getOriginalSectionValue('chorus'),
             chorusTitle: this.sections.chorus?.title ? this.sections.chorus.title.textContent : '',
             chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
-            bridge: this.sections.bridge?.editInput ? this.sections.bridge.editInput.value : '',
+            bridge: this.getOriginalSectionValue('bridge'),
             bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
             bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
             key: this.keyDisplay ? this.keyDisplay.textContent : '',
@@ -2484,7 +2551,7 @@ class SongDetailModal {
             updates.title = originalTitle;
         }
         if (this.sections.verse?.editInput) {
-            updates.verse = this.sections.verse.editInput.value.trim();
+            updates.verse = this.getOriginalSectionValue('verse');
         }
         if (this.sections.verse?.title) {
             updates.verseTitle = this.sections.verse.title.textContent.trim();
@@ -2493,7 +2560,7 @@ class SongDetailModal {
             updates.verseCue = this.sections.verse.cue.value.trim();
         }
         if (this.sections.preChorus?.editInput) {
-            updates.preChorus = this.sections.preChorus.editInput.value.trim();
+            updates.preChorus = this.getOriginalSectionValue('preChorus');
         }
         if (this.sections.preChorus?.title) {
             updates.preChorusTitle = this.sections.preChorus.title.textContent.trim();
@@ -2502,7 +2569,7 @@ class SongDetailModal {
             updates.preChorusCue = this.sections.preChorus.cue.value.trim();
         }
         if (this.sections.chorus?.editInput) {
-            updates.chorus = this.sections.chorus.editInput.value.trim();
+            updates.chorus = this.getOriginalSectionValue('chorus');
         }
         if (this.sections.chorus?.title) {
             updates.chorusTitle = this.sections.chorus.title.textContent.trim();
@@ -2511,7 +2578,7 @@ class SongDetailModal {
             updates.chorusCue = this.sections.chorus.cue.value.trim();
         }
         if (this.sections.bridge?.editInput) {
-            updates.bridge = this.sections.bridge.editInput.value.trim();
+            updates.bridge = this.getOriginalSectionValue('bridge');
         }
         if (this.sections.bridge?.title) {
             updates.bridgeTitle = this.sections.bridge.title.textContent.trim();
