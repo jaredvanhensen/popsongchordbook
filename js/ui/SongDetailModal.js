@@ -3649,6 +3649,11 @@ class SongDetailModal {
                         // Update song with chord data
                         await this.songManager.updateSong(this.currentSongId, updates);
 
+                        // ALSO save practice count to personal stats for all songs
+                        if (updates.practiceCount !== undefined) {
+                            await this.songManager.updateSongStats(this.currentSongId, { practiceCount: updates.practiceCount });
+                        }
+
                         // Finalize UI updates after async save
                         this.finalizeSave(youtubeUrl, externalUrl);
                     } catch (e) {
@@ -3657,9 +3662,14 @@ class SongDetailModal {
                     }
                 };
                 reader.readAsText(file);
-            } else {
                 // No file uploaded, just update other fields
                 await this.songManager.updateSong(this.currentSongId, updates);
+                
+                // ALSO save practice count to personal stats for all songs
+                if (updates.practiceCount !== undefined) {
+                    await this.songManager.updateSongStats(this.currentSongId, { practiceCount: updates.practiceCount });
+                }
+                
                 this.finalizeSave(youtubeUrl, externalUrl);
             }
         };
@@ -4228,8 +4238,13 @@ class SongDetailModal {
         }
 
         try {
-            // Update in DB
-            await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+            // Update personal stats for ALL songs (public or private)
+            await this.songManager.updateSongStats(this.currentSongId, { practiceCount: count.toString() });
+
+            // Update in DB (legacy field for private songs)
+            if (!song.isPublic) {
+                await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+            }
 
             // Update Practice Streak if authenticated
             const fbManager = this.firebaseManager || (window.appInstance ? window.appInstance.firebaseManager : null);

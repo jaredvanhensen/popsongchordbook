@@ -9,6 +9,7 @@ class FirebaseManager {
         this.setlistsListeners = new Map();
         this.pendingSongsListeners = new Map();
         this.publicSongsListeners = new Map();
+        this.songStatsListeners = new Map();
         this.initialized = false;
     }
 
@@ -264,6 +265,16 @@ class FirebaseManager {
                 }
             });
             this.publicSongsListeners.clear();
+            
+            this.songStatsListeners.forEach((listener, userId) => {
+                try {
+                    if (typeof listener === 'function') listener();
+                    else if (listener && typeof listener.off === 'function') listener.off();
+                } catch (error) {
+                    console.error('Error removing songStats listener:', error);
+                }
+            });
+            this.songStatsListeners.clear();
 
             // Small delay to ensure listeners are fully removed
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -520,7 +531,9 @@ class FirebaseManager {
         }
 
         try {
-            const songToSave = {
+            // EXCLUDE user-specific fields from the public version
+            // We want practiceCount to be personal, not global.
+            const { practiceCount, practiceCountTeller, favorite, ...songToSave } = {
                 ...song,
                 isPublic: true,
                 lastModified: new Date().toISOString()
@@ -1272,6 +1285,39 @@ class FirebaseManager {
         };
 
         return errorMessages[errorCode] || `Fout: ${errorCode}`;
+    }
+
+    async saveSongStats(userId, songId, stats) {
+        if (!this.initialized || !userId || !songId) return;
+        try {
+            const statsRef = this.database.ref(`users/${userId}/songStats/${songId}`);
+            await statsRef.update(stats);
+            console.log('FirebaseManager: Song stats saved:', songId, stats);
+        } catch (error) {
+            console.error('Error saving song stats:', error);
+        }
+    }
+
+    onSongStatsChange(userId, callback) {
+        if (!this.initialized || !userId) return;
+
+        if (this.songStatsListeners.has(userId)) {
+            const old = this.songStatsListeners.get(userId);
+            if (typeof old === 'function') old();
+        }
+
+        const statsRef = this.database.ref(`users/${userId}/songStats`);
+        const listener = statsRef.on('value', (snapshot) => {
+            if (!snapshot || !this.initialized) return;
+            try {
+                const data = snapshot.val() || {};
+                callback(data);
+            } catch (e) {
+                console.error('Error in songStats listener:', e);
+            }
+        });
+
+        this.songStatsListeners.set(userId, listener);
     }
 }
 
