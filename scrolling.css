@@ -2393,16 +2393,21 @@ body.ctrl-held .chord-item {
 
     .controls-container {
         padding: 4px !important;
-        gap: 5px !important;
+        gap: 4px !important;
         justify-content: center !important;
         align-items: center !important;
     }
 
+    .playback-controls {
+        gap: 4px !important;
+    }
+
     .controls-container button,
-    .controls-container .custom-file-btn {
-        height: 34px !important;
-        min-width: 34px !important;
-        width: 34px !important;
+    .controls-container .custom-file-btn,
+    #backBtn {
+        height: 36px !important;
+        min-width: 36px !important;
+        width: 36px !important;
         padding: 0 !important;
         margin: 0 !important;
         border-radius: 8px;
@@ -2693,9 +2698,10 @@ body.ctrl-held .chord-item {
 }
 
 /* For the main toolbar menu (left-aligned buttons), grow to the right */
+/* For the main toolbar menu, align right to avoid clipping off-screen */
 #timelineHamburgerMenu {
-    right: auto !important;
-    left: 0 !important;
+    right: 0 !important;
+    left: auto !important;
 }
 
 /* For the mobile landscape header menu (right-aligned buttons), grow to the left */
