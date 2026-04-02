@@ -152,6 +152,24 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
+            <!-- v2.529 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.529</span>
+                    <span class="version-date">April 02, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Bug Fix</span>
+                        <span class="change-description">Refactored <strong>Chord Timeline</strong> dragging and selection logic to use <strong>object references</strong> instead of <strong>array indices</strong>. This resolves the bug where dragging a chord through another would cause them to "stack" or jump due to array sorting on every frame.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Stability</span>
+                        <span class="change-description">Ensured that chord selection remains stable even when the underlying chord array is sorted (e.g. when moving chords past each other).</span>
+                    </li>
+                </ul>
+            </div>
+
             <!-- v2.528 -->
             <div class="version-card current">
                 <div class="version-header">

@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.528)
+// Scrolling Chords Logic (v2.529)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -104,7 +104,7 @@ let isDragging = false;
 let dragStartX = 0;
 let dragStartTime = 0;
 let isDraggingChord = false;
-let draggedChordIndex = null;
+let draggedChord = null;
 let dragPointerStartX = 0;
 let dragChordStartTime = 0;
 let dragHasMoved = false;
@@ -151,7 +151,7 @@ let lastChordPlayed = -1;
 
 // Selection State
 let isSelectionMode = false;
-let selectedIndices = new Set();
+let selectedChords = new Set();
 let selectionBoxStart = null;
 let isBoxSelecting = false;
 let selectionBoxEl = null;
@@ -933,7 +933,7 @@ document.addEventListener("keydown", e => {
 
     // Delete selected chords in Chord Timeline (Edit Mode only)
     if (e.key === "Delete" && isEditMode) {
-        if (typeof selectedIndices !== 'undefined' && selectedIndices.size > 0) {
+        if (selectedChords.size > 0) {
             e.preventDefault();
             deleteSelectedChords();
             return;
@@ -1285,7 +1285,8 @@ chordTrack.addEventListener('pointerdown', (e) => {
 
         // Selection Logic
         if (isSelectionMode || e.shiftKey) {
-            if (selectedIndices.has(index)) {
+            const chordObj = chords[index];
+            if (selectedChords.has(chordObj)) {
                 // If already selected and Shift clicked, deselect
                 if (e.shiftKey) {
                     deselectChord(index);
@@ -1295,14 +1296,14 @@ chordTrack.addEventListener('pointerdown', (e) => {
                 // Determine if we are adding or replacing
                 // If Select Mode is ON: simple tap toggles selection
                 if (isSelectionMode) {
-                    if (selectedIndices.has(index)) deselectChord(index);
-                    else selectChord(index, true); // true = additive
+                    if (selectedChords.has(chordObj)) deselectChord(chordObj);
+                    else selectChord(chordObj, true); // true = additive
                     return;
                 }
 
                 // Shift key logic
                 if (e.shiftKey) {
-                    selectChord(index, true); // additive
+                    selectChord(chordObj, true); // additive
                     return;
                 }
             }
@@ -1310,27 +1311,28 @@ chordTrack.addEventListener('pointerdown', (e) => {
 
         // REMOVED: Automatic selection on pointerdown
         /*
-        if (!selectedIndices.has(index) && !e.shiftKey && !isSelectionMode) {
+        if (!selectedChords.has(index) && !e.shiftKey && !isSelectionMode) {
             selectChord(index, false); // exclusive selection
         }
         */
 
         isDraggingChord = true;
-        draggedChordIndex = index;
-        isDraggingGroup = selectedIndices.has(index) && selectedIndices.size > 1;
+        draggedChord = chords[index]; // Use reference instead of index
+        isDraggingGroup = selectedChords.has(draggedChord) && selectedChords.size > 1;
         dragPointerStartX = e.clientX;
 
-        // Store initial times for ALL chords to support group drag without drift
+        // Store initial times for moved chords to support group drag without drift
+        // Using a Map of chordObject -> initialTime for stability during array sorting
         window.dragInitialTimes = new Map();
         if (isDraggingGroup) {
-            selectedIndices.forEach(idx => {
-                if (chords[idx]) window.dragInitialTimes.set(idx, chords[idx].time);
+            selectedChords.forEach(chord => {
+                window.dragInitialTimes.set(chord, chord.time);
             });
         } else {
-            if (chords[index]) window.dragInitialTimes.set(index, chords[index].time);
+            window.dragInitialTimes.set(draggedChord, draggedChord.time);
         }
 
-        let initialTime = chords[draggedChordIndex].time;
+        let initialTime = draggedChord.time;
         if (Number.isNaN(initialTime) || !Number.isFinite(initialTime)) initialTime = 0;
         dragChordStartTime = initialTime;
 
@@ -1338,8 +1340,8 @@ chordTrack.addEventListener('pointerdown', (e) => {
         // We wait for actual movement to "peel off" the copy
         if (e.ctrlKey) {
             // Ensure the chord we are dragging is actually selected so duplication works
-            if (!selectedIndices.has(index)) {
-                selectChord(index, false); // exclusive selection
+            if (!selectedChords.has(chords[index])) {
+                selectChord(chords[index], false); // exclusive selection
             }
             isCopying = true;
         } else {
@@ -1371,8 +1373,9 @@ chordTrack.addEventListener('click', (e) => {
 
             if (result === 'DELETE') {
                 saveUndoState();
-                // Remove chord
-                chords.splice(index, 1);
+                const targetChord = chords[index];
+                // Remove chord by reference filter for stability
+                chords = chords.filter(c => c !== targetChord);
                 // Re-render
                 renderStaticElements();
                 updateLoop();
@@ -1437,7 +1440,8 @@ window.addEventListener('pointermove', (e) => {
         e.preventDefault();
         const deltaX = e.clientX - dragStartX;
         const deltaTime = deltaX / PIXELS_PER_SECOND;
-        const newTime = Math.max(0, dragStartTime - deltaTime);
+        // Allow scrolling back into "negative" pre-roll space (Bar 0)
+        const newTime = Math.max(-5.0, dragStartTime - deltaTime);
 
         if (isPlaying) {
             startTime = performance.now() - (newTime * 1000);
@@ -1446,7 +1450,7 @@ window.addEventListener('pointermove', (e) => {
                 // to prevent black screen/crash on mobile
                 const now = Date.now();
                 if (now - lastYoutubeSeekTime > 100) {
-                    youtubePlayer.seekTo(newTime, false);
+                    youtubePlayer.seekTo(Math.max(0, newTime), false);
                     lastYoutubeSeekTime = now;
                 }
             }
@@ -1455,7 +1459,7 @@ window.addEventListener('pointermove', (e) => {
             if (youtubePlayer) {
                 const now = Date.now();
                 if (now - lastYoutubeSeekTime > 100) {
-                    youtubePlayer.seekTo(newTime, false);
+                    youtubePlayer.seekTo(Math.max(0, newTime), false);
                     lastYoutubeSeekTime = now;
                 }
             }
@@ -1514,7 +1518,7 @@ window.addEventListener('pointermove', (e) => {
         }
     }
 
-    if (!isDraggingChord || draggedChordIndex === null) return;
+    if (!isDraggingChord || !draggedChord) return;
 
     const deltaX = e.clientX - dragPointerStartX;
 
@@ -1523,21 +1527,18 @@ window.addEventListener('pointermove', (e) => {
         dragHasMoved = true;
 
         if (isCopying) {
-            // DUPLICATE NOW with 0 offset, select NEW chords, and drag THEM.
-            const newIndices = duplicateSelectedChords(0, true);
-            isCopying = false; // Handled
+            // DUPLICATE selected chords and drag the NEW ones
+            duplicateSelectedChords(0, true);
+            isCopying = false;
 
-            // Re-build dragInitialTimes for the NEW items
+            // Update dragInitialTimes to the new selection
             window.dragInitialTimes = new Map();
-            selectedIndices.forEach(idx => {
-                if (chords[idx]) window.dragInitialTimes.set(idx, chords[idx].time);
+            selectedChords.forEach(chord => {
+                window.dragInitialTimes.set(chord, chord.time);
             });
-
-            // Update draggedChordIndex to something valid in the new selection
-            if (newIndices && newIndices.length > 0) {
-                draggedChordIndex = newIndices[0];
-                dragChordStartTime = chords[draggedChordIndex].time;
-            }
+            // Pick any chord from the new selection as the reference point
+            draggedChord = Array.from(selectedChords)[0];
+            dragChordStartTime = draggedChord ? draggedChord.time : 0;
         }
 
         if (isPlaying) pause();
@@ -1547,26 +1548,11 @@ window.addEventListener('pointermove', (e) => {
         e.preventDefault();
         const deltaTime = deltaX / PIXELS_PER_SECOND;
 
-        // Apply to ALL moved chords
+        // Apply to ALL moved chords via object references
         if (window.dragInitialTimes && window.dragInitialTimes.size > 0) {
-            window.dragInitialTimes.forEach((initialT, idx) => {
-                if (chords[idx]) {
-                    const rawTime = Math.max(0, initialT + deltaTime);
-                    // Only snap the primary dragged chord? 
-                    // Or snap all? Snapping all is better for group alignment.
-                    // But if relative positions are not on grid, they might snap to same grid.
-                    // Ideally: Snap primary, apply same delta to others?
-                    // User asked: "snap to grid when i place or move".
-                    // If we snap each individually, they might align to grid perfectly.
-                    chords[idx].time = snapToGrid(rawTime);
-                }
+            window.dragInitialTimes.forEach((initialT, chord) => {
+                chord.time = snapToGrid(Math.max(0, initialT + deltaTime));
             });
-        } else {
-            // Fallback
-            if (chords[draggedChordIndex]) {
-                const rawTime = Math.max(0, dragChordStartTime + deltaTime);
-                chords[draggedChordIndex].time = snapToGrid(rawTime);
-            }
         }
 
         // Force update loop to prevent collapse
@@ -1679,7 +1665,7 @@ window.addEventListener('pointerup', (e) => {
             checkForChanges();
         }
 
-        draggedChordIndex = null;
+        draggedChord = null;
     }
 });
 
@@ -2135,6 +2121,10 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
                 }
             }, 300); // Small delay to ensure everything is rendered
         }
+
+        // Set initial pauseTime to -1.0 to give some breathing room for chords at 0:00
+        pauseTime = -1.0;
+        updateLoop();
     } catch (e) {
         console.error(e);
         statusText.innerText = `Error loading data: ${e.message}`;
@@ -2851,7 +2841,7 @@ function pause() {
 
 function seek(deltaSeconds) {
     let currentTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
-    let newTime = Math.max(0, currentTime + deltaSeconds);
+    let newTime = Math.max(-5.0, currentTime + deltaSeconds);
 
     if (pianoPlayer) pianoPlayer.stopAll();
 
@@ -2861,15 +2851,15 @@ function seek(deltaSeconds) {
 
     if (isPlaying) {
         startTime = performance.now() - (newTime * 1000);
-        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
-            youtubePlayer._syncingFromTimeline = true;
-            youtubePlayer.seekTo(newTime, true);
-        }
+            if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+                youtubePlayer._syncingFromTimeline = true;
+                youtubePlayer.seekTo(Math.max(0, newTime), true);
+            }
     } else {
         pauseTime = newTime;
         updateLoop(); // Updates position while paused
         if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
-            youtubePlayer.seekTo(newTime, true);
+            youtubePlayer.seekTo(Math.max(0, newTime), true);
         }
     }
 }
@@ -3320,11 +3310,11 @@ function recordChord(name = "?", time = null) {
 }
 
 function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
-    if (selectedIndices.size === 0) return;
+    if (selectedChords.size === 0) return;
     saveUndoState();
 
-    // Sort to keep order
-    const indices = Array.from(selectedIndices).sort((a, b) => a - b);
+    // Sort original chords by time to keep sequential order
+    const listToDuplicate = Array.from(selectedChords).sort((a, b) => a.time - b.time);
     const newChords = [];
 
     // Calculate bounds to find offset
@@ -3332,31 +3322,25 @@ function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
     let offset = (beatsPerBar && secondsPerBeat) ? (beatsPerBar * secondsPerBeat) : 2.0;
     if (offsetOverride !== null) offset = offsetOverride;
 
-    indices.forEach(index => {
-        const original = chords[index];
-        if (original) {
-            newChords.push({
-                name: original.name,
-                time: Math.round((original.time + offset) * 1000) / 1000,
-                _isNewCopy: true // Temporary tag to find them later
-            });
-        }
+    listToDuplicate.forEach(original => {
+        newChords.push({
+            name: original.name,
+            time: Math.round((original.time + offset) * 1000) / 1000,
+            _isNewCopy: true // Temporary tag to find them later
+        });
     });
 
     // Add new chords
     chords.push(...newChords);
 
-    // To select the new chords, we need their new indices after sort.
-    // Since sort changes indices, using a tag or unique ID is best.
+    // Re-sort main array
     chords.sort((a, b) => a.time - b.time);
 
-    let newIndices = [];
     if (selectNew) {
         clearSelection();
         for (let i = 0; i < chords.length; i++) {
             if (chords[i]._isNewCopy) {
-                newIndices.push(i);
-                selectChord(i, true); // additive
+                selectChord(chords[i], true); // additive
                 delete chords[i]._isNewCopy; // Clean up
             }
         }
@@ -3376,8 +3360,6 @@ function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
         statusText.innerText = `Duplicated ${newChords.length} chords`;
         setTimeout(() => statusText.innerText = "Time: " + formatTime(pauseTime), 2000);
     }
-
-    return newIndices;
 }
 
 function clearData() {
@@ -3468,20 +3450,22 @@ function toggleSelectionMode() {
 }
 
 function clearSelection() {
-    selectedIndices.clear();
+    selectedChords.clear();
     renderSelection();
 }
 
-function selectChord(index, addToSelection = false) {
+function selectChord(chord, addToSelection = false) {
+    if (!chord) return;
     if (!addToSelection) {
-        selectedIndices.clear();
+        selectedChords.clear();
     }
-    selectedIndices.add(index);
+    selectedChords.add(chord);
     renderSelection();
 }
 
-function deselectChord(index) {
-    selectedIndices.delete(index);
+function deselectChord(chord) {
+    if (!chord) return;
+    selectedChords.delete(chord);
     renderSelection();
 }
 
@@ -3489,16 +3473,18 @@ function renderSelection() {
     // Update visual state of all chords
     const chordElements = chordTrack.children;
     for (let i = 0; i < chordElements.length; i++) {
-        const index = parseInt(chordElements[i].dataset.index);
-        if (selectedIndices.has(index)) {
-            chordElements[i].classList.add('selected');
+        const el = chordElements[i];
+        const index = parseInt(el.dataset.index);
+        const chord = chords[index];
+        if (chord && selectedChords.has(chord)) {
+            el.classList.add('selected');
         } else {
-            chordElements[i].classList.remove('selected');
+            el.classList.remove('selected');
         }
     }
 
     // Update Button Visibility
-    const hasSelection = selectedIndices.size > 0;
+    const hasSelection = selectedChords.size > 0;
     if (duplicateBtn) duplicateBtn.classList.toggle('hidden', !hasSelection);
     if (deleteSelectedBtn) deleteSelectedBtn.classList.toggle('hidden', !hasSelection);
 }
@@ -3508,7 +3494,7 @@ function updateSelectionFromBox() {
     const boxRect = selectionBoxEl.getBoundingClientRect();
     const chordElements = chordTrack.children;
 
-    selectedIndices.clear();
+    selectedChords.clear();
 
     for (let i = 0; i < chordElements.length; i++) {
         const el = chordElements[i];
@@ -3523,26 +3509,24 @@ function updateSelectionFromBox() {
 
         if (overlap) {
             const index = parseInt(el.dataset.index);
-            selectedIndices.add(index);
+            const chord = chords[index];
+            if (chord) selectedChords.add(chord);
         }
     }
     renderSelection();
 }
 
 function deleteSelectedChords() {
-    if (selectedIndices.size === 0) return;
+    if (selectedChords.size === 0) return;
 
     confirmationModal.show(
         'Delete Chords',
-        `Are you sure you want to delete <b>${selectedIndices.size}</b> selected chords?`,
+        `Are you sure you want to delete <b>${selectedChords.size}</b> selected chords?`,
         () => {
             saveUndoState();
-            // Sort indices descending to remove safely
-            const indices = Array.from(selectedIndices).sort((a, b) => b - a);
-
-            indices.forEach(index => {
-                chords.splice(index, 1);
-            });
+            
+            // Remove by reference
+            chords = chords.filter(chord => !selectedChords.has(chord));
 
             clearSelection();
             renderStaticElements();
