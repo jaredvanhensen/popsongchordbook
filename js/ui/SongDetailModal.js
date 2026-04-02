@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave (v2.532)
+// SongDetailModal - Modal voor song details weergave (v2.530)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
@@ -558,6 +558,10 @@ class SongDetailModal {
     }
 
     setupEventListeners() {
+        if (!this.closeBtn) {
+            console.warn('SongDetailModal: Close button not found. Skipping event listener setup for this page.');
+            return;
+        }
         this.closeBtn.addEventListener('click', () => {
             if (window.appInstance) {
                 window.appInstance.popModalState('songDetail');
@@ -3649,11 +3653,6 @@ class SongDetailModal {
                         // Update song with chord data
                         await this.songManager.updateSong(this.currentSongId, updates);
 
-                        // ALSO save practice count to personal stats for all songs
-                        if (updates.practiceCount !== undefined) {
-                            await this.songManager.updateSongStats(this.currentSongId, { practiceCount: updates.practiceCount });
-                        }
-
                         // Finalize UI updates after async save
                         this.finalizeSave(youtubeUrl, externalUrl);
                     } catch (e) {
@@ -3662,14 +3661,9 @@ class SongDetailModal {
                     }
                 };
                 reader.readAsText(file);
+            } else {
                 // No file uploaded, just update other fields
                 await this.songManager.updateSong(this.currentSongId, updates);
-                
-                // ALSO save practice count to personal stats for all songs
-                if (updates.practiceCount !== undefined) {
-                    await this.songManager.updateSongStats(this.currentSongId, { practiceCount: updates.practiceCount });
-                }
-                
                 this.finalizeSave(youtubeUrl, externalUrl);
             }
         };
@@ -4238,13 +4232,8 @@ class SongDetailModal {
         }
 
         try {
-            // Update personal stats for ALL songs (public or private)
-            await this.songManager.updateSongStats(this.currentSongId, { practiceCount: count.toString() });
-
-            // Update in DB (legacy field for private songs)
-            if (!song.isPublic) {
-                await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
-            }
+            // Update in DB
+            await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
 
             // Update Practice Streak if authenticated
             const fbManager = this.firebaseManager || (window.appInstance ? window.appInstance.firebaseManager : null);
