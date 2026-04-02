@@ -1,4 +1,4 @@
-// Main Application (v2.504)
+// Main Application (v2.530)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -77,7 +77,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - App Initialized (v2.504)");
+        console.log("Pop Song Chord Book - App Initialized (v2.530)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -186,7 +186,9 @@ class App {
         this.setlistManager.onSetlistsChanged = () => this.handleSetlistChange();
         this.setupAddSongsToSetlistModal();
         this.setupAddToSetlistSingleModal();
+        if (this.isInitialized) return;
         this.setupImportExport();
+        this.isInitialized = true;
         this.setupPrintButton();
         this.setupDeselect();
         this.setupHeaderBarToggle();
@@ -1963,7 +1965,6 @@ class App {
         const submitBtn = document.getElementById('createSongSubmitBtn');
         const artistInput = document.getElementById('newSongArtistInput');
         const titleInput = document.getElementById('newSongTitleInput');
-        const isPublicCheckbox = document.getElementById('newSongIsPublic');
         const errorMsg = document.getElementById('createSongError');
 
         if (!modal || !submitBtn) return;
@@ -1972,7 +1973,6 @@ class App {
             modal.classList.add('hidden');
             artistInput.value = '';
             titleInput.value = '';
-            if (isPublicCheckbox) isPublicCheckbox.checked = false;
             errorMsg.classList.add('hidden');
         };
 
@@ -1987,7 +1987,6 @@ class App {
         submitBtn.addEventListener('click', async () => {
             const artist = artistInput.value.trim();
             const title = titleInput.value.trim();
-            const isPublic = isPublicCheckbox ? isPublicCheckbox.checked : false;
 
             if (!artist || !title) {
                 errorMsg.classList.remove('hidden');
@@ -1995,7 +1994,7 @@ class App {
             }
 
             errorMsg.classList.add('hidden');
-            await this.addNewSong(artist, title, isPublic);
+            await this.addNewSong(artist, title, false);
             closeModal();
         });
 
@@ -2169,7 +2168,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.504):\n`;
+        let msg = `Diagnostics (v2.530):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2394,7 +2393,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.504)');
+        console.log('UG Extractor listener initialized (v2.530)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);
@@ -2923,6 +2922,10 @@ class App {
             <div class="confirm-modal">
                 <div class="confirm-title">${title}</div>
                 <div class="confirm-message">${message}</div>
+                <div id="capoMenu" class="transpose-menu hidden">
+                    <button class="transpose-menu-item capo-menu-item" data-capo="-1">Eb Tuning (-1)</button>
+                    <button class="transpose-menu-item capo-menu-item" data-capo="0">None (0)</button>
+                </div>
                 <div class="confirm-buttons">
                     <button class="confirm-btn confirm-btn-cancel">${cancelText}</button>
                     <button class="confirm-btn ${btnClass}">${confirmText}</button>

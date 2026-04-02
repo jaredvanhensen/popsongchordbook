@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave
+// SongDetailModal - Modal voor song details weergave (v2.530)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
@@ -46,7 +46,6 @@ class SongDetailModal {
         this.transposeResetBtn = document.getElementById('songDetailTransposeReset');
         this.youtubeUrlModal = document.getElementById('youtubeUrlModal');
         this.youtubeUrlInput = document.getElementById('youtubeUrlInput');
-        this.externalUrlInput = document.getElementById('externalUrlInput');
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
         this.youtubeUrlCancelBtn = document.getElementById('youtubeUrlCancelBtn');
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
@@ -533,8 +532,12 @@ class SongDetailModal {
     updateCapoUI() {
         // Update Mobile Button/Menu UI
         if (this.capoBadge) {
-            if (this.capoValue > 0) {
-                this.capoBadge.textContent = this.capoValue;
+            if (this.capoValue !== 0) {
+                if (this.capoValue === -1) {
+                    this.capoBadge.textContent = 'Eb';
+                } else {
+                    this.capoBadge.textContent = this.capoValue;
+                }
                 this.capoBadge.classList.remove('hidden');
             } else {
                 this.capoBadge.classList.add('hidden');
@@ -1568,7 +1571,7 @@ class SongDetailModal {
 
         if (isEditing) {
             // TRANSPOSE BACK: If we were editing transposed chords, convert back to original before saving/viewing
-            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+            if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                 section.editInput.value = this.transposeBlockText(section.editInput.value, this.capoValue);
             }
 
@@ -1591,7 +1594,7 @@ class SongDetailModal {
             });
 
             // TRANSPOSE FOR DISPLAY: Show the chords relative to the Capo in the textarea
-            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+            if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                 section.editInput.value = this.transposeBlockText(section.editInput.value, -this.capoValue);
             }
 
@@ -1666,7 +1669,7 @@ class SongDetailModal {
                             section.content.appendChild(marker);
                         } else {
                             let cleanP = p;
-                            if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                            if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                                 cleanP = this.chordParser.transpose(cleanP, -this.capoValue);
                             }
                             this.createChordButton(section, key, cleanP, p);
@@ -1676,7 +1679,7 @@ class SongDetailModal {
                     let cleanChord = item.trim();
 
                     // Apply display-only Capo transposition if in Guitar mode
-                    if (this.instrumentMode === 'guitar' && this.capoValue > 0) {
+                    if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                         cleanChord = this.chordParser.transpose(cleanChord, -this.capoValue);
                     }
 
@@ -1722,7 +1725,7 @@ class SongDetailModal {
         // If currently editing in Guitar mode with a Capo, the value in the textarea
         // is transposed for the user's convenience. We must transpose it BACK 
         // to original semitones for comparison/saving.
-        if (isEditing && this.instrumentMode === 'guitar' && this.capoValue > 0) {
+        if (isEditing && this.instrumentMode === 'guitar' && this.capoValue !== 0) {
             value = this.transposeBlockText(value, this.capoValue);
         }
         return value;
@@ -1766,7 +1769,7 @@ class SongDetailModal {
     }
 
     formatBlockTextForOverlay(rawText) {
-        if (!rawText || this.instrumentMode !== 'guitar' || this.capoValue <= 0) return rawText || '';
+        if (!rawText || this.instrumentMode !== 'guitar' || this.capoValue === 0) return rawText || '';
         
         // Match dividers, repeat markers, or chords
         const items = rawText.match(/\||\d+x|[^\s|]+/g) || [];
@@ -3037,10 +3040,10 @@ class SongDetailModal {
             verseTitle: song.verseTitle || 'Block 1',
             verseCue: song.verseCue || '',
             preChorus: song.preChorus || '',
-            preChorusTitle: song.preChorusTitle || 'Block 2',
+            preChorusTitle: song.preChorusTitle || 'Block 3',
             preChorusCue: song.preChorusCue || '',
             chorus: song.chorus || '',
-            chorusTitle: song.chorusTitle || 'Block 3',
+            chorusTitle: song.chorusTitle || 'Block 2',
             chorusCue: song.chorusCue || '',
             bridge: song.bridge || '',
             bridgeTitle: song.bridgeTitle || 'Block 4',
@@ -3529,9 +3532,6 @@ class SongDetailModal {
         if (this.youtubeUrlInput) {
             this.youtubeUrlInput.value = song.youtubeUrl || '';
         }
-        if (this.externalUrlInput) {
-            this.externalUrlInput.value = song.externalUrl || '';
-        }
 
         if (this.patchDetailsInput) {
             this.patchDetailsInput.value = song.patchDetails || '';
@@ -3582,13 +3582,7 @@ class SongDetailModal {
             });
         }
 
-        // Focus first input (youtube url input)
-        setTimeout(() => {
-            if (this.youtubeUrlInput) {
-                this.youtubeUrlInput.focus();
-                this.youtubeUrlInput.select();
-            }
-        }, 100);
+
     }
 
     closeYouTubeUrlModal() {
@@ -3609,7 +3603,7 @@ class SongDetailModal {
         if (this.chordJsonInput) {
             this.chordJsonInput.value = '';
         }
-        // NOTE: We do NOT clear youtubeUrlInput, externalUrlInput, patchDetailsInput, etc.
+        // NOTE: We do NOT clear youtubeUrlInput, patchDetailsInput, etc.
         // as they should reflect the current song's state in the UI.
     }
 
@@ -3622,7 +3616,6 @@ class SongDetailModal {
         const originalYoutubeUrl = this.originalSongData ? (this.originalSongData.youtubeUrl || '') : '';
 
         const performSave = async () => {
-            const externalUrl = this.externalUrlInput ? this.externalUrlInput.value.trim() : '';
             const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
             let practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '0';
             if (practiceCount === '') practiceCount = '0';
@@ -3632,7 +3625,6 @@ class SongDetailModal {
 
             const updates = {
                 youtubeUrl: youtubeUrl,
-                externalUrl: externalUrl,
                 patchDetails: patchDetails,
                 practiceCount: practiceCount,
                 lyricOffset: lyricOffset,

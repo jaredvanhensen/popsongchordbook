@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song Library v2.529 | Pop Song Chord Book</title>
+    <title>Song Library v2.530 | Pop Song Chord Book</title>
     <link rel="stylesheet" href="styles.css?v=2.529">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -797,15 +797,6 @@
                     <input type="text" id="newSongTitleInput" placeholder="e.g. Billie Jean" spellcheck="false"
                         autocorrect="off" autocapitalize="none" required />
                 </div>
-                <div class="auth-form-group" style="margin-top: 15px;">
-                    <label class="filter-checkbox-label" style="justify-content: flex-start; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" id="newSongIsPublic" class="filter-checkbox" style="width: 20px; height: 20px; margin: 0;">
-                        <span style="font-weight: 600;">Share as PUBLIC Song 🌐</span>
-                    </label>
-                    <small style="display: block; margin-top: 8px; color: #64748b; font-size: 11px; line-height: 1.4;">
-                        If checked, this song will be visible to ALL users. You and the admin can still edit it.
-                    </small>
-                </div>
                 <div id="createSongError" class="auth-error hidden" style="margin-top: 10px;">Please fill in both Artist
                     and Title.</div>
                 <div class="modal-actions" style="margin-top: 20px;">
@@ -957,6 +948,7 @@
                             <span id="capoBadge" class="capo-badge hidden">0</span>
                         </button>
                         <div id="capoMenu" class="transpose-menu hidden">
+                            <button class="transpose-menu-item capo-menu-item" data-capo="-1">Eb Tuning (-1)</button>
                             <button class="transpose-menu-item capo-menu-item" data-capo="0">None (0)</button>
                             <button class="transpose-menu-item capo-menu-item" data-capo="1">Capo 1</button>
                             <button class="transpose-menu-item capo-menu-item" data-capo="2">Capo 2</button>
@@ -1300,11 +1292,6 @@
                     <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                         spellcheck="false" autocorrect="off" autocapitalize="none" />
                 </div>
-                <div class="url-input-group" style="margin-top: 10px;">
-                    <label for="externalUrlInput">External Website URL</label>
-                    <input type="url" id="externalUrlInput" placeholder="https://..." spellcheck="false"
-                        autocorrect="off" autocapitalize="none" />
-                </div>
                 <div style="display: flex; gap: 15px; margin-top: 10px; align-items: flex-end;">
                     <div class="url-input-group" style="flex: 1; display: flex; flex-direction: column;">
                         <label for="patchDetailsInput"
@@ -1330,7 +1317,7 @@
                 <!-- Perform Ability moved to footer (stars) -->
                 <!-- Lyrics Input replaced by Button -->
                 <div class="url-input-group" style="margin-top: 10px;">
-                    <label>Lyrics (for Scrolling Ticker and Teleprompter)</label>
+                    <label>Lyrics for the Chord Timeline</label>
                     <button id="openLyricsModalBtn" class="filter-btn"
                         style="width: 100%; justify-content: center; margin-top: 5px; height: 40px;">
                         <span class="icon" style="margin-right: 8px;">📝</span>

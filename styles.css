@@ -1795,10 +1795,7 @@ tbody tr.public-song.selected {
 
 /* Read-only mode for public songs (non-owner/non-admin viewers) */
 #songDetailModal.public-read-only .editable-title[contenteditable],
-#songDetailModal.public-read-only .editable-field[contenteditable],
-#songDetailModal.public-read-only .chord-section-edit-input,
-#songDetailModal.public-read-only .cue-line-input,
-#songDetailModal.public-read-only .song-notes-textarea {
+#songDetailModal.public-read-only .editable-field[contenteditable] {
     pointer-events: none;
     cursor: default;
     opacity: 0.85;
@@ -6110,6 +6107,7 @@ td:has(.row-edit-input.input-focused) {
     overflow-x: hidden;
     box-sizing: border-box;
     min-height: 0;
+    padding-bottom: 40px; /* Space to clear floating footer/save btn */
 }
 
 .song-chord-section {
@@ -8910,6 +8908,7 @@ td:has(.row-edit-input.input-focused) {
 
     .song-detail-body {
         padding: 4px 6px !important;
+        padding-bottom: 120px !important; /* Ensure last items aren't behind footer on mobile */
         gap: 4px !important;
     }
 

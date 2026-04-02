@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.529)
+// Scrolling Chords Logic (v2.530)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -187,7 +187,7 @@ function simplifyDisplayName(chordName, isForAudio = false) {
 
     // Apply CAPO for visual display ONLY
     // We transpose AWAY from original key (-capoValue) for display
-    if (!isForAudio && currentInstrumentMode === 'guitar' && currentCapoValue > 0) {
+    if (!isForAudio && currentInstrumentMode === 'guitar' && currentCapoValue !== 0) {
         if (chordParser) {
             resultName = chordParser.transpose(resultName, -currentCapoValue);
         }
