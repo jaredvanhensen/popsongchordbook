@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave (v2.530)
+// SongDetailModal - Modal voor song details weergave (v2.531)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
