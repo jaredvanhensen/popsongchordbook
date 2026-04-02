@@ -2392,37 +2392,21 @@ body.ctrl-held .chord-item {
     }
 
     .controls-container {
-        padding: 4px 6px !important;
-        gap: 4px !important;
+        padding: 4px !important;
+        gap: 5px !important;
         justify-content: center !important;
         align-items: center !important;
-        flex-wrap: wrap !important;
-    }
-
-    /* Flatten flex groups so all buttons participate in the same row wrapping */
-    .playback-controls,
-    .adjust-controls-row {
-        display: contents !important;
     }
 
     .controls-container button,
-    .controls-container .custom-file-btn,
-    #backBtn {
-        height: 36px !important;
-        min-width: 36px !important;
-        width: 36px !important;
+    .controls-container .custom-file-btn {
+        height: 34px !important;
+        min-width: 34px !important;
+        width: 34px !important;
         padding: 0 !important;
         margin: 0 !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
         border-radius: 8px;
         box-shadow: 0 2px 0px 0px var(--btn-shadow-default), 0 4px 10px rgba(0, 0, 0, 0.05) !important;
-    }
-
-    #backBtn svg {
-        width: 18px !important;
-        height: 18px !important;
     }
 
     .controls-container button span {
@@ -2708,10 +2692,10 @@ body.ctrl-held .chord-item {
     flex-direction: column !important;
 }
 
-/* For the main toolbar menu, align to right to avoid clipping on small screens */
+/* For the main toolbar menu (left-aligned buttons), grow to the right */
 #timelineHamburgerMenu {
-    right: 0 !important;
-    left: auto !important;
+    right: auto !important;
+    left: 0 !important;
 }
 
 /* For the mobile landscape header menu (right-aligned buttons), grow to the left */
