@@ -2862,7 +2862,7 @@ td:has(.row-edit-input.input-focused) {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 3000;

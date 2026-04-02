@@ -13,6 +13,20 @@ class App {
         this.sorter = new Sorter();
         this.keyDetector = new KeyDetector();
         this.chordModal = new ChordModal();
+        this.songDetailModal = new SongDetailModal(
+            this.songManager,
+            (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
+            () => this.loadAndRender(), // Refresh table when song is updated
+            this.chordModal, // Pass chordModal for chord button
+            (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
+            (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
+            this.keyDetector,
+            (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
+            (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
+            (songId) => this.setlistManager.isSongInPracticeSetlist(songId), // Pass Practice state checker
+            () => this.openPracticeRandomSong(), // Pass Next Practice Random handler
+            () => this.handlePracticeRandomPrev() // Pass Previous Practice Random handler
+        );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
             favorites: false,
@@ -159,23 +173,6 @@ class App {
         this.profileModal.onAuthSuccess = (user) => {
             this.updateProfileLabel(user);
         };
-
-        // Initialize Song Detail Modal
-        this.songDetailModal = new SongDetailModal(
-            this.songManager,
-            (songId, isRandomMode = false) => this.navigateToSong(songId, isRandomMode),
-            () => this.loadAndRender(), // Refresh table when song is updated
-            this.chordModal, // Pass chordModal for chord button
-            (songId) => this.handleToggleFavorite(songId), // Pass favorite toggle handler
-            (songId) => this.handlePlayYouTube(songId), // Pass YouTube play handler
-            this.keyDetector,
-            (songId) => this.openAddToSetlistSingleModal(songId), // Pass Add to Setlist handler
-            (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
-            (songId) => this.setlistManager.isSongInPracticeSetlist(songId), // Pass Practice state checker
-            () => this.openPracticeRandomSong(), // Pass Next Practice Random handler
-            () => this.handlePracticeRandomPrev() // Pass Previous Practice Random handler
-        );
-
         this.setupProfile();
 
         // Setup UI components

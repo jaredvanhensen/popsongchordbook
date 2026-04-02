@@ -83,7 +83,6 @@ class ProfileModal {
     }
 
     setupEventListeners() {
-        if (!this.modal) return;
         // Avatar upload
         if (this.changeAvatarBtn && this.avatarInput) {
             this.changeAvatarBtn.addEventListener('click', () => {

@@ -558,10 +558,6 @@ class SongDetailModal {
     }
 
     setupEventListeners() {
-        if (!this.closeBtn) {
-            console.warn('SongDetailModal: Close button not found. Skipping event listener setup for this page.');
-            return;
-        }
         this.closeBtn.addEventListener('click', () => {
             if (window.appInstance) {
                 window.appInstance.popModalState('songDetail');
