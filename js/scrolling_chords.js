@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.531)
+// Scrolling Chords Logic (v2.532)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
