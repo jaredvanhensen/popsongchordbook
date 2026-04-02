@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.181)
+// Scrolling Chords Logic (v2.528)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -61,8 +61,11 @@ if (isEmbed) {
         #statusText { color: #334155 !important; }
         .marker-label { color: #94a3b8 !important; }
         #currentChordDisplay { color: #0f172a !important; text-shadow: none !important; }
+        .pure-timeline-menu-container { position: relative !important; }
+        .pure-timeline-hamburger-menu { position: absolute !important; top: 100% !important; right: auto !important; left: 0 !important; margin-top: 15px !important; background: white !important; opacity: 1 !important; visibility: visible !important; text-shadow: none !important; min-width: 260px !important; }
         .file-input { color: #333 !important; }
         button { color: #000 !important; border-color: #ccc !important; }
+        .controls-container { padding-right: 120px !important; }
     `;
     document.head.appendChild(style);
 }

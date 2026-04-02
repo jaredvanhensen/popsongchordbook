@@ -1,4 +1,4 @@
-/* Scrolling CSS (v2.166) */
+/* Scrolling CSS (v2.528) */
 :root {
     color-scheme: light;
     forced-color-adjust: none;
@@ -2668,20 +2668,40 @@ body.ctrl-held .chord-item {
     background: transparent; /* No more solid header gray */
 }
 
+.pure-timeline-menu-container {
+    position: relative !important;
+}
+
 .pure-timeline-hamburger-menu {
     position: absolute !important;
     top: 100% !important;
     right: 0 !important;
+    left: auto !important;
     margin-top: 15px !important;
     background: white !important; /* Forces solid background for readability */
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+    min-width: 260px !important;
     border: 1px solid rgba(0,0,0,0.1) !important;
     border-radius: 12px !important;
     padding: 6px 0 !important;
-    min-width: 260px !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
     z-index: 2500 !important; /* Above ALL other UI */
     display: flex; /* DO NOT USE !IMPORTANT HERE - It overrides .hidden */
     flex-direction: column !important;
+}
+
+/* For the main toolbar menu (left-aligned buttons), grow to the right */
+#timelineHamburgerMenu {
+    right: auto !important;
+    left: 0 !important;
+}
+
+/* For the mobile landscape header menu (right-aligned buttons), grow to the left */
+#pureTimelineMenu {
+    right: 0 !important;
+    left: auto !important;
 }
 
 /* Nuclear Specificity Override for all items inside the Timeline Hamburger Menu (v2.497) */
