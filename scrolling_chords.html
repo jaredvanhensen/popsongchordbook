@@ -84,13 +84,6 @@
                     <line x1="5" y1="19" x2="5" y2="5"></line>
                 </svg>
             </button>
-            <button id="rwdBtn" title="Rewind 10s" class="hidden">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="11 19 2 12 11 5 11 19"></polygon>
-                    <polygon points="22 19 13 12 22 5 22 19"></polygon>
-                </svg>
-            </button>
             <button id="playPauseBtn" disabled>
                 <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -98,16 +91,6 @@
                 </svg>
                 <span>Play</span>
             </button>
-
-
-            <button id="fwdBtn" title="Forward 10s" class="hidden">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="13 19 22 12 13 5 13 19"></polygon>
-                    <polygon points="2 19 11 12 2 5 2 19"></polygon>
-                </svg>
-            </button>
-
             <button id="songMapBtn" title="Show Song Map">
                 <svg viewBox="0 0 512 512" width="20" height="20" style="transform: rotate(90deg);">
                     <g>
@@ -156,6 +139,26 @@
                     </g>
                 </svg>
                 <span>Song Map</span>
+            </button>
+            <button id="editModeBtn" title="Toggle Edit Mode" class="edit-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <span>EDIT</span>
+            </button>
+            <button id="captureBtn" title="Record timing" class="capture-btn hidden">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
+                    <circle cx="12" cy="12" r="8"></circle>
+                </svg>
+            </button>
+            <button id="audioToggleBtn" title="Toggle Chord Audio">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
             </button>
             <button id="youtubeToggleBtn" title="Toggle YouTube Video">
                 <svg viewBox="0 0 68 48" width="22" height="16">
@@ -232,6 +235,21 @@
                     </div>
                 </div>
             </div>
+
+            <button id="saveBtn" title="Save Changes" class="hidden">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+            </button>
+
+            <!-- Hidden original buttons stuff kept for logic -->
+            <button id="octaveCycleBtn" class="hidden"></button>
+            <button id="metronomeBtn" class="hidden"></button>
+            <button id="bpmBtn" class="hidden"></button>
+            <button id="exportBtn" class="hidden"></button>
         </div>
 
         <div class="adjust-controls-row edit-only">
@@ -290,14 +308,7 @@
             </button>
 
 
-            <button id="editModeBtn" title="Toggle Edit Mode" class="edit-btn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
-                <span>EDIT</span>
-            </button>
+
 
 
             <button id="undoBtn" title="Undo Last Change" class="edit-only">
@@ -378,19 +389,7 @@
 
 
 
-            <button id="captureBtn" title="Record timing" class="capture-btn hidden">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
-                    <circle cx="12" cy="12" r="8"></circle>
-                </svg>
-            </button>
 
-            <button id="audioToggleBtn" title="Toggle Chord Audio">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                </svg>
-            </button>
 
 
 
