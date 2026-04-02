@@ -4229,7 +4229,14 @@ class SongDetailModal {
 
         try {
             // Update in DB
-            await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+            if (song.isPublic) {
+                // For public songs, uses the special increment method that doesn't 
+                // require edit permissions on the public song itself.
+                await this.songManager.updatePublicPracticeCount(this.currentSongId);
+            } else {
+                // For private songs, update the song record normally
+                await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
+            }
 
             // Update Practice Streak if authenticated
             const fbManager = this.firebaseManager || (window.appInstance ? window.appInstance.firebaseManager : null);

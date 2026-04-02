@@ -1273,5 +1273,41 @@ class FirebaseManager {
 
         return errorMessages[errorCode] || `Fout: ${errorCode}`;
     }
+
+    // ── Public Practice Counts ──────────────────────────────────────────
+
+    /**
+     * Increments the practice count for a public song for the current user.
+     * These counts are stored in users/{userId}/publicPracticeCounts/{songId}
+     * instead of on the public song itself (since users can't edit public songs).
+     */
+    async incrementPublicPracticeCount(userId, songId) {
+        if (!this.initialized || !userId || !songId) return 0;
+        try {
+            const countRef = this.database.ref(`users/${userId}/publicPracticeCounts/${songId}`);
+            const snapshot = await countRef.once('value');
+            let currentCount = parseInt(snapshot.val()) || 0;
+            currentCount++;
+            await countRef.set(currentCount);
+            return currentCount;
+        } catch (error) {
+            console.error('Error incrementing public practice count:', error);
+            return 0;
+        }
+    }
+
+    /**
+     * Loads all public practice counts for the current user.
+     */
+    async loadPublicPracticeCounts(userId) {
+        if (!this.initialized || !userId) return {};
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/publicPracticeCounts`).once('value');
+            return snapshot.val() || {};
+        } catch (error) {
+            console.error('Error loading public practice counts:', error);
+            return {};
+        }
+    }
 }
 

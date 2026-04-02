@@ -9,6 +9,7 @@ class SongManager {
         this.syncEnabled = false;
         this.onSongsChanged = null; // Callback for when songs change externally
         this.publicSongs = []; // Cache for public songs
+        this.publicPracticeCounts = {}; // Cache for user-specific practice counts on public songs
         this.currentUserId = null; 
     }
 
@@ -94,13 +95,24 @@ class SongManager {
             if (!user) return;
             const userId = user.uid;
             
-            // Load both private and public songs in one sync pass
-            const [privateSongsRaw, publicSongsRaw] = await Promise.all([
+            // Load private, public songs and public practice counts in one sync pass
+            const [privateSongsRaw, publicSongsRaw, publicPracticeCountsRaw] = await Promise.all([
                 this.firebaseManager.loadSongs(userId),
-                this.firebaseManager.loadPublicSongs()
+                this.firebaseManager.loadPublicSongs(),
+                this.firebaseManager.loadPublicPracticeCounts(userId)
             ]);
+            
+            this.publicPracticeCounts = publicPracticeCountsRaw || {};
+            
+            // Normalize public songs with user-specific counts
+            const normalizedPublic = this.normalizeSongs(publicSongsRaw || []).map(song => {
+                if (this.publicPracticeCounts[song.id]) {
+                    song.practiceCount = this.publicPracticeCounts[song.id].toString();
+                }
+                return song;
+            });
+            this.publicSongs = normalizedPublic;
             const normalizedPrivate = this.normalizeSongs(privateSongsRaw);
-            const normalizedPublic = this.normalizeSongs(publicSongsRaw);
 
             // Update user-specific storage key if needed
             this.updateStorageKey(userId);
@@ -575,7 +587,12 @@ class SongManager {
 
         // Listener for public songs
         this.firebaseManager.onPublicSongsChange(userId, (publicSongsRaw) => {
-            const normalizedPublic = this.normalizeSongs(publicSongsRaw);
+            const normalizedPublic = this.normalizeSongs(publicSongsRaw).map(song => {
+                if (this.publicPracticeCounts && this.publicPracticeCounts[song.id]) {
+                    song.practiceCount = this.publicPracticeCounts[song.id].toString();
+                }
+                return song;
+            });
             this.publicSongs = normalizedPublic;
             
             const publicIds = new Set(normalizedPublic.map(s => String(s.id)));
@@ -586,6 +603,28 @@ class SongManager {
             this.cacheSongs();
             if (this.onSongsChanged) this.onSongsChanged();
         });
+    }
+
+    /**
+     * Special method to update just the practice count for a public song.
+     */
+    async updatePublicPracticeCount(songId) {
+        if (!this.firebaseManager || !this.currentUserId) return;
+        
+        try {
+            const newCount = await this.firebaseManager.incrementPublicPracticeCount(this.currentUserId, songId);
+            this.publicPracticeCounts[songId] = newCount;
+            
+            // Update the count in the active song list
+            const song = this.songs.find(s => String(s.id) === String(songId));
+            if (song) {
+                song.practiceCount = newCount.toString();
+                this.cacheSongs();
+                if (this.onSongsChanged) this.onSongsChanged();
+            }
+        } catch (error) {
+            console.error('SongManager: Error updating public practice count:', error);
+        }
     }
 
     /**
