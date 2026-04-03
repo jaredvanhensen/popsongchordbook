@@ -535,6 +535,8 @@ class SongDetailModal {
             if (this.capoValue !== 0) {
                 if (this.capoValue === -1) {
                     this.capoBadge.textContent = 'Eb';
+                } else if (this.capoValue === -2) {
+                    this.capoBadge.textContent = 'D';
                 } else {
                     this.capoBadge.textContent = this.capoValue;
                 }

@@ -2923,6 +2923,7 @@ class App {
                 <div class="confirm-title">${title}</div>
                 <div class="confirm-message">${message}</div>
                 <div id="capoMenu" class="transpose-menu hidden">
+                    <button class="transpose-menu-item capo-menu-item" data-capo="-2">D Tuning (-2)</button>
                     <button class="transpose-menu-item capo-menu-item" data-capo="-1">Eb Tuning (-1)</button>
                     <button class="transpose-menu-item capo-menu-item" data-capo="0">None (0)</button>
                 </div>
