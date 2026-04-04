@@ -445,7 +445,27 @@ body {
 .feature-card:hover {
     transform: none !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    cursor: default;
+    cursor: default !important;
+}
+
+.instrument-card:hover::before,
+.feature-card:hover::before {
+    opacity: 0 !important;
+}
+
+.instrument-card:hover .instrument-icon,
+.feature-card:hover .feature-icon {
+    transform: none !important;
+}
+
+.instrument-card:hover h3,
+.feature-card:hover h3 {
+    color: #1e293b !important;
+}
+
+.instrument-card:hover p,
+.feature-card:hover p {
+    color: #64748b !important;
 }
 
 
