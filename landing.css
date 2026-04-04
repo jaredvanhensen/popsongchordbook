@@ -30,6 +30,9 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
 }
 
 /* Hero Section */
@@ -468,6 +471,17 @@ body {
 .instrument-card:hover p,
 .feature-card:hover p {
     color: #64748b !important;
+}
+
+/* Hard reset for guitar-card hover found in styles.css */
+.guitar-card:hover {
+    transform: none !important;
+    background: white !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.guitar-card:active {
+    transform: none !important;
 }
 
 
