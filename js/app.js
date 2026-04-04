@@ -166,6 +166,7 @@ class App {
         this.profileModal = new ProfileModal(
             this.firebaseManager,
             this.songManager,
+            this.confirmationModal,
             () => this.handleSignOut(),
             () => this.shareSongsModal.show(),
             () => this.acceptSongsModal.show()
@@ -2993,6 +2994,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

@@ -1,8 +1,9 @@
 // ProfileModal - Profile modal for viewing profile and changing password
 class ProfileModal {
-    constructor(firebaseManager, songManager, onSignOut = null, onShareSongs = null, onAcceptSongs = null) {
+    constructor(firebaseManager, songManager, confirmationModal, onSignOut = null, onShareSongs = null, onAcceptSongs = null) {
         this.firebaseManager = firebaseManager;
         this.songManager = songManager;
+        this.confirmationModal = confirmationModal;
         this.onSignOut = onSignOut;
         this.onShareSongs = onShareSongs;
         this.onAcceptSongs = onAcceptSongs;
@@ -461,13 +462,24 @@ class ProfileModal {
             });
 
             this.requestsTableBody.querySelectorAll('.delete-req-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
+                btn.onmouseenter = (e) => e.target.style.transform = 'scale(1.05)';
+                btn.onmouseleave = (e) => e.target.style.transform = 'scale(1)';
+                btn.onclick = (e) => {
                     const reqId = e.currentTarget.dataset.id;
-                    if (confirm('Are you sure you want to delete this request?')) {
-                        const result = await this.firebaseManager.deleteSongRequest(reqId);
-                        if (result.success) this.renderRequests();
-                    }
-                });
+                    const title = e.currentTarget.dataset.title;
+                    this.confirmationModal.show(
+                        'Delete Request',
+                        `Are you sure you want to delete the request for <strong>${title}</strong>?`,
+                        async () => {
+                            const result = await this.firebaseManager.deleteSongRequest(reqId);
+                            if (result.success) this.renderRequests();
+                        },
+                        null,
+                        'Delete',
+                        'Cancel',
+                        'danger'
+                    );
+                };
             });
         } catch (error) {
             console.error('Error rendering requests:', error);
@@ -476,30 +488,36 @@ class ProfileModal {
     }
 
     async handleFulfillRequest(requestId, email, artist, title) {
-        if (!confirm(`Mark ${title} as fulfilled?`)) return;
+        this.confirmationModal.show(
+            'Fulfill Request',
+            `Mark <strong>${title}</strong> by <strong>${artist}</strong> as fulfilled?<br><br>An email notification will be prepared for the requester.`,
+            async () => {
+                try {
+                    const result = await this.firebaseManager.fulfillSongRequest(requestId);
+                    if (result.success) {
+                        this.renderRequests();
 
-        try {
-            const result = await this.firebaseManager.fulfillSongRequest(requestId);
-            if (result.success) {
-                this.renderRequests();
-
-                // Notification Logic
-                if (email && email.includes('@')) {
-                    const subject = encodeURIComponent(`Your Song Request Fulfilled: ${title}`);
-                    const body = encodeURIComponent(`Hey! \n\nGreat news! Your request for "${title}" by "${artist}" has been fulfilled. You can now find it in the public library! \n\nKeep on playing! \n\n- Pop Song Chord Book Team`);
-                    
-                    // Delay slightly to allow UI to update, then open email
-                    setTimeout(() => {
-                        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-                    }, 500);
+                        // Notification Logic
+                        if (email && email.includes('@')) {
+                            const subject = encodeURIComponent(`Your Song Request Fulfilled: ${title}`);
+                            const body = encodeURIComponent(`Hey! \n\nGreat news! Your request for "${title}" by "${artist}" has been fulfilled. You can now find it in the public library! \n\nKeep on playing! \n\n- Pop Song Chord Book Team`);
+                            
+                            // Delay slightly to allow UI to update, then open email
+                            setTimeout(() => {
+                                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+                            }, 500);
+                        }
+                    } else {
+                        alert('Error updating request: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Fulfillment error:', error);
                 }
-            } else {
-                alert('Error updating request: ' + result.error);
-            }
-        } catch (error) {
-            console.error('Fulfillment error:', error);
-            alert('Something went wrong.');
-        }
+            },
+            null,
+            'Mark DONE',
+            'Cancel'
+        );
     }
 
     async updateStatistics() {
