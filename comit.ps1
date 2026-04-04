@@ -10,7 +10,6 @@ param (
 $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
 $songlistFile = Join-Path $root "songlist.html"
-$changelogFile = Join-Path $root "changelog.html"
 $appJsFile = Join-Path $root "js/app.js"
 $scrollingHtmlFile = Join-Path $root "scrolling_chords.html"
 $scrollingJsFile = Join-Path $root "js/scrolling_chords.js"
@@ -45,7 +44,7 @@ Write-Host "Updating index.html..."
 $indexContent = $indexContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
 $indexContent = $indexContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
 # Also update meta description if present
-$indexContent = $indexContent -replace '(Songbook v)[\d\.]+', ("`$1$newVersion")
+$indexContent = $indexContent -replace 'Songbook v[\d\.]+', ("Songbook v$newVersion")
 Set-Content $indexFile $indexContent -Encoding UTF8
 
 # 4. Update songlist.html
@@ -66,7 +65,7 @@ if (Test-Path $scrollingHtmlFile) {
 if (Test-Path $scrollingJsFile) {
     Write-Host "Updating scrolling_chords.js..."
     $scrollingJsContent = Get-Content $scrollingJsFile -Raw -Encoding UTF8
-    $scrollingJsContent = $scrollingJsContent -replace '(Scrolling Chords Logic \(v)[\d\.]+', ("`$1$newVersion")
+    $scrollingJsContent = $scrollingJsContent -replace 'Scrolling Chords Logic \(v[\d\.]+', ("Scrolling Chords Logic (v$newVersion")
     Set-Content $scrollingJsFile $scrollingJsContent -Encoding UTF8
 }
 
@@ -74,7 +73,7 @@ if (Test-Path $scrollingJsFile) {
 if (Test-Path $appJsFile) {
     Write-Host "Updating app.js..."
     $appJsContent = Get-Content $appJsFile -Raw -Encoding UTF8
-    $appJsContent = $appJsContent -replace '(App Initialized \(v)[\d\.]+', ("`$1$newVersion")
+    $appJsContent = $appJsContent -replace 'App Initialized \(v[\d\.]+', ("App Initialized (v$newVersion")
     Set-Content $appJsFile $appJsContent -Encoding UTF8
 }
 
