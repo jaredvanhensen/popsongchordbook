@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.530)
+﻿// Scrolling Chords Logic (v2.542)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -449,12 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof syncSettingsMenu === 'function') syncSettingsMenu();
             }
 
-            // Update label for lyrics toggle inside this menu
-            const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
-            if (menuLyricsBtn) {
-                const label = menuLyricsBtn.querySelector('.label');
-                if (label) label.innerText = lyricsEnabled ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
-            }
+            // Lyrics toggle text sync removed as it is now in the main toolbar
         });
 
         // Close when clicking outside
@@ -864,7 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (lyricsBtn) {
                     const label = lyricsBtn.querySelector('.label');
                     const isLyricsActive = !(document.getElementById('lyricsHUD') && document.getElementById('lyricsHUD').classList.contains('hidden'));
-                    if (label) label.innerText = isLyricsActive ? "Disable Lyrics Overlay" : "Enable Lyrics Overlay";
+                    if (label) label.innerText = isLyricsActive ? "Lyrics (ON)" : "Lyrics (OFF)";
                 }
                 const audioBtn = document.getElementById('pureMenuAudioBtn');
                 if (audioBtn) {
@@ -2277,16 +2272,12 @@ function shiftChords(deltaSteps) {
 
 function toggleLyricsHUD() {
     lyricsEnabled = !lyricsEnabled;
-    const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
-    const label = menuLyricsBtn ? menuLyricsBtn.querySelector('.label') : null;
-
+    
     if (lyricsEnabled) {
         lyricsHUD.classList.remove('hidden');
         if (toggleLyricsBtn) toggleLyricsBtn.classList.add('active');
-        if (label) label.innerText = "Disable Lyrics Overlay";
     } else {
         hideLyricsHUD();
-        if (label) label.innerText = "Enable Lyrics Overlay";
     }
 }
 
@@ -2356,11 +2347,6 @@ function hideLyricsHUD() {
     lyricsEnabled = false;
     lyricsHUD.classList.add('hidden');
     if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('active');
-    const menuLyricsBtn = document.getElementById('toggleLyricsBtn');
-    if (menuLyricsBtn) {
-        const label = menuLyricsBtn.querySelector('.label');
-        if (label) label.innerText = "Enable Lyrics Overlay";
-    }
 }
 
 function exportToJSON() {
@@ -4489,3 +4475,4 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
