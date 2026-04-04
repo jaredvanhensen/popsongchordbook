@@ -189,13 +189,19 @@ body {
     color: white;
 }
 
-.btn-large {
-    padding: 20px 40px;
-    font-size: 1.3rem;
+.btn-pill {
+    padding: 10px 24px;
+    font-size: 1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.btn-icon {
-    font-size: 1.3em;
+.btn-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* Showcase Section */
@@ -434,7 +440,14 @@ body {
     transition: color 0.4s ease;
 }
 
-/* Removed hover effects from instrument cards as they are not clickable */
+/* Removed hover effects from instrument and feature cards as they are not clickable */
+.instrument-card:hover, 
+.feature-card:hover {
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    cursor: default;
+}
+
 
 
 
@@ -454,11 +467,6 @@ body {
 .feature-card {
     text-align: center;
     padding: 30px 20px;
-    transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
 }
 
 .feature-icon {
@@ -538,6 +546,13 @@ body {
     .btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .btn.btn-pill {
+        width: auto !important;
+        min-width: 220px;
+        margin: 0 auto;
+        display: inline-flex;
     }
 }
 .hidden { display: none !important; }

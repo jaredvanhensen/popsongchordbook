@@ -1998,6 +1998,40 @@ class App {
             closeModal();
         });
 
+        const requestBtn = document.getElementById('requestSongBtn');
+        if (requestBtn) {
+            requestBtn.addEventListener('click', async () => {
+                const artist = artistInput.value.trim();
+                const title = titleInput.value.trim();
+
+                if (!artist || !title) {
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+
+                errorMsg.classList.add('hidden');
+                
+                const user = this.firebaseManager.getCurrentUser();
+                if (!user) {
+                    alert('Log eerst in om een liedje aan te vragen.');
+                    return;
+                }
+
+                try {
+                    const result = await this.firebaseManager.addSongRequest(user.uid, user.email, artist, title);
+                    if (result.success) {
+                        this.showHUD('Aanvraag verzonden!');
+                        closeModal();
+                    } else {
+                        alert('Fout bij verzenden aanvraag: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Error requesting song:', error);
+                    alert('Er is een fout opgetreden bij het aanvragen.');
+                }
+            });
+        }
+
         // Enter key to submit
         [artistInput, titleInput].forEach(input => {
             input.addEventListener('keydown', (e) => {

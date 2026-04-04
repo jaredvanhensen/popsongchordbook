@@ -442,6 +442,36 @@ class FirebaseManager {
         return this.currentUser !== null;
     }
 
+    async addSongRequest(userId, userEmail, artist, title) {
+        if (!this.initialized) return { success: false, error: 'Firebase not initialized' };
+        try {
+            const requestRef = this.database.ref('songRequests').push();
+            await requestRef.set({
+                userId: userId,
+                userEmail: userEmail,
+                artist: artist,
+                title: title,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+            return { success: true };
+        } catch (e) {
+            console.error('Error adding song request:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getSongRequests() {
+        if (!this.initialized) return [];
+        try {
+            const snapshot = await this.database.ref('songRequests').once('value');
+            const data = snapshot.val();
+            return data ? Object.values(data) : [];
+        } catch (e) {
+            console.error('Error getting song requests:', e);
+            return [];
+        }
+    }
+
     // Database Methods
 
     async saveSongs(userId, songs) {

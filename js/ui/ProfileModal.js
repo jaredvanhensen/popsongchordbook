@@ -33,6 +33,14 @@ class ProfileModal {
         this.reseedSongsBtn = document.getElementById('reseedSongsBtn');
         this.closeBtn = document.getElementById('profileModalClose');
 
+        // Admin elements
+        this.adminSection = document.getElementById('profileAdminSection');
+        this.viewRequestsBtn = document.getElementById('profileViewRequestsBtn');
+        this.requestsModal = document.getElementById('adminRequestsModal');
+        this.requestsTableBody = document.getElementById('adminRequestsTableBody');
+        this.requestsEmptyMsg = document.getElementById('adminRequestsEmpty');
+        this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
+
         // Feature Toggles
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
@@ -242,6 +250,27 @@ class ProfileModal {
                 }
             });
         }
+
+        // Admin Request handlers
+        if (this.viewRequestsBtn) {
+            this.viewRequestsBtn.addEventListener('click', () => {
+                this.showRequestsModal();
+            });
+        }
+
+        if (this.requestsCloseBtn) {
+            this.requestsCloseBtn.addEventListener('click', () => {
+                if (this.requestsModal) this.requestsModal.classList.add('hidden');
+            });
+        }
+
+        if (this.requestsModal) {
+            this.requestsModal.addEventListener('click', (e) => {
+                if (e.target === this.requestsModal) {
+                    this.requestsModal.classList.add('hidden');
+                }
+            });
+        }
     }
 
     async handleAvatarUpload(file) {
@@ -354,6 +383,55 @@ class ProfileModal {
         // Update statistics
         this.updateDatabaseSize();
         this.updateStatistics();
+
+        // Check for admin
+        if (this.adminSection) {
+            const isAdmin = user && user.email === 'jared@vanhensen.nl';
+            this.adminSection.classList.toggle('hidden', !isAdmin);
+        }
+    }
+
+    async showRequestsModal() {
+        if (!this.requestsModal) return;
+
+        this.requestsModal.classList.remove('hidden');
+        this.renderRequests();
+    }
+
+    async renderRequests() {
+        if (!this.requestsTableBody) return;
+
+        this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Laden...</td></tr>';
+
+        try {
+            const requests = await this.firebaseManager.getSongRequests();
+            this.requestsTableBody.innerHTML = '';
+
+            if (requests.length === 0) {
+                this.requestsEmptyMsg?.classList.remove('hidden');
+                return;
+            }
+
+            this.requestsEmptyMsg?.classList.add('hidden');
+
+            // Sort by timestamp descending
+            const sorted = requests.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+            sorted.forEach(req => {
+                const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString() : 'Unknown';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${req.artist || '-'}</td>
+                    <td>${req.title || '-'}</td>
+                    <td>${req.userEmail || 'Anon'}</td>
+                    <td>${date}</td>
+                `;
+                this.requestsTableBody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Error rendering requests:', error);
+            this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Fout bij laden van aanvragen.</td></tr>';
+        }
     }
 
     async updateStatistics() {

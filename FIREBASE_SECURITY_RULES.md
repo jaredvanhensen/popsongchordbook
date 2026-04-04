@@ -56,6 +56,10 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
           ".write": "$userId === auth.uid"
         }
       }
+    },
+    "songRequests": {
+      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".write": "auth != null"
     }
   }
 }
