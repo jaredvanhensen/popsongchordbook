@@ -43,30 +43,30 @@ Write-Host "New Target Version: $newVersion" -ForegroundColor Yellow
 # 3. Update index.html
 Write-Host "Updating index.html..."
 $indexContent = $indexContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
-$indexContent = $indexContent -replace '(\?v=)[\d\.]+', ('$1' + $newVersion)
+$indexContent = $indexContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
 # Also update meta description if present
-$indexContent = $indexContent -replace '(Songbook v)[\d\.]+', ('$1' + $newVersion)
+$indexContent = $indexContent -replace '(Songbook v)[\d\.]+', ("`$1$newVersion")
 Set-Content $indexFile $indexContent -Encoding UTF8
 
 # 4. Update songlist.html
 Write-Host "Updating songlist.html..."
 $songlistContent = Get-Content $songlistFile -Raw -Encoding UTF8
 $songlistContent = $songlistContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
-$songlistContent = $songlistContent -replace '(\?v=)[\d\.]+', ('$1' + $newVersion)
+$songlistContent = $songlistContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
 Set-Content $songlistFile $songlistContent -Encoding UTF8
 
 # 5. Update scrolling_chords.html & js
 if (Test-Path $scrollingHtmlFile) {
     Write-Host "Updating scrolling_chords.html..."
     $scrollingHtmlContent = Get-Content $scrollingHtmlFile -Raw -Encoding UTF8
-    $scrollingHtmlContent = $scrollingHtmlContent -replace '(\?v=)[\d\.]+', ('$1' + $newVersion)
+    $scrollingHtmlContent = $scrollingHtmlContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
     Set-Content $scrollingHtmlFile $scrollingHtmlContent -Encoding UTF8
 }
 
 if (Test-Path $scrollingJsFile) {
     Write-Host "Updating scrolling_chords.js..."
     $scrollingJsContent = Get-Content $scrollingJsFile -Raw -Encoding UTF8
-    $scrollingJsContent = $scrollingJsContent -replace '(Scrolling Chords Logic \(v)[\d\.]+', ('$1' + $newVersion)
+    $scrollingJsContent = $scrollingJsContent -replace '(Scrolling Chords Logic \(v)[\d\.]+', ("`$1$newVersion")
     Set-Content $scrollingJsFile $scrollingJsContent -Encoding UTF8
 }
 
@@ -74,7 +74,7 @@ if (Test-Path $scrollingJsFile) {
 if (Test-Path $appJsFile) {
     Write-Host "Updating app.js..."
     $appJsContent = Get-Content $appJsFile -Raw -Encoding UTF8
-    $appJsContent = $appJsContent -replace '(App Initialized \(v)[\d\.]+', ('$1' + $newVersion)
+    $appJsContent = $appJsContent -replace '(App Initialized \(v)[\d\.]+', ("`$1$newVersion")
     Set-Content $appJsFile $appJsContent -Encoding UTF8
 }
 
