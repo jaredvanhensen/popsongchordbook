@@ -3599,6 +3599,53 @@ td:has(.row-edit-input.input-focused) {
     margin-bottom: 25px;
 }
 
+/* Admin Requests Table Adjustments */
+#adminRequestsModal .profile-top-songs-table th {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75em;
+}
+
+#adminRequestsModal .action-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+#adminRequestsModal .fulfill-btn {
+    background: #10b981;
+    color: white;
+}
+
+#adminRequestsModal .fulfill-btn:hover:not(:disabled) {
+    background: #059669;
+    transform: scale(1.05);
+}
+
+#adminRequestsModal .fulfill-btn.fulfilled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: default;
+    opacity: 0.8;
+}
+
+#adminRequestsModal .delete-req-btn {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+#adminRequestsModal .delete-req-btn:hover {
+    background: #fecaca;
+    color: #dc2626;
+    transform: scale(1.05);
+}
+
 .profile-sharing-section {
     margin-bottom: 25px;
     padding-bottom: 25px;

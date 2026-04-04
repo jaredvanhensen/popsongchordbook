@@ -465,10 +465,41 @@ class FirebaseManager {
         try {
             const snapshot = await this.database.ref('songRequests').once('value');
             const data = snapshot.val();
-            return data ? Object.values(data) : [];
+            if (!data) return [];
+            
+            // Map to include the key as 'requestId'
+            return Object.entries(data).map(([key, val]) => ({
+                ...val,
+                requestId: key
+            }));
         } catch (e) {
             console.error('Error getting song requests:', e);
             return [];
+        }
+    }
+
+    async fulfillSongRequest(requestId, status = 'fulfilled') {
+        if (!this.initialized || !requestId) return { success: false };
+        try {
+            await this.database.ref(`songRequests/${requestId}`).update({
+                status: status,
+                fulfillmentDate: new Date().toISOString()
+            });
+            return { success: true };
+        } catch (e) {
+            console.error('Error fulfilling song request:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async deleteSongRequest(requestId) {
+        if (!this.initialized || !requestId) return { success: false };
+        try {
+            await this.database.ref(`songRequests/${requestId}`).remove();
+            return { success: true };
+        } catch (e) {
+            console.error('Error deleting song request:', e);
+            return { success: false, error: e.message };
         }
     }
 

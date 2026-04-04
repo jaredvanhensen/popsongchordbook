@@ -420,17 +420,85 @@ class ProfileModal {
             sorted.forEach(req => {
                 const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString() : 'Unknown';
                 const tr = document.createElement('tr');
+                const isFulfilled = req.status === 'fulfilled';
+                
                 tr.innerHTML = `
                     <td>${req.artist || '-'}</td>
                     <td>${req.title || '-'}</td>
                     <td>${req.userEmail || 'Anon'}</td>
                     <td>${date}</td>
+                    <td style="display: flex; gap: 8px;">
+                        <button class="action-btn fulfill-btn ${isFulfilled ? 'fulfilled' : ''}" 
+                                title="Mark as Done & Email User" 
+                                data-id="${req.requestId}" 
+                                data-email="${req.userEmail || ''}"
+                                data-artist="${req.artist || ''}"
+                                data-title="${req.title || ''}"
+                                ${isFulfilled ? 'disabled' : ''}
+                                style="cursor: ${isFulfilled ? 'default' : 'pointer'};">
+                            ${isFulfilled ? '✔️ DONE' : '✅ DONE'}
+                        </button>
+                        <button class="action-btn delete-req-btn" 
+                                title="Delete Request" 
+                                data-id="${req.requestId}"
+                                style="cursor: pointer;">
+                            🗑️
+                        </button>
+                    </td>
                 `;
                 this.requestsTableBody.appendChild(tr);
+            });
+
+            // Add event listeners for the new buttons
+            this.requestsTableBody.querySelectorAll('.fulfill-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const reqId = e.currentTarget.dataset.id;
+                    const email = e.currentTarget.dataset.email;
+                    const artist = e.currentTarget.dataset.artist;
+                    const title = e.currentTarget.dataset.title;
+                    this.handleFulfillRequest(reqId, email, artist, title);
+                });
+            });
+
+            this.requestsTableBody.querySelectorAll('.delete-req-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const reqId = e.currentTarget.dataset.id;
+                    if (confirm('Are you sure you want to delete this request?')) {
+                        const result = await this.firebaseManager.deleteSongRequest(reqId);
+                        if (result.success) this.renderRequests();
+                    }
+                });
             });
         } catch (error) {
             console.error('Error rendering requests:', error);
             this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Fout bij laden van aanvragen.</td></tr>';
+        }
+    }
+
+    async handleFulfillRequest(requestId, email, artist, title) {
+        if (!confirm(`Mark ${title} as fulfilled?`)) return;
+
+        try {
+            const result = await this.firebaseManager.fulfillSongRequest(requestId);
+            if (result.success) {
+                this.renderRequests();
+
+                // Notification Logic
+                if (email && email.includes('@')) {
+                    const subject = encodeURIComponent(`Your Song Request Fulfilled: ${title}`);
+                    const body = encodeURIComponent(`Hey! \n\nGreat news! Your request for "${title}" by "${artist}" has been fulfilled. You can now find it in the public library! \n\nKeep on playing! \n\n- Pop Song Chord Book Team`);
+                    
+                    // Delay slightly to allow UI to update, then open email
+                    setTimeout(() => {
+                        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+                    }, 500);
+                }
+            } else {
+                alert('Error updating request: ' + result.error);
+            }
+        } catch (error) {
+            console.error('Fulfillment error:', error);
+            alert('Something went wrong.');
         }
     }
 
