@@ -230,6 +230,8 @@ body {
 .artists-section {
     padding: 60px 20px 100px 20px;
     background: white;
+    height: auto !important;
+    overflow: visible !important;
 }
 
 .section-title {
