@@ -121,6 +121,27 @@ class PianoAudioPlayer {
         }
 
         this.applyProfile(this.currentSound);
+
+        // Quality settings (v2.567)
+        this.quality = 'premium';
+        if (typeof localStorage !== 'undefined') {
+            const savedQuality = localStorage.getItem('piano_audio_quality');
+            if (savedQuality) this.quality = savedQuality;
+        }
+
+        console.log(`%c 🎹 PianoAudioPlayer v2.567 [${this.quality.toUpperCase()}] initialized`, 'color: #6366f1; font-weight: bold;');
+    }
+
+    setQuality(quality) {
+        this.quality = quality;
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('piano_audio_quality', quality);
+        }
+        
+        // If already initialized, we may need to adjust reverb
+        if (this.isInitialized) {
+            this.setReverb(quality === 'basic' ? 0 : 0.3);
+        }
     }
 
     setSound(soundType) {
@@ -260,12 +281,14 @@ class PianoAudioPlayer {
 
         filter.connect(noteGain);
         noteGain.connect(this.masterGain);
-        if (this.reverbNode) {
+        
+        // Quality Optimization (v2.567)
+        if (this.quality === 'premium' && this.reverbNode) {
             noteGain.connect(this.reverbNode);
         }
 
-        // 3. Add Hammer Noise
-        if (this.hammerEnabled) {
+        // 3. Add Hammer Noise (Skip in BASIC mode to save samples)
+        if (this.hammerEnabled && this.quality === 'premium') {
             this.addHammerNoise(noteGain, now, velocity);
         }
 
@@ -285,7 +308,10 @@ class PianoAudioPlayer {
         // 4. Create Oscillators
         const oscillators = [];
 
-        this.harmonics.forEach(([multiplier, amplitude, type]) => {
+        // Quality Optimization: Only play all harmonics in PREMIUM mode
+        const playbackHarmonics = this.quality === 'premium' ? this.harmonics : [this.harmonics[0]];
+
+        playbackHarmonics.forEach(([multiplier, amplitude, type]) => {
             const hFreq = frequency * multiplier;
             if (hFreq > 15000) return;
 

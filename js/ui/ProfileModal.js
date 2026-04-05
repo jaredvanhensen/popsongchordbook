@@ -45,6 +45,8 @@ class ProfileModal {
         // Feature Toggles
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
+        this.audioQualitySelect = document.getElementById('profileAudioQualitySelect');
+        this.audioQualityDesc = document.getElementById('audioQualityDesc');
 
         // Statistics elements
         this.databaseSizeDisplay = document.getElementById('profileDatabaseSize');
@@ -252,6 +254,22 @@ class ProfileModal {
             });
         }
 
+        if (this.audioQualitySelect) {
+            this.audioQualitySelect.addEventListener('change', (e) => {
+                const quality = e.target.value;
+                const descMap = {
+                    'premium': 'PREMIUM: Full fidelity with reverb',
+                    'basic': 'BASIC: Minimal CPU load'
+                };
+                if (this.audioQualityDesc) this.audioQualityDesc.textContent = descMap[quality] || descMap.premium;
+                
+                // Set in player
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer) {
+                    window.appInstance.songDetailModal.sharedAudioPlayer.setQuality(quality);
+                }
+            });
+        }
+
         // Admin Request handlers
         if (this.viewRequestsBtn) {
             this.viewRequestsBtn.addEventListener('click', () => {
@@ -379,6 +397,17 @@ class ProfileModal {
         }
         if (this.midiToggle) {
             this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) === 'true';
+        }
+
+        if (this.audioQualitySelect) {
+            const savedQuality = localStorage.getItem('piano_audio_quality') || 'premium';
+            this.audioQualitySelect.value = savedQuality;
+            
+            const descMap = {
+                'premium': 'PREMIUM: Full fidelity with reverb',
+                'basic': 'BASIC: Minimal CPU load'
+            };
+            if (this.audioQualityDesc) this.audioQualityDesc.textContent = descMap[savedQuality] || descMap.premium;
         }
 
         // Update statistics
