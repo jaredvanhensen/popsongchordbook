@@ -152,20 +152,34 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
-            <!-- v2.552 -->
+            <!-- v2.554 -->
             <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.554</span>
+                    <span class="version-date">April 05, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">UI Clean-up</span>
+                        <span class="change-description">The <strong>Delete Option</strong> is now completely hidden for public songs if you are not the original owner or an admin. This provides a cleaner UI by removing inaccessible actions.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.552 -->
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.552</span>
                     <span class="version-date">April 05, 2026</span>
                 </div>
                 <ul class="change-list">
                     <li class="change-item">
-                        <span class="change-type">Deletion Logic</span>
-                        <span class="change-description">Enhanced <strong>Public Song Security</strong>: Deletion attempts for public songs that you don't own are now explicitly blocked and provide a clear "Public Song cannot be deleted" notification.</span>
+                        <span class="change-type">Security</span>
+                        <span class="change-description">Enhanced <strong>Public Song Security</strong> by enforcing permission checks at the model level, ensuring communal content is protected even if UI filters are bypassed.</span>
                     </li>
                     <li class="change-item">
                         <span class="change-type">UI Feedback</span>
-                        <span class="change-description">Updated the <strong>HUD notification</strong> system to include an "Error/Warning" state (⚠️) for more descriptive user feedback on restricted actions.</span>
+                        <span class="change-description">Updated the <strong>HUD notification</strong> system with a warning icon (⚠️) for restricted actions.</span>
                     </li>
                 </ul>
             </div>
