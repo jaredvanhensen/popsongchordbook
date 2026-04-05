@@ -1,4 +1,4 @@
-﻿// Main Application (v2.561)
+﻿// Main Application (v2.562)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.561");
+        console.log("Pop Song Chord Book - 2.562");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -89,6 +89,7 @@ class App {
             withYouTube: false,
             withoutYouTube: false,
             withoutLyrics: false,
+            withoutTimeline: false,
             noPublic: false,
             onlyPublic: false
         };
@@ -820,6 +821,13 @@ class App {
             });
         }
 
+        if (this.currentFilter.withoutTimeline) {
+            allSongs = allSongs.filter(song => {
+                const hasTimeline = song.chordData && song.chordData.chords && song.chordData.chords.length > 0;
+                return !hasTimeline;
+            });
+        }
+
         if (this.currentFilter.noPublic) {
             allSongs = allSongs.filter(song => !song.isPublic);
         }
@@ -903,6 +911,7 @@ class App {
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
+        const filterWithoutTimelineCheckbox = document.getElementById('filterWithoutTimelineCheckbox');
         const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
         const filterOnlyPublicCheckbox = document.getElementById('filterOnlyPublicCheckbox');
 
@@ -933,6 +942,7 @@ class App {
                 withYouTube: filterWithYouTubeCheckbox.checked,
                 withoutYouTube: filterWithoutYouTubeCheckbox.checked,
                 withoutLyrics: filterWithoutLyricsCheckbox.checked,
+                withoutTimeline: filterWithoutTimelineCheckbox.checked,
                 noPublic: filterNoPublicCheckbox.checked,
                 onlyPublic: filterOnlyPublicCheckbox.checked
             };
@@ -948,6 +958,7 @@ class App {
             filterWithYouTubeCheckbox.checked = false;
             filterWithoutYouTubeCheckbox.checked = false;
             if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
+            if (filterWithoutTimelineCheckbox) filterWithoutTimelineCheckbox.checked = false;
             if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
             if (filterOnlyPublicCheckbox) filterOnlyPublicCheckbox.checked = false;
             this.currentFilter = {
@@ -956,6 +967,7 @@ class App {
                 withYouTube: false,
                 withoutYouTube: false,
                 withoutLyrics: false,
+                withoutTimeline: false,
                 noPublic: false,
                 onlyPublic: false
             };
@@ -1040,6 +1052,7 @@ class App {
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
+        const filterWithoutTimelineCheckbox = document.getElementById('filterWithoutTimelineCheckbox');
         const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
         const filterOnlyPublicCheckbox = document.getElementById('filterOnlyPublicCheckbox');
 
@@ -1057,6 +1070,9 @@ class App {
         }
         if (filterWithoutLyricsCheckbox) {
             filterWithoutLyricsCheckbox.checked = this.currentFilter.withoutLyrics;
+        }
+        if (filterWithoutTimelineCheckbox) {
+            filterWithoutTimelineCheckbox.checked = this.currentFilter.withoutTimeline;
         }
         if (filterNoPublicCheckbox) {
             filterNoPublicCheckbox.checked = this.currentFilter.noPublic;
@@ -1076,6 +1092,7 @@ class App {
             this.currentFilter.withYouTube ||
             this.currentFilter.withoutYouTube ||
             this.currentFilter.withoutLyrics ||
+            this.currentFilter.withoutTimeline ||
             this.currentFilter.noPublic ||
             this.currentFilter.onlyPublic;
 
@@ -3065,6 +3082,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
