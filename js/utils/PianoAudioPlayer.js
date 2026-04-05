@@ -378,9 +378,23 @@ class PianoAudioPlayer {
         if (this.audioContext.state === 'suspended') this.audioContext.resume();
         const now = this.audioContext.currentTime;
 
+        // CRITICAL PERFORMANCE FIX: Cut off previous chord notes quickly to prevent flooding
+        // This stops old notes from ringing out if they are overlapping significantly.
+        this.stopAllActiveNotes(0.05);
+
+        // Determine max notes allowed based on instrument type
+        const maxNotes = this.currentSound === 'guitar-strum' ? 6 : 4;
+
         // If strumming, we use a slightly longer stagger and random velocity variation
         const actualStagger = isStrum ? 0.035 : stagger;
-        const sortedNotes = [...semitones].sort((a, b) => a - b);
+        
+        // Take only the top N notes to respect polyphony limits
+        let sortedNotes = [...semitones].sort((a, b) => a - b);
+        if (sortedNotes.length > maxNotes) {
+            // We take the top N notes (highest pitches usually carry the melody/clarity) or just slice.
+            // Slicing from the highest usually sounds better for chord clarity.
+            sortedNotes = sortedNotes.slice(-maxNotes);
+        }
 
         sortedNotes.forEach((semitone, index) => {
             // Add slight timing jitter and velocity variation for realism
@@ -389,6 +403,32 @@ class PianoAudioPlayer {
             this.playNote(semitone, duration, noteVelocity, now + (index * actualStagger) + jitter);
         });
     }
+
+    // Faster variant of stopAll that doesn't clear everything if we don't want to,
+    // but ensures notes are faded out and their resources are cleaned up.
+    stopAllActiveNotes(fadeTime = 0.1) {
+        if (!this.isInitialized) return;
+        const now = this.audioContext.currentTime;
+        
+        this.activeNotes.forEach((note) => {
+            try {
+                const gain = note.noteGain.gain;
+                gain.cancelScheduledValues(now);
+                gain.setValueAtTime(gain.value, now);
+                gain.exponentialRampToValueAtTime(0.001, now + fadeTime);
+                
+                // Disconnect after fade
+                setTimeout(() => {
+                    note.oscillators.forEach(osc => { try { osc.stop(); osc.disconnect(); } catch (e) {} });
+                    try { note.noteGain.disconnect(); } catch (e) {}
+                    try { note.filter.disconnect(); } catch (e) {}
+                }, (fadeTime + 0.1) * 1000);
+            } catch (e) { }
+        });
+        
+        this.activeNotes.clear();
+    }
+
 
     playChordByName(chordName, chordParser) {
         const chord = chordParser(chordName);
