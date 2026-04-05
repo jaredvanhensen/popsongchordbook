@@ -1,4 +1,4 @@
-﻿// Main Application (v2.530)
+﻿// Main Application (v2.550)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -34,7 +34,8 @@ class App {
             withYouTube: false,
             withoutYouTube: false,
             withoutLyrics: false,
-            noPublic: false
+            noPublic: false,
+            onlyPublic: false
         };
         this.currentSetlistId = null;
         this.searchTerm = '';
@@ -77,7 +78,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - $12.544)");
+        console.log("Pop Song Chord Book - 2.550)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -784,6 +785,10 @@ class App {
             allSongs = allSongs.filter(song => !song.isPublic);
         }
 
+        if (this.currentFilter.onlyPublic) {
+            allSongs = allSongs.filter(song => song.isPublic);
+        }
+
         // Apply setlist filter if a setlist is selected
         if (this.currentSetlistId === '__public__') {
             // Virtual: show only public songs
@@ -860,6 +865,7 @@ class App {
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
         const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
+        const filterOnlyPublicCheckbox = document.getElementById('filterOnlyPublicCheckbox');
 
         // Open filter modal
         filterBtn.addEventListener('click', () => {
@@ -888,7 +894,8 @@ class App {
                 withYouTube: filterWithYouTubeCheckbox.checked,
                 withoutYouTube: filterWithoutYouTubeCheckbox.checked,
                 withoutLyrics: filterWithoutLyricsCheckbox.checked,
-                noPublic: filterNoPublicCheckbox.checked
+                noPublic: filterNoPublicCheckbox.checked,
+                onlyPublic: filterOnlyPublicCheckbox.checked
             };
             this.loadAndRender();
             filterModal.classList.add('hidden');
@@ -903,13 +910,15 @@ class App {
             filterWithoutYouTubeCheckbox.checked = false;
             if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
             if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
+            if (filterOnlyPublicCheckbox) filterOnlyPublicCheckbox.checked = false;
             this.currentFilter = {
                 favorites: false,
                 key: '',
                 withYouTube: false,
                 withoutYouTube: false,
                 withoutLyrics: false,
-                noPublic: false
+                noPublic: false,
+                onlyPublic: false
             };
             this.loadAndRender();
             this.updateFilterButtonState();
@@ -927,6 +936,21 @@ class App {
                 filterWithYouTubeCheckbox.checked = false;
             }
         });
+
+        // Mutually exclusive Public/Private filters
+        if (filterNoPublicCheckbox && filterOnlyPublicCheckbox) {
+            filterNoPublicCheckbox.addEventListener('change', () => {
+                if (filterNoPublicCheckbox.checked) {
+                    filterOnlyPublicCheckbox.checked = false;
+                }
+            });
+
+            filterOnlyPublicCheckbox.addEventListener('change', () => {
+                if (filterOnlyPublicCheckbox.checked) {
+                    filterNoPublicCheckbox.checked = false;
+                }
+            });
+        }
 
         // Update filter button state on load
         this.updateFilterButtonState();
@@ -978,6 +1002,7 @@ class App {
         const filterWithoutYouTubeCheckbox = document.getElementById('filterWithoutYouTubeCheckbox');
         const filterWithoutLyricsCheckbox = document.getElementById('filterWithoutLyricsCheckbox');
         const filterNoPublicCheckbox = document.getElementById('filterNoPublicCheckbox');
+        const filterOnlyPublicCheckbox = document.getElementById('filterOnlyPublicCheckbox');
 
         if (filterFavoritesCheckbox) {
             filterFavoritesCheckbox.checked = this.currentFilter.favorites;
@@ -997,6 +1022,9 @@ class App {
         if (filterNoPublicCheckbox) {
             filterNoPublicCheckbox.checked = this.currentFilter.noPublic;
         }
+        if (filterOnlyPublicCheckbox) {
+            filterOnlyPublicCheckbox.checked = this.currentFilter.onlyPublic;
+        }
     }
 
     updateFilterButtonState() {
@@ -1009,7 +1037,8 @@ class App {
             this.currentFilter.withYouTube ||
             this.currentFilter.withoutYouTube ||
             this.currentFilter.withoutLyrics ||
-            this.currentFilter.noPublic;
+            this.currentFilter.noPublic ||
+            this.currentFilter.onlyPublic;
 
         if (hasActiveFilters) {
             filterBtn.classList.add('active');
@@ -2994,6 +3023,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

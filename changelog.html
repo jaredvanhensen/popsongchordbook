@@ -152,27 +152,30 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
-            <!-- v2.546 -->
+            <!-- v2.550 -->
             <div class="version-card current">
                 <div class="version-header">
-                    <span class="version-number">v2.546</span>
-                    <span class="version-date">April 04, 2026</span>
+                    <span class="version-number">v2.550</span>
+                    <span class="version-date">April 05, 2026</span>
                 </div>
                 <ul class="change-list">
                     <li class="change-item">
-                        <span class="change-type">Admin Feature</span>
-                        <span class="change-description">Implemented a <strong>Song Request Fulfillment</strong> workflow. Admins can now mark requests as "DONE", updating the status and automatically prompting to email the requester with a standard fulfillment message.</span>
+                        <span class="change-type">UI consistency</span>
+                        <span class="change-description">Unified the library's iconography by updating the <strong>Filter Modal</strong> status icons. The "Only Private Songs" filter now uses the pencil (✏️) and "Only Public Songs" uses the globe (🌍), matching the main table view.</span>
                     </li>
                     <li class="change-item">
-                        <span class="change-type">UI Refinement</span>
-                        <span class="change-description">Replaced standard browser <strong>confirm()</strong> popups in the Admin Panel with premium custom <strong>ConfirmationModals</strong> for a unified, brand-consistent experience.</span>
+                        <span class="change-type">Filter Logic</span>
+                        <span class="change-description">Implemented <strong>Mutual Exclusivity</strong> between the Only Public and Only Private filters to prevent conflicting states. Checking one now automatically clears the other.</span>
                     </li>
                     <li class="change-item">
-                        <span class="change-type">Dev Tooling</span>
-                        <span class="change-description">Introduced and stabilized <strong>comit.ps1</strong> script for automated project versioning and Git synchronization.</span>
+                        <span class="change-type">App State</span>
+                        <span class="change-description">Updated the main application state and loading logic to correctly handle the new <code>onlyPublic</code> filter state.</span>
                     </li>
                 </ul>
             </div>
+
+            <!-- v2.546 -->
+
 
             <!-- v2.542 -->
             <div class="version-card">

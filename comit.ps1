@@ -69,13 +69,17 @@ if (Test-Path $scrollingJsFile) {
     Set-Content $scrollingJsFile $scrollingJsContent -Encoding UTF8
 }
 
-# 6. Update app.js logging
+# 6. Update app.js logging & version comment
 if (Test-Path $appJsFile) {
     Write-Host "Updating app.js..."
     $appJsContent = Get-Content $appJsFile -Raw -Encoding UTF8
-    $appJsContent = $appJsContent -replace 'App Initialized \(v[\d\.]+', ("App Initialized (v$newVersion")
+    # Update top comment: // Main Application (v2.530)
+    $appJsContent = $appJsContent -replace '// Main Application \(v[\d\.]+', ("// Main Application (v$newVersion")
+    # Update console.log (e.g. console.log("Pop Song Chord Book - $12.544)"))
+    $appJsContent = $appJsContent -replace 'Pop Song Chord Book - [\$\d\.]+', ("Pop Song Chord Book - $newVersion")
     Set-Content $appJsFile $appJsContent -Encoding UTF8
 }
+
 
 # 7. Git Operations
 Write-Host "--- GIT STAGING & COMMIT ---" -ForegroundColor Cyan
