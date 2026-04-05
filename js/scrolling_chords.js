@@ -4169,18 +4169,23 @@ function updateMapSelectionUI() {
 
 function handleMapChordClick(index) {
     if (!mapSelectionState.active || mapSelectionState.startIdx === -1) {
-        // State 1: Nothing selected. Set the anchor point.
+        // State 1: First click. Establish anchor.
         mapSelectionState = { active: true, startIdx: index, endIdx: index };
-    } else if (mapSelectionState.startIdx === mapSelectionState.endIdx && mapSelectionState.startIdx !== index) {
-        // State 2: Already had an anchor, establishing a range with a different chord.
+        updateMapSelectionUI();
+        // Do NOT show picker yet
+    } else if (mapSelectionState.startIdx === mapSelectionState.endIdx) {
+        // State 2: Second click. Finish the range.
         mapSelectionState.endIdx = index;
+        updateMapSelectionUI();
+        showMapLabelPicker(); // Popup appears NOW
     } else {
-        // State 3: Already had a range, restart with a new anchor.
+        // State 3: Third click or change. Restart selection.
+        const picker = document.getElementById('mapLabelPicker');
+        if (picker) picker.classList.add('hidden'); 
+        
         mapSelectionState = { active: true, startIdx: index, endIdx: index };
+        updateMapSelectionUI();
     }
-
-    updateMapSelectionUI();
-    showMapLabelPicker();
 }
 
 function updateSongMapHighlight(activeIndex) {
@@ -4261,7 +4266,7 @@ function showMapLabelPicker() {
 
     picker.appendChild(title);
 
-    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'INSTRUMENTAL', 'REMOVE'];
+    const labels = ['INTRO', 'VERSE', 'PRE CHORUS', 'CHORUS', 'BRIDGE', 'OUTRO', 'SOLO', 'INSTRUMENTAL', 'INTERLUDE', 'REMOVE'];
     const pillContainer = document.createElement('div');
     pillContainer.className = 'map-label-pills-container';
 
@@ -4276,6 +4281,7 @@ function showMapLabelPicker() {
         else if (lbl.includes('SOLO')) btn.classList.add('pill-indigo');
         else if (lbl.includes('OUTRO')) btn.classList.add('pill-orange');
         else if (lbl.includes('INSTRUMENTAL')) btn.classList.add('pill-purple');
+        else if (lbl.includes('INTERLUDE')) btn.classList.add('pill-teal');
         else if (lbl === 'REMOVE') btn.classList.add('label-clear');
 
         btn.textContent = lbl;
@@ -4479,6 +4485,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
