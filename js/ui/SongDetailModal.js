@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave (v2.552)
+// SongDetailModal - Modal voor song details weergave (v2.554)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
@@ -3093,14 +3093,20 @@ class SongDetailModal {
             }
         }
 
-        // Handle 'Publish' button visibility in hamburger menu
+        // Manage visibility of Publish and Delete options in the hamburger menu
         if (this.publishSongBtn) {
-            // Only show 'Publish' for private songs that the user has permission to edit.
-            // (For private songs, canEdit is generally true unless it's someone else's song shared via local cache)
             if (song.isPublic || !canEdit) {
                 this.publishSongBtn.style.display = 'none';
             } else {
-                this.publishSongBtn.style.display = ''; // Reset to default
+                this.publishSongBtn.style.display = '';
+            }
+        }
+
+        if (this.deleteBtn) {
+            if (song.isPublic && !canEdit) {
+                this.deleteBtn.style.display = 'none';
+            } else {
+                this.deleteBtn.style.display = '';
             }
         }
 

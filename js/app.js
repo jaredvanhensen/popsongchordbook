@@ -1,4 +1,4 @@
-﻿// Main Application (v2.553)
+﻿// Main Application (v2.554)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -52,7 +52,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.553");
+        console.log("Pop Song Chord Book - 2.554");
         this.chordModal = new ChordModal();
         this.songDetailModal = new SongDetailModal(
             this.songManager,
@@ -119,7 +119,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - 2.553)");
+        console.log("Pop Song Chord Book - 2.554)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -3067,6 +3067,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

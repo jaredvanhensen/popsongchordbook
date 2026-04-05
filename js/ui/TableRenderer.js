@@ -216,11 +216,17 @@ class TableRenderer {
             actionsCell.appendChild(removeBtn);
         }
 
-        // Delete button first
+        // Delete button - only show if user has permission
+        const canDelete = !song.isPublic || this.songManager.canEditPublicSong(song);
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = '🗑️';
         deleteBtn.title = 'Delete';
+        
+        if (!canDelete) {
+            deleteBtn.style.display = 'none';
+        }
+
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (this.onDelete) {
