@@ -1,4 +1,4 @@
-﻿// Main Application (v2.557)
+﻿// Main Application (v2.552)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -46,24 +46,13 @@ class App {
         this.elements = {};
 
         // Bind methods
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleViewChange = this.handleViewChange.bind(this);
         this.loadAndRender = this.loadAndRender.bind(this);
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.557");
-
-        // Apply saved theme immediately
-        const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
-        document.body.classList.add(savedTheme);
-
-        // History management for modals
-        window.addEventListener('popstate', (event) => {
-            this.handlePopState(event);
-        });
-
-        // Initialize theme switcher
-        this.setupThemeSwitcher();
-
+        console.log("Pop Song Chord Book - 2.552");
         this.chordModal = new ChordModal();
         this.songDetailModal = new SongDetailModal(
             this.songManager,
@@ -114,6 +103,23 @@ class App {
             this.confirmationModal // Pass confirmation modal
         );
 
+        this.init();
+    }
+
+    async init() {
+        // Apply saved theme immediately
+        const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
+        document.body.classList.add(savedTheme);
+
+        // History management for modals
+        window.addEventListener('popstate', (event) => {
+            this.handlePopState(event);
+        });
+
+        // Initialize theme switcher
+        this.setupThemeSwitcher();
+
+        console.log("Pop Song Chord Book - 2.552)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -125,7 +131,6 @@ class App {
             alert('Firebase initialisatie mislukt. Controleer je Firebase configuratie.');
             return;
         }
-        
         // Setup auth modal
         this.authModal = new AuthModal(this.firebaseManager, (user) => this.handleAuthSuccess(user));
 
@@ -3062,11 +3067,6 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
-
-
-
-
-
 
 
 
