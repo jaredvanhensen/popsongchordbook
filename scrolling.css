@@ -44,24 +44,31 @@ html {
 }
 
 .controls-container {
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 4px;
     align-items: center;
     z-index: 500;
     border-bottom: 1px solid rgba(226, 232, 240, 0.8);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar for clean look */
+}
+
+.controls-container::-webkit-scrollbar {
+    display: none;
 }
 
 .playback-controls {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 4px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 /* Base style for all buttons (Restored Original) */
@@ -69,13 +76,14 @@ button {
     background: white;
     color: #1e293b;
     border: 1px solid #e2e8f0;
-    padding: 8px 16px;
+    padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.95rem;
     font-weight: 600;
     transition: all 0.2s;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 button:hover:not(:disabled) {

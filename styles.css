@@ -9601,10 +9601,10 @@ div.song-detail-practice-controls {
 .scrolling-chords-btn-group {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 8px; /* Slightly closer to edge */
     display: flex;
     flex-direction: row;
-    gap: 6px;
+    gap: 4px; /* Reduced gap */
     z-index: 2002;
     pointer-events: auto;
 }
@@ -10307,7 +10307,8 @@ div.song-detail-practice-controls {
 }
 
 .scrolling-chords-btn-group {
-    right: 15px;
+    right: 8px; /* Consistent with line 9604 */
+    gap: 4px;
 }
 
 .scrolling-chords-close-btn,

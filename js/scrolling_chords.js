@@ -360,8 +360,9 @@ document.addEventListener('DOMContentLoaded', () => {
         octaveCycleBtn.addEventListener('click', toggleOctavePlayback);
     }
 
-    if (chordProgressionBtn) {
-        chordProgressionBtn.addEventListener('click', () => {
+    const menuChordProgressionBtn = document.getElementById('menuChordProgressionBtn');
+    if (menuChordProgressionBtn) {
+        menuChordProgressionBtn.addEventListener('click', () => {
             if (typeof ChordProgressionEditor === 'undefined') {
                 console.error("ChordProgressionEditor script not loaded yet.");
                 return;
@@ -372,6 +373,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use the existing pianoPlayer if it exists, but editor can create its own
                 chordProgressionEditor = new ChordProgressionEditor(pianoPlayer);
             }
+
+            // Close the menu
+            if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
 
             // Create a temporary target field to hold the editor's output
             const tempInput = document.createElement('textarea');
@@ -4475,6 +4479,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
