@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Close when clicking outside
         document.addEventListener('click', (e) => {
-            if (!timelineHamburgerMenu.contains(e.target) && e.target !== timelineHamburgerBtn) {
+            if (!timelineHamburgerMenu.contains(e.target) && !timelineHamburgerBtn.contains(e.target)) {
                 timelineHamburgerMenu.classList.add('hidden');
             }
         });
@@ -873,7 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             document.addEventListener('click', (e) => {
-                if (!pureMenuMenu.contains(e.target) && e.target !== pureMenuBtn) {
+                if (!pureMenuMenu.contains(e.target) && !pureMenuBtn.contains(e.target)) {
                     pureMenuMenu.classList.add('hidden');
                 }
             });
@@ -4479,6 +4479,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
