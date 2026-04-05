@@ -152,8 +152,44 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
-            <!-- v2.550 -->
+            <!-- v2.552 -->
             <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.552</span>
+                    <span class="version-date">April 05, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Deletion Logic</span>
+                        <span class="change-description">Enhanced <strong>Public Song Security</strong>: Deletion attempts for public songs that you don't own are now explicitly blocked and provide a clear "Public Song cannot be deleted" notification.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI Feedback</span>
+                        <span class="change-description">Updated the <strong>HUD notification</strong> system to include an "Error/Warning" state (⚠️) for more descriptive user feedback on restricted actions.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.551 -->
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.551</span>
+                    <span class="version-date">April 05, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Reliability</span>
+                        <span class="change-description">Critical fix for <strong>Incognito mode</strong> compatibility. The primary "Open Chord Book" button now uses a native link fallback to ensure it works even when localStorage access or background Firebase scripts are restricted.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UX Optimization</span>
+                        <span class="change-description">Attaching landing page event listeners immediately on load, ensuring the UI is interactive before full Firebase initialization.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.550 -->
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.550</span>
                     <span class="version-date">April 05, 2026</span>
