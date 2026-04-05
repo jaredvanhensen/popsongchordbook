@@ -697,16 +697,25 @@ class SongManager {
         const index = this.songs.findIndex(s => String(s.id) === String(id));
         if (index !== -1) {
             const song = this.songs[index];
-            this.songs.splice(index, 1);
 
+            // Permission check for public songs
             if (song.isPublic && this.firebaseManager) {
-                if (this.canEditPublicSong(song)) {
+                if (!this.canEditPublicSong(song)) {
+                    console.error('SongManager: Permission denied to delete public song');
+                    return false; // Specifically return false if permission denied
+                }
+                
+                // If authorized, proceed to delete from Firebase
+                try {
                     await this.firebaseManager.deletePublicSong(song.id);
-                } else {
-                    console.warn('SongManager: Permission denied to delete public song');
+                } catch (error) {
+                    console.error('SongManager: Firebase deletion failed:', error);
+                    return false;
                 }
             }
             
+            // Remove from local array only if permission granted and Firebase (if public) handled
+            this.songs.splice(index, 1);
             await this.saveSongs();
             return true;
         }

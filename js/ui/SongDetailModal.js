@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave (v2.530)
+// SongDetailModal - Modal voor song details weergave (v2.552)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
@@ -2403,7 +2403,11 @@ class SongDetailModal {
                         this.onUpdate();
                     }
                 } else {
-                    this.showInfoModal('Delete Failed', 'Failed to delete song. Please try again.');
+                    if (song && song.isPublic) {
+                        this.showInfoModal('Public Song', 'This is a Public Song and cannot be deleted.');
+                    } else {
+                        this.showInfoModal('Delete Failed', 'Failed to delete song. Please try again.');
+                    }
                 }
             } catch (error) {
                 console.error('Error deleting song:', error);

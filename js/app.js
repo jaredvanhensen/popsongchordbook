@@ -1,4 +1,4 @@
-﻿// Main Application (v2.550)
+﻿// Main Application (v2.552)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -11,7 +11,48 @@ class App {
         this.songManager = new SongManager(this.firebaseManager);
         this.setlistManager = new SetlistManager(this.firebaseManager);
         this.sorter = new Sorter();
+
+        // UI Components
+        this.tableRenderer = null;
+        this.songDetailModal = null;
+        this.chordFinderModal = null;
+        this.chordProgressionEditor = null;
+        this.pianoChordOverlay = null;
+        this.guitarChordOverlay = null;
+        this.ukuleleChordOverlay = null;
+        this.profileModal = null;
+        this.shareSongsModal = null;
+        this.acceptSongsModal = null;
+        this.confirmationModal = null;
+
+        // Detection
+        this.chordDetector = new ChordDetector();
         this.keyDetector = new KeyDetector();
+        this.chordDetectorOverlay = null;
+
+        // State
+        this.currentViewMode = 'all';
+        this.currentSearchTerm = '';
+        this.currentFilter = {
+            favoritesOnly: false,
+            onlyPrivate: false,
+            onlyPublic: false,
+            limit: null,
+            sortBy: 'id',
+            sortOrder: 'asc'
+        };
+
+        // UI Elements
+        this.elements = {};
+
+        // Bind methods
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleViewChange = this.handleViewChange.bind(this);
+        this.loadAndRender = this.loadAndRender.bind(this);
+    }
+
+    async init() {
+        console.log("Pop Song Chord Book - 2.552");
         this.chordModal = new ChordModal();
         this.songDetailModal = new SongDetailModal(
             this.songManager,
@@ -78,7 +119,7 @@ class App {
         // Initialize theme switcher
         this.setupThemeSwitcher();
 
-        console.log("Pop Song Chord Book - 2.550)");
+        console.log("Pop Song Chord Book - 2.552)");
         // Setup message listener for UG Extractor ASAP
         this.setupExtractorListener();
 
@@ -2150,6 +2191,9 @@ class App {
                     }
                     this.showHUD('Song deleted');
                     this.loadAndRender();
+                } else if (song && song.isPublic) {
+                    // Specific feedback for public song permission denial
+                    this.showHUD('This is a Public Song and cannot be deleted', 'error');
                 }
             }
         });
@@ -2948,7 +2992,7 @@ class App {
             document.body.appendChild(hud);
         }
 
-        const icon = type === 'success' ? '✓' : 'ℹ';
+        const icon = type === 'success' ? '✓' : (type === 'error' ? '⚠️' : 'ℹ');
         hud.innerHTML = `
             <div class="hud-icon-circle">${icon}</div>
             <div class="hud-message">${message}</div>
@@ -3023,6 +3067,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

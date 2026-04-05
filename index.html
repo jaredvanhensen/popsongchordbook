@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Pop Song Chord Book v2.546 - Song Requests & Admin Panel.">
+    <meta name="description" content="Pop Song Chord Book v2.551 - Song Requests & Admin Panel.">
     <title>Pop Song Chord Book</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.550">
-    <link rel="stylesheet" href="landing.css?v=2.550">
+    <link rel="stylesheet" href="styles.css?v=2.552">
+    <link rel="stylesheet" href="landing.css?v=2.552">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -31,7 +31,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.550</span> • <a href="changelog.html"
+            v<span id="site-version">2.552</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -85,11 +85,11 @@
                 real-time playback, and personalized setlists.
             </p>
             <div class="hero-buttons" style="gap: 12px;">
-                <button id="browseSongListBtn" class="btn btn-primary"
-                    style="padding: 16px 20px; border: 2px solid rgba(255, 255, 255, 0.4);">
+                <a href="songlist.html" id="browseSongListBtn" class="btn btn-primary"
+                    style="padding: 16px 20px; border: 2px solid rgba(255, 255, 255, 0.4); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                     <span class="btn-icon">📋</span>
                     <span>Open Chord Book</span>
-                </button>
+                </a>
                 <a href="quickstart.html" class="btn"
                     style="background: rgba(255,255,255,0.15); color: #ffffff; border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(5px); padding: 16px 20px;">
                     <span class="btn-icon">⚡</span>
@@ -377,35 +377,35 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.550"></script>
-    <script src="js/models/SongManager.js?v=2.550"></script>
-    <script src="js/models/SetlistManager.js?v=2.550"></script>
-    <script src="js/utils/Sorter.js?v=2.550"></script>
-    <script src="js/utils/ChordDetector.js?v=2.550"></script>
-    <script src="js/utils/KeyDetector.js?v=2.550"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.550"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.550"></script>
-    <script src="js/ui/ChordModal.js?v=2.550"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.550"></script>
-    <script src="js/ui/TableRenderer.js?v=2.550"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.550"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.550"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.550"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.550"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.550"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.550"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.550"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.550"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.550"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.550"></script>
-    <script src="js/utils/ChordParser.js?v=2.550"></script>
-    <script src="js/ui/AuthModal.js?v=2.550"></script>
-    <script src="js/ui/ProfileModal.js?v=2.550"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.550"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.550"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.550"></script>
-    <script src="js/data/default_songs.js?v=2.550"></script>
-    <script src="js/app.js?v=2.550"></script>
+    <script src="js/config/firebase-config.js?v=2.552"></script>
+    <script src="js/models/SongManager.js?v=2.552"></script>
+    <script src="js/models/SetlistManager.js?v=2.552"></script>
+    <script src="js/utils/Sorter.js?v=2.552"></script>
+    <script src="js/utils/ChordDetector.js?v=2.552"></script>
+    <script src="js/utils/KeyDetector.js?v=2.552"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.552"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.552"></script>
+    <script src="js/ui/ChordModal.js?v=2.552"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.552"></script>
+    <script src="js/ui/TableRenderer.js?v=2.552"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.552"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.552"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.552"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.552"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.552"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.552"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.552"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.552"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.552"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.552"></script>
+    <script src="js/utils/ChordParser.js?v=2.552"></script>
+    <script src="js/ui/AuthModal.js?v=2.552"></script>
+    <script src="js/ui/ProfileModal.js?v=2.552"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.552"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.552"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.552"></script>
+    <script src="js/data/default_songs.js?v=2.552"></script>
+    <script src="js/app.js?v=2.552"></script>
 
     <!-- Instrument Selection Modal -->
     <div id="chooseInstrumentModal" class="modal hidden">
@@ -460,10 +460,53 @@
             const instrumentModal = document.getElementById('chooseInstrumentModal');
             const closeModalBtn = document.getElementById('closeInstrumentModal');
 
-            // Initialize FirebaseManager
+            // Initialize FirebaseManager early, but do not await yet to avoid blocking UI attachment
             const firebaseManager = new FirebaseManager();
             let currentUser = null;
 
+            // --- UI Attachment: Attach click listener immediately (no await) ---
+            if (browseBtn && instrumentModal) {
+                browseBtn.addEventListener('click', async (e) => {
+                    // 1. Always redirect directly if not on mobile portrait
+                    if (window.innerWidth > 1080) {
+                        return; // Let native <a> href handle it
+                    }
+
+                    // 2. On mobile: Check if we have a saved instrument preference
+                    let savedInstrument = null;
+                    try {
+                        savedInstrument = localStorage.getItem('instrumentMode');
+                    } catch (storageErr) {
+                        console.warn('Storage blocked in Incognito mode - bypassing selection check', storageErr);
+                    }
+
+                    // 3. If we found one, just go.
+                    if (savedInstrument) {
+                        return; // Let native <a> href handle it
+                    }
+
+                    // 4. If we haven't found one in LocalStorage, maybe it's in Firebase?
+                    // But if initialization hasn't finished, we don't know the preference yet.
+                    if (currentUser) {
+                        try {
+                            savedInstrument = await firebaseManager.getPreference('instrument');
+                            if (savedInstrument) {
+                                localStorage.setItem('instrumentMode', savedInstrument);
+                                return; // Let <a> handle it
+                            }
+                        } catch (prefErr) {
+                            console.warn('Error fetching instrument preference from Firebase:', prefErr);
+                        }
+                    }
+
+                    // 5. If STILL no instrument found, only THEN intercept navigation to show the modal
+                    e.preventDefault();
+                    instrumentModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // --- Async Initialization: Run in background ---
             try {
                 await firebaseManager.initialize();
                 firebaseManager.onAuthStateChanged((user) => {
@@ -471,41 +514,6 @@
                 });
             } catch (err) {
                 console.warn('Firebase login check failed:', err);
-            }
-
-            if (browseBtn && instrumentModal) {
-                browseBtn.addEventListener('click', async (e) => {
-                    e.preventDefault(); 
-                    
-                    // Always redirect to songlist if not on mobile portrait
-                    if (window.innerWidth > 1080) {
-                        window.location.href = 'songlist.html';
-                        return;
-                    }
-
-                    // On mobile: Check if we already have a saved instrument (LocalStorage or Firebase)
-                    let savedInstrument = localStorage.getItem('instrumentMode');
-                    
-                    if (!savedInstrument && currentUser) {
-                        try {
-                            savedInstrument = await firebaseManager.getPreference('instrument');
-                            if (savedInstrument) {
-                                localStorage.setItem('instrumentMode', savedInstrument);
-                            }
-                        } catch (e) {
-                            console.error('Error fetching instrument preference:', e);
-                        }
-                    }
-
-                    if (savedInstrument) {
-                        // Already chose an instrument - skip the modal
-                        window.location.href = 'songlist.html';
-                    } else {
-                        // Needs to choose - show the modal
-                        instrumentModal.style.display = 'flex';
-                        document.body.style.overflow = 'hidden';
-                    }
-                });
             }
 
             if (closeModalBtn && instrumentModal) {
@@ -553,6 +561,7 @@
 </body>
 
 </html>
+
 
 
 
