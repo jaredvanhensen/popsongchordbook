@@ -49,7 +49,7 @@ html {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 4px;
     align-items: center;
     z-index: 500;
@@ -60,7 +60,7 @@ html {
 
 .playback-controls {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 4px;
     align-items: center;
     flex-shrink: 0;
@@ -665,6 +665,17 @@ button:disabled {
 
 body.edit-mode-active .edit-only {
     display: inline-flex !important;
+}
+
+/* Hide Song Map button specifically when EDIT mode is active to save space */
+body.edit-mode-active #songMapBtn {
+    display: none !important;
+}
+
+/* Ensure the toolbar doesn't overlap the parent window's Minimize/Close buttons in the top right */
+body.edit-mode-active .controls-container {
+    padding-right: 90px !important;
+    justify-content: flex-start !important;
 }
 
 /* Speed button is always shown on desktop/landscape, but follows edit-only on mobile */
@@ -2424,7 +2435,7 @@ body.ctrl-held .chord-item {
 
     .playback-controls {
         gap: 3px !important;
-        flex-wrap: nowrap !important;
+        flex-wrap: wrap !important;
         display: flex !important;
         align-items: center !important;
     }
