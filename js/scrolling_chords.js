@@ -4044,6 +4044,7 @@ function populateSongMap() {
                     else if (sectionName.includes('OUTRO')) type = 'outro';
                     else if (sectionName.includes('SOLO')) type = 'solo';
                     else if (sectionName.includes('INSTRUMENTAL')) type = 'instrumental';
+                    else if (sectionName.includes('INTERLUDE')) type = 'interlude';
                     else type = 'verse';
                     // NO MUTATION (sec.type = type) here, it breaks change detection if the property was missing
                 }
@@ -4082,6 +4083,7 @@ function populateSongMap() {
             else if (btnColorClass === 'chord-type-intro') labelEl.style.color = '#701a75'; // Fuchsia
             else if (btnColorClass === 'chord-type-outro') labelEl.style.color = '#9a3412'; // Rust
             else if (btnColorClass === 'chord-type-solo') labelEl.style.color = '#1e1b4b'; // Deep Indigo
+            else if (btnColorClass === 'chord-type-interlude') labelEl.style.color = '#0d9488'; // Teal
 
             const sec = customMapSections.find(s => s.startIdx === index);
             labelEl.addEventListener('click', (e) => {
@@ -4376,6 +4378,7 @@ function applyMapLabel(label) {
             else if (up.includes('OUTRO')) type = 'outro';
             else if (up.includes('SOLO')) type = 'solo';
             else if (up.includes('INSTRUMENTAL')) type = 'instrumental';
+            else if (up.includes('INTERLUDE')) type = 'interlude';
         }
 
         customMapSections.push({
@@ -4485,6 +4488,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 

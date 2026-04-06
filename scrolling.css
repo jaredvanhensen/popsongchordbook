@@ -1975,12 +1975,20 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
 }
 
-.chord-type-pre-chorus {
+.chord-type-prechorus {
     background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
 }
 
 .chord-type-bridge {
     background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+}
+
+.chord-type-instrumental {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+}
+
+.chord-type-interlude {
+    background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
 }
 
 .meta-suggestion-btn {
@@ -3906,6 +3914,11 @@ body.ctrl-held .chord-item {
     /* Pure International Orange */
 }
 
+.map-color-group-chord-type-interlude {
+    color: #0d9488;
+    /* Teal */
+}
+
 
 .map-color-group-chord-type-intro::before,
 .map-color-group-chord-type-verse::before,
@@ -3914,7 +3927,8 @@ body.ctrl-held .chord-item {
 .map-color-group-chord-type-bridge::before,
 .map-color-group-chord-type-solo::before,
 .map-color-group-chord-type-outro::before,
-.map-color-group-chord-type-instrumental::before {
+.map-color-group-chord-type-instrumental::before,
+.map-color-group-chord-type-interlude::before {
     background: currentColor;
 }
 
