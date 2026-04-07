@@ -417,15 +417,23 @@ button:disabled {
 
 /* Lyrics button: emoji renders its own colors — no color:white override needed */
 
-/* Toolbar Scaling: Lyrics button mirrors YouTube button style exactly */
+/* Toolbar Scaling: Lyrics button — always purple like YouTube, dimmed when lyrics OFF */
 .lyrics-btn {
-    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(99, 102, 241, 0.3) !important;
+    border-radius: 12px !important;
     width: 44px;
     min-width: 44px;
-    padding: 0;
+    padding: 0 0 2px 0; /* 2px shifts emoji up */
     font-size: 22px !important;
     letter-spacing: 0 !important;
-    border-radius: 12px !important;
+}
+
+/* When lyrics are OFF, dim the button to show toggle state */
+.lyrics-btn:not(.active) {
+    opacity: 0.45 !important;
+    box-shadow: none !important;
 }
 
 /* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
