@@ -6192,7 +6192,7 @@ td:has(.row-edit-input.input-focused) {
     padding: 2px 8px;
     border-radius: 4px;
     transition: background 0.2s;
-    min-width: 100px;
+    min-width: 180px;
     display: inline-block;
     border: 1px dashed transparent;
 }
@@ -7930,7 +7930,8 @@ td:has(.row-edit-input.input-focused) {
 .chord-section-title {
     margin: 0;
     flex-shrink: 0;
-    width: 90px;
+    min-width: 180px;
+    width: auto;
     white-space: nowrap;
     /* Prevent wrapping */
 }
@@ -8280,7 +8281,8 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .chord-section-title {
-        width: 85px !important;
+        min-width: 180px !important;
+        width: auto !important;
         font-size: 0.85em;
     }
 

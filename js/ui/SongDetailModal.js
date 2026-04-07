@@ -1078,8 +1078,8 @@ class SongDetailModal {
                 });
                 section.title.addEventListener('input', () => {
                     const text = section.title.textContent;
-                    if (text.length > 38) {
-                        section.title.textContent = text.substring(0, 38);
+                    if (text.length > 50) {
+                        section.title.textContent = text.substring(0, 50);
                         // Move cursor to end to prevent jumping to start
                         const range = document.createRange();
                         const sel = window.getSelection();

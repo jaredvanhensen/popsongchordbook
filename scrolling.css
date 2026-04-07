@@ -393,15 +393,16 @@ button:disabled {
     top: 0;
 }
 
-/* Mobile Toolbar Scaling: Hide Lyrics Label ONLY on small screens for this button */
+/* Toolbar Scaling: Icon ONLY for lyrics button (v2.530) */
+.lyrics-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+}
+
 @media screen and (max-width: 768px) {
     .lyrics-btn .label {
         display: none !important;
-    }
-    .lyrics-btn {
-        width: 44px !important;
-        min-width: 44px !important;
-        padding: 0 !important;
     }
 }
 
