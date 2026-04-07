@@ -408,9 +408,11 @@ button:disabled {
     color: white !important;
 }
 
-/* Ensure icons inside active buttons are white, BUT not for emoji */
-.lyrics-btn.active .icon {
-    /* Keep native emoji coloring to avoid visibility issues */
+/* Ensure icons inside active buttons (including SVG mic) are white */
+.lyrics-btn.active .icon,
+.lyrics-btn.active svg {
+    color: white !important;
+    stroke: white !important;
 }
 
 /* YouTube remains white icon on blue as it's a multi-color SVG */
