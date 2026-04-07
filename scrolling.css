@@ -429,6 +429,7 @@ button:disabled {
     justify-content: center;
     line-height: 1;
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols", sans-serif;
+    color: initial !important; /* Prevent inheriting white from .lyrics-btn.active */
 }
 
 /* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
