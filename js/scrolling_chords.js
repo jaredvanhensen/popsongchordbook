@@ -73,9 +73,15 @@ if (isEmbed) {
             line-height: 1 !important;
         }
         #toggleLyricsBtn.active {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
             border: none !important;
-            box-shadow: 0 4px 0px 0px #3730a3, 0 8px 12px rgba(99, 102, 241, 0.3) !important;
+            box-shadow: 0 4px 0px 0px #4c1d95, 0 8px 12px rgba(124, 58, 237, 0.35) !important;
+        }
+        .mic-icon {
+            position: relative;
+            top: -2px;
+            display: block;
+            line-height: 1;
         }
         @media screen and (min-width: 1024px) {
             .controls-container { padding-right: 120px !important; }
@@ -4502,6 +4508,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
