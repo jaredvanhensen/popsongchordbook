@@ -272,7 +272,7 @@ window.addEventListener('message', (event) => {
         }
         isPlaying = false;
         if (playPauseBtn) {
-            playPauseBtn.innerHTML = '▶ <span>Play</span>';
+            playPauseBtn.innerHTML = '▶ <span>PLAY</span>';
             playPauseBtn.classList.remove('playing');
         }
         cancelAnimationFrame(animationFrame);
@@ -2760,7 +2760,7 @@ function play() {
     isPlaying = true;
     playPauseBtn.innerHTML = `
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-        <span>Pause</span>
+        <span>PAUSE</span>
     `;
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
@@ -2803,7 +2803,7 @@ function pause() {
     isPlaying = false;
     playPauseBtn.innerHTML = `
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        <span>Play</span>
+        <span>PLAY</span>
     `;
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
@@ -4488,6 +4488,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
