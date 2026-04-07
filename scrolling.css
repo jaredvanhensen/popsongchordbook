@@ -452,11 +452,11 @@ button:disabled {
     .lyrics-emoji { display: none !important; }
     .lyrics-svg { display: block !important; }
 
-    /* Shift the SVG icon up 2px within the button */
-    .lyrics-btn svg { margin-top: -2px; }
+    /* ID selector (#toggleLyricsBtn) beats .controls-container button { margin:0 !important } */
+    #toggleLyricsBtn { margin-top: -3px !important; }
 
-    /* Align the button itself within the flex row */
-    .lyrics-btn { margin-top: -6px !important; }
+    /* Shift the SVG icon up within the button (mic stand pulls eye downward) */
+    #toggleLyricsBtn .lyrics-svg { margin-top: -5px !important; }
 }
 
 #audioToggleBtn.active svg,
