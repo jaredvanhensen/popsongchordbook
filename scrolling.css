@@ -402,38 +402,33 @@ button:disabled {
     top: 0;
 }
 
-/* Audio & Metronome need white for their SVG icons */
+/* Audio, Metronome & Lyrics SVG icons need white when active */
 #audioToggleBtn.active,
-.metronome-btn.active {
+.metronome-btn.active,
+.lyrics-btn.active {
     color: white !important;
 }
 
 #audioToggleBtn.active svg,
-.metronome-btn.active svg {
+.metronome-btn.active svg,
+.lyrics-btn.active svg {
     color: white !important;
 }
 
 /* YouTube remains multi-color SVG, no override needed */
 
-/* Lyrics button: emoji renders its own colors — no color:white override needed */
-
-/* Toolbar Scaling: Lyrics button — always purple like YouTube, dimmed when lyrics OFF */
+/* Lyrics button: mirrors audioToggleBtn/youtubeToggleBtn default style */
 .lyrics-btn {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
-    border: none !important;
-    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(99, 102, 241, 0.3) !important;
-    border-radius: 12px !important;
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
     width: 44px;
     min-width: 44px;
-    padding: 0 0 2px 0; /* 2px shifts emoji up */
-    font-size: 22px !important;
-    letter-spacing: 0 !important;
+    padding: 0;
+    border-radius: 12px;
 }
 
-/* When lyrics are OFF, dim the button to show toggle state */
-.lyrics-btn:not(.active) {
-    opacity: 0.45 !important;
-    box-shadow: none !important;
+/* Shift the mic SVG up 2px to match visual alignment of other icons */
+.lyrics-btn svg {
+    margin-top: -2px;
 }
 
 /* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
