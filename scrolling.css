@@ -390,17 +390,27 @@ button:disabled {
     transform: translateY(0) !important;
 }
 
-/* Specific Toggle State for Audio, YouTube & Metronome (Matched to Lyrics/Play Lavender) */
+/* Specific Toggle State for Audio, YouTube & Metronome: Match YouTube aesthetic (v2.582) */
 #audioToggleBtn.active,
 #youtubeToggleBtn.active,
 .metronome-btn.active,
 .lyrics-btn.active {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important; /* Bright Blue */
-    border: none !important;
-    color: white !important;
-    box-shadow: 0 4px 0px 0px #1e40af, 0 10px 15px rgba(59, 130, 246, 0.3) !important;
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%) !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 0px 0px #cbd5e1 !important;
     transform: translateY(0) !important;
     top: 0;
+}
+
+#audioToggleBtn.active svg,
+.metronome-btn.active svg,
+.lyrics-btn.active svg {
+    color: #ef4444 !important; /* Using Red like YouTube for consistency across all special toggles */
+}
+
+/* YouTube already has a red logo */
+#youtubeToggleBtn.active svg {
+    filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.4));
 }
 
 /* Toolbar Scaling: Icon ONLY for lyrics button (v2.530) */
