@@ -390,27 +390,32 @@ button:disabled {
     transform: translateY(0) !important;
 }
 
-/* Specific Toggle State for Audio, YouTube & Metronome: Match YouTube aesthetic (v2.582) */
+/* Specific Toggle State for Audio, YouTube & Metronome: Vibrant Blue/Purple (v2.583) */
 #audioToggleBtn.active,
 #youtubeToggleBtn.active,
 .metronome-btn.active,
 .lyrics-btn.active {
-    background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%) !important;
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: 0 4px 0px 0px #cbd5e1 !important;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(99, 102, 241, 0.3) !important;
     transform: translateY(0) !important;
     top: 0;
 }
 
 #audioToggleBtn.active svg,
-.metronome-btn.active svg,
-.lyrics-btn.active svg {
-    color: #ef4444 !important; /* Using Red like YouTube for consistency across all special toggles */
+.metronome-btn.active svg {
+    color: white !important;
 }
 
-/* YouTube already has a red logo */
-#youtubeToggleBtn.active svg {
-    filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.4));
+/* Ensure icons inside active buttons are white */
+.lyrics-btn.active .icon {
+    color: white !important;
+}
+
+/* YouTube remains white icon on blue as it's a multi-color SVG */
+#youtubeToggleBtn.active svg path[fill="#fff"] {
+    fill: #ffffff !important;
 }
 
 /* Toolbar Scaling: Icon ONLY for lyrics button (v2.530) */
