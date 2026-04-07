@@ -408,9 +408,9 @@ button:disabled {
     color: white !important;
 }
 
-/* Ensure icons inside active buttons are white */
+/* Ensure icons inside active buttons are white, BUT not for emoji */
 .lyrics-btn.active .icon {
-    color: white !important;
+    /* Keep native emoji coloring to avoid visibility issues */
 }
 
 /* YouTube remains white icon on blue as it's a multi-color SVG */
