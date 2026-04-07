@@ -5609,7 +5609,7 @@ body.ctrl-held .chord-item {
         display: block !important;
         width: 18px !important;
         height: 18px !important;
-        transform: translateY(-2px) !important;
+        transform: translateY(-7px) !important;
     }
 
     /* Ensure edit-only elements remain hidden if edit mode is not active */
