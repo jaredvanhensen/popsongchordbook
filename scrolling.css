@@ -770,6 +770,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 }
 
 .lyrics-hud.hidden {
+    display: none !important;
     opacity: 0;
     transform: translate(-50%, -20px) scale(0.95);
     pointer-events: none;
@@ -5611,7 +5612,7 @@ body.ctrl-held .chord-item {
         height: 18px !important;
     }
 
-    /* Total button nudge for better row alignment on mobile */
+    /* Entire button nudge: shifts the blue container up to align with classmates */
     body #toggleLyricsBtn {
         transform: translateY(-2px) !important;
     }

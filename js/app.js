@@ -1,4 +1,4 @@
-// Main Application (v2.593)
+﻿// Main Application (v2.593)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -390,7 +390,7 @@ class App {
         this.setlistManager.disableSync();
         this.setlistManager.clearLibrary && this.setlistManager.clearLibrary();
         this.updateProfileLabel(null);
-        // Show login modal � but NOT if signup/verification is in progress
+        // Show login modal — but NOT if signup/verification is in progress
         if (this.authModal && !this.authModal.isBusy && !this.authModal.isShowingVerification) {
             const isModalVisible = this.authModal.modal &&
                 (this.authModal.modal.style.display === 'flex' ||
@@ -488,9 +488,9 @@ class App {
             let textContent = '';
 
             if (user && user.displayName) {
-                textContent = `<span>${user.displayName}</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">??</span> ${songCountHtml}`;
+                textContent = `<span>${user.displayName}</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             } else {
-                textContent = `<span>Profile</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">??</span> ${songCountHtml}`;
+                textContent = `<span>Profile</span> <span style="font-size: 1.5em; vertical-align: middle; margin-left: 2px; opacity: 0.9;">⚙️</span> ${songCountHtml}`;
             }
             labelElement.innerHTML = textContent;
         }
@@ -1223,7 +1223,7 @@ class App {
         if (hasPublicSongs) {
             const publicOption = document.createElement('option');
             publicOption.value = '__public__';
-            publicOption.textContent = '?? Public Songs';
+            publicOption.textContent = '🌐 Public Songs';
             select.appendChild(publicOption);
         }
 
@@ -1469,7 +1469,7 @@ class App {
 
         directionBtn.addEventListener('click', () => {
             this.addSongsSortDirection = this.addSongsSortDirection === 'asc' ? 'desc' : 'asc';
-            directionBtn.textContent = this.addSongsSortDirection === 'asc' ? 'A ? Z' : 'Z ? A';
+            directionBtn.textContent = this.addSongsSortDirection === 'asc' ? 'A → Z' : 'Z → A';
             this.renderAddSongsList();
         });
 
@@ -2303,12 +2303,12 @@ class App {
             if (user) {
                 const testRef = this.firebaseManager.database.ref(`users/${user.uid}/_connection_test`);
                 await testRef.set({ timestamp: Date.now() });
-                msg += `? Database Write Success!\n`;
+                msg += `✅ Database Write Success!\n`;
             } else {
-                msg += `?? Cannot test DB (Not Logged In)\n`;
+                msg += `⚠️ Cannot test DB (Not Logged In)\n`;
             }
         } catch (e) {
-            msg += `? Database Error: ${e.code || e.message}\n`;
+            msg += `❌ Database Error: ${e.code || e.message}\n`;
             console.error("Diagnostic DB Error:", e);
         }
 
@@ -2341,7 +2341,7 @@ class App {
             newMinimizeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 player.classList.toggle('minimized');
-                newMinimizeBtn.textContent = player.classList.contains('minimized') ? '??' : '??';
+                newMinimizeBtn.textContent = player.classList.contains('minimized') ? '🔺' : '🔻';
             });
         }
 
@@ -2736,7 +2736,7 @@ class App {
         const iconElement = exportBtn ? exportBtn.querySelector('.icon') : null;
         if (iconElement) {
             const originalIcon = iconElement.textContent;
-            iconElement.textContent = '?';
+            iconElement.textContent = '✓';
             setTimeout(() => {
                 iconElement.textContent = originalIcon;
             }, 2000);
@@ -2788,7 +2788,7 @@ class App {
                     const icon = labelBtn ? labelBtn.querySelector('.icon') : null;
                     if (icon) {
                         const original = icon.textContent;
-                        icon.textContent = '?';
+                        icon.textContent = '✓';
                         setTimeout(() => icon.textContent = original, 2000);
                         this.showHUD('Song imported successfully');
                     }
@@ -2879,19 +2879,19 @@ class App {
             const iconSpan = toggleBtn.querySelector('.icon');
             if (iconSpan) {
                 if (this.viewMode === 'simple') {
-                    iconSpan.textContent = '??';
+                    iconSpan.textContent = '📊';
                     toggleBtn.title = 'Full view';
                 } else {
-                    iconSpan.textContent = '??';
+                    iconSpan.textContent = '📋';
                     toggleBtn.title = 'Simple view';
                 }
             } else {
                 // Fallback for if structure is not yet set up
                 if (this.viewMode === 'simple') {
-                    toggleBtn.textContent = '??';
+                    toggleBtn.textContent = '📊';
                     toggleBtn.title = 'Full view';
                 } else {
-                    toggleBtn.textContent = '??';
+                    toggleBtn.textContent = '📋';
                     toggleBtn.title = 'Simple view';
                 }
             }
@@ -2941,7 +2941,7 @@ class App {
             this.updateSetlistSelect();
 
             // Show success message with details
-            let message = `Succesvol ge�mporteerd: ${result.added} song(s)`;
+            let message = `Succesvol geïmporteerd: ${result.added} song(s)`;
             if (result.duplicates > 0) {
                 message += `\n\n${result.duplicates} dubbel(ling)(en) overgeslagen:`;
                 if (result.duplicateSongs.length <= 10) {
@@ -2952,7 +2952,7 @@ class App {
                 }
             }
             if (setlistCount > 0) {
-                message += `\n\n${setlistCount} setlist(s) ge�mporteerd`;
+                message += `\n\n${setlistCount} setlist(s) geïmporteerd`;
             }
             alert(message);
         } catch (error) {
@@ -3007,7 +3007,7 @@ class App {
             document.body.appendChild(hud);
         }
 
-        const icon = type === 'success' ? '?' : (type === 'error' ? '??' : '?');
+        const icon = type === 'success' ? '✓' : (type === 'error' ? '⚠️' : 'ℹ');
         hud.innerHTML = `
             <div class="hud-icon-circle">${icon}</div>
             <div class="hud-message">${message}</div>
