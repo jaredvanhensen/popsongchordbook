@@ -753,7 +753,7 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=2.600&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=2.601&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag
