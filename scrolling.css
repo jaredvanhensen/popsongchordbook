@@ -390,17 +390,22 @@ button:disabled {
     transform: translateY(0) !important;
 }
 
-/* Specific Toggle State for Audio, YouTube & Metronome: Vibrant Blue/Purple (v2.583) */
+/* Active Toggle State: Purple/Blue gradient for all toggleable buttons */
 #audioToggleBtn.active,
 #youtubeToggleBtn.active,
 .metronome-btn.active,
 .lyrics-btn.active {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
     border: none !important;
-    color: white !important;
     box-shadow: 0 4px 0px 0px #3730a3, 0 10px 15px rgba(99, 102, 241, 0.3) !important;
     transform: translateY(0) !important;
     top: 0;
+}
+
+/* Audio & Metronome need white for their SVG icons */
+#audioToggleBtn.active,
+.metronome-btn.active {
+    color: white !important;
 }
 
 #audioToggleBtn.active svg,
@@ -408,11 +413,11 @@ button:disabled {
     color: white !important;
 }
 
-/* NOTE: Do NOT force color:white on lyrics-btn .icon — emoji renders its own colors */
+/* YouTube remains multi-color SVG, no override needed */
 
-/* YouTube remains white icon on blue as it's a multi-color SVG */
-#youtubeToggleBtn.active svg path[fill="#fff"] {
-    fill: #ffffff !important;
+/* Lyrics button: DO NOT set color:white — emoji must keep its natural colors */
+.lyrics-btn.active {
+    color: unset !important;
 }
 
 /* Toolbar Scaling: Icon ONLY for lyrics button (v2.530) */
