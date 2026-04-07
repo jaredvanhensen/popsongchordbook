@@ -426,15 +426,9 @@ button:disabled {
     border-radius: 12px;
 }
 
-/* Shift the mic SVG up 2px to match visual alignment of other icons */
-.lyrics-btn svg {
-    margin-top: -2px;
-}
-
-/* Shift the button itself up to align with its siblings in the flex row */
-.lyrics-btn {
-    margin-top: -3px !important;
-}
+/* Desktop/landscape: show emoji, hide SVG mic (portrait mobile uses SVG instead) */
+.lyrics-emoji { display: inline; font-size: 20px; line-height: 1; }
+.lyrics-svg { display: none !important; }
 
 /* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
 @media screen and (max-width: 600px) and (orientation: portrait) {
@@ -453,6 +447,16 @@ button:disabled {
         justify-content: center !important;
         border-radius: 12px !important;
     }
+
+    /* Mobile portrait: swap to SVG mic icon, hide emoji */
+    .lyrics-emoji { display: none !important; }
+    .lyrics-svg { display: block !important; }
+
+    /* Shift the SVG icon up 2px within the button */
+    .lyrics-btn svg { margin-top: -2px; }
+
+    /* Align the button itself within the flex row */
+    .lyrics-btn { margin-top: -3px !important; }
 }
 
 #audioToggleBtn.active svg,
