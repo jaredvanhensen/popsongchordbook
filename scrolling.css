@@ -2822,6 +2822,41 @@ body.ctrl-held .chord-item {
     gap: 8px;
 }
 
+.menu-shift-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.menu-shift-controls .arrow-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #1e40af !important;
+    font-size: 1.3rem !important;
+    font-weight: 900 !important;
+    cursor: pointer;
+    padding: 0 8px !important;
+    transition: transform 0.1s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    height: auto !important;
+    min-width: auto !important;
+}
+
+.menu-shift-controls .arrow-btn:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.menu-shift-controls .arrow-btn:active {
+    transform: scale(0.9);
+}
+
 .hamburger-menu-divider {
     height: 1px;
     background: #f1f5f9;

@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.572">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.572">
+    <link rel="stylesheet" href="scrolling.css?v=2.573">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.573">
 </head>
 
 <body>
@@ -234,46 +234,39 @@
                         <span class="icon">🎵</span>
                         <span class="label">Chord Progression Editor</span>
                     </div>
+
+                    <div class="hamburger-menu-divider edit-only"></div>
+
+                    <div class="hamburger-menu-item-static edit-only">
+                        <div class="item-label">
+                            <span class="icon">📏</span>
+                            <span>Shift Bars Left/Right</span>
+                        </div>
+                        <div class="menu-shift-controls">
+                            <button id="barDecBtn" class="arrow-btn" title="Shift Bars Left">&lt;</button>
+                            <div style="width: 24px;"></div>
+                            <button id="barIncBtn" class="arrow-btn" title="Shift Bars Right">&gt;</button>
+                        </div>
+                    </div>
+
+                    <div class="hamburger-menu-item-static edit-only">
+                        <div class="item-label">
+                            <span class="icon">🎼</span>
+                            <span>Shift Chords Left/Right</span>
+                        </div>
+                        <div class="menu-shift-controls">
+                            <button id="shiftChordsLeftBtn" class="arrow-btn" title="Shift Chords Left">&lt;</button>
+                            <div style="width: 20px;"></div>
+                            <button id="shiftChordsRightBtn" class="arrow-btn" title="Shift Chords Right">&gt;</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
 
 
-        <div class="adjust-controls-row edit-only">
-                <div id="barAdjustGroup" class="bar-adjust-controls highlight-blue">
-                    <button id="barDecBtn" title="Shift Bar Lines Left (1 Beat)" class="mini-btn">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
-                            fill="none">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                    </button>
-                    <span id="barOffsetDisplay">Bar: 0</span>
-                    <button id="barIncBtn" title="Shift Bar Lines Right (1 Beat)" class="mini-btn">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
-                            fill="none">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                    </button>
-                </div>
 
-                <div id="chordShiftGroup" class="bar-adjust-controls highlight-red">
-                    <button id="shiftChordsLeftBtn" title="Shift All Chords Left (1/8 Bar)" class="mini-btn">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
-                            fill="none">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <span class="label-chords">CHORDS</span>
-                    <button id="shiftChordsRightBtn" title="Shift All Chords Right (1/8 Bar)" class="mini-btn">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="3"
-                            fill="none">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                </div>
-            </div>
 
 
 
@@ -531,21 +524,22 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.572" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.572" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.572" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.572" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.572" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.572" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.572" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.572" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.572" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.572" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.572" defer></script>
-            <script src="js/scrolling_chords.js?v=2.572" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.573" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.573" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.573" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.573" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.573" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.573" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.573" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.573" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.573" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.573" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.573" defer></script>
+            <script src="js/scrolling_chords.js?v=2.573" defer></script>
 </body>
 
 </html>
+
 
 
 
