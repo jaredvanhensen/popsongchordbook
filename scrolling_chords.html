@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.574">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.574">
+    <link rel="stylesheet" href="scrolling.css?v=2.575">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.575">
 </head>
 
 <body>
@@ -169,6 +169,15 @@
                 </svg>
             </button>
 
+            <button id="toggleLyricsBtn" title="Enable/Disable Lyrics Overlay" class="lyrics-btn active">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+            </button>
+
             <div class="pure-timeline-menu-container" style="display: flex; align-items: center;">
                 <button id="timelineHamburgerBtn" title="More Options">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -263,13 +272,6 @@
                 </div>
             </div>
 
-        </div>
-
-
-
-
-
-
             <button id="zoomOutBtn" title="Zoom Out Timeline">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -288,10 +290,6 @@
                 </svg>
             </button>
 
-
-
-
-
             <button id="undoBtn" title="Undo Last Change" class="edit-only">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -307,7 +305,6 @@
                     <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"></path>
                 </svg>
             </button>
-
 
             <button id="selectModeBtn" title="Selection Mode" class="edit-only">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -331,9 +328,7 @@
                 </svg>
                 <span>1.0x</span>
             </button>
-            <button id="toggleLyricsBtn" title="Enable/Disable Lyrics Overlay" class="lyrics-btn active">
-                <span class="icon">🎤</span>
-            </button>
+
             <button id="duplicateBtn" title="Duplicate Selected Chords" class="edit-only">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -362,7 +357,6 @@
                 </svg>
             </button>
 
-
             <button id="saveBtn" title="Save Changes" class="hidden">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -372,11 +366,11 @@
                 </svg>
             </button>
 
-            <!-- Hidden original buttons stuff kept for logic -->
             <button id="octaveCycleBtn" class="hidden"></button>
             <button id="metronomeBtn" class="hidden"></button>
             <button id="bpmBtn" class="hidden"></button>
             <button id="exportBtn" class="hidden"></button>
+        </div>
 
         <div id="statusText">Upload a MIDI file to start</div>
     </div>
@@ -524,21 +518,22 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.574" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.574" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.574" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.574" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.574" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.574" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.574" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.574" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.574" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.574" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.574" defer></script>
-            <script src="js/scrolling_chords.js?v=2.574" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.575" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.575" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.575" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.575" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.575" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.575" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.575" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.575" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.575" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.575" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.575" defer></script>
+            <script src="js/scrolling_chords.js?v=2.575" defer></script>
 </body>
 
 </html>
+
 
 
 

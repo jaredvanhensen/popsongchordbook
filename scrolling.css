@@ -400,6 +400,15 @@ button:disabled {
     padding: 0 !important;
 }
 
+.lyrics-btn .icon {
+    font-size: 22px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols", sans-serif;
+}
+
 @media screen and (max-width: 768px) {
     .lyrics-btn .label {
         display: none !important;
