@@ -1,4 +1,4 @@
-// SongDetailModal - Modal voor song details weergave (v2.554)
+// SongDetailModal - Modal voor song details weergave (v2.597)
 class SongDetailModal {
     constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
         this.songManager = songManager;
@@ -753,7 +753,7 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=2.483&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=2.597&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag

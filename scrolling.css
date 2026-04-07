@@ -58,48 +58,7 @@ html {
     overflow: visible; /* CRITICAL: Must be visible so the hamburger menu isn't clipped! */
 }
 
-/* MOBILE PORTRAIT ONLY: even more compact icon-only toolbar to fit 2 rows in EDIT mode */
-@media screen and (max-width: 600px) and (orientation: portrait) {
-    .controls-container {
-        padding: 4px 1px !important;
-        gap: 1px !important;
-        justify-content: flex-start !important;
-        align-content: flex-start !important;
-    }
-    
-    /* Flatten hierarchy: allow icons to flow as siblings and fill rows optimally */
-    .playback-controls,
-    .pure-timeline-menu-container {
-        display: contents !important;
-    }
-
-    #playPauseBtn span,
-    #songMapBtn span,
-    #editModeBtn span {
-        display: none !important;
-    }
-
-    .controls-container button,
-    .controls-container a,
-    .controls-container .custom-file-btn {
-        min-width: 34px !important;
-        width: 34px !important;
-        height: 38px !important;
-        padding: 0 !important;
-        justify-content: center !important;
-        border-radius: 8px !important;
-        margin: 0 !important;
-        flex-shrink: 0 !important;
-    }
-
-    /* Mobile portrait: swap to SVG mic icon, hide emoji */
-    .lyrics-emoji { display: none !important; }
-    .lyrics-svg { display: block !important; }
-
-    /* Vertical alignment for special icons in flattened toolbar */
-    #toggleLyricsBtn { margin-top: -3px !important; }
-    #toggleLyricsBtn .lyrics-svg { margin-top: -5px !important; }
-}
+/* MOBILE OVERRIDES MOVED TO BOTTOM FOR SPECIFICITY */
 
 .playback-controls {
     display: flex;
@@ -5525,3 +5484,136 @@ body.ctrl-held .chord-item {
         font-size: 0.95em;
     }
 }
+
+@media screen and (max-width: 480px) and (orientation: portrait) {
+    /* Flatten ALL potential wrappers to allow direct flex flows */
+    body .playback-controls,
+    body .edit-controls,
+    body .pure-timeline-menu-container {
+        display: contents !important;
+    }
+
+    /* CRITICAL: Desktop adds 90px right-padding to avoid overlapping the close/minimize
+       buttons. On mobile these are positioned absolutely by the parent, so we must
+       remove this padding — without it buttons cannot fit in 2 rows. */
+    body.edit-mode-active .controls-container {
+        padding-right: 44px !important;
+        justify-content: center !important;
+    }
+    
+    /* Force main container to wrap tightly and allow 2 rows */
+    body .controls-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-content: center !important;
+        gap: 3px 2px !important; /* Tighter gap for mobile */
+        padding: 5px 2px !important;
+        height: auto !important;
+        min-height: 75px !important; 
+        overflow: visible !important;
+    }
+
+    /* Hide ALL text labels to maximize horizontal space */
+    /* Targeted hiding for mobile labels, excluding the hamburger menu dropdown */
+    body .controls-container > span,
+    body .controls-container > button .label,
+    body .controls-container > button span:not(.lyrics-emoji):not(.icon),
+    body .controls-container > .playback-controls .label,
+    body .controls-container > .playback-controls span:not(.icon),
+    body .controls-container > .edit-controls .label,
+    body .controls-container > .edit-controls span:not(.icon) {
+        display: none !important;
+    }
+    /* Restore hamburger menu text visibility for mobile, overriding hiding rules */
+    /* Use explicit ID to make it extremely strong */
+    #timelineHamburgerMenu .label,
+    #timelineHamburgerMenu span,
+    .pure-timeline-hamburger-menu .label,
+    .pure-timeline-hamburger-menu span {
+        display: inline-block !important; /* Forces it to show */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .pure-timeline-hamburger-menu .item-label span {
+        display: inline !important;
+    }
+
+    /* ============================================================
+       UNIFORM BUTTON SIZING - Mobile only
+       All toolbar buttons must be exactly 34x34px, icons 18px
+    ============================================================ */
+    body .controls-container button,
+    body .controls-container a,
+    body .controls-container .custom-file-btn {
+        width: 34px !important;
+        min-width: 34px !important;
+        max-width: 34px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        flex-grow: 0 !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        font-size: 16px !important;  /* For emoji-style icons */
+        line-height: 1 !important;
+        overflow: hidden !important;
+    }
+
+    /* Force ALL SVGs inside toolbar buttons to be same size */
+    body .controls-container button svg,
+    body .controls-container a svg,
+    body .controls-container svg {
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        max-width: 18px !important;
+        max-height: 18px !important;
+        margin: 0 !important;
+        display: block !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Force images (e.g. YouTube icon) to uniform size */
+    body .controls-container button img,
+    body .controls-container a img {
+        width: 18px !important;
+        height: 18px !important;
+        display: block !important;
+    }
+
+    /* Force buttons that might have hidden state to not affect layout when visible */
+    body .controls-container .hidden {
+        display: none !important;
+    }
+
+    /* Always hide: back button, speed text label, timestamp */
+    body .controls-container a#backBtn,
+    body #backBtn,
+    #speedBtn span,
+    #timestampIndicator {
+        display: none !important;
+    }
+
+    /* Lyrics button: hide emoji, show SVG only */
+    body .lyrics-emoji { display: none !important; }
+    body .lyrics-svg {
+        display: block !important;
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    /* Ensure edit-only elements remain hidden if edit mode is not active */
+    body:not(.edit-mode-active) .edit-only {
+        display: none !important;
+    }
+}
+

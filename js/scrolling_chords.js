@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -1861,7 +1861,7 @@ function renderSuggestedChords(groups) {
                     setTimeout(() => input.focus(), 50);
                 };
 
-                actions.appendChild(makeHeaderActionBtn(editIcon, 'Edit Block Chords', 'edit-btn', startEditing));
+                actions.appendChild(makeHeaderActionBtn(editIcon, 'Edit Block Chords', 'edit-btn edit-only', startEditing));
 
                 header.appendChild(actions);
                 groupContainer.appendChild(header);
@@ -1887,7 +1887,7 @@ function renderSuggestedChords(groups) {
 
         // Always add the "?" button at the end
         const qBtn = document.createElement('button');
-        qBtn.className = 'chord-suggestion-btn q-chord-btn';
+        qBtn.className = 'chord-suggestion-btn q-chord-btn edit-only';
         qBtn.textContent = '?';
         qBtn.title = 'Mark unknown chord';
         qBtn.draggable = false;
