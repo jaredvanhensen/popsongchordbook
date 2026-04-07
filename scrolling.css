@@ -456,7 +456,7 @@ button:disabled {
     .lyrics-btn svg { margin-top: -2px; }
 
     /* Align the button itself within the flex row */
-    .lyrics-btn { margin-top: -3px !important; }
+    .lyrics-btn { margin-top: -6px !important; }
 }
 
 #audioToggleBtn.active svg,
