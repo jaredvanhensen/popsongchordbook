@@ -58,7 +58,7 @@ html {
     overflow: visible; /* CRITICAL: Must be visible so the hamburger menu isn't clipped! */
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) and (orientation: portrait) {
     .controls-container {
         padding: 4px 2px !important;
         gap: 1px !important;
@@ -408,12 +408,7 @@ button:disabled {
     color: white !important;
 }
 
-/* Ensure icons inside active buttons (including SVG mic) are white */
-.lyrics-btn.active .icon,
-.lyrics-btn.active svg {
-    color: white !important;
-    stroke: white !important;
-}
+/* NOTE: Do NOT force color:white on lyrics-btn .icon — emoji renders its own colors */
 
 /* YouTube remains white icon on blue as it's a multi-color SVG */
 #youtubeToggleBtn.active svg path[fill="#fff"] {
@@ -436,7 +431,8 @@ button:disabled {
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols", sans-serif;
 }
 
-@media screen and (max-width: 600px) {
+/* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
+@media screen and (max-width: 600px) and (orientation: portrait) {
     #playPauseBtn span,
     #songMapBtn span,
     #editModeBtn span {
