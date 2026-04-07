@@ -65,7 +65,7 @@ if (isEmbed) {
         .pure-timeline-hamburger-menu { position: absolute !important; top: 100% !important; right: auto !important; left: 0 !important; margin-top: 15px !important; background: white !important; opacity: 1 !important; visibility: visible !important; text-shadow: none !important; min-width: 260px !important; }
         .file-input { color: #333 !important; }
         button { color: #000 !important; border-color: #ccc !important; }
-        .controls-container { padding-right: 50px !important; }
+        .controls-container { padding-right: 44px !important; }
         @media screen and (min-width: 1024px) {
             .controls-container { padding-right: 120px !important; }
         }
@@ -4491,6 +4491,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
