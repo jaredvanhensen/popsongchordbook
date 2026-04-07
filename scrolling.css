@@ -1,4 +1,4 @@
-/* Scrolling CSS (v2.530) */
+/* Scrolling CSS (v2.594) */
 :root {
     color-scheme: light;
     forced-color-adjust: none;
@@ -430,8 +430,16 @@ button:disabled {
 .lyrics-emoji { display: inline; font-size: 20px; line-height: 1; }
 .lyrics-svg { display: none !important; }
 
-/* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
+/* MOBILE PORTRAIT ONLY: even more compact 35x35 icon-only toolbar to fit 2 rows in EDIT mode */
 @media screen and (max-width: 600px) and (orientation: portrait) {
+    .controls-container {
+        padding: 4px 1px !important;
+        gap: 0.5px !important;
+    }
+    .playback-controls {
+        gap: 0.5px !important;
+    }
+
     #playPauseBtn span,
     #songMapBtn span,
     #editModeBtn span {
@@ -439,13 +447,15 @@ button:disabled {
     }
 
     .controls-container button,
+    .controls-container a,
     .controls-container .custom-file-btn {
-        min-width: 40px !important;
-        width: 40px !important;
-        height: 40px !important;
+        min-width: 35px !important;
+        width: 35px !important;
+        height: 38px !important;
         padding: 0 !important;
         justify-content: center !important;
-        border-radius: 12px !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
     }
 
     /* Mobile portrait: swap to SVG mic icon, hide emoji */
