@@ -431,6 +431,11 @@ button:disabled {
     margin-top: -2px;
 }
 
+/* Shift the button itself up to align with its siblings in the flex row */
+.lyrics-btn {
+    margin-top: -3px !important;
+}
+
 /* MOBILE PORTRAIT ONLY: compact 40x40 icon-only toolbar */
 @media screen and (max-width: 600px) and (orientation: portrait) {
     #playPauseBtn span,
