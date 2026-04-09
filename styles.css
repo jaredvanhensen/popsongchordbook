@@ -8951,24 +8951,36 @@ td:has(.row-edit-input.input-focused) {
 @media (max-width: 1080px) {
     .chord-section-content.editable-field {
         padding: 2px !important;
-        line-height: 1.1 !important;
+        line-height: 1.2 !important; /* Tight row spacing */
         min-height: auto !important;
     }
 
     .song-detail-body {
-        padding: 4px 6px !important;
-        padding-bottom: 120px !important; /* Ensure last items aren't behind footer on mobile */
-        gap: 4px !important;
+        padding: 8px 6px !important; /* Tight header/sidebar padding */
+        padding-bottom: 140px !important; /* Space for footer */
+        gap: 8px !important; /* Tight space between sections */
     }
 
     .song-chord-section {
-        padding: 4px 8px !important;
-        margin-bottom: 4px !important;
+        padding: 6px 10px !important; /* Tight internal box padding */
+        margin-bottom: 0 !important; /* Controlled by parent gap instead */
         border-width: 1px !important;
+        height: auto !important; 
+        min-height: fit-content !important; 
+        flex-shrink: 0 !important;
+        display: block !important;
+    }
+
+    .chord-section-content {
+        padding: 0 0 4px 0 !important; /* Removed top padding to bring chords closer to label */
+        gap: 6px !important;
     }
 
     .chord-section-title {
-        margin-bottom: 2px !important;
+        margin-bottom: 0px !important; /* Removed gap entirely */
+        font-size: 0.75rem !important; /* Smaller, more compact labels */
+        letter-spacing: 0.5px;
+        opacity: 0.8; /* Subtle look for labels */
     }
 }
 
