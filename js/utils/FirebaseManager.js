@@ -119,7 +119,10 @@ class FirebaseManager {
                     const normalizedEmail = email.toLowerCase().trim();
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     await userRef.update({
-                        email: normalizedEmail
+                        email: normalizedEmail,
+                        preferences: {
+                            isPremium: false
+                        }
                     });
 
                     // Create email index for user lookup
@@ -631,6 +634,35 @@ class FirebaseManager {
         const user = this.auth.currentUser;
         if (!user || user.uid !== uid) return false;
         return user.email === 'jared@vanhensen.nl';
+    }
+
+    // Global App Settings
+    async getGlobalSetting(key, defaultValue = null) {
+        if (!this.initialized) return defaultValue;
+        try {
+            const snapshot = await this.database.ref(`settings/${key}`).once('value');
+            const val = snapshot.val();
+            return val !== null ? val : defaultValue;
+        } catch (e) {
+            console.error(`Error loading global setting ${key}:`, e);
+            return defaultValue;
+        }
+    }
+
+    async updateGlobalSetting(key, value) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        // Basic security check: only the admin can change global settings
+        if (!this.isAdmin(this.currentUser.uid)) {
+            console.error('Unauthorized global setting update attempt');
+            return { success: false, error: 'Unauthorized: Admin access required' };
+        }
+        try {
+            const settingRef = this.database.ref(`settings/${key}`);
+            await settingRef.set(value);
+            return { success: true };
+        } catch (e) {
+            return { success: false, error: e.message };
+        }
     }
 
 

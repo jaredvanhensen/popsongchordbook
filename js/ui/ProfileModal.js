@@ -41,6 +41,7 @@ class ProfileModal {
         this.requestsTableBody = document.getElementById('adminRequestsTableBody');
         this.requestsEmptyMsg = document.getElementById('adminRequestsEmpty');
         this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
+        this.adminPaywallToggle = document.getElementById('adminPaywallToggle');
 
         // Feature Toggles
         this.timelineToggle = document.getElementById('profileTimelineToggle');
@@ -456,8 +457,17 @@ class ProfileModal {
 
         // Check for admin
         if (this.adminSection) {
-            const isAdmin = user && user.email === 'jared@vanhensen.nl';
+            const isAdmin = user && this.firebaseManager.isAdmin(user.uid);
             this.adminSection.classList.toggle('hidden', !isAdmin);
+
+            if (isAdmin) {
+                // Initialize paywall toggle state
+                this.firebaseManager.getGlobalSetting('paywall_active', false).then(isActive => {
+                    if (this.adminPaywallToggle) {
+                        this.adminPaywallToggle.checked = isActive;
+                    }
+                });
+            }
         }
     }
 
@@ -529,6 +539,19 @@ class ProfileModal {
                     this.handleFulfillRequest(reqId, email, artist, title);
                 });
             });
+
+            // Admin Paywall Toggle
+            if (this.adminPaywallToggle) {
+                this.adminPaywallToggle.addEventListener('change', async () => {
+                    const isActive = this.adminPaywallToggle.checked;
+                    const result = await this.firebaseManager.updateGlobalSetting('paywall_active', isActive);
+                    if (!result.success) {
+                        // Revert UI if failed
+                        this.adminPaywallToggle.checked = !isActive;
+                        alert('Failed to update paywall status: ' + result.error);
+                    }
+                });
+            }
 
             this.requestsTableBody.querySelectorAll('.delete-req-btn').forEach(btn => {
                 btn.onmouseenter = (e) => e.target.style.transform = 'scale(1.05)';

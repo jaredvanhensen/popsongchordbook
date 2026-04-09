@@ -14,8 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.610">
-    <link rel="stylesheet" href="landing.css?v=2.610">
+    <link rel="stylesheet" href="styles.css?v=2.613">
+    <link rel="stylesheet" href="landing.css?v=2.613">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -26,9 +26,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="images/premium_guitar.png">
-    <meta name="application-version" content="v2.610">
+    <meta name="application-version" content="v2.613">
     <!-- Version history: 
-        v2.610: Perfected uniform 24px chord buttons and added Notes/Tips toggle.
+        v2.613: Protected Admin/Premium from Paywall and matched toggle design.
+        v2.612: Implemented remote-controlled Paywall toggle in Admin settings.
+        v2.611: Added experimental Paywall Modal design for landing page.
         v2.609: Added Notes/Tips toggle and fixed unitform chord button sizing.
         v2.608: Optimized mobile chord block sizing and space utilization.
         v2.607: Fixed mobile instrument grid overflow and matched reference design.
@@ -46,7 +48,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.610</span> • <a href="changelog.html"
+            v<span id="site-version">2.613</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -100,7 +102,7 @@
                 real-time playback, and personalized setlists.
             </p>
             <div class="hero-buttons" style="gap: 12px;">
-                <a href="songlist.html" id="browseSongListBtn" class="btn btn-primary"
+                <a href="songlist.html" id="browseSongListBtn" class="btn btn-primary paywall-trigger"
                     style="padding: 16px 20px; border: 2px solid rgba(255, 255, 255, 0.4); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                     <span class="btn-icon">📋</span>
                     <span>Open Chord Book</span>
@@ -367,7 +369,8 @@
         <div class="container">
             <h2 class="cta-title">Ready to Start Playing?</h2>
             <p class="cta-subtitle">Browse hundreds of songs with chords and lyrics</p>
-            <a href="songlist.html" class="btn btn-primary btn-pill">
+            <a href="songlist.html" class="btn btn-primary btn-pill paywall-trigger"
+                title="Open Chord Book & Browse Songs">
                 <span class="btn-icon">🎸</span>
                 <span>Open Chord Book</span>
             </a>
@@ -500,22 +503,117 @@
         </div>
     </div>
 
-    <script>
-        /**
-         * INSTRUMENT SELECTION & REDIRECT LOGIC
-         * ------------------------------------
-         * 1. The instrument choice popup should ONLY appear when the user has not made a choice before.
-         * 2. The instrument choice is stored in the user profile (Firebase) and LocalStorage.
-         * 3. Logic Order: Redirect to Chord Book first. If the user is logged in but has no 
-         *    instrument in their profile, the Chord Book (songlist.html) will show the popup AFTER login.
-         */
-        document.addEventListener('DOMContentLoaded', async () => {
-            const browseBtn = document.getElementById('browseSongListBtn');
+    <!-- Paywall Modal -->
+    <div id="paywallModal" class="modal paywall-modal">
+        <div class="modal-content">
+            <span class="paywall-close" id="closePaywallBtn">&times;</span>
+            <div class="paywall-header">
+                <span class="paywall-crown">👑</span>
+                <h2>Unlock Full Access</h2>
+            </div>
+            <div class="paywall-body">
+                <div class="paywall-hint">
+                    You can explore all the <strong>features</strong> shown on this page, the <strong>Quick Start Guide</strong>, and our <strong>Demo Videos</strong> before you decide!
+                </div>
+                <ul class="benefit-list">
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Unlimited access to hundreds of populair popsongs</span>
+                    </li>
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Interactive Scrolling Chord Timeline & Editor</span>
+                    </li>
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Chord Tutor for all the popular chords you need</span>
+                    </li>
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Create and share your own setlists</span>
+                    </li>
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Jam along with YouTube videos</span>
+                    </li>
+                    <li class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <span>Use the Song Practice Module to practice a specific song</span>
+                    </li>
+                </ul>
+                <button class="btn-premium" id="paywallUpgradeBtn">Start Playing Now</button>
+                <div class="paywall-footer">
+                    Secure payment via Stripe • Lifetime Access
+                </div>
+            </div>
+        </div>
+    </div>
 
-            if (browseBtn) {
-                browseBtn.addEventListener('click', (e) => {
-                    // Just redirect. Any missing preferences will be handled 
-                    // on the songlist.html page AFTER the user logs in.
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const firebaseManager = new FirebaseManager();
+            try {
+                await firebaseManager.initialize();
+            } catch (err) {
+                console.warn('Firebase init failed on landing page, bypassing paywall check:', err);
+            }
+
+            const paywallModal = document.getElementById('paywallModal');
+            const closePaywallBtn = document.getElementById('closePaywallBtn');
+            const paywallUpgradeBtn = document.getElementById('paywallUpgradeBtn');
+            const triggers = document.querySelectorAll('.paywall-trigger');
+
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', async (e) => {
+                    // Fetch global setting (defaults to false)
+                    const isPaywallActive = await firebaseManager.getGlobalSetting('paywall_active', false);
+                    
+                    if (isPaywallActive) {
+                        const user = firebaseManager.getCurrentUser();
+                        const isAdmin = user && user.email === 'jared@vanhensen.nl';
+                        
+                        // Check if user is premium
+                        let isPremium = false;
+                        if (user) {
+                            try {
+                                isPremium = await firebaseManager.getPreference('isPremium', false);
+                            } catch (prefErr) {
+                                console.warn('Could not load preferences:', prefErr);
+                            }
+                        }
+
+                        // ONLY show paywall if:
+                        // 1. It is active
+                        // 2. User is NOT admin
+                        // 3. User is NOT premium
+                        if (!isAdmin && !isPremium) {
+                            e.preventDefault();
+                            paywallModal.style.display = 'flex';
+                            return;
+                        }
+                    }
+                    
+                    // If we reach here, either paywall is off or user has access
+                    // Normal navigation to songlist.html continues
+                });
+            });
+
+            if (closePaywallBtn) {
+                closePaywallBtn.addEventListener('click', () => {
+                    paywallModal.style.display = 'none';
+                });
+            }
+
+            window.addEventListener('click', (e) => {
+                if (e.target === paywallModal) {
+                    paywallModal.style.display = 'none';
+                }
+            });
+
+            if (paywallUpgradeBtn) {
+                paywallUpgradeBtn.addEventListener('click', () => {
+                    // Placeholder for actual Stripe Checkout integration
+                    alert("Paywall Triggered: Redirecting to Secure Stripe Checkout...");
                 });
             }
         });

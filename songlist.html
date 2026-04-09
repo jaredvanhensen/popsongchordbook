@@ -6,9 +6,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Song Library - PopSongChordBook</title>
-    <meta name="application-version" content="v2.610">
+    <meta name="application-version" content="v2.613">
     <meta name="description" content="Manage your pop song library, create setlists, and practice with interactive chords.">
-    <link rel="stylesheet" href="styles.css?v=2.610">
+    <link rel="stylesheet" href="styles.css?v=2.613">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -47,7 +47,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.610</span>
+                        v<span id="site-version">2.613</span>
                     </div>
                 </div>
             </div>
@@ -517,6 +517,21 @@
                     <!-- Admin Section -->
                     <div id="profileAdminSection" class="profile-admin-section hidden" style="margin-top: 25px; background: #fff7ed; padding: 15px; border-radius: 12px; border: 1px solid #ffedd5;">
                         <h4 style="margin-bottom: 12px; color: #9a3412;">⚙️ Admin Controls</h4>
+                        
+                        <div class="feature-toggle" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ffedd5; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🔐</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px; color: #9a3412;">PAYWALL</div>
+                                    <div style="font-size: 11px; color: #64748b;">Global paywall for all users (not admin)</div>
+                                </div>
+                            </div>
+                            <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="adminPaywallToggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
                         <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%;">
                             View Requested Songs
                         </button>
