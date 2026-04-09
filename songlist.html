@@ -7,7 +7,7 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Song Library - PopSongChordBook</title>
     <meta name="description" content="Manage your pop song library, create setlists, and practice with interactive chords.">
-    <link rel="stylesheet" href="styles.css?v=2.606">
+    <link rel="stylesheet" href="styles.css?v=2.607">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -46,7 +46,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.606</span>
+                        v<span id="site-version">2.607</span>
                     </div>
                 </div>
             </div>
@@ -1627,8 +1627,48 @@
                 <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Choose Your Instrument</h2>
             </div>
             <div class="modal-body">
-                <div class="instruments-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; padding: 10px 0;">
+                <style>
+                    .instruments-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 16px;
+                        padding: 10px 0;
+                    }
+                    @media (min-width: 600px) {
+                        .instruments-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+                    }
+                    .instrument-card {
+                        cursor: pointer;
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                        border: 2px solid transparent;
+                        background: #ffffff;
+                        padding: 25px 15px;
+                        border-radius: 20px;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .instrument-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                        border-color: #6366f1;
+                    }
+                    .instrument-card h3 {
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        margin: 12px 0 0;
+                        color: #1e293b;
+                    }
+                    .instrument-icon {
+                        font-size: 3.5rem;
+                        line-height: 1;
+                    }
+                </style>
+                <div class="instruments-grid">
 
                     <div class="instrument-card guitar-card" onclick="selectInstrument('guitar')"
                         style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
@@ -1642,24 +1682,13 @@
                         <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Piano</h3>
                     </div>
 
-                    <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')"
-                        style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-                        <div class="instrument-icon"
-                            style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px; height: 50px;">
-                            <svg viewBox="0 0 100 100" width="50" height="50" style="vertical-align: middle;">
-                                <g transform="rotate(-35 50 50)">
-                                    <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
-                                    <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
-                                    <circle cx="50" cy="65" r="9" fill="#3e2723"/>
-                                    <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Ukulele</h3>
+                    <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')">
+                        <div class="instrument-icon">🪕</div>
+                        <h3>Ukulele</h3>
                     </div>
 
                 </div>
-
+                <p style="margin-top: 25px; color: #64748b; font-size: 0.95rem;">You can always change this later in any song.</p>
             </div>
         </div>
     </div>
