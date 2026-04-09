@@ -238,6 +238,7 @@ class App {
 
         this.setupResponsiveView();
         this.setupCreateSongModal();
+        this.setupInstrumentModal();
 
         // Setup real-time sync
         this.setupRealtimeSync();
@@ -580,16 +581,67 @@ class App {
                     this.profileModal.updateInstrumentUI(instrument);
                 }
             } else {
-                // Not in database? Check if we have it locally from index.html (guest session)
+                // Not in database? Check if we have it locally
                 const localInstrument = localStorage.getItem('instrumentMode') || localStorage.getItem(`instrument-mode-${user.uid}`);
-                if (localInstrument && localInstrument !== 'piano') { // pianos is default anyway
+                if (localInstrument) {
                     console.log('App: Pushing local instrument to database:', localInstrument);
                     await this.firebaseManager.updatePreference('instrument', localInstrument);
+                } else {
+                    // NO CHOICE FOUND ANYWHERE: The instrument choice popup should only appear 
+                    // when the user has not made a choice before. This is the correct place 
+                    // to show it because we have now confirmed the user is logged in 
+                    // and has no stored preference.
+                    const modal = document.getElementById('chooseInstrumentModal');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
                 }
             }
         } catch (error) {
             console.error('App: Error syncing preferences:', error);
         }
+    }
+
+    setupInstrumentModal() {
+        const modal = document.getElementById('chooseInstrumentModal');
+        const closeModalBtn = document.getElementById('closeInstrumentModal');
+        
+        if (!modal) return;
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        }
+
+        // Global handler for instrument selection buttons (defined as onclick in HTML)
+        window.selectInstrument = async (instrument) => {
+            console.log('App: User selected instrument:', instrument);
+            localStorage.setItem('instrumentMode', instrument);
+            
+            const user = this.firebaseManager.getCurrentUser();
+            if (user) {
+                try {
+                    await this.firebaseManager.updatePreference('instrument', instrument);
+                    // Also update the UID-specific key for consistency
+                    localStorage.setItem(`instrument-mode-${user.uid}`, instrument);
+                } catch (e) {
+                    console.error('App: Failed to save instrument preference:', e);
+                }
+            }
+            
+            modal.classList.add('hidden');
+            
+            // Refresh notation in existing modals if they are open
+            if (this.songDetailModal) {
+                this.songDetailModal.instrumentMode = instrument;
+                this.songDetailModal.updateInstrumentToggleUI();
+                this.songDetailModal.refreshNotation();
+            }
+            if (this.profileModal) {
+                this.profileModal.updateInstrumentUI(instrument);
+            }
+        };
     }
 
     showLoadingIndicator() {

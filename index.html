@@ -26,8 +26,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="images/premium_guitar.png">
-    <meta name="application-version" content="v2.605">
+    <meta name="application-version" content="v2.606">
     <!-- Version history: 
+        v2.606: Refactored instrument choice to occur AFTER login.
         v2.605: Re-hid instrument modal and added logic documentation.
         v2.604: Fixed mobile 'Open Chord Book' button visibility and song loading issue.
         v2.603: Integrated Song Map toggle, removed legacy default song seeding (3.2MB saving), and forced light mode for mobile browsers.
@@ -42,7 +43,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.605</span> • <a href="changelog.html"
+            v<span id="site-version">2.606</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -466,115 +467,22 @@
 
     <script>
         /**
-         * INSTRUMENT SELECTION LOGIC
-         * --------------------------
-         * The Instrument Choice modal should ONLY appear if the user has NOT made a choice in the past.
-         * The preference is stored in:
-         * 1. LocalStorage (for guests and persistent sessions)
-         * 2. Firebase Database (for logged-in users, synced across devices)
-         * 
-         * If a choice is found, the user is redirected immediately to songlist.html.
-         * If no choice is found, the modal is shown to capture the preference.
+         * INSTRUMENT SELECTION & REDIRECT LOGIC
+         * ------------------------------------
+         * 1. The instrument choice popup should ONLY appear when the user has not made a choice before.
+         * 2. The instrument choice is stored in the user profile (Firebase) and LocalStorage.
+         * 3. Logic Order: Redirect to Chord Book first. If the user is logged in but has no 
+         *    instrument in their profile, the Chord Book (songlist.html) will show the popup AFTER login.
          */
         document.addEventListener('DOMContentLoaded', async () => {
             const browseBtn = document.getElementById('browseSongListBtn');
-            const instrumentModal = document.getElementById('chooseInstrumentModal');
-            const closeModalBtn = document.getElementById('closeInstrumentModal');
 
-            const firebaseManager = new FirebaseManager();
-            let currentUser = null;
-            let isAuthInitialized = false;
-
-            if (browseBtn && instrumentModal) {
-                browseBtn.addEventListener('click', async (e) => {
-                    // 1. Desktop optimization: Always redirect directly if not on mobile portrait
-                    if (window.innerWidth > 1080) {
-                        return; // Let native <a> href handle it
-                    }
-
-                    // 2. Check LocalStorage first (fastest)
-                    let savedInstrument = null;
-                    try {
-                        savedInstrument = localStorage.getItem('instrumentMode');
-                    } catch (storageErr) {
-                        console.warn('Storage blocked in Incognito mode', storageErr);
-                    }
-
-                    if (savedInstrument) {
-                        return; // Preference found, let <a> redirect
-                    }
-
-                    // 3. Check Firebase if user is logged in
-                    // If we are still initializing auth, wait a moment to avoid a false "no preference" modal
-                    if (!isAuthInitialized) {
-                        // Briefly pulse a loading state if they click too fast
-                        browseBtn.style.opacity = '0.7';
-                        let waitAttempts = 0;
-                        while (!isAuthInitialized && waitAttempts < 10) {
-                            await new Promise(r => setTimeout(r, 100));
-                            waitAttempts++;
-                        }
-                        browseBtn.style.opacity = '1';
-                    }
-
-                    if (currentUser) {
-                        try {
-                            savedInstrument = await firebaseManager.getPreference('instrument');
-                            if (savedInstrument) {
-                                localStorage.setItem('instrumentMode', savedInstrument);
-                                window.location.href = 'songlist.html';
-                                return;
-                            }
-                        } catch (prefErr) {
-                            console.warn('Error fetching instrument preference:', prefErr);
-                        }
-                    }
-
-                    // 4. HIDDEN BY DEFAULT: Only intercept and show the modal if NO preference is found anywhere
-                    e.preventDefault();
-                    instrumentModal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
+            if (browseBtn) {
+                browseBtn.addEventListener('click', (e) => {
+                    // Just redirect. Any missing preferences will be handled 
+                    // on the songlist.html page AFTER the user logs in.
                 });
             }
-
-            try {
-                await firebaseManager.initialize();
-                firebaseManager.onAuthStateChanged((user) => {
-                    currentUser = user;
-                    isAuthInitialized = true;
-                });
-            } catch (err) {
-                console.warn('Firebase login check failed:', err);
-                isAuthInitialized = true;
-            }
-
-            if (closeModalBtn && instrumentModal) {
-                closeModalBtn.addEventListener('click', () => {
-                    instrumentModal.classList.add('hidden');
-                    document.body.style.overflow = '';
-                });
-            }
-
-            window.addEventListener('click', (e) => {
-                if (e.target === instrumentModal) {
-                    instrumentModal.classList.add('hidden');
-                    document.body.style.overflow = '';
-                }
-            });
-
-            window.selectInstrument = async function (instrument) {
-                localStorage.setItem('instrumentMode', instrument);
-                
-                if (currentUser) {
-                    try {
-                        await firebaseManager.updatePreference('instrument', instrument);
-                    } catch (e) {
-                        console.error('Error saving instrument preference:', e);
-                    }
-                }
-                
-                window.location.href = 'songlist.html';
-            };
         });
     </script>
 </body>
