@@ -1992,7 +1992,7 @@ class App {
     openPracticeRandomSong() {
         const practiceSetlist = this.setlistManager.getPracticeSetlist();
         if (!practiceSetlist || !practiceSetlist.songIds || practiceSetlist.songIds.length === 0) {
-            alert('Je Practice lijst is leeg. Voeg eerst songs toe aan je Practice lijst via de Song Details.');
+            alert('Your Practice list is empty. Add songs to your Practice list first via Song Details.');
             return;
         }
 
@@ -2007,7 +2007,7 @@ class App {
         });
 
         if (availableSongs.length === 0) {
-            alert('Geen geldige songs gevonden in je Practice lijst.');
+            alert('No valid songs found in your Practice list.');
             return;
         }
 
@@ -2124,21 +2124,21 @@ class App {
                 
                 const user = this.firebaseManager.getCurrentUser();
                 if (!user) {
-                    alert('Log eerst in om een liedje aan te vragen.');
+                    alert('Please log in first to request a song.');
                     return;
                 }
 
                 try {
                     const result = await this.firebaseManager.addSongRequest(user.uid, user.email, artist, title);
                     if (result.success) {
-                        this.showHUD('Aanvraag verzonden!');
+                        this.showHUD('Request submitted');
                         closeModal();
                     } else {
-                        alert('Fout bij verzenden aanvraag: ' + result.error);
+                        alert('Error submitting request: ' + result.error);
                     }
                 } catch (error) {
                     console.error('Error requesting song:', error);
-                    alert('Er is een fout opgetreden bij het aanvragen.');
+                    alert('An error occurred while submitting your request.');
                 }
             });
         }
@@ -2245,7 +2245,7 @@ class App {
 
         const youtubeUrl = song.youtubeUrl || '';
         if (!youtubeUrl.trim()) {
-            alert('Geen YouTube URL ingesteld voor dit liedje. Voeg een YouTube URL toe in de bewerkmodus.');
+            alert('No YouTube URL set for this song. Add a YouTube URL in edit mode.');
             return;
         }
 

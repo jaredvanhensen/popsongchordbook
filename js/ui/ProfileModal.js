@@ -330,12 +330,12 @@ class ProfileModal {
 
         // Basic validation
         if (!file.type.startsWith('image/')) {
-            alert('Selecteer een afbeelding.');
+            alert('Please select an image.');
             return;
         }
 
         if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            alert('Afbeelding is te groot. Max 5MB.');
+            alert('Image is too large. Max 5MB.');
             return;
         }
 
@@ -360,12 +360,12 @@ class ProfileModal {
                 // We'll rely on app.js having a listener or us calling a refresh if possible.
                 // For now, page refresh is the fallback.
             } else {
-                alert('Fout bij bijwerken profielfoto: ' + result.error);
+                alert('Error updating profile picture: ' + result.error);
             }
 
         } catch (error) {
             console.error('Avatar upload error:', error);
-            alert('Fout bij verwerken afbeelding.');
+            alert('Error processing image.');
         } finally {
             if (this.changeAvatarBtn) {
                 this.changeAvatarBtn.textContent = '📷';
@@ -382,7 +382,7 @@ class ProfileModal {
         const uid = user ? user.uid : 'guest';
         
         if (user) {
-            if (this.emailDisplay) this.emailDisplay.textContent = user.email || 'Geen e-mailadres';
+            if (this.emailDisplay) this.emailDisplay.textContent = user.email || 'No email address';
             if (this.usernameInput) this.usernameInput.value = user.displayName || '';
             
             // Update Avatar UI - Try DB first, then Auth
@@ -481,7 +481,7 @@ class ProfileModal {
     async renderRequests() {
         if (!this.requestsTableBody) return;
 
-        this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Laden...</td></tr>';
+        this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Loading...</td></tr>';
 
         try {
             const requests = await this.firebaseManager.getSongRequests();
@@ -558,10 +558,9 @@ class ProfileModal {
                 btn.onmouseleave = (e) => e.target.style.transform = 'scale(1)';
                 btn.onclick = (e) => {
                     const reqId = e.currentTarget.dataset.id;
-                    const title = e.currentTarget.dataset.title;
                     this.confirmationModal.show(
                         'Delete Request',
-                        `Are you sure you want to delete the request for <strong>${title}</strong>?`,
+                        'Are you sure you want to delete this request?',
                         async () => {
                             const result = await this.firebaseManager.deleteSongRequest(reqId);
                             if (result.success) this.renderRequests();
@@ -575,7 +574,7 @@ class ProfileModal {
             });
         } catch (error) {
             console.error('Error rendering requests:', error);
-            this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Fout bij laden van aanvragen.</td></tr>';
+            this.requestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Error loading requests.</td></tr>';
         }
     }
 
