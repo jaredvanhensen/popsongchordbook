@@ -26,8 +26,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="images/premium_guitar.png">
-    <meta name="application-version" content="v2.603">
+    <meta name="application-version" content="v2.604">
     <!-- Version history: 
+        v2.604: Fixed mobile 'Open Chord Book' button visibility and song loading issue.
         v2.603: Integrated Song Map toggle, removed legacy default song seeding (3.2MB saving), and forced light mode for mobile browsers.
         v2.602: Micro-refinement: Nudged entire Lyrics button up 2px on mobile, restored icons, fixed lyrics HUD hide
         v2.601: Micro-refinement: Nudged entire Lyrics button up 2px on mobile (encoding error)
@@ -40,7 +41,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.603</span> • <a href="changelog.html"
+            v<span id="site-version">2.604</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -510,6 +511,7 @@
 
                     // 5. If STILL no instrument found, only THEN intercept navigation to show the modal
                     e.preventDefault();
+                    instrumentModal.classList.remove('hidden');
                     instrumentModal.style.display = 'flex';
                     document.body.style.overflow = 'hidden';
                 });
@@ -527,6 +529,7 @@
 
             if (closeModalBtn && instrumentModal) {
                 closeModalBtn.addEventListener('click', () => {
+                    instrumentModal.classList.add('hidden');
                     instrumentModal.style.display = 'none';
                     document.body.style.overflow = '';
                 });
@@ -534,6 +537,7 @@
 
             window.addEventListener('click', (e) => {
                 if (e.target === instrumentModal) {
+                    instrumentModal.classList.add('hidden');
                     instrumentModal.style.display = 'none';
                     document.body.style.overflow = '';
                 }
