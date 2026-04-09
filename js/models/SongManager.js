@@ -305,6 +305,13 @@ class SongManager {
         await this.saveSongs();
     }
 
+    async deletePrivateSongs() {
+        // Keep only public songs
+        this.songs = this.songs.filter(s => s.isPublic);
+        this.updateNextId();
+        await this.saveSongs();
+    }
+
     async addSong(song) {
         const newSong = {
             // Default values

@@ -10702,12 +10702,12 @@ div.song-detail-practice-controls {
 
 /* Song Map Button - PC/Landscape Only */
 #songDetailSongMapBtn {
-    display: none !important;
+    display: none;
 }
 
 @media (min-width: 1024px) {
     #songDetailSongMapBtn {
-        display: flex !important;
+        display: flex;
     }
 }
 
@@ -10719,13 +10719,13 @@ div.song-detail-practice-controls {
     height: auto !important;
     padding: 0 0 6px 0 !important;
     border-radius: 0 !important;
-    display: flex !important;
+    display: flex;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
     margin: 0 !important;
     opacity: 1 !important;
-    visibility: visible !important;
+    visibility: visible;
     transform: none !important;
 }
 
@@ -10789,7 +10789,7 @@ div.song-detail-practice-controls {
     #songDetailScrollingChordsBtn,
     .ability-stars-container {
         height: 65px !important;
-        display: flex !important;
+        display: flex;
         flex-direction: column !important;
         justify-content: flex-end !important;
         align-items: center !important;

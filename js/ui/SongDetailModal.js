@@ -3249,7 +3249,11 @@ class SongDetailModal {
                 this.lyricsBtn.style.display = 'flex';
             }
             if (this.scrollingChordsBtn) {
-                this.scrollingChordsBtn.style.display = timelineEnabled ? 'flex' : 'none';
+                this.scrollingChordsBtn.classList.toggle('hidden', !timelineEnabled);
+            }
+            if (this.songMapBtn) {
+                const songMapEnabled = localStorage.getItem(`feature-songmap-enabled-${uid}`) !== 'false';
+                this.songMapBtn.classList.toggle('hidden', !songMapEnabled);
             }
 
             // Always show toggle center actions container for the instrument switch visibility

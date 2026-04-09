@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Changelog - Pop Song Chord Book</title>
+    <title>Changelog - PopSongChordBook</title>
+    <meta name="description" content="Stay updated with the latest features, improvements, and fixes in PopSongChordBook.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -152,6 +153,32 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
+            <!-- v2.603 -->
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.603</span>
+                    <span class="version-date">April 09, 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Feature Toggle</span>
+                        <span class="change-description">Integrated the <strong>Song Map</strong> feature toggle in the Profile Modal. Successfully implemented persistence and live UI updates for the Song Detail Modal footer button.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Optimization</span>
+                        <span class="change-description">Removed the legacy <strong>Default Song Seeding</strong> logic and the 3.2MB <code>default_songs.js</code> file. New users now start with a clean library referencing the public database, resulting in faster initial page loads (saving >3MB bandwidth).</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Browser compatibility</span>
+                        <span class="change-description">Forced <strong>Light Mode</strong> via meta tags and CSS hints (<code>color-scheme: light</code>) to prevent mobile browsers like Samsung Browser from applying unwanted color inversion.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UI Fix</span>
+                        <span class="change-description">Fixed a bug where the <strong>Song Map button</strong> would stay hidden after being re-enabled. Switched to a more robust <code>.hidden</code> class-based visibility logic.</span>
+                    </li>
+                </ul>
+            </div>
+
             <!-- v2.602 -->
             <div class="version-card current">
                 <div class="version-header">

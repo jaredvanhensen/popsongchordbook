@@ -31,7 +31,7 @@ class ProfileModal {
         this.logoutBtn = document.getElementById('profileLogoutBtn');
         this.shareSongsBtn = document.getElementById('profileShareSongsBtn');
         this.acceptSongsBtn = document.getElementById('profileAcceptSongsBtn');
-        this.reseedSongsBtn = document.getElementById('reseedSongsBtn');
+
         this.closeBtn = document.getElementById('profileModalClose');
 
         // Admin elements
@@ -44,6 +44,7 @@ class ProfileModal {
 
         // Feature Toggles
         this.timelineToggle = document.getElementById('profileTimelineToggle');
+        this.songMapToggle = document.getElementById('profileSongMapToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
         this.audioQualitySelect = document.getElementById('profileAudioQualitySelect');
         this.audioQualityDesc = document.getElementById('audioQualityDesc');
@@ -156,11 +157,7 @@ class ProfileModal {
         }
 
         // Reseed Songs button
-        if (this.reseedSongsBtn) {
-            this.reseedSongsBtn.addEventListener('click', () => {
-                this.handleReseedToDefaults();
-            });
-        }
+
 
         // Close button
         if (this.closeBtn) {
@@ -233,7 +230,27 @@ class ProfileModal {
             this.timelineToggle.addEventListener('change', (e) => {
                 const user = this.firebaseManager.getCurrentUser();
                 const uid = user ? user.uid : 'guest';
-                localStorage.setItem(`feature-timeline-enabled-${uid}`, e.target.checked);
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-timeline-enabled-${uid}`, isEnabled);
+
+                // Update SongDetailModal live if open
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.scrollingChordsBtn) {
+                    window.appInstance.songDetailModal.scrollingChordsBtn.classList.toggle('hidden', !isEnabled);
+                }
+            });
+        }
+
+        if (this.songMapToggle) {
+            this.songMapToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-songmap-enabled-${uid}`, isEnabled);
+
+                // Update SongDetailModal live if open
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.songMapBtn) {
+                    window.appInstance.songDetailModal.songMapBtn.classList.toggle('hidden', !isEnabled);
+                }
             });
         }
 
@@ -394,6 +411,9 @@ class ProfileModal {
         // Initialize feature toggles from localStorage (per-user)
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
+        }
+        if (this.songMapToggle) {
+            this.songMapToggle.checked = localStorage.getItem(`feature-songmap-enabled-${uid}`) !== 'false';
         }
         if (this.midiToggle) {
             this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) === 'true';
@@ -994,7 +1014,8 @@ class ProfileModal {
                     }
                 },
                 "Log Out",
-                "Stay Logged In"
+                "Stay Logged In",
+                "danger"
             );
         } else {
             // Fallback to standard confirm if appInstance is not available
@@ -1012,77 +1033,6 @@ class ProfileModal {
         }
     }
 
-
-    async handleReseedToDefaults() {
-        const user = this.firebaseManager.getCurrentUser();
-        if (!user) {
-            alert('Must be logged in to reseed songs.');
-            return;
-        }
-
-        const reseedAction = async () => {
-            try {
-                // Show loading indicator
-                if (this.reseedSongsBtn) {
-                    const originalText = this.reseedSongsBtn.innerHTML;
-                    this.reseedSongsBtn.disabled = true;
-                    this.reseedSongsBtn.innerHTML = '🔄 Reseeding...';
-
-                    // Perform the reseed
-                    if (typeof DEFAULT_SONGS !== 'undefined' && DEFAULT_SONGS.length > 0) {
-                        try {
-                            await this.songManager.importSongs(DEFAULT_SONGS, true);
-                            await this.firebaseManager.setSeedingStatus(user.uid, true);
-
-                            // Show professional success info
-                            if (window.appInstance && window.appInstance.showInfoModal) {
-                                window.appInstance.showInfoModal("Success", "Library successfully reset to default song set!");
-                            } else {
-                                alert('Library successfully reset to default song set!');
-                            }
-                            
-                            this.hide();
-                            if (window.appInstance && window.appInstance.renderSongTable) {
-                                window.appInstance.renderSongTable();
-                            }
-                        } catch (e) {
-                            console.error('Import error during reseed:', e);
-                            alert('Reseed failed: ' + e.message);
-                        } finally {
-                            this.reseedSongsBtn.disabled = false;
-                            this.reseedSongsBtn.innerHTML = originalText;
-                        }
-                    } else {
-                        alert('Could not find default songs data.');
-                        this.reseedSongsBtn.disabled = false;
-                        this.reseedSongsBtn.innerHTML = originalText;
-                    }
-                }
-            } catch (error) {
-                console.error('Fatal reseed error:', error);
-                alert('Fatal error during reset: ' + error.message);
-                if (this.reseedSongsBtn) {
-                    this.reseedSongsBtn.disabled = false;
-                    this.reseedSongsBtn.innerHTML = originalText;
-                }
-            }
-        };
-
-        if (window.appInstance && window.appInstance.showGeneralConfirm) {
-            window.appInstance.showGeneralConfirm(
-                "Reset Library", 
-                "Are you sure you want to reset your library? This will replace EVERYTHING with the default song set. ALL your current songs and edits will be LOST.",
-                reseedAction,
-                "Reset Library",
-                "Keep My Data"
-            );
-        } else {
-            // Fallback
-            if (confirm('Are you sure you want to reset your library? This will replace EVERYTHING with the default song set. ALL your current songs and edits will be LOST.')) {
-                reseedAction();
-            }
-        }
-    }
 
     showError(message) {
         if (this.changePasswordError) {

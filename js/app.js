@@ -1,4 +1,4 @@
-﻿// Main Application (v2.593)
+// Main Application (v2.593)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -641,35 +641,8 @@ class App {
         console.log("Checking default data...");
         try {
             let allSongs = this.songManager.getAllSongs();
-
-            // 1. Automatic Seeding for Guests AND New Accounts
-            const user = this.firebaseManager.getCurrentUser();
             
-            // Separate private and public songs
-            const privateSongs = allSongs.filter(s => !s.isPublic);
-            const publicSongs = allSongs.filter(s => s.isPublic);
-
-            if (privateSongs.length === 0 && DEFAULT_SONGS && DEFAULT_SONGS.length > 0) {
-                if (!user) {
-                    // Guest case: Just seed (keep any public songs found in cache)
-                    console.log("Empty guest private library. Seeding defaults...");
-                    await this.songManager.importSongs(DEFAULT_SONGS, false); // merge=true (replace=false)
-                } else {
-                    // Logged in user case: Check cloud flag to see if they've EVER been seeded
-                    const seedingDone = await this.firebaseManager.getSeedingStatus(user.uid);
-                    if (!seedingDone) {
-                        console.log("New account detected. Seeding defaults automatically...");
-                        // Use importSongs with replace=false to merge with public songs
-                        await this.songManager.importSongs(DEFAULT_SONGS, false); 
-                        await this.firebaseManager.setSeedingStatus(user.uid, true);
-                    } else {
-                        console.log("Account already initialized. Skipping auto-seed.");
-                    }
-                }
-                allSongs = this.songManager.getAllSongs(); // Refresh list
-            }
-
-            // 2. Check if 'DEMO' Setlist exists
+            // 1. Check if 'DEMO' Setlist exists
             const allSetlists = this.setlistManager.getAllSetlists();
             const demoExists = allSetlists.some(sl => sl.name === "DEMO");
 
@@ -2627,7 +2600,7 @@ class App {
         if (!modal) return;
 
         if (titleEl) titleEl.textContent = title;
-        if (messageEl) messageEl.textContent = message;
+        if (messageEl) messageEl.innerHTML = message;
 
         const hideModal = () => modal.classList.add('hidden');
 
@@ -2637,7 +2610,7 @@ class App {
         modal.classList.remove('hidden');
     }
 
-    showGeneralConfirm(title, message, okCallback, okText = "Confirm", cancelText = "Cancel") {
+    showGeneralConfirm(title, message, okCallback, okText = "Confirm", cancelText = "Cancel", type = "primary") {
         const modal = document.getElementById('generalConfirmModal');
         const titleEl = document.getElementById('generalConfirmTitle');
         const messageEl = document.getElementById('generalConfirmMessage');
@@ -2648,15 +2621,18 @@ class App {
         if (!modal) return;
 
         if (titleEl) titleEl.textContent = title;
-        if (messageEl) messageEl.textContent = message;
+        if (messageEl) messageEl.innerHTML = message;
 
         if (okBtn) {
             okBtn.textContent = okText;
+            // Set button theme
+            okBtn.className = `confirm-btn ${type === 'danger' ? 'confirm-btn-danger' : 'confirm-btn-primary'}`;
+            
             // Clean up old listeners
             const newBtn = okBtn.cloneNode(true);
             okBtn.parentNode.replaceChild(newBtn, okBtn);
             newBtn.addEventListener('click', () => {
-                okCallback();
+                if (okCallback) okCallback();
                 modal.classList.add('hidden');
             });
         }
@@ -2674,33 +2650,36 @@ class App {
     }
 
     async deleteAllSongs() {
-        const songCount = this.songManager.getAllSongs().length;
+        // Only target private songs
+        const privateSongs = this.songManager.getAllSongs().filter(s => !s.isPublic);
+        const songCount = privateSongs.length;
 
         if (songCount === 0) {
-            this.showInfoModal('Notification', 'There are no songs to delete.');
+            this.showInfoModal('Notification', 'You have no private songs to delete.');
             return;
         }
 
-        const message = `WARNING: You are about to PERMANENTLY delete all ${songCount} song(s)! This action cannot be undone and ALL your data will be lost. Are you sure you want to continue?`;
+        const message = `WARNING: You are about to PERMANENTLY delete all ${songCount} of your <strong>PRIVATE</strong> songs!<br><br>This will clear your personal library but will NOT affect common Public songs. This action cannot be undone. Are you sure you want to continue?`;
 
         this.showGeneralConfirm(
-            "Delete All Songs",
+            "Delete Private Songs",
             message,
             async () => {
                 try {
-                    // Delete all songs
-                    await this.songManager.deleteAllSongs();
+                    // Delete only private songs
+                    await this.songManager.deletePrivateSongs();
                     // Re-render
                     this.loadAndRender();
-                    this.updateSetlistSelect(); // Ensure setlist select is updated after deletion
-                    this.showInfoModal("Success", "All songs have been permanently deleted.");
+                    this.updateSetlistSelect(); 
+                    this.showInfoModal("Success", `All ${songCount} private songs have been permanently deleted.`);
                 } catch (err) {
-                    console.error("Delete all error:", err);
+                    console.error("Delete private songs error:", err);
                     this.showInfoModal("Error", "Delete failed: " + err.message);
                 }
             },
-            "Yes, DELETE EVERYTHING",
-            "Keep My Songs"
+            "Yes, DELETE MY SONGS",
+            "Keep My Songs",
+            "danger"
         );
     }
 

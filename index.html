@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Pop Song Chord Book v2.602 - Mobile Toolbar & Lyrics Polish.">
-    <title>Pop Song Chord Book</title>
+    <title>PopSongChordBook - Learn Songs Faster</title>
+    <meta name="description"
+        content="Learn piano and guitar songs faster with structured chord practice and create your own pop songbooks and setlists with scrolling chords.">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,15 +19,16 @@
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
-    <meta name="color-scheme" content="light only">
+    <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#f5f7fa">
+    <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="images/premium_guitar.png">
-    <meta name="application-version" content="v2.602">
+    <meta name="application-version" content="v2.603">
     <!-- Version history: 
+        v2.603: Integrated Song Map toggle, removed legacy default song seeding (3.2MB saving), and forced light mode for mobile browsers.
         v2.602: Micro-refinement: Nudged entire Lyrics button up 2px on mobile, restored icons, fixed lyrics HUD hide
         v2.601: Micro-refinement: Nudged entire Lyrics button up 2px on mobile (encoding error)
         v2.597: Reinforced mobile portrait toolbar optimization (scrolling.css)
@@ -38,7 +40,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.602</span> • <a href="changelog.html"
+            v<span id="site-version">2.603</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -411,7 +413,7 @@
     <script src="js/ui/ShareSongsModal.js?v=2.597"></script>
     <script src="js/ui/AcceptSongsModal.js?v=2.597"></script>
     <script src="js/ui/ConfirmationModal.js?v=2.597"></script>
-    <script src="js/data/default_songs.js?v=2.597"></script>
+
     <script src="js/app.js?v=2.597"></script>
 
     <!-- Instrument Selection Modal -->

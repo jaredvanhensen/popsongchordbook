@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pop Song Chord Book</title>
-    <link rel="stylesheet" href="styles.css?v=2.602">
+    <title>Song Library - PopSongChordBook</title>
+    <meta name="description" content="Manage your pop song library, create setlists, and practice with interactive chords.">
+    <link rel="stylesheet" href="styles.css?v=2.603">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
-    <meta name="color-scheme" content="light only">
+    <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -45,7 +46,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.595</span>
+                        v<span id="site-version">2.603</span>
                     </div>
                 </div>
             </div>
@@ -547,6 +548,24 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🗺️</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Song Map</div>
+                                    <div style="font-size: 11px; color: #64748b;">Show song structure map</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileSongMapToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
                                 <span style="font-size: 20px;">🎹</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">MIDI Keyboard Support</div>
@@ -595,13 +614,10 @@
                         </label>
                         <input type="file" id="importFile" accept=".json" style="display: none;">
                     </div>
-                    <button id="reseedSongsBtn" class="modal-submit-btn"
-                        style="background: #3b82f6; margin-top: 10px; width: 100%;">
-                        <span class="icon">🔄</span> Reset to default song set
-                    </button>
+
                     <button id="deleteAllSongsBtn" class="modal-submit-btn"
                         style="background: #ef4444; margin-top: 10px; width: 100%;">
-                        <span class="icon">🗑️</span> Delete All Songs
+                        <span class="icon">🗑️</span> Delete All Private Songs
                     </button>
                 </div>
 
@@ -1570,7 +1586,7 @@
     <script src="js/ui/AcceptSongsModal.js?v=2.602"></script>
     <script src="js/ui/ConfirmationModal.js?v=2.602"></script>
     <!-- Data -->
-    <script src="js/data/default_songs.js?v=2.602"></script>
+
     <!-- Main App -->
     <script src="js/app.js?v=2.602"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
