@@ -8982,6 +8982,25 @@ td:has(.row-edit-input.input-focused) {
         letter-spacing: 0.5px;
         opacity: 0.8; /* Subtle look for labels */
     }
+
+    /* ABSOLUTE FORCE: Uniform Chord Buttons for all blocks on Mobile */
+    .song-chord-section .chord-suggestion-btn,
+    .chord-type-chorus,
+    .chord-type-verse,
+    .chord-type-pre-chorus,
+    .chord-type-bridge {
+        padding: 3px 8px !important;
+        font-size: 0.85rem !important;
+        min-width: 42px !important;
+        height: 24px !important; /* Perfect balance between compact and readable */
+        min-height: 24px !important;
+        line-height: 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 6px !important;
+        margin: 2px 1px !important;
+    }
 }
 
 
@@ -10692,15 +10711,7 @@ div.song-detail-practice-controls {
     color: white !important;
 }
 
-/* Mobile Adjustments for Chords to Fit Better */
 @media (max-width: 600px) {
-    .chord-suggestion-btn {
-        padding: 4px 10px;
-        font-size: 0.9rem;
-        min-width: 40px;
-        border-radius: 8px;
-    }
-
     .chord-toolbar-inline-label,
     .chord-toolbar-inline-marker {
         font-size: 1.15rem !important;

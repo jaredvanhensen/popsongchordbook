@@ -46,6 +46,7 @@ class ProfileModal {
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.songMapToggle = document.getElementById('profileSongMapToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
+        this.notesToggle = document.getElementById('profileNotesToggle');
         this.audioQualitySelect = document.getElementById('profileAudioQualitySelect');
         this.audioQualityDesc = document.getElementById('audioQualityDesc');
 
@@ -271,6 +272,20 @@ class ProfileModal {
             });
         }
 
+        if (this.notesToggle) {
+            this.notesToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-notes-enabled-${uid}`, isEnabled);
+                
+                // Update SongDetailModal live if open
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.songNotesSection) {
+                    window.appInstance.songDetailModal.songNotesSection.classList.toggle('hidden', !isEnabled);
+                }
+            });
+        }
+
         if (this.audioQualitySelect) {
             this.audioQualitySelect.addEventListener('change', (e) => {
                 const quality = e.target.value;
@@ -417,6 +432,11 @@ class ProfileModal {
         }
         if (this.midiToggle) {
             this.midiToggle.checked = localStorage.getItem(`feature-midi-enabled-${uid}`) === 'true';
+        }
+
+        if (this.notesToggle) {
+            // Default to false (OFF) as requested
+            this.notesToggle.checked = localStorage.getItem(`feature-notes-enabled-${uid}`) === 'true';
         }
 
         if (this.audioQualitySelect) {

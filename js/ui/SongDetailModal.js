@@ -140,6 +140,7 @@ class SongDetailModal {
                 cue: document.getElementById('bridgeCueInput')
             }
         };
+        this.songNotesSection = document.getElementById('songNotesSection');
         this.hasUnsavedChanges = false;
         this.originalSongData = null;
         this.isRandomMode = false;
@@ -3029,6 +3030,14 @@ class SongDetailModal {
 
         // Reset lyrics ticker scroll position for the new song
         this.lyricsScrollPos = 0;
+
+        // Notes / Tips section visibility (respect user setting)
+        if (this.songNotesSection) {
+            const user = this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser() : null;
+            const uid = user ? user.uid : 'guest';
+            const isNotesEnabled = localStorage.getItem(`feature-notes-enabled-${uid}`) === 'true';
+            this.songNotesSection.classList.toggle('hidden', !isNotesEnabled);
+        }
 
         this.currentSongId = song.id;
         this.capoValue = parseInt(song.capo) || 0; // Load Capo from song
