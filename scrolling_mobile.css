@@ -106,8 +106,8 @@ body.is-mobile-landscape .marker.lyrics-sync .marker-label {
 
 /* Slightly Larger YouTube Player for Landscape Seeking (v2.457) - Shifting HIGHER */
 body.is-mobile-landscape .youtube-player-container {
-    width: 160px !important;
-    height: 90px !important;
+    width: 220px !important;
+    height: 124px !important;
     bottom: 50px !important; /* More clearance for browser bars */
     right: 15px !important;
     border-radius: 8px !important;
