@@ -1570,4 +1570,27 @@ body {
         padding: 8px 15px !important;
         min-width: 170px !important;
     }
+
+    /* Squeeze the Yellow Box as requested */
+    .chord-box-container {
+        padding-top: 10px !important;
+        margin-bottom: 5px !important;
+    }
+    .chord-box {
+        padding: 10px 15px !important;
+        height: 100px !important;
+        min-height: 100px !important;
+        min-width: 280px !important;
+        border-width: 3px !important;
+    }
+    .chord-box .chord-name {
+        font-size: 2rem !important;
+        margin-bottom: 2px !important;
+    }
+    .chord-box .chord-notes {
+        font-size: 1.1rem !important;
+    }
+    .chord-box::after {
+        display: none !important;
+    }
 }
