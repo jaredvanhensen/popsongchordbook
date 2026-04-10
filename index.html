@@ -14,8 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.615">
-    <link rel="stylesheet" href="landing.css?v=2.615">
+    <link rel="stylesheet" href="styles.css?v=2.616">
+    <link rel="stylesheet" href="landing.css?v=2.616">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -49,7 +49,7 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="site-version-display">
-            v<span id="site-version">2.615</span> • <a href="changelog.html"
+            v<span id="site-version">2.616</span> • <a href="changelog.html"
                 style="color: inherit; text-decoration: none; opacity: 0.8;">Changelog</a>
         </div>
         <div class="hero-content">
@@ -216,9 +216,14 @@
                     <h3>Guitar</h3>
                     <p>View clean, simplified chord diagrams for every single song in the library</p>
                 </div>
+                <div class="instrument-card piano-card">
+                    <div class="instrument-icon">🎹</div>
+                    <h3>Piano</h3>
+                    <p>Visualize chords on a virtual keyboard with audio playback</p>
+                </div>
                 <div class="instrument-card ukelele-card">
                     <div class="instrument-icon">
-                        <svg viewBox="0 0 100 100" width="140" height="140" style="vertical-align: middle;">
+                        <svg viewBox="0 0 100 100" width="1em" height="1em" style="vertical-align: middle;">
                             <g transform="rotate(-35 50 50)">
                                 <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
                                 <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
@@ -229,11 +234,6 @@
                     </div>
                     <h3>Ukulele</h3>
                     <p>Simplified ukulele chords for easy strumming and playalong</p>
-                </div>
-                <div class="instrument-card piano-card">
-                    <div class="instrument-icon">🎹</div>
-                    <h3>Piano</h3>
-                    <p>Visualize chords on a virtual keyboard with audio playback</p>
                 </div>
             </div>
         </div>
@@ -396,35 +396,35 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.615"></script>
-    <script src="js/models/SongManager.js?v=2.615"></script>
-    <script src="js/models/SetlistManager.js?v=2.615"></script>
-    <script src="js/utils/Sorter.js?v=2.615"></script>
-    <script src="js/utils/ChordDetector.js?v=2.615"></script>
-    <script src="js/utils/KeyDetector.js?v=2.615"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.615"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.615"></script>
-    <script src="js/ui/ChordModal.js?v=2.615"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.615"></script>
-    <script src="js/ui/TableRenderer.js?v=2.615"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.615"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.615"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.615"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.615"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.615"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.615"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.615"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.615"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.615"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.615"></script>
-    <script src="js/utils/ChordParser.js?v=2.615"></script>
-    <script src="js/ui/AuthModal.js?v=2.615"></script>
-    <script src="js/ui/ProfileModal.js?v=2.615"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.615"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.615"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.615"></script>
+    <script src="js/config/firebase-config.js?v=2.616"></script>
+    <script src="js/models/SongManager.js?v=2.616"></script>
+    <script src="js/models/SetlistManager.js?v=2.616"></script>
+    <script src="js/utils/Sorter.js?v=2.616"></script>
+    <script src="js/utils/ChordDetector.js?v=2.616"></script>
+    <script src="js/utils/KeyDetector.js?v=2.616"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.616"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.616"></script>
+    <script src="js/ui/ChordModal.js?v=2.616"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.616"></script>
+    <script src="js/ui/TableRenderer.js?v=2.616"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.616"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.616"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.616"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.616"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.616"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.616"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.616"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.616"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.616"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.616"></script>
+    <script src="js/utils/ChordParser.js?v=2.616"></script>
+    <script src="js/ui/AuthModal.js?v=2.616"></script>
+    <script src="js/ui/ProfileModal.js?v=2.616"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.616"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.616"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.616"></script>
 
-    <script src="js/app.js?v=2.615"></script>
+    <script src="js/app.js?v=2.616"></script>
 
     <!-- Instrument Selection Modal -->
     <div id="chooseInstrumentModal" class="modal hidden">
@@ -494,7 +494,16 @@
                     </div>
 
                     <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')">
-                        <div class="instrument-icon">🪕</div>
+                        <div class="instrument-icon">
+                            <svg viewBox="0 0 100 100" width="1em" height="1em" style="vertical-align: middle;">
+                                <g transform="rotate(-35 50 50)">
+                                    <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                    <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                    <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                    <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                                </g>
+                            </svg>
+                        </div>
                         <h3>Ukulele</h3>
                     </div>
 
@@ -620,6 +629,7 @@
         });
     </script>
 </body>
+
 
 
 
