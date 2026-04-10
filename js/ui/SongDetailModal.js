@@ -19,6 +19,7 @@ class SongDetailModal {
         this.modal = document.getElementById('songDetailModal');
         this.closeBtn = document.getElementById('songDetailModalCloseTop');
         this.deleteBtn = document.getElementById('menuDeleteSong');
+        this.swapBlocksBtn = document.getElementById('menuSwapBlocks');
         this.prevBtn = document.getElementById('songDetailPrev');
         this.nextBtn = document.getElementById('songDetailNext');
         this.saveBtn = document.getElementById('songDetailSaveBtn');
@@ -1152,6 +1153,16 @@ class SongDetailModal {
                 this.handlePublishSong();
             });
         }
+        // Setup Swap Blocks button
+        if (this.swapBlocksBtn) {
+            this.swapBlocksBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.handleSwapBlocks2and3();
+            });
+        }
 
         // Setup Transpose buttons
         if (this.transposeUpBtn) {
@@ -1245,7 +1256,58 @@ class SongDetailModal {
                 this.handleDeleteSong();
             });
         }
+        
+        this.setupRemainingEventListeners();
+    }
 
+    handleSwapBlocks2and3() {
+        if (!this.sections) return;
+        const keys = Object.keys(this.sections);
+        if (keys.length < 3) return;
+
+        const key2 = keys[1]; // Block 2 (preChorus in constructor)
+        const key3 = keys[2]; // Block 3 (chorus in constructor)
+
+        const section2 = this.sections[key2];
+        const section3 = this.sections[key3];
+
+        if (!section2 || !section3) return;
+
+        // Get current values
+        const title2 = section2.title ? section2.title.textContent : '';
+        const input2 = section2.editInput ? section2.editInput.value : '';
+        const cue2 = section2.cue ? section2.cue.value : '';
+
+        const title3 = section3.title ? section3.title.textContent : '';
+        const input3 = section3.editInput ? section3.editInput.value : '';
+        const cue3 = section3.cue ? section3.cue.value : '';
+
+        // Perform swap
+        if (section2.title) section2.title.textContent = title3;
+        if (section2.editInput) section2.editInput.value = input3;
+        if (section2.cue) section2.cue.value = cue3;
+
+        if (section3.title) section3.title.textContent = title2;
+        if (section3.editInput) section3.editInput.value = input2;
+        if (section3.cue) section3.cue.value = cue2;
+
+        // Re-render blocks to update visual spans
+        this.renderChordBlock(key2, input3);
+        this.renderChordBlock(key3, input2);
+
+        // Notify system of changes to enable Save button
+        this.hasUnsavedChanges = true;
+        this.checkForChanges();
+
+        // Provide feedback
+        if (window.appInstance && typeof window.appInstance.showHUD === 'function') {
+            window.appInstance.showHUD('Blocks 2 & 3 Swapped 🔀');
+        } else {
+            console.log('Blocks 2 & 3 Swapped');
+        }
+    }
+
+    setupRemainingEventListeners() {
         // Setup YouTube URL modal
         if (this.youtubeUrlModal) {
             if (this.youtubeUrlModalClose) {
@@ -1441,18 +1503,40 @@ class SongDetailModal {
     setupBarDividerButtons() {
         Object.keys(this.sections).forEach(key => {
             const section = this.sections[key];
+            
+            // Re-query if null (safety check for delayed DOM availability)
+            if (!section.dividerBtn) {
+                section.dividerBtn = document.querySelector(`.bar-divider-btn[data-section="${key}"]`);
+            }
+            
             if (!section.dividerBtn) return;
 
-            section.dividerBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                e.preventDefault();
+            const handleDividerInteration = (e) => {
+                if (e) {
+                    e.stopPropagation();
+                    if (e.cancelable) e.preventDefault();
+                }
+
+                // Support both ContentEditable (DIV) and Textarea mode
+                const focusedField = document.activeElement;
+                const isContentEditable = focusedField && 
+                    focusedField.classList.contains('chord-section-content') &&
+                    focusedField.getAttribute('contenteditable') === 'true';
+
+                if (isContentEditable) {
+                    this.insertTextToContent(focusedField, ' | ');
+                    this.checkForChanges();
+                    return;
+                }
 
                 const input = section.editInput;
+                if (!input) return;
+                
                 const isEditing = !input.classList.contains('hidden');
                 let newValue;
 
                 if (!isEditing) {
-                    // Switch to edit mode first to make editing easy
+                    // Switch to edit mode first
                     this.toggleBlockEdit(key);
 
                     // Append strictly to the end since there was no cursor focus
@@ -1485,6 +1569,23 @@ class SongDetailModal {
                 // Trigger change detection and re-render
                 this.renderChordBlock(key, newValue);
                 this.checkForChanges();
+            };
+
+            // Use mousedown to prevent focus loss from the textarea
+            section.dividerBtn.addEventListener('mousedown', handleDividerInteration);
+            
+            // Use touchstart for mobile to prevent keyboard flickering
+            section.dividerBtn.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                handleDividerInteration(e);
+            }, { passive: false });
+
+            // Handle click as fallback for accessibility/keyboard
+            section.dividerBtn.addEventListener('click', (e) => {
+                // If it was a real mouse click it was already handled by mousedown
+                if (e.detail === 0) { // Keyboard triggered
+                    handleDividerInteration(e);
+                }
             });
         });
     }
@@ -4397,61 +4498,6 @@ class SongDetailModal {
             this._suggestionCleanup();
             this._suggestionCleanup = null;
         }
-    }
-
-    setupBarDividerButtons() {
-        const dividerButtons = this.modal.querySelectorAll('.bar-divider-btn');
-        dividerButtons.forEach(btn => {
-            // Desktop: prevent button from stealing focus
-            btn.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-
-            const insertDivider = () => {
-                // If we are currently editing a field, use THAT field
-                const focusedField = document.activeElement;
-                const isChordField = focusedField &&
-                    focusedField.classList.contains('chord-section-content') &&
-                    focusedField.getAttribute('contenteditable') === 'true';
-
-                let targetElement;
-                if (isChordField) {
-                    targetElement = focusedField;
-                } else {
-                    const sectionKey = btn.dataset.section;
-                    if (!sectionKey || !this.sections[sectionKey]) return;
-                    targetElement = this.sections[sectionKey].content;
-                }
-
-                this.insertTextToContent(targetElement, ' | ');
-            };
-
-            // Mobile: execute action directly on touch to prevent focus loss issues,
-            // while preventing default so keyboard doesn't hide.
-            let lastTouchTime = 0;
-            btn.addEventListener('touchstart', (e) => {
-                if (e.cancelable) e.preventDefault();
-                e.stopPropagation();
-                
-                const now = Date.now();
-                if (now - lastTouchTime < 300) return; // Prevent double trigger
-                lastTouchTime = now;
-                
-                insertDivider();
-            }, { passive: false });
-
-            // Desktop / General Click
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                
-                // If touchstart already handled it recently, ignore click
-                if (Date.now() - lastTouchTime < 300) return;
-                
-                insertDivider();
-            });
-        });
     }
 
     insertTextToContent(element, text) {
