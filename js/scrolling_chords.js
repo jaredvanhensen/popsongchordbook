@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -35,6 +35,8 @@ const lyricsHUD = document.getElementById('lyricsHUD');
 const lyricLine1 = document.getElementById('lyricLine1');
 const lyricLine2 = document.getElementById('lyricLine2');
 const songMapPlayPauseBtn = document.getElementById('songMapPlayPauseBtn');
+const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
+const audioToggleBtnCompact = document.getElementById('audioToggleBtnCompact');
 const chordProgressionBtn = document.getElementById('chordProgressionBtn');
 let chordProgressionEditor = null;
 const COUNT_IN_SECONDS = 4;
@@ -355,6 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set initial state for Default ON
         if (audioEnabled) audioToggleBtn.classList.add('active');
     }
+
+    if (playPauseBtnCompact) playPauseBtnCompact.addEventListener('click', togglePlayPause);
+    if (audioToggleBtnCompact) audioToggleBtnCompact.addEventListener('click', toggleAudio);
+
     if (restartBtn) restartBtn.addEventListener('click', restart);
 
     // Octave Cycle Button
@@ -1120,7 +1126,17 @@ if (speedBtn) {
 
 function toggleAudio() {
     audioEnabled = !audioEnabled;
-    audioToggleBtn.classList.toggle('active', audioEnabled);
+    
+    // Sync main button
+    if (audioToggleBtn) audioToggleBtn.classList.toggle('active', audioEnabled);
+    
+    // Sync compact button
+    if (audioToggleBtnCompact) {
+        const audioIcon = document.getElementById('audioIconCompact');
+        if (audioIcon) audioIcon.innerText = audioEnabled ? '🔊' : '🔇';
+        audioToggleBtnCompact.classList.toggle('active', audioEnabled);
+    }
+
     if (audioEnabled) initAudio();
 }
 
@@ -2765,6 +2781,11 @@ function play() {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         <span>PAUSE</span>
     `;
+
+    if (playPauseBtnCompact) {
+        playPauseBtnCompact.innerHTML = '<span class="icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg></span>';
+    }
+
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2808,6 +2829,11 @@ function pause() {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         <span>PLAY</span>
     `;
+
+    if (playPauseBtnCompact) {
+        playPauseBtnCompact.innerHTML = '<span class="icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>';
+    }
+
     if (songMapPlayPauseBtn) {
         songMapPlayPauseBtn.innerHTML = `
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

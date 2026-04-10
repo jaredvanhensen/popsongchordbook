@@ -13,13 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.620">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.620">
+    <link rel="stylesheet" href="scrolling.css?v=2.621">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.621">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.620) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.621) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata">
             <h1 id="artistDisplay" class="artist-display"></h1>
@@ -27,6 +27,20 @@
         </div>
         
         <div id="pureTimelineControls" class="pure-timeline-controls">
+            <!-- Play/Pause Compact -->
+            <button id="playPauseBtnCompact" class="song-detail-action-btn" title="Play/Pause">
+                <span class="icon" id="playPauseIconCompact">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                </span>
+            </button>
+
+            <!-- Audio Toggle Compact -->
+            <button id="audioToggleBtnCompact" class="song-detail-action-btn" title="Toggle Chord Audio">
+                <span class="icon" id="audioIconCompact">🔊</span>
+            </button>
+
             <button id="pureTimelineFullModeBtn" class="song-detail-action-btn" title="Switch to FULL mode">
                 <span class="icon">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
@@ -521,18 +535,18 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.620" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.620" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.620" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.620" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.620" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.620" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.620" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.620" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.620" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.620" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.620" defer></script>
-            <script src="js/scrolling_chords.js?v=2.620" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.621" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.621" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.621" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.621" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.621" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.621" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.621" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.621" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.621" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.621" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.621" defer></script>
+            <script src="js/scrolling_chords.js?v=2.621" defer></script>
 </body>
 
 </html>
