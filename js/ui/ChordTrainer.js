@@ -157,15 +157,18 @@ class ChordTrainer {
 
     updateToggleLabels() {
         const isMob = this.isMobile();
+        const screenWidth = window.innerWidth;
+        // Check if we are on a small phone vs a larger tablet
+        const isSmallPhone = isMob && screenWidth < 700;
         
         // Audio
         this.dom.audioToggle.querySelector('.label').textContent = this.isAudioEnabled 
-            ? (isMob ? '' : 'AUDIO ON') 
-            : (isMob ? '' : 'AUDIO OFF');
+            ? (isSmallPhone ? '' : 'AUDIO ON') 
+            : (isSmallPhone ? '' : 'AUDIO OFF');
         this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
 
         // Difficulty
-        const diffLabels = isMob 
+        const diffLabels = isSmallPhone 
             ? { 1: 'LVL 1', 2: 'LVL 2', 3: 'LVL 3' } 
             : { 1: 'LEVEL 1: TRIADS', 2: 'LEVEL 2: INVERSIONS', 3: 'LEVEL 3: 4-NOTE' };
         
@@ -176,8 +179,8 @@ class ChordTrainer {
         // Guide
         if (this.dom.guideLabel) {
             this.dom.guideLabel.textContent = this.isGuideEnabled 
-                ? (isMob ? '' : 'BEGINNER GUIDE: ON') 
-                : (isMob ? '' : 'BEGINNER GUIDE: OFF');
+                ? (isSmallPhone ? '' : 'HINT ON') 
+                : (isSmallPhone ? '' : 'HINT OFF');
             this.dom.guideToggle.classList.toggle('active', this.isGuideEnabled);
             
             // Apply global show/hide to piano
@@ -196,7 +199,7 @@ class ChordTrainer {
                 3: '3. Notes → Chord',
                 4: '4. Chord → Notes'
             };
-            this.dom.modeCycleBtn.textContent = (isMob ? "" : "🔄 ") + modeNames[this.currentMode];
+            this.dom.modeCycleBtn.textContent = (isSmallPhone ? "" : "🔄 ") + modeNames[this.currentMode];
         }
     }
 
@@ -271,7 +274,9 @@ class ChordTrainer {
             chordBox: document.getElementById('chordBox'),
             chordButtonsContainer: document.getElementById('chordButtonsContainer'),
             chordTipBar: document.getElementById('chordTipBar'),
-            chordTipText: document.getElementById('chordTipText')
+            chordTipText: document.getElementById('chordTipText'),
+            openStatsBtnCompact: document.getElementById('openStatsBtnCompact'),
+            openLeaderboardBtnCompact: document.getElementById('openLeaderboardBtnCompact')
         };
     }
 
@@ -370,7 +375,7 @@ class ChordTrainer {
         this.dom.nextBtn.addEventListener('click', () => this.nextQuestion());
 
         // Modal
-        const statsBtns = [this.dom.openStatsBtn, this.dom.openStatsBtnMobile];
+        const statsBtns = [this.dom.openStatsBtn, this.dom.openStatsBtnMobile, this.dom.openStatsBtnCompact];
         statsBtns.forEach(btn => btn && btn.addEventListener('click', () => this.showStats()));
         
         this.dom.closeStatsBtn.addEventListener('click', () => this.hideStats());
@@ -409,7 +414,7 @@ class ChordTrainer {
         }
 
         // Leaderboard modal
-        const leaderboardBtns = [this.dom.openLeaderboardBtn, this.dom.openLeaderboardBtnMobile];
+        const leaderboardBtns = [this.dom.openLeaderboardBtn, this.dom.openLeaderboardBtnMobile, this.dom.openLeaderboardBtnCompact];
         leaderboardBtns.forEach(btn => btn && btn.addEventListener('click', () => this.showLeaderboards()));
         
         if (this.dom.closeLeaderboardBtn) {

@@ -1532,3 +1532,42 @@ body {
         min-width: 32px;
     }
 }
+
+/* Tablet Compact Landscape Header Scaling */
+@media (orientation: landscape) and (max-height: 1000px) and (min-width: 601px) {
+    /* Shrink specific header buttons as requested */
+    #audioToggle .label, #guideToggle .label {
+        display: none !important;
+    }
+
+    #audioToggle, #guideToggle, .compact-only-flex {
+        padding: 8px 12px !important;
+        min-width: 42px !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        background: rgba(255,255,255,0.12) !important;
+        border: 1px solid rgba(255,255,255,0.15) !important;
+    }
+
+    #openLeaderboardBtnCompact, #openStatsBtnCompact {
+        display: flex !important;
+    }
+    
+    /* Hide standard buttons when compact header ones are active */
+    #openLeaderboardBtn, #openStatsBtn, .trainer-footer {
+        display: none !important;
+    }
+    
+    /* Ensure Level button label remains visible */
+    #difficultyToggle .label {
+        display: block !important;
+        font-size: 0.75rem !important;
+        white-space: nowrap;
+    }
+
+    #difficultyToggle {
+        padding: 8px 15px !important;
+        min-width: 170px !important;
+    }
+}
