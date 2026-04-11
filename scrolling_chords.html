@@ -27,38 +27,45 @@
         </div>
         
         <div id="pureTimelineControls" class="pure-timeline-controls">
+            <!-- Restart -->
+            <button id="pureRestartBtn" title="Restart from beginning">
+                <span class="icon">⏮️</span>
+            </button>
+
             <!-- Play/Pause Compact -->
-            <button id="playPauseBtnCompact" class="song-detail-action-btn" title="Play/Pause">
-                <span class="icon" id="playPauseIconCompact">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
-                </span>
+            <button id="playPauseBtnCompact" title="Play/Pause">
+                <span class="icon" id="playPauseIconCompact">▶️</span>
             </button>
 
             <!-- Audio Toggle Compact -->
-            <button id="audioToggleBtnCompact" class="song-detail-action-btn" title="Toggle Chord Audio">
+            <button id="audioToggleBtnCompact" title="Toggle Chord Audio">
                 <span class="icon" id="audioIconCompact">🔊</span>
             </button>
 
-            <button id="pureTimelineFullModeBtn" class="song-detail-action-btn" title="Switch to FULL mode">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="19" x2="12" y2="5"></line>
-                        <polyline points="5 12 12 5 19 12"></polyline>
-                    </svg>
-                </span>
+            <!-- Lyrics Toggle Compact -->
+            <button id="pureLyricsBtn" title="Toggle Lyrics" class="lyrics-btn">
+                <span class="lyrics-emoji">🎤</span>
+            </button>
+
+            <!-- Speed Toggle Compact -->
+            <button id="pureSpeedBtn" title="Playback Speed">
+                <span class="icon">⏱️</span>
+                <span id="pureSpeedDisplay" style="font-size: 0.7rem; font-weight: 900; margin-left: 2px; color: rgba(255, 255, 255, 0.9);">1.0x</span>
+            </button>
+
+            <!-- Zoom Toggle Compact (Cycles 100 -> 90 -> 80 -> 70) -->
+            <button id="pureZoomBtn" title="Cycle Timeline Zoom">
+                <span class="icon">🔍</span>
+                <span id="pureZoomDisplay" style="font-size: 0.7rem; font-weight: 900; margin-left: 2px; color: rgba(255, 255, 255, 0.9);">100%</span>
+            </button>
+
+            <button id="pureTimelineFullModeBtn" title="Switch to FULL mode">
+                <span class="icon">🔼</span>
             </button>
 
             <div class="pure-timeline-menu-container">
-                <button id="pureTimelineMenuBtn" class="song-detail-action-btn" title="More Options">
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="4" y1="6" x2="20" y2="6"></line>
-                            <line x1="4" y1="12" x2="20" y2="12"></line>
-                            <line x1="4" y1="18" x2="20" y2="18"></line>
-                        </svg>
-                    </span>
+                <button id="pureTimelineMenuBtn" class="song-detail-action-btn" title="Menu">
+                    <span class="icon">☰</span>
                 </button>
                 <div id="pureTimelineMenu" class="song-detail-hamburger-menu pure-timeline-hamburger-menu hidden">
                     <button class="hamburger-menu-item" id="pureMenuLyricsBtn">

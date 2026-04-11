@@ -199,9 +199,9 @@ function simplifyDisplayName(chordName, isForAudio = false) {
     }
 
     if (currentInstrumentMode === 'guitar') {
-        return resultName.split('/')[0].replace(/[23]$/, '');
+        return resultName.split('/').map(part => part.replace(/[23]$/, '')).join('/');
     } else if (currentInstrumentMode === 'ukulele') {
-        return resultName.split('/')[0].replace(/[237]/g, '');
+        return resultName.split('/').map(part => part.replace(/[237]/g, '')).join('/');
     }
     return resultName;
 }
@@ -841,6 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkView();
             updateHUDPosition();
             renderStaticElements(); // Force staggering/size recalculation on rotation
+            syncPureTimelineButtons();
         };
 
         window.addEventListener('resize', forceOrientationRefresh);
@@ -903,6 +904,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('pureMenuZoomOutBtn')?.addEventListener('click', () => {
                 if (typeof zoom === 'function') zoom(-1);
+            });
+
+            // --- Direct Toolbar Zoom Cycle Button (100 -> 90 -> 80 -> 70) ---
+            document.getElementById('pureZoomBtn')?.addEventListener('click', () => {
+                const levels = [100, 90, 80, 70];
+                let currentLevel = Math.round(PIXELS_PER_SECOND);
+                let nextIndex = (levels.indexOf(currentLevel) + 1) % levels.length;
+                if (nextIndex === -1) nextIndex = 1; // Default to 90 if current is non-standard
+                
+                PIXELS_PER_SECOND = levels[nextIndex];
+                
+                // Trigger re-render
+                renderChords();
+                
+                // Update display
+                const zoomDisplay = document.getElementById('pureZoomDisplay');
+                if (zoomDisplay) zoomDisplay.innerText = `${levels[nextIndex]}%`;
+            });
+
+            // --- New Direct Toolbar Buttons (Restart, Lyrics, Speed) ---
+            document.getElementById('pureRestartBtn')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof restart === 'function') restart();
+            });
+
+            document.getElementById('pureLyricsBtn')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof toggleLyricsHUD === 'function') toggleLyricsHUD();
+            });
+
+            document.getElementById('pureSpeedBtn')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof cycleSpeed === 'function') cycleSpeed();
             });
         }
 
@@ -1103,23 +1137,64 @@ function changeBpm() {
 }
 
 
-if (speedBtn) {
-    speedBtn.onclick = () => {
-        if (currentSpeed === 1.0) {
-            currentSpeed = 0.75;
-        } else if (currentSpeed === 0.75) {
-            currentSpeed = 0.5;
-        } else {
-            currentSpeed = 1.0;
-        }
+function cycleSpeed() {
+    if (currentSpeed === 1.0) {
+        currentSpeed = 0.75;
+    } else if (currentSpeed === 0.75) {
+        currentSpeed = 0.5;
+    } else {
+        currentSpeed = 1.0;
+    }
 
+    // Update Main Speed Button
+    if (speedBtn) {
         const icon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
         speedBtn.innerHTML = `${icon} <span>${currentSpeed}x</span>`;
+    }
 
-        if (youtubePlayer && typeof youtubePlayer.setPlaybackRate === 'function') {
-            youtubePlayer.setPlaybackRate(currentSpeed);
+    // Update Pure Speed Button Display
+    const pureSpeedDisplay = document.getElementById('pureSpeedDisplay');
+    if (pureSpeedDisplay) {
+        pureSpeedDisplay.innerText = `${currentSpeed}x`;
+    }
+
+    if (youtubePlayer && typeof youtubePlayer.setPlaybackRate === 'function') {
+        youtubePlayer.setPlaybackRate(currentSpeed);
+    }
+}
+
+/**
+ * Synchronizes the visual state of the compact (Pure Timeline) buttons with the global state.
+ */
+function syncPureTimelineButtons() {
+    const pureLyricsBtn = document.getElementById('pureLyricsBtn');
+    if (pureLyricsBtn) {
+        pureLyricsBtn.classList.toggle('active', lyricsEnabled);
+    }
+    
+    const zoomDisplay = document.getElementById('pureZoomDisplay');
+    if (zoomDisplay) {
+        zoomDisplay.innerText = `${Math.round(PIXELS_PER_SECOND)}%`;
+    }
+    
+    const audioToggleBtnComp = document.getElementById('audioToggleBtnCompact');
+    if (audioToggleBtnComp) {
+        const audioIcon = document.getElementById('audioIconCompact');
+        if (audioIcon) {
+            audioIcon.innerHTML = audioEnabled ? '🔊' : '🔇';
+            audioIcon.style.color = 'rgba(255, 255, 255, 0.85)';
         }
-    };
+        audioToggleBtnComp.classList.toggle('active', audioEnabled);
+    }
+    
+    const pureSpeedDisplay = document.getElementById('pureSpeedDisplay');
+    if (pureSpeedDisplay) {
+        pureSpeedDisplay.innerText = `${currentSpeed}x`;
+    }
+}
+
+if (speedBtn) {
+    speedBtn.onclick = cycleSpeed;
     // Initialize label
     speedBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <span>1.0x</span>';
 }
@@ -2295,10 +2370,11 @@ function shiftChords(deltaSteps) {
 
 function toggleLyricsHUD() {
     lyricsEnabled = !lyricsEnabled;
-    
+    const pureLyricsBtn = document.getElementById('pureLyricsBtn');
     if (lyricsEnabled) {
         lyricsHUD.classList.remove('hidden');
         if (toggleLyricsBtn) toggleLyricsBtn.classList.add('active');
+        if (pureLyricsBtn) pureLyricsBtn.classList.add('active');
     } else {
         hideLyricsHUD();
     }
@@ -2370,6 +2446,8 @@ function hideLyricsHUD() {
     lyricsEnabled = false;
     lyricsHUD.classList.add('hidden');
     if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('active');
+    const pureLyricsBtn = document.getElementById('pureLyricsBtn');
+    if (pureLyricsBtn) pureLyricsBtn.classList.remove('active');
 }
 
 function exportToJSON() {
@@ -2783,7 +2861,7 @@ function play() {
     `;
 
     if (playPauseBtnCompact) {
-        playPauseBtnCompact.innerHTML = '<span class="icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg></span>';
+        playPauseBtnCompact.innerHTML = '<span class="icon">⏸️</span>';
     }
 
     if (songMapPlayPauseBtn) {
@@ -2831,7 +2909,7 @@ function pause() {
     `;
 
     if (playPauseBtnCompact) {
-        playPauseBtnCompact.innerHTML = '<span class="icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>';
+        playPauseBtnCompact.innerHTML = '<span class="icon">▶️</span>';
     }
 
     if (songMapPlayPauseBtn) {

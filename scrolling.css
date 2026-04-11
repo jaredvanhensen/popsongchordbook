@@ -131,7 +131,8 @@ button:disabled {
 /* Standardize All Toolbar Icons - FORCED UNIFORMITY */
 .controls-container button svg,
 .controls-container .custom-file-btn svg,
-.controls-container .mini-btn svg {
+.controls-container .mini-btn svg,
+.pure-timeline-controls button svg {
     height: 18px !important;
     width: 18px !important;
     min-width: 18px !important;
@@ -306,11 +307,6 @@ button:disabled {
 }
 
 /* White/Light Buttons with Dark Icons */
-#zoomOutBtn svg,
-#zoomInBtn svg,
-#chordProgressionBtn svg,
-#selectModeBtn svg,
-#metronomeBtn svg,
 #audioToggleBtn svg {
     color: #000000;
 }

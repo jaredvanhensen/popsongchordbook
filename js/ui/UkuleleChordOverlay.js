@@ -157,31 +157,21 @@ class UkuleleChordOverlay {
 
             if (!seen.has(simple)) {
                 seen.add(simple);
-                chords.push(simple);
+                chords.push(raw);
             }
         }
         return chords;
     }
 
     simplifyChord(chordName) {
-        // Strip 2, 3 AND 7 digits as requested for Ukulele
-        // Strip inversions (/G) for simplicity
-        let simple = chordName;
-        if (simple.includes('/')) {
-            simple = simple.split('/')[0];
-        }
-        // Remove 2, 3, 7
-        // regex to remove 2, 3, 7 but keep them if they are part of a note name like... wait notes are A-G.
-        // So any 2, 3, 7 digit can be removed.
-        simple = simple.replace(/[237]/g, '');
-
-        // Clean up any double m or other artifacts if 7 was in middle
-        // actually usually 7 is at end or after maj/min.
-        return simple;
+        // Strip 2, 3 AND 7 digits but maintain slash
+        return chordName.split('/').map(part => part.replace(/[237]/g, '')).join('/');
     }
 
     createChordCard(chordName) {
-        const chordInfo = this.database[chordName];
+        const simpleName = this.simplifyChord(chordName);
+        // Try exact match, then simplified, then just the root part
+        const chordInfo = this.database[chordName] || this.database[simpleName] || this.database[simpleName.split('/')[0]];
         if (!chordInfo) return null;
 
         const card = document.createElement('div');
@@ -196,6 +186,7 @@ class UkuleleChordOverlay {
                     this.audioPlayer.setSound('ukulele');
 
                     // Parse based on actual fingerings for accurate voicing
+                    // Use original name, ChordParser handles lookup
                     const chord = this.chordParser.parseUkuleleChord(chordName, this.database);
                     if (chord && chord.notes) {
                         this.audioPlayer.playChord(chord.notes, 2.5, 0.4, 0.03, true);
@@ -205,7 +196,7 @@ class UkuleleChordOverlay {
         };
 
         card.innerHTML = `
-            <div class="chord-card-title">${chordName}</div>
+            <div class="chord-card-title">${simpleName}</div>
             <div class="chord-svg-container">
                 ${this.renderer.renderSVG(chordInfo)}
             </div>

@@ -179,33 +179,29 @@ class GuitarChordOverlay {
 
         for (const match of matches) {
             const raw = match[1].trim();
-            const simple = this.simplifyChord(raw);
 
             if (this.deduplicate) {
+                const simple = this.simplifyChord(raw);
                 if (!seen.has(simple)) {
                     seen.add(simple);
-                    chords.push(simple);
+                    chords.push(raw);
                 }
             } else {
-                chords.push(simple);
+                chords.push(raw);
             }
         }
         return chords;
     }
 
     simplifyChord(chordName) {
-        // Strip 2 and 3 digits: C2 -> C, Am3 -> Am
-        // Strip inversions (/G) for simplicity as requested
-        let simple = chordName;
-        if (simple.includes('/')) {
-            simple = simple.split('/')[0];
-        }
-        return simple.replace(/[23]$/, '');
+        // Strip 2/3 at end of each part but maintain slash
+        return chordName.split('/').map(part => part.replace(/[23]$/, '')).join('/');
     }
 
     createChordCard(chordName) {
         const simpleName = this.simplifyChord(chordName);
-        const fingering = this.database[simpleName];
+        // Try exact match, then simplified, then just the root part
+        const fingering = this.database[chordName] || this.database[simpleName] || this.database[simpleName.split('/')[0]];
 
         const card = document.createElement('div');
         card.className = 'piano-chord-card guitar-card'; // Reuse piano card styles with modifier
@@ -219,7 +215,8 @@ class GuitarChordOverlay {
                     this.audioPlayer.setSound('guitar-strum');
 
                     // Parse based on actual guitar fingerings for a realistic strum
-                    const chord = this.chordParser.parseGuitarChord(simpleName, this.database);
+                    // Try to parse full name if possible, ChordParser will handle lookup
+                    const chord = this.chordParser.parseGuitarChord(chordName, this.database);
                     if (chord && chord.notes) {
                         this.audioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
                     }

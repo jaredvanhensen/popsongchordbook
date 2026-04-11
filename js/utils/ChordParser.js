@@ -160,7 +160,9 @@ class ChordParser {
 
         // Simplify chord name for database lookup (e.g., C2 -> C)
         const simplified = chordName.trim().replace(/[23]$/, '').split('/')[0];
-        const fingering = database[simplified];
+        let fingering = database[chordName.trim()];
+        if (!fingering) fingering = database[simplified];
+        
         if (!fingering) return this.parse(chordName); // Fallback to piano-style triad
 
         // MIDI Note for each open string [E2, A2, D3, G3, B3, E4]
@@ -198,7 +200,9 @@ class ChordParser {
 
         // Simplify chord name for database lookup (Ukulele: remove 2, 3, 7)
         const simplified = chordName.trim().replace(/[237]/g, '').split('/')[0];
-        const fingering = database[simplified];
+        let fingering = database[chordName.trim()];
+        if (!fingering) fingering = database[simplified];
+        
         if (!fingering || !fingering.frets) return this.parse(chordName); // Fallback to piano-style triad
 
         // MIDI Note for each open string [G4, C4, E4, A4]

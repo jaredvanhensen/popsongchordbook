@@ -1776,6 +1776,11 @@ class SongDetailModal {
                             if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                                 cleanP = this.chordParser.transpose(cleanP, -this.capoValue);
                             }
+                            if (this.instrumentMode === 'guitar') {
+                                cleanP = cleanP.split('/').map(part => part.replace(/[23]$/, '')).join('/');
+                            } else if (this.instrumentMode === 'ukulele') {
+                                cleanP = cleanP.split('/').map(part => part.replace(/[237]/g, '')).join('/');
+                            }
                             this.createChordButton(section, key, cleanP, p);
                         }
                     });
@@ -1786,12 +1791,12 @@ class SongDetailModal {
                     if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
                         cleanChord = this.chordParser.transpose(cleanChord, -this.capoValue);
                     }
-
                     if (this.instrumentMode === 'guitar') {
-                        cleanChord = cleanChord.split('/')[0].replace(/[23]$/, '');
+                        cleanChord = cleanChord.split('/').map(part => part.replace(/[23]$/, '')).join('/');
                     } else if (this.instrumentMode === 'ukulele') {
-                        cleanChord = cleanChord.split('/')[0].replace(/[237]/g, '');
+                        cleanChord = cleanChord.split('/').map(part => part.replace(/[237]/g, '')).join('/');
                     }
+
                     this.createChordButton(section, key, cleanChord, item.trim());
                 }
             }

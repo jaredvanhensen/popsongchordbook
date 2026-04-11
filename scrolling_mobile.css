@@ -93,7 +93,7 @@ body.is-mobile-landscape #timeline .chord-item {
     width: 65px !important;
     height: 65px !important;
     font-size: 1.2rem !important;
-    border-radius: 6px !important;
+    border-radius: 14px !important;
     transform: translateY(-50%) !important;
 }
 
@@ -179,34 +179,65 @@ body.is-mobile-landscape .main-play-arrow {
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
 .pure-timeline-controls {
     display: flex;
-    gap: 15px;
+    gap: 8px; /* Slightly tighter gap to fit more buttons */
     align-items: center;
+    margin-left: auto; /* Push controls to the right towards the close button */
+    margin-right: 15px; /* Leave a small gap before the close button circle */
 }
-/* Reusing Song Detail Action Button styles natively within the pure timeline */
-.song-detail-action-btn {
+
+/* Floating icons look - no boxes */
+.pure-timeline-controls button {
     background: transparent !important;
     border: none !important;
-    color: white !important; /* Force white icons like Screenshot 2 */
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
+    box-shadow: none !important;
+    padding: 0 4px !important;
+    opacity: 0.85;
     transition: all 0.2s;
-    opacity: 0.8;
+    height: 40px !important;
+    min-width: 40px !important;
 }
-.song-detail-action-btn:hover {
+.pure-timeline-controls button:hover {
     opacity: 1;
     transform: scale(1.1);
 }
-.song-detail-action-btn .icon {
+.pure-timeline-controls button.active,
+#audioToggleBtnCompact.active,
+#pureLyricsBtn.active,
+#playPauseBtnCompact.active {
+    opacity: 1;
+    transform: scale(1.1);
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.pure-timeline-controls .icon,
+.pure-timeline-controls .lyrics-emoji {
+    font-size: 1.35rem !important; /* 25% smaller than 1.8rem */
+    color: rgba(255, 255, 255, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
-    color: white !important;
+    position: relative;
 }
+
+#pureRestartBtn .icon {
+    font-size: 1.45rem !important; /* Balanced with neighbors */
+}
+
+/* Red line across lyrics when OFF */
+.lyrics-btn:not(.active) .lyrics-emoji::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 2px; /* Thinner line for smaller icon */
+    background: #ef4444; /* Premium Red */
+    border-radius: 2px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 0.9;
+}
+
 .pure-timeline-menu-container {
     position: relative;
     pointer-events: auto;
