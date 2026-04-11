@@ -53,12 +53,6 @@
                 <span id="pureSpeedDisplay" style="font-size: 0.7rem; font-weight: 900; margin-left: 2px; color: rgba(255, 255, 255, 0.9);">1.0x</span>
             </button>
 
-            <!-- Zoom Toggle Compact (Cycles 100 -> 90 -> 80 -> 70) -->
-            <button id="pureZoomBtn" title="Cycle Timeline Zoom">
-                <span class="icon">🔍</span>
-                <span id="pureZoomDisplay" style="font-size: 0.7rem; font-weight: 900; margin-left: 2px; color: rgba(255, 255, 255, 0.9);">100%</span>
-            </button>
-
             <button id="pureTimelineFullModeBtn" title="Switch to FULL mode">
                 <span class="icon">🔼</span>
             </button>
@@ -69,20 +63,20 @@
                 </button>
                 <div id="pureTimelineMenu" class="song-detail-hamburger-menu pure-timeline-hamburger-menu hidden">
                     <button class="hamburger-menu-item" id="pureMenuLyricsBtn">
-                        <span class="icon">📝</span>
-                        <span class="label">Enable Lyrics Overlay</span>
-                    </button>
-                    <button class="hamburger-menu-item" id="pureMenuAudioBtn">
-                        <span class="icon">🔊</span>
-                        <span class="label">Enable Chord Audio</span>
+                        <span class="icon">🎤</span>
+                        <span class="label">Lyrics On/Off</span>
                     </button>
                     <button class="hamburger-menu-item" id="pureMenuZoomInBtn">
                         <span class="icon">🔍</span>
-                        <span class="label">Zoom In</span>
+                        <span class="label">Zoom In: <span id="pureZoomInDisplay">100%</span></span>
                     </button>
                     <button class="hamburger-menu-item" id="pureMenuZoomOutBtn">
                         <span class="icon">🔎</span>
-                        <span class="label">Zoom Out</span>
+                        <span class="label">Zoom Out: <span id="pureZoomOutDisplay">100%</span></span>
+                    </button>
+                    <button class="hamburger-menu-item" id="pureMenuAudioBtn">
+                        <span class="icon">🔊</span>
+                        <span class="label">Chord Audio Toggle</span>
                     </button>
                 </div>
             </div>

@@ -872,13 +872,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const lyricsBtn = document.getElementById('pureMenuLyricsBtn');
                 if (lyricsBtn) {
                     const label = lyricsBtn.querySelector('.label');
-                    const isLyricsActive = !(document.getElementById('lyricsHUD') && document.getElementById('lyricsHUD').classList.contains('hidden'));
-                    if (label) label.innerText = isLyricsActive ? "Lyrics (ON)" : "Lyrics (OFF)";
+                    if (label) label.innerText = "Lyrics On/Off";
                 }
                 const audioBtn = document.getElementById('pureMenuAudioBtn');
                 if (audioBtn) {
                     const label = audioBtn.querySelector('.label');
-                    if (label) label.innerText = audioEnabled ? "Disable Chord Audio" : "Enable Chord Audio";
+                    if (label) label.innerText = "Chord Audio Toggle";
                 }
             });
 
@@ -897,31 +896,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof toggleAudio === 'function') toggleAudio();
                 pureMenuMenu.classList.add('hidden');
             });
-
-            document.getElementById('pureMenuZoomInBtn')?.addEventListener('click', () => {
-                if (typeof zoom === 'function') zoom(1);
-            });
-
-            document.getElementById('pureMenuZoomOutBtn')?.addEventListener('click', () => {
-                if (typeof zoom === 'function') zoom(-1);
-            });
         }
 
-        // --- Direct Toolbar Zoom Cycle Button (100 -> 90 -> 80 -> 70) ---
-        document.getElementById('pureZoomBtn')?.addEventListener('click', () => {
-            const levels = [100, 90, 80, 70];
+        // --- Zoom In Cycle Button (120 -> 140 -> 160 -> 100%) ---
+        document.getElementById('pureMenuZoomInBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const levels = [100, 120, 140, 160];
             let currentLevel = Math.round(PIXELS_PER_SECOND);
             let nextIndex = (levels.indexOf(currentLevel) + 1) % levels.length;
-            if (nextIndex === -1) nextIndex = 1; // Default to 90 if current is non-standard
+            if (nextIndex === -1) nextIndex = 1; // Start at 120 if current is non-standard
             
             PIXELS_PER_SECOND = levels[nextIndex];
             
-            // Trigger re-render
-            renderChords();
+            // Sync all zoom displays
+            document.querySelectorAll('#pureZoomInDisplay, #pureZoomOutDisplay').forEach(el => el.innerText = `${levels[nextIndex]}%`);
+            if (typeof renderStaticElements === 'function') renderStaticElements();
+            if (typeof syncScrollToAudio === 'function') syncScrollToAudio();
+        });
+
+        // --- Zoom Out Cycle Button (80 -> 60 -> 40 -> 100%) ---
+        document.getElementById('pureMenuZoomOutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const levels = [100, 80, 60, 40];
+            let currentLevel = Math.round(PIXELS_PER_SECOND);
+            let nextIndex = (levels.indexOf(currentLevel) + 1) % levels.length;
+            if (nextIndex === -1) nextIndex = 1; // Start at 80 if current is non-standard
             
-            // Update display
-            const zoomDisplay = document.getElementById('pureZoomDisplay');
-            if (zoomDisplay) zoomDisplay.innerText = `${levels[nextIndex]}%`;
+            PIXELS_PER_SECOND = levels[nextIndex];
+            
+            // Sync all zoom displays
+            document.querySelectorAll('#pureZoomInDisplay, #pureZoomOutDisplay').forEach(el => el.innerText = `${levels[nextIndex]}%`);
+            if (typeof renderStaticElements === 'function') renderStaticElements();
+            if (typeof syncScrollToAudio === 'function') syncScrollToAudio();
         });
 
         // --- New Direct Toolbar Buttons (Restart, Lyrics, Speed) ---
@@ -1172,10 +1180,9 @@ function syncPureTimelineButtons() {
         pureLyricsBtn.classList.toggle('active', lyricsEnabled);
     }
     
-    const zoomDisplay = document.getElementById('pureZoomDisplay');
-    if (zoomDisplay) {
-        zoomDisplay.innerText = `${Math.round(PIXELS_PER_SECOND)}%`;
-    }
+    document.querySelectorAll('#pureZoomInDisplay, #pureZoomOutDisplay').forEach(el => {
+        el.innerText = `${Math.round(PIXELS_PER_SECOND)}%`;
+    });
     
     const audioToggleBtnComp = document.getElementById('audioToggleBtnCompact');
     if (audioToggleBtnComp) {
