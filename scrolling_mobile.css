@@ -187,14 +187,20 @@ body.is-mobile-landscape .main-play-arrow {
 
 /* Floating icons look - no boxes */
 .pure-timeline-controls button {
-    background: transparent !important;
+    background: none !important;
+    background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
+    outline: none !important;
     padding: 0 4px !important;
     opacity: 0.85;
     transition: all 0.2s;
     height: 40px !important;
     min-width: 40px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
 }
 .pure-timeline-controls button:hover {
     opacity: 1;

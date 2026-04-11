@@ -905,40 +905,40 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pureMenuZoomOutBtn')?.addEventListener('click', () => {
                 if (typeof zoom === 'function') zoom(-1);
             });
-
-            // --- Direct Toolbar Zoom Cycle Button (100 -> 90 -> 80 -> 70) ---
-            document.getElementById('pureZoomBtn')?.addEventListener('click', () => {
-                const levels = [100, 90, 80, 70];
-                let currentLevel = Math.round(PIXELS_PER_SECOND);
-                let nextIndex = (levels.indexOf(currentLevel) + 1) % levels.length;
-                if (nextIndex === -1) nextIndex = 1; // Default to 90 if current is non-standard
-                
-                PIXELS_PER_SECOND = levels[nextIndex];
-                
-                // Trigger re-render
-                renderChords();
-                
-                // Update display
-                const zoomDisplay = document.getElementById('pureZoomDisplay');
-                if (zoomDisplay) zoomDisplay.innerText = `${levels[nextIndex]}%`;
-            });
-
-            // --- New Direct Toolbar Buttons (Restart, Lyrics, Speed) ---
-            document.getElementById('pureRestartBtn')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (typeof restart === 'function') restart();
-            });
-
-            document.getElementById('pureLyricsBtn')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (typeof toggleLyricsHUD === 'function') toggleLyricsHUD();
-            });
-
-            document.getElementById('pureSpeedBtn')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (typeof cycleSpeed === 'function') cycleSpeed();
-            });
         }
+
+        // --- Direct Toolbar Zoom Cycle Button (100 -> 90 -> 80 -> 70) ---
+        document.getElementById('pureZoomBtn')?.addEventListener('click', () => {
+            const levels = [100, 90, 80, 70];
+            let currentLevel = Math.round(PIXELS_PER_SECOND);
+            let nextIndex = (levels.indexOf(currentLevel) + 1) % levels.length;
+            if (nextIndex === -1) nextIndex = 1; // Default to 90 if current is non-standard
+            
+            PIXELS_PER_SECOND = levels[nextIndex];
+            
+            // Trigger re-render
+            renderChords();
+            
+            // Update display
+            const zoomDisplay = document.getElementById('pureZoomDisplay');
+            if (zoomDisplay) zoomDisplay.innerText = `${levels[nextIndex]}%`;
+        });
+
+        // --- New Direct Toolbar Buttons (Restart, Lyrics, Speed) ---
+        document.getElementById('pureRestartBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof restart === 'function') restart();
+        });
+
+        document.getElementById('pureLyricsBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof toggleLyricsHUD === 'function') toggleLyricsHUD();
+        });
+
+        document.getElementById('pureSpeedBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof cycleSpeed === 'function') cycleSpeed();
+        });
 
         // --- Switch TO Pure View Button (from Full Mode) ---
         const switchToPureBtn = document.getElementById('switchToPureBtn');
