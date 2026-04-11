@@ -7967,9 +7967,9 @@ td:has(.row-edit-input.input-focused) {
 
 .black-keys {
     position: absolute;
-    top: 15px;
-    left: 10px;
-    right: 10px;
+    top: 12px;
+    left: 8px;
+    right: 8px;
     height: 55%;
     pointer-events: none;
 }
@@ -8177,6 +8177,12 @@ td:has(.row-edit-input.input-focused) {
         padding: 8px 4px 5px;
     }
 
+    .black-keys {
+        top: 8px;
+        left: 4px;
+        right: 4px;
+    }
+
     .black-key {
         width: 6.5%;
     }
@@ -8268,6 +8274,12 @@ td:has(.row-edit-input.input-focused) {
         height: 70px;
         margin: 4px 0;
         padding: 4px 2px 3px;
+    }
+
+    .black-keys {
+        top: 4px;
+        left: 2px;
+        right: 2px;
     }
 
     .piano-chord-btn {
