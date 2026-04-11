@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,7 +8,7 @@
     <title>Song Library - PopSongChordBook</title>
     <meta name="application-version" content="v2.614">
     <meta name="description" content="Manage your pop song library, create setlists, and practice with interactive chords.">
-    <link rel="stylesheet" href="styles.css?v=2.622">
+    <link rel="stylesheet" href="styles.css?v=2.623">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -47,7 +47,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.622</span>
+                        v<span id="site-version">2.623</span>
                     </div>
                 </div>
             </div>
@@ -374,24 +374,26 @@
                             style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
                             <button class="profile-instrument-btn" data-instrument="guitar"
                                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                                <span style="font-size: 28px;">🎸</span>
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎸</div>
                                 <span style="font-size: 11px; font-weight: 700; color: #64748b;">Guitar</span>
                             </button>
                             <button class="profile-instrument-btn" data-instrument="piano"
                                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                                <span style="font-size: 28px;">🎹</span>
-                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Keyboard</span>
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎹</div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Piano</span>
                             </button>
                             <button class="profile-instrument-btn" data-instrument="ukulele"
                                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                                <svg viewBox="0 0 100 100" width="1em" height="1em" style="vertical-align: middle;">
-                                    <g transform="rotate(-35 50 50)">
-                                        <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
-                                        <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
-                                        <circle cx="50" cy="65" r="9" fill="#3e2723"/>
-                                        <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
-                                    </g>
-                                </svg>
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 100 100" width="30" height="30" style="vertical-align: middle;">
+                                        <g transform="rotate(-35 50 50)">
+                                            <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                            <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                            <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                            <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                                        </g>
+                                    </svg>
+                                </div>
                                 <span style="font-size: 11px; font-weight: 700; color: #64748b;">Ukulele</span>
                             </button>
                         </div>
@@ -1589,43 +1591,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.622"></script>
+    <script src="js/config/firebase-config.js?v=2.623"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.622"></script>
-    <script src="js/models/SetlistManager.js?v=2.622"></script>
+    <script src="js/models/SongManager.js?v=2.623"></script>
+    <script src="js/models/SetlistManager.js?v=2.623"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=2.622"></script>
-    <script src="js/utils/ChordDetector.js?v=2.622"></script>
-    <script src="js/utils/KeyDetector.js?v=2.622"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.622"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.622"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.622"></script>
-    <script src="js/utils/LyricsParser.js?v=2.622"></script>
+    <script src="js/utils/Sorter.js?v=2.623"></script>
+    <script src="js/utils/ChordDetector.js?v=2.623"></script>
+    <script src="js/utils/KeyDetector.js?v=2.623"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.623"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.623"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.623"></script>
+    <script src="js/utils/LyricsParser.js?v=2.623"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.622"></script>
-    <script src="js/ui/ChordModal.js?v=2.622"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.622"></script>
-    <script src="js/ui/TableRenderer.js?v=2.622"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.622"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.622"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.622"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.622"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.622"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.622"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.622"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.622"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.622"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.622"></script>
-    <script src="js/ui/AuthModal.js?v=2.622"></script>
-    <script src="js/ui/ProfileModal.js?v=2.622"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.622"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.622"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.622"></script>
+    <script src="js/utils/ChordParser.js?v=2.623"></script>
+    <script src="js/ui/ChordModal.js?v=2.623"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.623"></script>
+    <script src="js/ui/TableRenderer.js?v=2.623"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.623"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.623"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.623"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.623"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.623"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.623"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.623"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.623"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.623"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.623"></script>
+    <script src="js/ui/AuthModal.js?v=2.623"></script>
+    <script src="js/ui/ProfileModal.js?v=2.623"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.623"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.623"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.623"></script>
     <!-- Data -->
 
     <!-- Main App -->
-    <script src="js/app.js?v=2.622"></script>
+    <script src="js/app.js?v=2.623"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -1732,6 +1734,7 @@
 </body>
 
 </html>
+
 
 
 

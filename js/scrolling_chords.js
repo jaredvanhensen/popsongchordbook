@@ -1,4 +1,4 @@
-// $12.544)
+﻿// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -4602,6 +4602,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
