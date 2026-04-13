@@ -166,6 +166,11 @@ class ChordTrainer {
             ? (isSmallPhone ? '' : 'AUDIO ON') 
             : (isSmallPhone ? '' : 'AUDIO OFF');
         this.dom.audioToggle.querySelector('.icon').textContent = this.isAudioEnabled ? '🔊' : '🔇';
+        
+        // Update the mobile-only complexity audio icon if it exists
+        if (this.dom.complexityAudioIcon) {
+            this.dom.complexityAudioIcon.textContent = this.isAudioEnabled ? '🔊' : '🔇';
+        }
 
         // Difficulty
         const diffLabels = isSmallPhone 
@@ -276,7 +281,8 @@ class ChordTrainer {
             chordTipBar: document.getElementById('chordTipBar'),
             chordTipText: document.getElementById('chordTipText'),
             openStatsBtnCompact: document.getElementById('openStatsBtnCompact'),
-            openLeaderboardBtnCompact: document.getElementById('openLeaderboardBtnCompact')
+            openLeaderboardBtnCompact: document.getElementById('openLeaderboardBtnCompact'),
+            complexityAudioIcon: document.getElementById('complexityAudioIcon')
         };
     }
 
@@ -451,6 +457,15 @@ class ChordTrainer {
 
         if (this.dom.chordComplexityCycleBtn) {
             this.dom.chordComplexityCycleBtn.onclick = () => this.cycleSongPracticeComplexity();
+        }
+
+        // Mobile-only audio toggle next to the pill
+        if (this.dom.complexityAudioIcon) {
+            this.dom.complexityAudioIcon.onclick = (e) => {
+                e.stopPropagation();
+                this.isAudioEnabled = !this.isAudioEnabled;
+                this.updateToggleLabels();
+            };
         }
     }
 
@@ -2015,7 +2030,7 @@ class ChordTrainer {
         if (!this.dom.chordComplexityCycleBtn) return;
         
         const isBasic = this.songPracticeComplexity === 'basic';
-        if (this.dom.complexityText) this.dom.complexityText.textContent = isBasic ? 'BASIC' : 'INVERSIONS';
+        if (this.dom.complexityText) this.dom.complexityText.textContent = isBasic ? 'BASIC' : 'PRO';
         if (this.dom.complexityIcon) this.dom.complexityIcon.textContent = isBasic ? '🔘' : '🔄';
         
         // Highlight effect when active
@@ -2088,8 +2103,13 @@ class ChordTrainer {
 
     simplifyChord(name) {
         if (!name) return "";
-        // Remove trailing numbers (2, 3, 7, etc.)
-        return name.replace(/\d+$/, '');
+        // Basic mode should only show the root triad (Root + optional b/# + optional m)
+        // We use a negative lookahead to ensure the 'm' isn't part of 'maj', 'major', 'max', etc.
+        const match = name.match(/^([A-G][b#]?(?:m(?!a))?)/);
+        if (match) return match[1];
+        
+        // Fallback for safety: remove trailing numbers and common extension fragments
+        return name.replace(/\d+$/, '').replace(/maj$/i, '').replace(/add$/i, '');
     }
 }
 

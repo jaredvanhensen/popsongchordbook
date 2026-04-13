@@ -75,6 +75,8 @@ class SongDetailModal {
         this.lyricsEditModalClose = document.getElementById('lyricsEditModalClose');
         this.lyricsEditDoneBtn = document.getElementById('lyricsEditDoneBtn');
         this.lyricsStatusText = document.getElementById('lyricsStatusText');
+        this.lrclibLink = document.getElementById('lrclibLink');
+        this.lyricradarLink = document.getElementById('lyricradarLink');
         this.speedUpBtn = document.getElementById('lyricsSpeedUp');
         this.speedDownBtn = document.getElementById('lyricsSpeedDown');
         this.lyricsSpeedFactor = 1.0;
@@ -1017,6 +1019,21 @@ class SongDetailModal {
             this.openLyricsModalBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.lyricsEditModal.classList.remove('hidden');
+
+                // Dynamically update external links with current song data
+                if (this.currentSongId) {
+                    const song = this.songManager.getSongById(this.currentSongId);
+                    if (song) {
+                        const artist = (song.artist || '').trim();
+                        const title = (song.title || '').trim();
+                        const query = encodeURIComponent(`${artist} ${title}`).replace(/%20/g, '+');
+                        
+                        if (this.lrclibLink) {
+                            this.lrclibLink.href = `https://lrclib.net/search/${query}`;
+                        }
+                    }
+                }
+
                 if (window.appInstance) {
                     window.appInstance.pushModalState('lyricsEdit', () => {
                         if (this.lyricsEditModal) this.lyricsEditModal.classList.add('hidden');
@@ -1777,9 +1794,9 @@ class SongDetailModal {
                                 cleanP = this.chordParser.transpose(cleanP, -this.capoValue);
                             }
                             if (this.instrumentMode === 'guitar') {
-                                cleanP = cleanP.split('/').map(part => part.replace(/[23]$/, '')).join('/');
+                                cleanP = cleanP.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
                             } else if (this.instrumentMode === 'ukulele') {
-                                cleanP = cleanP.split('/').map(part => part.replace(/[237]/g, '')).join('/');
+                                cleanP = cleanP.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                             }
                             this.createChordButton(section, key, cleanP, p);
                         }
@@ -1792,9 +1809,9 @@ class SongDetailModal {
                         cleanChord = this.chordParser.transpose(cleanChord, -this.capoValue);
                     }
                     if (this.instrumentMode === 'guitar') {
-                        cleanChord = cleanChord.split('/').map(part => part.replace(/[23]$/, '')).join('/');
+                        cleanChord = cleanChord.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
                     } else if (this.instrumentMode === 'ukulele') {
-                        cleanChord = cleanChord.split('/').map(part => part.replace(/[237]/g, '')).join('/');
+                        cleanChord = cleanChord.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                     }
 
                     this.createChordButton(section, key, cleanChord, item.trim());

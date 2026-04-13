@@ -96,11 +96,15 @@ body {
 
 /* Visibility Utilities */
 .mobile-only { display: none !important; }
+.mobile-only-flex { display: none !important; }
 .desktop-only { display: block !important; }
+.desktop-only-flex { display: flex !important; }
 
 @media (max-width: 600px) {
     .mobile-only { display: block !important; }
+    .mobile-only-flex { display: flex !important; }
     .desktop-only { display: none !important; }
+    .desktop-only-flex { display: none !important; }
 }
 
 /* HUD Row Layout */
@@ -152,6 +156,27 @@ body {
     color: #1e293b;
     box-shadow: 0 6px 15px rgba(250, 204, 21, 0.4);
     transform: translateY(-2px);
+}
+#chordComplexityToggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.complexity-pill {
+    min-width: 120px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    justify-content: center;
 }
 
 /* Timer & Stats Row */
@@ -1530,6 +1555,15 @@ body {
         padding: 1px 8px !important;
         font-size: 0.7rem !important;
         min-width: 32px;
+    }
+    .complexity-pill {
+        min-width: 84px !important; /* Fixed width as requested */
+        width: 84px !important;
+        padding: 4px 10px !important;
+        font-size: 0.75rem !important;
+        gap: 5px !important;
+        height: 32px !important;
+        justify-content: center;
     }
 }
 

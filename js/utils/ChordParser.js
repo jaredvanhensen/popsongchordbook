@@ -159,7 +159,7 @@ class ChordParser {
         if (!chordName || !database) return null;
 
         // Simplify chord name for database lookup (e.g., C2 -> C)
-        const simplified = chordName.trim().replace(/[23]$/, '').split('/')[0];
+        const simplified = chordName.trim().replace(/^([A-G][b#]?)[23]$/, '$1').split('/')[0];
         let fingering = database[chordName.trim()];
         if (!fingering) fingering = database[simplified];
         
@@ -199,7 +199,7 @@ class ChordParser {
         if (!chordName || !database) return null;
 
         // Simplify chord name for database lookup (Ukulele: remove 2, 3, 7)
-        const simplified = chordName.trim().replace(/[237]/g, '').split('/')[0];
+        const simplified = chordName.trim().replace(/^([A-G][b#]?)[237]$/, '$1').split('/')[0];
         let fingering = database[chordName.trim()];
         if (!fingering) fingering = database[simplified];
         

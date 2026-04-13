@@ -23,8 +23,8 @@
                 <span id="difficultyLabel" class="label">LEVEL 1: TRIADS</span>
             </div>
             
-            <!-- Audio Toggle -->
-            <div id="audioToggle" class="header-toggle active">
+            <!-- Audio Toggle (Desktop Only) -->
+            <div id="audioToggle" class="header-toggle active desktop-only-flex">
                 <span class="icon">🔊</span>
                 <span class="label">AUDIO ON</span>
             </div>
@@ -45,7 +45,8 @@
 
             <!-- Mode Toggle Moved to Top Right -->
             <div id="chordComplexityToggle" class="hidden">
-                <button id="chordComplexityCycleBtn" class="mode-btn" style="min-width: 120px; padding: 6px 16px; border-radius: 999px; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <span id="complexityAudioIcon" class="mobile-only-flex" style="font-size: 1.2rem; cursor: pointer; color: white;">🔊</span>
+                <button id="chordComplexityCycleBtn" class="mode-btn complexity-pill">
                     <span id="complexityIcon">🔘</span>
                     <span id="complexityText">BASIC</span>
                 </button>

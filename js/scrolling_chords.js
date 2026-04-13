@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -199,9 +199,9 @@ function simplifyDisplayName(chordName, isForAudio = false) {
     }
 
     if (currentInstrumentMode === 'guitar') {
-        return resultName.split('/').map(part => part.replace(/[23]$/, '')).join('/');
+        return resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
     } else if (currentInstrumentMode === 'ukulele') {
-        return resultName.split('/').map(part => part.replace(/[237]/g, '')).join('/');
+        return resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
     }
     return resultName;
 }

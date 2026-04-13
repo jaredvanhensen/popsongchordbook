@@ -164,8 +164,8 @@ class UkuleleChordOverlay {
     }
 
     simplifyChord(chordName) {
-        // Strip 2, 3 AND 7 digits but maintain slash
-        return chordName.split('/').map(part => part.replace(/[237]/g, '')).join('/');
+        // Strip 2, 3 AND 7 digits but ONLY if it's a pure note (e.g., G7 -> G, but Gmaj7 stays Gmaj7)
+        return chordName.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
     }
 
     createChordCard(chordName) {
