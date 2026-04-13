@@ -1230,6 +1230,14 @@ function restart() {
     lastBeatPlayed = -1;
     lastChordPlayed = -1;
 
+    // Sync YouTube if enabled
+    if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+        youtubePlayer._syncingFromTimeline = true;
+        youtubePlayer.seekTo(0, true);
+        // Pause and wait for count-in (if playing) or just pause (if stopped)
+        youtubePlayer.pauseVideo();
+    }
+
     if (isPlaying) {
         // Re-trigger count-in if already playing
         isCountingIn = true;
@@ -1465,10 +1473,16 @@ chordTrack.addEventListener('click', (e) => {
         if (isPlaying) pause();
 
         const index = parseInt(e.target.dataset.index);
-        const currentName = chords[index].name;
+        const realName = chords[index].name;
+
+        // Capo-aware display name for editing
+        let displayChordName = realName;
+        if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0 && chordParser) {
+            displayChordName = chordParser.transpose(realName, -currentCapoValue);
+        }
 
         // Custom Professional Modal with Delete Option
-        chordEditModal.show(currentName, (result) => {
+        chordEditModal.show(displayChordName, (result) => {
             if (result === null) return; // Cancelled
 
             if (result === 'DELETE') {
@@ -1483,10 +1497,15 @@ chordTrack.addEventListener('click', (e) => {
                 return;
             }
 
-            const newName = result;
-            if (newName && newName !== currentName) {
+            let newRealName = result;
+            // Transpose back to real concert pitch if Capo is active
+            if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0 && chordParser) {
+                newRealName = chordParser.transpose(result, currentCapoValue);
+            }
+
+            if (newRealName && newRealName !== realName) {
                 saveUndoState();
-                chords[index].name = newName;
+                chords[index].name = newRealName;
                 renderStaticElements();
                 updateLoop();
                 checkForChanges();
@@ -1495,7 +1514,7 @@ chordTrack.addEventListener('click', (e) => {
                 const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
                 const activeIndex = chords.findLastIndex(c => c.time <= playbackTime);
                 if (activeIndex === index) {
-                    currentChordDisplay.innerText = newName;
+                    currentChordDisplay.innerText = simplifyDisplayName(newRealName);
                 }
             }
         });
@@ -2887,6 +2906,13 @@ function play() {
         countInOverlay.classList.remove('hidden');
         // Set startTime in the future so playbackTime starts at -4
         startTime = performance.now() + (COUNT_IN_SECONDS * 1000);
+
+        // Prepare YouTube for the start
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+            youtubePlayer._syncingFromTimeline = true;
+            youtubePlayer.seekTo(0, true);
+            youtubePlayer.pauseVideo();
+        }
     } else {
         // resume from pauseTime
         startTime = performance.now() - (pauseTime * 1000);
@@ -2906,6 +2932,12 @@ function play() {
 function stopCountIn() {
     isCountingIn = false;
     countInOverlay.classList.add('hidden');
+
+    // Start/Resume YouTube playback when the actual song starts
+    if (isPlaying && youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+        youtubePlayer._syncingFromTimeline = true;
+        youtubePlayer.playVideo();
+    }
 }
 
 function pause() {
@@ -3157,29 +3189,52 @@ function updateLoop() {
         window._lastUIUpdate = now;
     }
 
-    // Update Lyrics HUD (Optimized)
+    // Update Lyrics HUD (Advanced Lookahead Logic)
     if (lyricsEnabled && parsedLyrics.length > 0) {
-        const currentIndex = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
-        if (currentIndex !== window.lastLyricIndex) {
-            if (currentIndex !== -1) {
-                lyricLine1.innerText = parsedLyrics[currentIndex].text;
-                if (currentIndex + 1 < parsedLyrics.length) {
-                    lyricLine2.innerText = parsedLyrics[currentIndex + 1].text;
-                    lyricLine2.classList.remove('hidden');
-                } else {
-                    lyricLine2.innerText = '';
-                    lyricLine2.classList.add('hidden');
-                }
-            } else {
-                lyricLine1.innerText = '';
-                lyricLine2.innerText = parsedLyrics[0].text;
-                lyricLine2.classList.remove('hidden');
+        const firstLyricTime = parsedLyrics[0].time;
+        const nextIdx = parsedLyrics.findIndex(l => l.time > playbackTime);
+        const activeIdx = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
+
+        let line1Text = '';
+        let line2Text = '';
+
+        // Priority Logic:
+        // 1. If we have an active lyric that started less than 10 seconds ago, Line 1 shows IT.
+        if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 10) {
+            line1Text = parsedLyrics[activeIdx].text;
+            if (nextIdx !== -1) {
+                line2Text = parsedLyrics[nextIdx].text;
             }
-            window.lastLyricIndex = currentIndex;
+        } 
+        // 2. If no active lyric (pre-song) or it's old (solo), check for a 5s heads-up for the NEXT lyric.
+        else if (nextIdx !== -1 && parsedLyrics[nextIdx].time <= playbackTime + 5) {
+            line1Text = parsedLyrics[nextIdx].text;
+            if (nextIdx + 1 < parsedLyrics.length) {
+                line2Text = parsedLyrics[nextIdx + 1].text;
+            }
+        }
+        // 3. Otherwise, Line 1 is empty (solo gap), Line 2 shows the next one coming up eventually.
+        else {
+            line1Text = '';
+            if (nextIdx !== -1) {
+                line2Text = parsedLyrics[nextIdx].text;
+            } else if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 15) {
+                // Keep the very last lyric on line 1 for a bit longer at the final end
+                line1Text = parsedLyrics[activeIdx].text;
+            }
         }
 
-        // HUD Visibility Logic
-        const firstLyricTime = (parsedLyrics.length > 0) ? parsedLyrics[0].time : 0;
+        // Apply Updates (minimize DOM thrashing)
+        if (lyricLine1.innerText !== line1Text) {
+            lyricLine1.innerText = line1Text;
+        }
+        if (lyricLine2.innerText !== line2Text) {
+            lyricLine2.innerText = line2Text;
+            if (line2Text) lyricLine2.classList.remove('hidden');
+            else lyricLine2.classList.add('hidden');
+        }
+
+        // HUD Visibility Logic (Sync with lookahead)
         const shouldShowHUD = playbackTime >= firstLyricTime - 5;
         if (shouldShowHUD) {
             if (lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.remove('hidden');
