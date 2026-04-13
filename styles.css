@@ -9000,6 +9000,7 @@ td:has(.row-edit-input.input-focused) {
     .chord-type-chorus,
     .chord-type-verse,
     .chord-type-pre-chorus,
+    .chord-type-prechorus,
     .chord-type-bridge {
         padding: 3px 8px !important;
         font-size: 0.85rem !important;
@@ -10447,19 +10448,21 @@ div.song-detail-practice-controls {
     box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
 }
 
-.chord-type-verse {
+.chord-type-verse, .chord-type-verse:hover {
     background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
 }
 
-.chord-type-chorus {
+.chord-type-chorus, .chord-type-chorus:hover {
     background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
 }
 
-.chord-type-pre-chorus {
+/* Support both pre-chorus and prechorus for consistency across UI components */
+.chord-type-pre-chorus, .chord-type-pre-chorus:hover,
+.chord-type-prechorus, .chord-type-prechorus:hover {
     background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
 }
 
-.chord-type-bridge {
+.chord-type-bridge, .chord-type-bridge:hover {
     background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
 }
 
