@@ -544,18 +544,17 @@ class SongDetailModal {
         menu.style.top = '-9999px';
         menu.style.left = '-9999px';
         menu.style.transform = 'none';
+        menu.style.marginTop = '0'; // Cancel CSS margin-top
 
-        // Use requestAnimationFrame so the browser has rendered the menu dimensions
         requestAnimationFrame(() => {
             const rect = triggerBtn.getBoundingClientRect();
             const menuWidth = menu.offsetWidth || 180;
-            const menuHeight = menu.offsetHeight || 300;
 
+            // Always place below the button; clamp to stay within viewport
+            // The CSS max-height (70vh) ensures the menu scrolls if too tall
             let top = rect.bottom + 8;
-            // If menu would overflow the bottom, show it above the button instead
-            if (top + menuHeight > window.innerHeight - 10) {
-                top = rect.top - menuHeight - 8;
-            }
+            const maxTop = window.innerHeight - 60; // Leave at least 60px visible
+            top = Math.min(top, maxTop);
 
             let left = rect.left + rect.width / 2 - menuWidth / 2;
             left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
