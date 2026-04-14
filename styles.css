@@ -5436,11 +5436,14 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Increased gap to prevent mis-taps */
+    gap: 10px; /* More space for touch clarity */
     z-index: 1000;
     margin-top: 10px;
-    min-width: 140px; /* Wider for better horizontal reach */
-    animation: fadeIn 0.2s ease;
+    min-width: 160px; /* Even wider for better reach */
+    max-height: 70vh; /* Prevent hitting screen edges */
+    overflow-y: auto; /* Allow scrolling if it's too long */
+    scrollbar-width: thin;
+    animation: fadeIn 0.15s ease-out; /* Sharper animation */
 }
 
 .transpose-menu.hidden {
@@ -5462,14 +5465,20 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    transition: all 0.2s;
+    line-height: 1.2; /* Fixed line-height prevents vertical shift when bolding */
+    transition: background 0.1s; /* Faster, non-shifting transition */
     white-space: nowrap;
-    -webkit-tap-highlight-color: transparent; /* Remove the gray box on tap */
-    touch-action: manipulation; /* Speed up taps and prevent accidental zooming */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .transpose-menu-item:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.transpose-menu-item:active {
+    transform: none !important; /* Explicitly prevent 'shrinking' on touch-hold */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .transpose-menu-item .icon {
@@ -11102,9 +11111,9 @@ div.song-detail-practice-controls {
 }
 
 .capo-menu-item.active {
-    background: rgba(251, 191, 36, 0.3) !important; /* Slightly more opaque for better visibility */
+    background: rgba(251, 191, 36, 0.4) !important;
     color: #fbbf24 !important;
-    font-weight: 800; /* Bolder active text */
+    font-weight: 700 !important; /* Standardized bold to avoid height jitter */
 }
 
 .capo-menu-item {
