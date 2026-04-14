@@ -533,6 +533,23 @@ class SongDetailModal {
 
 
 
+    /**
+     * Positions a menu using position:fixed anchored to the real screen position
+     * of the trigger button. This bypasses any CSS transforms (scale, translateY)
+     * applied to parent elements, which was causing the menu to shift/shrink on touch.
+     */
+    _positionMenuFixed(menu, triggerBtn) {
+        const rect = triggerBtn.getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = (rect.bottom + 8) + 'px';
+        // Center under the button, clamped to the viewport
+        const menuWidth = menu.offsetWidth || 180;
+        let left = rect.left + rect.width / 2 - menuWidth / 2;
+        left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+        menu.style.left = left + 'px';
+        menu.style.transform = 'none';
+    }
+
     updateCapoUI() {
         // Update Mobile Button/Menu UI
         if (this.capoBadge) {
@@ -596,7 +613,11 @@ class SongDetailModal {
         if (this.capoBtn && this.capoMenu) {
             this.capoBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                const isHidden = this.capoMenu.classList.contains('hidden');
                 this.capoMenu.classList.toggle('hidden');
+                if (isHidden) {
+                    this._positionMenuFixed(this.capoMenu, this.capoBtn);
+                }
             });
 
             // Handle Capo Menu selection
@@ -1200,7 +1221,11 @@ class SongDetailModal {
         if (this.transposeBtn && this.transposeMenu) {
             this.transposeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                const isHidden = this.transposeMenu.classList.contains('hidden');
                 this.transposeMenu.classList.toggle('hidden');
+                if (isHidden) {
+                    this._positionMenuFixed(this.transposeMenu, this.transposeBtn);
+                }
             });
 
             // Hamburger Menu Toggle

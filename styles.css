@@ -5424,26 +5424,26 @@ td:has(.row-edit-input.input-focused) {
 }
 
 .transpose-menu {
-    position: absolute;
+    position: absolute; /* fallback; overridden to fixed by JS */
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(30, 41, 59, 0.95);
+    background: rgba(30, 41, 59, 0.97);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
     padding: 10px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* More space for touch clarity */
-    z-index: 1000;
+    gap: 4px; /* Small gap — padding on items handles spacing */
+    z-index: 99999; /* Ensure it's above everything */
     margin-top: 10px;
-    min-width: 160px; /* Even wider for better reach */
-    max-height: 70vh; /* Prevent hitting screen edges */
-    overflow-y: auto; /* Allow scrolling if it's too long */
+    min-width: 160px;
+    max-height: 70vh;
+    overflow-y: auto;
     scrollbar-width: thin;
-    animation: fadeIn 0.15s ease-out; /* Sharper animation */
+    animation: fadeIn 0.15s ease-out;
 }
 
 .transpose-menu.hidden {
