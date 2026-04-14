@@ -1,4 +1,4 @@
-﻿// Main Application (v2.624)
+// Main Application (v2.624)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -294,9 +294,14 @@ class App {
             checkAndNavigate();
         }
 
-        // DEBUG: Diagnostics on Version Click
+        // Auto-sync version display from meta tag (so we never forget to update the visible number)
         const versionEl = document.getElementById('site-version');
         if (versionEl) {
+            const metaVersion = document.querySelector('meta[name="application-version"]');
+            if (metaVersion) {
+                // Strip the leading 'v' from "v2.632" → "2.632"
+                versionEl.textContent = metaVersion.getAttribute('content').replace(/^v/, '');
+            }
             versionEl.style.cursor = 'pointer';
             versionEl.title = 'Click for Diagnostics';
             versionEl.addEventListener('click', () => this.runDiagnostics());
