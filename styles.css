@@ -6595,22 +6595,22 @@ td:has(.row-edit-input.input-focused) {
         align-items: center;
         width: 100%;
         gap: clamp(4px, 1.5vw, 10px);
-        margin-top: 0;
-        transform: translateY(-7px);
+        margin-top: -7px; /* was transform:translateY(-7px) which broke position:fixed children */
     }
 
-    /* No scale on hover/active for the action buttons row — prevents row jitter */
+    /* No movement on hover for nav buttons */
     .song-detail-nav-btn:hover,
     .song-detail-close-top:hover,
     #songDetailNext:hover {
-        transform: translateY(-7px) !important;
+        transform: none !important;
     }
 
-    /* Subtle press feedback only on nav buttons, not the whole container */
+    /* Subtle press feedback only on nav buttons */
     .song-detail-nav-btn:active,
     .song-detail-close-top:active,
     #songDetailNext:active {
-        transform: translateY(-5px) !important;
+        transform: none !important;
+        opacity: 0.7;
     }
 
     .song-detail-header-right {
