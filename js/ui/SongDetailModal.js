@@ -4371,6 +4371,12 @@ class SongDetailModal {
         }
 
         this.modal.classList.add('hidden');
+        
+        // Ensure all floating menus (now in portals/body root) are also hidden
+        if (this.capoMenu) this.capoMenu.classList.add('hidden');
+        if (this.transposeMenu) this.transposeMenu.classList.add('hidden');
+        if (this.hamburgerMenu) this.hamburgerMenu.classList.add('hidden');
+
         this.currentSongId = null;
         this.hasUnsavedChanges = false;
         this.originalSongData = null;
