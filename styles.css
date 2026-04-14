@@ -6599,23 +6599,18 @@ td:has(.row-edit-input.input-focused) {
         transform: translateY(-7px);
     }
 
-    /* Fix visual shift on click and sticky hover by preserving translateY while scaling */
+    /* No scale on hover/active for the action buttons row — prevents row jitter */
     .song-detail-nav-btn:hover,
-    .song-detail-nav-btn:active,
     .song-detail-close-top:hover,
-    .song-detail-close-top:active,
-    #songDetailNext:hover,
-    #songDetailNext:active,
-    .song-detail-action-buttons:hover,
-    .song-detail-action-buttons:active {
-        transform: translateY(-7px) scale(1.05) !important;
+    #songDetailNext:hover {
+        transform: translateY(-7px) !important;
     }
 
+    /* Subtle press feedback only on nav buttons, not the whole container */
     .song-detail-nav-btn:active,
     .song-detail-close-top:active,
-    #songDetailNext:active,
-    .song-detail-action-buttons:active {
-        transform: translateY(-7px) scale(0.95) !important;
+    #songDetailNext:active {
+        transform: translateY(-5px) !important;
     }
 
     .song-detail-header-right {

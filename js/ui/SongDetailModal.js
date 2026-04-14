@@ -539,15 +539,30 @@ class SongDetailModal {
      * applied to parent elements, which was causing the menu to shift/shrink on touch.
      */
     _positionMenuFixed(menu, triggerBtn) {
-        const rect = triggerBtn.getBoundingClientRect();
+        // Temporarily place off-screen to measure real width before final position
         menu.style.position = 'fixed';
-        menu.style.top = (rect.bottom + 8) + 'px';
-        // Center under the button, clamped to the viewport
-        const menuWidth = menu.offsetWidth || 180;
-        let left = rect.left + rect.width / 2 - menuWidth / 2;
-        left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
-        menu.style.left = left + 'px';
+        menu.style.top = '-9999px';
+        menu.style.left = '-9999px';
         menu.style.transform = 'none';
+
+        // Use requestAnimationFrame so the browser has rendered the menu dimensions
+        requestAnimationFrame(() => {
+            const rect = triggerBtn.getBoundingClientRect();
+            const menuWidth = menu.offsetWidth || 180;
+            const menuHeight = menu.offsetHeight || 300;
+
+            let top = rect.bottom + 8;
+            // If menu would overflow the bottom, show it above the button instead
+            if (top + menuHeight > window.innerHeight - 10) {
+                top = rect.top - menuHeight - 8;
+            }
+
+            let left = rect.left + rect.width / 2 - menuWidth / 2;
+            left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+
+            menu.style.top = top + 'px';
+            menu.style.left = left + 'px';
+        });
     }
 
     updateCapoUI() {
