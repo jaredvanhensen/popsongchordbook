@@ -5432,14 +5432,14 @@ td:has(.row-edit-input.input-focused) {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    padding: 8px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px; /* Increased gap to prevent mis-taps */
     z-index: 1000;
-    margin-top: 8px;
-    min-width: 100px;
+    margin-top: 10px;
+    min-width: 140px; /* Wider for better horizontal reach */
     animation: fadeIn 0.2s ease;
 }
 
@@ -5462,9 +5462,10 @@ td:has(.row-edit-input.input-focused) {
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    /* Increased font size */
-    transition: background 0.2s;
+    transition: all 0.2s;
     white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; /* Remove the gray box on tap */
+    touch-action: manipulation; /* Speed up taps and prevent accidental zooming */
 }
 
 .transpose-menu-item:hover {
@@ -11101,14 +11102,14 @@ div.song-detail-practice-controls {
 }
 
 .capo-menu-item.active {
-    background: rgba(251, 191, 36, 0.2) !important;
+    background: rgba(251, 191, 36, 0.3) !important; /* Slightly more opaque for better visibility */
     color: #fbbf24 !important;
-    font-weight: 700;
+    font-weight: 800; /* Bolder active text */
 }
 
 .capo-menu-item {
-    font-size: 15px !important;
-    padding: 10px 15px !important;
+    font-size: 16px !important;
+    padding: 14px 20px !important; /* Larger touch target (44px min height) */
 }
 
 /* Bulletproof Body Class Based Mobile Overrides (fixes Motorola G51 issues) */
