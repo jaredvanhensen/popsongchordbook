@@ -539,28 +539,39 @@ class SongDetailModal {
      * applied to parent elements, which was causing the menu to shift/shrink on touch.
      */
     _positionMenuFixed(menu, triggerBtn) {
-        // Temporarily place off-screen to measure real width before final position
+        // Move menu to body root to escape any parent CSS transforms/stacking contexts
+        if (menu.parentElement !== document.body) {
+            document.body.appendChild(menu);
+        }
+
+        // Apply clean fixed position state
         menu.style.position = 'fixed';
+        menu.style.zIndex = '9999';
+        menu.style.margin = '0';
+        menu.style.transform = 'none';
+        menu.style.display = 'block';
         menu.style.top = '-9999px';
         menu.style.left = '-9999px';
-        menu.style.transform = 'none';
-        menu.style.marginTop = '0'; // Cancel CSS margin-top
 
         requestAnimationFrame(() => {
             const rect = triggerBtn.getBoundingClientRect();
             const menuWidth = menu.offsetWidth || 180;
 
-            // Always place below the button; clamp to stay within viewport
-            // The CSS max-height (70vh) ensures the menu scrolls if too tall
+            // Anchor exactly below the button with a small gap
             let top = rect.bottom + 8;
-            const maxTop = window.innerHeight - 60; // Leave at least 60px visible
+            
+            // Safety Clamp: Don't let it start below the screen
+            const maxTop = window.innerHeight - 60;
             top = Math.min(top, maxTop);
 
+            // Centering logic with viewport clamping
             let left = rect.left + rect.width / 2 - menuWidth / 2;
-            left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+            const horizontalPadding = 12;
+            left = Math.max(horizontalPadding, Math.min(left, window.innerWidth - menuWidth - horizontalPadding));
 
             menu.style.top = top + 'px';
             menu.style.left = left + 'px';
+            menu.style.display = 'flex'; // Ensure flex layout
         });
     }
 
