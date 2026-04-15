@@ -50,6 +50,7 @@ class SongDetailModal {
         this.youtubeUrlSaveBtn = document.getElementById('youtubeUrlSaveBtn');
         this.youtubeUrlCancelBtn = document.getElementById('youtubeUrlCancelBtn');
         this.youtubeUrlModalClose = document.getElementById('youtubeUrlModalClose');
+        this.youtubeSearchBtn = document.getElementById('youtubeSearchBtn');
         this.patchDetailsInput = document.getElementById('patchDetailsInput');
         this.practiceCountInput = document.getElementById('practiceCountInput');
         this.lyricOffsetInput = document.getElementById('lyricOffsetInput');
@@ -1377,6 +1378,17 @@ class SongDetailModal {
     setupRemainingEventListeners() {
         // Setup YouTube URL modal
         if (this.youtubeUrlModal) {
+            if (this.youtubeSearchBtn) {
+                this.youtubeSearchBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.searchYouTubeForCurrentSong();
+                });
+            }
+            if (this.youtubeUrlInput) {
+                this.youtubeUrlInput.addEventListener('input', () => {
+                    this.updateYouTubeSearchBtnVisibility();
+                });
+            }
             if (this.youtubeUrlModalClose) {
                 this.youtubeUrlModalClose.addEventListener('click', () => {
                     this.closeYouTubeUrlModal();
@@ -3732,6 +3744,7 @@ class SongDetailModal {
         // Set current values in inputs
         if (this.youtubeUrlInput) {
             this.youtubeUrlInput.value = song.youtubeUrl || '';
+            this.updateYouTubeSearchBtnVisibility();
         }
 
         if (this.patchDetailsInput) {
@@ -3806,6 +3819,30 @@ class SongDetailModal {
         }
         // NOTE: We do NOT clear youtubeUrlInput, patchDetailsInput, etc.
         // as they should reflect the current song's state in the UI.
+    }
+
+    updateYouTubeSearchBtnVisibility() {
+        if (!this.youtubeSearchBtn || !this.youtubeUrlInput) return;
+        const hasContent = this.youtubeUrlInput.value.trim() !== '';
+        if (hasContent) {
+            this.youtubeSearchBtn.classList.add('hidden');
+        } else {
+            this.youtubeSearchBtn.classList.remove('hidden');
+        }
+    }
+
+    searchYouTubeForCurrentSong() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const artist = song.artist || '';
+        const title = song.title || '';
+        // Create optimized search query: Artist - Title
+        const query = encodeURIComponent(`${artist} - ${title}`).replace(/%20/g, '+');
+        const searchUrl = `https://www.youtube.com/results?search_query=${query}`;
+
+        window.open(searchUrl, '_blank');
     }
 
     async saveYouTubeUrl() {

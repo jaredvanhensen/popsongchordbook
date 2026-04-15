@@ -11260,3 +11260,25 @@ body.is-mobile-view .chord-trainer-btn {
         display: none !important;
     }
 }
+
+.youtube-search-link {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    text-decoration: underline;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 5px;
+    font-family: inherit;
+    transition: color 0.2s ease;
+}
+
+.youtube-search-link:hover {
+    color: var(--accent-color);
+}
+
+.youtube-search-link.hidden {
+    display: none !important;
+}
