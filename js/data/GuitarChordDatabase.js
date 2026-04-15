@@ -212,17 +212,17 @@ const GuitarChordDatabase = {
     },
     
     // Power Chords (5 chords)
-    "C5": { frets: ["x", 3, 5, 5, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
+    "C5": { baseFret: 3, frets: ["x", 3, 5, 5, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "C#5": { baseFret: 4, frets: ["x", 4, 6, 6, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "Db5": { baseFret: 4, frets: ["x", 4, 6, 6, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
-    "D5": { frets: ["x", 5, 7, 7, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
+    "D5": { baseFret: 5, frets: ["x", 5, 7, 7, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "D#5": { baseFret: 6, frets: ["x", 6, 8, 8, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "Eb5": { baseFret: 6, frets: ["x", 6, 8, 8, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "E5": { frets: [0, 2, 2, "x", "x", "x"], fingers: [0, 1, 3, 0, 0, 0] }, // Common E Power Chord
     "F5": { frets: [1, 3, 3, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
     "F#5": { baseFret: 2, frets: [2, 4, 4, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
     "Gb5": { baseFret: 2, frets: [2, 4, 4, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
-    "G5": { frets: [3, 5, 5, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
+    "G5": { baseFret: 3, frets: [3, 5, 5, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
     "G#5": { baseFret: 4, frets: [4, 6, 6, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
     "Ab5": { baseFret: 4, frets: [4, 6, 6, "x", "x", "x"], fingers: [1, 3, 4, 0, 0, 0] },
     "A5": { frets: ["x", 0, 2, 2, "x", "x"], fingers: [0, 0, 1, 2, 0, 0] },
