@@ -58,6 +58,10 @@ const GuitarChordDatabase = {
         barre: { fret: 1, fromString: 1, toString: 6 },
         fingers: [1, 3, 4, 1, 1, 1]
     },
+    "Fmaj7": {
+        frets: ["x", "x", 3, 2, 1, 0],
+        fingers: [0, 0, 3, 2, 1, 0]
+    },
     "G": {
         frets: [3, 2, 0, 0, 0, 3],
         fingers: [2, 1, 0, 0, 0, 3]
