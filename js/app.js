@@ -1,4 +1,4 @@
-// Main Application (v2.624)
+﻿// Main Application (v2.624)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -3188,6 +3188,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
