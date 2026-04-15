@@ -4,12 +4,12 @@
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",
-    "background_color": "#f5f7fa",
-    "theme_color": "#f5f7fa",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
     "orientation": "any",
     "icons": [
         {
-            "src": "images/premium_guitar.png",
+            "src": "images/pwa_icon_512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
