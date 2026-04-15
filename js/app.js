@@ -668,7 +668,7 @@ class App {
             overlay.id = 'initial-loading-overlay';
             overlay.innerHTML = `
                 <div class="loading-content">
-                    <div class="loading-logo">🎸</div>
+                    <div class="loading-logo">&#127928;</div>
                     <h3>PopSongChordBook</h3>
                     <div class="loading-bar-container">
                         <div class="loading-bar-fill"></div>
@@ -692,6 +692,7 @@ class App {
         }
     }
 
+    async loadDataFromFirebase(forceFresh = false) {
         // Show loading indicator (marked as initial load if first time)
         this.showLoadingIndicator(forceFresh);
 
