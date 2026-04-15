@@ -720,10 +720,10 @@ class App {
             console.error('Error loading data:', error);
             alert('Fout bij laden van gegevens: ' + (error.message || error));
         } finally {
-            // If it was an initial load (overlay), ensure it stays for at least 2 seconds
+            // If it was an initial load (overlay), ensure it stays for at least 3 seconds
             if (forceFresh) {
                 const elapsed = Date.now() - startTime;
-                const remaining = 2000 - elapsed;
+                const remaining = 3000 - elapsed;
                 if (remaining > 0) {
                     await new Promise(resolve => setTimeout(resolve, remaining));
                 }
