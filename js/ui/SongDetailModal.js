@@ -1844,7 +1844,10 @@ class SongDetailModal {
                                 cleanP = this.chordParser.transpose(cleanP, -this.capoValue);
                             }
                             if (this.instrumentMode === 'guitar') {
-                                cleanP = cleanP.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
+                                cleanP = cleanP.split('/').map(part => {
+                                    if (part.toLowerCase().includes('sus')) return part;
+                                    return part.replace(/([23])$/, '');
+                                }).join('/');
                             } else if (this.instrumentMode === 'ukulele') {
                                 cleanP = cleanP.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                             }

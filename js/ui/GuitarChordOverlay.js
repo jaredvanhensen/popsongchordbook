@@ -194,8 +194,11 @@ class GuitarChordOverlay {
     }
 
     simplifyChord(chordName) {
-        // Strip 2/3 at end of each part but ONLY if it's a pure note (e.g., D2 -> D, but Dsus2 stays Dsus2)
-        return chordName.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
+        // Strip 2/3 at end of each part but ONLY if it's not a sus chord (e.g., D2 -> D, but Dsus2 stays Dsus2)
+        return chordName.split('/').map(part => {
+            if (part.toLowerCase().includes('sus')) return part;
+            return part.replace(/([23])$/, '');
+        }).join('/');
     }
 
     createChordCard(chordName) {
