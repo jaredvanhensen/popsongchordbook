@@ -11246,3 +11246,17 @@ body.is-mobile-view .chord-trainer-btn {
     }
 }
 
+
+/* Mobile/Desktop Visibility Utilities */
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 1080px) {
+    .mobile-only {
+        display: inline-flex !important;
+    }
+    .desktop-only {
+        display: none !important;
+    }
+}

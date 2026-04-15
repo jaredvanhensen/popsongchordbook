@@ -235,6 +235,7 @@ class App {
         this.setupDeselect();
         this.setupHeaderBarToggle();
         this.setupToggleView();
+        this.setupSortByDate();
 
         this.setupResponsiveView();
         this.setupCreateSongModal();
@@ -2948,6 +2949,30 @@ class App {
                 this.loadAndRender();
             });
             this.updateViewMode();
+        }
+    }
+
+    setupSortByDate() {
+        const sortBtn = document.getElementById('sortByDateBtn');
+        if (sortBtn) {
+            sortBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Toggle between newest first and oldest first if already sorting by date
+                let newDirection = 'desc';
+                if (this.sorter.currentSort.column === 'dateAdded') {
+                    newDirection = this.sorter.currentSort.direction === 'desc' ? 'asc' : 'desc';
+                }
+                
+                this.sorter.currentSort = { 
+                    column: 'dateAdded', 
+                    direction: newDirection 
+                };
+                
+                console.log(`Sorting by Date Added (${newDirection})`);
+                this.loadAndRender();
+            });
         }
     }
 
