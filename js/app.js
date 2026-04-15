@@ -693,6 +693,7 @@ class App {
     }
 
     async loadDataFromFirebase(forceFresh = false) {
+        const startTime = Date.now();
         // Show loading indicator (marked as initial load if first time)
         this.showLoadingIndicator(forceFresh);
 
@@ -719,6 +720,14 @@ class App {
             console.error('Error loading data:', error);
             alert('Fout bij laden van gegevens: ' + (error.message || error));
         } finally {
+            // If it was an initial load (overlay), ensure it stays for at least 2 seconds
+            if (forceFresh) {
+                const elapsed = Date.now() - startTime;
+                const remaining = 2000 - elapsed;
+                if (remaining > 0) {
+                    await new Promise(resolve => setTimeout(resolve, remaining));
+                }
+            }
             // Hide loading indicator
             this.hideLoadingIndicator();
         }
