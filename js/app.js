@@ -649,22 +649,51 @@ class App {
         };
     }
 
-    showLoadingIndicator() {
-        // Simple console log for now, or implement UI spinner if needed
-        console.log("Loading...");
+    showLoadingIndicator(isInitial = false) {
+        if (isInitial) {
+            this.showInitialLoadingOverlay();
+        }
         document.body.style.cursor = 'wait';
     }
 
     hideLoadingIndicator() {
-        console.log("Loading complete.");
+        this.hideInitialLoadingOverlay();
         document.body.style.cursor = 'default';
     }
 
-    async loadDataFromFirebase(forceFresh = false) {
-        console.log('Loading data...');
+    showInitialLoadingOverlay() {
+        let overlay = document.getElementById('initial-loading-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'initial-loading-overlay';
+            overlay.innerHTML = `
+                <div class="loading-content">
+                    <div class="loading-logo">🎸</div>
+                    <h3>PopSongChordBook</h3>
+                    <div class="loading-bar-container">
+                        <div class="loading-bar-fill"></div>
+                    </div>
+                    <p>Loading your songs...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        overlay.classList.remove('hidden');
+    }
 
-        // Show loading indicator
-        this.showLoadingIndicator();
+    hideInitialLoadingOverlay() {
+        const overlay = document.getElementById('initial-loading-overlay');
+        if (overlay) {
+            overlay.classList.add('transition-out');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('transition-out');
+            }, 500);
+        }
+    }
+
+        // Show loading indicator (marked as initial load if first time)
+        this.showLoadingIndicator(forceFresh);
 
         try {
             // Load songs and setlists in parallel
@@ -699,7 +728,14 @@ class App {
         try {
             let allSongs = this.songManager.getAllSongs();
             
-            // 1. Check if 'DEMO' Setlist exists
+            // 1. If library is TOTALLY empty, load default songs from JSON
+            if (allSongs.length === 0) {
+                console.log("Library is empty. Loading default songs database...");
+                await this.addExampleSongIfEmpty();
+                allSongs = this.songManager.getAllSongs(); // Refresh list after adding
+            }
+
+            // 2. Check if 'DEMO' Setlist exists
             const allSetlists = this.setlistManager.getAllSetlists();
             const demoExists = allSetlists.some(sl => sl.name === "DEMO");
 
@@ -708,7 +744,6 @@ class App {
                 const demoSetlist = await this.setlistManager.createSetlist("DEMO");
 
                 // 3. Add all song IDs to the setlist
-                // We add ALL currently loaded songs (which should be the defaults or imported ones)
                 const songIds = allSongs.map(s => s.id);
                 await this.setlistManager.addSongsToSetlist(demoSetlist.id, songIds);
                 console.log("Created DEMO setlist with", songIds.length, "songs.");
