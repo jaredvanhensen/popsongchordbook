@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Chord Theory & Tips - PopSongChordBook</title>
+    <meta name="description" content="Learn the fundamentals of chord construction, inversions, and professional piano techniques.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --header-bg: #4f46e5;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-color: #fbbf24;
+            --success-color: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        /* Header Styling */
+        .glass-header {
+            background: var(--primary-gradient);
+            padding: 20px 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Theory Sections */
+        .theory-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .theory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4f46e5;
+        }
+
+        .section-title .icon {
+            font-size: 2rem;
+        }
+
+        /* Piano Key Styling */
+        .piano-diagram {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            overflow-x: auto;
+        }
+
+        .keyboard-octave {
+            display: flex;
+            position: relative;
+            background: #000;
+            border: 2px solid #000;
+            border-radius: 4px;
+        }
+
+        .white-key {
+            width: 40px;
+            height: 140px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 0 0 4px 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .white-key.active {
+            background: var(--accent-color);
+            border-color: #d1a51f;
+        }
+
+        .black-key {
+            width: 24px;
+            height: 90px;
+            background: #333;
+            border-radius: 0 0 3px 3px;
+            position: absolute;
+            z-index: 2;
+            left: 28px;
+        }
+
+        .black-key.active {
+            background: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        /* Fingering Tags */
+        .fingering-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .finger-card {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .finger-card span {
+            display: block;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #4f46e5;
+        }
+
+        /* Pro Tip Highlight */
+        .pro-tip {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 6px solid #fbbf24;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .pro-tip h4 {
+            color: #92400e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pro-tip p {
+            color: #b45309;
+            font-weight: 600;
+        }
+
+        /* Chord Grid */
+        .chord-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .chord-box {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chord-box:hover {
+            border-color: #4f46e5;
+            background: #f5f3ff;
+            transform: scale(1.05);
+        }
+
+        .chord-name {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: block;
+        }
+
+        .chord-notes {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        /* Inversion Visualizer */
+        .inversion-stack {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .inversion-item {
+            flex: 1;
+            min-width: 250px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Left Hand Illustration */
+        .hand-example {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .hand-text {
+            flex: 1;
+        }
+
+        .hand-visual {
+            background: #e2e8f0;
+            width: 300px;
+            height: 200px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.2rem; }
+            .glass-header { padding: 15px 20px; }
+            .theory-card { padding: 25px; }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass-header">
+        <div class="header-content">
+            <a href="ChordTrainer.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Trainer
+            </a>
+            <h3 style="margin: 0; letter-spacing: 0.5px;">CHORD THEORY</h3>
+        </div>
+        <div style="font-weight: 800; opacity: 0.8; font-size: 0.8rem;">PopSongChordBook</div>
+    </header>
+
+    <div class="container">
+        
+        <section class="hero-section">
+            <h1>Chord Theory & Tips</h1>
+            <p>Master the building blocks of music. From basic major chords to professional two-hand techniques.</p>
+        </section>
+
+        <!-- What is a Chord -->
+        <article class="theory-card">
+            <h2 class="section-title"><span class="icon">💡</span> What is a Chord?</h2>
+            <p>At its simplest, a <strong>chord</strong> is a group of notes played together at the same time. While you can play any combination of notes, the most common chords in pop music are <strong>Triads</strong>—which consist of three specific notes.</p>
+            
+            <div class="pro-tip">
+                <h4><span class="icon">✨</span> The Magic Formula</h4>
+                <p>Most chords are built by taking a Root note, skipping a note, taking the next, skipping another, and taking the third. This is called playing in thirds!</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <img src="piano_hand_chord_illustration_1776318218987.png" alt="Hand Fingering" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            </div>
+        </article>
+
+        <!-- Building Basic Chords -->
+        <article class="theory-card">
+            <h2 class="section-title"><span class="icon">🎹</span> Building Major & Minor Chords</h2>
+            <p>The difference between a "happy" Major chord and a "sad" Minor chord is just <strong>one half-step</strong> on the middle note.</p>
+
+            <div class="chord-grid">
+                <div class="chord-box">
+                    <span class="chord-name">C</span>
+                    <span class="chord-notes">C - E - G</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Cm</span>
+                    <span class="chord-notes">C - Eb - G</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">D</span>
+                    <span class="chord-notes">D - F# - A</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Dm</span>
+                    <span class="chord-notes">D - F - A</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">E</span>
+                    <span class="chord-notes">E - G# - B</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Em</span>
+                    <span class="chord-notes">E - G - B</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">F</span>
+                    <span class="chord-notes">F - A - C</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Fm</span>
+                    <span class="chord-notes">F - Ab - C</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">G</span>
+                    <span class="chord-notes">G - B - D</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Gm</span>
+                    <span class="chord-notes">G - Bb - D</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">A</span>
+                    <span class="chord-notes">A - C# - E</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Am</span>
+                    <span class="chord-notes">A - C - E</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Sharps (#) and Flats (b)</h3>
+            <p>Don't be afraid of the black keys! A <strong>C# (C Sharp)</strong> is just the key directly to the right of C. An <strong>Eb (E Flat)</strong> is the key directly to the left of E. They are the same black keys, just named based on which white key you're referencing.</p>
+            
+            <div class="piano-diagram">
+                <div class="keyboard-octave">
+                    <div class="white-key"></div>
+                    <div class="black-key active" style="left: 28px;"></div> <!-- C# -->
+                    <div class="white-key"></div>
+                    <div class="black-key" style="left: 68px;"></div>
+                    <div class="white-key"></div>
+                    <div class="white-key"></div>
+                    <div class="black-key active" style="left: 148px;"></div> <!-- Eb is actually D# -->
+                    <!-- Correcting the absolute positioning for a 2nd octave feel -->
+                </div>
+                <div style="color: white; margin-left: 20px; align-self: center;">
+                    <strong>Example: C# Major</strong><br>
+                    Notes: C# - F - G#
+                </div>
+            </div>
+        </article>
+
+        <!-- Inversions -->
+        <article class="theory-card">
+            <h2 class="section-title"><span class="icon">🔄</span> Chord Inversions</h2>
+            <p>You don't always have to play the Root note at the bottom. Shuffling the notes makes transitions smoother and sounds more professional.</p>
+            
+            <div class="inversion-stack">
+                <div class="inversion-item">
+                    <h4 style="color: #4f46e5;">Root Position (C)</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: C - E - G</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">The standard "home" shape.</div>
+                </div>
+                <div class="inversion-item">
+                    <h4 style="color: #7c3aed;">1st Inversion</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: E - G - C</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">Move the C to the top. Great for connecting to F chords!</div>
+                </div>
+                <div class="inversion-item">
+                    <h4 style="color: #ec4899;">2nd Inversion</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: G - C - E</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">Move the E to the top. Sounds very powerful and stable.</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Playing with 2 Hands -->
+        <article class="theory-card" style="background: linear-gradient(to right, #ffffff, #f5f3ff);">
+            <h2 class="section-title"><span class="icon">🙌</span> Playing with Two Hands</h2>
+            
+            <div class="hand-example">
+                <div class="hand-text">
+                    <p>This is where the magic happens. To make your music sound <strong>rich, professional, and deep</strong>, you must use your left hand effectively.</p>
+                    
+                    <div class="pro-tip" style="background: #eff6ff; border-left-color: #3b82f6;">
+                        <h4 style="color: #1e40af;"><span class="icon">⭐</span> The Gold Rule of Bass</h4>
+                        <p style="color: #1e40af; font-size: 1.1rem;">Your Left Hand should ALWAYS play the Root Note (the BASS note) of the chord.</p>
+                    </div>
+
+                    <p>If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
+                </div>
+                <div class="hand-visual" style="overflow: hidden;">
+                    <img src="piano_two_hands_technique_1776318235440.png" alt="Two Hand Technique" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+            <div class="fingering-guide">
+                <div class="finger-card">
+                    <span>Left Hand</span>
+                    Plays Root Note (Low Bass)
+                </div>
+                <div class="finger-card">
+                    <span>Right Hand</span>
+                    Plays the Triad or Inversion
+                </div>
+            </div>
+        </article>
+
+        <section style="text-align: center; margin-top: 60px;">
+            <a href="ChordTrainer.html" class="back-btn" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
+                Got it! Let's Practice Chords 🎹
+            </a>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 PopSongChordBook • Excellence in Music Education</p>
+    </footer>
+
+</body>
+</html>
