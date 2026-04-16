@@ -117,7 +117,7 @@
         }
 
         .theory-card:hover {
-            transform: translateY(-5px);
+            transform: none;
         }
 
         .section-title {
@@ -133,6 +133,13 @@
             font-size: 2rem;
         }
 
+        .middle-note-minor {
+            color: #4f46e5;
+            font-weight: 800;
+            padding: 0 4px;
+            text-decoration: underline;
+        }
+
         /* Piano Key Styling */
         .piano-diagram {
             display: flex;
@@ -142,6 +149,141 @@
             padding: 20px;
             border-radius: 16px;
             overflow-x: auto;
+        }
+
+        /* Fingering Shapes Guide */
+        .fingering-shapes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 600px) {
+            .fingering-shapes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .shape-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 380px;
+            max-width: 400px;
+        }
+
+        .shape-card:hover {
+            border-color: #cbd5e1;
+            background: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+
+        .shape-badge {
+            background: #4f46e5;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+
+        .shape-card h4 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+
+        .shape-card .chord-list {
+            font-weight: 900;
+            color: #4f46e5;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .shape-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .shape-card.outlier {
+            border-style: dashed;
+            background: #fffafa;
+        }
+
+        /* Cheat Sheet Styles */
+        .cheat-sheet-section {
+            background: #fff;
+            padding: 40px;
+            border-radius: 28px;
+            margin-top: 50px;
+            border: 2px solid #f1f5f9;
+        }
+
+        .cheat-sheet-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .cheat-group {
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 25px;
+        }
+
+        .cheat-group:last-child { border-bottom: none; }
+
+        .cheat-group-header {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chord-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .chord-item {
+            text-align: center;
+        }
+
+        .chord-item-name {
+            display: block;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .mini-keyboard {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        @media (max-width: 600px) {
+            .chord-items { grid-template-columns: 1fr 1fr; }
         }
 
         .keyboard-octave {
@@ -343,7 +485,10 @@
                 </svg>
                 Back to Trainer
             </a>
-            <h3 style="margin: 0; letter-spacing: 0.5px;">🧠 CHORD THEORY</h3>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">📖</span>
+                <h3 style="margin: 0; letter-spacing: 0.5px;">CHORD THEORY</h3>
+            </div>
         </div>
         <div style="font-weight: 800; opacity: 0.8; font-size: 0.8rem;">PopSongChordBook</div>
     </header>
@@ -351,7 +496,10 @@
     <div class="container">
         
         <section class="hero-section">
-            <h1>🧠 Chord Theory & Tips</h1>
+            <div style="margin-bottom: 20px; font-size: 4rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
+                📖
+            </div>
+            <h1>Chord Theory & Tips</h1>
             <p>Master the building blocks of music. From basic major chords to professional two-hand techniques.</p>
         </section>
 
@@ -366,7 +514,172 @@
             </div>
 
             <div style="text-align: center; margin-top: 20px;">
-                <img src="piano_hand_chord_illustration_1776318218987.png" alt="Hand Fingering" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                <img src="corrected_hand_numbering.png" alt="Finger numbering for the right hand" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                <p style="margin-top: 15px; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif;">Finger numbering for the right hand</p>
+            </div>
+
+            <div class="pro-tip" style="margin-top: 30px; border-left-color: #f59e0b; background: #fffbeb;">
+                <h4><span class="icon">🎹</span> The "Shape" Secret</h4>
+                <p>Did you know? On the piano, many chords share the exact same physical "shape." If you learn the hand position for one, you've learned them all for that group!</p>
+            </div>
+
+                <div class="fingering-shapes-grid">
+                    <!-- Group 1 -->
+                    <div class="shape-card">
+                        <div>
+                            <div class="shape-badge">The "All White" Shape</div>
+                            <span class="chord-list">C • Dm • Em • F • G • Am</span>
+                            <p class="shape-desc">All three notes are played on <strong>White Keys</strong>. Hand sits flat.</p>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
+                             <svg viewBox="0 -10 280 140" width="100%">
+                                <!-- White Keys (12 keys) -->
+                                <rect x="0" y="0" width="22" height="100" rx="3" fill="#10b981" stroke="#ccc"/> <!-- C -->
+                                <rect x="23" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="46" y="0" width="22" height="100" rx="3" fill="#10b981" stroke="#ccc"/> <!-- E -->
+                                <rect x="69" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="92" y="0" width="22" height="100" rx="3" fill="#10b981" stroke="#ccc"/> <!-- G -->
+                                <rect x="115" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="138" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="161" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="184" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="207" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="230" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="253" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <!-- Black Keys -->
+                                <rect x="16" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="39" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="85" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="108" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="131" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="177" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="200" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="246" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <!-- Labels for C -->
+                                <text x="11" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#10b981">1</text>
+                                <text x="57" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#10b981">3</text>
+                                <text x="103" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#10b981">5</text>
+                             </svg>
+                        </div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: C Major</div>                    <!-- Group 2 -->
+                    <div class="shape-card">
+                        <div>
+                            <div class="shape-badge">The "Valley" Shape</div>
+                            <span class="chord-list">C# • D# • G#</span>
+                            <p class="shape-desc"><strong>Black - White - Black</strong> pattern. Your middle finger dips down into the valley.</p>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
+                             <svg viewBox="0 -10 280 140" width="100%">
+                                <!-- White Keys -->
+                                <rect x="0" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="23" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="46" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="69" y="0" width="22" height="100" rx="3" fill="#4f46e5" stroke="#ccc"/> <!-- F (Mid of C#) -->
+                                <rect x="92" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="115" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="138" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="161" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="184" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="207" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="230" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="253" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <!-- Black Keys -->
+                                <rect x="16" y="0" width="13" height="60" rx="2" fill="#4f46e5"/> <!-- C# -->
+                                <rect x="39" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="85" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="108" y="0" width="13" height="60" rx="2" fill="#4f46e5"/> <!-- G# -->
+                                <rect x="131" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="177" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="200" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="246" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <!-- Labels for C# -->
+                                <text x="22" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">1</text>
+                                <text x="80" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#4f46e5">3</text>
+                                <text x="115" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">5</text>
+                             </svg>
+                        </div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: C# Major</div>
+                    </div>
+
+                    <!-- Group 3 -->
+                    <div class="shape-card">
+                        <div>
+                            <div class="shape-badge">The "Mountain" Shape</div>
+                            <span class="chord-list">A • D • E • Cm • Fm • Gm</span>
+                            <p class="shape-desc"><strong>White - Black - White</strong> pattern. Your middle finger reaches up to the mountain peak.</p>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
+                             <svg viewBox="0 -10 280 140" width="100%">
+                                <!-- White Keys -->
+                                <rect x="0" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/> <!-- C -->
+                                <rect x="23" y="0" width="22" height="100" rx="3" fill="#10b981" stroke="#ccc"/> <!-- D -->
+                                <rect x="46" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/> <!-- E -->
+                                <rect x="69" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/> <!-- F -->
+                                <rect x="92" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/> <!-- G -->
+                                <rect x="115" y="0" width="22" height="100" rx="3" fill="#10b981" stroke="#ccc"/> <!-- A -->
+                                <rect x="138" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/> <!-- B -->
+                                <rect x="161" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="184" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="207" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="230" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <rect x="253" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                                <!-- Black Keys -->
+                                <rect x="16" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="39" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="85" y="0" width="13" height="60" rx="2" fill="#10b981"/> <!-- F# -->
+                                <rect x="108" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="131" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="177" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="200" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <rect x="246" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                                <!-- Labels for D Major -->
+                                <text x="34" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#10b981">1</text>
+                                <text x="91" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">3</text>
+                                <text x="126" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#10b981">5</text>
+                             </svg>
+                        </div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: D Major</div>
+                    </div>
+
+                <!-- Group 4 -->
+                <div class="shape-card outlier">
+                    <div class="shape-badge" style="background: #4f46e5;">Special "Outliers"</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 12px;">
+                        <strong>B:</strong> W-B-B • <strong>Bm:</strong> W-W-B • <strong>A#:</strong> B-W-W
+                    </div>
+                    
+                    <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
+                         <svg viewBox="0 -10 280 140" width="100%">
+                            <!-- White Keys (12 keys) -->
+                            <rect x="0" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="23" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="46" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="69" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="92" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="115" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="138" y="0" width="22" height="100" rx="3" fill="#4f46e5" stroke="#ccc"/> <!-- B (Root) -->
+                            <rect x="161" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="184" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="207" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="230" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <rect x="253" y="0" width="22" height="100" rx="3" fill="white" stroke="#ccc"/>
+                            <!-- Black Keys -->
+                            <rect x="16" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <rect x="39" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <rect x="85" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <rect x="108" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <rect x="131" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <rect x="154" y="0" width="13" height="60" rx="2" fill="#4f46e5"/> <!-- D# of next -->
+                            <rect x="200" y="0" width="13" height="60" rx="2" fill="#4f46e5"/> <!-- F# of next -->
+                            <rect x="223" y="0" width="13" height="60" rx="2" fill="#1e293b"/>
+                            <!-- Labels for B Major -->
+                            <text x="149" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#4f46e5">1</text>
+                            <text x="160" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">3</text>
+                            <text x="206" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">5</text>
+                         </svg>
+                    </div>
+                    <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: B Major</div>
+                </div>
             </div>
         </article>
 
@@ -374,6 +687,11 @@
         <article class="theory-card">
             <h2 class="section-title"><span class="icon">🎹</span> Building Major & Minor Chords</h2>
             <p>The difference between a "happy" Major chord and a "sad" Minor chord is just <strong>one half-step</strong> on the middle note.</p>
+            
+            <div class="pro-tip" style="background: #f0fdf4; border-left-color: #22c55e; margin-bottom: 25px;">
+                <h4 style="color: #166534;"><span class="icon">🏷️</span> Chord Names:</h4>
+                <p style="color: #166534;">In the music world, <strong>"C Major"</strong> is usually just called <strong>"C"</strong>. If you see a chord name on its own (like G, F, or C), it's a Major chord. When it has that little <strong>"m"</strong> behind its name, it's called a minor Chord! <strong>Am</strong> would mean an A Minor chord.</p>
+            </div>
 
             <div class="chord-grid">
                 <div class="chord-box">
@@ -382,7 +700,7 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Cm</span>
-                    <span class="chord-notes">C - Eb - G</span>
+                    <span class="chord-notes">C - <span class="middle-note-minor">Eb</span> - G</span>
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">D</span>
@@ -390,7 +708,7 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Dm</span>
-                    <span class="chord-notes">D - F - A</span>
+                    <span class="chord-notes">D - <span class="middle-note-minor">F</span> - A</span>
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">E</span>
@@ -398,7 +716,7 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Em</span>
-                    <span class="chord-notes">E - G - B</span>
+                    <span class="chord-notes">E - <span class="middle-note-minor">G</span> - B</span>
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">F</span>
@@ -406,7 +724,7 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Fm</span>
-                    <span class="chord-notes">F - Ab - C</span>
+                    <span class="chord-notes">F - <span class="middle-note-minor">Ab</span> - C</span>
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">G</span>
@@ -414,7 +732,7 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Gm</span>
-                    <span class="chord-notes">G - Bb - D</span>
+                    <span class="chord-notes">G - <span class="middle-note-minor">Bb</span> - D</span>
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">A</span>
@@ -422,27 +740,307 @@
                 </div>
                 <div class="chord-box">
                     <span class="chord-name">Am</span>
-                    <span class="chord-notes">A - C - E</span>
+                    <span class="chord-notes">A - <span class="middle-note-minor">C</span> - E</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">B</span>
+                    <span class="chord-notes">B - D# - F#</span>
+                </div>
+                <div class="chord-box">
+                    <span class="chord-name">Bm</span>
+                    <span class="chord-notes">B - <span class="middle-note-minor">D</span> - F#</span>
                 </div>
             </div>
 
             <h3 style="margin-top: 40px;">Sharps (#) and Flats (b)</h3>
             <p>Don't be afraid of the black keys! A <strong>C# (C Sharp)</strong> is just the key directly to the right of C. An <strong>Eb (E Flat)</strong> is the key directly to the left of E. They are the same black keys, just named based on which white key you're referencing.</p>
             
-            <div class="piano-diagram">
-                <div class="keyboard-octave">
-                    <div class="white-key"></div>
-                    <div class="black-key active" style="left: 28px;"></div> <!-- C# -->
-                    <div class="white-key"></div>
-                    <div class="black-key" style="left: 68px;"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="black-key active" style="left: 148px;"></div> <!-- Eb is actually D# -->
-                    <!-- Correcting the absolute positioning for a 2nd octave feel -->
+            <!-- Start of Ultra-Premium Brand-Sync Illustration -->
+            <div class="super-illustration-container brand-vortex">
+                <div class="hero-labels">
+                    <div class="hero-title-box">C MAJOR</div>
+                    <div class="hero-title-box">C# MAJOR</div>
                 </div>
-                <div style="color: white; margin-left: 20px; align-self: center;">
-                    <strong>Example: C# Major</strong><br>
-                    Notes: C# - F - G#
+                
+                <div class="dual-keyboard-wrapper">
+                    <!-- Segment 1: C Major -->
+                    <div class="keyboard-segment brand-card-yellow">
+                        <svg viewBox="0 -40 180 200" class="premium-piano-svg">
+                            <defs>
+                                <linearGradient id="wk-trainer" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#f1f5f9"/>
+                                </linearGradient>
+                                <filter id="brand-green-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Clavier Border -->
+                            <rect x="9" y="4" width="162" height="112" rx="6" fill="transparent" stroke="#1e293b" stroke-width="2"/>
+                            
+                            <!-- White Keys -->
+                            <rect x="10" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" class="p-key active-green-trainer" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="33" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="56" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" class="p-key active-green-trainer" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="79" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="102" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" class="p-key active-green-trainer" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="125" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="148" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            
+                            <!-- Black Keys -->
+                            <rect x="26" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="49" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="95" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="118" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="141" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+
+                            <!-- Labels -->
+                            <g class="p-label green">
+                                <line x1="21" y1="115" x2="21" y2="135" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                                <text x="21" y="155" fill="#92400e">C</text>
+                                <line x1="67" y1="115" x2="67" y2="135" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                                <text x="67" y="155" fill="#92400e">E</text>
+                                <line x1="113" y1="115" x2="113" y2="135" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                                <text x="113" y="155" fill="#92400e">G</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="segment-divider-brand"></div>
+
+                    <!-- Segment 2: C# Major -->
+                    <div class="keyboard-segment brand-card-yellow">
+                        <svg viewBox="0 -40 180 200" class="premium-piano-svg">
+                            <defs>
+                                <filter id="brand-blue-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Clavier Border -->
+                            <rect x="9" y="4" width="162" height="112" rx="6" fill="transparent" stroke="#1e293b" stroke-width="2"/>
+                            
+                            <!-- White Keys -->
+                            <rect x="10" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="33" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="56" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="79" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5" class="active-blue-trainer"/> <!-- F -->
+                            <rect x="102" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="125" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            <rect x="148" y="5" width="22" height="110" rx="4" fill="url(#wk-trainer)" stroke="#cbd5e1" stroke-width="0.5"/>
+                            
+                            <!-- Black Keys -->
+                            <rect x="26" y="5" width="13" height="70" rx="2" fill="#4f46e5" filter="url(#brand-blue-glow)"/> <!-- C# -->
+                            <rect x="49" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="95" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+                            <rect x="118" y="5" width="13" height="70" rx="2" fill="#4f46e5" filter="url(#brand-blue-glow)"/> <!-- G# -->
+                            <rect x="141" y="5" width="13" height="70" rx="2" fill="#1e293b"/>
+
+                            <!-- Labels -->
+                            <g class="p-label blue">
+                                <line x1="32" y1="5" x2="32" y2="-15" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/>
+                                <text x="32" y="-23" fill="#6b21a8">C#</text>
+                                <line x1="90" y1="115" x2="90" y2="135" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/>
+                                <text x="90" y="153" fill="#6b21a8">F</text>
+                                <line x1="125" y1="5" x2="125" y2="-15" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/>
+                                <text x="125" y="-23" fill="#6b21a8">G#</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .super-illustration-container.brand-vortex {
+                    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+                    padding: 80px 30px;
+                    border-radius: 50px;
+                    margin: 60px 0;
+                    box-shadow: 
+                        0 30px 60px rgba(0,0,0,0.3),
+                        inset 0 0 100px rgba(255,255,255,0.1);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    border: none;
+                    position: relative;
+                }
+                .hero-labels {
+                    display: flex;
+                    width: 100%;
+                    max-width: 800px;
+                    justify-content: space-around;
+                    margin-bottom: 20px;
+                }
+                .hero-title-box {
+                    color: white;
+                    font-size: 1.8rem;
+                    font-weight: 900;
+                    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                    letter-spacing: 4px;
+                    font-family: 'Outfit', sans-serif;
+                    text-align: center;
+                    width: 320px; /* Match keyboard segment width */
+                }
+                
+                .dual-keyboard-wrapper {
+                    display: flex;
+                    width: 100%;
+                    max-width: 1000px;
+                    align-items: stretch;
+                    justify-content: center;
+                    gap: 30px;
+                    flex-wrap: wrap;
+                }
+                .keyboard-segment.brand-card-yellow {
+                    flex: 1;
+                    min-width: 320px;
+                    max-width: 400px;
+                    aspect-ratio: 1 / 1;
+                    padding: 20px;
+                    background: #fef3c7;
+                    border-radius: 35px;
+                    border: 4px solid #f59e0b;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .segment-divider-brand {
+                    width: 3px;
+                    height: 100px;
+                    background: rgba(255,255,255,0.2);
+                    border-radius: 10px;
+                    align-self: center;
+                }
+                .premium-piano-svg {
+                    width: 100%;
+                    height: 100%;
+                    max-height: 250px;
+                }
+                .active-green-trainer {
+                    fill: #10b981 !important; 
+                    filter: url(#brand-green-glow);
+                }
+                .active-blue-trainer {
+                    fill: #4f46e5 !important;
+                    filter: url(#brand-blue-glow);
+                }
+                .p-label text {
+                    font-size: 16px;
+                    font-weight: 900;
+                    text-anchor: middle;
+                    font-family: 'Outfit', sans-serif;
+                }
+                
+                @media (max-width: 768px) {
+                    .super-illustration-container.brand-vortex { padding: 40px 15px; }
+                    .hero-labels { display: none; }
+                    .segment-divider-brand { display: none; }
+                    .keyboard-segment.brand-card-yellow { width: 100%; min-width: 280px; }
+                }
+            </style>
+            <!-- End of Ultra-Premium Brand-Sync Illustration -->
+            <p style="text-align: center; margin-top: -20px; margin-bottom: 40px; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif; font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                <span style="color: var(--primary-color);">💡 The Half-Step Principle:</span> Notice how every single key shifts exactly one position to the right when moving from C Major to C# Major.
+            </p>
+
+            <!-- Major Chords Cheat Sheet Re-creation -->
+            <div class="cheat-sheet-section">
+                <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; margin-bottom: 10px; text-decoration: underline;">Major Chords</h2>
+                <div style="text-align: center; margin-bottom: 40px; color: #64748b; font-weight: 500;">Physical Finger Patterns Cheat Sheet</div>
+
+                <div class="cheat-sheet-grid">
+                    <!-- Row 1: WWW -->
+                    <div class="cheat-group">
+                        <div class="cheat-group-header">White - White - White</div>
+                        <div class="chord-items">
+                            <div class="chord-item">
+                                <span class="chord-item-name">C Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#334155" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">F Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="84" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#334155" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">G Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="97" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: WBW -->
+                    <div class="cheat-group">
+                        <div class="cheat-group-header">White - Black - White</div>
+                        <div class="chord-items">
+                            <div class="chord-item">
+                                <span class="chord-item-name">D Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#334155" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">E Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="36" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">A Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="98" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: BWB -->
+                    <div class="cheat-group">
+                        <div class="cheat-group-header">Black - White - Black</div>
+                        <div class="chord-items">
+                            <div class="chord-item">
+                                <span class="chord-item-name">C# Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#334155" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">Eb Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">Ab Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="91" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Other -->
+                    <div class="cheat-group">
+                        <div class="cheat-group-header">The Specials (Mix)</div>
+                        <div class="chord-items">
+                            <div class="chord-item">
+                                <span class="chord-item-name">F# Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="52" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">B Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="65" y="0" width="8" height="30" fill="#10b981" rx="1"/><rect x="78" y="0" width="8" height="30" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                            <div class="chord-item">
+                                <span class="chord-item-name">Bb Major</span>
+                                <div class="mini-keyboard"><svg viewBox="0 0 100 60"><rect width="100" height="60" fill="transparent"/><rect x="0" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="14" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="28" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="42" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="56" y="0" width="13" height="50" fill="#10b981" rx="2"/><rect x="70" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="84" y="0" width="13" height="50" fill="white" stroke="#ccc" rx="2"/><rect x="10" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="23" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="52" y="0" width="8" height="30" fill="#334155" rx="1"/><rect x="78" y="0" width="8" height="15" fill="#10b981" rx="1"/><rect x="78" y="15" width="8" height="15" fill="#10b981" rx="1"/></svg></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Minor Chords Section -->
+                <div style="margin-top: 60px; border-top: 3px solid #f1f5f9; padding-top: 40px;">
+                    <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; color: #db2777;"><span class="icon">🎹</span> Minor Chords</h2>
+                    <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: #475569; font-size: 1.1rem; text-align: center;">
+                        <p>To turn any Major chord into a <strong>Minor chord</strong>, simply move the middle note (it's called the "third") exactly <strong>one key to the left</strong>. This "lowering of the third" instantly transforms a bright, happy sound into a moody, sad tone.</p>
+                        <div class="pro-tip" style="background: #fdf2f8; border-left-color: #db2777; margin-top: 20px; text-align: left;">
+                            <h4 style="color: #9d174d;"><span class="icon">💡</span> Pro Tip: Just One Step</h4>
+                            <p style="color: #9d174d;">Even if the middle note is a black key (like in D Major), you still just move it one step left (to the white key). The pattern is always the same!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
@@ -470,8 +1068,7 @@
                 </div>
             </div>
         </article>
-
-        <!-- Playing with 2 Hands -->
+        
         <article class="theory-card" style="background: linear-gradient(to right, #ffffff, #f5f3ff);">
             <h2 class="section-title"><span class="icon">🙌</span> Playing with Two Hands</h2>
             
@@ -505,15 +1102,16 @@
 
         <section style="text-align: center; margin-top: 60px;">
             <a href="ChordTrainer.html" class="back-btn" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
-                Got it! Let's Practice Chords 🎹
+                Got it! Let's Practice Chords 📖
             </a>
         </section>
 
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 PopSongChordBook • Excellence in Music Education</p>
+        <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
     </footer>
 
 </body>
 </html>
+
