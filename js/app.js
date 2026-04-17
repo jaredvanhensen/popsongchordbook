@@ -1,4 +1,4 @@
-﻿// Main Application (v2.655)
+﻿// Main Application (v2.662)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.655");
+        console.log("Pop Song Chord Book - 2.662");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -244,8 +244,12 @@ class App {
         // Setup real-time sync
         this.setupRealtimeSync();
 
-        // Load data from Firebase - force fresh after login
-        await this.loadDataFromFirebase(true);
+        // Load data from Firebase - only force fresh (with splash screen delay) once per session
+        const hasShownSplash = sessionStorage.getItem('popsong_splash_shown');
+        await this.loadDataFromFirebase(!hasShownSplash);
+        if (!hasShownSplash) {
+            sessionStorage.setItem('popsong_splash_shown', 'true');
+        }
 
         // Initialize pending songs count
         const userId = this.firebaseManager.getCurrentUser().uid;
@@ -397,6 +401,10 @@ class App {
         this.setlistManager.disableSync();
         this.setlistManager.clearLibrary && this.setlistManager.clearLibrary();
         this.updateProfileLabel(null);
+
+        // Reset splash screen flag so it shows again on next login
+        sessionStorage.removeItem('popsong_splash_shown');
+
         // Show login modal — but NOT if signup/verification is in progress
         if (this.authModal && !this.authModal.isBusy && !this.authModal.isShowingVerification) {
             const isModalVisible = this.authModal.modal &&
@@ -3188,6 +3196,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 
