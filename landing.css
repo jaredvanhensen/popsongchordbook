@@ -98,7 +98,7 @@ body {
 
 .hero-icon {
     font-size: 120px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     animation: float 3s ease-in-out infinite;
 }
 
