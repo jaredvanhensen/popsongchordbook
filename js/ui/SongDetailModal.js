@@ -607,13 +607,16 @@ class SongDetailModal {
     }
 
     setupEventListeners() {
-        this.closeBtn.addEventListener('click', () => {
-            if (window.appInstance) {
-                window.appInstance.popModalState('songDetail');
-            } else {
-                this.hide();
-            }
-        });
+        if (!this.modal) return;
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => {
+                if (window.appInstance) {
+                    window.appInstance.popModalState('songDetail');
+                } else {
+                    this.hide();
+                }
+            });
+        }
         if (this.chordTrainerBtn) {
             this.chordTrainerBtn.onclick = () => {
                 if (!this.currentSongId) return;
@@ -622,8 +625,8 @@ class SongDetailModal {
                 window.location.href = url;
             };
         }
-        this.prevBtn.addEventListener('click', () => this.navigatePrevious());
-        this.nextBtn.addEventListener('click', () => this.navigateNext());
+        if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.navigatePrevious());
+        if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.navigateNext());
 
         // Unified Instrument Mode Switcher (replaces lyrics button space)
         const instrToggle = document.getElementById('instrumentToggleBtn');
@@ -1548,6 +1551,7 @@ class SongDetailModal {
     }
 
     setupChordEditorButtons() {
+        if (!this.modal) return;
         const editorButtons = this.modal.querySelectorAll('.chord-editor-btn');
         editorButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -1580,6 +1584,7 @@ class SongDetailModal {
     }
 
     setupBarDividerButtons() {
+        if (!this.modal) return;
         Object.keys(this.sections).forEach(key => {
             const section = this.sections[key];
             
@@ -1693,6 +1698,7 @@ class SongDetailModal {
     }
 
     setupChordBlocks() {
+        if (!this.modal) return;
         Object.keys(this.sections).forEach(key => {
             const section = this.sections[key];
 
