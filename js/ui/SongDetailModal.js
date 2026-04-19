@@ -2656,7 +2656,7 @@ class SongDetailModal {
                 
                 // Show success feedback
                 if (window.appInstance && window.appInstance.confirmationModal) {
-                     this.showInfoModal('Success!', `"${song.title}" is now published online and visible to everyone.`);
+                     this.showInfoModal('Succes!', `<b style="font-weight: 800;">"${song.title}"</b> is now published online and visible to everyone.`, 'success');
                 } else {
                     alert(`"${song.title}" is now published online!`);
                 }
@@ -2964,10 +2964,11 @@ class SongDetailModal {
         });
     }
 
-    showInfoModal(title, message) {
+    showInfoModal(title, message, type = '') {
         if (!this.infoModal) this.infoModal = document.getElementById('infoModal');
         if (!this.infoModalTitle) this.infoModalTitle = document.getElementById('infoModalTitle');
         if (!this.infoModalMessage) this.infoModalMessage = document.getElementById('infoModalMessage');
+        const iconCircle = document.getElementById('infoModalIconCircle');
         if (!this.infoModalOkBtn) this.infoModalOkBtn = document.getElementById('infoModalOkBtn');
         if (!this.infoModalClose) this.infoModalClose = document.getElementById('infoModalClose');
 
@@ -2977,7 +2978,15 @@ class SongDetailModal {
         }
 
         this.infoModalTitle.textContent = title;
-        this.infoModalMessage.textContent = message;
+        this.infoModalMessage.innerHTML = message;
+
+        if (iconCircle) {
+            if (type === 'success') {
+                iconCircle.classList.remove('hidden');
+            } else {
+                iconCircle.classList.add('hidden');
+            }
+        }
 
         const cleanup = () => {
             this.infoModalOkBtn.removeEventListener('click', handleOk);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -907,11 +907,12 @@
     <!-- Info Modal -->
     <div id="infoModal" class="modal hidden">
         <div class="modal-content confirmation-modal-content">
-            <div class="modal-header">
-                <h3 id="infoModalTitle">Notification</h3>
-                <button class="modal-close" id="infoModalClose">&times;</button>
+            <div id="infoModalIconCircle" class="hud-icon-circle hidden" style="margin: 25px auto 10px; width: 60px; height: 60px; font-size: 30px;">✓</div>
+            <div class="modal-header" style="justify-content: center; padding-bottom: 5px;">
+                <h3 id="infoModalTitle" style="text-align: center;">Notification</h3>
+                <button class="modal-close" id="infoModalClose" style="position: absolute; right: 15px;">&times;</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="text-align: center; padding-top: 10px;">
                 <p id="infoModalMessage"></p>
                 <div class="modal-actions-horizontal">
                     <button id="infoModalOkBtn" class="confirm-btn confirm-primary">OK</button>

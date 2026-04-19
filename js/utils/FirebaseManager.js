@@ -289,7 +289,7 @@ class FirebaseManager {
         }
 
         if (!this.currentUser) {
-            return { success: false, error: 'Geen gebruiker ingelogd' };
+            return { success: false, error: 'No user logged in' };
         }
 
         try {
@@ -409,7 +409,7 @@ class FirebaseManager {
         }
 
         if (!this.currentUser) {
-            return { success: false, error: 'Geen gebruiker ingelogd' };
+            return { success: false, error: 'No user logged in' };
         }
 
         try {
@@ -1351,20 +1351,20 @@ class FirebaseManager {
 
     getAuthErrorMessage(errorCode) {
         const errorMessages = {
-            'auth/email-already-in-use': 'Dit e-mailadres is al in gebruik.',
-            'auth/invalid-email': 'Ongeldig e-mailadres.',
-            'auth/operation-not-allowed': 'Deze operatie is niet toegestaan.',
-            'auth/weak-password': 'Wachtwoord is te zwak. Gebruik minimaal 6 karakters.',
-            'auth/user-disabled': 'Dit account is uitgeschakeld.',
-            'auth/user-not-found': 'Geen account gevonden met dit e-mailadres.',
-            'auth/wrong-password': 'Onjuist wachtwoord.',
+            'auth/email-already-in-use': 'This email address is already in use.',
+            'auth/invalid-email': 'Invalid email address.',
+            'auth/operation-not-allowed': 'This operation is not allowed.',
+            'auth/weak-password': 'Password is too weak. Use at least 6 characters.',
+            'auth/user-disabled': 'This account has been disabled.',
+            'auth/user-not-found': 'No account found with this email address.',
+            'auth/wrong-password': 'Incorrect password.',
             'auth/invalid-credential': 'Not a registered user - Please create an account first.',
-            'auth/too-many-requests': 'Te veel mislukte pogingen. Probeer later opnieuw.',
-            'auth/network-request-failed': 'Netwerkfout. Controleer je internetverbinding.',
-            'auth/requires-recent-login': 'Voor deze actie moet je recent zijn ingelogd. Log uit en log opnieuw in.'
+            'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
+            'auth/network-request-failed': 'Network error. Please check your internet connection.',
+            'auth/requires-recent-login': 'This action requires a recent login. Please log out and log in again.'
         };
 
-        return errorMessages[errorCode] || `Fout: ${errorCode}`;
+        return errorMessages[errorCode] || `Error: ${errorCode}`;
     }
 
     // ── Public Practice Counts ──────────────────────────────────────────

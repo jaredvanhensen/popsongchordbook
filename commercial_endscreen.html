@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopSongChordBook Promo Video</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #764ba2;
+            --secondary: #667eea;
+            --accent: #818cf8; /* Soft Indigo accent */
+            --white: #ffffff;
+            --duration: 3s; /* Duration per slide */
+            --brand-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --cta-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%); /* Deep Indigo CTA */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* 9:16 Container */
+        .video-viewport {
+            position: relative;
+            width: 100vh * (9/16);
+            height: 100vh;
+            aspect-ratio: 9/16;
+            overflow: hidden;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        @media (max-aspect-ratio: 9/16) {
+            .video-viewport {
+                width: 100vw;
+                height: 100vw * (16/9);
+            }
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Slide 1: Welcome */
+        .slide-1 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .slide-1 .bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('endscreen_background_1776455687504.png') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.7);
+            z-index: 1;
+        }
+
+        /* Slide 2: Feature */
+        .slide-2 {
+            background: #000;
+        }
+        .slide-2 .bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('chord_trainer_promo_1776455724690.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1;
+        }
+
+        /* Slide 3: Final Call */
+        .slide-3 {
+            background: url('endscreen_background_1776455687504.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            padding: 0 10px;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .slide.active .fade-in-up-delay-1 { animation-delay: 0.2s; }
+        .slide.active .fade-in-up-delay-2 { animation-delay: 0.5s; }
+        .slide.active .fade-in-up-delay-3 { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-name { 
+            font-size: clamp(24px, 8vw, 38px); 
+            font-weight: 900; 
+            margin-bottom: 20px; 
+            line-height: 1; 
+            text-transform: uppercase; 
+        }
+        .feature-title { 
+            font-size: clamp(32px, 12vw, 56px); 
+            font-weight: 900; 
+            line-height: 1.1; 
+            margin-bottom: 20px; 
+        }
+        .feature-sub { 
+            font-size: clamp(18px, 5vw, 24px); 
+            font-weight: 700; 
+            opacity: 0.9; 
+            margin-bottom: 40px; 
+        }
+        
+        .cta-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            width: 90%;
+            margin: 0 auto;
+            max-width: 400px;
+        }
+
+        .url { 
+            font-size: clamp(14px, 4.8vw, 28px); 
+            font-weight: 900; 
+            color: #fff; 
+            text-decoration: none; 
+            display: block; 
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        .btn {
+            background: var(--cta-gradient);
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: clamp(18px, 5vw, 22px);
+            font-weight: 900;
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(67, 56, 202, 0.4);
+            white-space: nowrap;
+        }
+
+        .floating-notes {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;
+        }
+        .note {
+            position: absolute; font-size: 40px; opacity: 0.2; color: white;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(15deg); }
+        }
+
+        /* Overlay blur for transitions */
+        .transition-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .transitioning .transition-overlay { opacity: 1; }
+
+    </style>
+</head>
+<body>
+    <div class="video-viewport">
+        <div class="transition-overlay"></div>
+        
+        <!-- Slide 1 -->
+        <div class="slide slide-1 active">
+            <div class="bg-img"></div>
+            <div class="content">
+                <div class="brand-name fade-in-up fade-in-up-delay-1">Pop Song<br>Chord Book</div>
+                <h1 class="feature-title fade-in-up fade-in-up-delay-2">MASTER YOUR<br>FAVORITE<br>SONGS</h1>
+                <p class="feature-sub fade-in-up fade-in-up-delay-3">Interactive Chords & Lyrics</p>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide slide-2">
+            <div class="bg-img"></div>
+            <div class="content">
+                <h2 class="feature-title fade-in-up fade-in-up-delay-1">LEVEL UP<br>YOUR SKILLS</h2>
+                <p class="feature-sub fade-in-up fade-in-up-delay-2">With the interactive<br>Chord Trainer</p>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide slide-3">
+            <div class="content">
+                <div class="brand-name fade-in-up fade-in-up-delay-1">Ready to Play?</div>
+                <div class="cta-box fade-in-up fade-in-up-delay-2">
+                    <span class="url">popsongchordbook.com</span>
+                    <div class="btn">START NOW</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-notes">
+            <span class="note" style="top: 15%; left: 10%; animation-delay: 0s;">♪</span>
+            <span class="note" style="top: 25%; right: 10%; animation-delay: 1s;">♫</span>
+            <span class="note" style="top: 75%; left: 15%; animation-delay: 2s;">♩</span>
+            <span class="note" style="top: 85%; right: 15%; animation-delay: 0.5s;">♭</span>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const viewport = document.querySelector('.video-viewport');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            viewport.classList.add('transitioning');
+            
+            setTimeout(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+                viewport.classList.remove('transitioning');
+            }, 500);
+        }
+
+        // Set sequence: 
+        // Slide 1 for 3s, Slide 2 for 3s, Slide 3 stays.
+        setTimeout(nextSlide, 3500); // Transition to slide 2
+        setTimeout(nextSlide, 7000); // Transition to slide 3
+    </script>
+</body>
+</html>

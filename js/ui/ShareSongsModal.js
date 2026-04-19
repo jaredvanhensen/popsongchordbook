@@ -234,7 +234,7 @@ class ShareSongsModal {
 
             const label = document.createElement('label');
             label.htmlFor = `share-song-${song.id}`;
-            label.textContent = `${song.artist || 'Onbekend'} - ${song.title || 'Geen titel'}`;
+            label.textContent = `${song.artist || 'Unknown'} - ${song.title || 'No title'}`;
 
             songItem.appendChild(checkbox);
             songItem.appendChild(label);
@@ -271,7 +271,7 @@ class ShareSongsModal {
         if (this.sortDirectionBtn) {
             const isAsc = this.sortDirection === 'asc';
             this.sortDirectionBtn.textContent = isAsc ? 'A → Z' : 'Z → A';
-            this.sortDirectionBtn.title = isAsc ? 'Sorteer van A naar Z' : 'Sorteer van Z naar A';
+            this.sortDirectionBtn.title = isAsc ? 'Sort from A to Z' : 'Sort from Z to A';
         }
     }
 
@@ -295,17 +295,17 @@ class ShareSongsModal {
 
         // Validation
         if (!email) {
-            this.showError('Voer een e-mailadres in.');
+            this.showError('Enter an email address.');
             return;
         }
 
         if (!this.isValidEmail(email)) {
-            this.showError('Voer een geldig e-mailadres in.');
+            this.showError('Enter a valid email address.');
             return;
         }
 
         if (selectedIds.length === 0) {
-            this.showError('Selecteer minimaal één song om te delen.');
+            this.showError('Select at least one song to share.');
             return;
         }
 
@@ -321,7 +321,7 @@ class ShareSongsModal {
             const recipientUserId = await this.firebaseManager.getUserByEmail(email);
 
             if (!recipientUserId) {
-                this.showError('Geen gebruiker gevonden met dit e-mailadres. De gebruiker moet eerst een keer inloggen om gevonden te kunnen worden.');
+                this.showError('No user found with this email address. The user must log in once before they can be found.');
                 if (this.shareBtn) {
                     this.shareBtn.disabled = false;
                     this.shareBtn.textContent = 'Share...';
@@ -332,7 +332,7 @@ class ShareSongsModal {
             // Get current user
             const currentUser = this.firebaseManager.getCurrentUser();
             if (!currentUser || !currentUser.email) {
-                this.showError('Je bent niet ingelogd.');
+                this.showError('You are not logged in.');
                 if (this.shareBtn) {
                     this.shareBtn.disabled = false;
                     this.shareBtn.textContent = 'Share...';
@@ -346,7 +346,7 @@ class ShareSongsModal {
             );
 
             if (songsToShare.length === 0) {
-                this.showError('Geen songs gevonden om te delen.');
+                this.showError('No songs found to share.');
                 if (this.shareBtn) {
                     this.shareBtn.disabled = false;
                     this.shareBtn.textContent = 'Share...';
@@ -362,12 +362,12 @@ class ShareSongsModal {
             );
 
             // Success
-            alert(`${songsToShare.length} song(s) succesvol gedeeld met ${email}!`);
+            alert(`${songsToShare.length} song(s) successfully shared with ${email}!`);
             this.hide();
 
         } catch (error) {
             console.error('Share songs error:', error);
-            let errorMessage = 'Er is een fout opgetreden bij het delen van songs.';
+            let errorMessage = 'An error occurred while sharing songs.';
             if (error.message?.includes('security rules')) {
                 errorMessage = error.message;
             } else if (error.code === 'PERMISSION_DENIED' || error.message?.includes('permission')) {

@@ -226,7 +226,61 @@ const GuitarChordDatabase = {
         barre: { fret: 1, fromString: 2, toString: 6 },
         fingers: [0, 1, 3, 4, 2, 1]
     },
-    
+
+    // Major 7th Chords
+    "Cmaj7": {
+        frets: ["x", 3, 2, 0, 0, 0],
+        fingers: [0, 3, 2, 0, 0, 0]
+    },
+    "Dmaj7": {
+        frets: ["x", "x", 0, 2, 2, 2],
+        fingers: [0, 0, 0, 1, 1, 1]
+    },
+    "Emaj7": {
+        frets: [0, 2, 1, 1, 0, 0],
+        fingers: [0, 2, 1, 1, 0, 0]
+    },
+    "Gmaj7": {
+        frets: [3, 2, 0, 0, 0, 2],
+        fingers: [2, 1, 0, 0, 0, 3]
+    },
+    "Amaj7": {
+        frets: ["x", 0, 2, 1, 2, 0],
+        fingers: [0, 0, 2, 1, 3, 0]
+    },
+    "Bmaj7": {
+        baseFret: 2,
+        frets: ["x", 2, 4, 3, 4, 2],
+        barre: { fret: 2, fromString: 2, toString: 6 },
+        fingers: [0, 1, 3, 2, 4, 1]
+    },
+
+    // Suspended Chords (sus2, sus4)
+    "Csus2": { frets: ["x", 3, 0, 0, 3, 3], fingers: [0, 2, 0, 0, 3, 4] },
+    "Csus4": { frets: ["x", 3, 3, 0, 1, 1], fingers: [0, 3, 4, 0, 1, 1] },
+    "Dsus2": { frets: ["x", "x", 0, 2, 3, 0], fingers: [0, 0, 0, 1, 3, 0] },
+    "Dsus4": { frets: ["x", "x", 0, 2, 3, 3], fingers: [0, 0, 0, 1, 3, 4] },
+    "Esus2": { frets: [0, 2, 4, 4, 0, 0], fingers: [0, 1, 3, 4, 0, 0] },
+    "Esus4": { frets: [0, 2, 2, 2, 0, 0], fingers: [0, 1, 2, 3, 0, 0] },
+    "Fsus2": { baseFret: 1, frets: [1, 3, 3, 0, 1, 1], fingers: [1, 3, 4, 0, 1, 1] },
+    "Fsus4": { baseFret: 1, frets: [1, 3, 3, 3, 1, 1], fingers: [1, 3, 4, 5, 1, 1] },
+    "Gsus2": { frets: [3, 0, 0, 2, 3, 3], fingers: [2, 0, 0, 1, 3, 4] },
+    "Gsus4": { frets: [3, 3, 0, 0, 3, 3], fingers: [2, 3, 0, 0, 4, 1] },
+    "Asus2": { frets: ["x", 0, 2, 2, 0, 0], fingers: [0, 0, 2, 3, 0, 0] },
+    "Asus4": { frets: ["x", 0, 2, 2, 3, 0], fingers: [0, 0, 1, 2, 4, 0] },
+    "Bsus2": { baseFret: 2, frets: ["x", 2, 4, 4, 2, 2], barre: { fret: 2, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
+    "Bsus4": { baseFret: 2, frets: ["x", 2, 4, 4, 5, 2], barre: { fret: 2, fromString: 2, toString: 6 }, fingers: [0, 1, 2, 3, 4, 1] },
+
+    // Added Tone Chords (add2, add9)
+    "Cadd9": { frets: ["x", 3, 2, 0, 3, 3], fingers: [0, 2, 1, 0, 3, 4] },
+    "Cadd2": { frets: ["x", 3, 2, 0, 3, 0], fingers: [0, 3, 2, 0, 4, 0] },
+    "Dadd9": { frets: ["x", "x", 0, 2, 5, 2], fingers: [0, 0, 0, 1, 4, 2] },
+    "Dadd2": { frets: ["x", "x", 0, 2, 3, 0], fingers: [0, 0, 0, 1, 3, 0] },
+    "Eadd9": { frets: [0, 2, 4, 1, 0, 0], fingers: [0, 2, 4, 1, 0, 0] },
+    "Gadd9": { frets: [3, 2, 0, 2, 0, 3], fingers: [2, 1, 0, 3, 0, 4] },
+    "Aadd9": { frets: ["x", 0, 2, 4, 2, 0], fingers: [0, 0, 1, 4, 2, 0] },
+    "Aadd2": { frets: ["x", 0, 2, 4, 2, 0], fingers: [0, 0, 1, 4, 2, 0] },
+
     // Power Chords (5 chords)
     "C5": { baseFret: 3, frets: ["x", 3, 5, 5, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
     "C#5": { baseFret: 4, frets: ["x", 4, 6, 6, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },

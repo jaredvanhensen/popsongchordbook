@@ -137,7 +137,7 @@ class AcceptSongsModal {
         if (this.pendingSongs.length === 0) {
             const emptyMessage = document.createElement('p');
             emptyMessage.className = 'no-songs-message';
-            emptyMessage.textContent = 'Geen pending songs.';
+            emptyMessage.textContent = 'No pending songs.';
             this.songsContainer.appendChild(emptyMessage);
             return;
         }
@@ -162,11 +162,11 @@ class AcceptSongsModal {
             
             const songTitle = document.createElement('div');
             songTitle.className = 'pending-song-title';
-            songTitle.textContent = `${song.artist || 'Onbekend'} - ${song.title || 'Geen titel'}`;
+            songTitle.textContent = `${song.artist || 'Unknown'} - ${song.title || 'No title'}`;
             
             const senderInfo = document.createElement('div');
             senderInfo.className = 'pending-song-sender';
-            senderInfo.textContent = `Van: ${pending.senderEmail || 'Onbekend'}`;
+            senderInfo.textContent = `From: ${pending.senderEmail || 'Unknown'}`;
             
             songInfo.appendChild(songTitle);
             songInfo.appendChild(senderInfo);
@@ -189,19 +189,19 @@ class AcceptSongsModal {
         const selectedIds = Array.from(this.selectedPendingIds);
 
         if (selectedIds.length === 0) {
-            alert('Selecteer minimaal één song om te accepteren.');
+            alert('Select at least one song to accept.');
             return;
         }
 
         const currentUser = this.firebaseManager.getCurrentUser();
         if (!currentUser || !currentUser.uid) {
-            alert('Je bent niet ingelogd.');
+            alert('You are not logged in.');
             return;
         }
 
         if (this.acceptBtn) {
             this.acceptBtn.disabled = true;
-            this.acceptBtn.textContent = 'Accepteren...';
+            this.acceptBtn.textContent = 'Accepting...';
         }
 
         try {
@@ -211,7 +211,7 @@ class AcceptSongsModal {
             );
 
             if (result.success) {
-                alert(`${result.acceptedCount} song(s) succesvol geaccepteerd!`);
+                alert(`${result.acceptedCount} song(s) successfully accepted!`);
                 
                 // Clear selected songs
                 this.selectedPendingIds.clear();
@@ -226,11 +226,11 @@ class AcceptSongsModal {
                     this.hide();
                 }
             } else {
-                alert('Fout bij accepteren van songs: ' + (result.error || 'Onbekende fout'));
+                alert('Error accepting songs: ' + (result.error || 'Unknown error'));
             }
         } catch (error) {
             console.error('Accept songs error:', error);
-            alert('Er is een fout opgetreden bij het accepteren van songs.');
+            alert('An error occurred while accepting songs.');
         } finally {
             if (this.acceptBtn) {
                 this.acceptBtn.disabled = false;
@@ -243,23 +243,23 @@ class AcceptSongsModal {
         const selectedIds = Array.from(this.selectedPendingIds);
 
         if (selectedIds.length === 0) {
-            alert('Selecteer minimaal één song om te weigeren.');
+            alert('Select at least one song to reject.');
             return;
         }
 
-        if (!confirm(`Weet je zeker dat je ${selectedIds.length} song(s) wilt weigeren?`)) {
+        if (!confirm(`Are you sure you want to reject ${selectedIds.length} song(s)?`)) {
             return;
         }
 
         const currentUser = this.firebaseManager.getCurrentUser();
         if (!currentUser || !currentUser.uid) {
-            alert('Je bent niet ingelogd.');
+            alert('You are not logged in.');
             return;
         }
 
         if (this.rejectBtn) {
             this.rejectBtn.disabled = true;
-            this.rejectBtn.textContent = 'Weigeren...';
+            this.rejectBtn.textContent = 'Rejecting...';
         }
 
         try {
@@ -268,7 +268,7 @@ class AcceptSongsModal {
                 selectedIds
             );
 
-            alert(`${selectedIds.length} song(s) succesvol geweigerd.`);
+            alert(`${selectedIds.length} song(s) successfully rejected.`);
             
             // Reload pending songs
             await this.loadPendingSongs();
@@ -281,7 +281,7 @@ class AcceptSongsModal {
             }
         } catch (error) {
             console.error('Reject songs error:', error);
-            alert('Er is een fout opgetreden bij het weigeren van songs.');
+            alert('An error occurred while rejecting songs.');
         } finally {
             if (this.rejectBtn) {
                 this.rejectBtn.disabled = false;

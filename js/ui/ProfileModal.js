@@ -937,7 +937,7 @@ class ProfileModal {
         const newUsername = this.usernameInput?.value.trim();
 
         if (!newUsername) {
-            alert('Voer een gebruikersnaam in.');
+            alert('Please enter a username.');
             return;
         }
 
@@ -949,21 +949,21 @@ class ProfileModal {
         try {
             const result = await this.firebaseManager.updateUsername(newUsername);
             if (result.success) {
-                alert('Gebruikersnaam succesvol bijgewerkt!');
+                alert('Username successfully updated!');
                 // The app should automatically update the display through some listener or callback
                 if (this.onAuthSuccess) {
                     this.onAuthSuccess(result.user);
                 }
             } else {
-                alert('Fout bij bijwerken gebruikersnaam: ' + (result.error || 'Onbekende fout'));
+                alert('Error updating username: ' + (result.error || 'Unknown error'));
             }
         } catch (error) {
             console.error('Update username error:', error);
-            alert('Er is een fout opgetreden.');
+            alert('An error occurred.');
         } finally {
             if (this.updateUsernameBtn) {
                 this.updateUsernameBtn.disabled = false;
-                this.updateUsernameBtn.textContent = 'Opslaan';
+                this.updateUsernameBtn.textContent = 'Save';
             }
         }
     }
@@ -975,22 +975,22 @@ class ProfileModal {
 
         // Validation
         if (!currentPassword) {
-            this.showError('Voer je huidige wachtwoord in.');
+            this.showError('Please enter your current password.');
             return;
         }
 
         if (!newPassword) {
-            this.showError('Voer een nieuw wachtwoord in.');
+            this.showError('Please enter a new password.');
             return;
         }
 
         if (newPassword.length < 6) {
-            this.showError('Nieuw wachtwoord moet minimaal 6 karakters lang zijn.');
+            this.showError('New password must be at least 6 characters long.');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            this.showError('Nieuwe wachtwoorden komen niet overeen.');
+            this.showError('New passwords do not match.');
             return;
         }
 
@@ -1003,7 +1003,7 @@ class ProfileModal {
             // First, re-authenticate the user with current password
             const user = this.firebaseManager.getCurrentUser();
             if (!user || !user.email) {
-                this.showError('Geen gebruiker ingelogd.');
+                this.showError('No user logged in.');
                 this.setLoading(false);
                 return;
             }
@@ -1020,20 +1020,20 @@ class ProfileModal {
             const result = await this.firebaseManager.changePassword(newPassword);
 
             if (result.success) {
-                this.showSuccess('Wachtwoord succesvol gewijzigd!');
+                this.showSuccess('Password successfully changed!');
                 this.resetForm();
                 // Clear form after 2 seconds
                 setTimeout(() => {
                     this.clearSuccess();
                 }, 2000);
             } else {
-                this.showError(result.error || 'Wachtwoord wijzigen mislukt.');
+                this.showError(result.error || 'Password change failed.');
             }
         } catch (error) {
             console.error('Change password error:', error);
             const errorMessage = this.firebaseManager.getAuthErrorMessage(error.code) ||
                 error.message ||
-                'Er is een fout opgetreden. Probeer het opnieuw.';
+                'An error occurred. Please try again.';
             this.showError(errorMessage);
         } finally {
             this.setLoading(false);
@@ -1053,7 +1053,7 @@ class ProfileModal {
                             this.onSignOut();
                         }
                     } else {
-                        alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
+                        alert('Logout failed: ' + (result.error || 'Unknown error'));
                     }
                 },
                 "Log Out",
@@ -1070,7 +1070,7 @@ class ProfileModal {
                         this.onSignOut();
                     }
                 } else {
-                    alert('Uitloggen mislukt: ' + (result.error || 'Onbekende fout'));
+                    alert('Logout failed: ' + (result.error || 'Unknown error'));
                 }
             }
         }
@@ -1112,14 +1112,7 @@ class ProfileModal {
     }
 
     setLoading(loading) {
-        if (this.changePasswordBtn) {
-            this.changePasswordBtn.disabled = loading;
-            if (loading) {
-                this.changePasswordBtn.textContent = 'Wijzigen...';
-            } else {
-                this.changePasswordBtn.textContent = 'Wachtwoord wijzigen';
-            }
-        }
+            this.changePasswordBtn.textContent = loading ? 'Changing...' : 'Change Password';
         if (this.currentPasswordInput) {
             this.currentPasswordInput.disabled = loading;
         }
@@ -1148,12 +1141,12 @@ class ProfileModal {
 
         // Basic validation
         if (!file.type.startsWith('image/')) {
-            alert('Selecteer een afbeelding.');
+            alert('Please select an image.');
             return;
         }
 
         if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            alert('Afbeelding is te groot. Max 5MB.');
+            alert('Image is too large. Max 5MB.');
             return;
         }
 
@@ -1179,12 +1172,12 @@ class ProfileModal {
                     // accessing app instance is hard here, but page refresh will sort it out
                 }
             } else {
-                alert('Fout bij bijwerken profielfoto: ' + result.error);
+                alert('Error updating profile picture: ' + result.error);
             }
 
         } catch (error) {
             console.error('Avatar upload error:', error);
-            alert('Fout bij verwerken afbeelding.');
+            alert('Error processing image.');
         } finally {
             if (this.changeAvatarBtn) {
                 this.changeAvatarBtn.textContent = '📷';

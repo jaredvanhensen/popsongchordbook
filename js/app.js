@@ -1,4 +1,4 @@
-﻿// Main Application (v2.669)
+// Main Application (v2.669)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -126,7 +126,7 @@ class App {
             await this.firebaseManager.initialize();
         } catch (error) {
             console.error('Firebase initialization failed:', error);
-            alert('Firebase initialisatie mislukt. Controleer je Firebase configuratie.');
+            alert('Firebase initialization failed. Please check your Firebase configuration.');
             return;
         }
         
@@ -564,7 +564,7 @@ class App {
                 localStorage.setItem(migrationKey, 'true');
             } catch (error) {
                 console.error('Migration error:', error);
-                alert('Er is een fout opgetreden bij het migreren van data.');
+                alert('An error occurred while migrating data.');
             }
         } else {
             // No local data, mark migration as completed
@@ -727,7 +727,7 @@ class App {
 
         } catch (error) {
             console.error('Error loading data:', error);
-            alert('Fout bij laden van gegevens: ' + (error.message || error));
+            alert('Error loading data: ' + (error.message || error));
         } finally {
             // If it was an initial load (overlay), ensure it stays for at least 3 seconds
             if (forceFresh) {
@@ -1631,7 +1631,7 @@ class App {
                 }
             } else {
                 console.error('[AddSongs] No target setlist ID found!');
-                alert('Fout: Geen setlist geselecteerd.');
+                alert('Error: No setlist selected.');
             }
         });
     }
@@ -1689,12 +1689,12 @@ class App {
         this.activeAddToSetlistSongId = songId;
 
         // Populate select
-        select.innerHTML = '<option value="" disabled selected>Selecteer een setlist...</option>';
+        select.innerHTML = '<option value="" disabled selected>Select a setlist...</option>';
         const setlists = this.setlistManager.getAllSetlists();
 
         if (setlists.length === 0) {
             const option = document.createElement('option');
-            option.textContent = "Geen setlists gevonden";
+            option.textContent = "No setlists found";
             option.disabled = true;
             select.appendChild(option);
         } else {
@@ -1858,7 +1858,7 @@ class App {
         const container = document.getElementById('songsListContainer');
         const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)');
         const countSpan = document.getElementById('selectedCount');
-        countSpan.textContent = `${checkboxes.length} geselecteerd`;
+        countSpan.textContent = `${checkboxes.length} selected`;
     }
 
     setupDeselect() {
@@ -3071,7 +3071,7 @@ class App {
             alert(message);
         } catch (error) {
             console.error('Import error:', error);
-            alert(`Fout bij importeren: ${error.message}`);
+            alert(`Import error: ${error.message}`);
         }
     }
 
