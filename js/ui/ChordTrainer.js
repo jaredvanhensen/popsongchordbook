@@ -1786,20 +1786,21 @@ class ChordTrainer {
     }
 
     playAndShowChord(chordName) {
-        const parsed = this.chordParser.parse(chordName);
-        if (parsed && parsed.notes) {
-            if (this.isAudioEnabled) this.audioPlayer.playChord(parsed.notes, 1.0);
-            
-            // Reset keyboard to "blanc" mode first
-            this.dom.piano.querySelectorAll('.correct, .incorrect, .selected-key').forEach(k => {
-                k.classList.remove('correct', 'incorrect', 'selected-key');
-            });
-            
-            // Show the correct keys when clicked
-            this.highlightKeys(parsed.notes, 'correct');
-            
-            // Clear selections to avoid confusion
-            this.clearGuides();
+        // Find index in songChords to sync the state
+        const idx = this.songChords.indexOf(chordName);
+        if (idx !== -1) {
+            this.songChordIndex = idx;
+        }
+        
+        // Force demo mode so clicking always shows the "Demonstration" state for that chord
+        this.songPracticePhase = 'demo';
+        
+        // Trigger the standard question setup logic which updates the UI
+        this.nextQuestion();
+        
+        // Play the sound if enabled
+        if (this.isAudioEnabled && this.currentChord && this.currentChord.notes) {
+            this.audioPlayer.playChord(this.currentChord.notes, 1.0);
         }
     }
 

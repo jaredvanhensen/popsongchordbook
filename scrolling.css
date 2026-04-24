@@ -306,6 +306,16 @@ button:disabled {
     box-shadow: 0 6px 0px 0px #945a11, 0 12px 20px rgba(247, 151, 30, 0.3);
 }
 
+#duplicateBtn.paste-active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 0px 0px #064d47, 0 10px 15px rgba(16, 185, 129, 0.3) !important;
+}
+
+#duplicateBtn.paste-active:hover {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+    box-shadow: 0 6px 0px 0px #064d47, 0 12px 20px rgba(16, 185, 129, 0.4) !important;
+}
+
 /* White/Light Buttons with Dark Icons */
 #audioToggleBtn svg {
     color: #000000;
@@ -935,6 +945,35 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     z-index: 1;
 }
 
+.marker-track-handle {
+    position: absolute;
+    top: 0;
+    height: 80px;
+    left: 0; 
+    width: 100%; 
+    pointer-events: auto;
+    z-index: 25;
+    cursor: grab;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+/* Subtle visual cue in Edit Mode - Match JS class 'edit-mode-active' */
+body.edit-mode-active .marker-track-handle {
+    background: rgba(255, 255, 255, 0.08); /* Transparent glass look */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.marker-track-handle:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.marker-track-handle:active {
+    background: rgba(255, 255, 255, 0.2) !important;
+    cursor: grabbing;
+}
+
 .chord-item {
     position: absolute;
     transform: translateY(-50%);
@@ -1043,11 +1082,12 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 .marker {
     position: absolute;
     top: 0;
-    bottom: 0;
+    height: 2000px;
     width: 1px;
     background-color: rgba(0, 0, 0, 0.15);
     /* Darker than before */
     z-index: 5;
+    pointer-events: none;
 }
 
 .marker.beat {

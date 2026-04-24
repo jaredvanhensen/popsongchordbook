@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -162,6 +162,10 @@ let isBoxSelecting = false;
 let selectionBoxEl = null;
 let isDraggingGroup = false;
 let isCopying = false; // Track if we are in a copy-drag operation
+let clipboardChords = [];
+let isPasteMode = false;
+const COPY_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+const PASTE_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>`;
 
 // Pinch Zoom State
 let timelinePointers = new Map();
@@ -485,6 +489,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isEditMode && isSelectionMode) {
                 toggleSelectionMode();
             }
+
+            // Reset Copy/Paste state when toggling
+            if (!isEditMode) {
+                isPasteMode = false;
+                if (duplicateBtn) {
+                    duplicateBtn.innerHTML = COPY_ICON;
+                    duplicateBtn.classList.remove('paste-active');
+                    duplicateBtn.title = "Copy Selected Chords";
+                }
+            }
         });
     }
 
@@ -699,13 +713,29 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
 
     if (selectModeBtn) selectModeBtn.addEventListener('click', toggleSelectionMode);
-    if (duplicateBtn) duplicateBtn.addEventListener('click', () => duplicateSelectedChords());
+    if (duplicateBtn) duplicateBtn.addEventListener('click', () => handleDuplicateBtnClick());
     if (deleteSelectedBtn) deleteSelectedBtn.addEventListener('click', deleteSelectedChords);
 
     // Ctrl Key Listener for Cursor Feedback and Undo
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Control') {
             document.body.classList.add('ctrl-held');
+        }
+
+        // Copy shortcut: Ctrl+C or Cmd+C
+        if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'c')) {
+            if (isEditMode) {
+                e.preventDefault();
+                performCopy();
+            }
+        }
+
+        // Paste shortcut: Ctrl+V or Cmd+V
+        if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'v')) {
+            if (isEditMode) {
+                e.preventDefault();
+                performPaste();
+            }
         }
 
         // Undo shortcut: Ctrl+Z or Cmd+Z
@@ -743,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Timeline Interaction (Scroll or Select)
     timeline.addEventListener('pointerdown', (e) => {
         // Toggle box selection if in Selection Mode OR if in Edit Mode on PC (Mouse)
-        if (isSelectionMode || (isEditMode && e.pointerType === 'mouse')) {
+        if ((isSelectionMode || (isEditMode && e.pointerType === 'mouse')) && !e.target.closest('.marker-track-handle')) {
             // Start selection box
             isBoxSelecting = true;
             selectionBoxStart = { x: e.clientX, y: e.clientY };
@@ -3468,6 +3498,104 @@ function recordChord(name = "?", time = null) {
     }
 }
 
+function performCopy() {
+    if (selectedChords.size === 0) {
+        if (statusText) {
+            statusText.innerText = "Select chords first to copy";
+            setTimeout(() => {
+                if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+            }, 2000);
+        }
+        return;
+    }
+
+    // Sort to ensure relative spacing is captured from the earliest chord
+    const sortedSelection = Array.from(selectedChords).sort((a, b) => a.time - b.time);
+    clipboardChords = sortedSelection.map(c => ({
+        name: c.name,
+        time: c.time
+    }));
+
+    // Store relative times from the first selected chord
+    const firstTime = clipboardChords[0].time;
+    clipboardChords.forEach(c => {
+        c.relativeTime = c.time - firstTime;
+    });
+
+    isPasteMode = true;
+    if (duplicateBtn) {
+        duplicateBtn.innerHTML = PASTE_ICON;
+        duplicateBtn.title = "Paste Chords at Playhead (Ctrl+V)";
+        duplicateBtn.classList.add('paste-active');
+    }
+
+    if (statusText) {
+        statusText.innerText = `Copied ${clipboardChords.length} chords. Click again (or Ctrl+V) to paste at playhead.`;
+    }
+}
+
+function performPaste() {
+    if (!clipboardChords || clipboardChords.length === 0) {
+        if (statusText) {
+            statusText.innerText = "Nothing in clipboard to paste";
+            setTimeout(() => {
+                if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+            }, 2000);
+        }
+        return;
+    }
+
+    saveUndoState();
+    
+    // Paste starting at the current playhead position
+    const playheadTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+    
+    const newChords = clipboardChords.map(c => ({
+        name: c.name,
+        time: Math.round((playheadTime + c.relativeTime) * 1000) / 1000,
+        _isNewCopy: true
+    }));
+
+    chords.push(...newChords);
+    chords.sort((a, b) => a.time - b.time);
+
+    // After pasting, select the new chords so they can be moved immediately
+    clearSelection();
+    for (let i = 0; i < chords.length; i++) {
+        if (chords[i]._isNewCopy) {
+            selectChord(chords[i], true); // additive
+            delete chords[i]._isNewCopy;
+        }
+    }
+
+    renderStaticElements();
+    updateLoop();
+    checkForChanges();
+
+    // Revert icon and mode
+    isPasteMode = false;
+    if (duplicateBtn) {
+        duplicateBtn.innerHTML = COPY_ICON;
+        duplicateBtn.title = "Copy Selected Chords (Ctrl+C)";
+        duplicateBtn.classList.remove('paste-active');
+    }
+
+    if (statusText) {
+        statusText.innerText = `Pasted ${newChords.length} chords`;
+        setTimeout(() => {
+            if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+        }, 2000);
+    }
+}
+
+function handleDuplicateBtnClick() {
+    if (!isPasteMode) {
+        performCopy();
+    } else {
+        performPaste();
+    }
+}
+
 function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
     if (selectedChords.size === 0) return;
     saveUndoState();
@@ -3530,6 +3658,12 @@ function clearData() {
             chords = [];
             markers = [];
             midiData = null;
+            isPasteMode = false;
+            clipboardChords = [];
+            if (duplicateBtn) {
+                duplicateBtn.innerHTML = COPY_ICON;
+                duplicateBtn.classList.remove('paste-active');
+            }
 
             // Reset Markers to simple time
             const duration = 300; // Default 5 mins

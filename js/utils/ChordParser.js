@@ -32,6 +32,7 @@ class ChordParser {
             'sus2': [0, 2, 7],
             'sus4': [0, 5, 7],
             'sus': [0, 5, 7],
+            '4': [0, 5, 7],
             '7sus4': [0, 5, 7, 10],
             'add9': [0, 4, 7, 14],
             'add2': [0, 2, 4, 7],
@@ -73,11 +74,15 @@ class ChordParser {
         // Check for inversion indicator at the end (custom notation)
         // "2" = 2nd inversion (Root is 2nd note in triad: G-C-E)
         // "3" = 1st inversion (Root is 3rd note in triad: E-G-C)
+        // Check for inversion indicator at the end (custom notation)
+        // "2" = 2nd inversion, "3" = 1st inversion
+        // BUT: Don't strip the digit if it's part of a 'sus2' or 'add2' chord.
         let inversion = 0;
+        const lowSuffix = suffix.toLowerCase();
         const inversionMatch = suffix.match(/([23])$/);
-        if (inversionMatch) {
+        
+        if (inversionMatch && !lowSuffix.endsWith('sus2') && !lowSuffix.endsWith('add2')) {
             const invNum = parseInt(inversionMatch[1]);
-            // Custom notation: "2" means 2nd inversion, "3" means 1st inversion
             if (invNum === 2) {
                 inversion = 2; // 2nd inversion: 3rd note becomes bass
             } else if (invNum === 3) {

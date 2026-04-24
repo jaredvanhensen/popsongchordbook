@@ -194,17 +194,28 @@ class GuitarChordOverlay {
     }
 
     simplifyChord(chordName) {
-        // Strip 2/3 at end of each part but ONLY if it's not a sus chord (e.g., D2 -> D, but Dsus2 stays Dsus2)
+        // Strip 2/3 at end of each part but ONLY if it's not a sus or add chord (e.g., D2 -> D, but Dsus2 stays Dsus2)
         return chordName.split('/').map(part => {
-            if (part.toLowerCase().includes('sus')) return part;
+            const lowPart = part.toLowerCase();
+            if (lowPart.includes('sus') || lowPart.includes('add')) return part;
             return part.replace(/([23])$/, '');
         }).join('/');
     }
 
     createChordCard(chordName) {
         const simpleName = this.simplifyChord(chordName);
-        // Try exact match, then simplified, then just the root part
-        const fingering = this.database[chordName] || this.database[simpleName] || this.database[simpleName.split('/')[0]];
+        
+        // Alias '4' to 'sus4' if not found explicitly
+        let alternateName = null;
+        if (simpleName.endsWith('4')) {
+            alternateName = simpleName.replace(/4$/, 'sus4');
+        }
+
+        // Try exact match, then simplified, then alias (4->sus4), then just the root part
+        const fingering = this.database[chordName] || 
+                         this.database[simpleName] || 
+                         (alternateName ? this.database[alternateName] : null) ||
+                         this.database[simpleName.split('/')[0]];
 
         const card = document.createElement('div');
         card.className = 'piano-chord-card guitar-card'; // Reuse piano card styles with modifier

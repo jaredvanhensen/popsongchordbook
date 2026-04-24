@@ -84,6 +84,7 @@ class PianoChordOverlay {
             'sus2': [0, 2, 7],
             'sus4': [0, 5, 7],
             'sus': [0, 5, 7],
+            '4': [0, 5, 7],
             '7sus4': [0, 5, 7, 10],
             // Add chords
             'add9': [0, 4, 7, 14],
@@ -138,11 +139,16 @@ class PianoChordOverlay {
         // "2" = 2nd inversion (3rd note is bass note)
         // "3" = 1st inversion (2nd note is bass note)
         // e.g., C2 = C chord with G as bass (2nd inversion), C3 = C chord with E as bass (1st inversion)
+        // Check for inversion indicator at the end (custom notation)
+        // "2" = 2nd inversion, "3" = 1st inversion
+        // BUT: Don't strip the digit if it's part of a 'sus2' or 'add2' chord.
         let inversion = 0;
+        const lowSuffix = suffix.toLowerCase();
         const inversionMatch = suffix.match(/([23])$/);
-        if (inversionMatch) {
+        
+        if (inversionMatch && !lowSuffix.endsWith('sus2') && !lowSuffix.endsWith('add2')) {
             const invNum = parseInt(inversionMatch[1]);
-            // Custom notation: "2" means 2nd inversion (3rd note as bass), "3" means 1st inversion (2nd note as bass)
+            // Custom notation: "2" means 2nd inversion, "3" means 1st inversion
             if (invNum === 2) {
                 inversion = 2; // 2nd inversion: 3rd note becomes bass
             } else if (invNum === 3) {

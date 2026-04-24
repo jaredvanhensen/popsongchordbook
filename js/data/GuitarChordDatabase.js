@@ -260,6 +260,8 @@ const GuitarChordDatabase = {
     "Csus4": { frets: ["x", 3, 3, 0, 1, 1], fingers: [0, 3, 4, 0, 1, 1] },
     "Dsus2": { frets: ["x", "x", 0, 2, 3, 0], fingers: [0, 0, 0, 1, 3, 0] },
     "Dsus4": { frets: ["x", "x", 0, 2, 3, 3], fingers: [0, 0, 0, 1, 3, 4] },
+    "D#sus2": { baseFret: 6, frets: ["x", 6, 8, 8, 6, 6], barre: { fret: 6, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
+    "Ebsus2": { baseFret: 6, frets: ["x", 6, 8, 8, 6, 6], barre: { fret: 6, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
     "Esus2": { frets: [0, 2, 4, 4, 0, 0], fingers: [0, 1, 3, 4, 0, 0] },
     "Esus4": { frets: [0, 2, 2, 2, 0, 0], fingers: [0, 1, 2, 3, 0, 0] },
     "Fsus2": { baseFret: 1, frets: [1, 3, 3, 0, 1, 1], fingers: [1, 3, 4, 0, 1, 1] },
