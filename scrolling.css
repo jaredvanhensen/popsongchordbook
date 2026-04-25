@@ -942,7 +942,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     left: 0;
     width: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 100;
 }
 
 .marker-track-handle {
@@ -1056,11 +1056,17 @@ body.edit-mode-active .marker-track-handle {
     z-index: 105 !important;
 }
 
-.chord-item.active {
+.chord-item.active:not(.long-text) {
     /* Hide in the track to avoid "double" display */
     opacity: 0 !important;
     visibility: hidden;
     pointer-events: none;
+}
+
+/* Allow long text boxes to remain visible but fade slightly as they pass the playhead */
+.chord-item.active.long-text {
+    opacity: 0.6;
+    transition: opacity 1s ease;
 }
 
 .instructions {
@@ -1137,6 +1143,8 @@ body.edit-mode-active .marker-track-handle {
     justify-content: center !important;
     z-index: 150 !important;
     box-shadow: 0 4px 12px rgba(109, 40, 217, 0.4) !important;
+    pointer-events: auto !important;
+    cursor: grab;
 }
 
 .marker.lyrics-sync::after {

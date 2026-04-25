@@ -114,6 +114,9 @@ let dragPointerStartX = 0;
 let dragChordStartTime = 0;
 let dragHasMoved = false;
 let countInStartTime = 0;
+let isDraggingLyricMarker = false;
+let dragLyricMarkerPointerStartX = 0;
+let dragLyricMarkerStartTime = 0;
 
 // Virtual Drag State (Toolbar Chords)
 let isVirtualDragging = false;
@@ -1617,6 +1620,36 @@ window.addEventListener('pointermove', (e) => {
         return; // Prioritize timeline drag over others if active
     }
 
+    // 1b. Lyric Marker Drag
+    if (isDraggingLyricMarker) {
+        e.preventDefault();
+        const deltaX = e.clientX - dragLyricMarkerPointerStartX;
+        const deltaTime = deltaX / PIXELS_PER_SECOND;
+
+        if (window.lyricInitialTimes) {
+            const timeShift = deltaTime;
+            
+            // Update all lyrics by the shift relative to their start-of-drag positions
+            parsedLyrics.forEach((l, i) => {
+                l.time = Math.max(0, window.lyricInitialTimes[i] + timeShift);
+            });
+
+            // Update the global offset tracker (integer-ish for storage)
+            currentLyricOffset = window.initialLyricOffsetAtDragStart + timeShift;
+        }
+
+        // We need to update markers too because the "First Lyric" marker is in the markers array
+        markers.forEach(m => {
+            if (m.type === 'lyrics-sync') {
+                m.time = parsedLyrics[0].time;
+            }
+        });
+
+        renderStaticElements();
+        updateLoop();
+        return;
+    }
+
     // Check for start of virtual drag
     if (potentialVirtualDrag && !isVirtualDragging) {
         // ONLY start if button is still pressed!
@@ -1717,6 +1750,19 @@ window.addEventListener('pointerup', (e) => {
             selectionBoxEl.remove();
             selectionBoxEl = null;
         }
+        return;
+    }
+
+    // Reset Lyric Marker Drag
+    if (isDraggingLyricMarker) {
+        isDraggingLyricMarker = false;
+        // Notify parent to update the input field
+        window.parent.postMessage({
+            type: 'updateLyricSync',
+            offset: Math.round(currentLyricOffset)
+        }, '*');
+        checkForChanges();
+        renderStaticElements();
         return;
     }
 
@@ -2856,7 +2902,11 @@ function renderStaticElements() {
             el.classList.add(`root-${root}`);
         }
 
-        el.innerText = simplifyDisplayName(chord.name);
+        const displayName = simplifyDisplayName(chord.name);
+        el.innerText = displayName;
+        if (displayName.length > 10) {
+            el.classList.add('long-text');
+        }
         el.dataset.index = index;
 
         const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
@@ -2888,6 +2938,22 @@ function renderStaticElements() {
             label.className = 'marker-label';
             label.innerText = marker.label;
             el.appendChild(label);
+        }
+
+        if (marker.type === 'lyrics-sync') {
+            el.style.cursor = 'grab';
+            el.addEventListener('pointerdown', (e) => {
+                e.stopPropagation();
+                if (isPlaying) pause();
+                isDraggingLyricMarker = true;
+                dragLyricMarkerPointerStartX = e.clientX;
+                dragLyricMarkerStartTime = marker.time;
+                el.style.cursor = 'grabbing';
+                // Store initial times for all lyrics to support drag without drift
+                window.lyricInitialTimes = parsedLyrics.map(l => l.time);
+                window.initialLyricOffsetAtDragStart = currentLyricOffset;
+                saveUndoState();
+            });
         }
 
         markerFrag.appendChild(el);
@@ -3117,13 +3183,14 @@ function updateLoop() {
     }
 
     // Display current chord (Sticky)
-    const currentChord = chords[chordIndex]; // Use the index we found
+    const currentChord = chords[chordIndex];
 
     const displayString = (typeof window !== 'undefined' && window.activeMidiChord)
         ? window.activeMidiChord
         : (currentChord ? simplifyDisplayName(currentChord.name) : '');
 
-    if (displayString) {
+    // If chord/text is longer than 10 chars (e.g. "YouTube Video..."), don't show it in the yellow box
+    if (displayString && displayString.length <= 10) {
         if (currentChordDisplay.innerText !== displayString) {
             currentChordDisplay.innerText = displayString;
         }
@@ -4791,6 +4858,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
