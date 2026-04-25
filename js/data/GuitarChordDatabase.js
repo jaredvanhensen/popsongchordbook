@@ -282,6 +282,10 @@ const GuitarChordDatabase = {
     "Gadd9": { frets: [3, 2, 0, 2, 0, 3], fingers: [2, 1, 0, 3, 0, 4] },
     "Aadd9": { frets: ["x", 0, 2, 4, 2, 0], fingers: [0, 0, 1, 4, 2, 0] },
     "Aadd2": { frets: ["x", 0, 2, 4, 2, 0], fingers: [0, 0, 1, 4, 2, 0] },
+    
+    // 9th and Major 9th Chords
+    "Em9": { frets: [0, 2, 0, 0, 0, 2], fingers: [0, 2, 0, 0, 0, 3] },
+    "Dmaj9": { frets: ["x", "x", 0, 2, 2, 0], fingers: [0, 0, 0, 1, 2, 0] },
 
     // Power Chords (5 chords)
     "C5": { baseFret: 3, frets: ["x", 3, 5, 5, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] },
