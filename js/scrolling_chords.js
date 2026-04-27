@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -9,6 +9,7 @@ const exportBtn = document.getElementById('exportBtn');
 const timeline = document.getElementById('timeline');
 const chordTrack = document.getElementById('chordTrack');
 const markerTrack = document.getElementById('markerTrack');
+const interactionTrack = document.getElementById('interactionTrack');
 const tracksContainer = document.getElementById('tracksContainer');
 const currentChordDisplay = document.getElementById('currentChordDisplay');
 const instructions = document.getElementById('instructions');
@@ -563,10 +564,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Connect menu tool buttons to main logic
-    const menuExportBtn = document.getElementById('menuExportBtn');
-    if (menuExportBtn) {
-        menuExportBtn.addEventListener('click', () => {
-            if (exportBtn) exportBtn.click();
+    const toggleKeyboardMenuBtn = document.getElementById('toggleKeyboardMenuBtn');
+    if (toggleKeyboardMenuBtn) {
+        toggleKeyboardMenuBtn.addEventListener('click', () => {
+            const keyboard = document.getElementById('auditionKeyboard');
+            if (keyboard) {
+                keyboard.classList.toggle('force-hidden');
+            }
+            // Close the menu
+            if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
         });
     }
 
@@ -991,6 +997,44 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     };
+
+    // --- Audition Keyboard Logic ---
+    const auditionKeys = document.querySelectorAll('.audition-keyboard .key');
+    auditionKeys.forEach(key => {
+        key.addEventListener('pointerdown', async (e) => {
+            e.stopPropagation();
+            const note = parseInt(key.dataset.note);
+            
+            // Visual Feedback
+            key.classList.add('active');
+            
+            // Audio Feedback
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+            if (!pianoPlayer) {
+                if (typeof PianoAudioPlayer !== 'undefined') {
+                    pianoPlayer = new PianoAudioPlayer(audioCtx);
+                    await pianoPlayer.initialize();
+                } else {
+                    console.error('PianoAudioPlayer not found');
+                }
+            }
+            
+            if (pianoPlayer) {
+                // Play a single note for auditioning
+                pianoPlayer.playNote(note, 1.0, 0.6);
+            }
+        });
+
+        const stopKey = () => key.classList.remove('active');
+        key.addEventListener('pointerup', stopKey);
+        key.addEventListener('pointerleave', stopKey);
+        key.addEventListener('pointercancel', stopKey);
+    });
 
     setupResponsiveView();
 });
@@ -2923,8 +2967,11 @@ function renderStaticElements() {
 
     // Render markers
     markerTrack.innerHTML = '';
+    if (interactionTrack) interactionTrack.innerHTML = '';
 
     const markerFrag = document.createDocumentFragment();
+    const interactionFrag = document.createDocumentFragment();
+
     markers.forEach(marker => {
         const el = document.createElement('div');
         el.className = `marker ${marker.type}`;
@@ -2948,17 +2995,29 @@ function renderStaticElements() {
                 isDraggingLyricMarker = true;
                 dragLyricMarkerPointerStartX = e.clientX;
                 dragLyricMarkerStartTime = marker.time;
-                el.style.cursor = 'grabbing';
-                // Store initial times for all lyrics to support drag without drift
+                
+                // Track initial times of all lyrics
                 window.lyricInitialTimes = parsedLyrics.map(l => l.time);
                 window.initialLyricOffsetAtDragStart = currentLyricOffset;
-                saveUndoState();
+                
+                document.addEventListener('pointermove', handleLyricMarkerPointerMove);
+                document.addEventListener('pointerup', handleLyricMarkerPointerUp);
+                el.style.cursor = 'grabbing';
             });
+            
+            if (interactionFrag) {
+                interactionFrag.appendChild(el);
+            } else {
+                markerFrag.appendChild(el);
+            }
+        } else {
+            markerFrag.appendChild(el);
         }
-
-        markerFrag.appendChild(el);
     });
     markerTrack.appendChild(markerFrag);
+    if (interactionTrack && interactionFrag) {
+        interactionTrack.appendChild(interactionFrag);
+    }
 }
 
 function togglePlayPause() {

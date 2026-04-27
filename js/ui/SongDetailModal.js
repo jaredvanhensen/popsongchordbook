@@ -35,6 +35,7 @@ class SongDetailModal {
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
         this.addToSetlistBtn = document.getElementById('menuAddToSetlist');
         this.publishSongBtn = document.getElementById('menuPublishSong');
+        this.shareSongBtn = document.getElementById('menuShareSong');
         this.statusIcon = document.getElementById('songDetailStatusIcon');
 
         this.hamburgerBtn = document.getElementById('songDetailHamburgerBtn');
@@ -1218,6 +1219,15 @@ class SongDetailModal {
                     this.hamburgerMenu.classList.add('hidden');
                 }
                 this.handlePublishSong();
+            });
+        }
+        if (this.shareSongBtn) {
+            this.shareSongBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.handleShareSong();
             });
         }
         // Setup Swap Blocks button
@@ -2686,6 +2696,59 @@ class SongDetailModal {
                 performPublish();
             }
         }
+    }
+
+    async handleShareSong() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const title = song.title || 'Untitled';
+        const artist = song.artist || 'Unknown';
+        const shareText = `Check out the chords for "${artist} - ${title}" on PopSongChordBook!`;
+        const shareUrl = 'https://popsongchordbook.com'; // Use base URL for now
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${title} - Chords`,
+                    text: shareText,
+                    url: shareUrl
+                });
+                return;
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.error('Error sharing:', err);
+                } else {
+                    return; // User cancelled
+                }
+            }
+        }
+
+        // Fallback for browsers without navigator.share
+        const encodedText = encodeURIComponent(shareText + ' ' + shareUrl);
+        const encodedSubject = encodeURIComponent(`${artist} - ${title} Chords`);
+        const encodedBody = encodeURIComponent(shareText + '\n\n' + shareUrl);
+
+        const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+        const emailUrl = `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
+        const messengerUrl = `fb-messenger://share/?link=${encodeURIComponent(shareUrl)}`;
+
+        const shareHtml = `
+            <div class="share-options-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                <a href="${whatsappUrl}" target="_blank" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #25D366; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                    <span style="font-size: 20px;">📱</span> WhatsApp
+                </a>
+                <a href="${emailUrl}" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #6366f1; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                    <span style="font-size: 20px;">📧</span> Email
+                </a>
+                <a href="${messengerUrl}" target="_blank" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #0084FF; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                    <span style="font-size: 20px;">💬</span> Messenger
+                </a>
+            </div>
+        `;
+
+        this.showInfoModal('Share This Song', shareHtml);
     }
 
     async forkCurrentSong(updates = {}) {

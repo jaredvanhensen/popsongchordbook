@@ -120,6 +120,7 @@ class FirebaseManager {
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     await userRef.update({
                         email: normalizedEmail,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
                         preferences: {
                             isPremium: false
                         }
@@ -180,12 +181,20 @@ class FirebaseManager {
                     // Only update if email is not already stored
                     if (!userData || !userData.email) {
                         await userRef.update({
-                            email: normalizedEmail
+                            email: normalizedEmail,
+                            createdAt: userData?.createdAt || firebase.database.ServerValue.TIMESTAMP
                         });
                     } else if (userData.email !== normalizedEmail) {
                         // Update if email changed
                         await userRef.update({
                             email: normalizedEmail
+                        });
+                    }
+
+                    // Ensure createdAt exists even if email was already there
+                    if (userData && !userData.createdAt) {
+                        await userRef.update({
+                            createdAt: firebase.database.ServerValue.TIMESTAMP
                         });
                     }
 
@@ -1400,6 +1409,44 @@ class FirebaseManager {
         } catch (error) {
             console.error('Error loading public practice counts:', error);
             return {};
+        }
+    }
+    async getAllUsers() {
+        if (!this.initialized) return [];
+        try {
+            // First try to list from /users
+            // This might fail if security rules are not updated yet
+            const snapshot = await this.database.ref('users').once('value');
+            const data = snapshot.val();
+            if (!data) return [];
+            
+            return Object.entries(data).map(([uid, val]) => ({
+                uid: uid,
+                email: val.email || 'No email',
+                createdAt: val.createdAt || 0,
+                username: val.username || 'Anon'
+            }));
+        } catch (e) {
+            console.error('Error getting all users from /users:', e);
+            
+            // Fallback: try to list from /emailToUserId
+            try {
+                const snapshot = await this.database.ref('emailToUserId').once('value');
+                const data = snapshot.val();
+                if (!data) return [];
+                
+                // data is { "email_with_underscores": "uid", ... }
+                // We can at least show the emails
+                return Object.entries(data).map(([email, uid]) => ({
+                    uid: uid,
+                    email: email.replace(/_/g, '.'),
+                    createdAt: 0,
+                    username: 'Anon'
+                }));
+            } catch (e2) {
+                console.error('Error getting users from fallback:', e2);
+                return [];
+            }
         }
     }
 }

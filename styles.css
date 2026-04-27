@@ -11282,3 +11282,6 @@ body.is-mobile-view .chord-trainer-btn {
 .youtube-search-link.hidden {
     display: none !important;
 }
+
+.share-option-link:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+.share-option-link { transition: all 0.2s ease; }

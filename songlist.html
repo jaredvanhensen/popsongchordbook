@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -47,7 +47,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.672</span>
+                        v<span id="site-version">2.680</span>
                     </div>
                 </div>
             </div>
@@ -538,8 +538,11 @@
                             </label>
                         </div>
 
-                        <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%;">
+                        <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%; margin-bottom: 10px;">
                             View Requested Songs
+                        </button>
+                        <button id="profileViewMembersBtn" class="modal-submit-btn" style="background: #1e293b; width: 100%;">
+                            View New Members
                         </button>
                     </div>
                 </div>
@@ -1079,6 +1082,10 @@
                             <button id="menuPublishSong" class="hamburger-menu-item">
                                 <span class="icon">🌐</span>
                                 <span>Publish This Song Online</span>
+                            </button>
+                            <button id="menuShareSong" class="hamburger-menu-item">
+                                <span class="icon">📤</span>
+                                <span>Share This Song</span>
                             </button>
                             <button id="menuSearchGoogle" class="hamburger-menu-item">
                                 <span class="icon">🔍</span>
@@ -1660,6 +1667,36 @@
                 </div>
                 <div id="adminRequestsEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
                     No song requests yet.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Members Modal -->
+    <div id="adminMembersModal" class="modal auth-modal hidden" style="z-index: 12000;">
+        <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
+            <div class="modal-header">
+                <h3>New Members</h3>
+                <button class="modal-close" id="adminMembersModalClose">&times;</button>
+            </div>
+            <div class="modal-body" style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <div class="table-wrapper" style="max-height: 65vh; overflow-y: auto;">
+                    <table class="profile-top-songs-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>UID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminMembersTableBody">
+                            <!-- Members will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="adminMembersEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
+                    No members found.
                 </div>
             </div>
         </div>

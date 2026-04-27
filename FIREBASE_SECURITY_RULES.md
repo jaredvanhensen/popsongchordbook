@@ -15,6 +15,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
 {
   "rules": {
     "users": {
+      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
       "$userId": {
         ".read": "$userId === auth.uid",
         ".write": "$userId === auth.uid",

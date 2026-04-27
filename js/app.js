@@ -1,4 +1,4 @@
-﻿// Main Application (v2.672)
+// Main Application (v2.672)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -754,19 +754,15 @@ class App {
                 allSongs = this.songManager.getAllSongs(); // Refresh list after adding
             }
 
-            // 2. Check if 'DEMO' Setlist exists
+            // 2. Cleanup: Ensure 'DEMO' Setlist is removed for all users
             const allSetlists = this.setlistManager.getAllSetlists();
-            const demoExists = allSetlists.some(sl => sl.name === "DEMO");
+            const demoSetlists = allSetlists.filter(sl => sl.name.toUpperCase() === "DEMO");
 
-            if (!demoExists && allSongs.length > 0) {
-                console.log("DEMO setlist missing. Creating it...");
-                const demoSetlist = await this.setlistManager.createSetlist("DEMO");
-
-                // 3. Add all song IDs to the setlist
-                const songIds = allSongs.map(s => s.id);
-                await this.setlistManager.addSongsToSetlist(demoSetlist.id, songIds);
-                console.log("Created DEMO setlist with", songIds.length, "songs.");
-
+            if (demoSetlists.length > 0) {
+                console.log(`Cleaning up ${demoSetlists.length} legacy DEMO setlists...`);
+                for (const sl of demoSetlists) {
+                    await this.setlistManager.deleteSetlist(sl.id);
+                }
                 // Reload to reflect changes
                 this.loadAndRender();
             }

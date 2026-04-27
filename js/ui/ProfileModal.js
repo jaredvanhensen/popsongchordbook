@@ -42,6 +42,11 @@ class ProfileModal {
         this.requestsEmptyMsg = document.getElementById('adminRequestsEmpty');
         this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
         this.adminPaywallToggle = document.getElementById('adminPaywallToggle');
+        this.viewMembersBtn = document.getElementById('profileViewMembersBtn');
+        this.membersModal = document.getElementById('adminMembersModal');
+        this.membersTableBody = document.getElementById('adminMembersTableBody');
+        this.membersEmptyMsg = document.getElementById('adminMembersEmpty');
+        this.membersCloseBtn = document.getElementById('adminMembersModalClose');
 
         // Feature Toggles
         this.timelineToggle = document.getElementById('profileTimelineToggle');
@@ -324,6 +329,27 @@ class ProfileModal {
                 }
             });
         }
+
+        // Admin Members handlers
+        if (this.viewMembersBtn) {
+            this.viewMembersBtn.addEventListener('click', () => {
+                this.showMembersModal();
+            });
+        }
+
+        if (this.membersCloseBtn) {
+            this.membersCloseBtn.addEventListener('click', () => {
+                if (this.membersModal) this.membersModal.classList.add('hidden');
+            });
+        }
+
+        if (this.membersModal) {
+            this.membersModal.addEventListener('click', (e) => {
+                if (e.target === this.membersModal) {
+                    this.membersModal.classList.add('hidden');
+                }
+            });
+        }
     }
 
     async handleAvatarUpload(file) {
@@ -477,6 +503,51 @@ class ProfileModal {
 
         this.requestsModal.classList.remove('hidden');
         this.renderRequests();
+    }
+
+    async showMembersModal() {
+        if (!this.membersModal) return;
+
+        this.membersModal.classList.remove('hidden');
+        this.renderMembers();
+    }
+
+    async renderMembers() {
+        if (!this.membersTableBody) return;
+
+        this.membersTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+
+        try {
+            const users = await this.firebaseManager.getAllUsers();
+            this.membersTableBody.innerHTML = '';
+
+            if (users.length === 0) {
+                this.membersEmptyMsg?.classList.remove('hidden');
+                return;
+            }
+
+            this.membersEmptyMsg?.classList.add('hidden');
+
+            // Sort by joined date descending
+            const sorted = users.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            sorted.forEach((user, index) => {
+                const date = user.createdAt ? new Date(user.createdAt).toLocaleString() : 'Unknown';
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td style="font-weight: 700; color: #64748b;">${index + 1}</td>
+                    <td>${user.email || 'Anon'}</td>
+                    <td>${date}</td>
+                    <td style="font-size: 0.7em; color: #64748b; font-family: monospace;">${user.uid}</td>
+                `;
+                this.membersTableBody.appendChild(tr);
+            });
+
+        } catch (error) {
+            console.error('Error rendering members:', error);
+            this.membersTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
+        }
     }
 
     async renderRequests() {

@@ -70,7 +70,7 @@ class SetlistManager {
             const setlists = await this.firebaseManager.loadSetlists(userId);
             const normalizedSetlists = this.normalizeSetlists(setlists);
 
-            // SAFETY CHECK: If server has 0 setlists but we have local setlists (more than just DEMO?),
+            // SAFETY CHECK: If server has 0 setlists but we have local setlists,
             // assume server save failed previously and PROTECT local data.
             if (normalizedSetlists.length === 0 && this.setlists.length > 0) {
                 console.warn(`Sync: Server has 0 setlists, Local has ${this.setlists.length}. Protecting local data and re-uploading.`);
@@ -106,12 +106,14 @@ class SetlistManager {
 
     normalizeSetlists(setlists) {
         if (!Array.isArray(setlists)) return [];
-        const normalized = setlists.map(setlist => ({
-            id: setlist.id || Date.now().toString() + Math.random(),
-            name: setlist.name || 'Unnamed Setlist',
-            songIds: Array.isArray(setlist.songIds) ? setlist.songIds : [],
-            createdAt: setlist.createdAt || new Date().toISOString()
-        }));
+        const normalized = setlists
+            .filter(sl => sl && sl.name && sl.name.toUpperCase() !== 'DEMO')
+            .map(setlist => ({
+                id: setlist.id || Date.now().toString() + Math.random(),
+                name: setlist.name || 'Unnamed Setlist',
+                songIds: Array.isArray(setlist.songIds) ? setlist.songIds : [],
+                createdAt: setlist.createdAt || new Date().toISOString()
+            }));
 
         // Ensure "PRACTICE" setlist exists if not already present
         const hasPractice = normalized.some(sl => sl.name.toUpperCase() === 'PRACTICE');

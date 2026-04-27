@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,6 +11,9 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 110'><defs><linearGradient id='ps' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%2394a3b8'/><stop offset='1' stop-color='%23475569'/></linearGradient><linearGradient id='pf' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='%23f1f5f9'/></linearGradient><radialGradient id='ng' cx='50' cy='50' r='50'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%236b21a8'/></radialGradient></defs><g transform='translate(5,5)'><rect y='10' width='150' height='90' rx='20' fill='url(%23ps)'/><rect width='150' height='90' rx='20' fill='url(%23pf)' stroke='%23e2e8f0'/><line x1='30' y1='50' x2='120' y2='50' stroke='%23cbd5e1' stroke-width='6' stroke-linecap='round'/><circle cx='75' cy='50' r='20' fill='url(%23ng)'/></g></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
     <link rel="stylesheet" href="scrolling.css?v=2.672">
@@ -251,9 +254,9 @@
                     </label>
                     <input type="file" id="midiInput" accept=".mid,.midi,audio/midi,.json,application/json" class="file-input" style="display: none;">
                     
-                    <div id="menuExportBtn" class="hamburger-menu-item" role="button" tabindex="0">
-                        <span class="icon">📤</span>
-                        <span class="label">Export JSON (Chord Timeline)</span>
+                    <div id="toggleKeyboardMenuBtn" class="hamburger-menu-item" role="button" tabindex="0">
+                        <span class="icon">🎹</span>
+                        <span class="label">Show/Hide Mini Keyboard</span>
                     </div>
 
                     <div id="menuChordProgressionBtn" class="hamburger-menu-item" role="button" tabindex="0">
@@ -424,12 +427,36 @@
         <div class="marker-track-handle" id="markerTrackHandle"></div>
 
         <div class="instructions" id="instructions">Drop MIDI file here</div>
+
+        <!-- Audition Keyboard (Landscape Only) -->
+        <div id="auditionKeyboard" class="audition-keyboard">
+            <div class="keyboard-keys">
+                <!-- White Keys (C2-C3) -->
+                <div class="key white" data-note="48"></div>
+                <div class="key white" data-note="50"></div>
+                <div class="key white" data-note="52"></div>
+                <div class="key white" data-note="53"></div>
+                <div class="key white" data-note="55"></div>
+                <div class="key white" data-note="57"></div>
+                <div class="key white" data-note="59"></div>
+                <div class="key white" data-note="60"></div>
+                
+                <!-- Black Keys -->
+                <div class="key black" data-note="49" style="left: 9%"></div>
+                <div class="key black" data-note="51" style="left: 21.5%"></div>
+                <div class="key black" data-note="54" style="left: 46.5%"></div>
+                <div class="key black" data-note="56" style="left: 59%"></div>
+                <div class="key black" data-note="58" style="left: 71.5%"></div>
+            </div>
+        </div>
+
         <!-- Tracks Wrapper for optimized scrolling -->
         <div id="tracksContainer" class="tracks-container">
             <!-- Markers (bars/time) -->
             <div class="marker-track" id="markerTrack"></div>
             <!-- Chords -->
             <div class="chord-track" id="chordTrack"></div>
+            <div class="interaction-track" id="interactionTrack"></div>
         </div>
 
         <!-- Recording Indicator -->
