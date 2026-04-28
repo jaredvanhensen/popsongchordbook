@@ -1,4 +1,4 @@
-// Main Application (v2.672)
+﻿// Main Application (v2.681)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.672");
+        console.log("Pop Song Chord Book - 2.681");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -1865,10 +1865,31 @@ class App {
             });
         }
 
-        // Escape key to deselect
+        // Escape key to deselect and Space bar to scroll
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.tableRenderer.getSelectedRowId()) {
                 this.deselectRow();
+            }
+
+            if (e.code === 'Space') {
+                const activeTag = document.activeElement ? document.activeElement.tagName : '';
+                const isInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || 
+                                (document.activeElement && document.activeElement.isContentEditable);
+                
+                const wrapper = document.querySelector('.table-wrapper');
+                const isFocusInsideWrapper = wrapper && wrapper.contains(document.activeElement);
+                
+                const isModalOpen = document.querySelector('.modal:not(.hidden)') !== null || 
+                                    (document.getElementById('scrollingChordsModal') && !document.getElementById('scrollingChordsModal').classList.contains('hidden'));
+
+                if (!isInput && !isModalOpen && !isFocusInsideWrapper) {
+                    if (wrapper && wrapper.scrollHeight > wrapper.clientHeight) {
+                        e.preventDefault();
+                        const scrollAmount = wrapper.clientHeight * 0.8;
+                        const direction = e.shiftKey ? -1 : 1;
+                        wrapper.scrollBy({ top: scrollAmount * direction, behavior: 'smooth' });
+                    }
+                }
             }
         });
     }
@@ -3192,6 +3213,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

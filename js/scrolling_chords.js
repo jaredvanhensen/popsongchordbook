@@ -1,4 +1,4 @@
-// $12.544)
+﻿// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -1043,6 +1043,20 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener("keydown", e => {
     // Ignore if typing in an input field
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if (e.key === "Escape") {
+        const songMapOverlay = document.getElementById('songMapOverlay');
+        const isSongMapOpen = songMapOverlay && !songMapOverlay.classList.contains('hidden');
+        const isCurrentlyEditingInline = document.querySelector('.inline-chord-edit-input') !== null;
+
+        if (!isSongMapOpen && !isCurrentlyEditingInline) {
+            e.preventDefault();
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({ type: 'closeScrollingChordsModal' }, '*');
+            }
+            return;
+        }
+    }
 
     if (e.code === "Space") {
         // Ignore if Song Map is open
@@ -4917,6 +4931,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
