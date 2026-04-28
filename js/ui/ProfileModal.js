@@ -843,16 +843,48 @@ class ProfileModal {
         this.topSongsBody.innerHTML = '';
         top10.forEach((song, index) => {
             const count = parseInt(song.practiceCount) || 0;
-            const award = this.getAwardForCount(count);
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${index + 1}</td>
                 <td style="font-weight: 600;">${song.title}</td>
                 <td style="font-size: 0.9em; color: #64748b;">${song.artist}</td>
-                <td style="text-align: center; font-weight: 700;">${count}</td>
+                <td style="text-align: center; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    ${count}
+                    <button class="reset-practice-btn" data-id="${song.id}" title="Reset to 0" style="background: none; border: none; cursor: pointer; font-size: 1.1em; opacity: 0.7; transition: opacity 0.2s;">🔄</button>
+                </td>
             `;
             this.topSongsBody.appendChild(tr);
+        });
+
+        // Add event listeners for reset buttons
+        this.topSongsBody.querySelectorAll('.reset-practice-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', (e) => e.target.style.opacity = '1');
+            btn.addEventListener('mouseleave', (e) => e.target.style.opacity = '0.7');
+            btn.addEventListener('click', (e) => {
+                const songId = e.currentTarget.dataset.id;
+                const song = this.songManager.getSongById(songId);
+                
+                if (song && this.confirmationModal) {
+                    this.confirmationModal.show(
+                        'Reset Practice Count',
+                        `Are you sure you want to reset the practice count for "${song.title}" to 0?`,
+                        async () => {
+                            try {
+                                await this.songManager.updateSong(songId, { practiceCount: '0' });
+                                this.updateStatistics();
+                            } catch (error) {
+                                console.error('Error resetting practice count:', error);
+                                alert('Failed to reset count.');
+                            }
+                        },
+                        null,
+                        'Reset',
+                        'Cancel',
+                        'danger'
+                    );
+                }
+            });
         });
     }
 
