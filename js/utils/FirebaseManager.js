@@ -515,6 +515,67 @@ class FirebaseManager {
         }
     }
 
+    async addFixRequest(userId, userEmail, title, details) {
+        if (!this.initialized) return { success: false, error: 'Firebase not initialized' };
+        try {
+            const requestRef = this.database.ref('fixRequests').push();
+            await requestRef.set({
+                userId: userId,
+                userEmail: userEmail,
+                title: title,
+                details: details,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                status: 'pending'
+            });
+            return { success: true };
+        } catch (e) {
+            console.error('Error adding fix request:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getFixRequests() {
+        if (!this.initialized) return [];
+        try {
+            const snapshot = await this.database.ref('fixRequests').once('value');
+            const data = snapshot.val();
+            if (!data) return [];
+            
+            return Object.entries(data).map(([key, val]) => ({
+                ...val,
+                requestId: key
+            }));
+        } catch (e) {
+            console.error('Error getting fix requests:', e);
+            return [];
+        }
+    }
+
+    async fulfillFixRequest(requestId, status = 'fulfilled') {
+        if (!this.initialized || !requestId) return { success: false };
+        try {
+            await this.database.ref(`fixRequests/${requestId}`).update({
+                status: status,
+                fulfillmentDate: new Date().toISOString()
+            });
+            return { success: true };
+        } catch (e) {
+            console.error('Error fulfilling fix request:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async deleteFixRequest(requestId) {
+        if (!this.initialized || !requestId) return { success: false };
+        try {
+            await this.database.ref(`fixRequests/${requestId}`).remove();
+            return { success: true };
+        } catch (e) {
+            console.error('Error deleting fix request:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
     // Database Methods
 
     async saveSongs(userId, songs) {

@@ -31,9 +31,18 @@ class ProfileModal {
         this.logoutBtn = document.getElementById('profileLogoutBtn');
         this.shareSongsBtn = document.getElementById('profileShareSongsBtn');
         this.acceptSongsBtn = document.getElementById('profileAcceptSongsBtn');
+        this.requestFixBtn = document.getElementById('profileRequestFixBtn');
+        this.fixRequestModal = document.getElementById('fixRequestModal');
+        this.fixRequestForm = document.getElementById('fixRequestForm');
+        this.fixRequestTitle = document.getElementById('fixRequestTitle');
+        this.fixRequestDetails = document.getElementById('fixRequestDetails');
+        this.fixRequestError = document.getElementById('fixRequestError');
+        this.fixRequestSuccess = document.getElementById('fixRequestSuccess');
+        this.fixRequestCloseBtn = document.getElementById('fixRequestModalClose');
 
         this.closeBtn = document.getElementById('profileModalClose');
 
+        // Admin elements
         // Admin elements
         this.adminSection = document.getElementById('profileAdminSection');
         this.viewRequestsBtn = document.getElementById('profileViewRequestsBtn');
@@ -43,7 +52,12 @@ class ProfileModal {
         this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
         this.adminPaywallToggle = document.getElementById('adminPaywallToggle');
         this.viewMembersBtn = document.getElementById('profileViewMembersBtn');
+        this.viewFixRequestsBtn = document.getElementById('profileViewFixRequestsBtn');
         this.membersModal = document.getElementById('adminMembersModal');
+        this.adminFixRequestsModal = document.getElementById('adminFixRequestsModal');
+        this.adminFixRequestsTableBody = document.getElementById('adminFixRequestsTableBody');
+        this.adminFixRequestsEmpty = document.getElementById('adminFixRequestsEmpty');
+        this.adminFixRequestsCloseBtn = document.getElementById('adminFixRequestsModalClose');
         this.membersTableBody = document.getElementById('adminMembersTableBody');
         this.membersEmptyMsg = document.getElementById('adminMembersEmpty');
         this.membersCloseBtn = document.getElementById('adminMembersModalClose');
@@ -347,6 +361,55 @@ class ProfileModal {
             this.membersModal.addEventListener('click', (e) => {
                 if (e.target === this.membersModal) {
                     this.membersModal.classList.add('hidden');
+                }
+            });
+        }
+
+        // Fix Request handlers
+        if (this.requestFixBtn) {
+            this.requestFixBtn.addEventListener('click', () => {
+                this.showFixRequestModal();
+            });
+        }
+
+        if (this.fixRequestCloseBtn) {
+            this.fixRequestCloseBtn.addEventListener('click', () => {
+                if (this.fixRequestModal) this.fixRequestModal.classList.add('hidden');
+            });
+        }
+
+        if (this.fixRequestModal) {
+            this.fixRequestModal.addEventListener('click', (e) => {
+                if (e.target === this.fixRequestModal) {
+                    this.fixRequestModal.classList.add('hidden');
+                }
+            });
+        }
+
+        if (this.fixRequestForm) {
+            this.fixRequestForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleFixRequestSubmit();
+            });
+        }
+
+        // Admin Fix Request handlers
+        if (this.viewFixRequestsBtn) {
+            this.viewFixRequestsBtn.addEventListener('click', () => {
+                this.showAdminFixRequestsModal();
+            });
+        }
+
+        if (this.adminFixRequestsCloseBtn) {
+            this.adminFixRequestsCloseBtn.addEventListener('click', () => {
+                if (this.adminFixRequestsModal) this.adminFixRequestsModal.classList.add('hidden');
+            });
+        }
+
+        if (this.adminFixRequestsModal) {
+            this.adminFixRequestsModal.addEventListener('click', (e) => {
+                if (e.target === this.adminFixRequestsModal) {
+                    this.adminFixRequestsModal.classList.add('hidden');
                 }
             });
         }
@@ -1236,6 +1299,163 @@ class ProfileModal {
         }
         if (this.confirmPasswordInput) {
             this.confirmPasswordInput.value = '';
+        }
+        if (this.fixRequestTitle) {
+            this.fixRequestTitle.value = '';
+        }
+        if (this.fixRequestDetails) {
+            this.fixRequestDetails.value = '';
+        }
+    }
+
+    showFixRequestModal() {
+        if (!this.fixRequestModal) return;
+        this.fixRequestModal.classList.remove('hidden');
+        if (this.fixRequestError) this.fixRequestError.classList.add('hidden');
+        if (this.fixRequestSuccess) this.fixRequestSuccess.classList.add('hidden');
+        if (this.fixRequestTitle) this.fixRequestTitle.value = '';
+        if (this.fixRequestDetails) this.fixRequestDetails.value = '';
+    }
+
+    async handleFixRequestSubmit() {
+        const title = this.fixRequestTitle?.value.trim();
+        const details = this.fixRequestDetails?.value.trim();
+        if (!title || !details) return;
+
+        const user = this.firebaseManager.getCurrentUser();
+        if (!user) {
+            if (this.fixRequestError) {
+                this.fixRequestError.textContent = 'You must be logged in to submit a request.';
+                this.fixRequestError.classList.remove('hidden');
+            }
+            return;
+        }
+
+        const submitBtn = document.getElementById('submitFixRequestBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+        }
+
+        try {
+            const result = await this.firebaseManager.addFixRequest(user.uid, user.email, title, details);
+            if (result.success) {
+                if (this.fixRequestSuccess) {
+                    this.fixRequestSuccess.textContent = 'Request submitted successfully! Thank you.';
+                    this.fixRequestSuccess.classList.remove('hidden');
+                }
+                if (this.fixRequestTitle) this.fixRequestTitle.value = '';
+                if (this.fixRequestDetails) this.fixRequestDetails.value = '';
+                
+                setTimeout(() => {
+                    if (this.fixRequestModal) this.fixRequestModal.classList.add('hidden');
+                }, 2000);
+            } else {
+                if (this.fixRequestError) {
+                    this.fixRequestError.textContent = 'Error: ' + result.error;
+                    this.fixRequestError.classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            console.error('Fix request submission error:', error);
+            if (this.fixRequestError) {
+                this.fixRequestError.textContent = 'An unexpected error occurred.';
+                this.fixRequestError.classList.remove('hidden');
+            }
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Request';
+            }
+        }
+    }
+
+    async showAdminFixRequestsModal() {
+        if (!this.adminFixRequestsModal) return;
+        this.adminFixRequestsModal.classList.remove('hidden');
+        this.renderFixRequests();
+    }
+
+    async renderFixRequests() {
+        if (!this.adminFixRequestsTableBody) return;
+
+        this.adminFixRequestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+
+        try {
+            const requests = await this.firebaseManager.getFixRequests();
+            this.adminFixRequestsTableBody.innerHTML = '';
+
+            if (requests.length === 0) {
+                this.adminFixRequestsEmpty?.classList.remove('hidden');
+                return;
+            }
+
+            this.adminFixRequestsEmpty?.classList.add('hidden');
+
+            // Sort by timestamp descending
+            const sorted = requests.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+            sorted.forEach(req => {
+                const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString() : 'Unknown';
+                const tr = document.createElement('tr');
+                const isFulfilled = req.status === 'fulfilled';
+                
+                tr.innerHTML = `
+                    <td style="padding: 12px; font-size: 0.9em; max-width: 300px;">
+                        <div style="font-weight: 700; margin-bottom: 4px;">${req.title || 'No Title'}</div>
+                        <div style="font-size: 0.85em; color: #475569; white-space: pre-wrap;">${req.details || req.description || '-'}</div>
+                    </td>
+                    <td style="padding: 12px; font-size: 0.85em; color: #64748b;">${req.userEmail || 'Anon'}</td>
+                    <td style="padding: 12px; font-size: 0.85em; color: #64748b;">${date}</td>
+                    <td style="padding: 12px; display: flex; gap: 8px;">
+                        <button class="action-btn fulfill-fix-btn ${isFulfilled ? 'fulfilled' : ''}" 
+                                title="Mark as Done" 
+                                data-id="${req.requestId}" 
+                                ${isFulfilled ? 'disabled' : ''}
+                                style="cursor: ${isFulfilled ? 'default' : 'pointer'}; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: ${isFulfilled ? '#f1f5f9' : '#fff'};">
+                            ${isFulfilled ? '✔️' : '✅'}
+                        </button>
+                        <button class="action-btn delete-fix-btn" 
+                                title="Delete Request" 
+                                data-id="${req.requestId}"
+                                style="cursor: pointer; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: #fff;">
+                            🗑️
+                        </button>
+                    </td>
+                `;
+                this.adminFixRequestsTableBody.appendChild(tr);
+            });
+
+            // Add event listeners
+            this.adminFixRequestsTableBody.querySelectorAll('.fulfill-fix-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const reqId = e.currentTarget.dataset.id;
+                    const result = await this.firebaseManager.fulfillFixRequest(reqId);
+                    if (result.success) this.renderFixRequests();
+                });
+            });
+
+            this.adminFixRequestsTableBody.querySelectorAll('.delete-fix-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const reqId = e.currentTarget.dataset.id;
+                    this.confirmationModal.show(
+                        'Delete Request',
+                        'Are you sure you want to delete this fix/feature request?',
+                        async () => {
+                            const result = await this.firebaseManager.deleteFixRequest(reqId);
+                            if (result.success) this.renderFixRequests();
+                        },
+                        null,
+                        'Delete',
+                        'Cancel',
+                        'danger'
+                    );
+                });
+            });
+
+        } catch (error) {
+            console.error('Error rendering fix requests:', error);
+            this.adminFixRequestsTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Error loading requests.</td></tr>';
         }
     }
 

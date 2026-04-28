@@ -215,6 +215,23 @@ html {
     overflow: hidden;
 }
 
+.modal-content.modal-large {
+    max-width: 700px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-content.modal-80 {
+    max-width: 80%;
+    width: 80%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 /* Hide main content when row is selected and focused view is ready */
 body:has(.selection-overlay:not(.hidden)):has(.focused-view:not(.hidden)) .container {
     opacity: 0;
@@ -11285,3 +11302,16 @@ body.is-mobile-view .chord-trainer-btn {
 
 .share-option-link:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
 .share-option-link { transition: all 0.2s ease; }
+
+/* Admin Table & Fix Request Styles */
+.admin-table-container { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th { background: #f8fafc; padding: 12px 15px; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #e2e8f0; }
+.admin-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+.admin-table tr:hover { background: #f8fafc; }
+.fulfill-fix-btn.fulfilled { background: #f1f5f9 !important; color: #94a3b8 !important; border-color: #e2e8f0 !important; }
+#profileRequestFixBtn { transition: all 0.2s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+#profileRequestFixBtn:hover { transform: translateY(-1px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); background-color: #0284c7 !important; }
+.admin-empty-msg { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
+
+.modal-content.modal-80 { max-width: 80% !important; width: 80% !important; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }

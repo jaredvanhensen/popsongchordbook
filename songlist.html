@@ -8,7 +8,7 @@
     <title>Song Library - PopSongChordBook</title>
     <meta name="application-version" content="v2.661">
     <meta name="description" content="Manage your pop song library, create setlists, and practice with interactive chords.">
-    <link rel="stylesheet" href="styles.css?v=2.682">
+    <link rel="stylesheet" href="styles.css?v=2.683">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -47,7 +47,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        v<span id="site-version">2.682</span>
+                        v<span id="site-version">2.683</span>
                     </div>
                 </div>
             </div>
@@ -541,6 +541,9 @@
                         <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%; margin-bottom: 10px;">
                             View Requested Songs
                         </button>
+                        <button id="profileViewFixRequestsBtn" class="modal-submit-btn" style="background: #0ea5e9; width: 100%; margin-bottom: 10px;">
+                            View Fix/Feature Requests
+                        </button>
                         <button id="profileViewMembersBtn" class="modal-submit-btn" style="background: #1e293b; width: 100%;">
                             View New Members
                         </button>
@@ -709,6 +712,11 @@
                     <button id="profileShareSongsBtn" class="modal-submit-btn">Share Songs</button>
                 </div>
 
+                <div class="profile-fix-request-section" style="margin-top: 20px;">
+                    <h4>App Feedback</h4>
+                    <button id="profileRequestFixBtn" class="modal-submit-btn" style="background: #0ea5e9;">Request Fix or New Feature</button>
+                </div>
+
                 <div class="profile-pending-section">
                     <h4>Pending Songs</h4>
                     <button id="profileAcceptSongsBtn" class="modal-submit-btn hidden">Accept New Songs</button>
@@ -799,6 +807,59 @@
                     <button id="acceptSelectedSongsBtn" class="modal-submit-btn">Accept selected songs</button>
                     <button id="rejectSelectedSongsBtn" class="modal-cancel-btn">Reject selected songs</button>
                     <button id="cancelAcceptSongsBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix/Feature Request Modal (User) -->
+    <div id="fixRequestModal" class="modal hidden">
+        <div class="modal-content modal-80">
+            <div class="modal-header">
+                <h3>Request Fix or Feature</h3>
+                <button class="modal-close" id="fixRequestModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="fixRequestForm">
+                    <div class="auth-form-group" style="margin-bottom: 20px;">
+                        <label for="fixRequestTitle">Short Description</label>
+                        <input type="text" id="fixRequestTitle" class="auth-input" placeholder="Briefly what is it about..." maxlength="128" required>
+                    </div>
+                    <div class="auth-form-group" style="margin-bottom: 20px;">
+                        <label for="fixRequestDetails">Details</label>
+                        <textarea id="fixRequestDetails" class="auth-input" style="min-height: 120px; resize: vertical; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;" placeholder="Describe the bug or the feature you'd like to see in detail..." maxlength="1400" required></textarea>
+                    </div>
+                    <div id="fixRequestError" class="auth-error hidden" style="color: #ef4444; margin-bottom: 15px; font-size: 0.9em;"></div>
+                    <div id="fixRequestSuccess" class="auth-success hidden" style="color: #10b981; margin-bottom: 15px; font-size: 0.9em;"></div>
+                    <button type="submit" id="submitFixRequestBtn" class="modal-submit-btn" style="background: #0ea5e9; width: 100%;">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Fix Requests Modal -->
+    <div id="adminFixRequestsModal" class="modal hidden">
+        <div class="modal-content modal-large modal-80">
+            <div class="modal-header">
+                <h3>Fix & Feature Requests</h3>
+                <button class="modal-close" id="adminFixRequestsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-table-container" style="overflow-x: auto;">
+                    <table class="admin-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                                <th style="padding: 12px; text-align: left;">Description</th>
+                                <th style="padding: 12px; text-align: left;">User</th>
+                                <th style="padding: 12px; text-align: left;">Date</th>
+                                <th style="padding: 12px; text-align: left;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminFixRequestsTableBody">
+                            <!-- Requests will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                    <div id="adminFixRequestsEmpty" class="admin-empty-msg hidden" style="text-align: center; padding: 40px; color: #64748b;">No requests found.</div>
                 </div>
             </div>
         </div>
@@ -1606,42 +1667,42 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.682"></script>
+    <script src="js/config/firebase-config.js?v=2.683"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.682"></script>
-    <script src="js/models/SetlistManager.js?v=2.682"></script>
+    <script src="js/models/SongManager.js?v=2.683"></script>
+    <script src="js/models/SetlistManager.js?v=2.683"></script>
     <!-- Utils -->
-    <script src="js/utils/Sorter.js?v=2.682"></script>
-    <script src="js/utils/ChordDetector.js?v=2.682"></script>
-    <script src="js/utils/KeyDetector.js?v=2.682"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.682"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.682"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.682"></script>
-    <script src="js/utils/LyricsParser.js?v=2.682"></script>
+    <script src="js/utils/Sorter.js?v=2.683"></script>
+    <script src="js/utils/ChordDetector.js?v=2.683"></script>
+    <script src="js/utils/KeyDetector.js?v=2.683"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.683"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.683"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.683"></script>
+    <script src="js/utils/LyricsParser.js?v=2.683"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.682"></script>
-    <script src="js/ui/ChordModal.js?v=2.682"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.682"></script>
-    <script src="js/ui/TableRenderer.js?v=2.682"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.682"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.682"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.682"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.682"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.682"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.682"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.682"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.682"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.682"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.682"></script>
-    <script src="js/ui/AuthModal.js?v=2.682"></script>
-    <script src="js/ui/ProfileModal.js?v=2.682"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.682"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.682"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.682"></script>
+    <script src="js/utils/ChordParser.js?v=2.683"></script>
+    <script src="js/ui/ChordModal.js?v=2.683"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.683"></script>
+    <script src="js/ui/TableRenderer.js?v=2.683"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.683"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.683"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.683"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.683"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.683"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.683"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.683"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.683"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.683"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.683"></script>
+    <script src="js/ui/AuthModal.js?v=2.683"></script>
+    <script src="js/ui/ProfileModal.js?v=2.683"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.683"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.683"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.683"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.682"></script>
+    <script src="js/app.js?v=2.683"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -1778,6 +1839,7 @@
 </body>
 
 </html>
+
 
 
 
