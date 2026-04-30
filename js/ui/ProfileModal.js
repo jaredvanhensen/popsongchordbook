@@ -591,8 +591,24 @@ class ProfileModal {
 
             this.membersEmptyMsg?.classList.add('hidden');
 
-            // Sort by joined date descending
-            const sorted = users.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            // 1. Filter out the admin themselves (jared@vanhensen.nl) to keep the list focused on others
+            const adminEmail = 'jared@vanhensen.nl';
+            let filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
+
+            // 2. Deduplicate by email (in case the same email has multiple UIDs/accounts)
+            // We keep the one with the most recent createdAt
+            const uniqueUsersMap = new Map();
+            filtered.forEach(user => {
+                const email = (user.email || 'Anon').toLowerCase();
+                const existing = uniqueUsersMap.get(email);
+                if (!existing || (user.createdAt || 0) > (existing.createdAt || 0)) {
+                    uniqueUsersMap.set(email, user);
+                }
+            });
+            const uniqueUsers = Array.from(uniqueUsersMap.values());
+
+            // 3. Sort by joined date descending
+            const sorted = uniqueUsers.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
             sorted.forEach((user, index) => {
                 const dateStr = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, {
