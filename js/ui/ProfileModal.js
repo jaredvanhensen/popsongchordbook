@@ -1399,34 +1399,57 @@ class ProfileModal {
             const sorted = requests.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
             sorted.forEach(req => {
-                const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString() : 'Unknown';
+                const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                }) : 'Unknown';
                 const tr = document.createElement('tr');
+                tr.className = 'fix-request-row';
                 const isFulfilled = req.status === 'fulfilled';
                 
                 tr.innerHTML = `
-                    <td style="padding: 12px; font-size: 0.9em; max-width: 300px;">
-                        <div style="font-weight: 700; margin-bottom: 4px;">${req.title || 'No Title'}</div>
-                        <div style="font-size: 0.85em; color: #475569; white-space: pre-wrap;">${req.details || req.description || '-'}</div>
+                    <td class="fix-req-main-cell" style="padding: 12px; font-size: 0.9em;">
+                        <div class="fix-req-title-wrapper" style="cursor: pointer; display: flex; align-items: baseline; gap: 8px;" data-id="${req.requestId}">
+                            <div style="font-weight: 700; color: #1e293b;">${req.title || 'No Title'}</div>
+                            <span class="toggle-icon" style="font-size: 0.8em; color: #64748b; transition: transform 0.2s;">▼</span>
+                        </div>
+                        <div class="fix-req-details hidden" style="font-size: 0.85em; color: #475569; white-space: pre-wrap; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9;">${req.details || req.description || '-'}</div>
                     </td>
-                    <td style="padding: 12px; font-size: 0.85em; color: #64748b;">${req.userEmail || 'Anon'}</td>
-                    <td style="padding: 12px; font-size: 0.85em; color: #64748b;">${date}</td>
-                    <td style="padding: 12px; display: flex; gap: 8px;">
-                        <button class="action-btn fulfill-fix-btn ${isFulfilled ? 'fulfilled' : ''}" 
-                                title="Mark as Done" 
-                                data-id="${req.requestId}" 
-                                ${isFulfilled ? 'disabled' : ''}
-                                style="cursor: ${isFulfilled ? 'default' : 'pointer'}; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: ${isFulfilled ? '#f1f5f9' : '#fff'};">
-                            ${isFulfilled ? '✔️' : '✅'}
-                        </button>
-                        <button class="action-btn delete-fix-btn" 
-                                title="Delete Request" 
-                                data-id="${req.requestId}"
-                                style="cursor: pointer; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: #fff;">
-                            🗑️
-                        </button>
+                    <td class="fix-req-user-cell" style="padding: 12px; font-size: 0.85em; color: #64748b;">${req.userEmail || 'Anon'}</td>
+                    <td class="fix-req-date-cell" style="padding: 12px; font-size: 0.85em; color: #64748b; white-space: nowrap;">${date}</td>
+                    <td class="fix-req-actions-cell" style="padding: 12px;">
+                        <div style="display: flex; gap: 8px;">
+                            <button class="action-btn fulfill-fix-btn ${isFulfilled ? 'fulfilled' : ''}" 
+                                    title="Mark as Done" 
+                                    data-id="${req.requestId}" 
+                                    ${isFulfilled ? 'disabled' : ''}
+                                    style="cursor: ${isFulfilled ? 'default' : 'pointer'}; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: ${isFulfilled ? '#f1f5f9' : '#fff'};">
+                                ${isFulfilled ? '✔️' : '✅'}
+                            </button>
+                            <button class="action-btn delete-fix-btn" 
+                                    title="Delete Request" 
+                                    data-id="${req.requestId}"
+                                    style="cursor: pointer; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; background: #fff;">
+                                🗑️
+                            </button>
+                        </div>
                     </td>
                 `;
                 this.adminFixRequestsTableBody.appendChild(tr);
+            });
+
+            // Add toggle listeners
+            this.adminFixRequestsTableBody.querySelectorAll('.fix-req-title-wrapper').forEach(wrapper => {
+                wrapper.addEventListener('click', () => {
+                    const row = wrapper.closest('tr');
+                    const details = row.querySelector('.fix-req-details');
+                    const icon = wrapper.querySelector('.toggle-icon');
+                    const isHidden = details.classList.contains('hidden');
+                    
+                    details.classList.toggle('hidden');
+                    icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
             });
 
             // Add event listeners

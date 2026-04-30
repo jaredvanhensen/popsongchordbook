@@ -1,4 +1,4 @@
-﻿// Main Application (v2.687)
+﻿// Main Application (v2.688)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.687");
+        console.log("Pop Song Chord Book - 2.688");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -3213,6 +3213,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

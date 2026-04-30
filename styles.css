@@ -11347,4 +11347,50 @@ body.is-mobile-view .chord-trainer-btn {
         white-space: normal !important;
         max-width: none !important;
     }
+
+    /* --- Fix & Feature Requests Mobile Optimizations --- */
+    #adminFixRequestsModal .modal-content {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        padding: 10px !important;
+    }
+
+    #adminFixRequestsModal table thead {
+        display: none; /* Hide header on mobile */
+    }
+
+    #adminFixRequestsModal .fix-request-row {
+        display: block;
+        border-bottom: 2px solid #e2e8f0;
+        padding: 12px 0;
+        position: relative;
+    }
+
+    #adminFixRequestsModal td {
+        display: block;
+        width: 100% !important;
+        padding: 4px 8px !important;
+        border: none !important;
+    }
+
+    #adminFixRequestsModal .fix-req-user-cell {
+        font-size: 0.75em !important;
+        color: #64748b;
+    }
+
+    #adminFixRequestsModal .fix-req-date-cell {
+        position: absolute;
+        top: 12px;
+        right: 8px;
+        text-align: right;
+        width: auto !important;
+        font-size: 0.75em !important;
+        color: #94a3b8;
+    }
+
+    #adminFixRequestsModal .fix-req-actions-cell {
+        margin-top: 8px;
+        display: flex;
+        justify-content: flex-end;
+    }
 }
