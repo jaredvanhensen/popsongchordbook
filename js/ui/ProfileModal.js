@@ -595,22 +595,19 @@ class ProfileModal {
             const adminEmail = 'jared@vanhensen.nl';
             let filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
 
-            // 2. Deduplicate by email (in case the same email has multiple UIDs/accounts)
-            // We keep the one with the most recent createdAt
-            const uniqueUsersMap = new Map();
-            filtered.forEach(user => {
-                const email = (user.email || 'Anon').toLowerCase();
-                const existing = uniqueUsersMap.get(email);
-                if (!existing || (user.createdAt || 0) > (existing.createdAt || 0)) {
-                    uniqueUsersMap.set(email, user);
-                }
+            // 2. Count occurrences of each email to identify duplicates
+            const emailCounts = {};
+            filtered.forEach(u => {
+                const email = (u.email || 'Anon').toLowerCase();
+                emailCounts[email] = (emailCounts[email] || 0) + 1;
             });
-            const uniqueUsers = Array.from(uniqueUsersMap.values());
 
             // 3. Sort by joined date descending
-            const sorted = uniqueUsers.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            const sorted = filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
             sorted.forEach((user, index) => {
+                const email = (user.email || 'Anon').toLowerCase();
+                const isDuplicate = emailCounts[email] > 1 && email !== 'anon';
                 const dateStr = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, {
                     day: '2-digit',
                     month: '2-digit',
@@ -618,9 +615,16 @@ class ProfileModal {
                 }) : 'Unknown';
                 
                 const tr = document.createElement('tr');
+                if (isDuplicate) {
+                    tr.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; // Light red background for duplicates
+                }
+
                 tr.innerHTML = `
                     <td style="font-weight: 700; color: #64748b; width: 40px;">${index + 1}</td>
-                    <td style="word-break: break-all; max-width: 150px;">${user.email || 'Anon'}</td>
+                    <td style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
+                        ${user.email || 'Anon'}
+                        ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
+                    </td>
                     <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
                 `;
                 this.membersTableBody.appendChild(tr);

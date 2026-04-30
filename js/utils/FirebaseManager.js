@@ -119,6 +119,21 @@ class FirebaseManager {
                     const normalizedEmail = email.toLowerCase().trim();
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     
+                    // PREVENT DUPLICATES: Check if this email already exists under a different UID
+                    // (This happens if an old account was deleted from Auth but not the Database)
+                    try {
+                        const emailKey = normalizedEmail.replace(/\./g, '_');
+                        const indexSnapshot = await this.database.ref(`emailToUserId/${emailKey}`).once('value');
+                        const oldUid = indexSnapshot.val();
+                        
+                        if (oldUid && oldUid !== this.currentUser.uid) {
+                            console.log('FirebaseManager: Found orphaned database entry for email, cleaning up...', oldUid);
+                            await this.database.ref(`users/${oldUid}`).remove();
+                        }
+                    } catch (cleanupErr) {
+                        console.error('Error during duplicate cleanup:', cleanupErr);
+                    }
+
                     // Get actual creation time from Auth metadata if available
                     let authCreationTime = null;
                     if (this.currentUser.metadata && this.currentUser.metadata.creationTime) {
@@ -184,6 +199,20 @@ class FirebaseManager {
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     const userSnapshot = await userRef.once('value');
                     const userData = userSnapshot.val();
+
+                    // PREVENT DUPLICATES: Check if this email already exists under a different UID
+                    try {
+                        const emailKey = normalizedEmail.replace(/\./g, '_');
+                        const indexSnapshot = await this.database.ref(`emailToUserId/${emailKey}`).once('value');
+                        const oldUid = indexSnapshot.val();
+                        
+                        if (oldUid && oldUid !== this.currentUser.uid) {
+                            console.log('FirebaseManager: Found orphaned database entry during sign-in, cleaning up...', oldUid);
+                            await this.database.ref(`users/${oldUid}`).remove();
+                        }
+                    } catch (cleanupErr) {
+                        console.error('Error during duplicate cleanup:', cleanupErr);
+                    }
 
                     // Get actual creation time from Auth metadata if available
                     let authCreationTime = null;
