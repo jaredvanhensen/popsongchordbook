@@ -1,4 +1,4 @@
-﻿// Main Application (v2.691)
+﻿// Main Application (v2.692)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.691");
+        console.log("Pop Song Chord Book - 2.692");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -1867,6 +1867,30 @@ class App {
 
         // Escape key to deselect and Space bar to scroll
         document.addEventListener('keydown', (e) => {
+            // Forward keys to Scrolling Chords Modal if it's open
+            const scrollingModal = document.getElementById('scrollingChordsModal');
+            if (scrollingModal && !scrollingModal.classList.contains('hidden')) {
+                const frame = document.getElementById('scrollingChordsFrame');
+                // We only forward Space and Escape (for closing/pausing)
+                if (frame && frame.contentWindow && (e.code === 'Space' || e.key === 'Escape')) {
+                    // Don't forward if user is typing in an input inside the parent
+                    const activeTag = document.activeElement ? document.activeElement.tagName : '';
+                    const isInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || 
+                                    (document.activeElement && document.activeElement.isContentEditable);
+                    if (!isInput) {
+                        e.preventDefault();
+                        frame.contentWindow.postMessage({ 
+                            type: 'forwardKeyDown', 
+                            key: e.key, 
+                            code: e.code, 
+                            ctrlKey: e.ctrlKey, 
+                            metaKey: e.metaKey 
+                        }, '*');
+                        return;
+                    }
+                }
+            }
+
             if (e.key === 'Escape' && this.tableRenderer.getSelectedRowId()) {
                 this.deselectRow();
             }
@@ -3213,6 +3237,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

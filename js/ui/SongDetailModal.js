@@ -892,6 +892,8 @@ class SongDetailModal {
                     // Always send data if we have the frame, even if hidden (it might be minimized)
                     if (this.scrollingChordsFrame) {
                         this.sendDataToTimeline();
+                        // Focus the frame so keyboard events (Spacebar) work immediately
+                        this.scrollingChordsFrame.focus();
                     }
                 }
 

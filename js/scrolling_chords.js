@@ -332,10 +332,25 @@ window.addEventListener('message', (event) => {
         renderStaticElements();
         updateLoop();
     }
+    else if (msg.type === 'forwardKeyDown') {
+        // Manually trigger the local keydown logic for forwarded keys
+        const syntheticEvent = {
+            key: msg.key,
+            code: msg.code,
+            ctrlKey: msg.ctrlKey,
+            metaKey: msg.metaKey,
+            preventDefault: () => {},
+            target: document.body
+        };
+        if (typeof handleGlobalKeyDown === 'function') {
+            handleGlobalKeyDown(syntheticEvent);
+        }
+    }
 });
 
 // Signal that we are ready to receive data
 console.log('Scrolling Chords: Handshake ready');
+window.focus(); // Force focus to capture spacebar immediately
 if (window.parent) {
     window.parent.postMessage({ type: 'scrollingChordsReady' }, '*');
 } else if (window.opener) {
@@ -1040,7 +1055,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Space bar recording or toggle play/pause (Global listener)
-document.addEventListener("keydown", e => {
+document.addEventListener("keydown", handleGlobalKeyDown);
+
+function handleGlobalKeyDown(e) {
     // Ignore if typing in an input field
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
@@ -1161,7 +1178,7 @@ document.addEventListener("keydown", e => {
         console.log("Scrolling Chords: Intercepted 'F' key to prevent YouTube fullscreen");
         // Future: could trigger a timeline-specific find or fullscreen here
     }
-});
+}
 
 function initAudio() {
     if (!audioCtx) {
@@ -4931,6 +4948,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
