@@ -41,13 +41,22 @@ class SongManager {
         if (this.firebaseManager && this.firebaseManager.isAuthenticated()) {
             try {
                 const userId = this.firebaseManager.getCurrentUser().uid;
-                const [userSongs, publicSongs] = await Promise.all([
+                const [userSongs, publicSongs, publicPracticeCountsRaw] = await Promise.all([
                     this.firebaseManager.loadSongs(userId),
-                    this.firebaseManager.loadPublicSongs()
+                    this.firebaseManager.loadPublicSongs(),
+                    this.firebaseManager.loadPublicPracticeCounts(userId)
                 ]);
+                
+                this.publicPracticeCounts = publicPracticeCountsRaw || {};
 
                 // Store public songs separately for reference but merge for this.songs
-                this.publicSongs = this.normalizeSongs(publicSongs);
+                this.publicSongs = this.normalizeSongs(publicSongs).map(song => {
+                    song.practiceCount = '0';
+                    if (this.publicPracticeCounts[song.id]) {
+                        song.practiceCount = this.publicPracticeCounts[song.id].toString();
+                    }
+                    return song;
+                });
                 // Merge: private songs first, then public songs (no duplicates by id)
                 const privateNormalized = this.normalizeSongs(userSongs);
                 const publicIds = new Set(this.publicSongs.map(s => String(s.id)));
@@ -106,6 +115,7 @@ class SongManager {
             
             // Normalize public songs with user-specific counts
             const normalizedPublic = this.normalizeSongs(publicSongsRaw || []).map(song => {
+                song.practiceCount = '0'; // Ignore leaked practice counts in DB
                 if (this.publicPracticeCounts[song.id]) {
                     song.practiceCount = this.publicPracticeCounts[song.id].toString();
                 }
@@ -356,7 +366,8 @@ class SongManager {
 
         // Save to correct location
         if (newSong.isPublic && this.firebaseManager) {
-            await this.firebaseManager.savePublicSong(newSong);
+            const publicData = { ...newSong, practiceCount: '0' };
+            await this.firebaseManager.savePublicSong(publicData);
         }
         
         await this.saveSongs();
@@ -595,6 +606,7 @@ class SongManager {
         // Listener for public songs
         this.firebaseManager.onPublicSongsChange(userId, (publicSongsRaw) => {
             const normalizedPublic = this.normalizeSongs(publicSongsRaw).map(song => {
+                song.practiceCount = '0'; // Ignore leaked practice counts in DB
                 if (this.publicPracticeCounts && this.publicPracticeCounts[song.id]) {
                     song.practiceCount = this.publicPracticeCounts[song.id].toString();
                 }
@@ -632,6 +644,34 @@ class SongManager {
         } catch (error) {
             console.error('SongManager: Error updating public practice count:', error);
         }
+    }
+
+    /**
+     * Resets the practice count for a song (handles both public and private).
+     */
+    async resetPracticeCount(songId) {
+        const song = this.songs.find(s => String(s.id) === String(songId));
+        if (!song) return false;
+        
+        if (song.isPublic) {
+            if (this.firebaseManager && this.currentUserId) {
+                try {
+                    await this.firebaseManager.database.ref(`users/${this.currentUserId}/publicPracticeCounts/${songId}`).set(0);
+                    this.publicPracticeCounts[songId] = 0;
+                    song.practiceCount = '0';
+                    this.cacheSongs();
+                    if (this.onSongsChanged) this.onSongsChanged();
+                    return true;
+                } catch (error) {
+                    console.error('SongManager: Error resetting public practice count:', error);
+                    return false;
+                }
+            }
+        } else {
+            await this.updateSong(songId, { practiceCount: '0' });
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -682,7 +722,8 @@ class SongManager {
             
             // Save to correct location
             if (song.isPublic && this.firebaseManager) {
-                await this.firebaseManager.savePublicSong(song);
+                const publicData = { ...song, practiceCount: '0' };
+                await this.firebaseManager.savePublicSong(publicData);
                 
                 // Immediately update local publicSongs cache so that the private songs
                 // listener (onSongsChange) doesn't momentarily lose this song during

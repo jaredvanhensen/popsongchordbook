@@ -934,7 +934,7 @@ class ProfileModal {
                         `Are you sure you want to reset the practice count for "${song.title}" to 0?`,
                         async () => {
                             try {
-                                await this.songManager.updateSong(songId, { practiceCount: '0' });
+                                await this.songManager.resetPracticeCount(songId);
                                 this.updateStatistics();
                             } catch (error) {
                                 console.error('Error resetting practice count:', error);
