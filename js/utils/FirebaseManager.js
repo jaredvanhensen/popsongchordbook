@@ -118,9 +118,16 @@ class FirebaseManager {
                 try {
                     const normalizedEmail = email.toLowerCase().trim();
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
+                    
+                    // Get actual creation time from Auth metadata if available
+                    let authCreationTime = null;
+                    if (this.currentUser.metadata && this.currentUser.metadata.creationTime) {
+                        authCreationTime = new Date(this.currentUser.metadata.creationTime).getTime();
+                    }
+
                     await userRef.update({
                         email: normalizedEmail,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                        createdAt: authCreationTime || firebase.database.ServerValue.TIMESTAMP,
                         preferences: {
                             isPremium: false
                         }
@@ -178,11 +185,17 @@ class FirebaseManager {
                     const userSnapshot = await userRef.once('value');
                     const userData = userSnapshot.val();
 
+                    // Get actual creation time from Auth metadata if available
+                    let authCreationTime = null;
+                    if (this.currentUser.metadata && this.currentUser.metadata.creationTime) {
+                        authCreationTime = new Date(this.currentUser.metadata.creationTime).getTime();
+                    }
+
                     // Only update if email is not already stored
                     if (!userData || !userData.email) {
                         await userRef.update({
                             email: normalizedEmail,
-                            createdAt: userData?.createdAt || firebase.database.ServerValue.TIMESTAMP
+                            createdAt: userData?.createdAt || authCreationTime || firebase.database.ServerValue.TIMESTAMP
                         });
                     } else if (userData.email !== normalizedEmail) {
                         // Update if email changed
@@ -194,7 +207,7 @@ class FirebaseManager {
                     // Ensure createdAt exists even if email was already there
                     if (userData && !userData.createdAt) {
                         await userRef.update({
-                            createdAt: firebase.database.ServerValue.TIMESTAMP
+                            createdAt: authCreationTime || firebase.database.ServerValue.TIMESTAMP
                         });
                     }
 
