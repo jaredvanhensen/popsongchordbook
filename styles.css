@@ -11315,3 +11315,36 @@ body.is-mobile-view .chord-trainer-btn {
 .admin-empty-msg { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
 
 .modal-content.modal-80 { max-width: 80% !important; width: 80% !important; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+/* --- New Members List Mobile Optimizations --- */
+@media (max-width: 600px) {
+    #adminMembersModal .modal-content {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        padding: 10px !important;
+    }
+
+    #adminMembersModal table {
+        font-size: 0.8em !important;
+        table-layout: auto !important; /* Allow columns to fit content */
+    }
+
+    #adminMembersModal th, 
+    #adminMembersModal td {
+        padding: 8px 4px !important;
+    }
+
+    /* Force the Joined column to be as narrow as possible */
+    #adminMembersModal th:nth-child(3),
+    #adminMembersModal td:nth-child(3) {
+        width: 1% !important;
+        white-space: nowrap !important;
+        text-align: right !important;
+    }
+
+    /* Allow the Email column to wrap so it doesn't push the date off-screen */
+    #adminMembersModal td:nth-child(2) {
+        word-break: break-all !important;
+        white-space: normal !important;
+        max-width: none !important;
+    }
+}

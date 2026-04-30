@@ -595,14 +595,17 @@ class ProfileModal {
             const sorted = users.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
             sorted.forEach((user, index) => {
-                const date = user.createdAt ? new Date(user.createdAt).toLocaleString() : 'Unknown';
-                const tr = document.createElement('tr');
+                const dateStr = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                }) : 'Unknown';
                 
+                const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="font-weight: 700; color: #64748b;">${index + 1}</td>
-                    <td>${user.email || 'Anon'}</td>
-                    <td>${date}</td>
-                    <td style="font-size: 0.7em; color: #64748b; font-family: monospace;">${user.uid}</td>
+                    <td style="font-weight: 700; color: #64748b; width: 40px;">${index + 1}</td>
+                    <td style="word-break: break-all; max-width: 150px;">${user.email || 'Anon'}</td>
+                    <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
                 `;
                 this.membersTableBody.appendChild(tr);
             });
