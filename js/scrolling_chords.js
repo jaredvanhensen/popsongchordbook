@@ -2933,16 +2933,17 @@ function isSubset(pattern, notes) {
 function determineStaggerPositions() {
     if (!chords || chords.length === 0) return;
 
-    // Ensure sorted for predictable zig-zag
-    chords.sort((a, b) => a.time - b.time);
+    // Use a copy for calculation to avoid messing up the main array order during drag
+    // This allows chords to visually "pass" each other without swapping DOM elements
+    const sortedChords = [...chords].sort((a, b) => a.time - b.time);
 
     const THRESHOLD = 2.5; // Seconds (Higher for better spacing - v2.454)
     let lastOffset = -50; 
 
-    for (let i = 0; i < chords.length; i++) {
-        const chord = chords[i];
-        const prevChord = i > 0 ? chords[i - 1] : null;
-        const nextChord = i < chords.length - 1 ? chords[i + 1] : null;
+    for (let i = 0; i < sortedChords.length; i++) {
+        const chord = sortedChords[i];
+        const prevChord = i > 0 ? sortedChords[i - 1] : null;
+        const nextChord = i < sortedChords.length - 1 ? sortedChords[i + 1] : null;
 
         // Is this chord part of a "close" cluster?
         const isCluster = (prevChord && (chord.time - prevChord.time < THRESHOLD)) || 
@@ -3245,12 +3246,13 @@ function updateLoop() {
         lastBeatPlayed = currentBeat - 1;
     }
 
-    // Chord Audio Logic (Precise)
+    // Chord Audio Logic (Robust to unsorted arrays during drag)
     let audioChordIndex = -1;
-    for (let i = chords.length - 1; i >= 0; i--) {
-        if (chords[i].time <= playbackTime) {
+    let maxAudioTime = -1;
+    for (let i = 0; i < chords.length; i++) {
+        if (chords[i].time <= playbackTime && chords[i].time > maxAudioTime) {
+            maxAudioTime = chords[i].time;
             audioChordIndex = i;
-            break;
         }
     }
 
@@ -3265,10 +3267,11 @@ function updateLoop() {
 
     // Display chordIndex (with tolerance for smoother visual transitions)
     let chordIndex = -1;
-    for (let i = chords.length - 1; i >= 0; i--) {
-        if (chords[i].time <= playbackTime + 0.05) {
+    let maxDisplayTime = -1;
+    for (let i = 0; i < chords.length; i++) {
+        if (chords[i].time <= playbackTime + 0.05 && chords[i].time > maxDisplayTime) {
+            maxDisplayTime = chords[i].time;
             chordIndex = i;
-            break;
         }
     }
 
@@ -4948,6 +4951,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
