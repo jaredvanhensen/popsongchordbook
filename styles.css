@@ -11373,6 +11373,10 @@ body.is-mobile-view .chord-trainer-btn {
         border: none !important;
     }
 
+    #adminFixRequestsModal .fix-req-main-cell {
+        padding-right: 80px !important; /* Make room for the absolute-positioned date */
+    }
+
     #adminFixRequestsModal .fix-req-user-cell {
         font-size: 0.75em !important;
         color: #64748b;
