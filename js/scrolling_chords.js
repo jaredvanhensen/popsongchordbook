@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -4308,6 +4308,8 @@ function openSongMap() {
     // Hide Background Displays
     if (currentChordDisplay) currentChordDisplay.classList.add('hidden');
     if (lyricsHUD) lyricsHUD.classList.add('hidden');
+    const auditionKeyboard = document.getElementById('auditionKeyboard');
+    if (auditionKeyboard) auditionKeyboard.classList.add('song-map-open');
 
     // Stop playback while viewing map to avoid confusing visuals
     if (isPlaying) togglePlayPause();
@@ -4430,6 +4432,8 @@ function _forceCloseSongMap() {
 
     // Restore Background Displays
     if (currentChordDisplay) currentChordDisplay.classList.remove('hidden');
+    const auditionKeyboard = document.getElementById('auditionKeyboard');
+    if (auditionKeyboard) auditionKeyboard.classList.remove('song-map-open');
     // HUD will restore itself based on its own state if needed
 }
 

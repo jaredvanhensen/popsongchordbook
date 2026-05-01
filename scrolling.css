@@ -948,7 +948,8 @@ body.is-mobile-landscape .audition-keyboard {
     }
 }
 
-.audition-keyboard.force-hidden {
+.audition-keyboard.force-hidden,
+.audition-keyboard.song-map-open {
     display: none !important;
 }
 
@@ -1429,7 +1430,7 @@ body.edit-mode-active .marker-track-handle {
     right: 20px;
     width: 320px;
     height: 180px;
-    z-index: 1000;
+    z-index: 11000;
     /* Ensure it stays above timeline markers */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     background: black;
@@ -3763,7 +3764,7 @@ body.ctrl-held .chord-item {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.05);
-    z-index: 2000;
+    z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
