@@ -931,6 +931,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 
 body.is-mobile-landscape .audition-keyboard {
     display: block;
+    bottom: 100px !important; /* Moved significantly up from 25px to fit better in screen */
 }
 
 /* Responsive adjustments for different playhead offsets */

@@ -1,3 +1,5 @@
+# [ANTIGRAVITY INSTRUCTION]: Do NOT perform browser testing or open the browser after starting this server. 
+# The USER will perform all manual testing themselves.
 $http = [System.Net.HttpListener]::new() 
 $http.Prefixes.Add("http://localhost:8080/") 
 $http.Start()

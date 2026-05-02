@@ -38,17 +38,38 @@ body.is-mobile-landscape #youtubeToggleBtn {
 }
 body.is-mobile-landscape .landscape-header-bar {
     display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: auto;
+    min-height: 85px;
     background: linear-gradient(135deg, rgba(88, 28, 135, 1) 0%, rgba(126, 34, 206, 1) 100%);
     align-items: center;
-    justify-content: space-between;
-    padding: 0 110px 0 20px; /* Shifted left to clear minimize/close buttons in parent modal */
+    justify-content: center;
+    padding: 8px 15px; /* Reduced general padding */
     z-index: 2005;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+body.is-mobile-landscape .header-metadata-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row; /* Metadata on one row */
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+    padding: 0 50px 0 10px; /* Leave room for X button on right */
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+body.is-mobile-landscape .header-controls-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
 }
 
 body.is-mobile-landscape .header-metadata {
@@ -62,8 +83,22 @@ body.is-mobile-landscape .header-metadata {
     border: none !important;
 }
 
-body.is-mobile-landscape .artist-display { font-size: 0.8rem !important; opacity: 0.8 !important; color: white !important; margin: 0 !important; }
-body.is-mobile-landscape .song-title-display { font-size: 1.1rem !important; margin: 0 !important; color: white !important; font-weight: 800; }
+body.is-mobile-landscape .artist-display { 
+    font-size: 0.75rem !important; 
+    opacity: 0.8 !important; 
+    color: white !important; 
+    margin: 0 !important; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+body.is-mobile-landscape .song-title-display { 
+    font-size: 1.1rem !important; 
+    margin: 0 !important; 
+    color: white !important; 
+    font-weight: 900; 
+    white-space: nowrap;
+}
 
 /* Push Bar Labels lower in landscape to avoid metadata collision (v2.457) */
 body.is-mobile-landscape .marker.bar .marker-label {
@@ -83,7 +118,7 @@ body.is-mobile-landscape .timeline-container {
     height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
-    padding-top: 60px !important; /* Leave room for the purple header */
+    padding-top: 95px !important; /* Leave room for the taller purple header */
     z-index: 500;
 }
 
@@ -179,10 +214,10 @@ body.is-mobile-landscape .main-play-arrow {
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
 .pure-timeline-controls {
     display: flex;
-    gap: 8px; /* Slightly tighter gap to fit more buttons */
+    gap: 15px; /* Better spacing for direct buttons */
     align-items: center;
-    margin-left: auto; /* Push controls to the right towards the close button */
-    margin-right: 15px; /* Leave a small gap before the close button circle */
+    justify-content: center;
+    width: 100%;
 }
 
 /* Floating icons look - no boxes */
