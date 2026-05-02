@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -153,7 +153,8 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Default ON
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.698)
+let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
 let lastChordPlayed = -1;
@@ -271,6 +272,14 @@ window.addEventListener('message', (event) => {
         if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
         if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        if (msg.uid) {
+            currentUid = msg.uid;
+            // Apply default audio setting from Profile (v2.698)
+            const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
+            audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
+            syncPureTimelineButtons(); // Update UI buttons
+            if (audioToggleBtn) audioToggleBtn.classList.toggle('active', audioEnabled);
+        }
         loadData(msg.data, msg.youtubeUrl, msg.title, msg.suggestedChords, msg.artist, msg.songTitle, msg.fullLyrics, msg.lyrics, msg.lyricOffset, msg.instrumentMode, msg.key, currentCapoValue);
         // Restore last playback position if provided
         if (msg.lastPosition && msg.lastPosition > 0) {

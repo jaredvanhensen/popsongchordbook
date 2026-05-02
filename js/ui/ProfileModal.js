@@ -63,6 +63,7 @@ class ProfileModal {
         this.membersCloseBtn = document.getElementById('adminMembersModalClose');
 
         // Feature Toggles
+        this.timelineAudioToggle = document.getElementById('profileTimelineAudioToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
         this.songMapToggle = document.getElementById('profileSongMapToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
@@ -247,6 +248,15 @@ class ProfileModal {
         // Enter key handling for password change
         // Feature Toggles
 
+
+        if (this.timelineAudioToggle) {
+            this.timelineAudioToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-timeline-audio-enabled-${uid}`, isEnabled);
+            });
+        }
 
         if (this.timelineToggle) {
             this.timelineToggle.addEventListener('change', (e) => {
@@ -515,6 +525,9 @@ class ProfileModal {
         this.updateInstrumentUI(savedInstrument);
 
         // Initialize feature toggles from localStorage (per-user)
+        if (this.timelineAudioToggle) {
+            this.timelineAudioToggle.checked = localStorage.getItem(`feature-timeline-audio-enabled-${uid}`) !== 'false';
+        }
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
         }

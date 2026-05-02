@@ -3217,7 +3217,8 @@ class SongDetailModal {
             key: this.getSongKey() || 'C',
             capo: this.capoValue || 0,
             isPublic: !!song.isPublic,
-            canEdit: this.songManager.canEditPublicSong(song)
+            canEdit: this.songManager.canEditPublicSong(song),
+            uid: this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser()?.uid : 'guest'
         }, '*');
     }
 
