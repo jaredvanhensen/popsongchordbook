@@ -1572,22 +1572,26 @@ class FirebaseManager {
         }
 
         try {
-            // We use 'no-cors' mode for simple notification pings to avoid preflight issues
-            // and because we don't necessarily need to read the response.
-            await fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    event: "new_user_registration",
-                    email: email,
-                    username: username || "Anonymous",
-                    timestamp: new Date().toISOString(),
-                    app: "Pop Song Chord Book"
-                })
+            // We use 'no-cors' mode and form-urlencoded content to avoid CORS preflight issues
+            // which often block requests to Zapier from the browser.
+            const params = new URLSearchParams({
+                event: "new_user_registration",
+                email: email,
+                username: username || "Anonymous",
+                timestamp: new Date().toISOString(),
+                app: "Pop Song Chord Book"
             });
-            console.log("FirebaseManager: Admin notified of new user:", email);
+
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Critical for browser-to-Zapier pings
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: params.toString()
+            });
+            
+            console.log("FirebaseManager: Admin notification ping sent for:", email);
         } catch (error) {
             console.warn("FirebaseManager: Failed to send admin notification:", error);
         }
