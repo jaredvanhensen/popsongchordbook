@@ -150,6 +150,9 @@ class FirebaseManager {
 
                     // Create email index for user lookup
                     await this.ensureEmailIndex(this.currentUser.uid, email);
+
+                    // Notify Admin of new registration via Webhook
+                    this.notifyAdminOnSignUp(normalizedEmail, username);
                 } catch (error) {
                     console.error('Error storing email in database:', error);
                 }
@@ -1550,6 +1553,43 @@ class FirebaseManager {
                 console.error('Error getting users from fallback:', e2);
                 return [];
             }
+        }
+    }
+
+    /**
+     * Sends a notification to the admin via a Webhook (e.g., Zapier, IFTTT, or a custom server).
+     * This is used to get instant alerts for new user registrations.
+     * @param {string} email - The email of the new user
+     * @param {string} username - The username (if provided)
+     */
+    async notifyAdminOnSignUp(email, username) {
+        // REPLACE THIS URL with your actual Zapier/IFTTT Webhook URL
+        const WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/27461573/uvctgxo/"; 
+        
+        if (!WEBHOOK_URL || WEBHOOK_URL.includes("change_this")) {
+            console.log("FirebaseManager: Admin notification skipped (Webhook URL not configured)");
+            return;
+        }
+
+        try {
+            // We use 'no-cors' mode for simple notification pings to avoid preflight issues
+            // and because we don't necessarily need to read the response.
+            await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    event: "new_user_registration",
+                    email: email,
+                    username: username || "Anonymous",
+                    timestamp: new Date().toISOString(),
+                    app: "Pop Song Chord Book"
+                })
+            });
+            console.log("FirebaseManager: Admin notified of new user:", email);
+        } catch (error) {
+            console.warn("FirebaseManager: Failed to send admin notification:", error);
         }
     }
 }

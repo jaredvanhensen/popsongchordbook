@@ -307,4 +307,38 @@ const GuitarChordDatabase = {
     "B5": { baseFret: 2, frets: ["x", 2, 4, 4, "x", "x"], fingers: [0, 1, 3, 4, 0, 0] }
 };
 
-window.GuitarChordDatabase = GuitarChordDatabase;
+// Logic to handle M7 as maj7 (e.g., CM7 -> Cmaj7)
+const GuitarChordDatabaseProxy = new Proxy(GuitarChordDatabase, {
+    get: function(target, prop) {
+        if (typeof prop === 'string') {
+            if (prop in target) return target[prop];
+            
+            // Normalize M7 to maj7
+            if (prop.includes('M7')) {
+                const normalized = prop.replace('M7', 'maj7');
+                if (normalized in target) return target[normalized];
+            }
+            
+            // Normalize maj7 to M7 (for symmetry)
+            if (prop.includes('maj7')) {
+                const normalized = prop.replace('maj7', 'M7');
+                if (normalized in target) return target[normalized];
+            }
+        }
+        return target[prop];
+    },
+    has: function(target, prop) {
+        if (typeof prop === 'string') {
+            if (prop in target) return true;
+            if (prop.includes('M7')) {
+                return prop.replace('M7', 'maj7') in target;
+            }
+            if (prop.includes('maj7')) {
+                return prop.replace('maj7', 'M7') in target;
+            }
+        }
+        return prop in target;
+    }
+});
+
+window.GuitarChordDatabase = GuitarChordDatabaseProxy;

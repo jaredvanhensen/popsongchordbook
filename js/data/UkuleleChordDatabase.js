@@ -158,4 +158,38 @@ const UkuleleChordDatabase = {
     "Bmaj7": { frets: [4, 3, 2, 1], fingers: [4, 3, 2, 1] }
 };
 
-window.UkuleleChordDatabase = UkuleleChordDatabase;
+// Logic to handle M7 as maj7 (e.g., CM7 -> Cmaj7)
+const UkuleleChordDatabaseProxy = new Proxy(UkuleleChordDatabase, {
+    get: function(target, prop) {
+        if (typeof prop === 'string') {
+            if (prop in target) return target[prop];
+            
+            // Normalize M7 to maj7
+            if (prop.includes('M7')) {
+                const normalized = prop.replace('M7', 'maj7');
+                if (normalized in target) return target[normalized];
+            }
+            
+            // Normalize maj7 to M7 (for symmetry)
+            if (prop.includes('maj7')) {
+                const normalized = prop.replace('maj7', 'M7');
+                if (normalized in target) return target[normalized];
+            }
+        }
+        return target[prop];
+    },
+    has: function(target, prop) {
+        if (typeof prop === 'string') {
+            if (prop in target) return true;
+            if (prop.includes('M7')) {
+                return prop.replace('M7', 'maj7') in target;
+            }
+            if (prop.includes('maj7')) {
+                return prop.replace('maj7', 'M7') in target;
+            }
+        }
+        return prop in target;
+    }
+});
+
+window.UkuleleChordDatabase = UkuleleChordDatabaseProxy;

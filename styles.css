@@ -11398,3 +11398,5 @@ body.is-mobile-view .chord-trainer-btn {
         justify-content: flex-end;
     }
 }
+
+.modal-content.modal-medium { max-width: 600px; }
