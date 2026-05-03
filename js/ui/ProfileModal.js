@@ -935,11 +935,22 @@ class ProfileModal {
     renderTopSongs(songs) {
         if (!this.topSongsBody) return;
 
+        // Filter for songs with more than 0 practices
+        const practicedSongs = songs.filter(song => (parseInt(song.practiceCount) || 0) > 0);
+
         // Sort by practice count descending
-        const sorted = [...songs].sort((a, b) => (parseInt(b.practiceCount) || 0) - (parseInt(a.practiceCount) || 0));
+        const sorted = [...practicedSongs].sort((a, b) => (parseInt(b.practiceCount) || 0) - (parseInt(a.practiceCount) || 0));
         const top10 = sorted.slice(0, 10);
 
         this.topSongsBody.innerHTML = '';
+
+        if (top10.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="4" style="text-align: center; padding: 20px; color: #64748b; font-style: italic;">No songs practiced yet. Start practicing to see your top songs!</td>`;
+            this.topSongsBody.appendChild(tr);
+            return;
+        }
+
         top10.forEach((song, index) => {
             const count = parseInt(song.practiceCount) || 0;
 
