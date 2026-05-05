@@ -10,6 +10,7 @@ class SongManager {
         this.onSongsChanged = null; // Callback for when songs change externally
         this.publicSongs = []; // Cache for public songs
         this.publicPracticeCounts = {}; // Cache for user-specific practice counts on public songs
+        this.publicFavorites = {}; // Cache for user-specific favorites on public songs
         this.currentUserId = null; 
     }
 
@@ -41,13 +42,15 @@ class SongManager {
         if (this.firebaseManager && this.firebaseManager.isAuthenticated()) {
             try {
                 const userId = this.firebaseManager.getCurrentUser().uid;
-                const [userSongs, publicSongs, publicPracticeCountsRaw] = await Promise.all([
+                const [userSongs, publicSongs, publicPracticeCountsRaw, publicFavoritesRaw] = await Promise.all([
                     this.firebaseManager.loadSongs(userId),
                     this.firebaseManager.loadPublicSongs(),
-                    this.firebaseManager.loadPublicPracticeCounts(userId)
+                    this.firebaseManager.loadPublicPracticeCounts(userId),
+                    this.firebaseManager.loadPublicFavorites(userId)
                 ]);
                 
                 this.publicPracticeCounts = publicPracticeCountsRaw || {};
+                this.publicFavorites = publicFavoritesRaw || {};
 
                 // Store public songs separately for reference but merge for this.songs
                 const isAdmin = this.firebaseManager.isAdmin(userId);
@@ -57,6 +60,14 @@ class SongManager {
                         song.practiceCount = this.publicPracticeCounts[song.id].toString();
                     } else if (!isAdmin && !isSubmitter) {
                         song.practiceCount = '0';
+                    }
+
+                    // Apply personal favorites for public songs
+                    if (this.publicFavorites && this.publicFavorites[song.id] !== undefined) {
+                        song.favorite = !!this.publicFavorites[song.id];
+                    } else if (!isAdmin && !isSubmitter) {
+                        // For regular users, don't show the submitter's/global favorite state
+                        song.favorite = false;
                     }
                     return song;
                 });
@@ -107,14 +118,16 @@ class SongManager {
             if (!user) return;
             const userId = user.uid;
             
-            // Load private, public songs and public practice counts in one sync pass
-            const [privateSongsRaw, publicSongsRaw, publicPracticeCountsRaw] = await Promise.all([
+            // Load private, public songs, counts and favorites in one sync pass
+            const [privateSongsRaw, publicSongsRaw, publicPracticeCountsRaw, publicFavoritesRaw] = await Promise.all([
                 this.firebaseManager.loadSongs(userId),
                 this.firebaseManager.loadPublicSongs(),
-                this.firebaseManager.loadPublicPracticeCounts(userId)
+                this.firebaseManager.loadPublicPracticeCounts(userId),
+                this.firebaseManager.loadPublicFavorites(userId)
             ]);
             
             this.publicPracticeCounts = publicPracticeCountsRaw || {};
+            this.publicFavorites = publicFavoritesRaw || {};
             
             // Normalize public songs with user-specific counts
             const isAdmin = this.firebaseManager.isAdmin(userId);
@@ -124,6 +137,13 @@ class SongManager {
                     song.practiceCount = this.publicPracticeCounts[song.id].toString();
                 } else if (!isAdmin && !isSubmitter) {
                     song.practiceCount = '0';
+                }
+
+                // Apply personal favorites for public songs
+                if (this.publicFavorites && this.publicFavorites[song.id] !== undefined) {
+                    song.favorite = !!this.publicFavorites[song.id];
+                } else if (!isAdmin && !isSubmitter) {
+                    song.favorite = false;
                 }
                 return song;
             });
@@ -372,7 +392,8 @@ class SongManager {
 
         // Save to correct location
         if (newSong.isPublic && this.firebaseManager) {
-            const publicData = { ...newSong, practiceCount: '0' };
+            // Ensure favorite status is NOT global for public songs
+            const publicData = { ...newSong, practiceCount: '0', favorite: false };
             await this.firebaseManager.savePublicSong(publicData);
         }
         
@@ -384,6 +405,14 @@ class SongManager {
         const song = this.songs.find(s => s.id === id);
         if (song) {
             song.favorite = !song.favorite;
+            
+            if (song.isPublic && this.firebaseManager && this.currentUserId) {
+                // For public songs, save to personal favorites path
+                await this.firebaseManager.savePublicFavorite(this.currentUserId, id, song.favorite);
+                // Also update local cache to prevent race conditions
+                this.publicFavorites[id] = song.favorite;
+            }
+            
             await this.saveSongs();
             return song;
         }
@@ -503,6 +532,8 @@ class SongManager {
     clearLibrary() {
         this.songs = [];
         this.publicSongs = [];
+        this.publicPracticeCounts = {};
+        this.publicFavorites = {};
         this.currentUserId = null;
         this.storageKey = this.baseStorageKey;
     }
@@ -555,7 +586,14 @@ class SongManager {
                     // For regular users (not admin/submitter), mask leaked global counts
                     song.practiceCount = '0';
                 }
-                // Otherwise, keep the count from the DB (admin/submitter case)
+
+                // If user-specific favorite exists, use it
+                if (this.publicFavorites && this.publicFavorites[song.id] !== undefined) {
+                    song.favorite = !!this.publicFavorites[song.id];
+                } else if (!isAdmin && !isSubmitter) {
+                    song.favorite = false;
+                }
+                // Otherwise, keep the state from the DB (admin/submitter case)
                 return song;
             });
             this.publicSongs = normalizedPublic;
@@ -567,6 +605,32 @@ class SongManager {
             this.updateNextId();
             this.cacheSongs();
             if (this.onSongsChanged) this.onSongsChanged();
+        });
+
+        // Listener for public favorites
+        this.firebaseManager.onPublicFavoritesChange(userId, (favorites) => {
+            this.publicFavorites = favorites || {};
+            
+            // Apply favorites to current public songs
+            let changed = false;
+            this.songs.forEach(song => {
+                if (song.isPublic) {
+                    const isSubmitter = song.submittedBy === userId;
+                    const personalFav = this.publicFavorites[song.id];
+                    
+                    const newFavState = (personalFav !== undefined) ? !!personalFav : (isAdmin || isSubmitter ? song.favorite : false);
+                    
+                    if (song.favorite !== newFavState) {
+                        song.favorite = newFavState;
+                        changed = true;
+                    }
+                }
+            });
+
+            if (changed) {
+                this.cacheSongs();
+                if (this.onSongsChanged) this.onSongsChanged();
+            }
         });
     }
 
@@ -627,6 +691,7 @@ class SongManager {
         if (this.firebaseManager && this.syncEnabled) {
             if (this.currentUserId) {
                 this.firebaseManager.removeSongsListener(this.currentUserId);
+                this.firebaseManager.removePublicFavoritesListener(this.currentUserId);
             }
             this.syncEnabled = false;
             this.currentUserId = null;
@@ -668,7 +733,8 @@ class SongManager {
             
             // Save to correct location
             if (song.isPublic && this.firebaseManager) {
-                const publicData = { ...song, practiceCount: '0' };
+                // Ensure favorite status is NOT global for public songs
+                const publicData = { ...song, practiceCount: '0', favorite: false };
                 await this.firebaseManager.savePublicSong(publicData);
                 
                 // Immediately update local publicSongs cache so that the private songs

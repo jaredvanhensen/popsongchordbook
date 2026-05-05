@@ -1517,6 +1517,40 @@ class FirebaseManager {
             return {};
         }
     }
+
+    async loadPublicFavorites(userId) {
+        if (!this.initialized || !userId) return {};
+        try {
+            const snapshot = await this.database.ref(`users/${userId}/publicFavorites`).once('value');
+            return snapshot.val() || {};
+        } catch (error) {
+            console.error('Error loading public favorites:', error);
+            return {};
+        }
+    }
+
+    async savePublicFavorite(userId, songId, isFavorite) {
+        if (!this.initialized || !userId || !songId) return;
+        try {
+            await this.database.ref(`users/${userId}/publicFavorites/${songId}`).set(isFavorite);
+        } catch (error) {
+            console.error('Error saving public favorite:', error);
+        }
+    }
+
+    onPublicFavoritesChange(userId, callback) {
+        if (!this.initialized || !userId) return;
+        const ref = this.database.ref(`users/${userId}/publicFavorites`);
+        ref.on('value', (snapshot) => {
+            callback(snapshot.val() || {});
+        });
+        return ref;
+    }
+
+    removePublicFavoritesListener(userId) {
+        if (!this.initialized || !userId) return;
+        this.database.ref(`users/${userId}/publicFavorites`).off();
+    }
     async getAllUsers() {
         if (!this.initialized) return [];
         try {
