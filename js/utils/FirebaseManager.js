@@ -1563,7 +1563,7 @@ class FirebaseManager {
      * @param {string} username - The username (if provided)
      */
     async notifyAdminOnSignUp(email, username) {
-        // REPLACE THIS URL with your actual Zapier/IFTTT Webhook URL
+        // Webhook URL for admin notifications (Zapier)
         const WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/27461573/uvctgxo/"; 
         
         if (!WEBHOOK_URL || WEBHOOK_URL.includes("change_this")) {
@@ -1572,23 +1572,25 @@ class FirebaseManager {
         }
 
         try {
-            // We use 'no-cors' mode and form-urlencoded content to avoid CORS preflight issues
-            // which often block requests to Zapier from the browser.
-            const params = new URLSearchParams({
+            const data = {
                 event: "new_user_registration",
-                email: email,
+                email: email || "unknown",
                 username: username || "Anonymous",
                 timestamp: new Date().toISOString(),
                 app: "Pop Song Chord Book"
-            });
+            };
 
-            fetch(WEBHOOK_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Critical for browser-to-Zapier pings
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params.toString()
+            // Using GET request with query parameters is the most robust way to send data to Zapier
+            // from the browser. It avoids CORS preflight and body-parsing issues that can 
+            // occur with POST requests in 'no-cors' mode.
+            const params = new URLSearchParams(data);
+            const finalUrl = `${WEBHOOK_URL}?${params.toString()}`;
+
+            console.log("FirebaseManager: Sending admin notification to Zapier...", data);
+
+            fetch(finalUrl, {
+                method: 'GET',
+                mode: 'no-cors'
             });
             
             console.log("FirebaseManager: Admin notification ping sent for:", email);
