@@ -250,6 +250,13 @@ body {
     background-clip: text;
 }
 
+.emoji-icon {
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    -webkit-background-clip: initial;
+    display: inline-block;
+}
+
 .section-subtitle {
     text-align: center;
     font-size: 1.2rem;
