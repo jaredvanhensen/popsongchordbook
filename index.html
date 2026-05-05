@@ -53,8 +53,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.704">
-    <link rel="stylesheet" href="landing.css?v=2.704">
+    <link rel="stylesheet" href="styles.css?v=2.705">
+    <link rel="stylesheet" href="landing.css?v=2.705">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -175,36 +175,95 @@
         <div class="container">
             <h2 class="section-title"><span class="emoji-icon">🔥</span> What makes it powerful?</h2>
             <p class="section-subtitle">Everything you need to master your favorite songs</p>
-            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; text-align: left;">
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">▶️</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">YouTube Integration</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Play along with YouTube videos directly inside the app for the perfect practice session.</p>
+            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; text-align: center;">
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3>Interactive Chords</h3>
+                    <p>Click any chord to see diagrams and hear how it sounds</p>
                 </div>
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🎼</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">Personal Library</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Create your own songs and setlists for practice or live performance. Your music, your way.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Chord Training</h3>
+                    <p>Master your chords with our new interactive 🎹 Chord Trainer game</p>
                 </div>
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">⏩</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">Scrolling Timeline</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Use the Scrolling Chord Timeline so chords come to you in real time—never get lost again.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Practice anywhere with full mobile support</p>
                 </div>
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🔁</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">Transpose & Capo</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Instantly transpose songs to any key or use a digital capo to match your vocal range.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Personal Setlists</h3>
+                    <p>Create and organize your favorite songs</p>
                 </div>
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🧠</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">Chord Trainer</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Train your skills with the built-in Chord Trainer and improve your muscle memory faster.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Search</h3>
+                    <p>Find songs by artist, title, or key</p>
                 </div>
-                <div class="feature-item" style="background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🎹</div>
-                    <h3 style="font-size: 1.25rem; margin-bottom: 8px; color: #1e293b;">MIDI Support</h3>
-                    <p style="color: #64748b; font-size: 0.95rem;">Full MIDI keyboard support for the most interactive and responsive learning experience.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">🎹</div>
+                    <h3>MIDI Support</h3>
+                    <p>Input and record your own songs in real-time using any MIDI keyboard for professional precision</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Chord Teleprompter</h3>
+                    <p>Experience the Scrolling Timeline where lyrics and chords flow together like a professional teleprompter</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="60" height="42">
+                            <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000" />
+                            <path d="M 45,24 27,14 27,34" fill="#fff" />
+                        </svg>
+                    </div>
+                    <h3>Jam along</h3>
+                    <p>Play along with the actual song and stay perfectly in sync</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                            <polyline points="16 6 12 2 8 6"></polyline>
+                            <line x1="12" y1="2" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h3>Share your songs</h3>
+                    <p>Share your own chord arrangements and custom creations with the community</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg viewBox="0 0 512 512" width="60" height="60" style="transform: rotate(90deg);">
+                            <g>
+                                <path fill="#FFD782" d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C304.552,490.392,300.599,494.345,295.724,494.345z" />
+                                <path fill="#FFC36E" d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C304.552,490.392,300.599,494.345,295.724,494.345z" />
+                                <path fill="#C3E678" d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V123.586c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v361.931C392.828,490.392,388.875,494.345,384,494.345z" />
+                                <path fill="#A5D76E" d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v256C392.828,490.392,388.875,494.345,384,494.345z" />
+                                <path fill="#00D2FF" d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C128,490.392,124.047,494.345,119.172,494.345z" />
+                                <path fill="#9BE6D2" d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V70.621c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v414.897C481.103,490.392,477.151,494.345,472.276,494.345z" />
+                                <path fill="#78D2BE" d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V176.552c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v308.966C481.103,490.392,477.151,494.345,472.276,494.345z" />
+                                <path fill="#FF6464" d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v256C216.276,490.392,212.323,494.345,207.448,494.345z" />
+                                <path fill="#D2555A" d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C216.276,490.392,212.323,494.345,207.448,494.345z" />
+                                <path fill="#18BDF6" d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828v-97.103c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v97.103C128,490.392,124.047,494.345,119.172,494.345z" />
+                                <g>
+                                    <path fill="#D7DEED" d="M26.483,450.207H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V450.207z" />
+                                    <path fill="#D7DEED" d="M26.483,397.241H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V397.241z" />
+                                    <path fill="#D7DEED" d="M26.483,344.276H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V344.276z" />
+                                    <path fill="#D7DEED" d="M26.483,291.31H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V291.31z" />
+                                    <path fill="#D7DEED" d="M26.483,238.345H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V238.345z" />
+                                    <path fill="#D7DEED" d="M26.483,185.379H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V185.379z" />
+                                    <path fill="#D7DEED" d="M26.483,132.414H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V132.414z" />
+                                    <path fill="#D7DEED" d="M26.483,79.448H8.828C3.953,79.448,0,75.496,0,70.621l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V79.448z" />
+                                </g>
+                                <path fill="#C7CFE2" d="M26.483,494.345L26.483,494.345c-4.875,0-8.828-3.953-8.828-8.828V17.655 c0-4.875,3.953-8.828,8.828-8.828l0,0c4.875,0,8.828,3.953,8.828,8.828v467.862C35.31,490.392,31.358,494.345,26.483,494.345z" />
+                                <path fill="#AFB9D2" d="M0,494.345L0,494.345c0-4.875,3.953-8.828,8.828-8.828h494.345c4.875,0,8.828,3.953,8.828,8.828l0,0 c0,4.875-3.953,8.828-8.828,8.828H8.828C3.953,503.172,0,499.22,0,494.345z" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Song Map</h3>
+                    <p>Get a bird's-eye view of your entire song structure and jump instantly to any section</p>
                 </div>
             </div>
         </div>
@@ -332,131 +391,6 @@
         </div>
     </div>
 
-    <!-- Features Section -->
-    <div class="features-section">
-        <div class="container">
-            <h2 class="section-title">Everything You Need</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
-                    <h3>Interactive Chords</h3>
-                    <p>Click any chord to see diagrams and hear how it sounds</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Chord Training</h3>
-                    <p>Master your chords with our new interactive 🎹 Chord Trainer game</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Practice anywhere with full mobile support</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⭐</div>
-                    <h3>Personal Setlists</h3>
-                    <p>Create and organize your favorite songs</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Smart Search</h3>
-                    <p>Find songs by artist, title, or key</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎹</div>
-                    <h3>MIDI Support</h3>
-                    <p>Input and record your own songs in real-time using any MIDI keyboard for professional precision
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📜</div>
-                    <h3>Chord Teleprompter</h3>
-                    <p>Experience the Scrolling Timeline where lyrics and chords flow together like a professional
-                        teleprompter</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"
-                        style="display: flex; justify-content: center; align-items: center; height: 90px;">
-                        <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="60" height="42">
-                            <path
-                                d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
-                                fill="#FF0000" />
-                            <path d="M 45,24 27,14 27,34" fill="#fff" />
-                        </svg>
-                    </div>
-                    <h3>Jam along</h3>
-                    <p>Play along with the actual song and stay perfectly in sync</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"
-                        style="display: flex; justify-content: center; align-items: center; height: 90px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none"
-                            stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                            <polyline points="16 6 12 2 8 6"></polyline>
-                            <line x1="12" y1="2" x2="12" y2="15"></line>
-                        </svg>
-                    </div>
-                    <h3>Share your songs</h3>
-                    <p>Share your own chord arrangements and custom creations with the community</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"
-                        style="display: flex; justify-content: center; align-items: center; height: 90px;">
-                        <svg viewBox="0 0 512 512" width="60" height="60" style="transform: rotate(90deg);">
-                            <g>
-                                <path fill="#FFD782"
-                                    d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C304.552,490.392,300.599,494.345,295.724,494.345z" />
-                                <path fill="#FFC36E"
-                                    d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C304.552,490.392,300.599,494.345,295.724,494.345z" />
-                                <path fill="#C3E678"
-                                    d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V123.586c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v361.931C392.828,490.392,388.875,494.345,384,494.345z" />
-                                <path fill="#A5D76E"
-                                    d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v256C392.828,490.392,388.875,494.345,384,494.345z" />
-                                <path fill="#00D2FF"
-                                    d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C128,490.392,124.047,494.345,119.172,494.345z" />
-                                <path fill="#9BE6D2"
-                                    d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V70.621c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v414.897C481.103,490.392,477.151,494.345,472.276,494.345z" />
-                                <path fill="#78D2BE"
-                                    d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V176.552c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v308.966C481.103,490.392,477.151,494.345,472.276,494.345z" />
-                                <path fill="#FF6464"
-                                    d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v256C216.276,490.392,212.323,494.345,207.448,494.345z" />
-                                <path fill="#D2555A"
-                                    d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C216.276,490.392,212.323,494.345,207.448,494.345z" />
-                                <path fill="#18BDF6"
-                                    d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828v-97.103c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v97.103C128,490.392,124.047,494.345,119.172,494.345z" />
-                                <g>
-                                    <path fill="#D7DEED"
-                                        d="M26.483,450.207H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V450.207z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,397.241H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V397.241z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,344.276H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V344.276z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,291.31H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V291.31z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,238.345H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V238.345z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,185.379H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V185.379z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,132.414H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V132.414z" />
-                                    <path fill="#D7DEED"
-                                        d="M26.483,79.448H8.828C3.953,79.448,0,75.496,0,70.621l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V79.448z" />
-                                </g>
-                                <path fill="#C7CFE2"
-                                    d="M26.483,494.345L26.483,494.345c-4.875,0-8.828-3.953-8.828-8.828V17.655 c0-4.875,3.953-8.828,8.828-8.828l0,0c4.875,0,8.828,3.953,8.828,8.828v467.862C35.31,490.392,31.358,494.345,26.483,494.345z" />
-                                <path fill="#AFB9D2"
-                                    d="M0,494.345L0,494.345c0-4.875,3.953-8.828,8.828-8.828h494.345c4.875,0,8.828,3.953,8.828,8.828l0,0 c0,4.875-3.953,8.828-8.828,8.828H8.828C3.953,503.172,0,499.22,0,494.345z" />
-                            </g>
-                        </svg>
-                    </div>
-                    <h3>Song Map</h3>
-                    <p>Get a bird's-eye view of your entire song structure and jump instantly to any section</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- CTA Section -->
     <div class="cta-section">
@@ -479,35 +413,35 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.704"></script>
-    <script src="js/models/SongManager.js?v=2.704"></script>
-    <script src="js/models/SetlistManager.js?v=2.704"></script>
-    <script src="js/utils/Sorter.js?v=2.704"></script>
-    <script src="js/utils/ChordDetector.js?v=2.704"></script>
-    <script src="js/utils/KeyDetector.js?v=2.704"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.704"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.704"></script>
-    <script src="js/ui/ChordModal.js?v=2.704"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.704"></script>
-    <script src="js/ui/TableRenderer.js?v=2.704"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.704"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.704"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.704"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.704"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.704"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.704"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.704"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.704"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.704"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.704"></script>
-    <script src="js/utils/ChordParser.js?v=2.704"></script>
-    <script src="js/ui/AuthModal.js?v=2.704"></script>
-    <script src="js/ui/ProfileModal.js?v=2.704"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.704"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.704"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.704"></script>
+    <script src="js/config/firebase-config.js?v=2.705"></script>
+    <script src="js/models/SongManager.js?v=2.705"></script>
+    <script src="js/models/SetlistManager.js?v=2.705"></script>
+    <script src="js/utils/Sorter.js?v=2.705"></script>
+    <script src="js/utils/ChordDetector.js?v=2.705"></script>
+    <script src="js/utils/KeyDetector.js?v=2.705"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.705"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.705"></script>
+    <script src="js/ui/ChordModal.js?v=2.705"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.705"></script>
+    <script src="js/ui/TableRenderer.js?v=2.705"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.705"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.705"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.705"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.705"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.705"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.705"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.705"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.705"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.705"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.705"></script>
+    <script src="js/utils/ChordParser.js?v=2.705"></script>
+    <script src="js/ui/AuthModal.js?v=2.705"></script>
+    <script src="js/ui/ProfileModal.js?v=2.705"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.705"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.705"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.705"></script>
 
-    <script src="js/app.js?v=2.704"></script>
+    <script src="js/app.js?v=2.705"></script>
 
     <!-- Instrument Selection Modal -->
     <div id="chooseInstrumentModal" class="modal hidden">
@@ -667,7 +601,7 @@
         <div class="container">
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">2.704</span> • <a href="changelog.html" style="color: inherit; text-decoration: underline;">Full Changelog</a>
+                v<span id="site-version">2.705</span> • <a href="changelog.html" style="color: inherit; text-decoration: underline;">Full Changelog</a>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
@@ -746,6 +680,7 @@
         });
     </script>
 </body>
+
 
 
 
