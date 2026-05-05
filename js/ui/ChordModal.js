@@ -1,4 +1,4 @@
-// ChordModal - Modal voor akkoord selectie
+// ChordModal - Modal for chord selection
 class ChordModal {
     constructor() {
         this.modal = document.getElementById('chordModal');
@@ -70,7 +70,7 @@ class ChordModal {
                 e.stopPropagation();
                 const isHidden = susAddButtons.classList.contains('hidden');
                 susAddButtons.classList.toggle('hidden');
-                toggleSusAdd.textContent = isHidden ? 'Verberg' : 'Toon';
+                toggleSusAdd.textContent = isHidden ? 'Hide' : 'Show';
             });
         }
         
@@ -79,7 +79,7 @@ class ChordModal {
                 e.stopPropagation();
                 const isHidden = specialButtons.classList.contains('hidden');
                 specialButtons.classList.toggle('hidden');
-                toggleSpecial.textContent = isHidden ? 'Verberg' : 'Toon';
+                toggleSpecial.textContent = isHidden ? 'Hide' : 'Show';
             });
         }
         
@@ -133,12 +133,12 @@ class ChordModal {
         
         if (susAddButtons && toggleSusAdd) {
             susAddButtons.classList.add('hidden');
-            toggleSusAdd.textContent = 'Toon';
+            toggleSusAdd.textContent = 'Show';
         }
         
         if (specialButtons && toggleSpecial) {
             specialButtons.classList.add('hidden');
-            toggleSpecial.textContent = 'Toon';
+            toggleSpecial.textContent = 'Show';
         }
         
         // Clear custom input and focus on it
@@ -223,7 +223,7 @@ class ChordModal {
         }
         
         // Note: Don't close modal when clicking individual chords - user might want to add more
-        // Modal will close when clicking "Toevoegen" button or closing manually
+        // Modal will close when clicking "Add" button or closing manually
     }
 
     addCustomChords() {

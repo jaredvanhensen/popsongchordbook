@@ -313,7 +313,7 @@ class ShareSongsModal {
         this.clearErrors();
         if (this.shareBtn) {
             this.shareBtn.disabled = true;
-            this.shareBtn.textContent = 'Delen...';
+            this.shareBtn.textContent = 'Sharing...';
         }
 
         try {
@@ -371,7 +371,7 @@ class ShareSongsModal {
             if (error.message?.includes('security rules')) {
                 errorMessage = error.message;
             } else if (error.code === 'PERMISSION_DENIED' || error.message?.includes('permission')) {
-                errorMessage = 'Firebase security rules niet correct geconfigureerd. Zie FIREBASE_SECURITY_RULES.md voor instructies.';
+                errorMessage = 'Firebase security rules not correctly configured. See FIREBASE_SECURITY_RULES.md for instructions.';
             }
             this.showError(errorMessage);
         } finally {

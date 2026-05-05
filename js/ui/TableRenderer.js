@@ -1,4 +1,4 @@
-// TableRenderer - Tabel rendering en updates
+// TableRenderer - Table rendering and updates
 class TableRenderer {
     constructor(songManager, onRowSelect, onCellEdit, onDelete, chordModal, onToggleFavorite, onPlayYouTube, keyDetector, onRemoveFromSetlist = null, confirmationModal = null) {
         this.songManager = songManager;

@@ -520,7 +520,7 @@ class AuthModal {
         if (this.forgotPasswordBtn) {
             this.forgotPasswordBtn.disabled = loading;
             if (loading) {
-                this.forgotPasswordBtn.textContent = 'Verzenden...';
+                this.forgotPasswordBtn.textContent = 'Sending...';
             } else {
                 this.forgotPasswordBtn.textContent = 'Forgot my password?';
             }
