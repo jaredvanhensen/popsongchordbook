@@ -324,5 +324,11 @@ body.is-mobile-view #switchToPureBtn {
     display: flex !important;
 }
 
+/* Hide mini keyboard and its menu option on mobile (v2.706) */
+body.is-mobile-view #auditionKeyboard,
+body.is-mobile-view #toggleKeyboardMenuBtn {
+    display: none !important;
+}
+
 
 

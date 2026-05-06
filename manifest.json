@@ -1,6 +1,8 @@
 {
     "name": "Pop Song Chord Book",
     "short_name": "ChordBook",
+    "id": "com.popsongchordbook.app",
+    "description": "The Ultimate Pop Song Book for Guitar, Piano & Ukulele. Master your favorite songs with interactive chords and real-time scrolling.",
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",
@@ -11,7 +13,32 @@
         {
             "src": "images/pwa_icon_512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
-    ]
+    ],
+    "screenshots": [
+        {
+            "src": "images/song_practice_main.png",
+            "sizes": "466x829",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Song Practice Mode"
+        },
+        {
+            "src": "images/detail_screen.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Song Library Detail"
+        },
+        {
+            "src": "images/pure_chordtimeline.png",
+            "sizes": "1561x778",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Scrolling Chord Timeline"
+        }
+    ],
+    "categories": ["music", "education", "utilities"]
 }
