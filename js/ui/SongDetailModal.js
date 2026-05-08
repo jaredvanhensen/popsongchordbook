@@ -4259,7 +4259,7 @@ class SongDetailModal {
             // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
             // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
             // Strict pattern: Capitalized root, delimiters boundaries, strictly valid suffixes
-            const chordPattern = /(^|[\s,.;:(\[])([A-G][#b]?(?:m|min|maj|dim|aug|sus|add)?(?:[0-9]|sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug|°|ø)*(?:\/[A-G][#b]?)?)(?=$|[\s,.;:)\]])/g;
+            const chordPattern = /(^|[\s,.;:(\[])([A-G][#b]?(?:m|min|maj|M|dim|aug|sus|add)?(?:[0-9]|sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug|°|ø)*(?:\/[A-G][#b]?)?)(?=$|[\s,.;:)\]])/g;
 
             return chordString.replace(chordPattern, (match, prefix, chord) => {
                 let newChord;

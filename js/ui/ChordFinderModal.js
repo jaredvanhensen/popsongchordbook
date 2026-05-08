@@ -191,6 +191,7 @@ class ChordFinderModal {
             'sus2': [0, 2, 7],
             '7': [0, 4, 7, 10],     // Dominant 7
             'maj7': [0, 4, 7, 11],  // Maj 7
+            'M7': [0, 4, 7, 11],    // Maj 7 (short)
             'm7': [0, 3, 7, 10],    // min 7
             'm7b5': [0, 3, 6, 10],  // Half dim
             'dim7': [0, 3, 6, 9],   // Full dim

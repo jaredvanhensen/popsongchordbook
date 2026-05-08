@@ -1123,7 +1123,7 @@ class ChordProgressionEditor {
     parseExistingChords(text) {
         // Parse chord text into individual chords
         // Handle formats like "C Am F G" or "C - Am - F - G" or "C | Am | F | G"
-        const chordPattern = /([A-Ga-g][#b]?(?:m|min|maj|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)/g;
+        const chordPattern = /([A-Ga-g][#b]?(?:m|min|maj|M|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-Ga-g][#b]?)?)/g;
         const matches = text.match(chordPattern);
         return matches || [];
     }
