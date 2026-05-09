@@ -19,17 +19,9 @@ body.is-mobile-landscape .controls-container > * {
     display: none !important;
 }
 
-/* Show only YouTube button in landscape */
+/* Hide the old YouTube button in landscape as it's being replaced by the compact version in the purple header */
 body.is-mobile-landscape #youtubeToggleBtn {
-    display: flex !important;
-    pointer-events: auto;
-    margin-left: auto;
-    opacity: 0.7;
-    background: rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    box-shadow: none !important;
-    width: 44px !important;
+    display: none !important;
 }
 
 /* New Full-Width Persistent Header (v2.472) */
@@ -263,6 +255,20 @@ body.is-mobile-landscape .main-play-arrow {
 
 #pureRestartBtn .icon {
     font-size: 1.45rem !important; /* Balanced with neighbors */
+}
+
+/* Specific styling for YouTube SVG in compact mode to avoid distortion */
+#youtubeToggleBtnCompact svg {
+    width: 28px !important;
+    height: 20px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    filter: drop-shadow(0 2px 4px rgba(255, 0, 0, 0.2));
+}
+
+#youtubeToggleBtnCompact.active {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 /* Red line across lyrics when OFF */

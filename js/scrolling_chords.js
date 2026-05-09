@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -24,6 +24,7 @@ const audioToggleBtn = document.getElementById('audioToggleBtn');
 const captureBtn = document.getElementById('captureBtn');
 const speedBtn = document.getElementById('speedBtn'); // Fixed: Was missing
 const youtubeToggleBtn = document.getElementById('youtubeToggleBtn');
+const youtubeToggleBtnCompact = document.getElementById('youtubeToggleBtnCompact');
 const youtubePlayerContainer = document.getElementById('youtubePlayerContainer');
 const recordingIndicator = document.getElementById('recordingIndicator');
 const countInOverlay = document.getElementById('countInOverlay');
@@ -638,21 +639,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // YouTube Logic (Toggle & Close)
     const closeYoutubeBtn = document.getElementById('closeYoutubeBtn');
 
-    if (youtubeToggleBtn) {
+    if (youtubeToggleBtn || youtubeToggleBtnCompact) {
         const toggleYT = (e) => {
             if (e) e.preventDefault();
             if (!youtubePlayerContainer) return;
             const isHidden = youtubePlayerContainer.classList.contains('hidden');
             if (isHidden) {
                 youtubePlayerContainer.classList.remove('hidden');
-                youtubeToggleBtn.classList.add('active');
+                if (youtubeToggleBtn) youtubeToggleBtn.classList.add('active');
+                if (youtubeToggleBtnCompact) youtubeToggleBtnCompact.classList.add('active');
                 if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.add('active');
                 if (youtubePlayer && typeof youtubePlayer.playVideo === 'function') {
                     youtubePlayer.playVideo();
                 }
             } else {
                 youtubePlayerContainer.classList.add('hidden');
-                youtubeToggleBtn.classList.remove('active');
+                if (youtubeToggleBtn) youtubeToggleBtn.classList.remove('active');
+                if (youtubeToggleBtnCompact) youtubeToggleBtnCompact.classList.remove('active');
                 if (document.getElementById('songMapYouTubeBtn')) document.getElementById('songMapYouTubeBtn').classList.remove('active');
                 if (youtubePlayer && typeof youtubePlayer.pauseVideo === 'function') {
                     youtubePlayer.pauseVideo();
@@ -660,7 +663,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         window.toggleYouTubePlayer = toggleYT;
-        youtubeToggleBtn.addEventListener('click', toggleYT);
+        if (youtubeToggleBtn) {
+            youtubeToggleBtn.addEventListener('click', toggleYT);
+            youtubeToggleBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+        }
+        if (youtubeToggleBtnCompact) {
+            youtubeToggleBtnCompact.addEventListener('click', toggleYT);
+            youtubeToggleBtnCompact.addEventListener('pointerdown', (e) => e.stopPropagation());
+        }
     }
 
     if (closeYoutubeBtn) {
@@ -2284,6 +2294,10 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             youtubeToggleBtn.classList.remove('hidden');
             youtubeToggleBtn.classList.add('active'); // Default to active since player starts shown
         }
+        if (youtubeToggleBtnCompact) {
+            youtubeToggleBtnCompact.classList.remove('hidden');
+            youtubeToggleBtnCompact.classList.add('active');
+        }
         // Show player BEFORE initialising the YT.Player so the container
         // is visible when the iframe is injected (hidden containers cause black screens)
         if (youtubePlayerContainer) youtubePlayerContainer.classList.remove('hidden');
@@ -2293,6 +2307,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     } else {
         if (captureBtn) captureBtn.classList.add('hidden');
         if (youtubeToggleBtn) youtubeToggleBtn.classList.add('hidden');
+        if (youtubeToggleBtnCompact) youtubeToggleBtnCompact.classList.add('hidden');
         if (youtubePlayerContainer) youtubePlayerContainer.classList.add('hidden');
     }
 
@@ -3552,6 +3567,9 @@ function onPlayerStateChange(event) {
         if (isPlaying) {
             pause();
         }
+        // Ensure buttons reflect inactive state
+        if (youtubeToggleBtn) youtubeToggleBtn.classList.remove('active');
+        if (youtubeToggleBtnCompact) youtubeToggleBtnCompact.classList.remove('active');
     }
 }
 
@@ -3579,6 +3597,7 @@ function toggleTimingCapture() {
         recordingIndicator.classList.remove('hidden');
         youtubePlayerContainer.classList.remove('hidden');
         if (youtubeToggleBtn) youtubeToggleBtn.classList.add('active');
+        if (youtubeToggleBtnCompact) youtubeToggleBtnCompact.classList.add('active');
 
         statusText.innerText = "CAPTURING: Press SPACE or Chord letter to mark chords";
 

@@ -153,8 +153,30 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
-            <!-- v2.711 -->
+            <!-- v2.712 -->
             <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.712</span>
+                    <span class="version-date">09 May 2026</span>
+                </div>
+                <ul class="change-list">
+                    <li class="change-item">
+                        <span class="change-type">Bug Fix</span>
+                        <span class="change-description">Resolved an issue where the <strong>YouTube Toggle Button</strong> was unresponsive on initial touch in landscape "Pure Timeline" mode. The button has been integrated directly into the purple header bar to prevent event interception and ensure instant response on mobile and desktop devices.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">UX Enhancement</span>
+                        <span class="change-description">Added a <strong>Compact YouTube Toggle</strong> to the Pure Timeline controls. This ensures that video playback can be toggled without leaving the focused playback environment.</span>
+                    </li>
+                    <li class="change-item">
+                        <span class="change-type">Touch Optimization</span>
+                        <span class="change-description">Implemented <strong>pointerdown event listeners</strong> for all YouTube controls to ensure immediate responsiveness on high-latency mobile touch screens.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- v2.711 -->
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.711</span>
                     <span class="version-date">09 May 2026</span>
