@@ -171,7 +171,7 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 12px !important; /* Move to the absolute bottom to avoid chord box overlap */
+    bottom: 40px !important; /* Shifted up (v2.720) to avoid falling off bottom on some phones */
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
