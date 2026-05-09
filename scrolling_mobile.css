@@ -148,6 +148,22 @@ body.is-mobile-landscape .youtube-drag-handle {
     display: none !important; /* Hide tiny noise */
 }
 
+/* Fix: body has touch-action:none to prevent timeline scrolling, but this also
+   blocks touch events from reaching the YouTube iframe in landscape mode.
+   Restore auto on the player container and its iframe so YouTube controls work. */
+body.is-mobile-landscape .youtube-player-container {
+    touch-action: auto !important;
+    pointer-events: auto !important;
+}
+
+body.is-mobile-landscape .youtube-player-container iframe,
+body.is-mobile-landscape #youtubePlayer,
+body.is-mobile-landscape #youtubePlayer iframe {
+    touch-action: auto !important;
+    pointer-events: auto !important;
+}
+
+
 /* Enable Lyrics in Landscape - High Visibility Override (v2.457) - Shifting HIGHER */
 body.is-mobile-landscape .lyrics-hud {
     display: flex !important;

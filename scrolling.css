@@ -2799,7 +2799,7 @@ body.ctrl-held .chord-item {
         height: auto !important;
         width: 100% !important;
         max-width: 100% !important;
-        padding: 6px 15px !important;
+        padding: 8px 15px !important;
         background: rgba(255, 255, 255, 0.95) !important;
         border-radius: 0 !important;
         border: none !important;
@@ -2810,6 +2810,13 @@ body.ctrl-held .chord-item {
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .lyric-line {
+        width: 100% !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
     }
 
     .lyric-line.active {
