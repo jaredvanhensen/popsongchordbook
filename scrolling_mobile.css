@@ -293,8 +293,8 @@ body.is-mobile-landscape .main-play-arrow {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 120%;
-    height: 2px; /* Thinner line for smaller icon */
+    width: 100%; /* Better fit for the emoji */
+    height: 1.5px; /* Thinner, more subtle line */
     background: #ef4444; /* Premium Red */
     border-radius: 2px;
     transform: translate(-50%, -50%) rotate(45deg);
@@ -354,3 +354,106 @@ body.is-mobile-view #toggleKeyboardMenuBtn {
 
 
 
+/* --- v2.714 MOBILE PORTRAIT PURE MODE OPTIMIZATIONS (Fit 8 buttons + avoid X overlap) --- */
+
+/* --- v2.717 PURE MODE HEADER REFINEMENTS (Fix gap + emoji visibility) --- */
+@media (max-width: 480px) {
+    /* Narrow width requires much tighter spacing and smaller buttons to fit all 8 icons */
+    body.is-mobile-landscape .pure-timeline-controls {
+        gap: 8px !important; /* Increased gap to look more intentional and centered */
+        padding: 0 15px !important; /* Balanced padding */
+        justify-content: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    body.is-mobile-landscape .pure-timeline-controls button {
+        min-width: 32px !important;
+        height: 36px !important;
+        padding: 0 !important;
+    }
+
+    /* CRITICAL FIX: scrolling.css hides .lyrics-emoji in portrait mode, but Pure Mode HTML 
+       only has the emoji (no SVG). We must force it back on to eliminate the blank gap. */
+    body.is-mobile-landscape .pure-timeline-controls .lyrics-emoji {
+        display: inline-flex !important; /* inline-flex prevents stretching so red line stays small */
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.15rem !important;
+        position: relative !important;
+    }
+
+    body.is-mobile-landscape .pure-timeline-controls .icon {
+        font-size: 1.15rem !important; /* Scaled down icons */
+    }
+
+    /* Fixed width for red line (v2.719) */
+    .lyrics-btn:not(.active) .lyrics-emoji::after {
+        width: 22px !important; 
+        height: 1.5px !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) rotate(45deg) !important;
+    }
+
+    /* Speed button refinements */
+    #pureSpeedBtn {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #pureSpeedDisplay {
+        position: absolute !important;
+        bottom: 2px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        font-size: 0.5rem !important;
+        font-weight: 900 !important;
+        white-space: nowrap !important;
+        pointer-events: none !important;
+        opacity: 0.9 !important;
+        text-shadow: 0 0 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    #pureSpeedBtn .icon {
+        margin-top: -2px !important;
+    }
+
+    /* Ensure hidden buttons don't take up any space */
+    body.is-mobile-landscape .pure-timeline-controls button.hidden {
+        display: none !important;
+    }
+
+    /* YouTube SVG sizing */
+    #youtubeToggleBtnCompact svg {
+        width: 22px !important;
+        height: 16px !important;
+        min-width: 22px !important;
+    }
+
+    /* Metadata refinements */
+    body.is-mobile-landscape .header-metadata-row {
+        padding: 0 45px !important; /* Space for the modal X button */
+        gap: 5px !important;
+        margin-bottom: 4px !important;
+    }
+
+    body.is-mobile-landscape .song-title-display {
+        font-size: 0.95rem !important;
+    }
+
+    body.is-mobile-landscape .artist-display {
+        font-size: 0.65rem !important;
+    }
+    
+    body.is-mobile-landscape .landscape-header-bar {
+        min-height: 75px !important;
+        padding: 5px 10px !important;
+    }
+    
+    body.is-mobile-landscape .timeline-container {
+        padding-top: 85px !important;
+    }
+}
