@@ -153,6 +153,9 @@ class SongManager {
             // Update user-specific storage key if needed
             this.updateStorageKey(userId);
 
+            // Cleanup old user caches to free up space
+            this.cleanupOldCaches(userId);
+
             // Merge logic
             this.publicSongs = normalizedPublic;
             const publicIds = new Set(normalizedPublic.map(s => String(s.id)));
@@ -195,10 +198,87 @@ class SongManager {
     // Cache songs to localStorage
     cacheSongs() {
         try {
-            localStorage.setItem(this.storageKey, JSON.stringify(this.songs));
+            // OPTIMIZATION: Only cache PRIVATE songs to save space.
+            // Public songs are fetched from Firebase anyway and consume a lot of quota.
+            const privateSongs = this.songs.filter(s => !s.isPublic);
+            
+            // Further optimization: Dehydrate songs (remove defaults/empty fields) to reduce JSON size
+            const dehydrated = this.dehydrateSongs(privateSongs);
+            const data = JSON.stringify(dehydrated);
+            
+            localStorage.setItem(this.storageKey, data);
         } catch (error) {
-            console.error('Error caching songs:', error);
+            console.error('SongManager: Error caching songs:', error);
+            if (error.name === 'QuotaExceededError') {
+                console.warn('SongManager: LocalStorage quota exceeded. Clearing non-essential data.');
+                // If it still fails, try to clear at least SOMETHING or just leave it
+                this.handleQuotaExceeded();
+            }
         }
+    }
+
+    /**
+     * Reduces song objects to essential fields for caching.
+     */
+    dehydrateSongs(songs) {
+        return songs.map(song => {
+            const dehydrated = {};
+            // Always keep ID and required fields
+            dehydrated.id = song.id;
+            
+            // Only keep non-default/non-empty values
+            Object.entries(song).forEach(([key, value]) => {
+                // Skip defaults to save space
+                if (value === '' || value === null || value === undefined) return;
+                if (key === 'favorite' && value === false) return;
+                if (key === 'capo' && value === 0) return;
+                if (key === 'practiceCount' && (value === '0' || value === 0)) return;
+                if (key === 'isPublic' && value === false) return;
+                if (key === 'lyricOffset' && value === 0) return;
+                
+                // Keep the value
+                dehydrated[key] = value;
+            });
+            return dehydrated;
+        });
+    }
+
+    /**
+     * Cleans up old user-specific caches from localStorage.
+     */
+    cleanupOldCaches(currentUserId) {
+        try {
+            const prefix = this.baseStorageKey + '_';
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith(prefix) && key !== `${prefix}${currentUserId}`) {
+                    keysToRemove.push(key);
+                }
+            }
+            if (keysToRemove.length > 0) {
+                console.log(`SongManager: Cleaning up ${keysToRemove.length} old cache keys.`);
+                keysToRemove.forEach(k => localStorage.removeItem(k));
+            }
+        } catch (e) {
+            console.warn('SongManager: Cache cleanup failed:', e);
+        }
+    }
+
+    /**
+     * Last resort when quota is exceeded.
+     */
+    handleQuotaExceeded() {
+        try {
+            // Try to find ANY other big keys in localStorage that are not ours and clear them?
+            // No, that's rude. Let's just clear our OWN old keys if cleanup didn't catch them.
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.includes('popsongChordBook') && key !== this.storageKey) {
+                    localStorage.removeItem(key);
+                }
+            });
+        } catch (e) {}
     }
 
     normalizeSongs(songs) {
@@ -559,6 +639,7 @@ class SongManager {
         this.syncEnabled = true;
         this.currentUserId = userId;
         this.updateStorageKey(userId);
+        this.cleanupOldCaches(userId);
 
         const isAdmin = this.firebaseManager.isAdmin(userId);
 

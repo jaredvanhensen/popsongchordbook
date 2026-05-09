@@ -11400,3 +11400,82 @@ body.is-mobile-view .chord-trainer-btn {
 }
 
 .modal-content.modal-medium { max-width: 600px; }
+
+/* Custom overrides for Profile Page */
+.profile-top-songs-table .rank-column {
+    width: 30px !important;
+    text-align: center !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+/* Mobile adjustments for Admin Requested Songs Modal */
+@media (max-width: 600px) {
+    #adminRequestsModal .modal-content {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        padding: 10px !important;
+    }
+
+    #adminRequestsModal thead {
+        display: none;
+    }
+
+    #adminRequestsModal .request-row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 12px 8px;
+        border-bottom: 2px solid #e2e8f0;
+        position: relative;
+    }
+
+    #adminRequestsModal .request-row:nth-child(even) {
+        background-color: #f8fafc;
+    }
+
+    #adminRequestsModal .request-row td {
+        display: block;
+        padding: 4px 0 !important;
+        border: none !important;
+        width: 100%;
+    }
+
+    /* Artist and Title on the first row */
+    #adminRequestsModal .request-row td:nth-child(1),
+    #adminRequestsModal .request-row td:nth-child(2) {
+        width: 50%;
+        font-weight: 700;
+        font-size: 1.1em;
+        color: var(--primary-color);
+    }
+
+    /* Requester and Date on the second row */
+    #adminRequestsModal .request-row td:nth-child(3),
+    #adminRequestsModal .request-row td:nth-child(4) {
+        width: 50%;
+        font-size: 0.8em;
+        color: #64748b;
+    }
+
+    /* Actions row */
+    #adminRequestsModal .request-row td:nth-child(5) {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        margin-top: 8px;
+        padding-top: 8px !important;
+        border-top: 1px dashed #e2e8f0 !important;
+    }
+
+    /* Make DONE button smaller on mobile */
+    #adminRequestsModal .btn-text {
+        display: none;
+    }
+
+    #adminRequestsModal .fulfill-btn {
+        padding: 6px 10px !important;
+        min-width: auto !important;
+        font-size: 1.2em !important;
+    }
+}

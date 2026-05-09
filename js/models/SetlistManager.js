@@ -1,7 +1,8 @@
 // SetlistManager - Setlist data management met Firebase en localStorage fallback
 class SetlistManager {
     constructor(firebaseManager = null) {
-        this.storageKey = 'popsongSetlists';
+        this.baseStorageKey = 'popsongSetlists';
+        this.storageKey = this.baseStorageKey; // Default
         this.firebaseManager = firebaseManager;
         this.setlists = [];
         this.syncEnabled = false;
@@ -330,6 +331,9 @@ class SetlistManager {
         }
 
         this.syncEnabled = true;
+        this.updateStorageKey(userId);
+        this.cleanupOldCaches(userId);
+
         this.firebaseManager.onSetlistsChange(userId, (setlists) => {
             // Only update if data actually changed (avoid unnecessary UI updates)
             const newSetlists = this.normalizeSetlists(setlists);
@@ -357,6 +361,36 @@ class SetlistManager {
                 this.firebaseManager.removeSetlistsListener(userId);
             }
             this.syncEnabled = false;
+        }
+    }
+
+    /**
+     * Updates the local storage key to be user-specific.
+     */
+    updateStorageKey(userId) {
+        if (userId) {
+            this.storageKey = `${this.baseStorageKey}_${userId}`;
+        } else {
+            this.storageKey = this.baseStorageKey;
+        }
+    }
+
+    /**
+     * Cleans up old user-specific caches from localStorage.
+     */
+    cleanupOldCaches(currentUserId) {
+        try {
+            const prefix = this.baseStorageKey + '_';
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith(prefix) && key !== `${prefix}${currentUserId}`) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+        } catch (e) {
+            console.warn('SetlistManager: Cache cleanup failed:', e);
         }
     }
 }

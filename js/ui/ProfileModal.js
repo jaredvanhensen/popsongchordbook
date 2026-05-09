@@ -633,7 +633,7 @@ class ProfileModal {
                 }
 
                 tr.innerHTML = `
-                    <td style="font-weight: 700; color: #64748b; width: 40px;">${index + 1}</td>
+                    <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${index + 1}</td>
                     <td style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
                         ${user.email || 'Anon'}
                         ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
@@ -671,6 +671,7 @@ class ProfileModal {
             sorted.forEach(req => {
                 const date = req.timestamp ? new Date(req.timestamp).toLocaleDateString() : 'Unknown';
                 const tr = document.createElement('tr');
+                tr.className = 'request-row';
                 const isFulfilled = req.status === 'fulfilled';
                 
                 tr.innerHTML = `
@@ -678,7 +679,7 @@ class ProfileModal {
                     <td>${req.title || '-'}</td>
                     <td>${req.userEmail || 'Anon'}</td>
                     <td>${date}</td>
-                    <td style="display: flex; gap: 8px;">
+                    <td class="request-actions">
                         <button class="action-btn fulfill-btn ${isFulfilled ? 'fulfilled' : ''}" 
                                 title="Mark as Done & Email User" 
                                 data-id="${req.requestId}" 
@@ -687,7 +688,7 @@ class ProfileModal {
                                 data-title="${req.title || ''}"
                                 ${isFulfilled ? 'disabled' : ''}
                                 style="cursor: ${isFulfilled ? 'default' : 'pointer'};">
-                            ${isFulfilled ? '✔️ DONE' : '✅ DONE'}
+                            <span class="btn-icon">${isFulfilled ? '✔️' : '✅'}</span><span class="btn-text"> DONE</span>
                         </button>
                         <button class="action-btn delete-req-btn" 
                                 title="Delete Request" 
@@ -956,7 +957,7 @@ class ProfileModal {
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${index + 1}</td>
+                <td class="rank-column">${index + 1}</td>
                 <td style="font-weight: 600;">${song.title}</td>
                 <td style="font-size: 0.9em; color: #64748b;">${song.artist}</td>
                 <td style="text-align: center; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
