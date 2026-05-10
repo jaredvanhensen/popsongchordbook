@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -2257,9 +2257,26 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     // Populate Metadata Header
     const artistDisplay = document.getElementById('artistDisplay');
     const songTitleDisplay = document.getElementById('songTitleDisplay');
+    const headerThumb = document.getElementById('songThumbnailDisplay');
 
     if (artistDisplay) artistDisplay.textContent = artist || '';
     if (songTitleDisplay) songTitleDisplay.textContent = songTitle || '';
+
+    // Attempt to fetch thumbnail from parent (consistent with Song Map behavior)
+    if (headerThumb) {
+        if (typeof window.parent !== 'undefined' && window.parent.document.getElementById('songDetailThumbnail')) {
+            const parentThumb = window.parent.document.getElementById('songDetailThumbnail');
+            // Only use if it has a real source and isn't hidden
+            if (parentThumb && parentThumb.src && !parentThumb.classList.contains('hidden') && !parentThumb.src.includes('placeholder')) {
+                headerThumb.src = parentThumb.src;
+                headerThumb.classList.remove('hidden');
+            } else {
+                headerThumb.classList.add('hidden');
+            }
+        } else {
+            headerThumb.classList.add('hidden');
+        }
+    }
 
     if (!data || !data.chords || !Array.isArray(data.chords)) {
         console.warn('Scrolling Chords: data.chords missing or invalid, using empty array');

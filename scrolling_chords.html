@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,8 +16,8 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.714">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.714">
+    <link rel="stylesheet" href="scrolling.css?v=2.728">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.728">
 </head>
 
 <body>
@@ -25,9 +25,15 @@
     <!-- Merged Purple Header for Mobile Landscape (v2.713) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
-            <h1 id="artistDisplay" class="artist-display"></h1>
-            <span style="opacity: 0.5; color: white;">-</span>
-            <h2 id="songTitleDisplay" class="song-title-display"></h2>
+            <div class="song-detail-thumb-section">
+                <img id="songThumbnailDisplay" src="" alt="" class="song-detail-thumb hidden">
+            </div>
+            <div class="song-detail-title-section">
+                <div class="song-detail-title-row">
+                    <h1 id="songTitleDisplay" class="song-title-display"></h1>
+                </div>
+                <h2 id="artistDisplay" class="artist-display"></h2>
+            </div>
         </div>
         
         <div class="header-controls-row">
