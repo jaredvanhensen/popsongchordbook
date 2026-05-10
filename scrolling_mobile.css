@@ -255,7 +255,7 @@ body.is-mobile-landscape #statusText {
 /* Adjust Playhead/Arrow for full-height timeline under header */
 body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
-    top: calc(50% + 30px) !important; /* Offset by header height */
+    top: calc(50% - 32px) !important; /* Aligned with the TOP of the 65px chord box */
 }
 
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
