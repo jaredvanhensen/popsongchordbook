@@ -1,4 +1,4 @@
-// $12.544)
+﻿// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -1011,12 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof restart === 'function') restart();
         });
 
-        document.getElementById('pureLyricsBtn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (typeof toggleLyricsHUD === 'function') toggleLyricsHUD();
-        });
-
-        document.getElementById('pureSpeedBtn')?.addEventListener('click', (e) => {
+        document.getElementById('pureMenuSpeedBtn')?.addEventListener('click', (e) => {
             e.stopPropagation();
             if (typeof cycleSpeed === 'function') cycleSpeed();
         });
@@ -1288,7 +1283,7 @@ function cycleSpeed() {
     }
 
     // Update Pure Speed Button Display
-    const pureSpeedDisplay = document.getElementById('pureSpeedDisplay');
+    const pureSpeedDisplay = document.getElementById('pureMenuSpeedDisplay');
     if (pureSpeedDisplay) {
         pureSpeedDisplay.innerText = `${currentSpeed}x`;
     }
@@ -1321,7 +1316,7 @@ function syncPureTimelineButtons() {
         audioToggleBtnComp.classList.toggle('active', audioEnabled);
     }
     
-    const pureSpeedDisplay = document.getElementById('pureSpeedDisplay');
+    const pureSpeedDisplay = document.getElementById('pureMenuSpeedDisplay');
     if (pureSpeedDisplay) {
         pureSpeedDisplay.innerText = `${currentSpeed}x`;
     }
@@ -4983,6 +4978,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 

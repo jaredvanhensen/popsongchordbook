@@ -249,15 +249,30 @@ body.is-mobile-landscape .main-play-arrow {
     opacity: 1;
     transform: scale(1.1);
 }
+    box-shadow: none !important;
+}
+
 .pure-timeline-controls button.active,
 #audioToggleBtnCompact.active,
-#pureLyricsBtn.active,
 #playPauseBtnCompact.active {
     opacity: 1;
     transform: scale(1.1);
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+}
+
+#playPauseBtnCompact {
+    min-width: 55px !important;
+    height: 55px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50% !important;
+    margin: 0 5px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#playPauseBtnCompact .icon {
+    font-size: 1.8rem !important;
+    color: white !important;
 }
 .pure-timeline-controls .icon,
 .pure-timeline-controls .lyrics-emoji {
@@ -419,6 +434,15 @@ body.is-mobile-view #toggleKeyboardMenuBtn {
     
     #pureSpeedBtn .icon {
         margin-top: -2px !important;
+    }
+
+    #playPauseBtnCompact {
+        min-width: 44px !important;
+        height: 44px !important;
+    }
+    
+    #playPauseBtnCompact .icon {
+        font-size: 1.5rem !important;
     }
 
     /* Ensure hidden buttons don't take up any space */

@@ -1,4 +1,4 @@
-﻿// Main Application (v2.706)
+﻿// Main Application (v2.714)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -53,7 +53,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.706");
+        console.log("Pop Song Chord Book - 2.714");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -2416,7 +2416,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.622):\n`;
+        let msg = `Diagnostics (v2.713):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2641,7 +2641,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.622)');
+        console.log('UG Extractor listener initialized (v2.713)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);
@@ -3237,6 +3237,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

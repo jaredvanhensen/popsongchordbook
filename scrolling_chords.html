@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,13 +16,13 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.720">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.720">
+    <link rel="stylesheet" href="scrolling.css?v=2.714">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.714">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.622) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.713) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
             <h1 id="artistDisplay" class="artist-display"></h1>
@@ -45,17 +45,6 @@
             <!-- Audio Toggle Compact -->
             <button id="audioToggleBtnCompact" title="Toggle Chord Audio">
                 <span class="icon" id="audioIconCompact">🔊</span>
-            </button>
-
-            <!-- Lyrics Toggle Compact -->
-            <button id="pureLyricsBtn" title="Toggle Lyrics" class="lyrics-btn">
-                <span class="lyrics-emoji">🎤</span>
-            </button>
-
-            <!-- Speed Toggle Compact -->
-            <button id="pureSpeedBtn" title="Playback Speed">
-                <span class="icon">⏱️</span>
-                <span id="pureSpeedDisplay" style="font-size: 0.7rem; font-weight: 900; margin-left: 2px; color: rgba(255, 255, 255, 0.9);">1.0x</span>
             </button>
 
             <button id="pureTimelineFullModeBtn" title="Switch to FULL mode">
@@ -92,6 +81,10 @@
                     <button class="hamburger-menu-item" id="pureMenuAudioBtn">
                         <span class="icon">🔊</span>
                         <span class="label">Chord Audio Toggle</span>
+                    </button>
+                    <button class="hamburger-menu-item" id="pureMenuSpeedBtn">
+                        <span class="icon">⏱️</span>
+                        <span class="label">Playback Speed: <span id="pureMenuSpeedDisplay">1.0x</span></span>
                     </button>
                 </div>
             </div>
@@ -578,21 +571,22 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.720" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.720" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.720" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.720" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.720" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.720" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.720" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.720" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.720" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.720" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.720" defer></script>
-            <script src="js/scrolling_chords.js?v=2.720" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.714" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.714" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.714" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.714" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.714" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.714" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.714" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.714" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.714" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.714" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.714" defer></script>
+            <script src="js/scrolling_chords.js?v=2.714" defer></script>
 </body>
 
 </html>
+
 
 
 
