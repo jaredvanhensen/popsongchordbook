@@ -154,7 +154,7 @@ body.is-mobile-landscape .timeline-container {
     height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
-    padding-top: 85px !important; /* Further reduced for ultra-compact header */
+    padding-top: 100px !important; /* Increased for button shift (was 85px) */
     z-index: 500;
 }
 
@@ -278,6 +278,9 @@ body.is-mobile-landscape .pure-timeline-controls {
     justify-content: center !important;
     gap: 12px !important;
     flex-shrink: 0 !important;
+}
+body.is-mobile-landscape .header-controls-row {
+    margin-top: 15px !important; /* Move buttons down as requested */
 }
 
 /* Floating icons look - no boxes */
@@ -536,23 +539,30 @@ body.is-mobile-view #toggleKeyboardMenuBtn {
         justify-content: flex-start !important;
         width: 100% !important;
         flex: none !important;
+        position: relative !important; /* Move thumb context back to this row in portrait */
+        padding-left: 10px !important;
     }
 
     body.is-mobile-landscape .song-title-display {
         font-size: 0.95rem !important;
+        text-align: left !important;
     }
 
     body.is-mobile-landscape .artist-display {
         font-size: 0.65rem !important;
+        text-align: left !important;
     }
 
     body.is-mobile-landscape .song-detail-thumb {
-        width: 50px !important; /* Keep smaller in portrait */
-        height: 50px !important;
+        width: 45px !important; /* Slightly smaller in portrait */
+        height: 45px !important;
+        left: 0 !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
     }
     
     body.is-mobile-landscape .landscape-header-bar {
-        min-height: 120px !important; 
+        min-height: 115px !important; /* Increased for button shift (was 100px) */
         padding: 10px 15px !important;
         flex-direction: column !important; /* Stacked for mobile portrait/narrow */
         top: 0 !important;
@@ -564,6 +574,6 @@ body.is-mobile-view #toggleKeyboardMenuBtn {
     }
     
     body.is-mobile-landscape .timeline-container {
-        padding-top: 130px !important;
+        padding-top: 125px !important; /* Increased for button shift (was 110px) */
     }
 }
