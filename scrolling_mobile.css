@@ -578,3 +578,84 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         padding-top: 125px !important; /* Increased for button shift (was 110px) */
     }
 }
+
+/* --- v2.757 TABLET LANDSCAPE: PURE TIMELINE (Wide & Tall) --- */
+@media (min-width: 768px) {
+    body.is-mobile-landscape .landscape-header-bar {
+        padding: 20px 30px !important;
+        gap: 15px !important;
+    }
+
+    body.is-mobile-landscape .header-metadata-row {
+        gap: 20px !important;
+        margin-bottom: 10px !important;
+    }
+
+    body.is-mobile-landscape .song-detail-thumb {
+        width: 80px !important; /* Doubled from 40px */
+        height: 80px !important;
+        left: 30px !important;
+    }
+
+    body.is-mobile-landscape .song-detail-title-section {
+        padding: 0 100px !important; /* Extra padding for large thumb */
+    }
+
+    body.is-mobile-landscape .song-title-display {
+        font-size: 1.8rem !important; /* Doubled scale */
+    }
+
+    body.is-mobile-landscape .artist-display {
+        font-size: 1.2rem !important; /* Doubled scale */
+    }
+
+    body.is-mobile-landscape .pure-timeline-controls {
+        gap: 25px !important; /* More spacing for huge buttons */
+    }
+
+    /* Use IDs to ensure higher specificity over the 28px mobile rules */
+    body.is-mobile-landscape #pureRestartBtn,
+    body.is-mobile-landscape #playPauseBtnCompact,
+    body.is-mobile-landscape #audioToggleBtnCompact,
+    body.is-mobile-landscape #youtubeToggleBtnCompact,
+    body.is-mobile-landscape #pureTimelineFullModeBtn,
+    body.is-mobile-landscape #pureTimelineMenuBtn {
+        height: 80px !important; 
+        min-width: 80px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.is-mobile-landscape .pure-timeline-controls .icon,
+    body.is-mobile-landscape #pureRestartBtn .icon,
+    body.is-mobile-landscape #playPauseBtnCompact .icon,
+    body.is-mobile-landscape #audioToggleBtnCompact .icon,
+    body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
+    body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
+    body.is-mobile-landscape #pureTimelineMenuBtn .icon {
+        font-size: 2.8rem !important; /* Scaled icons */
+    }
+
+    /* YouTube SVG scaling for Tablet */
+    body.is-mobile-landscape #youtubeToggleBtnCompact svg {
+        width: 44px !important; 
+        height: 32px !important;
+        min-width: 44px !important;
+    }
+
+    /* Close button on right (if present) */
+    body.is-mobile-landscape #closePureTimelineBtn {
+        width: 80px !important;
+        height: 80px !important;
+        right: 30px !important;
+    }
+    
+    body.is-mobile-landscape #closePureTimelineBtn svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    /* Adjust timeline padding for the much taller header */
+    body.is-mobile-landscape .timeline-container {
+        padding-top: 180px !important;
+    }
+}
