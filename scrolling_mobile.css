@@ -592,25 +592,25 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-mobile-landscape .song-detail-thumb {
-        width: 80px !important; /* Doubled from 40px */
-        height: 80px !important;
+        width: 90px !important; /* Scaled from 60px to 90px (50% increase) */
+        height: 90px !important;
         left: 30px !important;
     }
 
     body.is-mobile-landscape .song-detail-title-section {
-        padding: 0 100px !important; /* Extra padding for large thumb */
+        padding: 0 110px !important; /* Adjusted for larger 90px thumb */
     }
 
     body.is-mobile-landscape .song-title-display {
-        font-size: 1.8rem !important; /* Doubled scale */
+        font-size: 1.5rem !important; /* Balanced scale */
     }
 
     body.is-mobile-landscape .artist-display {
-        font-size: 1.2rem !important; /* Doubled scale */
+        font-size: 1.1rem !important; /* Balanced scale */
     }
 
     body.is-mobile-landscape .pure-timeline-controls {
-        gap: 25px !important; /* More spacing for huge buttons */
+        gap: 15px !important; /* Slightly tighter gap */
     }
 
     /* Use IDs to ensure higher specificity over the 28px mobile rules */
@@ -620,8 +620,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact,
     body.is-mobile-landscape #pureTimelineFullModeBtn,
     body.is-mobile-landscape #pureTimelineMenuBtn {
-        height: 80px !important; 
-        min-width: 80px !important;
+        height: 60px !important; 
+        min-width: 60px !important;
         background: rgba(255, 255, 255, 0.2) !important;
     }
 
@@ -632,30 +632,35 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
     body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
     body.is-mobile-landscape #pureTimelineMenuBtn .icon {
-        font-size: 2.8rem !important; /* Scaled icons */
+        font-size: 2.1rem !important; /* Refined icon scale */
+    }
+
+    /* FIX: Ensure hamburger menu icons are NOT oversized (v2.758) */
+    body.is-mobile-landscape .pure-timeline-hamburger-menu .icon {
+        font-size: 1.4rem !important; 
     }
 
     /* YouTube SVG scaling for Tablet */
     body.is-mobile-landscape #youtubeToggleBtnCompact svg {
-        width: 44px !important; 
-        height: 32px !important;
-        min-width: 44px !important;
+        width: 33px !important; 
+        height: 24px !important;
+        min-width: 33px !important;
     }
 
     /* Close button on right (if present) */
     body.is-mobile-landscape #closePureTimelineBtn {
-        width: 80px !important;
-        height: 80px !important;
+        width: 60px !important;
+        height: 60px !important;
         right: 30px !important;
     }
     
     body.is-mobile-landscape #closePureTimelineBtn svg {
-        width: 40px !important;
-        height: 40px !important;
+        width: 30px !important;
+        height: 30px !important;
     }
 
-    /* Adjust timeline padding for the much taller header */
+    /* Adjust timeline padding for the new header height */
     body.is-mobile-landscape .timeline-container {
-        padding-top: 180px !important;
+        padding-top: 160px !important;
     }
 }
