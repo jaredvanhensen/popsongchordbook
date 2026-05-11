@@ -30,32 +30,35 @@ body.is-mobile-landscape #youtubeToggleBtn {
 }
 body.is-mobile-landscape .landscape-header-bar {
     display: flex;
-    flex-direction: row; /* Single row like modal */
+    flex-direction: column; 
     position: fixed;
-    top: 10px; /* Floating look like modal header */
-    left: 10px;
-    right: 10px;
+    top: 0; /* Flush to top */
+    left: 0; /* Flush to left */
+    right: 0; /* Flush to right */
+    width: 100%;
     height: auto;
-    min-height: 105px; /* Compact height */
+    min-height: auto;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     align-items: center;
-    justify-content: space-between; /* Metadata left, controls right */
-    padding: 12px 20px;
+    justify-content: center;
+    padding: 8px 15px; 
+    gap: 4px; 
     z-index: 2005;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    border-radius: 18px; /* Rounded corners as requested */
-    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border-radius: 0; /* Full width edge-to-edge */
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 body.is-mobile-landscape .header-metadata-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    text-align: left;
-    gap: 18px; /* Increased gap like modal */
-    flex: 1;
-    min-width: 0;
+    justify-content: center;
+    gap: 8px;
+    flex: none;
+    width: 100%;
+    position: static; /* Let thumb be relative to the full header bar */
 }
 
 body.is-mobile-landscape .song-detail-thumb-section {
@@ -65,12 +68,16 @@ body.is-mobile-landscape .song-detail-thumb-section {
 }
 
 body.is-mobile-landscape .song-detail-thumb {
-    width: 80px; /* Same as Chord Detail modal */
-    height: 80px;
-    border-radius: 12px;
+    width: 40px; 
+    height: 40px;
+    border-radius: 6px;
     object-fit: cover;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border: 1.5px solid rgba(255,255,255,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    position: absolute;
+    left: 15px; /* Further from edge as requested */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 body.is-mobile-landscape .song-detail-thumb.hidden {
@@ -79,11 +86,12 @@ body.is-mobile-landscape .song-detail-thumb.hidden {
 
 body.is-mobile-landscape .song-detail-title-section {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row; /* Artist and Title on 1 ROW */
+    align-items: baseline;
     justify-content: center;
-    gap: 6px; /* Increased space between Title and Artist */
+    gap: 10px;
     min-width: 0;
+    padding: 0 60px; /* Protect against overlap with corner thumbnail/close button */
 }
 
 body.is-mobile-landscape .song-detail-title-row {
@@ -112,23 +120,20 @@ body.is-mobile-landscape .header-metadata {
 }
 
 body.is-mobile-landscape .artist-display { 
-    font-size: 1.1rem !important; /* Matched modal font size */
-    opacity: 0.9 !important; 
+    font-size: 0.75rem !important; /* Even smaller */
+    opacity: 0.8 !important; 
     color: rgba(255, 255, 255, 0.9) !important; 
     margin: 0 !important; 
-    text-transform: none !important;
-    letter-spacing: 0.5px !important;
     white-space: nowrap;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
 }
 body.is-mobile-landscape .song-title-display { 
-    font-size: 1.6rem !important; /* Matched modal font size */
+    font-size: 1.0rem !important; /* Reduced for ultra-compact row */
     margin: 0 !important; 
     color: white !important; 
-    font-weight: 800 !important; 
+    font-weight: 700 !important; 
     white-space: nowrap;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    letter-spacing: -0.02em !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* Push Bar Labels lower in landscape to avoid metadata collision (v2.457) */
@@ -149,17 +154,17 @@ body.is-mobile-landscape .timeline-container {
     height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
-    padding-top: 130px !important; /* Adjusted for floating header */
+    padding-top: 85px !important; /* Further reduced for ultra-compact header */
     z-index: 500;
 }
 
 /* Shrink Chords MUCH smaller (65px) in landscape (v2.457) */
 /* Nuclear Specificity Override: Removed top:40% !important to allow staggering */
 body.is-mobile-landscape #timeline .chord-item {
-    width: 65px !important;
-    height: 65px !important;
-    font-size: 1.2rem !important;
-    border-radius: 14px !important;
+    width: 55px !important; /* Smaller chords for landscape (was 65px) */
+    height: 55px !important;
+    font-size: 1.0rem !important; /* Reduced symbol size */
+    border-radius: 12px !important;
     transform: translateY(-50%) !important;
 }
 
@@ -210,7 +215,7 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 40px !important; /* Shifted up (v2.720) to avoid falling off bottom on some phones */
+    bottom: 15px !important; /* Moved lower as requested (was 40px) */
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -255,7 +260,7 @@ body.is-mobile-landscape #statusText {
 /* Adjust Playhead/Arrow for full-height timeline under header */
 body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
-    top: calc(50% - 32px) !important; /* Aligned with the TOP of the 65px chord box */
+    top: calc(50% - 27.5px) !important; /* Aligned with the TOP of the 55px chord box */
 }
 
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
@@ -269,8 +274,9 @@ body.is-mobile-landscape .main-play-arrow {
 
 /* Landscape row alignment */
 body.is-mobile-landscape .pure-timeline-controls {
-    width: auto !important;
-    justify-content: flex-end !important;
+    width: 100% !important; /* Full width for the second row */
+    justify-content: center !important;
+    gap: 12px !important;
     flex-shrink: 0 !important;
 }
 
@@ -311,11 +317,11 @@ body.is-mobile-landscape .pure-timeline-controls {
 #youtubeToggleBtnCompact,
 #pureTimelineFullModeBtn,
 #pureTimelineMenuBtn {
-    min-width: 55px !important;
-    height: 55px !important;
+    min-width: 28px !important; /* Ultra-compact (was 42px) */
+    height: 28px !important;
     background: rgba(255, 255, 255, 0.15) !important;
     border-radius: 50% !important;
-    margin: 0 5px !important;
+    margin: 0 2px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -327,7 +333,7 @@ body.is-mobile-landscape .pure-timeline-controls {
 #youtubeToggleBtnCompact .icon,
 #pureTimelineFullModeBtn .icon,
 #pureTimelineMenuBtn .icon {
-    font-size: 1.8rem !important;
+    font-size: 1.0rem !important; /* Ultra-compact icons */
     color: white !important;
 }
 .pure-timeline-controls .icon,
@@ -346,11 +352,11 @@ body.is-mobile-landscape .pure-timeline-controls {
 
 /* Specific styling for YouTube SVG in compact mode to avoid distortion */
 #youtubeToggleBtnCompact svg {
-    width: 32px !important;
-    height: 24px !important;
-    min-width: 32px !important;
-    max-width: 32px !important;
-    filter: drop-shadow(0 2px 4px rgba(255, 0, 0, 0.2));
+    width: 18px !important;
+    height: 14px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    filter: drop-shadow(0 1px 2px rgba(255, 0, 0, 0.2));
 }
 
 #youtubeToggleBtnCompact.active {
