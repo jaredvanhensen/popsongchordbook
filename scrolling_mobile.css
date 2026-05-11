@@ -428,7 +428,8 @@ body.is-mobile-view #switchToPureBtn {
 
 /* Hide mini keyboard and its menu option on mobile (v2.706) */
 body.is-mobile-view #auditionKeyboard,
-body.is-mobile-view #toggleKeyboardMenuBtn {
+body.is-mobile-view #toggleKeyboardMenuBtn,
+body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     display: none !important;
 }
 
