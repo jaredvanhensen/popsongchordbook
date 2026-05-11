@@ -592,13 +592,13 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-mobile-landscape .song-detail-thumb {
-        width: 90px !important; /* Scaled from 60px to 90px (50% increase) */
-        height: 90px !important;
+        width: 135px !important; /* Scaled from 90px to 135px (another 50% increase) */
+        height: 135px !important;
         left: 30px !important;
     }
 
     body.is-mobile-landscape .song-detail-title-section {
-        padding: 0 110px !important; /* Adjusted for larger 90px thumb */
+        padding: 0 160px !important; /* Adjusted for huge 135px thumb */
     }
 
     body.is-mobile-landscape .song-title-display {
@@ -659,8 +659,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         height: 30px !important;
     }
 
-    /* Adjust timeline padding for the new header height */
+    /* Adjust timeline padding for the new taller header height */
     body.is-mobile-landscape .timeline-container {
-        padding-top: 160px !important;
+        padding-top: 200px !important;
     }
 }
