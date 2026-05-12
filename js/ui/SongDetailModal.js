@@ -1814,8 +1814,8 @@ class SongDetailModal {
         section.content.innerHTML = '';
         if (!text) return;
 
-        // Match dividers, repeat markers, or anything else (chords)
-        const items = text.match(/\||\d+x|[^\s|]+/g) || [];
+        // Match bracketed text, dividers, repeat markers, or anything else (chords)
+        const items = text.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
 
         if (items.length === 0) {
             return;
@@ -1849,6 +1849,20 @@ class SongDetailModal {
                 marker.style.margin = '0 4px';
                 marker.style.fontSize = '1.4rem';
                 marker.style.fontWeight = 'bold';
+                section.content.appendChild(marker);
+            } else if (/^\[.*\]$/.test(trimmed)) {
+                const marker = document.createElement('span');
+                marker.className = 'chord-toolbar-inline-text';
+                marker.textContent = trimmed.substring(1, trimmed.length - 1); // Remove brackets
+                marker.style.setProperty('color', '#475569', 'important'); // Greyish text
+                marker.style.setProperty('background', 'none', 'important');
+                marker.style.setProperty('border', 'none', 'important');
+                marker.style.setProperty('box-shadow', 'none', 'important');
+                marker.style.display = 'inline-block';
+                marker.style.margin = '0 6px';
+                marker.style.fontSize = '0.9rem';
+                marker.style.fontWeight = '600';
+                marker.style.textTransform = 'uppercase';
                 section.content.appendChild(marker);
             } else {
                 // Defensive: what if item contains a divider? (Split it further)
@@ -1909,12 +1923,12 @@ class SongDetailModal {
     transposeBlockText(text, semitones) {
         if (!text || semitones === 0) return text || '';
         
-        // Match markers (| or 2x, etc.) or words (chords)
-        const items = text.match(/\||\d+x|[^\s|]+/g) || [];
+        // Match bracketed text, markers (| or 2x, etc.) or words (chords)
+        const items = text.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
         return items.map(item => {
             const trimmed = item.trim();
-            // Don't transpose musical markers
-            if (trimmed === '|' || /^\d+x$/.test(trimmed)) return trimmed;
+            // Don't transpose musical markers or text blocks
+            if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
             
             return this.chordParser.transpose(trimmed, semitones);
         }).join(' ');
@@ -1980,11 +1994,11 @@ class SongDetailModal {
     formatBlockTextForOverlay(rawText) {
         if (!rawText || this.instrumentMode !== 'guitar' || this.capoValue === 0) return rawText || '';
         
-        // Match dividers, repeat markers, or chords
-        const items = rawText.match(/\||\d+x|[^\s|]+/g) || [];
+        // Match bracketed text, dividers, repeat markers, or chords
+        const items = rawText.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
         return items.map(item => {
             const trimmed = item.trim();
-            if (trimmed === '|' || /^\d+x$/.test(trimmed)) return trimmed;
+            if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
             
             // Transpose for Capo: e.g. G with Capo 2 -> F
             return this.chordParser.transpose(trimmed, -this.capoValue);
@@ -2976,7 +2990,7 @@ class SongDetailModal {
 
                 const suggestedChordsGrouped = sections.map(section => {
                     const trimmedText = (section.text || '').trim();
-                    const found = trimmedText ? trimmedText.match(/\||\d+x|[^\s|]+/g) || [] : [];
+                    const found = trimmedText ? trimmedText.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [] : [];
                     return { section: section.name, type: section.type, chords: found };
                 }).filter(group => group.chords.length > 0);
 
@@ -3185,7 +3199,7 @@ class SongDetailModal {
         // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
         const suggestedChordsGrouped = sections.map(section => {
             const trimmedText = (section.text || '').trim();
-            const found = trimmedText ? trimmedText.match(/\||\d+x|[^\s|]+/g) || [] : [];
+            const found = trimmedText ? trimmedText.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [] : [];
             return {
                 section: section.name,
                 type: section.type,

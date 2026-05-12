@@ -2034,7 +2034,7 @@ function renderSuggestedChords(groups) {
 
         buttonsContainer.classList.remove('hidden');
 
-        const isMarker = (item) => item === '|' || /^\d+x$/.test(item);
+        const isMarker = (item) => item === '|' || /^\d+x$/.test(item) || /^\[.*\]$/.test(item);
 
         const makeChordBtn = (chordName, type) => {
             const btn = document.createElement('button');
@@ -2060,7 +2060,17 @@ function renderSuggestedChords(groups) {
         const makeMarkerEl = (label) => {
             const span = document.createElement('span');
             span.className = 'chord-toolbar-inline-marker';
-            span.textContent = label;
+            if (/^\[.*\]$/.test(label)) {
+                span.textContent = label.substring(1, label.length - 1);
+                span.style.fontSize = '0.85rem';
+                span.style.color = '#475569';
+                span.style.fontWeight = '600';
+                span.style.textTransform = 'uppercase';
+                span.style.fontFamily = 'inherit';
+                span.style.margin = '0 6px';
+            } else {
+                span.textContent = label;
+            }
             return span;
         };
 
@@ -4998,6 +5008,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
