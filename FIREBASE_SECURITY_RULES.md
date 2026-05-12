@@ -18,7 +18,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
       ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
       "$userId": {
         ".read": "$userId === auth.uid",
-        ".write": "$userId === auth.uid || auth.token.email === 'jared@vanhensen.nl'",
+        ".write": "$userId === auth.uid",
         "songs": {
           ".read": "$userId === auth.uid",
           ".write": "$userId === auth.uid"
@@ -46,7 +46,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
     "emailToUserId": {
       "$email": {
         ".read": "auth != null",
-        ".write": "auth.token.email === 'jared@vanhensen.nl' || (auth != null && newData.val() === auth.uid)"
+        ".write": "auth != null && newData.val() === auth.uid"
       }
     },
     "leaderboards": {

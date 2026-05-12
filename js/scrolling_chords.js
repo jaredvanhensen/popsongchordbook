@@ -1586,6 +1586,7 @@ chordTrack.addEventListener('pointerdown', (e) => {
 });
 
 chordTrack.addEventListener('click', (e) => {
+    if (!isEditMode) return; // Only allow editing in Edit Mode
     if (dragHasMoved) return; // Don't trigger edit if we were dragging
 
     if (e.target.classList.contains('chord-item')) {
@@ -1883,7 +1884,9 @@ window.addEventListener('pointerup', (e) => {
         );
 
         if (overTimeline && virtualDraggedChord) {
-            const x = e.clientX - timelineRect.left;
+            // Use the left edge of the ghost box for calculating drop time, aligning with the yellow arrow
+            const ghostLeftX = e.clientX - (dragGhost ? dragGhost.offsetWidth / 2 : 0);
+            const x = ghostLeftX - timelineRect.left;
             const playheadOffset = getPlayheadOffset();
             const dist = x - playheadOffset;
 
@@ -4995,6 +4998,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 

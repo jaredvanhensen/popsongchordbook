@@ -248,7 +248,7 @@ body.is-mobile-landscape .lyric-line.active {
 body.is-mobile-landscape .lyric-line.upcoming {
     display: block !important; /* Restore upcoming sentence */
     font-size: 0.8rem !important;
-    opacity: 0.6 !important;
+    opacity: 0.85 !important;
     color: #ffffff !important;
 }
 
