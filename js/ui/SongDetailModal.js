@@ -176,7 +176,7 @@ class SongDetailModal {
         this.setupPianoButtons();
         this.setupChordEditorButtons();
         this.setupBarDividerButtons();
-        // this.setupBarDividerButtons(); // Replaced by inline editing
+        this.setupTextInsertButtons();
         this.setupChordBlocks();
     }
 
@@ -1681,6 +1681,97 @@ class SongDetailModal {
                 // If it was a real mouse click it was already handled by mousedown
                 if (e.detail === 0) { // Keyboard triggered
                     handleDividerInteration(e);
+                }
+            });
+        });
+    }
+
+    setupTextInsertButtons() {
+        if (!this.modal) return;
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            
+            if (!section.textInsertBtn) {
+                section.textInsertBtn = document.querySelector(`.text-insert-btn[data-section="${key}"]`);
+            }
+            
+            if (!section.textInsertBtn) return;
+
+            const handleTextInsertInteraction = (e) => {
+                if (e) {
+                    e.stopPropagation();
+                    if (e.cancelable) e.preventDefault();
+                }
+
+                const focusedField = document.activeElement;
+                const isContentEditable = focusedField && 
+                    focusedField.classList.contains('chord-section-content') &&
+                    focusedField.getAttribute('contenteditable') === 'true';
+
+                if (isContentEditable) {
+                    this.insertTextToContent(focusedField, ' [ Type short text here ] ');
+                    this.checkForChanges();
+                    return;
+                }
+
+                const input = section.editInput;
+                if (!input) return;
+                
+                const isEditing = !input.classList.contains('hidden');
+                let newValue;
+                const textToInsert = '[ Type short text here ]';
+
+                if (!isEditing) {
+                    // Switch to edit mode first
+                    this.toggleBlockEdit(key);
+
+                    // Append strictly to the end since there was no cursor focus
+                    const value = input.value;
+                    const needsSpace = value.length > 0 && !value.match(/\s$/);
+                    newValue = value + (needsSpace ? ' ' : '') + textToInsert + ' ';
+                    input.value = newValue;
+
+                    // Move cursor to highlight the placeholder text
+                    input.focus();
+                    const newPos = newValue.length - 25 + 2; // start of "Type short text here"
+                    input.setSelectionRange(newPos, newPos + 20); // select "Type short text here"
+                } else {
+                    // Already in edit mode: insert exactly at current cursor position
+                    const startPos = input.selectionStart;
+                    const endPos = input.selectionEnd;
+                    const value = input.value;
+
+                    const prefix = value.substring(0, startPos);
+                    const needsSpaceBefore = prefix.length > 0 && !prefix.match(/\s$/);
+
+                    newValue = prefix + (needsSpaceBefore ? ' ' : '') + textToInsert + ' ' + value.substring(endPos);
+                    input.value = newValue;
+
+                    // Move cursor to highlight the placeholder text
+                    input.focus();
+                    const insertStartPos = startPos + (needsSpaceBefore ? 1 : 0) + 2; // +2 for "[ "
+                    input.setSelectionRange(insertStartPos, insertStartPos + 20); // Select "Type short text here"
+                }
+
+                // Trigger change detection and re-render
+                this.renderChordBlock(key, newValue);
+                this.checkForChanges();
+            };
+
+            // Use mousedown to prevent focus loss from the textarea
+            section.textInsertBtn.addEventListener('mousedown', handleTextInsertInteraction);
+            
+            // Use touchstart for mobile to prevent keyboard flickering
+            section.textInsertBtn.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                handleTextInsertInteraction(e);
+            }, { passive: false });
+
+            // Handle click as fallback for accessibility/keyboard
+            section.textInsertBtn.addEventListener('click', (e) => {
+                // If it was a real mouse click it was already handled by mousedown
+                if (e.detail === 0) { // Keyboard triggered
+                    handleTextInsertInteraction(e);
                 }
             });
         });
