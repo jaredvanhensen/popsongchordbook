@@ -113,50 +113,9 @@ class FirebaseManager {
                 });
             }
 
-            // Store email in database for email lookup
-            if (this.currentUser && this.currentUser.uid) {
-                try {
-                    const normalizedEmail = email.toLowerCase().trim();
-                    const userRef = this.database.ref(`users/${this.currentUser.uid}`);
-                    
-                    // PREVENT DUPLICATES: Check if this email already exists under a different UID
-                    // (This happens if an old account was deleted from Auth but not the Database)
-                    try {
-                        const emailKey = normalizedEmail.replace(/\./g, '_');
-                        const indexSnapshot = await this.database.ref(`emailToUserId/${emailKey}`).once('value');
-                        const oldUid = indexSnapshot.val();
-                        
-                        if (oldUid && oldUid !== this.currentUser.uid) {
-                            console.log('FirebaseManager: Found orphaned database entry for email, cleaning up...', oldUid);
-                            await this.database.ref(`users/${oldUid}`).remove();
-                        }
-                    } catch (cleanupErr) {
-                        console.error('Error during duplicate cleanup:', cleanupErr);
-                    }
+            // WE NO LONGER ADD TO DATABASE OR NOTIFY ADMIN HERE.
+            // THIS WILL HAPPEN UPON FIRST SUCCESSFUL SIGN IN WITH VERIFIED EMAIL.
 
-                    // Get actual creation time from Auth metadata if available
-                    let authCreationTime = null;
-                    if (this.currentUser.metadata && this.currentUser.metadata.creationTime) {
-                        authCreationTime = new Date(this.currentUser.metadata.creationTime).getTime();
-                    }
-
-                    await userRef.update({
-                        email: normalizedEmail,
-                        createdAt: authCreationTime || firebase.database.ServerValue.TIMESTAMP,
-                        preferences: {
-                            isPremium: false
-                        }
-                    });
-
-                    // Create email index for user lookup
-                    await this.ensureEmailIndex(this.currentUser.uid, email);
-
-                    // Notify Admin of new registration via Webhook
-                    this.notifyAdminOnSignUp(normalizedEmail, username);
-                } catch (error) {
-                    console.error('Error storing email in database:', error);
-                }
-            }
 
             // Send verification email — Firebase console template routes link to verify-email.html
             let emailSent = false;
@@ -196,12 +155,15 @@ class FirebaseManager {
             this.currentUser = userCredential.user;
 
             // Ensure email is stored in database for email lookup
-            if (this.currentUser && this.currentUser.uid) {
+            // ONLY IF EMAIL IS VERIFIED
+            if (this.currentUser && this.currentUser.uid && this.currentUser.emailVerified) {
                 try {
                     const normalizedEmail = email.toLowerCase().trim();
                     const userRef = this.database.ref(`users/${this.currentUser.uid}`);
                     const userSnapshot = await userRef.once('value');
                     const userData = userSnapshot.val();
+                    
+                    const isNewDbUser = (!userData || !userData.email);
 
                     // PREVENT DUPLICATES: Check if this email already exists under a different UID
                     try {
@@ -224,11 +186,17 @@ class FirebaseManager {
                     }
 
                     // Only update if email is not already stored
-                    if (!userData || !userData.email) {
+                    if (isNewDbUser) {
                         await userRef.update({
                             email: normalizedEmail,
-                            createdAt: userData?.createdAt || authCreationTime || firebase.database.ServerValue.TIMESTAMP
+                            createdAt: userData?.createdAt || authCreationTime || firebase.database.ServerValue.TIMESTAMP,
+                            preferences: {
+                                isPremium: false
+                            }
                         });
+                        
+                        // Notify Admin of new registration via Webhook (ONLY ON FIRST VERIFIED LOGIN)
+                        this.notifyAdminOnSignUp(normalizedEmail, this.currentUser.displayName || null);
                     } else if (userData.email !== normalizedEmail) {
                         // Update if email changed
                         await userRef.update({
@@ -1587,6 +1555,25 @@ class FirebaseManager {
                 console.error('Error getting users from fallback:', e2);
                 return [];
             }
+        }
+    }
+
+    async deleteUserByAdmin(uid, email) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        if (!this.isAdmin(this.currentUser.uid)) return { success: false, error: 'Unauthorized: Admin access required' };
+        try {
+            // Delete from users
+            await this.database.ref(`users/${uid}`).remove();
+            
+            // Delete from email index
+            if (email) {
+                const emailKey = email.toLowerCase().trim().replace(/\./g, '_');
+                await this.database.ref(`emailToUserId/${emailKey}`).remove();
+            }
+            return { success: true };
+        } catch (error) {
+            console.error('Error deleting user by admin:', error);
+            return { success: false, error: error.message };
         }
     }
 

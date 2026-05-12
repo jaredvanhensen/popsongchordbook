@@ -591,7 +591,7 @@ class ProfileModal {
     async renderMembers() {
         if (!this.membersTableBody) return;
 
-        this.membersTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+        this.membersTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Loading...</td></tr>';
 
         try {
             const users = await this.firebaseManager.getAllUsers();
@@ -639,13 +639,48 @@ class ProfileModal {
                         ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
                     </td>
                     <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
+                    <td class="request-actions" style="text-align: center;">
+                        <button class="action-btn delete-member-btn" 
+                                title="Delete Member" 
+                                data-uid="${user.uid}"
+                                data-email="${user.email || ''}"
+                                style="cursor: pointer; font-size: 1.2em; border: none; background: transparent;">
+                            🗑️
+                        </button>
+                    </td>
                 `;
                 this.membersTableBody.appendChild(tr);
             });
 
+            // Add event listeners for delete buttons
+            this.membersTableBody.querySelectorAll('.delete-member-btn').forEach(btn => {
+                btn.onmouseenter = (e) => e.target.style.transform = 'scale(1.1)';
+                btn.onmouseleave = (e) => e.target.style.transform = 'scale(1)';
+                btn.onclick = (e) => {
+                    const uid = e.currentTarget.dataset.uid;
+                    const email = e.currentTarget.dataset.email;
+                    this.confirmationModal.show(
+                        'Delete Member',
+                        `Are you sure you want to remove <strong>${email}</strong> from the database?<br><br>This action cannot be undone.`,
+                        async () => {
+                            const result = await this.firebaseManager.deleteUserByAdmin(uid, email);
+                            if (result.success) {
+                                this.renderMembers();
+                            } else {
+                                alert('Error deleting member: ' + result.error);
+                            }
+                        },
+                        null,
+                        'Delete',
+                        'Cancel',
+                        'danger'
+                    );
+                };
+            });
+
         } catch (error) {
             console.error('Error rendering members:', error);
-            this.membersTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
+            this.membersTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
         }
     }
 
