@@ -792,11 +792,13 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 }
 
 .lyric-line.active {
+    display: block;
     font-size: 1.4rem;
     font-weight: 800;
     color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
     margin-bottom: 2px;
+    min-height: 1.82rem;
 }
 
 .lyric-line.upcoming {
@@ -805,6 +807,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     font-weight: 500;
     color: #e2e8f0;
     opacity: 0.85;
+    min-height: 1.3rem;
 }
 
 /* Consolidated with Line 350 */
@@ -5796,6 +5799,35 @@ body.ctrl-held .chord-item {
 
     /* Ensure edit-only elements remain hidden if edit mode is not active */
     body:not(.edit-mode-active) .edit-only {
+        display: none !important;
+    }
+}
+
+/* ============================================================
+   LYRICS HUD - PC / BIG TABLET REPOSITIONING
+   Moves the Lyrics HUD from the bottom of the screen to the
+   top of the timeline, right below the bar numbers.
+   Only applies on screens >= 601px that are NOT mobile landscape.
+============================================================ */
+@media (min-width: 601px) {
+    body:not(.is-mobile-landscape) .lyrics-hud {
+        /* Position at top of timeline, just below bar numbers */
+        bottom: auto !important;
+        top: 130px !important; /* ~56px toolbar + ~34px section pills + ~40px bar-number zone */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 80vw !important;
+        max-width: 860px !important;
+        padding: 8px 24px !important;
+        /* Slightly more compact to avoid eating into chord space */
+        background: rgba(0, 0, 0, 0.7) !important;
+        border-radius: 10px !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+        z-index: 2001 !important;
+    }
+
+    body:not(.is-mobile-landscape) .lyrics-hud.hidden {
         display: none !important;
     }
 }
