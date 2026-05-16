@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.787">
+    <link rel="stylesheet" href="/styles.css?v=2.788">
     <style>
         :root {
             --primary: #3b82f6;
@@ -213,12 +213,67 @@
                 padding: 20px;
             }
         }
+        /* Teaser Styles */
+        .teaser-section {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .teaser-image-container {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0f172a;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .teaser-image {
+            width: 100%;
+            display: block;
+            opacity: 0.9;
+            transition: transform 0.5s ease;
+        }
+
+        .teaser-image-container:hover .teaser-image {
+            transform: scale(1.02);
+            opacity: 1;
+        }
+
+        .teaser-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(0deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0) 40%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 30px;
+            pointer-events: none;
+        }
+
+        .teaser-badge {
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
     <div class="preview-container">
         <div class="breadcrumb">
-            <a href="index.html">Home</a> / <a href="songlist.html">Songs</a> / <span id="breadcrumb-song">...</span>
+            <a href="/index.html">Home</a> / <a href="/songlist.html">Songs</a> / <span id="breadcrumb-song">...</span>
         </div>
 
         <article class="song-card">
@@ -257,17 +312,34 @@
                 </p>
             </section>
 
-            <section class="preview-section">
-                <h3>Chords & Lyrics Preview</h3>
+            <section class="teaser-section">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Interactive Chord Timeline Example</h2>
+                <div class="teaser-image-container">
+                    <img src="/images/pure_chordtimeline.png" alt="PopSongChordBook Scrolling Timeline Preview" class="teaser-image">
+                </div>
+            </section>
+
+            <section class="teaser-section">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Visual Song Map Example</h2>
+                <div class="teaser-image-container">
+                    <img src="/images/song_map_example.png" alt="PopSongChordBook Song Map Visualization" class="teaser-image">
+                </div>
+            </section>
+
+            <section class="teaser-section">
+                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Chords Example</h2>
+                <div class="teaser-image-container" style="margin-bottom: 30px;">
+                    <img src="/images/detail_screen.png" alt="PopSongChordBook Interactive Chords Detail View" class="teaser-image">
+                </div>
                 <div class="chords-preview" id="chords-preview">
                     <!-- Preview content will be injected here -->
                 </div>
             </section>
 
             <div class="cta-container">
-                <p>Want to play the full version with real-time scrolling and audio?</p>
-                <a href="#" id="play-full-btn" class="cta-button">Play Full Interactive Version</a>
-            </div>
+                <h3>Want to play the full version with real-time scrolling and audio?</h3>
+            <a href="/index.html" class="cta-button" id="play-full-btn">Go To PopSongChordBook</a>
+        </div>
 
             <section class="faq-section">
                 <h3>Frequently Asked Questions</h3>
@@ -283,7 +355,7 @@
     </div>
 
     <!-- Data Loading Script -->
-    <script src="js/data/default_songs.js"></script>
+    <script src="/js/data/default_songs.js"></script>
     <script>
         function slugify(text) {
             return text.toString().toLowerCase()
@@ -307,7 +379,8 @@
             });
 
             if (!song) {
-                document.getElementById('song-title').innerText = "Song Not Found";
+                // If visited directly or song not found, go back to main library
+                window.location.href = "/songlist.html";
                 return;
             }
 
@@ -332,8 +405,7 @@
             document.getElementById('chords-preview').innerText = previewText || "Preview not available.";
 
             // CTA Link
-            const encodedTitle = encodeURIComponent(`${song.artist} - ${song.title}`);
-            document.getElementById('play-full-btn').href = `scrolling_chords.html?song=${encodedTitle}`;
+            document.getElementById('play-full-btn').href = "/index.html";
 
             // FAQ
             const faqContainer = document.getElementById('faq-container');

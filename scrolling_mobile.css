@@ -661,6 +661,25 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         height: 30px !important;
     }
 
+    /* Increase Chord Box Size by 50% for Tablet (v2.789) */
+    body.is-mobile-landscape #timeline .chord-item {
+        width: 42px !important; 
+        height: 82px !important;
+        font-size: 1.05rem !important;
+        border-radius: 12px !important;
+    }
+
+    /* Adjust Playhead for taller boxes */
+    body.is-mobile-landscape .main-play-arrow {
+        top: calc(50% - 41px) !important; /* Aligned with top of 82px box */
+    }
+
+    /* Adjust Bar Labels for taller boxes */
+    body.is-mobile-landscape .marker.bar .marker-label {
+        top: 60px !important;
+        font-size: 1.0rem !important;
+    }
+
     /* Adjust timeline padding for the new taller header height */
     body.is-mobile-landscape .timeline-container {
         padding-top: 200px !important;

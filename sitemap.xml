@@ -18,12 +18,12 @@
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/ChordTheory&Tips.html</loc>
+        <loc>https://www.popsongchordbook.com/ChordTheory&amp;Tips.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/ChordTheory&TipsGuitar.html</loc>
+        <loc>https://www.popsongchordbook.com/ChordTheory&amp;TipsGuitar.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>

@@ -73,12 +73,12 @@ function generateSitemap() {
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/ChordTheory&Tips.html</loc>
+        <loc>${BASE_URL}/ChordTheory&amp;Tips.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/ChordTheory&TipsGuitar.html</loc>
+        <loc>${BASE_URL}/ChordTheory&amp;TipsGuitar.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>`;

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.787">
+    <link rel="stylesheet" href="/styles.css?v=2.788">
     <style>
         :root {
             --primary: #3b82f6;
@@ -121,7 +121,7 @@
         </footer>
     </div>
 
-    <script src="js/data/default_songs.js"></script>
+    <script src="/js/data/default_songs.js"></script>
     <script>
         function slugify(text) {
             return text.toString().toLowerCase()
@@ -140,7 +140,8 @@
             const artistSongs = DEFAULT_SONGS.filter(s => slugify(s.artist) === slug);
 
             if (artistSongs.length === 0) {
-                document.getElementById('artist-name').innerText = "Artist Not Found";
+                // If visited directly or artist not found, go back to the main library
+                window.location.href = "/songlist.html";
                 return;
             }
 
