@@ -97,14 +97,49 @@ class TableRenderer {
         row.appendChild(statusCell);
 
         // Artiest
-        const artistCell = this.createEditableCell(song.artist, 'artist', song.id);
+        const artistCell = this.createEditableCell('', 'artist', song.id);
         artistCell.classList.add('artist-cell');
+        if (song.isPublic && typeof SEO !== 'undefined') {
+            const link = document.createElement('a');
+            link.href = SEO.getArtistUrl(song.artist);
+            link.textContent = song.artist || '';
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.addEventListener('click', (e) => {
+                if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    this.selectRow(song.id);
+                }
+            });
+            artistCell.appendChild(link);
+        } else {
+            artistCell.textContent = song.artist || '';
+        }
         row.appendChild(artistCell);
 
         // Songtitel (clickable for selection)
         const titleCell = document.createElement('td');
         titleCell.className = 'title-cell editable';
-        titleCell.textContent = song.title || '';
+        
+        if (song.isPublic && typeof SEO !== 'undefined') {
+            const link = document.createElement('a');
+            link.href = SEO.getSongUrl(song.artist, song.title);
+            link.textContent = song.title || '';
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.style.fontWeight = 'bold';
+            // Allow crawler to follow, but handle click for app selection
+            link.addEventListener('click', (e) => {
+                if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    this.selectRow(song.id);
+                }
+            });
+            titleCell.appendChild(link);
+        } else {
+            titleCell.textContent = song.title || '';
+        }
+        
         titleCell.dataset.field = 'title';
         titleCell.dataset.songId = song.id;
         row.appendChild(titleCell);
