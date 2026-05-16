@@ -1,4 +1,4 @@
-﻿// $12.544)
+// $12.544)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -40,6 +40,7 @@ const songMapPlayPauseBtn = document.getElementById('songMapPlayPauseBtn');
 const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
 const audioToggleBtnCompact = document.getElementById('audioToggleBtnCompact');
 const chordProgressionBtn = document.getElementById('chordProgressionBtn');
+const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
 let chordProgressionEditor = null;
 const COUNT_IN_SECONDS = 4;
 
@@ -1014,6 +1015,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('pureMenuSpeedBtn')?.addEventListener('click', (e) => {
             e.stopPropagation();
             if (typeof cycleSpeed === 'function') cycleSpeed();
+        });
+
+        document.getElementById('fullscreenToggleBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         });
 
         // --- Switch TO Pure View Button (from Full Mode) ---
