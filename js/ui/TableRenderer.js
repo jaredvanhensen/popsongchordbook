@@ -127,7 +127,6 @@ class TableRenderer {
             link.textContent = song.title || '';
             link.style.textDecoration = 'none';
             link.style.color = 'inherit';
-            link.style.fontWeight = 'bold';
             // Allow crawler to follow, but handle click for app selection
             link.addEventListener('click', (e) => {
                 if (!e.ctrlKey && !e.metaKey) {
