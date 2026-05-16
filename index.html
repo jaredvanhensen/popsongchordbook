@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v2.766 - Interactive Scrolling Chord Timelines</title>
-    <meta name="version" content="2.766">
+    <title>PopSongChordBook v2.781 - Interactive Scrolling Chord Timelines</title>
+    <meta name="version" content="2.781">
     <meta name="description"
         content="Never miss a chord again. Never get lost in a song. The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard">
@@ -54,8 +54,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.767">
-    <link rel="stylesheet" href="landing.css?v=2.767">
+    <link rel="stylesheet" href="styles.css?v=2.781">
+    <link rel="stylesheet" href="landing.css?v=2.781">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -64,10 +64,18 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v2.766">
-    <script>const SITE_VERSION = '2.766';</script>
+    <meta name="application-version" content="v2.781">
+    <script>const SITE_VERSION = '2.781';</script>
     <!-- Version history: 
-        v2.766: Repositioned Lyrics HUD above the chord blocks on PC/big tablet (below bar numbers).
+        v2.781: Thinned out header and Lyrics HUD in Mobile Landscape to maximize timeline space.
+        v2.780: Increased header container z-index to resolve overlap with Lyrics HUD.
+        v2.779: Fixed z-index conflict between Lyrics HUD and More Options menu.
+        v2.778: Fixed songlist.html layout bug caused by accidental inclusion of landing.css.
+        v2.777: Reduced chord box width by 50% (maintaining height) in Mobile Landscape for better visibility.
+        v2.776: Reduced chord box size by 50% in Mobile Landscape to improve visibility for complex songs.
+        v2.775: Removed text shadow from Mobile Portrait Lyrics HUD for better legibility on light background.
+        v2.774: Switched Mobile Portrait (Full Mode) Lyrics HUD to light theme (white background / black text).
+        v2.773: Reverted Lyrics HUD colors to original semi-transparent styling per user preference.low bar numbers).
         v2.765: Enforced unyielding two-row Lyrics HUD height using explicit min-heights and uncollapsible non-breaking spaces.
         v2.764: Stabilized Lyrics HUD height to remain steady on two rows high.
         v2.763: Added missing C#sus2, D#7sus2, and other suspended/added tone guitar chords, plus robust proxy diagram fallbacks.
