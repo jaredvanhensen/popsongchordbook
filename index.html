@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v2.797 - Interactive Scrolling Chord Timelines</title>
-    <meta name="version" content="2.797">
+    <title>PopSongChordBook v2.803 - Interactive Scrolling Chord Timelines</title>
+    <meta name="version" content="2.803">
     <meta name="description"
         content="Never miss a chord again. Never get lost in a song. The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly. Browse thousands of interactive chord tutorials.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords">
@@ -19,14 +19,14 @@
     <meta property="og:title" content="PopSongChordBook - Never miss a chord again">
     <meta property="og:description" content="The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly.">
     <meta property="og:image" content="https://www.popsongchordbook.com/images/pwa_icon_512.png">
-
+ 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.popsongchordbook.com/">
     <meta property="twitter:title" content="PopSongChordBook - Never miss a chord again">
     <meta property="twitter:description" content="The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly.">
     <meta property="twitter:image" content="https://www.popsongchordbook.com/images/pwa_icon_512.png">
-
+ 
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -48,7 +48,7 @@
       }
     }
     </script>
-
+ 
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,9 +65,15 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v2.797">
-    <script>const SITE_VERSION = '2.797';</script>
+    <meta name="application-version" content="v2.803">
+    <script>const SITE_VERSION = '2.803';</script>
     <!-- Version history: 
+        v2.803: Upgraded open string controls on the virtual fretboard nut to display resolved musical note names (e.g. E, A, D) on selection/hints, ensuring complete visual note consistency across the board.
+        v2.802: Updated the virtual fretboard Hints/Guide dots to dynamically display resolved musical note names (e.g. C, F#, G) instead of finger position numbers, helping users visualize exact guitar note layouts.
+        v2.801: Re-implemented the header Hints/Guide lightbulb toggle button for the Guitar Chord Trainer, wiring it up to dynamically reveal color-coded finger positioning dots directly on the virtual fretboard.
+        v2.800: Removed hints (guide), leaderboard, and stats buttons/icons from the Guitar Chord Trainer header to present a cleaner, less cluttered interface.
+        v2.799: Upgraded the Guitar Chord Trainer to colorize chord blocks matching the Song Map sections (Intro/Verse/Chorus = blue, Interlude = amber, Outro = teal), boosting structural alignment while maintaining high contrast white chord text.
+        v2.798: Released a dedicated, ultra-premium Interactive Guitar Chord Trainer featuring a real-time responsive virtual fretboard with interactive string controls, acoustic strum feedback, basic/pro complexity switching, and full song block integration.
         v2.797: Removed Ultimate-Guitar link from Tears For Fears - "Advice For The Young At Heart" in the database and default_songs.js, and upgraded the Lyrics HUD in Landscape/PC profiles to premium Nebula Dark Glass featuring true glassmorphism, 24px blur, contrast tuning, and light specular borders.
         v2.796: Adjusted desktop Lyrics HUD down in PC landscape to ensure full visibility of the bar count, and upgraded to an ultra-premium translucent dark glass style.
         v2.795: Fixed PC edit mode toolbar overlap with Lyrics HUD using ResizeObserver top-offset calculations, and limited Song Detail modal BPM/Key inputs to max 3 characters.
@@ -643,7 +649,7 @@
         <div class="container">
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">2.797</span>
+                v<span id="site-version">2.803</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &

@@ -1655,7 +1655,13 @@ class ChordTrainer {
         try {
             console.log('loadSongForPractice starting for ID:', this.songId);
             // Force load from Firebase (true) to bypass guest-seeded localStorage cache on new laptops
-            await this.songManager.loadSongs(true);
+            let songs = await this.songManager.loadSongs(true);
+            
+            // Robust Fallback: If no songs returned (offline or not authenticated), fall back to local storage cache
+            if (!songs || songs.length === 0) {
+                console.log('No songs returned from Firebase force-load, falling back to local cache...');
+                songs = await this.songManager.loadSongs(false);
+            }
             
             const songCount = this.songManager.songs.length;
             console.log('loadSongForPractice - Total songs loaded:', songCount);

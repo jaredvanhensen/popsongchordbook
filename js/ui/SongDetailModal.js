@@ -621,9 +621,15 @@ class SongDetailModal {
         if (this.chordTrainerBtn) {
             this.chordTrainerBtn.onclick = () => {
                 if (!this.currentSongId) return;
-                const url = `ChordTrainer.html?songId=${this.currentSongId}&mode=songPractice`;
-                console.log('Redirecting to Chord Trainer:', url);
-                window.location.href = url;
+                if (this.instrumentMode === 'guitar') {
+                    const url = `GuitarChordTrainer.html?songId=${this.currentSongId}`;
+                    console.log('Redirecting to Guitar Chord Trainer:', url);
+                    window.location.href = url;
+                } else {
+                    const url = `ChordTrainer.html?songId=${this.currentSongId}&mode=songPractice`;
+                    console.log('Redirecting to Chord Trainer:', url);
+                    window.location.href = url;
+                }
             };
         }
         if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.navigatePrevious());
