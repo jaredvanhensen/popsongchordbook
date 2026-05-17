@@ -7,9 +7,40 @@ class SetlistManager {
         this.setlists = [];
         this.syncEnabled = false;
         this.onSetlistsChanged = null; // Callback for when setlists change externally
+        
+        // Initialize public Beginner setlist
+        this.beginnerSetlist = {
+            id: 'beginner_setlist_id',
+            name: 'Beginner',
+            songIds: [],
+            isPublic: true,
+            createdAt: new Date().toISOString()
+        };
+        try {
+            const cachedBeginner = localStorage.getItem('popsongPublicSetlist_beginner');
+            if (cachedBeginner) {
+                this.beginnerSetlist = JSON.parse(cachedBeginner);
+            }
+        } catch (e) {
+            console.error('Error parsing cached beginner setlist:', e);
+        }
     }
 
     async loadSetlists(forceFromFirebase = false) {
+        // Load public beginner setlist from Firebase
+        if (this.firebaseManager) {
+            this.firebaseManager.getGlobalSetting('beginnerSetlist')
+                .then(data => {
+                    if (data) {
+                        this.beginnerSetlist = data;
+                        this.beginnerSetlist.name = 'Beginner'; // Guarantee spelling is Beginner
+                        localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                        if (this.onSetlistsChanged) this.onSetlistsChanged();
+                    }
+                })
+                .catch(err => console.error('Error loading beginner setlist from Firebase:', err));
+        }
+
         // First, try to load from cache (localStorage)
         if (!forceFromFirebase) {
             try {
@@ -106,9 +137,28 @@ class SetlistManager {
     }
 
     normalizeSetlists(setlists) {
+        // If we are the admin and there's a private BEGINNER/Beginner setlist, seed the public Beginner one from it if public one is currently empty
+        const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+        const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+        if (isAdmin && Array.isArray(setlists)) {
+            const privateBeginner = setlists.find(sl => sl && sl.name && (sl.name.toUpperCase() === 'BEGINNER'));
+            if (privateBeginner && privateBeginner.songIds && privateBeginner.songIds.length > 0) {
+                if (!this.beginnerSetlist.songIds || this.beginnerSetlist.songIds.length === 0) {
+                    this.beginnerSetlist.songIds = [...privateBeginner.songIds];
+                    this.beginnerSetlist.createdAt = privateBeginner.createdAt || this.beginnerSetlist.createdAt;
+                    this.beginnerSetlist.name = 'Beginner';
+                    
+                    // Save to Firebase settings and localStorage
+                    this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist)
+                        .catch(err => console.error('Failed to auto-seed public beginner setlist:', err));
+                    localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                }
+            }
+        }
+
         if (!Array.isArray(setlists)) return [];
         const normalized = setlists
-            .filter(sl => sl && sl.name && sl.name.toUpperCase() !== 'DEMO')
+            .filter(sl => sl && sl.name && sl.name.toUpperCase() !== 'DEMO' && sl.name.toUpperCase() !== 'BEGINNER')
             .map(setlist => ({
                 id: setlist.id || Date.now().toString() + Math.random(),
                 name: setlist.name || 'Unnamed Setlist',
@@ -223,11 +273,37 @@ class SetlistManager {
     }
 
     async deleteSetlist(id) {
+        if (id === 'beginner_setlist_id') {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            if (!isAdmin) {
+                console.error('Permission denied: Only admin can delete the Beginner setlist.');
+                return;
+            }
+            this.beginnerSetlist.songIds = [];
+            await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+            localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+            if (this.onSetlistsChanged) this.onSetlistsChanged();
+            return;
+        }
         this.setlists = this.setlists.filter(sl => sl.id !== id);
         await this.saveSetlists();
     }
 
     async updateSetlistName(id, newName) {
+        if (id === 'beginner_setlist_id') {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            if (!isAdmin) {
+                console.error('Permission denied: Only admin can rename the Beginner setlist.');
+                return null;
+            }
+            this.beginnerSetlist.name = newName.trim();
+            await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+            localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+            if (this.onSetlistsChanged) this.onSetlistsChanged();
+            return this.beginnerSetlist;
+        }
         const setlist = this.getSetlist(id);
         if (setlist && newName && newName.trim()) {
             // Update the setlist directly in the array
@@ -247,11 +323,21 @@ class SetlistManager {
     }
 
     getSetlist(id) {
+        if (id === 'beginner_setlist_id') {
+            return this.beginnerSetlist;
+        }
         return this.setlists.find(sl => sl.id === id);
     }
 
     getAllSetlists() {
-        return this.setlists;
+        const list = [...this.setlists];
+        if (this.beginnerSetlist) {
+            // Ensure no duplicate if already added
+            if (!list.some(sl => sl.id === 'beginner_setlist_id')) {
+                list.push(this.beginnerSetlist);
+            }
+        }
+        return list;
     }
 
     async addSongToSetlist(setlistId, songId) {
@@ -259,6 +345,32 @@ class SetlistManager {
     }
 
     async addSongsToSetlist(setlistId, songIds) {
+        if (setlistId === 'beginner_setlist_id') {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            if (!isAdmin) {
+                console.error('Permission denied: Only admin can add songs to the Beginner setlist.');
+                return false;
+            }
+            const setlist = this.beginnerSetlist;
+            if (setlist && Array.isArray(songIds)) {
+                let changed = false;
+                songIds.forEach(songId => {
+                    const idStr = String(songId);
+                    if (!setlist.songIds.some(existingId => String(existingId) === idStr)) {
+                        setlist.songIds.push(idStr);
+                        changed = true;
+                    }
+                });
+                if (changed) {
+                    await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+                    localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                    if (this.onSetlistsChanged) this.onSetlistsChanged();
+                    return true;
+                }
+            }
+            return false;
+        }
         const setlist = this.getSetlist(setlistId);
         if (setlist && Array.isArray(songIds)) {
             let changed = false;
@@ -274,12 +386,6 @@ class SetlistManager {
 
             if (changed) {
                 await this.saveSetlists();
-                // We DO need to notify UI, restoring this is actually correct,
-                // but let's stick to the type fix first as requested.
-                // Wait, if I don't notify, the UI won't update?
-                // The user said "it is not the refreshing", effectively saying 
-                // "persistence is broken". 
-                // So fixing persistence (types) is key.
                 if (this.onSetlistsChanged) this.onSetlistsChanged();
                 return true;
             }
@@ -288,6 +394,28 @@ class SetlistManager {
     }
 
     async removeSongFromSetlist(setlistId, songId) {
+        if (setlistId === 'beginner_setlist_id') {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            if (!isAdmin) {
+                console.error('Permission denied: Only admin can remove songs from the Beginner setlist.');
+                return false;
+            }
+            const setlist = this.beginnerSetlist;
+            if (setlist) {
+                const idStr = String(songId);
+                const originalLength = setlist.songIds.length;
+                setlist.songIds = setlist.songIds.filter(id => String(id) !== idStr);
+
+                if (setlist.songIds.length !== originalLength) {
+                    await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+                    localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                    if (this.onSetlistsChanged) this.onSetlistsChanged();
+                    return true;
+                }
+            }
+            return false;
+        }
         const setlist = this.getSetlist(setlistId);
         if (setlist) {
             const idStr = String(songId);

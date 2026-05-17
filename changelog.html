@@ -153,6 +153,57 @@
             <p class="subtitle">Complete history of the Pop Song Chord Book development</p>
         </header>
         <div class="changelog">
+            <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.794</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Beginner Setlist Seeding & Restoration:</strong> Automatically seeded the public Beginner setlist from the admin's private setlist containing all 70+ songs, fully preserving their hard work.</li>
+                        <li><strong>Reordered Setlist Dropdown:</strong> Placed the public <code>🌐 Beginner</code> setlist right below the virtual <code>🌐 Public Songs</code> setlist for a more natural layout order.</li>
+                        <li><strong>Capitalization Adjustment:</strong> Updated the setlist name spelling from all-caps <code>BEGINNER</code> to clean camelcase <code>Beginner</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.793</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Public Songs Fix:</strong> Resolved a race condition where the virtual <code>🌐 Public Songs</code> setlist could disappear from the dropdown during dynamic Firebase loads.</li>
+                        <li><strong>Visual Clean Up:</strong> Removed the <code>(🔒 Public)</code> text suffix from the <code>BEGINNER</code> setlist in the dropdown, retaining just the premium globe icon (<code>🌐 BEGINNER</code>).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.792</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Public Read-Only Setlist:</strong> Introduced a global public <code>BEGINNER</code> setlist available to all users. Regular users have read-only access with clear visual indicators (🌐/🔒), while the admin (jared@vanhensen.nl) has full write/edit access managed securely via Firebase.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.791</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Dynamic Song Counter:</strong> Refactored the profile song counter to dynamically display the number of songs in the currently active setlist or filtered view.</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.790</span>
@@ -179,7 +230,7 @@
             </div>
 
             <!-- v2.788 -->
-            <div class="version-card current">
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.788</span>
                     <span class="version-date">16 May 2026</span>
@@ -313,7 +364,7 @@
             </div>
 
             <!-- v2.765 -->
-            <div class="version-card current">
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.765</span>
                     <span class="version-date">13 May 2026</span>

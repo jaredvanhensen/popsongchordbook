@@ -499,7 +499,8 @@ class App {
 
         // Update Label Text (Username/Profile)
         if (labelElement) {
-            const songCountHtml = `<span id="profileSongCount" class="song-count">(${this.songManager ? this.songManager.getAllSongs().length : 0})</span>`;
+            const displayCount = this.currentSongsList ? this.currentSongsList.length : (this.songManager ? this.songManager.getAllSongs().length : 0);
+            const songCountHtml = `<span id="profileSongCount" class="song-count">(${displayCount})</span>`;
             let textContent = '';
 
             if (user && user.displayName) {
@@ -776,6 +777,7 @@ class App {
 
         // Setup songs sync
         this.songManager.onSongsChanged = () => {
+            this.updateSetlistSelect();
             this.loadAndRender();
             this.updateProfileSongCount();
         };
@@ -1307,7 +1309,18 @@ class App {
             select.appendChild(publicOption);
         }
 
+        // Add Beginner setlist right after Public Songs
+        const beginnerSetlist = this.setlistManager.getSetlist('beginner_setlist_id');
+        if (beginnerSetlist) {
+            const option = document.createElement('option');
+            option.value = 'beginner_setlist_id';
+            option.textContent = '🌐 Beginner';
+            select.appendChild(option);
+        }
+
+        // Add all other setlists
         this.setlistManager.getAllSetlists().forEach(setlist => {
+            if (setlist.id === 'beginner_setlist_id') return; // Already added
             const option = document.createElement('option');
             option.value = setlist.id;
             option.textContent = setlist.name;
@@ -1340,20 +1353,32 @@ class App {
         const addSongBtn = document.getElementById('addSongBtn');
         const importControls = document.querySelector('.import-export-controls');
 
+        const isBeginnerSetlist = this.currentSetlistId === 'beginner_setlist_id';
+        const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+        const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+        const showEditDelete = this.currentSetlistId && this.currentSetlistId !== '__public__' && (!isBeginnerSetlist || isAdmin);
 
         if (this.currentSetlistId && this.currentSetlistId !== '__public__') {
-            // Show setlist edit and delete buttons for real setlists only
-            if (editBtn) {
-                editBtn.classList.remove('hidden');
+            // Show setlist edit and delete buttons for real setlists only if authorized
+            if (showEditDelete) {
+                if (editBtn) editBtn.classList.remove('hidden');
+                if (deleteBtn) deleteBtn.classList.remove('hidden');
+            } else {
+                if (editBtn) editBtn.classList.add('hidden');
+                if (deleteBtn) deleteBtn.classList.add('hidden');
             }
-            if (deleteBtn) {
-                deleteBtn.classList.remove('hidden');
+            
+            // Hide addSongBtn if viewing read-only beginner setlist and user is not admin
+            if (isBeginnerSetlist && !isAdmin) {
+                if (addSongBtn) addSongBtn.classList.add('hidden');
+            } else {
+                if (addSongBtn) {
+                    addSongBtn.classList.remove('hidden');
+                    addSongBtn.innerHTML = '<span class="icon">+</span><span class="label">Add</span>';
+                    addSongBtn.title = 'Add songs to setlist';
+                }
             }
-            // Change button to text when in setlist mode
-            if (addSongBtn) {
-                addSongBtn.innerHTML = '<span class="icon">+</span><span class="label">Add</span>';
-                addSongBtn.title = 'Add songs to setlist';
-            }
+            
             // Hide export, import, and delete all buttons
             if (importControls) {
                 importControls.classList.add('hidden');
@@ -1369,6 +1394,7 @@ class App {
             }
             // Change button back to icon
             if (addSongBtn) {
+                addSongBtn.classList.remove('hidden');
                 addSongBtn.innerHTML = '<span class="icon">+</span><span class="label">Add</span>';
                 addSongBtn.title = 'Add New Song';
             }
@@ -1694,7 +1720,22 @@ class App {
             option.disabled = true;
             select.appendChild(option);
         } else {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            
+            // Add Beginner first if admin
+            if (isAdmin) {
+                const beginnerSetlist = this.setlistManager.getSetlist('beginner_setlist_id');
+                if (beginnerSetlist) {
+                    const option = document.createElement('option');
+                    option.value = 'beginner_setlist_id';
+                    option.textContent = '🌐 Beginner';
+                    select.appendChild(option);
+                }
+            }
+
             setlists.forEach(setlist => {
+                if (setlist.id === 'beginner_setlist_id') return; // Already added
                 const option = document.createElement('option');
                 option.value = setlist.id;
                 option.textContent = setlist.name;
