@@ -223,8 +223,13 @@ body.is-mobile-landscape .lyrics-hud {
     width: 94vw !important;
     max-width: 900px !important;
     padding: 4px 15px !important;
-    background: rgba(0, 0, 0, 0.7) !important; /* Dark theme for landscape */
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%) !important;
+    backdrop-filter: blur(24px) contrast(105%) !important;
+    -webkit-backdrop-filter: blur(24px) contrast(105%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+        0 12px 40px rgba(0, 0, 0, 0.45) !important;
     border-radius: 12px !important;
     z-index: 2001 !important; /* Above EVERYTHING */
     pointer-events: none;

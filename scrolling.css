@@ -763,12 +763,14 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     width: 94vw;
     max-width: 900px;
     padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%);
+    backdrop-filter: blur(24px) contrast(105%);
+    -webkit-backdrop-filter: blur(24px) contrast(105%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+        0 12px 40px rgba(0, 0, 0, 0.45);
     z-index: 2001; /* Above timeline */
     pointer-events: none;
     gap: 4px;
@@ -5812,19 +5814,23 @@ body.ctrl-held .chord-item {
 ============================================================ */
 @media (min-width: 601px) {
     body:not(.is-mobile-landscape) .lyrics-hud {
-        /* Position at top of timeline, just below bar numbers */
+        /* Position at top of timeline, shifted down to keep bar numbers perfectly visible */
         bottom: auto !important;
-        top: 130px !important; /* ~56px toolbar + ~34px section pills + ~40px bar-number zone */
+        top: calc(var(--hud-top-offset) + 55px) !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: 80vw !important;
         max-width: 860px !important;
         padding: 8px 24px !important;
         /* Slightly more compact to avoid eating into chord space */
-        background: rgba(0, 0, 0, 0.7) !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%) !important;
+        backdrop-filter: blur(24px) contrast(105%) !important;
+        -webkit-backdrop-filter: blur(24px) contrast(105%) !important;
         border-radius: 10px !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+        border: 1px solid rgba(255, 255, 255, 0.22) !important;
+        box-shadow: 
+            inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+            0 12px 40px rgba(0, 0, 0, 0.45) !important;
         z-index: 2001 !important;
     }
 

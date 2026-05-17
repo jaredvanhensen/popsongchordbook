@@ -2303,16 +2303,72 @@ class SongDetailModal {
                 this.keyDisplay.classList.remove('editing');
                 this.checkForChanges();
             });
-            this.keyDisplay.addEventListener('input', () => this.checkForChanges());
+            this.keyDisplay.addEventListener('input', () => {
+                // Limit to max 3 characters
+                let cleanVal = this.keyDisplay.textContent.slice(0, 3);
+                if (this.keyDisplay.textContent !== cleanVal) {
+                    this.keyDisplay.textContent = cleanVal;
+                    // Move cursor to end of text
+                    try {
+                        const range = document.createRange();
+                        range.selectNodeContents(this.keyDisplay);
+                        range.collapse(false);
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    } catch (err) {
+                        console.warn('Failed to restore selection range:', err);
+                    }
+                }
+                this.checkForChanges();
+            });
             this.keyDisplay.addEventListener('keydown', (e) => {
                 if (e.key === 'Tab' && !e.shiftKey) {
                     e.preventDefault();
                     this.moveToNextField(this.keyDisplay);
+                    return;
                 }
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     this.keyDisplay.blur();
+                    return;
                 }
+
+                // Allow standard control keys and shortcuts
+                const isControlKey = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key);
+                const isShortcut = (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase());
+
+                if (isControlKey || isShortcut) {
+                    return;
+                }
+
+                // Check text length limit (max 3 characters)
+                const selection = window.getSelection();
+                const selectedText = selection ? selection.toString() : '';
+                const currentText = this.keyDisplay.textContent || '';
+                
+                // If already at 3 characters and nothing is selected to be overwritten, block the keypress
+                if (currentText.length >= 3 && !selectedText) {
+                    e.preventDefault();
+                }
+            });
+            // Handle paste events to immediately enforce 3-character limit
+            this.keyDisplay.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                const cleanText = pastedText.slice(0, 3);
+                
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+                selection.deleteFromDocument();
+                
+                const textNode = document.createTextNode(cleanText);
+                selection.getRangeAt(0).insertNode(textNode);
+                selection.collapseToEnd();
+                
+                // Trigger input event manually to validate and update state
+                const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+                this.keyDisplay.dispatchEvent(inputEvent);
             });
         }
 
@@ -2333,16 +2389,78 @@ class SongDetailModal {
                 this.bpmDisplay.classList.remove('editing');
                 this.checkForChanges();
             });
-            this.bpmDisplay.addEventListener('input', () => this.checkForChanges());
+            this.bpmDisplay.addEventListener('input', () => {
+                // Limit to max 3 digits, numeric only
+                let cleanVal = this.bpmDisplay.textContent.replace(/\D/g, '').slice(0, 3);
+                if (this.bpmDisplay.textContent !== cleanVal) {
+                    this.bpmDisplay.textContent = cleanVal;
+                    // Move cursor to end of text
+                    try {
+                        const range = document.createRange();
+                        range.selectNodeContents(this.bpmDisplay);
+                        range.collapse(false);
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    } catch (err) {
+                        console.warn('Failed to restore selection range:', err);
+                    }
+                }
+                this.checkForChanges();
+            });
             this.bpmDisplay.addEventListener('keydown', (e) => {
                 if (e.key === 'Tab' && !e.shiftKey) {
                     e.preventDefault();
                     this.moveToNextField(this.bpmDisplay);
+                    return;
                 }
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     this.bpmDisplay.blur();
+                    return;
                 }
+
+                // Allow standard control keys and shortcuts
+                const isControlKey = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key);
+                const isShortcut = (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase());
+
+                if (isControlKey || isShortcut) {
+                    return;
+                }
+
+                // Block non-digit keys
+                if (!/^\d$/.test(e.key)) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // Check text length limit (max 3 digits)
+                const selection = window.getSelection();
+                const selectedText = selection ? selection.toString() : '';
+                const currentText = this.bpmDisplay.textContent || '';
+                
+                // If already at 3 digits and nothing is selected to be overwritten, block the keypress
+                if (currentText.length >= 3 && !selectedText) {
+                    e.preventDefault();
+                }
+            });
+            // Handle paste events to immediately strip non-digits and enforce 3-character limit
+            this.bpmDisplay.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                const cleanText = pastedText.replace(/\D/g, '').slice(0, 3);
+                
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+                selection.deleteFromDocument();
+                
+                const textNode = document.createTextNode(cleanText);
+                selection.getRangeAt(0).insertNode(textNode);
+                selection.collapseToEnd();
+                
+                // Trigger input event manually to validate and update state
+                const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+                this.bpmDisplay.dispatchEvent(inputEvent);
             });
         }
     }
