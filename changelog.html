@@ -155,6 +155,140 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.813</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Guitar Chord Trainer Mobile Header Alignment:</strong> Re-aligned the trainer header toggle buttons to lay out the guitar icon and mode text horizontally side-by-side in one row, achieving perfect visual balance on mobile portrait screens.</li>
+                        <li><strong>Fluid Chord Block Wrapping:</strong> Converted the compact single-row horizontal scrolling chord toolbar strip into a fluid wrapping flex layout, keeping all practice blocks (including blocks 3 and 4) fully visible and accessible on the screen without horizontal scrolling.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.812</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Compact Mobile Portrait Trainer Layout:</strong> Re-engineered the entire top controls section in mobile portrait views (under <code>600px</code>) to be highly compact, reducing spacing and padding throughout the header, artist/title card, audio, and play/test mode buttons to maximize vertical workspace for the fretboard.</li>
+                        <li><strong>Horizontal Scrolling Chord Toolbar Strip:</strong> Forced the practice block suggestion buttons into a clean, horizontal scrolling single-row flex strip with webkit scrollbar hiding, ensuring a sleek, modern touch feel that completely prevents wrapping and clutter on small mobile screens.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.811</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Compacted Guitar Chord Trainer Overview Grid:</strong> Scaled down the <code>.overview-chord-card</code> and <code>.overview-chord-diagram</code> card dimensions globally, and updated <code>#chordOverviewGrid</code> to use a tighter grid of <code>repeat(auto-fill, minmax(120px, 1fr))</code> with <code>12px</code> spacing. This fits many more chords onto the overview screen without layout breaking.</li>
+                        <li><strong>Overview Header Clean Up:</strong> Completely removed the redundant header banner containing the <code>recreateChordsBtn</code> test button from <code>GuitarChordTrainer.html</code>, keeping the interface focused solely on the interactive chord diagrams.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.810</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Compact Mobile Portrait Overview Grid:</strong> Refactored the Chord Overview screen to support a clean, space-saving 3-column row displaying 3 chords in a row on mobile portrait devices.</li>
+                        <li><strong>Fretboard Direct Audition Strumming:</strong> Removed the generic "STRUM" button from the overview cards and wired the Chord Diagrams themselves to serve as interactive audio triggers, strumming the chord immediately on tap without leaving the page.</li>
+                        <li><strong>Header Back Button Routing:</strong> Configured the header BACK button inside chord practice sessions to gracefully return the player to the Chord Overview screen, preventing accidental exits back to the song library.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.809</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Initial Load Audio Silenced:</strong> Resolved an issue where opening the Guitar Chord Trainer would immediately trigger/play the first chord's strum audio on page load. The first chord now renders silently, and subsequent user-initiated chord changes or clicks play the chord audio normally.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.808</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Chords Overview Start Screen:</strong> Set the Guitar Chord Trainer page to load into the gorgeous glassmorphic Chords Overview screen by default, allowing players to study and strum chords before starting exercises.</li>
+                        <li><strong>Consolidated Action Row:</strong> Positioned the glassmorphic <code>BACK</code> button directly into the bottom action row to reclaim valuable vertical space and prevent fretboard clipping on mobile screens.</li>
+                        <li><strong>Icon-Only Hint & Concise Labels:</strong> Converted the "SHOW SHAPE" button into an elegant icon-only <code>💡</code> hint button, and shortened "CHECK SHAPE" and "SKIP CHORD" labels to <code>CHECK</code> and <code>SKIP</code>, creating a clean, single-row mobile layout.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.807</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Recreate Mode Hint Button Hidden:</strong> Completely removed the interactive hints/guide button (<code>💡</code>) from the mobile header actions when in Recreate (Practice) mode, guaranteeing a pure fretboard challenge from memory.</li>
+                        <li><strong>Smaller Action Icons:</strong> Reduced the size of all action icons in the mobile header grid to <code>0.85rem</code>, recovering precious vertical and horizontal whitespace on smaller screens.</li>
+                        <li><strong>Compact Button Rename & Column Spanning:</strong> Simplified the primary mode switch button from "CHORD OVERVIEW" / "RECREATE CHORDS" to the ultra-clean "Chords" (Recreate Mode) and "Test" (Overview Mode), and added responsive column-spanning to perfectly center the button on mobile recreate mode.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.806</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Guitar Chord Trainer Reference Diagram Hidden:</strong> Completely removed the reference Chord Diagram and "Chord Fingering" card from the left side of the screen during practice (Recreate) mode, preserving the challenge of replicating fretboard shapes from memory. Reference diagrams remain fully accessible in the Chord Overview tab.</li>
+                        <li><strong>Mobile Portrait Viewport Unlocking:</strong> Restored complete viewport scrolling capability for mobile portrait/tablet devices by freeing height constraints and enabling native vertical scrolling on overflow.</li>
+                        <li><strong>Mobile Header Action Pill Grid:</strong> Re-engineered mobile actions header under 600px with a perfectly-aligned 2x2 grid of glassmorphic pills (38px height, 12px border-radius) that prevents button overflow and enables standard audio toggle controls directly on mobile displays.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.805</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Guitar Chord Trainer Syntax Fix:</strong> Corrected a nested span nesting syntax error in the Practice workbench, fully restoring fretboard interactivity and resolving the blank blue screen issue.</li>
+                        <li><strong>Mobile Portrait Header Refinement:</strong> Engineered beautiful responsive wrapping rules under 600px wide, replacing rigid desktop button constraints with fluid double-column actions and comfortable spacing.</li>
+                        <li><strong>Theme Emojis & Dynamic Swapping:</strong> Upgraded the Chord Overview toggle icon to a clipboard <code>📋</code>, which dynamically switches to a guitar <code>🎸</code> when active, and updated all Recreate Chords buttons with matching icons.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.804</span>
+                    <span class="version-date">May 17, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Guitar Neck Natural Notes:</strong> Upgraded the Guitar Chord Trainer hints/guide mode to display all natural notes (C, D, E, F, G, A, B) across the interactive fretboard as subtle dashed indicator dots. This provides a stunning educational visualization showing exactly how each note fits on the fretboard while practicing chord shapes.</li>
+                        <li><strong>Chord Overview Screen:</strong> Added a dedicated, glassmorphic Chord Overview screen displaying every guitar chord used in the song in one scrollable grid, ordered by appearance. Users can listen to each chord shape using strum audition buttons, or click a card to immediately load that chord into the active training fretboard and practice recreating it.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.803</span>
                     <span class="version-date">May 17, 2026</span>
                 </div>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics HUD Premium Theme Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple-gradient: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: #0b0f19;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Header bar style */
+        .showcase-header {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .showcase-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .showcase-header p {
+            margin: 8px 0 0 0;
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        /* Selector Bar style */
+        .selector-bar {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            z-index: 10;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .theme-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-btn.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Interactive Timeline Preview Container */
+        .timeline-simulator {
+            width: 90%;
+            max-width: 1000px;
+            height: 350px;
+            background: var(--purple-gradient);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        /* Mock timeline elements */
+        .mock-chord {
+            position: absolute;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 90px;
+            height: 90px;
+            border-radius: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mock-chord.em7 {
+            left: 10%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 0px #1e40af, 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .mock-chord.fmaj7 {
+            left: 45%;
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            box-shadow: 0 4px 0px #9d174d, 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .mock-chord.g {
+            left: 75%;
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            box-shadow: 0 4px 0px #991b1b, 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .mock-playhead {
+            position: absolute;
+            left: 30%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #ffffff;
+            z-index: 5;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .mock-play-arrow {
+            position: absolute;
+            left: 30%;
+            top: 50%;
+            transform: translate(-50%, -150%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #fbbf24;
+            z-index: 6;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+        }
+
+        /* THE LYRICS HUD MOCK CONTAINER */
+        .lyrics-hud-mock {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 750px;
+            padding: 14px 24px;
+            border-radius: 14px;
+            text-align: center;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.5s ease;
+        }
+
+        .lyric-line {
+            font-family: 'Inter', sans-serif;
+            transition: all 0.4s ease;
+            line-height: 1.3;
+        }
+
+        .lyric-line.active {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .lyric-line.upcoming {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            opacity: 0.85;
+        }
+
+        /* ==========================================
+           THEME DEFINITIONS
+           ========================================== */
+
+        /* 1. Nebula Dark Glass (Premium Semi-Translucent) */
+        .theme-nebula {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%);
+            backdrop-filter: blur(24px) contrast(105%);
+            -webkit-backdrop-filter: blur(24px) contrast(105%);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+                0 12px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        /* 2. Aurora Amethyst Tint (Vibrant Deep Gem) */
+        .theme-aurora {
+            background: rgba(18, 12, 32, 0.42); /* Gorgeous deep purple obsidian tint */
+            backdrop-filter: blur(20px) saturate(110%);
+            -webkit-backdrop-filter: blur(20px) saturate(110%);
+            border: 1px solid rgba(168, 85, 247, 0.3); /* Subtle neon purple glow border */
+            box-shadow: 
+                inset 0 0 12px rgba(168, 85, 247, 0.15),
+                0 0 25px rgba(139, 92, 246, 0.12),
+                0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 3. Frost Ice Glass (Crisp Light Translucent) */
+        .theme-frost {
+            background: rgba(255, 255, 255, 0.15); /* Frosted Ice look */
+            backdrop-filter: blur(20px) brightness(1.1);
+            -webkit-backdrop-filter: blur(20px) brightness(1.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                inset 0 1px 2px rgba(255, 255, 255, 0.4),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 4. Obsidian Edge (Polished Sleek Dark Gloss) */
+        .theme-obsidian {
+            background: linear-gradient(180deg, rgba(15, 15, 15, 0.8) 0%, rgba(5, 5, 5, 0.9) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.25); /* Reflective upper edge */
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.6), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Code Viewer Section */
+        .code-container {
+            width: 90%;
+            max-width: 1000px;
+            background: #151d30;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 50px;
+        }
+
+        .code-container h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #6366f1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .code-container pre {
+            margin: 0;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .code-container p.desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="showcase-header">
+        <h1>Lyrics HUD Premium Showcase</h1>
+        <p>Interactive playground to preview glassmorphic designs over the purple timeline backdrop</p>
+    </div>
+
+    <!-- Theme Button Selectors -->
+    <div class="selector-bar">
+        <button class="theme-btn active" onclick="setTheme('nebula', this)">1. Nebula Dark Glass</button>
+        <button class="theme-btn" onclick="setTheme('aurora', this)">2. Aurora Purple Gem</button>
+        <button class="theme-btn" onclick="setTheme('frost', this)">3. Frosted White Ice</button>
+        <button class="theme-btn" onclick="setTheme('obsidian', this)">4. Obsidian Gloss Mirror</button>
+    </div>
+
+    <!-- Simulating timeline -->
+    <div class="timeline-simulator">
+        <div class="mock-playhead"></div>
+        <div class="mock-play-arrow"></div>
+        
+        <div class="mock-chord em7">Em7</div>
+        <div class="mock-chord fmaj7">Fmaj7</div>
+        <div class="mock-chord g">G</div>
+
+        <!-- Lyrics HUD -->
+        <div id="lyricsHUD" class="lyrics-hud-mock theme-nebula">
+            <div class="lyric-line active">When we're gonna make it work</div>
+            <div class="lyric-line upcoming">Love is a promise love is a souvenir</div>
+        </div>
+    </div>
+
+    <!-- Code Display Section -->
+    <div class="code-container">
+        <h2 id="themeTitle">Option 1: Nebula Dark Glass (Ultra-Premium Glassmorphism)</h2>
+        <p id="themeDesc" class="desc">A beautiful combination of highly translucent, dark glass with a high blur index and light gradient reflecting at the top-left edge. This provides excellent readability, keeps transparency, and blocks bright colors underneath from washing out the container.</p>
+        <pre id="codeSnippet">.lyrics-hud {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%);
+    backdrop-filter: blur(24px) contrast(105%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+        0 12px 40px rgba(0, 0, 0, 0.45);
+}</pre>
+    </div>
+
+    <script>
+        const themes = {
+            nebula: {
+                title: "Option 1: Nebula Dark Glass (Ultra-Premium Glassmorphism)",
+                desc: "A beautiful combination of highly translucent, dark glass with a high blur index and light gradient reflecting at the top-left edge. This provides excellent readability, keeps transparency, and blocks bright colors underneath from washing out the container. Perfect blend of black and transparency.",
+                snippet: `.lyrics-hud {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(10, 10, 10, 0.55) 100%);
+    backdrop-filter: blur(24px) contrast(105%);
+    -webkit-backdrop-filter: blur(24px) contrast(105%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+        0 12px 40px rgba(0, 0, 0, 0.45);
+}`
+            },
+            aurora: {
+                title: "Option 2: Aurora Purple Gem (Vibrant Deep Amethyst)",
+                desc: "Uses a tiny complementary dark purple tint that blends organically with the timeline background, turning the HUD into a glowing amethyst gem. It features a purple translucent border that illuminates the box borders in a high-tech, futuristic cyberpunk layout.",
+                snippet: `.lyrics-hud {
+    background: rgba(18, 12, 32, 0.42); 
+    backdrop-filter: blur(20px) saturate(110%);
+    -webkit-backdrop-filter: blur(20px) saturate(110%);
+    border: 1px solid rgba(168, 85, 247, 0.3); 
+    box-shadow: 
+        inset 0 0 12px rgba(168, 85, 247, 0.15),
+        0 0 25px rgba(139, 92, 246, 0.12),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+}`
+            },
+            frost: {
+                title: "Option 3: Frosted White Ice (Crisp Light Translucent)",
+                desc: "A high-transparency frosted glass panel that uses light-mode aesthetics. By using a light semi-transparent background with a brightness filter, it pops out exceptionally well over dark/colorful elements while retaining stunning, crisp glass reflections.",
+                snippet: `.lyrics-hud {
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(20px) brightness(1.1);
+    -webkit-backdrop-filter: blur(20px) brightness(1.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.4),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+}`
+            },
+            obsidian: {
+                title: "Option 4: Obsidian Gloss Mirror (Polished High-Contrast Dark)",
+                desc: "Replicates high-gloss obsidian glass. Uses a vertical dark-to-darker gradient with high opacity for ultimate text readability, accompanied by an extremely bright white specular border at the top and a strong drop shadow.",
+                snippet: `.lyrics-hud {
+    background: linear-gradient(180deg, rgba(15, 15, 15, 0.8) 0%, rgba(5, 5, 5, 0.9) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.6), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}`
+            }
+        };
+
+        function setTheme(themeKey, btnElement) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            // Add active to selected
+            btnElement.classList.add('active');
+
+            // Get HUD element
+            const hud = document.getElementById('lyricsHUD');
+            
+            // Clear current theme classes
+            hud.className = 'lyrics-hud-mock';
+            // Add selected theme class
+            hud.classList.add('theme-' + themeKey);
+
+            // Update details
+            document.getElementById('themeTitle').textContent = themes[themeKey].title;
+            document.getElementById('themeDesc').textContent = themes[themeKey].desc;
+            document.getElementById('codeSnippet').textContent = themes[themeKey].snippet;
+        }
+    </script>
+</body>
+</html>

@@ -18,6 +18,7 @@ class GuitarChordTrainer {
         this.currentChordName = '';
         this.currentChordFingering = null;
         this.isAudioEnabled = true;
+        this.isInitialLoad = true;
         
         // User's active fretboard shape: [LowE, A, D, G, B, HighE]
         // 0 = open, 'x' = muted, number = fret
@@ -43,7 +44,13 @@ class GuitarChordTrainer {
             resultOverlay: document.getElementById('resultOverlay'),
             audioToggle: document.getElementById('audioToggle'),
             complexityAudioIcon: document.getElementById('complexityAudioIcon'),
-            guideToggle: document.getElementById('guideToggle')
+            guideToggle: document.getElementById('guideToggle'),
+            chordOverviewToggle: document.getElementById('chordOverviewToggle'),
+            chordOverviewLabel: document.getElementById('chordOverviewLabel'),
+            trainerPracticeMode: document.getElementById('trainerPracticeMode'),
+            trainerOverviewMode: document.getElementById('trainerOverviewMode'),
+            chordOverviewGrid: document.getElementById('chordOverviewGrid'),
+            recreateChordsBtn: document.getElementById('recreateChordsBtn')
         };
 
         this.init();
@@ -114,6 +121,9 @@ class GuitarChordTrainer {
 
         // 5. Setup Action Button Event Listeners
         this.setupEventListeners();
+
+        // 6. Force start in Chord Overview mode by default
+        this.toggleChordOverviewMode(true);
     }
 
     async loadSongDetails() {
@@ -343,10 +353,15 @@ class GuitarChordTrainer {
         // 5. Update Interactive Fretboard UI
         this.updateInteractiveFretboardDisplay();
 
-        // 6. Strum target automatically to introduce the sound
-        setTimeout(() => {
-            this.strumChord(this.currentChordName);
-        }, 300);
+        // 6. Strum target automatically to introduce the sound (only if not initial load)
+        if (!this.isInitialLoad) {
+            setTimeout(() => {
+                this.strumChord(this.currentChordName);
+            }, 300);
+        } else {
+            // Reset flag so subsequent chord selections/clicks will trigger sound
+            this.isInitialLoad = false;
+        }
     }
 
     renderInteractiveFretboardGrid() {
@@ -449,18 +464,27 @@ class GuitarChordTrainer {
                 const correctVal = this.currentChordFingering ? this.currentChordFingering.frets[sIdx] : null;
                 const correctFinger = this.currentChordFingering && this.currentChordFingering.fingers ? this.currentChordFingering.fingers[sIdx] : null;
 
+                const noteName = this.getNoteName(sIdx, fretIdx);
+                const isNatural = ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(noteName);
+
                 if (this.isShowingHint && String(correctVal) === String(fretIdx)) {
                     // Draw hint dot
                     const hintDot = document.createElement('div');
                     hintDot.className = 'fretboard-finger-dot hint-dot';
-                    hintDot.textContent = this.getNoteName(sIdx, fretIdx);
+                    hintDot.textContent = noteName;
                     zone.appendChild(hintDot);
                 } else if (String(userVal) === String(fretIdx)) {
                     // Draw active user dot
                     const dot = document.createElement('div');
                     dot.className = 'fretboard-finger-dot';
-                    dot.textContent = this.getNoteName(sIdx, fretIdx);
+                    dot.textContent = noteName;
                     zone.appendChild(dot);
+                } else if (this.isShowingHint && isNatural) {
+                    // Draw subtle natural note dot
+                    const naturalDot = document.createElement('div');
+                    naturalDot.className = 'fretboard-finger-dot natural-note-dot';
+                    naturalDot.textContent = noteName;
+                    zone.appendChild(naturalDot);
                 }
             });
         });
@@ -626,6 +650,11 @@ class GuitarChordTrainer {
         if (this.songChords.length > 0) {
             this.selectChord(0);
         }
+
+        // Proactively refresh Chord Overview if visible
+        if (this.dom.trainerOverviewMode && !this.dom.trainerOverviewMode.classList.contains('hidden')) {
+            this.renderChordOverviewGrid();
+        }
     }
 
     updateComplexityUI() {
@@ -727,6 +756,42 @@ class GuitarChordTrainer {
                 this.updateAudioToggleUI();
             };
         }
+
+        // Chord Overview Toggle next to Hints
+        if (this.dom.chordOverviewToggle) {
+            this.dom.chordOverviewToggle.onclick = () => {
+                this.toggleChordOverviewMode();
+            };
+        }
+
+        // Recreate Chords Button
+        if (this.dom.recreateChordsBtn) {
+            this.dom.recreateChordsBtn.onclick = () => {
+                this.toggleChordOverviewMode(false);
+            };
+        }
+
+        // Fullscreen Mode BACK Button
+        const exitTestBtn = document.getElementById('exitTestBtn');
+        if (exitTestBtn) {
+            exitTestBtn.onclick = () => {
+                this.toggleChordOverviewMode(true);
+            };
+        }
+
+        // Header BACK Button (back-link) interception
+        const backLink = document.querySelector('.back-link');
+        if (backLink) {
+            backLink.onclick = (e) => {
+                const overviewMode = this.dom.trainerOverviewMode;
+                // If we are currently in Practice Mode (Overview Mode is hidden), go to Overview Mode instead of leaving the page
+                if (overviewMode && overviewMode.classList.contains('hidden')) {
+                    e.preventDefault();
+                    this.toggleChordOverviewMode(true);
+                }
+                // Otherwise, let the default link behavior take us back to the songlist
+            };
+        }
     }
 
     simplifyChord(name) {
@@ -796,6 +861,111 @@ class GuitarChordTrainer {
         } catch (e) {
             console.warn('Deezer artwork fetch failed:', e);
         }
+    }
+
+    toggleChordOverviewMode(forceState) {
+        const overviewMode = this.dom.trainerOverviewMode;
+        const practiceMode = this.dom.trainerPracticeMode;
+        if (!overviewMode || !practiceMode) return;
+
+        // Determine target visibility state
+        const showOverview = typeof forceState === 'boolean' ? forceState : overviewMode.classList.contains('hidden');
+
+        if (showOverview) {
+            // Switch to overview screen
+            overviewMode.classList.remove('hidden');
+            practiceMode.classList.add('hidden');
+            document.body.classList.remove('fullscreen-test-active');
+            if (this.dom.chordOverviewToggle) {
+                this.dom.chordOverviewToggle.classList.add('active');
+                const label = this.dom.chordOverviewToggle.querySelector('.label');
+                const icon = this.dom.chordOverviewToggle.querySelector('.icon');
+                if (label) label.textContent = 'TEST';
+                if (icon) icon.textContent = '🎸';
+            }
+            if (this.dom.guideToggle) {
+                this.dom.guideToggle.classList.remove('recreate-mode-mobile-hidden');
+                const actionsContainer = this.dom.guideToggle.parentElement;
+                if (actionsContainer) {
+                    actionsContainer.classList.remove('recreate-active');
+                }
+            }
+
+            // Dynamically render all song chords in order
+            this.renderChordOverviewGrid();
+        } else {
+            // Switch back to trainer practice mode
+            overviewMode.classList.add('hidden');
+            practiceMode.classList.remove('hidden');
+            document.body.classList.add('fullscreen-test-active');
+            if (this.dom.chordOverviewToggle) {
+                this.dom.chordOverviewToggle.classList.remove('active');
+                const label = this.dom.chordOverviewToggle.querySelector('.label');
+                const icon = this.dom.chordOverviewToggle.querySelector('.icon');
+                if (label) label.textContent = 'Chords';
+                if (icon) icon.textContent = '📋';
+            }
+            if (this.dom.guideToggle) {
+                this.dom.guideToggle.classList.add('recreate-mode-mobile-hidden');
+                const actionsContainer = this.dom.guideToggle.parentElement;
+                if (actionsContainer) {
+                    actionsContainer.classList.add('recreate-active');
+                }
+            }
+        }
+    }
+
+    renderChordOverviewGrid() {
+        const grid = this.dom.chordOverviewGrid;
+        if (!grid) return;
+
+        grid.innerHTML = '';
+
+        if (this.songChords.length === 0) {
+            grid.innerHTML = '<div style="color: #94a3b8; font-size: 1rem; text-align: center; grid-column: 1/-1; padding: 40px 0;">No chords found in this song.</div>';
+            return;
+        }
+
+        this.songChords.forEach((chordName, index) => {
+            const simplified = this.simplifyChord(chordName);
+            const fingering = window.GuitarChordDatabase[chordName] || 
+                              window.GuitarChordDatabase[simplified] || 
+                              window.GuitarChordDatabase[simplified.split('/')[0]];
+
+            if (!fingering) return;
+
+            // Create beautiful card
+            const card = document.createElement('div');
+            card.className = 'overview-chord-card';
+
+            // Chord Name
+            const nameEl = document.createElement('h3');
+            nameEl.className = 'overview-chord-name';
+            nameEl.textContent = chordName;
+            card.appendChild(nameEl);
+
+            // Chord Diagram Container
+            const diagramContainer = document.createElement('div');
+            diagramContainer.className = 'overview-chord-diagram';
+            diagramContainer.innerHTML = this.renderer.renderSVG(fingering);
+            
+            // Clicking diagram itself plays strum audio WITHOUT entering test/practice mode
+            diagramContainer.onclick = (e) => {
+                e.stopPropagation(); // Avoid triggering card.onclick select/redirect
+                this.strumChord(chordName);
+            };
+            
+            card.appendChild(diagramContainer);
+
+            // Clicking card (outside diagram) strums chord, selects it for trainer, and redirects back to Practice Mode
+            card.onclick = () => {
+                this.strumChord(chordName);
+                this.selectChord(index);
+                this.toggleChordOverviewMode(false); // Back to practice mode!
+            };
+
+            grid.appendChild(card);
+        });
     }
 }
 
