@@ -121,6 +121,12 @@ class TableRenderer {
         const titleCell = document.createElement('td');
         titleCell.className = 'title-cell editable';
         
+        const titleContainer = document.createElement('div');
+        titleContainer.style.display = 'flex';
+        titleContainer.style.alignItems = 'center';
+        titleContainer.style.flexWrap = 'wrap';
+        titleContainer.style.gap = '6px';
+
         if (song.isPublic && typeof SEO !== 'undefined') {
             const link = document.createElement('a');
             link.href = SEO.getSongUrl(song.artist, song.title);
@@ -134,11 +140,14 @@ class TableRenderer {
                     this.selectRow(song.id);
                 }
             });
-            titleCell.appendChild(link);
+            titleContainer.appendChild(link);
         } else {
-            titleCell.textContent = song.title || '';
+            const textSpan = document.createElement('span');
+            textSpan.textContent = song.title || '';
+            titleContainer.appendChild(textSpan);
         }
-        
+
+        titleCell.appendChild(titleContainer);
         titleCell.dataset.field = 'title';
         titleCell.dataset.songId = song.id;
         row.appendChild(titleCell);

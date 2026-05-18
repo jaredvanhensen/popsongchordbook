@@ -1,4 +1,4 @@
-// Main Application (v2.787)
+// Main Application (v2.817)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -37,6 +37,7 @@ class App {
             favoritesOnly: false,
             onlyPrivate: false,
             onlyPublic: false,
+            genre: '',
             limit: null,
             sortBy: 'id',
             sortOrder: 'asc'
@@ -86,6 +87,7 @@ class App {
         this.currentFilter = {
             favorites: false,
             key: '',
+            genre: '',
             withYouTube: false,
             withoutYouTube: false,
             withoutLyrics: false,
@@ -871,6 +873,16 @@ class App {
             allSongs = allSongs.filter(song => song.favorite === true);
         }
 
+        if (this.currentFilter.genre && this.currentFilter.genre.trim() !== '') {
+            const filterGenre = this.currentFilter.genre.trim().toLowerCase();
+            allSongs = allSongs.filter(song => {
+                const songGenres = Array.isArray(song.genre) 
+                    ? song.genre 
+                    : (song.genre ? [song.genre] : []);
+                return songGenres.some(g => g.toLowerCase() === filterGenre);
+            });
+        }
+
         if (this.currentFilter.key && this.currentFilter.key.trim() !== '') {
             const filterKey = this.currentFilter.key.trim().toLowerCase();
             allSongs = allSongs.filter(song => {
@@ -1018,13 +1030,15 @@ class App {
 
         // Apply filters
         applyFiltersBtn.addEventListener('click', () => {
+            const filterGenreSelect = document.getElementById('filterGenreSelect');
             this.currentFilter = {
                 favorites: filterFavoritesCheckbox.checked,
                 key: filterKeySelect.value || '',
-                withYouTube: filterWithYouTubeCheckbox.checked,
-                withoutYouTube: filterWithoutYouTubeCheckbox.checked,
-                withoutLyrics: filterWithoutLyricsCheckbox.checked,
-                withoutTimeline: filterWithoutTimelineCheckbox.checked,
+                genre: filterGenreSelect ? filterGenreSelect.value || '' : '',
+                withYouTube: filterWithYouTubeCheckbox ? filterWithYouTubeCheckbox.checked : false,
+                withoutYouTube: filterWithoutYouTubeCheckbox ? filterWithoutYouTubeCheckbox.checked : false,
+                withoutLyrics: filterWithoutLyricsCheckbox ? filterWithoutLyricsCheckbox.checked : false,
+                withoutTimeline: filterWithoutTimelineCheckbox ? filterWithoutTimelineCheckbox.checked : false,
                 noPublic: filterNoPublicCheckbox.checked,
                 onlyPublic: filterOnlyPublicCheckbox.checked
             };
@@ -1037,8 +1051,10 @@ class App {
         clearAllFiltersBtn.addEventListener('click', () => {
             filterFavoritesCheckbox.checked = false;
             filterKeySelect.value = '';
-            filterWithYouTubeCheckbox.checked = false;
-            filterWithoutYouTubeCheckbox.checked = false;
+            const filterGenreSelect = document.getElementById('filterGenreSelect');
+            if (filterGenreSelect) filterGenreSelect.value = '';
+            if (filterWithYouTubeCheckbox) filterWithYouTubeCheckbox.checked = false;
+            if (filterWithoutYouTubeCheckbox) filterWithoutYouTubeCheckbox.checked = false;
             if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
             if (filterWithoutTimelineCheckbox) filterWithoutTimelineCheckbox.checked = false;
             if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
@@ -1046,6 +1062,7 @@ class App {
             this.currentFilter = {
                 favorites: false,
                 key: '',
+                genre: '',
                 withYouTube: false,
                 withoutYouTube: false,
                 withoutLyrics: false,
@@ -1058,17 +1075,21 @@ class App {
         });
 
         // Prevent both YouTube checkboxes from being checked at the same time
-        filterWithYouTubeCheckbox.addEventListener('change', () => {
-            if (filterWithYouTubeCheckbox.checked) {
-                filterWithoutYouTubeCheckbox.checked = false;
-            }
-        });
+        if (filterWithYouTubeCheckbox) {
+            filterWithYouTubeCheckbox.addEventListener('change', () => {
+                if (filterWithYouTubeCheckbox.checked) {
+                    if (filterWithoutYouTubeCheckbox) filterWithoutYouTubeCheckbox.checked = false;
+                }
+            });
+        }
 
-        filterWithoutYouTubeCheckbox.addEventListener('change', () => {
-            if (filterWithoutYouTubeCheckbox.checked) {
-                filterWithYouTubeCheckbox.checked = false;
-            }
-        });
+        if (filterWithoutYouTubeCheckbox) {
+            filterWithoutYouTubeCheckbox.addEventListener('change', () => {
+                if (filterWithoutYouTubeCheckbox.checked) {
+                    if (filterWithYouTubeCheckbox) filterWithYouTubeCheckbox.checked = false;
+                }
+            });
+        }
 
         // Mutually exclusive Public/Private filters
         if (filterNoPublicCheckbox && filterOnlyPublicCheckbox) {
@@ -1144,6 +1165,10 @@ class App {
         if (filterKeySelect) {
             filterKeySelect.value = this.currentFilter.key || '';
         }
+        const filterGenreSelect = document.getElementById('filterGenreSelect');
+        if (filterGenreSelect) {
+            filterGenreSelect.value = this.currentFilter.genre || '';
+        }
         if (filterWithYouTubeCheckbox) {
             filterWithYouTubeCheckbox.checked = this.currentFilter.withYouTube;
         }
@@ -1171,6 +1196,7 @@ class App {
         // Check if any filter is active
         const hasActiveFilters = this.currentFilter.favorites ||
             this.currentFilter.key !== '' ||
+            this.currentFilter.genre !== '' ||
             this.currentFilter.withYouTube ||
             this.currentFilter.withoutYouTube ||
             this.currentFilter.withoutLyrics ||

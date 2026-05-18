@@ -1461,26 +1461,33 @@ class SongDetailModal {
             }
         }
 
-        // Setup Chord JSON listeners
-        if (this.chordJsonInput) {
-            this.chordJsonInput.addEventListener('change', (e) => {
-                const fileLabel = document.querySelector('label[for="chordJsonInput"]');
-                if (fileLabel && e.target.files && e.target.files[0]) {
-                    fileLabel.textContent = `📄 ${e.target.files[0].name.substring(0, 15)}...`;
+        // Setup Genre Chip selection listeners
+        const genreChips = this.youtubeUrlModal ? this.youtubeUrlModal.querySelectorAll('.genre-chip') : [];
+        genreChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const genre = chip.getAttribute('data-genre');
+                if (!this.selectedGenres) this.selectedGenres = [];
+                if (this.selectedGenres.includes(genre)) {
+                    // Deselect
+                    this.selectedGenres = this.selectedGenres.filter(g => g !== genre);
+                } else {
+                    // Select if limit of 2 is not reached
+                    if (this.selectedGenres.length < 2) {
+                        this.selectedGenres.push(genre);
+                    } else {
+                        // Max 2 genres warning
+                        this.showInfoModal('Limit Reached', 'You can select a maximum of 2 genres per song.');
+                        // Visual feedback (shake)
+                        chip.classList.add('shake');
+                        setTimeout(() => chip.classList.remove('shake'), 400);
+                        return;
+                    }
                 }
+                this.updateGenreChipsUI();
             });
-        }
-
-        if (this.clearChordDataBtn) {
-            this.clearChordDataBtn.addEventListener('click', () => {
-                this.chordDataToRemove = true;
-                if (this.chordJsonStatus) {
-                    this.chordJsonStatus.textContent = '🗑️ Marking for removal...';
-                    this.chordJsonStatus.style.color = '#f59e0b';
-                }
-                this.clearChordDataBtn.style.display = 'none';
-            });
-        }
+        });
 
         let isMainModalMouseDown = false;
         this.modal.addEventListener('mousedown', (e) => {
@@ -4080,23 +4087,11 @@ class SongDetailModal {
             this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
         }
 
-        // Update JSON Status
-        if (this.chordJsonStatus) {
-            if (song.chordData) {
-                this.chordJsonStatus.textContent = '✅ Data loaded';
-                this.chordJsonStatus.style.color = '#10b981';
-                if (this.clearChordDataBtn) this.clearChordDataBtn.style.display = 'inline-block';
-            } else {
-                this.chordJsonStatus.textContent = '❌ No data';
-                this.chordJsonStatus.style.color = '#ef4444';
-                if (this.clearChordDataBtn) this.clearChordDataBtn.style.display = 'none';
-            }
-        }
-        this.chordDataToRemove = false;
-
-        // Reset file input label text if needed
-        const fileLabel = document.querySelector('label[for="chordJsonInput"]');
-        if (fileLabel) fileLabel.textContent = '📁 Select File';
+        // Populate genre selection
+        this.selectedGenres = Array.isArray(song.genre) 
+            ? [...song.genre] 
+            : (song.genre ? [song.genre] : []);
+        this.updateGenreChipsUI();
 
         // Show modal
         this.youtubeUrlModal.classList.remove('hidden');
@@ -4141,6 +4136,26 @@ class SongDetailModal {
         }
     }
 
+    updateGenreChipsUI() {
+        const chips = this.youtubeUrlModal ? this.youtubeUrlModal.querySelectorAll('.genre-chip') : [];
+        const limitReached = this.selectedGenres && this.selectedGenres.length >= 2;
+        chips.forEach(chip => {
+            const genre = chip.getAttribute('data-genre');
+            const isActive = this.selectedGenres && this.selectedGenres.includes(genre);
+            if (isActive) {
+                chip.classList.add('active');
+                chip.classList.remove('disabled');
+            } else {
+                chip.classList.remove('active');
+                if (limitReached) {
+                    chip.classList.add('disabled');
+                } else {
+                    chip.classList.remove('disabled');
+                }
+            }
+        });
+    }
+
     searchYouTubeForCurrentSong() {
         if (!this.currentSongId) return;
         const song = this.songManager.getSongById(this.currentSongId);
@@ -4179,39 +4194,12 @@ class SongDetailModal {
                 practiceCount: practiceCount,
                 lyricOffset: lyricOffset,
                 performAbility: performAbility,
-                fullLyrics: fullLyrics
+                fullLyrics: fullLyrics,
+                genre: this.selectedGenres || []
             };
 
-            // Handle JSON removal
-            if (this.chordDataToRemove) {
-                updates.chordData = null;
-            }
-
-            // Handle JSON file upload
-            if (this.chordJsonInput && this.chordJsonInput.files && this.chordJsonInput.files[0]) {
-                const file = this.chordJsonInput.files[0];
-                const reader = new FileReader();
-                reader.onload = async (event) => {
-                    try {
-                        const chordData = JSON.parse(event.target.result);
-                        updates.chordData = chordData;
-
-                        // Update song with chord data
-                        await this.songManager.updateSong(this.currentSongId, updates);
-
-                        // Finalize UI updates after async save
-                        this.finalizeSave(youtubeUrl, externalUrl);
-                    } catch (e) {
-                        console.error("Error parsing chord JSON:", e);
-                        this.showInfoModal('Import Error', 'Invalid JSON file. Please check the file format.');
-                    }
-                };
-                reader.readAsText(file);
-            } else {
-                // No file uploaded, just update other fields
-                await this.songManager.updateSong(this.currentSongId, updates);
-                this.finalizeSave(youtubeUrl, externalUrl);
-            }
+            await this.songManager.updateSong(this.currentSongId, updates);
+            this.finalizeSave(youtubeUrl, externalUrl);
         };
 
         // Check if YouTube URL has changed and show warning, but only when there are actual chords on the timeline

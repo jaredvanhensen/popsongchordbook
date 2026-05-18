@@ -235,6 +235,7 @@ class SongManager {
                 if (key === 'practiceCount' && (value === '0' || value === 0)) return;
                 if (key === 'isPublic' && value === false) return;
                 if (key === 'lyricOffset' && value === 0) return;
+                if (key === 'genre' && Array.isArray(value) && value.length === 0) return;
                 
                 // Keep the value
                 dehydrated[key] = value;
@@ -313,9 +314,11 @@ class SongManager {
             capo: 0,
             isPublic: false,
             submittedBy: '',
+            genre: [],
             // Preserve all incoming fields
             ...song,
             // Guaranteed types/migrations
+            genre: Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []),
             isPublic: !!song.isPublic,
             submittedBy: song.submittedBy || '',
             practiceCount: (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : (song.practiceCountTeller || '0'),
@@ -458,6 +461,7 @@ class SongManager {
             songNotes: '',
             capo: 0,
             isPublic: false,
+            genre: [],
             // Preserve all incoming fields
             ...song,
             // Guaranteed fields/overrides
@@ -546,6 +550,7 @@ class SongManager {
                 preChorusTitle: song.preChorusTitle || 'Block 3',
                 chorusTitle: song.chorusTitle || 'Block 2',
                 bridgeTitle: song.bridgeTitle || 'Block 4',
+                genre: Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []),
                 // Custom fields from importer (spread AFTER defaults to override)
                 ...song,
                 // Specific migrations/fixes

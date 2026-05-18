@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.815 - PopSongChordBook</title>
-    <meta name="version" content="2.815">
-    <meta name="application-version" content="v2.815">
+    <title>Song List v2.817 - PopSongChordBook</title>
+    <meta name="version" content="2.817">
+    <meta name="application-version" content="v2.817">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
-    <link rel="stylesheet" href="styles.css?v=2.815">
+    <link rel="stylesheet" href="styles.css?v=2.817">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -48,7 +48,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.815</span>
+                        <span id="site-version" class="version-tag">2.817</span>
                     </div>
                 </div>
             </div>
@@ -1549,21 +1549,14 @@
                         ✓ Lyrics Present
                     </div>
                 </div>
-                <div class="url-input-group" style="margin-top: 10px;">
-                    <label>Timeline JSON Data (Chords)</label>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 2px;">
-                        <label for="chordJsonInput" class="custom-file-btn"
-                            style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; color: #475569;">
-                            📁 Select File
-                        </label>
-                        <input type="file" id="chordJsonInput" accept=".json" style="display: none;">
-                        <span id="chordJsonStatus" style="font-size: 14px; font-weight: 600;"></span>
-                        <button id="clearChordDataBtn"
-                            style="display: none; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 14px; padding: 0;">Remove</button>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label style="font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">Genre (Select up to 2)</label>
+                    <div class="genre-chips-container" style="display: flex; gap: 6px; flex-wrap: nowrap; width: 100%;">
+                        <button type="button" class="genre-chip" data-genre="Rock" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Rock</button>
+                        <button type="button" class="genre-chip" data-genre="Country" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Country</button>
+                        <button type="button" class="genre-chip" data-genre="R&B" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">R&B</button>
+                        <button type="button" class="genre-chip" data-genre="EDM" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">EDM</button>
                     </div>
-                    <small style="color: #64748b; display: block; margin-top: 5px;">Upload a .json file to auto-load
-                        in
-                        Timeline view</small>
                 </div>
                 <div class="modal-actions">
                     <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
@@ -1634,30 +1627,20 @@
                 </div>
 
                 <div class="filter-option-group">
-                    <label class="filter-checkbox-label">
-                        <input type="checkbox" id="filterWithYouTubeCheckbox" class="filter-checkbox">
-                        <span>Only songs with YouTube link</span>
-                    </label>
-                </div>
-
-                <div class="filter-option-group">
-                    <label class="filter-checkbox-label">
-                        <input type="checkbox" id="filterWithoutYouTubeCheckbox" class="filter-checkbox">
-                        <span>Only songs without YouTube link</span>
-                    </label>
+                    <label for="filterGenreSelect" class="filter-label">Genre:</label>
+                    <select id="filterGenreSelect" class="filter-select">
+                        <option value="">All genres</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Country">Country</option>
+                        <option value="R&B">R&B</option>
+                        <option value="EDM">EDM</option>
+                    </select>
                 </div>
 
                 <div class="filter-option-group">
                     <label class="filter-checkbox-label">
                         <input type="checkbox" id="filterWithoutLyricsCheckbox" class="filter-checkbox">
                         <span>Only songs without Lyrics</span>
-                    </label>
-                </div>
-
-                <div class="filter-option-group">
-                    <label class="filter-checkbox-label">
-                        <input type="checkbox" id="filterWithoutTimelineCheckbox" class="filter-checkbox">
-                        <span>Only songs without Chord Timeline data</span>
                     </label>
                 </div>
 
