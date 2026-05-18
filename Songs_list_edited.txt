@@ -1,0 +1,379 @@
+Artist	Songtitle	Genre	Genre2		
+AC/DC	Back in Black	Rock			
+Adele	Hello				
+Adele	Make You Feel My Love				
+Adele	Someone Like You				
+Aerosmith	Pink	Rock			
+A-ha	Crying in the Rain	Rock			
+A-ha	I Call Your Name				
+A-ha	Take on Me				
+Alanis Morissette	Ironic	Rock			
+Alanis Morissette	Thank U	Rock			
+Alex Warren	Fever Dream				
+Alex Warren	Ordinary				
+Alicia Keys	Fallin	R&B			
+Alphaville	Forever Young				
+America	Horse With No Name	Rock			
+Amy Macdonald	Never Too Late				
+Amy Macdonald	This Is The Life				
+Anouk	Sacrifice	Rock			
+ATC	Around The World	Dance			
+Backstreet Boys	I Want It That Way				
+Big & Rich	California	Country			
+Billie Eilish	Birds Of A Feather				
+Billie Ocean	Get Outta my dreams				
+Billy Joel	Piano Man				
+Blink 182	All The Small Things	Rock			
+Blue ™yster Cult	Don't Fear The Reaper	Rock			
+Bob Marley & The Wailers	Three Little Birds				
+Bon Jovi	It's My Life	Rock			
+Bon Jovi	Living On A Prayer	Rock			
+Bon Jovi	These Days	Rock			
+Bon Jovi	Wanted Dead Or Alive	Rock			
+Bon Jovi	You Give Love A Bad Name	Rock			
+Booker T. & the MG's	Green Onions				
+Boston	More Than A Feeling	Rock			
+Bruce Hornsby	The Way It Is				
+Bruce Springsteen	Born in the USA	Rock			
+Bruce Springsteen	Human Touch	Rock			
+Bruce Springsteen	I'm On Fire	Rock			
+Bruce Springsteen	My Hometown	Rock			
+Bruno Mars	Grenade				
+Bruno Mars	I Just Might				
+Bruno Mars	Just the Way You Are				
+Bruno Mars	The Lazy Song				
+Bruno Mars	When I Was Your Man				
+Bruno Mars	Marry You				
+Bryan Adams	Can't Stop This Thing We Started	Rock			
+Bryan Adams	Heaven	Rock			
+Bryan Adams	I Do It For You	Rock			
+Bryan Adams	Run To You	Rock			
+Bryan Adams	Somebody	Rock			
+Bryan Adams	Summer of 69	Rock			
+Bryan Adams	When You're Gone	Rock			
+BTS	SWIM				
+BTS	Dynamite				
+Camila Cabello	Havana				
+Canaan Smith	Love You Like That	Country			
+Capital Cities	Safe and Sound	Dance			
+Cars	Drive	Rock			
+Causes	Walk On Water				
+Chad Kroeger	Hero	Rock			
+Cher	If I Could Turn Back Time	Rock			
+Christina Aguilera	Genie In A Bottle				
+Coldplay	Clocks	Rock			
+Coldplay	Talk	Rock			
+Coldplay	The Scientist	Rock			
+Coldplay	Trouble	Rock			
+Coldplay	Viva la Vida	Rock			
+Coldplay	Yellow	Rock			
+Commodores	Easy				
+Creedence Clearwater Revival	Bad Moon Rising	Rock			
+Creedence Clearwater Revival	Have You Ever Seen The Rain	Rock			
+Crowded House	Don't Dream It's Over	Rock			
+Crowded House	Weather With You	Rock			
+Daft Punk	Get Lucky				
+Def Leppard	Animal	Rock			
+Def Leppard	Gimme a Kiss	Rock			
+Dire Straits	Calling Elvis	Rock			
+Dire Straits	Down To The Waterline	Rock			
+Dire Straits	On Every Street	Rock			
+Dire Straits	Private Investigations	Rock			
+Dire Straits	Romeo and Julliet	Rock			
+Dire Straits	Skateaway	Rock			
+Dire Straits	So Far Away	Rock			
+Dire Straits	Solid Rock	Rock			
+Dire Straits	Sultans Of Swing	Rock			
+Dire Straits	Walk of Life	Rock			
+Dolly Parton	Jolene	Country			
+Don Henley	Boys of Summer	Rock			
+Douwe Bob	Angel Child	Country			
+Douwe Bob	Nothing To Lose	Country			
+Douwe Bob	This World Is Our Home	Country			
+Douwe Bob & SERA	Could Have Been Us	Country			
+Dr. Alban	It's My Life	Dance			
+Duran Duran	Ordinary World	Rock			
+Eagles	Desperado	Country	Rock		
+Eagles	Hotel California	Rock			
+Eagles	Take It Easy	Country	Rock		
+Ed Sheeran	Afire Love				
+Ed Sheeran	Afterglow				
+Ed Sheeran	Happier				
+Ed Sheeran	Perfect				
+Eiffel 65	Blue	Dance			
+Elton John	Sacrifice				
+Enya	A Day Without Rain				
+Enya	Caribbean Blue				
+Enya	Orinoco Flow				
+Eric Carmen	Hungry Eyes	Rock			
+Eric Clapton	Layla Live Acoustic	Rock			
+Europe	Carrie	Rock			
+Europe	Final Countdown	Rock			
+Extreme	More Than Words	Rock			
+Fleetwood Mac	Everywhere				
+Fleetwood Mac	Go Your Own Way	Rock			
+Flemming	Automatisch				
+Florence and the Machine	You Got the Love				
+Foreigner	Cold As Ice	Rock			
+Foreigner	I Want To Know What Love Is	Rock			
+Foreigner	Say You Will	Rock			
+Foreigner	Waiting for a Girl Like You	Rock			
+George Michael	Faith				
+George Michael	Father Figure				
+George Michael	Freedom! '90				
+George Michael	One More Try				
+George Michael & Elton John	Don't Let The Sun Go Down on Me				
+Gerry Rafferty	Baker Street	Rock			
+Goo Goo Dolls	Iris	Rock			
+Green Day	Boulevard Of Broken Dreams	Rock			
+Guns N' Roses	Don't Cry	Rock			
+Guns N' Roses	Knockin' On Heavens Door	Rock			
+Guns N' Roses	Sweet Child O' Mine	Rock			
+Guns N' Roses	Patience	Rock			
+Guns N? Roses	November Rain	Rock			
+Harold Faltermeyer	Axel F				
+Harry Styles	As It Was				
+Harry Styles	Sign Of The Times				
+Harry Styles	Watermelon Sugar				
+Heart	All I Wanna Do Is Make Love To You	Rock			
+Heart	Alone	Rock			
+INXS	Never Tear Us Apart	Rock			
+INXS	Suicide Blonde	Rock			
+J.R. Richards	Until I Wake Up				
+Jack Johnson	Upside Down				
+James Arthur	Say You Wont Let Go				
+James Horner	Legends of the Fall				
+Jan Hammer	Crockett's Theme	Rock			
+Jeff Buckley	Hallelujah				
+Jelly Roll	Halfway To Hell	Country	Rock		
+Jeroen van Koningsbrugge	Sorry				
+Jessie J	Price Tag				
+Jimi Hendrix	Little Wing	Rock			
+John Barry	Dances with Wolves				
+John Denver	Take Me Home Country Roads	Country			
+John Legend	All of Me				
+John Mayer	Last Train Home	Rock			
+John Newman	Love Me Again				
+John Waite	Missing You	Rock			
+Jon Bon Jovi	Blaze Of Glory	Rock			
+Journey	Don't Stop Believing	Rock			
+Justin Bieber	Anyone				
+Justin Bieber	Love Yourself				
+Kansas	Dust In The Wind	Rock			
+KC & The Sunshine Band	Give It Up	Dance			
+Kelsea Ballerini	Heartfirst	Country			
+Kenny Chesney	Bar At The End Of The World	Country	Rock		
+Kenny Chesney	Big Star	Country	Rock		
+Kenny Chesney	I Go Back	Country	Rock		
+Kenny Chesney	Live Those Songs	Country	Rock		
+Kim Carnes	Bette Davis Eyes	Rock			
+Kim Wilde	You Came				
+Kool & The Gang	Celebration	Dance			
+Krezip	Sweet Goodbyes				
+Lady A	Need You Now	Country	Rock		
+Lady Gaga	Paparazzi				
+Lady Gaga, Bruno Mars	Die With A Smile				
+Lenny Kravitz	Fly Away	Rock			
+Level 42	Heaven in My Hands	Rock			
+Level 42	Running in the Family				
+Lewis Capaldi	Someone You Loved				
+Limp Bizkit	Behind Blue Eyes	Rock			
+Lionel Richie	Dancing On The Ceiling				
+Logan Mize	American Dream	Country	Rock		
+Logan Mize	Something Just Like This	Country	Rock		
+Logan Mize	What I Love About You	Country	Rock		
+Luke Bryan	Roller Coaster	Country			
+Lynyrd Skynyrd	Free Bird	Country	Rock		
+Lynyrd Skynyrd	Sweet Home Alabama	Rock			
+Madcon	Don't Worry				
+Madeline Merlo	War Paint	Country			
+Madonna	Dress You Up				
+Madonna	Holiday				
+Madonna	La Isla Bonita				
+Madonna	Live To Tell				
+Madonna	Papa Don't Preach				
+Marc Cohen	Walking In Memphis				
+Mariah Carey	All I Want For Christmas				
+Marillion	Kayleigh	Rock			
+Mark Knopfler	What It Is	Rock			
+Maroon 5	She Will Be Loved				
+Maroon 5 feat. Wiz Khalifa	Payphone				
+Mat Kearney	All I Have				
+Metallica	Nothing Else Matters	Rock			
+Michael Jackson	Beat It	Rock			
+Michael Jackson	Billie Jean				
+Michael Jackson	Dirty Diana	Rock			
+Michael Jackson	Human Nature				
+Michael Jackson	Man In The Mirror				
+Michael Jackson	Thriller				
+Midnight Oil	Beds Are Burning	Rock			
+Mike + The Mechanics	Over My Shoulder	Rock			
+Miley Cyrus	Flowers				
+Miranda Lambert	The House That Built Me	Country			
+Mr. Big	To Be With You	Rock			
+Mr. Mister	Kyrie	Rock			
+Mr. President	Coco Jambo	Dance			
+Natalie Imbruglia	Torn				
+Nate Smith	Bulletproof	Country	Rock		
+Nate Smith	Fix What You Didn't Break	Country	Rock		
+Nate Smith	Whiskey On You	Country	Rock		
+Nickelback	How You Remind Me	Rock			
+Nickelback	Photograph	Rock			
+Nickelback	Rockstar	Rock			
+Nirvana	Smells Like Teen Spirit	Rock			
+Nirvana	Something In The Way	Rock			
+Noah Kahan	Stick Season				
+Oasis	Don't Look Back In Anger	Rock			
+Oasis	Wonderwall	Rock			
+Old Dominion	Snapback	Country			
+Olivia Dean	Man I Need				
+One Direction	Best Song Ever				
+One Republic	Apologize				
+Owl City	Fireflies				
+Owl City	Not All Heroes Wear Capes				
+Pat Greene	While I Was Away	Country			
+Paul Mc Cartney	Once Upon a Long Ago	Rock			
+Paul Simon	You Can Call Me Al				
+Pet Shop Boys	Always on my mind				
+Pet Shop Boys	Domino Dancing				
+Pet Shop Boys	It's A Sin				
+Pet Shop Boys	Suburbia				
+Phil Collins	A Groovy Kind of Love				
+Phil Collins	I Wish It Would Rain Down	Rock			
+Phil Collins	In The Air Tonight	Rock			
+Phil Collins	That?s Just The Way It Is				
+Phil Collins	That’s Just The Way It Is				
+Pink	What About Us				
+Pink	Who Knew	Rock			
+Pink Floyd	Another Brick In The Wall	Rock			
+Pink Floyd	Comfortably Numb	Rock			
+Pink Floyd	Wish You Were Here	Rock			
+Post Malone feat. Morgan Wallen	I Had Some Help	Country			
+Prince	Purple Rain	Rock			
+Procol Harem	A Whiter Shade of Pale	Rock			
+Queen	Crazy Little Thing Called Love	Rock			
+Queen	I Want It All	Rock			
+Queen	It's A Kind Of Magic	Rock			
+Queen	Show Must Go On	Rock			
+Queen	We Are The Champions	Rock			
+R.E.M.	Everybody Hurts	Rock			
+R.E.M.	Losing My Religion	Rock			
+Ray Charles	Hit The Road Jack				
+Red Hot Chili Peppers	Californication	Rock			
+Red Hot Chili Peppers	Under The Bridge	Rock			
+Richard Marx	Hazard	Rock			
+Richard Marx	Right Here Waiting	Rock			
+Rick James	Super Freak				
+Robbie Williams	Feel				
+Robbie Williams	Let Me Entertain You	Rock			
+Rolling Stones	Paint It Black	Rock			
+Roxette	Fading like a Flower	Rock			
+Roxette	How Do You Do	Rock			
+Roxette	Joyride	Rock			
+Roxette	Listen to Your Heart	Rock			
+Sabrina Carpenter	Taste				
+Scorpions	Send Me An Angel	Rock			
+Scorpions	Wind Of Change	Rock			
+Seal	Crazy				
+Seal	Kiss From A Rose				
+Seth Alley	Things We Don't Talk About				
+Shania Twain	You're Still The One	Country			
+Shawn Mendes	Mercy				
+Shawn Mendes	Senorita				
+Shinedown	Call Me	Rock			
+Shinedown	Get Up	Rock			
+Sia	Snowman				
+Simon and Garfunkel	Sound of Silence	Rock			
+Simply Red	Something Got me Started				
+Snap	Rhythm is a Dancer	Dance			
+Snow Patrol	Chasing Cars	Rock			
+Spandau Ballet	Through The Barricades	Rock			
+Spice Girls	Wannabe				
+Starship	Nothing's Gonna Stop Us	Rock			
+Steve Miller Band	Abracadabra	Rock			
+Steve Miller Band	The Joker	Rock			
+Sting	Fields of Gold	Rock			
+Supertramp	Give A Little Bit	Rock			
+Survivor	Eye Of The Tiger	Rock			
+Take That	Back For Good				
+Taylor Swift	22				
+Taylor Swift	All Too Well	Country			
+Taylor Swift	Anti-Hero				
+Taylor Swift	Back To December	Country			
+Taylor Swift	Betty	Country			
+Taylor Swift	Breathe	Country			
+Taylor Swift	Cruel Summer				
+Taylor Swift	Enchanted	Country			
+Taylor Swift	Fate of Ophelia				
+Taylor Swift	Fearless	Country			
+Taylor Swift	Fifteen	Country			
+Taylor Swift	Girl At Home	Country			
+Taylor Swift	Love Story	Country			
+Taylor Swift	Mean	Country			
+Taylor Swift	Our Song	Country			
+Taylor Swift	Ours	Country			
+Taylor Swift	Red	Country	Rock		
+Taylor Swift	So High School				
+Taylor Swift	Sparks Fly	Country			
+Taylor Swift	Speak Now	Country			
+Taylor Swift	Stay	Country			
+Taylor Swift	Teardrops on My Guitar	Country			
+Taylor Swift	The Best Day	Country			
+Taylor Swift	Today was a Fairytale	Country			
+Taylor Swift	Treacherous	Country			
+Taylor Swift	We Are Never Getting Back Together	Country			
+Taylor Swift	When Emma falls in love				
+Taylor Swift	Wildest Dreams				
+Taylor Swift	You Belong With Me	Country			
+Tears For Fears	Advice For The Young At Heart				
+Teddy Swims	Lose Control				
+The Animals	House Of The Rising Sun	Rock			
+The Band Perry	If I Die Young	Country			
+The Beatles	Let it Be	Rock			
+The Beatles	Yesterday	Rock			
+The Black Eyed Peas	Where Is the Love?				
+The Cranberries	Zombie	Rock			
+The Pretty Reckless	Take Me Down	Rock			
+The Script	For the First Time	Rock			
+The Script	Hall of Fame	Rock			
+The Script	Superheroes	Rock			
+The Script	Exit Wounds	Rock			
+Tim McGraw	Humble And Kind	Country			
+Tina Turner	The Best	Rock			
+Tom Petty	Free Fallin'	Rock			
+Tom Petty & The Heartbreakers	Learning To Fly	Rock			
+Tom Petty & The Heartbreakers	Into The Great Wide Open	Rock			
+Toto	Africa	Rock			
+Toto	Child's Anthem	Rock			
+Toto	Goin' Home	Rock			
+Toto	Hold the Line	Rock			
+Toto	Home Of The Brave	Rock			
+Toto	I Won?t Hold You Back	Rock			
+Toto	I?ll Be Over You	Rock			
+Toto	Rosanna	Rock			
+Toto	Spiritual Man	Rock			
+Toto	St. George & The Dragon	Rock			
+Toto	Stop Loving You	Rock			
+Tracy Chapman	Fast Car				
+Train	Drops of Jupiter	Rock			
+U2	Desire	Rock			
+U2	I Still Haven't Found What I'm Looking For	Rock			
+U2	One	Rock			
+U2	Pride (In The Name of Love)	Rock			
+U2	Sunday Bloody Sunday	Rock			
+U2	With Or Without You	Rock			
+U2	When Love Comes To Town	Rock			
+Van Halen	Jump	Rock			
+Van Halen	When It's Love	Rock			
+Vangelis	Chariots of Fire				
+Vangelis	Conquest of Paradise				
+Vertical Horizon	Im Still Here	Country			
+Weekend	Blinding Lights				
+Wham!	I'm Your Man				
+Wham!	Last Christmas				
+Wham!	The Edge of Heaven	Rock			
+Whitesnake	Here I Go Again	Rock			
+Whitesnake	Is This Love	Rock			
+Whitney Houston	I Will Always Love You				
+Zac Brown Band	Toes	Country			
+ZZ Top	Gimme All Your Lovin	Rock			

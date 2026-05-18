@@ -1,0 +1,3151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Song List v2.819 - PopSongChordBook</title>
+    <meta name="version" content="2.819">
+    <meta name="application-version" content="v2.819">
+    <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
+    
+    <!-- SEO Protection: Prevent indexing on github.io testing domain -->
+    <script>
+        if (window.location.hostname.includes('github.io')) {
+            const meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow';
+            document.head.appendChild(meta);
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css?v=2.819">
+    <style>
+        /* Sidebar default: hidden on mobile */
+        .app-sidebar {
+            display: none;
+        }
+        .app-layout {
+            display: block;
+        }
+        .app-main {
+            width: 100%;
+        }
+
+        /* Desktop Sidebar: shown on screen sizes 1080px and wider */
+        @media (min-width: 1080px) {
+            .app-layout {
+                display: flex;
+                min-height: 100vh;
+                background-color: #f8fafc;
+            }
+            .app-main {
+                flex: 1;
+                min-width: 0;
+                margin-left: 280px; /* Leave space for the fixed sidebar */
+            }
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 40px !important;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+
+            /* Constrain table to scroll inside its own box on desktop.
+               The header + column titles stay fully visible above it. */
+            .table-wrapper {
+                max-height: calc(100vh - 280px);
+                overflow-y: auto;
+            }
+
+            /* Column titles now stick inside the scrolling .table-wrapper */
+            #songsTable thead th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: #e2e8f0;
+                box-shadow: 0 2px 0 #cbd5e1;
+            }
+            .app-sidebar {
+                display: flex;
+                width: 280px;
+                background: linear-gradient(180deg, #12093a 0%, #211456 100%);
+                color: #ffffff;
+                flex-direction: column;
+                padding: 0;
+                flex-shrink: 0;
+                position: fixed; /* Keep locked in place */
+                left: 0;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                z-index: 100;
+            }
+            
+            .sidebar-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 32px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .brand-logo {
+                width: 140px;
+                height: 140px;
+                border-radius: 32px;
+                object-fit: cover;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .brand-logo:hover {
+                transform: scale(1.06);
+            }
+            .brand-text-logo {
+                width: 210px;
+                height: auto;
+                margin-top: 14px;
+                border-radius: 9999px;
+                overflow: hidden;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .brand-text-logo:hover {
+                transform: scale(1.04);
+            }
+
+            /* Nav menu items */
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding: 20px 12px;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                color: #c7d2fe;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+                border-radius: 10px;
+                transition: all 0.2s ease;
+            }
+            .nav-item:hover {
+                background: rgba(255, 255, 255, 0.06);
+                color: #ffffff;
+            }
+            .nav-item.active {
+                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+                color: #ffffff;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            }
+            .nav-icon {
+                font-size: 18px;
+                width: 24px;
+                text-align: center;
+            }
+
+            /* Playlists section */
+            .sidebar-section {
+                padding: 10px 16px 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .section-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: rgba(255, 255, 255, 0.4);
+                margin-bottom: 12px;
+                padding: 0 12px;
+            }
+            .add-playlist-btn {
+                background: transparent;
+                border: none;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 16px;
+                cursor: pointer;
+                padding: 0;
+                line-height: 1;
+                transition: color 0.2s;
+            }
+            .add-playlist-btn:hover {
+                color: #ffffff;
+            }
+            .playlist-items {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .playlist-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 8px 12px;
+                color: #c7d2fe;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+            }
+            .playlist-item:hover {
+                background: rgba(255, 255, 255, 0.04);
+                color: #ffffff;
+            }
+            .playlist-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                object-fit: cover;
+                opacity: 0.8;
+            }
+            .playlist-info {
+                display: flex;
+                flex-direction: column;
+            }
+            .playlist-name {
+                font-size: 13px;
+                font-weight: 600;
+                line-height: 1.2;
+            }
+            .playlist-count {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.45);
+            }
+
+            /* Upgrade Card (Pro) */
+            .pro-card {
+                margin: auto 16px 20px;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(10px);
+                padding: 16px;
+                border-radius: 16px;
+                text-align: center;
+            }
+            .pro-badge {
+                font-size: 12px;
+                font-weight: 700;
+                color: #fbbf24;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+            }
+            .pro-text {
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.7);
+                line-height: 1.4;
+                margin: 0 0 12px;
+            }
+            .pro-btn {
+                width: 100%;
+                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+                border: none;
+                color: #ffffff;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+                transition: all 0.2s;
+            }
+            .pro-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+            }
+        }
+
+        /* Premium Card Grid styling for Sidebar Custom views */
+        .custom-sidebar-view {
+            margin-top: 20px;
+            padding: 24px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .custom-view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 16px;
+        }
+        .custom-view-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        .custom-view-close {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        .custom-view-close:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .custom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .custom-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .custom-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            background: #ffffff;
+        }
+        .custom-card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            transition: transform 0.2s;
+        }
+        .custom-card:hover .custom-card-icon {
+            transform: scale(1.15);
+        }
+        .custom-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .custom-card-meta {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        /* Fix page scrolling by overriding height restrictions on .container for songlist2.html */
+        .container {
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow: visible !important;
+            display: block !important;
+        }
+
+        /* Circle Artist layout similar to Spotify */
+        .artist-img-container {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 3px solid #ffffff;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .artist-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .custom-card:hover .artist-img-container {
+            transform: scale(1.06);
+            border-color: #6366f1;
+            box-shadow: 0 6px 14px rgba(99, 102, 241, 0.2);
+        }
+        .custom-card:hover .artist-img {
+            transform: scale(1.08);
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="ChordBook">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    <meta name="forced-colors" content="none">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Left Sidebar Column -->
+        <aside class="app-sidebar">
+            <div class="sidebar-brand">
+                <a href="index.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+                    <img src="images/guitar_keyboard_blue.jpg" alt="Logo" class="brand-logo">
+                    <img src="images/popsongchordbook_text_logo.jpg" alt="PopSongChordBook.com" class="brand-text-logo">
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="btnSongbook">
+                    <span class="nav-icon">🎵</span>
+                    <span class="nav-text">Songbook</span>
+                </a>
+                <a href="#" class="nav-item" id="btnFavorites">
+                    <span class="nav-icon">⭐</span>
+                    <span class="nav-text">Favorites</span>
+                </a>
+                <a href="#" class="nav-item" id="btnSetlists">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Setlists</span>
+                </a>
+                <a href="#" class="nav-item" id="btnArtists">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Artists</span>
+                </a>
+                <a href="#" class="nav-item" id="btnChordsLibrary">
+                    <span class="nav-icon">🎹</span>
+                    <span class="nav-text">Chords Library</span>
+                </a>
+                <a href="#" class="nav-item" id="btnMyLibrary">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">My Library</span>
+                </a>
+            </nav>
+
+            <!-- Playlists Section -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span>Playlists</span>
+                    <button class="add-playlist-btn">+</button>
+                </div>
+                <div class="playlist-items">
+                    <a href="#" class="playlist-item">
+                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                        <div class="playlist-info">
+                            <span class="playlist-name">Acoustic Night</span>
+                            <span class="playlist-count">24 songs</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item">
+                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                        <div class="playlist-info">
+                            <span class="playlist-name">Morning Vibes</span>
+                            <span class="playlist-count">18 songs</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item">
+                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                        <div class="playlist-info">
+                            <span class="playlist-name">Pop Hits 2020s</span>
+                            <span class="playlist-count">35 songs</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item">
+                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                        <div class="playlist-info">
+                            <span class="playlist-name">Easy Chords</span>
+                            <span class="playlist-count">16 songs</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="header-top-left">
+                    <a href="index.html" class="back-icon-btn" title="Back to Home">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="header-title-group">
+                    <h1>Pop Song Chord Book</h1>
+                    <p class="header-subtitle">Your interactive playalong songbook</p>
+                </div>
+                <div class="header-top-actions" style="flex-wrap: wrap; justify-content: flex-end;">
+                    <button id="profileBtn" class="profile-btn with-label" title="Profile & Settings">
+                        <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
+                        <span class="icon">🔧</span>
+                        <span class="label">Profile <span id="profileSongCount" class="song-count">(0)</span></span>
+                    </button>
+                    <button id="toggleHeaderBarCollapsed" class="toggle-header-bar-btn collapsed-position"
+                        title="Show button bar">▲</button>
+                    <!-- Version moved here -->
+                    <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
+                        <span id="site-version" class="version-tag">2.819</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bar" id="headerBar">
+                <button id="toggleHeaderBar" class="toggle-header-bar-btn normal-position"
+                    title="Hide button bar">▼</button>
+
+                <!-- Filters & Search Section -->
+                <div class="header-section filters-section">
+                    <div class="filter-buttons">
+                        <button id="filterBtn" class="filter-btn with-label" title="Filters">
+                            <span class="icon">🔍</span>
+                            <span class="label">Filters</span>
+                        </button>
+                        <button id="headerTrainerBtn" class="trainer-btn with-label" title="Chord Trainer">
+                            <span class="icon">🎓</span>
+                            <span class="label">Chord Trainer</span>
+                        </button>
+                        <button class="chords-info-btn mobile-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
+                            <span class="icon">📚</span>
+                        </button>
+                    </div>
+                    <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
+                    <div class="search-section-container">
+                        <div class="search-input-wrapper">
+                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Artist or title..."
+                                autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="none">
+                            <button id="clearSearchBtn" class="clear-search-btn hidden"
+                                title="Clear search field">×</button>
+                        </div>
+                    </div>
+                    <button class="chords-info-btn with-label desktop-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
+                        <span class="icon">📚</span>
+                        <span class="label">Chords</span>
+                    </button>
+                </div>
+
+                <!-- Right Section: Setlist & Actions -->
+                <div class="header-section right-section">
+                    <!-- Setlist Management -->
+                    <div class="setlist-group">
+                        <div id="chordDetectorOverlay" class="chord-detector-overlay minimized">
+                            <div class="chord-detector-content">
+                                <div class="chord-detector-header">
+                                    <h3>Chord Detection</h3>
+                                    <div class="chord-detector-header-buttons">
+                                        <button id="chordDetectorMinimize" class="chord-detector-minimize-btn"
+                                            title="Minimize">🔻</button>
+                                    </div>
+                                </div>
+                                <div class="chord-detector-body">
+                                    <div class="chord-display">
+                                        <div id="detectedChord" class="detected-chord-display">--</div>
+                                        <div id="chordDetectorStatus" class="chord-detector-status">Not active</div>
+                                        <div class="audio-level-container">
+                                            <div class="audio-level-label">Sound:</div>
+                                            <div class="audio-level-bar">
+                                                <div id="audioLevelIndicator" class="audio-level-indicator"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="chordDetectorToggle" class="chord-detector-toggle-btn"
+                                        title="Start detection">🎤</button>
+                                    <select id="microphoneSelect" class="microphone-select"
+                                        title="Choose microphone"></select>
+
+                                    <!-- Chord History -->
+                                    <div class="chord-history-section">
+                                        <div class="chord-history-header">
+                                            <span>History</span>
+                                            <div class="chord-history-actions">
+                                                <button id="copyChordHistory" class="copy-history-btn"
+                                                    title="Copy to clipboard">📋</button>
+                                                <button id="clearChordHistory" class="clear-history-btn"
+                                                    title="Clear history">🗑️</button>
+                                            </div>
+                                        </div>
+                                        <div id="chordHistory" class="chord-history-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="section-label">Setlist:</span>
+                        <div class="setlist-controls">
+                            <select id="setlistSelect" class="setlist-select">
+                                <option value="">All Songs</option>
+                            </select>
+                            <button id="createSetlistBtn" class="setlist-btn" title="New Setlist">+</button>
+                            <button id="editSetlistBtn" class="setlist-btn edit-setlist-btn hidden"
+                                title="Edit setlist name">
+                                <span class="icon">✏️</span>
+                                <span class="label">Rename</span>
+                            </button>
+                            <button id="deleteSetlistBtn" class="setlist-btn delete-setlist-btn hidden"
+                                title="Delete setlist">
+                                <span class="icon">🗑️</span>
+                                <span class="label">Delete</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="actions-group">
+                        <button id="toggleViewBtn" class="import-export-btn view-toggle-btn with-label desktop-only"
+                            title="Toggle between simple and full view">
+                            <span class="icon">📋</span>
+                            <span class="label">View</span>
+                        </button>
+                        <button id="sortByDateBtn" class="import-export-btn with-label mobile-only" title="Sort by Latest Added">
+                            <span class="icon">🕒</span>
+                            <span class="label">Latest</span>
+                        </button>
+
+                        <button id="randomSongBtn" class="import-export-btn random-song-btn with-label"
+                            title="Open a random song">
+                            <span class="icon">🎲</span>
+                            <span class="label">Random</span>
+                        </button>
+
+                        <button id="addSongBtn" class="add-song-btn with-label" title="Add New Song">
+                            <span class="icon">+</span>
+                            <span class="label">Add</span>
+                        </button>
+
+                        <!-- Combined Import Button (for both Mobile & Desktop) -->
+                        <button id="combinedImportBtn" class="import-export-btn with-label"
+                            title="Import Song (JSON or UG)">
+                            <span class="icon">📥</span>
+                            <span class="label">import</span>
+                        </button>
+
+                        <button id="practiceRandomBtn" class="import-export-btn practice-random-btn with-label"
+                            title="Random from Practice">
+                            <span class="icon">&#127919;</span>
+                            <span class="label">Practice</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Selected song header - appears when a row is selected -->
+        <div id="selectedSongHeader" class="selected-song-header hidden">
+            <div class="selected-song-info">
+                <span id="selectedArtist" class="selected-artist"></span>
+                <span class="separator">-</span>
+                <span id="selectedTitle" class="selected-title"></span>
+            </div>
+            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">×</button>
+        </div>
+
+        <!-- Black overlay when row is selected -->
+        <div id="selectionOverlay" class="selection-overlay hidden"></div>
+
+        <!-- Focused view container for selected row -->
+        <div id="focusedView" class="focused-view hidden">
+            <div id="focusedTableWrapper" class="focused-table-wrapper">
+                <!-- Selected row will be moved here -->
+            </div>
+        </div>
+
+        <!-- Custom Sidebar Content View (Grid of Artists / Setlists) -->
+        <div id="customSidebarView" class="custom-sidebar-view hidden"></div>
+
+        <div class="table-wrapper">
+            <table id="songsTable">
+                <thead>
+                    <tr>
+                        <th class="sortable status-column" data-column="isPublic" title="Public/Private Status">
+                            🌍
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable artist-cell" data-column="artist">
+                            Artist
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable title-cell" data-column="title">
+                            Song Title
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable favorite-column" data-column="favorite">
+                            ⭐
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable ctl-column" data-column="ctl" title="Chord Timeline (CTL)">
+                            CTL
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="sortable songmap-column" data-column="songmap" title="Song Map">
+                            MAP
+                            <span class="sort-indicator"></span>
+                        </th>
+
+                        <th class="sortable date-added-column" data-column="dateAdded" title="Exact Date Added">
+                            Added
+                            <span class="sort-indicator"></span>
+                        </th>
+                        <th class="verse-column">Block 1</th>
+                        <th class="chorus-column">Block 2</th>
+                        <th class="prechorus-column">Block 3</th>
+                        <th class="bridge-column">Block 4</th>
+                        <th class="actions-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="songsTableBody">
+                    <!-- Songs will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </main>
+</div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal auth-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Login</h3>
+                <button class="modal-close" id="authModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Login Form -->
+                <form id="authLoginForm" class="auth-form">
+                    <div class="auth-form-group">
+                        <label for="authLoginEmail">Email address</label>
+                        <input type="email" id="authLoginEmail" class="auth-input" placeholder="your@email.com" required
+                            autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authLoginPassword">Password</label>
+                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
+                            autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div id="authLoginError" class="auth-error hidden"></div>
+                    <div id="authLoginSuccess" class="auth-success hidden"></div>
+                    <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
+                    <div class="auth-toggle">
+                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
+                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
+                        <span>No account yet?</span>
+                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
+                            account</button>
+                    </div>
+                </form>
+
+                <!-- Create Account Form -->
+                <form id="authCreateForm" class="auth-form hidden">
+                    <div class="auth-form-group">
+                        <label for="authCreateUsername">Username</label>
+                        <input type="text" id="authCreateUsername" class="auth-input" placeholder="Your name" required
+                            autocomplete="username" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreateEmail">Email address</label>
+                        <input type="email" id="authCreateEmail" class="auth-input" placeholder="your@email.com"
+                            required autocomplete="email" spellcheck="false" autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreatePassword">Password</label>
+                        <input type="password" id="authCreatePassword" class="auth-input"
+                            placeholder="Minimum 6 characters" required autocomplete="new-password" spellcheck="false"
+                            autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreateConfirmPassword">Confirm password</label>
+                        <input type="password" id="authCreateConfirmPassword" class="auth-input"
+                            placeholder="Repeat password" required autocomplete="new-password" spellcheck="false"
+                            autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div id="authCreateError" class="auth-error hidden"></div>
+                    <button type="submit" id="authCreateBtn" class="modal-submit-btn auth-submit-btn">Create
+                        account</button>
+                    <div class="auth-toggle">
+                        <span>Already have an account?</span>
+                        <button type="button" id="authToggleToLogin" class="auth-toggle-link">Login</button>
+                    </div>
+                </form>
+
+                <!-- Verification Sent View -->
+                <div id="authVerificationForm" class="auth-form hidden" style="text-align: center; padding: 20px 0;">
+                    <div style="font-size: 50px; margin-bottom: 15px;">✉️</div>
+                    <h3 style="margin-bottom: 15px; color: #1e293b;">Check your email</h3>
+                    <p id="authVerificationMsg" style="color: #475569; line-height: 1.6; margin-bottom: 20px;">
+                        A verification link has been sent to your email address.
+                    </p>
+                    <div
+                        style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 0.9em; color: #64748b; border: 1px solid #e2e8f0;">
+                        Please click the link in the email to activate your account. <br>
+                        <strong>Note:</strong> Check your <strong>spam/junk folder</strong> if you don't see it.
+                    </div>
+                    <button type="button" id="authContinueToLogin" class="modal-submit-btn auth-submit-btn">Back to
+                        Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal auth-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Profile</h3>
+                <button class="modal-close" id="profileModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info-section">
+                    <div class="profile-avatar-container" style="text-align: center; margin-bottom: 20px;">
+                        <div class="profile-avatar-wrapper"
+                            style="position: relative; width: 100px; height: 100px; margin: 0 auto 10px;">
+                            <img id="profileAvatarDisplay" src="" alt="Profile" class="profile-avatar hidden"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #eee;">
+                            <div id="profileAvatarPlaceholder" class="profile-avatar-placeholder"
+                                style="width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                                👤</div>
+                            <div id="profileModalLevelBadge" class="profile-level-badge hidden"
+                                style="position: absolute; top: 0; left: 0; transform: rotate(-5deg); font-size: 10px; padding: 2px 6px;">
+                                LVL -</div>
+                            <button id="profileChangeAvatarBtn" class="profile-change-avatar-btn" title="Change Photo"
+                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">📷</button>
+                        </div>
+                        <input type="file" id="profileAvatarInput" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label for="profileUsername">Username</label>
+                        <div class="profile-username-edit-group">
+                            <input type="text" id="profileUsername" class="auth-input" placeholder="Your name"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                            <button id="profileUpdateUsernameBtn" class="profile-update-btn">Save</button>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Email address</label>
+                        <div class="profile-email-display" id="profileEmail">-</div>
+                    </div>
+
+                    <div class="profile-instrument-section" style="margin-bottom: 25px;">
+                        <h4 style="margin-bottom: 12px;">Choose Your Instrument</h4>
+                        <div class="instrument-selector" id="profileInstrumentSwitcher"
+                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <button class="profile-instrument-btn" data-instrument="guitar"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎸</div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Guitar</span>
+                            </button>
+                            <button class="profile-instrument-btn" data-instrument="piano"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎹</div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Piano</span>
+                            </button>
+                            <button class="profile-instrument-btn" data-instrument="ukulele"
+                                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 100 100" width="30" height="30" style="vertical-align: middle;">
+                                        <g transform="rotate(-35 50 50)">
+                                            <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                            <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                            <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                            <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Ukulele</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Practice Streak Section -->
+                    <div class="profile-streak-section">
+                        <div class="streak-container">
+                            <div class="streak-main">
+                                <span class="streak-fire-icon">🔥</span>
+                                <div class="streak-count-wrapper">
+                                    <div id="profileCurrentStreak" class="streak-count">0</div>
+                                    <div class="streak-label">Day Streak</div>
+                                </div>
+                            </div>
+                            <div class="streak-stats-mini">
+                                <div class="streak-stat-item">Best: <span id="profileLongestStreak"
+                                        class="streak-stat-value">0</span></div>
+                                <div class="streak-stat-item">Total Days: <span id="profileTotalDaysPracticed"
+                                        class="streak-stat-value">0</span></div>
+                            </div>
+                            <div class="streak-milestones" id="streakMilestones">
+                                <div class="milestone-badge" data-days="3" title="3 Day Streak">🥉</div>
+                                <div class="milestone-badge" data-days="7" title="1 Week Streak">🥈</div>
+                                <div class="milestone-badge" data-days="10" title="10 Day Streak">🥇</div>
+                                <div class="milestone-badge" data-days="14" title="2 Week Streak">⭐</div>
+                                <div class="milestone-badge" data-days="30" title="1 Month Streak">💎</div>
+                                <div class="milestone-badge" data-days="100" title="Centurion Streak">👑</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label>Total practice sessions</label>
+                        <div class="profile-total-practice-display" id="profileTotalPractice">0</div>
+                    </div>
+
+                    <!-- Achievements Section -->
+                    <div class="profile-achievements-section" style="margin-top: 25px;">
+                        <h4>Practice Achievements</h4>
+                        <div class="achievement-progress-container" id="achievementProgressContainer"
+                            style="margin-bottom: 20px;">
+                            <div class="achievement-progress-label">
+                                <span>Next Trophy: <span id="nextLevelName">-</span></span>
+                                <span id="nextLevelLvl">Level -</span>
+                            </div>
+                            <div class="achievement-progress-bar-bg">
+                                <div class="achievement-progress-bar-fill" id="achievementProgressFill"></div>
+                            </div>
+                            <div class="achievement-progress-text" id="achievementProgressText">0 / 0 Practices</div>
+                        </div>
+                        <div id="profileAchievementsList" class="achievements-grid">
+                            <!-- Achievement icons will be placed here -->
+                        </div>
+                    </div>
+
+                    <!-- Top 10 Practiced Songs -->
+                    <div class="profile-top-songs-section" style="margin-top: 25px;">
+                        <h4>Top 10 Practiced Songs</h4>
+                        <div class="profile-top-songs-table-wrapper">
+                            <table class="profile-top-songs-table">
+                                <thead>
+                                    <tr>
+                                        <th class="rank-column">#</th>
+                                        <th>Song</th>
+                                        <th>Artist</th>
+                                        <th>Sessions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="profileTopSongsBody">
+                                    <!-- Top 10 songs will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Chord Trainer High Scores -->
+                    <div class="profile-high-scores-section" style="margin-top: 25px;">
+                        <h4 style="margin-bottom: 12px;">Chord Trainer High Scores</h4>
+                        <div class="mode-lvl-switcher" style="display: flex; gap: 8px; margin-bottom: 15px;">
+                            <button class="mode-lvl-btn active" data-lvl="1"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #6366f1; background: #eff6ff; color: #6366f1; cursor: pointer; transition: all 0.2s;">LVL
+                                1</button>
+                            <button class="mode-lvl-btn" data-lvl="2"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL
+                                2</button>
+                            <button class="mode-lvl-btn" data-lvl="3"
+                                style="flex: 1; padding: 6px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; transition: all 0.2s;">LVL
+                                3</button>
+                        </div>
+                        <div class="achievements-grid" id="chordTrainerHighScoresList">
+                            <!-- High scores will be inserted here (4 tiles, one for each mode) -->
+                        </div>
+                    </div>
+
+                    <!-- Global Leaderboards -->
+                    <div class="profile-leaderboard-section" style="margin-top: 25px;">
+                        <h4 style="margin-bottom: 15px;">Global Leaderboards</h4>
+                        <div id="globalLeaderboardGrid" class="leaderboard-grid">
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    1. SHAPE</h5>
+                                <div id="leaderboardList1" class="leaderboard-list compact"></div>
+                            </div>
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    2. PLAY</h5>
+                                <div id="leaderboardList2" class="leaderboard-list compact"></div>
+                            </div>
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    3. NOTES</h5>
+                                <div id="leaderboardList3" class="leaderboard-list compact"></div>
+                            </div>
+                            <div class="leaderboard-column">
+                                <h5 style="text-align: center; font-size: 0.75rem; margin-bottom: 8px; color: #64748b;">
+                                    4. CHORD</h5>
+                                <div id="leaderboardList4" class="leaderboard-list compact"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Section -->
+                    <div id="profileAdminSection" class="profile-admin-section hidden" style="margin-top: 25px; background: #fff7ed; padding: 15px; border-radius: 12px; border: 1px solid #ffedd5;">
+                        <h4 style="margin-bottom: 12px; color: #9a3412;">⚙️ Admin Controls</h4>
+                        
+                        <div class="feature-toggle" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ffedd5; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🔐</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px; color: #9a3412;">PAYWALL</div>
+                                    <div style="font-size: 11px; color: #64748b;">Global paywall for all users (not admin)</div>
+                                </div>
+                            </div>
+                            <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="adminPaywallToggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%; margin-bottom: 10px;">
+                            View Requested Songs
+                        </button>
+                        <button id="profileViewFixRequestsBtn" class="modal-submit-btn" style="background: #0ea5e9; width: 100%; margin-bottom: 10px;">
+                            View Fix/Feature Requests
+                        </button>
+                        <button id="profileViewMembersBtn" class="modal-submit-btn" style="background: #1e293b; width: 100%;">
+                            View New Members
+                        </button>
+                    </div>
+                </div>
+
+                <div class="profile-features-section" style="margin-bottom: 20px;">
+                    <h4>Feature Settings</h4>
+                    <div class="feature-toggle-group"
+                        style="margin-top: 10px; display: flex; flex-direction: column; gap: 12px;">
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🔊</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Chord Audio in Timeline</div>
+                                    <div style="font-size: 11px; color: #64748b;">Turn chord audio ON/OFF by default</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileTimelineAudioToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🎬</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Chord Timeline</div>
+                                    <div style="font-size: 11px; color: #64748b;">Show timeline with chords</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileTimelineToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🗺️</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Song Map</div>
+                                    <div style="font-size: 11px; color: #64748b;">Show song structure map</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileSongMapToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🎹</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">MIDI Keyboard Support</div>
+                                    <div style="font-size: 11px; color: #64748b;">Enable MIDI keyboard input</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileMidiToggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">📝</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Notes / Tips</div>
+                                    <div style="font-size: 11px; color: #64748b;">Show notes field on detail screen</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileNotesToggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🔊</span>
+                                <div style="display: flex; flex-direction: column;">
+                                    <div style="font-weight: 600; font-size: 14px;">Audio Engine Quality</div>
+                                    <div id="audioQualityDesc" style="font-size: 11px; color: #64748b;">PREMIUM: Full fidelity with reverb</div>
+                                </div>
+                            </div>
+                            <select id="profileAudioQualitySelect" class="auth-input" 
+                                style="width: 100px; padding: 4px; font-size: 12px; margin: 0; border: 1px solid #cbd5e1; border-radius: 4px; background: white; cursor: pointer;">
+                                <option value="premium">PREMIUM</option>
+                                <option value="basic">BASIC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-advanced-section" style="margin-bottom: 20px;">
+                    <h4>Advanced Options</h4>
+                    <button id="printTableBtn" class="modal-submit-btn"
+                        style="background: #64748b; margin-top: 10px; width: 100%;">
+                        <span class="icon">🖨️</span> Print Song List
+                    </button>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button id="exportBtn" class="modal-submit-btn" style="background: #475569; flex: 1;">
+                            <span class="icon">📤</span> Export Library
+                        </button>
+                        <label for="importFile" class="modal-submit-btn"
+                            style="background: #475569; flex: 1; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                            <span class="icon" style="margin-right: 8px;">📥</span> Import Library
+                        </label>
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </div>
+
+                    <button id="deleteAllSongsBtn" class="modal-submit-btn"
+                        style="background: #ef4444; margin-top: 10px; width: 100%;">
+                        <span class="icon">🗑️</span> Delete All Private Songs
+                    </button>
+                </div>
+
+                <div class="profile-appearance-section">
+                    <h4>Appearance</h4>
+                    <div class="auth-form-group">
+                        <label for="profileThemeSelect">Color Scheme</label>
+                        <select id="profileThemeSelect" class="auth-input">
+                            <option value="theme-classic">Classic (Original)</option>
+                            <option value="theme-high-contrast">High Contrast</option>
+                            <option value="theme-sunset">Sunset & Lavender</option>
+                            <option value="theme-electric">Electric Aura</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="profile-password-section">
+                    <h4>Change Password</h4>
+                    <form id="profileChangePasswordForm" class="auth-form">
+                        <div class="auth-form-group">
+                            <label for="profileCurrentPassword">Current password</label>
+                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="••••••"
+                                required autocomplete="current-password" spellcheck="false" autocorrect="off"
+                                autocapitalize="none">
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="profileNewPassword">New password</label>
+                            <input type="password" id="profileNewPassword" class="auth-input"
+                                placeholder="Minimum 6 characters" required autocomplete="new-password"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="profileConfirmPassword">Confirm new password</label>
+                            <input type="password" id="profileConfirmPassword" class="auth-input"
+                                placeholder="Repeat new password" required autocomplete="new-password"
+                                spellcheck="false" autocorrect="off" autocapitalize="none">
+                        </div>
+                        <div id="profileChangePasswordError" class="auth-error hidden"></div>
+                        <div id="profileChangePasswordSuccess" class="auth-success hidden"></div>
+                        <button type="submit" id="profileChangePasswordBtn"
+                            class="modal-submit-btn auth-submit-btn">Change password</button>
+                    </form>
+                </div>
+
+                <div class="profile-sharing-section">
+                    <h4>Share Songs</h4>
+                    <button id="profileShareSongsBtn" class="modal-submit-btn">Share Songs</button>
+                </div>
+
+                <div class="profile-fix-request-section" style="margin-top: 20px;">
+                    <h4>App Feedback</h4>
+                    <button id="profileRequestFixBtn" class="modal-submit-btn" style="background: #0ea5e9;">Request Fix or New Feature</button>
+                </div>
+
+                <div class="profile-pending-section">
+                    <h4>Pending Songs</h4>
+                    <button id="profileAcceptSongsBtn" class="modal-submit-btn hidden">Accept New Songs</button>
+                </div>
+
+                <div class="profile-actions-section">
+                    <button id="profileLogoutBtn" class="modal-cancel-btn logout-btn">Logout</button>
+                </div>
+
+                <div class="profile-database-section"
+                    style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; text-align: center;">
+                    <span style="font-size: 0.85em; color: #64748b;">user database space: <span id="profileDatabaseSize"
+                            style="font-weight: 600; color: #475569;">Calculating...</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Songs Modal -->
+    <div id="shareSongsModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Share Songs</h3>
+                <div class="modal-header-actions">
+                    <button id="shareSelectedSongsBtn" class="modal-header-btn share-btn">Share...</button>
+                    <button id="cancelShareSongsBtn" class="modal-header-btn cancel-btn">Cancel</button>
+                    <button class="modal-close" id="shareSongsModalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="share-songs-email-section">
+                    <label for="shareSongsEmailInput">Recipient Email:</label>
+                    <input type="email" id="shareSongsEmailInput" class="auth-input" placeholder="user@example.com"
+                        spellcheck="false" autocorrect="off" autocapitalize="none" />
+                    <div id="shareSongsEmailError" class="auth-error hidden"></div>
+                </div>
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <div class="selection-search">
+                            <input type="text" id="shareSongsSearchInput" class="selection-search-input"
+                                placeholder="Search by artist or title..." spellcheck="false" autocorrect="off"
+                                autocapitalize="none" />
+                            <button id="clearShareSongsSearch" class="selection-clear-btn hidden"
+                                aria-label="Clear search">&times;</button>
+                        </div>
+                        <div class="selection-sorting">
+                            <span class="sorting-label">Sort:</span>
+                            <div class="sorting-options">
+                                <button class="selection-btn sort-option active" data-field="title"
+                                    type="button">Song</button>
+                                <button class="selection-btn sort-option" data-field="artist"
+                                    type="button">Artist</button>
+                            </div>
+                            <button id="toggleShareSongsSortDirection" class="selection-btn sort-direction-btn"
+                                type="button" title="Sorteer van A naar Z">A → Z</button>
+                        </div>
+                        <button id="selectAllShareSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllShareSongs" class="selection-btn">Deselect all</button>
+                        <span id="shareSongsSelectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="shareSongsListContainer">
+                        <!-- Songs will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accept Songs Modal -->
+    <div id="acceptSongsModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Accept New Songs</h3>
+                <button class="modal-close" id="acceptSongsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <button id="selectAllAcceptSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllAcceptSongs" class="selection-btn">Deselect all</button>
+                        <span id="acceptSongsSelectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="acceptSongsListContainer">
+                        <!-- Pending songs will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="acceptSelectedSongsBtn" class="modal-submit-btn">Accept selected songs</button>
+                    <button id="rejectSelectedSongsBtn" class="modal-cancel-btn">Reject selected songs</button>
+                    <button id="cancelAcceptSongsBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fix/Feature Request Modal (User) -->
+    <div id="fixRequestModal" class="modal hidden">
+        <div class="modal-content modal-80">
+            <div class="modal-header">
+                <h3>Request Fix or Feature</h3>
+                <button class="modal-close" id="fixRequestModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="fixRequestForm">
+                    <div class="auth-form-group" style="margin-bottom: 20px;">
+                        <label for="fixRequestTitle">Short Description</label>
+                        <input type="text" id="fixRequestTitle" class="auth-input" placeholder="Briefly what is it about..." maxlength="128" required>
+                    </div>
+                    <div class="auth-form-group" style="margin-bottom: 20px;">
+                        <label for="fixRequestDetails">Details</label>
+                        <textarea id="fixRequestDetails" class="auth-input" style="min-height: 120px; resize: vertical; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;" placeholder="Describe the bug or the feature you'd like to see in detail..." maxlength="1400" required></textarea>
+                    </div>
+                    <div id="fixRequestError" class="auth-error hidden" style="color: #ef4444; margin-bottom: 15px; font-size: 0.9em;"></div>
+                    <div id="fixRequestSuccess" class="auth-success hidden" style="color: #10b981; margin-bottom: 15px; font-size: 0.9em;"></div>
+                    <button type="submit" id="submitFixRequestBtn" class="modal-submit-btn" style="background: #0ea5e9; width: 100%;">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Fix Requests Modal -->
+    <div id="adminFixRequestsModal" class="modal hidden">
+        <div class="modal-content modal-large modal-80">
+            <div class="modal-header">
+                <h3>Fix & Feature Requests</h3>
+                <button class="modal-close" id="adminFixRequestsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-table-container" style="overflow-x: auto;">
+                    <table class="admin-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                                <th style="padding: 12px; text-align: left;">Description</th>
+                                <th style="padding: 12px; text-align: left;">User</th>
+                                <th style="padding: 12px; text-align: left;">Date</th>
+                                <th style="padding: 12px; text-align: left;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminFixRequestsTableBody">
+                            <!-- Requests will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                    <div id="adminFixRequestsEmpty" class="admin-empty-msg hidden" style="text-align: center; padding: 40px; color: #64748b;">No requests found.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chord Selection Modal -->
+    <div id="chordModal" class="chord-modal hidden">
+        <div class="chord-modal-content">
+            <div class="chord-modal-header">
+                <h3>Select Chords</h3>
+                <button class="chord-modal-close" id="chordModalClose">&times;</button>
+            </div>
+            <div class="chord-modal-body">
+                <div class="chord-categories">
+                    <div class="chord-category">
+                        <h4>Major</h4>
+                        <div class="chord-buttons" id="majorChords"></div>
+                    </div>
+                    <div class="chord-category">
+                        <h4>Minor</h4>
+                        <div class="chord-buttons" id="minorChords"></div>
+                    </div>
+                    <div class="chord-category toggleable" id="susAddCategory">
+                        <div class="chord-category-header">
+                            <h4>Sus & Add</h4>
+                            <button class="toggle-category-btn" id="toggleSusAdd">Show</button>
+                        </div>
+                        <div class="chord-buttons hidden" id="susAddChords"></div>
+                    </div>
+                    <div class="chord-category toggleable" id="specialCategory">
+                        <div class="chord-category-header">
+                            <h4>Special</h4>
+                            <button class="toggle-category-btn" id="toggleSpecial">Show</button>
+                        </div>
+                        <div class="chord-buttons hidden" id="specialChords"></div>
+                    </div>
+                </div>
+                <div class="chord-input-section">
+                    <label>Or type chords yourself:</label>
+                    <input type="text" id="chordCustomInput" placeholder="E.g.: C G Am F" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" />
+                    <button id="chordAddCustom" class="chord-add-btn">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setlist Modal -->
+    <div id="setlistModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="setlistModalTitle">Create Setlist</h3>
+                <button class="modal-close" id="setlistModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="setlistNameInput" placeholder="Setlist name..." spellcheck="false"
+                    autocorrect="off" autocapitalize="none" />
+                <button id="setlistCreateBtn" class="modal-submit-btn">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Song Modal -->
+    <div id="createSongModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="createSongModalTitle">Add New Song</h3>
+                <button class="modal-close" id="createSongModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-form-group">
+                    <label for="newSongArtistInput">Band / Artist Name</label>
+                    <input type="text" id="newSongArtistInput" placeholder="e.g. Michael Jackson" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" required />
+                </div>
+                <div class="auth-form-group" style="margin-top: 15px;">
+                    <label for="newSongTitleInput">Song Name</label>
+                    <input type="text" id="newSongTitleInput" placeholder="e.g. Billie Jean" spellcheck="false"
+                        autocorrect="off" autocapitalize="none" required />
+                </div>
+                <div id="createSongError" class="auth-error hidden" style="margin-top: 10px;">Please fill in both Artist
+                    and Title.</div>
+                <div class="modal-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button id="createSongSubmitBtn" class="modal-submit-btn">Create Song</button>
+                    <button id="requestSongBtn" class="modal-submit-btn" style="background: #6366f1;">
+                        <span class="icon" style="margin-right: 8px;">📩</span> Request Song
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal hidden">
+        <div class="modal-content confirmation-modal-content">
+            <div class="modal-header">
+                <h3>Unsaved Changes</h3>
+            </div>
+            <div class="modal-body">
+                <p>You have unsaved changes. Do you want to save them first?</p>
+                <div class="modal-actions-horizontal">
+                    <button id="confirmDontSaveBtn" class="confirm-btn confirm-secondary">Don't Save</button>
+                    <button id="confirmSaveBtn" class="confirm-btn confirm-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal hidden">
+        <div class="modal-content confirmation-modal-content">
+            <div id="infoModalIconCircle" class="hud-icon-circle hidden" style="margin: 25px auto 10px; width: 60px; height: 60px; font-size: 30px;">✓</div>
+            <div class="modal-header" style="justify-content: center; padding-bottom: 5px;">
+                <h3 id="infoModalTitle" style="text-align: center;">Notification</h3>
+                <button class="modal-close" id="infoModalClose" style="position: absolute; right: 15px;">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center; padding-top: 10px;">
+                <p id="infoModalMessage"></p>
+                <div class="modal-actions-horizontal">
+                    <button id="infoModalOkBtn" class="confirm-btn confirm-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Confirmation Modal -->
+    <div id="generalConfirmModal" class="modal hidden">
+        <div class="modal-content confirmation-modal-content">
+            <div class="modal-header">
+                <h3 id="generalConfirmTitle">Confirm Action</h3>
+                <button class="modal-close" id="generalConfirmClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="generalConfirmMessage"></p>
+                <div class="modal-actions-horizontal">
+                    <button id="generalConfirmCancelBtn" class="confirm-btn confirm-btn-cancel">Cancel</button>
+                    <button id="generalConfirmOkBtn" class="confirm-btn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Songs to Setlist Modal -->
+    <div id="addSongsToSetlistModal" class="modal hidden">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="addSongsModalTitle">Add songs to setlist</h3>
+                <button class="modal-close" id="addSongsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="songs-selection-container">
+                    <div class="selection-controls">
+                        <div class="selection-search">
+                            <input type="text" id="addSongsSearchInput" class="selection-search-input"
+                                placeholder="Search by artist or title..." spellcheck="false" autocorrect="off"
+                                autocapitalize="none" />
+                            <button id="clearAddSongsSearch" class="selection-clear-btn hidden"
+                                aria-label="Clear search">&times;</button>
+                        </div>
+                        <div class="selection-sorting">
+                            <span class="sorting-label">Sort:</span>
+                            <div class="sorting-options">
+                                <button class="selection-btn sort-option active" data-field="title"
+                                    type="button">Song</button>
+                                <button class="selection-btn sort-option" data-field="artist"
+                                    type="button">Artist</button>
+                            </div>
+                            <button id="toggleSortDirection" class="selection-btn sort-direction-btn" type="button"
+                                title="Sorteer van A naar Z">A → Z</button>
+                        </div>
+                        <button id="selectAllSongs" class="selection-btn">Select all</button>
+                        <button id="deselectAllSongs" class="selection-btn">Deselect all</button>
+                        <span id="selectedCount" class="selected-count">0 selected</span>
+                    </div>
+                    <div class="songs-list" id="songsListContainer">
+                        <!-- Songs will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="addSelectedSongsBtn" class="modal-submit-btn">Add selected songs</button>
+                    <button id="cancelAddSongsBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Song Detail Modal -->
+    <div id="songDetailModal" class="song-detail-modal hidden">
+        <div class="song-detail-modal-content">
+            <div class="song-detail-header">
+                <button class="song-detail-nav-btn song-detail-prev" id="songDetailPrev" title="Previous song">
+                    <span class="icon">‹</span>
+                </button>
+                <img id="songDetailThumbnail" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
+                <div class="song-detail-title-section">
+                    <div class="song-detail-title-row">
+                        <h1 id="songDetailTitle" class="song-detail-title editable-field" data-field="title"
+                            contenteditable="false" spellcheck="false"></h1>
+                        <span id="songDetailStatusIcon" class="song-detail-status-icon hidden" title="Public Song (Read-Only)">🔒</span>
+                    </div>
+                    <h2 id="songDetailArtist" class="song-detail-artist editable-field" data-field="artist"
+                        contenteditable="false" spellcheck="false"></h2>
+                </div>
+                <div class="song-detail-action-buttons">
+                    <button id="songDetailInstrumentHeaderBtn" class="song-detail-action-btn" title="Show Chord Shapes">
+                        <span class="icon">🎹</span>
+                    </button>
+                    <div class="transpose-menu-container">
+                        <button id="songDetailTransposeBtn" class="song-detail-action-btn" title="Transpose chords">
+                            <span class="icon">♭♯</span>
+                        </button>
+                        <div id="transposeMenu" class="transpose-menu hidden">
+                            <button id="songDetailTransposeDown" class="transpose-menu-item" title="Transpose down">
+                                <span class="icon">♭</span> -1
+                            </button>
+                            <button id="songDetailTransposeUp" class="transpose-menu-item" title="Transpose up">
+                                <span class="icon">♯</span> +1
+                            </button>
+                            <button id="songDetailTransposeReset" class="transpose-menu-item"
+                                title="Reset transposition">
+                                <span class="icon">↺</span> Reset
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Capo Selector for Mobile -->
+                    <div id="capoMenuContainer" class="transpose-menu-container hidden">
+                        <button id="songDetailCapoBtn" class="song-detail-action-btn" title="Select Capo (0-6)">
+                            <span class="icon">
+                                <img src="images/capo.png" alt="Capo" style="width: 100%; height: 100%; object-fit: contain;">
+                            </span>
+                            <span id="capoBadge" class="capo-badge hidden">0</span>
+                        </button>
+                        <div id="capoMenu" class="transpose-menu hidden">
+                            <button class="transpose-menu-item capo-menu-item" data-capo="-2">D Tuning (-2)</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="-1">Eb Tuning (-1)</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="0">None (0)</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="1">Capo 1</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="2">Capo 2</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="3">Capo 3</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="4">Capo 4</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="5">Capo 5</button>
+                            <button class="transpose-menu-item capo-menu-item" data-capo="6">Capo 6</button>
+                        </div>
+                    </div>
+                    <button id="songDetailYouTubePlayBtn" class="song-detail-action-btn hidden"
+                        title="Play YouTube video">
+                        <span class="icon youtube-icon">
+                            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                                <path
+                                    d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                                    fill="#FF0000" />
+                                <path d="M 45,24 27,14 27,34" fill="#fff" />
+                            </svg>
+                        </span>
+                    </button>
+                    <button id="songDetailYouTubeBtn" class="song-detail-action-btn" title="Edit song details">
+                        <span class="icon">⚙️</span>
+                    </button>
+                    <button id="songDetailExternalUrlBtn" class="song-detail-action-btn hidden"
+                        title="Open external website">
+                        <span class="icon">🌐</span>
+                    </button>
+                    <button id="songDetailChordTrainerBtn" class="song-detail-action-btn" title="Chord Trainer for this song">
+                        <span class="icon">🎓</span>
+                    </button>
+                    <button id="songDetailFavoriteBtn" class="song-detail-action-btn" title="Add to favorites">
+                        <span class="icon">☆</span>
+                    </button>
+                    <!-- Hamburger Menu -->
+                    <div class="hamburger-menu-container">
+                        <button id="songDetailHamburgerBtn" class="song-detail-action-btn" title="More options">
+                            <span class="icon">☰</span>
+                        </button>
+                        <div id="songDetailHamburgerMenu" class="song-hamburger-menu hidden">
+                            <button id="menuAddToSetlist" class="hamburger-menu-item">
+                                <span class="icon">📋</span>
+                                <span>Add To Setlist</span>
+                            </button>
+                            <button id="menuPublishSong" class="hamburger-menu-item">
+                                <span class="icon">🌐</span>
+                                <span>Publish This Song Online</span>
+                            </button>
+                            <button id="menuShareSong" class="hamburger-menu-item">
+                                <span class="icon">📤</span>
+                                <span>Share This Song</span>
+                            </button>
+                            <button id="menuSearchGoogle" class="hamburger-menu-item">
+                                <span class="icon">🔍</span>
+                                <span>Search Chords On Google</span>
+                            </button>
+                            <button id="menuSwapBlocks" class="hamburger-menu-item">
+                                <span class="icon">🔀</span>
+                                <span>Switch Chord Block 2 & 3</span>
+                            </button>
+                            <button id="menuDeleteSong" class="hamburger-menu-item">
+                                <span class="icon">🗑️</span>
+                                <span>Delete Current Song</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="song-detail-nav-btn song-detail-next" id="songDetailNext" title="Next song">
+                    <span class="icon">›</span>
+                </button>
+                <button class="song-detail-close-top" id="songDetailModalCloseTop" title="Close modal">&times;</button>
+            </div>
+            <div class="song-detail-body">
+                <div class="song-chord-section" id="verseSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
+                        </h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn text-insert-btn" data-section="verse" title="Add Text Note">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button class="header-action-btn bar-divider-btn" data-section="verse"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="verse"
+                                title="Chord Progression Editor">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 18V5l10 2v11"></path>
+                                        <circle cx="4" cy="18" r="3"></circle>
+                                        <circle cx="14" cy="17" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="cue-line-input" id="verseCueInput" placeholder="notes or lyrics"
+                        maxlength="38">
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="verseContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="verseEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
+                </div>
+                <div class="song-chord-section chorus-section" id="chorusSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title editable-title" id="chorusTitle" contenteditable="true">Block 2</h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn text-insert-btn" data-section="chorus" title="Add Text Note">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button class="header-action-btn bar-divider-btn" data-section="chorus"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="chorus"
+                                title="Chord Progression Editor">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 18V5l10 2v11"></path>
+                                        <circle cx="4" cy="18" r="3"></circle>
+                                        <circle cx="14" cy="17" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="cue-line-input" id="chorusCueInput" placeholder="notes or lyrics"
+                        maxlength="38">
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="chorusContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="chorusEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
+                </div>
+                <div class="song-chord-section" id="preChorusSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title editable-title" id="preChorusTitle" contenteditable="true">Block 3</h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn text-insert-btn" data-section="preChorus" title="Add Text Note">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button class="header-action-btn bar-divider-btn" data-section="preChorus"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="preChorus"
+                                title="Chord Progression Editor">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 18V5l10 2v11"></path>
+                                        <circle cx="4" cy="18" r="3"></circle>
+                                        <circle cx="14" cy="17" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="cue-line-input" id="preChorusCueInput" placeholder="notes or lyrics"
+                        maxlength="38">
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="preChorusContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="preChorusEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
+                </div>
+                <div class="song-chord-section" id="bridgeSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title editable-title" id="bridgeTitle" contenteditable="true">Block 4
+                        </h3>
+                        <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn text-insert-btn" data-section="bridge" title="Add Text Note">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                                    </svg>
+                                </span>
+                            </button>
+                            <button class="header-action-btn bar-divider-btn" data-section="bridge"
+                                title="Add Bar Divider">
+                                <span class="icon">|</span>
+                            </button>
+                            <button class="header-action-btn chord-editor-btn" data-section="bridge"
+                                title="Chord Progression Editor">
+                                <span class="icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 18V5l10 2v11"></path>
+                                        <circle cx="4" cy="18" r="3"></circle>
+                                        <circle cx="14" cy="17" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="cue-line-input" id="bridgeCueInput" placeholder="notes or lyrics"
+                        maxlength="38">
+                    <div class="chord-section-content-wrapper">
+                        <div class="chord-section-content" id="bridgeContent"></div>
+                        <textarea class="chord-section-edit-input hidden" id="bridgeEditInput"
+                            placeholder="Type chords..."></textarea>
+                    </div>
+                </div>
+                <div class="song-chord-section hidden" id="songNotesSection">
+                    <div class="chord-section-header">
+                        <h3 class="chord-section-title">Notes / Tips</h3>
+                    </div>
+                    <textarea id="songDetailNotesInput" class="song-notes-textarea"
+                        placeholder="Add playing tips, hand positions, or instructions here..."></textarea>
+                </div>
+            </div>
+
+            <div class="song-detail-footer">
+                <div class="song-detail-footer-left">
+                    <div class="song-detail-left-badges">
+                        <div class="song-detail-bpm-badge">
+                            <span class="bpm-label">bpm: </span>
+                            <span id="songDetailBpmDisplay" class="bpm-value editable-field" data-field="tempo"
+                                contenteditable="false"></span>
+                        </div>
+                        <div class="song-detail-key-badge">
+                            <span class="key-label">key: </span>
+                            <span id="songDetailKeyDisplay" class="key-value editable-field" data-field="key"
+                                contenteditable="false"></span>
+                        </div>
+                    </div>
+
+                    <div class="song-detail-practice-controls">
+                        <div id="songDetailPracticeCount" class="practice-count-badge" title="Practice sessions">0
+                        </div>
+                        <button id="songDetailPracticeIncrementBtn" class="song-detail-action-btn with-label"
+                            title="Increment practice counter">
+                            <span class="icon">📈</span>
+                            <span class="label">+1 practice</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="song-detail-center-actions">
+                    <div class="ability-stars-container song-detail-action-btn with-label" id="performAbilityStars"
+                        title="Click to rate ability (Bad -> Medium -> Good -> Off)">
+                        <div class="stars-row">
+                            <div class="ability-star" data-value="1">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                            <div class="ability-star" data-value="2">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                            <div class="ability-star" data-value="3">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="label">ability</span>
+                    </div>
+                    <div id="instrumentToggleBtn" class="song-detail-action-btn with-label"
+                        title="Switch to Guitar Mode">
+                        <span class="icon">🎹</span>
+                        <span class="label">piano</span>
+                    </div>
+                    <button id="songDetailSongMapBtn" class="song-detail-action-btn with-label" title="Show Song Map">
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="none">
+                                <rect x="2" y="2" width="20" height="4" rx="2" fill="#facc15"></rect>
+                                <rect x="2" y="8" width="15" height="4" rx="2" fill="#4ade80"></rect>
+                                <rect x="2" y="14" width="18" height="4" rx="2" fill="#38bdf8"></rect>
+                                <rect x="2" y="20" width="11" height="4" rx="2" fill="#f472b6"></rect>
+                            </svg>
+                        </span>
+                        <span class="label">song map</span>
+                    </button>
+                    <button id="songDetailScrollingChordsBtn" class="song-detail-action-btn with-label"
+                        title="Open Scrolling Chords">
+                        <span class="icon">
+                            <img src="images/timeline_final.png" alt="Timeline"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">
+                        </span>
+                        <span class="label">timeline</span>
+                    </button>
+                </div>
+
+                <div class="song-detail-footer-actions">
+                    <button id="songDetailSaveBtn" class="song-detail-action-btn with-label hidden"
+                        title="Save changes">
+                        <span class="icon">💾</span>
+                        <span class="label">Save</span>
+                    </button>
+                    <button id="songDetailPracticeBtn" class="song-detail-action-btn with-label"
+                        title="Add to Practice list">
+                        <span class="icon">&#127919;</span>
+                        <span class="label">practice list</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lyrics Ticker Overlay -->
+            <div id="lyricsTickerOverlay" class="lyrics-ticker-overlay hidden">
+                <div class="lyrics-ticker-content">
+                    <div id="lyricsTickerText" class="lyrics-ticker-text"></div>
+                </div>
+                <div class="lyrics-ticker-sidebar">
+                    <button id="closeLyricsTicker" class="close-ticker-btn" title="Close">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="ticker-speed-controls">
+                        <button id="lyricsSpeedUp" class="speed-btn luxury-plus" title="Faster">
+                            <span class="luxury-icon">+</span>
+                        </button>
+                        <button id="lyricsPauseBtn" class="speed-btn pause-toggle-btn" title="Pause">
+                            <span class="pause-icon">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="6" y="4" width="4" height="16"></rect>
+                                    <rect x="14" y="4" width="4" height="16"></rect>
+                                </svg>
+                            </span>
+                            <span class="play-icon hidden">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </span>
+                        </button>
+                        <button id="lyricsSpeedDown" class="speed-btn luxury-minus" title="Slower">
+                            <span class="luxury-icon">−</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube URL Modal -->
+    <div id="youtubeUrlModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Song Details</h3>
+                <button class="modal-close" id="youtubeUrlModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="url-input-group">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <label for="youtubeUrlInput">YouTube URL</label>
+                        <button id="youtubeSearchBtn" class="youtube-search-link">search on YouTube</button>
+                    </div>
+                    <input type="url" id="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        spellcheck="false" autocorrect="off" autocapitalize="none" />
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 10px; align-items: flex-end;">
+                    <div class="url-input-group" style="flex: 1; display: flex; flex-direction: column;">
+                        <label for="patchDetailsInput"
+                            style="margin-bottom: 5px; font-size: 0.85em; font-weight: 600; color: #475569;">Patch</label>
+                        <input type="text" id="patchDetailsInput" placeholder="e.g. Lead" spellcheck="false"
+                            autocorrect="off" autocapitalize="none" style="width: 100%; margin-bottom: 0;" />
+                    </div>
+                    <div class="url-input-group" style="flex: 1; display: flex; flex-direction: column;">
+                        <label for="practiceCountInput"
+                            style="margin-bottom: 5px; font-size: 0.85em; font-weight: 600; color: #475569;">Practice
+                            Count</label>
+                        <input type="number" id="practiceCountInput" placeholder="0" min="0" spellcheck="false"
+                            autocorrect="off" autocapitalize="none" style="width: 100%; margin-bottom: 0;" />
+                    </div>
+                    <div class="url-input-group" style="flex: 1; display: flex; flex-direction: column;">
+                        <label for="lyricOffsetInput"
+                            style="margin-bottom: 5px; font-size: 0.85em; font-weight: 600; color: #475569;">LyricSync
+                            (+/-s)</label>
+                        <input type="number" id="lyricOffsetInput" placeholder="0" step="0.1" spellcheck="false"
+                            autocorrect="off" autocapitalize="none" style="width: 100%; margin-bottom: 0;" />
+                    </div>
+                </div>
+                <!-- Perform Ability moved to footer (stars) -->
+                <!-- Lyrics Input replaced by Button -->
+                <div class="url-input-group" style="margin-top: 10px;">
+                    <label>Lyrics for the Chord Timeline</label>
+                    <button id="openLyricsModalBtn" class="filter-btn"
+                        style="width: 100%; justify-content: center; margin-top: 5px; height: 40px;">
+                        <span class="icon" style="margin-right: 8px;">📝</span>
+                        <span class="label">Edit Lyrics...</span>
+                    </button>
+                    <div id="lyricsStatusText"
+                        style="font-size: 0.8em; color: var(--secondary-color); margin-top: 6px; text-align: center; display: none; font-weight: 500;">
+                        ✓ Lyrics Present
+                    </div>
+                </div>
+                <div class="url-input-group" style="margin-top: 15px;">
+                    <label style="font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">Genre (Select up to 2)</label>
+                    <div class="genre-chips-container" style="display: flex; gap: 6px; flex-wrap: nowrap; width: 100%;">
+                        <button type="button" class="genre-chip" data-genre="Rock" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Rock</button>
+                        <button type="button" class="genre-chip" data-genre="Country" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Country</button>
+                        <button type="button" class="genre-chip" data-genre="R&B" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">R&B</button>
+                        <button type="button" class="genre-chip" data-genre="EDM" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">EDM</button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="youtubeUrlSaveBtn" class="modal-submit-btn">Save</button>
+                    <button id="youtubeUrlCancelBtn" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lyrics Edit Modal -->
+    <div id="lyricsEditModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px; height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h3>Edit Lyrics</h3>
+                <button class="modal-close" id="lyricsEditModalClose">&times;</button>
+            </div>
+            <div class="modal-body"
+                style="flex: 1; padding: 15px; display: flex; flex-direction: column; overflow: hidden;">
+                <label for="fullLyricsInput" style="margin-bottom: 8px; font-weight: 600;">Paste lyrics below:</label>
+                <div style="font-size: 13px; line-height: 1.4; color: #64748b; margin-bottom: 12px; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    To use the teleprompter in the Chord Timeline, you need <strong>time-synced lyrics (LRC format)</strong> from sites like <a id="lrclibLink" href="https://lrclib.net" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 500;">lrclib.net</a> or <a id="lyricradarLink" href="https://lyricradar.com" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 500;">LyricRadar.com</a>. Paste the text containing [00:12.34] timestamps into the field below.<br>
+                    <span style="font-weight: 600; color: #475569; display: inline-block; margin-top: 4px;">Tip:</span> Make sure ONLY Lyrics are selected. Remove any initial information like: produced by / artist / composed by etc.
+                </div>
+                <textarea id="fullLyricsInput" placeholder="Paste lyrics here..."
+                    style="width: 100%; flex: 1; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-family: inherit; font-size: 15px; resize: none;"
+                    spellcheck="false" autocorrect="off" autocapitalize="none"></textarea>
+            </div>
+            <div class="modal-actions-horizontal" style="padding: 15px; border-top: 1px solid #e2e8f0; margin-top: 0;">
+                <button id="lyricsEditDoneBtn" class="confirm-btn confirm-primary" style="width: 100%;">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filters</h3>
+                <button class="modal-close" id="filterModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
+                        <span>⭐ Only favorites</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterNoPublicCheckbox" class="filter-checkbox">
+                        <span>✏️ Only Private Songs</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterOnlyPublicCheckbox" class="filter-checkbox">
+                        <span>🌍 Only Public Songs</span>
+                    </label>
+                </div>
+
+                <div class="filter-option-group">
+                    <label for="filterKeySelect" class="filter-label">Key:</label>
+                    <select id="filterKeySelect" class="filter-select">
+                        <option value="">All keys</option>
+                    </select>
+                </div>
+
+                <div class="filter-option-group">
+                    <label for="filterGenreSelect" class="filter-label">Genre:</label>
+                    <select id="filterGenreSelect" class="filter-select">
+                        <option value="">All genres</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Country">Country</option>
+                        <option value="R&B">R&B</option>
+                        <option value="EDM">EDM</option>
+                    </select>
+                </div>
+
+                <div class="filter-option-group">
+                    <label class="filter-checkbox-label">
+                        <input type="checkbox" id="filterWithoutLyricsCheckbox" class="filter-checkbox">
+                        <span>Only songs without Lyrics</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="clearAllFiltersBtn" class="modal-cancel-btn">Clear All Filters</button>
+                    <button id="applyFiltersBtn" class="modal-submit-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Queue/Add Single Song to Setlist Modal -->
+    <div id="addToSetlistSingleModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add to Setlist</h3>
+                <button class="modal-close" id="addToSetlistSingleModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-option-group">
+                    <label for="addToSetlistSelect" class="filter-label">Choose Setlist:</label>
+                    <select id="addToSetlistSelect" class="filter-select">
+                        <option value="" disabled selected>Select a setlist...</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button id="addToSetlistSingleCancelBtn" class="modal-cancel-btn">Cancel</button>
+                    <button id="addToSetlistSingleConfirmBtn" class="modal-submit-btn">Add to Setlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Mini Player -->
+    <div id="youtubeMiniPlayer" class="youtube-mini-player hidden">
+        <div class="youtube-mini-player-content">
+            <div class="youtube-mini-player-header">
+                <span id="youtubePlayerTitle" class="youtube-player-title"></span>
+                <div class="youtube-player-controls">
+                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">🔻</button>
+                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
+                </div>
+            </div>
+            <div class="youtube-mini-player-body">
+                <div id="youtubePlayerContainer" class="youtube-player-container">
+                    <!-- YouTube iframe will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrolling Chords Modal -->
+    <div id="scrollingChordsModal" class="scrolling-chords-modal-wrapper hidden">
+        <div class="scrolling-chords-content">
+            <iframe id="scrollingChordsFrame" src="" style="width:100%; height:100%; border:none;"
+                allow="autoplay"></iframe>
+            <div class="scrolling-chords-btn-group">
+                <button id="scrollingChordsModalMinimize" class="scrolling-chords-minimize-btn"
+                    title="Minimize">&#8722;</button>
+                <button id="scrollingChordsModalClose" class="scrolling-chords-close-btn" title="Close">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/config/firebase-config.js?v=2.767"></script>
+
+    <!-- Models -->
+    <script src="js/models/SongManager.js?v=2.767"></script>
+    <script src="js/models/SetlistManager.js?v=2.767"></script>
+    <!-- Utils -->
+    <script src="js/utils/SEO.js?v=2.788"></script>
+    <script src="js/utils/Sorter.js?v=2.767"></script>
+    <script src="js/utils/ChordDetector.js?v=2.767"></script>
+    <script src="js/utils/KeyDetector.js?v=2.767"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.767"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.767"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.767"></script>
+    <script src="js/utils/LyricsParser.js?v=2.767"></script>
+    <!-- UI Components -->
+    <script src="js/utils/ChordParser.js?v=2.767"></script>
+    <script src="js/ui/ChordModal.js?v=2.767"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.767"></script>
+    <script src="js/ui/TableRenderer.js?v=2.767"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.767"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.767"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.767"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.767"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.767"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.767"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.767"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.767"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.767"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.767"></script>
+    <script src="js/ui/AuthModal.js?v=2.767"></script>
+    <script src="js/ui/ProfileModal.js?v=2.767"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.767"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.767"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.767"></script>
+    <!-- Data -->
+    <!-- Main App -->
+    <script src="js/app.js?v=2.767"></script>
+    <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
+        <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
+            <div class="modal-header">
+                <h3>Requested Songs</h3>
+                <button class="modal-close" id="adminRequestsModalClose">&times;</button>
+            </div>
+            <div class="modal-body" style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <div class="table-wrapper" style="max-height: 65vh; overflow-y: auto;">
+                    <table class="profile-top-songs-table">
+                        <thead>
+                            <tr>
+                                <th>Artist</th>
+                                <th>Title</th>
+                                <th>Requester</th>
+                                <th>Date</th>
+                                  <th style="width: 120px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminRequestsTableBody">
+                            <!-- Requests will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="adminRequestsEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
+                    No song requests yet.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Members Modal -->
+    <div id="adminMembersModal" class="modal auth-modal hidden" style="z-index: 12000;">
+        <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
+            <div class="modal-header">
+                <h3>New Members</h3>
+                <button class="modal-close" id="adminMembersModalClose">&times;</button>
+            </div>
+            <div class="modal-body" style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <div class="table-wrapper" style="max-height: 65vh; overflow-y: auto;">
+                    <table class="profile-top-songs-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-column" style="width: 30px;">#</th>
+                                <th>Email</th>
+                                <th style="width: 100px;">Joined</th>
+                                <th style="width: 60px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminMembersTableBody">
+                            <!-- Members will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="adminMembersEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
+                    No members found.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Instrument Selection Modal -->
+    <div id="chooseInstrumentModal" class="modal hidden">
+        <div class="modal-content modal-medium" style="text-align: center; position: relative;">
+            <span class="close-modal" id="closeInstrumentModal"
+                style="position: absolute; right: 10px; top: 8px; font-size: 28px; cursor: pointer; z-index: 10;">&times;</span>
+            <div class="modal-header" style="justify-content: center; padding: 25px 20px 10px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Choose Your Instrument</h2>
+            </div>
+            <div class="modal-body">
+                <style>
+                    .instruments-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 16px;
+                        padding: 10px 0;
+                    }
+                    @media (min-width: 600px) {
+                        .instruments-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+                    }
+                    .instrument-card {
+                        cursor: pointer;
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                        border: 2px solid transparent;
+                        background: #ffffff;
+                        padding: 25px 15px;
+                        border-radius: 20px;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .instrument-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                        border-color: #6366f1;
+                    }
+                    .instrument-card h3 {
+                        font-size: 1.1rem;
+           .filter-buttons {
+        width: auto;
+        flex-wrap: nowrap !important; /* Force single row */
+        flex-shrink: 1;
+        gap: 5px !important; /* Tighter gap for mobile */
+        justify-content: flex-start !important; /* Pack buttons to the left */
+    };
+                        margin: 12px 0 0;
+                        color: #1e293b;
+                    }
+                    .instrument-icon {
+                        font-size: 3.5rem;
+                        line-height: 1;
+                    }
+                </style>
+                <div class="instruments-grid">
+
+                    <div class="instrument-card guitar-card" onclick="selectInstrument('guitar')"
+                        style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎸</div>
+                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Guitar</h3>
+                    </div>
+
+                    <div class="instrument-card piano-card" onclick="selectInstrument('piano')"
+                        style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎹</div>
+                        <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Piano</h3>
+                    </div>
+
+                    <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')">
+                        <div class="instrument-icon">🪕</div>
+                        <h3>Ukulele</h3>
+                    </div>
+
+                </div>
+                <p style="margin-top: 25px; color: #64748b; font-size: 0.95rem;">You can always change this later in any song.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function goToChordsTheory() {
+            const mode = localStorage.getItem('instrumentMode') || 'piano';
+            if (mode === 'guitar') {
+                window.location.href = 'ChordTheory&TipsGuitar.html';
+            } else {
+                window.location.href = 'ChordTheory&Tips.html';
+            }
+        }
+
+        // --- Sidebar Interactions for songlist2.html ---
+        function setActiveNav(activeId) {
+            const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+            navItems.forEach(item => {
+                if (item.id === activeId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function clearCustomView() {
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (customView) customView.classList.add('hidden');
+            if (tableWrapper) tableWrapper.classList.remove('hidden');
+        }
+
+        function selectSongbook() {
+            setActiveNav('btnSongbook');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset all filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+                
+                // Clear search term
+                window.appInstance.searchTerm = '';
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearSearchBtn = document.getElementById('clearSearchBtn');
+                if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+                
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function selectFavorites() {
+            setActiveNav('btnFavorites');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Apply Favorites
+                window.appInstance.currentFilter.favorites = true;
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function selectMyLibrary() {
+            setActiveNav('btnMyLibrary');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Apply Private Only (noPublic = true)
+                window.appInstance.currentFilter.noPublic = true;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function renderSetlistsView() {
+            setActiveNav('btnSetlists');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!window.appInstance || !customView || !tableWrapper) return;
+
+            const setlists = window.appInstance.setlistManager.getAllSetlists() || [];
+            
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            let cardsHtml = '';
+            setlists.forEach(s => {
+                const songCount = s.songIds ? s.songIds.length : 0;
+                cardsHtml += `
+                    <div class="custom-card" onclick="selectSetlistFromSidebar('${s.id}')">
+                        <div class="custom-card-icon">📁</div>
+                        <div class="custom-card-name" title="${s.name}">${s.name}</div>
+                        <div class="custom-card-meta">${songCount} songs</div>
+                    </div>
+                `;
+            });
+
+            customView.innerHTML = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Setlists Overview</h3>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to Songbook</button>
+                </div>
+                <div class="custom-grid">
+                    ${setlists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No setlists created yet. Create a setlist using the + button next to Setlists select in the top header.</div>' : cardsHtml}
+                </div>
+            `;
+        }
+
+        function selectSetlistFromSidebar(setlistId) {
+            if (window.appInstance) {
+                // Clear custom view and activate Songbook tab
+                setActiveNav('btnSongbook');
+                clearCustomView();
+
+                // Reset other filters (favorites, genres, key, search)
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.searchTerm = '';
+
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.classList.add('hidden');
+
+                // Apply Setlist filter
+                window.appInstance.currentSetlistId = setlistId;
+                window.appInstance.updateButtonsForSetlistMode();
+                
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = setlistId;
+                
+                // Render the filtered setlist songs!
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        async function fetchArtistThumbnail(artistName, imgElement) {
+            if (!artistName || !imgElement) return;
+
+            const safeArtist = artistName.replace(/[<>:"/\\|?*]/g, '').trim();
+            const localPath = `assets/thumbnails/artists/${safeArtist}.jpg`;
+
+            // 1. Try local thumbnail from assets/thumbnails/artists/ first
+            try {
+                const localExists = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = localPath;
+                });
+
+                if (localExists) {
+                    imgElement.src = localPath;
+                    return; // Successfully loaded local file!
+                }
+            } catch (e) {
+                console.log("Local artist thumbnail check failed, falling back to cache/Deezer.");
+            }
+
+            // 2. Check localStorage cache
+            const cacheKey = `artist_thumb_${artistName.toLowerCase().trim()}`;
+            const cachedUrl = localStorage.getItem(cacheKey);
+
+            if (cachedUrl) {
+                if (cachedUrl === 'failed') {
+                    // Standard vector user icon as fallback placeholder
+                    imgElement.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236366f1"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z"/></svg>';
+                } else {
+                    imgElement.src = cachedUrl;
+                }
+                return;
+            }
+
+            // 3. Fallback to Deezer Search Artist API (JSONP)
+            try {
+                const query = encodeURIComponent(artistName);
+                const callbackName = 'deezerArtist_' + Math.round(1000000 * Math.random());
+
+                const responsePromise = new Promise((resolve, reject) => {
+                    const timeoutId = setTimeout(() => {
+                        cleanup();
+                        reject(new Error('JSONP timeout'));
+                    }, 4000);
+
+                    const cleanup = () => {
+                        clearTimeout(timeoutId);
+                        delete window[callbackName];
+                        if (script && script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                    };
+
+                    window[callbackName] = (data) => {
+                        cleanup();
+                        resolve(data);
+                    };
+
+                    const script = document.createElement('script');
+                    script.src = `https://api.deezer.com/search/artist?q=${query}&output=jsonp&callback=${callbackName}`;
+                    script.onerror = () => {
+                        cleanup();
+                        reject(new Error('JSONP load error'));
+                    };
+                    document.body.appendChild(script);
+                });
+
+                const data = await responsePromise;
+
+                if (data && data.data && data.data.length > 0) {
+                    const pictureUrl = data.data[0].picture_medium || data.data[0].picture_small;
+                    if (pictureUrl) {
+                        localStorage.setItem(cacheKey, pictureUrl);
+                        imgElement.src = pictureUrl;
+                        return;
+                    }
+                }
+                
+                // If not found in Deezer, cache as failed to avoid redundant network requests
+                localStorage.setItem(cacheKey, 'failed');
+            } catch (e) {
+                console.warn('Deezer artist fetch failed for:', artistName, e);
+            }
+        }
+
+        async function fetchAllArtistThumbnails(sortedArtists) {
+            const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Pass 1: fire ALL local + cached lookups in parallel (instant, no network delay)
+            const needsDeezer = [];
+            await Promise.all(sortedArtists.map(async (artist) => {
+                const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
+                const imgElement = document.getElementById(`artistImg_${cardId}`);
+                if (!imgElement) return;
+
+                const safeArtist = artist.replace(/[<>:"/\\|?*]/g, '').trim();
+                const localPath = `assets/thumbnails/artists/${safeArtist}.jpg`;
+
+                // Try local file first (parallel probe)
+                const localExists = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = localPath;
+                });
+
+                if (localExists) {
+                    imgElement.src = localPath;
+                    return;
+                }
+
+                // Try localStorage cache
+                const cacheKey = `artist_thumb_${artist.toLowerCase().trim()}`;
+                const cachedUrl = localStorage.getItem(cacheKey);
+                if (cachedUrl) {
+                    if (cachedUrl !== 'failed') imgElement.src = cachedUrl;
+                    return;
+                }
+
+                // No local or cache — queue for Deezer
+                needsDeezer.push({ artist, imgElement });
+            }));
+
+            // Pass 2: rate-limited Deezer fetches only for uncached artists
+            for (const { artist, imgElement } of needsDeezer) {
+                await fetchArtistThumbnail(artist, imgElement);
+                await sleep(350);
+            }
+        }
+
+        function renderArtistsView() {
+            setActiveNav('btnArtists');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!window.appInstance || !customView || !tableWrapper) return;
+
+            // Clear any previously cached "failed" items to retry them under our new staggered system
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('artist_thumb_') && localStorage.getItem(key) === 'failed') {
+                    localStorage.removeItem(key);
+                    i--; // adjust index after removal
+                }
+            }
+
+            const allSongs = window.appInstance.songManager.getAllSongs() || [];
+            
+            // Extract unique sorted list of artists and their counts
+            const artistCounts = {};
+            allSongs.forEach(song => {
+                if (song.artist && song.artist.trim() !== '') {
+                    const artistName = song.artist.trim();
+                    artistCounts[artistName] = (artistCounts[artistName] || 0) + 1;
+                }
+            });
+
+            const sortedArtists = Object.keys(artistCounts).sort((a, b) => a.localeCompare(b));
+
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            let cardsHtml = '';
+            sortedArtists.forEach(artist => {
+                const escapedArtistName = artist.replace(/'/g, "\\'");
+                const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
+                cardsHtml += `
+                    <div class="custom-card" onclick="selectArtistFromSidebar('${escapedArtistName}')">
+                        <div class="artist-img-container">
+                            <img class="artist-img" id="artistImg_${cardId}" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z'/></svg>" alt="${artist}">
+                        </div>
+                        <div class="custom-card-name" title="${artist}">${artist}</div>
+                        <div class="custom-card-meta">${artistCounts[artist]} songs</div>
+                    </div>
+                `;
+            });
+
+            customView.innerHTML = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Artists Overview</h3>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to Songbook</button>
+                </div>
+                <div class="custom-grid">
+                    ${sortedArtists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : cardsHtml}
+                </div>
+            `;
+
+            // Asynchronously fetch Deezer artist thumbnails with rate-limiting staggered calls
+            fetchAllArtistThumbnails(sortedArtists);
+        }
+
+        function selectArtistFromSidebar(artistName) {
+            if (window.appInstance) {
+                // Clear custom view and activate Songbook tab
+                setActiveNav('btnSongbook');
+                clearCustomView();
+
+                // Reset other filters (favorites, genres, key, setlist)
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+
+                // Apply the artist search filter
+                window.appInstance.searchTerm = artistName;
+                
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = artistName;
+
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.classList.remove('hidden');
+
+                // Render the filtered song list!
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function renderChordsLibraryView() {
+            setActiveNav('btnChordsLibrary');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!customView || !tableWrapper) return;
+
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            const currentMode = localStorage.getItem('instrumentMode') || 'piano';
+            renderChordsLibraryByMode(currentMode);
+        }
+
+        function switchLibraryInstrument(newMode) {
+            localStorage.setItem('instrumentMode', newMode);
+            // Sync with other overlays
+            if (window.appInstance && window.appInstance.songDetailModal) {
+                window.appInstance.songDetailModal.instrumentMode = newMode;
+                if (typeof window.appInstance.songDetailModal.updateInstrumentHeader === 'function') {
+                    window.appInstance.songDetailModal.updateInstrumentHeader();
+                }
+            }
+            renderChordsLibraryByMode(newMode);
+        }
+
+        function renderChordsLibraryByMode(mode) {
+            const customView = document.getElementById('customSidebarView');
+            if (!customView) return;
+
+            const rootsOrder = ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"];
+            function getRootIndex(chordName) {
+                const match = chordName.match(/^([A-G][#b]?)/);
+                if (!match) return 999;
+                const idx = rootsOrder.indexOf(match[1]);
+                return idx === -1 ? 999 : idx;
+            }
+
+            let chords = [];
+            if (mode === 'guitar') {
+                const db = window.GuitarChordDatabase || {};
+                chords = Object.keys(db).filter(k => k && !k.startsWith('_') && db[k] && db[k].frets);
+                chords.sort((a, b) => {
+                    const idxA = getRootIndex(a);
+                    const idxB = getRootIndex(b);
+                    if (idxA !== idxB) return idxA - idxB;
+                    return a.localeCompare(b);
+                });
+            } else if (mode === 'ukulele') {
+                const db = window.UkuleleChordDatabase || {};
+                chords = Object.keys(db).filter(k => k && !k.startsWith('_') && db[k] && db[k].frets);
+                chords.sort((a, b) => {
+                    const idxA = getRootIndex(a);
+                    const idxB = getRootIndex(b);
+                    if (idxA !== idxB) return idxA - idxB;
+                    return a.localeCompare(b);
+                });
+            } else {
+                // Piano mode: chromatic sorted list
+                chords = [
+                    "C", "Cm", "C7", "Cmaj7", "Csus4", "Csus2", "Cadd9",
+                    "C#", "C#m", "C#7", "C#maj7", "C#sus4",
+                    "D", "Dm", "D7", "Dmaj7", "Dsus4", "Dsus2", "Dadd9",
+                    "Eb", "Ebm", "Eb7", "Ebmaj7",
+                    "E", "Em", "E7", "Emaj7", "Esus4",
+                    "F", "Fm", "F7", "Fmaj7", "Fsus4",
+                    "F#", "F#m", "F#7", "F#maj7",
+                    "G", "Gm", "G7", "Gmaj7", "Gsus4", "Gadd9",
+                    "Ab", "Abm", "Ab7", "Abmaj7",
+                    "A", "Am", "A7", "Amaj7", "Asus4", "Asus2", "Aadd9",
+                    "Bb", "Bbm", "Bb7", "Bbmaj7",
+                    "B", "Bm", "B7", "Bmaj7", "Bsus4"
+                ];
+            }
+
+            const headerHtml = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Chords Library</h3>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to Songbook</button>
+                </div>
+                <div class="library-tabs-container">
+                    <button class="library-tab-btn ${mode === 'piano' ? 'active' : ''}" onclick="switchLibraryInstrument('piano')">🎹 Piano</button>
+                    <button class="library-tab-btn ${mode === 'guitar' ? 'active' : ''}" onclick="switchLibraryInstrument('guitar')">🎸 Guitar</button>
+                    <button class="library-tab-btn ${mode === 'ukulele' ? 'active' : ''}" onclick="switchLibraryInstrument('ukulele')">🪕 Ukulele</button>
+                </div>
+            `;
+
+            const stylesHtml = `
+                <style>
+                    .library-tabs-container {
+                        display: flex;
+                        justify-content: center;
+                        gap: 12px;
+                        margin: 20px auto 30px;
+                        background: #f1f5f9;
+                        padding: 6px;
+                        border-radius: 14px;
+                        max-width: 400px;
+                        box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+                    }
+                    .library-tab-btn {
+                        flex: 1;
+                        padding: 10px 16px;
+                        border: none;
+                        background: transparent;
+                        color: #64748b;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 6px;
+                    }
+                    .library-tab-btn:hover {
+                        color: #1e293b;
+                    }
+                    .library-tab-btn.active {
+                        background: #ffffff;
+                        color: #6366f1;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+                    }
+                    
+                    /* Styling for chord cards */
+                    .chord-lib-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                        gap: 20px;
+                        padding: 10px 0;
+                    }
+                    .chord-lib-card {
+                        background: #ffffff;
+                        border-radius: 16px;
+                        padding: 16px;
+                        border: 1px solid #e2e8f0;
+                        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .chord-lib-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.2), 0 4px 12px -2px rgba(0,0,0,0.04);
+                        border-color: #6366f1;
+                    }
+                    .chord-lib-card .chord-lib-name {
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        color: #1e293b;
+                        margin-bottom: 12px;
+                        transition: color 0.2s;
+                    }
+                    .chord-lib-card:hover .chord-lib-name {
+                        color: #6366f1;
+                    }
+                    
+                    /* Custom diagrams wrapper sizing */
+                    .chord-lib-diagram {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 120px;
+                    }
+                    .chord-lib-diagram svg {
+                        max-width: 100%;
+                        height: 120px;
+                    }
+                    
+                    /* Piano specific keys */
+                    .chord-lib-card.piano-lib-card {
+                        min-width: 220px;
+                        padding: 16px 12px;
+                    }
+                    .chord-lib-grid.piano-lib-grid {
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                    }
+                    
+                    /* Clean scrollbars for sidebar views */
+                    #customSidebarView {
+                        overflow-y: auto;
+                        max-height: calc(100vh - 120px);
+                        padding-right: 8px;
+                    }
+                </style>
+            `;
+
+            customView.innerHTML = stylesHtml + headerHtml + `<div class="chord-lib-grid ${mode === 'piano' ? 'piano-lib-grid' : ''}" id="libraryChordsGrid"></div>`;
+
+            const grid = document.getElementById('libraryChordsGrid');
+            if (!grid) return;
+
+            const audioPlayer = (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer)
+                ? window.appInstance.songDetailModal.sharedAudioPlayer
+                : new PianoAudioPlayer();
+
+            const parser = new ChordParser();
+            const guitarRenderer = new GuitarRenderer();
+            const ukuleleRenderer = new UkuleleRenderer();
+            const pianoOverlay = new PianoChordOverlay(audioPlayer);
+
+            chords.forEach(chordName => {
+                const card = document.createElement('div');
+                card.className = `chord-lib-card ${mode === 'piano' ? 'piano-lib-card' : ''}`;
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'chord-lib-name';
+                nameEl.textContent = chordName;
+                card.appendChild(nameEl);
+
+                const diagContainer = document.createElement('div');
+                diagContainer.className = 'chord-lib-diagram';
+
+                if (mode === 'guitar') {
+                    const db = window.GuitarChordDatabase || {};
+                    const simple = chordName.replace(/([23])$/, '');
+                    const fingering = db[chordName] || db[simple] || db[simple.split('/')[0]];
+                    if (fingering) {
+                        diagContainer.innerHTML = guitarRenderer.renderSVG(fingering);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Diagram</span>`;
+                    }
+
+                    card.onclick = () => {
+                        audioPlayer.setSound('guitar-strum');
+                        const chord = parser.parseGuitarChord(chordName, db);
+                        if (chord && chord.notes) {
+                            audioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                } else if (mode === 'ukulele') {
+                    const db = window.UkuleleChordDatabase || {};
+                    const simple = chordName.replace(/([23])$/, '');
+                    const fingering = db[chordName] || db[simple] || db[simple.split('/')[0]];
+                    if (fingering) {
+                        diagContainer.innerHTML = ukuleleRenderer.renderSVG(fingering);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Diagram</span>`;
+                    }
+
+                    card.onclick = () => {
+                        audioPlayer.setSound('ukulele');
+                        const chord = parser.parseUkuleleChord(chordName, db);
+                        if (chord && chord.notes) {
+                            audioPlayer.playChord(chord.notes, 2.0, 0.4, 0.03, true);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                } else {
+                    // Piano mode
+                    const parsedChord = pianoOverlay.parseChord(chordName);
+                    if (parsedChord) {
+                        const keyboard = pianoOverlay.createPianoKeyboard(parsedChord, parsedChord.notes);
+                        keyboard.style.width = '100%';
+                        keyboard.style.height = '74px';
+                        keyboard.style.position = 'relative';
+                        diagContainer.appendChild(keyboard);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Keyboard</span>`;
+                    }
+
+                    card.onclick = () => {
+                        const parsedChord = pianoOverlay.parseChord(chordName);
+                        if (parsedChord && parsedChord.notes) {
+                            audioPlayer.setSound('piano');
+                            audioPlayer.playChord(parsedChord.notes, 2.0, 0.6, 0.02);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                }
+
+                card.appendChild(diagContainer);
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSongbook = document.getElementById('btnSongbook');
+            const btnFavorites = document.getElementById('btnFavorites');
+            const btnSetlists = document.getElementById('btnSetlists');
+            const btnArtists = document.getElementById('btnArtists');
+            const btnMyLibrary = document.getElementById('btnMyLibrary');
+            const btnChordsLibrary = document.getElementById('btnChordsLibrary');
+
+            if (btnSongbook) btnSongbook.onclick = (e) => { e.preventDefault(); selectSongbook(); };
+            if (btnFavorites) btnFavorites.onclick = (e) => { e.preventDefault(); selectFavorites(); };
+            if (btnSetlists) btnSetlists.onclick = (e) => { e.preventDefault(); renderSetlistsView(); };
+            if (btnArtists) btnArtists.onclick = (e) => { e.preventDefault(); renderArtistsView(); };
+            if (btnMyLibrary) btnMyLibrary.onclick = (e) => { e.preventDefault(); selectMyLibrary(); };
+            if (btnChordsLibrary) btnChordsLibrary.onclick = (e) => { e.preventDefault(); renderChordsLibraryView(); };
+        });
+    </script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
