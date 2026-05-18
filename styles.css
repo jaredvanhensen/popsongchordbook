@@ -11586,3 +11586,16 @@ body.is-mobile-view .chord-trainer-btn {
     animation: chipShake 0.15s ease-in-out 2;
     border-color: #ef4444;
 }
+
+/* Administrator Only Columns (CTL & MAP) */
+.ctl-column, .ctl-cell,
+.songmap-column, .songmap-cell {
+    display: none !important;
+}
+
+body.is-admin .ctl-column,
+body.is-admin .ctl-cell,
+body.is-admin .songmap-column,
+body.is-admin .songmap-cell {
+    display: table-cell !important;
+}

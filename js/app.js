@@ -363,6 +363,13 @@ class App {
         
         // Sync preferences (Instrument choice, etc.)
         await this.syncUserPreferences(user);
+
+        // Add admin styling if the user is jared@vanhensen.nl
+        if (user && user.email === 'jared@vanhensen.nl') {
+            document.body.classList.add('is-admin');
+        } else {
+            document.body.classList.remove('is-admin');
+        }
     }
 
     handleAuthFailure() {
@@ -371,6 +378,9 @@ class App {
         this.songManager.disableSync();
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
+
+        // Remove admin styling
+        document.body.classList.remove('is-admin');
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
         if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {
