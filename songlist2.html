@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.819 - PopSongChordBook</title>
-    <meta name="version" content="2.819">
-    <meta name="application-version" content="v2.819">
+    <title>Song List v2.820 - PopSongChordBook</title>
+    <meta name="version" content="2.820">
+    <meta name="application-version" content="v2.820">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -19,7 +19,7 @@
             document.head.appendChild(meta);
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=2.819">
+    <link rel="stylesheet" href="styles.css?v=2.820">
     <style>
         /* Sidebar default: hidden on mobile */
         .app-sidebar {
@@ -197,6 +197,11 @@
             .playlist-item:hover {
                 background: rgba(255, 255, 255, 0.04);
                 color: #ffffff;
+            }
+            .playlist-item.active {
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                font-weight: 700;
             }
             .playlist-icon {
                 width: 28px;
@@ -434,39 +439,34 @@
                 </a>
             </nav>
 
-            <!-- Playlists Section -->
+            <!-- Genres Section -->
             <div class="sidebar-section">
                 <div class="section-header">
-                    <span>Playlists</span>
-                    <button class="add-playlist-btn">+</button>
+                    <span>Genres</span>
                 </div>
                 <div class="playlist-items">
-                    <a href="#" class="playlist-item">
-                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                    <a href="#" class="playlist-item" data-genre-name="Rock" onclick="event.preventDefault(); selectGenreFromSidebar('Rock');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎸</div>
                         <div class="playlist-info">
-                            <span class="playlist-name">Acoustic Night</span>
-                            <span class="playlist-count">24 songs</span>
+                            <span class="playlist-name">Rock</span>
                         </div>
                     </a>
-                    <a href="#" class="playlist-item">
-                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                    <a href="#" class="playlist-item" data-genre-name="Country" onclick="event.preventDefault(); selectGenreFromSidebar('Country');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🤠</div>
                         <div class="playlist-info">
-                            <span class="playlist-name">Morning Vibes</span>
-                            <span class="playlist-count">18 songs</span>
+                            <span class="playlist-name">Country</span>
                         </div>
                     </a>
-                    <a href="#" class="playlist-item">
-                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                    <a href="#" class="playlist-item" data-genre-name="R&B" onclick="event.preventDefault(); selectGenreFromSidebar('R&B');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎷</div>
                         <div class="playlist-info">
-                            <span class="playlist-name">Pop Hits 2020s</span>
-                            <span class="playlist-count">35 songs</span>
+                            <span class="playlist-name">R&B</span>
                         </div>
                     </a>
-                    <a href="#" class="playlist-item">
-                        <img src="images/popsongchordbook_logo.jpg" class="playlist-icon" alt="">
+                    <a href="#" class="playlist-item" data-genre-name="Dance" onclick="event.preventDefault(); selectGenreFromSidebar('Dance');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🪩</div>
                         <div class="playlist-info">
-                            <span class="playlist-name">Easy Chords</span>
-                            <span class="playlist-count">16 songs</span>
+                            <span class="playlist-name">Dance</span>
                         </div>
                     </a>
                 </div>
@@ -502,7 +502,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.819</span>
+                        <span id="site-version" class="version-tag">2.820</span>
                     </div>
                 </div>
             </div>
@@ -2013,7 +2013,7 @@
                         <button type="button" class="genre-chip" data-genre="Rock" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Rock</button>
                         <button type="button" class="genre-chip" data-genre="Country" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Country</button>
                         <button type="button" class="genre-chip" data-genre="R&B" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">R&B</button>
-                        <button type="button" class="genre-chip" data-genre="EDM" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">EDM</button>
+                        <button type="button" class="genre-chip" data-genre="Dance" style="flex: 1; text-align: center; padding: 8px 0; font-size: 11px;">Dance</button>
                     </div>
                 </div>
                 <div class="modal-actions">
@@ -2091,7 +2091,7 @@
                         <option value="Rock">Rock</option>
                         <option value="Country">Country</option>
                         <option value="R&B">R&B</option>
-                        <option value="EDM">EDM</option>
+                        <option value="Dance">Dance</option>
                     </select>
                 </div>
 
@@ -2375,7 +2375,51 @@
             if (tableWrapper) tableWrapper.classList.remove('hidden');
         }
 
+        function clearGenreActive() {
+            const genreItems = document.querySelectorAll('.sidebar-section .playlist-item');
+            genreItems.forEach(item => item.classList.remove('active'));
+        }
+
+        function selectGenreFromSidebar(genreName) {
+            clearGenreActive();
+            const genreItem = document.querySelector(`.sidebar-section .playlist-item[data-genre-name="${genreName}"]`);
+            if (genreItem) genreItem.classList.add('active');
+            
+            setActiveNav('');
+            clearCustomView();
+
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Clear search term
+                window.appInstance.searchTerm = '';
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearSearchBtn = document.getElementById('clearSearchBtn');
+                if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+
+                // Clear header setlist dropdown selection
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+
+                // Apply Genre filter
+                window.appInstance.currentFilter.genre = genreName;
+
+                // Sync the filter select in header dropdown if it exists
+                const filterGenreSelect = document.getElementById('filterGenreSelect');
+                if (filterGenreSelect) filterGenreSelect.value = genreName;
+
+                window.appInstance.loadAndRender();
+            }
+        }
+
         function selectSongbook() {
+            clearGenreActive();
             setActiveNav('btnSongbook');
             clearCustomView();
             if (window.appInstance) {
@@ -2402,6 +2446,7 @@
         }
 
         function selectFavorites() {
+            clearGenreActive();
             setActiveNav('btnFavorites');
             clearCustomView();
             if (window.appInstance) {
@@ -2419,6 +2464,7 @@
         }
 
         function selectMyLibrary() {
+            clearGenreActive();
             setActiveNav('btnMyLibrary');
             clearCustomView();
             if (window.appInstance) {
@@ -2436,6 +2482,7 @@
         }
 
         function renderSetlistsView() {
+            clearGenreActive();
             setActiveNav('btnSetlists');
             const customView = document.getElementById('customSidebarView');
             const tableWrapper = document.querySelector('.table-wrapper');
@@ -2473,6 +2520,7 @@
         function selectSetlistFromSidebar(setlistId) {
             if (window.appInstance) {
                 // Clear custom view and activate Songbook tab
+                clearGenreActive();
                 setActiveNav('btnSongbook');
                 clearCustomView();
 
@@ -2635,6 +2683,7 @@
         }
 
         function renderArtistsView() {
+            clearGenreActive();
             setActiveNav('btnArtists');
             const customView = document.getElementById('customSidebarView');
             const tableWrapper = document.querySelector('.table-wrapper');
@@ -2698,6 +2747,7 @@
         function selectArtistFromSidebar(artistName) {
             if (window.appInstance) {
                 // Clear custom view and activate Songbook tab
+                clearGenreActive();
                 setActiveNav('btnSongbook');
                 clearCustomView();
 
@@ -2727,6 +2777,7 @@
         }
 
         function renderChordsLibraryView() {
+            clearGenreActive();
             setActiveNav('btnChordsLibrary');
             const customView = document.getElementById('customSidebarView');
             const tableWrapper = document.querySelector('.table-wrapper');
