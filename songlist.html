@@ -9,6 +9,16 @@
     <meta name="version" content="2.817">
     <meta name="application-version" content="v2.817">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
+    
+    <!-- SEO Protection: Prevent indexing on github.io testing domain -->
+    <script>
+        if (window.location.hostname.includes('github.io')) {
+            const meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow';
+            document.head.appendChild(meta);
+        }
+    </script>
     <link rel="stylesheet" href="styles.css?v=2.817">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">

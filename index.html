@@ -13,6 +13,16 @@
     <meta name="google-site-verification" content="GifO932pD8fjdFapfqXZIoh_i3lzNZMjzFds_FpDIpg" />
     <link rel="canonical" href="https://www.popsongchordbook.com/">
     
+    <!-- SEO Protection: Prevent indexing on github.io testing domain -->
+    <script>
+        if (window.location.hostname.includes('github.io')) {
+            const meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow';
+            document.head.appendChild(meta);
+        }
+    </script>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.popsongchordbook.com/">
