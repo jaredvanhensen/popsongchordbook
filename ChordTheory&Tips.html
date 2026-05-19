@@ -479,12 +479,12 @@
 
     <header class="glass-header">
         <div class="header-content">
-            <a href="ChordTrainer.html" class="back-btn">
+            <a href="songlist.html" class="back-btn" onclick="event.preventDefault(); if (document.referrer && (document.referrer.includes('songlist.html') || document.referrer.includes('songlist2.html') || document.referrer.includes('ChordTrainer.html'))) { if (window.history.length > 1) { window.history.back(); } else { window.location.href = document.referrer; } } else { window.location.href = 'songlist.html'; }">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
-                Back to Trainer
+                Back
             </a>
             <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">📖</span>
