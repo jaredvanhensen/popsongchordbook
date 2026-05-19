@@ -9,6 +9,7 @@ param (
 
 $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
+$index2File = Join-Path $root "index2.html"
 $songlistFile = Join-Path $root "songlist.html"
 $songlist2File = Join-Path $root "songlist2.html"
 $appJsFile = Join-Path $root "js/app.js"
@@ -47,6 +48,15 @@ $indexContent = $indexContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
 # Also update meta description if present
 $indexContent = $indexContent -replace 'Songbook v[\d\.]+', ("Songbook v$newVersion")
 Set-Content $indexFile $indexContent -Encoding UTF8
+
+if (Test-Path $index2File) {
+    Write-Host "Updating index2.html..."
+    $index2Content = Get-Content $index2File -Raw -Encoding UTF8
+    $index2Content = $index2Content -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+    $index2Content = $index2Content -replace '\?v=[\d\.]+', ("?v=$newVersion")
+    $index2Content = $index2Content -replace 'Songbook v[\d\.]+', ("Songbook v$newVersion")
+    Set-Content $index2File $index2Content -Encoding UTF8
+}
 
 # 4. Update songlist.html
 Write-Host "Updating songlist.html..."

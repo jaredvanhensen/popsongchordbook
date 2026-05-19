@@ -7,6 +7,7 @@ param (
 
 $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
+$index2File = Join-Path $root "index2.html"
 $songlistFile = Join-Path $root "songlist.html"
 $quickstartFile = Join-Path $root "quickstart.html"
 $trainerFile = Join-Path $root "ChordTrainer.html"
@@ -40,6 +41,14 @@ $indexContent = $indexContent -replace 'v<span id="site-version">[\d\.]+</span>'
 $indexContent = $indexContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
 Set-Content $indexFile $indexContent -Encoding UTF8
 Write-Host "Updated index.html"
+
+if (Test-Path $index2File) {
+    $index2Content = Get-Content $index2File -Raw -Encoding UTF8
+    $index2Content = $index2Content -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+    $index2Content = $index2Content -replace '\?v=[\d\.]+"', "?v=$newVersion`""
+    Set-Content $index2File $index2Content -Encoding UTF8
+    Write-Host "Updated index2.html"
+}
 
 # 4. Update songlist.html
 $songlistContent = Get-Content $songlistFile -Raw -Encoding UTF8
