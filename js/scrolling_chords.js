@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.834)
+﻿// Scrolling Chords Logic (v2.836)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -5022,6 +5022,7 @@ function showMapRenameModal(sec) {
         }
     };
 }
+
 
 
 
