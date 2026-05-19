@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.833 - PopSongChordBook</title>
-    <meta name="version" content="2.833">
-    <meta name="application-version" content="v2.833">
+    <title>Song List v2.834 - PopSongChordBook</title>
+    <meta name="version" content="2.834">
+    <meta name="application-version" content="v2.834">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -20,6 +20,570 @@
         }
     </script>
     <link rel="stylesheet" href="styles.css?v=2.829">
+    <style>
+        /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
+        td.chord-cell:not(:has(input)) {
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: 160px;
+        }
+
+        /* Sidebar default: hidden on mobile */
+        .app-sidebar {
+            display: none;
+        }
+        .app-layout {
+            display: block;
+        }
+        .app-main {
+            width: 100%;
+        }
+
+        /* Desktop Sidebar: shown on screen sizes 1080px and wider */
+        @media (min-width: 1080px) {
+            .app-layout {
+                display: flex;
+                min-height: 100vh;
+                background-color: #f8fafc;
+            }
+            .app-main {
+                flex: 1;
+                min-width: 0;
+                margin-left: 280px; /* Leave space for the fixed sidebar */
+            }
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 40px !important;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+
+            /* Constrain table to scroll inside its own box on desktop.
+               The header + column titles stay fully visible above it. */
+            .table-wrapper {
+                max-height: calc(100vh - 280px);
+                overflow-y: auto;
+            }
+
+            /* Column titles now stick inside the scrolling .table-wrapper */
+            #songsTable thead th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: #e2e8f0;
+                box-shadow: 0 2px 0 #cbd5e1;
+            }
+            .app-sidebar {
+                display: flex;
+                width: 280px;
+                background: linear-gradient(180deg, #12093a 0%, #211456 100%);
+                color: #ffffff;
+                flex-direction: column;
+                padding: 0;
+                flex-shrink: 0;
+                position: fixed; /* Keep locked in place */
+                left: 0;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                z-index: 100;
+            }
+            
+            .sidebar-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 32px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .brand-logo {
+                width: 140px;
+                height: 140px;
+                border-radius: 32px;
+                object-fit: cover;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .brand-logo:hover {
+                transform: scale(1.06);
+            }
+            .brand-text-logo {
+                width: 210px;
+                height: auto;
+                margin-top: 14px;
+                border-radius: 9999px;
+                overflow: hidden;
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .brand-text-logo:hover {
+                transform: scale(1.04);
+            }
+
+            /* Nav menu items */
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding: 20px 12px;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                color: #c7d2fe;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+                border-radius: 10px;
+                transition: all 0.2s ease;
+            }
+            .nav-item:hover {
+                background: rgba(255, 255, 255, 0.06);
+                color: #ffffff;
+            }
+            .nav-item.active {
+                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+                color: #ffffff;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            }
+            .nav-icon {
+                font-size: 18px;
+                width: 24px;
+                text-align: center;
+            }
+
+            /* Playlists section */
+            .sidebar-section {
+                padding: 10px 16px 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .section-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: rgba(255, 255, 255, 0.4);
+                margin-bottom: 12px;
+                padding: 0 12px;
+            }
+            .add-playlist-btn {
+                background: transparent;
+                border: none;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 16px;
+                cursor: pointer;
+                padding: 0;
+                line-height: 1;
+                transition: color 0.2s;
+            }
+            .add-playlist-btn:hover {
+                color: #ffffff;
+            }
+            .playlist-items {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .playlist-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 8px 12px;
+                color: #c7d2fe;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+            }
+            .playlist-item:hover {
+                background: rgba(255, 255, 255, 0.04);
+                color: #ffffff;
+            }
+            .playlist-item.active {
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                font-weight: 700;
+            }
+            .playlist-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                object-fit: cover;
+                opacity: 0.8;
+            }
+            .playlist-info {
+                display: flex;
+                flex-direction: column;
+            }
+            .playlist-name {
+                font-size: 13px;
+                font-weight: 600;
+                line-height: 1.2;
+            }
+            .playlist-count {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.45);
+            }
+
+            /* Upgrade Card (Pro) */
+            .pro-card {
+                margin: auto 16px 20px;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(10px);
+                padding: 16px;
+                border-radius: 16px;
+                text-align: center;
+            }
+            .pro-badge {
+                font-size: 12px;
+                font-weight: 700;
+                color: #fbbf24;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 8px;
+            }
+            .pro-text {
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.7);
+                line-height: 1.4;
+                margin: 0 0 12px;
+            }
+            .pro-btn {
+                width: 100%;
+                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+                border: none;
+                color: #ffffff;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+                transition: all 0.2s;
+            }
+            .pro-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+            }
+        }
+
+        /* Premium Card Grid styling for Sidebar Custom views */
+        .custom-sidebar-view {
+            margin-top: 20px;
+            padding: 24px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .custom-view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 16px;
+        }
+        .custom-view-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        .custom-view-close {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        .custom-view-close:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .custom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .artist-view-toggle {
+            display: flex;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            gap: 2px;
+        }
+        .artist-view-toggle .toggle-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .artist-view-toggle .toggle-btn.active {
+            background: #ffffff;
+            color: #6366f1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .artist-view-toggle .toggle-btn:hover:not(.active) {
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .custom-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-height: calc(100vh - 230px);
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+        .custom-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .custom-list-item:last-child {
+            border-bottom: none;
+        }
+        .custom-list-item:hover {
+            background-color: #f8fafc;
+        }
+        .custom-list-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 12px;
+            transition: color 0.2s ease;
+        }
+        .custom-list-name:hover {
+            color: var(--accent-color);
+        }
+        .custom-list-meta {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .custom-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .custom-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            background: #ffffff;
+        }
+        .custom-card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            transition: transform 0.2s;
+        }
+        .custom-card:hover .custom-card-icon {
+            transform: scale(1.15);
+        }
+        .custom-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .custom-card-meta {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        /* Keep header fixed and scroll only the table-wrapper on mobile/tablet */
+        @media (max-width: 1079px) {
+            html, body {
+                overflow: hidden !important;
+                height: 100% !important;
+                height: 100dvh !important;
+                margin: 0;
+                padding: 0;
+            }
+            .app-layout {
+                height: 100% !important;
+                height: 100dvh !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+            }
+            .app-main {
+                flex: 1 !important;
+                height: 100% !important;
+                min-height: 0 !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .container {
+                height: 100% !important;
+                min-height: 0 !important;
+                max-height: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+                padding: 12px 12px 0 12px !important; /* tight padding for mobile, leaving space at bottom */
+                box-sizing: border-box !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            header {
+                flex-shrink: 0 !important;
+            }
+            #selectedSongHeader,
+            #focusedView,
+            #customSidebarView {
+                flex-shrink: 0 !important;
+            }
+            .table-wrapper {
+                flex: 1 !important;
+                min-height: 0 !important;
+                overflow-y: auto !important;
+                margin-top: 8px !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            /* Column titles now stick inside the scrolling .table-wrapper */
+            #songsTable thead th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: #e2e8f0;
+                box-shadow: 0 2px 0 #cbd5e1;
+            }
+        }
+
+        /* Lock desktop viewport to prevent double scrollbars */
+        @media (min-width: 1080px) {
+            html, body {
+                overflow: hidden !important;
+                height: 100vh !important;
+            }
+            .header-top,
+            .header-bar {
+                max-width: none !important;
+                width: 100% !important;
+            }
+
+            /* Remove the divider line between sections in the header bar */
+            .header-section:not(:last-child)::after {
+                display: none !important;
+            }
+        }
+
+        /* Hide Genres section on sidebar for screens with lower vertical height (e.g. 125% scaling on 1080p screens) */
+        @media (max-height: 900px) {
+            .genres-section {
+                display: none !important;
+            }
+        }
+
+        /* Hide administrator columns (CTL & MAP) on narrow screens to prevent horizontal overflow (e.g., 125% scaling on 1080p screens) */
+        @media (max-width: 1550px) {
+            body.is-admin .ctl-column,
+            body.is-admin .ctl-cell,
+            body.is-admin .songmap-column,
+            body.is-admin .songmap-cell {
+                display: none !important;
+            }
+        }
+
+        /* Circle Artist layout similar to Spotify */
+        .artist-img-container {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 3px solid #ffffff;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .artist-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .custom-card:hover .artist-img-container {
+            transform: scale(1.06);
+            border-color: #6366f1;
+            box-shadow: 0 6px 14px rgba(99, 102, 241, 0.2);
+        }
+        .custom-card:hover .artist-img {
+            transform: scale(1.08);
+        }
+
+        /* Compact layout adjustments to fit more songs */
+        header::before {
+            display: none !important;
+        }
+        .container {
+            padding-top: 15px !important;
+        }
+        @media (min-width: 1080px) {
+            .container {
+                padding: 15px 40px 40px !important;
+            }
+            .table-wrapper {
+                max-height: calc(100vh - 230px);
+            }
+            #songsTable th,
+            #songsTable td {
+                padding: 10px 12px !important;
+            }
+            #songsTable td {
+                min-height: 48px !important;
+            }
+        }
+    </style>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -33,7 +597,86 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="app-layout">
+        <!-- Left Sidebar Column -->
+        <aside class="app-sidebar">
+            <div class="sidebar-brand">
+                <a href="index.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+                    <img src="images/guitar_keyboard_blue.jpg" alt="Logo" class="brand-logo">
+                    <img src="images/popsongchordbook_text_logo.jpg" alt="PopSongChordBook.com" class="brand-text-logo">
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="btnSongbook">
+                    <span class="nav-icon">🎵</span>
+                    <span class="nav-text">All Songs</span>
+                </a>
+                <a href="#" class="nav-item" id="btnFavorites">
+                    <span class="nav-icon">⭐</span>
+                    <span class="nav-text">Favorites</span>
+                </a>
+                <a href="#" class="nav-item" id="btnSetlists">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Setlists</span>
+                </a>
+                <a href="#" class="nav-item" id="btnArtists">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Artists</span>
+                </a>
+                <a href="#" class="nav-item" id="btnChordsLibrary">
+                    <span class="nav-icon">🎹</span>
+                    <span class="nav-text">Chords Library</span>
+                </a>
+                <a href="#" class="nav-item" id="btnChordTheory" onclick="event.preventDefault(); goToChordsTheory();">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Chord Theory</span>
+                </a>
+                <a href="#" class="nav-item" id="btnMyLibrary">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">My Library</span>
+                </a>
+            </nav>
+
+            <!-- Genres Section -->
+            <div class="sidebar-section genres-section">
+                <div class="section-header">
+                    <span>Genres</span>
+                </div>
+                <div class="playlist-items">
+                    <a href="#" class="playlist-item" data-genre-name="Rock" onclick="event.preventDefault(); selectGenreFromSidebar('Rock');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎸</div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Rock</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item" data-genre-name="Country" onclick="event.preventDefault(); selectGenreFromSidebar('Country');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🤠</div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Country</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item" data-genre-name="R&B" onclick="event.preventDefault(); selectGenreFromSidebar('R&B');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎷</div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">R&B</span>
+                        </div>
+                    </a>
+                    <a href="#" class="playlist-item" data-genre-name="Dance" onclick="event.preventDefault(); selectGenreFromSidebar('Dance');">
+                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🪩</div>
+                        <div class="playlist-info">
+                            <span class="playlist-name">Dance</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="container">
         <header>
             <div class="header-top">
                 <div class="header-top-left">
@@ -58,7 +701,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.833</span>
+                        <span id="site-version" class="version-tag">2.834</span>
                     </div>
                 </div>
             </div>
@@ -77,9 +720,6 @@
                             <span class="icon">🎓</span>
                             <span class="label">Chord Trainer</span>
                         </button>
-                        <button class="chords-info-btn mobile-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
-                            <span class="icon">📚</span>
-                        </button>
                     </div>
                     <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
                     <div class="search-section-container">
@@ -90,10 +730,6 @@
                                 title="Clear search field">×</button>
                         </div>
                     </div>
-                    <button class="chords-info-btn with-label desktop-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
-                        <span class="icon">📚</span>
-                        <span class="label">Chords</span>
-                    </button>
                 </div>
 
                 <!-- Right Section: Setlist & Actions -->
@@ -219,6 +855,9 @@
             </div>
         </div>
 
+        <!-- Custom Sidebar Content View (Grid of Artists / Setlists) -->
+        <div id="customSidebarView" class="custom-sidebar-view hidden"></div>
+
         <div class="table-wrapper">
             <table id="songsTable">
                 <thead>
@@ -264,8 +903,9 @@
                 </tbody>
             </table>
         </div>
-
-    </div>
+        </div>
+    </main>
+</div>
 
     <!-- Auth Modal -->
     <div id="authModal" class="modal auth-modal hidden">
@@ -1907,7 +2547,801 @@
                 window.location.href = 'ChordTheory&Tips.html';
             }
         }
+
+        // --- Sidebar Interactions for songlist2.html ---
+        function setActiveNav(activeId) {
+            const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+            navItems.forEach(item => {
+                if (item.id === activeId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Dynamically hide toolbar (header-bar) when in Chords Library view
+            const headerBar = document.getElementById('headerBar');
+            const toggleBtn = document.getElementById('toggleHeaderBar');
+            const toggleBtnCollapsed = document.getElementById('toggleHeaderBarCollapsed');
+            const headerTop = document.querySelector('.header-top');
+
+            if (headerBar && toggleBtn && toggleBtnCollapsed) {
+                if (activeId === 'btnChordsLibrary') {
+                    headerBar.style.setProperty('display', 'none', 'important');
+                    toggleBtn.style.setProperty('display', 'none', 'important');
+                    toggleBtnCollapsed.style.setProperty('display', 'none', 'important');
+                    if (headerTop) headerTop.classList.remove('header-bar-collapsed');
+                } else {
+                    headerBar.style.removeProperty('display');
+                    toggleBtn.style.removeProperty('display');
+                    toggleBtnCollapsed.style.removeProperty('display');
+
+                    const isCollapsed = localStorage.getItem('headerBarCollapsed') === 'true';
+                    if (isCollapsed) {
+                        headerBar.classList.add('collapsed');
+                        if (headerTop) headerTop.classList.add('header-bar-collapsed');
+                        toggleBtn.style.display = 'none';
+                        toggleBtnCollapsed.style.display = 'flex';
+                    } else {
+                        headerBar.classList.remove('collapsed');
+                        if (headerTop) headerTop.classList.remove('header-bar-collapsed');
+                        toggleBtn.style.display = 'flex';
+                        toggleBtnCollapsed.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        function clearCustomView() {
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (customView) customView.classList.add('hidden');
+            if (tableWrapper) tableWrapper.classList.remove('hidden');
+        }
+
+        function clearGenreActive() {
+            const genreItems = document.querySelectorAll('.sidebar-section .playlist-item');
+            genreItems.forEach(item => item.classList.remove('active'));
+        }
+
+        function selectGenreFromSidebar(genreName) {
+            clearGenreActive();
+            const genreItem = document.querySelector(`.sidebar-section .playlist-item[data-genre-name="${genreName}"]`);
+            if (genreItem) genreItem.classList.add('active');
+            
+            setActiveNav('');
+            clearCustomView();
+
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Clear search term
+                window.appInstance.searchTerm = '';
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearSearchBtn = document.getElementById('clearSearchBtn');
+                if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+
+                // Clear header setlist dropdown selection
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+
+                // Apply Genre filter
+                window.appInstance.currentFilter.genre = genreName;
+
+                // Sync the filter select in header dropdown if it exists
+                const filterGenreSelect = document.getElementById('filterGenreSelect');
+                if (filterGenreSelect) filterGenreSelect.value = genreName;
+
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function selectSongbook() {
+            clearGenreActive();
+            setActiveNav('btnSongbook');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset all filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+                
+                // Clear search term
+                window.appInstance.searchTerm = '';
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearSearchBtn = document.getElementById('clearSearchBtn');
+                if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+                
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function selectFavorites() {
+            clearGenreActive();
+            setActiveNav('btnFavorites');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Apply Favorites
+                window.appInstance.currentFilter.favorites = true;
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function selectMyLibrary() {
+            clearGenreActive();
+            setActiveNav('btnMyLibrary');
+            clearCustomView();
+            if (window.appInstance) {
+                // Reset other filters
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                // Apply Private Only (noPublic = true)
+                window.appInstance.currentFilter.noPublic = true;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function renderSetlistsView() {
+            clearGenreActive();
+            setActiveNav('btnSetlists');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!window.appInstance || !customView || !tableWrapper) return;
+
+            const setlists = window.appInstance.setlistManager.getAllSetlists() || [];
+            
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            let cardsHtml = '';
+            setlists.forEach(s => {
+                const songCount = s.songIds ? s.songIds.length : 0;
+                cardsHtml += `
+                    <div class="custom-card" onclick="selectSetlistFromSidebar('${s.id}')">
+                        <div class="custom-card-icon">📁</div>
+                        <div class="custom-card-name" title="${s.name}">${s.name}</div>
+                        <div class="custom-card-meta">${songCount} songs</div>
+                    </div>
+                `;
+            });
+
+            customView.innerHTML = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Setlists Overview</h3>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
+                </div>
+                <div class="custom-grid">
+                    ${setlists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No setlists created yet. Create a setlist using the + button next to Setlists select in the top header.</div>' : cardsHtml}
+                </div>
+            `;
+        }
+
+        function selectSetlistFromSidebar(setlistId) {
+            if (window.appInstance) {
+                // Clear custom view and activate Songbook tab
+                clearGenreActive();
+                setActiveNav('btnSongbook');
+                clearCustomView();
+
+                // Reset other filters (favorites, genres, key, search)
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.searchTerm = '';
+
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.classList.add('hidden');
+
+                // Apply Setlist filter
+                window.appInstance.currentSetlistId = setlistId;
+                window.appInstance.updateButtonsForSetlistMode();
+                
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = setlistId;
+                
+                // Render the filtered setlist songs!
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        async function fetchArtistThumbnail(artistName, imgElement) {
+            if (!artistName || !imgElement) return;
+
+            const safeArtist = artistName.replace(/[<>:"/\\|?*]/g, '').trim();
+            const localPath = `assets/thumbnails/artists/${safeArtist}.jpg`;
+
+            // 1. Try local thumbnail from assets/thumbnails/artists/ first
+            try {
+                const localExists = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = localPath;
+                });
+
+                if (localExists) {
+                    imgElement.src = localPath;
+                    return; // Successfully loaded local file!
+                }
+            } catch (e) {
+                console.log("Local artist thumbnail check failed, falling back to cache/Deezer.");
+            }
+
+            // 2. Check localStorage cache
+            const cacheKey = `artist_thumb_${artistName.toLowerCase().trim()}`;
+            const cachedUrl = localStorage.getItem(cacheKey);
+
+            if (cachedUrl) {
+                if (cachedUrl === 'failed') {
+                    // Standard vector user icon as fallback placeholder
+                    imgElement.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236366f1"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z"/></svg>';
+                } else {
+                    imgElement.src = cachedUrl;
+                }
+                return;
+            }
+
+            // 3. Fallback to Deezer Search Artist API (JSONP)
+            try {
+                const query = encodeURIComponent(artistName);
+                const callbackName = 'deezerArtist_' + Math.round(1000000 * Math.random());
+
+                const responsePromise = new Promise((resolve, reject) => {
+                    const timeoutId = setTimeout(() => {
+                        cleanup();
+                        reject(new Error('JSONP timeout'));
+                    }, 4000);
+
+                    const cleanup = () => {
+                        clearTimeout(timeoutId);
+                        delete window[callbackName];
+                        if (script && script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                    };
+
+                    window[callbackName] = (data) => {
+                        cleanup();
+                        resolve(data);
+                    };
+
+                    const script = document.createElement('script');
+                    script.src = `https://api.deezer.com/search/artist?q=${query}&output=jsonp&callback=${callbackName}`;
+                    script.onerror = () => {
+                        cleanup();
+                        reject(new Error('JSONP load error'));
+                    };
+                    document.body.appendChild(script);
+                });
+
+                const data = await responsePromise;
+
+                if (data && data.data && data.data.length > 0) {
+                    const pictureUrl = data.data[0].picture_medium || data.data[0].picture_small;
+                    if (pictureUrl) {
+                        localStorage.setItem(cacheKey, pictureUrl);
+                        imgElement.src = pictureUrl;
+                        return;
+                    }
+                }
+                
+                // If not found in Deezer, cache as failed to avoid redundant network requests
+                localStorage.setItem(cacheKey, 'failed');
+            } catch (e) {
+                console.warn('Deezer artist fetch failed for:', artistName, e);
+            }
+        }
+
+        async function fetchAllArtistThumbnails(sortedArtists) {
+            const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Pass 1: fire ALL local + cached lookups in parallel (instant, no network delay)
+            const needsDeezer = [];
+            await Promise.all(sortedArtists.map(async (artist) => {
+                const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
+                const imgElement = document.getElementById(`artistImg_${cardId}`);
+                if (!imgElement) return;
+
+                const safeArtist = artist.replace(/[<>:"/\\|?*]/g, '').trim();
+                const localPath = `assets/thumbnails/artists/${safeArtist}.jpg`;
+
+                // Try local file first (parallel probe)
+                const localExists = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = localPath;
+                });
+
+                if (localExists) {
+                    imgElement.src = localPath;
+                    return;
+                }
+
+                // Try localStorage cache
+                const cacheKey = `artist_thumb_${artist.toLowerCase().trim()}`;
+                const cachedUrl = localStorage.getItem(cacheKey);
+                if (cachedUrl) {
+                    if (cachedUrl !== 'failed') imgElement.src = cachedUrl;
+                    return;
+                }
+
+                // No local or cache — queue for Deezer
+                needsDeezer.push({ artist, imgElement });
+            }));
+
+            // Pass 2: rate-limited Deezer fetches only for uncached artists
+            for (const { artist, imgElement } of needsDeezer) {
+                await fetchArtistThumbnail(artist, imgElement);
+                await sleep(350);
+            }
+        }
+
+        let currentArtistViewMode = localStorage.getItem('artistViewMode') || 'thumbnail';
+
+        function setArtistViewMode(mode) {
+            currentArtistViewMode = mode;
+            localStorage.setItem('artistViewMode', mode);
+            renderArtistsView();
+        }
+
+        function renderArtistsView() {
+            clearGenreActive();
+            setActiveNav('btnArtists');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!window.appInstance || !customView || !tableWrapper) return;
+
+            // Clear any previously cached "failed" items to retry them under our new staggered system
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('artist_thumb_') && localStorage.getItem(key) === 'failed') {
+                    localStorage.removeItem(key);
+                    i--; // adjust index after removal
+                }
+            }
+
+            const allSongs = window.appInstance.songManager.getAllSongs() || [];
+            
+            // Extract unique sorted list of artists and their counts
+            const artistCounts = {};
+            allSongs.forEach(song => {
+                if (song.artist && song.artist.trim() !== '') {
+                    const artistName = song.artist.trim();
+                    artistCounts[artistName] = (artistCounts[artistName] || 0) + 1;
+                }
+            });
+
+            const sortedArtists = Object.keys(artistCounts).sort((a, b) => a.localeCompare(b));
+
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            let contentHtml = '';
+            if (currentArtistViewMode === 'thumbnail') {
+                let cardsHtml = '';
+                sortedArtists.forEach(artist => {
+                    const escapedArtistName = artist.replace(/'/g, "\\'");
+                    const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
+                    cardsHtml += `
+                        <div class="custom-card" onclick="selectArtistFromSidebar('${escapedArtistName}')">
+                            <div class="artist-img-container">
+                                <img class="artist-img" id="artistImg_${cardId}" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z'/></svg>" alt="${artist}">
+                            </div>
+                            <div class="custom-card-name" title="${artist}">${artist}</div>
+                            <div class="custom-card-meta">${artistCounts[artist]} songs</div>
+                        </div>
+                    `;
+                });
+                contentHtml = `
+                    <div class="custom-grid">
+                        ${sortedArtists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : cardsHtml}
+                    </div>
+                `;
+            } else {
+                let listHtml = '';
+                sortedArtists.forEach(artist => {
+                    const escapedArtistName = artist.replace(/'/g, "\\'");
+                    listHtml += `
+                        <div class="custom-list-item" onclick="selectArtistFromSidebar('${escapedArtistName}')">
+                            <span class="custom-list-name" title="${artist}">${artist}</span>
+                            <span class="custom-list-meta">${artistCounts[artist]} songs</span>
+                        </div>
+                    `;
+                });
+                contentHtml = `
+                    <div class="custom-list">
+                        ${sortedArtists.length === 0 ? '<div style="text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : listHtml}
+                    </div>
+                `;
+            }
+
+            customView.innerHTML = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Artists Overview</h3>
+                    <div class="artist-view-toggle">
+                        <button class="toggle-btn ${currentArtistViewMode === 'thumbnail' ? 'active' : ''}" onclick="setArtistViewMode('thumbnail')" title="Thumbnail View">🖼️ Thumbnail</button>
+                        <button class="toggle-btn ${currentArtistViewMode === 'text' ? 'active' : ''}" onclick="setArtistViewMode('text')" title="Text View">📝 Text</button>
+                    </div>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
+                </div>
+                ${contentHtml}
+            `;
+
+            // Asynchronously fetch Deezer artist thumbnails with rate-limiting staggered calls
+            if (currentArtistViewMode === 'thumbnail') {
+                fetchAllArtistThumbnails(sortedArtists);
+            }
+        }
+
+        function selectArtistFromSidebar(artistName) {
+            if (window.appInstance) {
+                // Clear custom view and activate Songbook tab
+                clearGenreActive();
+                setActiveNav('btnSongbook');
+                clearCustomView();
+
+                // Reset other filters (favorites, genres, key, setlist)
+                window.appInstance.currentFilter.favorites = false;
+                window.appInstance.currentFilter.noPublic = false;
+                window.appInstance.currentFilter.onlyPublic = false;
+                window.appInstance.currentFilter.genre = '';
+                window.appInstance.currentFilter.key = '';
+                window.appInstance.currentSetlistId = null;
+
+                const select = document.getElementById('setlistSelect');
+                if (select) select.value = '';
+
+                // Apply the artist search filter
+                window.appInstance.searchTerm = artistName;
+                
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = artistName;
+
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.classList.remove('hidden');
+
+                // Render the filtered song list!
+                window.appInstance.loadAndRender();
+            }
+        }
+
+        function renderChordsLibraryView() {
+            clearGenreActive();
+            setActiveNav('btnChordsLibrary');
+            const customView = document.getElementById('customSidebarView');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!customView || !tableWrapper) return;
+
+            // Hide standard table
+            tableWrapper.classList.add('hidden');
+            customView.classList.remove('hidden');
+
+            const currentMode = localStorage.getItem('instrumentMode') || 'piano';
+            renderChordsLibraryByMode(currentMode);
+        }
+
+        function switchLibraryInstrument(newMode) {
+            localStorage.setItem('instrumentMode', newMode);
+            // Sync with other overlays
+            if (window.appInstance && window.appInstance.songDetailModal) {
+                window.appInstance.songDetailModal.instrumentMode = newMode;
+                if (typeof window.appInstance.songDetailModal.updateInstrumentHeader === 'function') {
+                    window.appInstance.songDetailModal.updateInstrumentHeader();
+                }
+            }
+            renderChordsLibraryByMode(newMode);
+        }
+
+        function renderChordsLibraryByMode(mode) {
+            const customView = document.getElementById('customSidebarView');
+            if (!customView) return;
+
+            const rootsOrder = ["C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B"];
+            function getRootIndex(chordName) {
+                const match = chordName.match(/^([A-G][#b]?)/);
+                if (!match) return 999;
+                const idx = rootsOrder.indexOf(match[1]);
+                return idx === -1 ? 999 : idx;
+            }
+
+            let chords = [];
+            if (mode === 'guitar') {
+                const db = window.GuitarChordDatabase || {};
+                chords = Object.keys(db).filter(k => k && !k.startsWith('_') && db[k] && db[k].frets);
+                chords.sort((a, b) => {
+                    const idxA = getRootIndex(a);
+                    const idxB = getRootIndex(b);
+                    if (idxA !== idxB) return idxA - idxB;
+                    return a.localeCompare(b);
+                });
+            } else if (mode === 'ukulele') {
+                const db = window.UkuleleChordDatabase || {};
+                chords = Object.keys(db).filter(k => k && !k.startsWith('_') && db[k] && db[k].frets);
+                chords.sort((a, b) => {
+                    const idxA = getRootIndex(a);
+                    const idxB = getRootIndex(b);
+                    if (idxA !== idxB) return idxA - idxB;
+                    return a.localeCompare(b);
+                });
+            } else {
+                // Piano mode: chromatic sorted list
+                chords = [
+                    "C", "Cm", "C7", "Cmaj7", "Csus4", "Csus2", "Cadd9", "C5",
+                    "C#", "C#m", "C#7", "C#maj7", "C#sus4", "C#5",
+                    "D", "Dm", "D7", "Dmaj7", "Dsus4", "Dsus2", "Dadd9", "D5",
+                    "Eb", "Ebm", "Eb7", "Ebmaj7", "Eb5",
+                    "E", "Em", "E7", "Emaj7", "Esus4", "E5",
+                    "F", "Fm", "F7", "Fmaj7", "Fsus4", "F5",
+                    "F#", "F#m", "F#7", "F#maj7", "F#5",
+                    "G", "Gm", "G7", "Gmaj7", "Gsus4", "Gadd9", "G5",
+                    "Ab", "Abm", "Ab7", "Abmaj7", "Ab5",
+                    "A", "Am", "A7", "Amaj7", "Asus4", "Asus2", "Aadd9", "A5",
+                    "Bb", "Bbm", "Bb7", "Bbmaj7", "Bb5",
+                    "B", "Bm", "B7", "Bmaj7", "Bsus4", "B5"
+                ];
+            }
+
+            const headerHtml = `
+                <div class="custom-view-header">
+                    <h3 class="custom-view-title">Chords Library</h3>
+                    <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
+                </div>
+                <div class="library-tabs-container">
+                    <button class="library-tab-btn ${mode === 'piano' ? 'active' : ''}" onclick="switchLibraryInstrument('piano')">🎹 Piano</button>
+                    <button class="library-tab-btn ${mode === 'guitar' ? 'active' : ''}" onclick="switchLibraryInstrument('guitar')">🎸 Guitar</button>
+                    <button class="library-tab-btn ${mode === 'ukulele' ? 'active' : ''}" onclick="switchLibraryInstrument('ukulele')">🪕 Ukulele</button>
+                </div>
+            `;
+
+            const stylesHtml = `
+                <style>
+                    .library-tabs-container {
+                        display: flex;
+                        justify-content: center;
+                        gap: 12px;
+                        margin: 20px auto 30px;
+                        background: #f1f5f9;
+                        padding: 6px;
+                        border-radius: 14px;
+                        max-width: 400px;
+                        box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+                    }
+                    .library-tab-btn {
+                        flex: 1;
+                        padding: 10px 16px;
+                        border: none;
+                        background: transparent;
+                        color: #64748b;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 6px;
+                    }
+                    .library-tab-btn:hover {
+                        color: #1e293b;
+                    }
+                    .library-tab-btn.active {
+                        background: #ffffff;
+                        color: #6366f1;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+                    }
+                    
+                    /* Styling for chord cards */
+                    .chord-lib-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                        gap: 20px;
+                        padding: 10px 0;
+                    }
+                    .chord-lib-card {
+                        background: #ffffff;
+                        border-radius: 16px;
+                        padding: 16px;
+                        border: 1px solid #e2e8f0;
+                        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .chord-lib-card:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.2), 0 4px 12px -2px rgba(0,0,0,0.04);
+                        border-color: #6366f1;
+                    }
+                    .chord-lib-card .chord-lib-name {
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        color: #1e293b;
+                        margin-bottom: 12px;
+                        transition: color 0.2s;
+                    }
+                    .chord-lib-card:hover .chord-lib-name {
+                        color: #6366f1;
+                    }
+                    
+                    /* Custom diagrams wrapper sizing */
+                    .chord-lib-diagram {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 120px;
+                    }
+                    .chord-lib-diagram svg {
+                        max-width: 100%;
+                        height: 120px;
+                    }
+                    
+                    /* Piano specific keys */
+                    .chord-lib-card.piano-lib-card {
+                        min-width: 220px;
+                        padding: 16px 12px;
+                    }
+                    .chord-lib-grid.piano-lib-grid {
+                        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                    }
+                    
+                    /* Clean scrollbars for sidebar views */
+                    #customSidebarView {
+                        overflow-y: auto;
+                        max-height: calc(100vh - 120px);
+                        padding-right: 8px;
+                    }
+                </style>
+            `;
+
+            customView.innerHTML = stylesHtml + headerHtml + `<div class="chord-lib-grid ${mode === 'piano' ? 'piano-lib-grid' : ''}" id="libraryChordsGrid"></div>`;
+
+            const grid = document.getElementById('libraryChordsGrid');
+            if (!grid) return;
+
+            const audioPlayer = (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer)
+                ? window.appInstance.songDetailModal.sharedAudioPlayer
+                : new PianoAudioPlayer();
+
+            const parser = new ChordParser();
+            const guitarRenderer = new GuitarRenderer();
+            const ukuleleRenderer = new UkuleleRenderer();
+            const pianoOverlay = new PianoChordOverlay(audioPlayer);
+
+            chords.forEach(chordName => {
+                const card = document.createElement('div');
+                card.className = `chord-lib-card ${mode === 'piano' ? 'piano-lib-card' : ''}`;
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'chord-lib-name';
+                nameEl.textContent = chordName;
+                card.appendChild(nameEl);
+
+                const diagContainer = document.createElement('div');
+                diagContainer.className = 'chord-lib-diagram';
+
+                if (mode === 'guitar') {
+                    const db = window.GuitarChordDatabase || {};
+                    const simple = chordName.replace(/([23])$/, '');
+                    const fingering = db[chordName] || db[simple] || db[simple.split('/')[0]];
+                    if (fingering) {
+                        diagContainer.innerHTML = guitarRenderer.renderSVG(fingering);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Diagram</span>`;
+                    }
+
+                    card.onclick = () => {
+                        audioPlayer.setSound('guitar-strum');
+                        const chord = parser.parseGuitarChord(chordName, db);
+                        if (chord && chord.notes) {
+                            audioPlayer.playChord(chord.notes, 3.0, 0.4, 0.035, true);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                } else if (mode === 'ukulele') {
+                    const db = window.UkuleleChordDatabase || {};
+                    const simple = chordName.replace(/([23])$/, '');
+                    const fingering = db[chordName] || db[simple] || db[simple.split('/')[0]];
+                    if (fingering) {
+                        diagContainer.innerHTML = ukuleleRenderer.renderSVG(fingering);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Diagram</span>`;
+                    }
+
+                    card.onclick = () => {
+                        audioPlayer.setSound('ukulele');
+                        const chord = parser.parseUkuleleChord(chordName, db);
+                        if (chord && chord.notes) {
+                            audioPlayer.playChord(chord.notes, 2.0, 0.4, 0.03, true);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                } else {
+                    // Piano mode
+                    const parsedChord = pianoOverlay.parseChord(chordName);
+                    if (parsedChord) {
+                        const keyboard = pianoOverlay.createPianoKeyboard(parsedChord, parsedChord.notes);
+                        keyboard.style.width = '100%';
+                        keyboard.style.height = '74px';
+                        keyboard.style.position = 'relative';
+                        diagContainer.appendChild(keyboard);
+                    } else {
+                        diagContainer.innerHTML = `<span style="font-size: 12px; color: #94a3b8;">No Keyboard</span>`;
+                    }
+
+                    card.onclick = () => {
+                        const parsedChord = pianoOverlay.parseChord(chordName);
+                        if (parsedChord && parsedChord.notes) {
+                            audioPlayer.setSound('piano');
+                            audioPlayer.playChord(parsedChord.notes, 2.0, 0.6, 0.02);
+                        }
+                        card.style.transform = 'scale(0.96)';
+                        setTimeout(() => card.style.transform = '', 120);
+                    };
+                }
+
+                card.appendChild(diagContainer);
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSongbook = document.getElementById('btnSongbook');
+            const btnFavorites = document.getElementById('btnFavorites');
+            const btnSetlists = document.getElementById('btnSetlists');
+            const btnArtists = document.getElementById('btnArtists');
+            const btnMyLibrary = document.getElementById('btnMyLibrary');
+            const btnChordsLibrary = document.getElementById('btnChordsLibrary');
+
+            if (btnSongbook) btnSongbook.onclick = (e) => { e.preventDefault(); selectSongbook(); };
+            if (btnFavorites) btnFavorites.onclick = (e) => { e.preventDefault(); selectFavorites(); };
+            if (btnSetlists) btnSetlists.onclick = (e) => { e.preventDefault(); renderSetlistsView(); };
+            if (btnArtists) btnArtists.onclick = (e) => { e.preventDefault(); renderArtistsView(); };
+            if (btnMyLibrary) btnMyLibrary.onclick = (e) => { e.preventDefault(); selectMyLibrary(); };
+            if (btnChordsLibrary) btnChordsLibrary.onclick = (e) => { e.preventDefault(); renderChordsLibraryView(); };
+        });
     </script>
+
+
 </body>
 
 </html>

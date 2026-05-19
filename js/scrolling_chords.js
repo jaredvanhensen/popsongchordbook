@@ -1,4 +1,4 @@
-﻿// $12.544)
+// Scrolling Chords Logic (v2.834)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
