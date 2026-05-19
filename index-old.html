@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v2.831 - Interactive Scrolling Chord Timelines</title>
-    <meta name="version" content="2.831">
+    <title>PopSongChordBook v2.832 - Interactive Scrolling Chord Timelines</title>
+    <meta name="version" content="2.832">
     <meta name="description"
-        content="Never miss a chord again. Never get lost in a song. The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly. Browse hundreds of interactive chord tutorials.">
+        content="Never miss a chord again. Never get lost in a song. The fastest way to learn pop songs on piano or guitar. Stop memorizing chords — start playing songs instantly. Browse thousands of interactive chord tutorials.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords">
     <meta name="google-site-verification" content="GifO932pD8fjdFapfqXZIoh_i3lzNZMjzFds_FpDIpg" />
     <link rel="canonical" href="https://www.popsongchordbook.com/">
@@ -67,391 +67,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=2.829">
     <link rel="stylesheet" href="landing.css?v=2.829">
-    <style>
-        /* =============================================
-           Hero background: screenshot as zoomed,
-           slightly diagonal backdrop.
-           Left sidebar area is visible on the left.
-           Dark overlay keeps text fully readable.
-        ============================================= */
-        /* (app-layout and sidebar styles not used — pure CSS background approach) */
-
-        /* Sidebar styles matching songlist2.html - hidden on landing page */
-        .app-sidebar {
-            display: none;
-        }
-        .app-layout {
-            display: block;
-            position: relative;
-        }
-        .app-main {
-            width: 100%;
-        }
-
-        /* Desktop Sidebar: shown on screen sizes 1080px and wider */
-        @media (min-width: 1080px) {
-            .app-layout {
-                display: flex;
-                min-height: 100vh;
-            }
-            .app-main {
-                flex: 1;
-                min-width: 0;
-                margin-left: 280px; /* Leave space for the fixed sidebar */
-            }
-            .app-sidebar {
-                display: flex;
-                width: 280px;
-                background: linear-gradient(180deg, #12093a 0%, #211456 100%);
-                color: #ffffff;
-                flex-direction: column;
-                padding: 0;
-                flex-shrink: 0;
-                position: fixed; /* Keep locked in place */
-                left: 0;
-                top: 0;
-                height: 100vh;
-                overflow-y: auto;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-                z-index: 100;
-            }
-            
-            .sidebar-brand {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 32px 20px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            }
-            .brand-logo {
-                width: 140px;
-                height: 140px;
-                border-radius: 32px;
-                object-fit: cover;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .brand-logo:hover {
-                transform: scale(1.06);
-            }
-            .brand-text-logo {
-                width: 210px;
-                height: auto;
-                margin-top: 14px;
-                border-radius: 9999px;
-                overflow: hidden;
-                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .brand-text-logo:hover {
-                transform: scale(1.04);
-            }
-
-            .sidebar-nav {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                padding: 20px 12px;
-            }
-            .nav-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 12px 16px;
-                color: #c7d2fe;
-                text-decoration: none;
-                font-size: 14px;
-                font-weight: 600;
-                border-radius: 10px;
-                transition: all 0.2s ease;
-            }
-            .nav-item:hover {
-                background: rgba(255, 255, 255, 0.06);
-                color: #ffffff;
-            }
-            .nav-icon {
-                font-size: 18px;
-                width: 24px;
-                text-align: center;
-            }
-
-            .sidebar-section {
-                padding: 10px 16px 20px;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-            }
-            .section-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: 11px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-                color: rgba(255, 255, 255, 0.4);
-                margin-bottom: 12px;
-                padding: 0 12px;
-            }
-            .playlist-items {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-            }
-            .playlist-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 8px 12px;
-                color: #c7d2fe;
-                text-decoration: none;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-            }
-            .playlist-item:hover {
-                background: rgba(255, 255, 255, 0.04);
-                color: #ffffff;
-            }
-            .playlist-name {
-                font-size: 13px;
-                font-weight: 600;
-                line-height: 1.2;
-            }
-        }
-
-        /* Hero Section with screenshot as CSS background */
-        .hero-section {
-            position: relative;
-            background: #0b0526 !important;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Layer 1: The screenshot, zoomed in and slightly tilted */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            inset: -8% -5%;
-            background: url('images/songlist2_backdrop.png') no-repeat left center;
-            background-size: 115%;
-            transform: rotate(-3deg) scale(1.06);
-            transform-origin: top left;
-            opacity: 0.85;
-            z-index: 0;
-        }
-
-        /* Layer 2: Dark purple gradient overlay — keeps text legible */
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(105deg,
-                    rgba(8, 4, 28, 0.30) 0%,
-                    rgba(8, 4, 28, 0.55) 30%,
-                    rgba(10, 5, 38, 0.82) 65%,
-                    rgba(12, 6, 45, 0.93) 100%);
-            z-index: 1;
-        }
-
-        /* ─── OPTION 1 (too high, black void at bottom) — kept as reference ───
-        @media (max-width: 600px) and (orientation: portrait), (max-width: 480px) {
-            .hero-section::before {
-                background-position: left top;
-                background-size: 140%;
-                inset: -5% -5% -15% -5%;
-                transform: rotate(-2deg) scale(1.04);
-            }
-        }
-        ─────────────────────────────────────────────────────────────────────── */
-
-        /* ─── Mobile portrait: image at top, clean blue-purple below (like screenshot 2) ─── */
-        @media (max-width: 600px) and (orientation: portrait),
-               (max-width: 480px) {
-
-            /* Base = vibrant blue-purple of old index.html */
-            .hero-section {
-                background: linear-gradient(160deg, #667eea 0%, #764ba2 100%) !important;
-            }
-
-            /* Image: sized to show the top-left area (sidebar + logo area) */
-            .hero-section::before {
-                background-size: 200%;
-                background-position: left top;
-                background-repeat: no-repeat;      /* no tiling — only at the top */
-                inset: -5% -2% -15% -2%;
-                transform: rotate(-2deg) scale(1.04);
-                opacity: 0.80;
-            }
-
-            /* Gradient: transparent at top (shows the image/screenshot),
-               then quickly goes fully opaque by ~50% so the text area is
-               a clean solid blue-purple — exactly like screenshot 2 */
-            .hero-section::after {
-                background:
-                    linear-gradient(to bottom,
-                        rgba(80, 50, 180, 0.05)  0%,    /* very top: image shows */
-                        rgba(80, 50, 180, 0.30)  25%,   /* fading in */
-                        rgba(90, 60, 180, 0.82)  45%,   /* mostly covered */
-                        rgba(100, 65, 175, 0.98) 60%,   /* fully solid */
-                        rgba(110, 70, 170, 1.00) 100%); /* stays solid */
-            }
-
-            /* Heavier font weight for mobile — easier to read at smaller sizes */
-            .hero-title {
-                font-weight: 900 !important;
-                font-size: 2.4rem !important;
-                letter-spacing: -0.5px;
-                /* Golden yellow — stands out against both the image and the blue gradient */
-                color: #FFD93D !important;
-                /* Thick dark stroke so the yellow letters have a crisp edge */
-                -webkit-text-stroke: 5px rgba(0, 0, 10, 0.85) !important;
-                text-stroke: 5px rgba(0, 0, 10, 0.85) !important;
-                paint-order: stroke fill;
-                text-shadow: 0 3px 14px rgba(0, 0, 0, 0.50) !important;
-            }
-            .hero-subtitle {
-                font-weight: 700 !important;
-                font-size: 1.15rem !important;
-            }
-            .hero-description {
-                font-weight: 500 !important;
-                font-size: 1rem !important;
-            }
-
-            /* No stroke needed — text sits on clean solid background below */
-            .hero-title,
-            .hero-subtitle,
-            .hero-description {
-                -webkit-text-stroke: 0;
-                text-stroke: 0;
-                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-            }
-        }
-
-        /* ── Desktop text stroke: subtle outline against the background image ── */
-        .hero-title,
-        .hero-subtitle,
-        .hero-description {
-            -webkit-text-stroke: 1.5px rgba(0, 0, 15, 0.75);
-            text-stroke: 1.5px rgba(0, 0, 15, 0.75);
-            paint-order: stroke fill;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
-        }
-
-        /* On mobile the stroke rules above are overridden by the mobile block */
-
-        /* Hero logo style replacing bouncing guitar/keyboard */
-        .hero-logo-container {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .hero-logo-img {
-            width: 140px;
-            height: 140px;
-            border-radius: 32px;
-            object-fit: cover;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .hero-logo-img:hover {
-            transform: scale(1.06);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Premium feature items at the bottom of hero container */
-        .hero-features-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            width: 100%;
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            text-align: left;
-        }
-
-        .hero-feature-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .hero-feature-icon-wrapper {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hero-feature-item:hover .hero-feature-icon-wrapper {
-            transform: translateY(-2px) scale(1.08);
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
-        }
-
-        .hero-feature-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .hero-feature-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: #ffffff;
-            margin-bottom: 2px;
-        }
-
-        .hero-feature-desc {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.65);
-            line-height: 1.35;
-        }
-
-        /* Adjust hero content max-width to look amazing with 6 features */
-        .hero-content {
-            max-width: 960px !important;
-            position: relative;
-            z-index: 2;
-        }
-
-        @media (max-width: 768px) {
-            .hero-features-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                margin-top: 40px;
-                padding-top: 30px;
-            }
-            .hero-logo-img {
-                width: 110px;
-                height: 110px;
-                border-radius: 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-features-row {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-        }
-    </style>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="ChordBook">
@@ -544,12 +159,51 @@
 </head>
 
 <body>
-
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <div class="hero-logo-container">
-                <img src="images/pwa_logo_hero.jpg" alt="PopSongChordBook Logo" class="hero-logo-img">
+            <div class="hero-icon">
+                🎸
+                <svg width="1.92em" height="0.8em" viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"
+                    style="vertical-align: middle; margin-left: 10px; display: inline-block;">
+                    <defs>
+                        <linearGradient id="key-white" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                            <stop offset="90%" style="stop-color:#f0f0f0;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#d0d0d0;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="key-black" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#444444;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="1" />
+                            <feOffset dx="1" dy="1" result="offsetblur" />
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.3" />
+                            </feComponentTransfer>
+                            <feMerge>
+                                <feMergeNode />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <rect x="0" y="0" width="120" height="50" rx="6" fill="#222" filter="url(#shadow)" />
+                    <g transform="translate(4, 4)">
+                        <rect x="0" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="16" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="32" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="48" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="64" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="80" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="96" y="0" width="14" height="42" rx="2" fill="url(#key-white)" />
+                        <rect x="10" y="0" width="10" height="26" rx="1.5" fill="url(#key-black)" />
+                        <rect x="26" y="0" width="10" height="26" rx="1.5" fill="url(#key-black)" />
+                        <rect x="58" y="0" width="10" height="26" rx="1.5" fill="url(#key-black)" />
+                        <rect x="74" y="0" width="10" height="26" rx="1.5" fill="url(#key-black)" />
+                        <rect x="90" y="0" width="10" height="26" rx="1.5" fill="url(#key-black)" />
+                    </g>
+                </svg>
             </div>
             <h1 class="hero-title">Pop Song Chord Book</h1>
             <p class="hero-subtitle">The Ultimate Pop Song Book for Guitar, Piano & Ukulele</p>
@@ -569,56 +223,6 @@
                     <span class="btn-icon">⚡</span>
                     <span>Quick Start Guide</span>
                 </a>
-            </div>
-            
-            <div class="hero-features-row">
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">🎵</div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">Hundreds of Songs</span>
-                        <span class="hero-feature-desc">Pop hits across all decades</span>
-                    </div>
-                </div>
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">⭐</div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">Easy Chords</span>
-                        <span class="hero-feature-desc">Simplified for every player</span>
-                    </div>
-                </div>
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">📜</div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">Scrolling Chords</span>
-                        <span class="hero-feature-desc">Auto-scroll lyrics & chords</span>
-                    </div>
-                </div>
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">🎮</div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">Chord Trainer</span>
-                        <span class="hero-feature-desc">Master keys & progressions</span>
-                    </div>
-                </div>
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">
-                        <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="22" height="16" style="display: block;">
-                            <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000" />
-                            <path d="M 45,24 27,14 27,34" fill="#fff" />
-                        </svg>
-                    </div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">YouTube Jamalong</span>
-                        <span class="hero-feature-desc">Play in sync with the video</span>
-                    </div>
-                </div>
-                <div class="hero-feature-item">
-                    <div class="hero-feature-icon-wrapper">📥</div>
-                    <div class="hero-feature-text">
-                        <span class="hero-feature-title">Import Your Songs</span>
-                        <span class="hero-feature-desc">Add custom chord sheets</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1067,7 +671,7 @@
         <div class="container">
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">2.831</span>
+                v<span id="site-version">2.832</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
@@ -1145,8 +749,6 @@
             }
         });
     </script>
-        </main>
-    </div>
 </body>
 
 
