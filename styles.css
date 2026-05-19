@@ -11143,6 +11143,19 @@ div.song-detail-practice-controls {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* On desktop (sidebar visible), hide the header Chord Trainer button — it's in the sidebar */
+@media (min-width: 1080px) {
+    .sidebar-visible-on-mobile {
+        display: none !important;
+    }
+}
+/* On mobile/tablet (no sidebar), show the header Chord Trainer button */
+@media (max-width: 1079px) {
+    .sidebar-visible-on-mobile {
+        display: flex !important;
+    }
+}
+
 .chords-info-btn { 
     display: flex; 
     align-items: center; 
