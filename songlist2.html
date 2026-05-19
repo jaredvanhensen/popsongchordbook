@@ -19,7 +19,7 @@
             document.head.appendChild(meta);
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=2.823">
+    <link rel="stylesheet" href="styles.css?v=2.824">
     <style>
         /* Sidebar default: hidden on mobile */
         .app-sidebar {
@@ -311,6 +311,81 @@
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 16px;
         }
+        .artist-view-toggle {
+            display: flex;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            gap: 2px;
+        }
+        .artist-view-toggle .toggle-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .artist-view-toggle .toggle-btn.active {
+            background: #ffffff;
+            color: #6366f1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .artist-view-toggle .toggle-btn:hover:not(.active) {
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .custom-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-height: calc(100vh - 230px);
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+        .custom-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .custom-list-item:last-child {
+            border-bottom: none;
+        }
+        .custom-list-item:hover {
+            background-color: #f8fafc;
+        }
+        .custom-list-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 12px;
+            transition: color 0.2s ease;
+        }
+        .custom-list-name:hover {
+            color: var(--accent-color);
+        }
+        .custom-list-meta {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            white-space: nowrap;
+        }
         .custom-card {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -351,12 +426,39 @@
             font-weight: 600;
         }
 
-        /* Fix page scrolling by overriding height restrictions on .container for songlist2.html */
-        .container {
-            height: auto !important;
-            min-height: 100vh !important;
-            overflow: visible !important;
-            display: block !important;
+        /* Fix page scrolling by overriding height restrictions on .container for songlist2.html on mobile/tablet */
+        @media (max-width: 1079px) {
+            .container {
+                height: auto !important;
+                min-height: 100vh !important;
+                overflow: visible !important;
+                display: block !important;
+            }
+        }
+
+        /* Lock desktop viewport to prevent double scrollbars */
+        @media (min-width: 1080px) {
+            html, body {
+                overflow: hidden !important;
+                height: 100vh !important;
+            }
+        }
+
+        /* Hide Genres section on sidebar for screens with lower vertical height (e.g. 125% scaling on 1080p screens) */
+        @media (max-height: 900px) {
+            .genres-section {
+                display: none !important;
+            }
+        }
+
+        /* Hide administrator columns (CTL & MAP) on narrow screens to prevent horizontal overflow (e.g., 125% scaling on 1080p screens) */
+        @media (max-width: 1550px) {
+            body.is-admin .ctl-column,
+            body.is-admin .ctl-cell,
+            body.is-admin .songmap-column,
+            body.is-admin .songmap-cell {
+                display: none !important;
+            }
         }
 
         /* Circle Artist layout similar to Spotify */
@@ -463,7 +565,7 @@
             </nav>
 
             <!-- Genres Section -->
-            <div class="sidebar-section">
+            <div class="sidebar-section genres-section">
                 <div class="section-header">
                     <span>Genres</span>
                 </div>
@@ -525,7 +627,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.823</span>
+                        <span id="site-version" class="version-tag">2.824</span>
                     </div>
                 </div>
             </div>
@@ -2193,43 +2295,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.823"></script>
+    <script src="js/config/firebase-config.js?v=2.824"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.823"></script>
-    <script src="js/models/SetlistManager.js?v=2.823"></script>
+    <script src="js/models/SongManager.js?v=2.824"></script>
+    <script src="js/models/SetlistManager.js?v=2.824"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=2.823"></script>
-    <script src="js/utils/Sorter.js?v=2.823"></script>
-    <script src="js/utils/ChordDetector.js?v=2.823"></script>
-    <script src="js/utils/KeyDetector.js?v=2.823"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.823"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.823"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.823"></script>
-    <script src="js/utils/LyricsParser.js?v=2.823"></script>
+    <script src="js/utils/SEO.js?v=2.824"></script>
+    <script src="js/utils/Sorter.js?v=2.824"></script>
+    <script src="js/utils/ChordDetector.js?v=2.824"></script>
+    <script src="js/utils/KeyDetector.js?v=2.824"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.824"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.824"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.824"></script>
+    <script src="js/utils/LyricsParser.js?v=2.824"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.823"></script>
-    <script src="js/ui/ChordModal.js?v=2.823"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.823"></script>
-    <script src="js/ui/TableRenderer.js?v=2.823"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.823"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.823"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.823"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.823"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.823"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.823"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.823"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.823"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.823"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.823"></script>
-    <script src="js/ui/AuthModal.js?v=2.823"></script>
-    <script src="js/ui/ProfileModal.js?v=2.823"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.823"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.823"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.823"></script>
+    <script src="js/utils/ChordParser.js?v=2.824"></script>
+    <script src="js/ui/ChordModal.js?v=2.824"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.824"></script>
+    <script src="js/ui/TableRenderer.js?v=2.824"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.824"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.824"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.824"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.824"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.824"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.824"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.824"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.824"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.824"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.824"></script>
+    <script src="js/ui/AuthModal.js?v=2.824"></script>
+    <script src="js/ui/ProfileModal.js?v=2.824"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.824"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.824"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.824"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.823"></script>
+    <script src="js/app.js?v=2.824"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -2705,6 +2807,14 @@
             }
         }
 
+        let currentArtistViewMode = localStorage.getItem('artistViewMode') || 'thumbnail';
+
+        function setArtistViewMode(mode) {
+            currentArtistViewMode = mode;
+            localStorage.setItem('artistViewMode', mode);
+            renderArtistsView();
+        }
+
         function renderArtistsView() {
             clearGenreActive();
             setActiveNav('btnArtists');
@@ -2738,33 +2848,61 @@
             tableWrapper.classList.add('hidden');
             customView.classList.remove('hidden');
 
-            let cardsHtml = '';
-            sortedArtists.forEach(artist => {
-                const escapedArtistName = artist.replace(/'/g, "\\'");
-                const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
-                cardsHtml += `
-                    <div class="custom-card" onclick="selectArtistFromSidebar('${escapedArtistName}')">
-                        <div class="artist-img-container">
-                            <img class="artist-img" id="artistImg_${cardId}" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z'/></svg>" alt="${artist}">
+            let contentHtml = '';
+            if (currentArtistViewMode === 'thumbnail') {
+                let cardsHtml = '';
+                sortedArtists.forEach(artist => {
+                    const escapedArtistName = artist.replace(/'/g, "\\'");
+                    const cardId = artist.replace(/[^a-zA-Z0-9]/g, '_');
+                    cardsHtml += `
+                        <div class="custom-card" onclick="selectArtistFromSidebar('${escapedArtistName}')">
+                            <div class="artist-img-container">
+                                <img class="artist-img" id="artistImg_${cardId}" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4h16s-1.9-4-8-4z'/></svg>" alt="${artist}">
+                            </div>
+                            <div class="custom-card-name" title="${artist}">${artist}</div>
+                            <div class="custom-card-meta">${artistCounts[artist]} songs</div>
                         </div>
-                        <div class="custom-card-name" title="${artist}">${artist}</div>
-                        <div class="custom-card-meta">${artistCounts[artist]} songs</div>
+                    `;
+                });
+                contentHtml = `
+                    <div class="custom-grid">
+                        ${sortedArtists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : cardsHtml}
                     </div>
                 `;
-            });
+            } else {
+                let listHtml = '';
+                sortedArtists.forEach(artist => {
+                    const escapedArtistName = artist.replace(/'/g, "\\'");
+                    listHtml += `
+                        <div class="custom-list-item" onclick="selectArtistFromSidebar('${escapedArtistName}')">
+                            <span class="custom-list-name" title="${artist}">${artist}</span>
+                            <span class="custom-list-meta">${artistCounts[artist]} songs</span>
+                        </div>
+                    `;
+                });
+                contentHtml = `
+                    <div class="custom-list">
+                        ${sortedArtists.length === 0 ? '<div style="text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : listHtml}
+                    </div>
+                `;
+            }
 
             customView.innerHTML = `
                 <div class="custom-view-header">
                     <h3 class="custom-view-title">Artists Overview</h3>
+                    <div class="artist-view-toggle">
+                        <button class="toggle-btn ${currentArtistViewMode === 'thumbnail' ? 'active' : ''}" onclick="setArtistViewMode('thumbnail')" title="Thumbnail View">🖼️ Thumbnail</button>
+                        <button class="toggle-btn ${currentArtistViewMode === 'text' ? 'active' : ''}" onclick="setArtistViewMode('text')" title="Text View">📝 Text</button>
+                    </div>
                     <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
                 </div>
-                <div class="custom-grid">
-                    ${sortedArtists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : cardsHtml}
-                </div>
+                ${contentHtml}
             `;
 
             // Asynchronously fetch Deezer artist thumbnails with rate-limiting staggered calls
-            fetchAllArtistThumbnails(sortedArtists);
+            if (currentArtistViewMode === 'thumbnail') {
+                fetchAllArtistThumbnails(sortedArtists);
+            }
         }
 
         function selectArtistFromSidebar(artistName) {
@@ -3108,6 +3246,7 @@
 </body>
 
 </html>
+
 
 
 
