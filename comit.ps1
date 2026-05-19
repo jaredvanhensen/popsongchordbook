@@ -10,6 +10,7 @@ param (
 $root = $PSScriptRoot
 $indexFile = Join-Path $root "index.html"
 $songlistFile = Join-Path $root "songlist.html"
+$songlist2File = Join-Path $root "songlist2.html"
 $appJsFile = Join-Path $root "js/app.js"
 $scrollingHtmlFile = Join-Path $root "scrolling_chords.html"
 $scrollingJsFile = Join-Path $root "js/scrolling_chords.js"
@@ -50,9 +51,16 @@ Set-Content $indexFile $indexContent -Encoding UTF8
 # 4. Update songlist.html
 Write-Host "Updating songlist.html..."
 $songlistContent = Get-Content $songlistFile -Raw -Encoding UTF8
-$songlistContent = $songlistContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+$songlistContent = $songlistContent -replace '<span id="site-version" class="version-tag">[\d\.]+</span>', "<span id=`"site-version`" class=`"version-tag`">$newVersion</span>"
 $songlistContent = $songlistContent -replace '\?v=[\d\.]+', ("?v=$newVersion")
 Set-Content $songlistFile $songlistContent -Encoding UTF8
+
+# 4b. Update songlist2.html
+Write-Host "Updating songlist2.html..."
+$songlist2Content = Get-Content $songlist2File -Raw -Encoding UTF8
+$songlist2Content = $songlist2Content -replace '<span id="site-version" class="version-tag">[\d\.]+</span>', "<span id=`"site-version`" class=`"version-tag`">$newVersion</span>"
+$songlist2Content = $songlist2Content -replace '\?v=[\d\.]+', ("?v=$newVersion")
+Set-Content $songlist2File $songlist2Content -Encoding UTF8
 
 # 5. Update scrolling_chords.html & js
 if (Test-Path $scrollingHtmlFile) {
