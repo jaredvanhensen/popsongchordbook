@@ -19,7 +19,7 @@
             document.head.appendChild(meta);
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=2.824">
+    <link rel="stylesheet" href="styles.css?v=2.825">
     <style>
         /* Sidebar default: hidden on mobile */
         .app-sidebar {
@@ -442,6 +442,16 @@
                 overflow: hidden !important;
                 height: 100vh !important;
             }
+            .header-top,
+            .header-bar {
+                max-width: none !important;
+                width: 100% !important;
+            }
+
+            /* Remove the divider line between sections in the header bar */
+            .header-section:not(:last-child)::after {
+                display: none !important;
+            }
         }
 
         /* Hide Genres section on sidebar for screens with lower vertical height (e.g. 125% scaling on 1080p screens) */
@@ -558,6 +568,10 @@
                     <span class="nav-icon">🎹</span>
                     <span class="nav-text">Chords Library</span>
                 </a>
+                <a href="#" class="nav-item" id="btnChordTheory" onclick="event.preventDefault(); goToChordsTheory();">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Chord Theory</span>
+                </a>
                 <a href="#" class="nav-item" id="btnMyLibrary">
                     <span class="nav-icon">👤</span>
                     <span class="nav-text">My Library</span>
@@ -627,7 +641,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.824</span>
+                        <span id="site-version" class="version-tag">2.825</span>
                     </div>
                 </div>
             </div>
@@ -646,9 +660,6 @@
                             <span class="icon">🎓</span>
                             <span class="label">Chord Trainer</span>
                         </button>
-                        <button class="chords-info-btn mobile-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
-                            <span class="icon">📚</span>
-                        </button>
                     </div>
                     <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
                     <div class="search-section-container">
@@ -659,10 +670,6 @@
                                 title="Clear search field">×</button>
                         </div>
                     </div>
-                    <button class="chords-info-btn with-label desktop-only" title="Chord Theory & Tips" onclick="goToChordsTheory()">
-                        <span class="icon">📚</span>
-                        <span class="label">Chords</span>
-                    </button>
                 </div>
 
                 <!-- Right Section: Setlist & Actions -->
@@ -2295,43 +2302,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.824"></script>
+    <script src="js/config/firebase-config.js?v=2.825"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.824"></script>
-    <script src="js/models/SetlistManager.js?v=2.824"></script>
+    <script src="js/models/SongManager.js?v=2.825"></script>
+    <script src="js/models/SetlistManager.js?v=2.825"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=2.824"></script>
-    <script src="js/utils/Sorter.js?v=2.824"></script>
-    <script src="js/utils/ChordDetector.js?v=2.824"></script>
-    <script src="js/utils/KeyDetector.js?v=2.824"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.824"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.824"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.824"></script>
-    <script src="js/utils/LyricsParser.js?v=2.824"></script>
+    <script src="js/utils/SEO.js?v=2.825"></script>
+    <script src="js/utils/Sorter.js?v=2.825"></script>
+    <script src="js/utils/ChordDetector.js?v=2.825"></script>
+    <script src="js/utils/KeyDetector.js?v=2.825"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.825"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.825"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.825"></script>
+    <script src="js/utils/LyricsParser.js?v=2.825"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.824"></script>
-    <script src="js/ui/ChordModal.js?v=2.824"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.824"></script>
-    <script src="js/ui/TableRenderer.js?v=2.824"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.824"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.824"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.824"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.824"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.824"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.824"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.824"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.824"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.824"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.824"></script>
-    <script src="js/ui/AuthModal.js?v=2.824"></script>
-    <script src="js/ui/ProfileModal.js?v=2.824"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.824"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.824"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.824"></script>
+    <script src="js/utils/ChordParser.js?v=2.825"></script>
+    <script src="js/ui/ChordModal.js?v=2.825"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.825"></script>
+    <script src="js/ui/TableRenderer.js?v=2.825"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.825"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.825"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.825"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.825"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.825"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.825"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.825"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.825"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.825"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.825"></script>
+    <script src="js/ui/AuthModal.js?v=2.825"></script>
+    <script src="js/ui/ProfileModal.js?v=2.825"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.825"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.825"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.825"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.824"></script>
+    <script src="js/app.js?v=2.825"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -3246,6 +3253,7 @@
 </body>
 
 </html>
+
 
 
 

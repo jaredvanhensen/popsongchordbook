@@ -155,11 +155,13 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
-                    <span class="version-number">v2.824</span>
+                    <span class="version-number">v2.825</span>
                     <span class="version-date">May 19, 2026</span>
                 </div>
                 <div class="version-body">
                     <ul>
+                        <li><strong>Chord Theory Relocation:</strong> Moved the "Chords" button from the header bar to the left sidebar (underneath Chords Library), renaming it to "Chord Theory" and removing the vertical divider separator line from the header layout.</li>
+                        <li><strong>Full-Width Desktop Toolbar:</strong> Removed the `max-width: 1400px` limitation from the desktop header and button bar, letting them expand to 100% width to align perfectly with the songlist table below on high-resolution screens.</li>
                         <li><strong>Scale & Scrollbar Layout Optimizations:</strong> Implemented device and viewport scaling-aware CSS media rules to prevent redundant page scrollbars. Automatically hides sidebar Genres section on lower height viewports and skips rendering CTL/MAP columns on narrower desktop views to resolve viewport overflow.</li>
                         <li><strong>Artists Layout Mode Switch:</strong> Added a view toggle inside the Artists Overview header on the left sidebar to seamlessly switch between full graphical thumbnails and lightweight text pills.</li>
                         <li><strong>Layout Optimization (songlist2.html):</strong> Shifted header and actions bar upwards and removed the top blue accent line to maximize vertical workspace. Optimized desktop row padding and maximum list height to fit more songs simultaneously in the view.</li>
