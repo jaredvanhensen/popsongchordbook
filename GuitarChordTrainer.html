@@ -10,9 +10,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/chord-trainer.css?v=2.813">
     <link rel="stylesheet" href="css/guitar-trainer.css?v=2.813">
+    <link rel="stylesheet" href="css/sidebar.css">
 </head>
 <body>
-    <header class="trainer-header" style="position: relative;">
+
+    <div class="app-layout">
+        <!-- Left Sidebar Column -->
+        <aside class="app-sidebar">
+            <div class="sidebar-brand">
+                <a href="index.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+                    <img src="images/guitar_keyboard_blue.jpg" alt="Logo" class="brand-logo">
+                    <img src="images/popsongchordbook_text_logo.jpg" alt="PopSongChordBook.com" class="brand-text-logo">
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="songlist.html" class="nav-item" id="btnSongbook">
+                    <span class="nav-icon">🎵</span>
+                    <span class="nav-text">All Songs</span>
+                </a>
+                <a href="songlist.html?view=favorites" class="nav-item" id="btnFavorites">
+                    <span class="nav-icon">⭐</span>
+                    <span class="nav-text">Favorites</span>
+                </a>
+                <a href="songlist.html?view=setlists" class="nav-item" id="btnSetlists">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Setlists</span>
+                </a>
+                <a href="songlist.html?view=artists" class="nav-item" id="btnArtists">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Artists</span>
+                </a>
+                <a href="songlist.html?view=chords" class="nav-item" id="btnChordsLibrary">
+                    <span class="nav-icon">🎹</span>
+                    <span class="nav-text">Chords Library</span>
+                </a>
+                <a href="#" class="nav-item" id="btnChordTheory" onclick="event.preventDefault(); goToChordsTheory();">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Chord Theory</span>
+                </a>
+                <a href="#" class="nav-item active" id="btnChordTrainerSidebar" onclick="event.preventDefault(); goToChordTrainer();">
+                    <span class="nav-icon">🎓</span>
+                    <span class="nav-text">Chord Trainer</span>
+                </a>
+                <a href="songlist.html?view=mylibrary" class="nav-item" id="btnMyLibrary">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">My Library</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <header class="trainer-header" style="position: relative;">
         <div class="trainer-title-group" style="flex-shrink: 0;">
             <a href="songlist.html" class="back-link" style="color: white; text-decoration: none; font-size: 1.5rem; margin-right: 15px;">‹</a>
             <h1 class="trainer-title">🎓 GUITAR CHORD TRAINER</h1>
@@ -154,6 +204,9 @@
         </div>
     </main>
 
+        </main>
+    </div>
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -169,6 +222,24 @@
     <script src="js/models/SongManager.js?v=2.813"></script>
     <script>
         window.firebaseManager = new FirebaseManager();
+
+        function goToChordsTheory() {
+            const mode = localStorage.getItem('instrumentMode') || 'piano';
+            if (mode === 'guitar') {
+                window.location.href = 'ChordTheory&TipsGuitar.html';
+            } else {
+                window.location.href = 'ChordTheory&Tips.html';
+            }
+        }
+
+        function goToChordTrainer() {
+            const mode = localStorage.getItem('instrumentMode') || 'piano';
+            if (mode === 'guitar') {
+                window.location.href = 'GuitarChordTrainer.html';
+            } else {
+                window.location.href = 'ChordTrainer.html';
+            }
+        }
     </script>
     <script src="js/ui/GuitarChordTrainer.js?v=2.813"></script>
 </body>

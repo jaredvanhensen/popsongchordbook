@@ -1,4 +1,4 @@
-﻿// Main Application (v2.836)
+﻿// Main Application (v2.837)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -54,7 +54,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 2.836");
+        console.log("Pop Song Chord Book - 2.837");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -299,6 +299,27 @@ class App {
                 }
             };
             checkAndNavigate();
+        }
+
+        // Handle direct view or genre navigation via URL parameter (e.g. ?view=favorites or ?genre=Rock)
+        const viewParam = urlParams.get('view')?.trim();
+        const genreParam = urlParams.get('genre')?.trim();
+        if (viewParam) {
+            console.log('App: Auto-navigating to view:', viewParam);
+            if (viewParam === 'favorites') {
+                if (typeof window.selectFavorites === 'function') window.selectFavorites();
+            } else if (viewParam === 'setlists') {
+                if (typeof window.renderSetlistsView === 'function') window.renderSetlistsView();
+            } else if (viewParam === 'artists') {
+                if (typeof window.renderArtistsView === 'function') window.renderArtistsView();
+            } else if (viewParam === 'chords') {
+                if (typeof window.renderChordsLibraryView === 'function') window.renderChordsLibraryView();
+            } else if (viewParam === 'mylibrary') {
+                if (typeof window.selectMyLibrary === 'function') window.selectMyLibrary();
+            }
+        } else if (genreParam) {
+            console.log('App: Auto-navigating to genre:', genreParam);
+            if (typeof window.selectGenreFromSidebar === 'function') window.selectGenreFromSidebar(genreParam);
         }
 
         // Auto-sync version display from meta tag (so we never forget to update the visible number)
@@ -3314,6 +3335,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

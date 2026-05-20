@@ -1,0 +1,227 @@
+/* Sidebar default: hidden on mobile */
+.app-sidebar {
+    display: none;
+}
+.app-layout {
+    display: block;
+}
+.app-main {
+    width: 100%;
+}
+
+/* Desktop Sidebar: shown on screen sizes 1080px and wider */
+@media (min-width: 1080px) {
+    .app-layout {
+        display: flex;
+        height: 100vh;
+        background-color: #f8fafc;
+        overflow: hidden;
+    }
+    .app-main {
+        flex: 1;
+        min-width: 0;
+        margin-left: 280px; /* Leave space for the fixed sidebar */
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .app-sidebar {
+        display: flex;
+        width: 280px;
+        background: linear-gradient(180deg, #12093a 0%, #211456 100%);
+        color: #ffffff;
+        flex-direction: column;
+        padding: 0;
+        flex-shrink: 0;
+        position: fixed; /* Keep locked in place */
+        left: 0;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+        z-index: 100;
+    }
+    
+    .sidebar-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .brand-logo {
+        width: 140px;
+        height: 140px;
+        border-radius: 32px;
+        object-fit: cover;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .brand-logo:hover {
+        transform: scale(1.06);
+    }
+    .brand-text-logo {
+        width: 210px;
+        height: auto;
+        margin-top: 14px;
+        border-radius: 9999px;
+        overflow: hidden;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .brand-text-logo:hover {
+        transform: scale(1.04);
+    }
+
+    /* Nav menu items */
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 20px 12px;
+    }
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        color: #c7d2fe;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+    .nav-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #ffffff;
+    }
+    .nav-item.active {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    .nav-icon {
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
+    }
+
+    /* Playlists section */
+    .sidebar-section {
+        padding: 9px 16px 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 12px;
+        padding: 0 12px;
+    }
+    .add-playlist-btn {
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        transition: color 0.2s;
+    }
+    .add-playlist-btn:hover {
+        color: #ffffff;
+    }
+    .playlist-items {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .playlist-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        color: #c7d2fe;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    .playlist-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        color: #ffffff;
+    }
+    .playlist-item.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        font-weight: 700;
+    }
+    .playlist-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        object-fit: cover;
+        opacity: 0.8;
+    }
+    .playlist-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .playlist-name {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+    .playlist-count {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Upgrade Card (Pro) */
+    .pro-card {
+        margin: auto 16px 20px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        padding: 16px;
+        border-radius: 16px;
+        text-align: center;
+    }
+    .pro-badge {
+        font-size: 12px;
+        font-weight: 700;
+        color: #fbbf24;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+    }
+    .pro-text {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.4;
+        margin: 0 0 12px;
+    }
+    .pro-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border: none;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        transition: all 0.2s;
+    }
+    .pro-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    }
+}

@@ -815,7 +815,7 @@ class ChordTrainer {
         this.dom.notesDisplay.textContent = '';
         this.dom.answerOptions.innerHTML = '';
         this.dom.answerOptions.classList.add('invisible');
-        this.dom.answerOptions.classList.remove('hidden');
+        this.dom.answerOptions.classList.remove('hidden', 'note-grid');
         this.dom.chordBoxContainer.style.display = 'block';
         this.dom.resultOverlay.classList.remove('show');
         
@@ -1031,12 +1031,9 @@ class ChordTrainer {
 
     showNoteOptions() {
         this.dom.answerOptions.classList.remove('hidden', 'invisible');
-        this.dom.answerOptions.style.display = 'flex'; // Ensure flex
-        if (this.isMobile()) {
-            this.dom.answerOptions.classList.add('note-grid');
-        } else {
-            this.dom.answerOptions.classList.remove('note-grid');
-        }
+        this.dom.answerOptions.style.display = '';
+        // Always apply note-grid for the glass-panel layout (desktop and mobile)
+        this.dom.answerOptions.classList.add('note-grid');
         
         const notes = [
             { label: 'C', value: 'C' },
@@ -1056,8 +1053,6 @@ class ChordTrainer {
         notes.forEach(noteObj => {
             const btn = document.createElement('button');
             btn.className = 'mode-btn';
-            btn.style.minWidth = '75px';
-            btn.style.padding = '10px';
             btn.textContent = noteObj.label;
             btn.dataset.value = noteObj.value; // Store value for exact matching
             btn.addEventListener('click', () => {

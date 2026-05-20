@@ -19,7 +19,7 @@
             document.head.appendChild(meta);
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=2.836">
+    <link rel="stylesheet" href="styles.css?v=2.837">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -283,6 +283,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
+            overflow-y: auto;
         }
         .custom-view-header {
             display: flex;
@@ -475,10 +476,10 @@
                 flex-shrink: 0 !important;
             }
             #selectedSongHeader,
-            #focusedView,
-            #customSidebarView {
+            #focusedView {
                 flex-shrink: 0 !important;
             }
+            #customSidebarView,
             .table-wrapper {
                 flex: 1 !important;
                 min-height: 0 !important;
@@ -572,7 +573,8 @@
             .container {
                 padding: 15px 40px 40px !important;
             }
-            .table-wrapper {
+            .table-wrapper,
+            .custom-sidebar-view {
                 max-height: calc(100vh - 230px);
             }
             #songsTable th,
@@ -632,7 +634,7 @@
                     <span class="nav-icon">📚</span>
                     <span class="nav-text">Chord Theory</span>
                 </a>
-                <a href="ChordTrainer.html" class="nav-item" id="btnChordTrainerSidebar">
+                <a href="#" class="nav-item" id="btnChordTrainerSidebar" onclick="event.preventDefault(); goToChordTrainer();">
                     <span class="nav-icon">🎓</span>
                     <span class="nav-text">Chord Trainer</span>
                 </a>
@@ -641,39 +643,6 @@
                     <span class="nav-text">My Library</span>
                 </a>
             </nav>
-
-            <!-- Genres Section -->
-            <div class="sidebar-section genres-section">
-                <div class="section-header">
-                    <span>Genres</span>
-                </div>
-                <div class="playlist-items">
-                    <a href="#" class="playlist-item" data-genre-name="Rock" onclick="event.preventDefault(); selectGenreFromSidebar('Rock');">
-                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎸</div>
-                        <div class="playlist-info">
-                            <span class="playlist-name">Rock</span>
-                        </div>
-                    </a>
-                    <a href="#" class="playlist-item" data-genre-name="Country" onclick="event.preventDefault(); selectGenreFromSidebar('Country');">
-                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🤠</div>
-                        <div class="playlist-info">
-                            <span class="playlist-name">Country</span>
-                        </div>
-                    </a>
-                    <a href="#" class="playlist-item" data-genre-name="R&B" onclick="event.preventDefault(); selectGenreFromSidebar('R&B');">
-                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🎷</div>
-                        <div class="playlist-info">
-                            <span class="playlist-name">R&B</span>
-                        </div>
-                    </a>
-                    <a href="#" class="playlist-item" data-genre-name="Dance" onclick="event.preventDefault(); selectGenreFromSidebar('Dance');">
-                        <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; width: 28px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 6px; opacity: 0.8;">🪩</div>
-                        <div class="playlist-info">
-                            <span class="playlist-name">Dance</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
 
 
         </aside>
@@ -705,7 +674,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.836</span>
+                        <span id="site-version" class="version-tag">2.837</span>
                     </div>
                 </div>
             </div>
@@ -2368,43 +2337,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.836"></script>
+    <script src="js/config/firebase-config.js?v=2.837"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.836"></script>
-    <script src="js/models/SetlistManager.js?v=2.836"></script>
+    <script src="js/models/SongManager.js?v=2.837"></script>
+    <script src="js/models/SetlistManager.js?v=2.837"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=2.836"></script>
-    <script src="js/utils/Sorter.js?v=2.836"></script>
-    <script src="js/utils/ChordDetector.js?v=2.836"></script>
-    <script src="js/utils/KeyDetector.js?v=2.836"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.836"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.836"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.836"></script>
-    <script src="js/utils/LyricsParser.js?v=2.836"></script>
+    <script src="js/utils/SEO.js?v=2.837"></script>
+    <script src="js/utils/Sorter.js?v=2.837"></script>
+    <script src="js/utils/ChordDetector.js?v=2.837"></script>
+    <script src="js/utils/KeyDetector.js?v=2.837"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.837"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.837"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.837"></script>
+    <script src="js/utils/LyricsParser.js?v=2.837"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.836"></script>
-    <script src="js/ui/ChordModal.js?v=2.836"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.836"></script>
-    <script src="js/ui/TableRenderer.js?v=2.836"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.836"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.836"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.836"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.836"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.836"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.836"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.836"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.836"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.836"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.836"></script>
-    <script src="js/ui/AuthModal.js?v=2.836"></script>
-    <script src="js/ui/ProfileModal.js?v=2.836"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.836"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.836"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.836"></script>
+    <script src="js/utils/ChordParser.js?v=2.837"></script>
+    <script src="js/ui/ChordModal.js?v=2.837"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.837"></script>
+    <script src="js/ui/TableRenderer.js?v=2.837"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.837"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.837"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.837"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.837"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.837"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.837"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.837"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.837"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.837"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.837"></script>
+    <script src="js/ui/AuthModal.js?v=2.837"></script>
+    <script src="js/ui/ProfileModal.js?v=2.837"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.837"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.837"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.837"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.836"></script>
+    <script src="js/app.js?v=2.837"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -2551,6 +2520,15 @@
                 window.location.href = 'ChordTheory&TipsGuitar.html';
             } else {
                 window.location.href = 'ChordTheory&Tips.html';
+            }
+        }
+
+        function goToChordTrainer() {
+            const mode = localStorage.getItem('instrumentMode') || 'piano';
+            if (mode === 'guitar') {
+                window.location.href = 'GuitarChordTrainer.html';
+            } else {
+                window.location.href = 'ChordTrainer.html';
             }
         }
 
@@ -3227,12 +3205,6 @@
                         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                     }
                     
-                    /* Clean scrollbars for sidebar views */
-                    #customSidebarView {
-                        overflow-y: auto;
-                        max-height: calc(100vh - 120px);
-                        padding-right: 8px;
-                    }
                 </style>
             `;
 
@@ -3351,6 +3323,7 @@
 </body>
 
 </html>
+
 
 
 

@@ -241,7 +241,7 @@ body {
 }
 
 .chord-box-container {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .workbench-center {
@@ -259,6 +259,72 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Mode 4 note-grid: single horizontal row of 12 note buttons like a keyboard strip */
+#answerOptions.note-grid {
+    position: relative;
+    width: min(820px, 92%);
+    flex: 0 0 auto;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    padding: 20px 16px;
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: center;
+}
+
+#answerOptions.note-grid .mode-btn {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 16px 4px;
+    border-radius: 12px;
+    min-height: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: #1e293b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#answerOptions.note-grid .mode-btn:hover {
+    background: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-color: white;
+}
+
+#answerOptions.note-grid .mode-btn.active {
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.5);
+    transform: translateY(-2px);
+}
+
+#answerOptions.note-grid .mode-btn.correct {
+    background: #10b981;
+    color: white;
+    border-color: #059669;
+}
+
+#answerOptions.note-grid .mode-btn.wrong {
+    background: #ef4444;
+    color: white;
+    border-color: #dc2626;
 }
 
 .action-buttons {
@@ -970,32 +1036,27 @@ body {
         box-sizing: border-box;
     }
     
-    /* Specific Grid for Mode 4 Note Selection */
+    /* Mode 4 Note Selection - compact horizontal glass panel for mobile */
     #answerOptions.note-grid {
         display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 4px !important;
-        padding: 5px !important;
+        grid-template-columns: repeat(6, 1fr) !important;
+        gap: 5px !important;
+        padding: 10px !important;
+        max-height: none !important;
+        border-radius: 14px !important;
+        width: 95% !important;
+        flex: 0 0 auto !important;
     }
     
-    .small-btn {
-        flex: 1;
+    #answerOptions.note-grid .mode-btn {
+        font-size: 0.7rem !important;
+        padding: 10px 2px !important;
+        min-height: 38px !important;
+        border-radius: 8px !important;
         min-width: 0 !important;
-        font-size: 0.65rem !important;
-        padding: 8px 2px !important;
-        border-radius: 6px !important;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        background: white;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+        flex: none !important;
     }
-    
-    #answerOptions.note-grid .small-btn {
-        font-size: 0.6rem !important;
-        padding: 10px 1px !important;
-    }
+
     
     .chord-box {
         width: min(85vw, 320px);
