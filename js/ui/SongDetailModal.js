@@ -450,7 +450,8 @@ class SongDetailModal {
         if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
             this.scrollingChordsFrame.contentWindow.postMessage({
                 type: 'setInstrumentMode',
-                instrumentMode: this.instrumentMode
+                instrumentMode: this.instrumentMode,
+                capo: this.capoValue
             }, '*');
         }
 
@@ -665,6 +666,14 @@ class SongDetailModal {
                     const val = parseInt(item.getAttribute('data-capo'));
                     this.capoValue = val;
                     this.updateCapoUI();
+
+                    // Notify timeline iframe of the new capo value
+                    if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+                        this.scrollingChordsFrame.contentWindow.postMessage({
+                            type: 'setCapoValue',
+                            capo: this.capoValue
+                        }, '*');
+                    }
 
                     // If a chord block is currently being edited, update its text to match new Capo
                     Object.keys(this.sections).forEach(key => {
@@ -3219,7 +3228,8 @@ class SongDetailModal {
                 this.scrollingChordsFrame.contentWindow.postMessage({
                     type: 'updateSuggestedChords',
                     suggestedChords: suggestedChordsGrouped,
-                    instrumentMode: this.instrumentMode
+                    instrumentMode: this.instrumentMode,
+                    capo: this.capoValue || 0
                 }, '*');
             }
         }

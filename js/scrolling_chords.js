@@ -1,4 +1,4 @@
-﻿// Scrolling Chords Logic (v2.837)
+// Scrolling Chords Logic (v2.837)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -332,6 +332,7 @@ window.addEventListener('message', (event) => {
         if (Array.isArray(msg.suggestedChords)) {
             suggestedChords = msg.suggestedChords;
             if (msg.instrumentMode) currentInstrumentMode = msg.instrumentMode;
+            if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
             renderSuggestedChords(suggestedChords);
         }
     }
@@ -340,6 +341,15 @@ window.addEventListener('message', (event) => {
     }
     else if (msg.type === 'setInstrumentMode') {
         currentInstrumentMode = msg.instrumentMode;
+        if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        renderStaticElements();
+        updateLoop();
+    }
+    else if (msg.type === 'setCapoValue') {
+        currentCapoValue = parseInt(msg.capo) || 0;
+        if (suggestedChords && typeof renderSuggestedChords === 'function') {
+            renderSuggestedChords(suggestedChords);
+        }
         renderStaticElements();
         updateLoop();
     }
@@ -1135,7 +1145,7 @@ function handleGlobalKeyDown(e) {
             e.preventDefault();
 
             // Smart matching: Look in suggested chords (Blocks)
-            let match = key;
+            let chosenConcertPitch = null;
             const allAvailableChords = [];
 
             if (suggestedChords && suggestedChords.length > 0) {
@@ -1147,31 +1157,50 @@ function handleGlobalKeyDown(e) {
                 }
             }
 
-            // Find all chords starting with this letter (e.g., G matches G, G#m, G7)
-            const matches = [...new Set(allAvailableChords)].filter(c => c.toUpperCase().startsWith(key));
+            // Create unique list of all available chords
+            const uniqueChords = [...new Set(allAvailableChords)];
+
+            // Map each available chord to its capo-relative display name
+            const mappings = uniqueChords.map(c => {
+                return {
+                    original: c,
+                    display: simplifyDisplayName(c) // Capo-relative display name
+                };
+            });
+
+            // Find matches where display name starts with key (e.g. key E matches E, Em, etc.)
+            const matches = mappings.filter(m => m.display.toUpperCase().startsWith(key));
 
             if (matches.length === 1) {
-                // If only one G-type chord exists in the blocks, use it!
-                match = matches[0];
+                // If only one matching chord exists, use it!
+                chosenConcertPitch = matches[0].original;
             } else if (matches.length > 1) {
-                // If multiple exist (e.g., G and G#m), prefer the exact letter if it exists
-                if (matches.includes(key)) {
-                    match = key;
+                // If multiple exist (e.g. E and Em), prefer the exact match if it exists
+                const exactMatch = matches.find(m => m.display.toUpperCase() === key);
+                if (exactMatch) {
+                    chosenConcertPitch = exactMatch.original;
                 } else {
-                    // Otherwise just pick the first one from the blocks as a best guess
-                    match = matches[0];
+                    // Otherwise pick the first one from the matched suggested chords
+                    chosenConcertPitch = matches[0].original;
+                }
+            } else {
+                // No matches found in suggested chords.
+                // Fallback to the typed key itself. Since key is capo-relative,
+                // we transpose it back to concert pitch if guitar mode and capo is active.
+                if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0 && chordParser) {
+                    chosenConcertPitch = chordParser.transpose(key, currentCapoValue);
+                } else {
+                    chosenConcertPitch = key;
                 }
             }
 
             initAudio();
-            triggerChordAudio(match, 1.0, true);
-            recordChord(match);
+            triggerChordAudio(chosenConcertPitch, 1.0, true);
+            recordChord(chosenConcertPitch);
             return;
         }
 
         // 2. Handle '#' or 'm' to modify the LAST recorded chord (Quick fix)
-        // If user presses 'G' (records G#m) then thinks "wait no just G", 
-        // they can still edit, but this logic helps if they actually pressed G then # (Shift+3)
         if (e.key === '#' || e.key === 'm' || e.key === 'M') {
             if (chords.length > 0) {
                 const lastChord = chords[chords.length - 1];
@@ -1179,15 +1208,40 @@ function handleGlobalKeyDown(e) {
                 const now = youtubePlayer ? youtubePlayer.getCurrentTime() : (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime);
                 if (Math.abs(now - lastChord.time) < 2.0) {
                     e.preventDefault();
-                    if (e.key === '#') {
-                        // Toggle sharp
-                        if (lastChord.name.includes('#')) lastChord.name = lastChord.name.replace('#', '');
-                        else lastChord.name = lastChord.name[0] + '#' + lastChord.name.slice(1);
-                    } else if (e.key.toLowerCase() === 'm') {
-                        // Toggle minor
-                        if (lastChord.name.includes('m')) lastChord.name = lastChord.name.replace('m', '');
-                        else lastChord.name += 'm';
+
+                    // Convert lastChord.name to capo-relative name for modification
+                    let relName = lastChord.name;
+                    const isCapoActive = currentInstrumentMode === 'guitar' && currentCapoValue !== 0 && chordParser;
+                    if (isCapoActive) {
+                        relName = chordParser.transpose(relName, -currentCapoValue);
                     }
+
+                    if (e.key === '#') {
+                        // Toggle sharp/accidental on the capo-relative name
+                        if (relName.includes('#')) {
+                            relName = relName.replace('#', '');
+                        } else if (relName.includes('b')) {
+                            relName = relName.replace('b', '');
+                        } else {
+                            // Add sharp after the root note
+                            relName = relName[0] + '#' + relName.slice(1);
+                        }
+                    } else if (e.key.toLowerCase() === 'm') {
+                        // Toggle minor on the capo-relative name
+                        if (relName.includes('m')) {
+                            relName = relName.replace('m', '');
+                        } else {
+                            relName += 'm';
+                        }
+                    }
+
+                    // Convert back to concert pitch
+                    let newConcertName = relName;
+                    if (isCapoActive) {
+                        newConcertName = chordParser.transpose(relName, currentCapoValue);
+                    }
+
+                    lastChord.name = newConcertName;
 
                     initAudio();
                     triggerChordAudio(lastChord.name, 1.0, true);
