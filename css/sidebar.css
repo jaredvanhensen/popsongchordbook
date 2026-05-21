@@ -39,7 +39,7 @@
         left: 0;
         top: 0;
         height: 100vh;
-        overflow-y: auto;
+        overflow-y: hidden; /* Sidebar content always fits 100vh; auto caused scrollbar flicker on ChordTrainer */
         box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
         z-index: 100;
     }
@@ -91,6 +91,7 @@
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
+        line-height: 1.6; /* Explicit: prevents inheriting different line-height from each page's body */
         border-radius: 10px;
         transition: all 0.2s ease;
     }

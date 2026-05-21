@@ -155,7 +155,7 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
-                    <span class="version-number">v2.842</span>
+                    <span class="version-number">v2.844</span>
                     <span class="version-date">May 21, 2026</span>
                 </div>
                 <div class="version-body">
@@ -167,12 +167,14 @@
 
             <div class="version-card">
                 <div class="version-header">
-                    <span class="version-number">v2.842</span>
+                    <span class="version-number">v2.844</span>
                     <span class="version-date">May 21, 2026</span>
                 </div>
                 <div class="version-body">
                     <ul>
-                        <li><strong>Chord Trainer Sidebar Shift Fix:</strong> Resolved a desktop layout shift that caused the left sidebar nav items to jump upward when navigating to the Chord Trainer (piano or guitar). Root cause: <code>chord-trainer.css</code> sets <code>body { display: flex }</code>, which subtly affects the rendered viewport and the fixed sidebar's perceived position. Fixed by adding a <code>@media (min-width: 1080px)</code> override in both <code>ChordTrainer.html</code> and <code>GuitarChordTrainer.html</code> that resets body back to <code>display: block</code> on desktop, matching the layout contract of all other pages.</li>
+                        <li><strong>Chord Trainer Sidebar Shift — Root Cause Fixed:</strong> Identified and fixed the true cause of the sidebar nav items shifting up when clicking Chord Trainer. <code>sidebar.css</code> had no explicit <code>line-height</code> on <code>.nav-item</code>, so items inherited <code>line-height: 1.6</code> from <code>styles.css</code> on songlist pages but the browser-default <code>~1.2</code> on ChordTrainer pages. This made each nav item ~7px shorter on the trainer pages, compressing the full nav group by ~56px and creating the visible shift. Fixed by adding <code>line-height: 1.6</code> explicitly to <code>.nav-item</code> in <code>sidebar.css</code> so item height is consistent across all pages.</li>
+                        <li><strong>Sidebar Scrollbar Guard:</strong> Also changed <code>.app-sidebar</code> from <code>overflow-y: auto</code> to <code>overflow-y: hidden</code> as an additional safeguard against any future scrollbar-related layout flicker in the fixed sidebar.</li>
+                        <li><strong>Nav Flash Fix (A → All Songs → B):</strong> Fixed the brief "All Songs" highlight when navigating from Chord Trainer or Chord Library to other sidebar links. An inline script now pre-applies the correct active nav item from the <code>?view=</code> URL parameter immediately as the sidebar renders, before async JS runs.</li>
                     </ul>
                 </div>
             </div>
