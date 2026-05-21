@@ -7,6 +7,8 @@
     <meta name="description" content="Learn the fundamentals of piano chord construction, inversions, and professional techniques. Master the chords you need for pop music.">
     <link rel="canonical" href="https://www.popsongchordbook.com/ChordTheory&Tips.html">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎹</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -473,6 +475,22 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* Enforce desktop height locking and scroll only in main pane to prevent scrollbar shifts */
+        @media (min-width: 1080px) {
+            html, body {
+                overflow: hidden !important;
+                height: 100vh !important;
+            }
+            .app-layout {
+                overflow: hidden !important;
+                height: 100vh !important;
+            }
+            .app-main {
+                overflow-y: auto !important;
+                height: 100vh !important;
+            }
+        }
     </style>
     <link rel="stylesheet" href="css/sidebar.css">
 </head>
@@ -518,7 +536,11 @@
                     <span class="nav-text">Chord Trainer</span>
                 </a>
                 <a href="songlist.html?view=mylibrary" class="nav-item" id="btnMyLibrary">
-                    <span class="nav-icon">👤</span>
+                    <span class="nav-icon cd-stack">
+                        <span class="cd-item">💿</span>
+                        <span class="cd-item">💿</span>
+                        <span class="cd-item">💿</span>
+                    </span>
                     <span class="nav-text">My Library</span>
                 </a>
             </nav>

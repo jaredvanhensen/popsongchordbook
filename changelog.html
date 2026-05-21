@@ -155,6 +155,68 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.842</span>
+                    <span class="version-date">May 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Safe-Area Viewport Alignment:</strong> Added viewport-fit=cover to the viewport meta tags on ChordTrainer.html and GuitarChordTrainer.html to match the landing page, songlist, and theory subpages, eliminating vertical layout shifting of the left sidebar on device status bars.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.842</span>
+                    <span class="version-date">May 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Chord Trainer Sidebar Shift Fix:</strong> Resolved a desktop layout shift that caused the left sidebar nav items to jump upward when navigating to the Chord Trainer (piano or guitar). Root cause: <code>chord-trainer.css</code> sets <code>body { display: flex }</code>, which subtly affects the rendered viewport and the fixed sidebar's perceived position. Fixed by adding a <code>@media (min-width: 1080px)</code> override in both <code>ChordTrainer.html</code> and <code>GuitarChordTrainer.html</code> that resets body back to <code>display: block</code> on desktop, matching the layout contract of all other pages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.840</span>
+                    <span class="version-date">May 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Sidebar Typography and Layout Stability:</strong> Unified font-family stacks across the left sidebar container (All Songs, Favorites, Setlists, Artists, My Library, Chords Library, Chord Theory, and Chord Trainer) to prevent layout shifts and sizing differences when navigating between views and pages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.839</span>
+                    <span class="version-date">May 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Chord Trainer Fallback:</strong> Resolved redirect alert error ("No Song ID provided. Redirecting to library.") when accessing the Chord Trainer from the left sidebar in guitar mode, and added local default song library seeding when user library is empty.</li>
+                        <li><strong>Database Key Sync:</strong> Fixed missing database key synchronization in both the Piano and Guitar Chord Trainers, ensuring they load the user's saved songlist upon authentication.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.838</span>
+                    <span class="version-date">May 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>My Library Icon Update:</strong> Replaced the duplicate user avatar icon (👤) with a custom diagonal stacked CD layout (💿💿💿) to distinguish it from the Artists tab.</li>
+                        <li><strong>Chord Theory Scrolling Fix:</strong> Fixed vertical scrolling on Chord Theory and Guitar Chord Theory pages when viewed on desktop and landscape mode layouts.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.835</span>
                     <span class="version-date">May 19, 2026</span>
                 </div>

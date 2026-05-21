@@ -2,15 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Interactive Guitar Chord Trainer - PopSongChordBook</title>
     <meta name="description" content="Improve your guitar skills with our interactive Guitar Chord Trainer. Practice identifying and building chords from popular music on a virtual fretboard.">
     <link rel="canonical" href="https://www.popsongchordbook.com/GuitarChordTrainer.html">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 110'><defs><linearGradient id='ps' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%2394a3b8'/><stop offset='1' stop-color='%23475569'/></linearGradient><linearGradient id='pf' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='%23f1f5f9'/></linearGradient><radialGradient id='ng' cx='50' cy='50' r='50'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%236b21a8'/></radialGradient></defs><g transform='translate(5,5)'><rect y='10' width='150' height='90' rx='20' fill='url(%23ps)'/><rect width='150' height='90' rx='20' fill='url(%23pf)' stroke='%23e2e8f0'/><line x1='30' y1='50' x2='120' y2='50' stroke='%23cbd5e1' stroke-width='6' stroke-linecap='round'/><circle cx='75' cy='50' r='20' fill='url(%23ng)'/></g></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/chord-trainer.css?v=2.813">
-    <link rel="stylesheet" href="css/guitar-trainer.css?v=2.813">
+    <link rel="stylesheet" href="css/chord-trainer.css?v=2.842">
+    <link rel="stylesheet" href="css/guitar-trainer.css?v=2.842">
     <link rel="stylesheet" href="css/sidebar.css">
+    <style>
+        html, body {
+            overflow: hidden !important;
+            height: 100vh !important;
+        }
+        /* On desktop, chord-trainer.css sets body{display:flex} which can
+           cause subtle viewport shifts in the fixed sidebar. Override it
+           to block so the layout behaves identically to all other pages. */
+        @media (min-width: 1080px) {
+            body {
+                display: block !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -54,7 +70,11 @@
                     <span class="nav-text">Chord Trainer</span>
                 </a>
                 <a href="songlist.html?view=mylibrary" class="nav-item" id="btnMyLibrary">
-                    <span class="nav-icon">👤</span>
+                    <span class="nav-icon cd-stack">
+                        <span class="cd-item">💿</span>
+                        <span class="cd-item">💿</span>
+                        <span class="cd-item">💿</span>
+                    </span>
                     <span class="nav-text">My Library</span>
                 </a>
             </nav>
@@ -213,13 +233,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <!-- Firebase Config & Managers -->
-    <script src="js/config/firebase-config.js?v=2.813"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.813"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.813"></script>
-    <script src="js/utils/ChordParser.js?v=2.813"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.813"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.813"></script>
-    <script src="js/models/SongManager.js?v=2.813"></script>
+    <script src="js/config/firebase-config.js?v=2.842"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.842"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.842"></script>
+    <script src="js/utils/ChordParser.js?v=2.842"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.842"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.842"></script>
+    <script src="js/models/SongManager.js?v=2.842"></script>
     <script>
         window.firebaseManager = new FirebaseManager();
 
@@ -241,6 +261,6 @@
             }
         }
     </script>
-    <script src="js/ui/GuitarChordTrainer.js?v=2.813"></script>
+    <script src="js/ui/GuitarChordTrainer.js?v=2.842"></script>
 </body>
 </html>

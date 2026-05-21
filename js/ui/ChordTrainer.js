@@ -77,6 +77,15 @@ class ChordTrainer {
                         });
                     });
                 }
+
+                // Sync with the authenticated user's database key (popsongChordBook_<userId>)
+                const currentUser = window.firebaseManager.getCurrentUser();
+                if (currentUser) {
+                    console.log('ChordTrainer: User is authenticated. Enabling sync for user:', currentUser.uid);
+                    this.songManager.enableSync(currentUser.uid);
+                } else {
+                    console.log('ChordTrainer: No authenticated user. Running as guest/offline.');
+                }
             }
             
             await this.loadSongForPractice();
@@ -98,6 +107,10 @@ class ChordTrainer {
             window.firebaseManager.onAuthStateChanged(async (user) => {
                 if (user) {
                     authResolved = true;
+                    if (this.isSongPracticeMode && this.songManager) {
+                        console.log('ChordTrainer: User authenticated. Enabling sync for user:', user.uid);
+                        this.songManager.enableSync(user.uid);
+                    }
                     const dbScores = await window.firebaseManager.getHighScores(user.uid);
                     if (dbScores) {
                         // Merge db scores into highScores (db wins if different)

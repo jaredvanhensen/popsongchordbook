@@ -78,6 +78,15 @@ class GuitarChordTrainer {
                     });
                 });
             }
+
+            // Sync with the authenticated user's database key (popsongChordBook_<userId>)
+            const currentUser = this.firebaseManager.getCurrentUser();
+            if (currentUser) {
+                console.log('GuitarChordTrainer: User is authenticated. Enabling sync for user:', currentUser.uid);
+                this.songManager.enableSync(currentUser.uid);
+            } else {
+                console.log('GuitarChordTrainer: No authenticated user. Running as guest/offline.');
+            }
         } catch (e) {
             console.warn('Firebase initialization bypassed or failed:', e);
         }
@@ -108,6 +117,37 @@ class GuitarChordTrainer {
         this.updateGuideToggleUI();
 
         // 3. Load Song details and setup UI
+        if (!this.songId) {
+            console.log('GuitarChordTrainer: No songId provided, attempting to find a fallback song...');
+            try {
+                let songs = await this.songManager.loadSongs(true);
+                if (!songs || songs.length === 0) {
+                    songs = await this.songManager.loadSongs(false);
+                }
+
+                // If there are absolutely no songs, seed them!
+                if (!songs || songs.length === 0) {
+                    await this.seedDefaultSongs();
+                    // Load again after seeding
+                    songs = await this.songManager.loadSongs(false);
+                }
+
+                if (songs && songs.length > 0) {
+                    // Try to find a song that has chords
+                    const practiceable = songs.find(s => {
+                        const stringFields = ['verse', 'chorus', 'preChorus', 'bridge'];
+                        const hasChords = stringFields.some(field => s[field] && typeof s[field] === 'string' && s[field].trim().length > 0);
+                        const hasChordData = s.chordData && s.chordData.chords && s.chordData.chords.length > 0;
+                        return hasChords || hasChordData;
+                    });
+                    this.songId = practiceable ? practiceable.id : songs[0].id;
+                    console.log('GuitarChordTrainer: Selected fallback song ID:', this.songId);
+                }
+            } catch (e) {
+                console.error('Error loading songs for fallback:', e);
+            }
+        }
+
         if (this.songId) {
             await this.loadSongDetails();
         } else {
@@ -124,6 +164,49 @@ class GuitarChordTrainer {
 
         // 6. Force start in Chord Overview mode by default
         this.toggleChordOverviewMode(true);
+    }
+
+    async seedDefaultSongs() {
+        console.log('GuitarChordTrainer: Seeding default songs...');
+        try {
+            // Load the script dynamically to get DEFAULT_SONGS
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'js/data/default_songs.js';
+                script.onload = () => {
+                    console.log('default_songs.js loaded successfully');
+                    resolve();
+                };
+                script.onerror = () => {
+                    console.error('Failed to load default_songs.js');
+                    reject(new Error('Script load failed'));
+                };
+                document.head.appendChild(script);
+            });
+
+            if (typeof DEFAULT_SONGS !== 'undefined' && Array.isArray(DEFAULT_SONGS)) {
+                console.log(`GuitarChordTrainer: Importing ${DEFAULT_SONGS.length} default songs...`);
+                // Import songs without replacing existing ones (though list is currently empty)
+                await this.songManager.importSongs(DEFAULT_SONGS, false);
+                return true;
+            } else {
+                throw new Error('DEFAULT_SONGS is not defined or is not an array after script load');
+            }
+        } catch (error) {
+            console.error('GuitarChordTrainer: Seeding default songs failed, using hardcoded fallback song...', error);
+            // Last resort: add Bryan Adams - Summer of 69
+            const fallbackSong = {
+                id: 'fallback_summer69',
+                artist: 'Bryan Adams',
+                title: 'Summer of 69',
+                verse: 'D A (3x)',
+                chorus: 'Bm A D G (2x)',
+                preChorus: 'D A (2x)',
+                bridge: 'F B C B (2x)'
+            };
+            await this.songManager.importSongs([fallbackSong], false);
+            return true;
+        }
     }
 
     async loadSongDetails() {
