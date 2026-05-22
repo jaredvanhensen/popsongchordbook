@@ -164,7 +164,9 @@ class ChordParser {
         if (!chordName || !database) return null;
 
         // Simplify chord name for database lookup (e.g., C2 -> C)
-        const simplified = chordName.trim().replace(/^([A-G][b#]?)[23]$/, '$1').split('/')[0];
+        const firstPart = chordName.trim().split('/')[0];
+        const lowPart = firstPart.toLowerCase();
+        const simplified = (lowPart.includes('sus') || lowPart.includes('add')) ? firstPart : firstPart.replace(/([23])$/, '');
         let fingering = database[chordName.trim()];
         if (!fingering) fingering = database[simplified];
         

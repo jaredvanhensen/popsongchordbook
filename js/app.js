@@ -1,4 +1,4 @@
-// Main Application (v2.858)
+// Main Application (v2.860)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -456,17 +456,18 @@ class App {
         const mobileBtn = document.getElementById('mobileTrainerBtn');
 
         const navigateToTrainer = () => {
-            window.location.href = 'ChordTrainer.html';
+            const mode = localStorage.getItem('instrumentMode') || 'piano';
+            if (mode === 'guitar') {
+                window.location.href = 'GuitarChordTrainer.html';
+            } else {
+                window.location.href = 'ChordTrainer.html';
+            }
         };
 
         if (desktopBtn) {
             desktopBtn.addEventListener('click', navigateToTrainer);
         }
         if (mobileBtn) {
-            // Already handled by inline onclick, but adding listener won't hurt
-            // unless it double navigates. 
-            // Actually, I'll remove the inline onclick later if needed.
-            // But let's just make it robust.
             mobileBtn.addEventListener('click', navigateToTrainer);
         }
     }
@@ -2514,7 +2515,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.858):\n`;
+        let msg = `Diagnostics (v2.860):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2739,7 +2740,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.858)');
+        console.log('UG Extractor listener initialized (v2.860)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

@@ -2002,7 +2002,8 @@ class SongDetailModal {
                             }
                             if (this.instrumentMode === 'guitar') {
                                 cleanP = cleanP.split('/').map(part => {
-                                    if (part.toLowerCase().includes('sus')) return part;
+                                    const lowPart = part.toLowerCase();
+                                    if (lowPart.includes('sus') || lowPart.includes('add')) return part;
                                     return part.replace(/([23])$/, '');
                                 }).join('/');
                             } else if (this.instrumentMode === 'ukulele') {
@@ -2019,7 +2020,11 @@ class SongDetailModal {
                         cleanChord = this.chordParser.transpose(cleanChord, -this.capoValue);
                     }
                     if (this.instrumentMode === 'guitar') {
-                        cleanChord = cleanChord.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
+                        cleanChord = cleanChord.split('/').map(part => {
+                            const lowPart = part.toLowerCase();
+                            if (lowPart.includes('sus') || lowPart.includes('add')) return part;
+                            return part.replace(/([23])$/, '');
+                        }).join('/');
                     } else if (this.instrumentMode === 'ukulele') {
                         cleanChord = cleanChord.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                     }

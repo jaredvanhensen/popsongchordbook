@@ -210,7 +210,11 @@ function simplifyDisplayName(chordName, isForAudio = false) {
     }
 
     if (currentInstrumentMode === 'guitar') {
-        return resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[23]$/, '$1')).join('/');
+        return resultName.split('/').map(part => {
+            const lowPart = part.toLowerCase();
+            if (lowPart.includes('sus') || lowPart.includes('add')) return part;
+            return part.replace(/([23])$/, '');
+        }).join('/');
     } else if (currentInstrumentMode === 'ukulele') {
         return resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
     }
