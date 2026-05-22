@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.855 - PopSongChordBook</title>
-    <meta name="version" content="2.855">
-    <meta name="application-version" content="v2.855">
+    <title>Song List v2.856 - PopSongChordBook</title>
+    <meta name="version" content="2.856">
+    <meta name="application-version" content="v2.856">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -19,7 +19,7 @@
             document.head.appendChild(meta);
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=2.855">
+    <link rel="stylesheet" href="styles.css?v=2.856">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -58,7 +58,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.855</span>
+                        <span id="site-version" class="version-tag">2.856</span>
                     </div>
                 </div>
             </div>
@@ -322,6 +322,16 @@
                         <input type="password" id="authCreateConfirmPassword" class="auth-input"
                             placeholder="Repeat password" required autocomplete="new-password" spellcheck="false"
                             autocorrect="off" autocapitalize="none">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="authCreateReferral">How did you hear about us?</label>
+                        <select id="authCreateReferral" class="auth-input" required>
+                            <option value="" disabled selected>-- Select --</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Google Search">Google Search</option>
+                            <option value="Other">Other...</option>
+                        </select>
                     </div>
                     <div id="authCreateError" class="auth-error hidden"></div>
                     <button type="submit" id="authCreateBtn" class="modal-submit-btn auth-submit-btn">Create
@@ -1181,7 +1191,15 @@
                                 <span>Publish This Song Online</span>
                             </button>
                             <button id="menuShareSong" class="hamburger-menu-item">
-                                <span class="icon">📤</span>
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                        <circle cx="18" cy="5" r="3"></circle>
+                                        <circle cx="6" cy="12" r="3"></circle>
+                                        <circle cx="18" cy="19" r="3"></circle>
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                </span>
                                 <span>Share This Song</span>
                             </button>
                             <button id="menuSearchGoogle" class="hamburger-menu-item">
@@ -1722,43 +1740,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=2.855"></script>
+    <script src="js/config/firebase-config.js?v=2.856"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=2.855"></script>
-    <script src="js/models/SetlistManager.js?v=2.855"></script>
+    <script src="js/models/SongManager.js?v=2.856"></script>
+    <script src="js/models/SetlistManager.js?v=2.856"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=2.855"></script>
-    <script src="js/utils/Sorter.js?v=2.855"></script>
-    <script src="js/utils/ChordDetector.js?v=2.855"></script>
-    <script src="js/utils/KeyDetector.js?v=2.855"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.855"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=2.855"></script>
-    <script src="js/utils/MidiInputHandler.js?v=2.855"></script>
-    <script src="js/utils/LyricsParser.js?v=2.855"></script>
+    <script src="js/utils/SEO.js?v=2.856"></script>
+    <script src="js/utils/Sorter.js?v=2.856"></script>
+    <script src="js/utils/ChordDetector.js?v=2.856"></script>
+    <script src="js/utils/KeyDetector.js?v=2.856"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.856"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=2.856"></script>
+    <script src="js/utils/MidiInputHandler.js?v=2.856"></script>
+    <script src="js/utils/LyricsParser.js?v=2.856"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=2.855"></script>
-    <script src="js/ui/ChordModal.js?v=2.855"></script>
-    <script src="js/ui/SongDetailModal.js?v=2.855"></script>
-    <script src="js/ui/TableRenderer.js?v=2.855"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=2.855"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=2.855"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=2.855"></script>
-    <script src="js/utils/GuitarRenderer.js?v=2.855"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=2.855"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=2.855"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=2.855"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=2.855"></script>
-    <script src="js/ui/ChordFinderModal.js?v=2.855"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=2.855"></script>
-    <script src="js/ui/AuthModal.js?v=2.855"></script>
-    <script src="js/ui/ProfileModal.js?v=2.855"></script>
-    <script src="js/ui/ShareSongsModal.js?v=2.855"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=2.855"></script>
-    <script src="js/ui/ConfirmationModal.js?v=2.855"></script>
+    <script src="js/utils/ChordParser.js?v=2.856"></script>
+    <script src="js/ui/ChordModal.js?v=2.856"></script>
+    <script src="js/ui/SongDetailModal.js?v=2.856"></script>
+    <script src="js/ui/TableRenderer.js?v=2.856"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=2.856"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=2.856"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=2.856"></script>
+    <script src="js/utils/GuitarRenderer.js?v=2.856"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=2.856"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=2.856"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=2.856"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=2.856"></script>
+    <script src="js/ui/ChordFinderModal.js?v=2.856"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=2.856"></script>
+    <script src="js/ui/AuthModal.js?v=2.856"></script>
+    <script src="js/ui/ProfileModal.js?v=2.856"></script>
+    <script src="js/ui/ShareSongsModal.js?v=2.856"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=2.856"></script>
+    <script src="js/ui/ConfirmationModal.js?v=2.856"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.855"></script>
+    <script src="js/app.js?v=2.856"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -1803,6 +1821,7 @@
                             <tr>
                                 <th class="rank-column" style="width: 30px;">#</th>
                                 <th>Email</th>
+                                <th style="width: 120px;">Source</th>
                                 <th style="width: 100px;">Joined</th>
                                 <th style="width: 60px;">Actions</th>
                             </tr>

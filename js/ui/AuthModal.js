@@ -23,6 +23,7 @@ class AuthModal {
         this.createEmailInput = document.getElementById('authCreateEmail');
         this.createPasswordInput = document.getElementById('authCreatePassword');
         this.createConfirmPasswordInput = document.getElementById('authCreateConfirmPassword');
+        this.createReferralInput = document.getElementById('authCreateReferral');
         this.createBtn = document.getElementById('authCreateBtn');
         this.createErrorMsg = document.getElementById('authCreateError');
 
@@ -356,35 +357,48 @@ class AuthModal {
         const email = this.createEmailInput?.value.trim();
         const password = this.createPasswordInput?.value;
         const confirmPassword = this.createConfirmPasswordInput?.value;
+        const referral = this.createReferralInput?.value;
 
         // Validation
         if (!username) {
+            this.isBusy = false;
             this.showCreateError('Please enter a username.');
             return;
         }
 
         if (!email) {
+            this.isBusy = false;
             this.showCreateError('Please enter an email address.');
             return;
         }
 
         if (!this.isValidEmail(email)) {
+            this.isBusy = false;
             this.showCreateError('Please enter a valid email address.');
             return;
         }
 
         if (!password) {
+            this.isBusy = false;
             this.showCreateError('Please enter a password.');
             return;
         }
 
         if (password.length < 6) {
+            this.isBusy = false;
             this.showCreateError('Password must be at least 6 characters long.');
             return;
         }
 
         if (password !== confirmPassword) {
+            this.isBusy = false;
             this.showCreateError('Passwords do not match.');
+            return;
+        }
+
+        if (!referral) {
+            this.isBusy = false;
+            this.showCreateError('Please select how you heard about us.');
             return;
         }
 
@@ -394,7 +408,7 @@ class AuthModal {
         this.clearErrors();
 
         try {
-            const result = await this.firebaseManager.signUp(email, password, username);
+            const result = await this.firebaseManager.signUp(email, password, username, referral);
 
             if (result.success) {
                 this.clearErrors();
@@ -514,6 +528,9 @@ class AuthModal {
         if (this.createConfirmPasswordInput) {
             this.createConfirmPasswordInput.disabled = loading;
         }
+        if (this.createReferralInput) {
+            this.createReferralInput.disabled = loading;
+        }
     }
 
     setForgotPasswordLoading(loading) {
@@ -548,6 +565,9 @@ class AuthModal {
         }
         if (this.createConfirmPasswordInput) {
             this.createConfirmPasswordInput.value = '';
+        }
+        if (this.createReferralInput) {
+            this.createReferralInput.value = '';
         }
     }
 

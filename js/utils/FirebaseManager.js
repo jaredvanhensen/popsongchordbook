@@ -97,7 +97,7 @@ class FirebaseManager {
 
     // Authentication Methods
 
-    async signUp(email, password, username = null) {
+    async signUp(email, password, username = null, referral = null) {
         if (!this.initialized) {
             await this.initialize();
         }
@@ -111,6 +111,16 @@ class FirebaseManager {
                 await this.currentUser.updateProfile({
                     displayName: username
                 });
+            }
+
+            // Write referral value to the database users/{uid}/referral immediately at signup
+            if (referral && this.currentUser) {
+                try {
+                    await this.database.ref(`users/${this.currentUser.uid}/referral`).set(referral);
+                    console.log('FirebaseManager: Referral source saved:', referral);
+                } catch (dbErr) {
+                    console.error('Error writing referral during sign up:', dbErr);
+                }
             }
 
             // WE NO LONGER ADD TO DATABASE OR NOTIFY ADMIN HERE.
@@ -196,7 +206,8 @@ class FirebaseManager {
                         });
                         
                         // Notify Admin of new registration via Webhook (ONLY ON FIRST VERIFIED LOGIN)
-                        this.notifyAdminOnSignUp(normalizedEmail, this.currentUser.displayName || null);
+                        const referral = userData?.referral || '';
+                        this.notifyAdminOnSignUp(normalizedEmail, this.currentUser.displayName || null, referral);
                     } else if (userData.email !== normalizedEmail) {
                         // Update if email changed
                         await userRef.update({
@@ -1532,7 +1543,8 @@ class FirebaseManager {
                 uid: uid,
                 email: val.email || 'No email',
                 createdAt: val.createdAt || 0,
-                username: val.username || 'Anon'
+                username: val.username || 'Anon',
+                referral: val.referral || ''
             }));
         } catch (e) {
             console.error('Error getting all users from /users:', e);
@@ -1549,7 +1561,8 @@ class FirebaseManager {
                     uid: uid,
                     email: email.replace(/_/g, '.'),
                     createdAt: 0,
-                    username: 'Anon'
+                    username: 'Anon',
+                    referral: ''
                 }));
             } catch (e2) {
                 console.error('Error getting users from fallback:', e2);
@@ -1582,8 +1595,9 @@ class FirebaseManager {
      * This is used to get instant alerts for new user registrations.
      * @param {string} email - The email of the new user
      * @param {string} username - The username (if provided)
+     * @param {string} referral - The referral source (if provided)
      */
-    async notifyAdminOnSignUp(email, username) {
+    async notifyAdminOnSignUp(email, username, referral = null) {
         // Webhook URL for admin notifications (Zapier)
         const WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/27461573/uvctgxo/"; 
         
@@ -1597,6 +1611,7 @@ class FirebaseManager {
                 event: "new_user_registration",
                 email: email || "unknown",
                 username: username || "Anonymous",
+                referral: referral || "",
                 timestamp: new Date().toISOString(),
                 app: "Pop Song Chord Book"
             };
@@ -1620,4 +1635,3 @@ class FirebaseManager {
         }
     }
 }
-

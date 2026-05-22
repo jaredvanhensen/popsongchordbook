@@ -591,7 +591,7 @@ class ProfileModal {
     async renderMembers() {
         if (!this.membersTableBody) return;
 
-        this.membersTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+        this.membersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Loading...</td></tr>';
 
         try {
             const users = await this.firebaseManager.getAllUsers();
@@ -627,6 +627,8 @@ class ProfileModal {
                     year: '2-digit'
                 }) : 'Unknown';
                 
+                const displayEmail = email.length > 25 ? email.substring(0, 22) + '...' : email;
+
                 const tr = document.createElement('tr');
                 if (isDuplicate) {
                     tr.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; // Light red background for duplicates
@@ -634,10 +636,11 @@ class ProfileModal {
 
                 tr.innerHTML = `
                     <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${index + 1}</td>
-                    <td style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
-                        ${user.email || 'Anon'}
+                    <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
+                        ${displayEmail}
                         ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
                     </td>
+                    <td style="white-space: nowrap; font-size: 0.9em; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="${user.referral || ''}">${user.referral || '-'}</td>
                     <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
                     <td class="request-actions" style="text-align: center;">
                         <button class="action-btn delete-member-btn" 
@@ -674,13 +677,13 @@ class ProfileModal {
                         'Delete',
                         'Cancel',
                         'danger'
-                    );
+                     );
                 };
             });
 
         } catch (error) {
             console.error('Error rendering members:', error);
-            this.membersTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
+            this.membersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
         }
     }
 
