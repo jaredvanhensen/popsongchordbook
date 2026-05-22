@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.788">
+    <link rel="stylesheet" href="/styles.css?v=2.849">
     <style>
         :root {
             --primary: #3b82f6;
@@ -367,10 +367,12 @@
         }
 
         async function init() {
-            // Get slug from URL
             const path = window.location.pathname;
-            const parts = path.split('/');
-            const slug = parts[parts.length - 1] || parts[parts.length - 2];
+            const parts = path.split('/').filter(Boolean);
+            let slug = parts[parts.length - 1];
+            if (slug === 'index.html' || slug === 'index.htm') {
+                slug = parts[parts.length - 2];
+            }
             
             // Find song in DEFAULT_SONGS
             const song = DEFAULT_SONGS.find(s => {

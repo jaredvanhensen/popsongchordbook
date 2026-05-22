@@ -517,7 +517,7 @@ class ChordTrainer {
         const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         
         const isMobile = this.isMobile();
-        let numOctaves = isMobile ? 2 : 3;
+        let numOctaves = 2; // Always 2 octaves wide to fit the layout on smaller desktop screens
         
         // Default start octave (C3 = 48)
         let startNote = 48; 
@@ -908,7 +908,7 @@ class ChordTrainer {
         // Mobile: C3(48) to C5(72), Desktop: C3(48) to C5(72) + octave?
         const isMob = this.isMobile();
         const minMIDI = 48; // C3
-        const maxMIDI = isMob ? 72 : 84; // Mobile 2 octaves + C, Desktop 3 octaves
+        const maxMIDI = 72; // Limit to 2 octaves + C for both mobile and desktop to fit keyboard
         
         // Final sort to be sure
         notes.sort((a, b) => a - b);

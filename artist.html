@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.788">
+    <link rel="stylesheet" href="/styles.css?v=2.849">
     <style>
         :root {
             --primary: #3b82f6;
@@ -134,7 +134,11 @@
 
         function init() {
             const path = window.location.pathname;
-            const slug = path.split('/').pop();
+            const parts = path.split('/').filter(Boolean);
+            let slug = parts[parts.length - 1];
+            if (slug === 'index.html' || slug === 'index.htm') {
+                slug = parts[parts.length - 2];
+            }
             
             // Group songs by artist slug
             const artistSongs = DEFAULT_SONGS.filter(s => slugify(s.artist) === slug);

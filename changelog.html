@@ -155,6 +155,57 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.849</span>
+                    <span class="version-date">May 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>SEO Static Pre-rendering:</strong> Implemented static HTML pre-rendering for all 379 songs and 207 artists, supplying search engine crawlers with unique metadata, page titles, canonical tags, and structured JSON-LD schemas directly from the server.</li>
+                        <li><strong>Clean URLs Routing:</strong> Upgraded PowerShell development servers to properly serve extensionless clean URLs and folder index fallbacks, mirroring production Firebase Hosting behavior.</li>
+                        <li><strong>Trainer Audio Quality of Life:</strong> Silenced automatic chord playback during trainer key changes or Basic/Pro complexity toggling to improve user experience.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.848</span>
+                    <span class="version-date">May 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Overview Chord Names Legibility Fix:</strong> Switched the Chord Overview labels to a solid, high-contrast deep indigo (#312e81) to stand out against the white card backgrounds and resolve blurry text rendering on Chrome/Chromium.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.847</span>
+                    <span class="version-date">May 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Key-Based Chord Practicing (Guitar):</strong> Added key selection (C, G, D, A, E) to the Guitar Chord Trainer. When a key is chosen, the trainer displays and quizzes the primary I, ii, iii, IV, V, and vi chords of that key (skipping the vii° diminished chord). The key selection preference is saved in local storage.</li>
+                        <li><strong>Chord Name Rendering Fix:</strong> Removed font gradient clip properties from the overview chord cards in the Chord Trainer to resolve a Chromium text rendering bug that caused the chord labels to appear blurry and unreadable.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.846</span>
+                    <span class="version-date">May 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Chord Trainer Keyboard Rescaling:</strong> Rescaled the desktop PC landscape virtual keyboard from 3 octaves to 2 octaves, matching the mobile version layout to prevent keys on the left (e.g. C) from being cut off on smaller desktop displays. Updated dynamic CSS key width styling to prevent overflow, and restricted the active chord randomizer MIDI notes to the C3–C5 range.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.845</span>
                     <span class="version-date">May 21, 2026</span>
                 </div>

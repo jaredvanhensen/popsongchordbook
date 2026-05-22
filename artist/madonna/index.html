@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Madonna Chords & Tutorials - PopSongChordBook</title>
+    <meta name="description" id="meta-description" content="Explore songs and chord progressions by Madonna on PopSongChordBook.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css?v=2.849">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: #1e293b;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .hub-container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .artist-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .artist-header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0;
+            letter-spacing: -0.05em;
+        }
+
+        .artist-header p {
+            font-size: 18px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .song-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .song-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border-color: #3b82f6;
+        }
+
+        .song-icon {
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .song-meta h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .song-meta span {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px;
+            color: #94a3b8;
+        }
+    </style>
+    <link rel="canonical" href="https://www.popsongchordbook.com/artist/madonna">
+</head>
+<body>
+    <div class="hub-container">
+        <div class="artist-header">
+            <p>Artist Hub</p>
+            <h1 id="artist-name">Madonna</h1>
+            <p id="artist-stats">Explore 5 interactive song tutorials by Madonna.</p>
+        </div>
+
+        <div class="song-grid" id="song-grid">
+
+            <a class="song-card" href="/song/madonna-dress-you-up">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Dress You Up</h3>
+                    <span>Key: Cm • 136 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/madonna-holiday">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Holiday</h3>
+                    <span>Key: D • 118 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/madonna-la-isla-bonita">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>La Isla Bonita</h3>
+                    <span>Key: Fm • 100 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/madonna-live-to-tell">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Live To Tell</h3>
+                    <span>Key: F • 110 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/madonna-papa-dont-preach">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Papa Don&#039;t Preach</h3>
+                    <span>Key: F# • 122 BPM</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2026 PopSongChordBook.
+        </footer>
+    </div>
+
+    <script src="/js/data/default_songs.js"></script>
+    <script>
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+        }
+
+        function init() {
+            const path = window.location.pathname;
+            const parts = path.split('/').filter(Boolean);
+            let slug = parts[parts.length - 1];
+            if (slug === 'index.html' || slug === 'index.htm') {
+                slug = parts[parts.length - 2];
+            }
+            
+            // Group songs by artist slug
+            const artistSongs = DEFAULT_SONGS.filter(s => slugify(s.artist) === slug);
+
+            if (artistSongs.length === 0) {
+                // If visited directly or artist not found, go back to the main library
+                window.location.href = "/songlist.html";
+                return;
+            }
+
+            // Inject Dynamic Canonical Link for SEO indexing
+            const canonicalLink = document.createElement('link');
+            canonicalLink.rel = 'canonical';
+            canonicalLink.href = window.location.origin + window.location.pathname;
+            document.head.appendChild(canonicalLink);
+
+            // SEO Protection: Prevent indexing on github.io testing domain
+            if (window.location.hostname.includes('github.io')) {
+                const noindexMeta = document.createElement('meta');
+                noindexMeta.name = 'robots';
+                noindexMeta.content = 'noindex, nofollow';
+                document.head.appendChild(noindexMeta);
+            }
+
+            const artistName = artistSongs[0].artist;
+            document.getElementById('artist-name').innerText = artistName;
+            document.title = `${artistName} Chords & Tutorials - PopSongChordBook`;
+            document.getElementById('artist-stats').innerText = `Explore ${artistSongs.length} interactive song tutorials by ${artistName}.`;
+
+            const grid = document.getElementById('song-grid');
+            artistSongs.forEach(song => {
+                const card = document.createElement('a');
+                card.className = 'song-card';
+                const songSlug = slugify(`${song.artist}-${song.title}`);
+                card.href = `/song/${songSlug}`;
+                
+                card.innerHTML = `
+                    <div class="song-icon">🎵</div>
+                    <div class="song-meta">
+                        <h3>${song.title}</h3>
+                        <span>Key: ${song.key || 'C'} • ${song.tempo || 120} BPM</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>

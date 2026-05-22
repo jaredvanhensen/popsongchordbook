@@ -471,6 +471,12 @@ body {
     --bk-width: calc(var(--wk-width) * 0.5);
 }
 
+@media (min-width: 1080px) {
+    .piano {
+        --wk-width: clamp(32px, calc((100vw - 420px) / 15), 60px);
+    }
+}
+
 .white-key {
     flex-shrink: 0;
     width: var(--wk-width);

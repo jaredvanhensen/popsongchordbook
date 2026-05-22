@@ -86,9 +86,16 @@ $scrollingContent = $scrollingContent -replace '\?v=[\d\.]+"', "?v=$newVersion`"
 Set-Content $scrollingFile $scrollingContent -Encoding UTF8
 Write-Host "Updated scrolling_chords.html"
 
+# Run static pages pre-renderer and sitemap generator
+Write-Host "Running static pages pre-renderer..."
+node scripts/generate_static_pages.js
+
+Write-Host "Generating sitemap..."
+node scripts/generate_sitemap.js
+
 # 8. Git Operations
 Write-Host "Staging changes..."
-git add index.html songlist.html quickstart.html ChordTrainer.html scrolling_chords.html js/app.js styles.css js/ui/* images/*.png changelog.html
+git add index.html songlist.html quickstart.html ChordTrainer.html scrolling_chords.html js/app.js styles.css js/ui/* images/*.png changelog.html sitemap.xml song/* artist/*
 
 Write-Host "Committing..."
 git commit -m "$Message (v$newVersion)"

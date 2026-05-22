@@ -1,4 +1,4 @@
-$files = @("index.html", "songlist.html", "songlist-old.html", "js/app.js", "scrolling_chords.html", "ChordTrainer.html", "GuitarChordTrainer.html", "ChordTheory&Tips.html", "ChordTheory&TipsGuitar.html")
+$files = @("index.html", "songlist.html", "songlist-old.html", "js/app.js", "scrolling_chords.html", "ChordTrainer.html", "GuitarChordTrainer.html", "ChordTheory&Tips.html", "ChordTheory&TipsGuitar.html", "song.html", "artist.html")
 $versionPattern = '<span id="site-version">(\d+\.?\d*)</span>'
 $currentVersion = 0.0
 
@@ -53,5 +53,12 @@ foreach ($fileName in $files) {
         Write-Warning "File not found: $fileName"
     }
 }
+
+# Run static pages pre-renderer and sitemap generator
+Write-Host "Running static pages pre-renderer..."
+node scripts/generate_static_pages.js
+
+Write-Host "Generating sitemap..."
+node scripts/generate_sitemap.js
 
 Write-Host "Version update complete! New version: $newVersionStr"

@@ -464,17 +464,15 @@ body {
 }
 
 .overview-chord-card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 16px;
     padding: 12px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, background 0.3s, box-shadow 0.3s;
     cursor: pointer;
     box-sizing: border-box;
@@ -482,22 +480,20 @@ body {
 
 .overview-chord-card:hover {
     transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    border-color: rgba(168, 85, 247, 0.5);
-    background: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-color: #4f46e5;
+    background: #ffffff;
 }
 
 .overview-chord-name {
-    font-size: 1.15rem;
-    font-weight: 900;
-    color: white;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #312e81; /* Deep, clear dark indigo for maximum legibility */
     margin: 0;
     text-align: center;
-    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: none !important;
+    -webkit-text-fill-color: #312e81 !important;
+    background: none !important;
 }
 
 .overview-chord-diagram {
@@ -1133,6 +1129,18 @@ body.fullscreen-test-active .trainer-workbench {
         font-size: 0.65rem !important;
         color: rgba(255, 255, 255, 0.5) !important;
         margin: 0 2px !important;
+    }
+
+    .key-selector-wrapper {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-right: 0 !important;
+        margin-bottom: 4px !important;
+    }
+    
+    #keyPracticeSelect {
+        padding: 6px 12px !important;
+        font-size: 0.78rem !important;
     }
 }
 

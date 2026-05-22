@@ -15,6 +15,15 @@ while ($http.IsListening) {
     if ($filename -eq "") { $filename = "index.html" }
     $filepath = Join-Path $root $filename
 
+    # If the path points to a directory, resolve to index.html inside it
+    if (Test-Path $filepath -PathType Container) {
+        $filepath = Join-Path $filepath "index.html"
+    }
+    # Clean URLs mapping: check if adding .html resolves to a valid leaf file
+    elseif (!(Test-Path $filepath -PathType Leaf) -and (Test-Path "$filepath.html" -PathType Leaf)) {
+        $filepath = "$filepath.html"
+    }
+
     if (Test-Path $filepath -PathType Leaf) {
         $bytes = [System.IO.File]::ReadAllBytes($filepath)
         $response.ContentLength64 = $bytes.Length

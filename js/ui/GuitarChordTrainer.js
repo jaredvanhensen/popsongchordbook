@@ -116,6 +116,13 @@ class GuitarChordTrainer {
         // Initialize Guide/Hint Toggle UI
         this.updateGuideToggleUI();
 
+        // Load saved key practice preference
+        const savedKey = localStorage.getItem('guitar_trainer_key_practice') || 'song';
+        const keySelect = document.getElementById('keyPracticeSelect');
+        if (keySelect) {
+            keySelect.value = savedKey;
+        }
+
         // 3. Load Song details and setup UI
         if (!this.songId) {
             console.log('GuitarChordTrainer: No songId provided, attempting to find a fallback song...');
@@ -234,11 +241,19 @@ class GuitarChordTrainer {
 
             this.songData = song;
 
+            // Check active practice selection
+            const keySelect = document.getElementById('keyPracticeSelect');
+            const selectedKey = keySelect ? keySelect.value : 'song';
+
             // Update Header labels
             if (this.dom.practicingSongName) {
                 const artist = song.artist || 'Unknown';
                 const title = song.title || 'Untitled';
-                this.dom.practicingSongName.textContent = `${artist} - ${title}`;
+                if (selectedKey === 'song') {
+                    this.dom.practicingSongName.textContent = `${artist} - ${title}`;
+                } else {
+                    this.dom.practicingSongName.textContent = `KEY OF ${selectedKey} PRACTICE`;
+                }
                 
                 // Set Back button to go back to this song's details
                 const backLink = document.querySelector('.back-link');
@@ -249,7 +264,12 @@ class GuitarChordTrainer {
 
             // Fetch cover artwork
             if (this.dom.practicingSongThumbnail) {
-                this.loadSongArtwork(song.artist, song.title);
+                if (selectedKey === 'song') {
+                    this.loadSongArtwork(song.artist, song.title);
+                } else {
+                    this.dom.practicingSongThumbnail.classList.add('hidden');
+                    this.dom.practicingSongThumbnail.style.display = 'none';
+                }
             }
 
             // Load and filter chords
@@ -272,6 +292,25 @@ class GuitarChordTrainer {
     }
 
     extractAndFilterChords() {
+        const keySelect = document.getElementById('keyPracticeSelect');
+        const selectedKey = keySelect ? keySelect.value : 'song';
+
+        if (selectedKey !== 'song') {
+            const keyChords = {
+                'C': ['C', 'Dm', 'Em', 'F', 'G', 'Am'],
+                'G': ['G', 'Am', 'Bm', 'C', 'D', 'Em'],
+                'D': ['D', 'Em', 'F#m', 'G', 'A', 'Bm'],
+                'A': ['A', 'Bm', 'C#m', 'D', 'E', 'F#m'],
+                'E': ['E', 'F#m', 'G#m', 'A', 'B', 'C#m']
+            };
+            const rawList = keyChords[selectedKey] || [];
+            this.songChords = rawList.filter(chordName => {
+                const simplified = this.simplifyChord(chordName);
+                return window.GuitarChordDatabase[chordName] || window.GuitarChordDatabase[simplified];
+            });
+            return;
+        }
+
         if (!this.songData) return;
 
         // 1. Get unique chords from text fields
@@ -316,9 +355,47 @@ class GuitarChordTrainer {
     }
 
     renderSongChordToolbar() {
-        if (!this.dom.chordButtonsContainer || !this.songData) return;
+        if (!this.dom.chordButtonsContainer) return;
 
         this.dom.chordButtonsContainer.innerHTML = '';
+
+        const keySelect = document.getElementById('keyPracticeSelect');
+        const selectedKey = keySelect ? keySelect.value : 'song';
+
+        if (selectedKey !== 'song') {
+            const groupEl = document.createElement('div');
+            groupEl.className = 'chord-toolbar-group';
+
+            const header = document.createElement('div');
+            header.className = 'chord-toolbar-section-header';
+            header.textContent = `KEY OF ${selectedKey}`;
+            groupEl.appendChild(header);
+
+            const row = document.createElement('div');
+            row.className = 'chord-toolbar-buttons-row';
+
+            this.songChords.forEach(chord => {
+                const btn = document.createElement('button');
+                btn.className = `chord-suggestion-btn chord-type-verse`;
+                btn.textContent = chord;
+
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const idx = this.songChords.indexOf(chord);
+                    if (idx !== -1) {
+                        this.selectChord(idx);
+                    }
+                };
+
+                row.appendChild(btn);
+            });
+
+            groupEl.appendChild(row);
+            this.dom.chordButtonsContainer.appendChild(groupEl);
+            return;
+        }
+
+        if (!this.songData) return;
 
         const sections = [
             { name: this.songData.verseTitle || 'VERSE', type: 'verse', text: this.songData.verse || '' },
@@ -390,11 +467,11 @@ class GuitarChordTrainer {
         });
     }
 
-    selectChord(index) {
+    selectChord(index, silent = false) {
         if (index < 0 || index >= this.songChords.length) return;
         this.currentChordIndex = index;
         this.currentChordName = this.songChords[index];
-        this.loadActiveChord();
+        this.loadActiveChord(silent);
 
         // Highlight selected button in toolbar
         document.querySelectorAll('.chord-suggestion-btn').forEach(btn => {
@@ -402,7 +479,7 @@ class GuitarChordTrainer {
         });
     }
 
-    loadActiveChord() {
+    loadActiveChord(silent = false) {
         this.isShowingHint = false;
         this.updateGuideToggleUI();
         
@@ -436,8 +513,8 @@ class GuitarChordTrainer {
         // 5. Update Interactive Fretboard UI
         this.updateInteractiveFretboardDisplay();
 
-        // 6. Strum target automatically to introduce the sound (only if not initial load)
-        if (!this.isInitialLoad) {
+        // 6. Strum target automatically to introduce the sound (only if not initial load and not silent)
+        if (!this.isInitialLoad && !silent) {
             setTimeout(() => {
                 this.strumChord(this.currentChordName);
             }, 300);
@@ -731,7 +808,7 @@ class GuitarChordTrainer {
         this.extractAndFilterChords();
         this.renderSongChordToolbar();
         if (this.songChords.length > 0) {
-            this.selectChord(0);
+            this.selectChord(0, true);
         }
 
         // Proactively refresh Chord Overview if visible
@@ -874,6 +951,47 @@ class GuitarChordTrainer {
                 }
                 // Otherwise, let the default link behavior take us back to the songlist
             };
+        }
+
+        // Key Practice Selector change
+        const keySelect = document.getElementById('keyPracticeSelect');
+        if (keySelect) {
+            keySelect.addEventListener('change', () => {
+                const selectedKey = keySelect.value;
+                localStorage.setItem('guitar_trainer_key_practice', selectedKey);
+                
+                // Update practice name and thumbnail
+                if (this.songData) {
+                    if (selectedKey === 'song') {
+                        if (this.dom.practicingSongName) {
+                            this.dom.practicingSongName.textContent = `${this.songData.artist || 'Unknown'} - ${this.songData.title || 'Untitled'}`;
+                        }
+                        if (this.dom.practicingSongThumbnail) {
+                            this.loadSongArtwork(this.songData.artist, this.songData.title);
+                        }
+                    } else {
+                        if (this.dom.practicingSongName) {
+                            this.dom.practicingSongName.textContent = `KEY OF ${selectedKey} PRACTICE`;
+                        }
+                        if (this.dom.practicingSongThumbnail) {
+                            this.dom.practicingSongThumbnail.classList.add('hidden');
+                            this.dom.practicingSongThumbnail.style.display = 'none';
+                        }
+                    }
+                }
+                
+                this.extractAndFilterChords();
+                this.renderSongChordToolbar();
+                
+                if (this.songChords.length > 0) {
+                    this.selectChord(0, true);
+                }
+                
+                // Refresh overview grid if visible
+                if (this.dom.trainerOverviewMode && !this.dom.trainerOverviewMode.classList.contains('hidden')) {
+                    this.renderChordOverviewGrid();
+                }
+            });
         }
     }
 
