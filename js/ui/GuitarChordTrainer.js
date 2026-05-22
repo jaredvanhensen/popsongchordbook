@@ -117,7 +117,18 @@ class GuitarChordTrainer {
         this.updateGuideToggleUI();
 
         // Load saved key practice preference
-        const savedKey = localStorage.getItem('guitar_trainer_key_practice') || 'song';
+        let savedKey = localStorage.getItem('guitar_trainer_key_practice');
+        if (!this.songId) {
+            // General trainer opened (no songId in URL) -> Default to 'C' practice mode
+            if (!savedKey || savedKey === 'song') {
+                savedKey = 'C';
+                localStorage.setItem('guitar_trainer_key_practice', 'C');
+            }
+        } else {
+            // Specific song opened (songId in URL) -> Force 'song' practice mode
+            savedKey = 'song';
+            localStorage.setItem('guitar_trainer_key_practice', 'song');
+        }
         const keySelect = document.getElementById('keyPracticeSelect');
         if (keySelect) {
             keySelect.value = savedKey;

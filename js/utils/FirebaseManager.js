@@ -1441,7 +1441,7 @@ class FirebaseManager {
             'auth/user-disabled': 'This account has been disabled.',
             'auth/user-not-found': 'No account found with this email address.',
             'auth/wrong-password': 'Incorrect password.',
-            'auth/invalid-credential': 'Not a registered user - Please create an account first.',
+            'auth/invalid-credential': 'Incorrect username or password.',
             'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
             'auth/network-request-failed': 'Network error. Please check your internet connection.',
             'auth/requires-recent-login': 'This action requires a recent login. Please log out and log in again.'

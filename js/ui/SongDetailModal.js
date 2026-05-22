@@ -2953,8 +2953,18 @@ class SongDetailModal {
         const title = song.title || 'Untitled';
         const artist = song.artist || 'Unknown';
         const shareText = `Check out the chords for "${artist} - ${title}" on PopSongChordBook!`;
-        const shareUrl = 'https://popsongchordbook.com'; // Use base URL for now
+        
+        let baseDomain = window.location.origin;
+        if (baseDomain.includes('localhost') || baseDomain.includes('127.0.0.1')) {
+            baseDomain = 'https://popsongchordbook.com';
+        }
+        
+        let shareUrl = baseDomain;
+        if (song.isPublic) {
+            shareUrl = baseDomain + SEO.getSongUrl(artist, title) + '/';
+        }
 
+        // Try using native navigator.share first
         if (navigator.share) {
             try {
                 await navigator.share({
@@ -2979,19 +2989,42 @@ class SongDetailModal {
 
         const whatsappUrl = `https://wa.me/?text=${encodedText}`;
         const emailUrl = `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
-        const messengerUrl = `fb-messenger://share/?link=${encodeURIComponent(shareUrl)}`;
+
+        const privateNotice = !song.isPublic ? `
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; color: #b45309; padding: 12px; border-radius: 12px; font-size: 13px; text-align: left; margin-bottom: 16px; line-height: 1.5;">
+                <span style="font-size: 16px; margin-right: 4px;">⚠️</span> <strong>Private Song</strong><br/>
+                This song is private. To allow others to view it, publish it using the <strong>Publish This Song Online</strong> option in the menu.
+            </div>
+        ` : '';
 
         const shareHtml = `
-            <div class="share-options-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-                <a href="${whatsappUrl}" target="_blank" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #25D366; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-                    <span style="font-size: 20px;">📱</span> WhatsApp
-                </a>
-                <a href="${emailUrl}" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #6366f1; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-                    <span style="font-size: 20px;">📧</span> Email
-                </a>
-                <a href="${messengerUrl}" target="_blank" class="share-option-link" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #0084FF; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-                    <span style="font-size: 20px;">💬</span> Messenger
-                </a>
+            <div class="share-options-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px; font-family: inherit;">
+                ${privateNotice}
+                
+                <div style="text-align: left; margin-bottom: 6px;">
+                    <label style="font-size: 13px; font-weight: 600; color: #475569; display: block; margin-bottom: 6px;">Song Link</label>
+                    <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 8px 12px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                        <input type="text" id="shareCopyUrlInput" value="${shareUrl}" readonly style="flex: 1; border: none; background: transparent; font-size: 13px; color: #334155; outline: none; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-family: monospace;" />
+                        <button id="shareCopyUrlBtn" style="background: #6366f1; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;" onclick="navigator.clipboard.writeText(document.getElementById('shareCopyUrlInput').value).then(() => {
+                            const btn = document.getElementById('shareCopyUrlBtn');
+                            btn.textContent = 'Copied!';
+                            btn.style.background = '#10b981';
+                            setTimeout(() => {
+                                btn.textContent = 'Copy';
+                                btn.style.background = '#6366f1';
+                            }, 2000);
+                        })">Copy</button>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                    <a href="${whatsappUrl}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: #25D366; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 14px; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='none'">
+                        <span style="font-size: 18px;">📱</span> WhatsApp
+                    </a>
+                    <a href="${emailUrl}" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: #e2e8f0; color: #334155; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 14px; border: 1px solid #cbd5e1; transition: transform 0.1s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='none'">
+                        <span style="font-size: 18px;">📧</span> Email
+                    </a>
+                </div>
             </div>
         `;
 

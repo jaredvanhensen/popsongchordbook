@@ -579,6 +579,25 @@ body.fullscreen-test-active .trainer-meta-row {
     display: none !important;
 }
 
+/* Keep sidebar visible on desktop, hide/reset only on mobile/tablet (less than 1080px) */
+@media (max-width: 1079px) {
+    body.fullscreen-test-active .app-sidebar {
+        display: none !important;
+    }
+    body.fullscreen-test-active .app-main {
+        margin-left: 0 !important;
+    }
+}
+
+body.fullscreen-test-active .app-layout {
+    background: transparent !important;
+}
+
+body.fullscreen-test-active .app-main {
+    background: transparent !important;
+    height: 100vh !important;
+}
+
 body.fullscreen-test-active .trainer-workbench {
     height: auto !important;
     min-height: 100vh !important;

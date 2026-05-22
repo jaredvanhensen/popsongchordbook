@@ -28,11 +28,10 @@ foreach ($fileName in $files) {
     if (Test-Path $filePath) {
         $content = Get-Content $filePath -Raw -Encoding UTF8
         
-        # Update visible version span
-        # Note: Use (?s) for single-line mode (dot matches newline) and \s+ for flexible spacing
-        $regexWithWhitespace = '(?s)<span\s+id="site-version">(\d+\.?\d*)</span>'
+        # Update visible version span (supporting any order of attributes/classes)
+        $regexWithWhitespace = '(?s)<span(\s+[^>]*id="site-version"[^>]*)>(\d+\.?\d*)</span>'
         if ($content -match $regexWithWhitespace) {
-            $content = $content -replace $regexWithWhitespace, "<span id=`"site-version`">$newVersionStr</span>"
+            $content = $content -replace $regexWithWhitespace, "<span`$1>$newVersionStr</span>"
             Write-Host "  - Found and updated version span in $fileName"
         }
         else {
@@ -40,11 +39,21 @@ foreach ($fileName in $files) {
         }
         
         # Update script/css query strings (?v=X.XX or ?v=XX)
-        # Regex to match ?v=NUMBER
         $content = $content -replace '\?v=(\d+(\.\d+)?)', "?v=$newVersionStr"
 
-        # Update version in parentheses (v1.XX) - for js/app.js
+        # Update version in parentheses (v1.XX)
         $content = $content -replace "\(v\d+\.?\d*\)", "(v$newVersionStr)"
+
+        # Update meta version tags
+        $content = $content -replace '<meta name="version" content="\d+\.?\d*">', "<meta name=`"version`" content=`"$newVersionStr`">"
+        $content = $content -replace '<meta name="application-version" content="v\d+\.?\d*">', "<meta name=`"application-version`" content=`"v$newVersionStr`">"
+
+        # Update title version prefixes
+        $content = $content -replace '<title>PopSongChordBook v\d+\.?\d*', "<title>PopSongChordBook v$newVersionStr"
+        $content = $content -replace '<title>Song List v\d+\.?\d*', "<title>Song List v$newVersionStr"
+
+        # Update JavaScript constants
+        $content = $content -replace "const SITE_VERSION = '\d+\.?\d*';", "const SITE_VERSION = '$newVersionStr';"
         
         [System.IO.File]::WriteAllText($filePath, $content)
         Write-Host "Updated $fileName"
