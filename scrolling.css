@@ -1278,6 +1278,11 @@ body.edit-mode-active .marker-track-handle {
     white-space: nowrap !important;
 }
 
+/* Hide lyrics sync marker in mobile portrait view */
+body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
+    display: none !important;
+}
+
 #metronomeBtn,
 #audioToggleBtn {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
