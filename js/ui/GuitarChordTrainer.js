@@ -302,6 +302,18 @@ class GuitarChordTrainer {
         }
     }
 
+    getEffectiveCapo() {
+        if (!this.songData) return 0;
+        return parseInt(this.songData.capo) || 0;
+    }
+
+    applyCapoTransposition(chordName) {
+        const capo = this.getEffectiveCapo();
+        if (capo === 0) return chordName;
+        // The chords in text are concert pitch. To play them with Capo, we play shapes lower by capo semitones.
+        return this.chordParser.transpose(chordName, -capo);
+    }
+
     extractAndFilterChords() {
         const keySelect = document.getElementById('keyPracticeSelect');
         const selectedKey = keySelect ? keySelect.value : 'song';
@@ -328,6 +340,25 @@ class GuitarChordTrainer {
         const stringFields = ['verse', 'chorus', 'preChorus', 'bridge'];
         const isChord = (s) => /^[A-G][b#]?/.test(s) && !s.includes('(');
         const uniqueNames = new Set();
+        
+        // Extract all raw chords from text fields to determine if they are already in Capo pitch
+        const allTextChords = [];
+        stringFields.forEach(field => {
+            if (this.songData[field] && typeof this.songData[field] === 'string') {
+                const parts = this.songData[field].split(/[\s|]+/);
+                parts.forEach(p => {
+                    const trimmed = p.trim();
+                    if (trimmed && trimmed !== '?' && trimmed !== 'N.C.' && isChord(trimmed)) {
+                        allTextChords.push(trimmed);
+                    } else if (/^\[.*\]$/.test(trimmed)) {
+                        const inner = trimmed.substring(1, trimmed.length - 1);
+                        if (isChord(inner)) allTextChords.push(inner);
+                    }
+                });
+            }
+        });
+
+        this.textNeedsTransposition = this.determineIfTextNeedsTransposition(allTextChords);
 
         stringFields.forEach(field => {
             if (this.songData[field] && typeof this.songData[field] === 'string') {
@@ -335,18 +366,25 @@ class GuitarChordTrainer {
                 parts.forEach(p => {
                     const trimmed = p.trim();
                     if (trimmed && trimmed !== '?' && trimmed !== 'N.C.' && isChord(trimmed)) {
-                        uniqueNames.add(trimmed);
+                        const transposed = this.textNeedsTransposition ? this.applyCapoTransposition(trimmed) : trimmed;
+                        uniqueNames.add(transposed);
+                    } else if (/^\[.*\]$/.test(trimmed)) {
+                        const inner = trimmed.substring(1, trimmed.length - 1);
+                        if (isChord(inner)) {
+                            const transposed = this.textNeedsTransposition ? this.applyCapoTransposition(inner) : inner;
+                            uniqueNames.add(transposed);
+                        }
                     }
                 });
             }
         });
 
-        // 2. Also extract from chordData.chords array
         if (this.songData.chordData && Array.isArray(this.songData.chordData.chords)) {
             this.songData.chordData.chords.forEach(c => {
                 const name = c.name || c.chord;
                 if (name && name !== '?' && name !== 'N.C.') {
-                    uniqueNames.add(name);
+                    // Timeline chords are ALWAYS concert pitch, so we always transpose them if Capo is active
+                    uniqueNames.add(this.applyCapoTransposition(name));
                 }
             });
         }
@@ -363,6 +401,39 @@ class GuitarChordTrainer {
             const simplified = this.simplifyChord(chordName);
             return window.GuitarChordDatabase[chordName] || window.GuitarChordDatabase[simplified];
         });
+    }
+
+    determineIfTextNeedsTransposition(textChords) {
+        const capo = this.getEffectiveCapo();
+        if (capo === 0) return true; // Doesn't matter, transposition by 0 is no-op
+        if (!this.songData.chordData || !Array.isArray(this.songData.chordData.chords)) return true; // Default to true
+
+        const isChord = (s) => /^[A-G][b#]?/.test(s) && !s.includes('(');
+        const timelineChords = this.songData.chordData.chords.map(c => c.name || c.chord).filter(c => c && isChord(c));
+        
+        if (timelineChords.length === 0) return true;
+        
+        const uniqueTextChords = new Set(textChords);
+        if (uniqueTextChords.size === 0) return true;
+
+        // Target Capo Pitch chords (what we play)
+        const capoChords = new Set(timelineChords.map(c => this.chordParser.transpose(c, -capo)));
+        // Original Concert Pitch chords
+        const concertChords = new Set(timelineChords);
+
+        let matchCapo = 0;
+        let matchConcert = 0;
+
+        uniqueTextChords.forEach(c => {
+            if (capoChords.has(c)) matchCapo++;
+            if (concertChords.has(c)) matchConcert++;
+        });
+
+        // If the text chords match the Capo Pitch MORE than the Concert Pitch, 
+        // it means the user manually entered Capo Pitch chords into the text.
+        // Therefore, we SHOULD NOT transpose the text chords again.
+        if (matchCapo > matchConcert) return false;
+        return true;
     }
 
     renderSongChordToolbar() {
@@ -449,11 +520,19 @@ class GuitarChordTrainer {
                     marker.className = 'chord-toolbar-inline-marker';
                     marker.textContent = chord;
                     row.appendChild(marker);
+                } else if (/^\[.*\]$/.test(chord)) {
+                    const marker = document.createElement('span');
+                    marker.className = 'chord-toolbar-inline-text';
+                    const innerText = chord.substring(1, chord.length - 1);
+                    const transposedText = (this.isChord(innerText) && this.textNeedsTransposition) ? this.applyCapoTransposition(innerText) : innerText;
+                    marker.textContent = transposedText;
+                    row.appendChild(marker);
                 } else {
                     const btn = document.createElement('button');
                     btn.className = `chord-suggestion-btn chord-type-${group.type}`;
                     
-                    const displayName = this.complexity === 'basic' ? this.simplifyChord(chord) : chord;
+                    const transposedChord = this.textNeedsTransposition ? this.applyCapoTransposition(chord) : chord;
+                    const displayName = this.complexity === 'basic' ? this.simplifyChord(transposedChord) : transposedChord;
                     btn.textContent = displayName;
 
                     // Click selects the chord

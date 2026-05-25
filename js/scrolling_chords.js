@@ -558,6 +558,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Immediately re-render text mode to apply/remove pagination
             if (isTextMode && typeof generateTextModeContent === 'function') {
+                if (isEditMode && parsedLyrics && parsedLyrics.length > 0) {
+                    const currentPlaybackTime = typeof isPlaying !== 'undefined' ? (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime) : 0;
+                    const activeIdx = parsedLyrics.findLastIndex(l => l.time <= currentPlaybackTime);
+                    if (activeIdx !== -1) {
+                        window.textModeEditPage = Math.floor(activeIdx / 4);
+                    } else {
+                        window.textModeEditPage = 0;
+                    }
+                }
                 generateTextModeContent();
             }
 

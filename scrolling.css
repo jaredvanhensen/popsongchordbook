@@ -5876,6 +5876,17 @@ body.ctrl-held .chord-item {
     color: #fff;
 }
 
+/* Make buttons visible on white background of text mode */
+.text-mode-overlay .floating-hud-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #475569;
+}
+.text-mode-overlay .floating-hud-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #0f172a;
+}
+
 /* ============================================================
    TEXT MODE (ULTIMATE GUITAR STYLE) OVERLAY
 ============================================================ */
