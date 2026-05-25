@@ -411,11 +411,7 @@ A5 E5 B5 A5 B5 2x G5 D5 A5 G5 A5 2x
                 return;
             }
 
-            // Inject Dynamic Canonical Link for SEO indexing
-            const canonicalLink = document.createElement('link');
-            canonicalLink.rel = 'canonical';
-            canonicalLink.href = window.location.origin + window.location.pathname;
-            document.head.appendChild(canonicalLink);
+            
 
             // SEO Protection: Prevent indexing on github.io testing domain
             if (window.location.hostname.includes('github.io')) {

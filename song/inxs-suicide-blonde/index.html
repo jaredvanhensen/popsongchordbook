@@ -408,11 +408,7 @@ E G A [Em barre chord 7th position and A (d shape) on 9th position]
                 return;
             }
 
-            // Inject Dynamic Canonical Link for SEO indexing
-            const canonicalLink = document.createElement('link');
-            canonicalLink.rel = 'canonical';
-            canonicalLink.href = window.location.origin + window.location.pathname;
-            document.head.appendChild(canonicalLink);
+            
 
             // SEO Protection: Prevent indexing on github.io testing domain
             if (window.location.hostname.includes('github.io')) {

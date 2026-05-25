@@ -411,11 +411,7 @@ Am F C G 2x F C Am G | F G Am |  F G C | F G | A# F C A# F G F C Am G |
                 return;
             }
 
-            // Inject Dynamic Canonical Link for SEO indexing
-            const canonicalLink = document.createElement('link');
-            canonicalLink.rel = 'canonical';
-            canonicalLink.href = window.location.origin + window.location.pathname;
-            document.head.appendChild(canonicalLink);
+            
 
             // SEO Protection: Prevent indexing on github.io testing domain
             if (window.location.hostname.includes('github.io')) {

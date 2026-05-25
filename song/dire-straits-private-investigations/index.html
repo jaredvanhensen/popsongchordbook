@@ -411,11 +411,7 @@ D G D2 Am2 Em D2 G3 D2 C2 B
                 return;
             }
 
-            // Inject Dynamic Canonical Link for SEO indexing
-            const canonicalLink = document.createElement('link');
-            canonicalLink.rel = 'canonical';
-            canonicalLink.href = window.location.origin + window.location.pathname;
-            document.head.appendChild(canonicalLink);
+            
 
             // SEO Protection: Prevent indexing on github.io testing domain
             if (window.location.hostname.includes('github.io')) {
