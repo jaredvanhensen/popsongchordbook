@@ -145,6 +145,153 @@
     </style>
 </head>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - PopSongChordBook</title>
+    <meta name="description" content="Stay updated with the latest features, improvements, and fixes in PopSongChordBook.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #6366f1;
+            --accent-light: #e0e7ff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1em;
+        }
+
+        .changelog {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .version-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .version-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 10px;
+        }
+
+        .version-number {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .version-date {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .change-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .change-item {
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .change-type {
+            font-weight: 600;
+            min-width: 140px;
+            color: var(--text-main);
+        }
+
+        .change-description {
+            color: var(--text-muted);
+            flex: 1;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .change-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .change-type {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+
 <body>
     <div class="container">
         <a href="index.html" class="back-link">← Back to App</a>
@@ -154,6 +301,19 @@
         </header>
         <div class="changelog">
             <div class="version-card current">
+                <div class="version-header">
+                    <span class="version-number">v2.875</span>
+                    <span class="version-date">May 25, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Updates:</strong> Added Close (❌) and Unlink (✂️) buttons directly inside the Classic Chord Sheet view for easier access. The Classic Chord Sheet now automatically syncs with the current playback time, jumping straight to the active lyrics page when opened.</li>
+                        <li><strong>Layout Optimizations:</strong> Updated the desktop 1080p viewport layout to prevent unnecessary horizontal scrolling by dynamically reducing sidebar padding and scaling the logo.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
                 <div class="version-header">
                     <span class="version-number">v2.862</span>
                     <span class="version-date">May 23, 2026</span>
@@ -5151,3 +5311,4 @@
 </body>
 
 </html>
+

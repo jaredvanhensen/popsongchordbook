@@ -19,6 +19,7 @@ const saveBtn = document.getElementById('saveBtn');
 const undoBtn = document.getElementById('undoBtn');
 const redoBtn = document.getElementById('redoBtn');
 const clearDataBtn = document.getElementById('clearDataBtn');
+const clearLinksBtn = document.getElementById('clearLinksBtn');
 const restartBtn = document.getElementById('restartBtn');
 const audioToggleBtn = document.getElementById('audioToggleBtn');
 const captureBtn = document.getElementById('captureBtn');
@@ -33,6 +34,9 @@ const barDecBtn = document.getElementById('barDecBtn');
 const barIncBtn = document.getElementById('barIncBtn');
 const barOffsetDisplay = document.getElementById('barOffsetDisplay');
 const toggleLyricsBtn = document.getElementById('toggleLyricsBtn');
+const textModeBtn = document.getElementById('textModeBtn');
+const textModeOverlay = document.getElementById('textModeOverlay');
+const textModeContent = document.getElementById('textModeContent');
 const lyricsHUD = document.getElementById('lyricsHUD');
 const lyricLine1 = document.getElementById('lyricLine1');
 const lyricLine2 = document.getElementById('lyricLine2');
@@ -90,6 +94,7 @@ let animationFrame;
 let isCountingIn = false;
 let barOffsetInBeats = 0;
 let lyricsEnabled = true;
+let isTextMode = false;
 let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
 let originalTempo = 120; // For tempo change detection
@@ -397,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (undoBtn) undoBtn.addEventListener('click', undo);
     if (redoBtn) redoBtn.addEventListener('click', redo);
     if (clearDataBtn) clearDataBtn.addEventListener('click', clearData);
+    if (clearLinksBtn) clearLinksBtn.addEventListener('click', clearAllLyricLinks);
     if (metronomeBtn) metronomeBtn.addEventListener('click', toggleMetronome);
     if (bpmBtn) bpmBtn.addEventListener('click', changeBpm);
     if (captureBtn) captureBtn.addEventListener('click', toggleTimingCapture);
@@ -497,6 +503,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (toggleLyricsBtn) toggleLyricsBtn.addEventListener('click', toggleLyricsHUD);
 
+    // Mode Toggles
+    const textModeBtn = document.getElementById('textModeBtn');
+    if (textModeBtn) textModeBtn.addEventListener('click', toggleTextMode);
+
+    const closeTextModeBtn = document.getElementById('closeTextModeBtn');
+    if (closeTextModeBtn) closeTextModeBtn.addEventListener('click', toggleTextMode);
+
+    const textModeEditBtn = document.getElementById('textModeEditBtn');
+    if (textModeEditBtn) {
+        textModeEditBtn.addEventListener('click', () => {
+            if (editModeBtn) editModeBtn.click();
+        });
+    }
+
     // Timeline Hamburger Menu Logic
     const timelineHamburgerBtn = document.getElementById('timelineHamburgerBtn');
     const timelineHamburgerMenu = document.getElementById('timelineHamburgerMenu');
@@ -528,10 +548,17 @@ document.addEventListener('DOMContentLoaded', () => {
             isEditMode = !isEditMode;
             document.body.classList.toggle('edit-mode-active', isEditMode);
             editModeBtn.classList.toggle('active', isEditMode);
+            
+            const textModeEditBtn = document.getElementById('textModeEditBtn');
+            if (textModeEditBtn) textModeEditBtn.classList.toggle('active', isEditMode);
 
-            // If turning off edit mode, also turn off selection mode if it was on
             if (!isEditMode && isSelectionMode) {
                 toggleSelectionMode();
+            }
+
+            // Immediately re-render text mode to apply/remove pagination
+            if (isTextMode && typeof generateTextModeContent === 'function') {
+                generateTextModeContent();
             }
 
             // Reset Copy/Paste state when toggling
@@ -2619,6 +2646,8 @@ function getExportData() {
             let chord = { time: c.time, name: c.name };
             // Only include yOffset if it has been modified from default 0
             if (c.yOffset !== undefined) chord.yOffset = c.yOffset;
+            if (c.lyricLineIdx !== undefined) chord.lyricLineIdx = c.lyricLineIdx;
+            if (c.lyricWordIdx !== undefined) chord.lyricWordIdx = c.lyricWordIdx;
             return chord;
         }),
         useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false,
@@ -2675,6 +2704,334 @@ function toggleLyricsHUD() {
         if (pureLyricsBtn) pureLyricsBtn.classList.add('active');
     } else {
         hideLyricsHUD();
+    }
+}
+
+function toggleTextMode() {
+    isTextMode = !isTextMode;
+    const btn = document.getElementById('textModeBtn');
+    if (isTextMode) {
+        document.body.classList.add('text-mode-active');
+        if (btn) btn.classList.add('active');
+        if (textModeOverlay) textModeOverlay.classList.remove('hidden');
+        
+        // Auto-jump to the page containing the current lyrics
+        if (parsedLyrics && parsedLyrics.length > 0) {
+            const currentPlaybackTime = typeof isPlaying !== 'undefined' ? (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime) : 0;
+            const activeIdx = parsedLyrics.findLastIndex(l => l.time <= currentPlaybackTime);
+            if (activeIdx !== -1) {
+                window.textModeEditPage = Math.floor(activeIdx / 4);
+            } else {
+                window.textModeEditPage = 0;
+            }
+        }
+        
+        generateTextModeContent();
+    } else {
+        document.body.classList.remove('text-mode-active');
+        if (btn) btn.classList.remove('active');
+        if (textModeOverlay) textModeOverlay.classList.add('hidden');
+    }
+}
+
+// Clears all lyrics links from chords without deleting the chords themselves
+function clearAllLyricLinks() {
+    if (!chords || chords.length === 0) return;
+    
+    if (confirm("Are you sure you want to remove all lyric linking? The chord timings will be preserved.")) {
+        saveUndoState();
+        chords.forEach(c => {
+            delete c.lyricLineIdx;
+            delete c.lyricWordIdx;
+        });
+        
+        generateTextModeContent();
+        setSaveStatus(false);
+        showNotification("All text links cleared!");
+    }
+}
+
+window.textModeEditPage = 0;
+window.nextTextPage = function() {
+    if (!parsedLyrics) return;
+    const maxPage = Math.ceil(parsedLyrics.length / 4) - 1;
+    if (window.textModeEditPage < maxPage) {
+        window.textModeEditPage++;
+        generateTextModeContent();
+    }
+};
+window.prevTextPage = function() {
+    if (window.textModeEditPage > 0) {
+        window.textModeEditPage--;
+        generateTextModeContent();
+    }
+};
+
+// Generate the new text-based view for lyrics with chords integrated
+function generateTextModeContent() {
+    if (!textModeContent) return;
+    textModeContent.innerHTML = '';
+    
+    if (!parsedLyrics || parsedLyrics.length === 0) {
+        let html = '<div class="text-mode-lyric-row">No lyrics available. Chords:</div>';
+        html += '<div class="text-mode-chord-row">';
+        chords.forEach(c => {
+            html += simplifyDisplayName(c.name) + '  ';
+        });
+        html += '</div>';
+        textModeContent.innerHTML = html;
+        return;
+    }
+
+    let html = '';
+    let currentMarkerIdx = 0;
+    
+    const sortedMarkers = [...markers].sort((a, b) => a.time - b.time);
+    
+    const currentPlaybackTime = typeof isPlaying !== 'undefined' ? (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime) : 0;
+    
+    // Default to 0 so the first lyric line is visible before the song starts
+    let activeIdx = parsedLyrics ? parsedLyrics.findLastIndex(l => l.time <= currentPlaybackTime) : -1;
+    if (activeIdx === -1 && parsedLyrics && parsedLyrics.length > 0) activeIdx = 0;
+
+    for (let i = 0; i < parsedLyrics.length; i++) {
+        const lyric = parsedLyrics[i];
+        const nextLyricTime = i < parsedLyrics.length - 1 ? parsedLyrics[i+1].time : lyric.time + 6;
+        
+        // Marker logic has been removed so time info is not shown in the text box
+        while (currentMarkerIdx < sortedMarkers.length && sortedMarkers[currentMarkerIdx].time <= lyric.time + 0.1) {
+            currentMarkerIdx++;
+        }
+        
+        // Time-based chords (not manually linked anywhere)
+        const startTimeWindow = i === 0 ? 0 : lyric.time - 0.5;
+        const timeChords = chords.filter(c => c.lyricLineIdx === undefined && c.time >= startTimeWindow && c.time < nextLyricTime - 0.5);
+        // Chords manually linked specifically to this line
+        const linkedChords = chords.filter(c => c.lyricLineIdx === i);
+        
+        let words = lyric.text.trim().split(/\s+/).filter(w => w.length > 0);
+        if (words.length === 0) words = [''];
+
+        // 1. Establish timestamps for each word
+        let wordItems = words.map((w, idx) => ({
+            type: 'word',
+            word: w,
+            wordIdx: idx,
+            linkedChords: [],
+            time: -1
+        }));
+
+        linkedChords.forEach(c => {
+            if (c.lyricWordIdx !== undefined && c.lyricWordIdx >= 0 && c.lyricWordIdx < words.length) {
+                wordItems[c.lyricWordIdx].linkedChords.push(c);
+            } else {
+                wordItems[0].linkedChords.push(c); // Fallback
+            }
+        });
+
+        let hasExplicit = false;
+        wordItems.forEach(wi => {
+            wi.linkedChords.sort((a, b) => a.time - b.time);
+            if (wi.linkedChords.length > 0) {
+                wi.time = wi.linkedChords[0].time;
+                hasExplicit = true;
+            }
+        });
+
+        const duration = nextLyricTime - lyric.time;
+        const vocalDuration = Math.max(1.0, duration * 0.5);
+
+        if (!hasExplicit) {
+            wordItems.forEach((wi, idx) => {
+                wi.time = lyric.time + (idx / wordItems.length) * vocalDuration;
+            });
+        } else {
+            // Interpolate missing times
+            let lastTime = lyric.time;
+            for (let j = 0; j < wordItems.length; j++) {
+                if (wordItems[j].time !== -1) {
+                    lastTime = wordItems[j].time;
+                } else {
+                    let nextTime = lyric.time + vocalDuration;
+                    let nextIdx = -1;
+                    for (let k = j + 1; k < wordItems.length; k++) {
+                        if (wordItems[k].time !== -1) {
+                            nextTime = wordItems[k].time;
+                            nextIdx = k;
+                            break;
+                        }
+                    }
+                    let steps = nextIdx !== -1 ? (nextIdx - j + 1) : 2;
+                    lastTime = lastTime + (nextTime - lastTime) / steps;
+                    wordItems[j].time = lastTime;
+                }
+            }
+            
+            // Enforce monotonicity
+            let maxTime = -Infinity;
+            for (let j = 0; j < wordItems.length; j++) {
+                if (wordItems[j].time < maxTime) {
+                    wordItems[j].time = maxTime + 0.001;
+                }
+                maxTime = wordItems[j].time;
+            }
+        }
+
+        // 2. Prepare unlinked chords
+        let unlinkedItems = timeChords.map(c => ({
+            type: 'unlinked',
+            chord: c,
+            time: c.time
+        }));
+
+        // 3. Merge and sort
+        let allItems = [...wordItems, ...unlinkedItems];
+        allItems.sort((a, b) => {
+            if (Math.abs(a.time - b.time) < 0.0001) {
+                if (a.type === 'unlinked' && b.type === 'word') return -1;
+                if (b.type === 'unlinked' && a.type === 'word') return 1;
+                return 0;
+            }
+            return a.time - b.time;
+        });
+
+        // 4. Render
+        let blockClass = 'text-lyric-block';
+        if (isEditMode) {
+            const startIdx = window.textModeEditPage * 4;
+            const endIdx = startIdx + 3;
+            if (i >= startIdx && i <= endIdx) {
+                blockClass += ' active edit-static';
+            } else {
+                blockClass += ' passed';
+            }
+        } else {
+            if (i === activeIdx) blockClass += ' active';
+            else if (i === activeIdx + 1) blockClass += ' upcoming';
+            else if (i < activeIdx) blockClass += ' passed';
+        }
+
+        html += `<div id="text-lyric-block-${i}" class="${blockClass}">`;
+        html += `<div class="text-mode-lyric-row">`;
+        
+        allItems.forEach(item => {
+            if (item.type === 'word') {
+                let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
+                html += `<div class="word-group">`;
+                html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
+                html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word}</div>`;
+                html += `</div>`;
+            } else if (item.type === 'unlinked') {
+                html += `<div class="word-group">`;
+                html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
+                html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
+                html += `</div>`;
+            }
+        });
+        
+        html += `</div></div>`;
+    }
+    
+    // Marker logic has been removed so time info is not shown in the text box
+    while (currentMarkerIdx < sortedMarkers.length) {
+        currentMarkerIdx++;
+    }
+    
+    if (isEditMode && parsedLyrics && parsedLyrics.length > 0) {
+        const maxPage = Math.ceil(parsedLyrics.length / 4) - 1;
+        html += `
+            <div class="text-mode-pagination">
+                <button class="btn" onclick="window.prevTextPage()" ${window.textModeEditPage === 0 ? 'disabled' : ''}>← Previous 4 Lines</button>
+                <span style="font-size: 0.9em; color: #64748b;">Page ${window.textModeEditPage + 1} of ${maxPage + 1}</span>
+                <button class="btn" onclick="window.nextTextPage()" ${window.textModeEditPage >= maxPage ? 'disabled' : ''}>Next 4 Lines →</button>
+            </div>
+        `;
+    }
+    
+    textModeContent.innerHTML = html;
+    
+    // Reset this so updateLoop ensures scrolling is re-applied correctly on next frame
+    window.lastActiveTextLyricIdx = -1;
+
+    // Attach one-time click listener for click-to-link feature
+    if (!textModeContent.dataset.wordClickListenerAdded) {
+        textModeContent.addEventListener('click', (e) => {
+            if (!isEditMode) return;
+            const wordEl = e.target.closest('.lyric-word');
+            if (!wordEl) return;
+            
+            const lineIdx = parseInt(wordEl.dataset.lineIdx);
+            const wordIdx = parseInt(wordEl.dataset.wordIdx);
+            
+            let targetChordIndex = -1;
+            
+            // 1. Check if user manually selected exactly one chord in the timeline
+            const selectedIndices = [];
+            chords.forEach((c, idx) => {
+                if (c.selected) selectedIndices.push(idx);
+            });
+            
+            if (selectedIndices.length === 1) {
+                targetChordIndex = selectedIndices[0];
+            } else if (selectedIndices.length === 0) {
+                // 2. Auto-link to the closest chord based on playback time
+                const currentPlaybackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+                // Use the exact click time. The closest chord logic will naturally handle slight delays.
+                const intentTime = currentPlaybackTime;
+                
+                if (chords.length > 0) {
+                    let closestIdx = 0;
+                    let minDiff = Infinity;
+                    for (let i = 0; i < chords.length; i++) {
+                        const diff = Math.abs(chords[i].time - intentTime);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestIdx = i;
+                        }
+                    }
+                    // Only auto-link if the closest chord is within a reasonable timeframe (e.g. 3 seconds)
+                    if (minDiff <= 3.0) {
+                        targetChordIndex = closestIdx;
+                    }
+                }
+            }
+            
+            if (targetChordIndex !== undefined && targetChordIndex !== -1 && targetChordIndex < chords.length) {
+                // Save state before modifying
+                if (typeof saveUndoState === 'function') saveUndoState();
+                
+                // Prevent chord stacking: if another chord is already on this word, clear it
+                chords.forEach(c => {
+                    if (c !== chords[targetChordIndex] && c.lyricLineIdx === lineIdx && c.lyricWordIdx === wordIdx) {
+                        delete c.lyricLineIdx;
+                        delete c.lyricWordIdx;
+                    }
+                });
+
+                // Link the chosen chord to this word
+                chords[targetChordIndex].lyricLineIdx = lineIdx;
+                chords[targetChordIndex].lyricWordIdx = wordIdx;
+                
+                if (typeof setSaveStatus === 'function') setSaveStatus(false);
+                
+                // Visual feedback
+                wordEl.style.transition = 'all 0.2s';
+                wordEl.style.transform = 'scale(1.2)';
+                wordEl.style.color = '#3b82f6';
+                
+                setTimeout(() => {
+                    wordEl.style.transform = '';
+                    wordEl.style.color = '';
+                    generateTextModeContent();
+                }, 200);
+            } else {
+                console.log("No chord found near current playback time.");
+                wordEl.style.transition = 'background-color 0.2s';
+                wordEl.style.backgroundColor = 'rgba(239, 68, 68, 0.3)';
+                setTimeout(() => { wordEl.style.backgroundColor = ''; }, 300);
+            }
+        });
+        textModeContent.dataset.wordClickListenerAdded = 'true';
     }
 }
 
@@ -3554,6 +3911,35 @@ function updateLoop() {
         }
     } else {
         if (!lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.add('hidden');
+    }
+
+    // Text Mode Auto-scroll Logic
+    if (isTextMode && parsedLyrics.length > 0) {
+        if (!isEditMode) {
+            let activeIdx = parsedLyrics.findLastIndex(l => l.time <= playbackTime);
+            if (activeIdx === -1) activeIdx = 0; // Default to 0 so the first lyric line is visible before the song starts
+
+            if (activeIdx !== window.lastActiveTextLyricIdx) {
+                const textModeBlocks = textModeOverlay ? textModeOverlay.querySelectorAll('.text-lyric-block') : [];
+                textModeBlocks.forEach((block, idx) => {
+                    block.classList.remove('active', 'passed', 'upcoming', 'edit-static');
+                    
+                    if (idx === activeIdx) {
+                        block.classList.add('active');
+                    } else if (idx === activeIdx + 1) {
+                        block.classList.add('upcoming');
+                    } else if (idx < activeIdx) {
+                        block.classList.add('passed');
+                    }
+                });
+
+                if (textModeOverlay) {
+                    // Since past lyrics are hidden with display:none, scroll to top
+                    textModeOverlay.scrollTop = 0;
+                }
+                window.lastActiveTextLyricIdx = activeIdx;
+            }
+        }
     }
 
     if (isPlaying) {
