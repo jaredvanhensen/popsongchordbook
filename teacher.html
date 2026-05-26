@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Teacher Dashboard - PopSongChordBook</title>
+    <link rel="canonical" href="https://www.popsongchordbook.com/teacher.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2.886">
+    <style>
+        .container {
+            overflow-y: auto !important;
+            padding-bottom: 60px !important;
+        }
+
+        .teacher-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .teacher-banner-placeholder {
+            width: 150px;
+            height: 150px;
+            background: #f0fdf4;
+            border: 2px dashed #86efac;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #16a34a;
+            position: relative;
+        }
+
+        .upload-banner-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .teacher-info h2 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+            font-size: 28px;
+        }
+
+        .teacher-code-box {
+            display: inline-block;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #166534;
+            letter-spacing: 1px;
+        }
+
+        .students-section {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .students-header h3 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 20px;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .student-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .student-email {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .student-meta {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .view-student-btn {
+            background: #166534;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .view-student-btn:hover {
+            background: #15803d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body class="theme-classic">
+
+    <div class="app-layout">
+        <main class="app-main">
+            <div class="container">
+                <header>
+                    <div class="header-top">
+                        <div class="header-top-left">
+                            <a href="songlist.html" class="back-icon-btn" title="Back to Library">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="header-title-group">
+                            <h1>Teacher Dashboard</h1>
+                            <p class="header-subtitle">Manage your students</p>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="teacher-dashboard">
+                    <!-- Dashboard Header -->
+                    <div class="dashboard-header">
+                        <div class="teacher-banner-placeholder">
+                            👤
+                            <button class="upload-banner-btn" title="Upload Photo">📷</button>
+                            <input type="file" id="teacherPhotoInput" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="teacher-info">
+                            <h2 id="teacherNameDisplay">Loading...</h2>
+                            <p style="color: #64748b; margin-bottom: 10px;">Share this code with your students to connect:</p>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="teacher-code-box" id="teacherCodeBox">...</div>
+                            <button id="shareTeacherLinkBtn" style="display: flex; align-items: center; gap: 8px; background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
+                                Share link
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Students Section -->
+                    <div class="students-section">
+                        <div class="students-header">
+                            <h3>My Students</h3>
+                            <span id="studentCountBadge" style="background: #166534; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">0</span>
+                        </div>
+                        
+                        <div id="studentsGrid" class="students-grid">
+                            <!-- Loading State -->
+                            <div class="empty-state" style="grid-column: 1 / -1;">
+                                <div class="empty-state-icon">⏳</div>
+                                <p>Loading students...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Selector (only shown when there are students) -->
+                    <div id="studentSelectorSection" style="display:none; margin: 20px 0 0 0; padding: 16px 20px; background: #f1f5f9; border-radius: 12px; border: 1px solid #e2e8f0;">
+                        <label style="font-size: 0.85rem; font-weight: 700; color: #475569; margin-right: 12px;">📋 Viewing progress for:</label>
+                        <select id="studentSelector" style="padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-family: inherit; background: white; color: #1e293b; cursor: pointer;">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- HOMEWORK SECTION -->
+                    <!-- ============================================================ -->
+                    <div style="margin-top: 28px; background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+                        <h3 style="color: #3b82f6; font-size: 1.15rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-weight: 800;">📚 Homework</h3>
+                        <div style="display: flex; gap: 14px; margin-bottom: 14px;">
+                            <div style="flex: 0 0 200px;">
+                                <label style="display: block; font-size: 0.82rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Due Date</label>
+                                <input type="date" id="spHomeworkDate" style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-family: inherit; color: #1e293b;">
+                            </div>
+                        </div>
+                        <label style="display: block; font-size: 0.82rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Instructions</label>
+                        <textarea id="spHomeworkText" rows="3" placeholder="E.g., Practice the intro of Wonderwall, focusing on the chord transitions between Am and G..." style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.95rem; resize: vertical; color: #1e293b; box-sizing: border-box;"></textarea>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- GOALS SECTION -->
+                    <!-- ============================================================ -->
+                    <div style="margin-top: 20px; background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                            <h3 style="color: #10b981; font-size: 1.15rem; display: flex; align-items: center; gap: 8px; font-weight: 800; margin: 0;">🎯 Goals</h3>
+                            <span style="font-size: 0.8rem; color: #94a3b8;">✓ Check off achieved goals &nbsp;|&nbsp; Double-click to rename</span>
+                        </div>
+                        <div id="spGoalsContainer" style="display: flex; flex-direction: column; gap: 6px;">
+                            <!-- Goals rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- LINKS SECTION -->
+                    <!-- ============================================================ -->
+                    <div style="margin-top: 20px; background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+                        <h3 style="color: #8b5cf6; font-size: 1.15rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-weight: 800;">🔗 Helpful Links</h3>
+                        <div id="spLinksContainer" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                            <!-- Links rendered by JS -->
+                        </div>
+                        <div style="background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px dashed #cbd5e1;">
+                            <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Add New Link</p>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <input type="text" id="spNewLinkTitle" placeholder="Link title (e.g. YouTube chord tutorial)" style="padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-family: inherit; font-size: 0.93rem; color: #1e293b;">
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="url" id="spNewLinkUrl" placeholder="https://..." style="flex: 1; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-family: inherit; font-size: 0.93rem; color: #1e293b;">
+                                    <button id="spAddLinkBtn" style="background: #8b5cf6; color: white; border: none; padding: 9px 18px; border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.93rem;">+ Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SAVE BUTTON -->
+                    <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+                        <button id="spSaveBtn" style="padding: 14px 32px; border: none; background: #3b82f6; color: white; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(59,130,246,0.35); transition: transform 0.1s;">💾 Save Progress</button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <!-- Config -->
+    <script src="js/config/firebase-config.js?v=2.886"></script>
+    
+    <!-- Utilities -->
+    <script src="js/utils/FirebaseManager.js?v=2.886"></script>
+
+    <!-- App Logic -->
+    <script src="js/teacher.js?v=2.886"></script>
+</body>
+
+</html>

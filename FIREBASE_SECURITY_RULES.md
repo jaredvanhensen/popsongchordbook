@@ -17,22 +17,22 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
     "users": {
       ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
       "$userId": {
-        ".read": "$userId === auth.uid",
+        ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
         ".write": "$userId === auth.uid",
         "songs": {
-          ".read": "$userId === auth.uid",
+          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
           ".write": "$userId === auth.uid"
         },
         "setlists": {
-          ".read": "$userId === auth.uid",
+          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
           ".write": "$userId === auth.uid"
         },
         "pendingSongs": {
-          ".read": "$userId === auth.uid",
+          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
           ".write": "auth != null"
         },
         "email": {
-          ".read": "$userId === auth.uid",
+          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
           ".write": "$userId === auth.uid"
         }
       }
@@ -69,6 +69,20 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
     "settings": {
       ".read": true,
       ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
+    },
+    "teacherCodes": {
+      ".read": "auth != null",
+      "$code": {
+        ".write": "auth != null && newData.val() === auth.uid"
+      }
+    },
+    "teacherStudents": {
+      "$teacherUid": {
+        ".read": "$teacherUid === auth.uid",
+        "$studentUid": {
+          ".write": "$studentUid === auth.uid"
+        }
+      }
     }
   }
 }
@@ -83,6 +97,12 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
 - **emailToUserId/{email}**: 
   - Iedereen die ingelogd is kan lezen (om andere gebruikers te vinden)
   - Gebruikers kunnen alleen hun eigen email schrijven (waarbij de waarde hun userId moet zijn)
+- **teacherCodes/{code}**:
+  - Wordt gebruikt om een Teacher Code om te zetten naar een teacherUid. Iedereen kan lezen. Alleen de docent zelf mag schrijven.
+- **teacherStudents/{teacherUid}/{studentUid}**:
+  - De docent mag zijn eigen lijst met studenten lezen.
+  - Een student mag zichzelf toevoegen onder de ID van de docent (schrijven).
+  - De rules voor de `users/{userId}` zijn aangepast zodat docenten de data (profiel en songs) van hun gekoppelde studenten kunnen inzien.
 
 ## Belangrijk
 

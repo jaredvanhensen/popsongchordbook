@@ -1,4 +1,4 @@
-﻿// Main Application (v2.879)
+// Main Application (v2.879)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -320,6 +320,58 @@ class App {
         } else if (genreParam) {
             console.log('App: Auto-navigating to genre:', genreParam);
             if (typeof window.selectGenreFromSidebar === 'function') window.selectGenreFromSidebar(genreParam);
+        }
+
+        // Handle auto-opening teacher connection via URL parameter
+        const teacherCodeParam = urlParams.get('teacher')?.trim();
+        if (teacherCodeParam) {
+            console.log('App: Auto-opening profile to connect to teacher:', teacherCodeParam);
+            // Wait for UI to settle
+            setTimeout(async () => {
+                if (this.profileModal) {
+                    // Open the profile modal
+                    this.pushModalState('profile', () => this.profileModal.hide(true));
+                    this.profileModal.show();
+                    
+                    // Check if the current user is already a teacher to avoid hiding their dashboard
+                    const user = this.firebaseManager.getCurrentUser();
+                    let isTeacher = false;
+                    if (user) {
+                        try {
+                            const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                            if (snap.val() && snap.val().role === 'teacher') {
+                                isTeacher = true;
+                            }
+                        } catch (e) {
+                            console.error('Error checking role for teacher link auto-fill', e);
+                        }
+                    }
+
+                    if (!isTeacher) {
+                        // Force the student view in the profile modal only if not a teacher
+                        if (this.profileModal.startTeacherPageBtn) {
+                            this.profileModal.profileStudentView.classList.remove('hidden');
+                            this.profileModal.profileTeacherView.classList.add('hidden');
+                        }
+                        
+                        // Pre-fill the input
+                        if (this.profileModal.teacherCodeInput) {
+                            this.profileModal.teacherCodeInput.value = teacherCodeParam.toUpperCase();
+                            this.profileModal.teacherCodeInput.style.border = '2px solid #3b82f6';
+                            setTimeout(() => this.profileModal.teacherCodeInput.style.border = '', 2000);
+                            
+                            // Scroll to it
+                            this.profileModal.teacherCodeInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    } else {
+                        // Alert the teacher that they clicked an invite link
+                        alert("You clicked a student invite link, but you are already a teacher! Your teacher dashboard is still available below.");
+                    }
+                }
+            }, 800);
+            
+            // Clean up the URL so it doesn't trigger again on refresh
+            window.history.replaceState({}, '', window.location.pathname);
         }
 
         // Auto-sync version display from meta tag (so we never forget to update the visible number)

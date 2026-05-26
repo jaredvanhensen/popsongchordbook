@@ -42,6 +42,17 @@ class ProfileModal {
 
         this.closeBtn = document.getElementById('profileModalClose');
 
+        // Teacher-Student elements
+        this.profileStudentView = document.getElementById('profileStudentView');
+        this.profileTeacherView = document.getElementById('profileTeacherView');
+        this.startTeacherPageBtn = document.getElementById('startTeacherPageBtn');
+        this.connectTeacherBtn = document.getElementById('connectTeacherBtn');
+        this.teacherCodeInput = document.getElementById('teacherCodeInput');
+        this.profileTeacherCodeDisplay = document.getElementById('profileTeacherCodeDisplay');
+        this.connectedTeacherDisplay = document.getElementById('connectedTeacherDisplay');
+        this.connectedTeacherName = document.getElementById('connectedTeacherName');
+        this.connectTeacherMsg = document.getElementById('connectTeacherMsg');
+
         // Admin elements
         // Admin elements
         this.adminSection = document.getElementById('profileAdminSection');
@@ -423,6 +434,166 @@ class ProfileModal {
                 }
             });
         }
+
+        // Teacher-Student Handlers
+        if (this.startTeacherPageBtn) {
+            this.startTeacherPageBtn.addEventListener('click', async () => {
+                const btn = this.startTeacherPageBtn;
+                const originalText = btn.textContent;
+                btn.textContent = 'Upgrading...';
+                btn.disabled = true;
+
+                const result = await this.firebaseManager.upgradeToTeacher();
+                if (result.success) {
+                    this.updateTeacherUI({
+                        role: 'teacher',
+                        teacherCode: result.teacherCode
+                    });
+                } else {
+                    alert('Error starting Teacher Page: ' + result.error);
+                }
+
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        if (this.connectTeacherBtn) {
+            this.connectTeacherBtn.addEventListener('click', async () => {
+                const code = this.teacherCodeInput ? this.teacherCodeInput.value.trim() : '';
+                if (!code) return;
+
+                const btn = this.connectTeacherBtn;
+                const originalText = btn.textContent;
+                btn.textContent = '...';
+                btn.disabled = true;
+                
+                if (this.connectTeacherMsg) {
+                    this.connectTeacherMsg.textContent = '';
+                    this.connectTeacherMsg.className = 'hidden';
+                }
+
+                const result = await this.firebaseManager.connectToTeacher(code);
+                
+                if (result.success) {
+                    if (this.teacherCodeInput) this.teacherCodeInput.value = '';
+                    if (this.connectTeacherMsg) {
+                        this.connectTeacherMsg.textContent = 'Successfully connected!';
+                        this.connectTeacherMsg.className = 'success-msg';
+                        this.connectTeacherMsg.style.color = '#16a34a';
+                        setTimeout(() => this.connectTeacherMsg.classList.add('hidden'), 3000);
+                    }
+                    if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                    if (this.connectedTeacherName) this.connectedTeacherName.textContent = result.teacherName;
+                } else {
+                    if (this.connectTeacherMsg) {
+                        this.connectTeacherMsg.textContent = result.error;
+                        this.connectTeacherMsg.className = 'error-msg';
+                        this.connectTeacherMsg.style.color = '#dc2626';
+                    }
+                }
+
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        }
+    }
+
+    updateTeacherUI(userData) {
+        if (!userData) return;
+
+        const isTeacher = userData.role === 'teacher';
+
+        if (this.profileTeacherView) {
+            this.profileTeacherView.classList.toggle('hidden', !isTeacher);
+        }
+        if (this.profileStudentView) {
+            this.profileStudentView.classList.toggle('hidden', isTeacher);
+        }
+
+        if (isTeacher) {
+            if (this.profileTeacherCodeDisplay) {
+                this.profileTeacherCodeDisplay.textContent = userData.teacherCode || '-';
+            }
+        } else {
+            if (userData.connectedTeacher) {
+                // If they have a teacher connected, we should show it.
+                // We'll need to fetch the teacher's email/name. Let's do it if we have it,
+                // or just show 'Connected' initially.
+                if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                if (this.connectedTeacherName) {
+                    // It would be better to fetch the name, but for now we know they are connected.
+                    // We'll let show() handle fetching the actual teacher name.
+                }
+            } else {
+                if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.add('hidden');
+            }
+        }
+    }
+
+    _renderStudentProgress(progress) {
+        if (!progress) return;
+
+        // --- Homework ---
+        const homeworkPanel = document.getElementById('studentHomeworkPanel');
+        const homeworkDateEl = document.getElementById('studentHomeworkDate');
+        const homeworkTextEl = document.getElementById('studentHomeworkText');
+
+        const hw = progress.homework || {};
+        if ((hw.text && hw.text.trim()) || (hw.date && hw.date.trim())) {
+            if (homeworkDateEl) {
+                if (hw.date) {
+                    const dateObj = new Date(hw.date + 'T00:00:00');
+                    homeworkDateEl.textContent = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                } else {
+                    homeworkDateEl.textContent = '';
+                }
+            }
+            if (homeworkTextEl) homeworkTextEl.textContent = hw.text || '';
+            if (homeworkPanel) homeworkPanel.classList.remove('hidden');
+        } else {
+            if (homeworkPanel) homeworkPanel.classList.add('hidden');
+        }
+
+        // --- Goals ---
+        const goalsPanel = document.getElementById('studentGoalsPanel');
+        const goalsList = document.getElementById('studentGoalsList');
+        const goals = progress.goals || [];
+        if (goalsList && goals.length > 0) {
+            goalsList.innerHTML = '';
+            goals.forEach(goal => {
+                const row = document.createElement('div');
+                row.style.cssText = `display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px; background: ${goal.completed ? '#dcfce7' : '#ffffff'}; border: 1px solid ${goal.completed ? '#86efac' : '#e2e8f0'};`;
+                row.innerHTML = `
+                    <span style="font-size: 16px;">${goal.completed ? '\u2705' : '\u25ef'}</span>
+                    <span style="font-size: 0.88rem; color: #1e293b; flex: 1; ${goal.completed ? 'text-decoration: line-through; color: #64748b;' : ''}">${goal.text}</span>
+                `;
+                goalsList.appendChild(row);
+            });
+            if (goalsPanel) goalsPanel.classList.remove('hidden');
+        } else {
+            if (goalsPanel) goalsPanel.classList.add('hidden');
+        }
+
+        // --- Links ---
+        const linksPanel = document.getElementById('studentLinksPanel');
+        const linksList = document.getElementById('studentLinksList');
+        const links = progress.links || [];
+        if (linksList && links.length > 0) {
+            linksList.innerHTML = '';
+            links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.style.cssText = 'display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: white; border-radius: 8px; border: 1px solid #e9d5ff; color: #7c3aed; font-weight: 600; font-size: 0.88rem; text-decoration: none;';
+                a.innerHTML = `<span>\ud83d\udd17</span><span style="flex:1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${link.title || link.url}</span><span style="font-size: 10px; color: #a78bfa;">&#x2197;</span>`;
+                linksList.appendChild(a);
+            });
+            if (linksPanel) linksPanel.classList.remove('hidden');
+        } else {
+            if (linksPanel) linksPanel.classList.add('hidden');
+        }
     }
 
     async handleAvatarUpload(file) {
@@ -489,6 +660,33 @@ class ProfileModal {
             let avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
             if (!avatarUrl) avatarUrl = user.photoURL;
             this.updateAvatarUI(avatarUrl);
+
+            // Fetch extra DB info (role, teacherCode, connectedTeacher)
+            const userSnapshot = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+            const userData = userSnapshot.val();
+            if (userData) {
+                this.updateTeacherUI(userData);
+                
+                // If student and has connectedTeacher, fetch teacher name + progress
+                if (userData.role !== 'teacher' && userData.connectedTeacher) {
+                    const tSnap = await this.firebaseManager.database.ref(`users/${userData.connectedTeacher}`).once('value');
+                    const tData = tSnap.val();
+                    if (tData && this.connectedTeacherName) {
+                        this.connectedTeacherName.textContent = tData.email || 'Teacher';
+                        if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                    }
+
+                    // Fetch and render student progress
+                    try {
+                        const progressResult = await this.firebaseManager.getStudentProgressAsStudent();
+                        if (progressResult.success && progressResult.progress) {
+                            this._renderStudentProgress(progressResult.progress);
+                        }
+                    } catch (err) {
+                        console.warn('Could not load student progress:', err);
+                    }
+                }
+            }
         }
 
         // Initialize theme select from current body class or localStorage

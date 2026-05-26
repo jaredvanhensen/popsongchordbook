@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.884 - PopSongChordBook</title>
-    <meta name="version" content="2.884">
-    <meta name="application-version" content="v2.884">
+    <title>Song List v2.885 - PopSongChordBook</title>
+    <meta name="version" content="2.885">
+    <meta name="application-version" content="v2.885">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -766,7 +766,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.879</span>
+                        <span id="site-version" class="version-tag">2.886</span>
                     </div>
                 </div>
             </div>
@@ -1393,6 +1393,59 @@
                                 <option value="basic">BASIC</option>
                             </select>
                         </div>
+                    </div>
+                </div>
+                <div class="profile-teacher-section" style="margin-bottom: 20px; background: #f0fdf4; padding: 15px; border-radius: 12px; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 12px; color: #166534;">🎓 Teacher / Student Connection</h4>
+                    
+                    <!-- Student View (Default) -->
+                    <div id="profileStudentView">
+                        <div style="font-size: 12px; color: #15803d; margin-bottom: 12px;">Connect with your music teacher to share your progress and get custom assignments.</div>
+                        <div id="connectedTeacherDisplay" class="hidden" style="margin-bottom: 15px;">
+                            <div style="padding: 10px; background: #ffffff; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 12px;">
+                                <span style="font-size: 11px; color: #16a34a; font-weight: bold; text-transform: uppercase;">Connected Teacher:</span>
+                                <div id="connectedTeacherName" style="font-size: 14px; font-weight: 600; color: #166534; margin-top: 4px;">-</div>
+                            </div>
+
+                            <!-- Homework Panel (filled by JS) -->
+                            <div id="studentHomeworkPanel" class="hidden" style="margin-bottom: 12px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 14px;">
+                                <h5 style="color: #1d4ed8; margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F4DA; Homework</h5>
+                                <div id="studentHomeworkDate" style="font-size: 0.8rem; color: #3b82f6; font-weight: 600; margin-bottom: 6px;"></div>
+                                <div id="studentHomeworkText" style="font-size: 0.9rem; color: #1e293b; white-space: pre-wrap;"></div>
+                            </div>
+
+                            <!-- Goals Panel (filled by JS) -->
+                            <div id="studentGoalsPanel" class="hidden" style="margin-bottom: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px;">
+                                <h5 style="color: #15803d; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F3AF; My Goals</h5>
+                                <div id="studentGoalsList" style="display: flex; flex-direction: column; gap: 6px;"></div>
+                            </div>
+
+                            <!-- Links Panel (filled by JS) -->
+                            <div id="studentLinksPanel" class="hidden" style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 10px; padding: 14px;">
+                                <h5 style="color: #7c3aed; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F517; Helpful Links</h5>
+                                <div id="studentLinksList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                            </div>
+                        </div>
+                        <div class="auth-form-group" style="margin-bottom: 15px;">
+                            <label for="teacherCodeInput" style="color: #166534;">Connect to Teacher (Enter Code)</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="teacherCodeInput" class="auth-input" placeholder="e.g. TEACHER-A1B2C3" style="border-color: #bbf7d0; text-transform: uppercase;">
+                                <button id="connectTeacherBtn" class="modal-submit-btn" style="background: #16a34a; white-space: nowrap; width: auto; padding: 0 15px;">Connect</button>
+                            </div>
+                            <div id="connectTeacherMsg" style="font-size: 11px; margin-top: 4px;" class="hidden"></div>
+                        </div>
+                        <div style="border-top: 1px solid #bbf7d0; margin: 15px 0;"></div>
+                        <button id="startTeacherPageBtn" class="modal-submit-btn" style="background: #15803d; width: 100%;">
+                            CREATE A TEACHER PAGE
+                        </button>
+                    </div>
+
+                    <!-- Teacher View -->
+                    <div id="profileTeacherView" class="hidden">
+                        <div style="font-size: 12px; color: #15803d; margin-bottom: 12px;">Manage your students and view their progress in the Teacher Dashboard.</div>
+                        <a href="teacher.html" class="modal-submit-btn" style="background: #15803d; display: block; text-align: center; text-decoration: none;">
+                            Go to Teacher Dashboard
+                        </a>
                     </div>
                 </div>
 
@@ -2457,7 +2510,7 @@
     <script src="js/utils/Sorter.js?v=2.879"></script>
     <script src="js/utils/ChordDetector.js?v=2.879"></script>
     <script src="js/utils/KeyDetector.js?v=2.879"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.879"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.886"></script>
     <script src="js/utils/PianoAudioPlayer.js?v=2.879"></script>
     <script src="js/utils/MidiInputHandler.js?v=2.879"></script>
     <script src="js/utils/LyricsParser.js?v=2.879"></script>
@@ -2477,13 +2530,13 @@
     <script src="js/ui/ChordFinderModal.js?v=2.879"></script>
     <script src="js/ui/ChordProgressionEditor.js?v=2.879"></script>
     <script src="js/ui/AuthModal.js?v=2.879"></script>
-    <script src="js/ui/ProfileModal.js?v=2.879"></script>
+    <script src="js/ui/ProfileModal.js?v=2.886"></script>
     <script src="js/ui/ShareSongsModal.js?v=2.879"></script>
     <script src="js/ui/AcceptSongsModal.js?v=2.879"></script>
     <script src="js/ui/ConfirmationModal.js?v=2.879"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=2.879"></script>
+    <script src="js/app.js?v=2.887"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
