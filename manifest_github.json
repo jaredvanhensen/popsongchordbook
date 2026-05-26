@@ -1,0 +1,44 @@
+{
+    "name": "Pop Song Chord Book TEST",
+    "short_name": "ChordBookTEST",
+    "id": "com.popsongchordbook.github.app",
+    "description": "Test environment for Pop Song Chord Book.",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#22c55e",
+    "theme_color": "#22c55e",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "images/pwa_icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "images/song_practice_main.png",
+            "sizes": "466x829",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Song Practice Mode"
+        },
+        {
+            "src": "images/detail_screen.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Song Library Detail"
+        },
+        {
+            "src": "images/pure_chordtimeline.png",
+            "sizes": "1561x778",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Scrolling Chord Timeline"
+        }
+    ],
+    "categories": ["music", "education", "utilities"]
+}
