@@ -191,9 +191,9 @@
                 </div>
 
                 <!-- SAVE CHANGES FOOTER -->
-                <div style="position: sticky; bottom: 20px; left: 20px; right: 20px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 15px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; margin: 20px; z-index: 100;">
+                <div style="position: sticky; bottom: 20px; max-width: 1200px; margin: 20px auto; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 15px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; z-index: 100; box-sizing: border-box;">
                     <span id="saveStatusText" style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Unsaved changes will be lost</span>
-                    <button id="spSaveBtn" style="padding: 12px 28px; border: none; background: #3b82f6; color: white; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(59,130,246,0.35); transition: transform 0.1s;">💾 Save Progress</button>
+                    <button id="spSaveBtn" style="padding: 12px 28px; border: none; background: #3b82f6; color: white; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(59,130,246,0.35); transition: transform 0.1s;">💾 SAVE</button>
                 </div>
 
             </div>
@@ -210,6 +210,9 @@
     
     <!-- Utilities -->
     <script src="js/utils/FirebaseManager.js?v=2.888"></script>
+
+    <!-- Songs Data -->
+    <script src="js/data/default_songs.js?v=2.888"></script>
 
     <!-- App Logic -->
     <script src="js/student_detail.js?v=2.888"></script>

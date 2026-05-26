@@ -82,12 +82,28 @@ class StudentDetailEditor {
             const songsSnapshot = await this.firebaseManager.database.ref(`users/${teacherUser.uid}/songs`).once('value');
             const songsData = songsSnapshot.val() || {};
             this.assignSongSelect.innerHTML = '<option value="">-- Select a Song --</option>';
+
+            // 1. Add Default Songs (from DEFAULT_SONGS)
+            if (typeof DEFAULT_SONGS !== 'undefined' && Array.isArray(DEFAULT_SONGS)) {
+                // Sort them alphabetically by title
+                const sortedDefaults = [...DEFAULT_SONGS].sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+                sortedDefaults.forEach(song => {
+                    if (song && song.id && song.title) {
+                        const opt = document.createElement('option');
+                        opt.value = song.id;
+                        opt.textContent = `${song.title} - ${song.artist || 'Unknown'}`;
+                        this.assignSongSelect.appendChild(opt);
+                    }
+                });
+            }
+
+            // 2. Add Teacher's Custom Songs
             Object.keys(songsData).forEach(songId => {
                 const song = songsData[songId];
                 if (song && song.title) {
                     const opt = document.createElement('option');
                     opt.value = songId;
-                    opt.textContent = `${song.title} - ${song.artist || 'Unknown'}`;
+                    opt.textContent = `[Custom] ${song.title} - ${song.artist || 'Unknown'}`;
                     this.assignSongSelect.appendChild(opt);
                 }
             });
@@ -198,7 +214,7 @@ class StudentDetailEditor {
                     this.saveStatusText.style.color = '#16a34a';
 
                     setTimeout(() => {
-                        this.saveBtn.innerHTML = '💾 Save Progress';
+                        this.saveBtn.innerHTML = '💾 SAVE';
                         this.saveBtn.style.background = '#3b82f6';
                         this.saveBtn.disabled = false;
                         this.saveStatusText.textContent = 'Unsaved changes will be lost';
@@ -206,7 +222,7 @@ class StudentDetailEditor {
                     }, 2000);
                 } else {
                     alert('Save failed: ' + result.error);
-                    this.saveBtn.innerHTML = '💾 Save Progress';
+                    this.saveBtn.innerHTML = '💾 SAVE';
                     this.saveBtn.style.background = '#3b82f6';
                     this.saveBtn.disabled = false;
                 }
