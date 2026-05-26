@@ -83,6 +83,16 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
           ".write": "$studentUid === auth.uid"
         }
       }
+    },
+    "studentProgress": {
+      "$teacherUid": {
+        ".read": "$teacherUid === auth.uid",
+        ".write": "$teacherUid === auth.uid",
+        "$studentUid": {
+          ".read": "$studentUid === auth.uid || $teacherUid === auth.uid",
+          ".write": "$studentUid === auth.uid || $teacherUid === auth.uid"
+        }
+      }
     }
   }
 }
