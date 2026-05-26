@@ -286,7 +286,7 @@ body.is-mobile-landscape .pure-timeline-controls {
     flex-shrink: 0 !important;
 }
 body.is-mobile-landscape .header-controls-row {
-    margin-top: 15px !important; /* Move buttons down as requested */
+    margin-top: 4px !important; /* Reduced to save vertical space */
 }
 
 /* Floating icons look - no boxes */
