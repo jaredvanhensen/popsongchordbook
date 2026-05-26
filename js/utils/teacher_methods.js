@@ -54,16 +54,24 @@
                 return { success: false, error: 'You cannot connect to yourself' };
             }
 
-            // Get teacher's name/email to confirm
-            const teacherSnapshot = await this.database.ref(`users/${teacherUid}`).once('value');
-            const teacherData = teacherSnapshot.val();
-            
-            if (!teacherData) {
-                return { success: false, error: 'Teacher account not found' };
-            }
-
             // Link student to teacher in the teacherStudents roster
             await this.database.ref(`teacherStudents/${teacherUid}/${uid}`).set(true);
+
+            // Get teacher's name/email to confirm
+            let teacherData = null;
+            try {
+                const teacherSnapshot = await this.database.ref(`users/${teacherUid}`).once('value');
+                teacherData = teacherSnapshot.val();
+            } catch (err) {
+                console.warn('Could not read teacher profile (ignoring to allow connection):', err);
+                teacherData = { email: 'Teacher' }; // Fallback to avoid breaking connection
+            }
+            
+            if (!teacherData) {
+                // If not found, revert connection
+                await this.database.ref(`teacherStudents/${teacherUid}/${uid}`).remove();
+                return { success: false, error: 'Teacher account not found' };
+            }
 
             // Save teacher uid on student profile
             await this.database.ref(`users/${uid}`).update({
@@ -124,27 +132,42 @@
             const snapshot = await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).once('value');
             let progress = snapshot.val();
             
+            const defaultGoals = [
+                { id: 'goal_0', text: 'Tuning (ONLY WHEN INSTRUMENT IS GUITAR)', completed: false },
+                { id: 'goal_1', text: 'C Em G and D chord', completed: false },
+                { id: 'goal_2', text: 'Am E Dm chords', completed: false },
+                { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
+                { id: 'goal_4', text: 'F and Bb chord', completed: false },
+                { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
+                { id: 'goal_6', text: 'C major scale', completed: false },
+                { id: 'goal_7', text: 'A minor scale', completed: false },
+                { id: 'goal_8', text: 'Sus2 and sus4 chords', completed: false },
+                { id: 'goal_9', text: 'Seventh chords', completed: false },
+                { id: 'goal_10', text: 'Naming all notes on the E and A bass strings', completed: false },
+                { id: 'goal_11', text: 'Naming all notes on D and G string', completed: false },
+                { id: 'goal_12', text: 'Fingerpicking 3 patterns', completed: false },
+                { id: 'goal_13', text: 'Power Chords', completed: false },
+                { id: 'goal_14', text: 'Blues improvisation in A', completed: false },
+                { id: 'goal_15', text: 'Slide, Bends', completed: false },
+                { id: 'goal_16', text: 'Tapping', completed: false },
+                { id: 'goal_17', text: 'Naming all notes on all strings', completed: false },
+                { id: 'goal_18', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
+            ];
+
             if (!progress) {
                 // Initialize default progress
                 progress = {
                     homework: { text: '', date: '' },
-                    goals: [
-                        { id: 'goal_0', text: 'Tuning (ONLY WHEN INSTRUMENT IS GUITAR)', completed: false },
-                        { id: 'goal_1', text: 'C Em G and D chord', completed: false },
-                        { id: 'goal_2', text: 'Am E Dm chords', completed: false },
-                        { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
-                        { id: 'goal_4', text: 'F and Bb chord', completed: false },
-                        { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
-                        { id: 'goal_6', text: 'C major scale', completed: false },
-                        { id: 'goal_7', text: 'A minor scale', completed: false },
-                        { id: 'goal_8', text: 'Sus2 and sus4 chords', completed: false },
-                        { id: 'goal_9', text: 'Seventh chords', completed: false },
-                        { id: 'goal_10', text: 'Naming all notes on the E and A bass strings', completed: false },
-                        { id: 'goal_11', text: 'Naming all notes on D and G string', completed: false }
-                    ],
+                    goals: [...defaultGoals],
                     links: []
                 };
                 // Save it immediately so it exists for the student
+                await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
+            } else if (progress.goals && progress.goals.length < defaultGoals.length) {
+                // Append missing goals to existing student
+                for (let i = progress.goals.length; i < defaultGoals.length; i++) {
+                    progress.goals.push(defaultGoals[i]);
+                }
                 await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
             }
             

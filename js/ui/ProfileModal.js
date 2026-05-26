@@ -518,15 +518,25 @@ class ProfileModal {
         } else {
             if (userData.connectedTeacher) {
                 // If they have a teacher connected, we should show it.
-                // We'll need to fetch the teacher's email/name. Let's do it if we have it,
-                // or just show 'Connected' initially.
                 if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
-                if (this.connectedTeacherName) {
-                    // It would be better to fetch the name, but for now we know they are connected.
-                    // We'll let show() handle fetching the actual teacher name.
+                
+                const connectTeacherFormGroup = document.getElementById('connectTeacherFormGroup');
+                const openStudentDashboardBtn = document.getElementById('openStudentDashboardBtn');
+                if (connectTeacherFormGroup) connectTeacherFormGroup.style.display = 'none';
+                if (openStudentDashboardBtn) {
+                    openStudentDashboardBtn.classList.remove('hidden');
+                    openStudentDashboardBtn.style.display = 'block';
                 }
             } else {
                 if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.add('hidden');
+                
+                const connectTeacherFormGroup = document.getElementById('connectTeacherFormGroup');
+                const openStudentDashboardBtn = document.getElementById('openStudentDashboardBtn');
+                if (connectTeacherFormGroup) connectTeacherFormGroup.style.display = 'block';
+                if (openStudentDashboardBtn) {
+                    openStudentDashboardBtn.classList.add('hidden');
+                    openStudentDashboardBtn.style.display = 'none';
+                }
             }
         }
     }
@@ -558,15 +568,31 @@ class ProfileModal {
         // --- Goals ---
         const goalsPanel = document.getElementById('studentGoalsPanel');
         const goalsList = document.getElementById('studentGoalsList');
+        const goalsHeaderTitle = document.getElementById('studentGoalsHeaderTitle');
         const goals = progress.goals || [];
         if (goalsList && goals.length > 0) {
             goalsList.innerHTML = '';
+            
+            // Gamification Calculation
+            const completedCount = goals.filter(g => g.completed).length;
+            const level = Math.min(10, Math.floor(completedCount / 5) + 1);
+            let badge = '🌱';
+            if (level === 10) badge = '💎';
+            else if (level >= 8) badge = '🥇';
+            else if (level >= 5) badge = '🥈';
+            else if (level >= 2) badge = '🥉';
+
+            if (goalsHeaderTitle) {
+                goalsHeaderTitle.innerHTML = `&#x1F3AF; My Goals <span style="font-size:0.8rem; background:white; padding:2px 8px; border-radius:12px; margin-left:8px; color:#15803d; border:1px solid #bbf7d0;">Level ${level} ${badge} (${completedCount} completed)</span>`;
+            }
+
             goals.forEach(goal => {
                 const row = document.createElement('div');
-                row.style.cssText = `display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px; background: ${goal.completed ? '#dcfce7' : '#ffffff'}; border: 1px solid ${goal.completed ? '#86efac' : '#e2e8f0'};`;
+                // Excel-like styling: compact padding, border-bottom
+                row.style.cssText = `display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid #bbf7d0; background: ${goal.completed ? '#dcfce7' : '#ffffff'};`;
                 row.innerHTML = `
-                    <span style="font-size: 16px;">${goal.completed ? '\u2705' : '\u25ef'}</span>
-                    <span style="font-size: 0.88rem; color: #1e293b; flex: 1; ${goal.completed ? 'text-decoration: line-through; color: #64748b;' : ''}">${goal.text}</span>
+                    <span style="font-size: 14px;">${goal.completed ? '\u2705' : '\u25ef'}</span>
+                    <span style="font-size: 0.85rem; color: ${goal.completed ? '#16a34a' : '#1e293b'}; flex: 1; font-weight: ${goal.completed ? '600' : '400'};">${goal.text}</span>
                 `;
                 goalsList.appendChild(row);
             });
@@ -669,11 +695,19 @@ class ProfileModal {
                 
                 // If student and has connectedTeacher, fetch teacher name + progress
                 if (userData.role !== 'teacher' && userData.connectedTeacher) {
-                    const tSnap = await this.firebaseManager.database.ref(`users/${userData.connectedTeacher}`).once('value');
-                    const tData = tSnap.val();
-                    if (tData && this.connectedTeacherName) {
-                        this.connectedTeacherName.textContent = tData.email || 'Teacher';
-                        if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                    try {
+                        const tSnap = await this.firebaseManager.database.ref(`users/${userData.connectedTeacher}`).once('value');
+                        const tData = tSnap.val();
+                        if (tData && this.connectedTeacherName) {
+                            this.connectedTeacherName.textContent = tData.email || 'Teacher';
+                            if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                        }
+                    } catch (err) {
+                        console.warn('Could not load teacher name (ignoring):', err);
+                        if (this.connectedTeacherName) {
+                            this.connectedTeacherName.textContent = 'Teacher';
+                            if (this.connectedTeacherDisplay) this.connectedTeacherDisplay.classList.remove('hidden');
+                        }
                     }
 
                     // Fetch and render student progress

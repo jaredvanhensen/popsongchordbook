@@ -12,6 +12,11 @@ class TeacherDashboard {
         this.bannerPlaceholder = document.querySelector('.teacher-banner-placeholder');
         this.shareTeacherLinkBtn = document.getElementById('shareTeacherLinkBtn');
 
+        this.assignSongSelect = document.getElementById('spAssignSongSelect');
+        this.assignSongBtn = document.getElementById('spAssignSongBtn');
+        this.assignSongNote = document.getElementById('spAssignSongNote');
+        this.assignedSongsContainer = document.getElementById('spAssignedSongsContainer');
+
         this.init();
     }
 
@@ -111,6 +116,85 @@ class TeacherDashboard {
                 }
             });
         }
+
+        const deleteTeacherPageBtn = document.getElementById('deleteTeacherPageBtn');
+        const deleteTeacherModal = document.getElementById('deleteTeacherModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteTeacherBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteTeacherBtn');
+
+        if (deleteTeacherPageBtn && deleteTeacherModal) {
+            deleteTeacherPageBtn.addEventListener('click', () => {
+                deleteTeacherModal.classList.remove('hidden');
+                // Ensure display flex is restored if .hidden sets display none
+                deleteTeacherModal.style.display = 'flex';
+            });
+
+            cancelDeleteBtn.addEventListener('click', () => {
+                deleteTeacherModal.classList.add('hidden');
+                deleteTeacherModal.style.display = 'none';
+            });
+
+            confirmDeleteBtn.addEventListener('click', async () => {
+                const origText = confirmDeleteBtn.innerHTML;
+                confirmDeleteBtn.textContent = 'Deleting...';
+                confirmDeleteBtn.disabled = true;
+
+                try {
+                    const uid = this.firebaseManager.currentUser.uid;
+                    await this.firebaseManager.database.ref(`users/${uid}`).update({
+                        role: 'student'
+                    });
+                    
+                    // Don't alert, just redirect smoothly
+                    window.location.href = 'songlist.html';
+                } catch (e) {
+                    alert('Failed to delete teacher page: ' + e.message);
+                    confirmDeleteBtn.innerHTML = origText;
+                    confirmDeleteBtn.disabled = false;
+                }
+            });
+        }
+
+        // Assign Song Listener
+        if (this.assignSongBtn && this.assignSongSelect) {
+            this.assignSongBtn.addEventListener('click', () => {
+                if (!this.currentStudentId || !this._currentProgress) {
+                    alert('Please select a student first.');
+                    return;
+                }
+
+                const songId = this.assignSongSelect.value;
+                if (!songId) {
+                    alert('Please select a song to assign.');
+                    return;
+                }
+
+                const songTitle = this.assignSongSelect.options[this.assignSongSelect.selectedIndex].text;
+                const note = (this.assignSongNote.value || '').trim();
+
+                if (!this._currentProgress.assignedSongs) {
+                    this._currentProgress.assignedSongs = {};
+                }
+
+                // Use the song ID as key, storing the ID, title, and note
+                this._currentProgress.assignedSongs[songId] = {
+                    id: songId,
+                    title: songTitle,
+                    note: note,
+                    assignedAt: Date.now()
+                };
+
+                // Clear input
+                this.assignSongSelect.value = '';
+                if (this.assignSongNote) this.assignSongNote.value = '';
+
+                // Re-render
+                this._renderAssignedSongs(this._currentProgress.assignedSongs);
+                
+                // Immediately save
+                this.saveStudentProgress();
+            });
+        }
     }
 
     async loadDashboard(user) {
@@ -132,11 +216,27 @@ class TeacherDashboard {
             this.teacherCodeBox.textContent = userData.teacherCode || 'UNKNOWN';
 
             // Load Avatar
-            // Load Avatar
             let avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
             if (!avatarUrl) avatarUrl = user.photoURL;
             if (avatarUrl) {
                 this.updateAvatarUI(avatarUrl);
+            }
+
+            // Load Teacher's Songs for Assigning
+            const songsSnapshot = await this.firebaseManager.database.ref(`users/${user.uid}/songs`).once('value');
+            const songsData = songsSnapshot.val() || {};
+            
+            if (this.assignSongSelect) {
+                this.assignSongSelect.innerHTML = '<option value="">-- Select a Song --</option>';
+                Object.keys(songsData).forEach(songId => {
+                    const song = songsData[songId];
+                    if (song && song.title) {
+                        const opt = document.createElement('option');
+                        opt.value = songId;
+                        opt.textContent = `${song.title} - ${song.artist || 'Unknown'}`;
+                        this.assignSongSelect.appendChild(opt);
+                    }
+                });
             }
 
             // Load Students
@@ -322,30 +422,45 @@ class TeacherDashboard {
 
     _renderGoals(goals) {
         const container = document.getElementById('spGoalsContainer');
+        const headerTitle = document.getElementById('spGoalsHeaderTitle');
         container.innerHTML = '';
+
+        // Gamification Calculation
+        const completedCount = goals.filter(g => g.completed).length;
+        const level = Math.min(10, Math.floor(completedCount / 5) + 1);
+        let badge = '🌱';
+        if (level === 10) badge = '💎';
+        else if (level >= 8) badge = '🥇';
+        else if (level >= 5) badge = '🥈';
+        else if (level >= 2) badge = '🥉';
+
+        if (headerTitle) {
+            headerTitle.innerHTML = `🎯 Goals <span style="font-size:0.8rem; background:#f1f5f9; padding:2px 8px; border-radius:12px; margin-left:8px; color:#334155;">Level ${level} ${badge} (${completedCount} completed)</span>`;
+        }
 
         goals.forEach((goal, idx) => {
             const row = document.createElement('label');
-            row.style.cssText = `display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; ${ goal.completed ? 'background: #d1fae5;' : 'background: white;' }`;
+            // Excel-like styling: compact padding, border-bottom, no gap
+            row.style.cssText = `display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid #e2e8f0; cursor: pointer; transition: background 0.1s; ${ goal.completed ? 'background: #f0fdf4;' : 'background: transparent;' }`;
+            
+            // Highlight row on hover
+            row.addEventListener('mouseenter', () => { if (!checkbox.checked) row.style.background = '#f8fafc'; });
+            row.addEventListener('mouseleave', () => { if (!checkbox.checked) row.style.background = 'transparent'; });
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = !!goal.completed;
-            checkbox.style.cssText = 'width: 18px; height: 18px; cursor: pointer; accent-color: #10b981;';
+            checkbox.style.cssText = 'width: 16px; height: 16px; cursor: pointer; accent-color: #10b981; margin: 0;';
             checkbox.addEventListener('change', () => {
                 this._currentProgress.goals[idx].completed = checkbox.checked;
-                row.style.background = checkbox.checked ? '#d1fae5' : 'white';
+                row.style.background = checkbox.checked ? '#f0fdf4' : 'transparent';
+                this._renderGoals(this._currentProgress.goals); // Re-render to update badge/level
             });
 
             const labelText = document.createElement('span');
-            labelText.style.cssText = `font-size: 0.95rem; color: #1e293b; flex: 1; ${ goal.completed ? 'text-decoration: line-through; color: #64748b;' : '' }`;
+            // No strikethrough when completed
+            labelText.style.cssText = `font-size: 0.85rem; color: ${ goal.completed ? '#16a34a' : '#1e293b' }; flex: 1; user-select: none; font-weight: ${ goal.completed ? '600' : '400' };`;
             labelText.textContent = goal.text;
-
-            // Update text decoration on checkbox change too
-            checkbox.addEventListener('change', () => {
-                labelText.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-                labelText.style.color = checkbox.checked ? '#64748b' : '#1e293b';
-            });
 
             // Inline edit: double-click to edit goal text
             labelText.title = 'Double-click to edit';

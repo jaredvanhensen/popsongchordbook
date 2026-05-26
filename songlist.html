@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v2.885 - PopSongChordBook</title>
-    <meta name="version" content="2.885">
-    <meta name="application-version" content="v2.885">
+    <title>Song List v2.887 - PopSongChordBook</title>
+    <meta name="version" content="2.887">
+    <meta name="application-version" content="v2.887">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.879">
+    <link rel="stylesheet" href="styles.css?v=2.887">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -766,7 +766,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">2.886</span>
+                        <span id="site-version" class="version-tag">2.887</span>
                     </div>
                 </div>
             </div>
@@ -1416,8 +1416,8 @@
 
                             <!-- Goals Panel (filled by JS) -->
                             <div id="studentGoalsPanel" class="hidden" style="margin-bottom: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px;">
-                                <h5 style="color: #15803d; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F3AF; My Goals</h5>
-                                <div id="studentGoalsList" style="display: flex; flex-direction: column; gap: 6px;"></div>
+                                <h5 id="studentGoalsHeaderTitle" style="color: #15803d; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F3AF; My Goals</h5>
+                                <div id="studentGoalsList" style="display: flex; flex-direction: column; gap: 0;"></div>
                             </div>
 
                             <!-- Links Panel (filled by JS) -->
@@ -1426,18 +1426,24 @@
                                 <div id="studentLinksList" style="display: flex; flex-direction: column; gap: 8px;"></div>
                             </div>
                         </div>
-                        <div class="auth-form-group" style="margin-bottom: 15px;">
-                            <label for="teacherCodeInput" style="color: #166534;">Connect to Teacher (Enter Code)</label>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="teacherCodeInput" class="auth-input" placeholder="e.g. TEACHER-A1B2C3" style="border-color: #bbf7d0; text-transform: uppercase;">
-                                <button id="connectTeacherBtn" class="modal-submit-btn" style="background: #16a34a; white-space: nowrap; width: auto; padding: 0 15px;">Connect</button>
+                        <div id="connectTeacherFormGroup">
+                            <div class="auth-form-group" style="margin-bottom: 15px;">
+                                <label for="teacherCodeInput" style="color: #166534;">Connect to Teacher (Enter Code)</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="teacherCodeInput" class="auth-input" placeholder="e.g. TEACHER-A1B2C3" style="border-color: #bbf7d0; text-transform: uppercase;">
+                                    <button id="connectTeacherBtn" class="modal-submit-btn" style="background: #16a34a; white-space: nowrap; width: auto; padding: 0 15px;">Connect</button>
+                                </div>
+                                <div id="connectTeacherMsg" style="font-size: 11px; margin-top: 4px;" class="hidden"></div>
                             </div>
-                            <div id="connectTeacherMsg" style="font-size: 11px; margin-top: 4px;" class="hidden"></div>
+                            <div style="border-top: 1px solid #bbf7d0; margin: 15px 0;"></div>
+                            <button id="startTeacherPageBtn" class="modal-submit-btn" style="background: #15803d; width: 100%;">
+                                CREATE A TEACHER PAGE
+                            </button>
                         </div>
-                        <div style="border-top: 1px solid #bbf7d0; margin: 15px 0;"></div>
-                        <button id="startTeacherPageBtn" class="modal-submit-btn" style="background: #15803d; width: 100%;">
-                            CREATE A TEACHER PAGE
-                        </button>
+                        
+                        <a id="openStudentDashboardBtn" href="student.html" class="modal-submit-btn hidden" style="background: #2563eb; display: none; text-align: center; text-decoration: none; margin-top: 15px; width: 100%;">
+                            Open Student Dashboard
+                        </a>
                     </div>
 
                     <!-- Teacher View -->
@@ -2510,7 +2516,7 @@
     <script src="js/utils/Sorter.js?v=2.879"></script>
     <script src="js/utils/ChordDetector.js?v=2.879"></script>
     <script src="js/utils/KeyDetector.js?v=2.879"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.886"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.887"></script>
     <script src="js/utils/PianoAudioPlayer.js?v=2.879"></script>
     <script src="js/utils/MidiInputHandler.js?v=2.879"></script>
     <script src="js/utils/LyricsParser.js?v=2.879"></script>
@@ -2530,7 +2536,7 @@
     <script src="js/ui/ChordFinderModal.js?v=2.879"></script>
     <script src="js/ui/ChordProgressionEditor.js?v=2.879"></script>
     <script src="js/ui/AuthModal.js?v=2.879"></script>
-    <script src="js/ui/ProfileModal.js?v=2.886"></script>
+    <script src="js/ui/ProfileModal.js?v=2.887"></script>
     <script src="js/ui/ShareSongsModal.js?v=2.879"></script>
     <script src="js/ui/AcceptSongsModal.js?v=2.879"></script>
     <script src="js/ui/ConfirmationModal.js?v=2.879"></script>

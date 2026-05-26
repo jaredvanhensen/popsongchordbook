@@ -17,7 +17,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
     "users": {
       ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
       "$userId": {
-        ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
+        ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true || root.child('teacherStudents').child($userId).child(auth.uid).val() === true",
         ".write": "$userId === auth.uid",
         "songs": {
           ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
@@ -32,7 +32,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
           ".write": "auth != null"
         },
         "email": {
-          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
+          ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true || root.child('teacherStudents').child($userId).child(auth.uid).val() === true",
           ".write": "$userId === auth.uid"
         }
       }
