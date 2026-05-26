@@ -471,6 +471,9 @@ class App {
         // Sync preferences (Instrument choice, etc.)
         await this.syncUserPreferences(user);
 
+        // Show the correct dashboard link in sidebar based on role
+        await this.updateDashboardNavLink(user);
+
         // Add admin styling if the user is jared@vanhensen.nl
         if (user && user.email === 'jared@vanhensen.nl') {
             document.body.classList.add('is-admin');
@@ -486,8 +489,15 @@ class App {
         this.setlistManager.disableSync();
         this.updateProfileLabel(null);
 
+        // Hide role-specific nav items
+        const teacherBtn = document.getElementById('btnDashboardTeacher');
+        const studentBtn = document.getElementById('btnDashboardStudent');
+        if (teacherBtn) teacherBtn.style.display = 'none';
+        if (studentBtn) studentBtn.style.display = 'none';
+
         // Remove admin styling
         document.body.classList.remove('is-admin');
+
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
         if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {
@@ -734,6 +744,33 @@ class App {
             }
         } catch (error) {
             console.error('App: Error syncing preferences:', error);
+        }
+    }
+
+    async updateDashboardNavLink(user) {
+        const teacherBtn = document.getElementById('btnDashboardTeacher');
+        const studentBtn = document.getElementById('btnDashboardStudent');
+        if (!teacherBtn && !studentBtn) return; // Not on songlist page
+
+        // Hide both by default
+        if (teacherBtn) teacherBtn.style.display = 'none';
+        if (studentBtn) studentBtn.style.display = 'none';
+
+        if (!user) return;
+
+        try {
+            const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+            const data = snap.val();
+            if (!data) return;
+
+            if (data.role === 'teacher') {
+                if (teacherBtn) teacherBtn.style.display = '';
+            } else if (data.connectedTeacher) {
+                // Has a connected teacher = is a student
+                if (studentBtn) studentBtn.style.display = '';
+            }
+        } catch (e) {
+            console.error('App: Error fetching role for sidebar nav:', e);
         }
     }
 
