@@ -37,11 +37,11 @@ body.is-mobile-landscape .landscape-header-bar {
     right: 0; /* Flush to right */
     width: 100%;
     height: auto;
-    min-height: 85px !important; /* Compacted (was 125px) */
+    min-height: 60px !important; /* Compacted further (was 85px) */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     align-items: center;
     justify-content: center;
-    padding: 8px 15px 4px !important; /* Shifted down (v2.785) */
+    padding: 4px 15px 2px !important; /* Tighter padding (was 8px 15px 4px) */
     gap: 2px !important; 
     z-index: 2005;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -154,7 +154,7 @@ body.is-mobile-landscape .timeline-container {
     height: 100dvh !important;
     width: 100vw !important;
     padding: 0 !important;
-    padding-top: 100px !important; /* Increased for button shift (was 85px) */
+    padding-top: 75px !important; /* Reduced for smaller header (was 100px) */
     z-index: 500;
 }
 
@@ -286,7 +286,7 @@ body.is-mobile-landscape .pure-timeline-controls {
     flex-shrink: 0 !important;
 }
 body.is-mobile-landscape .header-controls-row {
-    margin-top: 15px !important; /* Move buttons down as requested */
+    margin-top: 4px !important; /* Reduced to save vertical space */
 }
 
 /* Floating icons look - no boxes */
