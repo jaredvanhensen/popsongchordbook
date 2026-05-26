@@ -26,6 +26,7 @@ class StudentDetailEditor {
         this.studentUid = null;
         this.studentEmail = null;
         this._currentProgress = null;
+        this._initialProgress = null;
 
         this.init();
     }
@@ -121,6 +122,9 @@ class StudentDetailEditor {
             if (!this._currentProgress.links) this._currentProgress.links = [];
             if (!this._currentProgress.assignedSongs) this._currentProgress.assignedSongs = {};
 
+            // Store a deep clone of the initial progress state
+            this._initialProgress = JSON.parse(JSON.stringify(this._currentProgress));
+
             // Populate Homework Inputs
             this.homeworkDate.value = this._currentProgress.homework.date || '';
             this.homeworkText.value = this._currentProgress.homework.text || '';
@@ -194,6 +198,14 @@ class StudentDetailEditor {
             });
         }
 
+        // Homework Change Listeners to check for dirty state
+        if (this.homeworkText) {
+            this.homeworkText.addEventListener('input', () => this.checkDirtyState());
+        }
+        if (this.homeworkDate) {
+            this.homeworkDate.addEventListener('change', () => this.checkDirtyState());
+        }
+
         // Save Progress
         if (this.saveBtn) {
             this.saveBtn.addEventListener('click', async () => {
@@ -210,15 +222,20 @@ class StudentDetailEditor {
                 if (result.success) {
                     this.saveBtn.textContent = '✅ Saved!';
                     this.saveBtn.style.background = '#10b981';
-                    this.saveStatusText.textContent = 'All changes saved successfully';
-                    this.saveStatusText.style.color = '#16a34a';
+
+                    // Update initial progress state to current progress
+                    this._initialProgress = JSON.parse(JSON.stringify(this._currentProgress));
+
+                    if (this.saveStatusText) {
+                        this.saveStatusText.textContent = 'All changes saved';
+                        this.saveStatusText.style.color = '#16a34a';
+                    }
 
                     setTimeout(() => {
                         this.saveBtn.innerHTML = '💾 SAVE';
                         this.saveBtn.style.background = '#3b82f6';
                         this.saveBtn.disabled = false;
-                        this.saveStatusText.textContent = 'Unsaved changes will be lost';
-                        this.saveStatusText.style.color = '#64748b';
+                        this.checkDirtyState(); // This will hide the button because it is now clean!
                     }, 2000);
                 } else {
                     alert('Save failed: ' + result.error);
@@ -249,6 +266,7 @@ class StudentDetailEditor {
 
         if (goals.length === 0) {
             this.goalsContainer.innerHTML = '<p style="color: #64748b; font-size: 0.9rem; padding: 12px;">No goals added yet.</p>';
+            this.checkDirtyState();
             return;
         }
 
@@ -305,6 +323,8 @@ class StudentDetailEditor {
             row.appendChild(delBtn);
             this.goalsContainer.appendChild(row);
         });
+
+        this.checkDirtyState();
     }
 
     _renderLinks() {
@@ -313,6 +333,7 @@ class StudentDetailEditor {
 
         if (links.length === 0) {
             this.linksContainer.innerHTML = '<p style="color: #64748b; font-size: 0.9rem; padding: 4px 0;">No links added yet.</p>';
+            this.checkDirtyState();
             return;
         }
 
@@ -330,6 +351,8 @@ class StudentDetailEditor {
             });
             this.linksContainer.appendChild(row);
         });
+
+        this.checkDirtyState();
     }
 
     _renderAssignedSongs() {
@@ -339,6 +362,7 @@ class StudentDetailEditor {
         const songIds = Object.keys(assignedSongs);
         if (songIds.length === 0) {
             this.assignedSongsContainer.innerHTML = '<div style="color: #64748b; font-size: 14px;">No songs assigned yet.</div>';
+            this.checkDirtyState();
             return;
         }
 
@@ -362,6 +386,29 @@ class StudentDetailEditor {
 
             this.assignedSongsContainer.appendChild(card);
         });
+
+        this.checkDirtyState();
+    }
+
+    checkDirtyState() {
+        if (!this._initialProgress || !this._currentProgress) return;
+
+        // Build temporary comparison progress object matching what we save
+        const comparisonProgress = {
+            ...this._currentProgress,
+            homework: {
+                text: this.homeworkText ? this.homeworkText.value.trim() : '',
+                date: this.homeworkDate ? this.homeworkDate.value : ''
+            }
+        };
+
+        const isDirty = JSON.stringify(this._initialProgress) !== JSON.stringify(comparisonProgress);
+
+        if (isDirty) {
+            if (this.saveBtn) this.saveBtn.classList.remove('hidden');
+        } else {
+            if (this.saveBtn) this.saveBtn.classList.add('hidden');
+        }
     }
 }
 
