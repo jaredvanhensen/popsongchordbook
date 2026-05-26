@@ -122,9 +122,6 @@ class StudentDetailEditor {
             if (!this._currentProgress.links) this._currentProgress.links = [];
             if (!this._currentProgress.assignedSongs) this._currentProgress.assignedSongs = {};
 
-            // Store a deep clone of the initial progress state
-            this._initialProgress = JSON.parse(JSON.stringify(this._currentProgress));
-
             // Populate Homework Inputs
             this.homeworkDate.value = this._currentProgress.homework.date || '';
             this.homeworkText.value = this._currentProgress.homework.text || '';
@@ -133,6 +130,13 @@ class StudentDetailEditor {
             this._renderGoals();
             this._renderLinks();
             this._renderAssignedSongs();
+
+            // Store a deep clone AFTER rendering so checkDirtyState has the correct baseline
+            // (rendering may trigger checkDirtyState, which needs _initialProgress to be set)
+            this._initialProgress = JSON.parse(JSON.stringify(this._currentProgress));
+
+            // Now run a final dirty check so the save button starts hidden
+            this.checkDirtyState();
 
         } catch (e) {
             console.error('Error loading student detail editor', e);
