@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Student Progress Editor - PopSongChordBook</title>
+    <link rel="canonical" href="https://www.popsongchordbook.com/student_detail.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2.888">
+    <style>
+        .container {
+            overflow-y: auto !important;
+            padding-bottom: 100px !important;
+        }
+
+        .student-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .dashboard-header {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .teacher-info h2 {
+            margin: 0 0 5px 0;
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        .section-panel {
+            background: white; 
+            border-radius: 16px; 
+            padding: 20px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem; 
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-weight: 800;
+        }
+
+        .assigned-song-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 1024px) {
+            .student-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-classic">
+
+    <div class="app-layout">
+        <main class="app-main">
+            <div class="container">
+                <header>
+                    <div class="header-top">
+                        <div class="header-top-left">
+                            <a href="teacher.html" class="back-icon-btn" title="Back to Dashboard">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="header-title-group">
+                            <h1>Student Progress Editor</h1>
+                            <p class="header-subtitle" id="studentSubtitle">Loading student...</p>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="student-dashboard">
+                    <div class="left-col">
+                        <!-- Dashboard Header -->
+                        <div class="dashboard-header" style="margin-bottom: 20px;">
+                            <div style="font-size: 48px;">👨‍🎓</div>
+                            <div class="teacher-info">
+                                <p style="color: #64748b; margin: 0; font-size: 12px; font-weight: bold; text-transform: uppercase;">Viewing Student</p>
+                                <h2 id="studentEmailDisplay">Loading...</h2>
+                            </div>
+                        </div>
+
+                        <!-- ASSIGNED SONGS SECTION -->
+                        <div class="section-panel" style="background: white; border-color: #cbd5e1;">
+                            <h3 class="section-title" style="color: #ec4899;">🎵 Assigned Songs</h3>
+                            <div id="spAssignedSongsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Assigned songs rendered by JS -->
+                            </div>
+                            <div style="background: #fdf2f8; padding: 12px; border-radius: 10px; border: 1px dashed #fbcfe8; margin-top: 12px;">
+                                <p style="font-size: 0.75rem; color: #db2777; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Assign New Song</p>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    <div class="link-inputs-row" style="display: flex; gap: 8px;">
+                                        <select id="spAssignSongSelect" style="flex: 1; padding: 8px 10px; border: 1px solid #fbcfe8; border-radius: 7px; font-family: inherit; font-size: 0.85rem; color: #1e293b; background: white;">
+                                            <option value="">-- Select a Song --</option>
+                                        </select>
+                                        <button id="spAssignSongBtn" style="background: #ec4899; color: white; border: none; padding: 8px 16px; border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.85rem;">+ Assign</button>
+                                    </div>
+                                    <input type="text" id="spAssignSongNote" placeholder="Optional note (e.g. Focus on the bridge)" style="padding: 8px 10px; border: 1px solid #fbcfe8; border-radius: 7px; font-family: inherit; font-size: 0.85rem; color: #1e293b; box-sizing: border-box; width: 100%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HOMEWORK SECTION -->
+                        <div class="section-panel" style="background: #eff6ff; border-color: #bfdbfe;">
+                            <h3 class="section-title" style="color: #1d4ed8;">📚 Homework</h3>
+                            <div style="display: flex; gap: 14px; margin-bottom: 14px;">
+                                <div style="flex: 1;">
+                                    <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Due Date</label>
+                                    <input type="date" id="spHomeworkDate" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-family: inherit; color: #1e293b; background: white;">
+                                </div>
+                            </div>
+                            <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Instructions</label>
+                            <textarea id="spHomeworkText" rows="3" placeholder="E.g., Practice the intro of Wonderwall, focusing on chord transitions..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.85rem; resize: vertical; color: #1e293b; box-sizing: border-box; background: white;"></textarea>
+                        </div>
+
+                        <!-- LINKS SECTION -->
+                        <div class="section-panel" style="background: #faf5ff; border-color: #e9d5ff;">
+                            <h3 class="section-title" style="color: #7c3aed;">🔗 Helpful Links</h3>
+                            <div id="spLinksContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Links rendered by JS -->
+                            </div>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px dashed #cbd5e1; margin-top: 12px;">
+                                <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Add New Link</p>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    <input type="text" id="spNewLinkTitle" placeholder="Link title (e.g. YouTube chord tutorial)" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 7px; font-family: inherit; font-size: 0.85rem; color: #1e293b; box-sizing: border-box; width: 100%; background: white;">
+                                    <div class="link-inputs-row" style="display: flex; gap: 8px;">
+                                        <input type="url" id="spNewLinkUrl" placeholder="https://..." style="flex: 1; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 7px; font-family: inherit; font-size: 0.85rem; color: #1e293b; background: white;">
+                                        <button id="spAddLinkBtn" style="background: #8b5cf6; color: white; border: none; padding: 8px 16px; border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.85rem;">+ Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- End of left-col -->
+
+                    <div class="right-col">
+                        <!-- GOALS SECTION -->
+                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0; display: flex; flex-direction: column;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <h3 id="spGoalsHeaderTitle" class="section-title" style="color: #15803d; margin: 0;">🎯 Goals</h3>
+                                <span style="font-size: 0.75rem; color: #64748b;">✓ Check off goals | Double-click to rename</span>
+                            </div>
+                            
+                            <div id="spGoalsContainer" style="display: flex; flex-direction: column; gap: 0; background: white; border: 1px solid #bbf7d0; border-radius: 10px; overflow: hidden; margin-bottom: 12px;">
+                                <!-- Goals rendered by JS -->
+                                <div style="color: #64748b; font-size: 14px; padding: 12px;">Loading goals...</div>
+                            </div>
+
+                            <!-- Add Goal form -->
+                            <div style="display: flex; gap: 8px; background: white; padding: 12px; border-radius: 10px; border: 1px dashed #bbf7d0;">
+                                <input type="text" id="spNewGoalText" placeholder="Add a new goal..." style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-family: inherit; color: #1e293b;">
+                                <button id="spAddGoalBtn" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">+ Add</button>
+                            </div>
+                        </div>
+                    </div> <!-- End of right-col -->
+
+                </div>
+
+                <!-- SAVE CHANGES FOOTER -->
+                <div style="position: sticky; bottom: 20px; left: 20px; right: 20px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 15px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; margin: 20px; z-index: 100;">
+                    <span id="saveStatusText" style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Unsaved changes will be lost</span>
+                    <button id="spSaveBtn" style="padding: 12px 28px; border: none; background: #3b82f6; color: white; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(59,130,246,0.35); transition: transform 0.1s;">💾 Save Progress</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <!-- Config -->
+    <script src="js/config/firebase-config.js?v=2.888"></script>
+    
+    <!-- Utilities -->
+    <script src="js/utils/FirebaseManager.js?v=2.888"></script>
+
+    <!-- App Logic -->
+    <script src="js/student_detail.js?v=2.888"></script>
+</body>
+
+</html>

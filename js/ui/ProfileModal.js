@@ -567,39 +567,7 @@ class ProfileModal {
 
         // --- Goals ---
         const goalsPanel = document.getElementById('studentGoalsPanel');
-        const goalsList = document.getElementById('studentGoalsList');
-        const goalsHeaderTitle = document.getElementById('studentGoalsHeaderTitle');
-        const goals = progress.goals || [];
-        if (goalsList && goals.length > 0) {
-            goalsList.innerHTML = '';
-            
-            // Gamification Calculation
-            const completedCount = goals.filter(g => g.completed).length;
-            const level = Math.min(10, Math.floor(completedCount / 5) + 1);
-            let badge = '🌱';
-            if (level === 10) badge = '💎';
-            else if (level >= 8) badge = '🥇';
-            else if (level >= 5) badge = '🥈';
-            else if (level >= 2) badge = '🥉';
-
-            if (goalsHeaderTitle) {
-                goalsHeaderTitle.innerHTML = `&#x1F3AF; My Goals <span style="font-size:0.8rem; background:white; padding:2px 8px; border-radius:12px; margin-left:8px; color:#15803d; border:1px solid #bbf7d0;">Level ${level} ${badge} (${completedCount} completed)</span>`;
-            }
-
-            goals.forEach(goal => {
-                const row = document.createElement('div');
-                // Excel-like styling: compact padding, border-bottom
-                row.style.cssText = `display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid #bbf7d0; background: ${goal.completed ? '#dcfce7' : '#ffffff'};`;
-                row.innerHTML = `
-                    <span style="font-size: 14px;">${goal.completed ? '\u2705' : '\u25ef'}</span>
-                    <span style="font-size: 0.85rem; color: ${goal.completed ? '#16a34a' : '#1e293b'}; flex: 1; font-weight: ${goal.completed ? '600' : '400'};">${goal.text}</span>
-                `;
-                goalsList.appendChild(row);
-            });
-            if (goalsPanel) goalsPanel.classList.remove('hidden');
-        } else {
-            if (goalsPanel) goalsPanel.classList.add('hidden');
-        }
+        if (goalsPanel) goalsPanel.classList.add('hidden');
 
         // --- Links ---
         const linksPanel = document.getElementById('studentLinksPanel');
