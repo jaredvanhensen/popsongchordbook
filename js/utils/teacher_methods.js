@@ -133,7 +133,7 @@
             let progress = snapshot.val();
             
             const defaultGoals = [
-                { id: 'goal_0', text: 'Tuning (ONLY WHEN INSTRUMENT IS GUITAR)', completed: false },
+                { id: 'goal_0', text: 'Tuning the guitar', completed: false },
                 { id: 'goal_1', text: 'C Em G and D chord', completed: false },
                 { id: 'goal_2', text: 'Am E Dm chords', completed: false },
                 { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },

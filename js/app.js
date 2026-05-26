@@ -295,7 +295,8 @@ class App {
                     attempts++;
                     setTimeout(checkAndNavigate, 200);
                 } else {
-                    console.warn('App: Could not find song with ID after several attempts:', urlSongId);
+                    console.warn('App: Could not find song locally, attempting to fetch from teacher if assigned:', urlSongId);
+                    this.fetchSongFromTeacherAndNavigate(urlSongId);
                 }
             };
             checkAndNavigate();
@@ -321,6 +322,40 @@ class App {
             console.log('App: Auto-navigating to genre:', genreParam);
             if (typeof window.selectGenreFromSidebar === 'function') window.selectGenreFromSidebar(genreParam);
         }
+    }
+
+    async fetchSongFromTeacherAndNavigate(songId) {
+        if (!this.firebaseManager || !this.firebaseManager.isAuthenticated()) {
+            console.warn('App: User not authenticated, cannot fetch teacher song.');
+            return;
+        }
+        try {
+            const user = this.firebaseManager.getCurrentUser();
+            const userSnapshot = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+            const userData = userSnapshot.val();
+            
+            if (userData && userData.connectedTeacher) {
+                const teacherId = userData.connectedTeacher;
+                const songSnapshot = await this.firebaseManager.database.ref(`users/${teacherId}/songs/${songId}`).once('value');
+                const songData = songSnapshot.val();
+                
+                if (songData) {
+                    console.log('App: Found song in teacher profile, adding to memory...');
+                    const normalizedSong = this.songManager.normalizeSongs([songData])[0];
+                    // Prevent saving back to student's database if they edit it (unless they save a copy)
+                    normalizedSong.isTeacherSong = true; 
+                    this.songManager.songs.push(normalizedSong);
+                    
+                    this.navigateToSong(songId);
+                    window.history.replaceState({}, '', window.location.pathname);
+                    return;
+                }
+            }
+            console.warn('App: Song not found in teacher profile.');
+        } catch (error) {
+            console.error('App: Error fetching teacher song:', error);
+        }
+    }
 
         // Handle auto-opening teacher connection via URL parameter
         const teacherCodeParam = urlParams.get('teacher')?.trim();
