@@ -37,11 +37,11 @@ body.is-mobile-landscape .landscape-header-bar {
     right: 0; /* Flush to right */
     width: 100%;
     height: auto;
-    min-height: 60px !important; /* Compacted further (was 85px) */
+    min-height: 85px !important; /* Compacted (was 125px) */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     align-items: center;
     justify-content: center;
-    padding: 4px 15px 2px !important; /* Tighter padding (was 8px 15px 4px) */
+    padding: 8px 15px 4px !important; /* Shifted down (v2.785) */
     gap: 2px !important; 
     z-index: 2005;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -149,12 +149,12 @@ body.is-mobile-landscape .timeline-container {
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    bottom: 0 !important;
+    bottom: auto !important;
     height: 100% !important;
-    height: 100dvh !important;
+    height: calc(100dvh - 75px) !important;
     width: 100vw !important;
     padding: 0 !important;
-    padding-top: 75px !important; /* Reduced for smaller header (was 100px) */
+    padding-top: 100px !important; /* Increased for button shift (was 85px) */
     z-index: 500;
 }
 
@@ -162,7 +162,7 @@ body.is-mobile-landscape .timeline-container {
 /* Nuclear Specificity Override: Removed top:40% !important to allow staggering */
 body.is-mobile-landscape #timeline .chord-item {
     width: 28px !important; /* 50% horizontal reduction as requested */
-    height: 55px !important; /* Maintained original landscape height */
+    height: 44px !important; /* Reduced ~20% from 55px */
     font-size: 0.7rem !important; /* Reduced symbol size to fit narrow box */
     border-radius: 8px !important;
     padding: 2px !important;
@@ -266,7 +266,7 @@ body.is-mobile-landscape #statusText {
 /* Adjust Playhead/Arrow for full-height timeline under header */
 body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
-    top: calc(50% - 27.5px) !important; /* Aligned with the TOP of the 55px chord box */
+    top: calc(50% - 22px) !important; /* Aligned with the TOP of the 44px chord box */
 }
 
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
@@ -286,7 +286,7 @@ body.is-mobile-landscape .pure-timeline-controls {
     flex-shrink: 0 !important;
 }
 body.is-mobile-landscape .header-controls-row {
-    margin-top: 4px !important; /* Reduced to save vertical space */
+    margin-top: 15px !important; /* Move buttons down as requested */
 }
 
 /* Floating icons look - no boxes */
