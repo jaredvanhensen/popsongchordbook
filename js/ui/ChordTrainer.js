@@ -42,6 +42,15 @@ class ChordTrainer {
     async init() {
         await this.audioPlayer.initialize();
         this.setupDOM();
+
+        // Always initialize Firebase if available
+        if (window.firebaseManager) {
+            try {
+                await window.firebaseManager.initialize();
+            } catch (e) {
+                console.warn('ChordTrainer: Firebase init failed:', e);
+            }
+        }
         
         // Check for Song Practice Mode
         const params = new URLSearchParams(window.location.search);
@@ -60,7 +69,6 @@ class ChordTrainer {
             
             // Ensure Firebase is initialized before loading songs
             if (window.firebaseManager) {
-                await window.firebaseManager.initialize();
                 
                 // If not authenticated, we might need to wait for Firebase to restore session
                 if (!window.firebaseManager.isAuthenticated()) {
@@ -102,33 +110,63 @@ class ChordTrainer {
 
         // 5. Sync High Scores from Firebase once authenticated / Force Login
         if (window.firebaseManager) {
+            const cachedRole = localStorage.getItem('userRole');
+            const cachedTeacher = localStorage.getItem('connectedTeacher');
+            const teacherBtn = document.getElementById('btnDashboardTeacher');
+            const studentBtn = document.getElementById('btnDashboardStudent');
+            if (cachedRole === 'teacher') {
+                if (teacherBtn) teacherBtn.style.display = '';
+                if (studentBtn) studentBtn.style.display = 'none';
+            } else if (cachedTeacher || cachedRole === 'student') {
+                if (studentBtn) studentBtn.style.display = '';
+                if (teacherBtn) teacherBtn.style.display = 'none';
+            }
+
             // Wait for auth to be determined
             let authResolved = false;
             window.firebaseManager.onAuthStateChanged(async (user) => {
-                const teacherBtn = document.getElementById('btnDashboardTeacher');
-                const studentBtn = document.getElementById('btnDashboardStudent');
-                if (teacherBtn) teacherBtn.style.display = 'none';
-                if (studentBtn) studentBtn.style.display = 'none';
+                if (!user) {
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('connectedTeacher');
+                    if (teacherBtn) teacherBtn.style.display = 'none';
+                    if (studentBtn) studentBtn.style.display = 'none';
+                    return;
+                }
 
-                if (user) {
-                    authResolved = true;
-                    if (this.isSongPracticeMode && this.songManager) {
-                        console.log('ChordTrainer: User authenticated. Enabling sync for user:', user.uid);
-                        this.songManager.enableSync(user.uid);
+                authResolved = true;
+                if (this.isSongPracticeMode && this.songManager) {
+                    console.log('ChordTrainer: User authenticated. Enabling sync for user:', user.uid);
+                    this.songManager.enableSync(user.uid);
+                }
+                try {
+                    const snap = await window.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                    const data = snap.val();
+                    if (!data) {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                        return;
                     }
-                    try {
-                        const snap = await window.firebaseManager.database.ref(`users/${user.uid}`).once('value');
-                        const data = snap.val();
-                        if (data) {
-                            if (data.role === 'teacher') {
-                                if (teacherBtn) teacherBtn.style.display = '';
-                            } else if (data.connectedTeacher) {
-                                if (studentBtn) studentBtn.style.display = '';
-                            }
-                        }
-                    } catch (e) {
-                        console.error('ChordTrainer: Error checking user role for nav:', e);
+                    if (data.role === 'teacher') {
+                        localStorage.setItem('userRole', 'teacher');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = '';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                    } else if (data.connectedTeacher) {
+                        localStorage.setItem('userRole', 'student');
+                        localStorage.setItem('connectedTeacher', data.connectedTeacher);
+                        if (studentBtn) studentBtn.style.display = '';
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                    } else {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
                     }
+                } catch (e) {
+                    console.error('ChordTrainer: Error checking user role for nav:', e);
+                }
                     const dbScores = await window.firebaseManager.getHighScores(user.uid);
                     if (dbScores) {
                         // Merge db scores into highScores (db wins if different)

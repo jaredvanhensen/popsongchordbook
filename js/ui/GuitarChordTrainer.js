@@ -93,26 +93,55 @@ class GuitarChordTrainer {
 
         // Setup dashboard nav buttons based on auth state
         if (this.firebaseManager) {
-            this.firebaseManager.onAuthStateChanged(async (user) => {
-                const teacherBtn = document.getElementById('btnDashboardTeacher');
-                const studentBtn = document.getElementById('btnDashboardStudent');
-                if (teacherBtn) teacherBtn.style.display = 'none';
+            const cachedRole = localStorage.getItem('userRole');
+            const cachedTeacher = localStorage.getItem('connectedTeacher');
+            const teacherBtn = document.getElementById('btnDashboardTeacher');
+            const studentBtn = document.getElementById('btnDashboardStudent');
+            if (cachedRole === 'teacher') {
+                if (teacherBtn) teacherBtn.style.display = '';
                 if (studentBtn) studentBtn.style.display = 'none';
+            } else if (cachedTeacher || cachedRole === 'student') {
+                if (studentBtn) studentBtn.style.display = '';
+                if (teacherBtn) teacherBtn.style.display = 'none';
+            }
 
-                if (user) {
-                    try {
-                        const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
-                        const data = snap.val();
-                        if (data) {
-                            if (data.role === 'teacher') {
-                                if (teacherBtn) teacherBtn.style.display = '';
-                            } else if (data.connectedTeacher) {
-                                if (studentBtn) studentBtn.style.display = '';
-                            }
-                        }
-                    } catch (e) {
-                        console.error('GuitarChordTrainer: Error checking user role for nav:', e);
+            this.firebaseManager.onAuthStateChanged(async (user) => {
+                if (!user) {
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('connectedTeacher');
+                    if (teacherBtn) teacherBtn.style.display = 'none';
+                    if (studentBtn) studentBtn.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                    const data = snap.val();
+                    if (!data) {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                        return;
                     }
+                    if (data.role === 'teacher') {
+                        localStorage.setItem('userRole', 'teacher');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = '';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                    } else if (data.connectedTeacher) {
+                        localStorage.setItem('userRole', 'student');
+                        localStorage.setItem('connectedTeacher', data.connectedTeacher);
+                        if (studentBtn) studentBtn.style.display = '';
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                    } else {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.error('GuitarChordTrainer: Error checking user role for nav:', e);
                 }
             });
         }

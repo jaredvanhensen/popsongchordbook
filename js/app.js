@@ -1,4 +1,4 @@
-// Main Application (v2.879)
+// Main Application (v2.897)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -498,6 +498,8 @@ class App {
         const studentBtn = document.getElementById('btnDashboardStudent');
         if (teacherBtn) teacherBtn.style.display = 'none';
         if (studentBtn) studentBtn.style.display = 'none';
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('connectedTeacher');
 
         // Remove admin styling
         document.body.classList.remove('is-admin');
@@ -756,22 +758,54 @@ class App {
         const studentBtn = document.getElementById('btnDashboardStudent');
         if (!teacherBtn && !studentBtn) return; // Not on songlist page
 
-        // Hide both by default
-        if (teacherBtn) teacherBtn.style.display = 'none';
-        if (studentBtn) studentBtn.style.display = 'none';
+        // Sync with cached local storage roles immediately to avoid layout shifts/flicker
+        const cachedRole = localStorage.getItem('userRole');
+        const cachedTeacher = localStorage.getItem('connectedTeacher');
+        if (cachedRole === 'teacher') {
+            if (teacherBtn) teacherBtn.style.display = '';
+            if (studentBtn) studentBtn.style.display = 'none';
+        } else if (cachedTeacher || cachedRole === 'student') {
+            if (studentBtn) studentBtn.style.display = '';
+            if (teacherBtn) teacherBtn.style.display = 'none';
+        } else {
+            if (teacherBtn) teacherBtn.style.display = 'none';
+            if (studentBtn) studentBtn.style.display = 'none';
+        }
 
-        if (!user) return;
+        if (!user) {
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('connectedTeacher');
+            if (teacherBtn) teacherBtn.style.display = 'none';
+            if (studentBtn) studentBtn.style.display = 'none';
+            return;
+        }
 
         try {
             const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
             const data = snap.val();
-            if (!data) return;
+            if (!data) {
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('connectedTeacher');
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                if (studentBtn) studentBtn.style.display = 'none';
+                return;
+            }
 
             if (data.role === 'teacher') {
+                localStorage.setItem('userRole', 'teacher');
+                localStorage.removeItem('connectedTeacher');
                 if (teacherBtn) teacherBtn.style.display = '';
+                if (studentBtn) studentBtn.style.display = 'none';
             } else if (data.connectedTeacher) {
-                // Has a connected teacher = is a student
+                localStorage.setItem('userRole', 'student');
+                localStorage.setItem('connectedTeacher', data.connectedTeacher);
                 if (studentBtn) studentBtn.style.display = '';
+                if (teacherBtn) teacherBtn.style.display = 'none';
+            } else {
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('connectedTeacher');
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                if (studentBtn) studentBtn.style.display = 'none';
             }
         } catch (e) {
             console.error('App: Error fetching role for sidebar nav:', e);
@@ -2642,7 +2676,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.874):\n`;
+        let msg = `Diagnostics (v2.897):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2867,7 +2901,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.874)');
+        console.log('UG Extractor listener initialized (v2.897)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

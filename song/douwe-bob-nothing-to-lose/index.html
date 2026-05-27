@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.877">
+    <link rel="stylesheet" href="/styles.css?v=2.897">
     <style>
         :root {
             --primary: #3b82f6;
@@ -317,9 +317,7 @@
 
             <section class="preview-section">
                 <h3>About this Song</h3>
-                <p id="song-description">
-                    Master &quot;Nothing To Lose&quot; by Douwe Bob with our interactive scrolling chords. This tutorial covers the Em major progression at 135 BPM. Perfect for keyboard and guitar players.
-                </p>
+                <p id="song-description">Master &quot;Nothing To Lose&quot; by Douwe Bob with our interactive scrolling chords. This tutorial covers the Em major progression at 135 BPM. Perfect for keyboard and guitar players.</p>
             </section>
 
             <section class="teaser-section">
@@ -411,7 +409,11 @@ Em C D Am Em Cmaj7 D A
                 return;
             }
 
-            
+            // Inject Dynamic Canonical Link for SEO indexing
+            const canonicalLink = document.createElement('link');
+            canonicalLink.rel = 'canonical';
+            canonicalLink.href = window.location.origin + window.location.pathname;
+            document.head.appendChild(canonicalLink);
 
             // SEO Protection: Prevent indexing on github.io testing domain
             if (window.location.hostname.includes('github.io')) {

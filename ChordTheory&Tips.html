@@ -551,6 +551,19 @@
                     <span class="nav-icon">🎒</span>
                     <span class="nav-text">Student Dashboard</span>
                 </a>
+                <script>
+                    (function() {
+                        var role = localStorage.getItem('userRole');
+                        var teacher = localStorage.getItem('connectedTeacher');
+                        if (role === 'teacher') {
+                            var btn = document.getElementById('btnDashboardTeacher');
+                            if (btn) btn.style.display = '';
+                        } else if (teacher || role === 'student') {
+                            var btn = document.getElementById('btnDashboardStudent');
+                            if (btn) btn.style.display = '';
+                        }
+                    })();
+                </script>
             </nav>
         </aside>
 
@@ -1461,30 +1474,61 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <!-- Firebase Config & Managers -->
-    <script src="js/config/firebase-config.js?v=2.896"></script>
-    <script src="js/utils/FirebaseManager.js?v=2.896"></script>
+    <script src="js/config/firebase-config.js?v=2.897"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.897"></script>
 
     <script>
         // Initialize Firebase and update sidebar dashboard links dynamically
         const firebaseManager = new FirebaseManager();
         firebaseManager.initialize().then(() => {
-            firebaseManager.onAuthStateChanged(async (user) => {
-                const teacherBtn = document.getElementById('btnDashboardTeacher');
-                const studentBtn = document.getElementById('btnDashboardStudent');
-                if (teacherBtn) teacherBtn.style.display = 'none';
+            // Read cached state immediately
+            const cachedRole = localStorage.getItem('userRole');
+            const cachedTeacher = localStorage.getItem('connectedTeacher');
+            const teacherBtn = document.getElementById('btnDashboardTeacher');
+            const studentBtn = document.getElementById('btnDashboardStudent');
+            if (cachedRole === 'teacher') {
+                if (teacherBtn) teacherBtn.style.display = '';
                 if (studentBtn) studentBtn.style.display = 'none';
-                
-                if (!user) return;
+            } else if (cachedTeacher || cachedRole === 'student') {
+                if (studentBtn) studentBtn.style.display = '';
+                if (teacherBtn) teacherBtn.style.display = 'none';
+            }
+
+            firebaseManager.onAuthStateChanged(async (user) => {
+                if (!user) {
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('connectedTeacher');
+                    if (teacherBtn) teacherBtn.style.display = 'none';
+                    if (studentBtn) studentBtn.style.display = 'none';
+                    return;
+                }
                 
                 try {
                     const snap = await firebaseManager.database.ref(`users/${user.uid}`).once('value');
                     const data = snap.val();
-                    if (!data) return;
+                    if (!data) {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
+                        return;
+                    }
                     
                     if (data.role === 'teacher') {
+                        localStorage.setItem('userRole', 'teacher');
+                        localStorage.removeItem('connectedTeacher');
                         if (teacherBtn) teacherBtn.style.display = '';
+                        if (studentBtn) studentBtn.style.display = 'none';
                     } else if (data.connectedTeacher) {
+                        localStorage.setItem('userRole', 'student');
+                        localStorage.setItem('connectedTeacher', data.connectedTeacher);
                         if (studentBtn) studentBtn.style.display = '';
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                    } else {
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('connectedTeacher');
+                        if (teacherBtn) teacherBtn.style.display = 'none';
+                        if (studentBtn) studentBtn.style.display = 'none';
                     }
                 } catch (e) {
                     console.error('Error checking role for sidebar nav:', e);
