@@ -130,6 +130,14 @@ class ChordTrainer {
                     localStorage.removeItem('connectedTeacher');
                     if (teacherBtn) teacherBtn.style.display = 'none';
                     if (studentBtn) studentBtn.style.display = 'none';
+                    
+                    // Start checking for redirect after a brief delay so Firebase has time to restore session
+                    setTimeout(() => {
+                        if (!authResolved && !window.firebaseManager.getCurrentUser()) {
+                            console.log('ChordTrainer: No authenticated user. Redirecting to login...');
+                            window.location.href = 'songlist.html?redirect=ChordTrainer.html';
+                        }
+                    }, 2000);
                     return;
                 }
 
@@ -167,21 +175,13 @@ class ChordTrainer {
                 } catch (e) {
                     console.error('ChordTrainer: Error checking user role for nav:', e);
                 }
-                    const dbScores = await window.firebaseManager.getHighScores(user.uid);
-                    if (dbScores) {
-                        // Merge db scores into highScores (db wins if different)
-                        this.highScores = { ...this.highScores, ...dbScores };
-                        localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
-                        this.updateStatsDisplay();
-                    }
-                } else {
-                    // Start checking for redirect after a brief delay so Firebase has time to restore session
-                    setTimeout(() => {
-                        if (!authResolved && !window.firebaseManager.getCurrentUser()) {
-                            console.log('ChordTrainer: No authenticated user. Redirecting to login...');
-                            window.location.href = 'songlist.html?redirect=ChordTrainer.html';
-                        }
-                    }, 2000);
+                
+                const dbScores = await window.firebaseManager.getHighScores(user.uid);
+                if (dbScores) {
+                    // Merge db scores into highScores (db wins if different)
+                    this.highScores = { ...this.highScores, ...dbScores };
+                    localStorage.setItem('chordTrainerHighScores', JSON.stringify(this.highScores));
+                    this.updateStatsDisplay();
                 }
             });
         }
