@@ -1,4 +1,4 @@
-﻿// Scrolling Chords Logic (v2.879)
+// Scrolling Chords Logic (v2.879)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -351,6 +351,8 @@ window.addEventListener('message', (event) => {
     else if (msg.type === 'setInstrumentMode') {
         currentInstrumentMode = msg.instrumentMode;
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        // Force audition display to refresh for new instrument mode
+        window.lastAuditionChordName = null;
         renderStaticElements();
         updateLoop();
     }
@@ -578,6 +580,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     duplicateBtn.classList.remove('paste-active');
                     duplicateBtn.title = "Copy Selected Chords";
                 }
+                // Force re-highlight of current chord on audition keyboard when returning to play mode
+                window.lastAuditionChordName = null;
+            } else {
+                // Clear chord highlights from the audition keyboard in edit mode
+                if (typeof clearAuditionKeyboardHighlights === 'function') {
+                    clearAuditionKeyboardHighlights();
+                }
             }
         });
     }
@@ -644,9 +653,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggleKeyboardMenuBtn) {
         toggleKeyboardMenuBtn.addEventListener('click', () => {
             const keyboard = document.getElementById('auditionKeyboard');
-            if (keyboard) {
-                keyboard.classList.toggle('force-hidden');
-            }
+            const guitarDiagram = document.getElementById('auditionGuitarDiagram');
+            if (keyboard) keyboard.classList.toggle('force-hidden');
+            if (guitarDiagram) guitarDiagram.classList.toggle('force-hidden');
             // Close the menu
             if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
         });
@@ -1524,6 +1533,120 @@ function triggerChordAudio(chordName, duration = 10.0, force = false) {
 
         // Use provided duration (playback uses 10s, manual clicks use 1s)
         pianoPlayer.playChord(notes, duration, 0.4, actualStagger, currentInstrumentMode !== 'piano');
+    }
+}
+
+/**
+ * Updates the bottom-corner chord display:
+ * - In GUITAR mode: renders a guitar chord diagram SVG (same as Chord Trainer)
+ * - In PIANO/UKULELE mode: highlights keys on the mini keyboard with green
+ * Only active in PLAY mode (not edit mode).
+ * @param {string} chordName - Raw chord name (e.g. "Dm", "A#", "Gm")
+ */
+function updateAuditionKeyboardChord(chordName) {
+    const keyboard = document.getElementById('auditionKeyboard');
+    const guitarDiagram = document.getElementById('auditionGuitarDiagram');
+
+    const isGuitar = currentInstrumentMode === 'guitar';
+
+    // --- GUITAR MODE: show diagram, hide keyboard ---
+    if (isGuitar) {
+        if (keyboard) keyboard.style.display = 'none';
+        if (!guitarDiagram) return;
+
+        // Make the diagram container visible
+        guitarDiagram.style.display = 'flex';
+
+        // In edit mode: show empty diagram (no chord highlight)
+        if (isEditMode) {
+            guitarDiagram.innerHTML = '';
+            return;
+        }
+
+        if (!chordName || chordName === '') {
+            guitarDiagram.innerHTML = '';
+            return;
+        }
+
+        // Use GuitarRenderer + GuitarChordDatabase (same as Chord Trainer)
+        if (!window.GuitarRenderer || !window.GuitarChordDatabase) {
+            guitarDiagram.innerHTML = '';
+            return;
+        }
+
+        const renderer = new GuitarRenderer();
+        const db = window.GuitarChordDatabase;
+
+        // Simplify name for DB lookup (strip inversion number: D2 -> D, Dm2 -> Dm)
+        const simpleName = chordName.split('/').map(part => {
+            const lowPart = part.toLowerCase();
+            if (lowPart.includes('sus') || lowPart.includes('add')) return part;
+            return part.replace(/([23])$/, '');
+        }).join('/');
+
+        const fingering = db[chordName] || db[simpleName] || db[simpleName.split('/')[0]];
+
+        if (fingering) {
+            const svgHtml = renderer.renderSVG(fingering);
+            const displayName = simpleName.split('/')[0]; // Show just the main chord name
+            guitarDiagram.innerHTML = `<div class="agd-chord-name">${displayName}</div>${svgHtml}`;
+        } else {
+            // Chord not in database — show name only
+            guitarDiagram.innerHTML = `<div class="agd-chord-name" style="font-size:1rem;margin-top:20px;">${simpleName}</div>`;
+        }
+        return;
+    }
+
+    // --- PIANO / UKULELE MODE: show keyboard, hide diagram ---
+    if (guitarDiagram) {
+        guitarDiagram.style.display = 'none';
+        guitarDiagram.innerHTML = '';
+    }
+    if (!keyboard || !chordParser) return;
+
+    // Ensure keyboard is visible (may have been hidden by guitar mode)
+    // (CSS media query controls the real visibility; just clear forced inline hide)
+    keyboard.style.display = '';
+
+    // Clear all existing highlights
+    keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
+
+    // In edit mode, don't highlight (keep plain keyboard)
+    if (isEditMode) return;
+
+    if (!chordName || chordName === '') return;
+
+    // Parse the chord to get MIDI notes
+    const chord = chordParser.parse(chordName);
+    if (!chord || !chord.notes) return;
+
+    // Map MIDI note numbers to pitch class (0-11) for matching
+    const highlightPitchClasses = new Set(chord.notes.map(n => ((n % 12) + 12) % 12));
+
+    // Highlight matching keys on the mini keyboard
+    keyboard.querySelectorAll('.key[data-note]').forEach(key => {
+        const midiNote = parseInt(key.dataset.note);
+        const pitchClass = ((midiNote % 12) + 12) % 12;
+        if (highlightPitchClasses.has(pitchClass)) {
+            key.classList.add('chord-highlight');
+        }
+    });
+}
+
+/**
+ * Clears all chord highlights / guitar diagrams from the audition display
+ * (e.g. when entering edit mode).
+ */
+function clearAuditionKeyboardHighlights() {
+    const keyboard = document.getElementById('auditionKeyboard');
+    if (keyboard) {
+        keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
+        keyboard.style.display = '';
+    }
+    const guitarDiagram = document.getElementById('auditionGuitarDiagram');
+    if (guitarDiagram) {
+        guitarDiagram.style.display = 'none';
+        guitarDiagram.innerHTML = '';
     }
 }
 
@@ -3780,6 +3903,16 @@ function updateLoop() {
         }
     }
 
+    // Update audition keyboard chord highlight (PLAY mode only, not in edit mode)
+    // Only update when chord changes to avoid per-frame DOM overhead
+    const auditionChordName = currentChord ? simplifyDisplayName(currentChord.name, true) : '';
+    if (auditionChordName !== window.lastAuditionChordName) {
+        window.lastAuditionChordName = auditionChordName;
+        if (typeof updateAuditionKeyboardChord === 'function') {
+            updateAuditionKeyboardChord(auditionChordName);
+        }
+    }
+
     // Safety for PIXELS_PER_SECOND
     const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
     const playheadOffset = getPlayheadOffset();
@@ -4830,6 +4963,8 @@ function openSongMap() {
     if (lyricsHUD) lyricsHUD.classList.add('hidden');
     const auditionKeyboard = document.getElementById('auditionKeyboard');
     if (auditionKeyboard) auditionKeyboard.classList.add('song-map-open');
+    const auditionGuitarDiagram = document.getElementById('auditionGuitarDiagram');
+    if (auditionGuitarDiagram) auditionGuitarDiagram.classList.add('song-map-open');
 
     // Stop playback while viewing map to avoid confusing visuals
     if (isPlaying) togglePlayPause();
@@ -4954,6 +5089,8 @@ function _forceCloseSongMap() {
     if (currentChordDisplay) currentChordDisplay.classList.remove('hidden');
     const auditionKeyboard = document.getElementById('auditionKeyboard');
     if (auditionKeyboard) auditionKeyboard.classList.remove('song-map-open');
+    const auditionGuitarDiagram = document.getElementById('auditionGuitarDiagram');
+    if (auditionGuitarDiagram) auditionGuitarDiagram.classList.remove('song-map-open');
     // HUD will restore itself based on its own state if needed
 }
 

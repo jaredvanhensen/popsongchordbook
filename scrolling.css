@@ -933,6 +933,30 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     filter: brightness(1.2);
 }
 
+/* Chord highlight for play-mode audition keyboard (green, like Chord Trainer) */
+.key.chord-highlight {
+    background: #10b981 !important;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.7), inset 0 1px 3px rgba(255,255,255,0.3) !important;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.key.black.chord-highlight {
+    background: #059669 !important;
+    box-shadow: 0 0 8px rgba(5, 150, 105, 0.8), inset 0 1px 2px rgba(255,255,255,0.2) !important;
+    filter: none;
+}
+
+/* In edit mode, suppress chord highlights on audition keyboard */
+body.edit-mode-active .audition-keyboard .key.chord-highlight {
+    background: rgba(255, 255, 255, 0.8) !important;
+    box-shadow: none !important;
+}
+
+body.edit-mode-active .audition-keyboard .key.black.chord-highlight {
+    background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
+}
+
 /* Landscape Visibility */
 @media (orientation: landscape) {
     .audition-keyboard {
@@ -961,6 +985,77 @@ body.is-mobile-landscape .audition-keyboard {
 
 .audition-keyboard.force-hidden,
 .audition-keyboard.song-map-open {
+    display: none !important;
+}
+
+/* Guitar Chord Diagram - mirrors audition keyboard position in guitar mode */
+.audition-guitar-diagram {
+    position: absolute;
+    bottom: 10px;
+    left: 140px;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 160px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+    padding: 4px;
+    z-index: 2100;
+    display: none; /* Hidden by default, shown by JS in guitar+landscape mode */
+    pointer-events: none;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.audition-guitar-diagram svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Chord name label inside guitar diagram */
+.audition-guitar-diagram .agd-chord-name {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    text-align: center;
+    line-height: 1;
+    padding: 2px 0 0;
+    letter-spacing: -0.3px;
+}
+
+/* Show in landscape (same rules as audition keyboard) */
+@media (orientation: landscape) {
+    .audition-guitar-diagram {
+        display: flex;
+    }
+}
+
+body.is-mobile-landscape .audition-guitar-diagram {
+    display: none !important;
+}
+
+@media screen and (max-width: 1024px) {
+    .audition-guitar-diagram {
+        left: 135px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .audition-guitar-diagram {
+        left: 95px;
+        width: 110px;
+        height: 140px;
+    }
+}
+
+.audition-guitar-diagram.force-hidden,
+.audition-guitar-diagram.song-map-open {
     display: none !important;
 }
 
