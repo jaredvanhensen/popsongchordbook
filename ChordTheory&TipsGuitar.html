@@ -305,6 +305,14 @@
                     </span>
                     <span class="nav-text">My Library</span>
                 </a>
+                <a href="songlist.html?view=teacher" class="nav-item" id="btnDashboardTeacher" style="display:none;">
+                    <span class="nav-icon">🏫</span>
+                    <span class="nav-text">Teacher Dashboard</span>
+                </a>
+                <a href="songlist.html?view=student" class="nav-item" id="btnDashboardStudent" style="display:none;">
+                    <span class="nav-icon">🎒</span>
+                    <span class="nav-text">Student Dashboard</span>
+                </a>
             </nav>
         </aside>
 
@@ -848,7 +856,43 @@
         </main>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- Firebase Config & Managers -->
+    <script src="js/config/firebase-config.js?v=2.896"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.896"></script>
+
     <script>
+        // Initialize Firebase and update sidebar dashboard links dynamically
+        const firebaseManager = new FirebaseManager();
+        firebaseManager.initialize().then(() => {
+            firebaseManager.onAuthStateChanged(async (user) => {
+                const teacherBtn = document.getElementById('btnDashboardTeacher');
+                const studentBtn = document.getElementById('btnDashboardStudent');
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                if (studentBtn) studentBtn.style.display = 'none';
+                
+                if (!user) return;
+                
+                try {
+                    const snap = await firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                    const data = snap.val();
+                    if (!data) return;
+                    
+                    if (data.role === 'teacher') {
+                        if (teacherBtn) teacherBtn.style.display = '';
+                    } else if (data.connectedTeacher) {
+                        if (studentBtn) studentBtn.style.display = '';
+                    }
+                } catch (e) {
+                    console.error('Error checking role for sidebar nav:', e);
+                }
+            });
+        });
+
         function goToChordsTheory() {
             const mode = localStorage.getItem('instrumentMode') || 'piano';
             if (mode === 'guitar') {

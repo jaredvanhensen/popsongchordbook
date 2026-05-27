@@ -317,6 +317,10 @@ class App {
                 if (typeof window.renderChordsLibraryView === 'function') window.renderChordsLibraryView();
             } else if (viewParam === 'mylibrary') {
                 if (typeof window.selectMyLibrary === 'function') window.selectMyLibrary();
+            } else if (viewParam === 'teacher') {
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('teacher.html');
+            } else if (viewParam === 'student') {
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('student.html');
             }
         } else if (genreParam) {
             console.log('App: Auto-navigating to genre:', genreParam);

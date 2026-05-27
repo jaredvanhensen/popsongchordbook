@@ -90,6 +90,32 @@ class GuitarChordTrainer {
         } catch (e) {
             console.warn('Firebase initialization bypassed or failed:', e);
         }
+
+        // Setup dashboard nav buttons based on auth state
+        if (this.firebaseManager) {
+            this.firebaseManager.onAuthStateChanged(async (user) => {
+                const teacherBtn = document.getElementById('btnDashboardTeacher');
+                const studentBtn = document.getElementById('btnDashboardStudent');
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                if (studentBtn) studentBtn.style.display = 'none';
+
+                if (user) {
+                    try {
+                        const snap = await this.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                        const data = snap.val();
+                        if (data) {
+                            if (data.role === 'teacher') {
+                                if (teacherBtn) teacherBtn.style.display = '';
+                            } else if (data.connectedTeacher) {
+                                if (studentBtn) studentBtn.style.display = '';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('GuitarChordTrainer: Error checking user role for nav:', e);
+                    }
+                }
+            });
+        }
         
         // 1. Initialize Audio Player
         try {

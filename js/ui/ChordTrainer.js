@@ -105,11 +105,29 @@ class ChordTrainer {
             // Wait for auth to be determined
             let authResolved = false;
             window.firebaseManager.onAuthStateChanged(async (user) => {
+                const teacherBtn = document.getElementById('btnDashboardTeacher');
+                const studentBtn = document.getElementById('btnDashboardStudent');
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                if (studentBtn) studentBtn.style.display = 'none';
+
                 if (user) {
                     authResolved = true;
                     if (this.isSongPracticeMode && this.songManager) {
                         console.log('ChordTrainer: User authenticated. Enabling sync for user:', user.uid);
                         this.songManager.enableSync(user.uid);
+                    }
+                    try {
+                        const snap = await window.firebaseManager.database.ref(`users/${user.uid}`).once('value');
+                        const data = snap.val();
+                        if (data) {
+                            if (data.role === 'teacher') {
+                                if (teacherBtn) teacherBtn.style.display = '';
+                            } else if (data.connectedTeacher) {
+                                if (studentBtn) studentBtn.style.display = '';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('ChordTrainer: Error checking user role for nav:', e);
                     }
                     const dbScores = await window.firebaseManager.getHighScores(user.uid);
                     if (dbScores) {
