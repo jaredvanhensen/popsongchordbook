@@ -302,6 +302,78 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.925</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Horizontal Draggable Support:</strong> Extended overlay draggable controls to allow seamless horizontal positioning in addition to vertical placement. Added safety boundary constraints keeping the window fully visible within the viewport edges during drag moves and layout refits.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.924</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Fixed Pinned Header:</strong> Converted the Classic Chord Sheet overlay to a non-scrolling Flexbox layout and moved scrolling behavior into the content area (`#textModeContent`). This guarantees that the action header stays fixed at the top of the overlay window at all times while the lyrics scroll independently underneath it, and keeps the drag resize handles pinned statically to the window edges.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.923</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Optimal Initial Size Constraints:</strong> Configured the Classic Chord Sheet window to automatically launch at an optimal initial height and width tailored to the user's current viewport. Adjusted vertical drag bounds and added window resize listeners to prevent the window's bottom resize handle from ever spilling off-screen.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.922</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet 4-Directional Resizing:</strong> Implemented comprehensive resizing support for the Classic Chord Sheet overlay on all four sides. Added distinct top, left, right, and bottom handle drag detection to allow vertical resizing (keeping the opposite edge fixed) and symmetrical horizontal resizing relative to the center line.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.921</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Layering and Draggable Fix:</strong> Resolved an issue where desktop dragging would fail by unconditionally preventing browser default selection conflicts on pointer down. Increased the z-index layer of the Classic Chord Sheet overlay to 2200 to ensure it always renders in front of the audition keyboard and guitar chord diagram when they collide.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.920</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Full Lyrics Display:</strong> Configured Classic Chord Sheet mode (play mode) to display all lines of lyrics instead of just two. Added smooth vertical auto-scrolling to automatically center the currently active lyric line inside the resizable overlay, and added a blue accent left border and soft blue background highlighting to make the active playing block stand out.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.919</span>
                     <span class="version-date">May 28, 2026</span>
                 </div>

@@ -989,6 +989,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateHUDPosition();
             renderStaticElements(); // Force staggering/size recalculation on rotation
             syncPureTimelineButtons();
+            if (typeof initTextModeOverlaySize === 'function') {
+                initTextModeOverlaySize();
+            }
         };
 
         window.addEventListener('resize', forceOrientationRefresh);
@@ -2893,7 +2896,10 @@ function toggleTextMode() {
     if (isTextMode) {
         document.body.classList.add('text-mode-active');
         if (btn) btn.classList.add('active');
-        if (textModeOverlay) textModeOverlay.classList.remove('hidden');
+        if (textModeOverlay) {
+            textModeOverlay.classList.remove('hidden');
+            initTextModeOverlaySize();
+        }
         
         // Auto-jump to the page containing the current lyrics
         if (parsedLyrics && parsedLyrics.length > 0) {
@@ -2931,15 +2937,66 @@ function clearAllLyricLinks() {
     }
 }
 
-// Make the text mode overlay draggable vertically from the header
+// Initialize the size and position of the text mode overlay to be optimal for the current viewport
+function initTextModeOverlaySize() {
+    const overlay = document.getElementById('textModeOverlay');
+    if (!overlay || overlay.classList.contains('hidden')) return;
+
+    const screenHeight = window.innerHeight;
+    const isSmallScreen = screenHeight < 600;
+
+    const defaultTop = isSmallScreen ? 50 : 80;
+    const bottomBuffer = isSmallScreen ? 140 : 300; // Leave space for scrolling timeline at the bottom
+
+    if (!overlay.style.top || overlay.style.top === "") {
+        overlay.style.top = `${defaultTop}px`;
+    }
+    if (!overlay.style.left || overlay.style.left === "") {
+        overlay.style.left = "50%";
+    }
+    if (!overlay.style.width || overlay.style.width === "") {
+        overlay.style.width = "90vw";
+    }
+    if (!overlay.style.height || overlay.style.height === "") {
+        const currentTop = parseFloat(overlay.style.top) || defaultTop;
+        const optimalHeight = Math.max(120, screenHeight - currentTop - bottomBuffer);
+        overlay.style.height = `${optimalHeight}px`;
+    }
+
+    // Always ensure the bottom of the window is on screen and doesn't get pushed off
+    const currentTop = parseFloat(overlay.style.top) || defaultTop;
+    const currentHeight = parseFloat(overlay.style.height) || 200;
+    const maxHeight = screenHeight - currentTop - 20; // Ensure at least 20px gap at the bottom
+    
+    if (currentHeight > maxHeight) {
+        overlay.style.height = `${Math.max(120, maxHeight)}px`;
+    }
+
+    // Adjust left position to keep window completely on-screen horizontally during screen resize
+    const currentLeft = overlay.style.left;
+    if (currentLeft && currentLeft !== "50%") {
+        const leftVal = parseFloat(currentLeft);
+        const overlayWidth = overlay.offsetWidth;
+        const minLeft = overlayWidth / 2 + 10;
+        const maxLeft = window.innerWidth - (overlayWidth / 2) - 10;
+        let newLeft = leftVal;
+        if (newLeft < minLeft) newLeft = minLeft;
+        if (newLeft > maxLeft) newLeft = maxLeft;
+        overlay.style.left = `${newLeft}px`;
+    }
+}
+
+// Make the text mode overlay draggable vertically and horizontally from the header
 function makeTextModeOverlayDraggable() {
     const overlay = document.getElementById('textModeOverlay');
     const header = overlay ? overlay.querySelector('.text-mode-header') : null;
     if (!overlay || !header) return;
 
     let isDragging = false;
+    let startX = 0;
     let startY = 0;
     let startTop = 0;
+    let startLeft = 0;
 
     header.style.cursor = 'grab';
 
@@ -2955,32 +3012,52 @@ function makeTextModeOverlayDraggable() {
         isDragging = true;
         header.style.cursor = 'grabbing';
 
+        const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
         const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
         startY = clientY;
         
         // Parse current top position (or fall back to current offsetTop)
         const currentTop = window.getComputedStyle(overlay).top;
         startTop = parseFloat(currentTop) || overlay.offsetTop;
 
-        // Prevent default touch gestures (e.g. scroll) while dragging header
-        if (e.type === 'touchstart') {
-            e.preventDefault();
-        }
+        // Parse current left position (or fall back to current centered offset)
+        const currentLeft = window.getComputedStyle(overlay).left;
+        startLeft = parseFloat(currentLeft) || (window.innerWidth / 2);
+
+        // Prevent default touch gestures / text selections while dragging header
+        e.preventDefault();
     };
 
     const onPointerMove = (e) => {
         if (!isDragging) return;
 
+        const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
         const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        
+        const deltaX = clientX - startX;
         const deltaY = clientY - startY;
+        
         let newTop = startTop + deltaY;
+        let newLeft = startLeft + deltaX;
 
-        // Constraint boundaries (e.g., keep at least 10px from top and bottom)
-        const maxTop = window.innerHeight - 80;
+        // Constraint boundaries - ensure the header stays accessible and the bottom stays on screen
+        const overlayHeight = overlay.offsetHeight;
         if (newTop < 10) newTop = 10;
-        if (newTop > maxTop) newTop = maxTop;
+        if (newTop + overlayHeight > window.innerHeight - 20) {
+            newTop = window.innerHeight - overlayHeight - 20;
+        }
+        if (newTop < 10) newTop = 10; // safety double-cap
+
+        // Constraint boundaries - ensure the window stays completely on screen horizontally
+        const overlayWidth = overlay.offsetWidth;
+        const minLeft = overlayWidth / 2 + 10;
+        const maxLeft = window.innerWidth - (overlayWidth / 2) - 10;
+        if (newLeft < minLeft) newLeft = minLeft;
+        if (newLeft > maxLeft) newLeft = maxLeft;
 
         overlay.style.top = `${newTop}px`;
+        overlay.style.left = `${newLeft}px`;
     };
 
     const onPointerUp = () => {
@@ -2999,49 +3076,102 @@ function makeTextModeOverlayDraggable() {
     window.addEventListener('touchend', onPointerUp);
 }
 
-// Make the text mode overlay resizable by dragging its bottom handle
+// Make the text mode overlay resizable by dragging its handles (top, bottom, left, right)
 function makeTextModeOverlayResizable() {
     const overlay = document.getElementById('textModeOverlay');
-    const handle = overlay ? overlay.querySelector('.text-mode-resize-handle') : null;
-    if (!overlay || !handle) return;
+    if (!overlay) return;
 
-    let isResizing = false;
+    const handles = {
+        top: overlay.querySelector('.text-mode-resize-handle.top'),
+        bottom: overlay.querySelector('.text-mode-resize-handle.bottom'),
+        left: overlay.querySelector('.text-mode-resize-handle.left'),
+        right: overlay.querySelector('.text-mode-resize-handle.right')
+    };
+
+    let activeHandle = null;
     let startY = 0;
+    let startTop = 0;
     let startHeight = 0;
 
-    const onPointerDown = (e) => {
+    const onPointerDown = (e, direction) => {
         if (e.button !== 0 && e.type !== 'touchstart') return;
         
-        isResizing = true;
-        startY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-        startHeight = overlay.offsetHeight;
+        activeHandle = direction;
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        
+        startY = clientY;
+        
+        const currentTop = window.getComputedStyle(overlay).top;
+        startTop = parseFloat(currentTop) || overlay.offsetTop;
+        
+        const currentHeight = window.getComputedStyle(overlay).height;
+        startHeight = parseFloat(currentHeight) || overlay.offsetHeight;
 
         e.preventDefault();
     };
 
     const onPointerMove = (e) => {
-        if (!isResizing) return;
+        if (!activeHandle) return;
 
         const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-        const deltaY = clientY - startY;
-        let newHeight = startHeight + deltaY;
+        const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
 
-        // Set min and max limits
-        const minHeight = 120;
-        const maxHeight = window.innerHeight - overlay.offsetTop - 20; // Leave 20px space at bottom
-        
-        if (newHeight < minHeight) newHeight = minHeight;
-        if (newHeight > maxHeight) newHeight = maxHeight;
+        if (activeHandle === 'bottom') {
+            const deltaY = clientY - startY;
+            let newHeight = startHeight + deltaY;
 
-        overlay.style.height = `${newHeight}px`;
+            // Set min and max limits
+            const minHeight = 120;
+            const maxHeight = window.innerHeight - overlay.offsetTop - 20; // Leave 20px space at bottom
+            
+            if (newHeight < minHeight) newHeight = minHeight;
+            if (newHeight > maxHeight) newHeight = maxHeight;
+
+            overlay.style.height = `${newHeight}px`;
+        } else if (activeHandle === 'top') {
+            const deltaY = clientY - startY;
+            let newTop = startTop + deltaY;
+            const startBottom = startTop + startHeight;
+            let newHeight = startHeight - deltaY;
+
+            const minHeight = 120;
+            if (newHeight < minHeight) {
+                newHeight = minHeight;
+                newTop = startBottom - minHeight;
+            }
+            if (newTop < 10) {
+                newTop = 10;
+                newHeight = startBottom - 10;
+            }
+
+            overlay.style.top = `${newTop}px`;
+            overlay.style.height = `${newHeight}px`;
+        } else if (activeHandle === 'left' || activeHandle === 'right') {
+            const currentCenterX = window.innerWidth / 2;
+            const distanceFromCenter = Math.abs(clientX - currentCenterX);
+            let newWidth = distanceFromCenter * 2;
+
+            const minWidth = 200;
+            const maxWidth = window.innerWidth - 20;
+            if (newWidth < minWidth) newWidth = minWidth;
+            if (newWidth > maxWidth) newWidth = maxWidth;
+
+            overlay.style.width = `${newWidth}px`;
+        }
     };
 
     const onPointerUp = () => {
-        isResizing = false;
+        activeHandle = null;
     };
 
-    handle.addEventListener('mousedown', onPointerDown);
-    handle.addEventListener('touchstart', onPointerDown, { passive: false });
+    // Attach listeners to each handle
+    Object.keys(handles).forEach(dir => {
+        const handle = handles[dir];
+        if (handle) {
+            handle.addEventListener('mousedown', (e) => onPointerDown(e, dir));
+            handle.addEventListener('touchstart', (e) => onPointerDown(e, dir), { passive: false });
+        }
+    });
 
     window.addEventListener('mousemove', onPointerMove);
     window.addEventListener('touchmove', onPointerMove, { passive: false });
@@ -4324,9 +4454,19 @@ function updateLoop() {
                     }
                 });
 
-                if (textModeOverlay) {
-                    // Since past lyrics are hidden with display:none, scroll to top
-                    textModeOverlay.scrollTop = 0;
+                const textModeContent = document.getElementById('textModeContent');
+                if (textModeContent) {
+                    // Smoothly scroll the active block into the middle of the content viewport
+                    const activeBlock = textModeContent.querySelector('.text-lyric-block.active');
+                    if (activeBlock) {
+                        const contentHeight = textModeContent.clientHeight;
+                        const blockTop = activeBlock.offsetTop;
+                        const blockHeight = activeBlock.offsetHeight;
+                        textModeContent.scrollTo({
+                            top: blockTop - (contentHeight / 2) + (blockHeight / 2),
+                            behavior: 'smooth'
+                        });
+                    }
                 }
                 window.lastActiveTextLyricIdx = activeIdx;
             }
