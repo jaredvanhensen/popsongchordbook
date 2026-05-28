@@ -98,7 +98,7 @@ class StudentDashboard {
                             line-height: 1.4;
                             word-break: break-word;
                             align-self: ${isStudent ? 'flex-end' : 'flex-start'};
-                            background: ${isStudent ? '#db2777' : '#e2e8f0'};
+                            background: ${isStudent ? '#6d28d9' : '#e2e8f0'};
                             color: ${isStudent ? '#ffffff' : '#1e293b'};
                         `;
                         

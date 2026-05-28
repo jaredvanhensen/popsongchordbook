@@ -179,7 +179,7 @@ class StudentDetailEditor {
                             line-height: 1.4;
                             word-break: break-word;
                             align-self: ${isStudent ? 'flex-start' : 'flex-end'};
-                            background: ${isStudent ? '#e2e8f0' : '#db2777'};
+                            background: ${isStudent ? '#e2e8f0' : '#6d28d9'};
                             color: ${isStudent ? '#1e293b' : '#ffffff'};
                         `;
                         
