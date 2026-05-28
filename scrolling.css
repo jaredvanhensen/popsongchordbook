@@ -878,7 +878,7 @@ body.edit-mode-active .adjust-controls-row.edit-only {
     bottom: 25px;
     left: 140px; /* Left edge aligned with box (20px + 120px half-width) */
     transform: translateX(-50%);
-    width: 240px;
+    width: 330px; /* Wider keyboard to fit 12 white keys */
     height: 65px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px) saturate(180%);
@@ -978,7 +978,7 @@ body.is-mobile-landscape .audition-keyboard {
 @media screen and (max-width: 600px) {
     .audition-keyboard {
         left: 95px; /* Left edge aligned with phone box (5px + 90px half-width) */
-        width: 180px;
+        width: 240px; /* Wider keyboard to fit 12 white keys on mobile */
         height: 55px;
     }
 }

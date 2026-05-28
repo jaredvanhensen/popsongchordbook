@@ -1625,19 +1625,19 @@ function updateAuditionKeyboardChord(chordName) {
     const chord = chordParser.parse(chordName);
     if (!chord || !chord.notes) return;
 
-    // Map each note in the chord to exactly one key on the keyboard (range 48-60)
+    // Map each note in the chord to exactly one key on the keyboard (range 48-67)
     const highlightNotes = new Set();
     const notes = [...chord.notes];
 
     // Try to transpose the entire chord as a unit (by adding/subtracting octaves)
-    // so that all notes fit within the keyboard range [48, 60] to preserve inversions.
+    // so that all notes fit within the keyboard range [48, 67] to preserve inversions.
     let entireChordFits = false;
     let bestTransposedNotes = [];
     
     for (let octaveShift = -5; octaveShift <= 5; octaveShift++) {
         const shift = octaveShift * 12;
         const shiftedNotes = notes.map(n => n + shift);
-        const allInRange = shiftedNotes.every(n => n >= 48 && n <= 60);
+        const allInRange = shiftedNotes.every(n => n >= 48 && n <= 67);
         if (allInRange) {
             bestTransposedNotes = shiftedNotes;
             entireChordFits = true;
@@ -1648,22 +1648,12 @@ function updateAuditionKeyboardChord(chordName) {
     if (entireChordFits) {
         bestTransposedNotes.forEach(n => highlightNotes.add(n));
     } else {
-        // Fallback: Transpose notes individually to fit within [48, 60]
+        // Fallback: Transpose notes individually to fit within [48, 67]
         notes.forEach(n => {
-            const pc = ((n % 12) + 12) % 12;
-            if (pc === 0) {
-                // For C, keep either 48 or 60 based on which octave of C the note belongs to
-                let transposed = n;
-                while (transposed < 48) transposed += 12;
-                while (transposed > 60) transposed -= 12;
-                highlightNotes.add(transposed);
-            } else {
-                // For other notes, transpose to the standard 48-59 range
-                let transposed = n;
-                while (transposed < 48) transposed += 12;
-                while (transposed > 59) transposed -= 12;
-                highlightNotes.add(transposed);
-            }
+            let transposed = n;
+            while (transposed < 48) transposed += 12;
+            while (transposed > 67) transposed -= 12;
+            highlightNotes.add(transposed);
         });
     }
 
