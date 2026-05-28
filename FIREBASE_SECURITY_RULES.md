@@ -82,6 +82,7 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
         "$studentUid": {
           ".write": "$studentUid === auth.uid"
         }
+      }
     },
     "studentProgress": {
       "$teacherUid": {
