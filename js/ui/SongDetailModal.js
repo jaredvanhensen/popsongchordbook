@@ -3427,9 +3427,9 @@ class SongDetailModal {
         this._timelineMinimized = false;
         this._updateTimelineMinimizedIndicator(false);
 
-        // 1. Stop Audio
+        // 1. Stop Audio (Piano only, let YouTube keep playing if active)
         if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
-            this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+            this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopPianoAudio' }, '*');
         }
 
         // 2. Hide Modal
@@ -4779,6 +4779,16 @@ class SongDetailModal {
                 }
             }
         });
+
+        // Fully stop all audio/YouTube in the iframe when the entire detail modal closes
+        if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+            try {
+                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+                this.scrollingChordsFrame.contentWindow.location.replace('about:blank');
+            } catch (e) {
+                this.scrollingChordsFrame.src = 'about:blank';
+            }
+        }
     }
 
     async incrementPracticeCount() {

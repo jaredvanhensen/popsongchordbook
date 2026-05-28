@@ -310,6 +310,9 @@ window.addEventListener('message', (event) => {
         }
         cancelAnimationFrame(animationFrame);
     }
+    else if (msg.type === 'stopPianoAudio') {
+        if (pianoPlayer) pianoPlayer.stopAll();
+    }
     else if (msg.type === 'undoAction') {
         if (typeof undo === 'function') {
             undo();
