@@ -876,10 +876,10 @@ body.edit-mode-active .adjust-controls-row.edit-only {
 .audition-keyboard {
     position: absolute;
     bottom: 25px;
-    left: 140px; /* Left edge aligned with box (20px + 120px half-width) */
+    left: 200px; /* Shifted to avoid cutoff on left */
     transform: translateX(-50%);
-    width: 330px; /* Wider keyboard to fit 12 white keys */
-    height: 65px;
+    width: 360px; /* Slightly wider */
+    height: 75px; /* Slightly taller */
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
@@ -971,15 +971,15 @@ body.is-mobile-landscape .audition-keyboard {
 /* Responsive adjustments for different playhead offsets */
 @media screen and (max-width: 1024px) {
     .audition-keyboard {
-        left: 135px; /* Left edge aligned with tablet box (15px + 120px half-width) */
+        left: 200px; /* Shifted to avoid cutoff on left */
     }
 }
 
 @media screen and (max-width: 600px) {
     .audition-keyboard {
-        left: 95px; /* Left edge aligned with phone box (5px + 90px half-width) */
-        width: 240px; /* Wider keyboard to fit 12 white keys on mobile */
-        height: 55px;
+        left: 150px; /* Shifted to avoid cutoff on left */
+        width: 260px; /* Wider keyboard to fit 12 white keys on mobile */
+        height: 60px; /* Taller on mobile */
     }
 }
 
