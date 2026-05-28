@@ -1577,14 +1577,19 @@ function updateAuditionKeyboardChord(chordName) {
         const renderer = new GuitarRenderer();
         const db = window.GuitarChordDatabase;
 
+        let displayChordName = chordName;
+        if (currentCapoValue !== 0 && chordParser) {
+            displayChordName = chordParser.transpose(displayChordName, -currentCapoValue);
+        }
+
         // Simplify name for DB lookup (strip inversion number: D2 -> D, Dm2 -> Dm)
-        const simpleName = chordName.split('/').map(part => {
+        const simpleName = displayChordName.split('/').map(part => {
             const lowPart = part.toLowerCase();
             if (lowPart.includes('sus') || lowPart.includes('add')) return part;
             return part.replace(/([23])$/, '');
         }).join('/');
 
-        const fingering = db[chordName] || db[simpleName] || db[simpleName.split('/')[0]];
+        const fingering = db[displayChordName] || db[simpleName] || db[simpleName.split('/')[0]];
 
         if (fingering) {
             const svgHtml = renderer.renderSVG(fingering);
