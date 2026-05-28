@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.898">
+    <link rel="stylesheet" href="/styles.css?v=2.900">
     <style>
         :root {
             --primary: #3b82f6;
@@ -110,7 +110,7 @@
         <div class="artist-header">
             <p>Artist Hub</p>
             <h1 id="artist-name">Guns N&#039; Roses</h1>
-            <p id="artist-stats">Explore 5 interactive song tutorials by Guns N&#039; Roses.</p>
+            <p id="artist-stats">Explore 6 interactive song tutorials by Guns N&#039; Roses.</p>
         </div>
 
         <div class="song-grid" id="song-grid">
@@ -129,6 +129,13 @@
                     <span>Key: F# • 132 BPM</span>
                 </div>
             </a>
+            <a class="song-card" href="/song/guns-n-roses-november-rain">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>November Rain</h3>
+                    <span>Key: B • 80 BPM</span>
+                </div>
+            </a>
             <a class="song-card" href="/song/guns-n-roses-patience">
                 <div class="song-icon">🎵</div>
                 <div class="song-meta">
@@ -143,11 +150,11 @@
                     <span>Key: F# • 125 BPM</span>
                 </div>
             </a>
-            <a class="song-card" href="/song/guns-n-roses-november-rain">
+            <a class="song-card" href="/song/guns-n-roses-paradise-city">
                 <div class="song-icon">🎵</div>
                 <div class="song-meta">
-                    <h3>November Rain</h3>
-                    <span>Key: B • 80 BPM</span>
+                    <h3>Paradise City</h3>
+                    <span>Key: C • 120 BPM</span>
                 </div>
             </a>
         </div>
@@ -205,6 +212,7 @@
             document.getElementById('artist-stats').innerText = `Explore ${artistSongs.length} interactive song tutorials by ${artistName}.`;
 
             const grid = document.getElementById('song-grid');
+            grid.innerHTML = '';
             artistSongs.forEach(song => {
                 const card = document.createElement('a');
                 card.className = 'song-card';

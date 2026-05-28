@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Always Remember Us This Way by Lady Gaga - Piano & Guitar Chords - PopSongChordBook</title>
-    <meta name="description" id="meta-description" content="Master &quot;Always Remember Us This Way&quot; by Lady Gaga with our interactive scrolling chords. This tutorial covers the C major progression at 120 BPM. Perfect for keyboard and guitar players.">
+    <meta name="description" id="meta-description" content="Master &quot;Always Remember Us This Way&quot; by Lady Gaga with our interactive scrolling chords. This tutorial covers the Am major progression at 120 BPM. Perfect for keyboard and guitar players.">
     
     <!-- Structured Data Placeholder -->
     <script type="application/ld+json" id="structured-data">{
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.898">
+    <link rel="stylesheet" href="/styles.css?v=2.900">
     <style>
         :root {
             --primary: #3b82f6;
@@ -299,7 +299,7 @@
             <div class="meta-grid">
                 <div class="meta-item">
                     <span class="meta-label">Key</span>
-                    <span class="meta-value" id="meta-key">C</span>
+                    <span class="meta-value" id="meta-key">Am</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Tempo</span>
@@ -317,7 +317,7 @@
 
             <section class="preview-section">
                 <h3>About this Song</h3>
-                <p id="song-description">Master &quot;Always Remember Us This Way&quot; by Lady Gaga with our interactive scrolling chords. This tutorial covers the C major progression at 120 BPM. Perfect for keyboard and guitar players.</p>
+                <p id="song-description">Master &quot;Always Remember Us This Way&quot; by Lady Gaga with our interactive scrolling chords. This tutorial covers the Am major progression at 120 BPM. Perfect for keyboard and guitar players.</p>
             </section>
 
             <section class="teaser-section">
@@ -341,10 +341,10 @@
                 </div>
                 <div class="chords-preview" id="chords-preview">
                     VERSE:
-Am F C G 2x F C Am G | F G AM |  F G C 2x
+Am F C G 2x F C Am G | F G Am |  F G C 2x
 
 CHORUS:
-Am F C G 2x F C Am G | F G Am |  F G C | F G | A# F C A# F G F C Am G |  
+A# F C A# F G
 
 
                 </div>
@@ -361,7 +361,7 @@ Am F C G 2x F C Am G | F G Am |  F G C | F G | A# F C A# F G F C Am G |
 
                     <div class="faq-item">
                         <div class="faq-question">What is the key of "Always Remember Us This Way" by Lady Gaga?</div>
-                        <div class="faq-answer">The song "Always Remember Us This Way" is originally in the key of C.</div>
+                        <div class="faq-answer">The song "Always Remember Us This Way" is originally in the key of Am.</div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">How fast is "Always Remember Us This Way"?</div>
@@ -448,6 +448,7 @@ Am F C G 2x F C Am G | F G Am |  F G C | F G | A# F C A# F G F C Am G |
 
             // FAQ
             const faqContainer = document.getElementById('faq-container');
+            faqContainer.innerHTML = '';
             const faqs = [
                 {
                     q: `What is the key of "${song.title}" by ${song.artist}?`,

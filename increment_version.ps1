@@ -64,6 +64,9 @@ foreach ($fileName in $files) {
 }
 
 # Run static pages pre-renderer and sitemap generator
+Write-Host "Syncing latest songs from database..."
+node scripts/sync_songs.js
+
 Write-Host "Running static pages pre-renderer..."
 node scripts/generate_static_pages.js
 

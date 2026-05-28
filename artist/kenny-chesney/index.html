@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=2.898">
+    <link rel="stylesheet" href="/styles.css?v=2.900">
     <style>
         :root {
             --primary: #3b82f6;
@@ -110,11 +110,18 @@
         <div class="artist-header">
             <p>Artist Hub</p>
             <h1 id="artist-name">Kenny Chesney</h1>
-            <p id="artist-stats">Explore 4 interactive song tutorials by Kenny Chesney.</p>
+            <p id="artist-stats">Explore 9 interactive song tutorials by Kenny Chesney.</p>
         </div>
 
         <div class="song-grid" id="song-grid">
 
+            <a class="song-card" href="/song/kenny-chesney-aint-back-yet">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Ain&#039;t Back Yet</h3>
+                    <span>Key: A# • 120 BPM</span>
+                </div>
+            </a>
             <a class="song-card" href="/song/kenny-chesney-bar-at-the-end-of-the-world">
                 <div class="song-icon">🎵</div>
                 <div class="song-meta">
@@ -129,6 +136,20 @@
                     <span>Key: C • 120 BPM</span>
                 </div>
             </a>
+            <a class="song-card" href="/song/kenny-chesney-dont-blink">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Don&#039;t Blink</h3>
+                    <span>Key: D • 120 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/kenny-chesney-down-the-road">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Down The Road</h3>
+                    <span>Key: E • 120 BPM</span>
+                </div>
+            </a>
             <a class="song-card" href="/song/kenny-chesney-i-go-back">
                 <div class="song-icon">🎵</div>
                 <div class="song-meta">
@@ -141,6 +162,20 @@
                 <div class="song-meta">
                     <h3>Live Those Songs</h3>
                     <span>Key: D • 120 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/kenny-chesney-reality">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Reality</h3>
+                    <span>Key: C • 120 BPM</span>
+                </div>
+            </a>
+            <a class="song-card" href="/song/kenny-chesney-round-and-round">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>Round And Round</h3>
+                    <span>Key: C • 120 BPM</span>
                 </div>
             </a>
         </div>
@@ -198,6 +233,7 @@
             document.getElementById('artist-stats').innerText = `Explore ${artistSongs.length} interactive song tutorials by ${artistName}.`;
 
             const grid = document.getElementById('song-grid');
+            grid.innerHTML = '';
             artistSongs.forEach(song => {
                 const card = document.createElement('a');
                 card.className = 'song-card';
