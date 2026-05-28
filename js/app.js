@@ -1,4 +1,4 @@
-// Main Application (v2.904)
+// Main Application (v2.909)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -322,9 +322,13 @@ class App {
             } else if (viewParam === 'student') {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('student.html');
             }
+            // Clear URL parameters to prevent sticky view on refresh
+            window.history.replaceState({}, '', window.location.pathname);
         } else if (genreParam) {
             console.log('App: Auto-navigating to genre:', genreParam);
             if (typeof window.selectGenreFromSidebar === 'function') window.selectGenreFromSidebar(genreParam);
+            // Clear URL parameters to prevent sticky view on refresh
+            window.history.replaceState({}, '', window.location.pathname);
         }
 
         // Handle auto-opening teacher connection via URL parameter
@@ -2676,7 +2680,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.904):\n`;
+        let msg = `Diagnostics (v2.909):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2901,7 +2905,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.904)');
+        console.log('UG Extractor listener initialized (v2.909)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

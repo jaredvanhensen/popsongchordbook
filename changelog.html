@@ -302,6 +302,66 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.909</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Hard Refresh Default View Fix:</strong> Implemented a reload-detection check in the inline URL routing script. This immediately clears parameters and sets the active navigation tab to the "ALL SONGS" view when a page reload or Ctrl-F5 hard refresh is triggered, avoiding defaulting to the "Chords Library".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.908</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Refresh View State Fix:</strong> Configured URL parameter routing on load to automatically clear sticky query strings (e.g. `?view=chords` or `?genre=Rock`) after resolving. This resolves the issue where browser reloads or Ctrl-F5 page refreshes stuck to the Chords Library view instead of loading the default "ALL SONGS" view.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.907</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Profile Modal Hotfix:</strong> Restored the missing reference to the main profile modal element (`this.modal`) which was accidentally deleted, correcting the issue where the Profile page button was unresponsive.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.906</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Virtual Keyboard Highlight Fix:</strong> Resolved duplicate octave note highlighting (e.g. C highlighted twice) on the timeline's mini-keyboard. The keyboard now maps chord pitches to unique octave-locked keys.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.905</span>
+                    <span class="version-date">May 28, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Interactive Admin Sort:</strong> Enabled interactive column sorting for the New Members table in the admin modal. Clicking on Email, Source, Joined, or Last Login headers sorts the records dynamically in ascending/descending order with visual indicators (▲/▼).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.904</span>
                     <span class="version-date">May 28, 2026</span>
                 </div>

@@ -9,6 +9,8 @@ class ProfileModal {
         this.onAcceptSongs = onAcceptSongs;
         this.modal = document.getElementById('profileModal');
         this.selectedLvl = 1; // Default to Level 1
+        this.membersSortField = 'createdAt';
+        this.membersSortAsc = false;
 
         // Profile elements
         this.usernameInput = document.getElementById('profileUsername');
@@ -385,6 +387,8 @@ class ProfileModal {
                 }
             });
         }
+
+        this.initAdminMembersSort();
 
         // Fix Request handlers
         if (this.requestFixBtn) {
@@ -781,6 +785,52 @@ class ProfileModal {
         this.renderRequests();
     }
 
+    initAdminMembersSort() {
+        const fields = {
+            'adminSortEmail': 'email',
+            'adminSortSource': 'referral',
+            'adminSortJoined': 'createdAt',
+            'adminSortLastLogin': 'lastLogin'
+        };
+
+        for (const [id, field] of Object.entries(fields)) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('click', () => {
+                    if (this.membersSortField === field) {
+                        this.membersSortAsc = !this.membersSortAsc;
+                    } else {
+                        this.membersSortField = field;
+                        this.membersSortAsc = (field === 'email' || field === 'referral'); // Ascending by default for strings, descending for dates
+                    }
+                    this.updateMembersSortIcons();
+                    this.renderMembers();
+                });
+            }
+        }
+    }
+
+    updateMembersSortIcons() {
+        const fields = {
+            'email': document.getElementById('adminSortEmail'),
+            'referral': document.getElementById('adminSortSource'),
+            'createdAt': document.getElementById('adminSortJoined'),
+            'lastLogin': document.getElementById('adminSortLastLogin')
+        };
+
+        for (const [field, el] of Object.entries(fields)) {
+            if (!el) continue;
+            const iconEl = el.querySelector('.sort-icon');
+            if (iconEl) {
+                if (this.membersSortField === field) {
+                    iconEl.textContent = this.membersSortAsc ? ' ▲' : ' ▼';
+                } else {
+                    iconEl.textContent = '';
+                }
+            }
+        }
+    }
+
     async showMembersModal() {
         if (!this.membersModal) return;
 
@@ -804,6 +854,8 @@ class ProfileModal {
 
             this.membersEmptyMsg?.classList.add('hidden');
 
+            this.updateMembersSortIcons();
+
             // 1. Filter out the admin themselves (jared@vanhensen.nl) to keep the list focused on others
             const adminEmail = 'jared@vanhensen.nl';
             let filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
@@ -815,8 +867,21 @@ class ProfileModal {
                 emailCounts[email] = (emailCounts[email] || 0) + 1;
             });
 
-            // 3. Sort by joined date descending
-            const sorted = filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            // 3. Sort dynamically
+            const sorted = filtered.sort((a, b) => {
+                let valA = a[this.membersSortField];
+                let valB = b[this.membersSortField];
+
+                // Handle missing values
+                if (valA === undefined || valA === null) valA = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
+                if (valB === undefined || valB === null) valB = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
+
+                if (typeof valA === 'string') {
+                    return this.membersSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                } else {
+                    return this.membersSortAsc ? valA - valB : valB - valA;
+                }
+            });
 
             sorted.forEach((user, index) => {
                 const email = (user.email || 'Anon').toLowerCase();

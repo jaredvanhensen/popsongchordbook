@@ -1625,14 +1625,29 @@ function updateAuditionKeyboardChord(chordName) {
     const chord = chordParser.parse(chordName);
     if (!chord || !chord.notes) return;
 
-    // Map MIDI note numbers to pitch class (0-11) for matching
-    const highlightPitchClasses = new Set(chord.notes.map(n => ((n % 12) + 12) % 12));
+    // Map each note in the chord to exactly one key on the keyboard (range 48-60)
+    const highlightNotes = new Set();
+    chord.notes.forEach(n => {
+        const pc = ((n % 12) + 12) % 12;
+        if (pc === 0) {
+            // For C, keep either 48 or 60 based on which octave of C the note belongs to
+            let transposed = n;
+            while (transposed < 48) transposed += 12;
+            while (transposed > 60) transposed -= 12;
+            highlightNotes.add(transposed);
+        } else {
+            // For other notes, transpose to the standard 48-59 range
+            let transposed = n;
+            while (transposed < 48) transposed += 12;
+            while (transposed > 59) transposed -= 12;
+            highlightNotes.add(transposed);
+        }
+    });
 
     // Highlight matching keys on the mini keyboard
     keyboard.querySelectorAll('.key[data-note]').forEach(key => {
         const midiNote = parseInt(key.dataset.note);
-        const pitchClass = ((midiNote % 12) + 12) % 12;
-        if (highlightPitchClasses.has(pitchClass)) {
+        if (highlightNotes.has(midiNote)) {
             key.classList.add('chord-highlight');
         }
     });
