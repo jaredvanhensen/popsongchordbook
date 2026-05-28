@@ -551,6 +551,11 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.toggle('edit-mode-active', isEditMode);
             editModeBtn.classList.toggle('active', isEditMode);
             
+            // Refresh chord display/highlights on toggle
+            if (typeof updateAuditionKeyboardChord === 'function') {
+                updateAuditionKeyboardChord(window.lastAuditionChordName || '');
+            }
+            
             const textModeEditBtn = document.getElementById('textModeEditBtn');
             if (textModeEditBtn) textModeEditBtn.classList.toggle('active', isEditMode);
 
@@ -1554,14 +1559,8 @@ function updateAuditionKeyboardChord(chordName) {
         if (keyboard) keyboard.style.display = 'none';
         if (!guitarDiagram) return;
 
-        // Make the diagram container visible
-        guitarDiagram.style.display = 'flex';
-
-        // In edit mode: show empty diagram (no chord highlight)
-        if (isEditMode) {
-            guitarDiagram.innerHTML = '';
-            return;
-        }
+        // Make the diagram container visible (CSS media query controls actual visibility)
+        guitarDiagram.style.display = '';
 
         if (!chordName || chordName === '') {
             guitarDiagram.innerHTML = '';
@@ -1615,9 +1614,6 @@ function updateAuditionKeyboardChord(chordName) {
 
     // Clear all existing highlights
     keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
-
-    // In edit mode, don't highlight (keep plain keyboard)
-    if (isEditMode) return;
 
     if (!chordName || chordName === '') return;
 
@@ -3076,25 +3072,107 @@ function generateTextModeContent() {
             else if (i < activeIdx) blockClass += ' passed';
         }
 
-        html += `<div id="text-lyric-block-${i}" class="${blockClass}">`;
-        html += `<div class="text-mode-lyric-row">`;
-        
-        allItems.forEach(item => {
+        const isDottedOrEmpty = (item) => {
+            if (item.type === 'unlinked') return true;
             if (item.type === 'word') {
-                let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
-                html += `<div class="word-group">`;
-                html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
-                html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word}</div>`;
+                const text = (item.word || '').trim();
+                return text === '' || text === '...' || text === '..' || text === '.';
+            }
+            return false;
+        };
+
+        // Identify the runs of dotted/empty items
+        const runs = [];
+        let currentRunStart = -1;
+        for (let idx = 0; idx < allItems.length; idx++) {
+            if (isDottedOrEmpty(allItems[idx])) {
+                if (currentRunStart === -1) {
+                    currentRunStart = idx;
+                }
+            } else {
+                if (currentRunStart !== -1) {
+                    runs.push({ start: currentRunStart, end: idx - 1, length: idx - currentRunStart });
+                    currentRunStart = -1;
+                }
+            }
+        }
+        if (currentRunStart !== -1) {
+            runs.push({ start: currentRunStart, end: allItems.length - 1, length: allItems.length - currentRunStart });
+        }
+
+        // Filter runs to only those with length >= 3
+        const splitRuns = runs.filter(r => r.length >= 3);
+
+        // Build rows by splitting at the start and end of these runs
+        const rows = [];
+        let lastIdx = 0;
+        splitRuns.forEach(run => {
+            if (run.start > lastIdx) {
+                rows.push({
+                    type: 'normal',
+                    items: allItems.slice(lastIdx, run.start)
+                });
+            }
+            rows.push({
+                type: 'instrumental',
+                items: allItems.slice(run.start, run.end + 1)
+            });
+            lastIdx = run.end + 1;
+        });
+        if (lastIdx < allItems.length) {
+            rows.push({
+                type: 'normal',
+                items: allItems.slice(lastIdx)
+            });
+        }
+        if (rows.length === 0 && allItems.length > 0) {
+            rows.push({
+                type: 'normal',
+                items: allItems
+            });
+        }
+
+        html += `<div id="text-lyric-block-${i}" class="${blockClass}">`;
+
+        rows.forEach(row => {
+            if (row.type === 'instrumental') {
+                html += `<div class="text-mode-lyric-row instrumental-row">`;
+                row.items.forEach(item => {
+                    if (item.type === 'unlinked') {
+                        html += `<div class="word-group">`;
+                        html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
+                        html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
+                        html += `</div>`;
+                    } else {
+                        let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
+                        html += `<div class="word-group">`;
+                        html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
+                        html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word || '...'}</div>`;
+                        html += `</div>`;
+                    }
+                });
                 html += `</div>`;
-            } else if (item.type === 'unlinked') {
-                html += `<div class="word-group">`;
-                html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
-                html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
+            } else {
+                html += `<div class="text-mode-lyric-row">`;
+                row.items.forEach(item => {
+                    if (item.type === 'word') {
+                        let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
+                        html += `<div class="word-group">`;
+                        html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
+                        html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word}</div>`;
+                        html += `</div>`;
+                    } else if (item.type === 'unlinked') {
+                        html += `<div class="word-group">`;
+                        html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
+                        html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
+                        html += `</div>`;
+                    }
+                });
                 html += `</div>`;
             }
         });
-        
-        html += `</div></div>`;
+
+        html += `</div>`;
     }
     
     // Marker logic has been removed so time info is not shown in the text box
