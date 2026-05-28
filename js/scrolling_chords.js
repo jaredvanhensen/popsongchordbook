@@ -519,6 +519,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Enable draggable header for classic chord sheet overlay
+    if (typeof makeTextModeOverlayDraggable === 'function') {
+        makeTextModeOverlayDraggable();
+    }
+
     // Timeline Hamburger Menu Logic
     const timelineHamburgerBtn = document.getElementById('timelineHamburgerBtn');
     const timelineHamburgerMenu = document.getElementById('timelineHamburgerMenu');
@@ -2920,6 +2925,74 @@ function clearAllLyricLinks() {
         setSaveStatus(false);
         showNotification("All text links cleared!");
     }
+}
+
+// Make the text mode overlay draggable vertically from the header
+function makeTextModeOverlayDraggable() {
+    const overlay = document.getElementById('textModeOverlay');
+    const header = overlay ? overlay.querySelector('.text-mode-header') : null;
+    if (!overlay || !header) return;
+
+    let isDragging = false;
+    let startY = 0;
+    let startTop = 0;
+
+    header.style.cursor = 'grab';
+
+    const onPointerDown = (e) => {
+        // Only drag with left mouse click or touch
+        if (e.button !== 0 && e.type !== 'touchstart') return;
+        
+        // Don't drag if clicking buttons inside header
+        if (e.target.closest('.text-mode-header-buttons') || e.target.closest('.text-mode-header-btn')) {
+            return;
+        }
+
+        isDragging = true;
+        header.style.cursor = 'grabbing';
+
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        startY = clientY;
+        
+        // Parse current top position (or fall back to current offsetTop)
+        const currentTop = window.getComputedStyle(overlay).top;
+        startTop = parseFloat(currentTop) || overlay.offsetTop;
+
+        // Prevent default touch gestures (e.g. scroll) while dragging header
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+        }
+    };
+
+    const onPointerMove = (e) => {
+        if (!isDragging) return;
+
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        const deltaY = clientY - startY;
+        let newTop = startTop + deltaY;
+
+        // Constraint boundaries (e.g., keep at least 10px from top and bottom)
+        const maxTop = window.innerHeight - 80;
+        if (newTop < 10) newTop = 10;
+        if (newTop > maxTop) newTop = maxTop;
+
+        overlay.style.top = `${newTop}px`;
+    };
+
+    const onPointerUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        header.style.cursor = 'grab';
+    };
+
+    header.addEventListener('mousedown', onPointerDown);
+    header.addEventListener('touchstart', onPointerDown, { passive: false });
+
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('touchmove', onPointerMove, { passive: false });
+
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchend', onPointerUp);
 }
 
 window.textModeEditPage = 0;
