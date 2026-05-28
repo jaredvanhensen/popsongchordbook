@@ -6082,6 +6082,17 @@ body.ctrl-held .chord-item {
     padding: 16px 24px 24px 24px;
 }
 
+.text-mode-resize-handle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    cursor: ns-resize;
+    background: transparent;
+    z-index: 10;
+}
+
 .text-mode-section-header {
     font-weight: bold;
     color: #475569;

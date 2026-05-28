@@ -523,6 +523,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof makeTextModeOverlayDraggable === 'function') {
         makeTextModeOverlayDraggable();
     }
+    // Enable resizable bottom handle for classic chord sheet overlay
+    if (typeof makeTextModeOverlayResizable === 'function') {
+        makeTextModeOverlayResizable();
+    }
 
     // Timeline Hamburger Menu Logic
     const timelineHamburgerBtn = document.getElementById('timelineHamburgerBtn');
@@ -2987,6 +2991,57 @@ function makeTextModeOverlayDraggable() {
 
     header.addEventListener('mousedown', onPointerDown);
     header.addEventListener('touchstart', onPointerDown, { passive: false });
+
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('touchmove', onPointerMove, { passive: false });
+
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchend', onPointerUp);
+}
+
+// Make the text mode overlay resizable by dragging its bottom handle
+function makeTextModeOverlayResizable() {
+    const overlay = document.getElementById('textModeOverlay');
+    const handle = overlay ? overlay.querySelector('.text-mode-resize-handle') : null;
+    if (!overlay || !handle) return;
+
+    let isResizing = false;
+    let startY = 0;
+    let startHeight = 0;
+
+    const onPointerDown = (e) => {
+        if (e.button !== 0 && e.type !== 'touchstart') return;
+        
+        isResizing = true;
+        startY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        startHeight = overlay.offsetHeight;
+
+        e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+        if (!isResizing) return;
+
+        const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+        const deltaY = clientY - startY;
+        let newHeight = startHeight + deltaY;
+
+        // Set min and max limits
+        const minHeight = 120;
+        const maxHeight = window.innerHeight - overlay.offsetTop - 20; // Leave 20px space at bottom
+        
+        if (newHeight < minHeight) newHeight = minHeight;
+        if (newHeight > maxHeight) newHeight = maxHeight;
+
+        overlay.style.height = `${newHeight}px`;
+    };
+
+    const onPointerUp = () => {
+        isResizing = false;
+    };
+
+    handle.addEventListener('mousedown', onPointerDown);
+    handle.addEventListener('touchstart', onPointerDown, { passive: false });
 
     window.addEventListener('mousemove', onPointerMove);
     window.addEventListener('touchmove', onPointerMove, { passive: false });
