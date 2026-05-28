@@ -1554,6 +1554,16 @@ function updateAuditionKeyboardChord(chordName) {
 
     const isGuitar = currentInstrumentMode === 'guitar';
 
+    // If in edit mode, hide both
+    if (isEditMode) {
+        if (keyboard) keyboard.style.display = 'none';
+        if (guitarDiagram) {
+            guitarDiagram.style.display = 'none';
+            guitarDiagram.innerHTML = '';
+        }
+        return;
+    }
+
     // --- GUITAR MODE: show diagram, hide keyboard ---
     if (isGuitar) {
         if (keyboard) keyboard.style.display = 'none';
