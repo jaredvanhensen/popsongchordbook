@@ -117,7 +117,14 @@ class StudentDetailEditor {
             }
 
             this._currentProgress = result.progress || {};
-            if (!this._currentProgress.homework) this._currentProgress.homework = { text: '', date: '' };
+            if (!this._currentProgress.homework) {
+                this._currentProgress.homework = { text: '', date: '' };
+            } else {
+                this._currentProgress.homework = {
+                    text: (this._currentProgress.homework.text || '').trim(),
+                    date: this._currentProgress.homework.date || ''
+                };
+            }
             if (!this._currentProgress.goals) this._currentProgress.goals = [];
             if (!this._currentProgress.links) this._currentProgress.links = [];
             if (!this._currentProgress.assignedSongs) this._currentProgress.assignedSongs = {};

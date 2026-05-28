@@ -14,7 +14,10 @@
     <style>
         .container {
             overflow-y: auto !important;
-            padding-bottom: 100px !important;
+            padding: 0 !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
         header {
@@ -23,9 +26,13 @@
             z-index: 1000;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 15px 30px;
-            margin: -30px -30px 20px -30px;
+            margin: 0 0 20px 0;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             color: white;
+        }
+
+        header::before {
+            display: none !important;
         }
 
         header .header-top {
@@ -135,14 +142,14 @@
         @media (max-width: 1080px) {
             header {
                 padding: 15px 20px;
-                margin: -20px -20px 20px -20px;
+                margin: 0 0 20px 0;
             }
         }
 
         @media (max-width: 810px) {
             header {
                 padding: 12px 15px;
-                margin: -10px -10px 15px -10px;
+                margin: 0 0 15px 0;
             }
             header h1 {
                 font-size: 1.2rem;
@@ -152,7 +159,7 @@
         .student-dashboard {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px 100px 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -214,7 +221,7 @@
         @media (max-width: 600px) {
             header {
                 padding: 10px 12px;
-                margin: -10px -10px 15px -10px;
+                margin: 0 0 15px 0;
             }
 
             header .header-title-group {
