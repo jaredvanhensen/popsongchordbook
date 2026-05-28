@@ -120,6 +120,7 @@
             border-radius: 12px;
             padding: 15px;
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
 
         .student-card:hover {
@@ -128,11 +129,31 @@
             border-color: #cbd5e1;
         }
 
+        .unread-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            padding: 0 6px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+
         .student-email {
             font-weight: 600;
             color: #334155;
             margin-bottom: 5px;
             font-size: 14px;
+            padding-right: 30px; /* Leave room for badge */
         }
 
         .student-meta {
@@ -290,9 +311,17 @@
                                     Share link
                                 </button>
                             </div>
-                            <div style="margin-top: 20px;">
-                                <button id="deleteTeacherPageBtn" class="btn-danger-tube">⚠️ Delete Teacher Page</button>
-                            </div>
+                             <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                 <button id="deleteTeacherPageBtn" class="btn-danger-tube">⚠️ Delete Teacher Page</button>
+                             </div>
+                             <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; flex-direction: column; gap: 6px; max-width: 320px;">
+                                 <label for="teacherPublicEmailInput" style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Your Public Email (visible to students):</label>
+                                 <div style="display: flex; gap: 8px;">
+                                     <input type="email" id="teacherPublicEmailInput" placeholder="teacher@email.com" style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b;">
+                                     <button id="savePublicEmailBtn" style="background: #16a34a; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">Save</button>
+                                 </div>
+                                 <span id="publicEmailStatus" style="font-size: 12px; color: #16a34a; font-weight: 600; display: none;">Saved!</span>
+                             </div>
                         </div>
                     </div>
 

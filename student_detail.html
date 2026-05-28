@@ -370,7 +370,7 @@
 
                     <div class="right-col">
                         <!-- GOALS SECTION -->
-                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0; display: flex; flex-direction: column;">
+                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0; display: flex; flex-direction: column; margin-bottom: 20px;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                                 <h3 id="spGoalsHeaderTitle" class="section-title" style="color: #15803d; margin: 0;">🎯 Goals</h3>
                                 <span style="font-size: 0.75rem; color: #64748b;">✓ Check off goals | Double-click to rename</span>
@@ -385,6 +385,19 @@
                             <div style="display: flex; gap: 8px; background: white; padding: 12px; border-radius: 10px; border: 1px dashed #bbf7d0;">
                                 <input type="text" id="spNewGoalText" placeholder="Add a new goal..." style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-family: inherit; color: #1e293b;">
                                 <button id="spAddGoalBtn" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">+ Add</button>
+                            </div>
+                        </div>
+
+                        <!-- MESSAGES SECTION -->
+                        <div class="section-panel" style="background: #fdf2f8; border-color: #fbcfe8;">
+                            <h3 class="section-title" style="color: #db2777;">💬 Student Messages & Questions</h3>
+                            <div id="spMessageStatus" style="display: none; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; border: 1px solid transparent;"></div>
+                            <div id="spChatHistory" style="height: 250px; overflow-y: auto; border: 1px solid #fbcfe8; background: #ffffff; border-radius: 8px; padding: 10px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem;">
+                                <div style="color: #64748b; font-size: 13px; text-align: center; margin-top: 100px;">No messages yet.</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <textarea id="spMessageInput" placeholder="Type a reply here..." rows="4" style="width: 100%; padding: 12px; border: 1px solid #fbcfe8; border-radius: 8px; font-family: inherit; font-size: 0.9rem; resize: vertical; box-sizing: border-box; background: white; color: #1e293b;"></textarea>
+                                <button id="spSendMessageBtn" style="background: #db2777; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; align-self: flex-end;">Send Reply</button>
                             </div>
                         </div>
                     </div> <!-- End of right-col -->

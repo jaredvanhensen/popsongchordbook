@@ -11,6 +11,10 @@ class TeacherDashboard {
         this.uploadBtn = document.querySelector('.upload-banner-btn');
         this.bannerPlaceholder = document.querySelector('.teacher-banner-placeholder');
         this.shareTeacherLinkBtn = document.getElementById('shareTeacherLinkBtn');
+        this.publicEmailInput = document.getElementById('teacherPublicEmailInput');
+        this.savePublicEmailBtn = document.getElementById('savePublicEmailBtn');
+        this.publicEmailStatus = document.getElementById('publicEmailStatus');
+        this.unreadCounts = {};
 
         this.init();
     }
@@ -146,6 +150,31 @@ class TeacherDashboard {
                 }
             });
         }
+
+        if (this.savePublicEmailBtn && this.publicEmailInput) {
+            this.savePublicEmailBtn.addEventListener('click', async () => {
+                const email = this.publicEmailInput.value.trim();
+                const user = this.firebaseManager.currentUser;
+                if (!user) return;
+                
+                this.savePublicEmailBtn.disabled = true;
+                this.savePublicEmailBtn.textContent = '...';
+                try {
+                    await this.firebaseManager.database.ref(`users/${user.uid}`).update({
+                        publicEmail: email
+                    });
+                    this.publicEmailStatus.style.display = 'inline';
+                    setTimeout(() => {
+                        this.publicEmailStatus.style.display = 'none';
+                    }, 2000);
+                } catch (e) {
+                    alert('Failed to save email: ' + e.message);
+                } finally {
+                    this.savePublicEmailBtn.disabled = false;
+                    this.savePublicEmailBtn.textContent = 'Save';
+                }
+            });
+        }
     }
 
     async loadDashboard(user) {
@@ -165,6 +194,9 @@ class TeacherDashboard {
             // Display Info
             this.teacherNameDisplay.textContent = userData.email ? userData.email.split('@')[0] : 'Teacher';
             this.teacherCodeBox.textContent = userData.teacherCode || 'UNKNOWN';
+            if (this.publicEmailInput) {
+                this.publicEmailInput.value = userData.publicEmail || '';
+            }
 
             // Load Avatar
             let avatarUrl = await this.firebaseManager.getUserAvatar(user.uid);
@@ -180,6 +212,27 @@ class TeacherDashboard {
             } else {
                 this.showError('Failed to load students: ' + result.error);
             }
+
+            // Listen to student messages in real-time for unread counts
+            this.firebaseManager.database.ref(`studentMessages/${user.uid}`).on('value', (messagesSnapshot) => {
+                const allMessages = messagesSnapshot.val() || {};
+                this.unreadCounts = {};
+                
+                Object.keys(allMessages).forEach(studentUid => {
+                    const studentMsgs = allMessages[studentUid] || {};
+                    let count = 0;
+                    Object.values(studentMsgs).forEach(msg => {
+                        if (msg.sender === 'student' && msg.readByTeacher === false) {
+                            count++;
+                        }
+                    });
+                    if (count > 0) {
+                        this.unreadCounts[studentUid] = count;
+                    }
+                });
+                
+                this.updateUnreadBadges();
+            });
 
         } catch (e) {
             console.error('Dashboard load error', e);
@@ -209,6 +262,7 @@ class TeacherDashboard {
 
             const card = document.createElement('div');
             card.className = 'student-card';
+            card.dataset.uid = student.uid;
             card.style.cursor = 'pointer';
             card.innerHTML = `
                 <div class="student-email" style="font-weight: 600; color: #334155; margin-bottom: 5px; font-size: 14px;">${student.email}</div>
@@ -220,6 +274,29 @@ class TeacherDashboard {
             });
 
             this.studentsGrid.appendChild(card);
+        });
+
+        this.updateUnreadBadges();
+    }
+
+    updateUnreadBadges() {
+        if (!this.studentsGrid) return;
+        const cards = this.studentsGrid.querySelectorAll('.student-card');
+        cards.forEach(card => {
+            const uid = card.dataset.uid;
+            // remove existing badge if any
+            const existingBadge = card.querySelector('.unread-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            const count = this.unreadCounts[uid] || 0;
+            if (count > 0) {
+                const badge = document.createElement('div');
+                badge.className = 'unread-badge';
+                badge.textContent = count;
+                card.appendChild(badge);
+            }
         });
     }
 

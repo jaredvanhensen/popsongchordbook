@@ -44,13 +44,117 @@ class StudentDashboard {
 
             const teacherUid = userData.connectedTeacher;
 
-            // Fetch Teacher Name
+            // Fetch Teacher Name & Public Email
             const teacherSnapshot = await this.firebaseManager.database.ref(`users/${teacherUid}`).once('value');
-            const teacherData = teacherSnapshot.val();
-            if (teacherData && teacherData.email) {
+            const teacherData = teacherSnapshot.val() || {};
+            if (teacherData.email) {
                 this.teacherNameDisplay.textContent = teacherData.email.split('@')[0];
             } else {
                 this.teacherNameDisplay.textContent = 'Your Teacher';
+            }
+
+            const emailWrapper = document.getElementById('teacherEmailWrapper');
+            const emailLink = document.getElementById('teacherEmailLink');
+            if (emailWrapper && emailLink) {
+                const publicEmail = teacherData.publicEmail || teacherData.email;
+                if (publicEmail) {
+                    emailLink.textContent = publicEmail;
+                    emailLink.href = `mailto:${publicEmail}`;
+                    emailWrapper.style.display = 'flex';
+                } else {
+                    emailWrapper.style.display = 'none';
+                }
+            }
+
+            // Load and listen to messages
+            const chatHistory = document.getElementById('studentChatHistory');
+            const messageInput = document.getElementById('studentMessageInput');
+            const sendBtn = document.getElementById('studentSendMessageBtn');
+
+            if (chatHistory && messageInput && sendBtn) {
+                // Setup listener on messages node
+                this.firebaseManager.database.ref(`studentMessages/${teacherUid}/${user.uid}`).on('value', (msgsSnapshot) => {
+                    const messages = msgsSnapshot.val() || {};
+                    chatHistory.innerHTML = '';
+                    
+                    const messageKeys = Object.keys(messages);
+                    if (messageKeys.length === 0) {
+                        chatHistory.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; margin-top: 80px;">No messages yet. Ask a question below!</div>';
+                        return;
+                    }
+                    
+                    messageKeys.sort((a, b) => (messages[a].timestamp || 0) - (messages[b].timestamp || 0));
+                    
+                    messageKeys.forEach(msgId => {
+                        const msg = messages[msgId];
+                        const msgDiv = document.createElement('div');
+                        
+                        const isStudent = msg.sender === 'student';
+                        msgDiv.style.cssText = `
+                            max-width: 80%;
+                            padding: 8px 12px;
+                            border-radius: 12px;
+                            font-size: 0.85rem;
+                            line-height: 1.4;
+                            word-break: break-word;
+                            align-self: ${isStudent ? 'flex-end' : 'flex-start'};
+                            background: ${isStudent ? '#db2777' : '#e2e8f0'};
+                            color: ${isStudent ? '#ffffff' : '#1e293b'};
+                        `;
+                        
+                        const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                        msgDiv.innerHTML = `
+                            <div>${msg.text}</div>
+                            <div style="font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px;">${timeStr}</div>
+                        `;
+                        chatHistory.appendChild(msgDiv);
+                    });
+                    
+                    // Scroll to bottom
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                });
+
+                const statusDiv = document.getElementById('studentMessageStatus');
+                const showStatus = (text, type) => {
+                    if (!statusDiv) return;
+                    statusDiv.textContent = text;
+                    statusDiv.style.display = 'block';
+                    if (type === 'error') {
+                        statusDiv.style.background = '#fef2f2';
+                        statusDiv.style.borderColor = '#fca5a5';
+                        statusDiv.style.color = '#b91c1c';
+                    } else {
+                        statusDiv.style.background = '#f0fdf4';
+                        statusDiv.style.borderColor = '#bbf7d0';
+                        statusDiv.style.color = '#15803d';
+                    }
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 4000);
+                };
+
+                // Send button handler
+                sendBtn.addEventListener('click', async () => {
+                    const text = messageInput.value.trim();
+                    if (!text) return;
+                    
+                    sendBtn.disabled = true;
+                    try {
+                        await this.firebaseManager.database.ref(`studentMessages/${teacherUid}/${user.uid}`).push({
+                            text: text,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP,
+                            sender: 'student',
+                            readByTeacher: false
+                        });
+                        messageInput.value = '';
+                        showStatus('Message sent successfully!', 'success');
+                    } catch (err) {
+                        console.error('Error sending message:', err);
+                        showStatus('Could not send message. Database write permission denied. Ask your teacher to set up Realtime Database security rules.', 'error');
+                    } finally {
+                        sendBtn.disabled = false;
+                    }
+                });
             }
 
             // Fetch Student Progress

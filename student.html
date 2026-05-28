@@ -122,6 +122,10 @@
                             <div class="teacher-info">
                                 <p style="color: #64748b; margin: 0; font-size: 12px; font-weight: bold; text-transform: uppercase;">Connected Teacher</p>
                                 <h2 id="teacherNameDisplay">Loading...</h2>
+                                <div id="teacherEmailWrapper" style="display: none; font-size: 14px; margin-top: 5px; display: flex; align-items: center; gap: 6px;">
+                                    <span style="color: #64748b;">✉️ Email:</span>
+                                    <a id="teacherEmailLink" href="#" style="color: #3b82f6; text-decoration: none; font-weight: 600; font-family: inherit;"></a>
+                                </div>
                             </div>
                         </div>
 
@@ -152,11 +156,24 @@
 
                     <div class="right-col">
                         <!-- GOALS SECTION -->
-                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0; height: 100%;">
+                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0; margin-bottom: 20px;">
                             <h3 id="studentGoalsHeaderTitle" class="section-title" style="color: #15803d;">🎯 My Goals</h3>
                             <div id="studentGoalsContainer" style="display: flex; flex-direction: column; gap: 0;">
                                 <!-- Goals rendered by JS -->
                                 <div style="color: #64748b; font-size: 14px;">Loading goals...</div>
+                            </div>
+                        </div>
+
+                        <!-- MESSAGING SECTION -->
+                        <div class="section-panel" style="background: #fdf2f8; border-color: #fbcfe8;">
+                            <h3 class="section-title" style="color: #db2777;">💬 Ask your Teacher a Question</h3>
+                            <div id="studentMessageStatus" style="display: none; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; border: 1px solid transparent;"></div>
+                            <div id="studentChatHistory" style="height: 200px; overflow-y: auto; border: 1px solid #fbcfe8; background: #ffffff; border-radius: 8px; padding: 10px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem;">
+                                <div style="color: #64748b; font-size: 13px; text-align: center; margin-top: 80px;">No messages yet. Ask a question below!</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <textarea id="studentMessageInput" placeholder="Type your message / question here..." rows="4" style="width: 100%; padding: 12px; border: 1px solid #fbcfe8; border-radius: 8px; font-family: inherit; font-size: 0.9rem; resize: vertical; box-sizing: border-box; background: white; color: #1e293b;"></textarea>
+                                <button id="studentSendMessageBtn" style="background: #db2777; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; align-self: flex-end;">Send Message</button>
                             </div>
                         </div>
                     </div> <!-- End of right-col -->

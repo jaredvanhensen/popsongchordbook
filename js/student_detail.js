@@ -145,6 +145,111 @@ class StudentDetailEditor {
             // Now run a final dirty check so the save button starts hidden
             this.checkDirtyState();
 
+            // Listen to student messages in real-time
+            const spChatHistory = document.getElementById('spChatHistory');
+            const spMessageInput = document.getElementById('spMessageInput');
+            const spSendMessageBtn = document.getElementById('spSendMessageBtn');
+            const teacherUid = teacherUser.uid;
+            
+            if (spChatHistory && spMessageInput && spSendMessageBtn) {
+                this.firebaseManager.database.ref(`studentMessages/${teacherUid}/${this.studentUid}`).on('value', (msgsSnapshot) => {
+                    const messages = msgsSnapshot.val() || {};
+                    spChatHistory.innerHTML = '';
+                    
+                    const messageKeys = Object.keys(messages);
+                    if (messageKeys.length === 0) {
+                        spChatHistory.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; margin-top: 100px;">No messages yet.</div>';
+                        return;
+                    }
+                    
+                    // Sort by timestamp
+                    messageKeys.sort((a, b) => (messages[a].timestamp || 0) - (messages[b].timestamp || 0));
+                    
+                    let updates = {};
+                    messageKeys.forEach(msgId => {
+                        const msg = messages[msgId];
+                        const msgDiv = document.createElement('div');
+                        
+                        const isStudent = msg.sender === 'student';
+                        msgDiv.style.cssText = `
+                            max-width: 80%;
+                            padding: 8px 12px;
+                            border-radius: 12px;
+                            font-size: 0.85rem;
+                            line-height: 1.4;
+                            word-break: break-word;
+                            align-self: ${isStudent ? 'flex-start' : 'flex-end'};
+                            background: ${isStudent ? '#e2e8f0' : '#db2777'};
+                            color: ${isStudent ? '#1e293b' : '#ffffff'};
+                        `;
+                        
+                        const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                        msgDiv.innerHTML = `
+                            <div>${msg.text}</div>
+                            <div style="font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px;">${timeStr}</div>
+                        `;
+                        spChatHistory.appendChild(msgDiv);
+                        
+                        // Mark as read automatically if sent by student and unread
+                        if (isStudent && msg.readByTeacher === false) {
+                            updates[`studentMessages/${teacherUid}/${this.studentUid}/${msgId}/readByTeacher`] = true;
+                        }
+                    });
+                    
+                    // Apply read status updates to firebase
+                    if (Object.keys(updates).length > 0) {
+                        this.firebaseManager.database.ref().update(updates).catch(err => {
+                            console.error("Failed to mark messages as read:", err);
+                        });
+                    }
+                    
+                    // Scroll to bottom
+                    spChatHistory.scrollTop = spChatHistory.scrollHeight;
+                });
+                
+                const statusDiv = document.getElementById('spMessageStatus');
+                const showStatus = (text, type) => {
+                    if (!statusDiv) return;
+                    statusDiv.textContent = text;
+                    statusDiv.style.display = 'block';
+                    if (type === 'error') {
+                        statusDiv.style.background = '#fef2f2';
+                        statusDiv.style.borderColor = '#fca5a5';
+                        statusDiv.style.color = '#b91c1c';
+                    } else {
+                        statusDiv.style.background = '#f0fdf4';
+                        statusDiv.style.borderColor = '#bbf7d0';
+                        statusDiv.style.color = '#15803d';
+                    }
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 4000);
+                };
+
+                // Click handler for sending replies
+                spSendMessageBtn.addEventListener('click', async () => {
+                    const text = spMessageInput.value.trim();
+                    if (!text) return;
+                    
+                    spSendMessageBtn.disabled = true;
+                    try {
+                        await this.firebaseManager.database.ref(`studentMessages/${teacherUid}/${this.studentUid}`).push({
+                            text: text,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP,
+                            sender: 'teacher',
+                            readByTeacher: true
+                        });
+                        spMessageInput.value = '';
+                        showStatus('Reply sent successfully!', 'success');
+                    } catch (err) {
+                        console.error('Failed to send reply:', err);
+                        showStatus('Could not send reply. Database write permission denied.', 'error');
+                    } finally {
+                        spSendMessageBtn.disabled = false;
+                    }
+                });
+            }
+
         } catch (e) {
             console.error('Error loading student detail editor', e);
             alert('Failed to load dashboard.');
