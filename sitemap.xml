@@ -418,6 +418,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dean-brody-time</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/def-leppard-animal</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2264,6 +2269,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/darius-rucker</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/dean-brody</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

@@ -1,4 +1,4 @@
-// Main Application (v2.903)
+// Main Application (v2.904)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -2676,7 +2676,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v2.903):\n`;
+        let msg = `Diagnostics (v2.904):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2901,7 +2901,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v2.903)');
+        console.log('UG Extractor listener initialized (v2.904)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

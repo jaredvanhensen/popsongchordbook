@@ -70,6 +70,9 @@ class FirebaseManager {
             // Set up auth state listener
             this.auth.onAuthStateChanged((user) => {
                 this.currentUser = user;
+                if (user && user.uid) {
+                    this.updateLastLogin(user.uid);
+                }
             });
 
             // Set up connection state listener
@@ -1530,6 +1533,18 @@ class FirebaseManager {
         if (!this.initialized || !userId) return;
         this.database.ref(`users/${userId}/publicFavorites`).off();
     }
+
+    async updateLastLogin(userId) {
+        if (!this.initialized || !userId) return;
+        try {
+            await this.database.ref(`users/${userId}`).update({
+                lastLogin: firebase.database.ServerValue.TIMESTAMP
+            });
+        } catch (error) {
+            console.error('Error updating lastLogin:', error);
+        }
+    }
+
     async getAllUsers() {
         if (!this.initialized) return [];
         try {
@@ -1543,6 +1558,7 @@ class FirebaseManager {
                 uid: uid,
                 email: val.email || 'No email',
                 createdAt: val.createdAt || 0,
+                lastLogin: val.lastLogin || null,
                 username: val.username || 'Anon',
                 referral: val.referral || ''
             }));
@@ -1561,6 +1577,7 @@ class FirebaseManager {
                     uid: uid,
                     email: email.replace(/_/g, '.'),
                     createdAt: 0,
+                    lastLogin: null,
                     username: 'Anon',
                     referral: ''
                 }));

@@ -791,7 +791,7 @@ class ProfileModal {
     async renderMembers() {
         if (!this.membersTableBody) return;
 
-        this.membersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+        this.membersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Loading...</td></tr>';
 
         try {
             const users = await this.firebaseManager.getAllUsers();
@@ -826,6 +826,12 @@ class ProfileModal {
                     month: '2-digit',
                     year: '2-digit'
                 }) : 'Unknown';
+
+                const lastLoginStr = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                }) : '-';
                 
                 const displayEmail = email.length > 25 ? email.substring(0, 22) + '...' : email;
 
@@ -842,6 +848,7 @@ class ProfileModal {
                     </td>
                     <td style="white-space: nowrap; font-size: 0.9em; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="${user.referral || ''}">${user.referral || '-'}</td>
                     <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
+                    <td style="white-space: nowrap; font-size: 0.85em; width: 80px;" title="${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'}">${lastLoginStr}</td>
                     <td class="request-actions" style="text-align: center;">
                         <button class="action-btn delete-member-btn" 
                                 title="Delete Member" 
@@ -883,7 +890,7 @@ class ProfileModal {
 
         } catch (error) {
             console.error('Error rendering members:', error);
-            this.membersTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
+            this.membersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
         }
     }
 
