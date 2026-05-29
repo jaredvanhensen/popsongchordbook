@@ -2995,17 +2995,40 @@ function toggleTextMode() {
 function clearAllLyricLinks() {
     if (!chords || chords.length === 0) return;
     
-    if (confirm("Are you sure you want to remove all lyric linking? The chord timings will be preserved.")) {
-        saveUndoState();
-        chords.forEach(c => {
-            delete c.lyricLineIdx;
-            delete c.lyricWordIdx;
-        });
-        
-        generateTextModeContent();
-        setSaveStatus(false);
-        checkForChanges();
-        showNotification("All text links cleared!");
+    if (window.confirmationModal) {
+        window.confirmationModal.show(
+            'Unlink All Chords',
+            'Are you sure you want to remove all lyric linking? The chord timings will be preserved.',
+            () => {
+                saveUndoState();
+                chords.forEach(c => {
+                    delete c.lyricLineIdx;
+                    delete c.lyricWordIdx;
+                });
+                
+                generateTextModeContent();
+                setSaveStatus(false);
+                checkForChanges();
+                if (typeof showNotification === 'function') showNotification("All text links cleared!");
+            },
+            null,
+            'Unlink Chords',
+            'Cancel',
+            'danger'
+        );
+    } else {
+        if (confirm("Are you sure you want to remove all lyric linking? The chord timings will be preserved.")) {
+            saveUndoState();
+            chords.forEach(c => {
+                delete c.lyricLineIdx;
+                delete c.lyricWordIdx;
+            });
+            
+            generateTextModeContent();
+            setSaveStatus(false);
+            checkForChanges();
+            if (typeof showNotification === 'function') showNotification("All text links cleared!");
+        }
     }
 }
 
@@ -3271,6 +3294,14 @@ window.prevTextPage = function() {
 // Generate the new text-based view for lyrics with chords integrated
 function generateTextModeContent() {
     if (!textModeContent) return;
+    
+    const makeChordBadge = (c) => {
+        const idx = chords.indexOf(c);
+        const isManuallyPlaced = c.lyricLineIdx !== undefined;
+        const placedClass = isManuallyPlaced ? ' manually-placed' : '';
+        return `<span class="draggable-chord${placedClass}" draggable="${isEditMode ? 'true' : 'false'}" data-chord-idx="${idx}">${simplifyDisplayName(c.name)}</span>`;
+    };
+    
     textModeContent.innerHTML = '';
     
     if (!parsedLyrics || parsedLyrics.length === 0) {
@@ -3479,14 +3510,15 @@ function generateTextModeContent() {
                 html += `<div class="text-mode-lyric-row instrumental-row">`;
                 row.items.forEach(item => {
                     if (item.type === 'unlinked') {
+                        const chordHtml = makeChordBadge(item.chord);
                         html += `<div class="word-group">`;
-                        html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
+                        html += `<div class="text-chord">${chordHtml}</div>`;
                         html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
                         html += `</div>`;
                     } else {
-                        let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
+                        const chordHtml = item.linkedChords.map(makeChordBadge).join('');
                         html += `<div class="word-group">`;
-                        html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
+                        html += `<div class="text-chord">${chordHtml || '&nbsp;'}</div>`;
                         html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word || '...'}</div>`;
                         html += `</div>`;
                     }
@@ -3496,14 +3528,15 @@ function generateTextModeContent() {
                 html += `<div class="text-mode-lyric-row">`;
                 row.items.forEach(item => {
                     if (item.type === 'word') {
-                        let chordStr = item.linkedChords.map(c => simplifyDisplayName(c.name)).join(' ');
+                        const chordHtml = item.linkedChords.map(makeChordBadge).join('');
                         html += `<div class="word-group">`;
-                        html += `<div class="text-chord">${chordStr || '&nbsp;'}</div>`;
+                        html += `<div class="text-chord">${chordHtml || '&nbsp;'}</div>`;
                         html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word}</div>`;
                         html += `</div>`;
                     } else if (item.type === 'unlinked') {
+                        const chordHtml = makeChordBadge(item.chord);
                         html += `<div class="word-group">`;
-                        html += `<div class="text-chord">${simplifyDisplayName(item.chord.name)}</div>`;
+                        html += `<div class="text-chord">${chordHtml}</div>`;
                         html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
                         html += `</div>`;
                     }
@@ -3535,6 +3568,90 @@ function generateTextModeContent() {
     
     // Reset this so updateLoop ensures scrolling is re-applied correctly on next frame
     window.lastActiveTextLyricIdx = -1;
+
+    // Attach delegated drag-and-drop listeners
+    if (!textModeContent.dataset.dragListenersAdded) {
+        textModeContent.addEventListener('dragstart', (e) => {
+            if (!isEditMode) return;
+            const chordEl = e.target.closest('.draggable-chord');
+            if (!chordEl) return;
+            
+            const chordIdx = chordEl.dataset.chordIdx;
+            e.dataTransfer.setData('text/plain', chordIdx);
+            chordEl.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        textModeContent.addEventListener('dragend', (e) => {
+            const chordEl = e.target.closest('.draggable-chord');
+            if (chordEl) {
+                chordEl.classList.remove('dragging');
+            }
+            textModeContent.querySelectorAll('.lyric-word.drag-over').forEach(el => el.classList.remove('drag-over'));
+        });
+
+        textModeContent.addEventListener('dragover', (e) => {
+            if (!isEditMode) return;
+            const wordEl = e.target.closest('.lyric-word');
+            if (!wordEl || wordEl.classList.contains('instrumental-word')) return;
+            
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            // Clear other highlights
+            textModeContent.querySelectorAll('.lyric-word.drag-over').forEach(el => {
+                if (el !== wordEl) el.classList.remove('drag-over');
+            });
+            
+            wordEl.classList.add('drag-over');
+        });
+
+        textModeContent.addEventListener('dragleave', (e) => {
+            const wordEl = e.target.closest('.lyric-word');
+            if (wordEl) {
+                wordEl.classList.remove('drag-over');
+            }
+        });
+
+        textModeContent.addEventListener('drop', (e) => {
+            if (!isEditMode) return;
+            const wordEl = e.target.closest('.lyric-word');
+            if (!wordEl || wordEl.classList.contains('instrumental-word')) return;
+            
+            e.preventDefault();
+            wordEl.classList.remove('drag-over');
+            
+            const chordIdxStr = e.dataTransfer.getData('text/plain');
+            const targetChordIdx = parseInt(chordIdxStr);
+            const lineIdx = parseInt(wordEl.dataset.lineIdx);
+            const wordIdx = parseInt(wordEl.dataset.wordIdx);
+            
+            if (!isNaN(targetChordIdx) && targetChordIdx >= 0 && targetChordIdx < chords.length &&
+                !isNaN(lineIdx) && !isNaN(wordIdx)) {
+                
+                if (typeof saveUndoState === 'function') saveUndoState();
+                
+                // Prevent stacking: clear any other chord on this word
+                chords.forEach(c => {
+                    if (c !== chords[targetChordIdx] && c.lyricLineIdx === lineIdx && c.lyricWordIdx === wordIdx) {
+                        delete c.lyricLineIdx;
+                        delete c.lyricWordIdx;
+                    }
+                });
+                
+                chords[targetChordIdx].lyricLineIdx = lineIdx;
+                chords[targetChordIdx].lyricWordIdx = wordIdx;
+                
+                if (typeof setSaveStatus === 'function') setSaveStatus(false);
+                if (typeof checkForChanges === 'function') checkForChanges();
+                
+                generateTextModeContent();
+                if (typeof showNotification === 'function') showNotification("Chord moved!");
+            }
+        });
+
+        textModeContent.dataset.dragListenersAdded = 'true';
+    }
 
     // Attach one-time click listener for click-to-link feature
     if (!textModeContent.dataset.wordClickListenerAdded) {

@@ -6233,6 +6233,53 @@ body.ctrl-held .chord-item {
     min-height: 1.2em;
 }
 
+.draggable-chord {
+    display: inline-block;
+    color: #2563eb;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px dashed rgba(59, 130, 246, 0.25);
+    user-select: none;
+    margin-right: 2px;
+    transition: all 0.15s ease;
+}
+
+body.edit-mode-active .draggable-chord {
+    cursor: grab;
+}
+
+body.edit-mode-active .draggable-chord:hover {
+    background: rgba(59, 130, 246, 0.18);
+    border-color: #2563eb;
+    transform: scale(1.05);
+}
+
+.draggable-chord.dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+    background: rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Manually Placed Chords (purple, solid border) */
+.draggable-chord.manually-placed {
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+body.edit-mode-active .draggable-chord.manually-placed:hover {
+    background: rgba(124, 58, 237, 0.18);
+    border-color: #7c3aed;
+}
+
+.lyric-word.drag-over {
+    background-color: rgba(16, 185, 129, 0.25) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4) !important;
+}
+
 body.edit-mode-active .lyric-word {
     cursor: crosshair;
     border-radius: 2px;
