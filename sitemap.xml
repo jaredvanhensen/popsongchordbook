@@ -973,6 +973,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/lady-a-what-a-song-can-do</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/lady-gaga-always-remember-us-this-way</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

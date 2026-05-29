@@ -13,7 +13,8 @@
     /* Default offset, JS will refine this */
 }
 
-.hidden {
+.hidden,
+body.edit-mode-active .edit-only.hidden {
     display: none !important;
 }
 
@@ -265,33 +266,64 @@ button:disabled {
     box-shadow: 0 6px 0px 0px #8a0b1a, 0 12px 20px rgba(211, 16, 39, 0.35);
 }
 
-/* Primary/Navigation: Undo/Redo */
+/* Primary/Navigation: Undo/Redo/Text Mode Toolbar Buttons */
 #undoBtn:not(:disabled),
-#redoBtn:not(:disabled) {
+#redoBtn:not(:disabled),
+#textModeUndoBtn:not(:disabled),
+#textModeRedoBtn:not(:disabled),
+#clearLinksBtn:not(:disabled),
+#textModeEditBtn:not(:disabled),
+#closeTextModeBtn:not(:disabled) {
     background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%) !important;
     color: white !important;
-    border: none;
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    padding: 0;
-    box-shadow: 0 4px 0px 0px #312e81, 0 8px 15px rgba(99, 102, 241, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+    border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    box-shadow: 0 4px 0px 0px #312e81, 0 8px 15px rgba(99, 102, 241, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    border-radius: 8px !important;
 }
 
 #undoBtn:hover:not(:disabled),
-#redoBtn:hover:not(:disabled) {
+#redoBtn:hover:not(:disabled),
+#textModeUndoBtn:hover:not(:disabled),
+#textModeRedoBtn:hover:not(:disabled),
+#clearLinksBtn:hover:not(:disabled),
+#textModeEditBtn:hover:not(:disabled),
+#closeTextModeBtn:hover:not(:disabled) {
     background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%) !important;
-    box-shadow: 0 6px 0px 0px #312e81, 0 12px 20px rgba(99, 102, 241, 0.35);
-    transform: translateY(-2px);
+    box-shadow: 0 6px 0px 0px #312e81, 0 12px 20px rgba(99, 102, 241, 0.35) !important;
+    transform: translateY(-2px) !important;
 }
 
-#undoBtn:active, #redoBtn:active {
-    transform: translateY(2px);
-    box-shadow: 0 0px 0px 0px #312e81;
+#undoBtn:active, #redoBtn:active,
+#textModeUndoBtn:active, #textModeRedoBtn:active,
+#clearLinksBtn:active, #textModeEditBtn:active, #closeTextModeBtn:active {
+    transform: translateY(2px) !important;
+    box-shadow: 0 0px 0px 0px #312e81 !important;
+}
+
+/* Ensure edit-only buttons in text mode header respect their visibility states */
+#textModeUndoBtn.edit-only,
+#textModeRedoBtn.edit-only,
+#clearLinksBtn.edit-only,
+#textModeSaveBtn.edit-only {
+    display: none !important;
+}
+
+body.edit-mode-active #textModeUndoBtn.edit-only,
+body.edit-mode-active #textModeRedoBtn.edit-only,
+body.edit-mode-active #clearLinksBtn.edit-only {
+    display: flex !important;
+}
+
+body.edit-mode-active #textModeSaveBtn.edit-only:not(.hidden) {
+    display: flex !important;
 }
 
 /* Orange/Gold Category: Selection Tools */
@@ -668,12 +700,34 @@ button:disabled {
     color: #16a34a;
 }
 
-#saveBtn.unsaved-changes {
+#saveBtn.unsaved-changes,
+#textModeSaveBtn.unsaved-changes {
     background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%) !important;
     color: white !important;
     border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
     box-shadow: 0 4px 0px 0px #8b4513, 0 8px 20px rgba(255, 69, 0, 0.4) !important;
     animation: saveButtonPulse 2s infinite;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+#saveBtn.unsaved-changes:hover,
+#textModeSaveBtn.unsaved-changes:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 0px 0px #8b4513, 0 12px 25px rgba(255, 69, 0, 0.5) !important;
+}
+
+#saveBtn.unsaved-changes:active,
+#textModeSaveBtn.unsaved-changes:active {
+    transform: translateY(2px) !important;
+    box-shadow: 0 0px 0px 0px #8b4513 !important;
 }
 
 @keyframes saveButtonPulse {
@@ -6051,10 +6105,13 @@ body.ctrl-held .chord-item {
 .text-mode-header-btn {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    color: white;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-size: 14px;
+    color: white !important;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -6062,20 +6119,29 @@ body.ctrl-held .chord-item {
     justify-content: center;
 }
 
+.text-mode-header-btn svg {
+    stroke: white !important;
+}
+
 .text-mode-header-btn:hover {
     background: rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .text-mode-header-btn:active {
-    transform: translateY(0);
+    transform: translateY(2px);
 }
 
-.text-mode-header-btn.edit-mode-btn.active {
-    background: rgba(255, 255, 255, 0.4);
-    border-color: white;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+#textModeEditBtn.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 0px 0px #047857, 0 8px 15px rgba(16, 185, 129, 0.25) !important;
+    border: none !important;
+}
+
+#textModeEditBtn.active:hover {
+    background: linear-gradient(135deg, #059669 0%, #34d399 100%) !important;
+    box-shadow: 0 6px 0px 0px #047857, 0 12px 20px rgba(16, 185, 129, 0.35) !important;
 }
 
 .text-mode-content {

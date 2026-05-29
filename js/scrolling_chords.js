@@ -271,6 +271,7 @@ function finalizeUndoRedo(message) {
     if (typeof renderStaticElements === 'function') renderStaticElements();
     if (typeof updateLoop === 'function') updateLoop();
     if (typeof checkForChanges === 'function') checkForChanges();
+    if (typeof generateTextModeContent === 'function') generateTextModeContent();
 
     if (typeof statusText !== 'undefined' && statusText) {
         statusText.innerText = message;
@@ -418,6 +419,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveBtn) saveBtn.addEventListener('click', saveToDatabase);
     if (undoBtn) undoBtn.addEventListener('click', undo);
     if (redoBtn) redoBtn.addEventListener('click', redo);
+    const textModeUndoBtn = document.getElementById('textModeUndoBtn');
+    const textModeRedoBtn = document.getElementById('textModeRedoBtn');
+    const textModeSaveBtn = document.getElementById('textModeSaveBtn');
+    if (textModeUndoBtn) textModeUndoBtn.addEventListener('click', undo);
+    if (textModeRedoBtn) textModeRedoBtn.addEventListener('click', redo);
+    if (textModeSaveBtn) textModeSaveBtn.addEventListener('click', saveToDatabase);
     if (clearDataBtn) clearDataBtn.addEventListener('click', clearData);
     if (clearLinksBtn) clearLinksBtn.addEventListener('click', clearAllLyricLinks);
     if (metronomeBtn) metronomeBtn.addEventListener('click', toggleMetronome);
@@ -2997,6 +3004,7 @@ function clearAllLyricLinks() {
         
         generateTextModeContent();
         setSaveStatus(false);
+        checkForChanges();
         showNotification("All text links cleared!");
     }
 }
@@ -3588,6 +3596,7 @@ function generateTextModeContent() {
                 chords[targetChordIndex].lyricWordIdx = wordIdx;
                 
                 if (typeof setSaveStatus === 'function') setSaveStatus(false);
+                if (typeof checkForChanges === 'function') checkForChanges();
                 
                 // Visual feedback
                 wordEl.style.transition = 'all 0.2s';
@@ -3799,6 +3808,21 @@ function checkForChanges() {
             mapSaveBtn.classList.remove('unsaved-changes');
             mapSaveBtn.disabled = true;
             mapSaveBtn.style.opacity = '0.5';
+        }
+    }
+
+    const textModeSaveBtn = document.getElementById('textModeSaveBtn');
+    if (textModeSaveBtn) {
+        if (hasUnsavedChanges) {
+            textModeSaveBtn.classList.remove('hidden');
+            textModeSaveBtn.classList.add('unsaved-changes');
+            textModeSaveBtn.disabled = false;
+            textModeSaveBtn.style.opacity = '1';
+        } else {
+            textModeSaveBtn.classList.add('hidden');
+            textModeSaveBtn.classList.remove('unsaved-changes');
+            textModeSaveBtn.disabled = true;
+            textModeSaveBtn.style.opacity = '0.5';
         }
     }
 }

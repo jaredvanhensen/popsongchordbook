@@ -16,13 +16,13 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=2.940">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=2.940">
+    <link rel="stylesheet" href="scrolling.css?v=2.944">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=2.944">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v2.940) -->
+    <!-- Merged Purple Header for Mobile Landscape (v2.944) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
             <div class="song-detail-thumb-section">
@@ -448,7 +448,29 @@
         <div class="text-mode-header">
             <span class="text-mode-instruction">Click the WORD exactly when you HEAR the word to improve chord timing (When in Edit mode)</span>
             <div class="text-mode-header-buttons">
-                <button id="clearLinksBtn" title="Unlink All Chords from Text" class="edit-only text-mode-header-btn unlink-btn" style="color: #f87171;">
+                <button id="textModeUndoBtn" title="Undo Last Change" class="edit-only text-mode-header-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 7v6h6"></path>
+                        <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                    </svg>
+                </button>
+                <button id="textModeRedoBtn" title="Redo Action" class="edit-only text-mode-header-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 7v6h-6"></path>
+                        <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"></path>
+                    </svg>
+                </button>
+                <button id="textModeSaveBtn" title="Save Changes" class="edit-only text-mode-header-btn hidden">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                </button>
+                <button id="clearLinksBtn" title="Unlink All Chords from Text" class="edit-only text-mode-header-btn unlink-btn">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -457,10 +479,18 @@
                     </svg>
                 </button>
                 <button id="textModeEditBtn" title="Edit Classic Chord Sheet" class="edit-mode-btn text-mode-header-btn">
-                    ✏️
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                    </svg>
                 </button>
                 <button id="closeTextModeBtn" title="Close Classic Chord Sheet" class="text-mode-header-btn">
-                    ❌
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -635,19 +665,19 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=2.940" defer></script>
-            <script src="js/utils/ChordParser.js?v=2.940" defer></script>
-            <script src="js/utils/GuitarRenderer.js?v=2.940" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=2.940" defer></script>
-            <script src="js/utils/LyricsParser.js?v=2.940" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=2.940" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=2.940" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=2.940" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=2.940" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=2.940" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=2.940" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=2.940" defer></script>
-            <script src="js/scrolling_chords.js?v=2.940" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=2.944" defer></script>
+            <script src="js/utils/ChordParser.js?v=2.944" defer></script>
+            <script src="js/utils/GuitarRenderer.js?v=2.944" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=2.944" defer></script>
+            <script src="js/utils/LyricsParser.js?v=2.944" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=2.944" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=2.944" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=2.944" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=2.944" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=2.944" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=2.944" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=2.944" defer></script>
+            <script src="js/scrolling_chords.js?v=2.944" defer></script>
 </body>
 
 </html>
