@@ -690,3 +690,47 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         padding-top: 200px !important;
     }
 }
+
+/* --- v2.935: Keyboard & Guitar Diagram on Pure Timeline (PLAY Mode) --- */
+body.is-mobile-landscape.instrument-mode-piano #auditionKeyboard,
+body.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard {
+    display: block !important;
+    position: absolute !important;
+    bottom: 145px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 2000 !important;
+    pointer-events: auto !important;
+}
+
+body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
+    display: flex !important;
+    position: absolute !important;
+    bottom: 125px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 2000 !important;
+    pointer-events: none !important;
+}
+
+/* For mobile phone landscape (max-width: 767px): make guitar diagram smaller */
+@media (max-width: 767px) {
+    body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
+        width: 90px !important;
+        height: 110px !important;
+        padding: 2px !important;
+    }
+    body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
+        font-size: 0.65rem !important;
+        padding: 1px 0 0 !important;
+    }
+}
+
+/* Hide when force-hidden or map is open */
+body.is-mobile-landscape #auditionKeyboard.force-hidden,
+body.is-mobile-landscape #auditionKeyboard.song-map-open,
+body.is-mobile-landscape #auditionGuitarDiagram.force-hidden,
+body.is-mobile-landscape #auditionGuitarDiagram.song-map-open {
+    display: none !important;
+}
+

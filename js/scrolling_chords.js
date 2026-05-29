@@ -201,6 +201,13 @@ const MAX_UNDO = 50;
 let dragUndoSnapshot = null; // Temporary hold for pre-drag state
 let currentInstrumentMode = 'piano';
 
+function syncInstrumentModeClass() {
+    if (typeof document !== 'undefined' && document.body) {
+        document.body.classList.remove('instrument-mode-piano', 'instrument-mode-guitar', 'instrument-mode-ukulele');
+        document.body.classList.add(`instrument-mode-${currentInstrumentMode}`);
+    }
+}
+
 function simplifyDisplayName(chordName, isForAudio = false) {
     if (!chordName) return chordName;
     
@@ -343,7 +350,10 @@ window.addEventListener('message', (event) => {
         // Refresh just the toolbar buttons — does not affect chords, position, or any other state
         if (Array.isArray(msg.suggestedChords)) {
             suggestedChords = msg.suggestedChords;
-            if (msg.instrumentMode) currentInstrumentMode = msg.instrumentMode;
+            if (msg.instrumentMode) {
+                currentInstrumentMode = msg.instrumentMode;
+                syncInstrumentModeClass();
+            }
             if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
             renderSuggestedChords(suggestedChords);
         }
@@ -353,6 +363,7 @@ window.addEventListener('message', (event) => {
     }
     else if (msg.type === 'setInstrumentMode') {
         currentInstrumentMode = msg.instrumentMode;
+        syncInstrumentModeClass();
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         // Force audition display to refresh for new instrument mode
         window.lastAuditionChordName = null;
@@ -397,6 +408,7 @@ if (window.parent) {
 // Setup Event Listeners (Safe Initialization)
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Scrolling Chords: Initializing Event Listeners');
+    syncInstrumentModeClass();
 
     if (midiInput) midiInput.addEventListener('change', handleFileSelect);
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
@@ -1047,6 +1059,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('pureMenuAudioBtn')?.addEventListener('click', () => {
                 if (typeof toggleAudio === 'function') toggleAudio();
+                pureMenuMenu.classList.add('hidden');
+            });
+
+            document.getElementById('pureMenuKeyboardBtn')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const keyboard = document.getElementById('auditionKeyboard');
+                const guitarDiagram = document.getElementById('auditionGuitarDiagram');
+                if (keyboard) keyboard.classList.toggle('force-hidden');
+                if (guitarDiagram) guitarDiagram.classList.toggle('force-hidden');
                 pureMenuMenu.classList.add('hidden');
             });
         }
@@ -2571,7 +2592,10 @@ function updateHUDPosition() {
 
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano', key = 'C', capo = 0) {
     if (key) currentSongKey = key;
-    if (inputInstrumentMode) currentInstrumentMode = inputInstrumentMode;
+    if (inputInstrumentMode) {
+        currentInstrumentMode = inputInstrumentMode;
+        syncInstrumentModeClass();
+    }
     currentCapoValue = capo || 0;
 
     // Ensure chord parser is ready for simplifyDisplayName
