@@ -1640,67 +1640,80 @@ function updateAuditionKeyboardChord(chordName) {
     // Clear all existing highlights
     keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
 
-    if (!chordName || chordName === '') return;
+    if (!chordName || chordName === '') {
+        // No chord: reset the proximity anchor so the next chord starts fresh
+        window._lastKeyboardCentroid = null;
+        return;
+    }
 
     // Parse the chord to get MIDI notes
     const chord = chordParser.parse(chordName);
     if (!chord || !chord.notes) return;
 
-    // Map each note in the chord to exactly one key on the keyboard (range 48-71 = C3-B4)
-    const highlightNotes = new Set();
-    const notes = [...chord.notes];
-
-    // Strategy: Preserve the inversion order by finding the best octave shift
-    // that places the bass note (notes[0]) within [48, 67], then allow upper
-    // notes to extend to 79. Notes landing above 67 (off the physical keyboard)
-    // are pitch-class-mapped to their nearest in-range equivalent.
-    // This avoids the old bug where chords like G#m3 (1st inversion: B-D#-G#)
-    // had G#4=68 > 67 and fell into the individual-transposition fallback,
-    // which destroyed the inversion order.
+    // -----------------------------------------------------------------------
+    // PROXIMITY-AWARE VOICING
+    // Goal: among all valid octave shifts for this chord, pick the one whose
+    // resulting voicing centroid (average MIDI note) is closest to the centroid
+    // of the PREVIOUS chord that was displayed. This prevents the keyboard from
+    // jumping an octave when consecutive chords could be shown in the same range.
+    //
+    // The bass-note anchoring still preserves inversion order (e.g. G#m3 stays
+    // as B-D#-G# rather than collapsing to a root-position voicing).
+    // -----------------------------------------------------------------------
     const KEYBOARD_MIN = 48;
     const KEYBOARD_MAX = 71;
-    const EXTENDED_MAX = 79; // Allow notes up to G5 before pitch-class remapping
 
-    let bestTransposedNotes = null;
-
-    // Try to find an octave shift where the bass note (first note, lowest in sorted chord)
-    // lands in [KEYBOARD_MIN, KEYBOARD_MAX], allowing the chord to extend above if needed.
+    const notes = [...chord.notes];
     const sortedNotes = [...notes].sort((a, b) => a - b);
     const bassNote = sortedNotes[0];
 
+    // Collect ALL valid octave-shifts (those landing the bass in range)
+    const candidateVoicings = [];
     for (let octaveShift = -5; octaveShift <= 5; octaveShift++) {
         const shift = octaveShift * 12;
         const shiftedBass = bassNote + shift;
         if (shiftedBass >= KEYBOARD_MIN && shiftedBass <= KEYBOARD_MAX) {
-            // Apply this shift to all notes (preserves inversion order)
-            bestTransposedNotes = notes.map(n => n + shift);
-            break;
+            // Apply this shift to all notes, then clamp out-of-range notes by
+            // pitch-class-mapping (preserves inversion order for in-range notes)
+            const transposed = notes.map(n => {
+                let v = n + shift;
+                while (v > KEYBOARD_MAX) v -= 12;
+                while (v < KEYBOARD_MIN) v += 12;
+                return v;
+            });
+            const centroid = transposed.reduce((s, v) => s + v, 0) / transposed.length;
+            candidateVoicings.push({ transposed, centroid });
         }
     }
 
-    if (bestTransposedNotes) {
-        bestTransposedNotes.forEach(n => {
-            if (n >= KEYBOARD_MIN && n <= KEYBOARD_MAX) {
-                highlightNotes.add(n);
-            } else {
-                // Note is above the keyboard range: pitch-class-map it to the nearest key in range
-                let mapped = n;
-                while (mapped > KEYBOARD_MAX) mapped -= 12;
-                while (mapped < KEYBOARD_MIN) mapped += 12;
-                highlightNotes.add(mapped);
-            }
-        });
+    let bestTransposedNotes = null;
+
+    if (candidateVoicings.length > 0) {
+        if (window._lastKeyboardCentroid != null) {
+            // Pick the voicing whose centroid is NEAREST to the previous chord's centroid
+            candidateVoicings.sort((a, b) =>
+                Math.abs(a.centroid - window._lastKeyboardCentroid) -
+                Math.abs(b.centroid - window._lastKeyboardCentroid)
+            );
+        }
+        // Default (no previous chord): first candidate = lowest valid shift (natural position)
+        bestTransposedNotes = candidateVoicings[0].transposed;
+        // Update the proximity anchor for next chord
+        window._lastKeyboardCentroid = candidateVoicings[0].centroid;
     } else {
-        // Ultimate fallback: Transpose notes individually to fit within [KEYBOARD_MIN, KEYBOARD_MAX]
-        notes.forEach(n => {
-            let transposed = n;
-            while (transposed < KEYBOARD_MIN) transposed += 12;
-            while (transposed > KEYBOARD_MAX) transposed -= 12;
-            highlightNotes.add(transposed);
+        // Ultimate fallback: transpose notes individually to fit within range
+        bestTransposedNotes = notes.map(n => {
+            let v = n;
+            while (v < KEYBOARD_MIN) v += 12;
+            while (v > KEYBOARD_MAX) v -= 12;
+            return v;
         });
+        const centroid = bestTransposedNotes.reduce((s, v) => s + v, 0) / bestTransposedNotes.length;
+        window._lastKeyboardCentroid = centroid;
     }
 
     // Highlight matching keys on the mini keyboard
+    const highlightNotes = new Set(bestTransposedNotes);
     keyboard.querySelectorAll('.key[data-note]').forEach(key => {
         const midiNote = parseInt(key.dataset.note);
         if (highlightNotes.has(midiNote)) {
@@ -1724,6 +1737,8 @@ function clearAuditionKeyboardHighlights() {
         guitarDiagram.style.display = 'none';
         guitarDiagram.innerHTML = '';
     }
+    // Reset proximity anchor so the next song/session starts fresh
+    window._lastKeyboardCentroid = null;
 }
 
 function toggleOctavePlayback() {
