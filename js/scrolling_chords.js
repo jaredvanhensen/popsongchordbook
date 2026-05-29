@@ -1646,34 +1646,56 @@ function updateAuditionKeyboardChord(chordName) {
     const chord = chordParser.parse(chordName);
     if (!chord || !chord.notes) return;
 
-    // Map each note in the chord to exactly one key on the keyboard (range 48-67)
+    // Map each note in the chord to exactly one key on the keyboard (range 48-71 = C3-B4)
     const highlightNotes = new Set();
     const notes = [...chord.notes];
 
-    // Try to transpose the entire chord as a unit (by adding/subtracting octaves)
-    // so that all notes fit within the keyboard range [48, 67] to preserve inversions.
-    let entireChordFits = false;
-    let bestTransposedNotes = [];
-    
+    // Strategy: Preserve the inversion order by finding the best octave shift
+    // that places the bass note (notes[0]) within [48, 67], then allow upper
+    // notes to extend to 79. Notes landing above 67 (off the physical keyboard)
+    // are pitch-class-mapped to their nearest in-range equivalent.
+    // This avoids the old bug where chords like G#m3 (1st inversion: B-D#-G#)
+    // had G#4=68 > 67 and fell into the individual-transposition fallback,
+    // which destroyed the inversion order.
+    const KEYBOARD_MIN = 48;
+    const KEYBOARD_MAX = 71;
+    const EXTENDED_MAX = 79; // Allow notes up to G5 before pitch-class remapping
+
+    let bestTransposedNotes = null;
+
+    // Try to find an octave shift where the bass note (first note, lowest in sorted chord)
+    // lands in [KEYBOARD_MIN, KEYBOARD_MAX], allowing the chord to extend above if needed.
+    const sortedNotes = [...notes].sort((a, b) => a - b);
+    const bassNote = sortedNotes[0];
+
     for (let octaveShift = -5; octaveShift <= 5; octaveShift++) {
         const shift = octaveShift * 12;
-        const shiftedNotes = notes.map(n => n + shift);
-        const allInRange = shiftedNotes.every(n => n >= 48 && n <= 67);
-        if (allInRange) {
-            bestTransposedNotes = shiftedNotes;
-            entireChordFits = true;
+        const shiftedBass = bassNote + shift;
+        if (shiftedBass >= KEYBOARD_MIN && shiftedBass <= KEYBOARD_MAX) {
+            // Apply this shift to all notes (preserves inversion order)
+            bestTransposedNotes = notes.map(n => n + shift);
             break;
         }
     }
 
-    if (entireChordFits) {
-        bestTransposedNotes.forEach(n => highlightNotes.add(n));
+    if (bestTransposedNotes) {
+        bestTransposedNotes.forEach(n => {
+            if (n >= KEYBOARD_MIN && n <= KEYBOARD_MAX) {
+                highlightNotes.add(n);
+            } else {
+                // Note is above the keyboard range: pitch-class-map it to the nearest key in range
+                let mapped = n;
+                while (mapped > KEYBOARD_MAX) mapped -= 12;
+                while (mapped < KEYBOARD_MIN) mapped += 12;
+                highlightNotes.add(mapped);
+            }
+        });
     } else {
-        // Fallback: Transpose notes individually to fit within [48, 67]
+        // Ultimate fallback: Transpose notes individually to fit within [KEYBOARD_MIN, KEYBOARD_MAX]
         notes.forEach(n => {
             let transposed = n;
-            while (transposed < 48) transposed += 12;
-            while (transposed > 67) transposed -= 12;
+            while (transposed < KEYBOARD_MIN) transposed += 12;
+            while (transposed > KEYBOARD_MAX) transposed -= 12;
             highlightNotes.add(transposed);
         });
     }
