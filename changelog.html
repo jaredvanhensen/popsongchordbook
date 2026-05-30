@@ -301,6 +301,67 @@
         </header>        <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.970</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Fixed Portrait Header Top Cutoff:</strong> Increased top padding slightly to 12px + safe area and set min-height: 45px with vertical centering on the metadata row, ensuring the thumbnail and title text are fully visible and never clipped at the top of the viewport.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.969</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Dynamic Safe-Area Portrait Header:</strong> Replaced fixed top padding and min-height rules with responsive safe-area-inset-top calculations and height: auto, allowing the header to shrink and fit exactly on standard screens and device emulators.</li>
+                        <li><strong>Class-Based Guitar Diagram Hide:</strong> Changed empty-chord diagram display behavior to toggle the <code>.hidden</code> class (display: none !important), successfully overriding the CSS <code>display: flex !important</code> conflict.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.968</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Header Height Compacted Further:</strong> Shrunk portrait header height to 104px and top padding to 40px, ensuring no wasted vertical space below the controls row.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.967</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Guitar Chord Diagram Visibility Fix:</strong> Hid the guitar chord diagram container when there is no active chord to prevent a blank white box from showing up.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.966</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Pure Timeline Spacing & Height Adjustments:</strong> Reduced mobile portrait header top padding to 42px and min-height to 110px. Fixed alignment of controls to flex-start and reduced gap between metadata and buttons to 6px, completely removing wasted vertical space under the toolbar. Shifted timeline padding-top to 120px and lyrics-hud to 126px accordingly.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.965</span>
                     <span class="version-date">May 30, 2026</span>
                 </div>
@@ -5867,7 +5928,7 @@
                     <div class="change-item">
                         <span class="change-type">Audio Engine:</span>
                         <span class="change-description">Revert to synthesized piano engine for maximum reliability
-                            (v2.965). Integrated Premium Grand samples (v2.965).</span>
+                            (v2.970). Integrated Premium Grand samples (v2.970).</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Gamer System:</span>

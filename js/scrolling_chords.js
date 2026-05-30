@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.965)
+// Scrolling Chords Logic (v2.970)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -160,7 +160,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.965)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.970)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -293,7 +293,7 @@ window.addEventListener('message', (event) => {
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v2.965)
+            // Apply default audio setting from Profile (v2.970)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -1634,7 +1634,7 @@ function updateAuditionKeyboardChord(chordName) {
     if (isEditMode) {
         if (keyboard) keyboard.style.display = 'none';
         if (guitarDiagram) {
-            guitarDiagram.style.display = 'none';
+            guitarDiagram.classList.add('hidden');
             guitarDiagram.innerHTML = '';
         }
         return;
@@ -1645,13 +1645,14 @@ function updateAuditionKeyboardChord(chordName) {
         if (keyboard) keyboard.style.display = 'none';
         if (!guitarDiagram) return;
 
-        // Make the diagram container visible (CSS media query controls actual visibility)
-        guitarDiagram.style.display = '';
-
         if (!chordName || chordName === '') {
+            guitarDiagram.classList.add('hidden'); // HIDE container when empty!
             guitarDiagram.innerHTML = '';
             return;
         }
+
+        // Make the diagram container visible (CSS media query controls actual visibility)
+        guitarDiagram.classList.remove('hidden');
 
         // Use GuitarRenderer + GuitarChordDatabase (same as Chord Trainer)
         if (!window.GuitarRenderer || !window.GuitarChordDatabase) {
@@ -1689,7 +1690,7 @@ function updateAuditionKeyboardChord(chordName) {
 
     // --- PIANO / UKULELE MODE: show keyboard, hide diagram ---
     if (guitarDiagram) {
-        guitarDiagram.style.display = 'none';
+        guitarDiagram.classList.add('hidden');
         guitarDiagram.innerHTML = '';
     }
     if (!keyboard || !chordParser) return;
