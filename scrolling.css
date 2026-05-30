@@ -6410,3 +6410,55 @@ body.text-mode-active #lyricsHUD {
     stroke: #3b82f6;
     fill: rgba(59, 130, 246, 0.1);
 }
+
+/* Pager Controls in Classic Chord Sheet Header */
+.text-mode-header-pager {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 2px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-right: 12px;
+    height: 44px;
+}
+
+.text-mode-header-pager.hidden {
+    display: none !important;
+}
+
+.text-mode-header-page-info {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    min-width: 90px;
+    text-align: center;
+    user-select: none;
+}
+
+.text-mode-header-pager .pager-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.text-mode-header-pager .pager-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.text-mode-header-pager .pager-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}

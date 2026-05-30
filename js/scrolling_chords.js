@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.954)
+// Scrolling Chords Logic (v2.955)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -427,6 +427,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (textModeSaveBtn) textModeSaveBtn.addEventListener('click', saveToDatabase);
     if (clearDataBtn) clearDataBtn.addEventListener('click', clearData);
     if (clearLinksBtn) clearLinksBtn.addEventListener('click', clearAllLyricLinks);
+    const textModeHeaderPrevBtn = document.getElementById('textModeHeaderPrevBtn');
+    const textModeHeaderNextBtn = document.getElementById('textModeHeaderNextBtn');
+    if (textModeHeaderPrevBtn) textModeHeaderPrevBtn.addEventListener('click', () => { if (typeof window.prevTextPage === 'function') window.prevTextPage(); });
+    if (textModeHeaderNextBtn) textModeHeaderNextBtn.addEventListener('click', () => { if (typeof window.nextTextPage === 'function') window.nextTextPage(); });
     if (metronomeBtn) metronomeBtn.addEventListener('click', toggleMetronome);
     if (bpmBtn) bpmBtn.addEventListener('click', changeBpm);
     if (captureBtn) captureBtn.addEventListener('click', toggleTimingCapture);
@@ -603,6 +607,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.textModeEditPage = Math.floor(activeIdx / 4);
                     } else {
                         window.textModeEditPage = 0;
+                    }
+
+                    // Taller window to accommodate edit elements comfortably
+                    const overlay = document.getElementById('textModeOverlay');
+                    if (overlay) {
+                        const screenHeight = window.innerHeight;
+                        const currentTop = parseFloat(overlay.style.top) || 80;
+                        const optimalEditHeight = Math.min(screenHeight - currentTop - 20, 520);
+                        const currentHeight = parseFloat(overlay.style.height) || overlay.offsetHeight;
+                        if (currentHeight < optimalEditHeight) {
+                            overlay.style.height = `${optimalEditHeight}px`;
+                        }
                     }
                 }
                 generateTextModeContent();
@@ -3057,7 +3073,11 @@ function initTextModeOverlaySize() {
     }
     if (!overlay.style.height || overlay.style.height === "") {
         const currentTop = parseFloat(overlay.style.top) || defaultTop;
-        const optimalHeight = Math.max(120, screenHeight - currentTop - bottomBuffer);
+        let optimalHeight = Math.max(120, screenHeight - currentTop - bottomBuffer);
+        if (isEditMode) {
+            // Edit Mode has more content (badges + pagination controls) -> make it taller by default
+            optimalHeight = Math.min(screenHeight - currentTop - 20, 520);
+        }
         overlay.style.height = `${optimalHeight}px`;
     }
 
@@ -3563,8 +3583,26 @@ function generateTextModeContent() {
         currentMarkerIdx++;
     }
     
+    const headerPager = document.getElementById('textModeHeaderPager');
+    const headerPrevBtn = document.getElementById('textModeHeaderPrevBtn');
+    const headerNextBtn = document.getElementById('textModeHeaderNextBtn');
+    const headerPageInfo = document.getElementById('textModeHeaderPageInfo');
+
     if (isEditMode && parsedLyrics && parsedLyrics.length > 0) {
         const maxPage = Math.ceil(parsedLyrics.length / 4) - 1;
+
+        // Show and update header pager controls
+        if (headerPager) headerPager.classList.remove('hidden');
+        if (headerPageInfo) headerPageInfo.textContent = `Page ${window.textModeEditPage + 1} of ${maxPage + 1}`;
+        if (headerPrevBtn) {
+            headerPrevBtn.disabled = (window.textModeEditPage === 0);
+            headerPrevBtn.style.opacity = (window.textModeEditPage === 0) ? '0.4' : '1';
+        }
+        if (headerNextBtn) {
+            headerNextBtn.disabled = (window.textModeEditPage >= maxPage);
+            headerNextBtn.style.opacity = (window.textModeEditPage >= maxPage) ? '0.4' : '1';
+        }
+
         html += `
             <div class="text-mode-pagination">
                 <button class="btn" onclick="window.prevTextPage()" ${window.textModeEditPage === 0 ? 'disabled' : ''}>← Previous 4 Lines</button>
@@ -3572,6 +3610,8 @@ function generateTextModeContent() {
                 <button class="btn" onclick="window.nextTextPage()" ${window.textModeEditPage >= maxPage ? 'disabled' : ''}>Next 4 Lines →</button>
             </div>
         `;
+    } else {
+        if (headerPager) headerPager.classList.add('hidden');
     }
     
     textModeContent.innerHTML = html;
