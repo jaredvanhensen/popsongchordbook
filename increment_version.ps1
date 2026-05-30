@@ -1,4 +1,4 @@
-$files = @("index.html", "songlist.html", "songlist-old.html", "js/app.js", "scrolling_chords.html", "ChordTrainer.html", "GuitarChordTrainer.html", "ChordTheory&Tips.html", "ChordTheory&TipsGuitar.html", "song.html", "artist.html", "changelog.html", "js/scrolling_chords.js")
+$files = @("index.html", "songlist.html", "songlist-old.html", "js/app.js", "scrolling_chords.html", "ChordTrainer.html", "GuitarChordTrainer.html", "ChordTheory&Tips.html", "ChordTheory&TipsGuitar.html", "song.html", "artist.html", "changelog.html", "js/scrolling_chords.js", "teacher.html", "student.html", "student_detail.html")
 $versionPattern = '<span id="site-version">(\d+\.?\d*)</span>'
 $currentVersion = 0.0
 

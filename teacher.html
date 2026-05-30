@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.896">
+    <link rel="stylesheet" href="styles.css?v=2.973">
     <style>
         .container {
             overflow-y: auto !important;
@@ -284,6 +284,19 @@
                             <h1>Teacher Dashboard</h1>
                             <p class="header-subtitle">Manage your students</p>
                         </div>
+                        <div class="header-top-actions">
+                            <div class="hamburger-menu-container" style="position: relative;">
+                                <button id="teacherSettingsBtn" class="back-icon-btn" title="Teacher Settings" style="margin-right: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-size: 20px; line-height: 1;">⚙️</span>
+                                </button>
+                                <div id="teacherSettingsMenu" class="song-hamburger-menu hidden" style="width: 220px; top: calc(100% + 5px); right: 0;">
+                                    <button id="deleteTeacherPageBtn" class="hamburger-menu-item" style="color: #ef4444; width: 100%;">
+                                        <span class="icon">⚠️</span>
+                                        <span>Delete Teacher Page</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </header>
 
@@ -311,9 +324,6 @@
                                     Share link
                                 </button>
                             </div>
-                             <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                                 <button id="deleteTeacherPageBtn" class="btn-danger-tube">⚠️ Delete Teacher Page</button>
-                             </div>
                              <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; flex-direction: column; gap: 6px; max-width: 320px;">
                                  <label for="teacherPublicEmailInput" style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Your Public Email (visible to students):</label>
                                  <div style="display: flex; gap: 8px;">
@@ -351,13 +361,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.896"></script>
+    <script src="js/config/firebase-config.js?v=2.973"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.896"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.973"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=2.896"></script>
+    <script src="js/teacher.js?v=2.973"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">

@@ -120,8 +120,30 @@ class TeacherDashboard {
         const cancelDeleteBtn = document.getElementById('cancelDeleteTeacherBtn');
         const confirmDeleteBtn = document.getElementById('confirmDeleteTeacherBtn');
 
+        const teacherSettingsBtn = document.getElementById('teacherSettingsBtn');
+        const teacherSettingsMenu = document.getElementById('teacherSettingsMenu');
+
+        if (teacherSettingsBtn && teacherSettingsMenu) {
+            teacherSettingsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                teacherSettingsMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!teacherSettingsMenu.classList.contains('hidden') &&
+                    !teacherSettingsMenu.contains(e.target) &&
+                    e.target !== teacherSettingsBtn &&
+                    !teacherSettingsBtn.contains(e.target)) {
+                    teacherSettingsMenu.classList.add('hidden');
+                }
+            });
+        }
+
         if (deleteTeacherPageBtn && deleteTeacherModal) {
             deleteTeacherPageBtn.addEventListener('click', () => {
+                if (teacherSettingsMenu) {
+                    teacherSettingsMenu.classList.add('hidden');
+                }
                 deleteTeacherModal.classList.remove('hidden');
                 deleteTeacherModal.style.display = 'flex';
             });
@@ -205,6 +227,15 @@ class TeacherDashboard {
                 this.updateAvatarUI(avatarUrl);
             }
 
+            // Load all student progress for this teacher in one go
+            this.allProgress = {};
+            try {
+                const progressSnapshot = await this.firebaseManager.database.ref(`studentProgress/${user.uid}`).once('value');
+                this.allProgress = progressSnapshot.val() || {};
+            } catch (err) {
+                console.warn('Failed to load student progress in batch:', err);
+            }
+
             // Load Students
             const result = await this.firebaseManager.getConnectedStudents();
             if (result.success) {
@@ -260,13 +291,43 @@ class TeacherDashboard {
                 ? new Date(student.createdAt).toLocaleDateString()
                 : 'Unknown date';
 
+            const progress = this.allProgress[student.uid] || {};
+            const dueDate = (progress.homework && progress.homework.date) ? progress.homework.date : null;
+            let dueDateFormatted = 'Not set';
+            if (dueDate) {
+                try {
+                    const d = new Date(dueDate);
+                    if (!isNaN(d.getTime())) {
+                        dueDateFormatted = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                    } else {
+                        dueDateFormatted = dueDate;
+                    }
+                } catch (e) {
+                    dueDateFormatted = dueDate;
+                }
+            }
+
+            const goals = progress.goals || [];
+            const achievedCount = goals.filter(g => g.completed).length;
+            const totalCount = goals.length || 19;
+
             const card = document.createElement('div');
             card.className = 'student-card';
             card.dataset.uid = student.uid;
             card.style.cursor = 'pointer';
             card.innerHTML = `
                 <div class="student-email" style="font-weight: 600; color: #334155; margin-bottom: 5px; font-size: 14px;">${student.email}</div>
-                <div class="student-meta" style="color: #64748b; font-size: 11px; margin-bottom: 10px;">Connected: ${dateStr}</div>
+                <div class="student-meta" style="color: #64748b; font-size: 11px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;">
+                    <div>Connected: ${dateStr}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0;">
+                        <span>📅 Next Due Date:</span>
+                        <span style="font-weight: 600; color: ${dueDate ? '#166534' : '#64748b'};">${dueDateFormatted}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>🎯 Goals Achieved:</span>
+                        <span style="font-weight: 600; color: ${achievedCount > 0 ? '#1e40af' : '#64748b'};">${achievedCount} / ${totalCount}</span>
+                    </div>
+                </div>
             `;
 
             card.addEventListener('click', () => {
