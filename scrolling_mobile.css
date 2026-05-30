@@ -591,7 +591,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 
     /* Position Lyrics HUD below the taller header on narrow screens in pure mode */
     body.is-mobile-landscape .lyrics-hud {
-        top: 110px !important;
+        top: 150px !important;
         bottom: auto !important;
     }
 }
@@ -714,7 +714,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionK
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
     display: block !important;
     position: absolute !important;
-    bottom: 145px !important;
+    bottom: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 2000 !important;
@@ -724,7 +724,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditio
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram {
     display: flex !important;
     position: absolute !important;
-    bottom: 125px !important;
+    bottom: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 2000 !important;
