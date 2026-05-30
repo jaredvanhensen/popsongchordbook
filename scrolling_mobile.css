@@ -446,7 +446,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 /* --- v2.714 MOBILE PORTRAIT PURE MODE OPTIMIZATIONS (Fit 8 buttons + avoid X overlap) --- */
 
 /* --- v2.717 PURE MODE HEADER REFINEMENTS (Fix gap + emoji visibility) --- */
-@media (max-width: 480px) {
+@media (max-width: 480px), (max-width: 767px) and (orientation: portrait) {
     /* Narrow width requires much tighter spacing and smaller buttons to fit all 8 icons */
     body.is-mobile-landscape .pure-timeline-controls {
         width: 100% !important;
