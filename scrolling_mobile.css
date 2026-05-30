@@ -446,16 +446,16 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 /* --- v2.714 MOBILE PORTRAIT PURE MODE OPTIMIZATIONS (Fit 8 buttons + avoid X overlap) --- */
 
 /* --- v2.717 PURE MODE HEADER REFINEMENTS (Fix gap + emoji visibility) --- */
-@media (max-width: 480px), (max-width: 767px) and (orientation: portrait) {
+@media (max-width: 768px) {
     /* Narrow width requires much tighter spacing and smaller buttons to fit all 8 icons */
-    body.is-mobile-landscape .pure-timeline-controls {
+    body.is-portrait.is-mobile-landscape .pure-timeline-controls {
         width: 100% !important;
         justify-content: center !important;
         gap: 8px !important;
         margin-top: 10px !important;
     }
 
-    body.is-mobile-landscape .pure-timeline-controls button {
+    body.is-portrait.is-mobile-landscape .pure-timeline-controls button {
         min-width: 32px !important;
         height: 36px !important;
         padding: 0 !important;
@@ -463,7 +463,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 
     /* CRITICAL FIX: scrolling.css hides .lyrics-emoji in portrait mode, but Pure Mode HTML 
        only has the emoji (no SVG). We must force it back on to eliminate the blank gap. */
-    body.is-mobile-landscape .pure-timeline-controls .lyrics-emoji {
+    body.is-portrait.is-mobile-landscape .pure-timeline-controls .lyrics-emoji {
         display: inline-flex !important; /* inline-flex prevents stretching so red line stays small */
         align-items: center !important;
         justify-content: center !important;
@@ -471,12 +471,12 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         position: relative !important;
     }
 
-    body.is-mobile-landscape .pure-timeline-controls .icon {
+    body.is-portrait.is-mobile-landscape .pure-timeline-controls .icon {
         font-size: 1.15rem !important; /* Scaled down icons */
     }
 
     /* Fixed width for red line (v2.719) */
-    .lyrics-btn:not(.active) .lyrics-emoji::after {
+    body.is-portrait .lyrics-btn:not(.active) .lyrics-emoji::after {
         width: 22px !important; 
         height: 1.5px !important;
         top: 50% !important;
@@ -485,14 +485,14 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     /* Speed button refinements */
-    #pureSpeedBtn {
+    body.is-portrait #pureSpeedBtn {
         position: relative !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
     }
 
-    #pureSpeedDisplay {
+    body.is-portrait #pureSpeedDisplay {
         position: absolute !important;
         bottom: 2px !important;
         left: 50% !important;
@@ -505,45 +505,45 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         text-shadow: 0 0 2px rgba(0,0,0,0.5) !important;
     }
     
-    #pureSpeedBtn .icon {
+    body.is-portrait #pureSpeedBtn .icon {
         margin-top: -2px !important;
     }
 
-    #playPauseBtnCompact,
-    #pureRestartBtn,
-    #audioToggleBtnCompact,
-    #youtubeToggleBtnCompact,
-    #pureTimelineFullModeBtn,
-    #pureTimelineMenuBtn,
-    #fullscreenToggleBtn {
+    body.is-portrait #playPauseBtnCompact,
+    body.is-portrait #pureRestartBtn,
+    body.is-portrait #audioToggleBtnCompact,
+    body.is-portrait #youtubeToggleBtnCompact,
+    body.is-portrait #pureTimelineFullModeBtn,
+    body.is-portrait #pureTimelineMenuBtn,
+    body.is-portrait #fullscreenToggleBtn {
         min-width: 34px !important;
         height: 34px !important;
     }
     
-    #playPauseBtnCompact .icon,
-    #pureRestartBtn .icon,
-    #audioToggleBtnCompact .icon,
-    #youtubeToggleBtnCompact .icon,
-    #pureTimelineFullModeBtn .icon,
-    #pureTimelineMenuBtn .icon,
-    #fullscreenToggleBtn .icon {
+    body.is-portrait #playPauseBtnCompact .icon,
+    body.is-portrait #pureRestartBtn .icon,
+    body.is-portrait #audioToggleBtnCompact .icon,
+    body.is-portrait #youtubeToggleBtnCompact .icon,
+    body.is-portrait #pureTimelineFullModeBtn .icon,
+    body.is-portrait #pureTimelineMenuBtn .icon,
+    body.is-portrait #fullscreenToggleBtn .icon {
         font-size: 1.15rem !important;
     }
 
     /* Ensure hidden buttons don't take up any space */
-    body.is-mobile-landscape .pure-timeline-controls button.hidden {
+    body.is-portrait.is-mobile-landscape .pure-timeline-controls button.hidden {
         display: none !important;
     }
 
     /* YouTube SVG sizing */
-    #youtubeToggleBtnCompact svg {
+    body.is-portrait #youtubeToggleBtnCompact svg {
         width: 26px !important;
         height: 18px !important;
         min-width: 26px !important;
     }
 
     /* Metadata refinements */
-    body.is-mobile-landscape .header-metadata-row {
+    body.is-portrait.is-mobile-landscape .header-metadata-row {
         padding: 0 !important; 
         gap: 12px !important;
         margin-bottom: 1px !important;
@@ -555,17 +555,17 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         padding-left: 10px !important;
     }
 
-    body.is-mobile-landscape .song-title-display {
+    body.is-portrait.is-mobile-landscape .song-title-display {
         font-size: 0.95rem !important;
         text-align: left !important;
     }
 
-    body.is-mobile-landscape .artist-display {
+    body.is-portrait.is-mobile-landscape .artist-display {
         font-size: 0.65rem !important;
         text-align: left !important;
     }
 
-    body.is-mobile-landscape .song-detail-thumb {
+    body.is-portrait.is-mobile-landscape .song-detail-thumb {
         width: 45px !important; /* Slightly smaller in portrait */
         height: 45px !important;
         left: 0 !important;
@@ -573,9 +573,9 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         transform: translateY(-50%) !important;
     }
     
-    body.is-mobile-landscape .landscape-header-bar {
-        min-height: 120px !important; /* Increased for top padding safe area */
-        padding: 36px 15px 8px !important; /* Shift down from top safe-area notch */
+    body.is-portrait.is-mobile-landscape .landscape-header-bar {
+        min-height: 136px !important; /* Increased for top padding safe area */
+        padding: 52px 15px 8px !important; /* Shift down from top safe-area notch (was 36px) */
         flex-direction: column !important; /* Stacked for mobile portrait/narrow */
         top: 0 !important;
         left: 0 !important;
@@ -585,13 +585,13 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         justify-content: center !important;
     }
     
-    body.is-mobile-landscape .timeline-container {
-        padding-top: 130px !important; /* Shift down to match new header padding */
+    body.is-portrait.is-mobile-landscape .timeline-container {
+        padding-top: 146px !important; /* Shift down to match new header padding (was 130px) */
     }
 
     /* Position Lyrics HUD below the taller header on narrow screens in pure mode */
-    body.is-mobile-landscape .lyrics-hud {
-        top: 160px !important;
+    body.is-portrait.is-mobile-landscape .lyrics-hud {
+        top: 176px !important; /* Shift down to avoid header buttons (was 160px) */
         bottom: auto !important;
     }
 }
@@ -714,7 +714,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionK
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
     display: block !important;
     position: absolute !important;
-    bottom: 20px !important;
+    bottom: 145px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 2000 !important;
@@ -724,44 +724,46 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditio
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram {
     display: flex !important;
     position: absolute !important;
-    bottom: 20px !important;
+    bottom: 125px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 2000 !important;
     pointer-events: none !important;
 }
 
-/* For mobile phone landscape (max-width: 767px): make guitar diagram smaller */
-@media (max-width: 767px) {
-    body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
+/* For mobile phone landscape and short viewports (PC embeds): make guitar diagram smaller */
+@media (max-width: 768px), screen and (max-height: 400px) {
+    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
         width: 90px !important;
         height: 110px !important;
         padding: 2px !important;
         transform: translateX(-50%) scale(0.85) !important;
         transform-origin: bottom center !important;
+        bottom: 20px !important;
     }
-    body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
+    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
         font-size: 0.65rem !important;
         padding: 1px 0 0 !important;
     }
-    body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
-    body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
+    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
         transform: translateX(-50%) scale(0.85) !important;
         transform-origin: bottom center !important;
+        bottom: 20px !important;
     }
-    body.is-mobile-landscape .landscape-header-bar {
+    body.is-landscape.is-mobile-landscape .landscape-header-bar {
         min-height: 64px !important;
         padding: 4px 15px 2px !important;
         gap: 0px !important;
     }
-    body.is-mobile-landscape .header-controls-row {
+    body.is-landscape.is-mobile-landscape .header-controls-row {
         margin-top: 2px !important;
     }
-    body.is-mobile-landscape .timeline-container {
+    body.is-landscape.is-mobile-landscape .timeline-container {
         padding-top: 70px !important;
         height: calc(100dvh - 64px) !important;
     }
-    body.is-mobile-landscape .lyrics-hud {
+    body.is-landscape.is-mobile-landscape .lyrics-hud {
         top: 66px !important;
     }
 }

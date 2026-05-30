@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.964)
+// Scrolling Chords Logic (v2.965)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -160,7 +160,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.964)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.965)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -293,7 +293,7 @@ window.addEventListener('message', (event) => {
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v2.964)
+            // Apply default audio setting from Profile (v2.965)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -1001,13 +1001,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Robust Mobile Orientation Detection (for v2.441 Landscape Timeline) ---
     const setupResponsiveView = () => {
         const checkView = () => {
-            const isPortrait = window.innerHeight > window.innerWidth;
+            const isParentPortrait = (window.parent && window.parent !== window) 
+                ? (window.parent.innerHeight > window.parent.innerWidth) 
+                : (window.innerHeight > window.innerWidth);
+            
+            if (isParentPortrait) {
+                document.body.classList.add('is-portrait');
+                document.body.classList.remove('is-landscape');
+            } else {
+                document.body.classList.add('is-landscape');
+                document.body.classList.remove('is-portrait');
+            }
+
+            if (isEmbed) {
+                document.body.classList.add('is-embed');
+            } else {
+                document.body.classList.remove('is-embed');
+            }
+
             const hasTouch = window.matchMedia("(pointer: coarse)").matches || window.devicePixelRatio > 1.5;
             
             // Mobile Phone / Small Tablet Landscape height inclusion
-            const isPhoneLandscape = !isPortrait && window.innerHeight <= 768 && hasTouch;
+            const isPhoneLandscape = !isParentPortrait && window.innerHeight <= 768 && hasTouch;
             // Standard mobile/tablet check
-            const isMobile = window.innerWidth <= 768 || (isPortrait && hasTouch) || isPhoneLandscape;
+            const isMobile = window.innerWidth <= 768 || (isParentPortrait && hasTouch) || isPhoneLandscape;
 
             if (isMobile || window.forcePureMode) {
                 document.body.classList.add('is-mobile-view');
