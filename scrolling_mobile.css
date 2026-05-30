@@ -216,8 +216,8 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    bottom: 15px !important; /* Moved lower as requested (was 40px) */
-    top: auto !important;
+    top: 90px !important; /* Put above scrolling chords (below purple header) */
+    bottom: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 94vw !important;
@@ -584,6 +584,12 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape .timeline-container {
         padding-top: 95px !important; /* Matched to compact header height */
     }
+
+    /* Position Lyrics HUD below the taller header on narrow screens in pure mode */
+    body.is-mobile-landscape .lyrics-hud {
+        top: 110px !important;
+        bottom: auto !important;
+    }
 }
 
 /* --- v2.757 TABLET LANDSCAPE: PURE TIMELINE (Wide & Tall) --- */
@@ -688,6 +694,12 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     /* Adjust timeline padding for the new taller header height */
     body.is-mobile-landscape .timeline-container {
         padding-top: 200px !important;
+    }
+
+    /* Put lyrics HUD above scrolling chords and below header on tablets */
+    body.is-mobile-landscape .lyrics-hud {
+        top: 210px !important;
+        bottom: auto !important;
     }
 }
 
