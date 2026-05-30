@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.879)
+// Scrolling Chords Logic (v2.954)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -2902,6 +2902,7 @@ function getExportData() {
             if (c.yOffset !== undefined) chord.yOffset = c.yOffset;
             if (c.lyricLineIdx !== undefined) chord.lyricLineIdx = c.lyricLineIdx;
             if (c.lyricWordIdx !== undefined) chord.lyricWordIdx = c.lyricWordIdx;
+            if (c.isUserEdited !== undefined) chord.isUserEdited = c.isUserEdited;
             return chord;
         }),
         useFlatNotation: midiNotationToggle ? midiNotationToggle.checked : false,
@@ -3004,6 +3005,7 @@ function clearAllLyricLinks() {
                 chords.forEach(c => {
                     delete c.lyricLineIdx;
                     delete c.lyricWordIdx;
+                    delete c.isUserEdited;
                 });
                 
                 generateTextModeContent();
@@ -3022,6 +3024,7 @@ function clearAllLyricLinks() {
             chords.forEach(c => {
                 delete c.lyricLineIdx;
                 delete c.lyricWordIdx;
+                delete c.isUserEdited;
             });
             
             generateTextModeContent();
@@ -3293,13 +3296,18 @@ window.prevTextPage = function() {
 
 // Generate the new text-based view for lyrics with chords integrated
 function generateTextModeContent() {
+    const textModeContent = document.getElementById('textModeContent');
     if (!textModeContent) return;
     
-    const makeChordBadge = (c) => {
-        const idx = chords.indexOf(c);
-        const isManuallyPlaced = c.lyricLineIdx !== undefined;
+    const makeChordBadge = (c, idx) => {
+        const isManuallyPlaced = c.isUserEdited === true || (c.lyricLineIdx !== undefined && c.lyricWordIdx !== undefined);
         const placedClass = isManuallyPlaced ? ' manually-placed' : '';
-        return `<span class="draggable-chord${placedClass}" draggable="${isEditMode ? 'true' : 'false'}" data-chord-idx="${idx}">${simplifyDisplayName(c.name)}</span>`;
+        // Use a stable key: time (ms) + name — survives array re-sorting
+        const stableKey = `${Math.round(c.time * 1000)}_${c.name}`;
+        // data-chord-idx for drag-and-drop, data-chord-key for click-to-link
+        const draggableAttr = isEditMode ? 'draggable="true"' : '';
+        const chordIdxAttr = idx !== undefined ? `data-chord-idx="${idx}"` : '';
+        return `<span class="draggable-chord${placedClass}" ${draggableAttr} ${chordIdxAttr} data-chord-key="${stableKey}">${simplifyDisplayName(c.name)}</span>`;
     };
     
     textModeContent.innerHTML = '';
@@ -3510,13 +3518,14 @@ function generateTextModeContent() {
                 html += `<div class="text-mode-lyric-row instrumental-row">`;
                 row.items.forEach(item => {
                     if (item.type === 'unlinked') {
-                        const chordHtml = makeChordBadge(item.chord);
+                        const cIdx = chords.indexOf(item.chord);
+                        const chordHtml = makeChordBadge(item.chord, cIdx);
                         html += `<div class="word-group">`;
                         html += `<div class="text-chord">${chordHtml}</div>`;
                         html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
                         html += `</div>`;
                     } else {
-                        const chordHtml = item.linkedChords.map(makeChordBadge).join('');
+                        const chordHtml = item.linkedChords.map(c => makeChordBadge(c, chords.indexOf(c))).join('');
                         html += `<div class="word-group">`;
                         html += `<div class="text-chord">${chordHtml || '&nbsp;'}</div>`;
                         html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word || '...'}</div>`;
@@ -3528,13 +3537,14 @@ function generateTextModeContent() {
                 html += `<div class="text-mode-lyric-row">`;
                 row.items.forEach(item => {
                     if (item.type === 'word') {
-                        const chordHtml = item.linkedChords.map(makeChordBadge).join('');
+                        const chordHtml = item.linkedChords.map(c => makeChordBadge(c, chords.indexOf(c))).join('');
                         html += `<div class="word-group">`;
                         html += `<div class="text-chord">${chordHtml || '&nbsp;'}</div>`;
                         html += `<div class="lyric-word" data-line-idx="${i}" data-word-idx="${item.wordIdx}">${item.word}</div>`;
                         html += `</div>`;
                     } else if (item.type === 'unlinked') {
-                        const chordHtml = makeChordBadge(item.chord);
+                        const cIdx = chords.indexOf(item.chord);
+                        const chordHtml = makeChordBadge(item.chord, cIdx);
                         html += `<div class="word-group">`;
                         html += `<div class="text-chord">${chordHtml}</div>`;
                         html += `<div class="lyric-word instrumental-word" data-time="${item.chord.time}">...</div>`;
@@ -3569,13 +3579,13 @@ function generateTextModeContent() {
     // Reset this so updateLoop ensures scrolling is re-applied correctly on next frame
     window.lastActiveTextLyricIdx = -1;
 
-    // Attach delegated drag-and-drop listeners
+    // ── Attach drag-and-drop listeners once ──────────────────────────────────
+    // We use a dataset flag so listeners are only added once, not on every render.
     if (!textModeContent.dataset.dragListenersAdded) {
         textModeContent.addEventListener('dragstart', (e) => {
             if (!isEditMode) return;
             const chordEl = e.target.closest('.draggable-chord');
             if (!chordEl) return;
-            
             const chordIdx = chordEl.dataset.chordIdx;
             e.dataTransfer.setData('text/plain', chordIdx);
             chordEl.classList.add('dragging');
@@ -3584,9 +3594,7 @@ function generateTextModeContent() {
 
         textModeContent.addEventListener('dragend', (e) => {
             const chordEl = e.target.closest('.draggable-chord');
-            if (chordEl) {
-                chordEl.classList.remove('dragging');
-            }
+            if (chordEl) chordEl.classList.remove('dragging');
             textModeContent.querySelectorAll('.lyric-word.drag-over').forEach(el => el.classList.remove('drag-over'));
         });
 
@@ -3594,145 +3602,150 @@ function generateTextModeContent() {
             if (!isEditMode) return;
             const wordEl = e.target.closest('.lyric-word');
             if (!wordEl || wordEl.classList.contains('instrumental-word')) return;
-            
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            
-            // Clear other highlights
             textModeContent.querySelectorAll('.lyric-word.drag-over').forEach(el => {
                 if (el !== wordEl) el.classList.remove('drag-over');
             });
-            
             wordEl.classList.add('drag-over');
         });
 
         textModeContent.addEventListener('dragleave', (e) => {
             const wordEl = e.target.closest('.lyric-word');
-            if (wordEl) {
-                wordEl.classList.remove('drag-over');
-            }
+            if (wordEl) wordEl.classList.remove('drag-over');
         });
 
         textModeContent.addEventListener('drop', (e) => {
             if (!isEditMode) return;
             const wordEl = e.target.closest('.lyric-word');
             if (!wordEl || wordEl.classList.contains('instrumental-word')) return;
-            
             e.preventDefault();
             wordEl.classList.remove('drag-over');
-            
             const chordIdxStr = e.dataTransfer.getData('text/plain');
             const targetChordIdx = parseInt(chordIdxStr);
             const lineIdx = parseInt(wordEl.dataset.lineIdx);
             const wordIdx = parseInt(wordEl.dataset.wordIdx);
-            
             if (!isNaN(targetChordIdx) && targetChordIdx >= 0 && targetChordIdx < chords.length &&
                 !isNaN(lineIdx) && !isNaN(wordIdx)) {
-                
                 if (typeof saveUndoState === 'function') saveUndoState();
-                
                 // Prevent stacking: clear any other chord on this word
                 chords.forEach(c => {
                     if (c !== chords[targetChordIdx] && c.lyricLineIdx === lineIdx && c.lyricWordIdx === wordIdx) {
                         delete c.lyricLineIdx;
                         delete c.lyricWordIdx;
+                        delete c.isUserEdited;
                     }
                 });
-                
                 chords[targetChordIdx].lyricLineIdx = lineIdx;
                 chords[targetChordIdx].lyricWordIdx = wordIdx;
-                
+                chords[targetChordIdx].isUserEdited = true;
                 if (typeof setSaveStatus === 'function') setSaveStatus(false);
                 if (typeof checkForChanges === 'function') checkForChanges();
-                
                 generateTextModeContent();
-                if (typeof showNotification === 'function') showNotification("Chord moved!");
+                if (typeof showNotification === 'function') showNotification('✅ Chord moved!');
             }
         });
 
         textModeContent.dataset.dragListenersAdded = 'true';
     }
 
-    // Attach one-time click listener for click-to-link feature
-    if (!textModeContent.dataset.wordClickListenerAdded) {
+    // ── Click-to-link (two-click) mechanism ─────────────────────────────────
+    //   Click 1 — click a chord badge → selects it (amber glow, chord-selected class)
+    //   Click 2 — click a lyric word  → links selected chord to that word (turns purple)
+    // The chord's .time (timeline position) is NEVER changed here.
+    if (!textModeContent.dataset.clickListenerAdded) {
+        let pendingChordKey = null;
+
         textModeContent.addEventListener('click', (e) => {
             if (!isEditMode) return;
+
+            // --- Did the user click a chord badge? ---
+            const chordEl = e.target.closest('.draggable-chord');
+            if (chordEl) {
+                e.stopPropagation();
+                // Deselect any previously selected badge
+                textModeContent.querySelectorAll('.draggable-chord.chord-selected')
+                               .forEach(el => el.classList.remove('chord-selected'));
+                if (pendingChordKey === chordEl.dataset.chordKey) {
+                    // Second click on same badge → deselect
+                    pendingChordKey = null;
+                } else {
+                    pendingChordKey = chordEl.dataset.chordKey;
+                    chordEl.classList.add('chord-selected');
+                    if (typeof showNotification === 'function') showNotification('Chord selected — now drag or click a word to place it');
+                }
+                return;
+            }
+
+            // --- Did the user click a lyric word? ---
             const wordEl = e.target.closest('.lyric-word');
-            if (!wordEl) return;
-            
+            if (!wordEl || wordEl.classList.contains('instrumental-word')) return;
+
             const lineIdx = parseInt(wordEl.dataset.lineIdx);
             const wordIdx = parseInt(wordEl.dataset.wordIdx);
-            
-            let targetChordIndex = -1;
-            
-            // 1. Check if user manually selected exactly one chord in the timeline
-            const selectedIndices = [];
-            chords.forEach((c, idx) => {
-                if (c.selected) selectedIndices.push(idx);
-            });
-            
-            if (selectedIndices.length === 1) {
-                targetChordIndex = selectedIndices[0];
-            } else if (selectedIndices.length === 0) {
-                // 2. Auto-link to the closest chord based on playback time
-                const currentPlaybackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
-                // Use the exact click time. The closest chord logic will naturally handle slight delays.
-                const intentTime = currentPlaybackTime;
-                
-                if (chords.length > 0) {
-                    let closestIdx = 0;
-                    let minDiff = Infinity;
-                    for (let i = 0; i < chords.length; i++) {
-                        const diff = Math.abs(chords[i].time - intentTime);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closestIdx = i;
-                        }
-                    }
-                    // Only auto-link if the closest chord is within a reasonable timeframe (e.g. 3 seconds)
-                    if (minDiff <= 3.0) {
-                        targetChordIndex = closestIdx;
-                    }
+            if (isNaN(lineIdx) || isNaN(wordIdx)) return;
+
+            if (pendingChordKey) {
+                // === Path A: a chord badge was selected — place it here ===
+                const c = chords.find(ch => `${Math.round(ch.time * 1000)}_${ch.name}` === pendingChordKey);
+                if (!c) {
+                    console.warn('[TextMode] Chord not found for key', pendingChordKey);
+                    pendingChordKey = null;
+                    return;
                 }
-            }
-            
-            if (targetChordIndex !== undefined && targetChordIndex !== -1 && targetChordIndex < chords.length) {
-                // Save state before modifying
                 if (typeof saveUndoState === 'function') saveUndoState();
-                
-                // Prevent chord stacking: if another chord is already on this word, clear it
-                chords.forEach(c => {
-                    if (c !== chords[targetChordIndex] && c.lyricLineIdx === lineIdx && c.lyricWordIdx === wordIdx) {
-                        delete c.lyricLineIdx;
-                        delete c.lyricWordIdx;
+                chords.forEach(other => {
+                    if (other !== c && other.lyricLineIdx === lineIdx && other.lyricWordIdx === wordIdx) {
+                        delete other.lyricLineIdx;
+                        delete other.lyricWordIdx;
+                        delete other.isUserEdited;
                     }
                 });
-
-                // Link the chosen chord to this word
-                chords[targetChordIndex].lyricLineIdx = lineIdx;
-                chords[targetChordIndex].lyricWordIdx = wordIdx;
-                
+                c.lyricLineIdx = lineIdx;
+                c.lyricWordIdx = wordIdx;
+                c.isUserEdited = true;
+                pendingChordKey = null;
                 if (typeof setSaveStatus === 'function') setSaveStatus(false);
                 if (typeof checkForChanges === 'function') checkForChanges();
-                
-                // Visual feedback
-                wordEl.style.transition = 'all 0.2s';
-                wordEl.style.transform = 'scale(1.2)';
-                wordEl.style.color = '#3b82f6';
-                
-                setTimeout(() => {
-                    wordEl.style.transform = '';
-                    wordEl.style.color = '';
-                    generateTextModeContent();
-                }, 200);
+                generateTextModeContent();
+                if (typeof showNotification === 'function') showNotification('✅ Chord placed! It is now purple.');
+
             } else {
-                console.log("No chord found near current playback time.");
-                wordEl.style.transition = 'background-color 0.2s';
-                wordEl.style.backgroundColor = 'rgba(239, 68, 68, 0.3)';
-                setTimeout(() => { wordEl.style.backgroundColor = ''; }, 300);
+                // === Path B: no chord selected — auto-link nearest chord by time ===
+                const currentPlaybackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+                let closestIdx = -1, minDiff = Infinity;
+                chords.forEach((c, idx) => {
+                    const diff = Math.abs(c.time - currentPlaybackTime);
+                    if (diff < minDiff) { minDiff = diff; closestIdx = idx; }
+                });
+                if (closestIdx !== -1 && minDiff <= 3.0) {
+                    if (typeof saveUndoState === 'function') saveUndoState();
+                    const c = chords[closestIdx];
+                    chords.forEach(other => {
+                        if (other !== c && other.lyricLineIdx === lineIdx && other.lyricWordIdx === wordIdx) {
+                            delete other.lyricLineIdx;
+                            delete other.lyricWordIdx;
+                            delete other.isUserEdited;
+                        }
+                    });
+                    c.lyricLineIdx = lineIdx;
+                    c.lyricWordIdx = wordIdx;
+                    c.isUserEdited = true;
+                    if (typeof setSaveStatus === 'function') setSaveStatus(false);
+                    if (typeof checkForChanges === 'function') checkForChanges();
+                    wordEl.style.transition = 'all 0.2s';
+                    wordEl.style.transform = 'scale(1.15)';
+                    setTimeout(() => { wordEl.style.transform = ''; generateTextModeContent(); }, 200);
+                } else {
+                    wordEl.style.transition = 'background-color 0.2s';
+                    wordEl.style.backgroundColor = 'rgba(239,68,68,0.25)';
+                    setTimeout(() => { wordEl.style.backgroundColor = ''; }, 400);
+                    if (typeof showNotification === 'function') showNotification('Drag or select a chord badge first, then click a word');
+                }
             }
         });
-        textModeContent.dataset.wordClickListenerAdded = 'true';
+
+        textModeContent.dataset.clickListenerAdded = 'true';
     }
 }
 

@@ -6262,16 +6262,33 @@ body.edit-mode-active .draggable-chord:hover {
     background: rgba(59, 130, 246, 0.3) !important;
 }
 
-/* Manually Placed Chords (purple, solid border) */
+/* Selected / "picked up" chord badge — shown when user clicks a chord badge
+   in Edit Mode before clicking a word to place it. Amber/orange = "in hand". */
+.draggable-chord.chord-selected {
+    color: #d97706 !important;
+    background: rgba(245, 158, 11, 0.18) !important;
+    border: 2px solid #f59e0b !important;
+    border-style: solid !important;
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.45) !important;
+    animation: chordSelectedPulse 0.9s ease-in-out infinite !important;
+}
+
+@keyframes chordSelectedPulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+    50%       { box-shadow: 0 0 14px rgba(245, 158, 11, 0.75); }
+}
+
+/* Manually Placed Chords (green, solid border) */
 .draggable-chord.manually-placed {
-    color: #7c3aed;
-    background: rgba(124, 58, 237, 0.08);
-    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    border: 1.5px solid rgba(16, 185, 129, 0.5) !important;
 }
 
 body.edit-mode-active .draggable-chord.manually-placed:hover {
-    background: rgba(124, 58, 237, 0.18);
-    border-color: #7c3aed;
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: #10b981 !important;
 }
 
 .lyric-word.drag-over {

@@ -301,6 +301,43 @@
         </header>        <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.954</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Vibrant Green Chord Placed Color Test:</strong> Changed manually-placed chords' color styling to emerald green with solid border and slightly higher background opacity to provide clear visual feedback and rule out color-blindness/similarity issues.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.953</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Placed Chord Styling:</strong> Added robust specificity to the purple manually-placed chord styles in `scrolling.css` using the `!important` rule, preventing blue/dashed default edit styles from overriding placed chords. Updated chord rendering to classify any linked chord automatically as manually-placed.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.952</span>
+                    <span class="version-date">May 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Classic Chord Sheet Edit Mode Fix:</strong> Fixed a critical bug where entering Edit Mode on the Classic Chord Sheet caused a white screen by ensuring the dynamically generated container is always retrieved from the active DOM instead of referencing a detached element.</li>
+                        <li><strong>Chord Selection Styling:</strong> Added an amber/orange pulsing glow effect to selected chords in the Classic Chord Sheet for clearer visual feedback when selecting and linking chords.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.939</span>
                     <span class="version-date">May 29, 2026</span>
                 </div>
