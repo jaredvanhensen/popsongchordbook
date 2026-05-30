@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.956)
+// Scrolling Chords Logic (v2.960)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -160,7 +160,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.956)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.960)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -293,7 +293,7 @@ window.addEventListener('message', (event) => {
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v2.956)
+            // Apply default audio setting from Profile (v2.960)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -4321,7 +4321,14 @@ function play() {
     `;
 
     if (playPauseBtnCompact) {
-        playPauseBtnCompact.innerHTML = '<span class="icon">⏸️</span>';
+        playPauseBtnCompact.innerHTML = `
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            </span>
+        `;
     }
 
     if (songMapPlayPauseBtn) {
@@ -4382,7 +4389,13 @@ function pause() {
     `;
 
     if (playPauseBtnCompact) {
-        playPauseBtnCompact.innerHTML = '<span class="icon">▶️</span>';
+        playPauseBtnCompact.innerHTML = `
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </span>
+        `;
     }
 
     if (songMapPlayPauseBtn) {

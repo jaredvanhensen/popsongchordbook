@@ -325,7 +325,8 @@ body.is-mobile-landscape .header-controls-row {
 #audioToggleBtnCompact,
 #youtubeToggleBtnCompact,
 #pureTimelineFullModeBtn,
-#pureTimelineMenuBtn {
+#pureTimelineMenuBtn,
+#fullscreenToggleBtn {
     min-width: 28px !important; /* Ultra-compact (was 42px) */
     height: 28px !important;
     background: rgba(255, 255, 255, 0.15) !important;
@@ -341,7 +342,8 @@ body.is-mobile-landscape .header-controls-row {
 #audioToggleBtnCompact .icon,
 #youtubeToggleBtnCompact .icon,
 #pureTimelineFullModeBtn .icon,
-#pureTimelineMenuBtn .icon {
+#pureTimelineMenuBtn .icon,
+#fullscreenToggleBtn .icon {
     font-size: 1.0rem !important; /* Ultra-compact icons */
     color: white !important;
 }
@@ -512,9 +514,10 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     #audioToggleBtnCompact,
     #youtubeToggleBtnCompact,
     #pureTimelineFullModeBtn,
-    #pureTimelineMenuBtn {
-        min-width: 44px !important;
-        height: 44px !important;
+    #pureTimelineMenuBtn,
+    #fullscreenToggleBtn {
+        min-width: 34px !important;
+        height: 34px !important;
     }
     
     #playPauseBtnCompact .icon,
@@ -522,8 +525,9 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     #audioToggleBtnCompact .icon,
     #youtubeToggleBtnCompact .icon,
     #pureTimelineFullModeBtn .icon,
-    #pureTimelineMenuBtn .icon {
-        font-size: 1.5rem !important;
+    #pureTimelineMenuBtn .icon,
+    #fullscreenToggleBtn .icon {
+        font-size: 1.15rem !important;
     }
 
     /* Ensure hidden buttons don't take up any space */
@@ -632,20 +636,22 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #audioToggleBtnCompact,
     body.is-mobile-landscape #youtubeToggleBtnCompact,
     body.is-mobile-landscape #pureTimelineFullModeBtn,
-    body.is-mobile-landscape #pureTimelineMenuBtn {
-        height: 60px !important; 
-        min-width: 60px !important;
+    body.is-mobile-landscape #pureTimelineMenuBtn,
+    body.is-mobile-landscape #fullscreenToggleBtn {
+        height: 42px !important; 
+        min-width: 42px !important;
         background: rgba(255, 255, 255, 0.2) !important;
     }
-
+ 
     body.is-mobile-landscape .pure-timeline-controls .icon,
     body.is-mobile-landscape #pureRestartBtn .icon,
     body.is-mobile-landscape #playPauseBtnCompact .icon,
     body.is-mobile-landscape #audioToggleBtnCompact .icon,
     body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
     body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
-    body.is-mobile-landscape #pureTimelineMenuBtn .icon {
-        font-size: 2.1rem !important; /* Refined icon scale */
+    body.is-mobile-landscape #pureTimelineMenuBtn .icon,
+    body.is-mobile-landscape #fullscreenToggleBtn .icon {
+        font-size: 1.35rem !important; /* Refined icon scale */
     }
 
     /* FIX: Ensure hamburger menu icons are NOT oversized (v2.758) */
