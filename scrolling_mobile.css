@@ -452,7 +452,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         width: 100% !important;
         justify-content: center !important;
         gap: 8px !important;
-        margin-top: 0 !important;
+        margin-top: 10px !important;
     }
 
     body.is-mobile-landscape .pure-timeline-controls button {
@@ -737,10 +737,32 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
         width: 90px !important;
         height: 110px !important;
         padding: 2px !important;
+        transform: translateX(-50%) scale(0.85) !important;
+        transform-origin: bottom center !important;
     }
     body.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
         font-size: 0.65rem !important;
         padding: 1px 0 0 !important;
+    }
+    body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
+    body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+        transform: translateX(-50%) scale(0.85) !important;
+        transform-origin: bottom center !important;
+    }
+    body.is-mobile-landscape .landscape-header-bar {
+        min-height: 64px !important;
+        padding: 4px 15px 2px !important;
+        gap: 0px !important;
+    }
+    body.is-mobile-landscape .header-controls-row {
+        margin-top: 2px !important;
+    }
+    body.is-mobile-landscape .timeline-container {
+        padding-top: 70px !important;
+        height: calc(100dvh - 64px) !important;
+    }
+    body.is-mobile-landscape .lyrics-hud {
+        top: 66px !important;
     }
 }
 
