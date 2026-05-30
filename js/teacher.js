@@ -15,6 +15,7 @@ class TeacherDashboard {
         this.savePublicEmailBtn = document.getElementById('savePublicEmailBtn');
         this.publicEmailStatus = document.getElementById('publicEmailStatus');
         this.unreadCounts = {};
+        this.students = [];
 
         this.init();
     }
@@ -139,6 +140,27 @@ class TeacherDashboard {
             });
         }
 
+        const sendBulkEmailBtn = document.getElementById('sendBulkEmailBtn');
+        if (sendBulkEmailBtn) {
+            sendBulkEmailBtn.addEventListener('click', () => {
+                if (teacherSettingsMenu) {
+                    teacherSettingsMenu.classList.add('hidden');
+                }
+                const students = this.students || [];
+                const emails = students
+                    .map(s => (s.email || '').trim())
+                    .filter(email => email.length > 0 && email !== 'Unknown');
+
+                if (emails.length === 0) {
+                    alert('You do not have any connected students with email addresses.');
+                    return;
+                }
+
+                const mailtoUrl = `mailto:${emails.join(',')}`;
+                window.location.href = mailtoUrl;
+            });
+        }
+
         if (deleteTeacherPageBtn && deleteTeacherModal) {
             deleteTeacherPageBtn.addEventListener('click', () => {
                 if (teacherSettingsMenu) {
@@ -239,7 +261,8 @@ class TeacherDashboard {
             // Load Students
             const result = await this.firebaseManager.getConnectedStudents();
             if (result.success) {
-                this.renderStudents(result.students);
+                this.students = result.students || [];
+                this.renderStudents(this.students);
             } else {
                 this.showError('Failed to load students: ' + result.error);
             }

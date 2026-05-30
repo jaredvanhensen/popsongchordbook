@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.973">
+    <link rel="stylesheet" href="styles.css?v=2.974">
     <style>
         .container {
             overflow-y: auto !important;
@@ -290,6 +290,10 @@
                                     <span style="font-size: 20px; line-height: 1;">⚙️</span>
                                 </button>
                                 <div id="teacherSettingsMenu" class="song-hamburger-menu hidden" style="width: 220px; top: calc(100% + 5px); right: 0;">
+                                    <button id="sendBulkEmailBtn" class="hamburger-menu-item" style="width: 100%;">
+                                        <span class="icon">✉️</span>
+                                        <span>Send Bulk Email</span>
+                                    </button>
                                     <button id="deleteTeacherPageBtn" class="hamburger-menu-item" style="color: #ef4444; width: 100%;">
                                         <span class="icon">⚠️</span>
                                         <span>Delete Teacher Page</span>
@@ -361,13 +365,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.973"></script>
+    <script src="js/config/firebase-config.js?v=2.974"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.973"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.974"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=2.973"></script>
+    <script src="js/teacher.js?v=2.974"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
