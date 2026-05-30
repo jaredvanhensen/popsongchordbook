@@ -576,7 +576,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait.is-mobile-landscape .landscape-header-bar {
         min-height: auto !important; /* Allow the bar to shrink to exactly its content and padding */
         height: auto !important;
-        padding: calc(env(safe-area-inset-top, 0px) + 12px) 15px 4px !important; /* Compact top padding, dynamically clearing notches with breathing room */
+        padding: calc(env(safe-area-inset-top, 0px) + 22px) 15px 4px !important; /* Shifted down by 10px to prevent top thumbnail/text clipping */
         flex-direction: column !important; /* Stacked for mobile portrait/narrow */
         top: 0 !important;
         left: 0 !important;
@@ -587,12 +587,12 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
     
     body.is-portrait.is-mobile-landscape .timeline-container {
-        padding-top: calc(env(safe-area-inset-top, 0px) + 101px) !important; /* Dynamically aligned to compact header height (with clear space) */
+        padding-top: calc(env(safe-area-inset-top, 0px) + 111px) !important; /* Dynamically aligned to compact header height (with clear space) */
     }
 
     /* Position Lyrics HUD below the taller header on narrow screens in pure mode */
     body.is-portrait.is-mobile-landscape .lyrics-hud {
-        top: calc(env(safe-area-inset-top, 0px) + 107px) !important; /* Dynamically aligned just below the compact header */
+        top: calc(env(safe-area-inset-top, 0px) + 122px) !important; /* Shifted down by 15px total to give 5px extra clearance from header */
         bottom: auto !important;
     }
 }
