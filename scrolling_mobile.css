@@ -770,10 +770,16 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
 }
 
 /* Hide when force-hidden or map is open */
-body.is-mobile-landscape #auditionKeyboard.force-hidden,
-body.is-mobile-landscape #auditionKeyboard.song-map-open,
-body.is-mobile-landscape #auditionGuitarDiagram.force-hidden,
-body.is-mobile-landscape #auditionGuitarDiagram.song-map-open {
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.force-hidden,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.force-hidden,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram.force-hidden,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.song-map-open,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.song-map-open,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram.song-map-open,
+#auditionKeyboard.force-hidden,
+#auditionKeyboard.song-map-open,
+#auditionGuitarDiagram.force-hidden,
+#auditionGuitarDiagram.song-map-open {
     display: none !important;
 }
 
