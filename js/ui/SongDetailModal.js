@@ -819,8 +819,8 @@ class SongDetailModal {
                     scrollingChordsModal.classList.remove('timeline-hidden');
                     this._updateTimelineMinimizedIndicator(false);
 
-                    // Force a data refresh to ensured rendered state is restored
-                    this.sendDataToTimeline();
+                    // No need to send data on restore since the iframe stayed active and has all current data
+                    // this.sendDataToTimeline();
 
                     if (window.appInstance) {
                         window.appInstance.pushModalState('scrollingChords', () => {
