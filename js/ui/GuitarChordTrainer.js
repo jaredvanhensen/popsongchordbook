@@ -189,6 +189,14 @@ class GuitarChordTrainer {
             keySelect.value = savedKey;
         }
 
+        // Hide key selector wrapper if practicing a specific song (e.g. from Song Detail Modal)
+        if (this.songId) {
+            const keySelectorWrapper = document.querySelector('.key-selector-wrapper');
+            if (keySelectorWrapper) {
+                keySelectorWrapper.style.display = 'none';
+            }
+        }
+
         // 3. Load Song details and setup UI
         if (!this.songId) {
             console.log('GuitarChordTrainer: No songId provided, attempting to find a fallback song...');
