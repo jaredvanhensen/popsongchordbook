@@ -267,6 +267,16 @@ class TeacherDashboard {
             });
         }
 
+        const exportCalendarBtn = document.getElementById('exportCalendarBtn');
+        if (exportCalendarBtn) {
+            exportCalendarBtn.addEventListener('click', () => {
+                if (teacherSettingsMenu) {
+                    teacherSettingsMenu.classList.add('hidden');
+                }
+                this.handleExportCalendar();
+            });
+        }
+
         if (this.closeAddStudentModalBtn) {
             this.closeAddStudentModalBtn.addEventListener('click', () => {
                 this.closeAddStudentModal();
@@ -1636,6 +1646,182 @@ class TeacherDashboard {
         
         // Close modal
         this.closeAddStudentModal();
+    }
+
+    handleExportCalendar() {
+        if (!this.allProgress) {
+            alert('No student progress data loaded.');
+            return;
+        }
+
+        // Collect all lessons
+        const allLessons = [];
+        Object.entries(this.allProgress).forEach(([studentUid, progress]) => {
+            if (studentUid === 'groups') return;
+            if (progress.lessons) {
+                Object.entries(progress.lessons).forEach(([lessonId, lesson]) => {
+                    allLessons.push({
+                        id: lessonId,
+                        studentUid: studentUid,
+                        ...lesson
+                    });
+                });
+            }
+        });
+
+        if (allLessons.length === 0) {
+            alert('No lessons scheduled to export.');
+            return;
+        }
+
+        // Group group-lessons by groupLessonId + date + time, and keep individual lessons separate
+        const exportedEvents = [];
+        const groupLessonsMap = {}; // key -> array of lessons
+
+        allLessons.forEach(lesson => {
+            if (lesson.groupLessonId) {
+                const key = `${lesson.groupLessonId}_${lesson.date}_${lesson.time}`;
+                if (!groupLessonsMap[key]) {
+                    groupLessonsMap[key] = [];
+                }
+                groupLessonsMap[key].push(lesson);
+            } else {
+                exportedEvents.push(lesson);
+            }
+        });
+
+        // Add group lessons as single events
+        Object.entries(groupLessonsMap).forEach(([key, lessons]) => {
+            const first = lessons[0];
+            const studentEmails = lessons.map(l => l.studentEmail).filter(Boolean);
+            exportedEvents.push({
+                ...first,
+                isGroup: true,
+                studentEmails: studentEmails
+            });
+        });
+
+        // Helper to escape text fields
+        const escapeText = (text) => {
+            if (!text) return '';
+            return text
+                .replace(/\\/g, '\\\\')
+                .replace(/;/g, '\\;')
+                .replace(/,/g, '\\,')
+                .replace(/\n/g, '\\n')
+                .replace(/\r/g, '');
+        };
+
+        // Helper to fold lines
+        const foldLine = (line) => {
+            if (line.length <= 75) return line;
+            let result = '';
+            let current = line;
+            // First chunk can be up to 75 characters
+            result += current.substring(0, 75);
+            current = current.substring(75);
+            // Subsequent chunks must have a leading space, so they can be up to 74 characters of data + 1 space
+            while (current.length > 0) {
+                result += '\r\n ' + current.substring(0, 74);
+                current = current.substring(74);
+            }
+            return result;
+        };
+
+        // Build iCalendar
+        const lines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//PopSongChordBook//Lesson Calendar//EN',
+            'CALSCALE:GREGORIAN',
+            'METHOD:PUBLISH'
+        ];
+
+        exportedEvents.forEach(evt => {
+            // evt.date is YYYY-MM-DD
+            // evt.time is HH:MM
+            const dateParts = evt.date.split('-');
+            const timeParts = evt.time.split(':');
+            if (dateParts.length !== 3 || timeParts.length !== 2) return;
+
+            const yearStr = dateParts[0];
+            const monthStr = dateParts[1];
+            const dayStr = dateParts[2];
+            const hourStr = timeParts[0];
+            const minStr = timeParts[1];
+
+            // DTSTART format: YYYYMMDDTHHMMSS (local time format without Z, floating)
+            const startDt = `${yearStr}${monthStr}${dayStr}T${hourStr}${minStr}00`;
+
+            // Calculate end time (1 hour duration)
+            const year = parseInt(yearStr, 10);
+            const month = parseInt(monthStr, 10);
+            const day = parseInt(dayStr, 10);
+            const hour = parseInt(hourStr, 10);
+            const min = parseInt(minStr, 10);
+            const startDate = new Date(year, month - 1, day, hour, min, 0);
+            const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // Add 1 hour
+
+            const endYear = endDate.getFullYear();
+            const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
+            const endDay = String(endDate.getDate()).padStart(2, '0');
+            const endHour = String(endDate.getHours()).padStart(2, '0');
+            const endMin = String(endDate.getMinutes()).padStart(2, '0');
+            const endDt = `${endYear}${endMonth}${endDay}T${endHour}${endMin}00`;
+
+            // DTSTAMP - UTC current time
+            const now = new Date();
+            const nowYear = now.getUTCFullYear();
+            const nowMonth = String(now.getUTCMonth() + 1).padStart(2, '0');
+            const nowDay = String(now.getUTCDate()).padStart(2, '0');
+            const nowHour = String(now.getUTCHours()).padStart(2, '0');
+            const nowMin = String(now.getUTCMinutes()).padStart(2, '0');
+            const nowSec = String(now.getUTCSeconds()).padStart(2, '0');
+            const dtStamp = `${nowYear}${nowMonth}${nowDay}T${nowHour}${nowMin}${nowSec}Z`;
+
+            let summary = '';
+            let description = '';
+
+            if (evt.isGroup) {
+                summary = `Group Lesson - ${evt.groupName || 'Music Lesson'}`;
+                description = `Group Lesson: ${evt.groupName || ''}\n\nConnected Students:\n` + 
+                              evt.studentEmails.map(email => `- ${email}`).join('\n');
+            } else {
+                const studentName = evt.studentEmail ? evt.studentEmail.split('@')[0] : 'Student';
+                summary = `Lesson with ${studentName}`;
+                description = `Individual Lesson\nStudent Email: ${evt.studentEmail || 'N/A'}`;
+            }
+
+            const uid = `lesson_${evt.id || Math.random().toString(36).substr(2, 9)}@popsongchordbook.com`;
+
+            lines.push('BEGIN:VEVENT');
+            lines.push(foldLine(`UID:${uid}`));
+            lines.push(foldLine(`DTSTAMP:${dtStamp}`));
+            lines.push(foldLine(`DTSTART:${startDt}`));
+            lines.push(foldLine(`DTEND:${endDt}`));
+            lines.push(foldLine(`SUMMARY:${escapeText(summary)}`));
+            lines.push(foldLine(`DESCRIPTION:${escapeText(description)}`));
+            lines.push('END:VEVENT');
+        });
+
+        lines.push('END:VCALENDAR');
+
+        const icsContent = lines.join('\r\n');
+
+        try {
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'lessons_calendar.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error('Failed to export calendar:', err);
+            alert('Failed to export calendar. Please try again.');
+        }
     }
 }
 
