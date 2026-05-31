@@ -139,19 +139,24 @@
                 { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
                 { id: 'goal_4', text: 'F and Bb chord', completed: false },
                 { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
-                { id: 'goal_6', text: 'C major scale', completed: false },
-                { id: 'goal_7', text: 'A minor scale', completed: false },
-                { id: 'goal_8', text: 'Sus2 and sus4 chords', completed: false },
-                { id: 'goal_9', text: 'Seventh chords', completed: false },
-                { id: 'goal_10', text: 'Naming all notes on the E and A bass strings', completed: false },
-                { id: 'goal_11', text: 'Naming all notes on D and G string', completed: false },
-                { id: 'goal_12', text: 'Fingerpicking 3 patterns', completed: false },
-                { id: 'goal_13', text: 'Power Chords', completed: false },
-                { id: 'goal_14', text: 'Blues improvisation in A', completed: false },
-                { id: 'goal_15', text: 'Slide, Bends', completed: false },
-                { id: 'goal_16', text: 'Tapping', completed: false },
-                { id: 'goal_17', text: 'Naming all notes on all strings', completed: false },
-                { id: 'goal_18', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
+                { id: 'goal_6', text: 'Play Harry Styles - Sign of the Times from start to finish', completed: false },
+                { id: 'goal_7', text: "Play Bill Withers - Ain't No Sunshine from start to finish", completed: false },
+                { id: 'goal_8', text: 'Play Taylor Swift - All Too Well from start to finish', completed: false },
+                { id: 'goal_9', text: 'Play The Cranberries - Zombie from start to finish', completed: false },
+                { id: 'goal_10', text: "Play Madcon - Don't Worry from start to finish", completed: false },
+                { id: 'goal_11', text: 'C major scale', completed: false },
+                { id: 'goal_12', text: 'A minor scale', completed: false },
+                { id: 'goal_13', text: 'Sus2 and sus4 chords', completed: false },
+                { id: 'goal_14', text: 'Seventh chords', completed: false },
+                { id: 'goal_15', text: 'Naming all notes on the E and A bass strings', completed: false },
+                { id: 'goal_16', text: 'Naming all notes on D and G string', completed: false },
+                { id: 'goal_17', text: 'Fingerpicking 3 patterns', completed: false },
+                { id: 'goal_18', text: 'Power Chords', completed: false },
+                { id: 'goal_19', text: 'Blues improvisation in A', completed: false },
+                { id: 'goal_20', text: 'Slide, Bends', completed: false },
+                { id: 'goal_21', text: 'Tapping', completed: false },
+                { id: 'goal_22', text: 'Naming all notes on all strings', completed: false },
+                { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
             ];
 
             if (!progress) {
@@ -163,12 +168,22 @@
                 };
                 // Save it immediately so it exists for the student
                 await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
-            } else if (progress.goals && progress.goals.length < defaultGoals.length) {
-                // Append missing goals to existing student
-                for (let i = progress.goals.length; i < defaultGoals.length; i++) {
-                    progress.goals.push(defaultGoals[i]);
+            } else if (progress.goals) {
+                // We want to update the student's goals list to match defaultGoals, preserving their 'completed' state if the text matches!
+                let updated = false;
+                const mergedGoals = defaultGoals.map(defGoal => {
+                    const existing = progress.goals.find(g => g.text === defGoal.text);
+                    if (existing) {
+                        return { ...defGoal, completed: existing.completed };
+                    } else {
+                        updated = true;
+                        return { ...defGoal };
+                    }
+                });
+                if (updated || progress.goals.length !== defaultGoals.length) {
+                    progress.goals = mergedGoals;
+                    await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
                 }
-                await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
             }
             
             return { success: true, progress };

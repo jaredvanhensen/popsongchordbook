@@ -37,6 +37,13 @@ class TeacherDashboard {
         this.editGroupId = document.getElementById('editGroupId');
         this.groups = {}; // local cached groups { groupId: groupObj }
 
+        // Add Student Modal elements
+        this.addStudentModal = document.getElementById('addStudentModal');
+        this.closeAddStudentModalBtn = document.getElementById('closeAddStudentModalBtn');
+        this.addStudentForm = document.getElementById('addStudentForm');
+        this.addStudentNameInput = document.getElementById('addStudentNameInput');
+        this.addStudentEmailInput = document.getElementById('addStudentEmailInput');
+
         // Booking Type & Group Select
         this.bookingStudentContainer = document.getElementById('bookingStudentContainer');
         this.bookingGroupContainer = document.getElementById('bookingGroupContainer');
@@ -44,7 +51,6 @@ class TeacherDashboard {
 
         // Deletion Group Options Modal
         this.deleteGroupOptionsModal = document.getElementById('deleteGroupOptionsModal');
-        this.deleteGroupSingleStudentBtn = document.getElementById('deleteGroupSingleStudentBtn');
         this.deleteGroupOccurrenceBtn = document.getElementById('deleteGroupOccurrenceBtn');
         this.deleteGroupSeriesBtn = document.getElementById('deleteGroupSeriesBtn');
         this.cancelDeleteGroupOptionsBtn = document.getElementById('cancelDeleteGroupOptionsBtn');
@@ -113,6 +119,9 @@ class TeacherDashboard {
 
         // Wire up non-data-dependent event listeners immediately
         this.setupEventListeners();
+
+        // Populate time dropdown with 5-minute intervals between 06:00 and 23:00
+        this.populateTimeDropdown();
 
         // Wait for auth
         await new Promise(resolve => {
@@ -245,6 +254,29 @@ class TeacherDashboard {
 
                 const mailtoUrl = `mailto:${emails.join(',')}`;
                 window.location.href = mailtoUrl;
+            });
+        }
+
+        const addNewStudentBtn = document.getElementById('addNewStudentBtn');
+        if (addNewStudentBtn) {
+            addNewStudentBtn.addEventListener('click', () => {
+                if (teacherSettingsMenu) {
+                    teacherSettingsMenu.classList.add('hidden');
+                }
+                this.openAddStudentModal();
+            });
+        }
+
+        if (this.closeAddStudentModalBtn) {
+            this.closeAddStudentModalBtn.addEventListener('click', () => {
+                this.closeAddStudentModal();
+            });
+        }
+
+        if (this.addStudentForm) {
+            this.addStudentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleSendStudentInvitation();
             });
         }
 
@@ -397,11 +429,6 @@ class TeacherDashboard {
         });
 
         // Group Deletion Modal buttons
-        if (this.deleteGroupSingleStudentBtn) {
-            this.deleteGroupSingleStudentBtn.addEventListener('click', () => {
-                this.executeGroupLessonDeletion('student_only');
-            });
-        }
         if (this.deleteGroupOccurrenceBtn) {
             this.deleteGroupOccurrenceBtn.addEventListener('click', () => {
                 this.executeGroupLessonDeletion('everyone');
@@ -802,7 +829,8 @@ class TeacherDashboard {
             pill.className = 'calendar-lesson-pill';
             
             if (lesson.groupLessonId && lesson.groupName) {
-                pill.textContent = `${lesson.time} [${lesson.groupName}]`;
+                const groupNameDisplay = lesson.groupName.length > 20 ? lesson.groupName.substring(0, 17) + '...' : lesson.groupName;
+                pill.textContent = `${lesson.time} [${groupNameDisplay}]`;
                 pill.title = `${lesson.time} - Group: ${lesson.groupName}`;
                 pill.style.background = '#f0fdf4';
                 pill.style.borderColor = '#bbf7d0';
@@ -943,6 +971,23 @@ class TeacherDashboard {
         }
     }
 
+    populateTimeDropdown() {
+        if (!this.bookingTimeInput) return;
+        this.bookingTimeInput.innerHTML = '';
+        for (let hour = 6; hour <= 23; hour++) {
+            const maxMin = (hour === 23) ? 0 : 55;
+            for (let min = 0; min <= maxMin; min += 5) {
+                const hh = String(hour).padStart(2, '0');
+                const mm = String(min).padStart(2, '0');
+                const val = `${hh}:${mm}`;
+                const opt = document.createElement('option');
+                opt.value = val;
+                opt.textContent = val;
+                this.bookingTimeInput.appendChild(opt);
+            }
+        }
+    }
+
     openBookingModal(lesson = null) {
         if (!this.bookingModal) return;
         
@@ -961,6 +1006,21 @@ class TeacherDashboard {
             if (this.saveBookingBtn) this.saveBookingBtn.textContent = 'Save Changes';
             
             this.bookingDateInput.value = lesson.date;
+            
+            // Safe select setter for time
+            let timeFound = false;
+            for (let i = 0; i < this.bookingTimeInput.options.length; i++) {
+                if (this.bookingTimeInput.options[i].value === lesson.time) {
+                    timeFound = true;
+                    break;
+                }
+            }
+            if (!timeFound) {
+                const opt = document.createElement('option');
+                opt.value = lesson.time;
+                opt.textContent = lesson.time;
+                this.bookingTimeInput.appendChild(opt);
+            }
             this.bookingTimeInput.value = lesson.time;
             
             // Set booking type
@@ -1527,6 +1587,55 @@ class TeacherDashboard {
             this.deleteGroupOptionsModal.style.display = 'none';
         }
         this.activeDeleteLesson = null;
+    }
+
+    openAddStudentModal() {
+        if (!this.addStudentModal) return;
+        if (this.addStudentNameInput) this.addStudentNameInput.value = '';
+        if (this.addStudentEmailInput) this.addStudentEmailInput.value = '';
+        this.addStudentModal.classList.remove('hidden');
+        this.addStudentModal.style.display = 'flex';
+    }
+    
+    closeAddStudentModal() {
+        if (!this.addStudentModal) return;
+        this.addStudentModal.classList.add('hidden');
+        this.addStudentModal.style.display = 'none';
+    }
+    
+    handleSendStudentInvitation() {
+        const name = this.addStudentNameInput.value.trim();
+        const email = this.addStudentEmailInput.value.trim();
+        const teacherCode = (this.teacherCodeBox.textContent || '').trim();
+        const teacherName = (this.teacherNameDisplay.textContent || '').trim();
+        
+        if (!name || !email) {
+            alert('Please enter both name and email.');
+            return;
+        }
+        
+        const subject = encodeURIComponent("Invitation to join my music class on PopSongChordBook");
+        const body = encodeURIComponent(
+`Hi ${name},\n\n` +
+`I would like to invite you to join my music class on PopSongChordBook.com, where we can share your progress and manage your lesson schedule!\n\n` +
+`Here are the simple steps to connect with me:\n\n` +
+`1. Register/Login to your account on the https://www.popsongchordbook.com website.\n` +
+`2. Open the Profile & Settings Menu at the top right corner.\n` +
+`3. Find the "Teacher / Student Connection" section and enter my Teacher Code:\n` +
+`   ${teacherCode}\n\n` +
+`To help you find it, you can view this screenshot instruction: https://www.popsongchordbook.com/images/connect_teacher_guide.png\n\n` +
+`Looking forward to practicing together!\n\n` +
+`Best regards,\n` +
+`${teacherName}`
+        );
+        
+        const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+        
+        // Open default mail client
+        window.location.href = mailtoUrl;
+        
+        // Close modal
+        this.closeAddStudentModal();
     }
 }
 

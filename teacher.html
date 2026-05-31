@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.981">
+    <link rel="stylesheet" href="styles.css?v=2.986">
     <style>
         .container {
             overflow-y: auto !important;
@@ -356,8 +356,13 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
-            overflow-y: hidden;
-            max-height: 32px;
+            overflow-y: auto;
+            max-height: 90px;
+            scrollbar-width: none;
+        }
+        
+        .day-lessons-container::-webkit-scrollbar {
+            display: none;
         }
 
         .calendar-lesson-pill {
@@ -552,6 +557,10 @@
                                         <span class="icon">✉️</span>
                                         <span>Send Bulk Email</span>
                                     </button>
+                                    <button id="addNewStudentBtn" class="hamburger-menu-item" style="width: 100%;">
+                                        <span class="icon">👤</span>
+                                        <span>Add New Student</span>
+                                    </button>
                                     <button id="deleteTeacherPageBtn" class="hamburger-menu-item" style="color: #ef4444; width: 100%;">
                                         <span class="icon">⚠️</span>
                                         <span>Delete Teacher Page</span>
@@ -671,13 +680,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.981"></script>
+    <script src="js/config/firebase-config.js?v=2.986"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.981"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.986"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=2.981"></script>
+    <script src="js/teacher.js?v=2.986"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
@@ -711,7 +720,9 @@
                 
                 <div>
                     <label for="bookingTimeInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Time</label>
-                    <input type="time" id="bookingTimeInput" step="300" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                    <select id="bookingTimeInput" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                        <!-- Time options generated dynamically by JS -->
+                    </select>
                 </div>
                 
                 <div>
@@ -793,7 +804,6 @@
                 This lesson is scheduled for a group. What would you like to cancel?
             </p>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button id="deleteGroupSingleStudentBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">Cancel this occurrence for this student only</button>
                 <button id="deleteGroupOccurrenceBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">Cancel this occurrence for all students</button>
                 <button id="deleteGroupSeriesBtn" style="padding: 10px; border: none; background: #dc2626; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Cancel entire series for all students</button>
                 <button id="cancelDeleteGroupOptionsBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b; margin-top: 5px;">Go back</button>
@@ -838,6 +848,29 @@
                 Please select at least one student.
             </p>
             <button type="button" id="closeCustomAlertBtn" style="width: 100%; padding: 12px; border: none; background: #1e293b; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">OK</button>
+        </div>
+    </div>
+    <!-- Add Student Modal Overlay -->
+    <div id="addStudentModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; display: flex; flex-direction: column;">
+            <h3 style="margin: 0 0 16px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Add New Student</h3>
+            
+            <form id="addStudentForm" style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label for="addStudentNameInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Student Name</label>
+                    <input type="text" id="addStudentNameInput" required placeholder="e.g. John Doe" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; box-sizing: border-box;">
+                </div>
+                
+                <div>
+                    <label for="addStudentEmailInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Student Email Address</label>
+                    <input type="email" id="addStudentEmailInput" required placeholder="e.g. john@example.com" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 10px;">
+                    <button type="button" id="closeAddStudentModalBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
+                    <button type="submit" id="sendInviteBtn" style="padding: 10px 20px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Send Invitation</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
