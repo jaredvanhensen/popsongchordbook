@@ -33,7 +33,7 @@ body {
 
 /* Header matched to SongDetailModal */
 .trainer-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6b6ed3 0%, #6f60c0 100%);
     color: white;
     padding: 20px 40px;
     display: grid;
@@ -1534,7 +1534,7 @@ body {
 }
 
 .chord-suggestion-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6b6ed3 0%, #6f60c0 100%);
     border: none !important;
     color: white !important;
     padding: 2px 10px !important;

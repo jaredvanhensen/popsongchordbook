@@ -653,7 +653,14 @@ class GuitarChordTrainer {
         // 4. Render correct SVG diagram card
         if (this.dom.chordDiagramContainer && this.currentChordFingering) {
             this.dom.chordDiagramContainer.innerHTML = this.renderer.renderSVG(this.currentChordFingering);
+            this.dom.chordDiagramContainer.classList.add('active');
+            this.dom.chordDiagramContainer.classList.remove('glow-pulse');
+            void this.dom.chordDiagramContainer.offsetWidth; // trigger reflow
+            this.dom.chordDiagramContainer.classList.add('glow-pulse');
         }
+
+        // Highlight corresponding cards in overview grid
+        this.highlightOverviewCards();
 
         // 5. Update Interactive Fretboard UI
         this.updateInteractiveFretboardDisplay();
@@ -1299,6 +1306,7 @@ class GuitarChordTrainer {
             diagramContainer.onclick = (e) => {
                 e.stopPropagation(); // Avoid triggering card.onclick select/redirect
                 this.strumChord(chordName);
+                this.selectChord(index);
             };
             
             card.appendChild(diagramContainer);
@@ -1311,6 +1319,25 @@ class GuitarChordTrainer {
             };
 
             grid.appendChild(card);
+        });
+
+        // Highlight active cards in the newly rendered grid
+        this.highlightOverviewCards();
+    }
+
+    highlightOverviewCards() {
+        document.querySelectorAll('.overview-chord-card').forEach(card => {
+            const nameEl = card.querySelector('.overview-chord-name');
+            if (nameEl) {
+                const isActive = nameEl.textContent === this.currentChordName;
+                card.classList.toggle('active', isActive);
+                if (isActive) {
+                    // Trigger a brief glow animation to make it light up!
+                    card.classList.remove('glow-pulse');
+                    void card.offsetWidth; // trigger reflow
+                    card.classList.add('glow-pulse');
+                }
+            }
         });
     }
 }
