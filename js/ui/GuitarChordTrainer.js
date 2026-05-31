@@ -1306,7 +1306,7 @@ class GuitarChordTrainer {
             diagramContainer.onclick = (e) => {
                 e.stopPropagation(); // Avoid triggering card.onclick select/redirect
                 this.strumChord(chordName);
-                this.selectChord(index);
+                this.selectChord(index, true);
             };
             
             card.appendChild(diagramContainer);
@@ -1314,7 +1314,7 @@ class GuitarChordTrainer {
             // Clicking card (outside diagram) strums chord, selects it for trainer, and redirects back to Practice Mode
             card.onclick = () => {
                 this.strumChord(chordName);
-                this.selectChord(index);
+                this.selectChord(index, true);
                 this.toggleChordOverviewMode(false); // Back to practice mode!
             };
 
