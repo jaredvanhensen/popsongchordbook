@@ -2133,7 +2133,7 @@ class App {
         document.addEventListener('keydown', (e) => {
             // Forward keys to Scrolling Chords Modal if it's open
             const scrollingModal = document.getElementById('scrollingChordsModal');
-            if (scrollingModal && !scrollingModal.classList.contains('hidden')) {
+            if (scrollingModal && !scrollingModal.classList.contains('timeline-hidden')) {
                 const frame = document.getElementById('scrollingChordsFrame');
                 // We only forward Space and Escape (for closing/pausing)
                 if (frame && frame.contentWindow && (e.code === 'Space' || e.key === 'Escape')) {
@@ -2168,7 +2168,7 @@ class App {
                 const isFocusInsideWrapper = wrapper && wrapper.contains(document.activeElement);
                 
                 const isModalOpen = document.querySelector('.modal:not(.hidden)') !== null || 
-                                    (document.getElementById('scrollingChordsModal') && !document.getElementById('scrollingChordsModal').classList.contains('hidden'));
+                                    (document.getElementById('scrollingChordsModal') && !document.getElementById('scrollingChordsModal').classList.contains('timeline-hidden'));
 
                 if (!isInput && !isModalOpen && !isFocusInsideWrapper) {
                     if (wrapper && wrapper.scrollHeight > wrapper.clientHeight) {
@@ -3501,6 +3501,7 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
 });
+
 
 
 

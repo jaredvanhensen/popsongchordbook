@@ -536,6 +536,17 @@ class ChordTrainer {
                 this.updateToggleLabels();
             };
         }
+
+        // Intercept back link if embedded inside iframe
+        const backLink = document.querySelector('.back-link');
+        if (backLink) {
+            backLink.addEventListener('click', (e) => {
+                if (window.parent !== window) {
+                    e.preventDefault();
+                    window.parent.postMessage({ type: 'closeChordTrainer' }, '*');
+                }
+            });
+        }
     }
 
     toggleKeyboard() {

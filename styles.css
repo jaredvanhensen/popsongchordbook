@@ -10447,7 +10447,8 @@ div.song-detail-practice-controls {
     transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-.scrolling-chords-modal-wrapper.hidden {
+.scrolling-chords-modal-wrapper.hidden,
+.scrolling-chords-modal-wrapper.timeline-hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

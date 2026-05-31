@@ -1100,8 +1100,14 @@ class GuitarChordTrainer {
                 if (overviewMode && overviewMode.classList.contains('hidden')) {
                     e.preventDefault();
                     this.toggleChordOverviewMode(true);
+                } else {
+                    // Otherwise, if embedded inside an iframe, send close signal to parent instead of reloading the page
+                    const isEmbedded = window.parent !== window;
+                    if (isEmbedded) {
+                        e.preventDefault();
+                        window.parent.postMessage({ type: 'closeChordTrainer' }, '*');
+                    }
                 }
-                // Otherwise, let the default link behavior take us back to the songlist
             };
         }
 

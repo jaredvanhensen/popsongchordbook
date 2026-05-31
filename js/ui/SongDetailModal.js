@@ -622,13 +622,30 @@ class SongDetailModal {
         if (this.chordTrainerBtn) {
             this.chordTrainerBtn.onclick = () => {
                 if (!this.currentSongId) return;
+                
+                // Determine URL
+                let url = '';
                 if (this.instrumentMode === 'guitar') {
-                    const url = `GuitarChordTrainer.html?songId=${this.currentSongId}`;
-                    console.log('Redirecting to Guitar Chord Trainer:', url);
-                    window.location.href = url;
+                    url = `GuitarChordTrainer.html?songId=${this.currentSongId}&embed=true`;
                 } else {
-                    const url = `ChordTrainer.html?songId=${this.currentSongId}&mode=songPractice`;
-                    console.log('Redirecting to Chord Trainer:', url);
+                    url = `ChordTrainer.html?songId=${this.currentSongId}&mode=songPractice&embed=true`;
+                }
+                
+                // Open in Chord Trainer Modal
+                const trainerModal = document.getElementById('chordTrainerModal');
+                const trainerFrame = document.getElementById('chordTrainerFrame');
+                
+                if (trainerModal && trainerFrame) {
+                    trainerFrame.src = url;
+                    trainerModal.classList.remove('hidden');
+                    
+                    if (window.appInstance) {
+                        window.appInstance.pushModalState('chordTrainer', () => {
+                            this.handleTrainerClose();
+                        });
+                    }
+                } else {
+                    // Fallback to direct redirect if elements don't exist
                     window.location.href = url;
                 }
             };
@@ -799,7 +816,7 @@ class SongDetailModal {
                 // If timeline is minimized, just restore it instantly — no reload
                 if (this._timelineMinimized) {
                     this._timelineMinimized = false;
-                    scrollingChordsModal.classList.remove('hidden');
+                    scrollingChordsModal.classList.remove('timeline-hidden');
                     this._updateTimelineMinimizedIndicator(false);
 
                     // Force a data refresh to ensured rendered state is restored
@@ -838,7 +855,7 @@ class SongDetailModal {
                 }
 
                 // Show modal overlay
-                scrollingChordsModal.classList.remove('hidden');
+                scrollingChordsModal.classList.remove('timeline-hidden');
 
                 // Push modal state to history stack
                 if (window.appInstance) {
@@ -856,7 +873,7 @@ class SongDetailModal {
                     e.stopPropagation();
                     // Hide modal but keep iframe alive
                     this._timelineMinimized = true;
-                    scrollingChordsModal.classList.add('hidden');
+                    scrollingChordsModal.classList.add('timeline-hidden');
                     this._updateTimelineMinimizedIndicator(true);
                     // Pop modal state so back button / backdrop click doesn't interfere
                     if (window.appInstance) {
@@ -895,6 +912,15 @@ class SongDetailModal {
                     isTimelineModalMouseDown = false;
                 });
             }
+            // Close chord trainer modal
+            const trainerModalClose = document.getElementById('chordTrainerModalClose');
+            if (trainerModalClose) {
+                trainerModalClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.handleTrainerClose();
+                });
+            }
 
             // Listen for Save message from iframe
             // Listen for messages from iframe
@@ -926,6 +952,10 @@ class SongDetailModal {
                 else if (event.data.type === 'closeScrollingChordsModal') {
                     // Force complete close of the modal (iframe) from the Map's close button
                     this.handleTimelineClose();
+                }
+                else if (event.data.type === 'closeChordTrainer') {
+                    console.log('SongDetailModal: Received closeChordTrainer from Trainer iframe');
+                    this.handleTrainerClose();
                 }
                 // 2. Change status response
                 else if (event.data.type === 'unsavedChangesResult') {
@@ -1542,7 +1572,7 @@ class SongDetailModal {
                 } else if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey)) {
                     // Pass Undo command to Scrolling Chords iframe if it is open
                     const scrollingChordsModal = document.getElementById('scrollingChordsModal');
-                    if (scrollingChordsModal && !scrollingChordsModal.classList.contains('hidden')) {
+                    if (scrollingChordsModal && !scrollingChordsModal.classList.contains('timeline-hidden')) {
                         e.preventDefault();
                         const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
                         if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
@@ -3362,7 +3392,7 @@ class SongDetailModal {
 
     async handleTimelineClose() {
         if (this.isTimelineClosing) return;
-        if (!this.scrollingChordsModal || this.scrollingChordsModal.classList.contains('hidden')) {
+        if (!this.scrollingChordsModal || this.scrollingChordsModal.classList.contains('timeline-hidden')) {
             console.log('Timeline already closed or closing.');
             return;
         }
@@ -3398,17 +3428,16 @@ class SongDetailModal {
         if (!this.scrollingChordsFrame || !this.scrollingChordsFrame.contentWindow) return false;
 
         return new Promise((resolve) => {
-            const timeout = setTimeout(() => {
-                this.timelineChangesResolve = null;
-                resolve(false); // Assume no changes on timeout
-            }, 600);
-
-            this.timelineChangesResolve = (hasChanges) => {
-                clearTimeout(timeout);
-                resolve(hasChanges);
-            };
-
+            this.timelineChangesResolve = resolve;
             this.scrollingChordsFrame.contentWindow.postMessage({ type: 'checkUnsavedChanges' }, '*');
+            
+            // Timeout safety
+            setTimeout(() => {
+                if (this.timelineChangesResolve) {
+                    this.timelineChangesResolve(false);
+                    this.timelineChangesResolve = null;
+                }
+            }, 1000);
         });
     }
 
@@ -3434,7 +3463,7 @@ class SongDetailModal {
 
         // 2. Hide Modal
         if (this.scrollingChordsModal) {
-            this.scrollingChordsModal.classList.add('hidden');
+            this.scrollingChordsModal.classList.add('timeline-hidden');
         }
 
         if (window.appInstance) {
@@ -3446,6 +3475,20 @@ class SongDetailModal {
             this.scrollingChordsBtn.focus();
         } else {
             window.focus();
+        }
+    }
+
+    handleTrainerClose() {
+        const trainerModal = document.getElementById('chordTrainerModal');
+        const trainerFrame = document.getElementById('chordTrainerFrame');
+        if (trainerModal) {
+            trainerModal.classList.add('hidden');
+        }
+        if (trainerFrame) {
+            trainerFrame.src = ''; // Clear source to stop audio/events
+        }
+        if (window.appInstance) {
+            window.appInstance.popModalState('chordTrainer');
         }
     }
 
