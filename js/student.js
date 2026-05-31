@@ -9,6 +9,7 @@ class StudentDashboard {
         this.homeworkText = document.getElementById('studentHomeworkText');
         this.linksContainer = document.getElementById('studentLinksContainer');
         this.assignedSongsContainer = document.getElementById('assignedSongsContainer');
+        this.lessonsContainer = document.getElementById('studentLessonsContainer');
 
         this.init();
     }
@@ -172,6 +173,64 @@ class StudentDashboard {
     }
 
     renderDashboard(progress) {
+        // Render Booked Lessons
+        if (this.lessonsContainer) {
+            const lessons = progress.lessons ? Object.values(progress.lessons) : [];
+            this.lessonsContainer.innerHTML = '';
+            
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            
+            const upcomingLessons = lessons.filter(l => l.date >= todayStr);
+            
+            if (upcomingLessons.length > 0) {
+                upcomingLessons.sort((a, b) => {
+                    const dateCompare = a.date.localeCompare(b.date);
+                    if (dateCompare !== 0) return dateCompare;
+                    return a.time.localeCompare(b.time);
+                });
+                
+                upcomingLessons.forEach(lesson => {
+                    const row = document.createElement('div');
+                    row.className = 'assigned-song-link';
+                    row.style.cssText = `
+                        border-color: #bbf7d0;
+                        background: #f0fdf4;
+                        margin-bottom: 8px;
+                        cursor: default;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    `;
+                    
+                    let dateFormatted = lesson.date;
+                    try {
+                        const d = new Date(lesson.date + 'T00:00:00');
+                        dateFormatted = d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+                    } catch (e) {}
+                    
+                    const recurrenceLabels = {
+                        'none': '',
+                        'weekly': 'Weekly',
+                        '2weekly': 'Every 2 Weeks',
+                        'monthly': 'Monthly'
+                    };
+                    const recText = (lesson.recurrence && lesson.recurrence !== 'none') ? ` (${recurrenceLabels[lesson.recurrence] || lesson.recurrence})` : '';
+                    
+                    row.innerHTML = `
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-weight: bold; color: #166534; font-size: 14px;">⏰ ${lesson.time}</span>
+                            <span style="font-size: 12px; color: #475569; margin-top: 2px;">📅 ${dateFormatted}${recText}</span>
+                        </div>
+                    `;
+                    
+                    this.lessonsContainer.appendChild(row);
+                });
+            } else {
+                this.lessonsContainer.innerHTML = '<div style="color: #64748b; font-size: 14px;">No upcoming lessons scheduled.</div>';
+            }
+        }
+
         // Render Homework
         if (progress.homework && progress.homework.text) {
             this.homeworkDate.textContent = progress.homework.date ? `Due: ${progress.homework.date}` : '';

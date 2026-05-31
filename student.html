@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.974">
+    <link rel="stylesheet" href="styles.css?v=2.981">
     <style>
         .container {
             overflow-y: auto !important;
@@ -129,6 +129,14 @@
                             </div>
                         </div>
 
+                        <!-- BOOKED LESSONS SECTION -->
+                        <div class="section-panel" style="background: #f0fdf4; border-color: #bbf7d0;">
+                            <h3 class="section-title" style="color: #166534;">📅 Booked Lessons</h3>
+                            <div id="studentLessonsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="color: #64748b; font-size: 14px;">No upcoming lessons scheduled.</div>
+                            </div>
+                        </div>
+
                         <!-- ASSIGNED SONGS SECTION -->
                         <div class="section-panel">
                             <h3 class="section-title" style="color: #ec4899;">🎵 Assigned Songs</h3>
@@ -189,13 +197,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.974"></script>
+    <script src="js/config/firebase-config.js?v=2.981"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.974"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.981"></script>
 
     <!-- App Logic -->
-    <script src="js/student.js?v=2.974"></script>
+    <script src="js/student.js?v=2.981"></script>
 </body>
 
 </html>

@@ -10,11 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.974">
+    <link rel="stylesheet" href="styles.css?v=2.981">
     <style>
         .container {
             overflow-y: auto !important;
             padding-bottom: 60px !important;
+            height: auto !important;
         }
 
         .teacher-dashboard {
@@ -30,59 +31,59 @@
         .dashboard-header {
             background: #ffffff;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
         .teacher-banner-placeholder {
-            width: 150px;
-            height: 150px;
+            width: 80px;
+            height: 80px;
             background: #f0fdf4;
             border: 2px dashed #86efac;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: 32px;
             color: #16a34a;
             position: relative;
         }
 
         .upload-banner-btn {
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: -5px;
+            right: -5px;
             background: #16a34a;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 14px;
         }
 
         .teacher-info h2 {
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             color: #1e293b;
-            font-size: 28px;
+            font-size: 20px;
         }
 
         .teacher-code-box {
             display: inline-block;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-family: monospace;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             color: #166534;
             letter-spacing: 1px;
@@ -261,6 +262,263 @@
             transform: translateY(0);
             box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
         }
+
+        /* Layout Styles */
+        .teacher-dashboard-layout {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            padding: 20px;
+            align-items: start;
+        }
+
+        .teacher-left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .teacher-dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Calendar Styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+
+        .calendar-day-header {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 8px 0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .calendar-day-cell {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            min-height: 52px;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .calendar-day-cell:hover {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+        }
+
+        .calendar-day-cell.today {
+            background: #f0fdf4;
+            border-color: #86efac;
+            box-shadow: 0 0 0 2px rgba(134, 239, 172, 0.2);
+        }
+
+        .calendar-day-cell.selected {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        .calendar-day-cell.other-month {
+            opacity: 0.4;
+        }
+
+        .day-number {
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 2px;
+            align-self: flex-end;
+        }
+
+        .day-number.today-num {
+            color: #166534;
+        }
+
+        .day-lessons-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: hidden;
+            max-height: 32px;
+        }
+
+        .calendar-lesson-pill {
+            font-size: 8.5px;
+            line-height: 1.1;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 600px) {
+            .calendar-day-cell {
+                min-height: 48px;
+                padding: 3px;
+            }
+            .calendar-lesson-pill {
+                display: none; /* Hide pills inside cells on tiny screens, show as dots */
+            }
+            .day-lessons-dot-container {
+                display: flex;
+                gap: 2px;
+                margin-top: auto;
+                width: 100%;
+                justify-content: center;
+            }
+            .day-lesson-dot {
+                width: 4px;
+                height: 4px;
+                background: #3b82f6;
+                border-radius: 50%;
+            }
+        }
+
+        @media (min-width: 601px) {
+            .day-lessons-dot-container {
+                display: none;
+            }
+        }
+
+        .tab-btn {
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            color: #166534 !important;
+        }
+        .group-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .group-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Desktop Column Layout to Fit 1 Screen Without Scrolling */
+        @media (min-width: 1025px) {
+            .container {
+                height: 100vh !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+                padding: 15px 25px !important;
+                padding-bottom: 15px !important;
+            }
+            
+            .app-main {
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .teacher-dashboard-layout {
+                flex: 1;
+                min-height: 0;
+                display: grid;
+                grid-template-columns: 360px 1fr;
+                gap: 20px;
+                overflow: hidden;
+                margin-bottom: 0;
+            }
+
+            .teacher-left-column {
+                height: 100%;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                overflow: hidden;
+            }
+
+            .dashboard-header {
+                flex-shrink: 0;
+            }
+
+            .students-section {
+                flex: 1;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                padding: 15px !important;
+            }
+
+            #studentsGrid {
+                flex: 1;
+                overflow-y: auto;
+                min-height: 0;
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            .calendar-section {
+                height: 100%;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                padding: 15px !important;
+            }
+
+            #calendarGrid {
+                flex: 1;
+                min-height: 0;
+                display: grid;
+                grid-template-rows: auto repeat(6, 1fr);
+                gap: 4px;
+            }
+
+            .calendar-day-cell {
+                height: 100%;
+                min-height: 38px;
+                padding: 3px 4px;
+            }
+            
+            .calendar-day-header {
+                padding: 4px 0;
+            }
+
+            .selected-day-panel {
+                flex-shrink: 0;
+                margin-top: 15px !important;
+                padding-top: 12px !important;
+                max-height: 150px;
+                overflow-y: auto;
+            }
+        }
     </style>
 </head>
 
@@ -304,53 +562,101 @@
                     </div>
                 </header>
 
-                <div class="teacher-dashboard" style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; padding: 20px;">
-                    <!-- Dashboard Header -->
-                    <div class="dashboard-header" style="display: flex; align-items: center; gap: 20px; background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-                        <div class="teacher-banner-placeholder" style="width: 150px; height: 150px; background: #f0fdf4; border: 2px dashed #86efac; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; position: relative;">
-                            👤
-                            <button class="upload-banner-btn" title="Upload Photo" style="position: absolute; bottom: 0; right: 0; background: #16a34a; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 20px;">📷</button>
-                            <input type="file" id="teacherPhotoInput" accept="image/*" style="display: none;">
+                <div class="teacher-dashboard-layout">
+                    <!-- Left Column: Header + Students -->
+                    <div class="teacher-left-column">
+                        <!-- Dashboard Header -->
+                        <div class="dashboard-header" style="display: flex; align-items: center; gap: 15px; background: #ffffff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                            <div class="teacher-banner-placeholder" style="width: 80px; height: 80px; background: #f0fdf4; border: 2px dashed #86efac; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; position: relative; flex-shrink: 0;">
+                                👤
+                                <button class="upload-banner-btn" title="Upload Photo" style="position: absolute; bottom: -5px; right: -5px; background: #16a34a; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px;">📷</button>
+                                <input type="file" id="teacherPhotoInput" accept="image/*" style="display: none;">
+                            </div>
+                            <div class="teacher-info" style="flex: 1; min-width: 0;">
+                                <h2 id="teacherNameDisplay" style="margin: 0 0 5px 0; color: #1e293b; font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Loading...</h2>
+                                <p style="color: #64748b; margin-bottom: 5px; font-size: 11px;">Share code with students:</p>
+                                <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                                    <div class="teacher-code-box" id="teacherCodeBox" style="display: inline-block; background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-size: 13px; font-weight: bold; color: #166534; letter-spacing: 1px;">...</div>
+                                    <button id="shareTeacherLinkBtn" style="display: flex; align-items: center; gap: 4px; background: #3b82f6; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; transition: background 0.2s;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                            <circle cx="18" cy="5" r="3"></circle>
+                                            <circle cx="6" cy="12" r="3"></circle>
+                                            <circle cx="18" cy="19" r="3"></circle>
+                                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                        </svg>
+                                        Share
+                                    </button>
+                                </div>
+                                 <div style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px; display: flex; flex-direction: column; gap: 4px; max-width: 100%;">
+                                     <label for="teacherPublicEmailInput" style="font-size: 10px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Public Email:</label>
+                                     <div style="display: flex; gap: 4px;">
+                                         <input type="email" id="teacherPublicEmailInput" placeholder="teacher@email.com" style="flex: 1; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; font-family: inherit; color: #1e293b; min-width: 0; box-sizing: border-box;">
+                                         <button id="savePublicEmailBtn" style="background: #16a34a; color: white; border: none; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; transition: background 0.2s; flex-shrink: 0;">Save</button>
+                                     </div>
+                                     <span id="publicEmailStatus" style="font-size: 10px; color: #16a34a; font-weight: 600; display: none;">Saved!</span>
+                                 </div>
+                            </div>
                         </div>
-                        <div class="teacher-info" style="flex: 1;">
-                            <h2 id="teacherNameDisplay" style="margin: 0 0 10px 0; color: #1e293b; font-size: 28px;">Loading...</h2>
-                            <p style="color: #64748b; margin-bottom: 10px;">Share this code with your students to connect:</p>
-                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                                <div class="teacher-code-box" id="teacherCodeBox" style="display: inline-block; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-family: monospace; font-size: 18px; font-weight: bold; color: #166534; letter-spacing: 1px;">...</div>
-                                <button id="shareTeacherLinkBtn" style="display: flex; align-items: center; gap: 8px; background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
-                                        <circle cx="18" cy="5" r="3"></circle>
-                                        <circle cx="6" cy="12" r="3"></circle>
-                                        <circle cx="18" cy="19" r="3"></circle>
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                                    </svg>
-                                    Share link
+
+                        <!-- Students & Groups Section -->
+                        <div class="students-section" style="background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                            <div class="tabs-container" style="display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 15px; gap: 15px; flex-shrink: 0;">
+                                <button id="tabStudentsBtn" class="tab-btn active" style="background: none; border: none; padding: 8px 4px; font-weight: 700; font-size: 16px; color: #166534; border-bottom: 2px solid #166534; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                    Students <span id="studentCountBadge" style="background: #e2e8f0; color: #475569; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">0</span>
+                                </button>
+                                <button id="tabGroupsBtn" class="tab-btn" style="background: none; border: none; padding: 8px 4px; font-weight: 600; font-size: 16px; color: #64748b; border-bottom: 2px solid transparent; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                    Groups <span id="groupCountBadge" style="background: #e2e8f0; color: #475569; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">0</span>
                                 </button>
                             </div>
-                             <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; flex-direction: column; gap: 6px; max-width: 320px;">
-                                 <label for="teacherPublicEmailInput" style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Your Public Email (visible to students):</label>
-                                 <div style="display: flex; gap: 8px;">
-                                     <input type="email" id="teacherPublicEmailInput" placeholder="teacher@email.com" style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b;">
-                                     <button id="savePublicEmailBtn" style="background: #16a34a; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">Save</button>
-                                 </div>
-                                 <span id="publicEmailStatus" style="font-size: 12px; color: #16a34a; font-weight: 600; display: none;">Saved!</span>
-                             </div>
+                            
+                            <!-- Tab: Students Content -->
+                            <div id="tabStudentsContent" style="display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;">
+                                <div id="studentsGrid" class="students-grid" style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                                    <!-- Loading State -->
+                                    <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
+                                        <div class="empty-state-icon" style="font-size: 48px; margin-bottom: 15px;">⏳</div>
+                                        <p>Loading students...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tab: Groups Content (hidden by default) -->
+                            <div id="tabGroupsContent" style="display: none; flex-direction: column; gap: 15px; flex: 1; min-height: 0; overflow: hidden;">
+                                <button id="createGroupBtn" style="background: #166534; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; font-size: 13px; align-self: flex-start; flex-shrink: 0;">+ Create Group</button>
+                                <div id="groupsGrid" style="display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; overflow-y: auto;">
+                                    <div class="empty-state" style="text-align: center; padding: 30px; color: #64748b;">
+                                        <div class="empty-state-icon" style="font-size: 32px; margin-bottom: 10px;">👥</div>
+                                        <p>No groups created yet.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Students Section -->
-                    <div class="students-section" style="background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-                        <div class="students-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <h3 style="margin: 0; color: #1e293b; font-size: 20px;">My Students</h3>
-                            <span id="studentCountBadge" style="background: #166534; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">0</span>
+                    <!-- Right Column: Calendar Section -->
+                    <div class="calendar-section" style="background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                        <div class="calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                            <h3 style="margin: 0; color: #1e293b; font-size: 20px; display: flex; align-items: center; gap: 8px;">📅 Lesson Schedule</h3>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <button id="prevMonthBtn" type="button" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: background 0.2s;">◀</button>
+                                <span id="currentMonthYear" style="font-weight: 700; color: #1e293b; font-size: 16px; min-width: 120px; text-align: center;">Loading...</span>
+                                <button id="nextMonthBtn" type="button" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: background 0.2s;">▶</button>
+                            </div>
+                        </div>
+
+                        <div id="calendarGrid" class="calendar-grid">
+                            <!-- Calendar header row and day cells will be rendered by JS -->
                         </div>
                         
-                        <div id="studentsGrid" class="students-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-                            <!-- Loading State -->
-                            <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
-                                <div class="empty-state-icon" style="font-size: 48px; margin-bottom: 15px;">⏳</div>
-                                <p>Loading students...</p>
+                        <!-- Selected Day Details Panel -->
+                        <div id="selectedDayPanel" class="selected-day-panel" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; display: none;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <h4 id="selectedDayLabel" style="margin: 0; color: #334155; font-size: 15px; font-weight: 700;">Selected Date</h4>
+                                <button id="addLessonBtn" type="button" style="background: #166534; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.2s;">+ Add Lesson</button>
+                            </div>
+                            <div id="dayLessonsList" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Day's lessons will be rendered here -->
                             </div>
                         </div>
                     </div>
@@ -365,13 +671,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.974"></script>
+    <script src="js/config/firebase-config.js?v=2.981"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.974"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.981"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=2.974"></script>
+    <script src="js/teacher.js?v=2.981"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
@@ -387,6 +693,151 @@
                 <button id="cancelDeleteTeacherBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
                 <button id="confirmDeleteTeacherBtn" style="padding: 10px 20px; border: none; background: #dc2626; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Delete</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal Overlay -->
+    <div id="bookingModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 420px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; overflow-y: auto;">
+            <h3 id="bookingModalTitle" style="margin: 0 0 16px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Book a Lesson</h3>
+            
+            <div id="bookingForm" style="display: flex; flex-direction: column; gap: 14px;">
+                <input type="hidden" id="bookingLessonId">
+                
+                <div>
+                    <label for="bookingDateInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Date</label>
+                    <input type="date" id="bookingDateInput" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                </div>
+                
+                <div>
+                    <label for="bookingTimeInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Time</label>
+                    <input type="time" id="bookingTimeInput" step="300" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                </div>
+                
+                <div>
+                    <label style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Booking Type</label>
+                    <div style="display: flex; gap: 15px; margin-bottom: 8px;">
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #1e293b; cursor: pointer;">
+                            <input type="radio" name="bookingType" value="individual" checked style="cursor: pointer;"> Individual
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #1e293b; cursor: pointer;">
+                            <input type="radio" name="bookingType" value="group" style="cursor: pointer;"> Group
+                        </label>
+                    </div>
+                </div>
+
+                <div id="bookingStudentContainer">
+                    <label for="bookingStudentSelect" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Student</label>
+                    <select id="bookingStudentSelect" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                        <option value="">-- Select Student --</option>
+                    </select>
+                </div>
+
+                <div id="bookingGroupContainer" style="display: none;">
+                    <label for="bookingGroupSelect" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Group</label>
+                    <select id="bookingGroupSelect" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                        <option value="">-- Select Group --</option>
+                    </select>
+                </div>
+                
+                <div id="recurrenceSection">
+                    <label for="bookingRecurrenceSelect" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Recurrence</label>
+                    <select id="bookingRecurrenceSelect" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                        <option value="none">No Recurrence</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="2weekly">Every 2 Weeks</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                
+                <div id="recurrenceDurationSection" style="display: none;">
+                    <label for="bookingDurationSelect" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Duration (Max)</label>
+                    <select id="bookingDurationSelect" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                        <option value="3months">3 Months</option>
+                        <option value="6months">6 Months</option>
+                        <option value="1year">1 Year</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 10px;">
+                    <button type="button" id="closeBookingModalBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
+                    <button type="button" id="saveBookingBtn" style="padding: 10px 20px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Book Lesson</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deletion Options Modal -->
+    <div id="deleteOptionsModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div style="font-size: 40px; margin-bottom: 10px;">📅</div>
+            <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Cancel Lesson</h3>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+                This lesson is part of a recurring series. What would you like to cancel?
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button id="deleteOccurrenceBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">Only this occurrence</button>
+                <button id="deleteFutureBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">This and all future occurrences</button>
+                <button id="deleteSeriesBtn" style="padding: 10px; border: none; background: #dc2626; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Entire series</button>
+                <button id="cancelDeleteOptionsBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b; margin-top: 5px;">Go back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deletion Group Options Modal -->
+    <div id="deleteGroupOptionsModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div style="font-size: 40px; margin-bottom: 10px;">👥</div>
+            <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Cancel Group Lesson</h3>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+                This lesson is scheduled for a group. What would you like to cancel?
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button id="deleteGroupSingleStudentBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">Cancel this occurrence for this student only</button>
+                <button id="deleteGroupOccurrenceBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-weight: bold; color: #334155; transition: background 0.2s;">Cancel this occurrence for all students</button>
+                <button id="deleteGroupSeriesBtn" style="padding: 10px; border: none; background: #dc2626; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Cancel entire series for all students</button>
+                <button id="cancelDeleteGroupOptionsBtn" style="padding: 10px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b; margin-top: 5px;">Go back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Creation Modal Overlay -->
+    <div id="groupModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 420px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; display: flex; flex-direction: column;">
+            <h3 id="groupModalTitle" style="margin: 0 0 16px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Create Group</h3>
+            
+            <div id="groupForm" style="display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 0;">
+                <input type="hidden" id="editGroupId">
+                
+                <div>
+                    <label for="groupNameInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Group Name</label>
+                    <input type="text" id="groupNameInput" required placeholder="e.g. Monday Band" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+                    <label style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Select Students</label>
+                    <div id="groupStudentChecklist" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 8px; background: #f8fafc;">
+                        <!-- Checklist options generated by JS -->
+                    </div>
+                </div>
+                
+                <div id="groupFormError" style="color: #dc2626; font-size: 12px; font-weight: 700; display: none; margin-bottom: 8px;">Please select at least one student.</div>
+                <div style="display: flex; gap: 12px; margin-top: 10px; flex-shrink: 0;">
+                    <button type="button" id="closeGroupModalBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
+                    <button type="button" id="saveGroupBtn" style="padding: 10px 20px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Save Group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Professional Alert Modal Overlay -->
+    <div id="customAlertModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100000; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 380px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 56px; height: 56px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: #ef4444; font-size: 28px; font-weight: bold;">⚠️</div>
+            <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 18px; font-weight: 800;">Notice</h3>
+            <p id="customAlertMessage" style="color: #64748b; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0;">
+                Please select at least one student.
+            </p>
+            <button type="button" id="closeCustomAlertBtn" style="width: 100%; padding: 12px; border: none; background: #1e293b; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">OK</button>
         </div>
     </div>
 </body>
