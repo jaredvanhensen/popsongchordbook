@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v2.989)
+// Scrolling Chords Logic (v2.990)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -160,7 +160,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.989)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v2.990)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -293,7 +293,7 @@ window.addEventListener('message', (event) => {
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v2.989)
+            // Apply default audio setting from Profile (v2.990)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -1630,18 +1630,19 @@ function updateAuditionKeyboardChord(chordName) {
 
     const isGuitar = currentInstrumentMode === 'guitar';
 
-    // If in edit mode, hide both
+    // If in edit mode, hide guitar diagram but ALWAYS show keyboard
     if (isEditMode) {
-        if (keyboard) keyboard.style.display = 'none';
         if (guitarDiagram) {
             guitarDiagram.classList.add('hidden');
             guitarDiagram.innerHTML = '';
         }
-        return;
+        if (keyboard) {
+            keyboard.style.display = 'block';
+        }
     }
 
-    // --- GUITAR MODE: show diagram, hide keyboard ---
-    if (isGuitar) {
+    // --- GUITAR MODE: show diagram, hide keyboard (PLAY mode only) ---
+    if (isGuitar && !isEditMode) {
         if (keyboard) keyboard.style.display = 'none';
         if (!guitarDiagram) return;
 
@@ -1697,7 +1698,7 @@ function updateAuditionKeyboardChord(chordName) {
 
     // Ensure keyboard is visible (may have been hidden by guitar mode)
     // (CSS media query controls the real visibility; just clear forced inline hide)
-    keyboard.style.display = '';
+    keyboard.style.display = isEditMode ? 'block' : '';
 
     // Clear all existing highlights
     keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
