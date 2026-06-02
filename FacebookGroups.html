@@ -409,6 +409,27 @@
             font-weight: 700;
             color: var(--bg-sidebar);
             padding-right: 220px;
+            display: flex;
+            align-items: center;
+        }
+
+        .editable-template-header {
+            border-bottom: 1px dashed transparent;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            outline: none;
+            cursor: text;
+            flex-grow: 1;
+        }
+        .editable-template-header:hover {
+            border-bottom-color: #cbd5e1;
+            background-color: #f1f5f9;
+        }
+        .editable-template-header:focus {
+            border-bottom-color: var(--purple-primary);
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .template-body-container {
@@ -420,6 +441,18 @@
             color: #334155;
             white-space: pre-wrap;
             line-height: 1.6;
+            transition: all 0.2s;
+            outline: none;
+            cursor: text;
+        }
+        .template-body-container:hover {
+            border-color: #cbd5e1;
+            background-color: #f1f5f9;
+        }
+        .template-body-container:focus {
+            border-color: var(--purple-primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         .card-actions-wrapper {
@@ -737,15 +770,34 @@
                 const card = document.createElement('div');
                 card.className = "template-card";
                 card.innerHTML = `
-                    <div class="template-header-label"><span style="color:var(--purple-primary)">HEADER:</span> ${template.header}</div>
+                    <div class="template-header-label">
+                        <span style="color:var(--purple-primary); margin-right: 6px;" contenteditable="false">HEADER:</span> 
+                        <span class="editable-template-header" contenteditable="true" onblur="updateTemplateHeader('${template.id}', this.innerText)">${template.header}</span>
+                    </div>
                     <div class="card-actions-wrapper">
                         <button class="btn-copy-template" onclick="copyTemplateText('${template.id}')"><i class="fa-regular fa-copy"></i> Copy Body</button>
                         <button class="btn-delete-template" onclick="deleteTemplate('${template.id}')" title="Delete Template"><i class="fa-regular fa-trash-can"></i></button>
                     </div>
-                    <div class="template-body-container" id="${template.id}">${template.body}</div>
+                    <div class="template-body-container" id="${template.id}" contenteditable="true" onblur="updateTemplateBody('${template.id}', this.innerText)">${template.body}</div>
                 `;
                 container.appendChild(card);
             });
+        }
+
+        function updateTemplateHeader(templateId, newHeader) {
+            const template = appData.templatesList.find(t => t.id === templateId);
+            if (template) {
+                template.header = newHeader.trim();
+                saveToStorage();
+            }
+        }
+
+        function updateTemplateBody(templateId, newBody) {
+            const template = appData.templatesList.find(t => t.id === templateId);
+            if (template) {
+                template.body = newBody;
+                saveToStorage();
+            }
         }
 
         function addNewTemplate() {
