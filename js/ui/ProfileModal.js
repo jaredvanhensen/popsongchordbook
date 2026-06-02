@@ -867,6 +867,16 @@ class ProfileModal {
                 emailCounts[email] = (emailCounts[email] || 0) + 1;
             });
 
+            // 2.5. Calculate chronological rank based on creation date ascending
+            const chronological = [...filtered].sort((a, b) => {
+                const dateA = a.createdAt || 0;
+                const dateB = b.createdAt || 0;
+                return dateA - dateB;
+            });
+            chronological.forEach((user, index) => {
+                user.chronoIndex = index + 1;
+            });
+
             // 3. Sort dynamically
             const sorted = filtered.sort((a, b) => {
                 let valA = a[this.membersSortField];
@@ -906,7 +916,7 @@ class ProfileModal {
                 }
 
                 tr.innerHTML = `
-                    <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${index + 1}</td>
+                    <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${user.chronoIndex}</td>
                     <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
                         ${displayEmail}
                         ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}

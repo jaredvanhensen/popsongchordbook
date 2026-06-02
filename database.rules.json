@@ -1,17 +1,3 @@
-# Firebase Security Rules voor Song Sharing
-
-Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime Database security rules aanpassen.
-
-## Stappen
-
-1. Ga naar [Firebase Console](https://console.firebase.google.com/)
-2. Selecteer je project
-3. Ga naar **Realtime Database** > **Rules** tab
-4. Vervang de regels met onderstaande configuratie
-
-## Security Rules
-
-```json
 {
   "rules": {
     "users": {
@@ -105,25 +91,3 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
     }
   }
 }
-```
-
-## Uitleg
-
-- **users/{userId}**: Gebruikers kunnen alleen hun eigen data lezen/schrijven
-- **users/{userId}/pendingSongs**: 
-  - Alleen de eigenaar kan lezen (om hun pending songs te zien)
-  - Iedereen die ingelogd is kan schrijven (zodat anderen songs kunnen delen)
-- **emailToUserId/{email}**: 
-  - Iedereen die ingelogd is kan lezen (om andere gebruikers te vinden)
-  - Gebruikers kunnen alleen hun eigen email schrijven (waarbij de waarde hun userId moet zijn)
-- **teacherCodes/{code}**:
-  - Wordt gebruikt om een Teacher Code om te zetten naar een teacherUid. Iedereen kan lezen. Alleen de docent zelf mag schrijven.
-- **teacherStudents/{teacherUid}/{studentUid}**:
-  - De docent mag zijn eigen lijst met studenten lezen.
-  - Een student mag zichzelf toevoegen onder de ID van de docent (schrijven).
-  - De rules voor de `users/{userId}` zijn aangepast zodat docenten de data (profiel en songs) van hun gekoppelde studenten kunnen inzien.
-
-## Belangrijk
-
-Na het aanpassen van de rules, klik op **Publish** om de wijzigingen door te voeren.
-
