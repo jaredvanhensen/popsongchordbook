@@ -15,6 +15,26 @@ $scrollingFile = Join-Path $root "scrolling_chords.html"
 $appJsFile = Join-Path $root "js\app.js"
 $stylesFile = Join-Path $root "styles.css"
 
+# 0. JavaScript Syntax Check
+Write-Host "Verifying JavaScript syntax..."
+$jsDirs = @(Join-Path $root "js", Join-Path $root "scripts")
+foreach ($dir in $jsDirs) {
+    if (Test-Path $dir) {
+        $jsFiles = Get-ChildItem -Path $dir -Filter *.js -Recurse
+        foreach ($file in $jsFiles) {
+            if ($file.Name -eq "teacher_methods.js" -or $file.Name -like "*.temp_rewrite*") {
+                continue
+            }
+            node -c $file.FullName
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "Syntax validation failed in file: $($file.FullName)"
+                exit 1
+            }
+        }
+    }
+}
+Write-Host "All JavaScript files passed syntax validation!"
+
 # 1. Read current version from index.html
 $indexContent = Get-Content $indexFile -Raw -Encoding UTF8
 if ($indexContent -match 'v<span id="site-version">([\d\.]+)</span>') {
@@ -37,6 +57,11 @@ Write-Host "New Version: $newVersion"
 # 3. Update index.html
 # Update visual version
 $indexContent = $indexContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+# Update other metadata/title versions
+$indexContent = $indexContent -replace '<meta name="version" content="[\d\.]+"', "<meta name=`"version`" content=`"$newVersion`""
+$indexContent = $indexContent -replace '<meta name="application-version" content="v[\d\.]+"', "<meta name=`"application-version`" content=`"v$newVersion`""
+$indexContent = $indexContent -replace "const SITE_VERSION = '[\d\.]+'", "const SITE_VERSION = '$newVersion'"
+$indexContent = $indexContent -replace '<title>PopSongChordBook v[\d\.]+', "<title>PopSongChordBook v$newVersion"
 # Update script versions
 $indexContent = $indexContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
 Set-Content $indexFile $indexContent -Encoding UTF8
@@ -53,7 +78,11 @@ if (Test-Path $index2File) {
 # 4. Update songlist.html
 $songlistContent = Get-Content $songlistFile -Raw -Encoding UTF8
 # Update visual version
-$songlistContent = $songlistContent -replace 'v<span id="site-version">[\d\.]+</span>', "v<span id=`"site-version`">$newVersion</span>"
+$songlistContent = $songlistContent -replace '<span id="site-version" class="version-tag">[\d\.]+</span>', "<span id=`"site-version`" class=`"version-tag`">$newVersion</span>"
+# Update other metadata/title versions
+$songlistContent = $songlistContent -replace '<meta name="version" content="[\d\.]+"', "<meta name=`"version`" content=`"$newVersion`""
+$songlistContent = $songlistContent -replace '<meta name="application-version" content="v[\d\.]+"', "<meta name=`"application-version`" content=`"v$newVersion`""
+$songlistContent = $songlistContent -replace '<title>Song List v[\d\.]+', "<title>Song List v$newVersion"
 # Update script versions
 $songlistContent = $songlistContent -replace '\?v=[\d\.]+"', "?v=$newVersion`""
 Set-Content $songlistFile $songlistContent -Encoding UTF8
@@ -98,7 +127,7 @@ node scripts/generate_sitemap.js
 
 # 8. Git Operations
 Write-Host "Staging changes..."
-git add index.html songlist.html quickstart.html ChordTrainer.html scrolling_chords.html js/app.js styles.css js/ui/* images/*.png changelog.html sitemap.xml song/* artist/*
+git add index.html songlist.html quickstart.html ChordTrainer.html scrolling_chords.html js/app.js styles.css css/* js/ui/* images/*.png changelog.html sitemap.xml song/* artist/* FacebookGroups.html PopSongChordBook_PromoData_2026-06-01.json database.rules.json FIREBASE_SECURITY_RULES.md songlist-old.html "ChordTheory&Tips.html" "ChordTheory&TipsGuitar.html" GuitarChordTrainer.html student.html student_detail.html teacher.html scrolling_mobile.css deploy.ps1 js/data/default_songs.js js/utils/FirebaseManager.js js/student_detail.js js/teacher.js artist.html song.html
 
 Write-Host "Committing..."
 git commit -m "$Message (v$newVersion)"

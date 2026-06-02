@@ -68,8 +68,8 @@ body.is-mobile-landscape .song-detail-thumb-section {
 }
 
 body.is-mobile-landscape .song-detail-thumb {
-    width: 40px; 
-    height: 40px;
+    width: 27px; 
+    height: 27px;
     border-radius: 6px;
     object-fit: cover;
     box-shadow: 0 2px 8px rgba(0,0,0,0.4);
@@ -610,8 +610,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-mobile-landscape .song-detail-thumb {
-        width: 135px !important; /* Scaled from 90px to 135px (another 50% increase) */
-        height: 135px !important;
+        width: 95px !important; /* Reduced by 30% total to prevent top-clipping */
+        height: 95px !important;
         left: 30px !important;
     }
 

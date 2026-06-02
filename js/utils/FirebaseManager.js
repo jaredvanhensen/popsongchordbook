@@ -1813,29 +1813,26 @@ class FirebaseManager {
             ];
 
             if (!progress) {
+                // Fetch customized default goals from database settings
+                const settingsSnap = await this.database.ref(`studentProgress/${teacherUid}/settings`).once('value');
+                const settings = settingsSnap.val() || {};
+                const activeDefaultGoals = settings.defaultGoals || defaultGoals;
+
                 // Initialize default progress
                 progress = {
                     homework: { text: '', date: '' },
-                    goals: [...defaultGoals],
+                    goals: [...activeDefaultGoals],
                     links: []
                 };
                 await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
-            } else if (progress.goals) {
-                // We want to update the student's goals list to match defaultGoals, preserving their 'completed' state if the text matches!
-                let updated = false;
-                const mergedGoals = defaultGoals.map(defGoal => {
-                    const existing = progress.goals.find(g => g.text === defGoal.text);
-                    if (existing) {
-                        return { ...defGoal, completed: existing.completed };
-                    } else {
-                        updated = true;
-                        return { ...defGoal };
-                    }
-                });
-                if (updated || progress.goals.length !== defaultGoals.length) {
-                    progress.goals = mergedGoals;
-                    await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
-                }
+            } else if (!progress.goals) {
+                // Initialize goals if missing
+                const settingsSnap = await this.database.ref(`studentProgress/${teacherUid}/settings`).once('value');
+                const settings = settingsSnap.val() || {};
+                const activeDefaultGoals = settings.defaultGoals || defaultGoals;
+
+                progress.goals = [...activeDefaultGoals];
+                await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);
             }
             
             return { success: true, progress };

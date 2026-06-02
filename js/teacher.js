@@ -23,6 +23,28 @@ class TeacherDashboard {
         this.tabStudentsContent = document.getElementById('tabStudentsContent');
         this.tabGroupsContent = document.getElementById('tabGroupsContent');
         this.groupCountBadge = document.getElementById('groupCountBadge');
+
+        // Goals Settings Editor Modal
+        this.goalsEditorModal = document.getElementById('goalsEditorModal');
+        this.openGoalsEditorBtn = document.getElementById('openGoalsEditorBtn');
+        this.closeGoalsEditorBtn = document.getElementById('closeGoalsEditorBtn');
+
+        // Goals Settings Editor elements
+        this.goalsSetSelect = document.getElementById('goalsSetSelect');
+        this.createGoalSetBtn = document.getElementById('createGoalSetBtn');
+        this.deleteGoalSetBtn = document.getElementById('deleteGoalSetBtn');
+        this.goalsListContainer = document.getElementById('goalsListContainer');
+        this.newGoalInput = document.getElementById('newGoalInput');
+        this.addGoalToSetBtn = document.getElementById('addGoalToSetBtn');
+        this.resetGoalsToDefaultBtn = document.getElementById('resetGoalsToDefaultBtn');
+        this.saveGoalsSettingsBtn = document.getElementById('saveGoalsSettingsBtn');
+        this.goalsCountLabel = document.getElementById('goalsCountLabel');
+
+        // Local state for goals
+        this.teacherSettings = { defaultGoals: null, customGoalSets: {} };
+        this.activeGoalsSetType = 'default';
+        this.editingGoalsList = [];
+        this.goalsEditorInitialized = false;
         
         // Groups Management
         this.createGroupBtn = document.getElementById('createGroupBtn');
@@ -405,6 +427,34 @@ class TeacherDashboard {
                 this.switchTab('groups');
             });
         }
+        
+        // Goals modal listeners
+        if (this.openGoalsEditorBtn && this.goalsEditorModal) {
+            this.openGoalsEditorBtn.addEventListener('click', () => {
+                const menu = document.getElementById('teacherSettingsMenu');
+                if (menu) menu.classList.add('hidden');
+                this.goalsEditorModal.classList.remove('hidden');
+                this.goalsEditorModal.style.display = 'flex';
+                this.loadGoalsSettingsEditor();
+            });
+        }
+        if (this.closeGoalsEditorBtn && this.goalsEditorModal) {
+            this.closeGoalsEditorBtn.addEventListener('click', () => {
+                this.goalsEditorModal.classList.add('hidden');
+                this.goalsEditorModal.style.display = 'none';
+            });
+        }
+        if (this.goalsEditorModal) {
+            this.goalsEditorModal.addEventListener('click', (e) => {
+                if (e.target === this.goalsEditorModal) {
+                    this.goalsEditorModal.classList.add('hidden');
+                    this.goalsEditorModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Goals settings listeners
+        this.setupGoalsSettingsEventListeners();
 
         // Group creation
         if (this.createGroupBtn) {
@@ -513,10 +563,19 @@ class TeacherDashboard {
             this.firebaseManager.database.ref(`studentProgress/${user.uid}`).on('value', (snapshot) => {
                 this.allProgress = snapshot.val() || {};
                 this.groups = this.allProgress.groups || {};
+                this.teacherSettings = this.allProgress.settings || { defaultGoals: null, customGoalSets: {} };
                 this.extractLessons();
                 this.renderCalendar();
                 this.renderGroups();
                 this.populateGroupDropdown();
+
+                // Only initialize editor data once, or when saved, to avoid losing unsaved changes
+                if (!this.goalsEditorInitialized) {
+                    this.goalsEditorInitialized = true;
+                    this.loadGoalsSettingsEditor();
+                } else {
+                    this.populateGoalsSetDropdown();
+                }
             });
 
             // Load Students
@@ -717,7 +776,7 @@ class TeacherDashboard {
     extractLessons() {
         this.lessonsByDate = {};
         Object.entries(this.allProgress).forEach(([studentUid, progress]) => {
-            if (studentUid === 'groups') return;
+            if (studentUid === 'groups' || studentUid === 'settings') return;
             if (progress.lessons) {
                 Object.entries(progress.lessons).forEach(([lessonId, lesson]) => {
                     const date = lesson.date;
@@ -1130,7 +1189,7 @@ class TeacherDashboard {
                     const originalTime = this.editingLesson.time;
                     
                     Object.entries(this.allProgress).forEach(([studentUid, progress]) => {
-                        if (studentUid === 'groups') return;
+                        if (studentUid === 'groups' || studentUid === 'settings') return;
                         if (progress.lessons) {
                             Object.entries(progress.lessons).forEach(([id, l]) => {
                                 if (l.groupLessonId === this.editingLesson.groupLessonId && l.date === originalDate && l.time === originalTime) {
@@ -1355,28 +1414,34 @@ class TeacherDashboard {
     // --- Groups Management Methods ---
 
     switchTab(tab) {
+        // Reset all tab button styles
+        [this.tabStudentsBtn, this.tabGroupsBtn].forEach(btn => {
+            if (btn) {
+                btn.classList.remove('active');
+                btn.style.color = '#64748b';
+                btn.style.borderBottom = '2px solid transparent';
+            }
+        });
+        
+        // Hide all tab contents
+        if (this.tabStudentsContent) this.tabStudentsContent.style.display = 'none';
+        if (this.tabGroupsContent) this.tabGroupsContent.style.display = 'none';
+        
+        // Show active tab and set active button style
         if (tab === 'students') {
-            this.tabStudentsBtn.classList.add('active');
-            this.tabStudentsBtn.style.color = '#166534';
-            this.tabStudentsBtn.style.borderBottom = '2px solid #166534';
-            
-            this.tabGroupsBtn.classList.remove('active');
-            this.tabGroupsBtn.style.color = '#64748b';
-            this.tabGroupsBtn.style.borderBottom = '2px solid transparent';
-            
-            this.tabStudentsContent.style.display = 'flex';
-            this.tabGroupsContent.style.display = 'none';
-        } else {
-            this.tabGroupsBtn.classList.add('active');
-            this.tabGroupsBtn.style.color = '#166534';
-            this.tabGroupsBtn.style.borderBottom = '2px solid #166534';
-            
-            this.tabStudentsBtn.classList.remove('active');
-            this.tabStudentsBtn.style.color = '#64748b';
-            this.tabStudentsBtn.style.borderBottom = '2px solid transparent';
-            
-            this.tabStudentsContent.style.display = 'none';
-            this.tabGroupsContent.style.display = 'flex';
+            if (this.tabStudentsBtn) {
+                this.tabStudentsBtn.classList.add('active');
+                this.tabStudentsBtn.style.color = '#166534';
+                this.tabStudentsBtn.style.borderBottom = '2px solid #166534';
+            }
+            if (this.tabStudentsContent) this.tabStudentsContent.style.display = 'flex';
+        } else if (tab === 'groups') {
+            if (this.tabGroupsBtn) {
+                this.tabGroupsBtn.classList.add('active');
+                this.tabGroupsBtn.style.color = '#166534';
+                this.tabGroupsBtn.style.borderBottom = '2px solid #166534';
+            }
+            if (this.tabGroupsContent) this.tabGroupsContent.style.display = 'flex';
         }
     }
 
@@ -1567,7 +1632,7 @@ class TeacherDashboard {
                 const updates = {};
                 
                 Object.entries(progressData).forEach(([studentUid, progress]) => {
-                    if (studentUid === 'groups') return;
+                    if (studentUid === 'groups' || studentUid === 'settings') return;
                     if (progress.lessons) {
                         Object.entries(progress.lessons).forEach(([id, l]) => {
                             if (l.groupLessonId === lesson.groupLessonId) {
@@ -1657,7 +1722,7 @@ class TeacherDashboard {
         // Collect all lessons
         const allLessons = [];
         Object.entries(this.allProgress).forEach(([studentUid, progress]) => {
-            if (studentUid === 'groups') return;
+            if (studentUid === 'groups' || studentUid === 'settings') return;
             if (progress.lessons) {
                 Object.entries(progress.lessons).forEach(([lessonId, lesson]) => {
                     allLessons.push({
@@ -1822,6 +1887,544 @@ class TeacherDashboard {
             console.error('Failed to export calendar:', err);
             alert('Failed to export calendar. Please try again.');
         }
+    }
+
+    // --- Goals Settings Editor Methods ---
+
+    loadGoalsSettingsEditor() {
+        this.populateGoalsSetDropdown();
+        this.loadActiveSetGoals();
+    }
+
+    populateGoalsSetDropdown() {
+        if (!this.goalsSetSelect) return;
+        
+        const currentVal = this.goalsSetSelect.value || this.activeGoalsSetType;
+        this.goalsSetSelect.innerHTML = '<option value="default">Default Goals (for new students)</option>';
+        
+        const customSets = this.teacherSettings.customGoalSets || {};
+        Object.keys(customSets).forEach(setId => {
+            const set = customSets[setId];
+            if (set && set.name) {
+                const opt = document.createElement('option');
+                opt.value = `custom_${setId}`;
+                opt.textContent = `[Custom] ${set.name}`;
+                this.goalsSetSelect.appendChild(opt);
+            }
+        });
+        
+        // Restore selection
+        if ([...this.goalsSetSelect.options].some(opt => opt.value === currentVal)) {
+            this.goalsSetSelect.value = currentVal;
+            this.activeGoalsSetType = currentVal;
+        } else {
+            this.goalsSetSelect.value = 'default';
+            this.activeGoalsSetType = 'default';
+        }
+
+        // Show/hide delete button based on selection
+        if (this.deleteGoalSetBtn) {
+            if (this.activeGoalsSetType === 'default') {
+                this.deleteGoalSetBtn.classList.add('hidden');
+                this.deleteGoalSetBtn.style.display = 'none';
+            } else {
+                this.deleteGoalSetBtn.classList.remove('hidden');
+                this.deleteGoalSetBtn.style.display = 'block';
+            }
+        }
+    }
+
+    loadActiveSetGoals() {
+        const systemDefaultGoals = [
+            { id: 'goal_0', text: 'Tuning the guitar', completed: false },
+            { id: 'goal_1', text: 'C Em G and D chord', completed: false },
+            { id: 'goal_2', text: 'Am E Dm chords', completed: false },
+            { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
+            { id: 'goal_4', text: 'F and Bb chord', completed: false },
+            { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
+            { id: 'goal_6', text: 'Play Harry Styles - Sign of the Times from start to finish', completed: false },
+            { id: 'goal_7', text: "Play Bill Withers - Ain't No Sunshine from start to finish", completed: false },
+            { id: 'goal_8', text: 'Play Taylor Swift - All Too Well from start to finish', completed: false },
+            { id: 'goal_9', text: 'Play The Cranberries - Zombie from start to finish', completed: false },
+            { id: 'goal_10', text: "Play Madcon - Don't Worry from start to finish", completed: false },
+            { id: 'goal_11', text: 'C major scale', completed: false },
+            { id: 'goal_12', text: 'A minor scale', completed: false },
+            { id: 'goal_13', text: 'Sus2 and sus4 chords', completed: false },
+            { id: 'goal_14', text: 'Seventh chords', completed: false },
+            { id: 'goal_15', text: 'Naming all notes on the E and A bass strings', completed: false },
+            { id: 'goal_16', text: 'Naming all notes on D and G string', completed: false },
+            { id: 'goal_17', text: 'Fingerpicking 3 patterns', completed: false },
+            { id: 'goal_18', text: 'Power Chords', completed: false },
+            { id: 'goal_19', text: 'Blues improvisation in A', completed: false },
+            { id: 'goal_20', text: 'Slide, Bends', completed: false },
+            { id: 'goal_21', text: 'Tapping', completed: false },
+            { id: 'goal_22', text: 'Naming all notes on all strings', completed: false },
+            { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
+        ];
+
+        if (this.activeGoalsSetType === 'default') {
+            this.editingGoalsList = JSON.parse(JSON.stringify(this.teacherSettings.defaultGoals || systemDefaultGoals));
+        } else {
+            const setId = this.activeGoalsSetType.replace('custom_', '');
+            const customSets = this.teacherSettings.customGoalSets || {};
+            const set = customSets[setId];
+            this.editingGoalsList = JSON.parse(JSON.stringify((set && set.goals) ? set.goals : []));
+        }
+
+        this.renderActiveGoalsList();
+    }
+
+    renderActiveGoalsList() {
+        if (!this.goalsListContainer) return;
+        
+        this.goalsListContainer.innerHTML = '';
+        const count = this.editingGoalsList.length;
+        if (this.goalsCountLabel) {
+            this.goalsCountLabel.textContent = `${count} goal${count !== 1 ? 's' : ''}`;
+        }
+        
+        if (count === 0) {
+            this.goalsListContainer.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; padding: 25px;">No goals in this set yet. Add one below!</div>';
+            return;
+        }
+        
+        this.editingGoalsList.forEach((goal, idx) => {
+            const row = document.createElement('div');
+            row.draggable = true;
+            row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; background: white; cursor: grab; transition: background 0.15s;';
+            row.setAttribute('data-index', idx);
+            if (idx === count - 1) row.style.borderBottom = 'none';
+            
+            // Drag and Drop Event Listeners
+            row.addEventListener('dragstart', (e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', idx);
+                row.style.opacity = '0.5';
+                row.style.background = '#f1f5f9';
+            });
+            
+            row.addEventListener('dragend', () => {
+                row.style.opacity = '1';
+                row.style.background = 'white';
+                const rows = this.goalsListContainer.querySelectorAll('[data-index]');
+                rows.forEach(r => {
+                    r.style.borderTop = '';
+                    r.style.borderBottom = '';
+                });
+            });
+            
+            row.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                
+                const rect = row.getBoundingClientRect();
+                const relativeY = e.clientY - rect.top;
+                if (relativeY < rect.height / 2) {
+                    row.style.borderTop = '2px solid #3b82f6';
+                    row.style.borderBottom = '';
+                } else {
+                    row.style.borderBottom = '2px solid #3b82f6';
+                    row.style.borderTop = '';
+                }
+            });
+            
+            row.addEventListener('dragleave', () => {
+                row.style.borderTop = '';
+                row.style.borderBottom = '';
+            });
+            
+            row.addEventListener('drop', (e) => {
+                e.preventDefault();
+                row.style.borderTop = '';
+                row.style.borderBottom = '';
+                
+                const sourceIdx = parseInt(e.dataTransfer.getData('text/plain'));
+                if (isNaN(sourceIdx) || sourceIdx === idx) return;
+                
+                const rect = row.getBoundingClientRect();
+                const relativeY = e.clientY - rect.top;
+                
+                let targetIdx = idx;
+                if (relativeY >= rect.height / 2) {
+                    targetIdx = idx + 1;
+                }
+                
+                const item = this.editingGoalsList[sourceIdx];
+                this.editingGoalsList.splice(sourceIdx, 1);
+                
+                let insertIdx = targetIdx;
+                if (sourceIdx < targetIdx) {
+                    insertIdx = targetIdx - 1;
+                }
+                
+                this.editingGoalsList.splice(insertIdx, 0, item);
+                this.renderActiveGoalsList();
+            });
+
+            // Grab handle
+            const handle = document.createElement('span');
+            handle.style.cssText = 'color: #cbd5e1; margin-right: 12px; cursor: grab; font-size: 16px; user-select: none;';
+            handle.innerHTML = '☰';
+            
+            const textSpan = document.createElement('span');
+            textSpan.style.cssText = 'font-size: 13px; color: #1e293b; font-weight: 500; cursor: pointer; flex: 1; margin-right: 15px; padding: 2px 4px; border-radius: 4px;';
+            textSpan.textContent = goal.text;
+            textSpan.title = 'Double-click to rename | Drag to reorder';
+            
+            // Double click to rename
+            textSpan.addEventListener('dblclick', () => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = goal.text;
+                input.style.cssText = 'font-size: 13px; font-family: inherit; font-weight: 500; color: #1e293b; padding: 2px 4px; border: 1px solid #3b82f6; border-radius: 4px; flex: 1; outline: none; box-sizing: border-box;';
+                
+                const saveEdit = () => {
+                    const val = input.value.trim();
+                    if (val) {
+                        goal.text = val;
+                        this.editingGoalsList[idx] = goal;
+                        this.renderActiveGoalsList();
+                    } else {
+                        this.renderActiveGoalsList();
+                    }
+                };
+                
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') saveEdit();
+                    if (e.key === 'Escape') this.renderActiveGoalsList();
+                });
+                input.addEventListener('blur', saveEdit);
+                
+                row.replaceChild(input, textSpan);
+                input.focus();
+                input.select();
+            });
+            
+            const delBtn = document.createElement('button');
+            delBtn.style.cssText = 'background: none; border: none; cursor: pointer; color: #ef4444; font-size: 18px; padding: 0 4px; line-height: 1; font-weight: bold; transition: opacity 0.2s;';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = 'Delete Goal';
+            delBtn.addEventListener('mouseover', () => delBtn.style.opacity = '0.7');
+            delBtn.addEventListener('mouseout', () => delBtn.style.opacity = '1');
+            delBtn.addEventListener('click', () => {
+                this.editingGoalsList.splice(idx, 1);
+                this.renderActiveGoalsList();
+            });
+            
+            row.appendChild(handle);
+            row.appendChild(textSpan);
+            row.appendChild(delBtn);
+            this.goalsListContainer.appendChild(row);
+        });
+    }
+
+    setupGoalsSettingsEventListeners() {
+        if (!this.goalsSetSelect) return;
+        
+        // Select change
+        this.goalsSetSelect.addEventListener('change', async (e) => {
+            let hasUnsavedChanges = false;
+            const systemDefaultGoals = [
+                { id: 'goal_0', text: 'Tuning the guitar', completed: false },
+                { id: 'goal_1', text: 'C Em G and D chord', completed: false },
+                { id: 'goal_2', text: 'Am E Dm chords', completed: false },
+                { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
+                { id: 'goal_4', text: 'F and Bb chord', completed: false },
+                { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
+                { id: 'goal_6', text: 'Play Harry Styles - Sign of the Times from start to finish', completed: false },
+                { id: 'goal_7', text: "Play Bill Withers - Ain't No Sunshine from start to finish", completed: false },
+                { id: 'goal_8', text: 'Play Taylor Swift - All Too Well from start to finish', completed: false },
+                { id: 'goal_9', text: 'Play The Cranberries - Zombie from start to finish', completed: false },
+                { id: 'goal_10', text: "Play Madcon - Don't Worry from start to finish", completed: false },
+                { id: 'goal_11', text: 'C major scale', completed: false },
+                { id: 'goal_12', text: 'A minor scale', completed: false },
+                { id: 'goal_13', text: 'Sus2 and sus4 chords', completed: false },
+                { id: 'goal_14', text: 'Seventh chords', completed: false },
+                { id: 'goal_15', text: 'Naming all notes on the E and A bass strings', completed: false },
+                { id: 'goal_16', text: 'Naming all notes on D and G string', completed: false },
+                { id: 'goal_17', text: 'Fingerpicking 3 patterns', completed: false },
+                { id: 'goal_18', text: 'Power Chords', completed: false },
+                { id: 'goal_19', text: 'Blues improvisation in A', completed: false },
+                { id: 'goal_20', text: 'Slide, Bends', completed: false },
+                { id: 'goal_21', text: 'Tapping', completed: false },
+                { id: 'goal_22', text: 'Naming all notes on all strings', completed: false },
+                { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
+            ];
+
+            let dbGoals = [];
+            if (this.activeGoalsSetType === 'default') {
+                dbGoals = this.teacherSettings.defaultGoals || systemDefaultGoals;
+            } else {
+                const setId = this.activeGoalsSetType.replace('custom_', '');
+                const set = (this.teacherSettings.customGoalSets || {})[setId];
+                dbGoals = (set && set.goals) ? set.goals : [];
+            }
+            
+            if (JSON.stringify(dbGoals) !== JSON.stringify(this.editingGoalsList)) {
+                hasUnsavedChanges = true;
+            }
+            
+            if (hasUnsavedChanges) {
+                const confirmed = await this.showCustomConfirm('Unsaved Changes', 'You have unsaved changes in this goal set. Switch anyway? (Unsaved edits will be lost)');
+                if (!confirmed) {
+                    this.goalsSetSelect.value = this.activeGoalsSetType;
+                    return;
+                }
+            }
+            
+            this.activeGoalsSetType = e.target.value;
+            
+            // Show/hide delete button
+            if (this.deleteGoalSetBtn) {
+                if (this.activeGoalsSetType === 'default') {
+                    this.deleteGoalSetBtn.classList.add('hidden');
+                    this.deleteGoalSetBtn.style.display = 'none';
+                } else {
+                    this.deleteGoalSetBtn.classList.remove('hidden');
+                    this.deleteGoalSetBtn.style.display = 'block';
+                }
+            }
+            
+            this.loadActiveSetGoals();
+        });
+        
+        // Add Goal
+        const executeAddGoal = () => {
+            if (!this.newGoalInput) return;
+            const text = this.newGoalInput.value.trim();
+            if (!text) return;
+            
+            this.editingGoalsList.push({
+                id: 'goal_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+                text: text,
+                completed: false
+            });
+            this.newGoalInput.value = '';
+            this.renderActiveGoalsList();
+        };
+        
+        if (this.addGoalToSetBtn) {
+            this.addGoalToSetBtn.addEventListener('click', executeAddGoal);
+        }
+        if (this.newGoalInput) {
+            this.newGoalInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') executeAddGoal();
+            });
+        }
+        
+        // Create Custom Set
+        if (this.createGoalSetBtn) {
+            this.createGoalSetBtn.addEventListener('click', async () => {
+                const name = await this.showCustomPrompt('New Goals Set', 'Enter a name for the new custom goal set:');
+                if (!name) return;
+                const trimmed = name.trim();
+                if (!trimmed) return;
+                
+                const setId = 'set_' + Date.now();
+                if (!this.teacherSettings.customGoalSets) {
+                    this.teacherSettings.customGoalSets = {};
+                }
+                this.teacherSettings.customGoalSets[setId] = {
+                    id: setId,
+                    name: trimmed,
+                    goals: []
+                };
+                
+                this.activeGoalsSetType = `custom_${setId}`;
+                this.populateGoalsSetDropdown();
+                this.loadActiveSetGoals();
+            });
+        }
+        
+        // Delete Custom Set
+        if (this.deleteGoalSetBtn) {
+            this.deleteGoalSetBtn.addEventListener('click', async () => {
+                if (this.activeGoalsSetType === 'default') return;
+                const setId = this.activeGoalsSetType.replace('custom_', '');
+                const customSets = this.teacherSettings.customGoalSets || {};
+                const set = customSets[setId];
+                const setName = set ? set.name : 'this set';
+                
+                const confirmed = await this.showCustomConfirm('Delete Goal Set', `Are you sure you want to delete the custom goal set '${setName}'?`);
+                if (!confirmed) return;
+                
+                delete customSets[setId];
+                this.activeGoalsSetType = 'default';
+                this.populateGoalsSetDropdown();
+                this.loadActiveSetGoals();
+            });
+        }
+        
+        // Reset to system defaults
+        if (this.resetGoalsToDefaultBtn) {
+            this.resetGoalsToDefaultBtn.addEventListener('click', async () => {
+                const confirmed = await this.showCustomConfirm('Reset to Defaults', "Reset the editor's current list to system default goals? This will overwrite your current edits in the editor (you must click Save to persist to the database).");
+                if (!confirmed) return;
+                
+                const systemDefaultGoals = [
+                    { id: 'goal_0', text: 'Tuning the guitar', completed: false },
+                    { id: 'goal_1', text: 'C Em G and D chord', completed: false },
+                    { id: 'goal_2', text: 'Am E Dm chords', completed: false },
+                    { id: 'goal_3', text: 'F and Bm small barre chord', completed: false },
+                    { id: 'goal_4', text: 'F and Bb chord', completed: false },
+                    { id: 'goal_5', text: 'Pentatonic Scale', completed: false },
+                    { id: 'goal_6', text: 'Play Harry Styles - Sign of the Times from start to finish', completed: false },
+                    { id: 'goal_7', text: "Play Bill Withers - Ain't No Sunshine from start to finish", completed: false },
+                    { id: 'goal_8', text: 'Play Taylor Swift - All Too Well from start to finish', completed: false },
+                    { id: 'goal_9', text: 'Play The Cranberries - Zombie from start to finish', completed: false },
+                    { id: 'goal_10', text: "Play Madcon - Don't Worry from start to finish", completed: false },
+                    { id: 'goal_11', text: 'C major scale', completed: false },
+                    { id: 'goal_12', text: 'A minor scale', completed: false },
+                    { id: 'goal_13', text: 'Sus2 and sus4 chords', completed: false },
+                    { id: 'goal_14', text: 'Seventh chords', completed: false },
+                    { id: 'goal_15', text: 'Naming all notes on the E and A bass strings', completed: false },
+                    { id: 'goal_16', text: 'Naming all notes on D and G string', completed: false },
+                    { id: 'goal_17', text: 'Fingerpicking 3 patterns', completed: false },
+                    { id: 'goal_18', text: 'Power Chords', completed: false },
+                    { id: 'goal_19', text: 'Blues improvisation in A', completed: false },
+                    { id: 'goal_20', text: 'Slide, Bends', completed: false },
+                    { id: 'goal_21', text: 'Tapping', completed: false },
+                    { id: 'goal_22', text: 'Naming all notes on all strings', completed: false },
+                    { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
+                ];
+                
+                this.editingGoalsList = JSON.parse(JSON.stringify(systemDefaultGoals));
+                this.renderActiveGoalsList();
+            });
+        }
+        
+        // Save Settings
+        if (this.saveGoalsSettingsBtn) {
+            this.saveGoalsSettingsBtn.addEventListener('click', async () => {
+                this.saveGoalsSettingsBtn.disabled = true;
+                this.saveGoalsSettingsBtn.textContent = '⏳ Saving...';
+                
+                try {
+                    const teacherUid = this.firebaseManager.currentUser.uid;
+                    
+                    if (this.activeGoalsSetType === 'default') {
+                        this.teacherSettings.defaultGoals = this.editingGoalsList;
+                    } else {
+                        const setId = this.activeGoalsSetType.replace('custom_', '');
+                        if (!this.teacherSettings.customGoalSets) {
+                            this.teacherSettings.customGoalSets = {};
+                        }
+                        if (this.teacherSettings.customGoalSets[setId]) {
+                            this.teacherSettings.customGoalSets[setId].goals = this.editingGoalsList;
+                        }
+                    }
+                    
+                    await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/settings`).set(this.teacherSettings);
+                    
+                    this.saveGoalsSettingsBtn.textContent = '✅ Saved!';
+                    this.saveGoalsSettingsBtn.style.background = '#10b981';
+                    
+                    setTimeout(() => {
+                        this.saveGoalsSettingsBtn.textContent = '💾 Save Goals Set';
+                        this.saveGoalsSettingsBtn.style.background = '#3b82f6';
+                        this.saveGoalsSettingsBtn.disabled = false;
+                    }, 2000);
+                } catch (err) {
+                    console.error('Error saving goals settings:', err);
+                    alert('Save failed: Database write permission denied.');
+                    this.saveGoalsSettingsBtn.textContent = '💾 Save Goals Set';
+                    this.saveGoalsSettingsBtn.style.background = '#3b82f6';
+                    this.saveGoalsSettingsBtn.disabled = false;
+                }
+            });
+        }
+    }
+
+    showCustomConfirm(title, message) {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('customConfirmModal');
+            const titleEl = document.getElementById('customConfirmTitle');
+            const msgEl = document.getElementById('customConfirmMessage');
+            const okBtn = document.getElementById('customConfirmOkBtn');
+            const cancelBtn = document.getElementById('customConfirmCancelBtn');
+            
+            if (!modal || !msgEl || !okBtn || !cancelBtn) {
+                resolve(window.confirm(message));
+                return;
+            }
+            
+            titleEl.textContent = title || 'Confirm';
+            msgEl.textContent = message;
+            
+            const handleOk = () => {
+                cleanup();
+                resolve(true);
+            };
+            
+            const handleCancel = () => {
+                cleanup();
+                resolve(false);
+            };
+            
+            const cleanup = () => {
+                okBtn.removeEventListener('click', handleOk);
+                cancelBtn.removeEventListener('click', handleCancel);
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            };
+            
+            okBtn.addEventListener('click', handleOk);
+            cancelBtn.addEventListener('click', handleCancel);
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+        });
+    }
+
+    showCustomPrompt(title, placeholder) {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('customPromptModal');
+            const titleEl = document.getElementById('customPromptTitle');
+            const inputEl = document.getElementById('customPromptInput');
+            const okBtn = document.getElementById('customPromptOkBtn');
+            const cancelBtn = document.getElementById('customPromptCancelBtn');
+            
+            if (!modal || !inputEl || !okBtn || !cancelBtn) {
+                resolve(window.prompt(title));
+                return;
+            }
+            
+            titleEl.textContent = title || 'Enter Name';
+            inputEl.value = '';
+            inputEl.placeholder = placeholder || '';
+            
+            const handleOk = () => {
+                const val = inputEl.value.trim();
+                cleanup();
+                resolve(val || null);
+            };
+            
+            const handleCancel = () => {
+                cleanup();
+                resolve(null);
+            };
+            
+            const cleanup = () => {
+                okBtn.removeEventListener('click', handleOk);
+                cancelBtn.removeEventListener('click', handleCancel);
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            };
+            
+            okBtn.addEventListener('click', handleOk);
+            cancelBtn.addEventListener('click', handleCancel);
+            
+            inputEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleOk();
+                }
+            });
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            setTimeout(() => inputEl.focus(), 50);
+        });
     }
 }
 
