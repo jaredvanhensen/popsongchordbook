@@ -1478,7 +1478,11 @@ class ProfileModal {
         const newUsername = this.usernameInput?.value.trim();
 
         if (!newUsername) {
-            alert('Please enter a username.');
+            if (this.confirmationModal) {
+                this.confirmationModal.show('Validation Error', 'Please enter a username.', () => {}, null, 'OK', null, 'primary', true);
+            } else {
+                alert('Please enter a username.');
+            }
             return;
         }
 
@@ -1490,17 +1494,32 @@ class ProfileModal {
         try {
             const result = await this.firebaseManager.updateUsername(newUsername);
             if (result.success) {
-                alert('Username successfully updated!');
-                // The app should automatically update the display through some listener or callback
-                if (this.onAuthSuccess) {
-                    this.onAuthSuccess(result.user);
+                const proceed = () => {
+                    if (this.onAuthSuccess) {
+                        this.onAuthSuccess(result.user);
+                    }
+                };
+                if (this.confirmationModal) {
+                    this.confirmationModal.show('Success', 'Username successfully updated!', proceed, null, 'OK', null, 'primary', true);
+                } else {
+                    alert('Username successfully updated!');
+                    proceed();
                 }
             } else {
-                alert('Error updating username: ' + (result.error || 'Unknown error'));
+                const errMsg = 'Error updating username: ' + (result.error || 'Unknown error');
+                if (this.confirmationModal) {
+                    this.confirmationModal.show('Error', errMsg, () => {}, null, 'OK', null, 'primary', true);
+                } else {
+                    alert(errMsg);
+                }
             }
         } catch (error) {
             console.error('Update username error:', error);
-            alert('An error occurred.');
+            if (this.confirmationModal) {
+                this.confirmationModal.show('Error', 'An error occurred.', () => {}, null, 'OK', null, 'primary', true);
+            } else {
+                alert('An error occurred.');
+            }
         } finally {
             if (this.updateUsernameBtn) {
                 this.updateUsernameBtn.disabled = false;
@@ -1857,56 +1876,6 @@ class ProfileModal {
         }
     }
 
-    async handleAvatarUpload(file) {
-        if (!file) return;
-
-        // Basic validation
-        if (!file.type.startsWith('image/')) {
-            alert('Please select an image.');
-            return;
-        }
-
-        if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            alert('Image is too large. Max 5MB.');
-            return;
-        }
-
-        try {
-            // Show loading state
-            if (this.changeAvatarBtn) {
-                this.changeAvatarBtn.textContent = '...';
-                this.changeAvatarBtn.disabled = true;
-            }
-
-            const resizedDataUrl = await this.resizeImage(file, 200, 200);
-
-            // Save to Firebase Auth
-            const result = await this.firebaseManager.updatePhotoURL(resizedDataUrl);
-
-            if (result.success) {
-                // Update UI
-                this.updateAvatarUI(resizedDataUrl);
-
-                // Trigger profile label update if possible
-                if (this.onAuthSuccess) {
-                    // This might be enough to trigger app updates if passed correctly
-                    // accessing app instance is hard here, but page refresh will sort it out
-                }
-            } else {
-                alert('Error updating profile picture: ' + result.error);
-            }
-
-        } catch (error) {
-            console.error('Avatar upload error:', error);
-            alert('Error processing image.');
-        } finally {
-            if (this.changeAvatarBtn) {
-                this.changeAvatarBtn.textContent = '📷';
-                this.changeAvatarBtn.disabled = false;
-            }
-            if (this.avatarInput) this.avatarInput.value = ''; // Reset input
-        }
-    }
 
     resizeImage(file, maxWidth, maxHeight) {
         return new Promise((resolve, reject) => {

@@ -335,6 +335,13 @@ class FirebaseManager {
             // Reload user to get updated profile
             await this.currentUser.reload();
             this.currentUser = this.auth.currentUser;
+
+            // Also write to database so it is readable by other users (e.g. teachers)
+            await this.database.ref(`users/${this.currentUser.uid}`).update({
+                displayName: newUsername,
+                name: newUsername
+            });
+
             return { success: true, user: this.currentUser };
         } catch (error) {
             console.error('Update username error:', error);
@@ -1537,9 +1544,14 @@ class FirebaseManager {
     async updateLastLogin(userId) {
         if (!this.initialized || !userId) return;
         try {
-            await this.database.ref(`users/${userId}`).update({
+            const updates = {
                 lastLogin: firebase.database.ServerValue.TIMESTAMP
-            });
+            };
+            if (this.currentUser && this.currentUser.displayName) {
+                updates.displayName = this.currentUser.displayName;
+                updates.name = this.currentUser.displayName;
+            }
+            await this.database.ref(`users/${userId}`).update(updates);
         } catch (error) {
             console.error('Error updating lastLogin:', error);
         }

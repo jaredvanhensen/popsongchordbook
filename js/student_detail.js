@@ -78,8 +78,12 @@ class StudentDetailEditor {
             const studentSnap = await this.firebaseManager.database.ref(`users/${this.studentUid}`).once('value');
             const studentData = studentSnap.val();
             if (studentData) {
-                this.studentEmail = studentData.email || 'Connected Student';
-                this.studentEmailDisplay.textContent = this.studentEmail;
+                this.studentEmail = studentData.email || '';
+                const emailPrefix = this.studentEmail.split('@')[0];
+                const capitalizedPrefix = emailPrefix ? emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1) : 'Student';
+                const displayName = studentData.name || studentData.displayName || capitalizedPrefix;
+                
+                this.studentEmailDisplay.textContent = displayName;
                 this.studentSubtitle.textContent = `Managing ${this.studentEmail}`;
             }
 
