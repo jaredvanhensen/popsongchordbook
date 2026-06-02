@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Shorts UI Safe-Zone Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    
+    p {
+      color: #aaaaaa;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+      background: #212121;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .file-input-btn {
+      background: #3a3a3a;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #555;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .file-input-btn:hover {
+      background: #4a4a4a;
+    }
+    
+    #fileInput {
+      display: none;
+    }
+
+    /* Standard Mobile 9:16 Frame inside YouTube Shorts */
+    .shorts-viewport {
+      position: relative;
+      width: 360px;
+      height: 640px;
+      background-color: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+      border: 2px solid #333;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Mocks the YouTube Shorts bottom dark gradient */
+    .shorts-gradient-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 220px;
+      background: linear-gradient(to top, 
+        rgba(0,0,0,0.85) 0%, 
+        rgba(0,0,0,0.6) 40%, 
+        rgba(0,0,0,0.2) 75%, 
+        transparent 100%
+      );
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* YouTube UI Overlays (Text + Icons) */
+    .shorts-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .channel-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .channel-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .subscribe-btn {
+      background: #ffffff;
+      color: #000000;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    .description {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 6px;
+      max-width: 82%; /* Push text left of action buttons */
+      white-space: normal;
+      word-wrap: break-word;
+    }
+
+    .soundtrack {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    /* YouTube Interaction Sidebar on Right */
+    .interaction-sidebar {
+      position: absolute;
+      right: 8px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+      font-size: 0.75rem;
+      gap: 4px;
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>YouTube Shorts Preview Simulator</h1>
+  <p>Select your recording/video to simulate YouTube's overlay layout. Make sure critical text/chords don't end up hidden behind these overlays.</p>
+
+  <div class="controls">
+    <label for="fileInput" class="file-input-btn">📂 Choose Your Video File</label>
+    <input type="file" id="fileInput" accept="video/*">
+    <span id="fileName" style="font-size: 0.85rem; color: #888;">No file selected</span>
+  </div>
+
+  <div class="shorts-viewport">
+    <video id="previewVideo" autoplay loop muted controls></video>
+    <div class="shorts-gradient-overlay"></div>
+    
+    <div class="shorts-content">
+      <div class="channel-row">
+        <div class="avatar">CH</div>
+        <div class="channel-name">@YourChannel</div>
+        <div class="subscribe-btn">Subscribe</div>
+      </div>
+      <div class="description">
+        This is an example description showing how multiline caption overlays wrap and block content at the bottom of the Shorts feed. #shorts #timeline
+      </div>
+      <div class="soundtrack">
+        🎵 Original Audio - @YourChannel
+      </div>
+    </div>
+
+    <div class="interaction-sidebar">
+      <div class="action-item">
+        <div class="action-icon">👍</div>
+        <span>Likes</span>
+      </div>
+      <div class="action-item">
+        <div class="action-icon">👎</div>
+        <span>Dislike</span>
+      </div>
+      <div class="action-item">
+        <div class="action-icon">💬</div>
+        <span>48</span>
+      </div>
+      <div class="action-item">
+        <div class="action-icon">↩️</div>
+        <span>Share</span>
+      </div>
+      <div class="action-item">
+        <div class="action-icon">🌀</div>
+        <span>Remix</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const previewVideo = document.getElementById('previewVideo');
+    const fileName = document.getElementById('fileName');
+
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        fileName.textContent = file.name;
+        const objectURL = URL.createObjectURL(file);
+        previewVideo.src = objectURL;
+        previewVideo.load();
+        previewVideo.play().catch(err => console.log("Auto-play blocked by browser. Please click Play on the video."));
+      }
+    });
+  </script>
+
+</body>
+</html>

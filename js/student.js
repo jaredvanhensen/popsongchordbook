@@ -10,6 +10,8 @@ class StudentDashboard {
         this.linksContainer = document.getElementById('studentLinksContainer');
         this.assignedSongsContainer = document.getElementById('assignedSongsContainer');
         this.lessonsContainer = document.getElementById('studentLessonsContainer');
+        this.setlistsPanel = document.getElementById('studentSetlistsPanel');
+        this.setlistsContainer = document.getElementById('studentSetlistsContainer');
 
         this.init();
     }
@@ -301,6 +303,59 @@ class StudentDashboard {
             });
         } else {
             this.assignedSongsContainer.innerHTML = '<div style="color: #64748b; font-size: 14px;">No songs assigned yet.</div>';
+        }
+
+        // Render Assigned Setlists
+        if (this.setlistsPanel && this.setlistsContainer) {
+            const assignedSetlists = progress.assignedSetlists ? Object.values(progress.assignedSetlists) : [];
+            this.setlistsContainer.innerHTML = '';
+            
+            if (assignedSetlists.length > 0) {
+                this.setlistsPanel.style.display = 'block';
+                assignedSetlists.forEach(setlist => {
+                    const setlistGroup = document.createElement('div');
+                    setlistGroup.style.cssText = 'background: #ffffff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 12px 15px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;';
+                    
+                    const header = document.createElement('div');
+                    header.style.cssText = 'font-weight: bold; color: #6b21a8; font-size: 0.95rem; border-bottom: 1px solid #f3e8ff; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center;';
+                    
+                    let dateStr = '';
+                    if (setlist.assignedAt) {
+                        try {
+                            dateStr = new Date(setlist.assignedAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
+                        } catch (e) {}
+                    }
+                    header.innerHTML = `
+                        <span>📋 ${setlist.name}</span>
+                        ${dateStr ? `<span style="font-size: 11px; font-weight: normal; color: #a78bfa;">Assigned ${dateStr}</span>` : ''}
+                    `;
+                    setlistGroup.appendChild(header);
+                    
+                    const songs = setlist.songs ? Object.values(setlist.songs) : [];
+                    if (songs.length === 0) {
+                        const noSongs = document.createElement('div');
+                        noSongs.style.cssText = 'color: #64748b; font-size: 12px; padding: 4px 0;';
+                        noSongs.textContent = 'No songs in this setlist.';
+                        setlistGroup.appendChild(noSongs);
+                    } else {
+                        songs.forEach(song => {
+                            const a = document.createElement('a');
+                            a.href = `songlist.html?songId=${song.id}`;
+                            a.className = 'assigned-song-link';
+                            a.style.cssText = 'margin-bottom: 0; background: #faf5ff; border-color: #f3e8ff; padding: 10px 12px;';
+                            a.innerHTML = `
+                                <span>🎵 ${song.title}</span>
+                                <span style="color:#c084fc; font-size:12px;">Open ↗</span>
+                            `;
+                            setlistGroup.appendChild(a);
+                        });
+                    }
+                    
+                    this.setlistsContainer.appendChild(setlistGroup);
+                });
+            } else {
+                this.setlistsPanel.style.display = 'none';
+            }
         }
     }
 }

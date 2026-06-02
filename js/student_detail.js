@@ -11,6 +11,9 @@ class StudentDetailEditor {
         this.goalsContainer = document.getElementById('spGoalsContainer');
         this.goalsHeaderTitle = document.getElementById('spGoalsHeaderTitle');
         this.loadGoalsSetSelect = document.getElementById('spLoadGoalsSetSelect');
+        this.assignedSetlistsContainer = document.getElementById('spAssignedSetlistsContainer');
+        this.assignSetlistSelect = document.getElementById('spAssignSetlistSelect');
+        this.assignSetlistBtn = document.getElementById('spAssignSetlistBtn');
 
         // Form fields
         this.assignSongSelect = document.getElementById('spAssignSongSelect');
@@ -80,10 +83,16 @@ class StudentDetailEditor {
                 this.studentSubtitle.textContent = `Managing ${this.studentEmail}`;
             }
 
-            // Load Teacher's Songs for Dropdown
-            const songsSnapshot = await this.firebaseManager.database.ref(`users/${teacherUser.uid}/songs`).once('value');
+            // Load Teacher's Songs & Public Songs for Dropdown
+            const [songsSnapshot, publicSnapshot] = await Promise.all([
+                this.firebaseManager.database.ref(`users/${teacherUser.uid}/songs`).once('value'),
+                this.firebaseManager.database.ref('publicSongs').once('value')
+            ]);
             const songsData = songsSnapshot.val() || {};
+            const publicData = publicSnapshot.val() || {};
             this.assignSongSelect.innerHTML = '<option value="">-- Select a Song --</option>';
+
+            const addedSongIds = new Set();
 
             // 1. Add Default Songs (from DEFAULT_SONGS)
             if (typeof DEFAULT_SONGS !== 'undefined' && Array.isArray(DEFAULT_SONGS)) {
@@ -95,18 +104,36 @@ class StudentDetailEditor {
                         opt.value = song.id;
                         opt.textContent = `${song.title} - ${song.artist || 'Unknown'}`;
                         this.assignSongSelect.appendChild(opt);
+                        addedSongIds.add(String(song.id));
                     }
                 });
             }
 
             // 2. Add Teacher's Custom Songs
-            Object.keys(songsData).forEach(songId => {
-                const song = songsData[songId];
-                if (song && song.title) {
-                    const opt = document.createElement('option');
-                    opt.value = songId;
-                    opt.textContent = `[Custom] ${song.title} - ${song.artist || 'Unknown'}`;
-                    this.assignSongSelect.appendChild(opt);
+            const songsArray = Array.isArray(songsData) ? songsData : Object.values(songsData);
+            songsArray.forEach(song => {
+                if (song && song.id && song.title) {
+                    if (!addedSongIds.has(String(song.id))) {
+                        const opt = document.createElement('option');
+                        opt.value = song.id;
+                        opt.textContent = `[Custom] ${song.title} - ${song.artist || 'Unknown'}`;
+                        this.assignSongSelect.appendChild(opt);
+                        addedSongIds.add(String(song.id));
+                    }
+                }
+            });
+
+            // 3. Add Public Songs
+            const publicArray = Array.isArray(publicData) ? publicData : Object.values(publicData);
+            publicArray.forEach(song => {
+                if (song && song.id && song.title) {
+                    if (!addedSongIds.has(String(song.id))) {
+                        const opt = document.createElement('option');
+                        opt.value = song.id;
+                        opt.textContent = `[Public] ${song.title} - ${song.artist || 'Unknown'}`;
+                        this.assignSongSelect.appendChild(opt);
+                        addedSongIds.add(String(song.id));
+                    }
                 }
             });
 
@@ -134,6 +161,27 @@ class StudentDetailEditor {
                 });
             }
 
+            // Load Teacher's Setlists for Dropdown
+            try {
+                const setlistsSnapshot = await this.firebaseManager.database.ref(`studentProgress/${teacherUser.uid}/setlists`).once('value');
+                this.teacherSetlists = setlistsSnapshot.val() || {};
+                
+                if (this.assignSetlistSelect) {
+                    this.assignSetlistSelect.innerHTML = '<option value="">-- Select a Setlist --</option>';
+                    Object.keys(this.teacherSetlists).forEach(setlistId => {
+                        const setlist = this.teacherSetlists[setlistId];
+                        if (setlist && setlist.name) {
+                            const opt = document.createElement('option');
+                            opt.value = setlistId;
+                            opt.textContent = setlist.name;
+                            this.assignSetlistSelect.appendChild(opt);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load setlists for dropdown:", err);
+            }
+
             // Load Student's Progress
             const result = await this.firebaseManager.getStudentProgress(this.studentUid);
             if (!result.success) {
@@ -153,15 +201,17 @@ class StudentDetailEditor {
             if (!this._currentProgress.goals) this._currentProgress.goals = [];
             if (!this._currentProgress.links) this._currentProgress.links = [];
             if (!this._currentProgress.assignedSongs) this._currentProgress.assignedSongs = {};
-
+            if (!this._currentProgress.assignedSetlists) this._currentProgress.assignedSetlists = {};
+ 
             // Populate Homework Inputs
             this.homeworkDate.value = this._currentProgress.homework.date || '';
             this.homeworkText.value = this._currentProgress.homework.text || '';
-
+ 
             // Render Lists
             this._renderGoals();
             this._renderLinks();
             this._renderAssignedSongs();
+            this._renderAssignedSetlists();
 
             // Store a deep clone AFTER rendering so checkDirtyState has the correct baseline
             // (rendering may trigger checkDirtyState, which needs _initialProgress to be set)
@@ -335,6 +385,43 @@ class StudentDetailEditor {
 
                 this.assignSongNote.value = '';
                 this.assignSongSelect.value = '';
+                this._renderAssignedSongs();
+            });
+        }
+
+        // Assign Setlist
+        if (this.assignSetlistBtn) {
+            this.assignSetlistBtn.addEventListener('click', () => {
+                const setlistId = this.assignSetlistSelect.value;
+                if (!setlistId) { alert('Please select a setlist to assign.'); return; }
+
+                const setlist = this.teacherSetlists[setlistId];
+                if (!setlist) return;
+
+                this._currentProgress.assignedSetlists[setlistId] = {
+                    id: setlistId,
+                    name: setlist.name,
+                    songs: setlist.songs || {},
+                    assignedAt: Date.now()
+                };
+
+                // Also copy songs to assignedSongs for backward compatibility
+                if (setlist.songs) {
+                    const songsArray = Array.isArray(setlist.songs) ? setlist.songs : Object.values(setlist.songs);
+                    songsArray.forEach(song => {
+                        if (song && song.id) {
+                            this._currentProgress.assignedSongs[song.id] = {
+                                id: song.id,
+                                title: song.title,
+                                note: `From setlist: ${setlist.name}`,
+                                assignedAt: Date.now()
+                            };
+                        }
+                    });
+                }
+
+                this.assignSetlistSelect.value = '';
+                this._renderAssignedSetlists();
                 this._renderAssignedSongs();
             });
         }
@@ -673,6 +760,61 @@ class StudentDetailEditor {
             modal.classList.remove('hidden');
             modal.style.display = 'flex';
         });
+    }
+
+    _renderAssignedSetlists() {
+        const assignedSetlists = this._currentProgress.assignedSetlists || {};
+        if (!this.assignedSetlistsContainer) return;
+        this.assignedSetlistsContainer.innerHTML = '';
+
+        const setlistIds = Object.keys(assignedSetlists);
+        if (setlistIds.length === 0) {
+            this.assignedSetlistsContainer.innerHTML = '<div style="color: #64748b; font-size: 14px;">No setlists assigned yet.</div>';
+            this.checkDirtyState();
+            return;
+        }
+
+        setlistIds.forEach(setlistId => {
+            const setlist = assignedSetlists[setlistId];
+            const songs = setlist.songs ? Object.values(setlist.songs) : [];
+            const displaySongs = songs.map(s => s.title).join(', ');
+            
+            const card = document.createElement('div');
+            card.className = 'assigned-song-item';
+            card.innerHTML = `
+                <div style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <div style="font-weight: 600; font-size: 0.95rem; color: #1e293b;">${setlist.name}</div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${displaySongs}">
+                        Songs: ${displaySongs || 'None'}
+                    </div>
+                </div>
+                <button class="del-setlist-btn" style="background: none; border: none; cursor: pointer; color: #ef4444; font-size: 18px; line-height: 1; padding: 0 4px;" title="Unassign Setlist">&times;</button>
+            `;
+
+            const delBtn = card.querySelector('.del-setlist-btn');
+            delBtn.addEventListener('click', () => {
+                delete this._currentProgress.assignedSetlists[setlistId];
+                
+                if (setlist.songs) {
+                    const songsArray = Array.isArray(setlist.songs) ? setlist.songs : Object.values(setlist.songs);
+                    songsArray.forEach(song => {
+                        if (song && song.id) {
+                            const assignedSong = this._currentProgress.assignedSongs[song.id];
+                            if (assignedSong && assignedSong.note === `From setlist: ${setlist.name}`) {
+                                delete this._currentProgress.assignedSongs[song.id];
+                            }
+                        }
+                    });
+                }
+                
+                this._renderAssignedSetlists();
+                this._renderAssignedSongs();
+            });
+
+            this.assignedSetlistsContainer.appendChild(card);
+        });
+
+        this.checkDirtyState();
     }
 }
 

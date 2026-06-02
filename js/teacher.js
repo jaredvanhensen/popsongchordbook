@@ -66,6 +66,38 @@ class TeacherDashboard {
         this.addStudentNameInput = document.getElementById('addStudentNameInput');
         this.addStudentEmailInput = document.getElementById('addStudentEmailInput');
 
+        // Setlist Elements
+        this.headerCreateSetlistBtn = document.getElementById('headerCreateSetlistBtn');
+        this.setlistsGrid = document.getElementById('setlistsGrid');
+        this.setlistCountBadge = document.getElementById('setlistCountBadge');
+        this.setlistModal = document.getElementById('setlistModal');
+        this.setlistModalTitle = document.getElementById('setlistModalTitle');
+        this.setlistNameInput = document.getElementById('setlistNameInput');
+        this.setlistSongSelect = document.getElementById('setlistSongSelect');
+        this.addSongToSetlistBtn = document.getElementById('addSongToSetlistBtn');
+        this.setlistSongsList = document.getElementById('setlistSongsList');
+        this.closeSetlistModalBtn = document.getElementById('closeSetlistModalBtn');
+        this.saveSetlistBtn = document.getElementById('saveSetlistBtn');
+        this.editSetlistId = document.getElementById('editSetlistId');
+        this.setlistFormError = document.getElementById('setlistFormError');
+        this.setlistSongs = {};
+        this.customSongs = {};
+        this.publicSongs = {};
+        this.availableSongsLookup = {};
+
+        // Assign Setlist elements
+        this.assignSetlistModal = document.getElementById('assignSetlistModal');
+        this.assignSetlistModalTitle = document.getElementById('assignSetlistModalTitle');
+        this.assignSetlistId = document.getElementById('assignSetlistId');
+        this.assignSetlistRosterCheckbox = document.getElementById('assignSetlistRosterCheckbox');
+        this.assignSetlistTargetsContainer = document.getElementById('assignSetlistTargetsContainer');
+        this.assignTabStudentsBtn = document.getElementById('assignTabStudentsBtn');
+        this.assignTabGroupsBtn = document.getElementById('assignTabGroupsBtn');
+        this.assignTabStudentsContent = document.getElementById('assignTabStudentsContent');
+        this.assignTabGroupsContent = document.getElementById('assignTabGroupsContent');
+        this.closeAssignSetlistModalBtn = document.getElementById('closeAssignSetlistModalBtn');
+        this.confirmAssignSetlistBtn = document.getElementById('confirmAssignSetlistBtn');
+
         // Booking Type & Group Select
         this.bookingStudentContainer = document.getElementById('bookingStudentContainer');
         this.bookingGroupContainer = document.getElementById('bookingGroupContainer');
@@ -528,6 +560,61 @@ class TeacherDashboard {
                 this.executeSeriesDeletion('all');
             });
         }
+
+        // Setlist Event Listeners
+        if (this.headerCreateSetlistBtn) {
+            this.headerCreateSetlistBtn.addEventListener('click', () => this.openSetlistModal());
+        }
+        if (this.closeSetlistModalBtn) {
+            this.closeSetlistModalBtn.addEventListener('click', () => this.closeSetlistModal());
+        }
+        if (this.addSongToSetlistBtn) {
+            this.addSongToSetlistBtn.addEventListener('click', () => this.addSongToSetlist());
+        }
+        if (this.saveSetlistBtn) {
+            this.saveSetlistBtn.addEventListener('click', () => this.saveSetlist());
+        }
+
+        // Assign Setlist Event Listeners
+        if (this.closeAssignSetlistModalBtn) {
+            this.closeAssignSetlistModalBtn.addEventListener('click', () => this.closeAssignSetlistModal());
+        }
+        if (this.confirmAssignSetlistBtn) {
+            this.confirmAssignSetlistBtn.addEventListener('click', () => this.assignSetlist());
+        }
+        if (this.assignSetlistRosterCheckbox) {
+            this.assignSetlistRosterCheckbox.addEventListener('change', () => {
+                const disabled = this.assignSetlistRosterCheckbox.checked;
+                if (this.assignSetlistTargetsContainer) {
+                    this.assignSetlistTargetsContainer.style.opacity = disabled ? '0.5' : '1';
+                    this.assignSetlistTargetsContainer.querySelectorAll('input').forEach(i => i.disabled = disabled);
+                }
+            });
+        }
+        if (this.assignTabStudentsBtn) {
+            this.assignTabStudentsBtn.addEventListener('click', () => {
+                if (this.assignTabStudentsBtn && this.assignTabGroupsBtn && this.assignTabStudentsContent && this.assignTabGroupsContent) {
+                    this.assignTabStudentsBtn.style.color = '#166534';
+                    this.assignTabStudentsBtn.style.borderBottomColor = '#166534';
+                    this.assignTabGroupsBtn.style.color = '#64748b';
+                    this.assignTabGroupsBtn.style.borderBottomColor = 'transparent';
+                    this.assignTabStudentsContent.style.display = 'flex';
+                    this.assignTabGroupsContent.style.display = 'none';
+                }
+            });
+        }
+        if (this.assignTabGroupsBtn) {
+            this.assignTabGroupsBtn.addEventListener('click', () => {
+                if (this.assignTabStudentsBtn && this.assignTabGroupsBtn && this.assignTabStudentsContent && this.assignTabGroupsContent) {
+                    this.assignTabGroupsBtn.style.color = '#166534';
+                    this.assignTabGroupsBtn.style.borderBottomColor = '#166534';
+                    this.assignTabStudentsBtn.style.color = '#64748b';
+                    this.assignTabStudentsBtn.style.borderBottomColor = 'transparent';
+                    this.assignTabGroupsContent.style.display = 'flex';
+                    this.assignTabStudentsContent.style.display = 'none';
+                }
+            });
+        }
     }
 
     async loadDashboard(user) {
@@ -545,7 +632,11 @@ class TeacherDashboard {
             }
 
             // Display Info
-            this.teacherNameDisplay.textContent = userData.email ? userData.email.split('@')[0] : 'Teacher';
+            let name = userData.email ? userData.email.split('@')[0] : 'Teacher';
+            if (name && name.length > 0) {
+                name = name.charAt(0).toUpperCase() + name.slice(1);
+            }
+            this.teacherNameDisplay.textContent = name;
             this.teacherCodeBox.textContent = userData.teacherCode || 'UNKNOWN';
             if (this.publicEmailInput) {
                 this.publicEmailInput.value = userData.publicEmail || '';
@@ -564,10 +655,12 @@ class TeacherDashboard {
                 this.allProgress = snapshot.val() || {};
                 this.groups = this.allProgress.groups || {};
                 this.teacherSettings = this.allProgress.settings || { defaultGoals: null, customGoalSets: {} };
+                this.setlists = this.allProgress.setlists || {};
                 this.extractLessons();
                 this.renderCalendar();
                 this.renderGroups();
                 this.populateGroupDropdown();
+                this.renderSetlists();
 
                 // Only initialize editor data once, or when saved, to avoid losing unsaved changes
                 if (!this.goalsEditorInitialized) {
@@ -577,6 +670,19 @@ class TeacherDashboard {
                     this.populateGoalsSetDropdown();
                 }
             });
+
+            // Load Custom Songs & Public Songs
+            try {
+                const [songsSnapshot, publicSnapshot] = await Promise.all([
+                    this.firebaseManager.database.ref(`users/${user.uid}/songs`).once('value'),
+                    this.firebaseManager.database.ref('publicSongs').once('value')
+                ]);
+                this.customSongs = songsSnapshot.val() || {};
+                this.publicSongs = publicSnapshot.val() || {};
+                this.populateSetlistSongDropdown();
+            } catch (err) {
+                console.error("Failed to load custom or public songs:", err);
+            }
 
             // Load Students
             const result = await this.firebaseManager.getConnectedStudents();
@@ -2425,6 +2531,388 @@ class TeacherDashboard {
             modal.style.display = 'flex';
             setTimeout(() => inputEl.focus(), 50);
         });
+    }
+
+    populateSetlistSongDropdown() {
+        if (!this.setlistSongSelect) return;
+        this.setlistSongSelect.innerHTML = '<option value="">-- Select Song --</option>';
+        this.availableSongsLookup = {};
+
+        // 1. Add Default Songs (from DEFAULT_SONGS)
+        if (typeof DEFAULT_SONGS !== 'undefined' && Array.isArray(DEFAULT_SONGS)) {
+            const sortedDefaults = [...DEFAULT_SONGS].sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            sortedDefaults.forEach(song => {
+                if (song && song.id && song.title) {
+                    const opt = document.createElement('option');
+                    opt.value = song.id;
+                    opt.textContent = `${song.title} - ${song.artist || 'Unknown'}`;
+                    this.setlistSongSelect.appendChild(opt);
+                    
+                    this.availableSongsLookup[song.id] = {
+                        id: song.id,
+                        title: song.title,
+                        artist: song.artist || 'Unknown'
+                    };
+                }
+            });
+        }
+
+        // 2. Add Teacher's Custom Songs
+        if (this.customSongs) {
+            const songsArray = Array.isArray(this.customSongs) ? this.customSongs : Object.values(this.customSongs);
+            songsArray.forEach(song => {
+                if (song && song.id && song.title) {
+                    if (!this.availableSongsLookup[song.id]) {
+                        const opt = document.createElement('option');
+                        opt.value = song.id;
+                        opt.textContent = `[Custom] ${song.title} - ${song.artist || 'Unknown'}`;
+                        this.setlistSongSelect.appendChild(opt);
+                    }
+                    this.availableSongsLookup[song.id] = {
+                        id: song.id,
+                        title: song.title,
+                        artist: song.artist || 'Unknown'
+                    };
+                }
+            });
+        }
+
+        // 3. Add Public Songs
+        if (this.publicSongs) {
+            const publicArray = Array.isArray(this.publicSongs) ? this.publicSongs : Object.values(this.publicSongs);
+            publicArray.forEach(song => {
+                if (song && song.id && song.title) {
+                    if (!this.availableSongsLookup[song.id]) {
+                        const opt = document.createElement('option');
+                        opt.value = song.id;
+                        opt.textContent = `[Public] ${song.title} - ${song.artist || 'Unknown'}`;
+                        this.setlistSongSelect.appendChild(opt);
+                    }
+                    this.availableSongsLookup[song.id] = {
+                        id: song.id,
+                        title: song.title,
+                        artist: song.artist || 'Unknown'
+                    };
+                }
+            });
+        }
+    }
+
+    renderSetlists() {
+        if (!this.setlistsGrid) return;
+        
+        const setlistList = Object.values(this.setlists || {});
+        if (this.setlistCountBadge) {
+            this.setlistCountBadge.textContent = setlistList.length;
+        }
+        this.setlistsGrid.innerHTML = '';
+        
+        if (setlistList.length === 0) {
+            this.setlistsGrid.innerHTML = `
+                <div class="empty-state" style="text-align: center; padding: 20px; color: #64748b;">
+                    <div class="empty-state-icon" style="font-size: 32px; margin-bottom: 10px;">🎵</div>
+                    <p>No setlists created yet.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        setlistList.forEach(setlist => {
+            const card = document.createElement('div');
+            card.className = 'group-card';
+            card.style.marginTop = '8px';
+            
+            const songs = setlist.songs ? Object.values(setlist.songs) : [];
+            const songTitles = songs.map(s => s.title).join(', ');
+            const displayTitles = songTitles ? songTitles : 'No songs added yet';
+            
+            card.innerHTML = `
+                <div style="min-width: 0; flex: 1;">
+                    <div style="font-weight: 700; color: #1e293b; font-size: 14px;">${setlist.name}</div>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${displayTitles}">
+                        🎵 ${songs.length} song(s): ${displayTitles}
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;">
+                    <button class="btn-assign-setlist" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Assign Setlist">➕</button>
+                    <button class="btn-edit-setlist" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Edit Setlist">✏️</button>
+                    <button class="btn-delete-setlist" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Delete Setlist">🗑️</button>
+                </div>
+            `;
+            
+            card.querySelector('.btn-assign-setlist').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openAssignSetlistModal(setlist);
+            });
+            
+            card.querySelector('.btn-edit-setlist').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openSetlistModal(setlist);
+            });
+            
+            card.querySelector('.btn-delete-setlist').addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (confirm(`Are you sure you want to delete the setlist "${setlist.name}"?`)) {
+                    try {
+                        const teacherUid = this.firebaseManager.currentUser.uid;
+                        await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/setlists/${setlist.id}`).remove();
+                    } catch (e) {
+                        alert('Failed to delete setlist: ' + e.message);
+                    }
+                }
+            });
+            
+            this.setlistsGrid.appendChild(card);
+        });
+    }
+
+    openSetlistModal(setlist = null) {
+        if (!this.setlistModal) return;
+        this.setlistSongs = {};
+        
+        if (setlist) {
+            this.setlistModalTitle.textContent = 'Edit Setlist';
+            this.editSetlistId.value = setlist.id;
+            this.setlistNameInput.value = setlist.name;
+            
+            let songsObj = {};
+            if (setlist.songs) {
+                if (Array.isArray(setlist.songs)) {
+                    setlist.songs.forEach(song => {
+                        if (song && song.id) {
+                            songsObj[song.id] = song;
+                        }
+                    });
+                } else {
+                    songsObj = JSON.parse(JSON.stringify(setlist.songs));
+                }
+            }
+            this.setlistSongs = songsObj;
+        } else {
+            this.setlistModalTitle.textContent = 'Create Setlist';
+            this.editSetlistId.value = '';
+            this.setlistNameInput.value = '';
+        }
+        
+        this.setlistFormError.style.display = 'none';
+        this.renderSetlistSongsList();
+        this.setlistModal.classList.remove('hidden');
+        this.setlistModal.style.display = 'flex';
+    }
+
+    closeSetlistModal() {
+        if (!this.setlistModal) return;
+        this.setlistModal.classList.add('hidden');
+        this.setlistModal.style.display = 'none';
+    }
+
+    addSongToSetlist() {
+        const songId = this.setlistSongSelect.value;
+        if (!songId) return;
+        
+        const song = this.availableSongsLookup && this.availableSongsLookup[songId];
+        if (song) {
+            this.setlistSongs[songId] = {
+                id: songId,
+                title: song.title,
+                artist: song.artist
+            };
+            this.setlistSongSelect.value = '';
+            this.renderSetlistSongsList();
+        }
+    }
+
+    renderSetlistSongsList() {
+        if (!this.setlistSongsList) return;
+        this.setlistSongsList.innerHTML = '';
+        
+        const songList = Object.values(this.setlistSongs);
+        if (songList.length === 0) {
+            this.setlistSongsList.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; padding: 20px;">No songs in this setlist. Select a song above and click Add.</div>';
+            return;
+        }
+        
+        songList.forEach(song => {
+            const item = document.createElement('div');
+            item.style.cssText = 'display: flex; align-items: center; justify-content: space-between; background: white; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #1e293b; margin-bottom: 4px;';
+            item.innerHTML = `
+                <div style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: calc(100% - 30px);">${song.title} - ${song.artist}</div>
+                <button type="button" class="btn-remove-setlist-song" style="background: none; border: none; cursor: pointer; color: #ef4444; font-weight: bold; font-size: 16px; padding: 0 4px;">&times;</button>
+            `;
+            
+            item.querySelector('.btn-remove-setlist-song').addEventListener('click', () => {
+                delete this.setlistSongs[song.id];
+                this.renderSetlistSongsList();
+            });
+            
+            this.setlistSongsList.appendChild(item);
+        });
+    }
+
+    async saveSetlist() {
+        const name = this.setlistNameInput.value.trim();
+        if (!name) {
+            this.setlistFormError.style.display = 'block';
+            return;
+        }
+        
+        this.saveSetlistBtn.disabled = true;
+        this.saveSetlistBtn.textContent = 'Saving...';
+        
+        try {
+            const teacherUid = this.firebaseManager.currentUser.uid;
+            const setlistId = this.editSetlistId.value || 'setlist_' + Date.now();
+            
+            await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/setlists/${setlistId}`).set({
+                id: setlistId,
+                name: name,
+                songs: this.setlistSongs,
+                createdAt: Date.now()
+            });
+            
+            this.closeSetlistModal();
+        } catch (e) {
+            console.error('Setlist save failed:', e);
+            alert('Failed to save setlist: ' + e.message);
+        } finally {
+            this.saveSetlistBtn.disabled = false;
+            this.saveSetlistBtn.textContent = 'Save Setlist';
+        }
+    }
+
+    openAssignSetlistModal(setlist) {
+        if (!this.assignSetlistModal) return;
+        this.assignSetlistId.value = setlist.id;
+        this.assignSetlistModalTitle.textContent = `Assign Setlist: ${setlist.name}`;
+        
+        this.assignSetlistRosterCheckbox.checked = false;
+        this.assignSetlistTargetsContainer.style.opacity = '1';
+        this.assignSetlistTargetsContainer.querySelectorAll('input').forEach(i => i.disabled = false);
+        
+        if (this.assignTabStudentsContent) {
+            this.assignTabStudentsContent.innerHTML = '';
+            if (this.students.length === 0) {
+                this.assignTabStudentsContent.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; padding: 10px;">No students connected.</div>';
+            } else {
+                this.students.forEach(student => {
+                    const label = document.createElement('label');
+                    label.style.cssText = 'display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; cursor: pointer; padding: 4px 0;';
+                    label.innerHTML = `
+                        <input type="checkbox" class="assign-student-checkbox" value="${student.uid}" style="width: 16px; height: 16px; cursor: pointer; accent-color: #166534;">
+                        <span>${student.email}</span>
+                    `;
+                    this.assignTabStudentsContent.appendChild(label);
+                });
+            }
+        }
+        
+        if (this.assignTabGroupsContent) {
+            this.assignTabGroupsContent.innerHTML = '';
+            const groupList = Object.values(this.groups || {});
+            if (groupList.length === 0) {
+                this.assignTabGroupsContent.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; padding: 10px;">No groups created.</div>';
+            } else {
+                groupList.forEach(group => {
+                    const label = document.createElement('label');
+                    label.style.cssText = 'display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; cursor: pointer; padding: 4px 0;';
+                    label.innerHTML = `
+                        <input type="checkbox" class="assign-group-checkbox" value="${group.id}" style="width: 16px; height: 16px; cursor: pointer; accent-color: #166534;">
+                        <span>${group.name}</span>
+                    `;
+                    this.assignTabGroupsContent.appendChild(label);
+                });
+            }
+        }
+        
+        if (this.assignTabStudentsBtn) {
+            this.assignTabStudentsBtn.click();
+        }
+        
+        this.assignSetlistModal.classList.remove('hidden');
+        this.assignSetlistModal.style.display = 'flex';
+    }
+
+    closeAssignSetlistModal() {
+        if (!this.assignSetlistModal) return;
+        this.assignSetlistModal.classList.add('hidden');
+        this.assignSetlistModal.style.display = 'none';
+    }
+
+    async assignSetlist() {
+        const setlistId = this.assignSetlistId.value;
+        const setlist = this.setlists[setlistId];
+        if (!setlist) return;
+        
+        const isRoster = this.assignSetlistRosterCheckbox.checked;
+        let targetStudentUids = [];
+        
+        if (isRoster) {
+            targetStudentUids = this.students.map(s => s.uid);
+        } else {
+            const studentCheckboxes = this.assignTabStudentsContent.querySelectorAll('.assign-student-checkbox:checked');
+            studentCheckboxes.forEach(cb => {
+                targetStudentUids.push(cb.value);
+            });
+            
+            const groupCheckboxes = this.assignTabGroupsContent.querySelectorAll('.assign-group-checkbox:checked');
+            groupCheckboxes.forEach(cb => {
+                const groupId = cb.value;
+                const group = this.groups[groupId];
+                if (group && group.studentUids) {
+                    group.studentUids.forEach(uid => {
+                        if (!targetStudentUids.includes(uid)) {
+                            targetStudentUids.push(uid);
+                        }
+                    });
+                }
+            });
+        }
+        
+        if (targetStudentUids.length === 0) {
+            alert('Please select at least one student or group, or choose whole roster.');
+            return;
+        }
+        
+        this.confirmAssignSetlistBtn.disabled = true;
+        this.confirmAssignSetlistBtn.textContent = 'Assigning...';
+        
+        try {
+            const teacherUid = this.firebaseManager.currentUser.uid;
+            const updates = {};
+            
+            targetStudentUids.forEach(studentUid => {
+                updates[`studentProgress/${teacherUid}/${studentUid}/assignedSetlists/${setlistId}`] = {
+                    id: setlist.id,
+                    name: setlist.name,
+                    songs: setlist.songs || {},
+                    assignedAt: Date.now()
+                };
+                
+                if (setlist.songs) {
+                    const songsArray = Array.isArray(setlist.songs) ? setlist.songs : Object.values(setlist.songs);
+                    songsArray.forEach(song => {
+                        if (song && song.id) {
+                            updates[`studentProgress/${teacherUid}/${studentUid}/assignedSongs/${song.id}`] = {
+                                id: song.id,
+                                title: song.title,
+                                note: `From setlist: ${setlist.name}`,
+                                assignedAt: Date.now()
+                            };
+                        }
+                    });
+                }
+            });
+            
+            await this.firebaseManager.database.ref().update(updates);
+            this.closeAssignSetlistModal();
+            alert('Setlist assigned successfully!');
+        } catch (e) {
+            console.error('Setlist assignment failed:', e);
+            alert('Failed to assign setlist: ' + e.message);
+        } finally {
+            this.confirmAssignSetlistBtn.disabled = false;
+            this.confirmAssignSetlistBtn.textContent = 'Assign';
+        }
     }
 }
 

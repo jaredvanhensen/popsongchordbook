@@ -7,7 +7,13 @@ $indexFile = Join-Path $PSScriptRoot "index.html"
 $indexContent = Get-Content $indexFile -Raw -Encoding UTF8
 
 if ($indexContent -match $versionPattern) {
-    $currentVersion = [double]$matches[1]
+    $versionStr = $matches[1]
+    $dotIndex = $versionStr.IndexOf('.')
+    $decimals = 3
+    if ($dotIndex -ge 0) {
+        $decimals = $versionStr.Length - $dotIndex - 1
+    }
+    $currentVersion = [double]$versionStr
 }
 else {
     Write-Error "Could not find version pattern in index.html"
@@ -15,11 +21,12 @@ else {
 }
 
 # 2. Calculate new version
-$newVersionNum = $currentVersion + 0.001
-$newVersionStr = "{0:N3}" -f $newVersionNum
+$increment = [Math]::Pow(10, -$decimals)
+$newVersionNum = $currentVersion + $increment
+$newVersionStr = "{0:F$decimals}" -f $newVersionNum
 $newVersionStr = $newVersionStr.Replace(',', '.') # Ensure dot separator
 
-Write-Host "Updating version from $currentVersion to $newVersionStr..."
+Write-Host "Updating version from $versionStr to $newVersionStr..."
 
 # 3. Update all files
 foreach ($fileName in $files) {

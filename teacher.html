@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.992">
+    <link rel="stylesheet" href="styles.css?v=2.1008">
     <style>
         @keyframes slideIn {
             from { transform: translateX(100%); }
@@ -25,8 +25,10 @@
 
         .container {
             overflow-y: auto !important;
-            padding-bottom: 60px !important;
-            height: auto !important;
+            padding: 0 !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
         .teacher-dashboard {
@@ -279,7 +281,7 @@
             max-width: 1600px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 1.25fr 1fr;
             gap: 20px;
             padding: 20px;
             align-items: start;
@@ -444,8 +446,7 @@
                 display: flex !important;
                 flex-direction: column !important;
                 overflow: hidden !important;
-                padding: 15px 25px !important;
-                padding-bottom: 15px !important;
+                padding: 0 !important;
             }
             
             .app-main {
@@ -457,7 +458,7 @@
                 flex: 1;
                 min-height: 0;
                 display: grid;
-                grid-template-columns: 360px 1fr;
+                grid-template-columns: 1.25fr 1fr;
                 gap: 20px;
                 overflow: hidden;
                 margin-bottom: 0;
@@ -526,6 +527,105 @@
                 overflow-y: auto;
             }
         }
+
+        /* Blue Header Styling */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 30px;
+            margin: 0 0 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: white;
+            border-radius: 0 0 12px 12px;
+        }
+
+        header::before {
+            display: none !important;
+        }
+
+        header .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        header .header-top-left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        header .header-top-actions {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        header .header-title-group {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 80px;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            background: none !important;
+            background-clip: unset !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            color: #ffffff !important;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        header .header-subtitle {
+            color: rgba(255, 255, 255, 0.8) !important;
+            margin: 4px 0 0 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        header .back-icon-btn {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+        }
+
+        header .back-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* Specific style for + New Setlist button inside blue header */
+        header #headerCreateSetlistBtn {
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border: none !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header #headerCreateSetlistBtn:hover {
+            background: #f1f5f9 !important;
+        }
     </style>
 </head>
 
@@ -549,7 +649,10 @@
                             <h1>Teacher Dashboard</h1>
                             <p class="header-subtitle">Manage your students</p>
                         </div>
-                        <div class="header-top-actions">
+                        <div class="header-top-actions" style="display: flex; align-items: center; gap: 8px;">
+                            <button id="headerCreateSetlistBtn" class="back-icon-btn" title="New Setlist" style="width: auto; height: 36px; padding: 0 14px; border-radius: 9999px; font-weight: bold; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; background: white; border: 1px solid #e2e8f0; color: #475569; margin-right: 0;">
+                                ➕ New Setlist
+                            </button>
                             <div class="hamburger-menu-container" style="position: relative;">
                                 <button id="teacherSettingsBtn" class="back-icon-btn" title="Teacher Settings" style="margin-right: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
                                     <span style="font-size: 20px; line-height: 1;">⚙️</span>
@@ -651,6 +754,20 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Setlists Section -->
+                        <div class="students-section" id="setlistsSection" style="background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); flex: 1.5; min-height: 0; display: flex; flex-direction: column; margin-top: 15px;">
+                            <h3 class="section-title" style="color: #1e293b; font-size: 18px; margin: 0 0 15px 0; font-weight: 800; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                <span style="display: flex; align-items: center; gap: 8px;">📋 My Setlists</span>
+                                <span id="setlistCountBadge" style="background: #e2e8f0; color: #475569; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">0</span>
+                            </h3>
+                            <div id="setlistsGrid" style="display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto;">
+                                <div class="empty-state" style="text-align: center; padding: 20px; color: #64748b;">
+                                    <div class="empty-state-icon" style="font-size: 32px; margin-bottom: 10px;">🎵</div>
+                                    <p>No setlists created yet.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Right Column: Calendar Section -->
@@ -690,13 +807,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=2.992"></script>
+    <script src="js/config/firebase-config.js?v=2.1008"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=2.992"></script>
+    <script src="js/utils/FirebaseManager.js?v=2.1008"></script>
+
+    <!-- Songs Data -->
+    <script src="js/data/default_songs.js?v=2.1008"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=2.992"></script>
+    <script src="js/teacher.js?v=2.1008"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
@@ -953,6 +1073,79 @@
             <div style="display: flex; gap: 12px; width: 100%;">
                 <button type="button" id="customPromptCancelBtn" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: white; color: #475569; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s; text-align: center;">Cancel</button>
                 <button type="button" id="customPromptOkBtn" style="flex: 1; padding: 12px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s; text-align: center;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setlist Creation/Editing Modal Overlay -->
+    <div id="setlistModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 450px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; display: flex; flex-direction: column;">
+            <h3 id="setlistModalTitle" style="margin: 0 0 16px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Create Setlist</h3>
+            
+            <div id="setlistForm" style="display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 0; overflow: hidden;">
+                <input type="hidden" id="editSetlistId">
+                
+                <div>
+                    <label for="setlistNameInput" style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Setlist Name</label>
+                    <input type="text" id="setlistNameInput" required placeholder="e.g. Beginner Open Chords" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;">
+                    <label style="display: block; font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Songs in Setlist</label>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-shrink: 0;">
+                        <select id="setlistSongSelect" style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1e293b; background: white; max-width: calc(100% - 90px);">
+                            <option value="">-- Select Song --</option>
+                        </select>
+                        <button type="button" id="addSongToSetlistBtn" style="background: #166534; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; flex-shrink: 0;">+ Add</button>
+                    </div>
+
+                    <div id="setlistSongsList" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 8px; background: #f8fafc;">
+                        <!-- List of songs in the setlist -->
+                    </div>
+                </div>
+                
+                <div id="setlistFormError" style="color: #dc2626; font-size: 12px; font-weight: 700; display: none; margin-bottom: 8px;">Please enter a setlist name.</div>
+                <div style="display: flex; gap: 12px; margin-top: 10px; flex-shrink: 0;">
+                    <button type="button" id="closeSetlistModalBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
+                    <button type="button" id="saveSetlistBtn" style="padding: 10px 20px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Save Setlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Setlist Modal Overlay -->
+    <div id="assignSetlistModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 420px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; display: flex; flex-direction: column;">
+            <h3 id="assignSetlistModalTitle" style="margin: 0 0 16px 0; color: #1e293b; font-size: 20px; font-weight: 800;">Assign Setlist</h3>
+            <input type="hidden" id="assignSetlistId">
+            
+            <div id="assignSetlistForm" style="display: flex; flex-direction: column; gap: 14px; flex: 1; min-height: 0; overflow: hidden;">
+                <div>
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; color: #1e293b; cursor: pointer; background: #f1f5f9; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+                        <input type="checkbox" id="assignSetlistRosterCheckbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #166534;"> Assign to Whole Roster
+                    </label>
+                </div>
+                
+                <div id="assignSetlistTargetsContainer" style="display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;">
+                    <div class="tabs-container" style="display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 10px; gap: 10px; flex-shrink: 0;">
+                        <button type="button" id="assignTabStudentsBtn" style="background: none; border: none; padding: 6px 4px; font-weight: bold; font-size: 13px; color: #166534; border-bottom: 2px solid #166534; cursor: pointer;">Students</button>
+                        <button type="button" id="assignTabGroupsBtn" style="background: none; border: none; padding: 6px 4px; font-weight: bold; font-size: 13px; color: #64748b; border-bottom: 2px solid transparent; cursor: pointer;">Groups</button>
+                    </div>
+                    
+                    <div id="assignTabStudentsContent" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 8px; background: #f8fafc;">
+                        <!-- Student checkboxes -->
+                    </div>
+                    
+                    <div id="assignTabGroupsContent" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; overflow-y: auto; flex: 1; display: none; flex-direction: column; gap: 8px; background: #f8fafc;">
+                        <!-- Group checkboxes -->
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 10px; flex-shrink: 0;">
+                    <button type="button" id="closeAssignSetlistModalBtn" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 8px; cursor: pointer; font-weight: bold; color: #475569; flex: 1;">Cancel</button>
+                    <button type="button" id="confirmAssignSetlistBtn" style="padding: 10px 20px; border: none; background: #166534; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1;">Assign</button>
+                </div>
             </div>
         </div>
     </div>

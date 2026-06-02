@@ -301,6 +301,67 @@
         </header>        <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v2.1008</span>
+                    <span class="version-date">June 2, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Robust Setlist Song Addition:</strong> Overhauled song lookup and dropdown population on the teacher page and student detail page. Replaced fragile search-by-id queries with a direct lookup dictionary populated at dropdown initialization. Fixed compatibility issues with Sparse/Non-sparse Arrays returned by Firebase Database for custom songs, ensuring actual song IDs are always preserved.</li>
+                        <li><strong>Public Songs in Setlists:</strong> Enabled teachers to add and assign public songs directly to custom setlists and students.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.1007</span>
+                    <span class="version-date">June 2, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Setlist Song Dropdown Match Fix:</strong> Fixed a strict type equality mismatch in `js/teacher.js` (`s.id === songId` comparing number to string) that caused default library songs to fail to be added to setlists. Used string conversion to ensure all library songs are matched and added correctly.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.1006</span>
+                    <span class="version-date">June 2, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Layout & Editor Bug Fixes:</strong> Re-positioned the Teacher Dashboard header to be flush with the top and sides of the viewport on desktop devices. Fixed a syntax closure error in the Student Progress Editor script (`js/student_detail.js`) that caused the "Loading student..." overlay to hang.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.1005</span>
+                    <span class="version-date">June 2, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Teacher Dashboard Header & Layout Adjustments:</strong> Added a sticky gradient header with customized pill controls matching the application theme. Resized the left sidebar column to 1.25fr (making sections 1, 2, and 3 larger and wider at the expense of the calendar). Capitalized the first letter of the teacher name.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v2.1004</span>
+                    <span class="version-date">June 2, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Custom Setlists & Assignments:</strong> Enabled teachers to create custom named setlists from library or custom songs, and assign them to individual students, specific student groups, or their entire roster. Students see their assigned setlists grouped as sections on their dashboard.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v2.1003</span>
                     <span class="version-date">June 2, 2026</span>
                 </div>
@@ -6133,7 +6194,7 @@
                     <div class="change-item">
                         <span class="change-type">Audio Engine:</span>
                         <span class="change-description">Revert to synthesized piano engine for maximum reliability
-                            (v2.992). Integrated Premium Grand samples (v2.992).</span>
+                            (v2.1008). Integrated Premium Grand samples (v2.1008).</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Gamer System:</span>
