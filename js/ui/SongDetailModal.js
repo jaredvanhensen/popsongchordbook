@@ -1036,7 +1036,10 @@ class SongDetailModal {
 
                     try {
                         const song = this.songManager.getSongById(this.currentSongId);
-                        const updates = { timelineNotes: notesArray };
+                        const updates = { 
+                            timelineNotes: notesArray,
+                            teacherNotes: "" // Clear legacy teacherNotes to prevent re-migration on reload
+                        };
 
                         // FORK CHECK: If this is a public song we don't own, fork it first
                         if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
