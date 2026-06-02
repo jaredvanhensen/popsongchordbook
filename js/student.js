@@ -24,6 +24,14 @@ class StudentDashboard {
                 if (user) {
                     this.loadDashboard(user);
                 } else {
+                    if (window.parent && window.parent !== window) {
+                        try {
+                            if (window.top) {
+                                window.top.location.href = 'index.html';
+                                return;
+                            }
+                        } catch (err) {}
+                    }
                     window.location.href = 'index.html';
                 }
             });
@@ -41,6 +49,22 @@ class StudentDashboard {
 
             if (!userData || !userData.connectedTeacher) {
                 alert("You are not connected to a teacher.");
+                if (window.parent && window.parent !== window) {
+                    try {
+                        if (typeof window.parent.closeDashboardPanel === 'function') {
+                            window.parent.closeDashboardPanel();
+                            return;
+                        }
+                    } catch (err) {
+                        console.warn("Security error or parent inaccessible:", err);
+                    }
+                    try {
+                        if (window.top) {
+                            window.top.location.href = 'songlist.html';
+                            return;
+                        }
+                    } catch (err) {}
+                }
                 window.location.href = 'songlist.html';
                 return;
             }
@@ -299,6 +323,27 @@ class StudentDashboard {
                     </div>
                     <span style="color:#93c5fd; font-size:12px;">Open ↗</span>
                 `;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (window.parent && window.parent !== window) {
+                        try {
+                            if (window.parent.appInstance && typeof window.parent.closeDashboardPanel === 'function') {
+                                window.parent.appInstance.navigateToSong(song.id);
+                                window.parent.closeDashboardPanel();
+                                return;
+                            }
+                        } catch (err) {
+                            console.warn("Security error or parent inaccessible:", err);
+                        }
+                        try {
+                            if (window.top) {
+                                window.top.location.href = `songlist.html?songId=${song.id}`;
+                                return;
+                            }
+                        } catch (err) {}
+                    }
+                    window.location.href = `songlist.html?songId=${song.id}`;
+                });
                 this.assignedSongsContainer.appendChild(a);
             });
         } else {
@@ -347,6 +392,27 @@ class StudentDashboard {
                                 <span>🎵 ${song.title}</span>
                                 <span style="color:#c084fc; font-size:12px;">Open ↗</span>
                             `;
+                            a.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                if (window.parent && window.parent !== window) {
+                                    try {
+                                        if (window.parent.appInstance && typeof window.parent.closeDashboardPanel === 'function') {
+                                            window.parent.appInstance.navigateToSong(song.id);
+                                            window.parent.closeDashboardPanel();
+                                            return;
+                                        }
+                                    } catch (err) {
+                                        console.warn("Security error or parent inaccessible:", err);
+                                    }
+                                    try {
+                                        if (window.top) {
+                                            window.top.location.href = `songlist.html?songId=${song.id}`;
+                                            return;
+                                        }
+                                    } catch (err) {}
+                                }
+                                window.location.href = `songlist.html?songId=${song.id}`;
+                            });
                             setlistGroup.appendChild(a);
                         });
                     }

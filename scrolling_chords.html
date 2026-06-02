@@ -16,13 +16,13 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=3.011">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=3.011">
+    <link rel="stylesheet" href="scrolling.css?v=3.017">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=3.017">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v3.011) -->
+    <!-- Merged Purple Header for Mobile Landscape (v3.017) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
             <div class="song-detail-thumb-section">
@@ -202,6 +202,10 @@
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
                 <span>EDIT</span>
+            </button>
+            <button id="teacherNoteBtn" title="Add Note / Annotations" class="edit-btn" style="background: #fef9c3; border-color: #fef08a; color: #854d0e; display: none; align-items: center; gap: 6px;">
+                <span class="icon" style="font-size: 16px;">📝</span>
+                <span>ADD NOTE</span>
             </button>
             <button id="captureBtn" title="Record timing" class="capture-btn hidden">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
@@ -682,23 +686,47 @@
         </div>
     </div>
 
+    <!-- Add Note Overlay -->
+    <div id="teacherNoteOverlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; pointer-events: auto;">
+        <div style="position: relative; width: 340px; background: #fef08a; padding: 20px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 -15px 30px rgba(0, 0, 0, 0.05); transform: rotate(-1deg); display: flex; flex-direction: column; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; pointer-events: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed rgba(133, 77, 14, 0.2); padding-bottom: 6px;">
+                <span style="font-size: 0.9rem; font-weight: 800; color: #854d0e; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">📝 Song Note</span>
+                <button id="closeTeacherNoteBtn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #854d0e; font-weight: bold; line-height: 1; opacity: 0.6; transition: opacity 0.2s; padding: 0 4px;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
+            </div>
+            
+            <div id="teacherNoteReadView" class="hidden" style="flex: 1; overflow-y: auto; font-size: 0.95rem; color: #451a03; line-height: 1.5; padding: 4px 0; max-height: 120px; white-space: pre-wrap; font-family: inherit;">
+                <!-- Notes text will be injected here -->
+            </div>
+            
+            <div id="teacherNoteEditView" class="hidden" style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                <textarea id="teacherNoteTextarea" placeholder="Type your personal notes, practice directions, or annotations here..." style="width: 100%; height: 110px; padding: 4px 0; border: none; background: transparent; font-family: inherit; font-size: 0.95rem; line-height: 1.5; color: #451a03; resize: none; outline: none; margin: 0;"></textarea>
+            </div>
+            
+            <div id="teacherNoteBtnGroup" style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; border-top: 1px dashed rgba(133, 77, 14, 0.15); padding-top: 8px; align-items: center;">
+                <button id="deleteTeacherNoteBtn" style="padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(220, 38, 38, 0.4); background: transparent; color: #dc2626; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-right: auto; display: none;" onmouseover="this.style.background='rgba(220, 38, 38, 0.05)'" onmouseout="this.style.background='transparent'">Delete</button>
+                <button id="cancelTeacherNoteBtn" style="padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(133, 77, 14, 0.3); background: transparent; color: #854d0e; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(133, 77, 14, 0.05)'" onmouseout="this.style.background='transparent'">Cancel</button>
+                <button id="saveTeacherNoteBtn" style="padding: 6px 12px; border-radius: 6px; border: none; background: #854d0e; color: #ffffff; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#a16207'" onmouseout="this.style.background='#854d0e'">Save</button>
+            </div>
+        </div>
+    </div>
+
             <!-- Midi Parsing Library -->
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=3.011" defer></script>
-            <script src="js/utils/ChordParser.js?v=3.011" defer></script>
-            <script src="js/utils/GuitarRenderer.js?v=3.011" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=3.011" defer></script>
-            <script src="js/utils/LyricsParser.js?v=3.011" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=3.011" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=3.011" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=3.011" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=3.011" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=3.011" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=3.011" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=3.011" defer></script>
-            <script src="js/scrolling_chords.js?v=3.011" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=3.017" defer></script>
+            <script src="js/utils/ChordParser.js?v=3.017" defer></script>
+            <script src="js/utils/GuitarRenderer.js?v=3.017" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=3.017" defer></script>
+            <script src="js/utils/LyricsParser.js?v=3.017" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=3.017" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=3.017" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=3.017" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=3.017" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=3.017" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=3.017" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=3.017" defer></script>
+            <script src="js/scrolling_chords.js?v=3.017" defer></script>
 </body>
 
 </html>

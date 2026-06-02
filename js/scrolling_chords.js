@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.011)
+// Scrolling Chords Logic (v3.017)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -111,6 +111,14 @@ const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
 let isPublicMode = false;
 let canEditPublic = false;
 let currentCapoValue = 0; // The Capo value from the parent modal (Guitar only)
+let currentTeacherNotes = '';
+let timelineNotes = []; // Array of { id: string, time: number, text: string }
+let currentEditingNoteId = null; // Track note currently being created/edited
+let isDraggingNoteMarker = false;
+let dragNoteMarkerId = null;
+let dragNoteMarkerPointerStartX = 0;
+let dragNoteMarkerStartTime = 0;
+let isTeacherMode = false;
 
 // Dragging state
 let isDragging = false;
@@ -125,6 +133,15 @@ let countInStartTime = 0;
 let isDraggingLyricMarker = false;
 let dragLyricMarkerPointerStartX = 0;
 let dragLyricMarkerStartTime = 0;
+
+function saveTimelineNotesToParent() {
+    if (window.parent) {
+        window.parent.postMessage({
+            type: 'saveTimelineNotes',
+            timelineNotes: timelineNotes
+        }, '*');
+    }
+}
 
 // Virtual Drag State (Toolbar Chords)
 let isVirtualDragging = false;
@@ -160,7 +177,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.011)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.017)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -291,9 +308,32 @@ window.addEventListener('message', (event) => {
         if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
         if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        if (msg.timelineNotes !== undefined) {
+            timelineNotes = Array.isArray(msg.timelineNotes) ? msg.timelineNotes : [];
+        } else if (msg.teacherNotes !== undefined) {
+            const oldNotes = (msg.teacherNotes || '').trim();
+            if (oldNotes) {
+                timelineNotes = [{
+                    id: 'note_default',
+                    time: 0.1,
+                    text: oldNotes
+                }];
+            } else {
+                timelineNotes = [];
+            }
+        } else {
+            timelineNotes = [];
+        }
+        currentTeacherNotes = msg.teacherNotes || '';
+        if (msg.userRole !== undefined) {
+            isTeacherMode = (msg.userRole === 'teacher');
+        } else {
+            isTeacherMode = (localStorage.getItem('userRole') === 'teacher');
+        }
+        updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.011)
+            // Apply default audio setting from Profile (v3.017)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -361,6 +401,11 @@ window.addEventListener('message', (event) => {
     }
     else if (msg.type === 'saveChanges') {
         saveToDatabase();
+    }
+    else if (msg.type === 'songForked') {
+        isPublicMode = false;
+        canEditPublic = true;
+        console.log('Timeline received songForked notification. New ID:', msg.newSongId);
     }
     else if (msg.type === 'setInstrumentMode') {
         currentInstrumentMode = msg.instrumentMode;
@@ -444,6 +489,153 @@ document.addEventListener('DOMContentLoaded', () => {
     if (audioToggleBtnCompact) audioToggleBtnCompact.addEventListener('click', toggleAudio);
 
     if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // Teacher Note Event Listeners
+    const teacherNoteBtn = document.getElementById('teacherNoteBtn');
+    const teacherNoteOverlay = document.getElementById('teacherNoteOverlay');
+    const closeTeacherNoteBtn = document.getElementById('closeTeacherNoteBtn');
+    const cancelTeacherNoteBtn = document.getElementById('cancelTeacherNoteBtn');
+    const saveTeacherNoteBtn = document.getElementById('saveTeacherNoteBtn');
+    const teacherNoteTextarea = document.getElementById('teacherNoteTextarea');
+
+    if (teacherNoteBtn && teacherNoteOverlay) {
+        const canEditNotes = () => {
+            return isTeacherMode || !isPublicMode || canEditPublic;
+        };
+
+        const showNotesOverlay = (noteId = null) => {
+            currentEditingNoteId = noteId;
+            const editable = canEditNotes();
+            const deleteBtn = document.getElementById('deleteTeacherNoteBtn');
+
+            if (noteId === null) {
+                // ADDING A NEW NOTE
+                if (!editable) {
+                    alert("You do not have permission to add notes to this song.");
+                    return;
+                }
+                document.getElementById('teacherNoteEditView').classList.remove('hidden');
+                document.getElementById('teacherNoteReadView').classList.add('hidden');
+                document.getElementById('teacherNoteBtnGroup').style.display = 'flex';
+                
+                if (saveTeacherNoteBtn) saveTeacherNoteBtn.style.display = 'block';
+                if (cancelTeacherNoteBtn) cancelTeacherNoteBtn.textContent = 'Cancel';
+                if (deleteBtn) deleteBtn.style.display = 'none';
+                
+                if (teacherNoteTextarea) {
+                    teacherNoteTextarea.value = '';
+                    setTimeout(() => teacherNoteTextarea.focus(), 150);
+                }
+            } else {
+                // VIEWING/EDITING EXISTING NOTE
+                const note = timelineNotes.find(n => n.id === noteId);
+                if (!note) return;
+
+                if (editable) {
+                    document.getElementById('teacherNoteEditView').classList.remove('hidden');
+                    document.getElementById('teacherNoteReadView').classList.add('hidden');
+                    document.getElementById('teacherNoteBtnGroup').style.display = 'flex';
+                    
+                    if (saveTeacherNoteBtn) saveTeacherNoteBtn.style.display = 'block';
+                    if (cancelTeacherNoteBtn) cancelTeacherNoteBtn.textContent = 'Cancel';
+                    if (deleteBtn) deleteBtn.style.display = 'block';
+                    
+                    if (teacherNoteTextarea) {
+                        teacherNoteTextarea.value = note.text;
+                        setTimeout(() => teacherNoteTextarea.focus(), 150);
+                    }
+                } else {
+                    document.getElementById('teacherNoteEditView').classList.add('hidden');
+                    document.getElementById('teacherNoteReadView').classList.remove('hidden');
+                    const readView = document.getElementById('teacherNoteReadView');
+                    if (readView) {
+                        readView.textContent = note.text || 'No content.';
+                    }
+                    if (saveTeacherNoteBtn) saveTeacherNoteBtn.style.display = 'none';
+                    if (cancelTeacherNoteBtn) cancelTeacherNoteBtn.textContent = 'Close';
+                    if (deleteBtn) deleteBtn.style.display = 'none';
+                }
+            }
+            teacherNoteOverlay.classList.remove('hidden');
+        };
+
+        const hideNotesOverlay = () => {
+            teacherNoteOverlay.classList.add('hidden');
+            currentEditingNoteId = null;
+        };
+
+        window.showNotesOverlay = showNotesOverlay;
+
+        // Toolbar "ADD NOTE" creates a new note at the current playback position
+        teacherNoteBtn.addEventListener('click', () => {
+            showNotesOverlay(null);
+        });
+
+        if (closeTeacherNoteBtn) closeTeacherNoteBtn.addEventListener('click', hideNotesOverlay);
+        if (cancelTeacherNoteBtn) cancelTeacherNoteBtn.addEventListener('click', hideNotesOverlay);
+        
+        // Save Note Listener
+        if (saveTeacherNoteBtn && teacherNoteTextarea) {
+            saveTeacherNoteBtn.addEventListener('click', () => {
+                const newText = (teacherNoteTextarea.value || '').trim();
+                if (!newText) {
+                    hideNotesOverlay();
+                    return;
+                }
+                
+                if (currentEditingNoteId === null) {
+                    // Create a new note at current timeline position
+                    const time = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+                    const targetTime = Math.max(0, parseFloat(time.toFixed(2)));
+                    const newNote = {
+                        id: 'note_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                        time: targetTime,
+                        text: newText
+                    };
+                    timelineNotes.push(newNote);
+                } else {
+                    // Update existing note
+                    const note = timelineNotes.find(n => n.id === currentEditingNoteId);
+                    if (note) {
+                        note.text = newText;
+                    }
+                }
+                
+                saveTimelineNotesToParent();
+                hideNotesOverlay();
+                updateTeacherNoteButtonVisibility();
+                
+                // Regenerate markers to reflect additions/changes
+                if (midiData) {
+                    markers = generateMarkers(midiData);
+                } else if (typeof mockMidi !== 'undefined' && mockMidi) {
+                    markers = generateMarkers(mockMidi);
+                }
+                renderStaticElements();
+            });
+        }
+
+        // Delete Note Listener
+        const deleteTeacherNoteBtn = document.getElementById('deleteTeacherNoteBtn');
+        if (deleteTeacherNoteBtn) {
+            deleteTeacherNoteBtn.addEventListener('click', () => {
+                if (currentEditingNoteId !== null) {
+                    timelineNotes = timelineNotes.filter(n => n.id !== currentEditingNoteId);
+                    saveTimelineNotesToParent();
+                }
+                hideNotesOverlay();
+                updateTeacherNoteButtonVisibility();
+                
+                // Regenerate markers to remove deleted pin
+                if (midiData) {
+                    markers = generateMarkers(midiData);
+                } else if (typeof mockMidi !== 'undefined' && mockMidi) {
+                    markers = generateMarkers(mockMidi);
+                }
+                renderStaticElements();
+            });
+        }
+    }
 
     // Octave Cycle Button
     octaveCycleBtn = document.getElementById('octaveCycleBtn');
@@ -2125,6 +2317,31 @@ window.addEventListener('pointermove', (e) => {
         return;
     }
 
+    // 1c. Note Marker Drag
+    if (isDraggingNoteMarker) {
+        e.preventDefault();
+        const deltaX = e.clientX - dragNoteMarkerPointerStartX;
+        const deltaTime = deltaX / PIXELS_PER_SECOND;
+        const newTime = Math.max(0, dragNoteMarkerStartTime + deltaTime);
+
+        // Update this note's time in memory
+        const note = timelineNotes.find(n => n.id === dragNoteMarkerId);
+        if (note) {
+            note.time = parseFloat(newTime.toFixed(2));
+        }
+
+        // Update markers list
+        markers.forEach(m => {
+            if (m.type === 'note-marker' && m.id === dragNoteMarkerId) {
+                m.time = newTime;
+            }
+        });
+
+        renderStaticElements();
+        updateLoop();
+        return;
+    }
+
     // Check for start of virtual drag
     if (potentialVirtualDrag && !isVirtualDragging) {
         // ONLY start if button is still pressed!
@@ -2237,6 +2454,23 @@ window.addEventListener('pointerup', (e) => {
             offset: Math.round(currentLyricOffset)
         }, '*');
         checkForChanges();
+        renderStaticElements();
+        return;
+    }
+
+    // Reset Note Marker Drag
+    if (isDraggingNoteMarker) {
+        isDraggingNoteMarker = false;
+        const deltaX = Math.abs(e.clientX - dragNoteMarkerPointerStartX);
+        if (deltaX < 4) {
+            if (typeof window.showNotesOverlay === 'function') {
+                window.showNotesOverlay(dragNoteMarkerId);
+            }
+        } else {
+            saveTimelineNotesToParent();
+            checkForChanges();
+        }
+        dragNoteMarkerId = null;
         renderStaticElements();
         return;
     }
@@ -4155,6 +4389,18 @@ function generateMarkers(midi) {
         });
     }
 
+    // Add Note Markers if available
+    if (typeof timelineNotes !== 'undefined' && Array.isArray(timelineNotes)) {
+        timelineNotes.forEach(note => {
+            markers.push({
+                id: note.id,
+                time: note.time,
+                label: 'Note',
+                type: 'note-marker'
+            });
+        });
+    }
+
     return markers;
 }
 
@@ -4298,11 +4544,39 @@ function renderStaticElements() {
                 window.lyricInitialTimes = parsedLyrics.map(l => l.time);
                 window.initialLyricOffsetAtDragStart = currentLyricOffset;
                 
-                document.addEventListener('pointermove', handleLyricMarkerPointerMove);
-                document.addEventListener('pointerup', handleLyricMarkerPointerUp);
                 el.style.cursor = 'grabbing';
             });
             
+            if (interactionFrag) {
+                interactionFrag.appendChild(el);
+            } else {
+                markerFrag.appendChild(el);
+            }
+        } else if (marker.type === 'note-marker') {
+            const canEdit = isTeacherMode || !isPublicMode || canEditPublic;
+            if (canEdit) {
+                el.style.cursor = 'grab';
+                el.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    if (isPlaying) pause();
+                    isDraggingNoteMarker = true;
+                    dragNoteMarkerId = marker.id;
+                    dragNoteMarkerPointerStartX = e.clientX;
+                    dragNoteMarkerStartTime = marker.time;
+                    el.style.cursor = 'grabbing';
+                });
+            } else {
+                el.style.cursor = 'pointer';
+            }
+            
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isDraggingNoteMarker) return;
+                if (typeof window.showNotesOverlay === 'function') {
+                    window.showNotesOverlay(marker.id);
+                }
+            });
+
             if (interactionFrag) {
                 interactionFrag.appendChild(el);
             } else {
@@ -6290,6 +6564,16 @@ function showMapRenameModal(sec) {
             overlay.remove();
         }
     };
+}
+
+function updateTeacherNoteButtonVisibility() {
+    const teacherNoteBtn = document.getElementById('teacherNoteBtn');
+    const canEditNotes = isTeacherMode || !isPublicMode || canEditPublic;
+    const hasNotes = timelineNotes && timelineNotes.length > 0;
+    const visible = canEditNotes || hasNotes;
+    if (teacherNoteBtn) {
+        teacherNoteBtn.classList.toggle('visible-note', visible);
+    }
 }
 
 

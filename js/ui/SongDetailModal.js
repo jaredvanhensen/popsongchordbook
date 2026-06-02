@@ -1003,6 +1003,58 @@ class SongDetailModal {
                     }
                 }
 
+                // 2.5 Save Teacher Notes
+                else if (event.data.type === 'saveTeacherNotes' && this.currentSongId) {
+                    const notesText = event.data.text;
+                    console.log('SongDetailModal: Received saveTeacherNotes from Timeline', notesText);
+
+                    try {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        const updates = { teacherNotes: notesText };
+
+                        // FORK CHECK: If this is a public song we don't own, fork it first
+                        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                            console.log('SongDetailModal: Forking public song on saveTeacherNotes...');
+                            const newSong = await this.forkCurrentSong(updates);
+                            if (newSong && this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+                                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'songForked', newSongId: newSong.id }, '*');
+                            }
+                            return;
+                        }
+
+                        await this.songManager.updateSong(this.currentSongId, updates);
+                        console.log('Teacher notes saved to database');
+                    } catch (e) {
+                        console.error('Error saving teacher notes from timeline:', e);
+                    }
+                }
+
+                // 2.6 Save Timeline Notes
+                else if (event.data.type === 'saveTimelineNotes' && this.currentSongId) {
+                    const notesArray = event.data.timelineNotes;
+                    console.log('SongDetailModal: Received saveTimelineNotes from Timeline', notesArray);
+
+                    try {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        const updates = { timelineNotes: notesArray };
+
+                        // FORK CHECK: If this is a public song we don't own, fork it first
+                        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                            console.log('SongDetailModal: Forking public song on saveTimelineNotes...');
+                            const newSong = await this.forkCurrentSong(updates);
+                            if (newSong && this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+                                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'songForked', newSongId: newSong.id }, '*');
+                            }
+                            return;
+                        }
+
+                        await this.songManager.updateSong(this.currentSongId, updates);
+                        console.log('Timeline notes saved to database');
+                    } catch (e) {
+                        console.error('Error saving timeline notes:', e);
+                    }
+                }
+
                 // 3. Update lyric sync offset
                 else if (event.data.type === 'updateLyricSync' && this.currentSongId) {
                     const offset = event.data.offset;
@@ -3499,6 +3551,15 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
+        // Dynamic migration: if song has teacherNotes but no timelineNotes, convert on-the-fly
+        if (!song.timelineNotes && song.teacherNotes) {
+            song.timelineNotes = [{
+                id: 'note_default',
+                time: 0.1,
+                text: song.teacherNotes
+            }];
+        }
+
         console.log('Sending chord data to Timeline view', song);
 
         // Extract chords from song blocks for the toolbar
@@ -3545,7 +3606,10 @@ class SongDetailModal {
             capo: this.capoValue || 0,
             isPublic: !!song.isPublic,
             canEdit: this.songManager.canEditPublicSong(song),
-            uid: this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser()?.uid : 'guest'
+            uid: this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser()?.uid : 'guest',
+            teacherNotes: song.teacherNotes || '',
+            timelineNotes: song.timelineNotes || [],
+            userRole: localStorage.getItem('userRole') || 'student'
         }, '*');
     }
 

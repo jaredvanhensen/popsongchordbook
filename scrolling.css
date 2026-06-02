@@ -1433,6 +1433,36 @@ body.edit-mode-active .marker-track-handle {
     white-space: nowrap !important;
 }
 
+.marker.note-marker {
+    top: 55% !important;
+    bottom: auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin-top: -24px !important;
+    margin-left: -24px !important;
+    background: #fef08a !important;
+    border: 3px solid #eab308 !important;
+    border-radius: 8px !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 150 !important;
+    box-shadow: 0 4px 10px rgba(234, 179, 8, 0.4) !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+    transform: rotate(-3deg);
+    transition: transform 0.2s, scale 0.2s;
+}
+
+.marker.note-marker:hover {
+    transform: rotate(0deg) scale(1.15) !important;
+}
+
+.marker.note-marker::after {
+    content: '📝';
+    font-size: 24px;
+}
+
 /* Hide lyrics sync marker in mobile portrait view */
 body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     display: none !important;
@@ -6230,7 +6260,10 @@ body.ctrl-held .chord-item {
 .text-chord {
     color: #3b82f6;
     font-weight: bold;
-    min-height: 1.2em;
+    height: 1.8em;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 6px;
 }
 
 .draggable-chord {
@@ -6461,4 +6494,16 @@ body.text-mode-active #lyricsHUD {
 .text-mode-header-pager .pager-btn:disabled {
     opacity: 0.35;
     cursor: not-allowed;
+}
+
+/* Teacher Note Button - responsive visibility rules (PC / Landscape only, never on mobile) */
+#teacherNoteBtn {
+    display: none !important;
+}
+
+@media screen and (min-width: 768px) {
+    body.is-landscape #teacherNoteBtn.visible-note,
+    body:not(.is-mobile-view) #teacherNoteBtn.visible-note {
+        display: inline-flex !important;
+    }
 }
