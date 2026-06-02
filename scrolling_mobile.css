@@ -216,7 +216,7 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    top: 90px !important; /* Put above scrolling chords (below purple header) */
+    top: var(--hud-top-offset, 90px) !important; /* Put above scrolling chords (below purple header) */
     bottom: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -705,7 +705,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 
     /* Put lyrics HUD above scrolling chords and below header on tablets */
     body.is-mobile-landscape .lyrics-hud {
-        top: 210px !important;
+        top: var(--hud-top-offset, 210px) !important;
         bottom: auto !important;
     }
 }
@@ -765,7 +765,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
         height: calc(100dvh - 64px) !important;
     }
     body.is-landscape.is-mobile-landscape .lyrics-hud {
-        top: 66px !important;
+        top: var(--hud-top-offset, 66px) !important;
     }
 }
 
