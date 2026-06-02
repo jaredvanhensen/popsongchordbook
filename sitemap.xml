@@ -488,6 +488,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-water-of-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/dolly-parton-jolene</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1419,6 +1424,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/queen-its-a-kind-of-magic</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/queen-radio-ga-ga</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

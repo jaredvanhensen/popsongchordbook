@@ -1765,7 +1765,9 @@ class FirebaseManager {
                         uid: studentId,
                         email: studentData.email || 'Unknown',
                         role: studentData.role || 'student',
-                        createdAt: studentData.createdAt || null
+                        createdAt: studentData.createdAt || null,
+                        avatar: studentData.avatar || null,
+                        name: studentData.name || studentData.displayName || null
                     });
                 }
             }

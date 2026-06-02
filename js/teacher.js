@@ -5,8 +5,6 @@ class TeacherDashboard {
         this.firebaseManager = new FirebaseManager();
         this.teacherNameDisplay = document.getElementById('teacherNameDisplay');
         this.teacherCodeBox = document.getElementById('teacherCodeBox');
-        this.studentsGrid = document.getElementById('studentsGrid');
-        this.studentCountBadge = document.getElementById('studentCountBadge');
         this.photoInput = document.getElementById('teacherPhotoInput');
         this.uploadBtn = document.querySelector('.upload-banner-btn');
         this.bannerPlaceholder = document.querySelector('.teacher-banner-placeholder');
@@ -16,13 +14,21 @@ class TeacherDashboard {
         this.publicEmailStatus = document.getElementById('publicEmailStatus');
         this.unreadCounts = {};
         this.students = [];
+        this.groups = {}; // local cached groups { groupId: groupObj }
 
-        // Tabs
-        this.tabStudentsBtn = document.getElementById('tabStudentsBtn');
-        this.tabGroupsBtn = document.getElementById('tabGroupsBtn');
-        this.tabStudentsContent = document.getElementById('tabStudentsContent');
-        this.tabGroupsContent = document.getElementById('tabGroupsContent');
-        this.groupCountBadge = document.getElementById('groupCountBadge');
+        // Lessons Management
+        this.lessonsGrid = document.getElementById('lessonsGrid');
+        this.addLessonIdeaBtn = document.getElementById('addLessonIdeaBtn');
+        this.lessonIdeaModal = document.getElementById('lessonIdeaModal');
+        this.lessonIdeaTitleInput = document.getElementById('lessonIdeaTitleInput');
+        this.lessonIdeaCategorySelect = document.getElementById('lessonIdeaCategorySelect');
+        this.lessonIdeaDescriptionInput = document.getElementById('lessonIdeaDescriptionInput');
+        this.lessonIdeaUrlInput = document.getElementById('lessonIdeaUrlInput');
+        this.closeLessonIdeaModalBtn = document.getElementById('closeLessonIdeaModalBtn');
+        this.saveLessonIdeaBtn = document.getElementById('saveLessonIdeaBtn');
+        this.editLessonIdeaId = document.getElementById('editLessonIdeaId');
+        this.lessonIdeaForm = document.getElementById('lessonIdeaForm');
+        this.lessonIdeas = {};
 
         // Goals Settings Editor Modal
         this.goalsEditorModal = document.getElementById('goalsEditorModal');
@@ -45,26 +51,6 @@ class TeacherDashboard {
         this.activeGoalsSetType = 'default';
         this.editingGoalsList = [];
         this.goalsEditorInitialized = false;
-        
-        // Groups Management
-        this.createGroupBtn = document.getElementById('createGroupBtn');
-        this.groupsGrid = document.getElementById('groupsGrid');
-        
-        // Group Modal
-        this.groupModal = document.getElementById('groupModal');
-        this.groupNameInput = document.getElementById('groupNameInput');
-        this.groupStudentChecklist = document.getElementById('groupStudentChecklist');
-        this.closeGroupModalBtn = document.getElementById('closeGroupModalBtn');
-        this.saveGroupBtn = document.getElementById('saveGroupBtn');
-        this.editGroupId = document.getElementById('editGroupId');
-        this.groups = {}; // local cached groups { groupId: groupObj }
-
-        // Add Student Modal elements
-        this.addStudentModal = document.getElementById('addStudentModal');
-        this.closeAddStudentModalBtn = document.getElementById('closeAddStudentModalBtn');
-        this.addStudentForm = document.getElementById('addStudentForm');
-        this.addStudentNameInput = document.getElementById('addStudentNameInput');
-        this.addStudentEmailInput = document.getElementById('addStudentEmailInput');
 
         // Setlist Elements
         this.headerCreateSetlistBtn = document.getElementById('headerCreateSetlistBtn');
@@ -311,13 +297,21 @@ class TeacherDashboard {
             });
         }
 
-        const addNewStudentBtn = document.getElementById('addNewStudentBtn');
-        if (addNewStudentBtn) {
-            addNewStudentBtn.addEventListener('click', () => {
-                if (teacherSettingsMenu) {
-                    teacherSettingsMenu.classList.add('hidden');
-                }
-                this.openAddStudentModal();
+        // Lesson Ideas listeners
+        if (this.addLessonIdeaBtn) {
+            this.addLessonIdeaBtn.addEventListener('click', () => {
+                this.openLessonIdeaModal();
+            });
+        }
+        if (this.closeLessonIdeaModalBtn) {
+            this.closeLessonIdeaModalBtn.addEventListener('click', () => {
+                this.closeLessonIdeaModal();
+            });
+        }
+        if (this.lessonIdeaForm) {
+            this.lessonIdeaForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleSaveLessonIdea();
             });
         }
 
@@ -328,19 +322,6 @@ class TeacherDashboard {
                     teacherSettingsMenu.classList.add('hidden');
                 }
                 this.handleExportCalendar();
-            });
-        }
-
-        if (this.closeAddStudentModalBtn) {
-            this.closeAddStudentModalBtn.addEventListener('click', () => {
-                this.closeAddStudentModal();
-            });
-        }
-
-        if (this.addStudentForm) {
-            this.addStudentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleSendStudentInvitation();
             });
         }
 
@@ -450,16 +431,6 @@ class TeacherDashboard {
             });
         }
 
-        // Tab switching
-        if (this.tabStudentsBtn && this.tabGroupsBtn) {
-            this.tabStudentsBtn.addEventListener('click', () => {
-                this.switchTab('students');
-            });
-            this.tabGroupsBtn.addEventListener('click', () => {
-                this.switchTab('groups');
-            });
-        }
-        
         // Goals modal listeners
         if (this.openGoalsEditorBtn && this.goalsEditorModal) {
             this.openGoalsEditorBtn.addEventListener('click', () => {
@@ -487,23 +458,6 @@ class TeacherDashboard {
 
         // Goals settings listeners
         this.setupGoalsSettingsEventListeners();
-
-        // Group creation
-        if (this.createGroupBtn) {
-            this.createGroupBtn.addEventListener('click', () => {
-                this.openGroupModal();
-            });
-        }
-        if (this.closeGroupModalBtn) {
-            this.closeGroupModalBtn.addEventListener('click', () => {
-                this.closeGroupModal();
-            });
-        }
-        if (this.saveGroupBtn) {
-            this.saveGroupBtn.addEventListener('click', () => {
-                this.handleSaveGroup();
-            });
-        }
 
         // Booking Type Switcher (Radio buttons)
         const bookingTypeRadios = document.getElementsByName('bookingType');
@@ -656,11 +610,12 @@ class TeacherDashboard {
                 this.groups = this.allProgress.groups || {};
                 this.teacherSettings = this.allProgress.settings || { defaultGoals: null, customGoalSets: {} };
                 this.setlists = this.allProgress.setlists || {};
+                this.lessonIdeas = this.allProgress.lessonIdeas || {};
                 this.extractLessons();
                 this.renderCalendar();
-                this.renderGroups();
                 this.populateGroupDropdown();
                 this.renderSetlists();
+                this.renderLessonIdeas();
 
                 // Only initialize editor data once, or when saved, to avoid losing unsaved changes
                 if (!this.goalsEditorInitialized) {
@@ -688,7 +643,6 @@ class TeacherDashboard {
             const result = await this.firebaseManager.getConnectedStudents();
             if (result.success) {
                 this.students = result.students || [];
-                this.renderStudents(this.students);
                 this.populateStudentDropdown();
             } else {
                 this.showError('Failed to load students: ' + result.error);
@@ -721,103 +675,169 @@ class TeacherDashboard {
         }
     }
 
-    renderStudents(students) {
-        this.studentCountBadge.textContent = students.length;
-        this.studentsGrid.innerHTML = '';
+    renderLessonIdeas() {
+        if (!this.lessonsGrid) return;
+        
+        const ideasList = Object.values(this.lessonIdeas);
+        // Sort by createdAt descending
+        ideasList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-        if (students.length === 0) {
-            this.studentsGrid.innerHTML = `
-                <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
-                    <div class="empty-state-icon" style="font-size: 48px; margin-bottom: 15px;">👥</div>
-                    <p>No students connected yet.</p>
-                    <p style="font-size: 13px; margin-top: 10px;">Share your Teacher Code with your students to get started!</p>
+        this.lessonsGrid.innerHTML = '';
+        
+        if (ideasList.length === 0) {
+            this.lessonsGrid.innerHTML = `
+                <div class="empty-state" style="text-align: center; padding: 30px; color: #64748b;">
+                    <div class="empty-state-icon" style="font-size: 32px; margin-bottom: 10px;">💡</div>
+                    <p>No lesson ideas added yet.</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Add lesson concepts, strumming patterns, or practice tips here.</p>
                 </div>
             `;
             return;
         }
+        
+        const badgeColors = {
+            'Chords': { bg: '#eff6ff', text: '#1e40af' },
+            'Strumming': { bg: '#fdf4ff', text: '#86198f' },
+            'Fingerpicking': { bg: '#f0fdf4', text: '#166534' },
+            'Rhythm': { bg: '#fff7ed', text: '#9a3412' },
+            'Theory': { bg: '#fff1f2', text: '#9f1239' },
+            'Song Practice': { bg: '#faf5ff', text: '#3730a3' },
+            'Other': { bg: '#f1f5f9', text: '#475569' }
+        };
 
-        students.forEach(student => {
-            const dateStr = student.createdAt 
-                ? new Date(student.createdAt).toLocaleDateString()
-                : 'Unknown date';
-
-            const progress = this.allProgress[student.uid] || {};
-            const dueDate = (progress.homework && progress.homework.date) ? progress.homework.date : null;
-            let dueDateFormatted = 'Not set';
-            if (dueDate) {
-                try {
-                    const d = new Date(dueDate);
-                    if (!isNaN(d.getTime())) {
-                        dueDateFormatted = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-                    } else {
-                        dueDateFormatted = dueDate;
-                    }
-                } catch (e) {
-                    dueDateFormatted = dueDate;
-                }
+        ideasList.forEach(idea => {
+            const colors = badgeColors[idea.category] || badgeColors['Other'];
+            const card = document.createElement('div');
+            card.className = 'student-card'; // Reuse student card styling for background & shadows
+            card.style.cssText = 'padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background: #ffffff; display: flex; flex-direction: column; gap: 8px; position: relative; transition: all 0.2s ease;';
+            
+            // Format URL securely
+            let linkButton = '';
+            if (idea.referenceUrl) {
+                linkButton = `
+                    <a href="${idea.referenceUrl}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #3b82f6; text-decoration: none; align-self: flex-start; margin-top: 4px;">
+                        🔗 Reference Link
+                    </a>
+                `;
             }
 
-            const goals = progress.goals || [];
-            const achievedCount = goals.filter(g => g.completed).length;
-            const totalCount = goals.length || 19;
+            const formattedDesc = (idea.description || '').replace(/\n/g, '<br>');
 
-            const card = document.createElement('div');
-            card.className = 'student-card';
-            card.dataset.uid = student.uid;
-            card.style.cursor = 'pointer';
             card.innerHTML = `
-                <div class="student-email" style="font-weight: 600; color: #334155; margin-bottom: 5px; font-size: 14px;">${student.email}</div>
-                <div class="student-meta" style="color: #64748b; font-size: 11px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px;">
-                    <div>Connected: ${dateStr}</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0;">
-                        <span>📅 Next Due Date:</span>
-                        <span style="font-weight: 600; color: ${dueDate ? '#166534' : '#64748b'};">${dueDateFormatted}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>🎯 Goals Achieved:</span>
-                        <span style="font-weight: 600; color: ${achievedCount > 0 ? '#1e40af' : '#64748b'};">${achievedCount} / ${totalCount}</span>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                    <div style="font-weight: 700; color: #1e293b; font-size: 15px;">${idea.title}</div>
+                    <span style="background: ${colors.bg}; color: ${colors.text}; padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 700; white-space: nowrap;">
+                        ${idea.category}
+                    </span>
+                </div>
+                <div style="color: #475569; font-size: 13px; line-height: 1.5; flex: 1; word-break: break-word;">
+                    ${formattedDesc}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 8px; margin-top: 4px;">
+                    ${linkButton}
+                    <div style="display: flex; gap: 10px; margin-left: auto; flex-shrink: 0;">
+                        <button class="btn-edit-idea" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Edit Idea">✏️</button>
+                        <button class="btn-delete-idea" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Delete Idea">🗑️</button>
                     </div>
                 </div>
             `;
 
-            card.addEventListener('click', () => {
-                window.location.href = `student_detail.html?studentId=${student.uid}`;
+            card.querySelector('.btn-edit-idea').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openLessonIdeaModal(idea);
             });
 
-            this.studentsGrid.appendChild(card);
-        });
+            card.querySelector('.btn-delete-idea').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleDeleteLessonIdea(idea.id);
+            });
 
-        this.updateUnreadBadges();
+            this.lessonsGrid.appendChild(card);
+        });
     }
 
-    updateUnreadBadges() {
-        if (!this.studentsGrid) return;
-        const cards = this.studentsGrid.querySelectorAll('.student-card');
-        cards.forEach(card => {
-            const uid = card.dataset.uid;
-            // remove existing badge if any
-            const existingBadge = card.querySelector('.unread-badge');
-            if (existingBadge) {
-                existingBadge.remove();
-            }
+    openLessonIdeaModal(idea = null) {
+        if (!this.lessonIdeaModal) return;
+        
+        document.getElementById('lessonIdeaModalTitle').textContent = idea ? 'Edit Lesson Idea' : 'Add Lesson Idea';
+        this.editLessonIdeaId.value = idea ? idea.id : '';
+        this.lessonIdeaTitleInput.value = idea ? idea.title : '';
+        this.lessonIdeaCategorySelect.value = idea ? idea.category : 'Chords';
+        this.lessonIdeaDescriptionInput.value = idea ? idea.description : '';
+        this.lessonIdeaUrlInput.value = idea ? (idea.referenceUrl || '') : '';
+        
+        this.lessonIdeaModal.classList.remove('hidden');
+        this.lessonIdeaModal.style.display = 'flex';
+    }
+
+    closeLessonIdeaModal() {
+        if (!this.lessonIdeaModal) return;
+        this.lessonIdeaModal.classList.add('hidden');
+        this.lessonIdeaModal.style.display = 'none';
+        if (this.lessonIdeaForm) this.lessonIdeaForm.reset();
+    }
+
+    async handleSaveLessonIdea() {
+        const title = this.lessonIdeaTitleInput.value.trim();
+        const category = this.lessonIdeaCategorySelect.value;
+        const description = this.lessonIdeaDescriptionInput.value.trim();
+        const referenceUrl = this.lessonIdeaUrlInput.value.trim();
+        const editId = this.editLessonIdeaId.value;
+
+        if (!title || !description) {
+            alert('Please fill out both the title and description.');
+            return;
+        }
+
+        this.saveLessonIdeaBtn.disabled = true;
+        this.saveLessonIdeaBtn.textContent = 'Saving...';
+
+        try {
+            const ideaId = editId || 'idea_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const teacherUid = this.firebaseManager.currentUser.uid;
             
-            const count = this.unreadCounts[uid] || 0;
-            if (count > 0) {
-                const badge = document.createElement('div');
-                badge.className = 'unread-badge';
-                badge.textContent = count;
-                card.appendChild(badge);
+            await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/lessonIdeas/${ideaId}`).set({
+                id: ideaId,
+                title: title,
+                category: category,
+                description: description,
+                referenceUrl: referenceUrl,
+                createdAt: ideaId.startsWith('idea_') ? parseInt(ideaId.split('_')[1]) : Date.now()
+            });
+
+            this.closeLessonIdeaModal();
+        } catch (e) {
+            console.error('Failed to save lesson idea:', e);
+            alert('Failed to save lesson idea: ' + e.message);
+        } finally {
+            this.saveLessonIdeaBtn.disabled = false;
+            this.saveLessonIdeaBtn.textContent = 'Save Idea';
+        }
+    }
+
+    async handleDeleteLessonIdea(id) {
+        if (confirm('Are you sure you want to delete this lesson idea?')) {
+            try {
+                const teacherUid = this.firebaseManager.currentUser.uid;
+                await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/lessonIdeas/${id}`).remove();
+            } catch (e) {
+                console.error('Failed to delete lesson idea:', e);
+                alert('Failed to delete lesson idea: ' + e.message);
             }
-        });
+        }
     }
 
     showError(msg) {
-        this.studentsGrid.innerHTML = `
-            <div class="empty-state" style="grid-column: 1 / -1; color: #dc2626;">
-                <div class="empty-state-icon">❌</div>
-                <p>${msg}</p>
-            </div>
-        `;
+        if (this.lessonsGrid) {
+            this.lessonsGrid.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1; color: #dc2626;">
+                    <div class="empty-state-icon">❌</div>
+                    <p>${msg}</p>
+                </div>
+            `;
+        } else {
+            alert(msg);
+        }
     }
 
     async handlePhotoUpload(file) {
@@ -1517,189 +1537,7 @@ class TeacherDashboard {
         this.activeDeleteLesson = null;
     }
 
-    // --- Groups Management Methods ---
-
-    switchTab(tab) {
-        // Reset all tab button styles
-        [this.tabStudentsBtn, this.tabGroupsBtn].forEach(btn => {
-            if (btn) {
-                btn.classList.remove('active');
-                btn.style.color = '#64748b';
-                btn.style.borderBottom = '2px solid transparent';
-            }
-        });
-        
-        // Hide all tab contents
-        if (this.tabStudentsContent) this.tabStudentsContent.style.display = 'none';
-        if (this.tabGroupsContent) this.tabGroupsContent.style.display = 'none';
-        
-        // Show active tab and set active button style
-        if (tab === 'students') {
-            if (this.tabStudentsBtn) {
-                this.tabStudentsBtn.classList.add('active');
-                this.tabStudentsBtn.style.color = '#166534';
-                this.tabStudentsBtn.style.borderBottom = '2px solid #166534';
-            }
-            if (this.tabStudentsContent) this.tabStudentsContent.style.display = 'flex';
-        } else if (tab === 'groups') {
-            if (this.tabGroupsBtn) {
-                this.tabGroupsBtn.classList.add('active');
-                this.tabGroupsBtn.style.color = '#166534';
-                this.tabGroupsBtn.style.borderBottom = '2px solid #166534';
-            }
-            if (this.tabGroupsContent) this.tabGroupsContent.style.display = 'flex';
-        }
-    }
-
-    openGroupModal(group = null) {
-        if (!this.groupModal) return;
-        
-        const errorEl = document.getElementById('groupFormError');
-        if (errorEl) errorEl.style.display = 'none';
-        
-        this.groupNameInput.value = group ? group.name : '';
-        this.editGroupId.value = group ? group.id : '';
-        document.getElementById('groupModalTitle').textContent = group ? 'Edit Group' : 'Create Group';
-        
-        // Populate Student Checklist
-        this.groupStudentChecklist.innerHTML = '';
-        if (this.students.length === 0) {
-            this.groupStudentChecklist.innerHTML = '<div style="color: #64748b; font-size: 13px; text-align: center; padding: 10px 0;">No connected students found.</div>';
-        } else {
-            this.students.forEach(student => {
-                const isChecked = group && group.studentUids && group.studentUids.includes(student.uid);
-                const label = document.createElement('label');
-                label.style.cssText = 'display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; cursor: pointer; padding: 4px 0;';
-                label.innerHTML = `
-                    <input type="checkbox" value="${student.uid}" ${isChecked ? 'checked' : ''} style="cursor: pointer;">
-                    <span>${student.email}</span>
-                `;
-                this.groupStudentChecklist.appendChild(label);
-            });
-        }
-        
-        this.groupModal.classList.remove('hidden');
-        this.groupModal.style.display = 'flex';
-    }
-
-    closeGroupModal() {
-        if (!this.groupModal) return;
-        this.groupModal.classList.add('hidden');
-        this.groupModal.style.display = 'none';
-    }
-
-    async handleSaveGroup() {
-        const name = this.groupNameInput.value.trim();
-        const editId = this.editGroupId.value;
-        const errorEl = document.getElementById('groupFormError');
-        if (errorEl) errorEl.style.display = 'none';
-        
-        if (!name) {
-            if (errorEl) {
-                errorEl.textContent = 'Please enter a group name.';
-                errorEl.style.display = 'block';
-            } else {
-                alert('Please enter a group name.');
-            }
-            return;
-        }
-        
-        const checkedInputs = this.groupStudentChecklist.querySelectorAll('input[type="checkbox"]:checked');
-        const studentUids = Array.from(checkedInputs).map(input => input.value);
-        
-        if (studentUids.length === 0) {
-            if (errorEl) {
-                errorEl.textContent = 'Please select at least one student.';
-                errorEl.style.display = 'block';
-            } else {
-                alert('Please select at least one student.');
-            }
-            return;
-        }
-        
-        this.saveGroupBtn.disabled = true;
-        this.saveGroupBtn.textContent = 'Saving...';
-        
-        try {
-            const groupId = editId || 'group_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            const teacherUid = this.firebaseManager.currentUser.uid;
-            
-            await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/groups/${groupId}`).set({
-                id: groupId,
-                name: name,
-                studentUids: studentUids
-            });
-            
-            this.closeGroupModal();
-        } catch (e) {
-            console.error('Group save failed:', e);
-            alert('Failed to save group: ' + e.message);
-        } finally {
-            this.saveGroupBtn.disabled = false;
-            this.saveGroupBtn.textContent = 'Save Group';
-        }
-    }
-
-    renderGroups() {
-        if (!this.groupsGrid) return;
-        
-        const groupList = Object.values(this.groups);
-        this.groupCountBadge.textContent = groupList.length;
-        this.groupsGrid.innerHTML = '';
-        
-        if (groupList.length === 0) {
-            this.groupsGrid.innerHTML = `
-                <div class="empty-state" style="text-align: center; padding: 30px; color: #64748b;">
-                    <div class="empty-state-icon" style="font-size: 32px; margin-bottom: 10px;">👥</div>
-                    <p>No groups created yet.</p>
-                </div>
-            `;
-            return;
-        }
-        
-        groupList.forEach(group => {
-            const card = document.createElement('div');
-            card.className = 'group-card';
-            
-            // Map student UIDs to emails
-            const emails = (group.studentUids || []).map(uid => {
-                const student = this.students.find(s => s.uid === uid);
-                return student ? student.email.split('@')[0] : 'Unknown';
-            }).join(', ');
-            
-            card.innerHTML = `
-                <div style="min-width: 0; flex: 1;">
-                    <div style="font-weight: 700; color: #1e293b; font-size: 14px;">${group.name}</div>
-                    <div style="font-size: 11px; color: #64748b; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${emails}">
-                        👤 ${emails}
-                    </div>
-                </div>
-                <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                    <button class="btn-edit-group" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Edit Group">✏️</button>
-                    <button class="btn-delete-group" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px;" title="Delete Group">🗑️</button>
-                </div>
-            `;
-            
-            card.querySelector('.btn-edit-group').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.openGroupModal(group);
-            });
-            
-            card.querySelector('.btn-delete-group').addEventListener('click', async (e) => {
-                e.stopPropagation();
-                if (confirm(`Are you sure you want to delete the group "${group.name}"?`)) {
-                    try {
-                        const teacherUid = this.firebaseManager.currentUser.uid;
-                        await this.firebaseManager.database.ref(`studentProgress/${teacherUid}/groups/${group.id}`).remove();
-                    } catch (e) {
-                        alert('Failed to delete group: ' + e.message);
-                    }
-                }
-            });
-            
-            this.groupsGrid.appendChild(card);
-        });
-    }
+    // --- Group dropdown helper (for scheduling) ---
 
     populateGroupDropdown() {
         if (!this.bookingGroupSelect) return;
@@ -1770,54 +1608,6 @@ class TeacherDashboard {
         this.activeDeleteLesson = null;
     }
 
-    openAddStudentModal() {
-        if (!this.addStudentModal) return;
-        if (this.addStudentNameInput) this.addStudentNameInput.value = '';
-        if (this.addStudentEmailInput) this.addStudentEmailInput.value = '';
-        this.addStudentModal.classList.remove('hidden');
-        this.addStudentModal.style.display = 'flex';
-    }
-    
-    closeAddStudentModal() {
-        if (!this.addStudentModal) return;
-        this.addStudentModal.classList.add('hidden');
-        this.addStudentModal.style.display = 'none';
-    }
-    
-    handleSendStudentInvitation() {
-        const name = this.addStudentNameInput.value.trim();
-        const email = this.addStudentEmailInput.value.trim();
-        const teacherCode = (this.teacherCodeBox.textContent || '').trim();
-        const teacherName = (this.teacherNameDisplay.textContent || '').trim();
-        
-        if (!name || !email) {
-            alert('Please enter both name and email.');
-            return;
-        }
-        
-        const subject = encodeURIComponent("Invitation to join my music class on PopSongChordBook");
-        const body = encodeURIComponent(
-`Hi ${name},\n\n` +
-`I would like to invite you to join my music class on PopSongChordBook.com, where we can share your progress and manage your lesson schedule!\n\n` +
-`Here are the simple steps to connect with me:\n\n` +
-`1. Register/Login to your account on the https://www.popsongchordbook.com website.\n` +
-`2. Open the Profile & Settings Menu at the top right corner.\n` +
-`3. Find the "Teacher / Student Connection" section and enter my Teacher Code:\n` +
-`   ${teacherCode}\n\n` +
-`To help you find it, you can view this screenshot instruction: https://www.popsongchordbook.com/images/connect_teacher_guide.png\n\n` +
-`Looking forward to practicing together!\n\n` +
-`Best regards,\n` +
-`${teacherName}`
-        );
-        
-        const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-        
-        // Open default mail client
-        window.location.href = mailtoUrl;
-        
-        // Close modal
-        this.closeAddStudentModal();
-    }
 
     handleExportCalendar() {
         if (!this.allProgress) {
