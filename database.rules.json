@@ -88,6 +88,10 @@
           ".write": "$studentUid === auth.uid || $teacherUid === auth.uid"
         }
       }
+    },
+    "facebookPromoSuite": {
+      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
     }
   }
 }

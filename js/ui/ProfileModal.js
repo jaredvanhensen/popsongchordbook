@@ -65,6 +65,7 @@ class ProfileModal {
         this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
         this.adminPaywallToggle = document.getElementById('adminPaywallToggle');
         this.viewMembersBtn = document.getElementById('profileViewMembersBtn');
+        this.viewFacebookGroupsBtn = document.getElementById('profileViewFacebookGroupsBtn');
         this.viewFixRequestsBtn = document.getElementById('profileViewFixRequestsBtn');
         this.membersModal = document.getElementById('adminMembersModal');
         this.adminFixRequestsModal = document.getElementById('adminFixRequestsModal');
@@ -371,6 +372,12 @@ class ProfileModal {
         if (this.viewMembersBtn) {
             this.viewMembersBtn.addEventListener('click', () => {
                 this.showMembersModal();
+            });
+        }
+
+        if (this.viewFacebookGroupsBtn) {
+            this.viewFacebookGroupsBtn.addEventListener('click', () => {
+                window.location.href = 'FacebookGroups.html';
             });
         }
 

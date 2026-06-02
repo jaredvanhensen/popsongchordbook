@@ -102,6 +102,10 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
           ".write": "$studentUid === auth.uid || $teacherUid === auth.uid"
         }
       }
+    },
+    "facebookPromoSuite": {
+      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
     }
   }
 }
@@ -122,6 +126,8 @@ Om de song sharing functionaliteit te laten werken, moet je de Firebase Realtime
   - De docent mag zijn eigen lijst met studenten lezen.
   - Een student mag zichzelf toevoegen onder de ID van de docent (schrijven).
   - De rules voor de `users/{userId}` zijn aangepast zodat docenten de data (profiel en songs) van hun gekoppelde studenten kunnen inzien.
+- **facebookPromoSuite**:
+  - Alleen de beheerder (jared@vanhensen.nl) kan deze data inzien en bewerken (voor het tracken van Facebook promoties).
 
 ## Belangrijk
 
