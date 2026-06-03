@@ -1799,7 +1799,7 @@ class FirebaseManager {
             const snapshot = await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).once('value');
             let progress = snapshot.val();
             
-            const defaultGoals = [
+            const systemDefaultGoalsGuitar = [
                 { id: 'goal_0', text: 'Tuning the guitar', completed: false },
                 { id: 'goal_1', text: 'C Em G and D chord', completed: false },
                 { id: 'goal_2', text: 'Am E Dm chords', completed: false },
@@ -1826,11 +1826,54 @@ class FirebaseManager {
                 { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false }
             ];
 
+            const systemDefaultGoalsPiano = [
+                { id: 'goal_0', text: 'Proper sitting posture and hand shape', completed: false },
+                { id: 'goal_1', text: 'C, Em, G, and D chords (Root position)', completed: false },
+                { id: 'goal_2', text: 'Am, E, and Dm chords (Root position)', completed: false },
+                { id: 'goal_3', text: 'F and Bm chords (Root position)', completed: false },
+                { id: 'goal_4', text: 'F and Bb chords (Root position)', completed: false },
+                { id: 'goal_5', text: 'Major pentatonic scale (C and G, right hand)', completed: false },
+                { id: 'goal_6', text: 'Play Harry Styles - Sign of the Times from start to finish', completed: false },
+                { id: 'goal_7', text: "Play Bill Withers - Ain't No Sunshine from start to finish", completed: false },
+                { id: 'goal_8', text: 'Play Taylor Swift - All Too Well from start to finish', completed: false },
+                { id: 'goal_9', text: 'Play The Cranberries - Zombie from start to finish', completed: false },
+                { id: 'goal_10', text: "Play Madcon - Don't Worry from start to finish", completed: false },
+                { id: 'goal_11', text: 'C major scale (Two octaves, hands together)', completed: false },
+                { id: 'goal_12', text: 'A minor scale (Two octaves, hands together)', completed: false },
+                { id: 'goal_13', text: 'Sus2 and sus4 chords', completed: false },
+                { id: 'goal_14', text: 'Seventh chords (Major 7, Minor 7, Dominant 7)', completed: false },
+                { id: 'goal_15', text: 'Identify all white and black keys instantly', completed: false },
+                { id: 'goal_16', text: 'Play root notes in Left Hand while playing chords in Right Hand', completed: false },
+                { id: 'goal_17', text: 'Arpeggio pattern (1-5-8 pattern in Left Hand)', completed: false },
+                { id: 'goal_18', text: 'Chord inversions (1st and 2nd inversions for C, F, G)', completed: false },
+                { id: 'goal_19', text: 'Blues scale and basic improvisation in C', completed: false },
+                { id: 'goal_20', text: 'Using the sustain pedal with clean coordination', completed: false },
+                { id: 'goal_21', text: 'Basic hand independence (different rhythms in each hand)', completed: false },
+                { id: 'goal_22', text: 'Sight-read simple treble and bass clef notes', completed: false },
+                { id: 'goal_23', text: 'Play 6 chords in a key ( I ii iii IV V vi )', completed: false },
+                { id: 'goal_24', text: 'Transpose a simple 4-chord song to another key', completed: false }
+            ];
+
+            // Get student instrument preference
+            let isPiano = false;
+            try {
+                const userSnap = await this.database.ref(`users/${studentUid}`).once('value');
+                const userData = userSnap.val() || {};
+                const instrument = (userData.preferences && userData.preferences.instrument) || 'guitar';
+                isPiano = (instrument === 'piano');
+            } catch (err) {
+                console.warn("Could not load student instrument preference:", err);
+            }
+
+            const systemDefaultGoals = isPiano ? systemDefaultGoalsPiano : systemDefaultGoalsGuitar;
+
             if (!progress) {
                 // Fetch customized default goals from database settings
                 const settingsSnap = await this.database.ref(`studentProgress/${teacherUid}/settings`).once('value');
                 const settings = settingsSnap.val() || {};
-                const activeDefaultGoals = settings.defaultGoals || defaultGoals;
+                const activeDefaultGoals = isPiano 
+                    ? (settings.defaultGoals_piano || systemDefaultGoalsPiano)
+                    : (settings.defaultGoals_guitar || settings.defaultGoals || systemDefaultGoalsGuitar);
 
                 // Initialize default progress
                 progress = {
@@ -1843,7 +1886,9 @@ class FirebaseManager {
                 // Initialize goals if missing
                 const settingsSnap = await this.database.ref(`studentProgress/${teacherUid}/settings`).once('value');
                 const settings = settingsSnap.val() || {};
-                const activeDefaultGoals = settings.defaultGoals || defaultGoals;
+                const activeDefaultGoals = isPiano 
+                    ? (settings.defaultGoals_piano || systemDefaultGoalsPiano)
+                    : (settings.defaultGoals_guitar || settings.defaultGoals || systemDefaultGoalsGuitar);
 
                 progress.goals = [...activeDefaultGoals];
                 await this.database.ref(`studentProgress/${teacherUid}/${studentUid}`).set(progress);

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.029">
+    <link rel="stylesheet" href="styles.css?v=3.031">
     <style>
         @keyframes slideIn {
             from { transform: translateX(100%); }
@@ -831,16 +831,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=3.029"></script>
+    <script src="js/config/firebase-config.js?v=3.031"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=3.029"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.031"></script>
 
     <!-- Songs Data -->
-    <script src="js/data/default_songs.js?v=3.029"></script>
+    <script src="js/data/default_songs.js?v=3.031"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=3.029"></script>
+    <script src="js/teacher.js?v=3.031"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
@@ -1037,7 +1037,8 @@
             <!-- Modal Body (contains the goals set selectors and the list) -->
             <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; flex-shrink: 0; margin-bottom: 15px;">
                 <select id="goalsSetSelect" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-family: inherit; font-weight: bold; background: white; color: #1e293b; cursor: pointer; min-width: 250px;">
-                    <option value="default">Default Goals (for new students)</option>
+                    <option value="default_guitar">Default Goals - Guitar</option>
+                    <option value="default_piano">Default Goals - Piano/Keys</option>
                 </select>
                 <button id="createGoalSetBtn" style="background: #166534; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; font-size: 13px;">+ Create Custom Set</button>
                 <button id="deleteGoalSetBtn" class="hidden" style="background: #ef4444; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; font-size: 13px; display: none;">Delete Custom Set</button>
