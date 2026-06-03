@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-02</lastmod>
+        <lastmod>2026-06-03</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -1289,6 +1289,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/oasis-wonderwall</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/old-dominion-break-up-with-him</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

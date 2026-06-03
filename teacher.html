@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.018">
+    <link rel="stylesheet" href="styles.css?v=3.023">
     <style>
         @keyframes slideIn {
             from { transform: translateX(100%); }
@@ -720,18 +720,42 @@
                             <div class="teacher-info" style="flex: 1; min-width: 0;">
                                 <h2 id="teacherNameDisplay" style="margin: 0 0 5px 0; color: #1e293b; font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Loading...</h2>
                                 <p style="color: #64748b; margin-bottom: 5px; font-size: 11px;">Share code with students:</p>
-                                <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                                 <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
                                     <div class="teacher-code-box" id="teacherCodeBox" style="display: inline-block; background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-size: 13px; font-weight: bold; color: #166534; letter-spacing: 1px;">...</div>
-                                    <button id="shareTeacherLinkBtn" style="display: flex; align-items: center; gap: 4px; background: #3b82f6; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; transition: background 0.2s;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
-                                            <circle cx="18" cy="5" r="3"></circle>
-                                            <circle cx="6" cy="12" r="3"></circle>
-                                            <circle cx="18" cy="19" r="3"></circle>
-                                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                                        </svg>
-                                        Share
-                                    </button>
+                                    <div style="position: relative; display: inline-block;">
+                                        <button id="shareTeacherLinkBtn" style="display: flex; align-items: center; gap: 4px; background: #3b82f6; color: white; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; transition: background 0.2s;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                                <circle cx="18" cy="5" r="3"></circle>
+                                                <circle cx="6" cy="12" r="3"></circle>
+                                                <circle cx="18" cy="19" r="3"></circle>
+                                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                            </svg>
+                                            Share
+                                        </button>
+                                        <div id="shareMenu" class="song-hamburger-menu hidden" style="width: 210px; top: calc(100% + 5px); left: 0; right: auto; transform-origin: top left; display: none;">
+                                            <button id="shareEmailOption" class="hamburger-menu-item" style="width: 100%;">
+                                                <span class="icon">✉️</span>
+                                                <span>Email to Student</span>
+                                            </button>
+                                            <button id="shareCopyRichEmailOption" class="hamburger-menu-item" style="width: 100%;">
+                                                <span class="icon">📋</span>
+                                                <span>Copy Rich Email (w/ Image)</span>
+                                            </button>
+                                            <button id="shareCopyLinkOption" class="hamburger-menu-item" style="width: 100%;">
+                                                <span class="icon">🔗</span>
+                                                <span>Copy Invite Link</span>
+                                            </button>
+                                            <button id="shareCopyCodeOption" class="hamburger-menu-item" style="width: 100%;">
+                                                <span class="icon">🎯</span>
+                                                <span>Copy Teacher Code</span>
+                                            </button>
+                                            <button id="shareNativeOption" class="hamburger-menu-item" style="width: 100%;">
+                                                <span class="icon">📱</span>
+                                                <span>Other Share Options</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                  <div style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px; display: flex; flex-direction: column; gap: 4px; max-width: 100%;">
                                      <label for="teacherPublicEmailInput" style="font-size: 10px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">Public Email:</label>
@@ -811,16 +835,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=3.018"></script>
+    <script src="js/config/firebase-config.js?v=3.023"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=3.018"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.023"></script>
 
     <!-- Songs Data -->
-    <script src="js/data/default_songs.js?v=3.018"></script>
+    <script src="js/data/default_songs.js?v=3.023"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=3.018"></script>
+    <script src="js/teacher.js?v=3.023"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">

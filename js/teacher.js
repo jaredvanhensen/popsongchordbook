@@ -9,6 +9,12 @@ class TeacherDashboard {
         this.uploadBtn = document.querySelector('.upload-banner-btn');
         this.bannerPlaceholder = document.querySelector('.teacher-banner-placeholder');
         this.shareTeacherLinkBtn = document.getElementById('shareTeacherLinkBtn');
+        this.shareMenu = document.getElementById('shareMenu');
+        this.shareEmailOption = document.getElementById('shareEmailOption');
+        this.shareCopyRichEmailOption = document.getElementById('shareCopyRichEmailOption');
+        this.shareCopyLinkOption = document.getElementById('shareCopyLinkOption');
+        this.shareCopyCodeOption = document.getElementById('shareCopyCodeOption');
+        this.shareNativeOption = document.getElementById('shareNativeOption');
         this.publicEmailInput = document.getElementById('teacherPublicEmailInput');
         this.savePublicEmailBtn = document.getElementById('savePublicEmailBtn');
         this.publicEmailStatus = document.getElementById('publicEmailStatus');
@@ -190,66 +196,222 @@ class TeacherDashboard {
             });
         }
 
-        if (this.shareTeacherLinkBtn) {
-            this.shareTeacherLinkBtn.addEventListener('click', () => {
-                const code = (this.teacherCodeBox.textContent || '').trim();
-                if (!code || code === '...' || code === 'UNKNOWN') {
-                    alert('Your teacher code is not loaded yet. Please wait a moment and try again.');
-                    return;
-                }
-                
-                // Use production domain when on localhost
-                let origin = window.location.origin;
-                if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
-                    origin = 'https://popsongchordbook.com';
-                }
-                const url = origin + '/songlist.html?teacher=' + code;
-                
-                // Try native share first (mobile)
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'Join my music class!',
-                        text: 'Click the link below to connect with your teacher on PopSongChordBook.',
-                        url: url
-                    }).catch(err => {
-                        if (err.name !== 'AbortError') console.error('Share failed:', err);
-                    });
-                    return;
-                }
-
-                // Fallback: copy to clipboard
-                const handleSuccess = () => {
-                    const originalHTML = this.shareTeacherLinkBtn.innerHTML;
-                    this.shareTeacherLinkBtn.innerHTML = '✅ Copied!';
-                    this.shareTeacherLinkBtn.style.background = '#16a34a';
-                    setTimeout(() => {
-                        this.shareTeacherLinkBtn.innerHTML = originalHTML;
-                        this.shareTeacherLinkBtn.style.background = '#3b82f6';
-                    }, 2000);
-                };
-                const handleError = () => {
-                    prompt('Copy this link to share with your students:', url);
-                };
-
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(url).then(handleSuccess).catch(handleError);
+        if (this.shareTeacherLinkBtn && this.shareMenu) {
+            this.shareTeacherLinkBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.shareMenu.classList.toggle('hidden');
+                if (this.shareMenu.classList.contains('hidden')) {
+                    this.shareMenu.style.display = 'none';
                 } else {
-                    try {
-                        const ta = document.createElement('textarea');
-                        ta.value = url;
-                        ta.style.position = 'fixed';
-                        ta.style.left = '-9999px';
-                        document.body.appendChild(ta);
-                        ta.focus();
-                        ta.select();
-                        const ok = document.execCommand('copy');
-                        ta.remove();
-                        if (ok) handleSuccess(); else handleError();
-                    } catch (e) {
-                        handleError();
+                    this.shareMenu.style.display = 'flex';
+                }
+            });
+
+            // Close share menu on clicking outside
+            document.addEventListener('click', (e) => {
+                if (this.shareMenu && !this.shareMenu.classList.contains('hidden')) {
+                    if (!this.shareMenu.contains(e.target) && e.target !== this.shareTeacherLinkBtn && !this.shareTeacherLinkBtn.contains(e.target)) {
+                        this.shareMenu.classList.add('hidden');
+                        this.shareMenu.style.display = 'none';
                     }
                 }
             });
+
+            // Native share display toggle
+            if (this.shareNativeOption) {
+                if (navigator.share) {
+                    this.shareNativeOption.style.display = 'flex';
+                } else {
+                    this.shareNativeOption.style.display = 'none';
+                }
+            }
+
+            // Options click listeners
+            if (this.shareEmailOption) {
+                this.shareEmailOption.addEventListener('click', () => {
+                    this.shareMenu.classList.add('hidden');
+                    this.shareMenu.style.display = 'none';
+                    
+                    const code = (this.teacherCodeBox.textContent || '').trim();
+                    if (!code || code === '...' || code === 'UNKNOWN') {
+                        alert('Your teacher code is not loaded yet. Please wait a moment.');
+                        return;
+                    }
+
+                    const teacherName = (this.teacherNameDisplay.textContent || 'Teacher').trim();
+                    const url = 'https://popsongchordbook.com/songlist.html?teacher=' + code;
+                    
+                    const subject = encodeURIComponent("Join my music class on PopSongChordBook!");
+                    const emailBody = `Hi!
+
+I would like to invite you to join my music class on PopSongChordBook.
+
+To connect with me, click this invite link:
+👉 ${url}
+
+If you need to connect manually, follow these steps:
+• Go to the Profile/Settings menu (⚙️ gear icon)
+• Click on the "Connect" button
+• Enter my teacher code: ${code}
+
+Here is a visual guide illustrating how to find the Connect button:
+👉 https://popsongchordbook.com/images/connect_teacher_guide.png
+
+Let's start playing!
+
+Best regards,
+${teacherName}`;
+                    
+                    const mailtoUrl = `mailto:?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
+                    window.location.href = mailtoUrl;
+                });
+            }
+
+            if (this.shareCopyRichEmailOption) {
+                this.shareCopyRichEmailOption.addEventListener('click', () => {
+                    this.shareMenu.classList.add('hidden');
+                    this.shareMenu.style.display = 'none';
+                    
+                    const code = (this.teacherCodeBox.textContent || '').trim();
+                    if (!code || code === '...' || code === 'UNKNOWN') {
+                        alert('Your teacher code is not loaded yet. Please wait a moment.');
+                        return;
+                    }
+
+                    const teacherName = (this.teacherNameDisplay.textContent || 'Teacher').trim();
+                    const url = 'https://popsongchordbook.com/songlist.html?teacher=' + code;
+                    
+                    const htmlText = `<p>Hi!</p>
+
+<p>I would like to invite you to join my music class on <strong><a href="https://popsongchordbook.com">PopSongChordBook</a></strong>.</p>
+
+<p>To connect with me, click this invite link:<br>
+<strong><a href="${url}">${url}</a></strong></p>
+
+<p>If you need to connect manually, follow these steps:<br>
+• Go to the Profile/Settings menu (⚙️ gear icon)<br>
+• Click on the "Connect" button<br>
+• Enter my teacher code: <strong>${code}</strong></p>
+
+<p>Here is a visual guide illustrating how to find the Connect button:</p>
+
+<p><img src="https://popsongchordbook.com/images/connect_teacher_guide.png" alt="Connect Teacher Guide" width="300" style="display: block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 15px 0;"></p>
+
+<p>Let's start playing!</p>
+
+<p>Best regards,<br>
+${teacherName}</p>`;
+
+                    const plainText = `Hi!
+
+I would like to invite you to join my music class on PopSongChordBook.
+
+To connect with me, click this invite link:
+👉 ${url}
+
+If you need to connect manually, follow these steps:
+• Go to the Profile/Settings menu (⚙️ gear icon)
+• Click on the "Connect" button
+• Enter my teacher code: ${code}
+
+Here is a visual guide illustrating how to find the Connect button:
+👉 https://popsongchordbook.com/images/connect_teacher_guide.png
+
+Let's start playing!
+
+Best regards,
+${teacherName}`;
+
+                    const handleSuccess = () => {
+                        const originalHTML = this.shareCopyRichEmailOption.innerHTML;
+                        this.shareCopyRichEmailOption.innerHTML = '✅ Copied Rich Email!';
+                        this.shareCopyRichEmailOption.style.background = '#d1fae5';
+                        this.shareCopyRichEmailOption.style.color = '#065f46';
+                        
+                        alert('Rich Email Copied! You can now paste (Ctrl+V) it directly into Gmail, Outlook, or any other email composer to send it with the inline image and clickable link.');
+                        
+                        setTimeout(() => {
+                            this.shareCopyRichEmailOption.innerHTML = originalHTML;
+                            this.shareCopyRichEmailOption.style.background = '';
+                            this.shareCopyRichEmailOption.style.color = '';
+                        }, 2000);
+                    };
+
+                    const handleError = () => {
+                        alert('Clipboard copy failed. Please copy the text manually.');
+                    };
+
+                    if (navigator.clipboard && window.ClipboardItem) {
+                        try {
+                            const clipboardItem = new ClipboardItem({
+                                "text/html": new Blob([htmlText], { type: "text/html" }),
+                                "text/plain": new Blob([plainText], { type: "text/plain" })
+                            });
+                            navigator.clipboard.write([clipboardItem]).then(handleSuccess).catch(handleError);
+                        } catch (e) {
+                            console.error('ClipboardItem write failed, trying fallback text-only write', e);
+                            navigator.clipboard.writeText(plainText).then(handleSuccess).catch(handleError);
+                        }
+                    } else {
+                        this.copyToClipboard(plainText, this.shareCopyRichEmailOption, '📋 Copy Rich Email (w/ Image)');
+                    }
+                });
+            }
+
+            if (this.shareCopyLinkOption) {
+                this.shareCopyLinkOption.addEventListener('click', () => {
+                    this.shareMenu.classList.add('hidden');
+                    this.shareMenu.style.display = 'none';
+                    
+                    const code = (this.teacherCodeBox.textContent || '').trim();
+                    if (!code || code === '...' || code === 'UNKNOWN') {
+                        alert('Your teacher code is not loaded yet. Please wait a moment.');
+                        return;
+                    }
+                    const url = 'https://popsongchordbook.com/songlist.html?teacher=' + code;
+                    
+                    this.copyToClipboard(url, this.shareCopyLinkOption, '🔗 Copy Invite Link');
+                });
+            }
+
+            if (this.shareCopyCodeOption) {
+                this.shareCopyCodeOption.addEventListener('click', () => {
+                    this.shareMenu.classList.add('hidden');
+                    this.shareMenu.style.display = 'none';
+                    
+                    const code = (this.teacherCodeBox.textContent || '').trim();
+                    if (!code || code === '...' || code === 'UNKNOWN') {
+                        alert('Your teacher code is not loaded yet. Please wait a moment.');
+                        return;
+                    }
+                    
+                    this.copyToClipboard(code, this.shareCopyCodeOption, '🎯 Copy Teacher Code');
+                });
+            }
+
+            if (this.shareNativeOption) {
+                this.shareNativeOption.addEventListener('click', () => {
+                    this.shareMenu.classList.add('hidden');
+                    this.shareMenu.style.display = 'none';
+                    
+                    const code = (this.teacherCodeBox.textContent || '').trim();
+                    if (!code || code === '...' || code === 'UNKNOWN') {
+                        alert('Your teacher code is not loaded yet. Please wait a moment.');
+                        return;
+                    }
+                    const url = 'https://popsongchordbook.com/songlist.html?teacher=' + code;
+                    
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Join my music class!',
+                            text: `Connect with your teacher on PopSongChordBook. Code: ${code}`,
+                            url: url
+                        }).catch(err => {
+                            if (err.name !== 'AbortError') console.error('Share failed:', err);
+                        });
+                    }
+                });
+            }
         }
 
         const deleteTeacherPageBtn = document.getElementById('deleteTeacherPageBtn');
@@ -2702,6 +2864,42 @@ class TeacherDashboard {
         } finally {
             this.confirmAssignSetlistBtn.disabled = false;
             this.confirmAssignSetlistBtn.textContent = 'Assign';
+        }
+    }
+
+    copyToClipboard(text, buttonElement, labelText) {
+        const handleSuccess = () => {
+            const originalHTML = buttonElement.innerHTML;
+            buttonElement.innerHTML = '✅ Copied!';
+            buttonElement.style.background = '#d1fae5';
+            buttonElement.style.color = '#065f46';
+            setTimeout(() => {
+                buttonElement.innerHTML = originalHTML;
+                buttonElement.style.background = '';
+                buttonElement.style.color = '';
+            }, 2000);
+        };
+        const handleError = () => {
+            prompt('Copy this to share with your students:', text);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(handleSuccess).catch(handleError);
+        } else {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                const ok = document.execCommand('copy');
+                ta.remove();
+                if (ok) handleSuccess(); else handleError();
+            } catch (e) {
+                handleError();
+            }
         }
     }
 }
