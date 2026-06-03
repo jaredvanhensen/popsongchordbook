@@ -254,7 +254,7 @@ If you need to connect manually, follow these steps:
 • Enter my teacher code: ${code}
 
 Here is a visual guide illustrating how to find the Connect button:
-👉 https://popsongchordbook.com/images/connect_teacher_guide.png
+👉 https://popsongchordbook.com/images/connect_teacher_guide.png?v=${Date.now()}
 
 Let's start playing!
 
@@ -289,7 +289,7 @@ If you need to connect manually, follow these steps:<br>
 • Click on the "Connect" button<br>
 • Enter my teacher code: <strong>${code}</strong><br><br>
 Here is a visual guide illustrating how to find the Connect button:<br><br>
-<img src="https://popsongchordbook.com/images/connect_teacher_guide.png" alt="Connect Teacher Guide" width="300" style="display: block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><br><br>
+<img src="https://popsongchordbook.com/images/connect_teacher_guide.png?v=${Date.now()}" alt="Connect Teacher Guide" width="300" style="display: block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><br><br>
 Let's start playing!<br><br>
 Best regards,<br>
 ${teacherName}`;
@@ -307,7 +307,7 @@ If you need to connect manually, follow these steps:
 • Enter my teacher code: ${code}
 
 Here is a visual guide illustrating how to find the Connect button:
-👉 https://popsongchordbook.com/images/connect_teacher_guide.png
+👉 https://popsongchordbook.com/images/connect_teacher_guide.png?v=${Date.now()}
 
 Let's start playing!
 

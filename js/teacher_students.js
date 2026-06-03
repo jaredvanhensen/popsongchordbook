@@ -327,7 +327,7 @@ class TeacherStudentsDashboard {
 `2. Open the Profile & Settings Menu at the top right corner.\n` +
 `3. Find the "Teacher / Student Connection" section and enter my Teacher Code:\n` +
 `   ${this.teacherCode}\n\n` +
-`To help you find it, you can view this screenshot instruction: https://www.popsongchordbook.com/images/connect_teacher_guide.png\n\n` +
+`To help you find it, you can view this screenshot instruction: https://www.popsongchordbook.com/images/connect_teacher_guide.png?v=${Date.now()}\n\n` +
 `Looking forward to practicing together!\n\n` +
 `Best regards,\n` +
 `${this.teacherName}`
