@@ -13,7 +13,6 @@ class TeacherDashboard {
         this.shareEmailOption = document.getElementById('shareEmailOption');
         this.shareCopyRichEmailOption = document.getElementById('shareCopyRichEmailOption');
         this.shareCopyLinkOption = document.getElementById('shareCopyLinkOption');
-        this.shareCopyCodeOption = document.getElementById('shareCopyCodeOption');
         this.shareNativeOption = document.getElementById('shareNativeOption');
         this.publicEmailInput = document.getElementById('teacherPublicEmailInput');
         this.savePublicEmailBtn = document.getElementById('savePublicEmailBtn');
@@ -281,26 +280,19 @@ ${teacherName}`;
                     const teacherName = (this.teacherNameDisplay.textContent || 'Teacher').trim();
                     const url = 'https://popsongchordbook.com/songlist.html?teacher=' + code;
                     
-                    const htmlText = `<p>Hi!</p>
-
-<p>I would like to invite you to join my music class on <strong><a href="https://popsongchordbook.com">PopSongChordBook</a></strong>.</p>
-
-<p>To connect with me, click this invite link:<br>
-<strong><a href="${url}">${url}</a></strong></p>
-
-<p>If you need to connect manually, follow these steps:<br>
+                    const htmlText = `Hi!<br><br>
+I would like to invite you to join my music class on <strong><a href="https://popsongchordbook.com">PopSongChordBook</a></strong>.<br><br>
+To connect with me, click this invite link:<br>
+<strong><a href="${url}">${url}</a></strong><br><br>
+If you need to connect manually, follow these steps:<br>
 • Go to the Profile/Settings menu (⚙️ gear icon)<br>
 • Click on the "Connect" button<br>
-• Enter my teacher code: <strong>${code}</strong></p>
-
-<p>Here is a visual guide illustrating how to find the Connect button:</p>
-
-<p><img src="https://popsongchordbook.com/images/connect_teacher_guide.png" alt="Connect Teacher Guide" width="300" style="display: block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 15px 0;"></p>
-
-<p>Let's start playing!</p>
-
-<p>Best regards,<br>
-${teacherName}</p>`;
+• Enter my teacher code: <strong>${code}</strong><br><br>
+Here is a visual guide illustrating how to find the Connect button:<br><br>
+<img src="https://popsongchordbook.com/images/connect_teacher_guide.png" alt="Connect Teacher Guide" width="300" style="display: block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><br><br>
+Let's start playing!<br><br>
+Best regards,<br>
+${teacherName}`;
 
                     const plainText = `Hi!
 
@@ -374,20 +366,6 @@ ${teacherName}`;
                 });
             }
 
-            if (this.shareCopyCodeOption) {
-                this.shareCopyCodeOption.addEventListener('click', () => {
-                    this.shareMenu.classList.add('hidden');
-                    this.shareMenu.style.display = 'none';
-                    
-                    const code = (this.teacherCodeBox.textContent || '').trim();
-                    if (!code || code === '...' || code === 'UNKNOWN') {
-                        alert('Your teacher code is not loaded yet. Please wait a moment.');
-                        return;
-                    }
-                    
-                    this.copyToClipboard(code, this.shareCopyCodeOption, '🎯 Copy Teacher Code');
-                });
-            }
 
             if (this.shareNativeOption) {
                 this.shareNativeOption.addEventListener('click', () => {
