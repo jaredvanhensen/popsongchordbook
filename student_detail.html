@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.032">
+    <link rel="stylesheet" href="styles.css?v=3.038">
     <style>
         .container {
             overflow-y: auto !important;
@@ -174,12 +174,49 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
+        }
+
+        .teacher-info {
+            padding-right: 35px;
+            flex: 1;
+            min-width: 0;
         }
 
         .teacher-info h2 {
             margin: 0 0 5px 0;
             color: #1e293b;
             font-size: 24px;
+        }
+
+        .remove-student-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .remove-student-btn:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
 
         .section-panel {
@@ -313,6 +350,7 @@
                                 <p style="color: #64748b; margin: 0; font-size: 12px; font-weight: bold; text-transform: uppercase;">Viewing Student</p>
                                 <h2 id="studentEmailDisplay">Loading...</h2>
                             </div>
+                            <button type="button" id="removeStudentBtn" class="remove-student-btn" title="Remove Student">&times;</button>
                         </div>
 
                         <!-- ASSIGNED SONGS SECTION -->
@@ -438,20 +476,20 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=3.032"></script>
+    <script src="js/config/firebase-config.js?v=3.038"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=3.032"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.038"></script>
 
     <!-- Songs Data -->
-    <script src="js/data/default_songs.js?v=3.032"></script>
+    <script src="js/data/default_songs.js?v=3.038"></script>
 
     <!-- App Logic -->
-    <script src="js/student_detail.js?v=3.032"></script>
+    <script src="js/student_detail.js?v=3.038"></script>
     <!-- Custom Confirm Overlay -->
     <div id="customConfirmModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100001; display: none; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; display: flex; flex-direction: column; align-items: center;">
-            <div style="width: 56px; height: 56px; background: #e0f2fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: #0284c7; font-size: 28px; font-weight: bold;">❓</div>
+            <div id="customConfirmIcon" style="width: 56px; height: 56px; background: #e0f2fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: #0284c7; font-size: 28px; font-weight: bold;">❓</div>
             <h3 id="customConfirmTitle" style="margin: 0 0 8px 0; color: #1e293b; font-size: 18px; font-weight: 800;">Confirm</h3>
             <p id="customConfirmMessage" style="color: #64748b; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0;">Are you sure?</p>
             <div style="display: flex; gap: 12px; width: 100%;">

@@ -339,6 +339,8 @@ class TeacherStudentsDashboard {
         this.closeAddStudentModal();
     }
 
+
+
     showError(msg) {
         if (this.studentsGrid) {
             this.studentsGrid.innerHTML = `

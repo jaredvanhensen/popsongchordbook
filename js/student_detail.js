@@ -26,6 +26,7 @@ class StudentDetailEditor {
         this.addGoalBtn = document.getElementById('spAddGoalBtn');
         this.saveBtn = document.getElementById('spSaveBtn');
         this.saveStatusText = document.getElementById('saveStatusText');
+        this.removeStudentBtn = document.getElementById('removeStudentBtn');
 
         this.studentUid = null;
         this.studentEmail = null;
@@ -596,6 +597,13 @@ class StudentDetailEditor {
                 }
             });
         }
+
+        // Remove Student Button
+        if (this.removeStudentBtn) {
+            this.removeStudentBtn.addEventListener('click', () => {
+                this.confirmRemoveStudent();
+            });
+        }
     }
 
     _renderGoals() {
@@ -762,13 +770,14 @@ class StudentDetailEditor {
         }
     }
 
-    showCustomConfirm(title, message) {
+    showCustomConfirm(title, message, type = 'primary') {
         return new Promise((resolve) => {
             const modal = document.getElementById('customConfirmModal');
             const titleEl = document.getElementById('customConfirmTitle');
             const msgEl = document.getElementById('customConfirmMessage');
             const okBtn = document.getElementById('customConfirmOkBtn');
             const cancelBtn = document.getElementById('customConfirmCancelBtn');
+            const iconEl = document.getElementById('customConfirmIcon');
             
             if (!modal || !msgEl || !okBtn || !cancelBtn) {
                 resolve(window.confirm(message));
@@ -777,6 +786,22 @@ class StudentDetailEditor {
             
             titleEl.textContent = title || 'Confirm';
             msgEl.textContent = message;
+            
+            if (type === 'danger') {
+                okBtn.style.background = '#ef4444';
+                if (iconEl) {
+                    iconEl.style.background = '#fee2e2';
+                    iconEl.style.color = '#ef4444';
+                    iconEl.textContent = '⚠️';
+                }
+            } else {
+                okBtn.style.background = '#3b82f6';
+                if (iconEl) {
+                    iconEl.style.background = '#e0f2fe';
+                    iconEl.style.color = '#0284c7';
+                    iconEl.textContent = '❓';
+                }
+            }
             
             const handleOk = () => {
                 cleanup();
@@ -801,6 +826,36 @@ class StudentDetailEditor {
             modal.classList.remove('hidden');
             modal.style.display = 'flex';
         });
+    }
+
+    async confirmRemoveStudent() {
+        const studentName = this.studentEmailDisplay.textContent || 'this student';
+        const confirmed = await this.showCustomConfirm(
+            'Remove Student',
+            `Are you sure you want to remove ${studentName} from your class? This will disconnect their profile from your teacher account. They will no longer appear on your roster, and you will not see their updates.`,
+            'danger'
+        );
+
+        if (confirmed) {
+            try {
+                this.removeStudentBtn.disabled = true;
+                this.removeStudentBtn.textContent = '...';
+                const result = await this.firebaseManager.removeStudent(this.studentUid);
+                if (result.success) {
+                    alert('Student removed successfully.');
+                    window.location.href = 'teacher_students.html';
+                } else {
+                    alert('Failed to remove student: ' + result.error);
+                    this.removeStudentBtn.disabled = false;
+                    this.removeStudentBtn.innerHTML = '&times;';
+                }
+            } catch (e) {
+                console.error('Error removing student:', e);
+                alert('Error removing student: ' + e.message);
+                this.removeStudentBtn.disabled = false;
+                this.removeStudentBtn.innerHTML = '&times;';
+            }
+        }
     }
 
     _renderAssignedSetlists() {

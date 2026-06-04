@@ -93,6 +93,7 @@ class PianoChordOverlay {
             '9': [0, 4, 7, 10, 14],
             'maj9': [0, 4, 7, 11, 14],
             'm9': [0, 3, 7, 10, 14],
+            'mmaj9': [0, 3, 7, 11, 14],
             '11': [0, 4, 7, 10, 14, 17],
             '13': [0, 4, 7, 10, 14, 21],
             // 6th chords
@@ -417,137 +418,45 @@ class PianoChordOverlay {
     }
 
     createPianoKeyboard(chord, highlightedNotes) {
-        // Create a compact piano keyboard showing only chord notes + 2 white keys on each side
         const keyboard = document.createElement('div');
         keyboard.className = 'piano-keyboard';
 
-        // Find the range of notes we need to display
-        const minNote = Math.min(...highlightedNotes);
-        const maxNote = Math.max(...highlightedNotes);
-
-        // White keys are at semitone positions: 0(C), 2(D), 4(E), 5(F), 7(G), 9(A), 11(B)
-        const whiteKeyPositions = [0, 2, 4, 5, 7, 9, 11];
-        const whiteKeyNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
-        // Find all white keys in a wider range (from minNote-12 to maxNote+12 to ensure we have enough)
-        const allWhiteKeys = [];
-        for (let note = minNote - 12; note <= maxNote + 12; note++) {
-            const semitone = ((note % 12) + 12) % 12;
-            if (whiteKeyPositions.includes(semitone)) {
-                const nameIndex = whiteKeyPositions.indexOf(semitone);
-                allWhiteKeys.push({
-                    note: note,
-                    name: whiteKeyNames[nameIndex],
-                    semitone: semitone
-                });
-            }
-        }
-
-        // Find white keys that are closest to or contain our chord notes
-        const chordWhiteKeyIndices = new Set();
-        highlightedNotes.forEach(chordNote => {
-            // Find the closest white key to this chord note
-            let closestIndex = -1;
-            let closestDistance = Infinity;
-
-            for (let i = 0; i < allWhiteKeys.length; i++) {
-                const distance = Math.abs(allWhiteKeys[i].note - chordNote);
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestIndex = i;
-                }
-            }
-
-            if (closestIndex >= 0) {
-                chordWhiteKeyIndices.add(closestIndex);
-            }
-        });
-
-        // Convert to array and sort
-        const chordIndices = Array.from(chordWhiteKeyIndices).sort((a, b) => a - b);
-
-        if (chordIndices.length === 0) {
-            // Fallback: use middle of range
-            const midIndex = Math.floor(allWhiteKeys.length / 2);
-            chordIndices.push(Math.max(0, midIndex - 1), midIndex, Math.min(allWhiteKeys.length - 1, midIndex + 1));
-        }
-
-        // Get the range: 2 white keys before first chord white key, 2 after last
-        const firstChordIndex = Math.min(...chordIndices);
-        const lastChordIndex = Math.max(...chordIndices);
-        let startIndex = Math.max(0, firstChordIndex - 2);
-        let endIndex = Math.min(allWhiteKeys.length - 1, lastChordIndex + 2);
-
-        // Snap to logical start (C or F) to keep black key groups (2 and 3) intact
-        while (startIndex > 0 && !['C', 'F'].includes(allWhiteKeys[startIndex].name)) {
-            startIndex--;
-        }
-        
-        // Snap to logical end (E or B) to keep black key groups intact and balanced
-        while (endIndex < allWhiteKeys.length - 1 && !['E', 'B'].includes(allWhiteKeys[endIndex].name)) {
-            endIndex++;
-        }
-
-        // Extract the white keys we need
-        const whiteKeys = allWhiteKeys.slice(startIndex, endIndex + 1).map((wk, idx) => ({
-            note: wk.note,
-            name: wk.name,
-            position: idx
-        }));
-
-        // Build black keys array for the range we need
-        const blackKeys = [];
-        const blackKeyPositions = [
-            { semitone: 1, name: 'C#', afterWhiteIndex: 0 },
-            { semitone: 3, name: 'D#', afterWhiteIndex: 1 },
-            { semitone: 6, name: 'F#', afterWhiteIndex: 3 },
-            { semitone: 8, name: 'G#', afterWhiteIndex: 4 },
-            { semitone: 10, name: 'A#', afterWhiteIndex: 5 }
+        // Fixed 2 octaves: C4 (60) to B5 (83)
+        const whiteKeys = [
+            { note: 60, name: 'C', position: 0 },
+            { note: 62, name: 'D', position: 1 },
+            { note: 64, name: 'E', position: 2 },
+            { note: 65, name: 'F', position: 3 },
+            { note: 67, name: 'G', position: 4 },
+            { note: 69, name: 'A', position: 5 },
+            { note: 71, name: 'B', position: 6 },
+            { note: 72, name: 'C', position: 7 },
+            { note: 74, name: 'D', position: 8 },
+            { note: 76, name: 'E', position: 9 },
+            { note: 77, name: 'F', position: 10 },
+            { note: 79, name: 'G', position: 11 },
+            { note: 81, name: 'A', position: 12 },
+            { note: 83, name: 'B', position: 13 }
         ];
 
-        // Find black keys in the range
-        const minWhiteNote = whiteKeys[0].note;
-        const maxWhiteNote = whiteKeys[whiteKeys.length - 1].note;
-
-        for (let note = minWhiteNote; note <= maxWhiteNote; note++) {
-            const semitone = ((note % 12) + 12) % 12;
-            const blackKeyInfo = blackKeyPositions.find(bk => bk.semitone === semitone);
-            if (blackKeyInfo) {
-                // Find which white key this black key should be positioned after
-                let whiteKeyIndex = -1;
-                for (let i = 0; i < whiteKeys.length; i++) {
-                    const wkSemitone = ((whiteKeys[i].note % 12) + 12) % 12;
-                    if (wkSemitone < semitone && whiteKeys[i].note <= note) {
-                        whiteKeyIndex = i;
-                    }
-                }
-                // If not found, try matching by the standard pattern
-                if (whiteKeyIndex === -1) {
-                    const standardAfterIndex = blackKeyInfo.afterWhiteIndex;
-                    // Find white key with matching pattern
-                    for (let i = 0; i < whiteKeys.length; i++) {
-                        const wkSemitone = ((whiteKeys[i].note % 12) + 12) % 12;
-                        if (whiteKeyPositions.indexOf(wkSemitone) === standardAfterIndex) {
-                            whiteKeyIndex = i;
-                            break;
-                        }
-                    }
-                }
-                if (whiteKeyIndex >= 0) {
-                    blackKeys.push({
-                        note: note,
-                        name: blackKeyInfo.name,
-                        position: whiteKeyIndex
-                    });
-                }
-            }
-        }
+        const blackKeys = [
+            { note: 61, name: 'C#', position: 0 },
+            { note: 63, name: 'D#', position: 1 },
+            { note: 66, name: 'F#', position: 3 },
+            { note: 68, name: 'G#', position: 4 },
+            { note: 70, name: 'A#', position: 5 },
+            { note: 73, name: 'C#', position: 7 },
+            { note: 75, name: 'D#', position: 8 },
+            { note: 78, name: 'F#', position: 10 },
+            { note: 80, name: 'G#', position: 11 },
+            { note: 82, name: 'A#', position: 12 }
+        ];
 
         // Create white keys container
         const whiteKeysContainer = document.createElement('div');
         whiteKeysContainer.className = 'white-keys';
 
-        whiteKeys.forEach((key, index) => {
+        whiteKeys.forEach((key) => {
             const keyEl = document.createElement('div');
             keyEl.className = 'piano-key white-key';
             keyEl.dataset.note = key.note;
@@ -573,8 +482,11 @@ class PianoChordOverlay {
             const keyEl = document.createElement('div');
             keyEl.className = 'piano-key black-key';
             keyEl.dataset.note = key.note;
-            // Position black key relative to white keys (each white key takes 100/whiteKeyCount %)
-            keyEl.style.left = `calc(${key.position * (100 / whiteKeyCount)}% + ${(100 / whiteKeyCount) * 0.65}%)`;
+            
+            // Calculate width and left position of black key dynamically to ensure they scale with the number of white keys
+            const keyWidth = (100 / whiteKeyCount) * 0.58;
+            keyEl.style.width = `${keyWidth}%`;
+            keyEl.style.left = `calc(${key.position * (100 / whiteKeyCount)}% + ${(100 / whiteKeyCount) * 0.71}%)`;
 
             if (highlightedNotes.includes(key.note)) {
                 keyEl.classList.add('highlighted');

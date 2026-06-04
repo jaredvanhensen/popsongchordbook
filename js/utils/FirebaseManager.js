@@ -1790,6 +1790,30 @@ class FirebaseManager {
             return { success: false, error: e.message };
         }
     }
+    
+    async removeStudent(studentUid) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        try {
+            const teacherUid = this.currentUser.uid;
+            
+            // 1. Remove from teacher roster
+            await this.database.ref(`teacherStudents/${teacherUid}/${studentUid}`).remove();
+            
+            // 2. Remove connectedTeacher from student profile
+            const studentUserRef = this.database.ref(`users/${studentUid}`);
+            const snapshot = await studentUserRef.once('value');
+            const studentData = snapshot.val();
+            if (studentData && studentData.connectedTeacher === teacherUid) {
+                await studentUserRef.child('connectedTeacher').remove();
+            }
+            
+            return { success: true };
+        } catch (e) {
+            console.error('Error removing student:', e);
+            return { success: false, error: e.message };
+        }
+    }
 
     async getStudentProgress(studentUid) {
         if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };

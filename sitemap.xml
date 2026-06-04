@@ -488,6 +488,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-tunnel-of-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/dire-straits-walk-of-life</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

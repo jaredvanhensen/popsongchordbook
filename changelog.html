@@ -301,6 +301,31 @@
         </header>        <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.038</span>
+                    <span class="version-date">June 4, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Remove Student Button Relocation:</strong> Moved the "Remove Student" button inside the Student Progress Editor card (top-right of the viewing student's name/email card) with a premium-styled warning and confirmation flow, keeping the main Teacher Roster page uncluttered.</li>
+                        <li><strong>Uniform Piano Chord Keyboards:</strong> Fixed the Piano Chords overlay to use a static, uniform 2-octave C4-B5 keyboard layout for all chords. This ensures that chords with wider spans, like <code class="language-plaintext">Cadd9</code>, display identical key sizes and alignment as narrower chords like <code class="language-plaintext">D</code> and <code class="language-plaintext">G</code>, resolving layout stretching and cramming issues completely.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.034</span>
+                    <span class="version-date">June 4, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Ammaj9 Chord Support:</strong> Added full chord diagram and audio playback support for the minor-major 9th (<code class="language-plaintext">Ammaj9</code>) chord. Mapped the custom open-position fingering for guitar (<code class="language-plaintext">["x", 0, 6, 5, 0, 0]</code>) and implemented dynamic minor-major 9th (<code class="language-plaintext">mmaj9</code>) interval parsing for the virtual piano overlay.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.032</span>
                     <span class="version-date">June 4, 2026</span>
                 </div>
@@ -6303,7 +6328,7 @@
                     <div class="change-item">
                         <span class="change-type">Audio Engine:</span>
                         <span class="change-description">Revert to synthesized piano engine for maximum reliability
-                            (v3.032). Integrated Premium Grand samples (v3.032).</span>
+                            (v3.038). Integrated Premium Grand samples (v3.038).</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Gamer System:</span>

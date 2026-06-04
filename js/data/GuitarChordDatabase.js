@@ -115,6 +115,10 @@ const GuitarChordDatabase = {
         frets: ["x", 0, 2, 0, 1, 0],
         fingers: [0, 0, 1, 0, 1, 0]
     },
+    "Ammaj9": {
+        frets: ["x", 0, 6, 5, 0, 0],
+        fingers: [0, 0, 2, 1, 0, 0]
+    },
     "A7": {
         frets: ["x", 0, 2, 0, 2, 0],
         fingers: [0, 0, 1, 0, 2, 0]
