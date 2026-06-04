@@ -7807,7 +7807,7 @@ td:has(.row-edit-input.input-focused) {
 
 .piano-chord-close:hover {
     background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-50%) scale(1.1);
+    transform: scale(1.1);
 }
 
 /* Toggle Button in Header */
@@ -7966,7 +7966,7 @@ td:has(.row-edit-input.input-focused) {
 /* Piano Keyboard Styles */
 .piano-keyboard {
     position: relative;
-    height: 140px;
+    height: 150px;
     margin: 12px 0;
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
     border-radius: 12px;
@@ -8284,7 +8284,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .piano-keyboard {
-        height: 100px;
+        height: 115px;
         margin: 8px 0;
         padding: 8px 4px 5px;
     }
@@ -8300,7 +8300,7 @@ td:has(.row-edit-input.input-focused) {
     }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 600px) {
     .piano-chord-header {
         padding: 10px 15px;
         flex-direction: column;
@@ -8383,7 +8383,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .piano-keyboard {
-        height: 70px;
+        height: 82px;
         margin: 4px 0;
         padding: 4px 2px 3px;
     }
