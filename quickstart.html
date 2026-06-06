@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -81,18 +81,34 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
-        .back-link {
+        /* Premium Back Icon Button */
+        .back-icon-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             text-decoration: none;
-            color: #64748b;
-            font-weight: 600;
-            transition: color 0.2s;
         }
 
-        .back-link:hover {
+        .back-icon-btn:hover {
+            background-color: #f8fafc;
             color: #1e293b;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .back-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.5;
         }
 
         /* Index / ToC Styles */
@@ -193,8 +209,11 @@
 <body>
     <nav class="back-nav">
         <div class="container">
-            <a href="index.html" class="back-link">
-                <span>?</span> Back to Home
+            <a href="index.html" class="back-icon-btn" title="Back to Home">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
             </a>
         </div>
     </nav>

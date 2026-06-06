@@ -228,32 +228,3 @@
     }
 }
 
-/* Stack of CDs/Records for My Library */
-.cd-stack {
-    position: relative;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-}
-.cd-stack .cd-item {
-    position: absolute;
-    font-size: 14px;
-    line-height: 1;
-}
-.cd-stack .cd-item:nth-child(1) {
-    transform: translate(3px, 3px);
-    z-index: 1;
-    opacity: 0.6;
-}
-.cd-stack .cd-item:nth-child(2) {
-    transform: translate(0px, 0px);
-    z-index: 2;
-    opacity: 0.85;
-}
-.cd-stack .cd-item:nth-child(3) {
-    transform: translate(-3px, -3px);
-    z-index: 3;
-}
-
