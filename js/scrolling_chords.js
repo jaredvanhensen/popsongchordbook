@@ -5919,8 +5919,7 @@ function openSongMap() {
     const auditionGuitarDiagram = document.getElementById('auditionGuitarDiagram');
     if (auditionGuitarDiagram) auditionGuitarDiagram.classList.add('song-map-open');
 
-    // Stop playback while viewing map to avoid confusing visuals
-    if (isPlaying) togglePlayPause();
+    // Note: playback intentionally NOT stopped here — video/music continues while Song Map is open
 
     // Ensure focus is on the document so we can catch keyboard events
     window.focus();
