@@ -37,6 +37,28 @@ If this rule is violated, it causes the user to lose the ability to test changes
 
 ---
 
+## ⛔ NEVER use PowerShell to edit HTML files (encoding rule)
+
+**NEVER use PowerShell `Get-Content` / `Set-Content` to do find-and-replace on HTML files.**
+
+This is a hard rule. It WILL corrupt emoji and multi-byte UTF-8 characters (they appear as `ðŸŽµ` instead of 🎵).
+
+The following pattern is **FORBIDDEN** for HTML files:
+```powershell
+# ❌ NEVER DO THIS — corrupts all emoji/multi-byte characters
+(Get-Content file.html -Raw) -replace 'old', 'new' | Set-Content file.html -Encoding UTF8
+```
+
+### Safe method for version bumps
+
+Use the **file editor tools** (replace_file_content or multi_replace_file_content) to edit only the specific version number lines. These tools handle UTF-8 correctly and never re-encode the whole file.
+
+This applies to: `index.html`, `songlist.html`, `changelog.html`, and any other HTML file containing emoji or special characters.
+
+PowerShell `Set-Content` is safe for `.js` and `.css` files that contain no emoji.
+
+---
+
 ## Other Project Rules
 
 - Site version is displayed in `index.html`, `songlist.html`, and `changelog.html`
