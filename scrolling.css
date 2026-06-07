@@ -5990,8 +5990,11 @@ body.ctrl-held .chord-item {
         transform: translateY(-2px) !important;
     }
 
-    /* Ensure edit-only elements remain hidden if edit mode is not active */
-    body:not(.edit-mode-active) .edit-only {
+    /* Ensure edit-only elements remain hidden if edit mode is not active.
+       Uses higher specificity than the universal button sizing rule above
+       to correctly override the 'display: flex !important' set there. */
+    body:not(.edit-mode-active) .controls-container .edit-only,
+    body:not(.edit-mode-active) .controls-container button.edit-only {
         display: none !important;
     }
 }

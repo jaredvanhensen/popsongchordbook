@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.049 - PopSongChordBook</title>
-    <meta name="version" content="3.049">
-    <meta name="application-version" content="v3.049">
+    <title>Song List v3.048 - PopSongChordBook</title>
+    <meta name="version" content="3.048">
+    <meta name="application-version" content="v3.048">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.049">
+    <link rel="stylesheet" href="styles.css?v=3.048">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -675,47 +675,47 @@
             
             <nav class="sidebar-nav">
                 <a href="#" class="nav-item active" id="btnSongbook">
-                    <span class="nav-icon">ðŸŽµ</span>
+                    <span class="nav-icon">🎵</span>
                     <span class="nav-text">All Songs</span>
                 </a>
                 <a href="#" class="nav-item" id="btnFavorites">
-                    <span class="nav-icon">â­</span>
+                    <span class="nav-icon">⭐</span>
                     <span class="nav-text">Favorites</span>
                 </a>
                 <a href="#" class="nav-item" id="btnSetlists">
-                    <span class="nav-icon">ðŸ“</span>
+                    <span class="nav-icon">📁</span>
                     <span class="nav-text">Setlists</span>
                 </a>
                 <a href="#" class="nav-item" id="btnArtists">
-                    <span class="nav-icon">ðŸ‘¤</span>
+                    <span class="nav-icon">👤</span>
                     <span class="nav-text">Artists</span>
                 </a>
                 <a href="#" class="nav-item" id="btnChordsLibrary">
-                    <span class="nav-icon">ðŸŽ¹</span>
+                    <span class="nav-icon">🎹</span>
                     <span class="nav-text">Chords Library</span>
                 </a>
                 <a href="#" class="nav-item" id="btnChordTheory" onclick="event.preventDefault(); goToChordsTheory();">
-                    <span class="nav-icon">ðŸ“š</span>
+                    <span class="nav-icon">📚</span>
                     <span class="nav-text">Chord Theory</span>
                 </a>
                 <a href="#" class="nav-item" id="btnChordTrainerSidebar" onclick="event.preventDefault(); goToChordTrainer();">
-                    <span class="nav-icon">ðŸŽ“</span>
+                    <span class="nav-icon">🎓</span>
                     <span class="nav-text">Chord Trainer</span>
                 </a>
                 <a href="#" class="nav-item" id="btnMyLibrary">
-                    <span class="nav-icon">âœï¸</span>
+                    <span class="nav-icon">✏️</span>
                     <span class="nav-text">My Library</span>
                 </a>
                 <a href="quickstart.html" class="nav-item" id="btnQuickStart" onclick="event.preventDefault(); openDashboardPanel('quickstart.html');">
-                    <span class="nav-icon">âš¡</span>
+                    <span class="nav-icon">⚡</span>
                     <span class="nav-text">Quick Start Guide</span>
                 </a>
                 <a href="teacher.html" class="nav-item" id="btnDashboardTeacher" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('teacher.html');">
-                    <span class="nav-icon">ðŸ«</span>
+                    <span class="nav-icon">🏫</span>
                     <span class="nav-text">Teacher Dashboard</span>
                 </a>
                 <a href="student.html" class="nav-item" id="btnDashboardStudent" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('student.html');">
-                    <span class="nav-icon">ðŸŽ’</span>
+                    <span class="nav-icon">🎒</span>
                     <span class="nav-text">Student Dashboard</span>
                 </a>
                 <script>
@@ -737,7 +737,7 @@
         </aside>
 
         <!-- Pre-set the correct sidebar nav item from ?view= URL param immediately
-             (before async JS runs) to avoid the Aâ†’AllSongsâ†’B flash. -->
+             (before async JS runs) to avoid the A→AllSongs→B flash. -->
         <script>
             (function() {
                 var isReload = (window.performance && window.performance.navigation && window.performance.navigation.type === 1) ||
@@ -824,42 +824,42 @@
                 <div class="header-top-actions" style="flex-wrap: wrap; justify-content: flex-end;">
                     <button id="profileBtn" class="profile-btn with-label" title="Profile & Settings">
                         <span id="profileNotificationBadge" class="notification-badge hidden">0</span>
-                        <span class="icon">ðŸ”§</span>
+                        <span class="icon">🔧</span>
                         <span class="label">Profile <span id="profileSongCount" class="song-count">(0)</span></span>
                     </button>
                     <button id="toggleHeaderBarCollapsed" class="toggle-header-bar-btn collapsed-position"
-                        title="Show button bar">â–²</button>
+                        title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.049</span>
+                        <span id="site-version" class="version-tag">3.048</span>
                     </div>
                 </div>
             </div>
             <div class="header-bar" id="headerBar">
                 <button id="toggleHeaderBar" class="toggle-header-bar-btn normal-position"
-                    title="Hide button bar">â–¼</button>
+                    title="Hide button bar">▼</button>
 
                 <!-- Filters & Search Section -->
                 <div class="header-section filters-section">
                     <div class="filter-buttons">
                         <button id="filterBtn" class="filter-btn with-label" title="Filters">
-                            <span class="icon">ðŸ”</span>
+                            <span class="icon">🔍</span>
                             <span class="label">Filters</span>
                         </button>
                         <!-- Chord Trainer button moved to sidebar -->
                         <!-- On mobile (no sidebar), show it here -->
                         <button id="headerTrainerBtn" class="trainer-btn with-label sidebar-visible-on-mobile" title="Chord Trainer">
-                            <span class="icon">ðŸŽ“</span>
+                            <span class="icon">🎓</span>
                             <span class="label">Chord Trainer</span>
                         </button>
                     </div>
                     <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
                     <div class="search-section-container">
                         <div class="search-input-wrapper">
-                            <input type="text" id="searchInput" class="search-input" placeholder="ðŸ” Artist or title..."
+                            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Artist or title..."
                                 autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="none">
                             <button id="clearSearchBtn" class="clear-search-btn hidden"
-                                title="Clear search field">Ã—</button>
+                                title="Clear search field">×</button>
                         </div>
                     </div>
                 </div>
@@ -874,7 +874,7 @@
                                     <h3>Chord Detection</h3>
                                     <div class="chord-detector-header-buttons">
                                         <button id="chordDetectorMinimize" class="chord-detector-minimize-btn"
-                                            title="Minimize">ðŸ”»</button>
+                                            title="Minimize">🔻</button>
                                     </div>
                                 </div>
                                 <div class="chord-detector-body">
@@ -889,7 +889,7 @@
                                         </div>
                                     </div>
                                     <button id="chordDetectorToggle" class="chord-detector-toggle-btn"
-                                        title="Start detection">ðŸŽ¤</button>
+                                        title="Start detection">🎤</button>
                                     <select id="microphoneSelect" class="microphone-select"
                                         title="Choose microphone"></select>
 
@@ -899,9 +899,9 @@
                                             <span>History</span>
                                             <div class="chord-history-actions">
                                                 <button id="copyChordHistory" class="copy-history-btn"
-                                                    title="Copy to clipboard">ðŸ“‹</button>
+                                                    title="Copy to clipboard">📋</button>
                                                 <button id="clearChordHistory" class="clear-history-btn"
-                                                    title="Clear history">ðŸ—‘ï¸</button>
+                                                    title="Clear history">🗑️</button>
                                             </div>
                                         </div>
                                         <div id="chordHistory" class="chord-history-list"></div>
@@ -917,12 +917,12 @@
                             <button id="createSetlistBtn" class="setlist-btn" title="New Setlist">+</button>
                             <button id="editSetlistBtn" class="setlist-btn edit-setlist-btn hidden"
                                 title="Edit setlist name">
-                                <span class="icon">âœï¸</span>
+                                <span class="icon">✏️</span>
                                 <span class="label">Rename</span>
                             </button>
                             <button id="deleteSetlistBtn" class="setlist-btn delete-setlist-btn hidden"
                                 title="Delete setlist">
-                                <span class="icon">ðŸ—‘ï¸</span>
+                                <span class="icon">🗑️</span>
                                 <span class="label">Delete</span>
                             </button>
                         </div>
@@ -932,17 +932,17 @@
                     <div class="actions-group">
                         <button id="toggleViewBtn" class="import-export-btn view-toggle-btn with-label desktop-only"
                             title="Toggle between simple and full view">
-                            <span class="icon">ðŸ“‹</span>
+                            <span class="icon">📋</span>
                             <span class="label">View</span>
                         </button>
                         <button id="sortByDateBtn" class="import-export-btn with-label mobile-only" title="Sort by Latest Added">
-                            <span class="icon">ðŸ•’</span>
+                            <span class="icon">🕒</span>
                             <span class="label">Latest</span>
                         </button>
 
                         <button id="randomSongBtn" class="import-export-btn random-song-btn with-label"
                             title="Open a random song">
-                            <span class="icon">ðŸŽ²</span>
+                            <span class="icon">🎲</span>
                             <span class="label">Random</span>
                         </button>
 
@@ -954,7 +954,7 @@
                         <!-- Combined Import Button (for both Mobile & Desktop) -->
                         <button id="combinedImportBtn" class="import-export-btn with-label"
                             title="Import Song (JSON or UG)">
-                            <span class="icon">ðŸ“¥</span>
+                            <span class="icon">📥</span>
                             <span class="label">import</span>
                         </button>
 
@@ -974,7 +974,7 @@
                 <span class="separator">-</span>
                 <span id="selectedTitle" class="selected-title"></span>
             </div>
-            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">Ã—</button>
+            <button id="deselectBtn" class="deselect-btn" title="Close (Escape)">×</button>
         </div>
 
         <!-- Black overlay when row is selected -->
@@ -1000,7 +1000,7 @@
                 <thead>
                     <tr>
                         <th class="sortable status-column" data-column="isPublic" title="Public/Private Status">
-                            ðŸŒ
+                            🌍
                             <span class="sort-indicator"></span>
                         </th>
                         <th class="sortable artist-cell" data-column="artist">
@@ -1012,7 +1012,7 @@
                             <span class="sort-indicator"></span>
                         </th>
                         <th class="sortable favorite-column" data-column="favorite">
-                            â­
+                            ⭐
                             <span class="sort-indicator"></span>
                         </th>
                         <th class="sortable ctl-column" data-column="ctl" title="Chord Timeline (CTL)">
@@ -1061,7 +1061,7 @@
                     </div>
                     <div class="auth-form-group">
                         <label for="authLoginPassword">Password</label>
-                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢" required
+                        <input type="password" id="authLoginPassword" class="auth-input" placeholder="••••••" required
                             autocomplete="current-password" spellcheck="false" autocorrect="off" autocapitalize="none">
                     </div>
                     <div id="authLoginError" class="auth-error hidden"></div>
@@ -1121,7 +1121,7 @@
 
                 <!-- Verification Sent View -->
                 <div id="authVerificationForm" class="auth-form hidden" style="text-align: center; padding: 20px 0;">
-                    <div style="font-size: 50px; margin-bottom: 15px;">âœ‰ï¸</div>
+                    <div style="font-size: 50px; margin-bottom: 15px;">✉️</div>
                     <h3 style="margin-bottom: 15px; color: #1e293b;">Check your email</h3>
                     <p id="authVerificationMsg" style="color: #475569; line-height: 1.6; margin-bottom: 20px;">
                         A verification link has been sent to your email address.
@@ -1154,12 +1154,12 @@
                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #eee;">
                             <div id="profileAvatarPlaceholder" class="profile-avatar-placeholder"
                                 style="width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px;">
-                                ðŸ‘¤</div>
+                                👤</div>
                             <div id="profileModalLevelBadge" class="profile-level-badge hidden"
                                 style="position: absolute; top: 0; left: 0; transform: rotate(-5deg); font-size: 10px; padding: 2px 6px;">
                                 LVL -</div>
                             <button id="profileChangeAvatarBtn" class="profile-change-avatar-btn" title="Change Photo"
-                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">ðŸ“·</button>
+                                style="position: absolute; bottom: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;">📷</button>
                         </div>
                         <input type="file" id="profileAvatarInput" accept="image/*" style="display: none;">
                     </div>
@@ -1183,12 +1183,12 @@
                             style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
                             <button class="profile-instrument-btn" data-instrument="guitar"
                                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">ðŸŽ¸</div>
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎸</div>
                                 <span style="font-size: 11px; font-weight: 700; color: #64748b;">Guitar</span>
                             </button>
                             <button class="profile-instrument-btn" data-instrument="piano"
                                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 10px; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
-                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">ðŸŽ¹</div>
+                                <div style="height: 32px; display: flex; align-items: center; justify-content: center; font-size: 28px; line-height: 1;">🎹</div>
                                 <span style="font-size: 11px; font-weight: 700; color: #64748b;">Piano</span>
                             </button>
                             <button class="profile-instrument-btn" data-instrument="ukulele"
@@ -1210,11 +1210,11 @@
 
                     <!-- Admin Section -->
                     <div id="profileAdminSection" class="profile-admin-section hidden" style="margin-top: 25px; background: #fff7ed; padding: 15px; border-radius: 12px; border: 1px solid #ffedd5;">
-                        <h4 style="margin-bottom: 12px; color: #9a3412;">âš™ï¸ Admin Controls</h4>
+                        <h4 style="margin-bottom: 12px; color: #9a3412;">⚙️ Admin Controls</h4>
                         
                         <div class="feature-toggle" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ffedd5; margin-bottom: 12px;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸ”</span>
+                                <span style="font-size: 20px;">🔐</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px; color: #9a3412;">PAYWALL</div>
                                     <div style="font-size: 11px; color: #64748b;">Global paywall for all users (not admin)</div>
@@ -1244,7 +1244,7 @@
                     <div class="profile-streak-section">
                         <div class="streak-container">
                             <div class="streak-main">
-                                <span class="streak-fire-icon">ðŸ”¥</span>
+                                <span class="streak-fire-icon">🔥</span>
                                 <div class="streak-count-wrapper">
                                     <div id="profileCurrentStreak" class="streak-count">0</div>
                                     <div class="streak-label">Day Streak</div>
@@ -1257,12 +1257,12 @@
                                         class="streak-stat-value">0</span></div>
                             </div>
                             <div class="streak-milestones" id="streakMilestones">
-                                <div class="milestone-badge" data-days="3" title="3 Day Streak">ðŸ¥‰</div>
-                                <div class="milestone-badge" data-days="7" title="1 Week Streak">ðŸ¥ˆ</div>
-                                <div class="milestone-badge" data-days="10" title="10 Day Streak">ðŸ¥‡</div>
-                                <div class="milestone-badge" data-days="14" title="2 Week Streak">â­</div>
-                                <div class="milestone-badge" data-days="30" title="1 Month Streak">ðŸ’Ž</div>
-                                <div class="milestone-badge" data-days="100" title="Centurion Streak">ðŸ‘‘</div>
+                                <div class="milestone-badge" data-days="3" title="3 Day Streak">🥉</div>
+                                <div class="milestone-badge" data-days="7" title="1 Week Streak">🥈</div>
+                                <div class="milestone-badge" data-days="10" title="10 Day Streak">🥇</div>
+                                <div class="milestone-badge" data-days="14" title="2 Week Streak">⭐</div>
+                                <div class="milestone-badge" data-days="30" title="1 Month Streak">💎</div>
+                                <div class="milestone-badge" data-days="100" title="Centurion Streak">👑</div>
                             </div>
                         </div>
                     </div>
@@ -1366,7 +1366,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸ”Š</span>
+                                <span style="font-size: 20px;">🔊</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">Chord Audio in Timeline</div>
                                     <div style="font-size: 11px; color: #64748b;">Turn chord audio ON/OFF by default</div>
@@ -1384,7 +1384,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸŽ¬</span>
+                                <span style="font-size: 20px;">🎬</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">Chord Timeline</div>
                                     <div style="font-size: 11px; color: #64748b;">Show timeline with chords</div>
@@ -1402,7 +1402,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸ—ºï¸</span>
+                                <span style="font-size: 20px;">🗺️</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">Song Map</div>
                                     <div style="font-size: 11px; color: #64748b;">Show song structure map</div>
@@ -1420,7 +1420,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸŽ¹</span>
+                                <span style="font-size: 20px;">🎹</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">MIDI Keyboard Support</div>
                                     <div style="font-size: 11px; color: #64748b;">Enable MIDI keyboard input</div>
@@ -1437,7 +1437,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸ“</span>
+                                <span style="font-size: 20px;">📝</span>
                                 <div>
                                     <div style="font-weight: 600; font-size: 14px;">Notes / Tips</div>
                                     <div style="font-size: 11px; color: #64748b;">Show notes field on detail screen</div>
@@ -1454,7 +1454,7 @@
                         <div class="feature-toggle"
                             style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 20px;">ðŸ”Š</span>
+                                <span style="font-size: 20px;">🔊</span>
                                 <div style="display: flex; flex-direction: column;">
                                     <div style="font-weight: 600; font-size: 14px;">Audio Engine Quality</div>
                                     <div id="audioQualityDesc" style="font-size: 11px; color: #64748b;">PREMIUM: Full fidelity with reverb</div>
@@ -1469,7 +1469,7 @@
                     </div>
                 </div>
                 <div class="profile-teacher-section" style="margin-bottom: 20px; background: #f0fdf4; padding: 15px; border-radius: 12px; border: 1px solid #dcfce7;">
-                    <h4 style="margin-bottom: 12px; color: #166534;">ðŸŽ“ Teacher / Student Connection</h4>
+                    <h4 style="margin-bottom: 12px; color: #166534;">🎓 Teacher / Student Connection</h4>
                     
                     <!-- Student View (Default) -->
                     <div id="profileStudentView">
@@ -1528,22 +1528,22 @@
                     <h4>Advanced Options</h4>
                     <button id="printTableBtn" class="modal-submit-btn"
                         style="background: #64748b; margin-top: 10px; width: 100%;">
-                        <span class="icon">ðŸ–¨ï¸</span> Print Song List
+                        <span class="icon">🖨️</span> Print Song List
                     </button>
                     <div style="display: flex; gap: 10px; margin-top: 10px;">
                         <button id="exportBtn" class="modal-submit-btn" style="background: #475569; flex: 1;">
-                            <span class="icon">ðŸ“¤</span> Export Library
+                            <span class="icon">📤</span> Export Library
                         </button>
                         <label for="importFile" class="modal-submit-btn"
                             style="background: #475569; flex: 1; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                            <span class="icon" style="margin-right: 8px;">ðŸ“¥</span> Import Library
+                            <span class="icon" style="margin-right: 8px;">📥</span> Import Library
                         </label>
                         <input type="file" id="importFile" accept=".json" style="display: none;">
                     </div>
 
                     <button id="deleteAllSongsBtn" class="modal-submit-btn"
                         style="background: #ef4444; margin-top: 10px; width: 100%;">
-                        <span class="icon">ðŸ—‘ï¸</span> Delete All Private Songs
+                        <span class="icon">🗑️</span> Delete All Private Songs
                     </button>
                 </div>
 
@@ -1565,7 +1565,7 @@
                     <form id="profileChangePasswordForm" class="auth-form">
                         <div class="auth-form-group">
                             <label for="profileCurrentPassword">Current password</label>
-                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢"
+                            <input type="password" id="profileCurrentPassword" class="auth-input" placeholder="••••••"
                                 required autocomplete="current-password" spellcheck="false" autocorrect="off"
                                 autocapitalize="none">
                         </div>
@@ -1652,7 +1652,7 @@
                                     type="button">Artist</button>
                             </div>
                             <button id="toggleShareSongsSortDirection" class="selection-btn sort-direction-btn"
-                                type="button" title="Sorteer van A naar Z">A â†’ Z</button>
+                                type="button" title="Sorteer van A naar Z">A → Z</button>
                         </div>
                         <button id="selectAllShareSongs" class="selection-btn">Select all</button>
                         <button id="deselectAllShareSongs" class="selection-btn">Deselect all</button>
@@ -1826,7 +1826,7 @@
                 <div class="modal-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
                     <button id="createSongSubmitBtn" class="modal-submit-btn">Create Song</button>
                     <button id="requestSongBtn" class="modal-submit-btn" style="background: #6366f1;">
-                        <span class="icon" style="margin-right: 8px;">ðŸ“©</span> Request Song
+                        <span class="icon" style="margin-right: 8px;">📩</span> Request Song
                     </button>
                 </div>
             </div>
@@ -1852,7 +1852,7 @@
     <!-- Info Modal -->
     <div id="infoModal" class="modal hidden">
         <div class="modal-content confirmation-modal-content">
-            <div id="infoModalIconCircle" class="hud-icon-circle hidden" style="margin: 25px auto 10px; width: 60px; height: 60px; font-size: 30px;">âœ“</div>
+            <div id="infoModalIconCircle" class="hud-icon-circle hidden" style="margin: 25px auto 10px; width: 60px; height: 60px; font-size: 30px;">✓</div>
             <div class="modal-header" style="justify-content: center; padding-bottom: 5px;">
                 <h3 id="infoModalTitle" style="text-align: center;">Notification</h3>
                 <button class="modal-close" id="infoModalClose" style="position: absolute; right: 15px;">&times;</button>
@@ -1909,7 +1909,7 @@
                                     type="button">Artist</button>
                             </div>
                             <button id="toggleSortDirection" class="selection-btn sort-direction-btn" type="button"
-                                title="Sorteer van A naar Z">A â†’ Z</button>
+                                title="Sorteer van A naar Z">A → Z</button>
                         </div>
                         <button id="selectAllSongs" class="selection-btn">Select all</button>
                         <button id="deselectAllSongs" class="selection-btn">Deselect all</button>
@@ -1934,36 +1934,36 @@
         <div class="song-detail-modal-content">
             <div class="song-detail-header">
                 <button class="song-detail-nav-btn song-detail-prev" id="songDetailPrev" title="Previous song">
-                    <span class="icon">â€¹</span>
+                    <span class="icon">‹</span>
                 </button>
                 <img id="songDetailThumbnail" class="song-detail-thumbnail hidden" src="" alt="Album Art" />
                 <div class="song-detail-title-section">
                     <div class="song-detail-title-row">
                         <h1 id="songDetailTitle" class="song-detail-title editable-field" data-field="title"
                             contenteditable="false" spellcheck="false"></h1>
-                        <span id="songDetailStatusIcon" class="song-detail-status-icon hidden" title="Public Song (Read-Only)">ðŸ”’</span>
+                        <span id="songDetailStatusIcon" class="song-detail-status-icon hidden" title="Public Song (Read-Only)">🔒</span>
                     </div>
                     <h2 id="songDetailArtist" class="song-detail-artist editable-field" data-field="artist"
                         contenteditable="false" spellcheck="false"></h2>
                 </div>
                 <div class="song-detail-action-buttons">
                     <button id="songDetailInstrumentHeaderBtn" class="song-detail-action-btn" title="Show Chord Shapes">
-                        <span class="icon">ðŸŽ¹</span>
+                        <span class="icon">🎹</span>
                     </button>
                     <div class="transpose-menu-container">
                         <button id="songDetailTransposeBtn" class="song-detail-action-btn" title="Transpose chords">
-                            <span class="icon">â™­â™¯</span>
+                            <span class="icon">♭♯</span>
                         </button>
                         <div id="transposeMenu" class="transpose-menu hidden">
                             <button id="songDetailTransposeDown" class="transpose-menu-item" title="Transpose down">
-                                <span class="icon">â™­</span> -1
+                                <span class="icon">♭</span> -1
                             </button>
                             <button id="songDetailTransposeUp" class="transpose-menu-item" title="Transpose up">
-                                <span class="icon">â™¯</span> +1
+                                <span class="icon">♯</span> +1
                             </button>
                             <button id="songDetailTransposeReset" class="transpose-menu-item"
                                 title="Reset transposition">
-                                <span class="icon">â†º</span> Reset
+                                <span class="icon">↺</span> Reset
                             </button>
                         </div>
                     </div>
@@ -1999,30 +1999,30 @@
                         </span>
                     </button>
                     <button id="songDetailYouTubeBtn" class="song-detail-action-btn" title="Edit song details">
-                        <span class="icon">âš™ï¸</span>
+                        <span class="icon">⚙️</span>
                     </button>
                     <button id="songDetailExternalUrlBtn" class="song-detail-action-btn hidden"
                         title="Open external website">
-                        <span class="icon">ðŸŒ</span>
+                        <span class="icon">🌐</span>
                     </button>
                     <button id="songDetailChordTrainerBtn" class="song-detail-action-btn" title="Chord Trainer for this song">
-                        <span class="icon">ðŸŽ“</span>
+                        <span class="icon">🎓</span>
                     </button>
                     <button id="songDetailFavoriteBtn" class="song-detail-action-btn" title="Add to favorites">
-                        <span class="icon">â˜†</span>
+                        <span class="icon">☆</span>
                     </button>
                     <!-- Hamburger Menu -->
                     <div class="hamburger-menu-container">
                         <button id="songDetailHamburgerBtn" class="song-detail-action-btn" title="More options">
-                            <span class="icon">â˜°</span>
+                            <span class="icon">☰</span>
                         </button>
                         <div id="songDetailHamburgerMenu" class="song-hamburger-menu hidden">
                             <button id="menuAddToSetlist" class="hamburger-menu-item">
-                                <span class="icon">ðŸ“‹</span>
+                                <span class="icon">📋</span>
                                 <span>Add To Setlist</span>
                             </button>
                             <button id="menuPublishSong" class="hamburger-menu-item">
-                                <span class="icon">ðŸŒ</span>
+                                <span class="icon">🌐</span>
                                 <span>Publish This Song Online</span>
                             </button>
                             <button id="menuShareSong" class="hamburger-menu-item">
@@ -2038,15 +2038,15 @@
                                 <span>Share This Song</span>
                             </button>
                             <button id="menuSearchGoogle" class="hamburger-menu-item">
-                                <span class="icon">ðŸ”</span>
+                                <span class="icon">🔍</span>
                                 <span>Search Chords On Google</span>
                             </button>
                             <button id="menuSwapBlocks" class="hamburger-menu-item">
-                                <span class="icon">ðŸ”€</span>
+                                <span class="icon">🔀</span>
                                 <span>Switch Chord Block 2 & 3</span>
                             </button>
                             <button id="menuDeleteSong" class="hamburger-menu-item">
-                                <span class="icon">ðŸ—‘ï¸</span>
+                                <span class="icon">🗑️</span>
                                 <span>Delete Current Song</span>
                             </button>
                         </div>
@@ -2054,7 +2054,7 @@
                 </div>
 
                 <button class="song-detail-nav-btn song-detail-next" id="songDetailNext" title="Next song">
-                    <span class="icon">â€º</span>
+                    <span class="icon">›</span>
                 </button>
                 <button class="song-detail-close-top" id="songDetailModalCloseTop" title="Close modal">&times;</button>
             </div>
@@ -2242,7 +2242,7 @@
                         </div>
                         <button id="songDetailPracticeIncrementBtn" class="song-detail-action-btn with-label"
                             title="Increment practice counter">
-                            <span class="icon">ðŸ“ˆ</span>
+                            <span class="icon">📈</span>
                             <span class="label">+1 practice</span>
                         </button>
                     </div>
@@ -2281,7 +2281,7 @@
                     </div>
                     <div id="instrumentToggleBtn" class="song-detail-action-btn with-label"
                         title="Switch to Guitar Mode">
-                        <span class="icon">ðŸŽ¹</span>
+                        <span class="icon">🎹</span>
                         <span class="label">piano</span>
                     </div>
                     <button id="songDetailSongMapBtn" class="song-detail-action-btn with-label" title="Show Song Map">
@@ -2308,7 +2308,7 @@
                 <div class="song-detail-footer-actions">
                     <button id="songDetailSaveBtn" class="song-detail-action-btn with-label hidden"
                         title="Save changes">
-                        <span class="icon">ðŸ’¾</span>
+                        <span class="icon">💾</span>
                         <span class="label">Save</span>
                     </button>
                     <button id="songDetailPracticeBtn" class="song-detail-action-btn with-label"
@@ -2352,7 +2352,7 @@
                             </span>
                         </button>
                         <button id="lyricsSpeedDown" class="speed-btn luxury-minus" title="Slower">
-                            <span class="luxury-icon">âˆ’</span>
+                            <span class="luxury-icon">−</span>
                         </button>
                     </div>
                 </div>
@@ -2404,12 +2404,12 @@
                     <label>Lyrics for the Chord Timeline</label>
                     <button id="openLyricsModalBtn" class="filter-btn"
                         style="width: 100%; justify-content: center; margin-top: 5px; height: 40px;">
-                        <span class="icon" style="margin-right: 8px;">ðŸ“</span>
+                        <span class="icon" style="margin-right: 8px;">📝</span>
                         <span class="label">Edit Lyrics...</span>
                     </button>
                     <div id="lyricsStatusText"
                         style="font-size: 0.8em; color: var(--secondary-color); margin-top: 6px; text-align: center; display: none; font-weight: 500;">
-                        âœ“ Lyrics Present
+                        ✓ Lyrics Present
                     </div>
                 </div>
                 <div class="url-input-group" style="margin-top: 15px;">
@@ -2464,21 +2464,21 @@
                 <div class="filter-option-group">
                     <label class="filter-checkbox-label">
                         <input type="checkbox" id="filterFavoritesCheckbox" class="filter-checkbox">
-                        <span>â­ Only favorites</span>
+                        <span>⭐ Only favorites</span>
                     </label>
                 </div>
 
                 <div class="filter-option-group">
                     <label class="filter-checkbox-label">
                         <input type="checkbox" id="filterNoPublicCheckbox" class="filter-checkbox">
-                        <span>âœï¸ Only Private Songs</span>
+                        <span>✏️ Only Private Songs</span>
                     </label>
                 </div>
 
                 <div class="filter-option-group">
                     <label class="filter-checkbox-label">
                         <input type="checkbox" id="filterOnlyPublicCheckbox" class="filter-checkbox">
-                        <span>ðŸŒ Only Public Songs</span>
+                        <span>🌍 Only Public Songs</span>
                     </label>
                 </div>
 
@@ -2543,8 +2543,8 @@
             <div class="youtube-mini-player-header">
                 <span id="youtubePlayerTitle" class="youtube-player-title"></span>
                 <div class="youtube-player-controls">
-                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">ðŸ”»</button>
-                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">Ã—</button>
+                    <button id="youtubePlayerMinimize" class="youtube-player-minimize-btn" title="Minimize">🔻</button>
+                    <button id="youtubePlayerClose" class="youtube-player-close-btn" title="Close">×</button>
                 </div>
             </div>
             <div class="youtube-mini-player-body">
@@ -2586,43 +2586,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.049"></script>
+    <script src="js/config/firebase-config.js?v=3.048"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=3.049"></script>
-    <script src="js/models/SetlistManager.js?v=3.049"></script>
+    <script src="js/models/SongManager.js?v=3.048"></script>
+    <script src="js/models/SetlistManager.js?v=3.048"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=3.049"></script>
-    <script src="js/utils/Sorter.js?v=3.049"></script>
-    <script src="js/utils/ChordDetector.js?v=3.049"></script>
-    <script src="js/utils/KeyDetector.js?v=3.049"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.049"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.049"></script>
-    <script src="js/utils/MidiInputHandler.js?v=3.049"></script>
-    <script src="js/utils/LyricsParser.js?v=3.049"></script>
+    <script src="js/utils/SEO.js?v=3.048"></script>
+    <script src="js/utils/Sorter.js?v=3.048"></script>
+    <script src="js/utils/ChordDetector.js?v=3.048"></script>
+    <script src="js/utils/KeyDetector.js?v=3.048"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.048"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.048"></script>
+    <script src="js/utils/MidiInputHandler.js?v=3.048"></script>
+    <script src="js/utils/LyricsParser.js?v=3.048"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=3.049"></script>
-    <script src="js/ui/ChordModal.js?v=3.049"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.049"></script>
-    <script src="js/ui/TableRenderer.js?v=3.049"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.049"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.049"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.049"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.049"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.049"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.049"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.049"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.049"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.049"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.049"></script>
-    <script src="js/ui/AuthModal.js?v=3.049"></script>
-    <script src="js/ui/ProfileModal.js?v=3.049"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.049"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.049"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.049"></script>
+    <script src="js/utils/ChordParser.js?v=3.048"></script>
+    <script src="js/ui/ChordModal.js?v=3.048"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.048"></script>
+    <script src="js/ui/TableRenderer.js?v=3.048"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.048"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.048"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.048"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.048"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.048"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.048"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.048"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.048"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.048"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.048"></script>
+    <script src="js/ui/AuthModal.js?v=3.048"></script>
+    <script src="js/ui/ProfileModal.js?v=3.048"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.048"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.048"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.048"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=3.049"></script>
+    <script src="js/app.js?v=3.048"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -2744,18 +2744,18 @@
 
                     <div class="instrument-card guitar-card" onclick="selectInstrument('guitar')"
                         style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">ðŸŽ¸</div>
+                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎸</div>
                         <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Guitar</h3>
                     </div>
 
                     <div class="instrument-card piano-card" onclick="selectInstrument('piano')"
                         style="cursor: pointer; transition: transform 0.2s; border: 2px solid transparent; background: #f8fafc; padding: 20px 15px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">ðŸŽ¹</div>
+                        <div class="instrument-icon" style="font-size: 3rem; margin-bottom: 10px;">🎹</div>
                         <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b;">Piano</h3>
                     </div>
 
                     <div class="instrument-card ukelele-card" onclick="selectInstrument('ukulele')">
-                        <div class="instrument-icon">ðŸª•</div>
+                        <div class="instrument-icon">🪕</div>
                         <h3>Ukulele</h3>
                     </div>
 
@@ -2961,7 +2961,7 @@
                 const songCount = s.songIds ? s.songIds.length : 0;
                 cardsHtml += `
                     <div class="custom-card" onclick="selectSetlistFromSidebar('${s.id}')">
-                        <div class="custom-card-icon">ðŸ“</div>
+                        <div class="custom-card-icon">📁</div>
                         <div class="custom-card-name" title="${s.name}">${s.name}</div>
                         <div class="custom-card-meta">${songCount} songs</div>
                     </div>
@@ -3133,7 +3133,7 @@
                     return;
                 }
 
-                // No local or cache â€” queue for Deezer
+                // No local or cache — queue for Deezer
                 needsDeezer.push({ artist, imgElement });
             }));
 
@@ -3228,8 +3228,8 @@
                 <div class="custom-view-header">
                     <h3 class="custom-view-title">Artists Overview</h3>
                     <div class="artist-view-toggle">
-                        <button class="toggle-btn ${currentArtistViewMode === 'thumbnail' ? 'active' : ''}" onclick="setArtistViewMode('thumbnail')" title="Thumbnail View">ðŸ–¼ï¸ Thumbnail</button>
-                        <button class="toggle-btn ${currentArtistViewMode === 'text' ? 'active' : ''}" onclick="setArtistViewMode('text')" title="Text View">ðŸ“ Text</button>
+                        <button class="toggle-btn ${currentArtistViewMode === 'thumbnail' ? 'active' : ''}" onclick="setArtistViewMode('thumbnail')" title="Thumbnail View">🖼️ Thumbnail</button>
+                        <button class="toggle-btn ${currentArtistViewMode === 'text' ? 'active' : ''}" onclick="setArtistViewMode('text')" title="Text View">📝 Text</button>
                     </div>
                     <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
                 </div>
@@ -3356,9 +3356,9 @@
                     <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
                 </div>
                 <div class="library-tabs-container">
-                    <button class="library-tab-btn ${mode === 'piano' ? 'active' : ''}" onclick="switchLibraryInstrument('piano')">ðŸŽ¹ Piano</button>
-                    <button class="library-tab-btn ${mode === 'guitar' ? 'active' : ''}" onclick="switchLibraryInstrument('guitar')">ðŸŽ¸ Guitar</button>
-                    <button class="library-tab-btn ${mode === 'ukulele' ? 'active' : ''}" onclick="switchLibraryInstrument('ukulele')">ðŸª• Ukulele</button>
+                    <button class="library-tab-btn ${mode === 'piano' ? 'active' : ''}" onclick="switchLibraryInstrument('piano')">🎹 Piano</button>
+                    <button class="library-tab-btn ${mode === 'guitar' ? 'active' : ''}" onclick="switchLibraryInstrument('guitar')">🎸 Guitar</button>
+                    <button class="library-tab-btn ${mode === 'ukulele' ? 'active' : ''}" onclick="switchLibraryInstrument('ukulele')">🪕 Ukulele</button>
                 </div>
             `;
 
@@ -3581,7 +3581,6 @@
 </body>
 
 </html>
-
 
 
 
