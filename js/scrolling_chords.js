@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.050)
+// Scrolling Chords Logic (v3.051)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -177,7 +177,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.050)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.051)
 let currentUid = 'guest'; // Track current user for preferences
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
@@ -333,7 +333,7 @@ window.addEventListener('message', (event) => {
         updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.050)
+            // Apply default audio setting from Profile (v3.051)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons

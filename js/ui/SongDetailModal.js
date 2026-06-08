@@ -78,6 +78,7 @@ class SongDetailModal {
         this.lyricsEditDoneBtn = document.getElementById('lyricsEditDoneBtn');
         this.lyricsStatusText = document.getElementById('lyricsStatusText');
         this.lrclibLink = document.getElementById('lrclibLink');
+        this.lrclibSearchBtn = document.getElementById('lrclibSearchBtn');
         this.lyricradarLink = document.getElementById('lyricradarLink');
         this.speedUpBtn = document.getElementById('lyricsSpeedUp');
         this.speedDownBtn = document.getElementById('lyricsSpeedDown');
@@ -1183,6 +1184,9 @@ class SongDetailModal {
                         
                         if (this.lrclibLink) {
                             this.lrclibLink.href = `https://lrclib.net/search/${query}`;
+                        }
+                        if (this.lrclibSearchBtn) {
+                            this.lrclibSearchBtn.href = `https://lrclib.net/search/${query}`;
                         }
                     }
                 }
