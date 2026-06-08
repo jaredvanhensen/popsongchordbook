@@ -783,3 +783,10 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
     display: none !important;
 }
 
+/* Hide Undo and Redo buttons on mobile unless in edit mode */
+body.is-mobile-view:not(.edit-mode-active) .controls-container #undoBtn,
+body.is-mobile-view:not(.edit-mode-active) .controls-container #redoBtn {
+    display: none !important;
+}
+
+

@@ -320,6 +320,7 @@ class SongManager {
             // Guaranteed types/migrations
             genre: Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []),
             isPublic: !!song.isPublic,
+            capo: parseInt(song.capo) || 0,
             submittedBy: song.submittedBy || '',
             practiceCount: (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : (song.practiceCountTeller || '0'),
             // BPM Migration: Ensure top-level 'tempo' exists if it's in chordData

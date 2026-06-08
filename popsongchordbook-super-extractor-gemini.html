@@ -31,6 +31,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .card-header.json-header {
@@ -42,13 +43,18 @@
             color: white;
             font-size: 1.5em;
             font-weight: 700;
+            flex-shrink: 0;
         }
 
+        /* ============================================================
+           NEW: Two-field search bar in the card header
+        ============================================================ */
         .header-search-container {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-left: auto;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .header-search-input {
@@ -58,11 +64,13 @@
             background: white;
             color: #1a202c;
             font-size: 0.95em;
-            width: 250px;
             outline: none;
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        #searchArtist  { width: 180px; }
+        #searchTitle   { width: 200px; }
 
         .header-search-input::placeholder {
             color: #718096;
@@ -92,15 +100,24 @@
             transform: scale(1.05);
         }
 
+        /* Separator label between the two input fields */
+        .field-sep {
+            color: rgba(255,255,255,0.75);
+            font-weight: 600;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
         @media screen and (max-width: 768px) {
             .header-search-container {
                 margin-left: 0;
                 width: 100%;
                 margin-top: 10px;
             }
-            
-            .header-search-input {
+
+            #searchArtist, #searchTitle {
                 flex: 1;
+                min-width: 120px;
             }
 
             .card-header {
@@ -334,6 +351,214 @@
             transform: translateY(-1px);
         }
 
+        /* ============================================================
+           NEW: UG Search banner inside the card body
+           Shows artist + title being searched and the direct UG search link
+        ============================================================ */
+        .ug-search-banner {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            background: #f0f4ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .ug-search-banner .banner-label {
+            font-size: 0.85em;
+            color: #4f46e5;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .ug-search-banner .banner-query {
+            font-size: 0.95em;
+            color: #1e293b;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .ug-search-banner .banner-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .ug-search-banner .banner-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.35);
+        }
+
+        /* ============================================================
+           Tab switcher — Manual Paste vs Auto-Fetch
+        ============================================================ */
+        .mode-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 0;
+        }
+
+        .mode-tab:hover {
+            color: #4f46e5;
+            background: #f8faff;
+            transform: none;
+        }
+
+        .mode-tab.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+            background: none;
+        }
+
+        .mode-panel {
+            display: none;
+        }
+
+        .mode-panel.active {
+            display: block;
+        }
+
+        /* ============================================================
+           Auto-Fetch panel styles
+        ============================================================ */
+        .fetch-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .fetch-url-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 1.5px solid #c7d2fe;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #1a202c;
+            background: #fafbff;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .fetch-url-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+        }
+
+        .btn-fetch {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-fetch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-fetch:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .fetch-status {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .fetch-status.loading {
+            display: flex;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .fetch-status.success {
+            display: flex;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        .fetch-status.error {
+            display: flex;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(29, 78, 216, 0.25);
+            border-top-color: #1d4ed8;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .fetched-meta {
+            display: none;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            font-size: 0.9em;
+            color: #6b21a8;
+            line-height: 1.6;
+        }
+
+        .fetched-meta strong {
+            color: #4c1d95;
+        }
+
+        .proxy-note {
+            font-size: 0.8em;
+            color: #94a3b8;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
         /* Mobile Optimizations */
         @media screen and (max-width: 768px) {
             body {
@@ -419,20 +644,78 @@
         </div>
     </div>
 
-    <!-- 2. UG Import Section (Existing) -->
+    <!-- 2. UG Import Section -->
     <div class="card">
         <div class="card-header">
             <h2>🎸 Extract from Ultimate Guitar</h2>
+            <!-- Two separate search fields -->
             <div class="header-search-container">
-                <input type="text" id="headerSearchInput" class="header-search-input" placeholder="Artist - Song Title..." onkeydown="if(event.key === 'Enter') googleSearch()">
-                <button class="header-search-btn" onclick="googleSearch()">Search</button>
+                <input type="text"
+                       id="searchArtist"
+                       class="header-search-input"
+                       placeholder="Artist"
+                       title="Enter the artist name"
+                       onkeydown="if(event.key === 'Enter') ugSearch()">
+                <span class="field-sep">–</span>
+                <input type="text"
+                       id="searchTitle"
+                       class="header-search-input"
+                       placeholder="Song Title"
+                       title="Enter the song title"
+                       onkeydown="if(event.key === 'Enter') ugSearch()">
+                <button class="header-search-btn" onclick="ugSearch()" title="Search on Ultimate Guitar">🔍 Search UG</button>
             </div>
         </div>
         <div class="card-body">
-            <textarea id="input"
-                placeholder="Paste the entire content of an Ultimate Guitar chord sheet here..."></textarea>
 
-            <div class="button-group">
+            <!-- UG search hint banner (shown after user types something) -->
+            <div class="ug-search-banner" id="ugSearchBanner">
+                <span class="banner-label">🎸 Searching UG for:</span>
+                <span class="banner-query" id="bannerQuery"></span>
+                <a class="banner-link" id="bannerLink" href="#" target="_blank" rel="noopener">Open on Ultimate Guitar ↗</a>
+            </div>
+
+            <!-- Mode tabs -->
+            <div class="mode-tabs">
+                <button class="mode-tab active" id="tabManual" onclick="switchMode('manual')">✏️ Manual Paste</button>
+                <button class="mode-tab" id="tabFetch" onclick="switchMode('fetch')">⚡ Auto-Fetch from URL</button>
+            </div>
+
+            <!-- ─── Panel 1: Manual Paste (existing) ─── -->
+            <div class="mode-panel active" id="panelManual">
+                <textarea id="input"
+                    placeholder="Paste the entire content of an Ultimate Guitar chord sheet here..."></textarea>
+            </div>
+
+            <!-- ─── Panel 2: Auto-Fetch ─── -->
+            <div class="mode-panel" id="panelFetch">
+
+                <div class="fetch-row">
+                    <input type="url"
+                           id="ugUrlInput"
+                           class="fetch-url-input"
+                           placeholder="Fill in Artist + Song Title above, then click 🔍 Find URL"
+                           onkeydown="if(event.key==='Enter') fetchFromUG()">
+                    <button class="btn-secondary" id="findUrlBtn" onclick="findAndFillUGUrl()" title="Find the first UG chord tab URL for the artist and song title above" style="white-space:nowrap;flex-shrink:0;">🔍 Find URL</button>
+                    <button class="btn-fetch" id="fetchBtn" onclick="fetchFromUG()">⚡ Fetch Chords</button>
+                </div>
+
+                <!-- Status bar -->
+                <div class="fetch-status" id="fetchStatus">
+                    <div class="spinner" id="fetchSpinner"></div>
+                    <span id="fetchStatusText">Fetching tab data…</span>
+                </div>
+
+                <!-- Fetched metadata summary -->
+                <div class="fetched-meta" id="fetchedMeta"></div>
+
+                <p class="proxy-note">
+                    ℹ️ <strong>How it works:</strong> Fill in <em>Artist</em> and <em>Song Title</em> above, click <strong>🔍 Find URL</strong> to auto-locate the best UG chord tab, then click <strong>⚡ Fetch Chords</strong> to load it. Capo, Key and sections are extracted automatically.<br>
+                    Uses public CORS proxies (<code>allorigins.win</code> / <code>corsproxy.io</code>) — may occasionally be blocked by Cloudflare. Fall back to <strong>Manual Paste</strong> if needed.
+                </p>
+            </div>
+
+            <div class="button-group" style="margin-top: 8px;">
                 <button class="btn-primary" onclick="extract()">Extract JSON</button>
                 <button id="importBtn" class="btn-green" onclick="directImport()">IMPORT NOW</button>
                 <button class="btn-secondary" onclick="copyJSON()">Copy to Clipboard</button>
@@ -502,7 +785,6 @@
 
                     // Visual feedback
                     const btn = document.getElementById("importJsonBtn");
-                    const originalText = btn.innerHTML;
                     btn.innerHTML = "✅ IMPORTED!";
                     btn.style.background = "#059669";
 
@@ -517,23 +799,60 @@
             }
         }
 
+        // ============================================================
+        // NEW: Two-field UG search
+        // Builds a direct search URL on ultimateguitar.com and opens it
+        // ============================================================
+        function ugSearch() {
+            const artist = document.getElementById('searchArtist').value.trim();
+            const title  = document.getElementById('searchTitle').value.trim();
+
+            if (!artist && !title) {
+                alert("Please enter an Artist and/or Song Title first.");
+                return;
+            }
+
+            // Build the query string
+            const query = [artist, title].filter(Boolean).join(' ');
+
+            // UG search URL — uses their built-in search which returns chord tabs first
+            const ugUrl = `https://www.ultimate-guitar.com/search.php?search_type=title&value=${encodeURIComponent(query)}`;
+
+            // Update the banner
+            const banner  = document.getElementById('ugSearchBanner');
+            const bannerQ = document.getElementById('bannerQuery');
+            const bannerL = document.getElementById('bannerLink');
+
+            bannerQ.textContent = query + ' (chords)';
+            bannerL.href = ugUrl;
+            banner.style.display = 'flex';
+
+            // Open UG search in a new tab
+            window.open(ugUrl, '_blank');
+        }
+
+        // ============================================================
+        // Helper: get the typed artist / title from the header fields
+        // ============================================================
+        function getHeaderArtist() {
+            return document.getElementById('searchArtist').value.trim();
+        }
+
+        function getHeaderTitle() {
+            return document.getElementById('searchTitle').value.trim();
+        }
+
+        // ============================================================
+        // Chord parsing helpers (unchanged)
+        // ============================================================
         function isChord(token) {
-            // Remove common UG characters and punctuation that might be attached to chords
             const cleanToken = token.replace(/[\[\]\(\){}\.,|]/g, "").trim();
             if (!cleanToken) return false;
-
-            // Support No Chord notation
             if (cleanToken.toUpperCase() === "NC" || cleanToken.toUpperCase() === "N.C") return true;
-
-            // Support existing multipliers in input (e.g. 2x, 4x)
             if (/^\d+[xX]$/.test(cleanToken)) return true;
-
-            // Robust Regex for chords including slash chords (e.g., E7/G#, D/F#)
             const strictChordRegex = /^[A-G][b#]?(?:m|maj|min|sus|dim|aug|add|M)?(?:\d{0,2})(?:[b#]\d{1,2})?(?:\/[A-G][b#]?)?$/i;
-
             const blackList = ["I", "As", "At", "Be", "By", "Do", "He", "In", "Is", "It", "Me", "No", "Or", "So", "To", "Up", "Us", "We"];
             if (blackList.includes(cleanToken)) return false;
-
             return strictChordRegex.test(cleanToken);
         }
 
@@ -550,36 +869,28 @@
 
         function ultraCompress(tokens) {
             if (!tokens || tokens.length === 0) return "";
-
-            // First, recursively deduplicate identical adjacent sequences
             let result = deduplicateSequences([...tokens]);
-            
             let finalTokens = [];
             let i = 0;
 
             while (i < result.length) {
                 let bestPattern = null;
-                // Deep window (32) to catch long 8-bar phrasing
                 for (let len = 1; len <= 32 && i + len <= result.length; len++) {
                     let patternStr = result.slice(i, i + len).join(" ");
                     let count = 1;
                     let pos = i + len;
                     while (pos + len <= result.length) {
                         if (result.slice(pos, pos + len).join(" ") === patternStr) {
-                            count++;
-                            pos += len;
+                            count++; pos += len;
                         } else { break; }
                     }
-
                     let score = len * count;
                     if (count > 1 && score >= (bestPattern ? bestPattern.score : 0)) {
-                        // Strict tie-breaker: favor LONGER patterns to keep blocks unified
                         if (!bestPattern || score > bestPattern.score || (score === bestPattern.score && len > bestPattern.len)) {
                             bestPattern = { pattern: patternStr, len, count, score };
                         }
                     }
                 }
-
                 if (bestPattern) {
                     finalTokens.push(bestPattern.pattern + (bestPattern.count > 1 ? " " + bestPattern.count + "x" : ""));
                     i += bestPattern.len * bestPattern.count;
@@ -589,7 +900,6 @@
                 }
             }
 
-            // Consolidation: Merge adjacent identical bases
             let consolidated = [];
             for (let k = 0; k < finalTokens.length; k++) {
                 let cur = finalTokens[k];
@@ -597,14 +907,12 @@
                 let curCount = 1;
                 let match = cur.match(/\s+(\d+)x$/i);
                 if (match) curCount = parseInt(match[1]);
-
                 if (consolidated.length > 0) {
                     let last = consolidated[consolidated.length - 1];
                     let lastBase = last.replace(/\s+\d+x$/i, "").trim();
                     let lastCount = 1;
                     let lastMatch = last.match(/\s+(\d+)x$/i);
                     if (lastMatch) lastCount = parseInt(lastMatch[1]);
-
                     if (curBase === lastBase) {
                         consolidated[consolidated.length - 1] = curBase + " " + (lastCount + curCount) + "x";
                         continue;
@@ -612,28 +920,22 @@
                 }
                 consolidated.push(cur);
             }
-
             return consolidated.join(" ");
         }
 
-        // Dedicated helper to remove adjacent identical sequences (e.g. A B A B -> A B)
         function deduplicateSequences(tokens) {
             let result = [...tokens];
             let changed = true;
-            
             while (changed) {
                 changed = false;
-                // Try window sizes from 1 up to half the current length
                 for (let len = 1; len <= Math.floor(result.length / 2); len++) {
                     for (let i = 0; i <= result.length - 2 * len; i++) {
                         let pattern = result.slice(i, i + len).join(" ");
                         let next = result.slice(i + len, i + 2 * len).join(" ");
-                        
-                        // If we find an exact match for the next sequence of same length
                         if (pattern === next) {
                             result.splice(i + len, len);
                             changed = true;
-                            break; 
+                            break;
                         }
                     }
                     if (changed) break;
@@ -642,7 +944,6 @@
             return result;
         }
 
-        // Helper for fuzzy deduplication
         function getSimilarity(s1, s2) {
             let longer = s1.length > s2.length ? s1 : s2;
             let shorter = s1.length > s2.length ? s2 : s1;
@@ -673,6 +974,9 @@
 
         let lastJSON = "";
 
+        // ============================================================
+        // UPDATED: extract() — uses the typed Artist/Title fields first
+        // ============================================================
         function extract() {
             let inputVal = document.getElementById("input").value;
             let lines = inputVal.split("\n");
@@ -682,22 +986,31 @@
             };
 
             let currentType = "intro";
-            let artist = "", title = "", key = "", bpm = "";
+
+            // Start with whatever the user typed in the header fields
+            let artist = getHeaderArtist();
+            let title  = getHeaderTitle();
+            let key = "", bpm = "", capo = "";
+
+            // If a capo was pre-set from a JSON fetch, use it as the starting value
+            if (typeof _fetchedCapo !== 'undefined' && _fetchedCapo) capo = String(_fetchedCapo);
 
             lines.forEach((line, idx) => {
                 const trimmed = line.trim();
                 if (!trimmed) return;
                 const lower = trimmed.toLowerCase();
 
-                if (idx < 5 && lower.includes(" chords by ")) {
-                    const parts = trimmed.split(/ chords by /i);
-                    title = parts[0].trim();
-                    artist = parts[1].trim();
-                    return;
+                // Only parse artist/title from text if the header fields are empty
+                if (!artist || !title) {
+                    if (idx < 5 && lower.includes(" chords by ")) {
+                        const parts = trimmed.split(/ chords by /i);
+                        if (!title)  title  = parts[0].trim();
+                        if (!artist) artist = parts[1].trim();
+                        return;
+                    }
+                    if (lower.startsWith("artist:"))                          { if (!artist) artist = trimmed.replace(/artist:/i, "").trim(); return; }
+                    if (lower.startsWith("song:") || lower.startsWith("title:")) { if (!title)  title  = trimmed.replace(/(song|title):/i, "").trim(); return; }
                 }
-
-                if (lower.startsWith("artist:")) { artist = trimmed.replace(/artist:/i, "").trim(); return; }
-                if (lower.startsWith("song:") || lower.startsWith("title:")) { title = trimmed.replace(/(song|title):/i, "").trim(); return; }
 
                 if (lower.includes("key:")) {
                     const match = trimmed.match(/key:\s*([A-G][b#]?m?)/i);
@@ -706,6 +1019,15 @@
                 if (lower.includes("bpm:") || lower.includes("tempo:")) {
                     const match = trimmed.match(/(?:bpm|tempo):\s*(\d+)/i);
                     if (match) bpm = match[1];
+                }
+
+                // Capo extraction — handles many common UG formats:
+                // "Capo: 2", "Capo 2", "Capo on 2nd Fret", "Capo on fret 2", "Capo on 2"
+                if (lower.includes("capo") && !capo) {
+                    // Try ordinal: "Capo on 2nd Fret"
+                    let cm = trimmed.match(/capo[\s:]+(?:on\s+)?(?:fret\s+)?(\d+)/i)
+                          || trimmed.match(/capo[\s:]+(?:on\s+)?(\d+)(?:st|nd|rd|th)/i);
+                    if (cm) capo = cm[1];
                 }
 
                 if (lower.startsWith("tuning:") || lower.startsWith("key:") || lower.startsWith("capo:") || lower.startsWith("author:") || lower.includes("views")) return;
@@ -726,14 +1048,11 @@
                     }
                     const activeInstance = sectionInstances[currentType][sectionInstances[currentType].length - 1];
 
-                    // Handle multipliers found anywhere in the line tokens
                     let expandedChords = [];
                     for (let t = 0; t < tokens.length; t++) {
                         let token = tokens[t];
                         if (/^\d+[xX]$/.test(token) && expandedChords.length > 0) {
                             let count = parseInt(token);
-                            // Only unroll if the previous part wasn't already a repeat of 
-                            // what we're about to add (avoid exponential inflation)
                             let base = [...expandedChords];
                             for (let k = 1; k < count; k++) expandedChords.push(...base);
                         } else if (isChord(token)) {
@@ -749,31 +1068,28 @@
 
             let result = {
                 artist: artist || "Unknown Artist",
-                title: title || "New Song",
-                key: key || "",
-                tempo: bpm || "",
+                title:  title  || "New Song",
+                key:    key    || "",
+                tempo:  bpm    || "",
+                capo:   parseInt(capo) || 0,
                 favorite: false
             };
 
+            // Reset the fetched capo so subsequent manual extracts start clean
+            _fetchedCapo = "";
+
             const sectionKeys = ["intro", "verse", "chorus", "preChorus", "bridge", "outro"];
-            sectionKeys.forEach(key => {
+            sectionKeys.forEach(sKey => {
                 let uniqueInstances = [];
 
-                sectionInstances[key].forEach((instance) => {
+                sectionInstances[sKey].forEach((instance) => {
                     if (instance.chords.length === 0) return;
                     let compressed = ultraCompress(instance.chords);
-
-                    // Normalize for fuzzy deduplication
                     let normalized = compressed.replace(/[\s\dXx]/g, "").toLowerCase();
 
                     let existingIdx = uniqueInstances.findIndex(inst => {
                         let otherNorm = inst.content.replace(/[\s\dXx]/g, "").toLowerCase();
-
-                        // 1. Precise Match
                         if (normalized === otherNorm) return true;
-
-                        // 2. Fuzzy Similarity Match (Threshold 85%)
-                        // Catching "Chorus 1" vs "Chorus 2" with minor typos or extra chords
                         if (normalized.length > 15 && otherNorm.length > 15) {
                             if (getSimilarity(normalized, otherNorm) > 0.85) return true;
                         }
@@ -783,7 +1099,6 @@
                     if (existingIdx === -1) {
                         uniqueInstances.push({ display: instance.display, content: compressed });
                     } else {
-                        // If we find a match, keep the more "complete" (longer) version
                         let otherNorm = uniqueInstances[existingIdx].content.replace(/[\s\dXx]/g, "").toLowerCase();
                         if (normalized.length > otherNorm.length) {
                             uniqueInstances[existingIdx] = { display: instance.display, content: compressed };
@@ -792,11 +1107,11 @@
                 });
 
                 if (uniqueInstances.length === 0) {
-                    result[key] = "";
+                    result[sKey] = "";
                 } else if (uniqueInstances.length === 1) {
-                    result[key] = uniqueInstances[0].content;
+                    result[sKey] = uniqueInstances[0].content;
                 } else {
-                    result[key] = uniqueInstances.map((inst, idx) => `(${inst.display}${idx + 1}) ${inst.content}`).join(" ");
+                    result[sKey] = uniqueInstances.map((inst, idx) => `(${inst.display}${idx + 1}) ${inst.content}`).join(" ");
                 }
             });
 
@@ -804,9 +1119,9 @@
             const outputEl = document.getElementById("output");
             outputEl.value = lastJSON;
             outputEl.style.display = "block";
-            
+
             const labelEl = document.getElementById("outputLabel");
-            if(labelEl) labelEl.style.display = "block";
+            if (labelEl) labelEl.style.display = "block";
 
             const importBtn = document.getElementById("importBtn");
             if (importBtn) importBtn.style.display = "inline-block";
@@ -818,7 +1133,7 @@
         function directImport() {
             const currentJSON = document.getElementById("output").value;
             if (!currentJSON) return;
-            
+
             let song;
             try {
                 song = JSON.parse(currentJSON);
@@ -837,23 +1152,20 @@
             modal.classList.remove('hidden');
 
             confirmBtn.onclick = () => {
-                const songName = `${song.artist || 'Unknown'} - ${song.title || 'Untitled'}`;
                 if (window.opener) {
                     try {
                         window.opener.postMessage({
                             type: 'UG_EXTRACTOR_IMPORT',
                             song: song,
-                            confirmed: true // Already confirmed here for UG extractor
+                            confirmed: true
                         }, '*');
 
-                        // Show success feedback on the main button
                         const importBtn = document.getElementById("importBtn");
-                        const originalText = importBtn.innerHTML;
                         importBtn.innerHTML = "✅ IMPORTED!";
                         importBtn.style.background = "#059669";
 
                         setTimeout(() => {
-                            window.close(); // Close on mobile-like feel
+                            window.close();
                         }, 1000);
                     } catch (e) {
                         console.error("PostMessage failed", e);
@@ -883,17 +1195,15 @@
             if (!currentJSON) return;
             try {
                 const data = JSON.parse(currentJSON);
-
                 const clean = (str) => {
                     return str
-                        .replace(/[^a-z0-9\s]/gi, '') // remove special chars
-                        .split(/\s+/) // split by space
-                        .map(w => w.charAt(0).toUpperCase() + w.slice(1)) // capitalize each word
-                        .join(''); // join together
+                        .replace(/[^a-z0-9\s]/gi, '')
+                        .split(/\s+/)
+                        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join('');
                 };
-
                 const safeArtist = clean(data.artist || "Unknown");
-                const safeTitle = clean(data.title || "Song");
+                const safeTitle  = clean(data.title  || "Song");
                 const filename = `${safeArtist}-${safeTitle}.json`;
 
                 let blob = new Blob([currentJSON], { type: "application/json" });
@@ -906,15 +1216,315 @@
             }
         }
 
-        function googleSearch() {
-            const query = document.getElementById('headerSearchInput').value.trim();
+        // ============================================================
+        // Live banner update: show/update the search banner as user types
+        // ============================================================
+        function updateBannerLive() {
+            const artist = document.getElementById('searchArtist').value.trim();
+            const title  = document.getElementById('searchTitle').value.trim();
+            const query  = [artist, title].filter(Boolean).join(' ');
+
             if (!query) {
-                alert("Please enter Artist and Song Title first.");
+                document.getElementById('ugSearchBanner').style.display = 'none';
                 return;
             }
-            const encodedQuery = encodeURIComponent(query + " Chords").replace(/%20/g, '+');
-            const searchUrl = `https://www.google.com/search?q=${encodedQuery}`;
-            window.open(searchUrl, '_blank');
+
+            const ugUrl = `https://www.ultimate-guitar.com/search.php?search_type=title&value=${encodeURIComponent(query)}`;
+            document.getElementById('bannerQuery').textContent  = query + ' (chords)';
+            document.getElementById('bannerLink').href          = ugUrl;
+            document.getElementById('ugSearchBanner').style.display = 'flex';
+        }
+
+        document.getElementById('searchArtist').addEventListener('input', updateBannerLive);
+        document.getElementById('searchTitle').addEventListener('input', updateBannerLive);
+
+        // ============================================================
+        // Tab switcher — Manual Paste vs Auto-Fetch
+        // ============================================================
+        // Module-level variable to pass capo from fetch → extract()
+        let _fetchedCapo = "";
+
+        function switchMode(mode) {
+            document.getElementById('panelManual').classList.toggle('active', mode === 'manual');
+            document.getElementById('panelFetch').classList.toggle('active', mode === 'fetch');
+            document.getElementById('tabManual').classList.toggle('active', mode === 'manual');
+            document.getElementById('tabFetch').classList.toggle('active', mode === 'fetch');
+
+            // When switching to fetch mode, auto-find the URL if artist/title are filled
+            // and the URL field is still empty
+            if (mode === 'fetch') {
+                const hasFields = getHeaderArtist() || getHeaderTitle();
+                const urlEmpty  = !document.getElementById('ugUrlInput').value.trim();
+                if (hasFields && urlEmpty) {
+                    findAndFillUGUrl();
+                }
+            }
+        }
+
+        // ============================================================
+        // AUTO-FETCH from UG URL via CORS proxy
+        //
+        // Strategy:
+        //   1. Fetch page HTML via allorigins.win proxy
+        //   2. Parse the DOM to find the <div class="js-store"> element
+        //   3. HTML-decode + JSON.parse its data-content attribute
+        //   4. Navigate: store.page.data.tab_view.wiki_tab.content  → raw tab text
+        //      and:      store.page.data.tab.artist_name / song_name → metadata
+        //   5. Auto-fill the textarea + artist/title fields
+        //   6. Call extract() automatically
+        // ============================================================
+        async function fetchFromUG() {
+            const urlInput = document.getElementById('ugUrlInput').value.trim();
+            if (!urlInput) {
+                alert('Please paste a Ultimate Guitar tab URL first.');
+                return;
+            }
+
+            // Validate it looks like a UG URL
+            if (!urlInput.includes('ultimate-guitar.com')) {
+                alert('That does not look like an Ultimate Guitar URL. Please paste a full UG tab page URL.');
+                return;
+            }
+
+            // Show loading state
+            setFetchStatus('loading', 'Fetching tab data from Ultimate Guitar…');
+            document.getElementById('fetchBtn').disabled = true;
+            document.getElementById('fetchedMeta').style.display = 'none';
+
+            // Multiple CORS proxy fallbacks
+            const proxies = [
+                url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+                url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+            ];
+
+            let html = null;
+            let proxyUsed = '';
+
+            for (const buildProxy of proxies) {
+                try {
+                    const proxyUrl = buildProxy(urlInput);
+                    setFetchStatus('loading', `Trying proxy: ${new URL(proxyUrl).hostname}…`);
+
+                    const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
+                    if (!resp.ok) continue;
+
+                    // allorigins wraps in JSON; corsproxy returns raw HTML
+                    const contentType = resp.headers.get('content-type') || '';
+                    if (contentType.includes('application/json')) {
+                        const j = await resp.json();
+                        html = j.contents;
+                    } else {
+                        html = await resp.text();
+                    }
+
+                    if (html && html.includes('js-store')) {
+                        proxyUsed = new URL(proxyUrl).hostname;
+                        break; // success
+                    }
+                    html = null; // try next proxy
+                } catch (e) {
+                    console.warn('Proxy failed:', e);
+                    html = null;
+                }
+            }
+
+            document.getElementById('fetchBtn').disabled = false;
+
+            if (!html) {
+                setFetchStatus('error', '❌ All proxies failed or were blocked by Cloudflare. Switch to Manual Paste and copy the tab text yourself.');
+                return;
+            }
+
+            // Parse the HTML string in a sandboxed DOMParser
+            let tabText = '';
+            let metaArtist = '', metaTitle = '', metaKey = '', metaCapo = 0;
+
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                const storeEl = doc.querySelector('.js-store');
+                if (!storeEl) throw new Error('js-store element not found in page HTML');
+
+                // The data-content attribute is HTML-entity-encoded JSON
+                const rawAttr = storeEl.getAttribute('data-content');
+                if (!rawAttr) throw new Error('data-content attribute is empty');
+
+                // HTML-decode the string (the browser already does this via getAttribute)
+                const storeData = JSON.parse(rawAttr);
+
+                // Navigate to tab data (structure: store.page.data)
+                const pageData = storeData?.store?.page?.data;
+                if (!pageData) throw new Error('Unexpected JSON structure: store.page.data missing');
+
+                // Tab metadata
+                const tab = pageData.tab || {};
+                metaArtist = tab.artist_name    || '';
+                metaTitle  = tab.song_name      || '';
+                metaKey    = tab.tonality_name  || '';
+                metaCapo   = parseInt(tab.capo) || 0;  // UG stores capo as integer (0 = no capo)
+
+                // Tab text content
+                const tabView = pageData.tab_view || {};
+                const wikiTab = tabView.wiki_tab || {};
+                tabText = wikiTab.content || '';
+
+                // Some tabs store content differently
+                if (!tabText && tabView.applicature) {
+                    tabText = `[Verse]\n(chord diagram tab — try Manual Paste mode)`;
+                }
+
+                if (!tabText) throw new Error('No tab content found. This may be a pro/premium-only tab.');
+
+                // UG stores the tab text with [tab]...[/tab] blocks — strip them
+                tabText = tabText.replace(/\[tab\]/gi, '').replace(/\[\/tab\]/gi, '');
+                // Strip [ch]...[/ch] chord markers but keep the chord text
+                tabText = tabText.replace(/\[ch\]([^\[]+)\[\/ch\]/gi, '$1');
+
+            } catch (err) {
+                setFetchStatus('error', `❌ Could not parse tab data: ${err.message}`);
+                return;
+            }
+
+            // ── SUCCESS: fill the form ──
+
+            // 1. Fill the textarea with the raw tab text
+            document.getElementById('input').value = tabText;
+
+            // 2. Pre-fill artist / title from UG metadata (only if header fields are empty)
+            if (metaArtist && !document.getElementById('searchArtist').value.trim()) {
+                document.getElementById('searchArtist').value = metaArtist;
+            }
+            if (metaTitle && !document.getElementById('searchTitle').value.trim()) {
+                document.getElementById('searchTitle').value = metaTitle;
+            }
+
+            // 3. Update live banner
+            updateBannerLive();
+
+            // 4. Pass capo from JSON to extract() via module-level variable
+            _fetchedCapo = metaCapo !== 0 ? metaCapo : 0;  // keep as number
+
+            // 5. Show fetched metadata summary
+            const finalArtist = document.getElementById('searchArtist').value || metaArtist || '?';
+            const finalTitle  = document.getElementById('searchTitle').value  || metaTitle  || '?';
+            const meta = document.getElementById('fetchedMeta');
+            meta.innerHTML = [
+                `<strong>✅ Tab fetched successfully</strong> via <code>${proxyUsed}</code>`,
+                `<br><strong>Artist:</strong> ${finalArtist} &nbsp;|&nbsp; <strong>Title:</strong> ${finalTitle}`,
+                metaKey  ? `&nbsp;|&nbsp; <strong>Key:</strong> ${metaKey}`         : '',
+                metaCapo !== 0 ? `&nbsp;|&nbsp; <strong>Capo:</strong> ${metaCapo}`  : '',
+                `<br><strong>Tab length:</strong> ${tabText.length.toLocaleString()} characters`,
+            ].join('');
+            meta.style.display = 'block';
+
+            setFetchStatus('success', '✅ Tab loaded! Scroll down to review the JSON or click IMPORT NOW.');
+
+            // 6. Auto-run extract so the user can go straight to Import
+            extract();
+
+            // 7. Scroll to the output
+            document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function setFetchStatus(type, message) {
+            const el     = document.getElementById('fetchStatus');
+            const text   = document.getElementById('fetchStatusText');
+            const spinner = document.getElementById('fetchSpinner');
+
+            el.className = `fetch-status ${type}`;
+            text.textContent = message;
+            spinner.style.display = (type === 'loading') ? 'block' : 'none';
+            el.style.display = 'flex';
+        }
+
+        // ============================================================
+        // FIND & FILL UG URL
+        // Searches UG for "Artist Song chords" and fills the URL field
+        // with the first matching chord tab URL from the search results.
+        // ============================================================
+        async function findAndFillUGUrl() {
+            const artist = getHeaderArtist();
+            const title  = getHeaderTitle();
+
+            if (!artist && !title) {
+                alert('Please fill in the Artist and/or Song Title fields first.');
+                return;
+            }
+
+            const query = [artist, title].filter(Boolean).join(' ');
+            const searchUrl = `https://www.ultimate-guitar.com/search.php?search_type=title&value=${encodeURIComponent(query)}`;
+
+            // Update UI
+            document.getElementById('ugUrlInput').value = '';
+            document.getElementById('ugUrlInput').placeholder = `Searching UG for "${query}"…`;
+            document.getElementById('findUrlBtn').disabled = true;
+            document.getElementById('findUrlBtn').textContent = '⏳ Searching…';
+            setFetchStatus('loading', `Searching Ultimate Guitar for "${query}"…`);
+
+            const proxies = [
+                u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+                u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+            ];
+
+            let html = null;
+            for (const buildProxy of proxies) {
+                try {
+                    const proxyUrl = buildProxy(searchUrl);
+                    const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
+                    if (!resp.ok) continue;
+                    const ct = resp.headers.get('content-type') || '';
+                    if (ct.includes('application/json')) {
+                        const j = await resp.json();
+                        html = j.contents;
+                    } else {
+                        html = await resp.text();
+                    }
+                    if (html) break;
+                } catch (e) { html = null; }
+            }
+
+            document.getElementById('findUrlBtn').disabled = false;
+            document.getElementById('findUrlBtn').textContent = '🔍 Find URL';
+            document.getElementById('ugUrlInput').placeholder = 'https://www.ultimate-guitar.com/tab/artist/song-name-chords-XXXXXX';
+
+            if (!html) {
+                setFetchStatus('error', '❌ Could not reach UG search. Try pasting the URL manually.');
+                return;
+            }
+
+            // Strategy 1: parse js-store JSON results array (most reliable)
+            let foundUrl = '';
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const storeEl = doc.querySelector('.js-store');
+                if (storeEl) {
+                    const data = JSON.parse(storeEl.getAttribute('data-content') || '{}');
+                    const results = data?.store?.page?.data?.results || [];
+                    // Prefer type "Chords", fallback to any tab
+                    const chordsResult = results.find(r =>
+                        (r.type || '').toLowerCase() === 'chords' && r.tab_url
+                    ) || results.find(r => r.tab_url);
+                    if (chordsResult) foundUrl = chordsResult.tab_url;
+                }
+            } catch(e) { /* fall through to regex */ }
+
+            // Strategy 2: regex scan for UG tab URLs in raw HTML
+            if (!foundUrl) {
+                const matches = [...html.matchAll(/https:\/\/(?:tabs\.)?ultimate-guitar\.com\/tab\/[^"'\s]+/g)];
+                const chordsMatch = matches.find(m => m[0].toLowerCase().includes('chord'));
+                foundUrl = (chordsMatch || matches[0])?.[0] || '';
+            }
+
+            if (!foundUrl) {
+                setFetchStatus('error', `❌ No chord tab found for "${query}". Try a different search or paste the URL manually.`);
+                return;
+            }
+
+            // Fill the URL field and show success
+            document.getElementById('ugUrlInput').value = foundUrl;
+            setFetchStatus('success', `✅ Found: ${foundUrl.split('/').slice(-1)[0].replace(/-/g,' ')} — click ⚡ Fetch Chords to load it.`);
         }
 
     </script>
@@ -922,5 +1532,3 @@
 </body>
 
 </html>
-
-

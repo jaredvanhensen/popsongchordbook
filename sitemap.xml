@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-06</lastmod>
+        <lastmod>2026-06-08</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -463,6 +463,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-lady-writer</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-money-for-nothing</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/dire-straits-on-every-street</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -499,6 +509,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/dire-straits-tunnel-of-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-twisting-by-the-pool</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -633,6 +648,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/ethan-miller-00</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/europe-carrie</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -644,6 +664,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/extreme-more-than-words</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/five-finger-death-punch-bad-company</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -804,6 +829,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/heart-alone</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/idina-menzel-let-it-go</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1154,6 +1184,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/marillion-kayleigh</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/mark-knopfler-sailing-to-philadelphia</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1763,6 +1798,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/taylor-swift-i-knew-i-knew-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/taylor-swift-love-story</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1883,6 +1923,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/the-chicks-theres-your-trouble</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-corrs-runaway</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/the-cranberries-zombie</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1964,6 +2014,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/toto-goin-home</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/toto-good-for-you</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2428,12 +2483,22 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/ethan-miller</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/europe</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/extreme</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/five-finger-death-punch</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -2519,6 +2584,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/heart</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/idina-menzel</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3124,6 +3194,16 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/the-black-eyed-peas</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/the-chicks</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/the-corrs</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
