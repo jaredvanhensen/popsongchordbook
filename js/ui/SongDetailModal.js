@@ -1219,6 +1219,10 @@ class SongDetailModal {
                 if (this.lyricsStatusText && this.fullLyricsInput) {
                     const hasLyrics = this.fullLyricsInput.value.trim() !== '';
                     this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
+                    const lyricsBadge = document.getElementById('lyricsAlertBadge');
+                    if (lyricsBadge) {
+                        lyricsBadge.classList.toggle('hidden', hasLyrics);
+                    }
                 }
                 // Check for changes after editing lyrics
                 this.checkForChanges();
@@ -1539,6 +1543,13 @@ class SongDetailModal {
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
                         this.closeYouTubeUrlModal();
+                    }
+                });
+                this.youtubeUrlInput.addEventListener('input', () => {
+                    const hasValue = this.youtubeUrlInput.value.trim() !== '';
+                    const youtubeBadge = document.getElementById('youtubeUrlAlertBadge');
+                    if (youtubeBadge) {
+                        youtubeBadge.classList.toggle('hidden', hasValue);
                     }
                 });
             }
@@ -3321,6 +3332,8 @@ class SongDetailModal {
             }
         });
 
+        this.updateAlertBadges();
+
         if (shouldClose) {
             await this.hide();
         }
@@ -3966,6 +3979,7 @@ class SongDetailModal {
             this.updateLyricsTickerContent();
         }
 
+        this.updateAlertBadges();
         this.fetchThumbnail(song.artist, song.title);
     }
 
@@ -4216,6 +4230,8 @@ class SongDetailModal {
         const song = this.songManager.getSongById(this.currentSongId);
         if (!song) return;
 
+        this.updateAlertBadges();
+
         // Set current values in inputs
         if (this.youtubeUrlInput) {
             this.youtubeUrlInput.value = song.youtubeUrl || '';
@@ -4427,12 +4443,52 @@ class SongDetailModal {
         this.updateYouTubeButton(youtubeUrl, externalUrl);
         this.updateYouTubePlayButton(youtubeUrl);
         this.updateExternalUrlButton(externalUrl);
+        this.updateAlertBadges();
 
         this.closeYouTubeUrlModal();
 
         // Notify parent to refresh table
         if (this.onUpdate && typeof this.onUpdate === 'function') {
             this.onUpdate();
+        }
+    }
+
+    updateAlertBadges() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        const hasYoutube = song.youtubeUrl && song.youtubeUrl.trim() !== '';
+        const hasLyrics = (song.fullLyrics && song.fullLyrics.trim() !== '') || (song.lyrics && song.lyrics.trim() !== '');
+
+        // 1. Settings icon (Edit Song Details button) badge: visible if NO YouTube OR NO Lyrics
+        const detailsBadge = document.getElementById('songDetailDetailsAlertBadge');
+        if (detailsBadge) {
+            if (!hasYoutube || !hasLyrics) {
+                detailsBadge.classList.remove('hidden');
+            } else {
+                detailsBadge.classList.add('hidden');
+            }
+        }
+
+        // 2. YouTube URL input badge: visible if NO YouTube URL
+        const youtubeBadge = document.getElementById('youtubeUrlAlertBadge');
+        if (youtubeBadge) {
+            if (!hasYoutube) {
+                youtubeBadge.classList.remove('hidden');
+            } else {
+                youtubeBadge.classList.add('hidden');
+            }
+        }
+
+        // 3. Edit Lyrics button badge: visible if NO Lyrics
+        const lyricsBadge = document.getElementById('lyricsAlertBadge');
+        if (lyricsBadge) {
+            if (!hasLyrics) {
+                lyricsBadge.classList.remove('hidden');
+            } else {
+                lyricsBadge.classList.add('hidden');
+            }
         }
     }
 

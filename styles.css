@@ -11615,3 +11615,28 @@ body.is-admin .songmap-column,
 body.is-admin .songmap-cell {
     display: table-cell !important;
 }
+
+/* Red alert badge for missing details warning */
+.alert-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444; /* Red */
+    color: #ffffff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.alert-badge.hidden {
+    display: none !important;
+}
+
