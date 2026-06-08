@@ -775,9 +775,10 @@
         }
 
         function postToMain(song) {
-            if (window.opener) {
+            const targetWindow = window.opener || window.parent;
+            if (targetWindow && targetWindow !== window) {
                 try {
-                    window.opener.postMessage({
+                    targetWindow.postMessage({
                         type: 'UG_EXTRACTOR_IMPORT',
                         song: song,
                         confirmed: false // Prompt for confirmation on main screen for JSON
@@ -789,7 +790,11 @@
                     btn.style.background = "#059669";
 
                     setTimeout(() => {
-                        window.close(); // Close window after import for mobile-like feel
+                        if (window.opener) {
+                            window.close(); // Close window after import for mobile-like feel
+                        } else if (typeof targetWindow.closeDashboardPanel === 'function') {
+                            targetWindow.closeDashboardPanel();
+                        }
                     }, 1000);
                 } catch (e) {
                     alert("Main window not found. Please try again.");
@@ -857,13 +862,16 @@
         }
 
         function detectSection(line) {
-            const l = line.toLowerCase().replace(/[\[\]\(\){}:]/g, "").trim();
-            if (l.includes("verse")) return { type: "verse", display: "V" };
-            if (l.includes("chorus") && !l.includes("pre-") && !l.includes("prechorus")) return { type: "chorus", display: "C" };
-            if (l.includes("pre-chorus") || l.includes("prechorus")) return { type: "preChorus", display: "PC" };
-            if (l.includes("bridge") || l.includes("solo") || l.includes("instrumental") || l.includes("middle") || l.includes("interlude")) return { type: "bridge", display: "B" };
-            if (l.includes("intro")) return { type: "intro", display: "Intro" };
-            if (l.includes("outro")) return { type: "outro", display: "Outro" };
+            const original = line.replace(/[\[\]\(\){}:]/g, "").trim();
+            const l = original.toLowerCase();
+            if (l.includes("verse")) return { type: "verse", display: original || "Verse" };
+            if (l.includes("chorus") && !l.includes("pre-") && !l.includes("prechorus")) return { type: "chorus", display: original || "Chorus" };
+            if (l.includes("pre-chorus") || l.includes("prechorus")) return { type: "preChorus", display: original || "Pre-Chorus" };
+            if (l.includes("bridge") || l.includes("solo") || l.includes("instrumental") || l.includes("middle") || l.includes("interlude")) {
+                return { type: "bridge", display: original || "Bridge" };
+            }
+            if (l.includes("intro")) return { type: "intro", display: original || "Intro" };
+            if (l.includes("outro")) return { type: "outro", display: original || "Outro" };
             return null;
         }
 
@@ -1108,10 +1116,20 @@
 
                 if (uniqueInstances.length === 0) {
                     result[sKey] = "";
-                } else if (uniqueInstances.length === 1) {
-                    result[sKey] = uniqueInstances[0].content;
+                    result[sKey + "Title"] = "";
                 } else {
-                    result[sKey] = uniqueInstances.map((inst, idx) => `(${inst.display}${idx + 1}) ${inst.content}`).join(" ");
+                    if (uniqueInstances.length === 1) {
+                        result[sKey] = uniqueInstances[0].content;
+                    } else {
+                        result[sKey] = uniqueInstances.map((inst, idx) => `(${inst.display}${idx + 1}) ${inst.content}`).join(" ");
+                    }
+
+                    const uniqueDisplays = [...new Set(uniqueInstances.map(inst => inst.display))];
+                    if (uniqueDisplays.length === 1) {
+                        result[sKey + "Title"] = uniqueDisplays[0];
+                    } else {
+                        result[sKey + "Title"] = sKey.charAt(0).toUpperCase() + sKey.slice(1);
+                    }
                 }
             });
 
@@ -1152,9 +1170,10 @@
             modal.classList.remove('hidden');
 
             confirmBtn.onclick = () => {
-                if (window.opener) {
+                const targetWindow = window.opener || window.parent;
+                if (targetWindow && targetWindow !== window) {
                     try {
-                        window.opener.postMessage({
+                        targetWindow.postMessage({
                             type: 'UG_EXTRACTOR_IMPORT',
                             song: song,
                             confirmed: true
@@ -1165,7 +1184,11 @@
                         importBtn.style.background = "#059669";
 
                         setTimeout(() => {
-                            window.close();
+                            if (window.opener) {
+                                window.close();
+                            } else if (typeof targetWindow.closeDashboardPanel === 'function') {
+                                targetWindow.closeDashboardPanel();
+                            }
                         }, 1000);
                     } catch (e) {
                         console.error("PostMessage failed", e);

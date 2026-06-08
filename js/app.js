@@ -1,4 +1,4 @@
-// Main Application (v3.051)
+// Main Application (v3.052)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -2682,7 +2682,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v3.051):\n`;
+        let msg = `Diagnostics (v3.052):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2895,7 +2895,13 @@ class App {
         const combinedImportBtn = document.getElementById('combinedImportBtn');
 
         const openImportPage = () => {
-            window.open('popsongchordbook-super-extractor-gemini.html', '_blank');
+            const isLandscape = window.innerWidth > window.innerHeight;
+            const isPC = window.innerWidth > 1080;
+            if (isPC && isLandscape && typeof window.openDashboardPanel === 'function') {
+                window.openDashboardPanel('popsongchordbook-super-extractor-gemini.html');
+            } else {
+                window.open('popsongchordbook-super-extractor-gemini.html', '_blank');
+            }
         };
 
         if (importUgBtn) {
@@ -2907,7 +2913,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v3.051)');
+        console.log('UG Extractor listener initialized (v3.052)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);
@@ -2947,8 +2953,8 @@ class App {
                 if (content && content.trim() !== '' && internalIdx < internalKeys.length) {
                     const intKey = internalKeys[internalIdx];
                     songToImport[intKey] = content;
-                    // Format title: e.g. "preChorus" -> "PreChorus"
-                    songToImport[intKey + 'Title'] = exKey.charAt(0).toUpperCase() + exKey.slice(1);
+                    // Format title: e.g. "preChorus" -> "PreChorus" or use incomingTitle
+                    songToImport[intKey + 'Title'] = incomingData[exKey + 'Title'] || (exKey.charAt(0).toUpperCase() + exKey.slice(1));
                     internalIdx++;
                 }
             });
@@ -2957,6 +2963,7 @@ class App {
             extractorKeys.forEach(k => {
                 if (!internalKeys.includes(k)) {
                     delete songToImport[k];
+                    delete songToImport[k + 'Title'];
                 }
             });
 

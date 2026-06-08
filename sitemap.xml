@@ -433,6 +433,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dan-shay-10000-hours</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/darius-rucker-wagon-wheel</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1098,6 +1103,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/little-big-town-cant-go-back</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/little-big-town-sober</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/logan-mize-american-dream</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1624,6 +1639,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/seth-alley-things-we-dont-talk-about</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/shania-twain-party-for-two</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2398,6 +2418,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/dan-shay</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/darius-rucker</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2779,6 +2804,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/lionel-richie</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/little-big-town</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
