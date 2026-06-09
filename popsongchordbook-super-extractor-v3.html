@@ -70,12 +70,51 @@ Or paste chord sheet manually:
 
 const chordRegex=/^[A-G](#|b)?(maj7|maj|min|m|sus2|sus4|dim|aug|add9|6|7|9|11|13)?(\/[A-G](#|b)?)?$/i
 
+const noteToSemitone = {
+    'C': 0, 'C#': 1, 'Db': 1,
+    'D': 2, 'D#': 3, 'Eb': 3,
+    'E': 4, 'E#': 5, 'Fb': 4,
+    'F': 5, 'F#': 6, 'Gb': 6,
+    'G': 7, 'G#': 8, 'Ab': 8,
+    'A': 9, 'A#': 10, 'Bb': 10,
+    'B': 11, 'B#': 0, 'Cb': 11
+};
+
+function transposeChord(chordName, semitones) {
+    if (!chordName || semitones === 0) return chordName;
+
+    const transposePart = (part) => {
+        const match = part.match(/^([A-G][#b]?)(.*)/i);
+        if (!match) return part;
+
+        let root = match[1];
+        root = root.charAt(0).toUpperCase() + root.slice(1);
+        const suffix = match[2];
+
+        const startSemitone = noteToSemitone[root];
+        if (startSemitone === undefined) return part;
+
+        let target = (startSemitone + semitones) % 12;
+        if (target < 0) target += 12;
+
+        const notes = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+        return notes[target] + suffix;
+    };
+
+    if (chordName.includes('/')) {
+        const [chord, bass] = chordName.split('/');
+        return transposePart(chord) + '/' + transposePart(bass);
+    }
+
+    return transposePart(chordName);
+}
+
 function rootChord(chord){
 return chord.replace(/(maj7|maj|min|m|sus2|sus4|dim|aug|add9|6|7|9|11|13).*/,"").split("/")[0]
 }
 
 function isChord(token){
-return chordRegex.test(token)
+return chordRegex.test(token.replace(/\*+$/,""))
 }
 
 function isChordLine(line){
@@ -200,8 +239,17 @@ outro:[]
 }
 
 let allChords=[]
+let capo=0
 
 lines.forEach(line=>{
+let trimmed = line.trim()
+let lower = trimmed.toLowerCase()
+
+if (lower.includes("capo")) {
+    let cm = trimmed.match(/capo[\s:]+(?:on\s+)?(?:fret\s+)?(\d+)/i)
+          || trimmed.match(/capo[\s:]+(?:on\s+)?(\d+)(?:st|nd|rd|th)/i);
+    if (cm) capo = parseInt(cm[1]) || 0;
+}
 
 let sec=detectSection(line)
 
@@ -212,7 +260,7 @@ return
 
 if(isChordLine(line)){
 
-let cleaned=line.trim().replace(/\s{2,}/g," ")
+let cleaned=line.trim().replace(/\s{2,}/g," ").split(/\s+/).map(c=>c.replace(/\*+$/,"")).join(" ")
 
 sections[section].push(cleaned)
 
@@ -224,6 +272,16 @@ allChords.push(c)
 
 })
 
+// Transpose if capo is present
+if (capo > 0) {
+    for (let secKey in sections) {
+        sections[secKey] = sections[secKey].map(line => {
+            return line.split(/\s+/).map(c => transposeChord(c, capo)).join(" ");
+        });
+    }
+    allChords = allChords.map(c => transposeChord(c, capo));
+}
+
 let result={
 artist:"",
 title:"",
@@ -234,6 +292,7 @@ preChorus:"",
 bridge:"",
 intro:"",
 outro:"",
+capo:capo,
 favorite:false
 }
 

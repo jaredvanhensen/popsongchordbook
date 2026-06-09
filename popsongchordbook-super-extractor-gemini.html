@@ -850,8 +850,47 @@
         // ============================================================
         // Chord parsing helpers (unchanged)
         // ============================================================
+        const noteToSemitone = {
+            'C': 0, 'C#': 1, 'Db': 1,
+            'D': 2, 'D#': 3, 'Eb': 3,
+            'E': 4, 'E#': 5, 'Fb': 4,
+            'F': 5, 'F#': 6, 'Gb': 6,
+            'G': 7, 'G#': 8, 'Ab': 8,
+            'A': 9, 'A#': 10, 'Bb': 10,
+            'B': 11, 'B#': 0, 'Cb': 11
+        };
+
+        function transposeChord(chordName, semitones) {
+            if (!chordName || semitones === 0) return chordName;
+
+            const transposePart = (part) => {
+                const match = part.match(/^([A-G][#b]?)(.*)/i);
+                if (!match) return part;
+
+                let root = match[1];
+                root = root.charAt(0).toUpperCase() + root.slice(1);
+                const suffix = match[2];
+
+                const startSemitone = noteToSemitone[root];
+                if (startSemitone === undefined) return part;
+
+                let target = (startSemitone + semitones) % 12;
+                if (target < 0) target += 12;
+
+                const notes = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+                return notes[target] + suffix;
+            };
+
+            if (chordName.includes('/')) {
+                const [chord, bass] = chordName.split('/');
+                return transposePart(chord) + '/' + transposePart(bass);
+            }
+
+            return transposePart(chordName);
+        }
+
         function isChord(token) {
-            const cleanToken = token.replace(/[\[\]\(\){}\.,|]/g, "").trim();
+            let cleanToken = token.replace(/[\[\]\(\){}\.,|]/g, "").trim().replace(/\*+$/, "");
             if (!cleanToken) return false;
             if (cleanToken.toUpperCase() === "NC" || cleanToken.toUpperCase() === "N.C") return true;
             if (/^\d+[xX]$/.test(cleanToken)) return true;
@@ -883,7 +922,7 @@
 
         function ultraCompress(tokens) {
             if (!tokens || tokens.length === 0) return "";
-            let result = deduplicateSequences([...tokens]);
+            let result = [...tokens];
             let finalTokens = [];
             let i = 0;
 
@@ -1088,7 +1127,8 @@
                             let base = [...expandedChords];
                             for (let k = 1; k < count; k++) expandedChords.push(...base);
                         } else if (isChord(token)) {
-                            expandedChords.push(token);
+                            let cleanedChord = token.replace(/[\[\]\(\){}\.,|]/g, "").trim().replace(/\*+$/, "");
+                            expandedChords.push(cleanedChord);
                         }
                     }
 
@@ -1098,12 +1138,26 @@
                 }
             });
 
+            // Transpose chords and key up if Capo is present
+            const capoVal = parseInt(capo) || 0;
+            if (capoVal > 0) {
+                const sectionKeys = ["intro", "verse", "chorus", "preChorus", "bridge", "outro"];
+                sectionKeys.forEach(sKey => {
+                    sectionInstances[sKey].forEach(instance => {
+                        instance.chords = instance.chords.map(c => transposeChord(c, capoVal));
+                    });
+                });
+                if (key) {
+                    key = transposeChord(key, capoVal);
+                }
+            }
+
             let result = {
                 artist: artist || "Unknown Artist",
                 title:  title  || "New Song",
                 key:    key    || "",
                 tempo:  bpm    || "",
-                capo:   parseInt(capo) || 0,
+                capo:   capoVal,
                 favorite: false
             };
 
