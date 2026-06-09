@@ -168,6 +168,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/birdy-maybe</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/blink-182-all-the-small-things</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -698,6 +703,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/florida-georgia-line-cruise</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/foreigner-cold-as-ice</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -888,6 +898,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/jason-aldean-dirt-road</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/jeff-buckley-hallelujah</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1033,6 +1048,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/kenny-chesney-the-big-revival</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/kim-carnes-bette-davis-eyes</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1114,6 +1134,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/little-big-town-sober</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/logan-mize-better-off-gone</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1229,6 +1254,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/mat-kearney-all-i-have</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/men-at-work-down-under</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1754,6 +1784,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/survivor-eye-of-the-tiger</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/suzanna-vega-luka</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2303,6 +2338,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/birdy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/blink-182</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2548,6 +2588,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/florida-georgia-line</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/foreigner</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2659,6 +2704,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/jan-hammer</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/jason-aldean</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -2889,6 +2939,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/mat-kearney</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/men-at-work</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3194,6 +3249,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/survivor</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/suzanna-vega</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
