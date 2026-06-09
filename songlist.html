@@ -965,7 +965,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.062</span>
+                        <span id="site-version" class="version-tag">3.063</span>
                     </div>
                 </div>
             </div>
@@ -3372,6 +3372,16 @@
         function renderArtistsView() {
             clearGenreActive();
             setActiveNav('btnArtists');
+            
+            // Clear artist search filter if returning to overview
+            if (window.appInstance && window.appInstance.searchTerm && window.appInstance.searchTerm.startsWith('artist:')) {
+                window.appInstance.searchTerm = '';
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.classList.add('hidden');
+            }
+
             const customView = document.getElementById('customSidebarView');
             const tableWrapper = document.querySelector('.table-wrapper');
             if (!window.appInstance || !customView || !tableWrapper) return;
@@ -3481,7 +3491,7 @@
                 if (select) select.value = '';
 
                 // Apply the artist search filter
-                window.appInstance.searchTerm = artistName;
+                window.appInstance.searchTerm = 'artist:' + artistName;
                 
                 const searchInput = document.getElementById('searchInput');
                 if (searchInput) searchInput.value = artistName;

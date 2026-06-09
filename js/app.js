@@ -1140,11 +1140,18 @@ class App {
         // Apply search filter if search term exists
         if (this.searchTerm && this.searchTerm.trim() !== '') {
             const searchLower = this.searchTerm.toLowerCase().trim();
-            allSongs = allSongs.filter(song => {
-                const artistMatch = song.artist && song.artist.toLowerCase().includes(searchLower);
-                const titleMatch = song.title && song.title.toLowerCase().includes(searchLower);
-                return artistMatch || titleMatch;
-            });
+            if (searchLower.startsWith('artist:')) {
+                const artistPart = searchLower.substring(7).trim();
+                allSongs = allSongs.filter(song => {
+                    return song.artist && song.artist.toLowerCase().includes(artistPart);
+                });
+            } else {
+                allSongs = allSongs.filter(song => {
+                    const artistMatch = song.artist && song.artist.toLowerCase().includes(searchLower);
+                    const titleMatch = song.title && song.title.toLowerCase().includes(searchLower);
+                    return artistMatch || titleMatch;
+                });
+            }
         }
 
         // Apply sorting
