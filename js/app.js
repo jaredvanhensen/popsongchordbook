@@ -1191,6 +1191,10 @@ class App {
             // No selection to restore and modal was open, close it
             this.songDetailModal.hide();
         }
+
+        if (typeof window.updateBackBtnVisibility === 'function') {
+            window.updateBackBtnVisibility();
+        }
     }
 
     setupFilters() {

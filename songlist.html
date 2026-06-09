@@ -901,17 +901,27 @@
                 // Load and show the panel
                 iframe.src = url;
                 panel.classList.remove('hidden');
+
+                if (typeof window.updateBackBtnVisibility === 'function') {
+                    window.updateBackBtnVisibility();
+                }
             }
 
             function closeDashboardPanel() {
                 var panel = document.getElementById('dashboardPanel');
                 var iframe = document.getElementById('dashboardIframe');
                 if (!panel) return;
-                panel.classList.add('hidden');
-                if (iframe) iframe.src = '';
-                // Show the table again
-                var tableWrapper = document.querySelector('.table-wrapper');
-                if (tableWrapper) tableWrapper.style.display = '';
+                
+                if (!panel.classList.contains('hidden')) {
+                    panel.classList.add('hidden');
+                    if (iframe) iframe.src = '';
+                    // Show the table again
+                    var tableWrapper = document.querySelector('.table-wrapper');
+                    if (tableWrapper) tableWrapper.style.display = '';
+                    
+                    // Return to Songbook (All Songs) view
+                    selectSongbook();
+                }
             }
         </script>
 
@@ -921,7 +931,7 @@
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <a href="index.html" id="backBtn" class="back-icon-btn" title="Back" onclick="handleBackBtn(event)">
+                    <a href="index.html" id="backBtn" class="back-icon-btn hidden" title="Back" onclick="handleBackBtn(event)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -942,7 +952,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.059</span>
+                        <span id="site-version" class="version-tag">3.060</span>
                     </div>
                 </div>
             </div>
@@ -2949,6 +2959,9 @@
                     }
                 }
             }
+            if (typeof window.updateBackBtnVisibility === 'function') {
+                window.updateBackBtnVisibility();
+            }
         }
 
         function clearCustomView() {
@@ -3001,20 +3014,60 @@
             }
         }
 
-        /**
-         * Smart back button:
-         * - If the user navigated here from within the site (history.length > 1),
-         *   go back one step in history.
-         * - Otherwise fall through to the href (index.html).
-         */
-        function handleBackBtn(e) {
-            // history.length > 1 means there is a previous page to go back to.
-            // We also check that it's not the very first page load of a fresh tab (length === 1).
-            if (window.history && window.history.length > 1) {
-                e.preventDefault();
-                window.history.back();
+        window.updateBackBtnVisibility = function() {
+            const backBtn = document.getElementById('backBtn');
+            if (!backBtn) return;
+
+            const activeNav = document.querySelector('.sidebar-nav .nav-item.active');
+            const activeId = activeNav ? activeNav.id : '';
+
+            const customView = document.getElementById('customSidebarView');
+            const isCustomViewVisible = customView && !customView.classList.contains('hidden');
+
+            const dashboardPanel = document.getElementById('dashboardPanel');
+            const isDashboardVisible = dashboardPanel && !dashboardPanel.classList.contains('hidden');
+
+            let hasFilters = false;
+            if (window.appInstance) {
+                const filters = window.appInstance.currentFilter || {};
+                const isArtistFilter = window.appInstance.searchTerm && window.appInstance.searchTerm.includes('artist:');
+                if (filters.favorites || filters.noPublic || window.appInstance.currentSetlistId || isArtistFilter) {
+                    hasFilters = true;
+                }
             }
-            // else: let the default <a href="index.html"> navigate normally
+
+            const isAllSongsView = (activeId === 'btnSongbook' || !activeId) && !isCustomViewVisible && !isDashboardVisible && !hasFilters;
+
+            if (isAllSongsView) {
+                backBtn.classList.add('hidden');
+            } else {
+                backBtn.classList.remove('hidden');
+            }
+        };
+
+        function handleBackBtn(e) {
+            if (e) e.preventDefault();
+
+            if (window.appInstance) {
+                // If viewing a specific setlist, go back to the Setlists Overview
+                if (window.appInstance.currentSetlistId) {
+                    renderSetlistsView();
+                    window.updateBackBtnVisibility();
+                    return;
+                }
+
+                // If viewing a specific artist, go back to the Artists Overview
+                const isArtistFilter = window.appInstance.searchTerm && window.appInstance.searchTerm.includes('artist:');
+                if (isArtistFilter) {
+                    renderArtistsView();
+                    window.updateBackBtnVisibility();
+                    return;
+                }
+            }
+
+            // Otherwise return to ALL SONGS view
+            selectSongbook();
+            window.updateBackBtnVisibility();
         }
 
         function selectSongbook() {
@@ -3150,6 +3203,9 @@
                 
                 // Render the filtered setlist songs!
                 window.appInstance.loadAndRender();
+                if (typeof window.updateBackBtnVisibility === 'function') {
+                    window.updateBackBtnVisibility();
+                }
             }
         }
 
@@ -3413,6 +3469,9 @@
 
                 // Render the filtered song list!
                 window.appInstance.loadAndRender();
+                if (typeof window.updateBackBtnVisibility === 'function') {
+                    window.updateBackBtnVisibility();
+                }
             }
         }
 
@@ -3716,6 +3775,10 @@
             if (btnArtists) btnArtists.onclick = (e) => { e.preventDefault(); renderArtistsView(); };
             if (btnMyLibrary) btnMyLibrary.onclick = (e) => { e.preventDefault(); selectMyLibrary(); };
             if (btnChordsLibrary) btnChordsLibrary.onclick = (e) => { e.preventDefault(); renderChordsLibraryView(); };
+
+            if (typeof window.updateBackBtnVisibility === 'function') {
+                window.updateBackBtnVisibility();
+            }
         });
 
         // ── Mobile Swipe-In Sidebar ───────────────────────────────────────────
