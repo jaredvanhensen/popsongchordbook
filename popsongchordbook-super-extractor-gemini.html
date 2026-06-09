@@ -1133,6 +1133,12 @@
                 }
             });
 
+            // If there's an Ultimate Guitar URL, add it to songNotes
+            const ugUrl = document.getElementById('ugUrlInput')?.value.trim();
+            if (ugUrl) {
+                result.songNotes = `Imported from Ultimate Guitar: ${ugUrl}`;
+            }
+
             lastJSON = JSON.stringify(result, null, 2);
             const outputEl = document.getElementById("output");
             outputEl.value = lastJSON;
@@ -1159,6 +1165,20 @@
                 alert("Invalid JSON format. Please fix the JSON before importing.");
                 return;
             }
+
+            // Ensure the Ultimate Guitar URL is added to the notes field
+            const ugUrl = document.getElementById('ugUrlInput')?.value.trim();
+            if (ugUrl) {
+                const noteText = `Imported from Ultimate Guitar: ${ugUrl}`;
+                if (song.songNotes) {
+                    if (!song.songNotes.includes(ugUrl)) {
+                        song.songNotes = song.songNotes.trim() + "\n\n" + noteText;
+                    }
+                } else {
+                    song.songNotes = noteText;
+                }
+            }
+
             const songName = `${song.artist || 'Unknown'} - ${song.title || 'Untitled'}`;
 
             // Show internal modal
@@ -1525,11 +1545,25 @@
                 if (storeEl) {
                     const data = JSON.parse(storeEl.getAttribute('data-content') || '{}');
                     const results = data?.store?.page?.data?.results || [];
-                    // Prefer type "Chords", fallback to any tab
-                    const chordsResult = results.find(r =>
+                    // Filter for type "Chords" (case-insensitive) that have a tab_url
+                    const chordsResults = results.filter(r =>
                         (r.type || '').toLowerCase() === 'chords' && r.tab_url
-                    ) || results.find(r => r.tab_url);
-                    if (chordsResult) foundUrl = chordsResult.tab_url;
+                    );
+
+                    let bestResult = null;
+                    if (chordsResults.length > 0) {
+                        // Sort by votes descending to get the most viewed/popular version
+                        chordsResults.sort((a, b) => (parseInt(b.votes) || 0) - (parseInt(a.votes) || 0));
+                        bestResult = chordsResults[0];
+                    } else {
+                        // Fallback to any tab with tab_url, sorted by votes descending
+                        const anyResults = results.filter(r => r.tab_url);
+                        if (anyResults.length > 0) {
+                            anyResults.sort((a, b) => (parseInt(b.votes) || 0) - (parseInt(a.votes) || 0));
+                            bestResult = anyResults[0];
+                        }
+                    }
+                    if (bestResult) foundUrl = bestResult.tab_url;
                 }
             } catch(e) { /* fall through to regex */ }
 
