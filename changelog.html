@@ -302,6 +302,18 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.055</span>
+                    <span class="version-date">June 9, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>UG Extractor Proxy Fallback & Error Handling:</strong> Updated the search proxy loop to verify that fetched content contains the tab store data element (<code>js-store</code>) before breaking, allowing it to correctly fall back to subsequent proxies if Cloudflare intercepts a request. Added custom error messages detecting Cloudflare challenge pages and instructing the user to click the search link and copy-paste the URL manually. Added <code>api.cors.lol</code> as a third proxy fallback.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.054</span>
                     <span class="version-date">June 9, 2026</span>
                 </div>
