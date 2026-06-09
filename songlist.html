@@ -969,7 +969,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.064</span>
+                        <span id="site-version" class="version-tag">3.065</span>
                     </div>
                 </div>
             </div>
@@ -3459,13 +3459,10 @@
                 <div class="custom-view-header">
                     <h3 class="custom-view-title">Artists Overview</h3>
                     <div class="artist-view-toggle">
-                        <button class="toggle-btn artist-desktop-only ${currentArtistViewMode === 'thumbnail' ? 'active' : ''}" onclick="setArtistViewMode('thumbnail')" title="Thumbnail View">🖼️ Thumbnail</button>
-                        <button class="toggle-btn artist-desktop-only ${currentArtistViewMode === 'text' ? 'active' : ''}" onclick="setArtistViewMode('text')" title="Text View">📝 Text</button>
-                        <button class="toggle-btn artist-mobile-only active" onclick="toggleArtistViewMode()" title="Switch View">
+                        <button class="toggle-btn active" onclick="toggleArtistViewMode()" title="Switch View">
                             ${currentArtistViewMode === 'thumbnail' ? '📝 Text' : '🖼️ Thumbnail'}
                         </button>
                     </div>
-                    <button class="custom-view-close artist-desktop-only" onclick="selectSongbook()">Back to All Songs</button>
                 </div>
                 ${contentHtml}
             `;
