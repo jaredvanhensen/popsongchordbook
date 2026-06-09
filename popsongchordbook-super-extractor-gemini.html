@@ -939,7 +939,7 @@
                     }
                     let score = len * count;
                     if (count > 1 && score >= (bestPattern ? bestPattern.score : 0)) {
-                        if (!bestPattern || score > bestPattern.score || (score === bestPattern.score && len > bestPattern.len)) {
+                        if (!bestPattern || score > bestPattern.score || (score === bestPattern.score && len < bestPattern.len)) {
                             bestPattern = { pattern: patternStr, len, count, score };
                         }
                     }

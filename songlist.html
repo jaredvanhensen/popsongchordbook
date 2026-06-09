@@ -820,6 +820,10 @@
                     <span class="nav-icon">✏️</span>
                     <span class="nav-text">My Library</span>
                 </a>
+                <a href="#" class="nav-item" id="btnNewMembers" style="display: none;" onclick="event.preventDefault(); if(window.appInstance && window.appInstance.profileModal) window.appInstance.profileModal.showMembersModal();">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">New Members</span>
+                </a>
                 <a href="quickstart.html" class="nav-item" id="btnQuickStart" onclick="event.preventDefault(); openDashboardPanel('quickstart.html');">
                     <span class="nav-icon">⚡</span>
                     <span class="nav-text">Quick Start Guide</span>
@@ -965,7 +969,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.063</span>
+                        <span id="site-version" class="version-tag">3.064</span>
                     </div>
                 </div>
             </div>

@@ -302,6 +302,19 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.064</span>
+                    <span class="version-date">June 9, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Import Chord Compression Logic:</strong> Improved pattern matching tie-breaker in <code>ultraCompress()</code> to choose the shortest possible pattern block when multiple repeating options cover the same total chord count (e.g. compressing repetitive sequences to their smallest blocks with higher multipliers, like <code>A Em Em D 4x</code> instead of <code>A Em Em D A Em Em D 2x</code>).</li>
+                        <li><strong>Facebook Groups Admin Members View:</strong> Replaced the Chord Theory link in <code>FacebookGroups.html</code> with a "New Members" view. Authorized admins can now view a complete history of registered users, sort them dynamically by headers, and delete members directly.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.063</span>
                     <span class="version-date">June 9, 2026</span>
                 </div>

@@ -176,7 +176,10 @@ pos+=len
 }
 
 if(count>1){
-bestPattern={pattern,len,count}
+    let score = len * count;
+    if (!bestPattern || score > bestPattern.score || (score === bestPattern.score && len < bestPattern.len)) {
+        bestPattern={pattern,len,count,score}
+    }
 }
 
 }

@@ -485,10 +485,13 @@ class App {
         await this.updateDashboardNavLink(user);
 
         // Add admin styling if the user is jared@vanhensen.nl
+        const newMembersBtn = document.getElementById('btnNewMembers');
         if (user && user.email === 'jared@vanhensen.nl') {
             document.body.classList.add('is-admin');
+            if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
         } else {
             document.body.classList.remove('is-admin');
+            if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
         }
     }
 
@@ -509,6 +512,8 @@ class App {
 
         // Remove admin styling
         document.body.classList.remove('is-admin');
+        const newMembersBtn = document.getElementById('btnNewMembers');
+        if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
 
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
