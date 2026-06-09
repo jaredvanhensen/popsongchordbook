@@ -10,8 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.048">
+    <link rel="stylesheet" href="styles.css?v=3.059">
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
@@ -206,47 +210,76 @@
 
         /* Mobile Optimization */
         @media (max-width: 1024px) {
-            .teacher-dashboard {
-                grid-template-columns: 1fr;
+            .teacher-dashboard-layout {
+                grid-template-columns: 1fr !important;
             }
         }
         @media (max-width: 768px) {
-            .teacher-dashboard {
-                padding: 10px;
+            .teacher-dashboard-layout {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 10px !important;
+                gap: 15px !important;
+                margin: 0 auto !important;
+            }
+            .teacher-left-column {
+                width: 100% !important;
+                max-width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 15px !important;
             }
             .dashboard-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-                gap: 15px;
+                width: 100% !important;
+                max-width: 100% !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                padding: 15px !important;
+                gap: 12px !important;
+            }
+            .teacher-info {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: none !important;
+                text-align: center !important;
             }
             .teacher-info h2 {
-                font-size: 24px;
+                font-size: 20px !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                word-break: break-word !important;
+                text-align: center !important;
             }
             .teacher-info > div {
-                justify-content: center;
-                flex-wrap: wrap;
+                justify-content: center !important;
+                flex-wrap: wrap !important;
             }
-            .students-section {
-                padding: 15px;
+            .students-section,
+            .calendar-section {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 15px !important;
             }
             .students-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             #studentSelectorSection {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
             }
             #studentSelectorSection select {
-                width: 100%;
+                width: 100% !important;
             }
             .link-inputs-row {
-                flex-direction: column;
+                flex-direction: column !important;
             }
             #spNewLinkUrl, #spAddLinkBtn {
-                width: 100%;
-                box-sizing: border-box;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
         }
         
@@ -390,9 +423,32 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 600px) {
+            .calendar-grid {
+                gap: 3px !important;
+            }
             .calendar-day-cell {
-                min-height: 48px;
-                padding: 3px;
+                min-height: 40px !important;
+                padding: 2px !important;
+                border-radius: 6px !important;
+            }
+            .calendar-day-header {
+                padding: 4px 0 !important;
+                font-size: 10px !important;
+            }
+            .day-number {
+                font-size: 10px !important;
+                margin-bottom: 0 !important;
+            }
+            .calendar-header {
+                justify-content: center !important;
+                gap: 8px !important;
+                margin-bottom: 12px !important;
+            }
+            .calendar-header h3 {
+                font-size: 16px !important;
+                width: 100% !important;
+                justify-content: center !important;
+                display: flex !important;
             }
             .calendar-lesson-pill {
                 display: none; /* Hide pills inside cells on tiny screens, show as dots */
@@ -643,6 +699,11 @@
                 justify-content: center !important;
                 width: 100% !important;
             }
+            header .header-top-actions {
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 6px !important;
+            }
             header .header-title-group {
                 padding: 0 !important;
             }
@@ -831,16 +892,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=3.048"></script>
+    <script src="js/config/firebase-config.js?v=3.059"></script>
     
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=3.048"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.059"></script>
 
     <!-- Songs Data -->
-    <script src="js/data/default_songs.js?v=3.048"></script>
+    <script src="js/data/default_songs.js?v=3.059"></script>
 
     <!-- App Logic -->
-    <script src="js/teacher.js?v=3.048"></script>
+    <script src="js/teacher.js?v=3.059"></script>
 
     <!-- Delete Teacher Modal Overlay -->
     <div id="deleteTeacherModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">

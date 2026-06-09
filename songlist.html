@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.055 - PopSongChordBook</title>
-    <meta name="version" content="3.055">
-    <meta name="application-version" content="v3.055">
+    <title>Song List v3.059 - PopSongChordBook</title>
+    <meta name="version" content="3.059">
+    <meta name="application-version" content="v3.059">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.055">
+    <link rel="stylesheet" href="styles.css?v=3.059">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -32,9 +32,26 @@
             max-width: 160px;
         }
 
-        /* Sidebar default: hidden on mobile */
+        /* ── Mobile Sidebar: off-canvas by default ─────────────────────── */
         .app-sidebar {
-            display: none;
+            display: flex !important;   /* always rendered */
+            flex-direction: column;
+            width: 280px;
+            background: linear-gradient(180deg, #12093a 0%, #211456 100%);
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1200;
+            transform: translateX(-100%);
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .app-sidebar.mobile-open {
+            transform: translateX(0);
         }
         .app-layout {
             display: block;
@@ -43,8 +60,206 @@
             width: 100%;
         }
 
-        /* Desktop Sidebar: shown on screen sizes 1080px and wider */
+        /* Mobile sidebar backdrop */
+        #mobileSidebarBackdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.48);
+            z-index: 1199;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #mobileSidebarBackdrop.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile sidebar pull-tab (the > button on the left edge) */
+        #mobileSidebarTab {
+            display: flex;
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1201;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: #ffffff;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            width: 22px;
+            height: 56px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+            box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            transition: width 0.2s ease, background 0.2s ease;
+            padding: 0;
+            letter-spacing: -1px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #mobileSidebarTab:hover,
+        #mobileSidebarTab:focus {
+            width: 28px;
+            background: linear-gradient(135deg, #4338ca, #6366f1);
+            outline: none;
+        }
+        #mobileSidebarTab.sidebar-is-open {
+            opacity: 0;       /* hide tab when sidebar is fully open */
+            pointer-events: none;
+        }
+
+        /* ── Sidebar interior styles — apply on ALL screen sizes ─────────── */
+        .sidebar-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .brand-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+            object-fit: cover;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .brand-logo:hover { transform: scale(1.06); }
+        .brand-text-logo {
+            width: 210px;
+            height: auto;
+            margin-top: 14px;
+            border-radius: 9999px;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .brand-text-logo:hover { transform: scale(1.04); }
+
+        /* Nav menu */
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 20px 12px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #c7d2fe !important;
+            text-decoration: none !important;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        /* Allow JS/inline style to hide nav items (teacher/student role buttons) */
+        .nav-item[style*="display: none"],
+        .nav-item[style*="display:none"] {
+            display: none !important;
+        }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff !important;
+        }
+        .nav-item.active {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        /* Playlists / sidebar sections */
+        .sidebar-section {
+            padding: 9px 16px 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 12px;
+            padding: 0 12px;
+        }
+        .add-playlist-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .add-playlist-btn:hover { color: #ffffff; }
+        .playlist-items { display: flex; flex-direction: column; gap: 4px; }
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            color: #c7d2fe;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .playlist-item:hover { background: rgba(255,255,255,0.04); color: #ffffff; }
+        .playlist-item.active { background: rgba(255,255,255,0.1); color: #ffffff; font-weight: 700; }
+        .playlist-icon { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; opacity: 0.8; }
+        .playlist-info { display: flex; flex-direction: column; }
+        .playlist-name { font-size: 13px; font-weight: 600; line-height: 1.2; }
+        .playlist-count { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+        /* Pro/upgrade card */
+        .pro-card {
+            margin: auto 16px 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .pro-badge { font-size: 12px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .pro-text { font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.4; margin: 0 0 12px; }
+        .pro-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79,70,229,0.2);
+            transition: all 0.2s;
+        }
+        .pro-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.3); }
+
+        /* Desktop Sidebar: always visible & no tab on 1080px+ */
         @media (min-width: 1080px) {
+            #mobileSidebarTab,
+            #mobileSidebarBackdrop {
+                display: none !important;
+            }
             .app-layout {
                 display: flex;
                 min-height: 100vh;
@@ -65,8 +280,7 @@
                 min-height: calc(100vh - 0px);
             }
 
-            /* Constrain table and custom sidebar views to scroll inside their own box on desktop.
-               The header + column titles stay fully visible above them. */
+            /* Constrain table and custom sidebar views to scroll inside their own box on desktop */
             #customSidebarView,
             .table-wrapper {
                 max-height: calc(100vh - 280px);
@@ -74,7 +288,7 @@
                 overflow-x: hidden;
             }
 
-            /* Column titles now stick inside the scrolling .table-wrapper */
+            /* Column titles sticky inside the scrolling .table-wrapper */
             #songsTable thead th {
                 position: sticky;
                 top: 0;
@@ -83,203 +297,8 @@
                 box-shadow: 0 2px 0 #cbd5e1;
             }
             .app-sidebar {
-                display: flex;
-                width: 280px;
-                background: linear-gradient(180deg, #12093a 0%, #211456 100%);
-                color: #ffffff;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-                flex-direction: column;
-                padding: 0;
-                flex-shrink: 0;
-                position: fixed; /* Keep locked in place */
-                left: 0;
-                top: 0;
-                height: 100vh;
-                overflow-y: auto;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transform: translateX(0) !important; /* always visible on desktop */
                 z-index: 100;
-            }
-            
-            .sidebar-brand {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 30px 20px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            }
-            .brand-logo {
-                width: 140px;
-                height: 140px;
-                border-radius: 32px;
-                object-fit: cover;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .brand-logo:hover {
-                transform: scale(1.06);
-            }
-            .brand-text-logo {
-                width: 210px;
-                height: auto;
-                margin-top: 14px;
-                border-radius: 9999px;
-                overflow: hidden;
-                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .brand-text-logo:hover {
-                transform: scale(1.04);
-            }
-
-            /* Nav menu items */
-            .sidebar-nav {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                padding: 20px 12px;
-            }
-            .nav-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 12px 16px;
-                color: #c7d2fe;
-                text-decoration: none;
-                font-size: 14px;
-                font-weight: 600;
-                border-radius: 10px;
-                transition: all 0.2s ease;
-            }
-            .nav-item:hover {
-                background: rgba(255, 255, 255, 0.06);
-                color: #ffffff;
-            }
-            .nav-item.active {
-                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-                color: #ffffff;
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-            }
-            .nav-icon {
-                font-size: 18px;
-                width: 24px;
-                text-align: center;
-            }
-
-            /* Playlists section */
-            .sidebar-section {
-                padding: 9px 16px 18px;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-            }
-            .section-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: 11px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-                color: rgba(255, 255, 255, 0.4);
-                margin-bottom: 12px;
-                padding: 0 12px;
-            }
-            .add-playlist-btn {
-                background: transparent;
-                border: none;
-                color: rgba(255, 255, 255, 0.6);
-                font-size: 16px;
-                cursor: pointer;
-                padding: 0;
-                line-height: 1;
-                transition: color 0.2s;
-            }
-            .add-playlist-btn:hover {
-                color: #ffffff;
-            }
-            .playlist-items {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-            }
-            .playlist-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 8px 12px;
-                color: #c7d2fe;
-                text-decoration: none;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-            }
-            .playlist-item:hover {
-                background: rgba(255, 255, 255, 0.04);
-                color: #ffffff;
-            }
-            .playlist-item.active {
-                background: rgba(255, 255, 255, 0.1);
-                color: #ffffff;
-                font-weight: 700;
-            }
-            .playlist-icon {
-                width: 28px;
-                height: 28px;
-                border-radius: 6px;
-                object-fit: cover;
-                opacity: 0.8;
-            }
-            .playlist-info {
-                display: flex;
-                flex-direction: column;
-            }
-            .playlist-name {
-                font-size: 13px;
-                font-weight: 600;
-                line-height: 1.2;
-            }
-            .playlist-count {
-                font-size: 10px;
-                color: rgba(255, 255, 255, 0.45);
-            }
-
-            /* Upgrade Card (Pro) */
-            .pro-card {
-                margin: auto 16px 20px;
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(10px);
-                padding: 16px;
-                border-radius: 16px;
-                text-align: center;
-            }
-            .pro-badge {
-                font-size: 12px;
-                font-weight: 700;
-                color: #fbbf24;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                margin-bottom: 8px;
-            }
-            .pro-text {
-                font-size: 11px;
-                color: rgba(255, 255, 255, 0.7);
-                line-height: 1.4;
-                margin: 0 0 12px;
-            }
-            .pro-btn {
-                width: 100%;
-                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-                border: none;
-                color: #ffffff;
-                padding: 10px;
-                border-radius: 10px;
-                font-size: 13px;
-                font-weight: 700;
-                cursor: pointer;
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-                transition: all 0.2s;
-            }
-            .pro-btn:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
             }
         }
 
@@ -636,9 +655,91 @@
 
         .dashboard-panel iframe {
             flex: 1;
-            width: 100%;
+            width: 1px;
+            min-width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Mobile Portrait Specific View Overrides (Setlists, Artists, Chords Library) */
+        @media (max-width: 767px) {
+            .custom-sidebar-view {
+                padding: 12px !important;
+            }
+            .custom-view-header {
+                margin-bottom: 16px !important;
+                padding-bottom: 10px !important;
+            }
+            .custom-view-title {
+                font-size: 18px !important;
+            }
+            .setlists-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10px !important;
+            }
+            .artists-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            .artists-grid .artist-img-container {
+                width: 64px !important;
+                height: 64px !important;
+                margin: 0 auto 10px !important;
+                border-width: 2px !important;
+            }
+            .custom-card {
+                padding: 12px 8px !important;
+                border-radius: 10px !important;
+            }
+            .custom-card-icon {
+                font-size: 24px !important;
+                margin-bottom: 6px !important;
+            }
+            .custom-card-name {
+                font-size: 13px !important;
+                margin-bottom: 2px !important;
+            }
+            .custom-card-meta {
+                font-size: 11px !important;
+            }
+            .chord-lib-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10px !important;
+            }
+            .chord-lib-card {
+                padding: 8px !important;
+                border-radius: 12px !important;
+            }
+            .chord-lib-card .chord-lib-name {
+                font-size: 0.95rem !important;
+                margin-bottom: 6px !important;
+            }
+            .chord-lib-diagram {
+                min-height: 80px !important;
+            }
+            .chord-lib-diagram svg {
+                height: 80px !important;
+            }
+            .chord-lib-grid.piano-lib-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+            .chord-lib-card.piano-lib-card {
+                min-width: 0 !important;
+                padding: 10px 8px !important;
+            }
+            .chord-lib-card.piano-lib-card .piano-keyboard {
+                height: 56px !important;
+                padding: 4px 2px 2px !important;
+                margin: 4px 0 !important;
+                border-radius: 6px !important;
+            }
+            .chord-lib-card.piano-lib-card .black-keys {
+                top: 4px !important;
+                left: 2px !important;
+                right: 2px !important;
+                height: 55% !important;
+            }
         }
     </style>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -736,6 +837,12 @@
 
         </aside>
 
+        <!-- Mobile sidebar backdrop -->
+        <div id="mobileSidebarBackdrop"></div>
+
+        <!-- Mobile sidebar pull-tab (small blue chevron on left edge) -->
+        <button id="mobileSidebarTab" aria-label="Open navigation menu" title="Open menu">&#8250;</button>
+
         <!-- Pre-set the correct sidebar nav item from ?view= URL param immediately
              (before async JS runs) to avoid the A→AllSongs→B flash. -->
         <script>
@@ -814,7 +921,7 @@
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <a href="index.html" class="back-icon-btn" title="Back to Home">
+                    <a href="index.html" id="backBtn" class="back-icon-btn" title="Back" onclick="handleBackBtn(event)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -835,7 +942,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.055</span>
+                        <span id="site-version" class="version-tag">3.059</span>
                     </div>
                 </div>
             </div>
@@ -2600,43 +2707,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.054"></script>
+    <script src="js/config/firebase-config.js?v=3.059"></script>
 
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=3.054"></script>
-    <script src="js/models/SetlistManager.js?v=3.054"></script>
+    <script src="js/models/SongManager.js?v=3.059"></script>
+    <script src="js/models/SetlistManager.js?v=3.059"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=3.054"></script>
-    <script src="js/utils/Sorter.js?v=3.054"></script>
-    <script src="js/utils/ChordDetector.js?v=3.054"></script>
-    <script src="js/utils/KeyDetector.js?v=3.054"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.054"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.054"></script>
-    <script src="js/utils/MidiInputHandler.js?v=3.054"></script>
-    <script src="js/utils/LyricsParser.js?v=3.054"></script>
+    <script src="js/utils/SEO.js?v=3.059"></script>
+    <script src="js/utils/Sorter.js?v=3.059"></script>
+    <script src="js/utils/ChordDetector.js?v=3.059"></script>
+    <script src="js/utils/KeyDetector.js?v=3.059"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.059"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.059"></script>
+    <script src="js/utils/MidiInputHandler.js?v=3.059"></script>
+    <script src="js/utils/LyricsParser.js?v=3.059"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=3.054"></script>
-    <script src="js/ui/ChordModal.js?v=3.054"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.054"></script>
-    <script src="js/ui/TableRenderer.js?v=3.054"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.054"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.054"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.054"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.054"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.054"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.054"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.054"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.054"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.054"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.054"></script>
-    <script src="js/ui/AuthModal.js?v=3.054"></script>
-    <script src="js/ui/ProfileModal.js?v=3.054"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.054"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.054"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.054"></script>
+    <script src="js/utils/ChordParser.js?v=3.059"></script>
+    <script src="js/ui/ChordModal.js?v=3.059"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.059"></script>
+    <script src="js/ui/TableRenderer.js?v=3.059"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.059"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.059"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.059"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.059"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.059"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.059"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.059"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.059"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.059"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.059"></script>
+    <script src="js/ui/AuthModal.js?v=3.059"></script>
+    <script src="js/ui/ProfileModal.js?v=3.059"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.059"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.059"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.059"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=3.054"></script>
+    <script src="js/app.js?v=3.059"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">
@@ -2894,6 +3001,22 @@
             }
         }
 
+        /**
+         * Smart back button:
+         * - If the user navigated here from within the site (history.length > 1),
+         *   go back one step in history.
+         * - Otherwise fall through to the href (index.html).
+         */
+        function handleBackBtn(e) {
+            // history.length > 1 means there is a previous page to go back to.
+            // We also check that it's not the very first page load of a fresh tab (length === 1).
+            if (window.history && window.history.length > 1) {
+                e.preventDefault();
+                window.history.back();
+            }
+            // else: let the default <a href="index.html"> navigate normally
+        }
+
         function selectSongbook() {
             clearGenreActive();
             setActiveNav('btnSongbook');
@@ -2916,7 +3039,12 @@
 
                 const select = document.getElementById('setlistSelect');
                 if (select) select.value = '';
-                
+
+                // Hide Rename/Delete setlist buttons now that no setlist is active
+                if (typeof window.appInstance.updateButtonsForSetlistMode === 'function') {
+                    window.appInstance.updateButtonsForSetlistMode();
+                }
+
                 window.appInstance.loadAndRender();
             }
         }
@@ -2987,7 +3115,7 @@
                     <h3 class="custom-view-title">Setlists Overview</h3>
                     <button class="custom-view-close" onclick="selectSongbook()">Back to All Songs</button>
                 </div>
-                <div class="custom-grid">
+                <div class="custom-grid setlists-grid">
                     ${setlists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No setlists created yet. Create a setlist using the + button next to Setlists select in the top header.</div>' : cardsHtml}
                 </div>
             `;
@@ -3216,7 +3344,7 @@
                     `;
                 });
                 contentHtml = `
-                    <div class="custom-grid">
+                    <div class="custom-grid artists-grid">
                         ${sortedArtists.length === 0 ? '<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px; font-weight: 600;">No artists found in library.</div>' : cardsHtml}
                     </div>
                 `;
@@ -3589,6 +3717,84 @@
             if (btnMyLibrary) btnMyLibrary.onclick = (e) => { e.preventDefault(); selectMyLibrary(); };
             if (btnChordsLibrary) btnChordsLibrary.onclick = (e) => { e.preventDefault(); renderChordsLibraryView(); };
         });
+
+        // ── Mobile Swipe-In Sidebar ───────────────────────────────────────────
+        (function() {
+            var sidebar   = document.querySelector('.app-sidebar');
+            var backdrop  = document.getElementById('mobileSidebarBackdrop');
+            var tab       = document.getElementById('mobileSidebarTab');
+            if (!sidebar || !backdrop || !tab) return;
+
+            function isDesktop() { return window.innerWidth >= 1080; }
+
+            function openSidebar() {
+                if (isDesktop()) return;
+                sidebar.classList.add('mobile-open');
+                backdrop.classList.add('visible');
+                tab.classList.add('sidebar-is-open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('mobile-open');
+                backdrop.classList.remove('visible');
+                tab.classList.remove('sidebar-is-open');
+                document.body.style.overflow = '';
+            }
+
+            // Tab click: open
+            tab.addEventListener('click', openSidebar);
+
+            // Backdrop click: close
+            backdrop.addEventListener('click', closeSidebar);
+
+            // Close sidebar when any nav item is tapped (mobile)
+            sidebar.querySelectorAll('.nav-item').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    if (!isDesktop()) closeSidebar();
+                });
+            });
+
+            // Swipe-right-from-left-edge to open, swipe-left to close
+            var touchStartX = null;
+            var touchStartY = null;
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            document.addEventListener('touchend', function(e) {
+                if (isDesktop() || touchStartX === null) return;
+                var dx = e.changedTouches[0].clientX - touchStartX;
+                var dy = e.changedTouches[0].clientY - touchStartY;
+                var isHorizontal = Math.abs(dx) > Math.abs(dy) * 1.5;
+                if (!isHorizontal) return;
+                // Swipe right from left edge (within 48px) → open
+                if (dx > 50 && touchStartX < 48 && !sidebar.classList.contains('mobile-open')) {
+                    openSidebar();
+                }
+                // Swipe left while sidebar is open → close
+                if (dx < -50 && sidebar.classList.contains('mobile-open')) {
+                    closeSidebar();
+                }
+                touchStartX = null;
+                touchStartY = null;
+            }, { passive: true });
+
+            // ESC key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeSidebar();
+            });
+
+            // On resize to desktop: make sure sidebar state is clean
+            window.addEventListener('resize', function() {
+                if (isDesktop()) {
+                    sidebar.classList.remove('mobile-open');
+                    backdrop.classList.remove('visible');
+                    tab.classList.remove('sidebar-is-open');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
     </script>
 
 
