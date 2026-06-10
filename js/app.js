@@ -1,4 +1,4 @@
-// Main Application (v3.059)
+// Main Application (v3.066)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -54,7 +54,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.059");
+        console.log("Pop Song Chord Book - 3.066");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -2947,6 +2947,14 @@ class App {
 
     async handleExtractorImport(songToImport, isConfirmed = false) {
         try {
+            const toCameltoeFont = (str) => {
+                if (!str) return str;
+                return str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+            };
+
+            songToImport.artist = toCameltoeFont(songToImport.artist);
+            songToImport.title = toCameltoeFont(songToImport.title);
+
             console.log('Processing extractor import for:', songToImport.title);
 
             // Map the 6 potential extractor keys into the 4 internal blocks
@@ -2970,7 +2978,11 @@ class App {
                     const intKey = internalKeys[internalIdx];
                     songToImport[intKey] = content;
                     // Format title: e.g. "preChorus" -> "PreChorus" or use incomingTitle
-                    songToImport[intKey + 'Title'] = incomingData[exKey + 'Title'] || (exKey.charAt(0).toUpperCase() + exKey.slice(1));
+                    let titleVal = incomingData[exKey + 'Title'] || (exKey.charAt(0).toUpperCase() + exKey.slice(1));
+                    if (titleVal === '??' && intKey === 'verse') {
+                        titleVal = 'Intro';
+                    }
+                    songToImport[intKey + 'Title'] = titleVal;
                     internalIdx++;
                 }
             });

@@ -677,18 +677,12 @@
 
             <!-- Mode tabs -->
             <div class="mode-tabs">
-                <button class="mode-tab active" id="tabManual" onclick="switchMode('manual')">✏️ Manual Paste</button>
-                <button class="mode-tab" id="tabFetch" onclick="switchMode('fetch')">⚡ Auto-Fetch from URL</button>
+                <button class="mode-tab active" id="tabFetch" onclick="switchMode('fetch')">⚡ Auto-Fetch from URL</button>
+                <button class="mode-tab" id="tabManual" onclick="switchMode('manual')">✏️ Manual Paste</button>
             </div>
 
-            <!-- ─── Panel 1: Manual Paste (existing) ─── -->
-            <div class="mode-panel active" id="panelManual">
-                <textarea id="input"
-                    placeholder="Paste the entire content of an Ultimate Guitar chord sheet here..."></textarea>
-            </div>
-
-            <!-- ─── Panel 2: Auto-Fetch ─── -->
-            <div class="mode-panel" id="panelFetch">
+            <!-- ─── Panel 1: Auto-Fetch ─── -->
+            <div class="mode-panel active" id="panelFetch">
 
                 <div class="fetch-row">
                     <input type="url"
@@ -713,6 +707,12 @@
                     ℹ️ <strong>How it works:</strong> Fill in <em>Artist</em> and <em>Song Title</em> above, click <strong>🔍 Find URL</strong> to auto-locate the best UG chord tab, then click <strong>⚡ Fetch Chords</strong> to load it. Capo, Key and sections are extracted automatically.<br>
                     Uses public CORS proxies (<code>allorigins.win</code> / <code>corsproxy.io</code>) — may occasionally be blocked by Cloudflare. Fall back to <strong>Manual Paste</strong> if needed.
                 </p>
+            </div>
+
+            <!-- ─── Panel 2: Manual Paste (existing) ─── -->
+            <div class="mode-panel" id="panelManual">
+                <textarea id="input"
+                    placeholder="Paste the entire content of an Ultimate Guitar chord sheet here..."></textarea>
             </div>
 
             <div class="button-group" style="margin-top: 8px;">
@@ -1025,6 +1025,17 @@
             return costs[s2.length];
         }
 
+        function toCameltoeFont(str) {
+            if (!str) return str;
+            return str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+        }
+
+        function getBaseProgression(chords) {
+            if (!chords || chords.length === 0) return "";
+            let compressed = ultraCompress(chords);
+            return compressed.replace(/\s+\d+[xX]$/, "").trim();
+        }
+
         let lastJSON = "";
 
         // ============================================================
@@ -1059,6 +1070,9 @@
 
             // If a capo was pre-set from a JSON fetch, use it as the starting value
             if (typeof _fetchedCapo !== 'undefined' && _fetchedCapo) capo = String(_fetchedCapo);
+
+            let uniqueBaseProgressions = [];
+            let prevBaseProgression = "";
 
             lines.forEach((line, idx) => {
                 const trimmed = line.trim();
@@ -1107,6 +1121,9 @@
                 if (sec) {
                     currentType = sec.type;
                     sectionInstances[currentType].push({ display: sec.display, chords: [] });
+                    // Reset progression list when section changes
+                    uniqueBaseProgressions = [];
+                    prevBaseProgression = "";
                     return;
                 }
 
@@ -1115,25 +1132,39 @@
 
                 if (rawChords.length > 0 && (rawChords.length / tokens.length) > 0.4) {
                     if (sectionInstances[currentType].length === 0) {
-                        sectionInstances[currentType].push({ display: "??", chords: [] });
+                        sectionInstances[currentType].push({ display: "Intro", chords: [] });
                     }
                     const activeInstance = sectionInstances[currentType][sectionInstances[currentType].length - 1];
 
                     let expandedChords = [];
                     for (let t = 0; t < tokens.length; t++) {
                         let token = tokens[t];
-                        if (/^\d+[xX]$/.test(token) && expandedChords.length > 0) {
-                            let count = parseInt(token);
+                        let cleanToken = token.replace(/[\[\]\(\){}\.,|]/g, "").trim();
+                        if (/^\d+[xX]$/.test(cleanToken) && expandedChords.length > 0) {
+                            let count = parseInt(cleanToken);
                             let base = [...expandedChords];
                             for (let k = 1; k < count; k++) expandedChords.push(...base);
                         } else if (isChord(token)) {
-                            let cleanedChord = token.replace(/[\[\]\(\){}\.,|]/g, "").trim().replace(/\*+$/, "");
-                            expandedChords.push(cleanedChord);
+                            let cleanedChord = cleanToken.replace(/\*+$/, "");
+                            if (cleanedChord && !/^\d+[xX]$/.test(cleanedChord)) {
+                                expandedChords.push(cleanedChord);
+                            }
                         }
                     }
 
                     if (expandedChords.length > 0) {
-                        activeInstance.chords.push(...expandedChords);
+                        let baseProg = getBaseProgression(expandedChords);
+                        if (baseProg) {
+                            if (uniqueBaseProgressions.includes(baseProg)) {
+                                if (baseProg === prevBaseProgression) {
+                                    activeInstance.chords.push(...expandedChords);
+                                }
+                            } else {
+                                uniqueBaseProgressions.push(baseProg);
+                                activeInstance.chords.push(...expandedChords);
+                                prevBaseProgression = baseProg;
+                            }
+                        }
                     }
                 }
             });
@@ -1153,8 +1184,8 @@
             }
 
             let result = {
-                artist: artist || "Unknown Artist",
-                title:  title  || "New Song",
+                artist: toCameltoeFont(artist || "Unknown Artist"),
+                title:  toCameltoeFont(title  || "New Song"),
                 key:    key    || "",
                 tempo:  bpm    || "",
                 capo:   capoVal,
