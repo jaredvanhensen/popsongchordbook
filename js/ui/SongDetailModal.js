@@ -147,6 +147,7 @@ class SongDetailModal {
             }
         };
         this.songNotesSection = document.getElementById('songNotesSection');
+        this.songKeyboardSection = document.getElementById('songKeyboardSection');
         this.hasUnsavedChanges = false;
         this.originalSongData = null;
         this.isRandomMode = false;
@@ -179,6 +180,7 @@ class SongDetailModal {
         this.setupBarDividerButtons();
         this.setupTextInsertButtons();
         this.setupChordBlocks();
+        this.setupSongDetailKeyboard();
     }
 
     toggleLyricsTicker() {
@@ -1714,6 +1716,53 @@ class SongDetailModal {
                     this.chordProgressionEditor.show(blocks, startIndex, () => this.checkForChanges());
                 }
             });
+        });
+    }
+
+    setupSongDetailKeyboard() {
+        if (!this.modal) return;
+        const keys = this.modal.querySelectorAll('#songKeyboardSection .key');
+        keys.forEach(key => {
+            key.addEventListener('pointerdown', async (e) => {
+                e.stopPropagation();
+                if (e.cancelable) e.preventDefault();
+                const note = parseInt(key.dataset.note);
+                
+                // Visual Feedback
+                key.classList.add('active');
+                
+                // Audio Feedback
+                if (this.sharedAudioPlayer) {
+                    try {
+                        await this.sharedAudioPlayer.initialize();
+                        this.sharedAudioPlayer.playNote(note, 2.0, 0.6);
+                    } catch (err) {
+                        console.error('Error playing note:', err);
+                    }
+                }
+            });
+
+            const stopKey = () => key.classList.remove('active');
+            key.addEventListener('pointerup', stopKey);
+            key.addEventListener('pointerleave', stopKey);
+            key.addEventListener('pointercancel', stopKey);
+        });
+
+        // Listen to global MIDI events for visual feedback
+        window.addEventListener('midi-note-on', (e) => {
+            if (!this.modal || !this.songKeyboardSection || this.songKeyboardSection.classList.contains('hidden')) return;
+            const key = this.modal.querySelector(`#songKeyboardSection .key[data-note="${e.detail.note}"]`);
+            if (key) {
+                key.classList.add('active');
+            }
+        });
+
+        window.addEventListener('midi-note-off', (e) => {
+            if (!this.modal || !this.songKeyboardSection || this.songKeyboardSection.classList.contains('hidden')) return;
+            const key = this.modal.querySelector(`#songKeyboardSection .key[data-note="${e.detail.note}"]`);
+            if (key) {
+                key.classList.remove('active');
+            }
         });
     }
 
@@ -3717,6 +3766,14 @@ class SongDetailModal {
             const uid = user ? user.uid : 'guest';
             const isNotesEnabled = localStorage.getItem(`feature-notes-enabled-${uid}`) === 'true';
             this.songNotesSection.classList.toggle('hidden', !isNotesEnabled);
+            if (this.songKeyboardSection) {
+                this.songKeyboardSection.classList.toggle('hidden', !isNotesEnabled);
+            }
+        }
+
+        // Initialize MIDI input if enabled globally
+        if (window.midiInputHandler && localStorage.getItem('feature-midi-enabled-global') === 'true') {
+            window.midiInputHandler.requestAccess();
         }
 
         this.currentSongId = song.id;

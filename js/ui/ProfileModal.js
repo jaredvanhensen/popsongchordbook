@@ -327,6 +327,10 @@ class ProfileModal {
                 // Update SongDetailModal live if open
                 if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.songNotesSection) {
                     window.appInstance.songDetailModal.songNotesSection.classList.toggle('hidden', !isEnabled);
+                    const songKeyboardSection = document.getElementById('songKeyboardSection');
+                    if (songKeyboardSection) {
+                        songKeyboardSection.classList.toggle('hidden', !isEnabled);
+                    }
                 }
             });
         }
