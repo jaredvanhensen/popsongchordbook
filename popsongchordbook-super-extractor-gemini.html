@@ -1230,13 +1230,7 @@
                     if (uniqueInstances.length === 1) {
                         result[sKey] = uniqueInstances[0].content;
                     } else {
-                        result[sKey] = uniqueInstances.map((inst, idx) => {
-                            if (/\d+/.test(inst.display)) {
-                                return `(${inst.display}) ${inst.content}`;
-                            } else {
-                                return `(${inst.display} ${idx + 1}) ${inst.content}`;
-                            }
-                        }).join(" ");
+                        result[sKey] = uniqueInstances.map(inst => inst.content).join(" ");
                     }
 
                     const uniqueDisplays = [...new Set(uniqueInstances.map(inst => inst.display))];
