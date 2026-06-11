@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-09</lastmod>
+        <lastmod>2026-06-11</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -169,6 +169,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/birdy-maybe</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/blake-shelton-sangria</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -353,6 +358,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/carrie-underwood-see-you-again</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/carrie-underwood-two-black-cadillacs</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/cars-drive</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -373,12 +388,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/chris-stapleton-tennessee-whiskey</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/christina-aguilera-genie-in-a-bottle</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/coldplay-clocks</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/coldplay-speed-of-sound</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -444,6 +469,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/darius-rucker-wagon-wheel</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/dean-brody-canadian-girls</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -569,6 +599,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/dr-alban-its-my-life</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/dua-lipa-dance-the-night</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -704,6 +739,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/florida-georgia-line-cruise</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/florida-georgia-line-god-your-mama-and-me</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -899,6 +939,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/jason-aldean-dirt-road</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/jason-aldean-small-town-small</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1133,17 +1178,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/little-big-town-im-with-the-band</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/little-big-town-sober</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/song/logan-mize-better-off-gone</loc>
+        <loc>https://www.popsongchordbook.com/song/logan-mize-american-dream</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/song/logan-mize-american-dream</loc>
+        <loc>https://www.popsongchordbook.com/song/logan-mize-better-off-gone</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1518,6 +1568,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/post-malone-hey-mercedes</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/post-malone-feat-morgan-wallen-i-had-some-help</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1708,6 +1763,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/shinedown-second-chance</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/sia-snowman</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1794,6 +1854,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/take-that-back-for-good</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/taylor-dayne-tell-it-to-my-heart</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1999,6 +2064,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-cure-friday-im-in-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-outfield-your-love</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2343,6 +2413,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/blake-shelton</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/blink-182</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2413,6 +2488,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/carrie-underwood</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/cars</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2429,6 +2509,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/cher</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/chris-stapleton</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -2509,6 +2594,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/dr-alban</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/dua-lipa</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3263,6 +3353,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/taylor-dayne</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/taylor-swift</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3314,6 +3409,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/the-cure</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/the-outfield</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
