@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.072)
+// Scrolling Chords Logic (v3.077)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -734,6 +734,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (textModeEditBtn) {
         textModeEditBtn.addEventListener('click', () => {
             if (editModeBtn) editModeBtn.click();
+        });
+    }
+
+    const textModePlayPauseBtn = document.getElementById('textModePlayPauseBtn');
+    if (textModePlayPauseBtn) {
+        textModePlayPauseBtn.addEventListener('click', togglePlayPause);
+    }
+
+    const textModeRestartBtn = document.getElementById('textModeRestartBtn');
+    if (textModeRestartBtn) {
+        textModeRestartBtn.addEventListener('click', () => {
+            if (restartBtn) restartBtn.click();
         });
     }
 
@@ -3311,9 +3323,19 @@ function initTextModeOverlaySize() {
 
     const screenHeight = window.innerHeight;
     const isSmallScreen = screenHeight < 600;
+    const isMobileView = document.body.classList.contains('is-mobile-view');
+    const isMobilePortrait = document.body.classList.contains('is-portrait') && isMobileView;
 
-    const defaultTop = isSmallScreen ? 50 : 80;
-    const bottomBuffer = isSmallScreen ? 140 : 300; // Leave space for scrolling timeline at the bottom
+    // Reset styles on mobile to prevent landscape values persisting in portrait and vice versa
+    if (isMobileView) {
+        overlay.style.top = "";
+        overlay.style.left = "";
+        overlay.style.width = "";
+        overlay.style.height = "";
+    }
+
+    const defaultTop = isMobilePortrait ? 10 : (isSmallScreen ? 50 : 80);
+    const bottomBuffer = isMobilePortrait ? 150 : (isSmallScreen ? 140 : 300); // Leave space for scrolling timeline at the bottom
 
     if (!overlay.style.top || overlay.style.top === "") {
         overlay.style.top = `${defaultTop}px`;
@@ -3322,14 +3344,15 @@ function initTextModeOverlaySize() {
         overlay.style.left = "50%";
     }
     if (!overlay.style.width || overlay.style.width === "") {
-        overlay.style.width = "90vw";
+        overlay.style.width = isMobilePortrait ? "96vw" : "90vw";
     }
     if (!overlay.style.height || overlay.style.height === "") {
         const currentTop = parseFloat(overlay.style.top) || defaultTop;
         let optimalHeight = Math.max(120, screenHeight - currentTop - bottomBuffer);
         if (isEditMode) {
             // Edit Mode has more content (badges + pagination controls) -> make it taller by default
-            optimalHeight = Math.min(screenHeight - currentTop - 20, 520);
+            const editMaxHeight = screenHeight - currentTop - bottomBuffer;
+            optimalHeight = Math.min(editMaxHeight, 520);
         }
         overlay.style.height = `${optimalHeight}px`;
     }
@@ -3337,7 +3360,7 @@ function initTextModeOverlaySize() {
     // Always ensure the bottom of the window is on screen and doesn't get pushed off
     const currentTop = parseFloat(overlay.style.top) || defaultTop;
     const currentHeight = parseFloat(overlay.style.height) || 200;
-    const maxHeight = screenHeight - currentTop - 20; // Ensure at least 20px gap at the bottom
+    const maxHeight = screenHeight - currentTop - (isMobilePortrait ? bottomBuffer : 20); // Respect bottomBuffer on mobile portrait
     
     if (currentHeight > maxHeight) {
         overlay.style.height = `${Math.max(120, maxHeight)}px`;
@@ -4633,6 +4656,16 @@ function play() {
         `;
     }
 
+    const textModePlayPauseBtn = document.getElementById('textModePlayPauseBtn');
+    if (textModePlayPauseBtn) {
+        textModePlayPauseBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+        `;
+    }
+
     // If starting from absolute beginning, do count-in
     if (pauseTime === 0 && !isCountingIn) {
         isCountingIn = true;
@@ -4695,6 +4728,15 @@ function pause() {
         songMapPlayPauseBtn.innerHTML = `
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>
+            </svg>
+        `;
+    }
+
+    const textModePlayPauseBtn = document.getElementById('textModePlayPauseBtn');
+    if (textModePlayPauseBtn) {
+        textModePlayPauseBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
         `;
     }

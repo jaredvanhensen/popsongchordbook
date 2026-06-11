@@ -6090,7 +6090,7 @@ body.ctrl-held .chord-item {
     min-height: 40px;
     background: #ffffff;
     color: #1e293b;
-    z-index: 2200;
+    z-index: 10000 !important;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -6109,12 +6109,13 @@ body.ctrl-held .chord-item {
 }
 
 .text-mode-header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 12px 24px;
+    padding: 12px 150px 12px 24px;
     border-top-left-radius: 11px;
     border-top-right-radius: 11px;
     font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
@@ -6129,10 +6130,28 @@ body.ctrl-held .chord-item {
     margin-right: 16px;
 }
 
+.text-mode-playback-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .text-mode-header-buttons {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-left: auto;
+}
+
+.text-mode-right-actions {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
 }
 
 .text-mode-header-btn {

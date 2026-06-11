@@ -16,13 +16,13 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=3.051">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=3.051">
+    <link rel="stylesheet" href="scrolling.css?v=3.077">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=3.077">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v3.051) -->
+    <!-- Merged Purple Header for Mobile Landscape (v3.077) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
             <div class="song-detail-thumb-section">
@@ -465,6 +465,22 @@
     <!-- Text Mode Overlay -->
     <div id="textModeOverlay" class="text-mode-overlay hidden">
         <div class="text-mode-header">
+            <!-- Playback controls inside classic chord sheet -->
+            <div class="text-mode-playback-controls">
+                <button id="textModeRestartBtn" title="Restart from beginning" class="text-mode-header-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="19 20 9 12 19 4 19 20" fill="currentColor"></polygon>
+                        <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="3"></line>
+                    </svg>
+                </button>
+                <button id="textModePlayPauseBtn" title="Play/Pause" class="text-mode-header-btn">
+                    <svg id="textModePlayIcon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                </button>
+            </div>
             <span class="text-mode-instruction">Click the WORD exactly when you HEAR the word to improve chord timing (When in Edit mode)</span>
             <div class="text-mode-header-buttons">
                 <!-- Pager controls in header (visible in edit mode) -->
@@ -503,6 +519,8 @@
                         <line x1="8" y1="8" x2="16" y2="16"></line>
                     </svg>
                 </button>
+            </div>
+            <div class="text-mode-right-actions">
                 <button id="textModeEditBtn" title="Edit Classic Chord Sheet" class="edit-mode-btn text-mode-header-btn">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -714,19 +732,19 @@
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=3.051" defer></script>
-            <script src="js/utils/ChordParser.js?v=3.051" defer></script>
-            <script src="js/utils/GuitarRenderer.js?v=3.051" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=3.051" defer></script>
-            <script src="js/utils/LyricsParser.js?v=3.051" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=3.051" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=3.051" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=3.051" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=3.051" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=3.051" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=3.051" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=3.051" defer></script>
-            <script src="js/scrolling_chords.js?v=3.051" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=3.077" defer></script>
+            <script src="js/utils/ChordParser.js?v=3.077" defer></script>
+            <script src="js/utils/GuitarRenderer.js?v=3.077" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=3.077" defer></script>
+            <script src="js/utils/LyricsParser.js?v=3.077" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=3.077" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=3.077" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=3.077" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=3.077" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=3.077" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=3.077" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=3.077" defer></script>
+            <script src="js/scrolling_chords.js?v=3.077" defer></script>
 </body>
 
 </html>
