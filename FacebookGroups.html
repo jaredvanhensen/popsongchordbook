@@ -549,6 +549,10 @@
                         <input type="text" id="groupName" placeholder="e.g. Guitar Beginners Rock">
                     </div>
                     <div class="form-group">
+                        <label for="groupLink">Facebook Group Link</label>
+                        <input type="url" id="groupLink" placeholder="e.g. https://www.facebook.com/groups/...">
+                    </div>
+                    <div class="form-group">
                         <label for="groupCategory">Category</label>
                         <select id="groupCategory">
                             <option value="Guitar">Guitar</option>
@@ -586,12 +590,13 @@
                     <thead>
                         <tr>
                             <th onclick="sortTable(0)">Facebook Group <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(1)">Category <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(2)">Members <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(3)">Posts# <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(4)">Date Posted <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(5)">Status <i class="fa-solid fa-sort sort-icon"></i></th>
-                            <th onclick="sortTable(6)">Promotional Text <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(1)">Link <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(2)">Category <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(3)">Members <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(4)">Posts# <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(5)">Date Posted <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(6)">Status <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th onclick="sortTable(7)">Promotional Text <i class="fa-solid fa-sort sort-icon"></i></th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -750,8 +755,8 @@
                         console.warn('Could not fetch seeding file or seed database, using default placeholder', e);
                         appData = {
                             trackerLogs: [
-                                { id: 1, name: "Guitarist Hub International", category: "Guitar", members: 128000, posts: 2, date: "2026-06-01", status: "Placed", text: "Second post update tracking metrics smoothly..." },
-                                { id: 2, name: "Piano & Keyboard Players Only", category: "Keys", members: 45200, posts: 1, date: "2026-05-28", status: "Being Reviewed", text: "Hey guys! I built this interactive Pop Song Chord Book..." }
+                                { id: 1, name: "Guitarist Hub International", link: "https://www.facebook.com/groups/guitarist", category: "Guitar", members: 128000, posts: 2, date: "2026-06-01", status: "Placed", text: "Second post update tracking metrics smoothly..." },
+                                { id: 2, name: "Piano & Keyboard Players Only", link: "https://www.facebook.com/groups/piano", category: "Keys", members: 45200, posts: 1, date: "2026-05-28", status: "Being Reviewed", text: "Hey guys! I built this interactive Pop Song Chord Book..." }
                             ],
                             templatesList: defaultTemplates
                         };
@@ -907,6 +912,10 @@
 
                 tr.innerHTML = `
                     <td class="group-name" contenteditable="true" onblur="updateGroupName(${log.id}, this.innerText)">${log.name}</td>
+                    <td class="group-link">
+                        <span contenteditable="true" onblur="updateTrackerField(${log.id}, 'link', this.innerText)" style="display:inline-block; min-width: 100px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" title="${log.link || ''}">${log.link || ''}</span>
+                        ${log.link ? `<a href="${log.link}" target="_blank" style="margin-left: 6px; color: var(--purple-primary); vertical-align: middle;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
+                    </td>
                     <td>
                         <select class="table-select" onchange="updateTrackerField(${log.id}, 'category', this.value)">
                             <option value="Guitar" ${log.category === 'Guitar' ? 'selected' : ''}>Guitar</option>
@@ -973,6 +982,9 @@
                 logItem[field] = rawValue.trim();
             }
             saveToStorage();
+            if (field === 'link') {
+                renderTable();
+            }
         }
 
         function updateGroupName(logId, newName) {
@@ -1006,21 +1018,22 @@
 
         function addLog() {
             const name = document.getElementById('groupName').value.trim();
+            const link = document.getElementById('groupLink').value.trim();
             const category = document.getElementById('groupCategory').value;
             const membersInput = document.getElementById('memberCount').value;
             const date = document.getElementById('postDate').value;
             const status = document.getElementById('postStatus').value;
             const text = document.getElementById('promoText').value;
 
-            if(!name || !text) {
-                alert("Please add a Facebook Group Name and your Promotional Text Copy.");
+            if(!name || !link || !text) {
+                alert("Please add a Facebook Group Name, Group Link, and your Promotional Text Copy.");
                 return;
             }
 
             const members = membersInput ? parseInt(membersInput) : 0;
             const newLog = {
                 id: Date.now(), 
-                name, category, members, posts: 1, date, status, text
+                name, link, category, members, posts: 1, date, status, text
             };
 
             if (!appData.trackerLogs) {
@@ -1032,6 +1045,7 @@
             renderTable();
 
             document.getElementById('groupName').value = '';
+            document.getElementById('groupLink').value = '';
             document.getElementById('memberCount').value = '';
             document.getElementById('promoText').value = '';
             document.getElementById('postDate').valueAsDate = new Date();
@@ -1129,7 +1143,7 @@
                 let cellB = rowB.children[columnIndex];
                 let valA, valB;
 
-                if (columnIndex === 1) { 
+                if (columnIndex === 2) { 
                     valA = cellA.querySelector('select').value;
                     valB = cellB.querySelector('select').value;
                 }

@@ -1593,6 +1593,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/queen-hammer-to-fall</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/queen-i-want-it-all</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
