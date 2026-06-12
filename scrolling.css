@@ -2413,6 +2413,10 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     margin-bottom: 4px;
 }
 
+body:not(.edit-mode-active) .chord-toolbar-group.empty-group {
+    display: none !important;
+}
+
 .chord-toolbar-buttons-row {
     display: flex;
     gap: 6px;

@@ -3412,7 +3412,7 @@ class SongDetailModal {
                     const trimmedText = (section.text || '').trim();
                     const found = trimmedText ? trimmedText.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [] : [];
                     return { section: section.name, type: section.type, chords: found };
-                }).filter(group => group.chords.length > 0);
+                });
 
                 this.scrollingChordsFrame.contentWindow.postMessage({
                     type: 'updateSuggestedChords',
@@ -3648,7 +3648,7 @@ class SongDetailModal {
                 type: section.type,
                 chords: found
             };
-        }).filter(group => group.chords.length > 0);
+        });
 
 
 

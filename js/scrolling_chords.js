@@ -798,6 +798,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const textModeEditBtn = document.getElementById('textModeEditBtn');
             if (textModeEditBtn) textModeEditBtn.classList.toggle('active', isEditMode);
 
+            // Refresh suggested chords toolbar to show/hide empty blocks
+            if (suggestedChords && typeof renderSuggestedChords === 'function') {
+                renderSuggestedChords(suggestedChords);
+            }
+
             if (!isEditMode && isSelectionMode) {
                 toggleSelectionMode();
             }
@@ -2721,12 +2726,16 @@ function renderSuggestedChords(groups) {
         const isGrouped = groups.length > 0 && typeof groups[0] === 'object' && groups[0] !== null && groups[0].chords;
 
         if (isGrouped) {
-            // Use the groups in the order received from the parent
-            const sortedGroups = groups.filter(g => g && g.chords && g.chords.length > 0);
-            
-            sortedGroups.forEach((group, groupIdx) => {
+            // Use the groups in the order received from the parent, keeping empty ones
+            groups.forEach((group, groupIdx) => {
+                if (!group) return;
+                const isGroupEmpty = !group.chords || group.chords.length === 0;
+
                 const groupContainer = document.createElement('div');
                 groupContainer.className = 'chord-toolbar-group';
+                if (isGroupEmpty) {
+                    groupContainer.classList.add('empty-group');
+                }
 
                 const header = document.createElement('div');
                 header.className = 'chord-toolbar-section-header';
@@ -2747,44 +2756,74 @@ function renderSuggestedChords(groups) {
                 const cancelIcon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
 
                 const startEditing = () => {
-                    buttonsRow.innerHTML = '';
-                    buttonsRow.classList.add('editing');
-                    actions.innerHTML = '';
+                    const proceedWithEditing = () => {
+                        buttonsRow.innerHTML = '';
+                        buttonsRow.classList.add('editing');
+                        actions.innerHTML = '';
 
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'chord-block-edit-input';
-                    input.value = group.chords.join(' ');
-                    input.placeholder = 'Type chords...';
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.className = 'chord-block-edit-input';
+                        input.value = group.chords ? group.chords.join(' ') : '';
+                        input.placeholder = 'Type chords...';
 
-                    const finishEdit = (save) => {
-                        if (save) {
-                            const newText = input.value;
-                            // Send to parent to sync with SongDetailModal
-                            window.parent.postMessage({
-                                type: 'updateChordBlock',
-                                sectionType: group.type,
-                                text: newText
-                            }, '*');
-                            // Local refresh will be triggered by SongDetailModal sending updateSuggestedChords back
+                        const finishEdit = (save) => {
+                            if (save) {
+                                const newText = input.value;
+                                // Send to parent to sync with SongDetailModal
+                                window.parent.postMessage({
+                                    type: 'updateChordBlock',
+                                    sectionType: group.type,
+                                    text: newText
+                                }, '*');
+                                // Local refresh will be triggered by SongDetailModal sending updateSuggestedChords back
+                            } else {
+                                // Just re-render this group locally
+                                renderSuggestedChords(groups);
+                            }
+                        };
+
+                        input.onkeydown = (e) => {
+                            e.stopPropagation(); // Prevent global timeline shortcuts from firing while typing
+                            if (e.key === 'Enter') finishEdit(true);
+                            if (e.key === 'Escape') finishEdit(false);
+                        };
+
+                        input.style.pointerEvents = 'auto'; // Ensure it can be clicked
+                        buttonsRow.appendChild(input);
+                        actions.appendChild(makeHeaderActionBtn(saveIcon, 'Save Chords', 'save-btn', () => finishEdit(true)));
+                        actions.appendChild(makeHeaderActionBtn(cancelIcon, 'Cancel', 'cancel-btn', () => finishEdit(false)));
+
+                        setTimeout(() => input.focus(), 50);
+                    };
+
+                    // Check if there are unsaved timeline changes first
+                    if (typeof checkIfHasChanges === 'function' && checkIfHasChanges()) {
+                        if (window.confirmationModal) {
+                            window.confirmationModal.show(
+                                'Save Changes',
+                                'Save Chord Changes on Timeline first?',
+                                () => {
+                                    saveToDatabase();
+                                    proceedWithEditing();
+                                },
+                                () => {
+                                    proceedWithEditing();
+                                },
+                                'YES',
+                                'NO',
+                                'primary'
+                            );
+                            return;
                         } else {
-                            // Just re-render this group locally
-                            renderSuggestedChords(groups);
+                            const confirmSave = confirm("Save Chord Changes on Timeline first?");
+                            if (confirmSave) {
+                                saveToDatabase();
+                            }
                         }
-                    };
+                    }
 
-                    input.onkeydown = (e) => {
-                        e.stopPropagation(); // Prevent global timeline shortcuts from firing while typing
-                        if (e.key === 'Enter') finishEdit(true);
-                        if (e.key === 'Escape') finishEdit(false);
-                    };
-
-                    input.style.pointerEvents = 'auto'; // Ensure it can be clicked
-                    buttonsRow.appendChild(input);
-                    actions.appendChild(makeHeaderActionBtn(saveIcon, 'Save Chords', 'save-btn', () => finishEdit(true)));
-                    actions.appendChild(makeHeaderActionBtn(cancelIcon, 'Cancel', 'cancel-btn', () => finishEdit(false)));
-
-                    setTimeout(() => input.focus(), 50);
+                    proceedWithEditing();
                 };
 
                 actions.appendChild(makeHeaderActionBtn(editIcon, 'Edit Block Chords', 'edit-btn edit-only', startEditing));
@@ -2792,11 +2831,13 @@ function renderSuggestedChords(groups) {
                 header.appendChild(actions);
                 groupContainer.appendChild(header);
 
-                group.chords.forEach(item => {
-                    if (item) {
-                        buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, group.type));
-                    }
-                });
+                if (group.chords) {
+                    group.chords.forEach(item => {
+                        if (item) {
+                            buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, group.type));
+                        }
+                    });
+                }
                 groupContainer.appendChild(buttonsRow);
                 buttonsContainer.appendChild(groupContainer);
             });
