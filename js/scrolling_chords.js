@@ -1868,6 +1868,8 @@ function updateAuditionKeyboardChord(chordName) {
         if (keyboard) keyboard.style.display = 'none';
         if (!guitarDiagram) return;
 
+        guitarDiagram.style.display = '';
+
         if (!chordName || chordName === '') {
             guitarDiagram.classList.add('hidden'); // HIDE container when empty!
             guitarDiagram.innerHTML = '';

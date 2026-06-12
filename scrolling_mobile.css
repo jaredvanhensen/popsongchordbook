@@ -725,9 +725,9 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditio
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram {
     display: flex !important;
     position: absolute !important;
-    bottom: 125px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    transform: none !important;
     z-index: 2000 !important;
     pointer-events: none !important;
 }
@@ -738,8 +738,9 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
         width: 90px !important;
         height: 110px !important;
         padding: 2px !important;
-        transform: translateX(-50%) scale(0.85) !important;
-        transform-origin: bottom center !important;
+        left: 20px !important;
+        transform: scale(0.85) !important;
+        transform-origin: bottom left !important;
         bottom: 20px !important;
     }
     body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
