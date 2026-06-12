@@ -1,4 +1,4 @@
-// Main Application (v3.078)
+// Main Application (v3.079)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -54,7 +54,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.078");
+        console.log("Pop Song Chord Book - 3.079");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -173,6 +173,12 @@ class App {
     }
 
     popModalState(modalId) {
+        const isInStack = this.modalStack.some(m => String(m.id) === String(modalId));
+        if (!isInStack) {
+            console.log(`popModalState: Modal state ${modalId} is not in stack, ignoring pop request.`);
+            return;
+        }
+
         if (history.state && history.state.modalId === modalId) {
             history.back();
             // Popping from stack will happen in handlePopState

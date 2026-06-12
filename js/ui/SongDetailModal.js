@@ -1000,6 +1000,12 @@ class SongDetailModal {
                         }
 
                         await this.songManager.updateSong(this.currentSongId, updates);
+                        if (this.originalSongData) {
+                            if (updates.tempo !== undefined) {
+                                this.originalSongData.tempo = updates.tempo;
+                            }
+                        }
+                        this.checkForChanges();
                         console.log('Chord data saved to database');
                     } catch (e) {
                         console.error('Error saving chord data from timeline:', e);
@@ -1026,6 +1032,7 @@ class SongDetailModal {
                         }
 
                         await this.songManager.updateSong(this.currentSongId, updates);
+                        this.checkForChanges();
                         console.log('Teacher notes saved to database');
                     } catch (e) {
                         console.error('Error saving teacher notes from timeline:', e);
@@ -1055,6 +1062,7 @@ class SongDetailModal {
                         }
 
                         await this.songManager.updateSong(this.currentSongId, updates);
+                        this.checkForChanges();
                         console.log('Timeline notes saved to database');
                     } catch (e) {
                         console.error('Error saving timeline notes:', e);
@@ -1083,6 +1091,10 @@ class SongDetailModal {
 
                         // Update in memory and database
                         await this.songManager.updateSong(this.currentSongId, updates);
+                        if (this.originalSongData) {
+                            this.originalSongData.lyricOffset = offset;
+                        }
+                        this.checkForChanges();
                         console.log('LyricSync offset updated in database:', offset);
                     } catch (e) {
                         console.error('Error updating lyric sync from timeline:', e);
@@ -1107,15 +1119,16 @@ class SongDetailModal {
                             const sectionKey = sectionType === 'pre-chorus' ? 'preChorus' : sectionType;
                             const section = this.sections[sectionKey];
                             if (section && section.editInput) {
-                                let displayedText = text;
-                                if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
-                                    displayedText = this.transposeBlockText(text, -this.capoValue);
+                                const isEditing = !section.editInput.classList.contains('hidden');
+                                let valueToSet = text;
+                                if (isEditing && this.instrumentMode === 'guitar' && this.capoValue !== 0) {
+                                    valueToSet = this.transposeBlockText(text, -this.capoValue);
                                 }
-                                section.editInput.value = displayedText;
+                                section.editInput.value = valueToSet;
                                 // Trigger input event to let other logic know it changed
                                 section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
                                 // Re-render the buttons
-                                if (section.editInput.classList.contains('hidden')) {
+                                if (!isEditing) {
                                     this.renderChordBlock(sectionKey, text);
                                 }
                             }
@@ -1129,6 +1142,13 @@ class SongDetailModal {
 
                             // Save to database
                             await this.songManager.updateSong(this.currentSongId, updates);
+                            if (this.originalSongData) {
+                                if (updates.verse !== undefined) this.originalSongData.verse = updates.verse;
+                                if (updates.preChorus !== undefined) this.originalSongData.preChorus = updates.preChorus;
+                                if (updates.chorus !== undefined) this.originalSongData.chorus = updates.chorus;
+                                if (updates.bridge !== undefined) this.originalSongData.bridge = updates.bridge;
+                            }
+                            this.checkForChanges();
                             console.log(`Chord block ${sectionType} updated and saved.`);
 
                             // Optionally refresh the timeline toolbar itself if needed
