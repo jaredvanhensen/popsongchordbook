@@ -1107,7 +1107,11 @@ class SongDetailModal {
                             const sectionKey = sectionType === 'pre-chorus' ? 'preChorus' : sectionType;
                             const section = this.sections[sectionKey];
                             if (section && section.editInput) {
-                                section.editInput.value = text;
+                                let displayedText = text;
+                                if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
+                                    displayedText = this.transposeBlockText(text, -this.capoValue);
+                                }
+                                section.editInput.value = displayedText;
                                 // Trigger input event to let other logic know it changed
                                 section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
                                 // Re-render the buttons

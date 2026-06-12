@@ -250,6 +250,19 @@ function simplifyDisplayName(chordName, isForAudio = false) {
     return resultName;
 }
 
+function transposeBlockText(text, semitones) {
+    if (!text || semitones === 0 || !chordParser) return text || '';
+    
+    // Match bracketed text, dividers, repeat markers, or chords
+    const items = text.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
+    return items.map(item => {
+        const trimmed = item.trim();
+        if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
+        
+        return chordParser.transpose(trimmed, semitones);
+    }).join(' ');
+}
+
 function saveUndoState() {
     undoStack.push(JSON.parse(JSON.stringify(chords)));
     if (undoStack.length > MAX_UNDO) undoStack.shift();
@@ -2764,12 +2777,21 @@ function renderSuggestedChords(groups) {
                         const input = document.createElement('input');
                         input.type = 'text';
                         input.className = 'chord-block-edit-input';
-                        input.value = group.chords ? group.chords.join(' ') : '';
+                        
+                        const originalText = group.chords ? group.chords.join(' ') : '';
+                        let displayText = originalText;
+                        if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0) {
+                            displayText = transposeBlockText(originalText, -currentCapoValue);
+                        }
+                        input.value = displayText;
                         input.placeholder = 'Type chords...';
 
                         const finishEdit = (save) => {
                             if (save) {
-                                const newText = input.value;
+                                let newText = input.value;
+                                if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0) {
+                                    newText = transposeBlockText(newText, currentCapoValue);
+                                }
                                 // Send to parent to sync with SongDetailModal
                                 window.parent.postMessage({
                                     type: 'updateChordBlock',
