@@ -738,26 +738,89 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
 }
 
 /* For mobile phone landscape and short viewports (PC embeds): make guitar diagram smaller */
+/* Style yellow Now Playing box to act as a larger container for guitar, piano, or ukulele audition diagrams (v3.089) */
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar .current-chord-display,
+body.is-landscape.is-mobile-landscape.instrument-mode-piano .current-chord-display,
+body.is-landscape.is-mobile-landscape.instrument-mode-ukulele .current-chord-display {
+    width: 110px !important;
+    height: 140px !important;
+    font-size: 28px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 8px 0 !important;
+}
+
+/* Position the Guitar Diagram transparently inside the yellow Now Playing box */
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
+    position: absolute !important;
+    left: 15px !important; /* Matches current-chord-display left */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 110px !important;
+    height: 140px !important;
+    background: transparent !important;
+    backdrop-filter: none !important; /* Prevent blurring the text underneath */
+    -webkit-backdrop-filter: none !important; /* Prevent blurring the text underneath */
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important; /* Push diagram to the bottom */
+    align-items: center !important;
+    padding: 0 0 5px 0 !important;
+    z-index: 2005 !important;
+    pointer-events: none !important;
+}
+
+/* Hide the redundant chord name inside the diagram since the yellow box displays it */
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
+    display: none !important;
+}
+
+/* Scale the SVG diagram to fit perfectly inside the yellow container */
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram svg {
+    width: 85px !important;
+    height: 95px !important;
+    transform: none !important;
+}
+
+/* Position the Piano Keyboard transparently inside the yellow Now Playing box */
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+    position: absolute !important;
+    left: 15px !important; /* Matches current-chord-display left */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 110px !important;
+    height: 140px !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important; /* Push keyboard to the bottom */
+    align-items: center !important;
+    padding: 0 0 10px 0 !important;
+    z-index: 2005 !important;
+    pointer-events: none !important;
+}
+
+/* Shrink the virtual keyboard keys by 50% to fit perfectly inside the yellow container */
+body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys,
+body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard .keyboard-keys {
+    width: 95px !important;
+    height: 40px !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    background: #ededed !important;
+}
+
 @media (max-width: 768px), screen and (max-height: 400px) {
-    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
-        width: 90px !important;
-        height: 110px !important;
-        padding: 2px !important;
-        left: 20px !important;
-        transform: scale(0.85) !important;
-        transform-origin: bottom left !important;
-        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
-    }
-    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
-        font-size: 0.65rem !important;
-        padding: 1px 0 0 !important;
-    }
-    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
-    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
-        transform: translateX(-50%) scale(0.85) !important;
-        transform-origin: bottom center !important;
-        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
-    }
     body.is-landscape.is-mobile-landscape .landscape-header-bar {
         min-height: 64px !important;
         padding: 4px 15px 2px !important;
