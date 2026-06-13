@@ -498,9 +498,171 @@
         }
 
         #fileImportInput { display: none; }
+
+        /* --- MOBILE RESPONSIVE LAYOUTS (v3.092) --- */
+        .mobile-top-bar {
+            display: none;
+        }
+        .sidebar-overlay {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column !important;
+                padding-top: 60px; /* Space for fixed top bar */
+            }
+
+            .mobile-top-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: var(--bg-sidebar);
+                color: #ffffff;
+                padding: 0 16px;
+                height: 60px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 900;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .mobile-menu-btn {
+                background: none;
+                border: none;
+                color: #ffffff;
+                font-size: 1.4rem;
+                cursor: pointer;
+                padding: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-brand {
+                font-weight: 700;
+                font-size: 1.05rem;
+                letter-spacing: 0.5px;
+            }
+
+            /* Overlay when sidebar is open */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(2px);
+                -webkit-backdrop-filter: blur(2px);
+                z-index: 999;
+                display: none;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            /* Convert sidebar to a slide-out drawer on mobile */
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                width: 260px;
+                transition: left 0.3s ease;
+                z-index: 1000;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.25);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            /* Main Area Adjustments */
+            .main-content {
+                padding: 20px 12px;
+                gap: 16px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .header-title {
+                font-size: 1.4rem;
+            }
+
+            .sync-actions {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+            }
+
+            .sync-actions .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Tables horizontal scroll */
+            .table-container {
+                margin-bottom: 20px;
+                border-radius: 12px;
+            }
+
+            table {
+                min-width: 850px; /* Force minimum width to enable clean horizontal scroll */
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+
+            /* Template display adjustments */
+            .template-header-label {
+                padding-right: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .card-actions-wrapper {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 10px;
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+            }
+
+            .btn-copy-template {
+                flex-grow: 1;
+                justify-content: center;
+            }
+
+            .btn-delete-template {
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body style="display: none;">
+
+    <!-- MOBILE TOP BAR -->
+    <div class="mobile-top-bar">
+        <button class="mobile-menu-btn" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <div class="mobile-brand">PopSongChordBook.com</div>
+        <div style="width: 30px;"></div> <!-- Spacer for symmetry -->
+    </div>
+
+    <!-- SIDEBAR OVERLAY FOR MOBILE -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
     <!-- SIDEBAR NAVIGATION MENU -->
     <div class="sidebar">
@@ -775,6 +937,15 @@
         }
 
         // View Toggles
+        function toggleMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            }
+        }
+
         function switchView(viewName) {
             const trackerPage = document.getElementById('trackerPage');
             const templatesPage = document.getElementById('templatesPage');
@@ -802,6 +973,14 @@
                 membersPage.classList.add('active-view');
                 navMembers.classList.add('active');
                 renderMembers();
+            }
+
+            // Close mobile sidebar if open
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
             }
         }
 
