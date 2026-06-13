@@ -746,7 +746,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
         left: 20px !important;
         transform: scale(0.85) !important;
         transform-origin: bottom left !important;
-        bottom: 20px !important;
+        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
     }
     body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
         font-size: 0.65rem !important;
@@ -756,7 +756,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
     body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
         transform: translateX(-50%) scale(0.85) !important;
         transform-origin: bottom center !important;
-        bottom: 20px !important;
+        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
     }
     body.is-landscape.is-mobile-landscape .landscape-header-bar {
         min-height: 64px !important;
@@ -771,7 +771,11 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #audition
         height: calc(100dvh - 64px) !important;
     }
     body.is-landscape.is-mobile-landscape .lyrics-hud {
-        top: var(--hud-top-offset, 66px) !important;
+        top: auto !important;
+        bottom: 10px !important;
+    }
+    body.is-landscape.is-mobile-landscape .youtube-player-container {
+        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
     }
 }
 
