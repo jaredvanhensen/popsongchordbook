@@ -187,7 +187,7 @@ body.is-mobile-landscape .marker.lyrics-sync .marker-label {
 body.is-mobile-landscape .youtube-player-container {
     width: 160px !important;
     height: 90px !important;
-    bottom: 50px !important; /* More clearance for browser bars */
+    bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD on all screen sizes */
     right: 15px !important;
     border-radius: 8px !important;
     border-width: 1px !important;
@@ -223,8 +223,8 @@ body.is-mobile-landscape .lyrics-hud {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    top: var(--hud-top-offset, 90px) !important; /* Put above scrolling chords (below purple header) */
-    bottom: auto !important;
+    top: auto !important;
+    bottom: 10px !important; /* Positioned at the bottom for all screens in landscape to prevent chord overlap */
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 94vw !important;
@@ -709,12 +709,6 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape .timeline-container {
         padding-top: 200px !important;
     }
-
-    /* Put lyrics HUD above scrolling chords and below header on tablets */
-    body.is-mobile-landscape .lyrics-hud {
-        top: var(--hud-top-offset, 210px) !important;
-        bottom: auto !important;
-    }
 }
 
 /* --- v2.935: Keyboard & Guitar Diagram on Pure Timeline (PLAY Mode) --- */
@@ -834,13 +828,6 @@ body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard 
     body.is-landscape.is-mobile-landscape .timeline-container {
         padding-top: 70px !important;
         height: calc(100dvh - 64px) !important;
-    }
-    body.is-landscape.is-mobile-landscape .lyrics-hud {
-        top: auto !important;
-        bottom: 10px !important;
-    }
-    body.is-landscape.is-mobile-landscape .youtube-player-container {
-        bottom: 80px !important; /* Shifted up to clear bottom lyrics HUD */
     }
 }
 
