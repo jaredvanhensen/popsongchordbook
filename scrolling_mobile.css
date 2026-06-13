@@ -161,12 +161,17 @@ body.is-mobile-landscape .timeline-container {
 /* Shrink Chords MUCH smaller (65px) in landscape (v2.457) */
 /* Nuclear Specificity Override: Removed top:40% !important to allow staggering */
 body.is-mobile-landscape #timeline .chord-item {
-    width: 28px !important; /* 50% horizontal reduction as requested */
-    height: 44px !important; /* Reduced ~20% from 55px */
-    font-size: 0.7rem !important; /* Reduced symbol size to fit narrow box */
+    width: 17px !important; /* 40% less wide as requested (was 28px) */
+    height: 44px !important; /* Keep same height */
+    font-size: 0.52rem !important; /* Reduced symbol size to fit narrower box */
     border-radius: 8px !important;
     padding: 2px !important;
     transform: translateY(-50%) !important;
+}
+
+/* Shrink the BIG Yellow box (current chord display) to prevent collision with Guitar Chord Diagram (v3.081) */
+body.is-mobile-landscape .current-chord-display {
+    height: 90px !important; /* 10% less high (was 100px) */
 }
 
 /* Also shrink lyrics sync marker fonts (v2.457) */
