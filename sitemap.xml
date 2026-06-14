@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-13</lastmod>
+        <lastmod>2026-06-14</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -194,6 +194,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/bob-marley-the-wailers-three-little-birds</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bon-jovi-bed-of-roses</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -883,6 +888,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/harry-styles-american-girls</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/harry-styles-as-it-was</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1173,6 +1183,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/lainie-gardner-chasing-the-wind</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/lenny-kravitz-fly-away</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1189,6 +1204,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/lewis-capaldi-someone-you-loved</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/lifehouse-gotta-be-tonight</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1628,6 +1648,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/post-malone-pour-me-a-drink</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/post-malone-feat-morgan-wallen-i-had-some-help</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1768,7 +1793,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/ryan-hurd-every-other-memory</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/sabrina-carpenter-taste</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/sam-fender-rein-me-in</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2089,6 +2124,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/teddy-swims-lose-control</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/teddy-swims-mr-know-it-all</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3028,6 +3068,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/lainie-gardner</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/lenny-kravitz</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3039,6 +3084,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/lewis-capaldi</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/lifehouse</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3348,7 +3398,17 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/ryan-hurd</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/sabrina-carpenter</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/sam-fender</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

@@ -393,14 +393,30 @@
                         <!-- HOMEWORK SECTION -->
                         <div class="section-panel" style="background: #eff6ff; border-color: #bfdbfe;">
                             <h3 class="section-title" style="color: #1d4ed8;">📚 Homework</h3>
-                            <div style="display: flex; gap: 14px; margin-bottom: 14px;">
-                                <div style="flex: 1;">
-                                    <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Due Date</label>
-                                    <input type="date" id="spHomeworkDate" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-family: inherit; color: #1e293b; background: white;">
+                            
+                            <!-- Assign New Homework Sub-panel -->
+                            <div style="background: #ffffff; padding: 12px; border-radius: 10px; border: 1px dashed #bfdbfe; margin-bottom: 16px;">
+                                <p style="font-size: 0.75rem; color: #1d4ed8; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Assign New Homework</p>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    <div>
+                                        <label style="display: block; font-size: 0.70rem; color: #64748b; margin-bottom: 3px; font-weight: 700;">DUE DATE</label>
+                                        <input type="date" id="spHomeworkDate" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-family: inherit; color: #1e293b; background: white; box-sizing: border-box;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.70rem; color: #64748b; margin-bottom: 3px; font-weight: 700;">INSTRUCTIONS</label>
+                                        <textarea id="spHomeworkText" rows="2" placeholder="E.g., Practice the intro of Wonderwall, focusing on chord transitions..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.85rem; resize: vertical; color: #1e293b; box-sizing: border-box; background: white;"></textarea>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <button id="spAddHomeworkBtn" style="background: #1d4ed8; color: white; border: none; padding: 8px 16px; border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.85rem;">+ Assign Homework</button>
+                                    </div>
                                 </div>
                             </div>
-                            <label style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Instructions</label>
-                            <textarea id="spHomeworkText" rows="3" placeholder="E.g., Practice the intro of Wonderwall, focusing on chord transitions..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.85rem; resize: vertical; color: #1e293b; box-sizing: border-box; background: white;"></textarea>
+
+                            <!-- List of Homework Assignments -->
+                            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Assignments History</p>
+                            <div id="spHomeworkListContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Rendered by JS -->
+                            </div>
                         </div>
 
                         <!-- LINKS SECTION -->

@@ -7,6 +7,7 @@ class StudentDashboard {
         this.goalsHeaderTitle = document.getElementById('studentGoalsHeaderTitle');
         this.homeworkDate = document.getElementById('studentHomeworkDate');
         this.homeworkText = document.getElementById('studentHomeworkText');
+        this.homeworkListContainer = document.getElementById('studentHomeworkListContainer') || (this.homeworkText ? this.homeworkText.parentElement : null);
         this.linksContainer = document.getElementById('studentLinksContainer');
         this.assignedSongsContainer = document.getElementById('assignedSongsContainer');
         this.lessonsContainer = document.getElementById('studentLessonsContainer');
@@ -257,13 +258,69 @@ class StudentDashboard {
             }
         }
 
-        // Render Homework
-        if (progress.homework && progress.homework.text) {
-            this.homeworkDate.textContent = progress.homework.date ? `Due: ${progress.homework.date}` : '';
-            this.homeworkText.textContent = progress.homework.text;
+        // Render Homeworks List
+        const homeworks = progress.homeworks || [];
+        if (homeworks.length > 0) {
+            if (this.homeworkListContainer) {
+                this.homeworkListContainer.innerHTML = '';
+                homeworks.forEach(hw => {
+                    const hwEl = document.createElement('div');
+                    hwEl.style.cssText = 'background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; display: flex; align-items: flex-start; gap: 10px; box-sizing: border-box;';
+                    if (hw.completed) {
+                        hwEl.style.background = '#f1f5f9';
+                        hwEl.style.borderColor = '#cbd5e1';
+                        hwEl.style.opacity = '0.75';
+                    }
+                    
+                    const checkedIcon = hw.completed ? '✅' : '📌';
+                    const textDecoration = hw.completed ? 'line-through' : 'none';
+                    const textColor = hw.completed ? '#64748b' : '#1e293b';
+                    
+                    let dateStr = '';
+                    if (hw.date) {
+                        const dateObj = new Date(hw.date + 'T00:00:00');
+                        dateStr = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                    }
+                    
+                    hwEl.innerHTML = `
+                        <span style="font-size: 1.1rem; line-height: 1.2;">${checkedIcon}</span>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 0.9rem; color: ${textColor}; text-decoration: ${textDecoration}; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${hw.text}</div>
+                            ${dateStr ? `<div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px;">${dateStr}</div>` : ''}
+                        </div>
+                    `;
+                    this.homeworkListContainer.appendChild(hwEl);
+                });
+            }
+        } else if (progress.homework && progress.homework.text) {
+            // Fallback for legacy single homework
+            if (this.homeworkListContainer) {
+                this.homeworkListContainer.innerHTML = '';
+                const hwEl = document.createElement('div');
+                hwEl.style.cssText = 'background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; display: flex; align-items: flex-start; gap: 10px; box-sizing: border-box;';
+                
+                let dateStr = '';
+                if (progress.homework.date) {
+                    const dateObj = new Date(progress.homework.date + 'T00:00:00');
+                    dateStr = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                }
+                
+                hwEl.innerHTML = `
+                    <span style="font-size: 1.1rem; line-height: 1.2;">📌</span>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 0.9rem; color: #1e293b; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${progress.homework.text}</div>
+                        ${dateStr ? `<div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px;">${dateStr}</div>` : ''}
+                    </div>
+                `;
+                this.homeworkListContainer.appendChild(hwEl);
+            }
         } else {
-            this.homeworkDate.textContent = '';
-            this.homeworkText.textContent = 'No homework assigned.';
+            if (this.homeworkListContainer) {
+                this.homeworkListContainer.innerHTML = `
+                    <div id="studentHomeworkDate" style="font-size: 0.8rem; color: #3b82f6; font-weight: 600; margin-bottom: 6px;"></div>
+                    <div id="studentHomeworkText" style="font-size: 0.9rem; color: #1e293b; white-space: pre-wrap;">No homework assigned.</div>
+                `;
+            }
         }
 
         // Render Links

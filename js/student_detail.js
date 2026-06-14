@@ -7,6 +7,8 @@ class StudentDetailEditor {
         this.assignedSongsContainer = document.getElementById('spAssignedSongsContainer');
         this.homeworkDate = document.getElementById('spHomeworkDate');
         this.homeworkText = document.getElementById('spHomeworkText');
+        this.homeworkListContainer = document.getElementById('spHomeworkListContainer');
+        this.addHomeworkBtn = document.getElementById('spAddHomeworkBtn');
         this.linksContainer = document.getElementById('spLinksContainer');
         this.goalsContainer = document.getElementById('spGoalsContainer');
         this.goalsHeaderTitle = document.getElementById('spGoalsHeaderTitle');
@@ -198,28 +200,38 @@ class StudentDetailEditor {
             }
 
             this._currentProgress = result.progress || {};
+            
+            // Initialize/migrate homeworks list
+            if (!this._currentProgress.homeworks) {
+                this._currentProgress.homeworks = [];
+                if (this._currentProgress.homework && this._currentProgress.homework.text) {
+                    this._currentProgress.homeworks.push({
+                        id: 'hw_' + Date.now(),
+                        text: this._currentProgress.homework.text,
+                        date: this._currentProgress.homework.date || '',
+                        completed: false,
+                        created: Date.now()
+                    });
+                }
+            }
             if (!this._currentProgress.homework) {
                 this._currentProgress.homework = { text: '', date: '' };
-            } else {
-                this._currentProgress.homework = {
-                    text: (this._currentProgress.homework.text || '').trim(),
-                    date: this._currentProgress.homework.date || ''
-                };
             }
             if (!this._currentProgress.goals) this._currentProgress.goals = [];
             if (!this._currentProgress.links) this._currentProgress.links = [];
             if (!this._currentProgress.assignedSongs) this._currentProgress.assignedSongs = {};
             if (!this._currentProgress.assignedSetlists) this._currentProgress.assignedSetlists = {};
  
-            // Populate Homework Inputs
-            this.homeworkDate.value = this._currentProgress.homework.date || '';
-            this.homeworkText.value = this._currentProgress.homework.text || '';
+            // Populate Homework Inputs (start empty for new assignments)
+            this.homeworkDate.value = '';
+            this.homeworkText.value = '';
  
             // Render Lists
             this._renderGoals();
             this._renderLinks();
             this._renderAssignedSongs();
             this._renderAssignedSetlists();
+            this._renderHomeworks();
 
             // Store a deep clone AFTER rendering so checkDirtyState has the correct baseline
             // (rendering may trigger checkDirtyState, which needs _initialProgress to be set)
@@ -340,6 +352,34 @@ class StudentDetailEditor {
     }
 
     setupEventListeners() {
+        // Add Homework
+        if (this.addHomeworkBtn) {
+            this.addHomeworkBtn.addEventListener('click', () => {
+                const text = this.homeworkText.value.trim();
+                const date = this.homeworkDate.value;
+                if (!text) { alert('Please enter homework instructions.'); return; }
+                
+                if (!this._currentProgress.homeworks) {
+                    this._currentProgress.homeworks = [];
+                }
+                
+                const newHomework = {
+                    id: 'hw_' + Date.now(),
+                    text: text,
+                    date: date || '',
+                    completed: false,
+                    created: Date.now()
+                };
+                
+                this._currentProgress.homeworks.unshift(newHomework);
+                this.homeworkText.value = '';
+                this.homeworkDate.value = '';
+                
+                this._syncLegacyHomework();
+                this._renderHomeworks();
+            });
+        }
+
         // Add Goal
         if (this.addGoalBtn) {
             this.addGoalBtn.addEventListener('click', () => {
@@ -561,11 +601,25 @@ class StudentDetailEditor {
         // Save Progress
         if (this.saveBtn) {
             this.saveBtn.addEventListener('click', async () => {
-                // Collect homework
-                this._currentProgress.homework = {
-                    text: this.homeworkText.value.trim(),
-                    date: this.homeworkDate.value
-                };
+                // If there's pending text in the input, auto-assign it first
+                const pendingText = this.homeworkText.value.trim();
+                if (pendingText) {
+                    if (!this._currentProgress.homeworks) {
+                        this._currentProgress.homeworks = [];
+                    }
+                    const newHomework = {
+                        id: 'hw_' + Date.now(),
+                        text: pendingText,
+                        date: this.homeworkDate.value || '',
+                        completed: false,
+                        created: Date.now()
+                    };
+                    this._currentProgress.homeworks.unshift(newHomework);
+                    this.homeworkText.value = '';
+                    this.homeworkDate.value = '';
+                }
+
+                this._syncLegacyHomework();
 
                 this.saveBtn.textContent = 'Saving...';
                 this.saveBtn.disabled = true;
@@ -583,11 +637,13 @@ class StudentDetailEditor {
                         this.saveStatusText.style.color = '#16a34a';
                     }
 
+                    this._renderHomeworks();
+
                     setTimeout(() => {
                         this.saveBtn.innerHTML = '💾 SAVE';
                         this.saveBtn.style.background = '#3b82f6';
                         this.saveBtn.disabled = false;
-                        this.checkDirtyState(); // This will hide the button because it is now clean!
+                        this.checkDirtyState();
                     }, 2000);
                 } else {
                     alert('Save failed: ' + result.error);
@@ -752,16 +808,11 @@ class StudentDetailEditor {
     checkDirtyState() {
         if (!this._initialProgress || !this._currentProgress) return;
 
-        // Build temporary comparison progress object matching what we save
-        const comparisonProgress = {
-            ...this._currentProgress,
-            homework: {
-                text: this.homeworkText ? this.homeworkText.value.trim() : '',
-                date: this.homeworkDate ? this.homeworkDate.value : ''
-            }
-        };
+        // Check if there is any pending text in the assign box inputs
+        const pendingHomeworkText = this.homeworkText ? this.homeworkText.value.trim() : '';
 
-        const isDirty = JSON.stringify(this._initialProgress) !== JSON.stringify(comparisonProgress);
+        const isDirty = JSON.stringify(this._initialProgress) !== JSON.stringify(this._currentProgress) ||
+                        pendingHomeworkText.length > 0;
 
         if (isDirty) {
             if (this.saveBtn) this.saveBtn.classList.remove('hidden');
@@ -910,6 +961,82 @@ class StudentDetailEditor {
             this.assignedSetlistsContainer.appendChild(card);
         });
 
+        this.checkDirtyState();
+    }
+
+    _syncLegacyHomework() {
+        const homeworks = this._currentProgress.homeworks || [];
+        const activeHomework = homeworks.find(h => !h.completed) || homeworks[0] || null;
+        if (activeHomework) {
+            this._currentProgress.homework = {
+                text: activeHomework.text,
+                date: activeHomework.date
+            };
+        } else {
+            this._currentProgress.homework = { text: '', date: '' };
+        }
+    }
+
+    _renderHomeworks() {
+        const container = this.homeworkListContainer;
+        if (!container) return;
+        
+        container.innerHTML = '';
+        const homeworks = this._currentProgress.homeworks || [];
+        
+        if (homeworks.length === 0) {
+            container.innerHTML = '<p style="color: #64748b; font-size: 0.85rem; padding: 4px 0;">No homework assigned yet.</p>';
+            this.checkDirtyState();
+            return;
+        }
+        
+        homeworks.forEach((hw, idx) => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; align-items: flex-start; gap: 10px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-sizing: border-box;';
+            if (hw.completed) {
+                row.style.background = '#f8fafc';
+                row.style.borderColor = '#cbd5e1';
+                row.style.opacity = '0.8';
+            }
+            
+            const checkedAttr = hw.completed ? 'checked' : '';
+            const textDecoration = hw.completed ? 'line-through' : 'none';
+            const textColor = hw.completed ? '#64748b' : '#1e293b';
+            
+            let dateStr = '';
+            if (hw.date) {
+                const dateObj = new Date(hw.date + 'T00:00:00');
+                dateStr = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+            }
+            
+            row.innerHTML = `
+                <input type="checkbox" class="hw-complete-checkbox" ${checkedAttr} style="margin-top: 3px; cursor: pointer; width: 16px; height: 16px;">
+                <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: 0.85rem; color: ${textColor}; text-decoration: ${textDecoration}; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${hw.text}</div>
+                    ${dateStr ? `<div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px;">${dateStr}</div>` : ''}
+                </div>
+                <button class="del-hw-btn" style="background: none; border: none; cursor: pointer; color: #ef4444; font-size: 18px; line-height: 1; padding: 0 4px;" title="Delete Homework">&times;</button>
+            `;
+            
+            const checkbox = row.querySelector('.hw-complete-checkbox');
+            checkbox.addEventListener('change', (e) => {
+                hw.completed = e.target.checked;
+                this._syncLegacyHomework();
+                this._renderHomeworks();
+            });
+            
+            const delBtn = row.querySelector('.del-hw-btn');
+            delBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this homework assignment?')) {
+                    this._currentProgress.homeworks.splice(idx, 1);
+                    this._syncLegacyHomework();
+                    this._renderHomeworks();
+                }
+            });
+            
+            container.appendChild(row);
+        });
+        
         this.checkDirtyState();
     }
 }

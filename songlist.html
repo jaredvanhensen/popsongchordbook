@@ -6,8 +6,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Song List v3.092 - PopSongChordBook</title>
-    <meta name="version" content="3.092">
-    <meta name="application-version" content="v3.092">
+    <meta name="version" content="3.093">
+    <meta name="application-version" content="v3.093">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
     
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.092">
+    <link rel="stylesheet" href="styles.css?v=3.093">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -1623,8 +1623,10 @@
                             <!-- Homework Panel (filled by JS) -->
                             <div id="studentHomeworkPanel" class="hidden" style="margin-bottom: 12px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 14px;">
                                 <h5 style="color: #1d4ed8; margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">&#x1F4DA; Homework</h5>
-                                <div id="studentHomeworkDate" style="font-size: 0.8rem; color: #3b82f6; font-weight: 600; margin-bottom: 6px;"></div>
-                                <div id="studentHomeworkText" style="font-size: 0.9rem; color: #1e293b; white-space: pre-wrap;"></div>
+                                <div id="studentHomeworkListContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                                    <div id="studentHomeworkDate" style="font-size: 0.8rem; color: #3b82f6; font-weight: 600; margin-bottom: 6px;"></div>
+                                    <div id="studentHomeworkText" style="font-size: 0.9rem; color: #1e293b; white-space: pre-wrap;"></div>
+                                </div>
                             </div>
 
 
@@ -2767,43 +2769,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.092"></script>
+    <script src="js/config/firebase-config.js?v=3.093"></script>
  
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=3.092"></script>
-    <script src="js/models/SetlistManager.js?v=3.092"></script>
+    <script src="js/models/SongManager.js?v=3.093"></script>
+    <script src="js/models/SetlistManager.js?v=3.093"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=3.092"></script>
-    <script src="js/utils/Sorter.js?v=3.092"></script>
-    <script src="js/utils/ChordDetector.js?v=3.092"></script>
-    <script src="js/utils/KeyDetector.js?v=3.092"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.092"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.092"></script>
-    <script src="js/utils/MidiInputHandler.js?v=3.092"></script>
-    <script src="js/utils/LyricsParser.js?v=3.092"></script>
+    <script src="js/utils/SEO.js?v=3.093"></script>
+    <script src="js/utils/Sorter.js?v=3.093"></script>
+    <script src="js/utils/ChordDetector.js?v=3.093"></script>
+    <script src="js/utils/KeyDetector.js?v=3.093"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.093"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.093"></script>
+    <script src="js/utils/MidiInputHandler.js?v=3.093"></script>
+    <script src="js/utils/LyricsParser.js?v=3.093"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=3.092"></script>
-    <script src="js/ui/ChordModal.js?v=3.092"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.092"></script>
-    <script src="js/ui/TableRenderer.js?v=3.092"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.092"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.092"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.092"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.092"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.092"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.092"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.092"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.092"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.092"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.092"></script>
-    <script src="js/ui/AuthModal.js?v=3.092"></script>
-    <script src="js/ui/ProfileModal.js?v=3.092"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.092"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.092"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.092"></script>
+    <script src="js/utils/ChordParser.js?v=3.093"></script>
+    <script src="js/ui/ChordModal.js?v=3.093"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.093"></script>
+    <script src="js/ui/TableRenderer.js?v=3.093"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.093"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.093"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.093"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.093"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.093"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.093"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.093"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.093"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.093"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.093"></script>
+    <script src="js/ui/AuthModal.js?v=3.093"></script>
+    <script src="js/ui/ProfileModal.js?v=3.093"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.093"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.093"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.093"></script>
     <!-- Data -->
     <!-- Main App -->
-    <script src="js/app.js?v=3.092"></script>
+    <script src="js/app.js?v=3.093"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">

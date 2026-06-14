@@ -563,18 +563,64 @@ class ProfileModal {
         const homeworkPanel = document.getElementById('studentHomeworkPanel');
         const homeworkDateEl = document.getElementById('studentHomeworkDate');
         const homeworkTextEl = document.getElementById('studentHomeworkText');
+        const homeworkListContainer = document.getElementById('studentHomeworkListContainer') || (homeworkTextEl ? homeworkTextEl.parentElement : null);
 
-        const hw = progress.homework || {};
-        if ((hw.text && hw.text.trim()) || (hw.date && hw.date.trim())) {
-            if (homeworkDateEl) {
-                if (hw.date) {
-                    const dateObj = new Date(hw.date + 'T00:00:00');
-                    homeworkDateEl.textContent = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const homeworks = progress.homeworks || [];
+        const hwLegacy = progress.homework || {};
+
+        if (homeworks.length > 0 || (hwLegacy.text && hwLegacy.text.trim())) {
+            if (homeworkListContainer) {
+                homeworkListContainer.innerHTML = '';
+                if (homeworks.length > 0) {
+                    homeworks.forEach(hw => {
+                        const hwEl = document.createElement('div');
+                        hwEl.style.cssText = 'background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; box-sizing: border-box;';
+                        if (hw.completed) {
+                            hwEl.style.background = '#f1f5f9';
+                            hwEl.style.borderColor = '#cbd5e1';
+                            hwEl.style.opacity = '0.75';
+                        }
+                        
+                        const checkedIcon = hw.completed ? '✅' : '📌';
+                        const textDecoration = hw.completed ? 'line-through' : 'none';
+                        const textColor = hw.completed ? '#64748b' : '#1e293b';
+                        
+                        let dateStr = '';
+                        if (hw.date) {
+                            const dateObj = new Date(hw.date + 'T00:00:00');
+                            dateStr = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                        }
+                        
+                        hwEl.innerHTML = `
+                            <span style="font-size: 1rem; line-height: 1.2;">${checkedIcon}</span>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-size: 0.85rem; color: ${textColor}; text-decoration: ${textDecoration}; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${hw.text}</div>
+                                ${dateStr ? `<div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 2px;">${dateStr}</div>` : ''}
+                            </div>
+                        `;
+                        homeworkListContainer.appendChild(hwEl);
+                    });
                 } else {
-                    homeworkDateEl.textContent = '';
+                    // Legacy single homework fallback
+                    const hwEl = document.createElement('div');
+                    hwEl.style.cssText = 'background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe; display: flex; align-items: flex-start; gap: 8px; box-sizing: border-box;';
+                    
+                    let dateStr = '';
+                    if (hwLegacy.date) {
+                        const dateObj = new Date(hwLegacy.date + 'T00:00:00');
+                        dateStr = 'Due: ' + dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+                    }
+                    
+                    hwEl.innerHTML = `
+                        <span style="font-size: 1rem; line-height: 1.2;">📌</span>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 0.85rem; color: #1e293b; white-space: pre-wrap; word-break: break-word; line-height: 1.4;">${hwLegacy.text}</div>
+                            ${dateStr ? `<div style="font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 2px;">${dateStr}</div>` : ''}
+                        </div>
+                    `;
+                    homeworkListContainer.appendChild(hwEl);
                 }
             }
-            if (homeworkTextEl) homeworkTextEl.textContent = hw.text || '';
             if (homeworkPanel) homeworkPanel.classList.remove('hidden');
         } else {
             if (homeworkPanel) homeworkPanel.classList.add('hidden');
