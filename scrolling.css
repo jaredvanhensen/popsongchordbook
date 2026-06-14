@@ -1048,6 +1048,11 @@ body.is-mobile-landscape .audition-keyboard {
     display: none !important;
 }
 
+body.dual-instrument-active .audition-keyboard {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
 /* Guitar Chord Diagram - mirrors audition keyboard position in guitar mode */
 .audition-guitar-diagram {
     position: absolute;

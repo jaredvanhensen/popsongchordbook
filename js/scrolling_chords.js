@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.077)
+// Scrolling Chords Logic (v3.095)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -220,8 +220,12 @@ let currentInstrumentMode = 'piano';
 
 function syncInstrumentModeClass() {
     if (typeof document !== 'undefined' && document.body) {
-        document.body.classList.remove('instrument-mode-piano', 'instrument-mode-guitar', 'instrument-mode-ukulele');
+        document.body.classList.remove('instrument-mode-piano', 'instrument-mode-guitar', 'instrument-mode-ukulele', 'dual-instrument-active');
         document.body.classList.add(`instrument-mode-${currentInstrumentMode}`);
+        const isDualInstrumentEnabled = localStorage.getItem('feature-dual-instrument-enabled-global') === 'true';
+        if (isDualInstrumentEnabled) {
+            document.body.classList.add('dual-instrument-active');
+        }
     }
 }
 
@@ -428,6 +432,12 @@ window.addEventListener('message', (event) => {
         window.lastAuditionChordName = null;
         renderStaticElements();
         updateLoop();
+    }
+    else if (msg.type === 'setDualInstrument') {
+        syncInstrumentModeClass();
+        if (typeof updateAuditionKeyboardChord === 'function') {
+            updateAuditionKeyboardChord(window.lastAuditionChordName || '');
+        }
     }
     else if (msg.type === 'setCapoValue') {
         currentCapoValue = parseInt(msg.capo) || 0;
@@ -1850,7 +1860,7 @@ function updateAuditionKeyboardChord(chordName) {
     const keyboard = document.getElementById('auditionKeyboard');
     const guitarDiagram = document.getElementById('auditionGuitarDiagram');
 
-    const isGuitar = currentInstrumentMode === 'guitar';
+    const isDualInstrumentEnabled = localStorage.getItem('feature-dual-instrument-enabled-global') === 'true';
 
     // If in edit mode, hide guitar diagram but ALWAYS show keyboard
     if (isEditMode) {
@@ -1863,65 +1873,62 @@ function updateAuditionKeyboardChord(chordName) {
         }
     }
 
-    // --- GUITAR MODE: show diagram, hide keyboard (PLAY mode only) ---
-    if (isGuitar && !isEditMode) {
-        if (keyboard) keyboard.style.display = 'none';
-        if (!guitarDiagram) return;
+    const showGuitarDiagram = (currentInstrumentMode === 'guitar' || currentInstrumentMode === 'ukulele' || isDualInstrumentEnabled) && !isEditMode;
+    const showKeyboard = (currentInstrumentMode === 'piano' || isDualInstrumentEnabled || isEditMode);
 
+    // --- RENDER GUITAR/UKULELE DIAGRAM ---
+    if (showGuitarDiagram && guitarDiagram) {
         guitarDiagram.style.display = '';
-
         if (!chordName || chordName === '') {
-            guitarDiagram.classList.add('hidden'); // HIDE container when empty!
+            guitarDiagram.classList.add('hidden');
             guitarDiagram.innerHTML = '';
-            return;
-        }
-
-        // Make the diagram container visible (CSS media query controls actual visibility)
-        guitarDiagram.classList.remove('hidden');
-
-        // Use GuitarRenderer + GuitarChordDatabase (same as Chord Trainer)
-        if (!window.GuitarRenderer || !window.GuitarChordDatabase) {
-            guitarDiagram.innerHTML = '';
-            return;
-        }
-
-        const renderer = new GuitarRenderer();
-        const db = window.GuitarChordDatabase;
-
-        let displayChordName = chordName;
-        if (currentCapoValue !== 0 && chordParser) {
-            displayChordName = chordParser.transpose(displayChordName, -currentCapoValue);
-        }
-
-        // Simplify name for DB lookup (strip inversion number: D2 -> D, Dm2 -> Dm)
-        const simpleName = displayChordName.split('/').map(part => {
-            const lowPart = part.toLowerCase();
-            if (lowPart.includes('sus') || lowPart.includes('add')) return part;
-            return part.replace(/([23])$/, '');
-        }).join('/');
-
-        const fingering = db[displayChordName] || db[simpleName] || db[simpleName.split('/')[0]];
-
-        if (fingering) {
-            const svgHtml = renderer.renderSVG(fingering);
-            const displayName = simpleName.split('/')[0]; // Show just the main chord name
-            guitarDiagram.innerHTML = `<div class="agd-chord-name">${displayName}</div>${svgHtml}`;
         } else {
-            // Chord not in database — show name only
-            guitarDiagram.innerHTML = `<div class="agd-chord-name" style="font-size:1rem;margin-top:20px;">${simpleName}</div>`;
+            guitarDiagram.classList.remove('hidden');
+            const isUkuleleMode = (currentInstrumentMode === 'ukulele');
+            const renderer = isUkuleleMode && window.UkuleleRenderer ? new window.UkuleleRenderer() : (window.GuitarRenderer ? new window.GuitarRenderer() : null);
+            const db = isUkuleleMode ? window.UkuleleChordDatabase : window.GuitarChordDatabase;
+
+            if (renderer && db) {
+                let displayChordName = chordName;
+                if (!isUkuleleMode && currentCapoValue !== 0 && chordParser) {
+                    displayChordName = chordParser.transpose(displayChordName, -currentCapoValue);
+                }
+
+                // Simplify name for DB lookup (strip inversion number: D2 -> D, Dm2 -> Dm)
+                const simpleName = displayChordName.split('/').map(part => {
+                    const lowPart = part.toLowerCase();
+                    if (lowPart.includes('sus') || lowPart.includes('add')) return part;
+                    return part.replace(/([23])$/, '');
+                }).join('/');
+
+                const fingering = db[displayChordName] || db[simpleName] || db[simpleName.split('/')[0]];
+
+                if (fingering) {
+                    const svgHtml = renderer.renderSVG(fingering);
+                    const displayName = simpleName.split('/')[0];
+                    guitarDiagram.innerHTML = `<div class="agd-chord-name">${displayName}</div>${svgHtml}`;
+                } else {
+                    guitarDiagram.innerHTML = `<div class="agd-chord-name" style="font-size:1rem;margin-top:20px;">${simpleName}</div>`;
+                }
+            } else {
+                guitarDiagram.innerHTML = '';
+            }
+        }
+    } else if (guitarDiagram && !isEditMode) {
+        guitarDiagram.classList.add('hidden');
+        guitarDiagram.innerHTML = '';
+        guitarDiagram.style.display = 'none';
+    }
+
+    // --- RENDER PIANO KEYBOARD HIGHLIGHTS ---
+    if (!showKeyboard || !keyboard || !chordParser) {
+        if (keyboard && !isEditMode && !showKeyboard) {
+            keyboard.style.display = 'none';
         }
         return;
     }
 
-    // --- PIANO / UKULELE MODE: show keyboard, hide diagram ---
-    if (guitarDiagram) {
-        guitarDiagram.classList.add('hidden');
-        guitarDiagram.innerHTML = '';
-    }
-    if (!keyboard || !chordParser) return;
-
-    // Ensure keyboard is visible (may have been hidden by guitar mode)
-    // (CSS media query controls the real visibility; just clear forced inline hide)
+    // Ensure keyboard is visible
     keyboard.style.display = isEditMode ? 'block' : '';
 
     // Clear all existing highlights
@@ -2015,13 +2022,18 @@ function updateAuditionKeyboardChord(chordName) {
  */
 function clearAuditionKeyboardHighlights() {
     const keyboard = document.getElementById('auditionKeyboard');
+    const isDualInstrumentEnabled = localStorage.getItem('feature-dual-instrument-enabled-global') === 'true';
     if (keyboard) {
         keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
-        keyboard.style.display = '';
+        if (!isDualInstrumentEnabled) {
+            keyboard.style.display = '';
+        }
     }
     const guitarDiagram = document.getElementById('auditionGuitarDiagram');
     if (guitarDiagram) {
-        guitarDiagram.style.display = 'none';
+        if (!isDualInstrumentEnabled) {
+            guitarDiagram.style.display = 'none';
+        }
         guitarDiagram.innerHTML = '';
     }
     // Reset proximity anchor so the next song/session starts fresh

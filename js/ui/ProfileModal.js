@@ -82,6 +82,7 @@ class ProfileModal {
         this.songMapToggle = document.getElementById('profileSongMapToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
         this.notesToggle = document.getElementById('profileNotesToggle');
+        this.dualInstrumentToggle = document.getElementById('profileDualInstrumentToggle');
         this.audioQualitySelect = document.getElementById('profileAudioQualitySelect');
         this.audioQualityDesc = document.getElementById('audioQualityDesc');
 
@@ -331,6 +332,29 @@ class ProfileModal {
                     if (songKeyboardSection) {
                         songKeyboardSection.classList.toggle('hidden', !isEnabled);
                     }
+                }
+            });
+        }
+
+        if (this.dualInstrumentToggle) {
+            this.dualInstrumentToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-dual-instrument-enabled-${uid}`, isEnabled);
+                localStorage.setItem(`feature-dual-instrument-enabled-global`, isEnabled);
+                
+                // Post message to the timeline if active in an iframe
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.scrollingChordsFrame) {
+                    try {
+                        const frame = window.appInstance.songDetailModal.scrollingChordsFrame;
+                        if (frame && frame.contentWindow) {
+                            frame.contentWindow.postMessage({
+                                type: 'setDualInstrument',
+                                enabled: isEnabled
+                            }, '*');
+                        }
+                    } catch (err) {}
                 }
             });
         }
@@ -802,6 +826,11 @@ class ProfileModal {
         if (this.notesToggle) {
             // Default to false (OFF) as requested
             this.notesToggle.checked = localStorage.getItem(`feature-notes-enabled-${uid}`) === 'true';
+        }
+
+        if (this.dualInstrumentToggle) {
+            // Default to false (OFF) as requested
+            this.dualInstrumentToggle.checked = localStorage.getItem(`feature-dual-instrument-enabled-${uid}`) === 'true';
         }
 
         if (this.audioQualitySelect) {
