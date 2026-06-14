@@ -5058,29 +5058,39 @@ function updateLoop() {
         let line1Text = '';
         let line2Text = '';
 
-        // Priority Logic:
-        // 1. If we have an active lyric that started less than 10 seconds ago, Line 1 shows IT.
-        if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 10) {
-            line1Text = parsedLyrics[activeIdx].text;
-            if (nextIdx !== -1) {
-                line2Text = parsedLyrics[nextIdx].text;
-            }
-        } 
-        // 2. If no active lyric (pre-song) or it's old (solo), check for a 5s heads-up for the NEXT lyric.
-        else if (nextIdx !== -1 && parsedLyrics[nextIdx].time <= playbackTime + 5) {
-            line1Text = parsedLyrics[nextIdx].text;
-            if (nextIdx + 1 < parsedLyrics.length) {
-                line2Text = parsedLyrics[nextIdx + 1].text;
-            }
-        }
-        // 3. Otherwise, Line 1 is empty (solo gap), Line 2 shows the next one coming up eventually.
-        else {
+        // Check if we haven't reached the first lyric yet
+        if (playbackTime < firstLyricTime) {
             line1Text = '';
-            if (nextIdx !== -1) {
-                line2Text = parsedLyrics[nextIdx].text;
-            } else if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 15) {
-                // Keep the very last lyric on line 1 for a bit longer at the final end
+            if (playbackTime >= firstLyricTime - 4) {
+                line2Text = parsedLyrics[0].text;
+            } else {
+                line2Text = '';
+            }
+        } else {
+            // Priority Logic for active/subsequent lyrics:
+            // 1. If we have an active lyric that started less than 10 seconds ago, Line 1 shows IT.
+            if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 10) {
                 line1Text = parsedLyrics[activeIdx].text;
+                if (nextIdx !== -1) {
+                    line2Text = parsedLyrics[nextIdx].text;
+                }
+            } 
+            // 2. If no active lyric (pre-song) or it's old (solo), check for a 5s heads-up for the NEXT lyric.
+            else if (nextIdx !== -1 && parsedLyrics[nextIdx].time <= playbackTime + 5) {
+                line1Text = parsedLyrics[nextIdx].text;
+                if (nextIdx + 1 < parsedLyrics.length) {
+                    line2Text = parsedLyrics[nextIdx + 1].text;
+                }
+            }
+            // 3. Otherwise, Line 1 is empty (solo gap), Line 2 shows the next one coming up eventually.
+            else {
+                line1Text = '';
+                if (nextIdx !== -1) {
+                    line2Text = parsedLyrics[nextIdx].text;
+                } else if (activeIdx !== -1 && (playbackTime - parsedLyrics[activeIdx].time) < 15) {
+                    // Keep the very last lyric on line 1 for a bit longer at the final end
+                    line1Text = parsedLyrics[activeIdx].text;
+                }
             }
         }
 
@@ -5095,7 +5105,7 @@ function updateLoop() {
         }
 
         // HUD Visibility Logic (Sync with lookahead)
-        const shouldShowHUD = playbackTime >= firstLyricTime - 5;
+        const shouldShowHUD = playbackTime >= firstLyricTime - 4;
         if (shouldShowHUD) {
             if (lyricsHUD.classList.contains('hidden')) lyricsHUD.classList.remove('hidden');
         } else {

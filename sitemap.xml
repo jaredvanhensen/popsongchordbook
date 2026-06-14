@@ -73,6 +73,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/alana-springsteen-while-youre-at-it</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/alanis-morissette-ironic</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -109,6 +114,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/america-horse-with-no-name</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/american-young-some-girl</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2448,6 +2458,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/alana-springsteen</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/alanis-morissette</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -2474,6 +2489,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/america</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/american-young</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
