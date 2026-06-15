@@ -54,7 +54,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.101");
+        console.log("Pop Song Chord Book - 3.102");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';

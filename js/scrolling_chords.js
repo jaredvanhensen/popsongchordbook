@@ -111,6 +111,7 @@ const syncFirstLyricBtn = document.getElementById('syncFirstLyricBtn');
 let isPublicMode = false;
 let canEditPublic = false;
 let currentCapoValue = 0; // The Capo value from the parent modal (Guitar only)
+let simplifyChordsMode = false;
 let currentTeacherNotes = '';
 let timelineNotes = []; // Array of { id: string, time: number, text: string }
 let currentEditingNoteId = null; // Track note currently being created/edited
@@ -229,6 +230,14 @@ function syncInstrumentModeClass() {
     }
 }
 
+function simplifyChord(name) {
+    if (!name) return "";
+    let baseChord = name.split('/')[0].trim();
+    const match = baseChord.match(/^([A-G][b#]?(?:m(?!a))?)/);
+    if (match) return match[1];
+    return baseChord.replace(/\d+$/, '').replace(/maj$/i, '').replace(/add$/i, '');
+}
+
 function simplifyDisplayName(chordName, isForAudio = false) {
     if (!chordName) return chordName;
     
@@ -242,14 +251,16 @@ function simplifyDisplayName(chordName, isForAudio = false) {
         }
     }
 
-    if (currentInstrumentMode === 'guitar') {
-        return resultName.split('/').map(part => {
+    if (typeof simplifyChordsMode !== 'undefined' && simplifyChordsMode) {
+        resultName = simplifyChord(resultName);
+    } else if (currentInstrumentMode === 'guitar') {
+        resultName = resultName.split('/').map(part => {
             const lowPart = part.toLowerCase();
             if (lowPart.includes('sus') || lowPart.includes('add')) return part;
             return part.replace(/([23])$/, '');
         }).join('/');
     } else if (currentInstrumentMode === 'ukulele') {
-        return resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
+        resultName = resultName.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
     }
     return resultName;
 }
@@ -325,6 +336,7 @@ window.addEventListener('message', (event) => {
         if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
         if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
+        if (msg.simplifyChords !== undefined) simplifyChordsMode = !!msg.simplifyChords;
         if (msg.timelineNotes !== undefined) {
             timelineNotes = Array.isArray(msg.timelineNotes) ? msg.timelineNotes : [];
         } else if (msg.teacherNotes !== undefined) {

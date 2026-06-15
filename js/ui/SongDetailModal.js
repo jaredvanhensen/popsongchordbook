@@ -26,6 +26,8 @@ class SongDetailModal {
         this.artistElement = document.getElementById('songDetailArtist');
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
+        this.simplifyBtn = document.getElementById('songDetailSimplifyBtn');
+        this.simplifyChords = false;
         this.chordSearchBtn = document.getElementById('menuSearchGoogle');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
         this.keyDisplay = document.getElementById('songDetailKeyDisplay');
@@ -775,6 +777,13 @@ class SongDetailModal {
             this.favoriteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggleFavorite();
+            });
+        }
+
+        if (this.simplifyBtn) {
+            this.simplifyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleSimplifyChords(this.currentSongId);
             });
         }
 
@@ -2132,7 +2141,20 @@ class SongDetailModal {
             // Text mode
             const textSpan = document.createElement('span');
             textSpan.className = 'chord-text-notation';
-            textSpan.textContent = items.join(' ');
+            let displayText = items.map(item => {
+                const trimmed = item.trim();
+                if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
+                
+                let c = trimmed;
+                if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
+                    c = this.chordParser.transpose(c, -this.capoValue);
+                }
+                if (this.simplifyChords) {
+                    c = this.simplifyChord(c);
+                }
+                return c;
+            }).join(' ');
+            textSpan.textContent = displayText;
             section.content.appendChild(textSpan);
             return;
         }
@@ -2203,6 +2225,9 @@ class SongDetailModal {
                             } else if (this.instrumentMode === 'ukulele') {
                                 cleanP = cleanP.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                             }
+                            if (this.simplifyChords) {
+                                cleanP = this.simplifyChord(cleanP);
+                            }
                             this.createChordButton(section, key, cleanP, p);
                         }
                     });
@@ -2222,7 +2247,9 @@ class SongDetailModal {
                     } else if (this.instrumentMode === 'ukulele') {
                         cleanChord = cleanChord.split('/').map(part => part.replace(/^([A-G][b#]?)[237]$/, '$1')).join('/');
                     }
-
+                    if (this.simplifyChords) {
+                        cleanChord = this.simplifyChord(cleanChord);
+                    }
                     this.createChordButton(section, key, cleanChord, item.trim());
                 }
             }
@@ -3729,6 +3756,7 @@ class SongDetailModal {
             key: this.getSongKey() || 'C',
             capo: this.capoValue || 0,
             isPublic: !!song.isPublic,
+            simplifyChords: !!this.simplifyChords,
             canEdit: this.songManager.canEditPublicSong(song),
             uid: this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser()?.uid : 'guest',
             teacherNotes: song.teacherNotes || '',
@@ -3834,6 +3862,8 @@ class SongDetailModal {
         this.currentSongId = song.id;
         this.capoValue = parseInt(song.capo) || 0; // Load Capo from song
         this.updateCapoUI();
+        this.simplifyChords = this.getSimplifyChords(song.id);
+        this.updateSimplifyUI();
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
         this.isPracticeRandomMode = isPracticeRandomMode;
@@ -4310,6 +4340,47 @@ class SongDetailModal {
         } else {
             this.favoriteBtn.classList.remove('favorite-active');
         }
+    }
+
+    getSimplifyChords(songId) {
+        if (!songId) return false;
+        return localStorage.getItem(`simplify-chords-${songId}`) === 'true';
+    }
+
+    toggleSimplifyChords(songId) {
+        if (!songId) return;
+        const current = this.getSimplifyChords(songId);
+        this.simplifyChords = !current;
+        localStorage.setItem(`simplify-chords-${songId}`, this.simplifyChords ? 'true' : 'false');
+        
+        this.updateSimplifyUI();
+        
+        // Re-render blocks
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            this.renderChordBlock(key, section.editInput.value);
+        });
+
+        // Update Timeline if active
+        this.sendDataToTimeline();
+    }
+
+    updateSimplifyUI() {
+        if (!this.simplifyBtn) return;
+        this.simplifyBtn.classList.toggle('active', !!this.simplifyChords);
+        if (this.simplifyChords) {
+            this.simplifyBtn.title = 'Chords simplified (click to restore extensions)';
+        } else {
+            this.simplifyBtn.title = 'Simplify chords (remove extensions)';
+        }
+    }
+
+    simplifyChord(name) {
+        if (!name) return "";
+        let baseChord = name.split('/')[0].trim();
+        const match = baseChord.match(/^([A-G][b#]?(?:m(?!a))?)/);
+        if (match) return match[1];
+        return baseChord.replace(/\d+$/, '').replace(/maj$/i, '').replace(/add$/i, '');
     }
 
 

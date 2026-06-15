@@ -5673,12 +5673,14 @@ td:has(.row-edit-input.input-focused) {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.song-detail-action-btn.favorite-active {
+.song-detail-action-btn.favorite-active,
+.song-detail-action-btn.active {
     color: #fbbf24;
     text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
 }
 
-.song-detail-action-btn.favorite-active:hover {
+.song-detail-action-btn.favorite-active:hover,
+.song-detail-action-btn.active:hover {
     color: #f59e0b;
     text-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
 }
