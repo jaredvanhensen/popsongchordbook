@@ -76,6 +76,16 @@ class ProfileModal {
         this.membersEmptyMsg = document.getElementById('adminMembersEmpty');
         this.membersCloseBtn = document.getElementById('adminMembersModalClose');
 
+        // Login Statistics elements
+        this.membersStatsBtn = document.getElementById('adminMembersStatsBtn');
+        this.membersTableView = document.getElementById('adminMembersTableView');
+        this.membersStatsView = document.getElementById('adminMembersStatsView');
+        this.btnStatsTabLogins = document.getElementById('btnStatsTabLogins');
+        this.btnStatsTabJoined = document.getElementById('btnStatsTabJoined');
+        this.isShowingStats = false;
+        this.statsActiveTab = 'logins';
+        this.cachedUsers = [];
+
         // Feature Toggles
         this.timelineAudioToggle = document.getElementById('profileTimelineAudioToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
@@ -409,9 +419,28 @@ class ProfileModal {
             });
         }
 
+        if (this.membersStatsBtn) {
+            this.membersStatsBtn.addEventListener('click', () => {
+                this.toggleMembersStatsView();
+            });
+        }
+
+        if (this.btnStatsTabLogins) {
+            this.btnStatsTabLogins.addEventListener('click', () => {
+                this.switchStatsTab('logins');
+            });
+        }
+
+        if (this.btnStatsTabJoined) {
+            this.btnStatsTabJoined.addEventListener('click', () => {
+                this.switchStatsTab('joined');
+            });
+        }
+
         if (this.membersCloseBtn) {
             this.membersCloseBtn.addEventListener('click', () => {
                 if (this.membersModal) this.membersModal.classList.add('hidden');
+                this.resetMembersModalView();
             });
         }
 
@@ -419,6 +448,7 @@ class ProfileModal {
             this.membersModal.addEventListener('click', (e) => {
                 if (e.target === this.membersModal) {
                     this.membersModal.classList.add('hidden');
+                    this.resetMembersModalView();
                 }
             });
         }
@@ -920,8 +950,68 @@ class ProfileModal {
     async showMembersModal() {
         if (!this.membersModal) return;
 
+        this.resetMembersModalView();
         this.membersModal.classList.remove('hidden');
         this.renderMembers();
+    }
+
+    resetMembersModalView() {
+        this.isShowingStats = false;
+        this.statsActiveTab = 'logins';
+        if (this.btnStatsTabLogins && this.btnStatsTabJoined) {
+            this.btnStatsTabLogins.classList.add('active');
+            this.btnStatsTabJoined.classList.remove('active');
+        }
+        if (this.membersTableView) this.membersTableView.classList.remove('hidden');
+        if (this.membersStatsView) this.membersStatsView.classList.add('hidden');
+        if (this.membersStatsBtn) {
+            this.membersStatsBtn.textContent = 'Statistics';
+            this.membersStatsBtn.className = 'modal-header-btn share-btn';
+        }
+    }
+
+    toggleMembersStatsView() {
+        this.isShowingStats = !this.isShowingStats;
+        if (this.isShowingStats) {
+            if (this.membersTableView) this.membersTableView.classList.add('hidden');
+            if (this.membersStatsView) this.membersStatsView.classList.remove('hidden');
+            if (this.membersStatsBtn) {
+                this.membersStatsBtn.textContent = 'View List';
+                this.membersStatsBtn.className = 'modal-header-btn cancel-btn';
+            }
+            if (this.cachedUsers) {
+                this.renderMembersStats(this.cachedUsers);
+            }
+        } else {
+            if (this.membersTableView) this.membersTableView.classList.remove('hidden');
+            if (this.membersStatsView) this.membersStatsView.classList.add('hidden');
+            if (this.membersStatsBtn) {
+                this.membersStatsBtn.textContent = 'Statistics';
+                this.membersStatsBtn.className = 'modal-header-btn share-btn';
+            }
+            if (this.cachedUsers) {
+                this.renderMembersTable(this.cachedUsers);
+            }
+        }
+    }
+
+    switchStatsTab(tabName) {
+        if (this.statsActiveTab === tabName) return;
+        this.statsActiveTab = tabName;
+        
+        if (this.btnStatsTabLogins && this.btnStatsTabJoined) {
+            if (tabName === 'logins') {
+                this.btnStatsTabLogins.classList.add('active');
+                this.btnStatsTabJoined.classList.remove('active');
+            } else {
+                this.btnStatsTabLogins.classList.remove('active');
+                this.btnStatsTabJoined.classList.add('active');
+            }
+        }
+        
+        if (this.cachedUsers) {
+            this.renderMembersStats(this.cachedUsers);
+        }
     }
 
     async renderMembers() {
@@ -931,128 +1021,279 @@ class ProfileModal {
 
         try {
             const users = await this.firebaseManager.getAllUsers();
-            this.membersTableBody.innerHTML = '';
+            this.cachedUsers = users;
 
-            if (users.length === 0) {
-                this.membersEmptyMsg?.classList.remove('hidden');
-                return;
+            if (this.isShowingStats) {
+                this.renderMembersStats(users);
+            } else {
+                this.renderMembersTable(users);
             }
-
-            this.membersEmptyMsg?.classList.add('hidden');
-
-            this.updateMembersSortIcons();
-
-            // 1. Filter out the admin themselves (jared@vanhensen.nl) to keep the list focused on others
-            const adminEmail = 'jared@vanhensen.nl';
-            let filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
-
-            // 2. Count occurrences of each email to identify duplicates
-            const emailCounts = {};
-            filtered.forEach(u => {
-                const email = (u.email || 'Anon').toLowerCase();
-                emailCounts[email] = (emailCounts[email] || 0) + 1;
-            });
-
-            // 2.5. Calculate chronological rank based on creation date ascending
-            const chronological = [...filtered].sort((a, b) => {
-                const dateA = a.createdAt || 0;
-                const dateB = b.createdAt || 0;
-                return dateA - dateB;
-            });
-            chronological.forEach((user, index) => {
-                user.chronoIndex = index + 1;
-            });
-
-            // 3. Sort dynamically
-            const sorted = filtered.sort((a, b) => {
-                let valA = a[this.membersSortField];
-                let valB = b[this.membersSortField];
-
-                // Handle missing values
-                if (valA === undefined || valA === null) valA = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
-                if (valB === undefined || valB === null) valB = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
-
-                if (typeof valA === 'string') {
-                    return this.membersSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                } else {
-                    return this.membersSortAsc ? valA - valB : valB - valA;
-                }
-            });
-
-            sorted.forEach((user, index) => {
-                const email = (user.email || 'Anon').toLowerCase();
-                const isDuplicate = emailCounts[email] > 1 && email !== 'anon';
-                const dateStr = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: '2-digit'
-                }) : 'Unknown';
-
-                const lastLoginStr = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString(undefined, {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: '2-digit'
-                }) : '-';
-                
-                const displayEmail = email.length > 25 ? email.substring(0, 22) + '...' : email;
-
-                const tr = document.createElement('tr');
-                if (isDuplicate) {
-                    tr.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; // Light red background for duplicates
-                }
-
-                tr.innerHTML = `
-                    <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${user.chronoIndex}</td>
-                    <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
-                        ${displayEmail}
-                        ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
-                    </td>
-                    <td style="white-space: nowrap; font-size: 0.9em; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="${user.referral || ''}">${user.referral || '-'}</td>
-                    <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
-                    <td style="white-space: nowrap; font-size: 0.85em; width: 80px;" title="${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'}">${lastLoginStr}</td>
-                    <td class="request-actions" style="text-align: center;">
-                        <button class="action-btn delete-member-btn" 
-                                title="Delete Member" 
-                                data-uid="${user.uid}"
-                                data-email="${user.email || ''}"
-                                style="cursor: pointer; font-size: 1.2em; border: none; background: transparent;">
-                            🗑️
-                        </button>
-                    </td>
-                `;
-                this.membersTableBody.appendChild(tr);
-            });
-
-            // Add event listeners for delete buttons
-            this.membersTableBody.querySelectorAll('.delete-member-btn').forEach(btn => {
-                btn.onmouseenter = (e) => e.target.style.transform = 'scale(1.1)';
-                btn.onmouseleave = (e) => e.target.style.transform = 'scale(1)';
-                btn.onclick = (e) => {
-                    const uid = e.currentTarget.dataset.uid;
-                    const email = e.currentTarget.dataset.email;
-                    this.confirmationModal.show(
-                        'Delete Member',
-                        `Are you sure you want to remove <strong>${email}</strong> from the database?<br><br>This action cannot be undone.`,
-                        async () => {
-                            const result = await this.firebaseManager.deleteUserByAdmin(uid, email);
-                            if (result.success) {
-                                this.renderMembers();
-                            } else {
-                                alert('Error deleting member: ' + result.error);
-                            }
-                        },
-                        null,
-                        'Delete',
-                        'Cancel',
-                        'danger'
-                     );
-                };
-            });
-
         } catch (error) {
             console.error('Error rendering members:', error);
             this.membersTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #ef4444; padding: 20px;">Error loading members.</td></tr>';
         }
+    }
+
+    renderMembersStats(users) {
+        // 1. Filter out the admin themselves (jared@vanhensen.nl)
+        const adminEmail = 'jared@vanhensen.nl';
+        const filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
+
+        // Update Summary Cards
+        const totalUsers = filtered.length;
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+
+        const activeToday = filtered.filter(u => u.lastLogin && u.lastLogin >= startOfToday).length;
+        const active7d = filtered.filter(u => u.lastLogin && u.lastLogin >= sevenDaysAgo).length;
+        const active30d = filtered.filter(u => u.lastLogin && u.lastLogin >= thirtyDaysAgo).length;
+
+        const totalUsersEl = document.getElementById('statsTotalUsers');
+        const activeTodayEl = document.getElementById('statsActiveToday');
+        const active7dEl = document.getElementById('statsActive7d');
+        const active30dEl = document.getElementById('statsActive30d');
+
+        if (totalUsersEl) totalUsersEl.textContent = totalUsers;
+        if (activeTodayEl) activeTodayEl.textContent = activeToday;
+        if (active7dEl) active7dEl.textContent = active7d;
+        if (active30dEl) active30dEl.textContent = active30d;
+
+        // Update Chart Title
+        const statsChartTitleEl = document.getElementById('statsChartTitle');
+        if (statsChartTitleEl) {
+            statsChartTitleEl.textContent = this.statsActiveTab === 'logins'
+                ? 'Daily Login Activity (Last 30 Days)'
+                : 'New Members per Day (Last 30 Days)';
+        }
+
+        // 2. Generate daily count map for the last 30 days
+        const dailyData = {};
+        for (let i = 29; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            const dateKey = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+            dailyData[dateKey] = {
+                dateString: dateKey,
+                label: d.toLocaleDateString(undefined, { day: '2-digit', month: 'short' }),
+                count: 0
+            };
+        }
+
+        filtered.forEach(u => {
+            const timestamp = this.statsActiveTab === 'logins' ? u.lastLogin : u.createdAt;
+            if (!timestamp) return;
+            const d = new Date(timestamp);
+            const dateKey = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+            if (dailyData[dateKey]) {
+                dailyData[dateKey].count++;
+            }
+        });
+
+        const dataArray = Object.values(dailyData);
+        const maxCount = Math.max(...dataArray.map(item => item.count), 1);
+
+        // Render Y-Axis
+        const yAxisEl = document.getElementById('statsChartYAxis');
+        if (yAxisEl) {
+            yAxisEl.innerHTML = `
+                <div>${maxCount}</div>
+                <div>${Math.round(maxCount * 0.75)}</div>
+                <div>${Math.round(maxCount * 0.5)}</div>
+                <div>${Math.round(maxCount * 0.25)}</div>
+                <div>0</div>
+            `;
+        }
+
+        // Render Grid and Bars
+        const gridContainerEl = document.getElementById('statsChartGridContainer');
+        if (gridContainerEl) {
+            gridContainerEl.innerHTML = '';
+            
+            // Grid Lines
+            const gridLines = document.createElement('div');
+            gridLines.className = 'stats-chart-grid-lines';
+            gridLines.innerHTML = `
+                <div class="stats-chart-grid-line"></div>
+                <div class="stats-chart-grid-line"></div>
+                <div class="stats-chart-grid-line"></div>
+                <div class="stats-chart-grid-line"></div>
+                <div class="stats-chart-grid-line"></div>
+            `;
+            gridContainerEl.appendChild(gridLines);
+
+            // Bars Wrapper
+            const barsWrapper = document.createElement('div');
+            barsWrapper.className = 'stats-chart-bars';
+            const barSpacing = 54; // 38px width + 16px gap
+            const totalWidth = dataArray.length * barSpacing + 20;
+            barsWrapper.style.width = `${totalWidth}px`;
+            gridContainerEl.style.width = `${totalWidth}px`;
+
+            dataArray.forEach((item, index) => {
+                const heightPct = (item.count / maxCount) * 100;
+                
+                const column = document.createElement('div');
+                column.className = 'stats-chart-column';
+                
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'stats-chart-bar-wrapper';
+                
+                const bar = document.createElement('div');
+                bar.className = 'stats-chart-bar';
+                bar.style.height = `${heightPct}%`;
+                // Apply staggering animation delay for smooth visual effect
+                bar.style.animation = `growBar 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 15}ms forwards`;
+                
+                const tooltip = document.createElement('span');
+                tooltip.className = 'stats-chart-bar-tooltip';
+                
+                const labelAction = this.statsActiveTab === 'logins' ? 'login' : 'new member';
+                tooltip.textContent = `${item.count} ${labelAction}${item.count === 1 ? '' : 's'} on ${item.label}`;
+                
+                bar.appendChild(tooltip);
+                barWrapper.appendChild(bar);
+                
+                const label = document.createElement('div');
+                label.className = 'stats-chart-label';
+                label.textContent = item.label;
+                
+                column.appendChild(barWrapper);
+                column.appendChild(label);
+                barsWrapper.appendChild(column);
+            });
+            gridContainerEl.appendChild(barsWrapper);
+
+            // Scroll to the end (most recent data on the right)
+            const scrollable = document.querySelector('.stats-chart-scrollable');
+            if (scrollable) {
+                setTimeout(() => {
+                    scrollable.scrollLeft = scrollable.scrollWidth;
+                }, 50);
+            }
+        }
+    }
+
+    renderMembersTable(users) {
+        if (!this.membersTableBody) return;
+        this.membersTableBody.innerHTML = '';
+
+        if (users.length === 0) {
+            this.membersEmptyMsg?.classList.remove('hidden');
+            return;
+        }
+
+        this.membersEmptyMsg?.classList.add('hidden');
+
+        this.updateMembersSortIcons();
+
+        // 1. Filter out the admin themselves (jared@vanhensen.nl) to keep the list focused on others
+        const adminEmail = 'jared@vanhensen.nl';
+        let filtered = users.filter(u => u.email && u.email.toLowerCase() !== adminEmail);
+
+        // 2. Count occurrences of each email to identify duplicates
+        const emailCounts = {};
+        filtered.forEach(u => {
+            const email = (u.email || 'Anon').toLowerCase();
+            emailCounts[email] = (emailCounts[email] || 0) + 1;
+        });
+
+        // 2.5. Calculate chronological rank based on creation date ascending
+        const chronological = [...filtered].sort((a, b) => {
+            const dateA = a.createdAt || 0;
+            const dateB = b.createdAt || 0;
+            return dateA - dateB;
+        });
+        chronological.forEach((user, index) => {
+            user.chronoIndex = index + 1;
+        });
+
+        // 3. Sort dynamically
+        const sorted = filtered.sort((a, b) => {
+            let valA = a[this.membersSortField];
+            let valB = b[this.membersSortField];
+
+            // Handle missing values
+            if (valA === undefined || valA === null) valA = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
+            if (valB === undefined || valB === null) valB = (this.membersSortField === 'email' || this.membersSortField === 'referral') ? '' : 0;
+
+            if (typeof valA === 'string') {
+                return this.membersSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            } else {
+                return this.membersSortAsc ? valA - valB : valB - valA;
+            }
+        });
+
+        sorted.forEach((user, index) => {
+            const email = (user.email || 'Anon').toLowerCase();
+            const isDuplicate = emailCounts[email] > 1 && email !== 'anon';
+            const dateStr = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+            }) : 'Unknown';
+
+            const lastLoginStr = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString(undefined, {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+            }) : '-';
+            
+            const displayEmail = email.length > 25 ? email.substring(0, 22) + '...' : email;
+
+            const tr = document.createElement('tr');
+            if (isDuplicate) {
+                tr.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; // Light red background for duplicates
+            }
+
+            tr.innerHTML = `
+                <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${user.chronoIndex}</td>
+                <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
+                    ${displayEmail}
+                    ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
+                </td>
+                <td style="white-space: nowrap; font-size: 0.9em; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="${user.referral || ''}">${user.referral || '-'}</td>
+                <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
+                <td style="white-space: nowrap; font-size: 0.85em; width: 80px;" title="${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'}">${lastLoginStr}</td>
+                <td class="request-actions" style="text-align: center;">
+                    <button class="action-btn delete-member-btn" 
+                            title="Delete Member" 
+                            data-uid="${user.uid}"
+                            data-email="${user.email || ''}"
+                            style="cursor: pointer; font-size: 1.2em; border: none; background: transparent;">
+                        🗑️
+                    </button>
+                </td>
+            `;
+            this.membersTableBody.appendChild(tr);
+        });
+
+        // Add event listeners for delete buttons
+        this.membersTableBody.querySelectorAll('.delete-member-btn').forEach(btn => {
+            btn.onmouseenter = (e) => e.target.style.transform = 'scale(1.1)';
+            btn.onmouseleave = (e) => e.target.style.transform = 'scale(1)';
+            btn.onclick = (e) => {
+                const uid = e.currentTarget.dataset.uid;
+                const email = e.currentTarget.dataset.email;
+                this.confirmationModal.show(
+                    'Delete Member',
+                    `Are you sure you want to remove <strong>${email}</strong> from the database?<br><br>This action cannot be undone.`,
+                    async () => {
+                        const result = await this.firebaseManager.deleteUserByAdmin(uid, email);
+                        if (result.success) {
+                            this.renderMembers();
+                        } else {
+                            alert('Error deleting member: ' + result.error);
+                        }
+                    },
+                    null,
+                    'Delete',
+                    'Cancel',
+                    'danger'
+                 );
+            };
+        });
     }
 
     async renderRequests() {

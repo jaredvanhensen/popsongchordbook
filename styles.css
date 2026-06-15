@@ -3281,8 +3281,10 @@ td:has(.row-edit-input.input-focused) {
     display: none !important;
 }
 
-/* Profile modal - show close button */
-#profileModal .modal-close {
+/* Profile and Admin modals - show close button */
+#profileModal .modal-close,
+#adminMembersModal .modal-close,
+#adminRequestsModal .modal-close {
     display: flex !important;
 }
 
@@ -11725,4 +11727,258 @@ body.is-admin .songmap-cell {
 .alert-badge.hidden {
     display: none !important;
 }
+
+/* --- Members Statistics Dashboard Styles --- */
+.stats-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.stats-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stats-card-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+}
+
+.stats-card-lbl {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stats-chart-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-chart-outer {
+    display: flex;
+    height: 250px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.stats-chart-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 35px;
+    padding-right: 8px;
+    padding-bottom: 25px; /* offset for X-axis labels */
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    user-select: none;
+}
+
+.stats-chart-scrollable {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+/* Custom scrollbar for stats chart scrollable */
+.stats-chart-scrollable::-webkit-scrollbar {
+    height: 6px;
+}
+.stats-chart-scrollable::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+.stats-chart-scrollable::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+.stats-chart-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.stats-chart-grid-container {
+    height: 100%;
+    min-width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-chart-grid-lines {
+    position: absolute;
+    inset: 0 0 25px 0; /* offset for X-axis labels */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.stats-chart-grid-line {
+    width: 100%;
+    height: 1px;
+    background: #f1f5f9;
+}
+
+.stats-chart-bars {
+    position: absolute;
+    inset: 0 0 25px 0; /* offset for X-axis labels */
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 0 10px;
+    z-index: 2;
+}
+
+.stats-chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 38px;
+    height: 100%;
+}
+
+.stats-chart-bar-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+.stats-chart-bar {
+    width: 100%;
+    background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    transform-origin: bottom;
+    position: relative;
+}
+
+.stats-chart-bar:hover {
+    filter: brightness(1.1);
+    transform: scaleX(1.05);
+}
+
+/* Tooltip container */
+.stats-chart-bar-tooltip {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -100%) translateY(-6px);
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+.stats-chart-bar:hover .stats-chart-bar-tooltip {
+    opacity: 1;
+    transform: translate(-50%, -100%) translateY(-10px);
+}
+
+.stats-chart-label {
+    height: 20px;
+    margin-top: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    text-align: center;
+    user-select: none;
+}
+
+@keyframes growBar {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+}
+
+/* Dark mode / Theme overrides */
+body.theme-sunset .stats-card,
+body.theme-electric .stats-card,
+body.theme-high-contrast .stats-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+body.theme-sunset .stats-chart-card,
+body.theme-electric .stats-chart-card,
+body.theme-high-contrast .stats-chart-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-color);
+}
+body.theme-sunset .stats-chart-grid-line,
+body.theme-electric .stats-chart-grid-line,
+body.theme-high-contrast .stats-chart-grid-line {
+    background: var(--border-color);
+}
+body.theme-sunset .stats-chart-scrollable::-webkit-scrollbar-track,
+body.theme-electric .stats-chart-scrollable::-webkit-scrollbar-track,
+body.theme-high-contrast .stats-chart-scrollable::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+body.theme-sunset .stats-chart-scrollable::-webkit-scrollbar-thumb,
+body.theme-electric .stats-chart-scrollable::-webkit-scrollbar-thumb,
+body.theme-high-contrast .stats-chart-scrollable::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+body.theme-sunset .stats-card-lbl,
+body.theme-electric .stats-card-lbl,
+body.theme-high-contrast .stats-card-lbl,
+body.theme-sunset .stats-chart-label,
+body.theme-electric .stats-chart-label,
+body.theme-high-contrast .stats-chart-label {
+    color: var(--text-light);
+}
+
+/* Tab button styles */
+.stats-tab-btn {
+    background: transparent;
+    color: var(--text-light, #64748b);
+}
+
+.stats-tab-btn:hover {
+    color: var(--text-color, #1e293b);
+}
+
+.stats-tab-btn.active {
+    background: var(--bg-gradient, linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%));
+    color: white !important;
+}
+
 
