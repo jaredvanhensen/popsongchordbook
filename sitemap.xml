@@ -533,6 +533,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-local-hero-wild-theme</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/dire-straits-money-for-nothing</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1083,6 +1088,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/keith-urban-we-were</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/kelsea-ballerini-heartfirst</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1438,6 +1448,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/miranda-lambert-keeper-of-the-flame</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/miranda-lambert-the-house-that-built-me</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1764,11 +1779,6 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/robbie-williams-let-me-entertain-you</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.popsongchordbook.com/song/rolling-stones-paint-it-black</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2204,6 +2214,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-pretty-reckless-take-me-down</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-rolling-stones-paint-it-black</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3043,6 +3058,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/keith-urban</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/kelsea-ballerini</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3408,11 +3428,6 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/artist/rolling-stones</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
         <loc>https://www.popsongchordbook.com/artist/roxette</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3624,6 +3639,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/the-pretty-reckless</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/the-rolling-stones</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

@@ -1240,7 +1240,7 @@ class ProfileModal {
                 year: '2-digit'
             }) : '-';
             
-            const displayEmail = email.length > 25 ? email.substring(0, 22) + '...' : email;
+            const displayEmail = email.length > 35 ? email.substring(0, 32) + '...' : email;
 
             const tr = document.createElement('tr');
             if (isDuplicate) {
@@ -1249,7 +1249,7 @@ class ProfileModal {
 
             tr.innerHTML = `
                 <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${user.chronoIndex}</td>
-                <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 150px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
+                <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 260px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
                     ${displayEmail}
                     ${isDuplicate ? ' <span title="Duplicate Email found in database" style="cursor:help;">⚠️</span>' : ''}
                 </td>

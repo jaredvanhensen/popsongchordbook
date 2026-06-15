@@ -3943,6 +3943,15 @@ td:has(.row-edit-input.input-focused) {
     transition: all 0.2s ease;
 }
 
+.modal-body input:disabled,
+.modal-body input[readonly] {
+    background-color: var(--hover-color, #f1f5f9);
+    color: var(--text-light, #64748b);
+    border-color: var(--border-color);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
 .modal-body input:focus {
     outline: none;
     border-color: var(--secondary-color);
@@ -10608,7 +10617,7 @@ div.song-detail-practice-controls {
 .chord-section-edit-input {
     width: 100%;
     min-height: 60px;
-    padding: 10px;
+    padding: 10px 80px 15px 10px;
     border: 2px solid #6366f1;
     border-radius: 8px;
     font-family: inherit;
@@ -10621,6 +10630,39 @@ div.song-detail-practice-controls {
     margin-top: 5px;
     resize: vertical;
     display: block;
+}
+
+/* Apply button inside chord section edit wrapper */
+.chord-section-apply-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 12px;
+    background-color: var(--secondary-color, #6366f1);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    line-height: 1.2;
+}
+
+.chord-section-apply-btn:hover {
+    background-color: var(--accent-color, #8b5cf6);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    transform: translateY(-1px);
+}
+
+.chord-section-apply-btn:active {
+    transform: translateY(0);
+}
+
+.chord-section-apply-btn.hidden {
+    display: none !important;
 }
 
 .chord-suggestion-btn {

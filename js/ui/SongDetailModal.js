@@ -55,6 +55,7 @@ class SongDetailModal {
         this.patchDetailsInput = document.getElementById('patchDetailsInput');
         this.practiceCountInput = document.getElementById('practiceCountInput');
         this.lyricOffsetInput = document.getElementById('lyricOffsetInput');
+        this.songCreatorInput = document.getElementById('songCreatorInput');
         this.performAbilityStars = document.getElementById('performAbilityStars');
         this.abilityStars = this.performAbilityStars ? this.performAbilityStars.querySelectorAll('.ability-star') : [];
         this.chordJsonInput = document.getElementById('chordJsonInput');
@@ -118,6 +119,7 @@ class SongDetailModal {
                 title: document.getElementById('verseTitle'),
                 content: document.getElementById('verseContent'),
                 editInput: document.getElementById('verseEditInput'),
+                applyBtn: document.querySelector('.chord-section-apply-btn[data-section="verse"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="verse"]'),
                 cue: document.getElementById('verseCueInput')
             },
@@ -126,6 +128,7 @@ class SongDetailModal {
                 title: document.getElementById('preChorusTitle'),
                 content: document.getElementById('preChorusContent'),
                 editInput: document.getElementById('preChorusEditInput'),
+                applyBtn: document.querySelector('.chord-section-apply-btn[data-section="preChorus"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="preChorus"]'),
                 cue: document.getElementById('preChorusCueInput')
             },
@@ -134,6 +137,7 @@ class SongDetailModal {
                 title: document.getElementById('chorusTitle'),
                 content: document.getElementById('chorusContent'),
                 editInput: document.getElementById('chorusEditInput'),
+                applyBtn: document.querySelector('.chord-section-apply-btn[data-section="chorus"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="chorus"]'),
                 cue: document.getElementById('chorusCueInput')
             },
@@ -142,6 +146,7 @@ class SongDetailModal {
                 title: document.getElementById('bridgeTitle'),
                 content: document.getElementById('bridgeContent'),
                 editInput: document.getElementById('bridgeEditInput'),
+                applyBtn: document.querySelector('.chord-section-apply-btn[data-section="bridge"]'),
                 dividerBtn: document.querySelector('.bar-divider-btn[data-section="bridge"]'),
                 cue: document.getElementById('bridgeCueInput')
             }
@@ -2049,6 +2054,14 @@ class SongDetailModal {
                     this.checkForChanges();
                 });
             }
+
+            if (section.applyBtn) {
+                section.applyBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this._lastActiveSection = key;
+                    this.toggleBlockEdit(key);
+                });
+            }
         });
     }
 
@@ -2065,6 +2078,7 @@ class SongDetailModal {
             // Save state and switch to view
             section.section.classList.remove('editing');
             section.editInput.classList.add('hidden');
+            if (section.applyBtn) section.applyBtn.classList.add('hidden');
             section.content.classList.remove('hidden');
             this.renderChordBlock(key, section.editInput.value);
         } else {
@@ -2085,8 +2099,15 @@ class SongDetailModal {
                 section.editInput.value = this.transposeBlockText(section.editInput.value, -this.capoValue);
             }
 
+            // Set the baseline value for this editing session
+            section.initialEditValue = section.editInput.value;
+
             section.section.classList.add('editing');
             section.editInput.classList.remove('hidden');
+            if (section.applyBtn) {
+                section.applyBtn.classList.remove('hidden');
+                section.applyBtn.textContent = 'Exit';
+            }
             section.content.classList.add('hidden');
             section.editInput.focus();
             this._lastActiveSection = key;
@@ -3012,6 +3033,16 @@ class SongDetailModal {
                 this.saveBtn.classList.add('hidden');
             }
         }
+
+        // Update Apply/Exit button labels on each chord block section
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            if (section && section.applyBtn && section.editInput) {
+                const initialVal = section.initialEditValue !== undefined ? section.initialEditValue : section.editInput.value;
+                const hasChanged = section.editInput.value !== initialVal;
+                section.applyBtn.textContent = hasChanged ? 'Apply' : 'Exit';
+            }
+        });
     }
 
     async handleDeleteSong() {
@@ -4332,6 +4363,33 @@ class SongDetailModal {
         }
         if (this.lyricOffsetInput) {
             this.lyricOffsetInput.value = song.lyricOffset || '';
+        }
+
+        if (this.songCreatorInput) {
+            let creatorText = 'Unknown';
+            if (song.submittedBy) {
+                if (song.submittedBy === '9oAEJa3dqsPKSAGrQdgOMxwZiNk2') {
+                    creatorText = 'Jared';
+                } else {
+                    const currentUser = this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser() : null;
+                    if (currentUser && song.submittedBy === currentUser.uid) {
+                        creatorText = currentUser.displayName || 'You';
+                    } else {
+                        let foundUser = null;
+                        if (window.appInstance && window.appInstance.profileModal && window.appInstance.profileModal.cachedUsers) {
+                            foundUser = window.appInstance.profileModal.cachedUsers.find(u => u.uid === song.submittedBy);
+                        }
+                        if (foundUser) {
+                            creatorText = foundUser.displayName || foundUser.name || 'Member';
+                        } else {
+                            creatorText = 'Member';
+                        }
+                    }
+                }
+            } else {
+                creatorText = 'System Default';
+            }
+            this.songCreatorInput.value = creatorText;
         }
 
         const abilityValue = song.performAbility || 0;
