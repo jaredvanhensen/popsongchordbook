@@ -857,10 +857,14 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=2.597&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=3.112&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag
+                    }
+                    if (this._shouldOpenPureTimeline) {
+                        url += '&pure=true';
+                        this._shouldOpenPureTimeline = false; // Reset flag
                     }
 
                     // Using location.replace prevents adding extra history entries that cause double-close issues
@@ -876,10 +880,13 @@ class SongDetailModal {
 
                 // Push modal state to history stack
                 if (window.appInstance) {
-                    window.appInstance.pushModalState('scrollingChords', () => {
-                        console.log('Closing Scrolling Chords Modal via state pop');
-                        this.handleTimelineClose();
-                    });
+                    const hasStateInStack = window.appInstance.modalStack.some(m => m.id === 'scrollingChords');
+                    if (!hasStateInStack) {
+                        window.appInstance.pushModalState('scrollingChords', () => {
+                            console.log('Closing Scrolling Chords Modal via state pop');
+                            this.handleTimelineClose();
+                        });
+                    }
                 }
             });
 
@@ -3679,6 +3686,14 @@ class SongDetailModal {
         } else {
             window.focus();
         }
+
+        // Restore presence status back to viewing the song
+        if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
+            const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+            if (song) {
+                this.firebaseManager.updatePresenceStatus(`Viewing: ${song.title}`);
+            }
+        }
     }
 
     handleTrainerClose() {
@@ -3692,6 +3707,14 @@ class SongDetailModal {
         }
         if (window.appInstance) {
             window.appInstance.popModalState('chordTrainer');
+        }
+
+        // Restore presence status back to viewing the song
+        if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
+            const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+            if (song) {
+                this.firebaseManager.updatePresenceStatus(`Viewing: ${song.title}`);
+            }
         }
     }
 
@@ -3861,6 +3884,12 @@ class SongDetailModal {
         }
 
         this.currentSongId = song.id;
+
+        // Update presence to viewing this song
+        if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
+            this.firebaseManager.updatePresenceStatus(`Viewing: ${song.title}`);
+        }
+
         this.capoValue = parseInt(song.capo) || 0; // Load Capo from song
         this.updateCapoUI();
         this.simplifyChords = this.getSimplifyChords(song.id);
@@ -5168,6 +5197,26 @@ class SongDetailModal {
                 this.scrollingChordsFrame.contentWindow.location.replace('about:blank');
             } catch (e) {
                 this.scrollingChordsFrame.src = 'about:blank';
+            }
+        }
+
+        // Reset status to browsing songs
+        if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
+            this.firebaseManager.updatePresenceStatus('Browsing Songs');
+        }
+    }
+
+    async openPureTimelineForSong(songId) {
+        const song = this.songManager.getSongById(songId);
+        if (song) {
+            this._shouldOpenPureTimeline = true;
+            if (window.appInstance && typeof window.appInstance.navigateToSong === 'function') {
+                window.appInstance.navigateToSong(songId);
+            } else {
+                await this.show(song);
+            }
+            if (this.scrollingChordsBtn) {
+                this.scrollingChordsBtn.click();
             }
         }
     }

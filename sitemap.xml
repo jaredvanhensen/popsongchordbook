@@ -1483,6 +1483,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/nate-moran-back-to-it</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/nate-smith-bulletproof</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2229,6 +2234,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-rolling-stones-paint-it-black</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-rolling-stones-satisfaction</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3289,6 +3299,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/natalie-imbruglia</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/nate-moran</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

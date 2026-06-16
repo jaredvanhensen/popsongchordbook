@@ -8,6 +8,7 @@ class BandDashboard {
         this.bandSelect = document.getElementById('bandSelect');
         this.bandCodeText = document.getElementById('bandCodeText');
         this.bandLobbyList = document.getElementById('bandLobbyList');
+        this.bandPracticeSessionBtn = document.getElementById('bandPracticeSessionBtn');
         
         this.copyCodeBtn = document.getElementById('copyCodeBtn');
         this.leaveBandBtn = document.getElementById('leaveBandBtn');
@@ -88,6 +89,11 @@ class BandDashboard {
         if (this.leaveBandBtn) {
             this.leaveBandBtn.onclick = () => this.leaveBand();
         }
+
+        // Practice Session Toggle
+        if (this.bandPracticeSessionBtn) {
+            this.bandPracticeSessionBtn.onclick = () => this.togglePracticeSession();
+        }
     }
 
     async loadDashboard() {
@@ -148,18 +154,23 @@ class BandDashboard {
         }
         const registeredMembers = membersResult.members;
         
-        // Set presence details for current user in the lobby
-        const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
-        this.presenceRef = this.firebaseManager.database.ref(`bandSync/${bandId}/present/${this.currentUser.uid}`);
-        
-        await this.presenceRef.set({
-            displayName: displayName,
-            songId: 'Viewing Dashboard',
-            connectedAt: Date.now()
-        });
-        
-        // Set onDisconnect handler
-        this.presenceRef.onDisconnect().remove();
+        this.updatePracticeSessionBtnUI();
+
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (sessionActive) {
+            // Set presence details for current user in the lobby
+            const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+            this.presenceRef = this.firebaseManager.database.ref(`bandSync/${bandId}/present/${this.currentUser.uid}`);
+            
+            await this.presenceRef.set({
+                displayName: displayName,
+                songId: 'Viewing Dashboard',
+                connectedAt: Date.now()
+            });
+            
+            // Set onDisconnect handler
+            this.presenceRef.onDisconnect().remove();
+        }
         
         // Start listening to real-time lobby presence
         const lobbyRef = this.firebaseManager.database.ref(`bandSync/${bandId}/present`);
@@ -172,25 +183,51 @@ class BandDashboard {
     renderMembersPresence(registeredMembers, onlinePresence) {
         this.bandLobbyList.innerHTML = '';
         
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        
         registeredMembers.forEach(member => {
-            const isOnline = !!onlinePresence[member.uid];
-            const presenceDetails = onlinePresence[member.uid];
+            const isOnline = sessionActive && !!onlinePresence[member.uid];
+            const presenceDetails = sessionActive ? onlinePresence[member.uid] : null;
             
             const item = document.createElement('div');
             item.className = 'member-item';
             
             const initials = member.displayName ? member.displayName.substring(0, 2).toUpperCase() : '??';
             
-            const songStatus = isOnline && presenceDetails 
-                ? (presenceDetails.songId === 'Viewing Dashboard' ? 'Viewing Dashboard' : `Viewing: ${presenceDetails.songId}`)
-                : 'Offline';
+            let songStatusHTML = 'Offline';
+            if (isOnline && presenceDetails) {
+                const rawStatus = presenceDetails.songId;
+                if (rawStatus === 'Viewing Dashboard' || rawStatus === 'Browsing Songs' || rawStatus === 'Practicing Chords' || rawStatus === 'Practicing Guitar Chords') {
+                    songStatusHTML = rawStatus;
+                } else {
+                    let cleanSongTitle = rawStatus;
+                    if (cleanSongTitle.startsWith('Viewing: ')) {
+                        cleanSongTitle = cleanSongTitle.substring(9);
+                    }
+                    cleanSongTitle = cleanSongTitle.trim();
+                    
+                    let songId = null;
+                    if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                        const song = window.parent.appInstance.songManager.songs.find(s => s.title.trim().toLowerCase() === cleanSongTitle.toLowerCase());
+                        if (song) {
+                            songId = song.id;
+                        }
+                    }
+                    
+                    if (songId) {
+                        songStatusHTML = `Viewing: <a href="#" style="color: #4f46e5; text-decoration: none; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='#7c3aed'; this.style.textDecoration='underline';" onmouseout="this.style.color='#4f46e5'; this.style.textDecoration='none';" onclick="event.preventDefault(); window.bandDashboard.openSong('${songId}');">${cleanSongTitle}</a>`;
+                    } else {
+                        songStatusHTML = `Viewing: ${cleanSongTitle}`;
+                    }
+                }
+            }
                 
             item.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                     <div class="member-avatar">${initials}</div>
                     <div class="member-info">
                         <div class="member-name">${member.displayName} ${member.uid === this.currentUser.uid ? '(You)' : ''}</div>
-                        <div class="member-role">${songStatus}</div>
+                        <div class="member-role">${songStatusHTML}</div>
                     </div>
                 </div>
                 <div class="presence-dot ${isOnline ? 'online' : ''}" title="${isOnline ? 'Online' : 'Offline'}"></div>
@@ -198,6 +235,15 @@ class BandDashboard {
             
             this.bandLobbyList.appendChild(item);
         });
+    }
+
+    openSong(songId) {
+        if (window.parent && window.parent.appInstance && window.parent.appInstance.songDetailModal) {
+            window.parent.appInstance.songDetailModal.openPureTimelineForSong(songId);
+            if (typeof window.parent.closeDashboardPanel === 'function') {
+                window.parent.closeDashboardPanel();
+            }
+        }
     }
 
     cleanupActiveListeners() {
@@ -210,6 +256,68 @@ class BandDashboard {
             this.lobbyListenerRef = null;
         }
         this.selectedBandId = null;
+    }
+
+    async togglePracticeSession() {
+        if (!this.selectedBandId) return;
+
+        const currentActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        const newActive = !currentActive;
+        localStorage.setItem('bandPracticeSessionActive', newActive ? 'true' : 'false');
+        
+        // Update presence accordingly
+        if (newActive) {
+            // Write presence
+            const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+            this.presenceRef = this.firebaseManager.database.ref(`bandSync/${this.selectedBandId}/present/${this.currentUser.uid}`);
+            await this.presenceRef.set({
+                displayName: displayName,
+                songId: 'Viewing Dashboard',
+                connectedAt: Date.now()
+            });
+            this.presenceRef.onDisconnect().remove();
+            
+            // Also setup presence in FirebaseManager
+            await this.firebaseManager.setupGlobalPresence();
+        } else {
+            // Clean up presence
+            if (this.presenceRef) {
+                await this.presenceRef.remove();
+                this.presenceRef = null;
+            }
+            // Clear in FirebaseManager
+            await this.firebaseManager.clearPresenceForAllBands();
+        }
+
+        // Update button UI
+        this.updatePracticeSessionBtnUI();
+        
+        // Trigger re-render of lobby presence list immediately
+        const lobbyRef = this.firebaseManager.database.ref(`bandSync/${this.selectedBandId}/present`);
+        const snapshot = await lobbyRef.once('value');
+        const onlinePresence = snapshot.val() || {};
+        
+        // Get registered members again
+        const membersResult = await this.firebaseManager.getBandMembers(this.selectedBandId);
+        if (membersResult.success) {
+            this.renderMembersPresence(membersResult.members, onlinePresence);
+        }
+    }
+
+    updatePracticeSessionBtnUI() {
+        if (!this.bandPracticeSessionBtn) return;
+        const active = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (active) {
+            this.bandPracticeSessionBtn.textContent = '🔴 Stop Band Practice Session';
+            this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444';
+            this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#dc2626'; };
+            this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444'; };
+        } else {
+            this.bandPracticeSessionBtn.textContent = '🟢 Start Band Practice Session';
+            this.bandPracticeSessionBtn.style.backgroundColor = '#10b981';
+            this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#059669'; };
+            this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#10b981'; };
+        }
     }
 
     async joinBand() {

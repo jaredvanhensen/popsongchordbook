@@ -72,6 +72,7 @@ class FirebaseManager {
                 this.currentUser = user;
                 if (user && user.uid) {
                     this.updateLastLogin(user.uid);
+                    this.setupGlobalPresence();
                 }
             });
 
@@ -2008,6 +2009,9 @@ class FirebaseManager {
                 code: code
             });
 
+            // Trigger global presence update
+            this.setupGlobalPresence();
+
             return { success: true, bandId: bandId, code: code };
         } catch (e) {
             console.error('Error creating band:', e);
@@ -2062,6 +2066,9 @@ class FirebaseManager {
             await this.database.ref(`bands/${bandId}`).update({
                 memberCount: memberCount + 1
             });
+
+            // Trigger global presence update
+            this.setupGlobalPresence();
 
             return { success: true, bandId: bandId, name: band.name };
         } catch (e) {
@@ -2132,6 +2139,9 @@ class FirebaseManager {
             // Remove user from band members
             await this.database.ref(`bandMembers/${bandId}/${uid}`).remove();
 
+            // Remove presence node for this band
+            await this.database.ref(`bandSync/${bandId}/present/${uid}`).remove();
+
             // Recount members to keep it consistent
             const membersSnap = await this.database.ref(`bandMembers/${bandId}`).once('value');
             const members = membersSnap.val() || {};
@@ -2156,6 +2166,111 @@ class FirebaseManager {
         } catch (e) {
             console.error('Error leaving band:', e);
             return { success: false, error: e.message };
+        }
+    }
+
+    async setupGlobalPresence() {
+        if (!this.initialized || !this.currentUser) return;
+        
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (!sessionActive) {
+            await this.clearPresenceForAllBands();
+            return;
+        }
+        
+        // Determine user status based on current URL path
+        let status = 'Active in App';
+        const pathname = window.location.pathname.toLowerCase();
+        
+        if (pathname.includes('scrolling_chords.html')) {
+            // Let the timeline sync module handle detailed status updates
+            return;
+        } else if (pathname.includes('songlist.html') || pathname.includes('songlist-old.html')) {
+            status = 'Browsing Songs';
+        } else if (pathname.includes('band.html')) {
+            status = 'Viewing Band Connect';
+        } else if (pathname.includes('chordtrainer.html')) {
+            status = 'Practicing Chords';
+        } else if (pathname.includes('guitarchordtrainer.html')) {
+            status = 'Practicing Guitar Chords';
+        } else if (pathname.includes('/song/') || pathname.includes('song.html')) {
+            // Try to extract song name from preview page elements
+            const titleEl = document.getElementById('song-title') || document.querySelector('h1');
+            const songName = titleEl ? titleEl.textContent.trim() : 'a Song';
+            status = `Viewing: ${songName}`;
+        }
+        
+        await this.updatePresenceStatus(status);
+    }
+
+    async updatePresenceStatus(newStatus) {
+        if (!this.initialized || !this.currentUser) return;
+        
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (!sessionActive) return;
+        
+        const uid = this.currentUser.uid;
+        const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+        
+        try {
+            // Get user's bands
+            const bandsSnap = await this.database.ref(`users/${uid}/connectedBands`).once('value');
+            const bands = bandsSnap.val() || {};
+            
+            // Set up presence for each band when connected
+            const connectedRef = this.database.ref('.info/connected');
+            if (this.presenceConnectionListener) {
+                connectedRef.off('value', this.presenceConnectionListener);
+            }
+            
+            this.presenceConnectionListener = (snap) => {
+                if (snap.val() === true) {
+                    Object.keys(bands).forEach((bandId) => {
+                        const presenceRef = this.database.ref(`bandSync/${bandId}/present/${uid}`);
+                        presenceRef.set({
+                            displayName: displayName,
+                            songId: newStatus,
+                            connectedAt: firebase.database.ServerValue.TIMESTAMP
+                        });
+                        presenceRef.onDisconnect().remove();
+                    });
+                }
+            };
+            connectedRef.on('value', this.presenceConnectionListener);
+            
+            // Also write immediately if currently connected
+            const connectedSnap = await connectedRef.once('value');
+            if (connectedSnap.val() === true) {
+                Object.keys(bands).forEach((bandId) => {
+                    this.database.ref(`bandSync/${bandId}/present/${uid}`).set({
+                        displayName: displayName,
+                        songId: newStatus,
+                        connectedAt: firebase.database.ServerValue.TIMESTAMP
+                    });
+                });
+            }
+        } catch (e) {
+            console.error('Error updating presence status:', e);
+        }
+    }
+
+    async clearPresenceForAllBands() {
+        if (!this.initialized || !this.currentUser) return;
+        const uid = this.currentUser.uid;
+        try {
+            const bandsSnap = await this.database.ref(`users/${uid}/connectedBands`).once('value');
+            const bands = bandsSnap.val() || {};
+            Object.keys(bands).forEach((bandId) => {
+                this.database.ref(`bandSync/${bandId}/present/${uid}`).remove();
+            });
+            // Clear the listener
+            const connectedRef = this.database.ref('.info/connected');
+            if (this.presenceConnectionListener) {
+                connectedRef.off('value', this.presenceConnectionListener);
+                this.presenceConnectionListener = null;
+            }
+        } catch (e) {
+            console.error('Error clearing presence:', e);
         }
     }
 }

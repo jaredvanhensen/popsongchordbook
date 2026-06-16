@@ -302,6 +302,92 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.115</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Song Detail History Stack Fix:</strong> Fixed a bug where opening a song timeline directly from lobby or popup links would bypass the history manager and disable the Close Button on the Song Detail Modal. It now correctly pushes states to the modal stack.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.114</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Pure Timeline Play Mode Redirection:</strong> Updated all Band Connect lobby and popup links to open the Scrolling Chord timeline directly in Pure Timeline (Play-only) mode.</li>
+                        <li><strong>Band Playback Sync Warning Link:</strong> Updated the mismatch warning pop-up to format the active song title as a clickable hyperlink, letting other band members join the correct song immediately in Pure Timeline mode.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.113</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Timeline Close Playback Sync Fix:</strong> Prevented closing the Chord Timeline or navigating away from stopping playback for other active band members. Playback synchronization state checks now correctly deduplicate triggers.</li>
+                        <li><strong>Lobby Song Hyperlinks:</strong> Added quick-open hyperlinks for song statuses in the Band Members presence list. Clicking a member's active song automatically opens that song directly in Pure Timeline (landscape) mode and closes the dashboard panel.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.112</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Timeline Sync Guard:</strong> Prevented playback synchronization actions (synced play/pause/countdown) from executing or triggering when the band practice session is turned OFF. Added a warning modal to prompt users to start the session.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.111</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Practice Session Switch:</strong> Added a "Start / Stop Band Practice Session" toggle switch to `band.html` with color changes (Green for Start, Red for Stop). Online presence updates and lobby status tracking are active only when a practice session is explicitly started.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.110</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Presence Modal State Sync:</strong> Connected the Song Detail Modal states to the global online presence system. Closing the scrolling timeline or chord trainers, and closing the detail modal itself, now accurately sets the status back to "Viewing: [Song Title]" and "Browsing Songs" respectively instead of dropping offline.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.109</span>
+                    <span class="version-date">June 16, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Global Presence System:</strong> Added a global background online presence tracker inside `FirebaseManager.js`. Band members now correctly appear online across all application views (including the songlist dashboard, song previews, and chord trainers) for all bands they are part of.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.108</span>
                     <span class="version-date">June 16, 2026</span>
                 </div>
@@ -7030,7 +7116,7 @@
                     <div class="change-item">
                         <span class="change-type">Audio Engine:</span>
                         <span class="change-description">Revert to synthesized piano engine for maximum reliability
-                            (v3.108). Integrated Premium Grand samples (v3.108).</span>
+                            (v3.115). Integrated Premium Grand samples (v3.115).</span>
                     </div>
                     <div class="change-item">
                         <span class="change-type">Gamer System:</span>

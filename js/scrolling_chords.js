@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.108)
+// Scrolling Chords Logic (v3.115)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -178,7 +178,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.108)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.115)
 let currentUid = 'guest'; // Track current user for preferences
 let loadedSongId = null; // Track current loaded song ID for band sync
 let wasAudioEnabledBeforeCapture = true;
@@ -364,7 +364,7 @@ window.addEventListener('message', (event) => {
         updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.108)
+            // Apply default audio setting from Profile (v3.115)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -1298,13 +1298,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // Setup the Pure Timeline Buttons
+        window.forceFullMode = false;
+        window.forcePureMode = urlParams.get('pure') === 'true';
+
         window.addEventListener('resize', forceOrientationRefresh);
         window.addEventListener('orientationchange', forceOrientationRefresh);
         forceOrientationRefresh(); // Initial call
-
-        // Setup the Pure Timeline Buttons
-        window.forceFullMode = false;
-        window.forcePureMode = false;
         
         const pureFullModeBtn = document.getElementById('pureTimelineFullModeBtn');
         if (pureFullModeBtn) {
@@ -6751,6 +6751,7 @@ class BandSync {
         this.syncListenerRef = null;
         this.currentUserId = null;
         this.startTimeoutId = null;
+        this.lastExecutedFireAt = null;
         
         this.init();
     }
@@ -6895,6 +6896,15 @@ class BandSync {
     async updateSongPresence() {
         if (!this.currentBandId || !this.currentUserId) return;
         
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (!sessionActive) {
+            if (this.presenceRef) {
+                await this.presenceRef.remove();
+                this.presenceRef = null;
+            }
+            return;
+        }
+        
         const displayName = this.firebaseManager.currentUser.displayName || this.firebaseManager.currentUser.email.split('@')[0];
         const titleEl = document.getElementById('songTitleDisplay');
         const songName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
@@ -6924,6 +6934,25 @@ class BandSync {
 
     async handleSyncBtnClick() {
         if (!this.currentBandId) return;
+        
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (!sessionActive) {
+            if (window.confirmationModal) {
+                window.confirmationModal.show(
+                    '🎸 Band Practice Session',
+                    'Your Band Practice Session is currently stopped. Please start a practice session on the Band Members page to synchronize playback.',
+                    () => {},
+                    null,
+                    'OK',
+                    null,
+                    'primary',
+                    true
+                );
+            } else {
+                alert('Your Band Practice Session is currently stopped. Please start a practice session on the Band Members page to synchronize playback.');
+            }
+            return;
+        }
         
         const titleEl = document.getElementById('songTitleDisplay');
         const currentSongName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
@@ -6956,14 +6985,36 @@ class BandSync {
     }
 
     executeSyncAction(data) {
+        if (!data || !data.fireAt) return;
+        if (data.fireAt === this.lastExecutedFireAt) {
+            return;
+        }
+        this.lastExecutedFireAt = data.fireAt;
+
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (!sessionActive) return;
+
         const titleEl = document.getElementById('songTitleDisplay');
         const currentSongName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
         if (data.songId !== currentSongName) {
+            let songId = null;
+            if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                const song = window.parent.appInstance.songManager.songs.find(s => s.title.trim().toLowerCase() === data.songId.trim().toLowerCase());
+                if (song) {
+                    songId = song.id;
+                }
+            }
+
             // Show song mismatch alert using ConfirmationModal
             if (window.confirmationModal) {
+                let messageHTML = `Band Member is playing: <strong>"${data.songId}"</strong>.<br><br>Open that song on your songlist to play along together!`;
+                if (songId) {
+                    messageHTML = `Band Member is playing: <a href="#" style="color: #4f46e5; text-decoration: underline; font-weight: bold;" onclick="event.preventDefault(); window.parent.appInstance.songDetailModal.openPureTimelineForSong('${songId}'); window.confirmationModal.hide();">"${data.songId}"</a>.<br><br>Open that song on your songlist to play along together!`;
+                }
+
                 window.confirmationModal.show(
                     '🎸 Band Playback Sync',
-                    `Band Member is playing: <strong>"${data.songId}"</strong>.<br><br>Open that song on your songlist to play along together!`,
+                    messageHTML,
                     () => {},
                     null,
                     'OK',
