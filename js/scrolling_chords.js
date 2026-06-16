@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.115)
+// Scrolling Chords Logic (v3.116)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -178,7 +178,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.115)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.116)
 let currentUid = 'guest'; // Track current user for preferences
 let loadedSongId = null; // Track current loaded song ID for band sync
 let wasAudioEnabledBeforeCapture = true;
@@ -364,7 +364,7 @@ window.addEventListener('message', (event) => {
         updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.115)
+            // Apply default audio setting from Profile (v3.116)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -6770,10 +6770,12 @@ class BandSync {
             this.bandSyncBtn.title = "Synced Pause with Band";
         } else {
             iconSpan.innerHTML = `
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="23 4 23 10 17 10"></polyline>
-                    <polyline points="1 20 1 14 7 14"></polyline>
-                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    <polygon points="18 13 22 16 18 19 18 13" fill="currentColor" />
                 </svg>
             `;
             this.bandSyncBtn.title = "Synced Start with Band";
