@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.117)
+// Scrolling Chords Logic (v3.118)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -178,7 +178,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.117)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.118)
 let currentUid = 'guest'; // Track current user for preferences
 let loadedSongId = null; // Track current loaded song ID for band sync
 let wasAudioEnabledBeforeCapture = true;
@@ -364,7 +364,7 @@ window.addEventListener('message', (event) => {
         updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.117)
+            // Apply default audio setting from Profile (v3.118)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -6987,6 +6987,14 @@ class BandSync {
 
         const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
         if (!sessionActive) return;
+
+        // Ignore stale sync events (older than 10 seconds)
+        // This avoids triggering immediate mismatch alerts from previous sessions or songs when first opening a timeline.
+        const age = Date.now() - data.fireAt;
+        if (age > 10000) {
+            console.log(`Ignoring stale sync action from ${age}ms ago:`, data);
+            return;
+        }
 
         const titleEl = document.getElementById('songTitleDisplay');
         const currentSongName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
