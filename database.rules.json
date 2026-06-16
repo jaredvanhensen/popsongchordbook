@@ -92,6 +92,32 @@
     "facebookPromoSuite": {
       ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
       ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
+    },
+    "bands": {
+      "$bandId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "bandCodes": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "bandMembers": {
+      "$bandId": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && $uid === auth.uid"
+        }
+      }
+    },
+    "bandSync": {
+      "$bandId": {
+        ".read": "auth != null && root.child('bandMembers').child($bandId).child(auth.uid).exists()",
+        ".write": "auth != null && root.child('bandMembers').child($bandId).child(auth.uid).exists()"
+      }
     }
   }
 }

@@ -3742,6 +3742,7 @@ class SongDetailModal {
         const lastPosition = (this._timelinePositions && this._timelinePositions[this.currentSongId]) || 0;
         scrollingChordsFrame.contentWindow.postMessage({
             type: 'loadChordData',
+            songId: this.currentSongId,
             data: timelineData,
             youtubeUrl: song.youtubeUrl || '',
             artist: song.artist,

@@ -16,13 +16,13 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=3.103">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=3.103">
+    <link rel="stylesheet" href="scrolling.css?v=3.108">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=3.108">
 </head>
 
 <body>
 
-    <!-- Merged Purple Header for Mobile Landscape (v3.103) -->
+    <!-- Merged Purple Header for Mobile Landscape (v3.108) -->
     <div id="landscapeHeaderBar" class="landscape-header-bar">
         <div class="header-metadata-row">
             <div class="song-detail-thumb-section">
@@ -57,6 +57,18 @@
                 </span>
             </button>
 
+            <!-- Synced Play/Pause with Band (v3.108) -->
+            <button id="bandSyncBtn" class="hidden" title="Synced Start with Band" style="display: none;">
+                <span class="icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </span>
+                <span id="bandLobbyCount" class="hidden" style="display: none; position: absolute; top: -4px; right: -4px; background: #db2777; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 8px; font-weight: bold; align-items: center; justify-content: center;">0</span>
+            </button>
+
             <!-- Audio Toggle Compact -->
             <button id="audioToggleBtnCompact" title="Toggle Chord Audio">
                 <span class="icon" id="audioIconCompact">🔊</span>
@@ -87,6 +99,16 @@
                     <span class="icon">⚙️</span>
                 </button>
                 <div id="pureTimelineMenu" class="song-detail-hamburger-menu pure-timeline-hamburger-menu hidden">
+                    <!-- Band Selector (v3.108) -->
+                    <div id="bandSyncSelectorContainer" class="hidden" style="display: none; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px 14px; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 0.75rem; color: #64748b; font-weight: bold; display: flex; align-items: center; gap: 6px;">
+                            <span>🎸 Select Band</span>
+                        </div>
+                        <select id="bandSyncSelect" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; outline: none; background: white; color: black; cursor: pointer; font-family: inherit; font-weight: 600;">
+                            <option value="" style="color: black;">No Band Sync</option>
+                        </select>
+                    </div>
+
                     <button class="hamburger-menu-item" id="pureMenuLyricsBtn">
                         <span class="icon">🎤</span>
                         <span class="label">Lyrics On/Off</span>
@@ -728,23 +750,37 @@
         </div>
     </div>
 
+    <!-- Band Countdown Overlay -->
+    <div id="bandCountdownOverlay" class="modal-overlay" style="z-index: 20000; display: none; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); transition: opacity 0.3s ease; opacity: 0;">
+        <div style="background: white; padding: 40px; border-radius: 50%; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; box-shadow: 0 25px 60px rgba(0,0,0,0.4); border: 12px solid #4f46e5; transform: scale(1); animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+            <div id="bandCountdownNumber" style="font-size: 8rem; font-weight: 900; color: #4f46e5; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">5</div>
+        </div>
+    </div>
+
             <!-- Midi Parsing Library -->
             <script src="https://unpkg.com/@tonejs/midi" defer></script>
 
+            <!-- Firebase Compatibility SDKs -->
+            <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+            <script src="js/config/firebase-config.js?v=3.108"></script>
+            <script src="js/utils/FirebaseManager.js?v=3.108"></script>
+
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=3.103" defer></script>
-            <script src="js/utils/ChordParser.js?v=3.103" defer></script>
-            <script src="js/utils/GuitarRenderer.js?v=3.103" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=3.103" defer></script>
-            <script src="js/utils/LyricsParser.js?v=3.103" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=3.103" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=3.103" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=3.103" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=3.103" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=3.103" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=3.103" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=3.103" defer></script>
-            <script src="js/scrolling_chords.js?v=3.103" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=3.108" defer></script>
+            <script src="js/utils/ChordParser.js?v=3.108" defer></script>
+            <script src="js/utils/GuitarRenderer.js?v=3.108" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=3.108" defer></script>
+            <script src="js/utils/LyricsParser.js?v=3.108" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=3.108" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=3.108" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=3.108" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=3.108" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=3.108" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=3.108" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=3.108" defer></script>
+            <script src="js/scrolling_chords.js?v=3.108" defer></script>
 </body>
 
 </html>

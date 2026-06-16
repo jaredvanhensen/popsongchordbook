@@ -1960,4 +1960,202 @@ class FirebaseManager {
             return { success: false, error: e.message };
         }
     }
+
+    // --- Band Methods ---
+
+    async createBand(bandName) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        try {
+            const uid = this.currentUser.uid;
+            
+            // Generate a random 6-character code
+            const generateCode = () => {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = '';
+                for (let i = 0; i < 6; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return 'BAND-' + result;
+            };
+
+            const code = generateCode();
+            
+            // Generate a unique band ID
+            const bandRef = this.database.ref('bands').push();
+            const bandId = bandRef.key;
+            
+            const timestamp = Date.now();
+            
+            // Store band details
+            await bandRef.set({
+                name: bandName,
+                code: code,
+                createdBy: uid,
+                createdAt: timestamp,
+                memberCount: 1
+            });
+
+            // Store code lookup mapping
+            await this.database.ref(`bandCodes/${code}`).set(bandId);
+
+            // Add user to bandMembers
+            await this.database.ref(`bandMembers/${bandId}/${uid}`).set(true);
+
+            // Add band reference to user's connected bands list
+            await this.database.ref(`users/${uid}/connectedBands/${bandId}`).set({
+                name: bandName,
+                code: code
+            });
+
+            return { success: true, bandId: bandId, code: code };
+        } catch (e) {
+            console.error('Error creating band:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async joinBand(bandCode) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        const code = bandCode.toUpperCase().trim();
+        try {
+            const uid = this.currentUser.uid;
+
+            // Look up bandId by code
+            const codeSnap = await this.database.ref(`bandCodes/${code}`).once('value');
+            const bandId = codeSnap.val();
+            if (!bandId) {
+                return { success: false, error: 'Band not found. Please check the code.' };
+            }
+
+            // Get band details
+            const bandSnap = await this.database.ref(`bands/${bandId}`).once('value');
+            const band = bandSnap.val();
+            if (!band) {
+                return { success: false, error: 'Band details not found.' };
+            }
+
+            // Get current members to enforce limit
+            const membersSnap = await this.database.ref(`bandMembers/${bandId}`).once('value');
+            const members = membersSnap.val() || {};
+            const memberCount = Object.keys(members).length;
+
+            if (members[uid]) {
+                return { success: false, error: 'You are already a member of this band.' };
+            }
+
+            if (memberCount >= 6) {
+                return { success: false, error: 'Band is full (maximum 6 members).' };
+            }
+
+            // Add user to bandMembers
+            await this.database.ref(`bandMembers/${bandId}/${uid}`).set(true);
+
+            // Add band reference to user's connected bands list
+            await this.database.ref(`users/${uid}/connectedBands/${bandId}`).set({
+                name: band.name,
+                code: code
+            });
+
+            // Update member count
+            await this.database.ref(`bands/${bandId}`).update({
+                memberCount: memberCount + 1
+            });
+
+            return { success: true, bandId: bandId, name: band.name };
+        } catch (e) {
+            console.error('Error joining band:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getBands() {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        try {
+            const uid = this.currentUser.uid;
+            const snapshot = await this.database.ref(`users/${uid}/connectedBands`).once('value');
+            const bands = snapshot.val() || {};
+            
+            // Format as array
+            const bandList = Object.keys(bands).map(id => ({
+                id: id,
+                name: bands[id].name,
+                code: bands[id].code
+            }));
+            
+            return { success: true, bands: bandList };
+        } catch (e) {
+            console.error('Error getting bands:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async getBandMembers(bandId) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        try {
+            const snapshot = await this.database.ref(`bandMembers/${bandId}`).once('value');
+            const members = snapshot.val() || {};
+            const uids = Object.keys(members);
+            
+            const memberDetails = [];
+            for (const memberUid of uids) {
+                const userSnap = await this.database.ref(`users/${memberUid}`).once('value');
+                const userData = userSnap.val();
+                if (userData) {
+                    memberDetails.push({
+                        uid: memberUid,
+                        displayName: userData.displayName || userData.email || 'Anonymous',
+                        role: userData.role || 'member'
+                    });
+                }
+            }
+            
+            return { success: true, members: memberDetails };
+        } catch (e) {
+            console.error('Error getting band members:', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    async leaveBand(bandId) {
+        if (!this.initialized || !this.currentUser) return { success: false, error: 'Not authenticated' };
+        
+        try {
+            const uid = this.currentUser.uid;
+
+            // Remove band reference from user
+            await this.database.ref(`users/${uid}/connectedBands/${bandId}`).remove();
+
+            // Remove user from band members
+            await this.database.ref(`bandMembers/${bandId}/${uid}`).remove();
+
+            // Recount members to keep it consistent
+            const membersSnap = await this.database.ref(`bandMembers/${bandId}`).once('value');
+            const members = membersSnap.val() || {};
+            const newCount = Object.keys(members).length;
+
+            if (newCount === 0) {
+                // Delete band and lookup code if no members are left
+                const bandSnap = await this.database.ref(`bands/${bandId}`).once('value');
+                const band = bandSnap.val();
+                if (band && band.code) {
+                    await this.database.ref(`bandCodes/${band.code}`).remove();
+                }
+                await this.database.ref(`bands/${bandId}`).remove();
+            } else {
+                // Update member count
+                await this.database.ref(`bands/${bandId}`).update({
+                    memberCount: newCount
+                });
+            }
+
+            return { success: true };
+        } catch (e) {
+            console.error('Error leaving band:', e);
+            return { success: false, error: e.message };
+        }
+    }
 }

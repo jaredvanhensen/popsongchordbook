@@ -55,6 +55,12 @@ class ProfileModal {
         this.connectedTeacherName = document.getElementById('connectedTeacherName');
         this.connectTeacherMsg = document.getElementById('connectTeacherMsg');
 
+        // Band elements
+        this.profileBandCodeInput = document.getElementById('profileBandCodeInput');
+        this.profileJoinBandBtn = document.getElementById('profileJoinBandBtn');
+        this.profileJoinBandMsg = document.getElementById('profileJoinBandMsg');
+        this.profileManageBandsBtn = document.getElementById('profileManageBandsBtn');
+
         // Admin elements
         // Admin elements
         this.adminSection = document.getElementById('profileAdminSection');
@@ -559,6 +565,44 @@ class ProfileModal {
                         this.connectTeacherMsg.textContent = result.error;
                         this.connectTeacherMsg.className = 'error-msg';
                         this.connectTeacherMsg.style.color = '#dc2626';
+                    }
+                }
+
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        if (this.profileJoinBandBtn) {
+            this.profileJoinBandBtn.addEventListener('click', async () => {
+                const code = this.profileBandCodeInput ? this.profileBandCodeInput.value.trim() : '';
+                if (!code) return;
+
+                const btn = this.profileJoinBandBtn;
+                const originalText = btn.textContent;
+                btn.textContent = '...';
+                btn.disabled = true;
+                
+                if (this.profileJoinBandMsg) {
+                    this.profileJoinBandMsg.textContent = '';
+                    this.profileJoinBandMsg.className = 'hidden';
+                }
+
+                const result = await this.firebaseManager.joinBand(code);
+                
+                if (result.success) {
+                    if (this.profileBandCodeInput) this.profileBandCodeInput.value = '';
+                    if (this.profileJoinBandMsg) {
+                        this.profileJoinBandMsg.textContent = `Successfully joined ${result.name}!`;
+                        this.profileJoinBandMsg.className = 'success-msg';
+                        this.profileJoinBandMsg.style.color = '#16a34a';
+                        setTimeout(() => this.profileJoinBandMsg.classList.add('hidden'), 5000);
+                    }
+                } else {
+                    if (this.profileJoinBandMsg) {
+                        this.profileJoinBandMsg.textContent = result.error;
+                        this.profileJoinBandMsg.className = 'error-msg';
+                        this.profileJoinBandMsg.style.color = '#dc2626';
                     }
                 }
 

@@ -1,4 +1,4 @@
-// Main Application (v3.103)
+// Main Application (v3.108)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -54,7 +54,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.102");
+        console.log("Pop Song Chord Book - 3.108");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -329,6 +329,8 @@ class App {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('student.html');
             } else if (viewParam === 'quickstart') {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('quickstart.html');
+            } else if (viewParam === 'band') {
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('band.html');
             }
             // Clear URL parameters to prevent sticky view on refresh
             window.history.replaceState({}, '', window.location.pathname);
@@ -2704,7 +2706,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v3.103):\n`;
+        let msg = `Diagnostics (v3.108):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -2935,7 +2937,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v3.103)');
+        console.log('UG Extractor listener initialized (v3.108)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);

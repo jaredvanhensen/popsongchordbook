@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.103)
+// Scrolling Chords Logic (v3.108)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -178,8 +178,9 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.103)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.108)
 let currentUid = 'guest'; // Track current user for preferences
+let loadedSongId = null; // Track current loaded song ID for band sync
 let wasAudioEnabledBeforeCapture = true;
 let lastBeatPlayed = -1;
 let lastChordPlayed = -1;
@@ -333,6 +334,7 @@ window.addEventListener('message', (event) => {
 
     if (msg.type === 'loadChordData') {
         console.log('Scrolling Chords received data:', msg);
+        loadedSongId = msg.songId || null;
         if (msg.isPublic !== undefined) isPublicMode = msg.isPublic;
         if (msg.canEdit !== undefined) canEditPublic = msg.canEdit;
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
@@ -362,7 +364,7 @@ window.addEventListener('message', (event) => {
         updateTeacherNoteButtonVisibility();
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.103)
+            // Apply default audio setting from Profile (v3.108)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -373,6 +375,9 @@ window.addEventListener('message', (event) => {
         if (msg.lastPosition && msg.lastPosition > 0) {
             pauseTime = msg.lastPosition;
             renderStaticElements();
+        }
+        if (window.bandSyncInstance) {
+            window.bandSyncInstance.updateSongPresence();
         }
     }
     else if (msg.type === 'stopAudio') {
@@ -1464,6 +1469,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     setupResponsiveView();
+
+    // Initialize BandSync
+    window.bandSyncInstance = new BandSync();
 });
 
 // Space bar recording or toggle play/pause (Global listener)
@@ -4714,6 +4722,9 @@ function togglePlayPause() {
 
 function play() {
     if (isPlaying) return;
+    if (window.bandSyncInstance) {
+        window.bandSyncInstance.updateBandSyncBtn(true);
+    }
     initAudio();
 
     // Extra kick for iPad/Safari
@@ -4798,6 +4809,9 @@ function stopCountIn() {
 
 function pause() {
     isPlaying = false;
+    if (window.bandSyncInstance) {
+        window.bandSyncInstance.updateBandSyncBtn(false);
+    }
     playPauseBtn.innerHTML = `
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         <span>PLAY</span>
@@ -6713,6 +6727,420 @@ function updateTeacherNoteButtonVisibility() {
     const visible = canEditNotes || hasNotes;
     if (teacherNoteBtn) {
         teacherNoteBtn.classList.toggle('visible-note', visible);
+    }
+}
+
+// ==========================================
+// Band Sync Real-time Collaboration Module
+// ==========================================
+
+class BandSync {
+    constructor() {
+        this.firebaseManager = new FirebaseManager();
+        this.currentBandId = null;
+        this.bands = [];
+        
+        // DOM elements
+        this.bandSyncBtn = document.getElementById('bandSyncBtn');
+        this.bandSyncSelect = document.getElementById('bandSyncSelect');
+        this.bandSyncSelectorContainer = document.getElementById('bandSyncSelectorContainer');
+        this.bandLobbyCount = document.getElementById('bandLobbyCount');
+        
+        // Listeners & state
+        this.presenceRef = null;
+        this.syncListenerRef = null;
+        this.currentUserId = null;
+        this.startTimeoutId = null;
+        
+        this.init();
+    }
+
+    updateBandSyncBtn(isPlayingState) {
+        if (!this.bandSyncBtn) return;
+        const iconSpan = this.bandSyncBtn.querySelector('.icon');
+        if (!iconSpan) return;
+        
+        if (isPlayingState) {
+            iconSpan.innerHTML = `
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            `;
+            this.bandSyncBtn.title = "Synced Pause with Band";
+        } else {
+            iconSpan.innerHTML = `
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+            `;
+            this.bandSyncBtn.title = "Synced Start with Band";
+        }
+    }
+
+    async init() {
+        try {
+            await this.firebaseManager.initialize();
+            this.firebaseManager.auth.onAuthStateChanged(user => {
+                if (user) {
+                    this.currentUserId = user.uid;
+                    this.loadBands();
+                    this.setupEventListeners();
+                } else {
+                    this.hideUI();
+                }
+            });
+        } catch (e) {
+            console.error('BandSync init error:', e);
+        }
+    }
+
+    setupEventListeners() {
+        if (this.bandSyncBtn) {
+            this.bandSyncBtn.onclick = () => this.handleSyncBtnClick();
+        }
+        if (this.bandSyncSelect) {
+            this.bandSyncSelect.onchange = (e) => {
+                this.selectBand(e.target.value);
+            };
+        }
+    }
+
+    hideUI() {
+        if (this.bandSyncSelectorContainer) this.bandSyncSelectorContainer.style.display = 'none';
+        if (this.bandSyncBtn) this.bandSyncBtn.style.display = 'none';
+        this.cleanup();
+    }
+
+    async loadBands() {
+        const result = await this.firebaseManager.getBands();
+        if (result.success && result.bands.length > 0) {
+            this.bands = result.bands;
+            
+            // Populate select options
+            if (this.bandSyncSelect) {
+                this.bandSyncSelect.innerHTML = '<option value="" style="color: black;">No Band Sync</option>';
+                this.bands.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.name;
+                    opt.style.color = 'black';
+                    this.bandSyncSelect.appendChild(opt);
+                });
+            }
+            
+            if (this.bandSyncSelectorContainer) {
+                this.bandSyncSelectorContainer.classList.remove('hidden');
+                this.bandSyncSelectorContainer.style.display = 'flex';
+            }
+            
+            // Restore last selected band if possible
+            const savedId = localStorage.getItem('lastSelectedBandId');
+            const stillExists = this.bands.some(b => b.id === savedId);
+            if (savedId && stillExists) {
+                if (this.bandSyncSelect) this.bandSyncSelect.value = savedId;
+                this.selectBand(savedId);
+            }
+        } else {
+            this.hideUI();
+        }
+    }
+
+    async selectBand(bandId) {
+        this.cleanup();
+        
+        if (!bandId) {
+            if (this.bandSyncBtn) this.bandSyncBtn.style.display = 'none';
+            localStorage.removeItem('lastSelectedBandId');
+            return;
+        }
+        
+        this.currentBandId = bandId;
+        localStorage.setItem('lastSelectedBandId', bandId);
+        
+        if (this.bandSyncBtn) {
+            this.bandSyncBtn.classList.remove('hidden');
+            this.bandSyncBtn.style.display = 'flex';
+            
+            // Set initial state based on isPlaying
+            this.updateBandSyncBtn(isPlaying);
+        }
+        
+        // Update presence
+        await this.updateSongPresence();
+        
+        // Listen to online presence count
+        const lobbyRef = this.firebaseManager.database.ref(`bandSync/${bandId}/present`);
+        lobbyRef.on('value', snapshot => {
+            const val = snapshot.val() || {};
+            const count = Object.keys(val).length;
+            if (this.bandLobbyCount) {
+                this.bandLobbyCount.textContent = count;
+                this.bandLobbyCount.classList.remove('hidden');
+                this.bandLobbyCount.style.display = 'inline-block';
+            }
+        });
+        
+        // Listen to sync events
+        const syncRef = this.firebaseManager.database.ref(`bandSync/${bandId}`);
+        this.syncListenerRef = syncRef.on('value', snapshot => {
+            const data = snapshot.val();
+            if (data && data.action && data.triggeredBy !== this.currentUserId) {
+                this.executeSyncAction(data);
+            }
+        });
+    }
+
+    async updateSongPresence() {
+        if (!this.currentBandId || !this.currentUserId) return;
+        
+        const displayName = this.firebaseManager.currentUser.displayName || this.firebaseManager.currentUser.email.split('@')[0];
+        const titleEl = document.getElementById('songTitleDisplay');
+        const songName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
+        
+        this.presenceRef = this.firebaseManager.database.ref(`bandSync/${this.currentBandId}/present/${this.currentUserId}`);
+        await this.presenceRef.set({
+            displayName: displayName,
+            songId: songName,
+            connectedAt: Date.now()
+        });
+        
+        this.presenceRef.onDisconnect().remove();
+    }
+
+    cleanup() {
+        if (this.presenceRef) {
+            this.presenceRef.remove();
+            this.presenceRef = null;
+        }
+        if (this.currentBandId) {
+            this.firebaseManager.database.ref(`bandSync/${this.currentBandId}/present`).off('value');
+            this.firebaseManager.database.ref(`bandSync/${this.currentBandId}`).off('value');
+        }
+        if (this.bandLobbyCount) this.bandLobbyCount.style.display = 'none';
+        this.currentBandId = null;
+    }
+
+    async handleSyncBtnClick() {
+        if (!this.currentBandId) return;
+        
+        const titleEl = document.getElementById('songTitleDisplay');
+        const currentSongName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
+        const pos = isPlaying ? ((performance.now() - startTime) / 1000) : pauseTime;
+        
+        if (isPlaying) {
+            // Write PAUSE action
+            await this.firebaseManager.database.ref(`bandSync/${this.currentBandId}`).update({
+                action: 'pause',
+                fireAt: Date.now() + 100, // 100ms execution delay for stop
+                position: pos,
+                songId: currentSongName,
+                triggeredBy: this.currentUserId
+            });
+            // Execute locally immediately
+            pause();
+            jumpToTime(pos);
+        } else {
+            // Write PLAY action
+            await this.firebaseManager.database.ref(`bandSync/${this.currentBandId}`).update({
+                action: 'play',
+                fireAt: Date.now() + 5000, // 5 seconds countdown
+                position: pos,
+                songId: currentSongName,
+                triggeredBy: this.currentUserId
+            });
+            // Execute countdown locally
+            this.startCountdown(5000, pos);
+        }
+    }
+
+    executeSyncAction(data) {
+        const titleEl = document.getElementById('songTitleDisplay');
+        const currentSongName = titleEl ? titleEl.textContent : (loadedSongId || 'Unknown Song');
+        if (data.songId !== currentSongName) {
+            // Show song mismatch alert using ConfirmationModal
+            if (window.confirmationModal) {
+                window.confirmationModal.show(
+                    '🎸 Band Playback Sync',
+                    `Band Member is playing: <strong>"${data.songId}"</strong>.<br><br>Open that song on your songlist to play along together!`,
+                    () => {},
+                    null,
+                    'OK',
+                    null,
+                    'primary',
+                    true
+                );
+            } else {
+                alert(`Band Member is playing: "${data.songId}". Open that song to play along together!`);
+            }
+            return;
+        }
+        
+        const delay = data.fireAt - Date.now();
+        
+        if (data.action === 'play') {
+            if (delay > 0) {
+                this.startCountdown(delay, data.position);
+            } else {
+                // If late, just play immediately at the adjusted position
+                const lateOffset = Math.abs(delay) / 1000;
+                pause();
+                jumpToTime(data.position + lateOffset);
+                play();
+            }
+        } else if (data.action === 'pause') {
+            // Cancel countdowns
+            if (this.startTimeoutId) {
+                clearTimeout(this.startTimeoutId);
+                this.startTimeoutId = null;
+            }
+            if (this.countdownIntervalId) {
+                clearInterval(this.countdownIntervalId);
+                this.countdownIntervalId = null;
+            }
+            const overlay = document.getElementById('bandCountdownOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+
+            if (delay > 0) {
+                setTimeout(() => {
+                    pause();
+                    jumpToTime(data.position);
+                }, delay);
+            } else {
+                pause();
+                jumpToTime(data.position);
+            }
+        }
+    }
+
+    startCountdown(delayMs, position) {
+        // Cancel existing countdowns
+        if (this.startTimeoutId) {
+            clearTimeout(this.startTimeoutId);
+            this.startTimeoutId = null;
+        }
+        if (this.countdownIntervalId) {
+            clearInterval(this.countdownIntervalId);
+            this.countdownIntervalId = null;
+        }
+        
+        const overlay = document.getElementById('bandCountdownOverlay');
+        const numberEl = document.getElementById('bandCountdownNumber');
+        if (!overlay || !numberEl) {
+            // Fallback if elements don't exist
+            this.startTimeoutId = setTimeout(() => {
+                this.startTimeoutId = null;
+                this.executeSyncStart(position);
+            }, delayMs);
+            return;
+        }
+        
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        
+        // Prepare YouTube in the background so it is ready
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+            youtubePlayer._syncingFromTimeline = true;
+            youtubePlayer.seekTo(Math.max(0, position), true);
+            youtubePlayer.pauseVideo();
+        }
+        
+        // Standard countdown is 5 seconds
+        let count = 5;
+        numberEl.textContent = count;
+        numberEl.style.color = '#4f46e5';
+        numberEl.style.transform = 'scale(1)';
+        
+        if (audioEnabled && pianoPlayer) {
+            try { pianoPlayer.playCountdownTick(false); } catch (e) { console.error(e); }
+        }
+        
+        this.countdownIntervalId = setInterval(() => {
+            count--;
+            if (count > 0) {
+                numberEl.textContent = count;
+                numberEl.style.transform = 'scale(1.2)';
+                setTimeout(() => { numberEl.style.transform = 'scale(1)'; }, 100);
+                if (audioEnabled && pianoPlayer) {
+                    try { pianoPlayer.playCountdownTick(false); } catch (e) { console.error(e); }
+                }
+            } else if (count === 0) {
+                numberEl.textContent = 'GO!';
+                numberEl.style.color = '#10b981';
+                numberEl.style.transform = 'scale(1.5)';
+                if (audioEnabled && pianoPlayer) {
+                    try { pianoPlayer.playCountdownTick(true); } catch (e) { console.error(e); }
+                }
+                
+                // Trigger song play synchronously on count = 0
+                this.executeSyncStart(position);
+            } else {
+                clearInterval(this.countdownIntervalId);
+                this.countdownIntervalId = null;
+                
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    numberEl.style.color = '#4f46e5';
+                    numberEl.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }, 1000);
+    }
+
+    executeSyncStart(position) {
+        isPlaying = true;
+        startTime = performance.now() - (position * 1000);
+        
+        // Update play/pause buttons
+        playPauseBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            <span>PAUSE</span>
+        `;
+        if (playPauseBtnCompact) {
+            playPauseBtnCompact.innerHTML = `
+                <span class="icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                </span>
+            `;
+        }
+        if (songMapPlayPauseBtn) {
+            songMapPlayPauseBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            `;
+        }
+        
+        const textModePlayPauseBtn = document.getElementById('textModePlayPauseBtn');
+        if (textModePlayPauseBtn) {
+            textModePlayPauseBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            `;
+        }
+        
+        // Resume YouTube if applicable
+        if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
+            youtubePlayer._syncingFromTimeline = true;
+            youtubePlayer.seekTo(position, true);
+            youtubePlayer.playVideo();
+        }
+        
+        // Update Sync Button
+        this.updateBandSyncBtn(true);
+        
+        // Kick off update loop
+        requestAnimationFrame(updateLoop);
     }
 }
 

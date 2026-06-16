@@ -331,7 +331,8 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact,
 #pureTimelineFullModeBtn,
 #pureTimelineMenuBtn,
-#fullscreenToggleBtn {
+#fullscreenToggleBtn,
+#bandSyncBtnCompact {
     min-width: 28px !important; /* Ultra-compact (was 42px) */
     height: 28px !important;
     background: rgba(255, 255, 255, 0.15) !important;
@@ -348,7 +349,8 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact .icon,
 #pureTimelineFullModeBtn .icon,
 #pureTimelineMenuBtn .icon,
-#fullscreenToggleBtn .icon {
+#fullscreenToggleBtn .icon,
+#bandSyncBtnCompact .icon {
     font-size: 1.0rem !important; /* Ultra-compact icons */
     color: white !important;
 }
@@ -520,7 +522,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact,
     body.is-portrait #pureTimelineFullModeBtn,
     body.is-portrait #pureTimelineMenuBtn,
-    body.is-portrait #fullscreenToggleBtn {
+    body.is-portrait #fullscreenToggleBtn,
+    body.is-portrait #bandSyncBtnCompact {
         min-width: 34px !important;
         height: 34px !important;
     }
@@ -531,7 +534,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact .icon,
     body.is-portrait #pureTimelineFullModeBtn .icon,
     body.is-portrait #pureTimelineMenuBtn .icon,
-    body.is-portrait #fullscreenToggleBtn .icon {
+    body.is-portrait #fullscreenToggleBtn .icon,
+    body.is-portrait #bandSyncBtnCompact .icon {
         font-size: 1.15rem !important;
     }
 
@@ -645,7 +649,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact,
     body.is-mobile-landscape #pureTimelineFullModeBtn,
     body.is-mobile-landscape #pureTimelineMenuBtn,
-    body.is-mobile-landscape #fullscreenToggleBtn {
+    body.is-mobile-landscape #fullscreenToggleBtn,
+    body.is-mobile-landscape #bandSyncBtnCompact {
         height: 42px !important; 
         min-width: 42px !important;
         background: rgba(255, 255, 255, 0.2) !important;
@@ -658,7 +663,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
     body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
     body.is-mobile-landscape #pureTimelineMenuBtn .icon,
-    body.is-mobile-landscape #fullscreenToggleBtn .icon {
+    body.is-mobile-landscape #fullscreenToggleBtn .icon,
+    body.is-mobile-landscape #bandSyncBtnCompact .icon {
         font-size: 1.35rem !important; /* Refined icon scale */
     }
 
