@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-15</lastmod>
+        <lastmod>2026-06-16</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -1054,6 +1054,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/john-waite-missing-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/johnny-cash-hurt</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2218,6 +2223,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/the-rolling-stones-angie</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/the-rolling-stones-paint-it-black</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3029,6 +3039,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/john-waite</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/johnny-cash</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
