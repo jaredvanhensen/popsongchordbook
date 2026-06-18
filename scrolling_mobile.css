@@ -331,8 +331,7 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact,
 #pureTimelineFullModeBtn,
 #pureTimelineMenuBtn,
-#fullscreenToggleBtn,
-#bandSyncBtnCompact {
+#fullscreenToggleBtn {
     min-width: 28px !important; /* Ultra-compact (was 42px) */
     height: 28px !important;
     background: rgba(255, 255, 255, 0.15) !important;
@@ -349,8 +348,7 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact .icon,
 #pureTimelineFullModeBtn .icon,
 #pureTimelineMenuBtn .icon,
-#fullscreenToggleBtn .icon,
-#bandSyncBtnCompact .icon {
+#fullscreenToggleBtn .icon {
     font-size: 1.0rem !important; /* Ultra-compact icons */
     color: white !important;
 }
@@ -366,6 +364,74 @@ body.is-mobile-landscape .header-controls-row {
 
 #pureRestartBtn .icon {
     font-size: 1.45rem !important; /* Balanced with neighbors */
+}
+
+/* Premium Band Sync Text Button */
+#bandSyncBtn {
+    position: relative !important;
+    height: 28px !important;
+    min-width: auto !important;
+    width: auto !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 14px !important;
+    padding: 0 10px !important;
+    margin: 0 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+}
+
+#bandSyncBtn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.15) 100%) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 8px rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.03) !important;
+    opacity: 1 !important;
+}
+
+#bandSyncBtn .icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+}
+
+#bandSyncBtn svg {
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+    stroke-width: 2.5 !important;
+}
+
+#bandSyncBtn .btn-text {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+}
+
+#bandLobbyCount {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #ef4444 !important; /* Vibrant Red */
+    color: white !important;
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50% !important;
+    margin-left: 6px !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
 }
 
 /* Specific styling for YouTube SVG in compact mode to avoid distortion */
@@ -522,8 +588,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact,
     body.is-portrait #pureTimelineFullModeBtn,
     body.is-portrait #pureTimelineMenuBtn,
-    body.is-portrait #fullscreenToggleBtn,
-    body.is-portrait #bandSyncBtnCompact {
+    body.is-portrait #fullscreenToggleBtn {
         min-width: 34px !important;
         height: 34px !important;
     }
@@ -534,14 +599,35 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact .icon,
     body.is-portrait #pureTimelineFullModeBtn .icon,
     body.is-portrait #pureTimelineMenuBtn .icon,
-    body.is-portrait #fullscreenToggleBtn .icon,
-    body.is-portrait #bandSyncBtnCompact .icon {
+    body.is-portrait #fullscreenToggleBtn .icon {
         font-size: 1.15rem !important;
     }
 
     /* Ensure hidden buttons don't take up any space */
     body.is-portrait.is-mobile-landscape .pure-timeline-controls button.hidden {
         display: none !important;
+    }
+
+    /* Specific styling for Band Sync SVG in portrait mode */
+    body.is-portrait #bandSyncBtn {
+        height: 34px !important;
+        border-radius: 17px !important;
+        padding: 0 14px !important;
+        gap: 6px !important;
+    }
+    body.is-portrait #bandSyncBtn svg {
+        width: 15px !important;
+        height: 15px !important;
+        min-width: 15px !important;
+    }
+    body.is-portrait #bandSyncBtn .btn-text {
+        font-size: 0.78rem !important;
+    }
+    body.is-portrait #bandLobbyCount {
+        width: 17px !important;
+        height: 17px !important;
+        font-size: 0.72rem !important;
+        margin-left: 7px !important;
     }
 
     /* YouTube SVG sizing */
@@ -649,8 +735,7 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact,
     body.is-mobile-landscape #pureTimelineFullModeBtn,
     body.is-mobile-landscape #pureTimelineMenuBtn,
-    body.is-mobile-landscape #fullscreenToggleBtn,
-    body.is-mobile-landscape #bandSyncBtnCompact {
+    body.is-mobile-landscape #fullscreenToggleBtn {
         height: 42px !important; 
         min-width: 42px !important;
         background: rgba(255, 255, 255, 0.2) !important;
@@ -663,14 +748,36 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
     body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
     body.is-mobile-landscape #pureTimelineMenuBtn .icon,
-    body.is-mobile-landscape #fullscreenToggleBtn .icon,
-    body.is-mobile-landscape #bandSyncBtnCompact .icon {
+    body.is-mobile-landscape #fullscreenToggleBtn .icon {
         font-size: 1.35rem !important; /* Refined icon scale */
     }
 
     /* FIX: Ensure hamburger menu icons are NOT oversized (v2.758) */
     body.is-mobile-landscape .pure-timeline-hamburger-menu .icon {
         font-size: 1.4rem !important; 
+    }
+
+    /* Specific styling for Band Sync SVG in landscape mode */
+    body.is-mobile-landscape #bandSyncBtn {
+        height: 42px !important;
+        border-radius: 21px !important;
+        padding: 0 18px !important;
+        gap: 7px !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 100%) !important;
+    }
+    body.is-mobile-landscape #bandSyncBtn svg {
+        width: 17px !important;
+        height: 17px !important;
+        min-width: 17px !important;
+    }
+    body.is-mobile-landscape #bandSyncBtn .btn-text {
+        font-size: 0.85rem !important;
+    }
+    body.is-mobile-landscape #bandLobbyCount {
+        width: 19px !important;
+        height: 19px !important;
+        font-size: 0.78rem !important;
+        margin-left: 8px !important;
     }
 
     /* YouTube SVG scaling for Tablet */
