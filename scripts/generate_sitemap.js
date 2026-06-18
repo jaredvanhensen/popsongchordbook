@@ -68,6 +68,26 @@ function generateSitemap() {
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>${BASE_URL}/quickstart.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/band.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/teacher.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/student.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>${BASE_URL}/changelog.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -120,10 +140,10 @@ function generateSitemap() {
     
     console.log('-------------------------------------------');
     console.log(`Success! Sitemap saved to ${outputPath}`);
-    console.log(`Total URLs: ${songCount + artists.size + 5}`);
+    console.log(`Total URLs: ${songCount + artists.size + 9}`);
     console.log(`- Songs: ${songCount}`);
     console.log(`- Artists: ${artists.size}`);
-    console.log(`- Static Pages: 5`);
+    console.log(`- Static Pages: 9`);
     console.log('-------------------------------------------');
 }
 
