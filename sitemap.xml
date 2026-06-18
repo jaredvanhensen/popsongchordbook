@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-16</lastmod>
+        <lastmod>2026-06-18</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -689,6 +689,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/elton-john-sacrifice</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/elvis-presley-suspicious-minds</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1748,6 +1753,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/radiohead-creep</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/ray-charles-hit-the-road-jack</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2239,6 +2249,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-rolling-stones-satisfaction</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-rolling-stones-wild-horses</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2804,6 +2819,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/elton-john</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/elvis-presley</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3424,6 +3444,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/rem</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/radiohead</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
