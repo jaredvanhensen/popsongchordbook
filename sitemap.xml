@@ -1048,6 +1048,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/john-lennon-imagine</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/john-mayer-last-train-home</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1974,6 +1979,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/sting-fields-of-gold</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/sting-shape-of-my-heart</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3054,6 +3064,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/john-legend</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/john-lennon</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
