@@ -1,4 +1,4 @@
-﻿class BandDashboard {
+class BandDashboard {
     constructor() {
         this.firebaseManager = window.firebaseManager || new FirebaseManager();
         
@@ -175,7 +175,8 @@
             this.presenceRef.onDisconnect().remove();
         }
         
-        // Start listening to real-time lobby presence
+        // Always listen to real-time lobby presence so all devices see the member list,
+        // regardless of whether this device has started a practice session.
         const lobbyRef = this.firebaseManager.database.ref(`bandSync/${bandId}/present`);
         this.lobbyListenerRef = lobbyRef.on('value', snapshot => {
             const onlinePresence = snapshot.val() || {};
@@ -187,7 +188,7 @@
         this.bandLobbyList.innerHTML = '';
         
         registeredMembers.forEach(member => {
-            // isOnline is based purely on what Firebase reports â€” not on whether THIS
+            // isOnline is based purely on what Firebase reports — not on whether THIS
             // device has started a session. The local sessionActive flag only controls
             // whether this user writes their own presence, not what they can see.
             const isOnline = !!onlinePresence[member.uid];
@@ -312,12 +313,12 @@
         if (!this.bandPracticeSessionBtn) return;
         const active = localStorage.getItem('bandPracticeSessionActive') === 'true';
         if (active) {
-            this.bandPracticeSessionBtn.textContent = 'ðŸ”´ Stop Band Practice Session';
+            this.bandPracticeSessionBtn.textContent = '🔴 Stop Band Practice Session';
             this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444';
             this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#dc2626'; };
             this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444'; };
         } else {
-            this.bandPracticeSessionBtn.textContent = 'ðŸŸ¢ Start Band Practice Session';
+            this.bandPracticeSessionBtn.textContent = '🟢 Start Band Practice Session';
             this.bandPracticeSessionBtn.style.backgroundColor = '#10b981';
             this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#059669'; };
             this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#10b981'; };
@@ -422,4 +423,3 @@
 document.addEventListener('DOMContentLoaded', () => {
     window.bandDashboard = new BandDashboard();
 });
-

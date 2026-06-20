@@ -1,4 +1,4 @@
-﻿// Scrolling Chords Logic (v3.141)
+// Scrolling Chords Logic (v3.141)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -387,7 +387,7 @@ window.addEventListener('message', (event) => {
         }
         isPlaying = false;
         if (playPauseBtn) {
-            playPauseBtn.innerHTML = 'â–¶ <span>PLAY</span>';
+            playPauseBtn.innerHTML = '▶ <span>PLAY</span>';
             playPauseBtn.classList.remove('playing');
         }
         cancelAnimationFrame(animationFrame);
@@ -422,7 +422,7 @@ window.addEventListener('message', (event) => {
         }, '*');
     }
     else if (msg.type === 'updateSuggestedChords') {
-        // Refresh just the toolbar buttons â€” does not affect chords, position, or any other state
+        // Refresh just the toolbar buttons — does not affect chords, position, or any other state
         if (Array.isArray(msg.suggestedChords)) {
             suggestedChords = msg.suggestedChords;
             if (msg.instrumentMode) {
@@ -1760,7 +1760,7 @@ function syncPureTimelineButtons() {
     if (audioToggleBtnComp) {
         const audioIcon = document.getElementById('audioIconCompact');
         if (audioIcon) {
-            audioIcon.innerHTML = audioEnabled ? 'ðŸ”Š' : 'ðŸ”‡';
+            audioIcon.innerHTML = audioEnabled ? '🔊' : '🔇';
             audioIcon.style.color = 'rgba(255, 255, 255, 0.85)';
         }
         audioToggleBtnComp.classList.toggle('active', audioEnabled);
@@ -1787,7 +1787,7 @@ function toggleAudio() {
     // Sync compact button
     if (audioToggleBtnCompact) {
         const audioIcon = document.getElementById('audioIconCompact');
-        if (audioIcon) audioIcon.innerText = audioEnabled ? 'ðŸ”Š' : 'ðŸ”‡';
+        if (audioIcon) audioIcon.innerText = audioEnabled ? '🔊' : '🔇';
         audioToggleBtnCompact.classList.toggle('active', audioEnabled);
     }
 
@@ -3695,7 +3695,7 @@ function generateTextModeContent() {
     const makeChordBadge = (c, idx) => {
         const isManuallyPlaced = c.isUserEdited === true || (c.lyricLineIdx !== undefined && c.lyricWordIdx !== undefined);
         const placedClass = isManuallyPlaced ? ' manually-placed' : '';
-        // Use a stable key: time (ms) + name â€” survives array re-sorting
+        // Use a stable key: time (ms) + name — survives array re-sorting
         const stableKey = `${Math.round(c.time * 1000)}_${c.name}`;
         // data-chord-idx for drag-and-drop, data-chord-key for click-to-link
         const draggableAttr = isEditMode ? 'draggable="true"' : '';
@@ -3978,9 +3978,9 @@ function generateTextModeContent() {
 
         html += `
             <div class="text-mode-pagination">
-                <button class="btn" onclick="window.prevTextPage()" ${window.textModeEditPage === 0 ? 'disabled' : ''}>â† Previous 4 Lines</button>
+                <button class="btn" onclick="window.prevTextPage()" ${window.textModeEditPage === 0 ? 'disabled' : ''}>← Previous 4 Lines</button>
                 <span style="font-size: 0.9em; color: #64748b;">Page ${window.textModeEditPage + 1} of ${maxPage + 1}</span>
-                <button class="btn" onclick="window.nextTextPage()" ${window.textModeEditPage >= maxPage ? 'disabled' : ''}>Next 4 Lines â†’</button>
+                <button class="btn" onclick="window.nextTextPage()" ${window.textModeEditPage >= maxPage ? 'disabled' : ''}>Next 4 Lines →</button>
             </div>
         `;
     } else {
@@ -3992,7 +3992,7 @@ function generateTextModeContent() {
     // Reset this so updateLoop ensures scrolling is re-applied correctly on next frame
     window.lastActiveTextLyricIdx = -1;
 
-    // â”€â”€ Attach drag-and-drop listeners once â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Attach drag-and-drop listeners once ──────────────────────────────────
     // We use a dataset flag so listeners are only added once, not on every render.
     if (!textModeContent.dataset.dragListenersAdded) {
         textModeContent.addEventListener('dragstart', (e) => {
@@ -4055,16 +4055,16 @@ function generateTextModeContent() {
                 if (typeof setSaveStatus === 'function') setSaveStatus(false);
                 if (typeof checkForChanges === 'function') checkForChanges();
                 generateTextModeContent();
-                if (typeof showNotification === 'function') showNotification('âœ… Chord moved!');
+                if (typeof showNotification === 'function') showNotification('✅ Chord moved!');
             }
         });
 
         textModeContent.dataset.dragListenersAdded = 'true';
     }
 
-    // â”€â”€ Click-to-link (two-click) mechanism â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    //   Click 1 â€” click a chord badge â†’ selects it (amber glow, chord-selected class)
-    //   Click 2 â€” click a lyric word  â†’ links selected chord to that word (turns purple)
+    // ── Click-to-link (two-click) mechanism ─────────────────────────────────
+    //   Click 1 — click a chord badge → selects it (amber glow, chord-selected class)
+    //   Click 2 — click a lyric word  → links selected chord to that word (turns purple)
     // The chord's .time (timeline position) is NEVER changed here.
     if (!textModeContent.dataset.clickListenerAdded) {
         let pendingChordKey = null;
@@ -4080,12 +4080,12 @@ function generateTextModeContent() {
                 textModeContent.querySelectorAll('.draggable-chord.chord-selected')
                                .forEach(el => el.classList.remove('chord-selected'));
                 if (pendingChordKey === chordEl.dataset.chordKey) {
-                    // Second click on same badge â†’ deselect
+                    // Second click on same badge → deselect
                     pendingChordKey = null;
                 } else {
                     pendingChordKey = chordEl.dataset.chordKey;
                     chordEl.classList.add('chord-selected');
-                    if (typeof showNotification === 'function') showNotification('Chord selected â€” now drag or click a word to place it');
+                    if (typeof showNotification === 'function') showNotification('Chord selected — now drag or click a word to place it');
                 }
                 return;
             }
@@ -4099,7 +4099,7 @@ function generateTextModeContent() {
             if (isNaN(lineIdx) || isNaN(wordIdx)) return;
 
             if (pendingChordKey) {
-                // === Path A: a chord badge was selected â€” place it here ===
+                // === Path A: a chord badge was selected — place it here ===
                 const c = chords.find(ch => `${Math.round(ch.time * 1000)}_${ch.name}` === pendingChordKey);
                 if (!c) {
                     console.warn('[TextMode] Chord not found for key', pendingChordKey);
@@ -4121,10 +4121,10 @@ function generateTextModeContent() {
                 if (typeof setSaveStatus === 'function') setSaveStatus(false);
                 if (typeof checkForChanges === 'function') checkForChanges();
                 generateTextModeContent();
-                if (typeof showNotification === 'function') showNotification('âœ… Chord placed! It is now purple.');
+                if (typeof showNotification === 'function') showNotification('✅ Chord placed! It is now purple.');
 
             } else {
-                // === Path B: no chord selected â€” auto-link nearest chord by time ===
+                // === Path B: no chord selected — auto-link nearest chord by time ===
                 const currentPlaybackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
                 let closestIdx = -1, minDiff = Infinity;
                 chords.forEach((c, idx) => {
@@ -4284,7 +4284,7 @@ function showSaveToast() {
     if (!toast) {
         toast = document.createElement('div');
         toast.className = 'save-toast';
-        toast.innerHTML = '<span class="checkmark">âœ…</span> Saved Successfully';
+        toast.innerHTML = '<span class="checkmark">✅</span> Saved Successfully';
         document.body.appendChild(toast);
     }
 
@@ -4784,7 +4784,7 @@ function play() {
         // resume from pauseTime
         startTime = performance.now() - (pauseTime * 1000);
 
-        // Resume YouTube if applicable â€” flag to prevent circular state-change sync
+        // Resume YouTube if applicable — flag to prevent circular state-change sync
         // ONLY if the video container is visible
         if (youtubePlayer && youtubePlayerContainer && !youtubePlayerContainer.classList.contains('hidden')) {
             youtubePlayer._syncingFromTimeline = true;
@@ -5261,12 +5261,12 @@ function onPlayerStateChange(event) {
             return;
         }
 
-        // User scrubbed/played YouTube manually â€” sync timeline to YouTube's position
+        // User scrubbed/played YouTube manually — sync timeline to YouTube's position
         const ytTime = youtubePlayer.getCurrentTime();
         const timeDiff = Math.abs(ytTime - (isPlaying ? (performance.now() - startTime) / 1000 : pauseTime));
 
         if (timeDiff > 0.5) {
-            // YouTube is at a significantly different position â€” sync timeline to it
+            // YouTube is at a significantly different position — sync timeline to it
             if (pianoPlayer) pianoPlayer.stopAll();
             pauseTime = ytTime;
         }
@@ -5281,7 +5281,7 @@ function onPlayerStateChange(event) {
             startTime = performance.now() - (pauseTime * 1000);
             requestAnimationFrame(updateLoop);
         } else {
-            // Already playing â€” just re-anchor startTime if drift is large
+            // Already playing — just re-anchor startTime if drift is large
             if (timeDiff > 0.5) {
                 startTime = performance.now() - (pauseTime * 1000);
             }
@@ -6074,7 +6074,7 @@ function openSongMap() {
     const auditionGuitarDiagram = document.getElementById('auditionGuitarDiagram');
     if (auditionGuitarDiagram) auditionGuitarDiagram.classList.add('song-map-open');
 
-    // Note: playback intentionally NOT stopped here â€” video/music continues while Song Map is open
+    // Note: playback intentionally NOT stopped here — video/music continues while Song Map is open
 
     // Ensure focus is on the document so we can catch keyboard events
     window.focus();
@@ -6939,7 +6939,7 @@ class BandSync {
         if (!sessionActive) {
             if (window.confirmationModal) {
                 window.confirmationModal.show(
-                    'ðŸŽ¸ Band Practice Session',
+                    '🎸 Band Practice Session',
                     'Your Band Practice Session is currently stopped. Please start a practice session on the Band Members page to synchronize playback.',
                     () => {},
                     null,
@@ -7033,7 +7033,7 @@ class BandSync {
                 }
 
                 window.confirmationModal.show(
-                    'ðŸŽ¸ Band Playback Sync',
+                    '🎸 Band Playback Sync',
                     messageHTML,
                     () => {},
                     null,
@@ -7214,7 +7214,6 @@ class BandSync {
         requestAnimationFrame(updateLoop);
     }
 }
-
 
 
 
