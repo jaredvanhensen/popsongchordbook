@@ -2169,6 +2169,55 @@ class FirebaseManager {
         }
     }
 
+    getCurrentPresenceStatus() {
+        const pathname = window.location.pathname.toLowerCase();
+        
+        // Detect if the timeline modal is open (handles clean URLs and nested frames)
+        let isTimelineOpen = pathname.includes('scrolling_chords');
+        if (!isTimelineOpen) {
+            try {
+                const parentModal = window.parent && window.parent.document && window.parent.document.getElementById('scrollingChordsModal');
+                if (parentModal && !parentModal.classList.contains('timeline-hidden')) {
+                    isTimelineOpen = true;
+                }
+            } catch (e) {}
+        }
+        if (!isTimelineOpen) {
+            const localModal = document.getElementById('scrollingChordsModal');
+            if (localModal && !localModal.classList.contains('timeline-hidden')) {
+                isTimelineOpen = true;
+            }
+        }
+        
+        if (isTimelineOpen) {
+            return null; // The timeline sync module manages presence when active
+        }
+        
+        if (pathname.includes('songlist')) {
+            // Check if detail modal is open and has a song title
+            const detailModal = document.getElementById('songDetailModal');
+            if (detailModal && !detailModal.classList.contains('hidden')) {
+                const titleEl = document.getElementById('song-title');
+                if (titleEl && titleEl.textContent.trim()) {
+                    return `Viewing: ${titleEl.textContent.trim()}`;
+                }
+            }
+            return 'Browsing Songs';
+        } else if (pathname.includes('band')) {
+            return 'Viewing Band Connect';
+        } else if (pathname.includes('chordtrainer')) {
+            return 'Practicing Chords';
+        } else if (pathname.includes('guitarchordtrainer')) {
+            return 'Practicing Guitar Chords';
+        } else if (pathname.includes('/song/') || pathname.includes('song.html') || pathname.endsWith('/song') || pathname.includes('/song?')) {
+            const titleEl = document.getElementById('song-title') || document.querySelector('h1');
+            const songName = titleEl ? titleEl.textContent.trim() : 'a Song';
+            return `Viewing: ${songName}`;
+        }
+        
+        return 'Active in App';
+    }
+
     async setupGlobalPresence() {
         if (!this.initialized || !this.currentUser) return;
         
@@ -2178,26 +2227,9 @@ class FirebaseManager {
             return;
         }
         
-        // Determine user status based on current URL path
-        let status = 'Active in App';
-        const pathname = window.location.pathname.toLowerCase();
-        
-        if (pathname.includes('scrolling_chords.html')) {
-            // Let the timeline sync module handle detailed status updates
-            return;
-        } else if (pathname.includes('songlist.html') || pathname.includes('songlist-old.html')) {
-            status = 'Browsing Songs';
-        } else if (pathname.includes('band.html')) {
-            status = 'Viewing Band Connect';
-        } else if (pathname.includes('chordtrainer.html')) {
-            status = 'Practicing Chords';
-        } else if (pathname.includes('guitarchordtrainer.html')) {
-            status = 'Practicing Guitar Chords';
-        } else if (pathname.includes('/song/') || pathname.includes('song.html')) {
-            // Try to extract song name from preview page elements
-            const titleEl = document.getElementById('song-title') || document.querySelector('h1');
-            const songName = titleEl ? titleEl.textContent.trim() : 'a Song';
-            status = `Viewing: ${songName}`;
+        const status = this.getCurrentPresenceStatus();
+        if (status === null) {
+            return; // Let the timeline sync handle it
         }
         
         await this.updatePresenceStatus(status);
@@ -2225,11 +2257,14 @@ class FirebaseManager {
             
             this.presenceConnectionListener = (snap) => {
                 if (snap.val() === true) {
+                    const status = this.getCurrentPresenceStatus();
+                    if (status === null) return; // Let timeline sync handle it
+                    
                     Object.keys(bands).forEach((bandId) => {
                         const presenceRef = this.database.ref(`bandSync/${bandId}/present/${uid}`);
                         presenceRef.set({
                             displayName: displayName,
-                            songId: newStatus,
+                            songId: status,
                             connectedAt: firebase.database.ServerValue.TIMESTAMP
                         });
                         presenceRef.onDisconnect().remove();

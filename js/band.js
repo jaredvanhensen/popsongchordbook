@@ -202,7 +202,7 @@ class BandDashboard {
             let songStatusHTML = 'Offline';
             if (isOnline && presenceDetails) {
                 const rawStatus = presenceDetails.songId;
-                if (rawStatus === 'Viewing Dashboard' || rawStatus === 'Browsing Songs' || rawStatus === 'Practicing Chords' || rawStatus === 'Practicing Guitar Chords') {
+                if (rawStatus === 'Viewing Dashboard' || rawStatus === 'Browsing Songs' || rawStatus === 'Practicing Chords' || rawStatus === 'Practicing Guitar Chords' || rawStatus === 'Viewing Band Connect' || rawStatus === 'Active in App') {
                     songStatusHTML = rawStatus;
                 } else {
                     let cleanSongTitle = rawStatus;
@@ -213,9 +213,15 @@ class BandDashboard {
                     
                     let songId = null;
                     if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
-                        const song = window.parent.appInstance.songManager.songs.find(s => s.title.trim().toLowerCase() === cleanSongTitle.toLowerCase());
+                        // Try matching by ID first
+                        let song = window.parent.appInstance.songManager.songs.find(s => s.id === cleanSongTitle);
+                        if (!song) {
+                            // Fallback to matching by Title
+                            song = window.parent.appInstance.songManager.songs.find(s => s.title.trim().toLowerCase() === cleanSongTitle.toLowerCase());
+                        }
                         if (song) {
                             songId = song.id;
+                            cleanSongTitle = song.title;
                         }
                     }
                     
