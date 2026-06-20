@@ -1,4 +1,4 @@
-class BandDashboard {
+﻿class BandDashboard {
     constructor() {
         this.firebaseManager = window.firebaseManager || new FirebaseManager();
         
@@ -31,6 +31,9 @@ class BandDashboard {
         // Firebase Listeners reference
         this.presenceRef = null;
         this.lobbyListenerRef = null;
+        
+        // Set button colour immediately (before async Firebase init completes)
+        this.updatePracticeSessionBtnUI();
         
         this.init();
     }
@@ -183,11 +186,12 @@ class BandDashboard {
     renderMembersPresence(registeredMembers, onlinePresence) {
         this.bandLobbyList.innerHTML = '';
         
-        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
-        
         registeredMembers.forEach(member => {
-            const isOnline = sessionActive && !!onlinePresence[member.uid];
-            const presenceDetails = sessionActive ? onlinePresence[member.uid] : null;
+            // isOnline is based purely on what Firebase reports â€” not on whether THIS
+            // device has started a session. The local sessionActive flag only controls
+            // whether this user writes their own presence, not what they can see.
+            const isOnline = !!onlinePresence[member.uid];
+            const presenceDetails = onlinePresence[member.uid] || null;
             
             const item = document.createElement('div');
             item.className = 'member-item';
@@ -308,12 +312,12 @@ class BandDashboard {
         if (!this.bandPracticeSessionBtn) return;
         const active = localStorage.getItem('bandPracticeSessionActive') === 'true';
         if (active) {
-            this.bandPracticeSessionBtn.textContent = '🔴 Stop Band Practice Session';
+            this.bandPracticeSessionBtn.textContent = 'ðŸ”´ Stop Band Practice Session';
             this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444';
             this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#dc2626'; };
             this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#ef4444'; };
         } else {
-            this.bandPracticeSessionBtn.textContent = '🟢 Start Band Practice Session';
+            this.bandPracticeSessionBtn.textContent = 'ðŸŸ¢ Start Band Practice Session';
             this.bandPracticeSessionBtn.style.backgroundColor = '#10b981';
             this.bandPracticeSessionBtn.onmouseover = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#059669'; };
             this.bandPracticeSessionBtn.onmouseout = () => { this.bandPracticeSessionBtn.style.backgroundColor = '#10b981'; };
@@ -418,3 +422,4 @@ class BandDashboard {
 document.addEventListener('DOMContentLoaded', () => {
     window.bandDashboard = new BandDashboard();
 });
+

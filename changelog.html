@@ -302,6 +302,22 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.142</span>
+                    <span class="version-date">June 20, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Band Practice Sync — Countdown Overlay:</strong> The 5-second countdown display now correctly appears on all devices when BAND SYNC is pressed to start a song. The HTML overlay element (<code>#bandCountdownOverlay</code>) was missing from the timeline page, causing the countdown to run silently in the background with no visual feedback.</li>
+                        <li><strong>Band Practice Sync — Pause Not Syncing:</strong> Fixed a bug where pressing the BAND SYNC (pause) button had no effect on the other band member's device. Sync events now include a unique <code>eventId</code> so each action is correctly deduplicated — previously consecutive events with similar timestamps were silently dropped.</li>
+                        <li><strong>Band Practice Sync — Stale Replay Guard:</strong> Added an <code>initTime</code> guard so sync events written before the current page load are always ignored, preventing accidental auto-play when opening the timeline.</li>
+                        <li><strong>Band Practice Dashboard — Members Presence:</strong> Fixed the Band Members presence list not showing any members on a device that has not started a session. Online/offline status is now derived from Firebase data alone; the local session flag only controls whether the current user writes their own presence.</li>
+                        <li><strong>Band Practice Dashboard — Grey Button:</strong> The "Start Band Practice Session" button now correctly appears green on page load instead of grey. Fixed by setting the initial <code>background-color</code> in HTML and calling the button colour update synchronously in the constructor, before async Firebase init completes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.141</span>
                     <span class="version-date">June 18, 2026</span>
                 </div>
@@ -311,6 +327,7 @@
                     </ul>
                 </div>
             </div>
+
 
             <div class="version-card">
                 <div class="version-header">
