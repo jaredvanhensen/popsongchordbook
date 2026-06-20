@@ -2001,7 +2001,12 @@ class FirebaseManager {
             await this.database.ref(`bandCodes/${code}`).set(bandId);
 
             // Add user to bandMembers
-            await this.database.ref(`bandMembers/${bandId}/${uid}`).set(true);
+            const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+            await this.database.ref(`bandMembers/${bandId}/${uid}`).set({
+                displayName: displayName,
+                role: this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member',
+                joinedAt: firebase.database.ServerValue.TIMESTAMP
+            });
 
             // Add band reference to user's connected bands list
             await this.database.ref(`users/${uid}/connectedBands/${bandId}`).set({
@@ -2054,7 +2059,12 @@ class FirebaseManager {
             }
 
             // Add user to bandMembers
-            await this.database.ref(`bandMembers/${bandId}/${uid}`).set(true);
+            const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+            await this.database.ref(`bandMembers/${bandId}/${uid}`).set({
+                displayName: displayName,
+                role: this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member',
+                joinedAt: firebase.database.ServerValue.TIMESTAMP
+            });
 
             // Add band reference to user's connected bands list
             await this.database.ref(`users/${uid}/connectedBands/${bandId}`).set({
@@ -2109,15 +2119,40 @@ class FirebaseManager {
             
             const memberDetails = [];
             for (const memberUid of uids) {
-                const userSnap = await this.database.ref(`users/${memberUid}`).once('value');
-                const userData = userSnap.val();
-                if (userData) {
-                    memberDetails.push({
-                        uid: memberUid,
-                        displayName: userData.displayName || userData.email || 'Anonymous',
-                        role: userData.role || 'member'
-                    });
+                let displayName = 'Band Member';
+                let role = 'member';
+                
+                const memberVal = members[memberUid];
+                
+                // 1. Check if the value itself contains displayName
+                if (memberVal && typeof memberVal === 'object' && memberVal.displayName) {
+                    displayName = memberVal.displayName;
+                    if (memberVal.role) role = memberVal.role;
                 }
+                // 2. If it's the current user, get details from local auth user object
+                else if (memberUid === this.currentUser.uid) {
+                    displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
+                    role = this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member';
+                }
+                // 3. Fallback to reading users/ node with try-catch safety
+                else {
+                    try {
+                        const userSnap = await this.database.ref(`users/${memberUid}`).once('value');
+                        const userData = userSnap.val();
+                        if (userData) {
+                            displayName = userData.displayName || userData.email.split('@')[0] || displayName;
+                            role = userData.role || role;
+                        }
+                    } catch (e) {
+                        console.warn(`Could not read profile for user ${memberUid} due to permissions. Using fallback.`, e);
+                    }
+                }
+                
+                memberDetails.push({
+                    uid: memberUid,
+                    displayName: displayName,
+                    role: role
+                });
             }
             
             return { success: true, members: memberDetails };

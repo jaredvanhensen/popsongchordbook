@@ -302,6 +302,18 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.144</span>
+                    <span class="version-date">June 20, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Band Practice Dashboard — Security Rules & Permission Fix:</strong> Fixed a bug where a "Permission Denied" Firebase security rules restriction on reading other users' profiles crashed the band dashboard setup for non-admin users (like Xavi). The member loading loop now catches profile read errors gracefully and uses display names stored directly under the <code>bandMembers</code> node (updated during join/create), preventing empty presence lists and restoring correct online/offline statuses for everyone.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.143</span>
                     <span class="version-date">June 20, 2026</span>
                 </div>
