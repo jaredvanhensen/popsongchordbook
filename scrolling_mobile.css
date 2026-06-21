@@ -377,13 +377,18 @@ body.is-mobile-landscape .header-controls-row {
     border-radius: 14px !important;
     padding: 0 10px !important;
     margin: 0 4px !important;
-    display: flex !important;
+    /* NOTE: display is intentionally NOT set here so .hidden (display:none !important) can override */
     align-items: center !important;
     justify-content: center !important;
     gap: 5px !important;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
     cursor: pointer !important;
     transition: all 0.25s ease !important;
+}
+
+/* Only show as flex when NOT hidden */
+#bandSyncBtn:not(.hidden) {
+    display: flex !important;
 }
 
 #bandSyncBtn:hover {

@@ -6806,11 +6806,37 @@ class BandSync {
                 this.selectBand(e.target.value);
             };
         }
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'bandPracticeSessionActive') {
+                this.updateVisibility();
+                this.updateSongPresence();
+            }
+        });
+    }
+
+    updateVisibility() {
+        const sessionActive = localStorage.getItem('bandPracticeSessionActive') === 'true';
+        if (this.bandSyncBtn) {
+            if (this.currentBandId && sessionActive) {
+                this.bandSyncBtn.classList.remove('hidden');
+                this.bandSyncBtn.style.display = 'flex';
+                this.updateBandSyncBtn(isPlaying);
+            } else {
+                this.bandSyncBtn.classList.add('hidden');
+                this.bandSyncBtn.style.display = 'none';
+            }
+        }
     }
 
     hideUI() {
-        if (this.bandSyncSelectorContainer) this.bandSyncSelectorContainer.style.display = 'none';
-        if (this.bandSyncBtn) this.bandSyncBtn.style.display = 'none';
+        if (this.bandSyncSelectorContainer) {
+            this.bandSyncSelectorContainer.classList.add('hidden');
+            this.bandSyncSelectorContainer.style.display = 'none';
+        }
+        if (this.bandSyncBtn) {
+            this.bandSyncBtn.classList.add('hidden');
+            this.bandSyncBtn.style.display = 'none';
+        }
         this.cleanup();
     }
 
@@ -6852,7 +6878,10 @@ class BandSync {
         this.cleanup();
         
         if (!bandId) {
-            if (this.bandSyncBtn) this.bandSyncBtn.style.display = 'none';
+            if (this.bandSyncBtn) {
+                this.bandSyncBtn.classList.add('hidden');
+                this.bandSyncBtn.style.display = 'none';
+            }
             localStorage.removeItem('lastSelectedBandId');
             return;
         }
@@ -6860,13 +6889,7 @@ class BandSync {
         this.currentBandId = bandId;
         localStorage.setItem('lastSelectedBandId', bandId);
         
-        if (this.bandSyncBtn) {
-            this.bandSyncBtn.classList.remove('hidden');
-            this.bandSyncBtn.style.display = 'flex';
-            
-            // Set initial state based on isPlaying
-            this.updateBandSyncBtn(isPlaying);
-        }
+        this.updateVisibility();
         
         // Update presence
         await this.updateSongPresence();
