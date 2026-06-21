@@ -850,8 +850,8 @@ class SongDetailModal {
                 // Define helper to send data - replaced by this.sendDataToTimeline()
 
                 // Force reload iframe on each open by recreating it to ensure fresh state and prevent history stack pollution
-                if (scrollingChordsFrame) {
-                    const parentNode = scrollingChordsFrame.parentNode;
+                if (this.scrollingChordsFrame) {
+                    const parentNode = this.scrollingChordsFrame.parentNode;
                     const newFrame = document.createElement('iframe');
                     newFrame.id = 'scrollingChordsFrame';
                     newFrame.style.width = '100%';
@@ -865,7 +865,7 @@ class SongDetailModal {
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=3.145&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=3.147&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag
@@ -877,7 +877,7 @@ class SongDetailModal {
                     newFrame.src = url;
 
                     // 3. Replace old iframe in DOM
-                    parentNode.replaceChild(newFrame, scrollingChordsFrame);
+                    parentNode.replaceChild(newFrame, this.scrollingChordsFrame);
 
                     // 4. Update parent class references
                     this.scrollingChordsFrame = newFrame;

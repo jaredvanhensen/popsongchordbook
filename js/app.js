@@ -3003,6 +3003,19 @@ class App {
                 }
             });
 
+            // Automatically swap Block 2 (preChorus) and Block 3 (chorus) on import
+            const tempPreChorus = songToImport.preChorus;
+            const tempPreChorusTitle = songToImport.preChorusTitle;
+            const tempPreChorusCue = songToImport.preChorusCue;
+
+            songToImport.preChorus = songToImport.chorus || '';
+            songToImport.preChorusTitle = songToImport.chorusTitle || '';
+            songToImport.preChorusCue = songToImport.chorusCue || '';
+
+            songToImport.chorus = tempPreChorus || '';
+            songToImport.chorusTitle = tempPreChorusTitle || '';
+            songToImport.chorusCue = tempPreChorusCue || '';
+
             const songName = `${songToImport.artist || 'Unknown'} - ${songToImport.title || 'Untitled'}`;
 
             if (isConfirmed) {
