@@ -76,6 +76,13 @@ class FirebaseManager {
                 }
             });
 
+            // Listen for band session active state changes from other windows/iframes
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'bandPracticeSessionActive') {
+                    this.setupGlobalPresence();
+                }
+            });
+
             // Set up connection state listener
             const connectedRef = this.database.ref('.info/connected');
             connectedRef.on('value', (snap) => {
@@ -2237,9 +2244,9 @@ class FirebaseManager {
                     return `Viewing: ${titleEl.textContent.trim()}`;
                 }
             }
-            return 'Browsing Songs';
+            return 'Browsing Songlist';
         } else if (pathname.includes('band')) {
-            return 'Viewing Band Connect';
+            return 'Viewing Band Practice';
         } else if (pathname.includes('chordtrainer')) {
             return 'Practicing Chords';
         } else if (pathname.includes('guitarchordtrainer')) {

@@ -849,15 +849,23 @@ class SongDetailModal {
 
                 // Define helper to send data - replaced by this.sendDataToTimeline()
 
-                // Force reload iframe on each open to ensure fresh state
+                // Force reload iframe on each open by recreating it to ensure fresh state and prevent history stack pollution
                 if (scrollingChordsFrame) {
-                    // 1. Assign onload logic BEFORE setting src to avoid race conditions
-                    scrollingChordsFrame.onload = () => {
+                    const parentNode = scrollingChordsFrame.parentNode;
+                    const newFrame = document.createElement('iframe');
+                    newFrame.id = 'scrollingChordsFrame';
+                    newFrame.style.width = '100%';
+                    newFrame.style.height = '100%';
+                    newFrame.style.border = 'none';
+                    newFrame.setAttribute('allow', 'autoplay');
+
+                    // 1. Assign onload logic
+                    newFrame.onload = () => {
                         console.log('Iframe loaded (onload event). Handshake will trigger data transfer.');
                     };
 
                     // 2. Set src to trigger load
-                    let url = 'scrolling_chords.html?v=3.112&embed=true&t=' + Date.now();
+                    let url = 'scrolling_chords.html?v=3.145&embed=true&t=' + Date.now();
                     if (this._shouldOpenSongMap) {
                         url += '&openMap=true';
                         this._shouldOpenSongMap = false; // Reset flag
@@ -866,13 +874,13 @@ class SongDetailModal {
                         url += '&pure=true';
                         this._shouldOpenPureTimeline = false; // Reset flag
                     }
+                    newFrame.src = url;
 
-                    // Using location.replace prevents adding extra history entries that cause double-close issues
-                    if (scrollingChordsFrame.contentWindow) {
-                        scrollingChordsFrame.contentWindow.location.replace(url);
-                    } else {
-                        scrollingChordsFrame.src = url;
-                    }
+                    // 3. Replace old iframe in DOM
+                    parentNode.replaceChild(newFrame, scrollingChordsFrame);
+
+                    // 4. Update parent class references
+                    this.scrollingChordsFrame = newFrame;
                 }
 
                 // Show modal overlay
@@ -5200,9 +5208,9 @@ class SongDetailModal {
             }
         }
 
-        // Reset status to browsing songs
+        // Reset status to browsing songlist
         if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
-            this.firebaseManager.updatePresenceStatus('Browsing Songs');
+            this.firebaseManager.updatePresenceStatus('Browsing Songlist');
         }
     }
 

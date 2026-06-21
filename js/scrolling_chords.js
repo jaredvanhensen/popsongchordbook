@@ -6940,7 +6940,7 @@ class BandSync {
             if (window.confirmationModal) {
                 window.confirmationModal.show(
                     '🎸 Band Practice Session',
-                    'Your Band Practice Session is currently stopped. Please start a practice session on the Band Members page to synchronize playback.',
+                    'Your Band Practice Session is currently stopped. Please start a practice session on the Band Practice page to synchronize playback.',
                     () => {},
                     null,
                     'OK',
@@ -6949,7 +6949,7 @@ class BandSync {
                     true
                 );
             } else {
-                alert('Your Band Practice Session is currently stopped. Please start a practice session on the Band Members page to synchronize playback.');
+                alert('Your Band Practice Session is currently stopped. Please start a practice session on the Band Practice page to synchronize playback.');
             }
             return;
         }

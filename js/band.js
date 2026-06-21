@@ -202,7 +202,7 @@ class BandDashboard {
             let songStatusHTML = 'Offline';
             if (isOnline && presenceDetails) {
                 const rawStatus = presenceDetails.songId;
-                if (rawStatus === 'Viewing Dashboard' || rawStatus === 'Browsing Songs' || rawStatus === 'Practicing Chords' || rawStatus === 'Practicing Guitar Chords' || rawStatus === 'Viewing Band Connect' || rawStatus === 'Active in App') {
+                if (rawStatus === 'Viewing Dashboard' || rawStatus === 'Browsing Songlist' || rawStatus === 'Browsing Songs' || rawStatus === 'Practicing Chords' || rawStatus === 'Practicing Guitar Chords' || rawStatus === 'Viewing Band Practice' || rawStatus === 'Viewing Band Connect' || rawStatus === 'Active in App') {
                     songStatusHTML = rawStatus;
                 } else {
                     let cleanSongTitle = rawStatus;

@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-18</lastmod>
+        <lastmod>2026-06-21</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -1213,6 +1213,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/lady-a-i-run-to-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/lady-a-need-you-now</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1223,12 +1228,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/lady-a-what-if-i-never-get-over-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/lady-gaga-always-remember-us-this-way</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/lady-gaga-paparazzi</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/lady-gaga-shallow</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1308,6 +1323,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/logan-mize-jack-jenny</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/logan-mize-something-just-like-this</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1324,6 +1344,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/luke-bryan-fast</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/luke-bryan-huntin-fishin-and-lovin-every-day</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2214,6 +2239,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-band-perry-if-i-die-young</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-beatles-here-comes-the-sun</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
