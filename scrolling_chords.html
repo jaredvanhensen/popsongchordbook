@@ -18,6 +18,27 @@
     <meta name="forced-colors" content="none">
     <link rel="stylesheet" href="scrolling.css?v=3.150">
     <link rel="stylesheet" href="scrolling_mobile.css?v=3.150">
+
+    <!-- Android TWA detection: hide lyrics when running as Play Store app -->
+    <script>
+        (function () {
+            var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            var isAndroid = /Android/i.test(navigator.userAgent);
+            if (isStandalone && isAndroid) {
+                sessionStorage.setItem('pscb_android_app', '1');
+                document.documentElement.classList.add('android-app');
+            }
+        })();
+    </script>
+    <style>
+        /* Hide all lyrics UI when running as Android TWA app */
+        html.android-app #toggleLyricsBtn,
+        html.android-app #pureMenuLyricsBtn,
+        html.android-app #syncFirstLyricBtn,
+        html.android-app #lyricsHUD {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>

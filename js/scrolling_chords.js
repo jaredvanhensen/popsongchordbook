@@ -93,7 +93,10 @@ let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
 let barOffsetInBeats = 0;
-let lyricsEnabled = true;
+// Disable lyrics when running as the Android Play Store TWA app
+// (standalone display-mode on Android = TWA; all other contexts get lyrics normally)
+const ANDROID_APP_MODE = sessionStorage.getItem('pscb_android_app') === '1';
+let lyricsEnabled = !ANDROID_APP_MODE;
 let isTextMode = false;
 let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
@@ -3329,6 +3332,7 @@ function shiftChords(deltaSteps) {
 }
 
 function toggleLyricsHUD() {
+    if (ANDROID_APP_MODE) return; // Lyrics disabled in Android Play Store app
     lyricsEnabled = !lyricsEnabled;
     const pureLyricsBtn = document.getElementById('pureLyricsBtn');
     if (lyricsEnabled) {
