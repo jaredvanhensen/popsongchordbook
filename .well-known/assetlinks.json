@@ -4,9 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.popsongchordbook.app",
-      "sha256_cert_fingerprints": [
-        "PLACEHOLDER_REPLACE_AFTER_BUBBLEWRAP_BUILD"
-      ]
+        "sha256_cert_fingerprints": [
+          "C5:72:E1:AF:32:04:F4:06:8A:55:D2:68:5C:F8:D2:8E:EE:7B:D7:C6:A3:31:87:00:43:B4:15:4D:1D:67:2A:CE"
+        ]
     }
   }
 ]
