@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – PopSongChordBook</title>
+    <meta name="description" content="Privacy Policy for PopSongChordBook – learn how we collect, use, and protect your data.">
+    <link rel="canonical" href="https://www.popsongchordbook.com/privacy.html">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #0f1117;
+            --surface:   #1a1d2e;
+            --card:      #1e2235;
+            --border:    #2a2f4a;
+            --accent:    #667eea;
+            --accent2:   #764ba2;
+            --text:      #e2e8f0;
+            --muted:     #94a3b8;
+            --green:     #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+
+        /* ── Header ─────────────────────────────────── */
+        .site-header {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+            padding: 48px 24px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 60% 0%, rgba(255,255,255,.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .site-header .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: .85;
+            margin-bottom: 20px;
+            transition: opacity .2s;
+        }
+        .site-header .logo-link:hover { opacity: 1; }
+        .site-header h1 {
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.5px;
+        }
+        .site-header .subtitle {
+            color: rgba(255,255,255,.75);
+            margin-top: 8px;
+            font-size: .95rem;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            color: #fff;
+            border-radius: 99px;
+            padding: 4px 14px;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .3px;
+            margin-top: 16px;
+        }
+
+        /* ── Layout ──────────────────────────────────── */
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content-wrap {
+            padding: 48px 0 80px;
+        }
+
+        /* ── TOC ─────────────────────────────────────── */
+        .toc {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+        .toc ol {
+            padding-left: 18px;
+            display: grid;
+            gap: 6px;
+        }
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: .9rem;
+            transition: color .15s;
+        }
+        .toc a:hover { color: #fff; text-decoration: underline; }
+
+        /* ── Sections ────────────────────────────────── */
+        .policy-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            margin-bottom: 20px;
+            transition: border-color .2s;
+        }
+        .policy-section:hover { border-color: var(--accent); }
+
+        .policy-section h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .policy-section p {
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-size: .93rem;
+        }
+        .policy-section p:last-child { margin-bottom: 0; }
+        .policy-section ul, .policy-section ol {
+            padding-left: 20px;
+            color: var(--muted);
+            font-size: .93rem;
+            display: grid;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .policy-section strong { color: var(--text); }
+
+        /* ── Data table ──────────────────────────────── */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: .88rem;
+        }
+        .data-table th {
+            background: var(--surface);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: .75rem;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            vertical-align: top;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table td:first-child { color: var(--text); font-weight: 500; }
+        .pill {
+            display: inline-block;
+            background: rgba(16,185,129,.15);
+            color: var(--green);
+            border-radius: 99px;
+            padding: 2px 10px;
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+        /* ── Contact card ────────────────────────────── */
+        .contact-card {
+            background: linear-gradient(135deg, rgba(102,126,234,.15), rgba(118,75,162,.15));
+            border: 1px solid rgba(102,126,234,.3);
+            border-radius: 14px;
+            padding: 28px 32px;
+            margin-top: 32px;
+            text-align: center;
+        }
+        .contact-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+        .contact-card p { color: var(--muted); font-size: .9rem; margin-bottom: 16px; }
+        .contact-card a {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 600;
+            font-size: .9rem;
+            transition: opacity .2s, transform .15s;
+        }
+        .contact-card a:hover { opacity: .85; transform: translateY(-1px); }
+
+        /* ── Footer ──────────────────────────────────── */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .82rem;
+        }
+        .site-footer a { color: var(--accent); text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .policy-section { padding: 22px 18px; }
+            .data-table { font-size: .8rem; }
+            .data-table th, .data-table td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="/" class="logo-link">🎸 PopSongChordBook</a>
+        <h1>Privacy Policy</h1>
+        <p class="subtitle">How we handle your data — clearly and honestly</p>
+        <span class="badge">Last updated: June 23, 2026</span>
+    </header>
+
+    <main class="content-wrap">
+        <div class="container">
+
+            <!-- Table of Contents -->
+            <nav class="toc" aria-label="Table of contents">
+                <h2>Contents</h2>
+                <ol>
+                    <li><a href="#who-we-are">Who We Are</a></li>
+                    <li><a href="#what-we-collect">What Data We Collect</a></li>
+                    <li><a href="#how-we-use">How We Use Your Data</a></li>
+                    <li><a href="#storage">Data Storage &amp; Security</a></li>
+                    <li><a href="#sharing">Data Sharing</a></li>
+                    <li><a href="#retention">Data Retention</a></li>
+                    <li><a href="#your-rights">Your Rights</a></li>
+                    <li><a href="#children">Children's Privacy</a></li>
+                    <li><a href="#third-party">Third-Party Services</a></li>
+                    <li><a href="#changes">Changes to This Policy</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ol>
+            </nav>
+
+            <!-- 1. Who We Are -->
+            <section class="policy-section" id="who-we-are">
+                <h2><span class="section-icon">🏠</span> 1. Who We Are</h2>
+                <p>PopSongChordBook ("we", "us", "our") is an interactive chord practice tool for musicians available at <strong>www.popsongchordbook.com</strong> and as an Android app on Google Play. It is operated as a personal/indie project.</p>
+                <p>This Privacy Policy explains what personal data we collect, why we collect it, and how you can control it. If you have any questions, please contact us via the details at the bottom of this page.</p>
+            </section>
+
+            <!-- 2. What We Collect -->
+            <section class="policy-section" id="what-we-collect">
+                <h2><span class="section-icon">📋</span> 2. What Data We Collect</h2>
+                <p>We collect only the data necessary to provide the service. We do <strong>not</strong> sell your data, run advertising, or use third-party analytics trackers.</p>
+
+                <table class="data-table" aria-label="Data collected">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Why collected</th>
+                            <th>Required?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Email address</td>
+                            <td>Create and identify your account; send password reset emails</td>
+                            <td><span class="pill">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>Username (display name)</td>
+                            <td>Show your name in band sessions and teacher/student features</td>
+                            <td><span class="pill">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>Password (hashed)</td>
+                            <td>Secure your account — stored as a one-way hash by Firebase; we never see your password</td>
+                            <td><span class="pill">Yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>Songs &amp; setlists</td>
+                            <td>Store your personal chord library and setlists in the cloud so they sync across devices</td>
+                            <td>No (optional feature)</td>
+                        </tr>
+                        <tr>
+                            <td>Last login timestamp</td>
+                            <td>Internal housekeeping; detect inactive accounts</td>
+                            <td>Automatic</td>
+                        </tr>
+                        <tr>
+                            <td>Online presence (real-time)</td>
+                            <td>Power the Band Practice live session feature (who is currently online)</td>
+                            <td>Automatic when logged in</td>
+                        </tr>
+                        <tr>
+                            <td>Referral code (optional)</td>
+                            <td>Track which teacher or friend invited you</td>
+                            <td>No (optional)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top:16px;">We do <strong>not</strong> collect: location data, device identifiers, payment details, contacts, microphone or camera input, or browsing history.</p>
+            </section>
+
+            <!-- 3. How We Use -->
+            <section class="policy-section" id="how-we-use">
+                <h2><span class="section-icon">🎯</span> 3. How We Use Your Data</h2>
+                <p>Your data is used exclusively to provide and improve the PopSongChordBook service:</p>
+                <ul>
+                    <li><strong>Account management</strong> — creating, securing, and maintaining your login</li>
+                    <li><strong>Cloud sync</strong> — storing your songs and setlists so they appear on all your devices</li>
+                    <li><strong>Band Practice</strong> — showing live presence during real-time practice sessions</li>
+                    <li><strong>Teacher &amp; Student</strong> — linking teacher and student accounts at your request</li>
+                    <li><strong>Password reset</strong> — sending a reset link to your email address when requested</li>
+                    <li><strong>Email verification</strong> — confirming your email address when you create an account</li>
+                </ul>
+                <p>We do <strong>not</strong> send marketing emails, newsletters, or promotional messages.</p>
+            </section>
+
+            <!-- 4. Storage & Security -->
+            <section class="policy-section" id="storage">
+                <h2><span class="section-icon">🔒</span> 4. Data Storage &amp; Security</h2>
+                <p>All data is stored in <strong>Google Firebase</strong> (Firebase Authentication and Firebase Realtime Database), hosted in Google's secure cloud infrastructure. Firebase encrypts data in transit (HTTPS/TLS) and at rest.</p>
+                <p>Your password is never stored in plain text — Firebase handles it as a secure hash that we cannot read.</p>
+                <p>Data is stored in Google's data centres, which may be located in the United States and/or the European Union. Google Firebase is GDPR-compliant as a data processor under a Data Processing Agreement.</p>
+            </section>
+
+            <!-- 5. Sharing -->
+            <section class="policy-section" id="sharing">
+                <h2><span class="section-icon">🤝</span> 5. Data Sharing</h2>
+                <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties for commercial purposes.</p>
+                <p>Data is shared only in these limited circumstances:</p>
+                <ul>
+                    <li><strong>With Google Firebase</strong> — our infrastructure provider, acting as a data processor under our instructions</li>
+                    <li><strong>With other users you explicitly invite</strong> — for example, your username is visible to a teacher or bandmate you connect with inside the app</li>
+                    <li><strong>If legally required</strong> — to comply with applicable law, court orders, or government requests</li>
+                </ul>
+            </section>
+
+            <!-- 6. Retention -->
+            <section class="policy-section" id="retention">
+                <h2><span class="section-icon">🗓️</span> 6. Data Retention</h2>
+                <p>We keep your data for as long as your account is active. If you request deletion of your account, all associated personal data (email, username, songs, setlists) will be permanently deleted within <strong>30 days</strong>.</p>
+                <p>To request deletion, contact us using the details at the bottom of this page, or use the delete account option in the app (Profile → Delete Account).</p>
+            </section>
+
+            <!-- 7. Your Rights -->
+            <section class="policy-section" id="your-rights">
+                <h2><span class="section-icon">⚖️</span> 7. Your Rights</h2>
+                <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+                <ul>
+                    <li><strong>Access</strong> — request a copy of the data we hold about you</li>
+                    <li><strong>Correction</strong> — ask us to fix inaccurate data (your username and email can be changed in-app)</li>
+                    <li><strong>Deletion</strong> — request that we delete your account and all associated data</li>
+                    <li><strong>Portability</strong> — request your data in a portable format (your song library can be exported from the app)</li>
+                    <li><strong>Objection</strong> — object to how we process your data</li>
+                    <li><strong>Withdrawal of consent</strong> — you may stop using the service and request account deletion at any time</li>
+                </ul>
+                <p>To exercise any of these rights, contact us at the address below. We will respond within 30 days.</p>
+                <p>If you are located in the EU/EEA and believe we are handling your data unlawfully, you have the right to lodge a complaint with your local supervisory authority.</p>
+            </section>
+
+            <!-- 8. Children -->
+            <section class="policy-section" id="children">
+                <h2><span class="section-icon">👶</span> 8. Children's Privacy</h2>
+                <p>PopSongChordBook is intended for users aged <strong>13 and older</strong>. We do not knowingly collect personal data from children under 13.</p>
+                <p>If you are a parent or guardian and believe your child under 13 has created an account, please contact us immediately and we will delete the account and all associated data.</p>
+                <p>Users between 13–17 should use the app only with parental consent.</p>
+            </section>
+
+            <!-- 9. Third-Party Services -->
+            <section class="policy-section" id="third-party">
+                <h2><span class="section-icon">🔗</span> 9. Third-Party Services</h2>
+                <p>The app integrates with the following third-party services. Each has its own privacy policy:</p>
+                <ul>
+                    <li><strong>Google Firebase</strong> (authentication &amp; database) — <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener" style="color:var(--accent);">firebase.google.com/support/privacy</a></li>
+                    <li><strong>YouTube</strong> (embedded play-along videos, optional) — <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">policies.google.com/privacy</a>. YouTube may set its own cookies when you use embedded videos.</li>
+                    <li><strong>Google Fonts</strong> (typography) — fonts are loaded from Google's CDN; Google may log the request. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">Google's Privacy Policy</a>.</li>
+                </ul>
+                <p>We do not use Google Analytics, Facebook Pixel, or any other advertising or tracking technology.</p>
+            </section>
+
+            <!-- 10. Changes -->
+            <section class="policy-section" id="changes">
+                <h2><span class="section-icon">📝</span> 10. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page.</p>
+                <p>For significant changes, we will notify registered users via the email address on their account. Continued use of the app after changes are posted constitutes your acceptance of the updated policy.</p>
+            </section>
+
+            <!-- 11. Contact -->
+            <section class="policy-section" id="contact">
+                <h2><span class="section-icon">✉️</span> 11. Contact Us</h2>
+                <p>If you have questions about this Privacy Policy, want to exercise your data rights, or need to report a concern, please contact us:</p>
+                <ul>
+                    <li><strong>Website:</strong> <a href="https://www.popsongchordbook.com" style="color:var(--accent);">www.popsongchordbook.com</a></li>
+                    <li><strong>Email:</strong> <a href="mailto:privacy@popsongchordbook.com" style="color:var(--accent);">privacy@popsongchordbook.com</a></li>
+                </ul>
+            </section>
+
+            <!-- Contact card -->
+            <div class="contact-card">
+                <h3>Questions about your data?</h3>
+                <p>We'll respond to any privacy request within 30 days.</p>
+                <a href="mailto:privacy@popsongchordbook.com">Contact Us →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 PopSongChordBook &nbsp;·&nbsp; <a href="/">Home</a> &nbsp;·&nbsp; <a href="/changelog.html">Changelog</a> &nbsp;·&nbsp; <a href="/privacy.html">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>
