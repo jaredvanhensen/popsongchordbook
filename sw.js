@@ -1,62 +1,44 @@
 // PopSongChordBook Service Worker
-// Cache-first for app shell; network-first for dynamic content
+// Network-first strategy — always fetches fresh content, falls back to cache offline
 
-const CACHE_NAME = 'popsongchordbook-shell-v1';
-const SHELL_ASSETS = [
-    './',
-    './index.html',
-    './manifest.json',
-    './images/pwa_icon_192.png',
-    './images/pwa_icon_512.png'
-];
+const CACHE_NAME = 'popsongchordbook-shell-v2';
 
-// ── Install: pre-cache the app shell ──────────────────────────────────────────
+// ── Install: skip waiting so the new SW activates immediately ─────────────────
 self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(SHELL_ASSETS))
-            .then(() => self.skipWaiting())
-    );
+    self.skipWaiting();
 });
 
-// ── Activate: delete outdated caches ─────────────────────────────────────────
+// ── Activate: delete ALL old caches and claim clients immediately ─────────────
 self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(
-                keys
-                    .filter(key => key !== CACHE_NAME)
-                    .map(key => caches.delete(key))
-            )
-        ).then(() => self.clients.claim())
+        caches.keys()
+            .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+            .then(() => self.clients.claim())
     );
 });
 
-// ── Fetch: cache-first for shell, network-first for everything else ───────────
+// ── Fetch: network-first for everything ───────────────────────────────────────
+// Always try the network. Only fall back to cache when offline.
+// This ensures deployed updates are never blocked by stale cached files.
 self.addEventListener('fetch', event => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Skip non-GET and cross-origin requests (e.g. Firebase, YouTube)
+    // Only handle GET requests from our own origin
     if (request.method !== 'GET' || url.origin !== location.origin) {
         return;
     }
 
-    // Cache-first for static shell assets
-    const isShellAsset = SHELL_ASSETS.some(asset =>
-        url.pathname === new URL(asset, location.origin).pathname
-    );
-
-    if (isShellAsset) {
-        event.respondWith(
-            caches.match(request).then(cached => cached || fetch(request))
-        );
-        return;
-    }
-
-    // Network-first for everything else (pages, song data, etc.)
     event.respondWith(
         fetch(request)
+            .then(response => {
+                // Cache a copy of successful responses for offline fallback
+                if (response.ok) {
+                    const copy = response.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+                }
+                return response;
+            })
             .catch(() => caches.match(request))
     );
 });
