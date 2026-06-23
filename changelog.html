@@ -302,6 +302,19 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.151</span>
+                    <span class="version-date">June 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Forgot Password Fix:</strong> Resolved a bug where the "Forgot my password?" link on the login page had no effect when clicked. The click event listener was missing from the AuthModal setup — re-connected it to the existing reset email handler.</li>
+                        <li><strong>PWA Improvements:</strong> Added service worker for offline support, manifest link, and 192×192 icon — groundwork for Android Play Store publishing.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.150</span>
                     <span class="version-date">June 21, 2026</span>
                 </div>

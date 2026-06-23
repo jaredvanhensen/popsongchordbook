@@ -1,4 +1,4 @@
-// AuthModal - Authentication modal for login and create account
+﻿// AuthModal - Authentication modal for login and create account
 class AuthModal {
     constructor(firebaseManager, onAuthSuccess = null) {
         this.firebaseManager = firebaseManager;
@@ -111,6 +111,13 @@ class AuthModal {
         if (this.continueToLoginBtn) {
             this.continueToLoginBtn.addEventListener('click', () => {
                 this.switchToLoginMode();
+            });
+        }
+
+        // Forgot password button
+        if (this.forgotPasswordBtn) {
+            this.forgotPasswordBtn.addEventListener('click', () => {
+                this.handleForgotPassword();
             });
         }
     }
@@ -319,7 +326,7 @@ class AuthModal {
 
             if (result.success) {
                 if (!result.user.emailVerified) {
-                    // No actionCodeSettings needed — Firebase console template already routes
+                    // No actionCodeSettings needed â€” Firebase console template already routes
                     // links through verify-email.html automatically.
                     await result.user.sendEmailVerification();
                     this.showLoginSuccess('A new verification link has been sent! Open the email and click the button to verify.');
@@ -420,10 +427,10 @@ class AuthModal {
                 if (result.emailSent) {
                     // Show "Check your email" screen FIRST, then sign out
                     this.switchToVerificationMode(email);
-                    // Now sign out — isBusy keeps the modal from being reset
+                    // Now sign out â€” isBusy keeps the modal from being reset
                     await this.signOutAndKeepModal();
                 } else {
-                    // Email sending failed — sign out and tell user to request manually
+                    // Email sending failed â€” sign out and tell user to request manually
                     await this.signOutAndKeepModal();
                     this.switchToLoginMode();
                     this.showLoginError(`Account created! We couldn't send the verification email automatically. Please log in and click "Need a new verification link?".`);
@@ -576,4 +583,5 @@ class AuthModal {
         return emailRegex.test(email);
     }
 }
+
 
