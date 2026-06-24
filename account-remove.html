@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete My Account – Pop Song Chord Book</title>
+    <meta name="description" content="Request deletion of your Pop Song Chord Book account and all associated data.">
+    <link rel="canonical" href="https://www.popsongchordbook.com/account-remove.html">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #0f1117;
+            --surface:   #1a1d2e;
+            --card:      #1e2235;
+            --border:    #2a2f4a;
+            --accent:    #667eea;
+            --accent2:   #764ba2;
+            --text:      #e2e8f0;
+            --muted:     #94a3b8;
+            --red:       #ef4444;
+            --red-dark:  #b91c1c;
+            --red-bg:    rgba(239,68,68,.08);
+            --red-border:rgba(239,68,68,.25);
+            --green:     #10b981;
+            --green-bg:  rgba(16,185,129,.08);
+            --green-border: rgba(16,185,129,.25);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+
+        /* ── Header ───────────────────────────────────── */
+        .site-header {
+            background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+            padding: 48px 24px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .site-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 60% 0%, rgba(255,255,255,.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .site-header .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            opacity: .8;
+            margin-bottom: 20px;
+            transition: opacity .2s;
+        }
+        .site-header .logo-link:hover { opacity: 1; }
+        .site-header h1 {
+            font-size: clamp(1.7rem, 5vw, 2.4rem);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.5px;
+        }
+        .site-header .subtitle {
+            color: rgba(255,255,255,.72);
+            margin-top: 8px;
+            font-size: .95rem;
+        }
+        .warning-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.22);
+            color: #fff;
+            border-radius: 99px;
+            padding: 5px 16px;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-top: 16px;
+        }
+
+        /* ── Layout ──────────────────────────────────── */
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .content-wrap {
+            padding: 48px 0 80px;
+        }
+
+        /* ── Cards ───────────────────────────────────── */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 20px;
+            transition: border-color .2s;
+        }
+        .card:hover { border-color: #3a3f5a; }
+
+        .card h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+        .icon-red   { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        .icon-blue  { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+        .icon-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+        .card p {
+            color: var(--muted);
+            font-size: .93rem;
+            margin-bottom: 10px;
+        }
+        .card p:last-child { margin-bottom: 0; }
+
+        /* ── Warning box ─────────────────────────────── */
+        .warning-box {
+            background: var(--red-bg);
+            border: 1px solid var(--red-border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .warning-box .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+        .warning-box p {
+            color: #fca5a5;
+            font-size: .9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .warning-box strong { color: #fecaca; }
+
+        /* ── What gets deleted list ───────────────────── */
+        .delete-list {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .delete-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: .92rem;
+        }
+        .delete-list li .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--red);
+            flex-shrink: 0;
+        }
+        .delete-list li.kept .dot { background: var(--green); }
+        .delete-list li.kept { color: #6ee7b7; }
+
+        /* ── Steps ───────────────────────────────────── */
+        .steps {
+            display: grid;
+            gap: 14px;
+            margin-top: 4px;
+        }
+        .step {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .step-num {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            font-size: .8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-text {
+            color: var(--muted);
+            font-size: .92rem;
+            line-height: 1.6;
+        }
+        .step-text strong { color: var(--text); }
+
+        /* ── Request form ────────────────────────────── */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 7px;
+        }
+        input[type="email"],
+        textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: .92rem;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(102,126,234,.15);
+        }
+        textarea { resize: vertical; min-height: 100px; }
+
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        input[type="checkbox"] {
+            width: 18px; height: 18px;
+            accent-color: var(--red);
+            flex-shrink: 0;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+        .checkbox-label {
+            font-size: .88rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .checkbox-label strong { color: var(--text); }
+
+        .btn-delete {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: opacity .2s, transform .1s, box-shadow .2s;
+            box-shadow: 0 4px 20px rgba(239,68,68,.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-delete:hover { opacity: .9; box-shadow: 0 6px 28px rgba(239,68,68,.45); }
+        .btn-delete:active { transform: scale(.98); }
+        .btn-delete:disabled { opacity: .5; cursor: not-allowed; }
+
+        /* ── Success state ────────────────────────────── */
+        .success-card {
+            background: var(--green-bg);
+            border: 1px solid var(--green-border);
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            display: none;
+        }
+        .success-card .check { font-size: 3rem; margin-bottom: 16px; }
+        .success-card h2 { color: #6ee7b7; font-size: 1.4rem; margin-bottom: 10px; }
+        .success-card p { color: #a7f3d0; font-size: .93rem; }
+
+        /* ── Alternative: email link ─────────────────── */
+        .alt-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            text-align: center;
+        }
+        .alt-box p { color: var(--muted); font-size: .88rem; margin-bottom: 8px; }
+        .alt-box a {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: .9rem;
+            text-decoration: none;
+            transition: color .15s;
+        }
+        .alt-box a:hover { color: #fff; text-decoration: underline; }
+
+        /* ── Timeline ────────────────────────────────── */
+        .timeline-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(102,126,234,.12);
+            border: 1px solid rgba(102,126,234,.25);
+            color: #a5b4fc;
+            border-radius: 99px;
+            padding: 4px 14px;
+            font-size: .8rem;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* ── Footer ──────────────────────────────────── */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 20px;
+            text-align: center;
+        }
+        .site-footer p { color: var(--muted); font-size: .82rem; }
+        .site-footer a { color: var(--accent); text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 480px) {
+            .card { padding: 24px 20px; }
+            .site-header { padding: 36px 20px 44px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Header ── -->
+    <header class="site-header">
+        <a href="./index.html" class="logo-link">🎸 Pop Song Chord Book</a>
+        <h1>Delete My Account</h1>
+        <p class="subtitle">Pop Song Chord Book &mdash; developed by Jared van Hensen</p>
+        <p class="subtitle" style="margin-top:4px;font-size:.85rem;">Request permanent removal of your account and all associated data</p>
+        <div class="warning-badge">⚠️ Irreversible action</div>
+    </header>
+
+    <!-- ── Main content ── -->
+    <main class="container content-wrap">
+
+        <!-- How to submit a request -->
+        <div class="card">
+            <h2>
+                <span class="card-icon icon-blue">📋</span>
+                How to submit a deletion request
+            </h2>
+            <p>Follow these steps to permanently delete your <strong>Pop Song Chord Book</strong> account:</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Scroll down to the <strong>"Submit deletion request"</strong> form on this page.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Enter the <strong>email address</strong> you used to sign in to Pop Song Chord Book.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Check the confirmation box and click <strong>"Request Account Deletion"</strong>. This opens your email app pre-filled with a deletion request.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-text"><strong>Send the email.</strong> You will receive a confirmation reply within 48 hours.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-text">Your account and data are <strong>fully deleted within 30 days</strong> of your confirmed request.</div>
+                </div>
+            </div>
+            <p style="margin-top:16px;">Alternatively, you can email <a href="mailto:popsongchordbook@gmail.com?subject=Account%20Deletion%20Request" style="color:var(--accent);">popsongchordbook@gmail.com</a> directly with the subject <em>Account Deletion Request</em>.</p>
+        </div>
+
+        <!-- Data deleted vs retained -->
+        <div class="card">
+            <h2>
+                <span class="card-icon icon-red">🗄️</span>
+                Data deleted &amp; data retained
+            </h2>
+
+            <p style="font-size:.8rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Permanently deleted</p>
+            <ul class="delete-list" style="margin-bottom:24px;">
+                <li><span class="dot"></span> Your Firebase login account &amp; credentials</li>
+                <li><span class="dot"></span> Saved song favourites &amp; personal preferences</li>
+                <li><span class="dot"></span> Student / teacher profile data (if applicable)</li>
+                <li><span class="dot"></span> Personal notes and customisations</li>
+                <li><span class="dot"></span> Usage history linked to your account</li>
+            </ul>
+
+            <p style="font-size:.8rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Temporarily retained after deletion</p>
+            <ul class="delete-list">
+                <li class="kept"><span class="dot"></span> Anonymised, aggregated analytics data — retained up to <strong>90 days</strong>, then auto-deleted. This data cannot be linked back to you.</li>
+                <li class="kept"><span class="dot"></span> Email correspondence sent to popsongchordbook@gmail.com — retained for up to <strong>1 year</strong> for support record purposes, then permanently deleted.</li>
+            </ul>
+            <div class="timeline-pill" style="margin-top:16px;">⏳ All personal data deleted within 30 days</div>
+        </div>
+
+        <!-- Request form -->
+        <div class="card" id="form-card">
+            <h2>
+                <span class="card-icon icon-red">✉️</span>
+                Submit deletion request
+            </h2>
+
+            <div class="warning-box">
+                <span class="icon">⚠️</span>
+                <p><strong>This action is permanent and cannot be undone.</strong> Once your account is deleted, your data cannot be recovered. Please make sure you want to proceed.</p>
+            </div>
+
+            <form id="delete-form" novalidate>
+                <div class="form-group">
+                    <label for="user-email">Email address on your account *</label>
+                    <input
+                        type="email"
+                        id="user-email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="user-reason">Reason for leaving (optional)</label>
+                    <textarea
+                        id="user-reason"
+                        name="reason"
+                        placeholder="e.g. I no longer use the app, I want to switch accounts, etc."
+                    ></textarea>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="confirm-check" required>
+                    <label class="checkbox-label" for="confirm-check">
+                        I understand that deleting my account is <strong>permanent and irreversible</strong>.
+                        All my saved data will be lost forever.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-delete" id="submit-btn" disabled>
+                    🗑️ Request Account Deletion
+                </button>
+            </form>
+
+            <!-- Success state (shown after submit) -->
+            <div class="success-card" id="success-card">
+                <div class="check">✅</div>
+                <h2>Request received</h2>
+                <p>We've received your deletion request. You will receive a confirmation email within 48 hours. Your account and all associated data will be permanently deleted within 30 days.</p>
+            </div>
+        </div>
+
+        <!-- Alternative: email -->
+        <div class="alt-box">
+            <p>Prefer to request deletion by email?</p>
+            <a href="mailto:popsongchordbook@gmail.com?subject=Account%20Deletion%20Request&body=Please%20delete%20my%20account%20and%20all%20associated%20data.%0A%0AEmail%20address%3A%20">
+                📧 popsongchordbook@gmail.com
+            </a>
+        </div>
+
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>
+                🎸 Pop Song Chord Book &nbsp;·&nbsp;
+                <a href="./privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
+                <a href="./index.html">Back to App</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const checkbox = document.getElementById('confirm-check');
+        const emailInput = document.getElementById('user-email');
+        const submitBtn = document.getElementById('submit-btn');
+        const form = document.getElementById('delete-form');
+        const successCard = document.getElementById('success-card');
+
+        // Enable button only when checkbox is checked and email is filled
+        function updateButton() {
+            const emailOk = emailInput.value.trim().length > 3 && emailInput.value.includes('@');
+            submitBtn.disabled = !(checkbox.checked && emailOk);
+        }
+
+        checkbox.addEventListener('change', updateButton);
+        emailInput.addEventListener('input', updateButton);
+
+        // Handle form submit — sends mailto and shows success
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = encodeURIComponent(emailInput.value.trim());
+            const reason = encodeURIComponent(document.getElementById('user-reason').value.trim());
+            const subject = encodeURIComponent('Account Deletion Request');
+            const body = encodeURIComponent(
+                'Hello,\n\nI would like to permanently delete my account and all associated data.\n\n' +
+                'Account email: ' + emailInput.value.trim() + '\n' +
+                (document.getElementById('user-reason').value.trim()
+                    ? 'Reason: ' + document.getElementById('user-reason').value.trim() + '\n'
+                    : '') +
+                '\nI understand this action is permanent and irreversible.\n\nThank you.'
+            );
+
+            // Open email client
+            window.location.href = `mailto:popsongchordbook@gmail.com?subject=${subject}&body=${body}`;
+
+            // Show success state after short delay
+            setTimeout(() => {
+                form.style.display = 'none';
+                successCard.style.display = 'block';
+            }, 800);
+        });
+    </script>
+
+</body>
+</html>
