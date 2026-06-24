@@ -178,16 +178,18 @@
         }
         .delete-list li {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             color: var(--muted);
             font-size: .92rem;
+            line-height: 1.5;
         }
         .delete-list li .dot {
             width: 8px; height: 8px;
             border-radius: 50%;
             background: var(--red);
             flex-shrink: 0;
+            margin-top: 7px;
         }
         .delete-list li.kept .dot { background: var(--green); }
         .delete-list li.kept { color: #6ee7b7; }
@@ -402,7 +404,7 @@
                     <div class="step-text">Your account and data are <strong>fully deleted within 30 days</strong> of your confirmed request.</div>
                 </div>
             </div>
-            <p style="margin-top:16px;">Alternatively, you can email <a href="mailto:popsongchordbook@gmail.com?subject=Account%20Deletion%20Request" style="color:var(--accent);">popsongchordbook@gmail.com</a> directly with the subject <em>Account Deletion Request</em>.</p>
+            <p style="margin-top:16px;">Alternatively, you can email <a href="mailto:info@popsongchordbook.com?subject=Account%20Deletion%20Request" style="color:var(--accent);">info@popsongchordbook.com</a> directly with the subject <em>Account Deletion Request</em>.</p>
         </div>
 
         <!-- Data deleted vs retained -->
@@ -414,17 +416,17 @@
 
             <p style="font-size:.8rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Permanently deleted</p>
             <ul class="delete-list" style="margin-bottom:24px;">
-                <li><span class="dot"></span> Your Firebase login account &amp; credentials</li>
-                <li><span class="dot"></span> Saved song favourites &amp; personal preferences</li>
-                <li><span class="dot"></span> Student / teacher profile data (if applicable)</li>
-                <li><span class="dot"></span> Personal notes and customisations</li>
-                <li><span class="dot"></span> Usage history linked to your account</li>
+                <li><span class="dot"></span><span>Your Firebase login account &amp; credentials</span></li>
+                <li><span class="dot"></span><span>Saved song favourites &amp; personal preferences</span></li>
+                <li><span class="dot"></span><span>Student / teacher profile data (if applicable)</span></li>
+                <li><span class="dot"></span><span>Personal notes and customisations</span></li>
+                <li><span class="dot"></span><span>Usage history linked to your account</span></li>
             </ul>
 
             <p style="font-size:.8rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Temporarily retained after deletion</p>
             <ul class="delete-list">
-                <li class="kept"><span class="dot"></span> Anonymised, aggregated analytics data — retained up to <strong>90 days</strong>, then auto-deleted. This data cannot be linked back to you.</li>
-                <li class="kept"><span class="dot"></span> Email correspondence sent to popsongchordbook@gmail.com — retained for up to <strong>1 year</strong> for support record purposes, then permanently deleted.</li>
+                <li class="kept"><span class="dot"></span><span>Anonymised, aggregated analytics data &mdash; retained up to <strong>90 days</strong>, then auto-deleted. This data cannot be linked back to you.</span></li>
+                <li class="kept"><span class="dot"></span><span>Email correspondence sent to info@popsongchordbook.com &mdash; retained for up to <strong>1 year</strong> for support record purposes, then permanently deleted.</span></li>
             </ul>
             <div class="timeline-pill" style="margin-top:16px;">⏳ All personal data deleted within 30 days</div>
         </div>
@@ -487,8 +489,8 @@
         <!-- Alternative: email -->
         <div class="alt-box">
             <p>Prefer to request deletion by email?</p>
-            <a href="mailto:popsongchordbook@gmail.com?subject=Account%20Deletion%20Request&body=Please%20delete%20my%20account%20and%20all%20associated%20data.%0A%0AEmail%20address%3A%20">
-                📧 popsongchordbook@gmail.com
+            <a href="mailto:info@popsongchordbook.com?subject=Account%20Deletion%20Request&body=Please%20delete%20my%20account%20and%20all%20associated%20data.%0A%0AEmail%20address%3A%20">
+                📧 info@popsongchordbook.com
             </a>
         </div>
 
@@ -538,7 +540,7 @@
             );
 
             // Open email client
-            window.location.href = `mailto:popsongchordbook@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:info@popsongchordbook.com?subject=${subject}&body=${body}`;
 
             // Show success state after short delay
             setTimeout(() => {
