@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-21</lastmod>
+        <lastmod>2026-06-25</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -289,6 +289,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/bruce-springsteen-my-hometown</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bruce-springsteen-the-river</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1849,6 +1854,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/robbie-williams-let-me-entertain-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-cry</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
