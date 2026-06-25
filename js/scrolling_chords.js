@@ -269,6 +269,30 @@ function simplifyDisplayName(chordName, isForAudio = false) {
     return resultName;
 }
 
+function updateCurrentChordDisplay(text) {
+    if (!currentChordDisplay) return;
+    
+    const displayText = (text && text.length <= 10) ? text : '';
+    
+    if (currentChordDisplay.innerText !== displayText) {
+        currentChordDisplay.innerText = displayText;
+    }
+    
+    if (displayText) {
+        if (displayText.length >= 8) {
+            currentChordDisplay.style.fontSize = '32px';
+        } else if (displayText.length >= 7) {
+            currentChordDisplay.style.fontSize = '38px';
+        } else if (displayText.length >= 6) {
+            currentChordDisplay.style.fontSize = '44px';
+        } else {
+            currentChordDisplay.style.fontSize = ''; // CSS default
+        }
+    } else {
+        currentChordDisplay.style.fontSize = '';
+    }
+}
+
 function transposeBlockText(text, semitones) {
     if (!text || semitones === 0 || !chordParser) return text || '';
     
@@ -2281,7 +2305,7 @@ chordTrack.addEventListener('click', (e) => {
                 const playbackTime = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
                 const activeIndex = chords.findLastIndex(c => c.time <= playbackTime);
                 if (activeIndex === index) {
-                    currentChordDisplay.innerText = simplifyDisplayName(newRealName);
+                    updateCurrentChordDisplay(simplifyDisplayName(newRealName));
                 }
             }
         });
@@ -4984,16 +5008,7 @@ function updateLoop() {
         ? window.activeMidiChord
         : (currentChord ? simplifyDisplayName(currentChord.name) : '');
 
-    // If chord/text is longer than 10 chars (e.g. "YouTube Video..."), don't show it in the yellow box
-    if (displayString && displayString.length <= 10) {
-        if (currentChordDisplay.innerText !== displayString) {
-            currentChordDisplay.innerText = displayString;
-        }
-    } else {
-        if (currentChordDisplay.innerText !== '') {
-            currentChordDisplay.innerText = '';
-        }
-    }
+    updateCurrentChordDisplay(displayString);
 
     // Update audition keyboard chord highlight (PLAY mode only, not in edit mode)
     // Only update when chord changes to avoid per-frame DOM overhead
