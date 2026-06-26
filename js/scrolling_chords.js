@@ -2835,6 +2835,23 @@ function renderSuggestedChords(groups) {
                         buttonsRow.classList.add('editing');
                         actions.innerHTML = '';
 
+                        // Add title input in the header
+                        const titleInput = document.createElement('input');
+                        titleInput.type = 'text';
+                        titleInput.className = 'chord-block-title-edit-input';
+                        titleInput.value = group.section;
+                        titleInput.placeholder = 'Block Label...';
+                        titleInput.style.fontFamily = 'inherit';
+                        titleInput.style.fontSize = '0.9em';
+                        titleInput.style.fontWeight = 'bold';
+                        titleInput.style.border = '1px solid #cbd5e1';
+                        titleInput.style.borderRadius = '4px';
+                        titleInput.style.padding = '2px 6px';
+                        titleInput.style.width = '120px';
+                        titleInput.style.pointerEvents = 'auto';
+
+                        header.replaceChild(titleInput, titleSpan);
+
                         const input = document.createElement('input');
                         input.type = 'text';
                         input.className = 'chord-block-edit-input';
@@ -2853,11 +2870,13 @@ function renderSuggestedChords(groups) {
                                 if (currentInstrumentMode === 'guitar' && currentCapoValue !== 0) {
                                     newText = transposeBlockText(newText, currentCapoValue);
                                 }
+                                const newTitle = titleInput.value.trim() || group.section;
                                 // Send to parent to sync with SongDetailModal
                                 window.parent.postMessage({
                                     type: 'updateChordBlock',
                                     sectionType: group.type,
-                                    text: newText
+                                    text: newText,
+                                    title: newTitle
                                 }, '*');
                                 // Local refresh will be triggered by SongDetailModal sending updateSuggestedChords back
                             } else {
@@ -2868,6 +2887,12 @@ function renderSuggestedChords(groups) {
 
                         input.onkeydown = (e) => {
                             e.stopPropagation(); // Prevent global timeline shortcuts from firing while typing
+                            if (e.key === 'Enter') finishEdit(true);
+                            if (e.key === 'Escape') finishEdit(false);
+                        };
+
+                        titleInput.onkeydown = (e) => {
+                            e.stopPropagation();
                             if (e.key === 'Enter') finishEdit(true);
                             if (e.key === 'Escape') finishEdit(false);
                         };

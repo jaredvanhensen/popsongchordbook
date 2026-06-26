@@ -1132,33 +1132,47 @@ class SongDetailModal {
 
                 // 4. Update Chord Block from Inline Editor in Timeline
                 else if (event.data.type === 'updateChordBlock' && this.currentSongId) {
-                    const { sectionType, text } = event.data;
-                    console.log('SongDetailModal: Received updateChordBlock from Timeline', sectionType, text);
+                    const { sectionType, text, title } = event.data;
+                    console.log('SongDetailModal: Received updateChordBlock from Timeline', sectionType, text, title);
 
                     try {
                         const song = this.songManager.getSongById(this.currentSongId);
                         const updates = {};
-                        if (sectionType === 'verse') updates.verse = text;
-                        else if (sectionType === 'chorus') updates.chorus = text;
-                        else if (sectionType === 'pre-chorus') updates.preChorus = text;
-                        else if (sectionType === 'bridge') updates.bridge = text;
+                        if (sectionType === 'verse') {
+                            updates.verse = text;
+                            if (title !== undefined) updates.verseTitle = title;
+                        } else if (sectionType === 'chorus') {
+                            updates.chorus = text;
+                            if (title !== undefined) updates.chorusTitle = title;
+                        } else if (sectionType === 'pre-chorus') {
+                            updates.preChorus = text;
+                            if (title !== undefined) updates.preChorusTitle = title;
+                        } else if (sectionType === 'bridge') {
+                            updates.bridge = text;
+                            if (title !== undefined) updates.bridgeTitle = title;
+                        }
 
                         if (Object.keys(updates).length > 0) {
-                            // Update UI textareas
+                            // Update UI textareas & titles
                             const sectionKey = sectionType === 'pre-chorus' ? 'preChorus' : sectionType;
                             const section = this.sections[sectionKey];
-                            if (section && section.editInput) {
-                                const isEditing = !section.editInput.classList.contains('hidden');
-                                let valueToSet = text;
-                                if (isEditing && this.instrumentMode === 'guitar' && this.capoValue !== 0) {
-                                    valueToSet = this.transposeBlockText(text, -this.capoValue);
+                            if (section) {
+                                if (title !== undefined && section.title) {
+                                    section.title.textContent = title;
                                 }
-                                section.editInput.value = valueToSet;
-                                // Trigger input event to let other logic know it changed
-                                section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
-                                // Re-render the buttons
-                                if (!isEditing) {
-                                    this.renderChordBlock(sectionKey, text);
+                                if (section.editInput) {
+                                    const isEditing = !section.editInput.classList.contains('hidden');
+                                    let valueToSet = text;
+                                    if (isEditing && this.instrumentMode === 'guitar' && this.capoValue !== 0) {
+                                        valueToSet = this.transposeBlockText(text, -this.capoValue);
+                                    }
+                                    section.editInput.value = valueToSet;
+                                    // Trigger input event to let other logic know it changed
+                                    section.editInput.dispatchEvent(new Event('input', { bubbles: true }));
+                                    // Re-render the buttons
+                                    if (!isEditing) {
+                                        this.renderChordBlock(sectionKey, text);
+                                    }
                                 }
                             }
 
@@ -1173,9 +1187,13 @@ class SongDetailModal {
                             await this.songManager.updateSong(this.currentSongId, updates);
                             if (this.originalSongData) {
                                 if (updates.verse !== undefined) this.originalSongData.verse = updates.verse;
+                                if (updates.verseTitle !== undefined) this.originalSongData.verseTitle = updates.verseTitle;
                                 if (updates.preChorus !== undefined) this.originalSongData.preChorus = updates.preChorus;
+                                if (updates.preChorusTitle !== undefined) this.originalSongData.preChorusTitle = updates.preChorusTitle;
                                 if (updates.chorus !== undefined) this.originalSongData.chorus = updates.chorus;
+                                if (updates.chorusTitle !== undefined) this.originalSongData.chorusTitle = updates.chorusTitle;
                                 if (updates.bridge !== undefined) this.originalSongData.bridge = updates.bridge;
+                                if (updates.bridgeTitle !== undefined) this.originalSongData.bridgeTitle = updates.bridgeTitle;
                             }
                             this.checkForChanges();
                             console.log(`Chord block ${sectionType} updated and saved.`);
