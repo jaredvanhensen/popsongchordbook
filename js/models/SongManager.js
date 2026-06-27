@@ -330,7 +330,8 @@ class SongManager {
             // Proactive migration: Ensure fullLyrics is never empty if legacy lyrics exist
             fullLyrics: song.fullLyrics || song.lyrics || '',
             // Date Added Migration: Infer from ID if missing; fallback to baseline date (26-3-2026)
-            dateAdded: song.dateAdded || (typeof song.id === 'string' && song.id.length >= 13 && !isNaN(song.id.substring(0, 13)) ? new Date(parseInt(song.id.substring(0, 13))).toISOString() : (typeof song.id === 'number' && song.id > 1000000000000 ? new Date(song.id).toISOString() : '2026-03-26T21:00:00.000Z'))
+            dateAdded: song.dateAdded || (typeof song.id === 'string' && song.id.length >= 13 && !isNaN(song.id.substring(0, 13)) ? new Date(parseInt(song.id.substring(0, 13))).toISOString() : (typeof song.id === 'number' && song.id > 1000000000000 ? new Date(song.id).toISOString() : '2026-03-26T21:00:00.000Z')),
+            year: song.year !== undefined && song.year !== null ? song.year.toString().substring(0, 4) : ''
         }));
     }
 

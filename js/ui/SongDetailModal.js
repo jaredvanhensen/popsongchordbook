@@ -58,6 +58,7 @@ class SongDetailModal {
         this.practiceCountInput = document.getElementById('practiceCountInput');
         this.lyricOffsetInput = document.getElementById('lyricOffsetInput');
         this.songCreatorInput = document.getElementById('songCreatorInput');
+        this.songYearInput = document.getElementById('songYearInput');
         this.performAbilityStars = document.getElementById('performAbilityStars');
         this.abilityStars = this.performAbilityStars ? this.performAbilityStars.querySelectorAll('.ability-star') : [];
         this.chordJsonInput = document.getElementById('chordJsonInput');
@@ -3017,7 +3018,8 @@ class SongDetailModal {
                 performAbility: song.performAbility || 0,
                 songNotes: song.songNotes || '',
                 capo: song.capo || 0,
-                isPublic: song.isPublic || false
+                isPublic: song.isPublic || false,
+                year: song.year || ''
             };
         }
 
@@ -3048,7 +3050,8 @@ class SongDetailModal {
             performAbility: this.currentAbilityValue || 0,
             songNotes: this.notesInput ? this.notesInput.value : '',
             capo: this.capoValue || 0,
-            isPublic: this.originalSongData ? this.originalSongData.isPublic : false
+            isPublic: this.originalSongData ? this.originalSongData.isPublic : false,
+            year: this.songYearInput ? this.songYearInput.value : ''
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -3076,7 +3079,8 @@ class SongDetailModal {
             performAbility: parseInt(data.performAbility) || 0,
             songNotes: (data.songNotes || '').trim(),
             capo: parseInt(data.capo) || 0,
-            isPublic: !!data.isPublic
+            isPublic: !!data.isPublic,
+            year: (data.year || '').trim()
         });
 
         const normalizedCurrent = normalizeData(currentData);
@@ -3434,6 +3438,13 @@ class SongDetailModal {
         if (this.notesInput) {
             updates.songNotes = this.notesInput.value.trim();
         }
+        if (this.songYearInput) {
+            let yearVal = this.songYearInput.value.trim();
+            if (yearVal !== '') {
+                yearVal = yearVal.replace(/\D/g, '').substring(0, 4);
+            }
+            updates.year = yearVal;
+        }
         if (this.capoValue !== undefined) {
             updates.capo = parseInt(this.capoValue) || 0;
         }
@@ -3474,7 +3485,8 @@ class SongDetailModal {
                 performAbility: savedSong.performAbility || 0,
                 songNotes: savedSong.songNotes || '',
                 capo: savedSong.capo || 0,
-                isPublic: savedSong.isPublic || false
+                isPublic: savedSong.isPublic || false,
+                year: savedSong.year || ''
             };
         }
 
@@ -3952,7 +3964,8 @@ class SongDetailModal {
             songNotes: song.songNotes || '',
             capo: song.capo || 0,
             isPublic: song.isPublic || false,
-            submittedBy: song.submittedBy || ''
+            submittedBy: song.submittedBy || '',
+            year: song.year || ''
         };
 
         // Enforce read-only mode for non-owners
@@ -4491,6 +4504,9 @@ class SongDetailModal {
         if (this.lyricOffsetInput) {
             this.lyricOffsetInput.value = song.lyricOffset || '';
         }
+        if (this.songYearInput) {
+            this.songYearInput.value = song.year || '';
+        }
 
         if (this.songCreatorInput) {
             let creatorText = 'Unknown';
@@ -4632,6 +4648,11 @@ class SongDetailModal {
             const performAbility = this.currentAbilityValue || 0;
             const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
 
+            let yearVal = this.songYearInput ? this.songYearInput.value.trim() : '';
+            if (yearVal !== '') {
+                yearVal = yearVal.replace(/\D/g, '').substring(0, 4);
+            }
+
             const updates = {
                 youtubeUrl: youtubeUrl,
                 patchDetails: patchDetails,
@@ -4639,7 +4660,8 @@ class SongDetailModal {
                 lyricOffset: lyricOffset,
                 performAbility: performAbility,
                 fullLyrics: fullLyrics,
-                genre: this.selectedGenres || []
+                genre: this.selectedGenres || [],
+                year: yearVal
             };
 
             await this.songManager.updateSong(this.currentSongId, updates);
@@ -4696,7 +4718,8 @@ class SongDetailModal {
                 practiceCount: savedSong.practiceCount !== undefined ? savedSong.practiceCount.toString() : '0',
                 lyricOffset: savedSong.lyricOffset || 0,
                 performAbility: savedSong.performAbility || 0,
-                songNotes: savedSong.songNotes || ''
+                songNotes: savedSong.songNotes || '',
+                year: savedSong.year || ''
             };
         }
 
