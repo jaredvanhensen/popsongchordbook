@@ -157,6 +157,7 @@ class GuitarChordTrainer {
         // 2. Parse URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         this.songId = urlParams.get('songId');
+        this.hasExplicitSongId = !!this.songId;
         
         // Load saved complexity preference
         const savedComplexity = localStorage.getItem('guitar_trainer_complexity');
@@ -329,10 +330,14 @@ class GuitarChordTrainer {
                     this.dom.practicingSongName.textContent = `KEY OF ${selectedKey} PRACTICE`;
                 }
                 
-                // Set Back button to go back to this song's details
+                // Set Back button to go back to this song's details ONLY if songId was explicitly provided
                 const backLink = document.querySelector('.back-link');
                 if (backLink) {
-                    backLink.href = `songlist.html?id=${this.songId}`;
+                    if (this.hasExplicitSongId) {
+                        backLink.href = `songlist.html?id=${this.songId}`;
+                    } else {
+                        backLink.href = `songlist.html`;
+                    }
                 }
             }
 
