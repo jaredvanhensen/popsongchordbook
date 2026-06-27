@@ -220,6 +220,10 @@ class TableRenderer {
         dateAddedCell.dataset.field = 'dateAdded';
         row.appendChild(dateAddedCell);
 
+        // Year Column
+        const yearCell = this.createEditableCell(song.year || '', 'year', song.id);
+        yearCell.className = 'year-cell editable';
+        row.appendChild(yearCell);
 
         // Verse
         const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
@@ -355,7 +359,7 @@ class TableRenderer {
 
     enterEditMode(songId, row, song) {
         const cells = row.querySelectorAll('td');
-        const fieldOrder = ['status', 'artist', 'title', 'favorite', 'ctl', 'songmap', 'dateAdded', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['status', 'artist', 'title', 'favorite', 'ctl', 'songmap', 'dateAdded', 'year', 'verse', 'chorus', 'preChorus', 'bridge'];
         const inputs = [];
 
         cells.forEach((cell, index) => {
@@ -692,7 +696,7 @@ class TableRenderer {
         input.setAttribute('autocapitalize', 'none');
 
         // Define field order for tab navigation
-        const fieldOrder = ['artist', 'title', 'verse', 'chorus', 'preChorus', 'bridge'];
+        const fieldOrder = ['artist', 'title', 'year', 'verse', 'chorus', 'preChorus', 'bridge'];
         const currentIndex = fieldOrder.indexOf(field);
 
         const finishEditing = () => {

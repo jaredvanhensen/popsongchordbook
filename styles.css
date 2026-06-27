@@ -1854,19 +1854,37 @@ td {
 }
 
 .date-added-column {
+    width: 120px;
+    min-width: 120px;
+    text-align: center;
+}
+
+.year-column,
+.year-cell {
     width: 90px;
     min-width: 90px;
     text-align: center;
 }
 
-
-
 .date-added-cell {
-    width: 90px;
-    min-width: 90px;
+    width: 120px;
+    min-width: 120px;
     text-align: center;
     font-size: 0.8em;
     color: #94a3b8;
+    white-space: nowrap;
+}
+
+/* Hide Block 4 column entirely */
+#songsTable .bridge-column,
+#songsTable td.bridge-cell {
+    display: none !important;
+}
+
+/* Hide Block 3 column entirely */
+#songsTable .prechorus-column,
+#songsTable td.pre-chorus-cell {
+    display: none !important;
 }
 
 /* Variable-based Theme - Table Cells */
