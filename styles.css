@@ -12035,4 +12035,138 @@ body.theme-high-contrast .stats-chart-label {
     color: white !important;
 }
 
+/* Years and Genre Dropdown Menus (Popup Panels) */
+.decade-dropdown,
+.genre-dropdown {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    width: 250px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.decade-dropdown.hidden,
+.genre-dropdown.hidden {
+    display: none !important;
+}
+
+.decade-search-wrapper,
+.genre-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.decade-search-input,
+.genre-search-input {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 13px;
+    background: #f8fafc;
+    color: var(--text-color);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.decade-search-input:focus,
+.genre-search-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.decade-options-grid,
+.genre-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.decade-select-btn,
+.genre-select-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    border: 1px solid var(--border-color);
+    background: white;
+    color: var(--text-color);
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    outline: none;
+}
+
+.decade-select-btn.all-years,
+.genre-select-btn.all-genres {
+    width: 100%;
+    justify-content: center;
+}
+
+.decade-select-btn:hover,
+.genre-select-btn:hover {
+    background: #f1f5f9;
+    border-color: var(--secondary-color);
+}
+
+.decade-select-btn.active,
+.genre-select-btn.active {
+    background: var(--bg-gradient, linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%));
+    color: white !important;
+    border-color: transparent;
+}
+
+.decade-select-btn.active .decade-icon,
+.genre-select-btn.active .genre-icon {
+    color: white;
+}
+
+.decade-icon,
+.genre-icon {
+    font-size: 14px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+}
+
+/* Default positions for desktop/landscape (align below their respective buttons) */
+.decade-dropdown {
+    left: 80px;
+}
+
+.genre-dropdown {
+    left: 160px;
+}
+
+/* Adjust position on mobile portrait screens to stay within viewport and prevent left clipping */
+@media (max-width: 767px) {
+    .decade-dropdown,
+    .genre-dropdown {
+        left: 0px !important;
+        right: auto !important;
+        width: 250px;
+    }
+}
+
+/* Allow dropdown menus to overflow the header-bar and filters-section containers on desktop/landscape view */
+.header-bar,
+.filters-section {
+    overflow: visible !important;
+}
+
+
 

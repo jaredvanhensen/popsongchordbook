@@ -40,7 +40,11 @@ class App {
             genre: '',
             limit: null,
             sortBy: 'id',
-            sortOrder: 'asc'
+            sortOrder: 'asc',
+            decades: [],
+            yearSearch: '',
+            genres: [],
+            genreSearch: ''
         };
 
         // UI Elements
@@ -93,7 +97,11 @@ class App {
             withoutLyrics: false,
             withoutTimeline: false,
             noPublic: false,
-            onlyPublic: false
+            onlyPublic: false,
+            decades: [],
+            yearSearch: '',
+            genres: [],
+            genreSearch: ''
         };
         this.currentSetlistId = null;
         this.searchTerm = '';
@@ -165,6 +173,10 @@ class App {
 
         // Setup Chord Trainer navigation
         this.setupChordTrainer();
+        // Setup Decade Filters
+        this.setupDecadeFilters();
+        // Setup Genre Filters
+        this.setupGenreFilters();
     }
 
     pushModalState(modalId, closeFn) {
@@ -590,6 +602,178 @@ class App {
         }
         if (mobileBtn) {
             mobileBtn.addEventListener('click', navigateToTrainer);
+        }
+    }
+
+    setupDecadeFilters() {
+        const btn = document.getElementById('decadeFilterDropdownBtn');
+        const menu = document.getElementById('decadeDropdownMenu');
+        if (!btn || !menu) return;
+
+        // Toggle dropdown
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Close genre dropdown if open
+            const genreMenu = document.getElementById('genreDropdownMenu');
+            const genreBtn = document.getElementById('genreFilterDropdownBtn');
+            if (genreMenu && !genreMenu.classList.contains('hidden')) {
+                genreMenu.classList.add('hidden');
+                if (genreBtn) genreBtn.classList.remove('active');
+            }
+
+            menu.classList.toggle('hidden');
+            btn.classList.toggle('active', !menu.classList.contains('hidden'));
+        });
+
+        // Close on clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && e.target !== btn) {
+                menu.classList.add('hidden');
+                btn.classList.remove('active');
+            }
+        });
+
+        const allYearsBtn = document.getElementById('decadeAllYearsBtn');
+        const decadeBtns = menu.querySelectorAll('.decade-options-grid .decade-select-btn');
+        const searchInput = document.getElementById('decadeSearchInput');
+
+        // All Years handler
+        allYearsBtn.addEventListener('click', () => {
+            allYearsBtn.classList.add('active');
+            decadeBtns.forEach(b => b.classList.remove('active'));
+            if (searchInput) searchInput.value = '';
+
+            this.currentFilter.decades = [];
+            this.currentFilter.yearSearch = '';
+            this.loadAndRender();
+        });
+
+        // Decade buttons handler
+        decadeBtns.forEach(btnEl => {
+            btnEl.addEventListener('click', () => {
+                btnEl.classList.toggle('active');
+                if (searchInput) searchInput.value = '';
+                this.currentFilter.yearSearch = '';
+
+                const activeBtns = Array.from(decadeBtns).filter(b => b.classList.contains('active'));
+                const activeDecades = activeBtns.map(b => b.dataset.decade);
+
+                if (activeDecades.length > 0) {
+                    allYearsBtn.classList.remove('active');
+                    this.currentFilter.decades = activeDecades;
+                } else {
+                    allYearsBtn.classList.add('active');
+                    this.currentFilter.decades = [];
+                }
+                this.loadAndRender();
+            });
+        });
+
+        // Search input handler
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const val = searchInput.value.trim();
+
+                // Clear decade active states
+                decadeBtns.forEach(b => b.classList.remove('active'));
+                this.currentFilter.decades = [];
+
+                if (val === '') {
+                    allYearsBtn.classList.add('active');
+                    this.currentFilter.yearSearch = '';
+                } else {
+                    allYearsBtn.classList.remove('active');
+                    this.currentFilter.yearSearch = val;
+                }
+                this.loadAndRender();
+            });
+        }
+    }
+
+    setupGenreFilters() {
+        const btn = document.getElementById('genreFilterDropdownBtn');
+        const menu = document.getElementById('genreDropdownMenu');
+        if (!btn || !menu) return;
+
+        // Toggle dropdown
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Close years dropdown if open
+            const yearsMenu = document.getElementById('decadeDropdownMenu');
+            const yearsBtn = document.getElementById('decadeFilterDropdownBtn');
+            if (yearsMenu && !yearsMenu.classList.contains('hidden')) {
+                yearsMenu.classList.add('hidden');
+                if (yearsBtn) yearsBtn.classList.remove('active');
+            }
+
+            menu.classList.toggle('hidden');
+            btn.classList.toggle('active', !menu.classList.contains('hidden'));
+        });
+
+        // Close on clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && e.target !== btn) {
+                menu.classList.add('hidden');
+                btn.classList.remove('active');
+            }
+        });
+
+        const allGenresBtn = document.getElementById('genreAllGenresBtn');
+        const genreBtns = menu.querySelectorAll('.genre-options-grid .genre-select-btn');
+        const searchInput = document.getElementById('genreSearchInput');
+
+        // All Genres handler
+        allGenresBtn.addEventListener('click', () => {
+            allGenresBtn.classList.add('active');
+            genreBtns.forEach(b => b.classList.remove('active'));
+            if (searchInput) searchInput.value = '';
+
+            this.currentFilter.genres = [];
+            this.currentFilter.genreSearch = '';
+            this.loadAndRender();
+        });
+
+        // Genre buttons handler
+        genreBtns.forEach(btnEl => {
+            btnEl.addEventListener('click', () => {
+                btnEl.classList.toggle('active');
+                if (searchInput) searchInput.value = '';
+                this.currentFilter.genreSearch = '';
+
+                const activeBtns = Array.from(genreBtns).filter(b => b.classList.contains('active'));
+                const activeGenres = activeBtns.map(b => b.dataset.genre);
+
+                if (activeGenres.length > 0) {
+                    allGenresBtn.classList.remove('active');
+                    this.currentFilter.genres = activeGenres;
+                } else {
+                    allGenresBtn.classList.add('active');
+                    this.currentFilter.genres = [];
+                }
+                this.loadAndRender();
+            });
+        });
+
+        // Search input handler
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const val = searchInput.value.trim();
+
+                // Clear genre active states
+                genreBtns.forEach(b => b.classList.remove('active'));
+                this.currentFilter.genres = [];
+
+                if (val === '') {
+                    allGenresBtn.classList.add('active');
+                    this.currentFilter.genreSearch = '';
+                } else {
+                    allGenresBtn.classList.remove('active');
+                    this.currentFilter.genreSearch = val;
+                }
+                this.loadAndRender();
+            });
         }
     }
 
@@ -1085,13 +1269,21 @@ class App {
             allSongs = allSongs.filter(song => song.favorite === true);
         }
 
-        if (this.currentFilter.genre && this.currentFilter.genre.trim() !== '') {
-            const filterGenre = this.currentFilter.genre.trim().toLowerCase();
+        // Apply genre filter (combine modal filter and dropdown filter)
+        const modalGenre = this.currentFilter.genre || '';
+        const dropdownGenres = this.currentFilter.genres || [];
+        const genreSearch = (this.currentFilter.genreSearch || '').trim().toLowerCase();
+
+        if (genreSearch !== '') {
             allSongs = allSongs.filter(song => {
-                const songGenres = Array.isArray(song.genre) 
-                    ? song.genre 
-                    : (song.genre ? [song.genre] : []);
-                return songGenres.some(g => g.toLowerCase() === filterGenre);
+                const songGenres = Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []);
+                return songGenres.some(g => g.toLowerCase().includes(genreSearch));
+            });
+        } else if (dropdownGenres.length > 0 || modalGenre !== '') {
+            const activeGenres = dropdownGenres.length > 0 ? dropdownGenres : [modalGenre];
+            allSongs = allSongs.filter(song => {
+                const songGenres = Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []);
+                return songGenres.some(g => activeGenres.some(ag => ag.toLowerCase() === g.toLowerCase()));
             });
         }
 
@@ -1140,6 +1332,30 @@ class App {
 
         if (this.currentFilter.onlyPublic) {
             allSongs = allSongs.filter(song => song.isPublic);
+        }
+
+        // Apply decade/year filter
+        const decades = this.currentFilter.decades || [];
+        const yearSearch = (this.currentFilter.yearSearch || '').trim();
+
+        if (yearSearch !== '') {
+            allSongs = allSongs.filter(song => {
+                return song.year && String(song.year).includes(yearSearch);
+            });
+        } else if (decades.length > 0) {
+            allSongs = allSongs.filter(song => {
+                if (!song.year) return false;
+                const yr = parseInt(song.year);
+                if (isNaN(yr)) return false;
+
+                if (yr < 1980) return decades.includes('lt80');
+                if (yr >= 1980 && yr < 1990) return decades.includes('80s');
+                if (yr >= 1990 && yr < 2000) return decades.includes('90s');
+                if (yr >= 2000 && yr < 2010) return decades.includes('00s');
+                if (yr >= 2010 && yr < 2020) return decades.includes('10s');
+                if (yr >= 2020) return decades.includes('20s');
+                return false;
+            });
         }
 
         // Apply setlist filter if a setlist is selected
@@ -1263,7 +1479,11 @@ class App {
                 withoutLyrics: filterWithoutLyricsCheckbox ? filterWithoutLyricsCheckbox.checked : false,
                 withoutTimeline: filterWithoutTimelineCheckbox ? filterWithoutTimelineCheckbox.checked : false,
                 noPublic: filterNoPublicCheckbox.checked,
-                onlyPublic: filterOnlyPublicCheckbox.checked
+                onlyPublic: filterOnlyPublicCheckbox.checked,
+                decades: this.currentFilter.decades || [],
+                yearSearch: this.currentFilter.yearSearch || '',
+                genres: this.currentFilter.genres || [],
+                genreSearch: this.currentFilter.genreSearch || ''
             };
             this.loadAndRender();
             filterModal.classList.add('hidden');
@@ -1282,6 +1502,24 @@ class App {
             if (filterWithoutTimelineCheckbox) filterWithoutTimelineCheckbox.checked = false;
             if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
             if (filterOnlyPublicCheckbox) filterOnlyPublicCheckbox.checked = false;
+            // Reset decade filter dropdown UI
+            const allYearsBtn = document.getElementById('decadeAllYearsBtn');
+            const decadeBtns = document.querySelectorAll('.decade-options-grid .decade-select-btn');
+            const decadeSearchInput = document.getElementById('decadeSearchInput');
+
+            if (allYearsBtn) allYearsBtn.classList.add('active');
+            if (decadeBtns) decadeBtns.forEach(btn => btn.classList.remove('active'));
+            if (decadeSearchInput) decadeSearchInput.value = '';
+
+            // Reset genre filter dropdown UI
+            const allGenresBtn = document.getElementById('genreAllGenresBtn');
+            const genreBtns = document.querySelectorAll('.genre-options-grid .genre-select-btn');
+            const genreSearchInput = document.getElementById('genreSearchInput');
+
+            if (allGenresBtn) allGenresBtn.classList.add('active');
+            if (genreBtns) genreBtns.forEach(btn => btn.classList.remove('active'));
+            if (genreSearchInput) genreSearchInput.value = '';
+
             this.currentFilter = {
                 favorites: false,
                 key: '',
@@ -1291,7 +1529,11 @@ class App {
                 withoutLyrics: false,
                 withoutTimeline: false,
                 noPublic: false,
-                onlyPublic: false
+                onlyPublic: false,
+                decades: [],
+                yearSearch: '',
+                genres: [],
+                genreSearch: ''
             };
             this.loadAndRender();
             this.updateFilterButtonState();

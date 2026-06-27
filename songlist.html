@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.162 - Interactive Scrolling Chords & Band Tool</title>
-    <meta name="version" content="3.162">
-    <meta name="application-version" content="v3.162">
+    <title>Song List v3.170 - Interactive Scrolling Chords & Band Tool</title>
+    <meta name="version" content="3.170">
+    <meta name="application-version" content="v3.170">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -986,17 +986,89 @@
 
                 <!-- Filters & Search Section -->
                 <div class="header-section filters-section">
-                    <div class="filter-buttons">
+                    <div class="filter-buttons" style="position: relative;">
                         <button id="filterBtn" class="filter-btn with-label" title="Filters">
                             <span class="icon">🔍</span>
                             <span class="label">Filters</span>
                         </button>
-                        <!-- Chord Trainer button moved to sidebar -->
-                        <!-- On mobile (no sidebar), show it here -->
-                        <button id="headerTrainerBtn" class="trainer-btn with-label sidebar-visible-on-mobile" title="Chord Trainer">
-                            <span class="icon">🎓</span>
-                            <span class="label">Chord Trainer</span>
+                        <button id="decadeFilterDropdownBtn" class="filter-btn with-label" title="Years">
+                            <span class="icon">📅</span>
+                            <span class="label">Years</span>
                         </button>
+                        <button id="genreFilterDropdownBtn" class="filter-btn with-label" title="Genre">
+                            <span class="icon">🎸</span>
+                            <span class="label">Genre</span>
+                        </button>
+                        
+                        <!-- Years Dropdown Menu (Popup) -->
+                        <div id="decadeDropdownMenu" class="decade-dropdown hidden">
+                            <div class="decade-search-wrapper">
+                                <input type="text" id="decadeSearchInput" class="decade-search-input" placeholder="🔍 Search years..." autocomplete="off">
+                            </div>
+                            
+                            <button class="decade-select-btn all-years active" id="decadeAllYearsBtn">
+                                <span class="decade-icon">✓</span>
+                                <span class="decade-label">All years</span>
+                            </button>
+                            
+                            <div class="decade-options-grid">
+                                <button class="decade-select-btn" data-decade="20s">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">2020s</span>
+                                </button>
+                                <button class="decade-select-btn" data-decade="10s">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">2010s</span>
+                                </button>
+                                <button class="decade-select-btn" data-decade="00s">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">2000s</span>
+                                </button>
+                                <button class="decade-select-btn" data-decade="90s">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">1990s</span>
+                                </button>
+                                <button class="decade-select-btn" data-decade="80s">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">1980s</span>
+                                </button>
+                                <button class="decade-select-btn" data-decade="lt80">
+                                    <span class="decade-icon">📅</span>
+                                    <span class="decade-label">1970s & earlier</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Genre Dropdown Menu (Popup) -->
+                        <div id="genreDropdownMenu" class="genre-dropdown hidden">
+                            <div class="genre-search-wrapper">
+                                <input type="text" id="genreSearchInput" class="genre-search-input" placeholder="🔍 Search genres..." autocomplete="off">
+                            </div>
+                            
+                            <button class="genre-select-btn all-genres active" id="genreAllGenresBtn">
+                                <span class="genre-icon">✓</span>
+                                <span class="genre-label">All genres</span>
+                            </button>
+                            
+                            <div class="genre-options-grid">
+                                <button class="genre-select-btn" data-genre="Rock">
+                                    <span class="genre-icon">🎸</span>
+                                    <span class="genre-label">Rock</span>
+                                </button>
+                                <button class="genre-select-btn" data-genre="Country">
+                                    <span class="genre-icon">🤠</span>
+                                    <span class="genre-label">Country</span>
+                                </button>
+                                <button class="genre-select-btn" data-genre="R&B">
+                                    <span class="genre-icon">🎵</span>
+                                    <span class="genre-label">R&B</span>
+                                </button>
+                                <button class="genre-select-btn" data-genre="Dance">
+                                    <span class="genre-icon">💃</span>
+                                    <span class="genre-label">Dance</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <!-- Mobile Trainer Button removed (consolidated with headerTrainerBtn) -->
                     <div class="search-section-container">
