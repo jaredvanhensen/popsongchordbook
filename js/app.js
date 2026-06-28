@@ -1288,15 +1288,15 @@ class App {
         }
 
         if (this.currentFilter.key && this.currentFilter.key.trim() !== '') {
-            const filterKey = this.currentFilter.key.trim().toLowerCase();
+            const filterKey = this.currentFilter.key.trim();
             allSongs = allSongs.filter(song => {
-                const explicitKey = (song.key || '').trim().toLowerCase();
-                if (explicitKey === filterKey) return true;
+                const explicitKey = (song.key || '').trim();
+                if (this.keysMatch(explicitKey, filterKey)) return true;
 
                 // If no explicit key, check detected key
                 if (!explicitKey && this.keyDetector) {
-                    const detectedKey = (this.keyDetector.detectFromSong(song) || '').trim().toLowerCase();
-                    return detectedKey === filterKey;
+                    const detectedKey = (this.keyDetector.detectFromSong(song) || '').trim();
+                    return this.keysMatch(detectedKey, filterKey);
                 }
 
                 return false;
@@ -1575,6 +1575,49 @@ class App {
         this.updateFilterButtonState();
     }
 
+    normalizeKeyName(key) {
+        if (!key) return '';
+        const k = key.trim();
+        
+        if (k.includes('/')) {
+            const parts = k.split('/').map(p => p.trim());
+            return this.normalizeKeyName(parts[0]);
+        }
+        
+        const isMinor = k.toLowerCase().endsWith('m') && !k.toLowerCase().endsWith('dim');
+        const root = isMinor ? k.slice(0, -1) : k;
+        const suffix = isMinor ? 'm' : '';
+        const rootLower = root.toLowerCase();
+        
+        if (rootLower === 'c#' || rootLower === 'db') return `C#${suffix} / Db${suffix}`;
+        if (rootLower === 'd#' || rootLower === 'eb') return `D#${suffix} / Eb${suffix}`;
+        if (rootLower === 'f#' || rootLower === 'gb') return `F#${suffix} / Gb${suffix}`;
+        if (rootLower === 'g#' || rootLower === 'ab') return `G#${suffix} / Ab${suffix}`;
+        if (rootLower === 'a#' || rootLower === 'bb') return `A#${suffix} / Bb${suffix}`;
+        
+        return k;
+    }
+
+    keysMatch(songKey, filterKey) {
+        if (!songKey || !filterKey) return false;
+        const s = songKey.trim().toLowerCase();
+        const f = filterKey.trim().toLowerCase();
+        
+        if (s === f) return true;
+        
+        if (f.includes('/')) {
+            const parts = f.split('/').map(p => p.trim());
+            return parts.includes(s);
+        }
+        
+        if (s.includes('/')) {
+            const parts = s.split('/').map(p => p.trim());
+            return parts.includes(f);
+        }
+        
+        return false;
+    }
+
     populateKeySelect() {
         const filterKeySelect = document.getElementById('filterKeySelect');
         if (!filterKeySelect) return;
@@ -1585,11 +1628,11 @@ class App {
 
         allSongs.forEach(song => {
             if (song.key && song.key.trim() !== '') {
-                keys.add(song.key.trim());
+                keys.add(this.normalizeKeyName(song.key));
             } else if (this.keyDetector) {
                 const detectedKey = this.keyDetector.detectFromSong(song);
                 if (detectedKey) {
-                    keys.add(detectedKey);
+                    keys.add(this.normalizeKeyName(detectedKey));
                 }
             }
         });
