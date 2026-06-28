@@ -1854,21 +1854,21 @@ td {
 }
 
 .date-added-column {
-    width: 120px;
-    min-width: 120px;
+    width: 130px;
+    min-width: 130px;
     text-align: center;
 }
 
 .year-column,
 .year-cell {
-    width: 90px;
-    min-width: 90px;
+    width: 100px;
+    min-width: 100px;
     text-align: center;
 }
 
 .date-added-cell {
-    width: 120px;
-    min-width: 120px;
+    width: 130px;
+    min-width: 130px;
     text-align: center;
     font-size: 0.8em;
     color: #94a3b8;
@@ -2701,15 +2701,32 @@ td:has(.row-edit-input.input-focused) {
     td:nth-child(5),
     th:nth-child(6),
     td:nth-child(6),
-    th:nth-child(7),
-    td:nth-child(7),
-    th:nth-child(8),
-    td:nth-child(8),
     th:nth-child(9),
     td:nth-child(9),
     th:nth-child(10),
     td:nth-child(10) {
         min-width: 0;
+    }
+
+    /* Keep stable widths for Added and Year columns on mobile/tablet */
+    th:nth-child(7),
+    td:nth-child(7) {
+        min-width: 100px !important;
+        width: 100px !important;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8) {
+        min-width: 65px !important;
+        width: 65px !important;
+    }
+
+    th.sortable {
+        padding-right: 20px !important;
+    }
+
+    .sort-indicator {
+        right: 4px !important;
     }
 
     .delete-btn {
