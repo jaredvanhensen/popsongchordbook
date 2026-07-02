@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-06-25</lastmod>
+        <lastmod>2026-07-02</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -138,6 +138,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/american-young-love-is-war</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/american-young-some-girl</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -194,6 +199,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/billie-ocean-get-outta-my-dreams</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/billy-idol-white-wedding</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -538,6 +548,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/dire-straits-brothers-in-arms</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/dire-straits-calling-elvis</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -704,6 +719,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/ed-sheeran-perfect</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/ed-sheeran-thinking-out-loud</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -878,6 +898,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/georgia-satellites-keep-your-hands-to-yourself</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/gerry-rafferty-baker-street</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -888,12 +913,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/golden-earring-radar-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/goo-goo-dolls-iris</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/green-day-boulevard-of-broken-dreams</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/green-day-good-riddance-time-of-your-life</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -978,6 +1013,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/imagine-dragons-radioactive</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/inxs-never-tear-us-apart</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1023,7 +1063,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/jason-aldean-relentless</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/jason-aldean-small-town-small</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/jason-aldean-the-truth</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1128,7 +1178,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/keith-urban-stupid-boy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/keith-urban-we-were</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/keith-urban-wild-hearts</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1149,6 +1209,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/kenny-chesney-big-star</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/kenny-chesney-carry-on</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1184,6 +1249,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/kenny-chesney-setting-the-world-on-fire</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/kenny-chesney-silver-sands-marina</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1259,6 +1329,16 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/lainie-gardner-chasing-the-wind</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/led-zeppelin-stairway-to-heaven</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/lee-ann-womack-i-hope-you-dance</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1618,6 +1698,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/old-dominion-song-for-another-time</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/olivia-dean-man-i-need</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1649,6 +1734,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/parker-mccollum-handle-on-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/passenger-let-her-go</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1729,6 +1819,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/pink-floyd-wish-you-were-here</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/plain-white-ts-hey-there-delilah</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2353,6 +2448,21 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/tim-mcgraw-meanwhile-back-at-mamas</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/tim-mcgraw-southern-voice</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/tim-mcgraw-taylor-swift-keith-urban-highway-dont-care</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/tina-turner-the-best</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2444,6 +2554,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/train-drops-of-jupiter</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/train-hey-soul-sister</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2664,6 +2779,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/billie-ocean</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/billy-idol</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -2988,12 +3108,22 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/georgia-satellites</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/gerry-rafferty</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/gloriana</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/golden-earring</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3233,6 +3363,16 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/led-zeppelin</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/lee-ann-womack</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/lenny-kravitz</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3458,6 +3598,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/passenger</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/pat-greene</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3489,6 +3634,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/pink-floyd</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/plain-white-ts</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3784,6 +3934,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/tim-mcgraw</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/tim-mcgraw-taylor-swift-keith-urban</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

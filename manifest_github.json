@@ -5,7 +5,7 @@
     "description": "Test environment for Pop Song Chord Book.",
     "start_url": "./index.html",
     "scope": "./",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#22c55e",
     "theme_color": "#22c55e",
     "orientation": "any",

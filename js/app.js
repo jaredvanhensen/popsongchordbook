@@ -1637,7 +1637,41 @@ class App {
             }
         });
 
-        const sortedKeys = Array.from(keys).sort();
+        const sortedKeys = Array.from(keys).sort((a, b) => {
+            const getSortRank = (key) => {
+                if (!key) return 999;
+                const firstPart = key.split('/')[0].trim();
+                const isMinor = firstPart.toLowerCase().endsWith('m') && !firstPart.toLowerCase().endsWith('dim');
+                const root = isMinor ? firstPart.slice(0, -1) : firstPart;
+                const rootLower = root.toLowerCase();
+                
+                const semitoneMap = {
+                    'c': 0, 'b#': 0,
+                    'c#': 1, 'db': 1,
+                    'd': 2,
+                    'd#': 3, 'eb': 3,
+                    'e': 4, 'fb': 4,
+                    'f': 5, 'e#': 5,
+                    'f#': 6, 'gb': 6,
+                    'g': 7,
+                    'g#': 8, 'ab': 8,
+                    'a': 9,
+                    'a#': 10, 'bb': 10,
+                    'b': 11, 'cb': 11
+                };
+                
+                const semitone = semitoneMap[rootLower];
+                if (semitone === undefined) return 100;
+                return semitone * 2 + (isMinor ? 1 : 0);
+            };
+            
+            const rankA = getSortRank(a);
+            const rankB = getSortRank(b);
+            if (rankA !== rankB) {
+                return rankA - rankB;
+            }
+            return a.localeCompare(b);
+        });
 
         // Save current selection
         const currentValue = filterKeySelect.value;
