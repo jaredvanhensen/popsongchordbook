@@ -1446,6 +1446,9 @@
                             </label>
                         </div>
 
+                        <button id="profileViewAdminsBtn" class="modal-submit-btn" style="background: #4f46e5; width: 100%; margin-bottom: 10px;">
+                            Administrators
+                        </button>
                         <button id="profileViewRequestsBtn" class="modal-submit-btn" style="background: #ea580c; width: 100%; margin-bottom: 10px;">
                             View Requested Songs
                         </button>
@@ -2963,6 +2966,45 @@
                 </div>
                 <div id="adminRequestsEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
                     No song requests yet.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Administrators Modal -->
+    <div id="adminAdminsModal" class="modal auth-modal hidden" style="z-index: 12000;">
+        <div class="modal-content" style="max-width: 600px; width: 90%; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
+            <div class="modal-header">
+                <h3>Administrators</h3>
+                <button class="modal-close" id="adminAdminsModalClose">&times;</button>
+            </div>
+            <div class="modal-body" style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <!-- Add Admin Form -->
+                <div style="background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                    <div style="font-size: 0.85rem; font-weight: bold; color: #475569; text-transform: uppercase; margin-bottom: 8px;">Add New Administrator</div>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="email" id="newAdminEmailInput" class="text-input" style="flex: 1; padding: 8px 12px; font-size: 0.9rem;" placeholder="Enter email address (e.g. xavifender@gmail.com)">
+                        <button id="addAdminBtn" class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem; border-radius: 8px; background: #ea580c; border: none; color: white; cursor: pointer;">Add</button>
+                    </div>
+                    <div id="addAdminError" style="display: none; color: #ef4444; font-size: 0.8rem; margin-top: 6px; text-align: left;"></div>
+                </div>
+
+                <!-- Admins Table/List -->
+                <div class="table-wrapper" style="flex: 1; overflow-y: auto; max-height: 50vh;">
+                    <table class="profile-top-songs-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th style="width: 120px; text-align: center;">Admin Access</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminAdminsTableBody">
+                            <!-- Admins list populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="adminAdminsEmpty" class="hidden" style="text-align: center; padding: 20px; color: #64748b;">
+                    No additional administrators.
                 </div>
             </div>
         </div>

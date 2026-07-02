@@ -10,6 +10,7 @@ class FirebaseManager {
         this.pendingSongsListeners = new Map();
         this.publicSongsListeners = new Map();
         this.initialized = false;
+        this.cachedAdmins = {};
     }
 
     // Initialize Firebase
@@ -34,6 +35,11 @@ class FirebaseManager {
             this.auth = firebase.auth();
             this.database = firebase.database();
             this.initialized = true;
+
+            // Listen for global settings/admins updates
+            this.database.ref('settings/admins').on('value', (snapshot) => {
+                this.cachedAdmins = snapshot.val() || {};
+            });
 
             // Initialize App Check (if available and configured)
             // DISABLED TEMPORARILY due to connection issues
@@ -743,9 +749,16 @@ class FirebaseManager {
     }
 
     isAdmin(uid) {
-        const user = this.auth.currentUser;
-        if (!user || user.uid !== uid) return false;
-        return user.email === 'jared@vanhensen.nl';
+        if (!this.initialized || !uid) return false;
+        
+        // Jared is always super admin
+        const currentUser = this.auth.currentUser;
+        if (currentUser && currentUser.uid === uid && currentUser.email === 'jared@vanhensen.nl') {
+            return true;
+        }
+
+        // Check if uid is in the cached admins map
+        return !!(this.cachedAdmins && this.cachedAdmins[uid]);
     }
 
     // Global App Settings
@@ -1406,11 +1419,15 @@ class FirebaseManager {
      */
     isAdmin(uid) {
         if (!this.initialized || !uid) return false;
-        const user = this.getCurrentUser();
-        if (!user) return false;
-        // Check by UID match OR by email (email is more reliable)
-        const adminEmail = 'jared@vanhensen.nl';
-        return user.email === adminEmail;
+        
+        // Jared is always super admin
+        const currentUser = this.auth.currentUser;
+        if (currentUser && currentUser.uid === uid && currentUser.email === 'jared@vanhensen.nl') {
+            return true;
+        }
+
+        // Check if uid is in the cached admins map
+        return !!(this.cachedAdmins && this.cachedAdmins[uid]);
     }
 
     /**

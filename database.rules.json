@@ -1,10 +1,10 @@
 {
   "rules": {
     "users": {
-      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".read": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())",
       "$userId": {
         ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true || root.child('teacherStudents').child($userId).child(auth.uid).val() === true",
-        ".write": "$userId === auth.uid || auth.token.email === 'jared@vanhensen.nl'",
+        ".write": "$userId === auth.uid || auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists()",
         "songs": {
           ".read": "$userId === auth.uid || root.child('teacherStudents').child(auth.uid).child($userId).val() === true",
           ".write": "$userId === auth.uid"
@@ -26,13 +26,13 @@
     "publicSongs": {
       ".read": "auth != null",
       "$songId": {
-        ".write": "auth != null && (data.val() == null || data.child('submittedBy').val() === auth.uid || auth.token.email === 'jared@vanhensen.nl')"
+        ".write": "auth != null && (data.val() == null || data.child('submittedBy').val() === auth.uid || auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
       }
     },
     "emailToUserId": {
       "$email": {
         ".read": "auth != null",
-        ".write": "auth.token.email === 'jared@vanhensen.nl' || (auth != null && newData.val() === auth.uid)"
+        ".write": "auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists() || (auth != null && newData.val() === auth.uid)"
       }
     },
     "leaderboards": {
@@ -45,11 +45,11 @@
       }
     },
     "songRequests": {
-      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".read": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())",
       ".write": "auth != null"
     },
     "fixRequests": {
-      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
+      ".read": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())",
       ".write": "auth != null"
     },
     "settings": {
@@ -90,8 +90,8 @@
       }
     },
     "facebookPromoSuite": {
-      ".read": "auth != null && auth.token.email === 'jared@vanhensen.nl'",
-      ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
+      ".read": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())",
+      ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
     },
     "bands": {
       "$bandId": {

@@ -82,6 +82,16 @@ class ProfileModal {
         this.membersEmptyMsg = document.getElementById('adminMembersEmpty');
         this.membersCloseBtn = document.getElementById('adminMembersModalClose');
 
+        // Administrators elements
+        this.viewAdminsBtn = document.getElementById('profileViewAdminsBtn');
+        this.adminsModal = document.getElementById('adminAdminsModal');
+        this.adminsTableBody = document.getElementById('adminAdminsTableBody');
+        this.adminsEmptyMsg = document.getElementById('adminAdminsEmpty');
+        this.adminsCloseBtn = document.getElementById('adminAdminsModalClose');
+        this.newAdminEmailInput = document.getElementById('newAdminEmailInput');
+        this.addAdminBtn = document.getElementById('addAdminBtn');
+        this.addAdminError = document.getElementById('addAdminError');
+
         // Login Statistics elements
         this.membersStatsBtn = document.getElementById('adminMembersStatsBtn');
         this.membersTableView = document.getElementById('adminMembersTableView');
@@ -409,6 +419,33 @@ class ProfileModal {
                 if (e.target === this.requestsModal) {
                     this.requestsModal.classList.add('hidden');
                 }
+            });
+        }
+
+        // Admin Administrators handlers
+        if (this.viewAdminsBtn) {
+            this.viewAdminsBtn.addEventListener('click', () => {
+                this.showAdminsModal();
+            });
+        }
+
+        if (this.adminsCloseBtn) {
+            this.adminsCloseBtn.addEventListener('click', () => {
+                if (this.adminsModal) this.adminsModal.classList.add('hidden');
+            });
+        }
+
+        if (this.adminsModal) {
+            this.adminsModal.addEventListener('click', (e) => {
+                if (e.target === this.adminsModal) {
+                    this.adminsModal.classList.add('hidden');
+                }
+            });
+        }
+
+        if (this.addAdminBtn) {
+            this.addAdminBtn.addEventListener('click', () => {
+                this.handleAddAdmin();
             });
         }
 
@@ -2364,6 +2401,148 @@ class ProfileModal {
                 icon.style.filter = isActive ? 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' : 'none';
             }
         });
+    }
+
+    // Administrators Panel Logic
+    async showAdminsModal() {
+        if (!this.adminsModal) return;
+        this.adminsModal.classList.remove('hidden');
+        if (this.addAdminError) this.addAdminError.style.display = 'none';
+        if (this.newAdminEmailInput) this.newAdminEmailInput.value = '';
+        this.renderAdmins();
+    }
+
+    async renderAdmins() {
+        if (!this.adminsTableBody) return;
+        this.adminsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+        this.adminsEmptyMsg?.classList.add('hidden');
+
+        try {
+            const admins = await this.firebaseManager.getGlobalSetting('admins', {});
+            this.adminsTableBody.innerHTML = '';
+
+            const uids = Object.keys(admins);
+            
+            if (uids.length === 0) {
+                if (this.adminsEmptyMsg) this.adminsEmptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            uids.forEach(uid => {
+                const email = admins[uid];
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td style="padding: 12px 8px; font-weight: 500; color: #1e293b; text-align: left;">${email}</td>
+                    <td style="text-align: center; padding: 12px 8px;">
+                        <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle;">
+                            <input type="checkbox" class="admin-access-toggle" data-uid="${uid}" data-email="${email}" checked style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                        </label>
+                    </td>
+                `;
+                
+                const checkbox = tr.querySelector('.admin-access-toggle');
+                checkbox.onchange = async (e) => {
+                    const checked = e.target.checked;
+                    if (!checked) {
+                        this.confirmationModal.show(
+                            'Revoke Admin Access',
+                            `Are you sure you want to remove administrator access for <strong>${email}</strong>?`,
+                            async () => {
+                                const updatedAdmins = { ...admins };
+                                delete updatedAdmins[uid];
+                                const result = await this.firebaseManager.updateGlobalSetting('admins', updatedAdmins);
+                                if (result.success) {
+                                    this.renderAdmins();
+                                } else {
+                                    alert('Error updating admins: ' + result.error);
+                                    e.target.checked = true;
+                                }
+                            },
+                            () => {
+                                e.target.checked = true;
+                            },
+                            'Revoke',
+                            'Cancel',
+                            'danger'
+                        );
+                    }
+                };
+
+                this.adminsTableBody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Error rendering admins:', error);
+            this.adminsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: #ef4444; padding: 20px;">Error loading admins.</td></tr>';
+        }
+    }
+
+    async handleAddAdmin() {
+        if (!this.newAdminEmailInput || !this.addAdminError) return;
+        this.addAdminError.style.display = 'none';
+
+        const email = this.newAdminEmailInput.value.trim().toLowerCase();
+        if (!email) {
+            this.addAdminError.textContent = 'Please enter an email address.';
+            this.addAdminError.style.display = 'block';
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            this.addAdminError.textContent = 'Please enter a valid email address.';
+            this.addAdminError.style.display = 'block';
+            return;
+        }
+
+        if (email === 'jared@vanhensen.nl') {
+            this.addAdminError.textContent = 'This email belongs to the primary owner (super-admin).';
+            this.addAdminError.style.display = 'block';
+            return;
+        }
+
+        this.addAdminBtn.disabled = true;
+        
+        try {
+            const emailKey = email.replace(/\./g, '_');
+            const snapshot = await this.firebaseManager.database.ref(`emailToUserId/${emailKey}`).once('value');
+            const uid = snapshot.val();
+
+            if (!uid) {
+                this.addAdminError.textContent = 'User not found. Make sure they have registered an account first.';
+                this.addAdminError.style.display = 'block';
+                this.addAdminBtn.disabled = false;
+                return;
+            }
+
+            const admins = await this.firebaseManager.getGlobalSetting('admins', {});
+            
+            if (admins[uid]) {
+                this.addAdminError.textContent = 'This user is already an administrator.';
+                this.addAdminError.style.display = 'block';
+                this.addAdminBtn.disabled = false;
+                return;
+            }
+
+            const updatedAdmins = { ...admins };
+            updatedAdmins[uid] = email;
+
+            const result = await this.firebaseManager.updateGlobalSetting('admins', updatedAdmins);
+            if (result.success) {
+                this.newAdminEmailInput.value = '';
+                this.renderAdmins();
+            } else {
+                this.addAdminError.textContent = 'Failed to save: ' + result.error;
+                this.addAdminError.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error adding admin:', error);
+            this.addAdminError.textContent = 'An unexpected error occurred.';
+            this.addAdminError.style.display = 'block';
+        } finally {
+            this.addAdminBtn.disabled = false;
+        }
     }
 }
 
