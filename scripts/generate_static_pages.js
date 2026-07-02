@@ -134,7 +134,8 @@ function generateStaticPages() {
         // Body content
         html = html.replace('<span id="breadcrumb-song">...</span>', `<span id="breadcrumb-song">${songTitle}</span>`);
         html = html.replace('<h1 id="song-title">Loading Song...</h1>', `<h1 id="song-title">${songTitle}</h1>`);
-        html = html.replace('<h2 id="song-artist">Artist</h2>', `<h2 id="song-artist">${songArtist}</h2>`);
+        const artistSlugForLink = slugify(song.artist);
+        html = html.replace('<h2 id="song-artist">Artist</h2>', `<h2 id="song-artist"><a href="/artist/${artistSlugForLink}" style="color: inherit; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='transparent'">${songArtist}</a></h2>`);
         html = html.replace('<span class="meta-value" id="meta-key">-</span>', `<span class="meta-value" id="meta-key">${songKey}</span>`);
         html = html.replace('<span class="meta-value" id="meta-tempo">- BPM</span>', `<span class="meta-value" id="meta-tempo">${songTempo} BPM</span>`);
         
@@ -260,6 +261,56 @@ function generateStaticPages() {
 
     console.log(`Generated ${artistCount} static artist hub pages.`);
     console.log('-------------------------------------------');
+
+    // 3. Update index.html with SEO directory of artists
+    const indexPath = path.join(rootDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        let indexHTML = fs.readFileSync(indexPath, 'utf8');
+        
+        // Group artists by name and sort them alphabetically
+        const sortedArtists = Object.keys(artistGroups).sort((a, b) => {
+            return artistGroups[a].name.localeCompare(artistGroups[b].name);
+        });
+        
+        let directoryHTML = `<!-- BEGIN_SEO_DIRECTORY -->
+            <details class="seo-directory" style="margin: 40px auto 20px auto; text-align: left; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 20px; max-width: 900px; font-family: 'Inter', sans-serif;">
+                <summary style="cursor: pointer; font-weight: 600; opacity: 0.8; font-size: 0.95rem; outline: none; user-select: none; color: #fff; list-style: none; display: flex; align-items: center; justify-content: space-between;">
+                    <span>Browse Chords by Artist</span>
+                    <span style="font-size: 0.8rem; opacity: 0.6;">▼</span>
+                </summary>
+                <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; font-size: 0.85rem; max-height: 350px; overflow-y: auto; padding-right: 10px;">`;
+        
+        sortedArtists.forEach(artistSlug => {
+            const artistName = escapeHTML(artistGroups[artistSlug].name);
+            directoryHTML += `
+                    <a href="/artist/${artistSlug}" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">${artistName} Chords</a>`;
+        });
+        
+        directoryHTML += `
+                </div>
+            </details>
+            <!-- END_SEO_DIRECTORY -->`;
+        
+        const beginMarker = '<!-- BEGIN_SEO_DIRECTORY -->';
+        const endMarker = '<!-- END_SEO_DIRECTORY -->';
+        const beginIndex = indexHTML.indexOf(beginMarker);
+        const endIndex = indexHTML.indexOf(endMarker);
+        
+        if (beginIndex !== -1 && endIndex !== -1) {
+            indexHTML = indexHTML.substring(0, beginIndex) + directoryHTML + indexHTML.substring(endIndex + endMarker.length);
+            console.log('Updated existing SEO directory in index.html.');
+        } else {
+            const placeholder = '<!-- SEO_DIRECTORY_PLACEHOLDER -->';
+            if (indexHTML.includes(placeholder)) {
+                indexHTML = indexHTML.replace(placeholder, directoryHTML);
+                console.log('Inserted new SEO directory in index.html.');
+            } else {
+                console.warn('Warning: Could not find SEO directory placeholder in index.html.');
+            }
+        }
+        
+        fs.writeFileSync(indexPath, indexHTML, 'utf8');
+    }
 }
 
 generateStaticPages();
