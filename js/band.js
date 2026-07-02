@@ -25,6 +25,10 @@ class BandDashboard {
         
         // Setlist Elements
         this.manageSetlistBtn = document.getElementById('manageSetlistBtn');
+        this.setlistSelect = document.getElementById('setlistSelect');
+        this.createSetlistBtn = document.getElementById('createSetlistBtn');
+        this.renameSetlistBtn = document.getElementById('renameSetlistBtn');
+        this.deleteSetlistBtn = document.getElementById('deleteSetlistBtn');
         this.setlistViewMode = document.getElementById('setlistViewMode');
         this.setlistEditMode = document.getElementById('setlistEditMode');
         this.setlistSongList = document.getElementById('setlistSongList');
@@ -34,7 +38,9 @@ class BandDashboard {
         
         this.setlistSongs = [];
         this.isSetlistEditMode = false;
-        this.setlistListenerRef = null;
+        this.setlistsMetadataListenerRef = null;
+        this.setlistSongsListenerRef = null;
+        this.selectedSetlistId = null;
 
         // State
         this.currentUser = null;
@@ -197,9 +203,92 @@ class BandDashboard {
             this.renderMembersPresence(registeredMembers, onlinePresence);
         });
 
-        // Listen to band setlist updates
-        const setlistRef = this.firebaseManager.database.ref(`bands/${bandId}/setlist`);
-        this.setlistListenerRef = setlistRef.on('value', snapshot => {
+        // Initialize default setlist if setlists path does not exist
+        const setlistsRef = this.firebaseManager.database.ref(`bands/${bandId}/setlists`);
+        const setlistsSnap = await setlistsRef.once('value');
+        if (!setlistsSnap.exists()) {
+            // Check legacy path bands/${bandId}/setlist
+            const legacyRef = this.firebaseManager.database.ref(`bands/${bandId}/setlist`);
+            const legacySnap = await legacyRef.once('value');
+            let initialSongs = [];
+            if (legacySnap.exists()) {
+                const data = legacySnap.val();
+                if (data) {
+                    if (Array.isArray(data)) {
+                        initialSongs = data.filter(Boolean);
+                    } else if (typeof data === 'object') {
+                        initialSongs = Object.keys(data).map(key => data[key]);
+                    }
+                }
+                // Clean up legacy
+                await legacyRef.remove();
+            }
+            
+            // Create default setlist
+            await setlistsRef.child('default').set({
+                id: 'default',
+                name: 'Default Setlist',
+                songs: initialSongs,
+                createdAt: Date.now()
+            });
+        }
+
+        // Listen to all setlists metadata
+        this.setlistsMetadataListenerRef = setlistsRef.on('value', snapshot => {
+            const setlistsData = snapshot.val() || {};
+            
+            // Populate select dropdown
+            this.populateSetlistsSelect(setlistsData);
+            
+            // Determine active setlist ID
+            let activeSetlistId = localStorage.getItem(`band_${bandId}_selectedSetlistId`);
+            if (!activeSetlistId || !setlistsData[activeSetlistId]) {
+                const keys = Object.keys(setlistsData);
+                activeSetlistId = keys.length > 0 ? keys[0] : 'default';
+            }
+            
+            if (this.setlistSelect) {
+                this.setlistSelect.value = activeSetlistId;
+            }
+            this.switchActiveSetlist(activeSetlistId);
+        });
+    }
+
+    populateSetlistsSelect(setlistsData) {
+        if (!this.setlistSelect) return;
+        this.setlistSelect.innerHTML = '';
+        
+        const sortedKeys = Object.keys(setlistsData).sort((a, b) => {
+            const timeA = setlistsData[a].createdAt || 0;
+            const timeB = setlistsData[b].createdAt || 0;
+            return timeA - timeB;
+        });
+
+        sortedKeys.forEach(key => {
+            const setlist = setlistsData[key];
+            const opt = document.createElement('option');
+            opt.value = setlist.id;
+            opt.textContent = setlist.name || 'Unnamed Setlist';
+            this.setlistSelect.appendChild(opt);
+        });
+    }
+
+    switchActiveSetlist(setlistId) {
+        if (!this.selectedBandId) return;
+        if (this.selectedSetlistId === setlistId && this.setlistSongsListenerRef) return;
+
+        // Unsubscribe old listener
+        if (this.setlistSongsListenerRef) {
+            this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).off('value', this.setlistSongsListenerRef);
+            this.setlistSongsListenerRef = null;
+        }
+
+        this.selectedSetlistId = setlistId;
+        localStorage.setItem(`band_${this.selectedBandId}_selectedSetlistId`, setlistId);
+
+        // Subscribe to new listener
+        const songsRef = this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${setlistId}/songs`);
+        this.setlistSongsListenerRef = songsRef.on('value', snapshot => {
             const data = snapshot.val();
             this.setlistSongs = [];
             if (data) {
@@ -295,11 +384,16 @@ class BandDashboard {
             this.firebaseManager.database.ref(`bandSync/${this.selectedBandId}/present`).off('value', this.lobbyListenerRef);
             this.lobbyListenerRef = null;
         }
-        if (this.setlistListenerRef && this.selectedBandId) {
-            this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).off('value', this.setlistListenerRef);
-            this.setlistListenerRef = null;
+        if (this.setlistsMetadataListenerRef && this.selectedBandId) {
+            this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists`).off('value', this.setlistsMetadataListenerRef);
+            this.setlistsMetadataListenerRef = null;
+        }
+        if (this.setlistSongsListenerRef && this.selectedBandId && this.selectedSetlistId) {
+            this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).off('value', this.setlistSongsListenerRef);
+            this.setlistSongsListenerRef = null;
         }
         this.selectedBandId = null;
+        this.selectedSetlistId = null;
 
         // Hide edit mode on cleanup
         if (this.isSetlistEditMode) {
@@ -479,6 +573,87 @@ class BandDashboard {
     }
 
     setupSetlistHandlers() {
+        if (this.setlistSelect) {
+            this.setlistSelect.onchange = (e) => {
+                this.switchActiveSetlist(e.target.value);
+            };
+        }
+
+        if (this.createSetlistBtn) {
+            this.createSetlistBtn.onclick = async () => {
+                if (!this.selectedBandId) return;
+                const name = prompt('Enter a name for the new setlist:');
+                if (!name || !name.trim()) return;
+
+                const newRef = this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists`).push();
+                const newId = newRef.key;
+
+                await newRef.set({
+                    id: newId,
+                    name: name.trim(),
+                    songs: [],
+                    createdAt: Date.now()
+                });
+
+                localStorage.setItem(`band_${this.selectedBandId}_selectedSetlistId`, newId);
+                this.showToast(`Setlist "${name}" created.`);
+            };
+        }
+
+        if (this.renameSetlistBtn) {
+            this.renameSetlistBtn.onclick = async () => {
+                if (!this.selectedBandId || !this.selectedSetlistId) return;
+
+                // Fetch current name
+                const snap = await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/name`).once('value');
+                const currentName = snap.val() || 'Setlist';
+
+                const newName = prompt('Enter a new name for this setlist:', currentName);
+                if (!newName || !newName.trim() || newName.trim() === currentName) return;
+
+                await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/name`).set(newName.trim());
+                this.showToast(`Setlist renamed to "${newName.trim()}".`);
+            };
+        }
+
+        if (this.deleteSetlistBtn) {
+            this.deleteSetlistBtn.onclick = async () => {
+                if (!this.selectedBandId || !this.selectedSetlistId) return;
+
+                // Count setlists
+                const snap = await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists`).once('value');
+                const setlists = snap.val() || {};
+                const keys = Object.keys(setlists);
+
+                if (keys.length <= 1) {
+                    alert('You cannot delete the last remaining setlist.');
+                    return;
+                }
+
+                const currentName = setlists[this.selectedSetlistId]?.name || 'Setlist';
+                if (!confirm(`Are you sure you want to delete the setlist "${currentName}"? This action cannot be undone.`)) {
+                    return;
+                }
+
+                // Clean up songs listener before delete to prevent temporary errors
+                if (this.setlistSongsListenerRef) {
+                    this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).off('value', this.setlistSongsListenerRef);
+                    this.setlistSongsListenerRef = null;
+                }
+
+                const oldId = this.selectedSetlistId;
+                await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${oldId}`).remove();
+
+                // Select another setlist
+                const remainingKeys = keys.filter(k => k !== oldId);
+                const nextId = remainingKeys[0];
+                localStorage.setItem(`band_${this.selectedBandId}_selectedSetlistId`, nextId);
+                this.selectedSetlistId = nextId;
+
+                this.showToast(`Setlist "${currentName}" deleted.`);
+            };
+        }
+
         if (!this.manageSetlistBtn) return;
 
         this.manageSetlistBtn.onclick = () => {
@@ -589,7 +764,7 @@ class BandDashboard {
     }
 
     async addSong(id, title, artist) {
-        if (!this.selectedBandId) return;
+        if (!this.selectedBandId || !this.selectedSetlistId) return;
         
         const alreadyExists = this.setlistSongs.some(s => s.id === id);
         if (alreadyExists) {
@@ -601,7 +776,7 @@ class BandDashboard {
         const newSong = { id, title, artist };
         const updatedSetlist = [...this.setlistSongs, newSong];
         
-        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).set(updatedSetlist);
         this.showToast(`Added "${title}" to setlist.`);
         
         this.setlistSearchInput.value = '';
@@ -611,7 +786,7 @@ class BandDashboard {
     }
 
     async deleteSong(index) {
-        if (!this.selectedBandId) return;
+        if (!this.selectedBandId || !this.selectedSetlistId) return;
         
         const song = this.setlistSongs[index];
         if (!song) return;
@@ -619,12 +794,12 @@ class BandDashboard {
         const updatedSetlist = [...this.setlistSongs];
         updatedSetlist.splice(index, 1);
         
-        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).set(updatedSetlist);
         this.showToast(`Removed "${song.title}" from setlist.`);
     }
 
     async moveSong(index, direction) {
-        if (!this.selectedBandId) return;
+        if (!this.selectedBandId || !this.selectedSetlistId) return;
         
         const newIndex = index + direction;
         if (newIndex < 0 || newIndex >= this.setlistSongs.length) return;
@@ -634,7 +809,7 @@ class BandDashboard {
         updatedSetlist[index] = updatedSetlist[newIndex];
         updatedSetlist[newIndex] = temp;
 
-        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).set(updatedSetlist);
     }
 
     renderSetlist() {
@@ -728,7 +903,7 @@ class BandDashboard {
             const [movedItem] = updatedSetlist.splice(fromIndex, 1);
             updatedSetlist.splice(toIndex, 0, movedItem);
 
-            await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+            await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/songs`).set(updatedSetlist);
         });
     }
 }
