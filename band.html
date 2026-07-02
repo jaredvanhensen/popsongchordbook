@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.145">
+    <link rel="stylesheet" href="styles.css?v=3.180">
     <style>
         .container {
             overflow-y: auto !important;
@@ -380,6 +380,146 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* Setlist styles */
+        .setlist-songs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .setlist-song-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .setlist-song-item.clickable {
+            cursor: pointer;
+        }
+
+        .setlist-song-item.clickable:hover {
+            border-color: #6366f1;
+            background: #f8fafc;
+            transform: translateX(2px);
+        }
+
+        .setlist-song-rank {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.08);
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .setlist-song-title {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .setlist-song-artist {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .setlist-song-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: #94a3b8;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            user-select: none;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .setlist-song-item.dragging {
+            opacity: 0.4;
+            border: 2px dashed #6366f1;
+            background: #f5f3ff;
+        }
+
+        .setlist-song-item.drag-over {
+            border-top: 3px solid #6366f1;
+        }
+
+        .reorder-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .reorder-btn:hover {
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.08);
+        }
+
+        .reorder-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            color: #cbd5e1;
+        }
+
+        .autocomplete-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #334155;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: left;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background: #f1f5f9;
+            color: #4f46e5;
+        }
+
+        .autocomplete-item-title {
+            font-weight: bold;
+        }
+
+        .autocomplete-item-artist {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
         /* Mobile layout styling */
         @media (max-width: 900px) {
             .band-dashboard {
@@ -452,6 +592,35 @@
                                     </button>
                                 </div>
                                 <div style="font-size: 0.75rem; color: #64748b;">Band members can enter this code in their settings to join. Max 6 members.</div>
+                            </div>
+
+                            <!-- Band Setlist Panel -->
+                            <div id="bandSetlistContainer" class="setlist-container" style="margin-top: 28px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 24px;">
+                                <div class="section-title" style="margin-bottom: 12px; justify-content: space-between;">
+                                    <span>🎵 Band Setlist</span>
+                                    <button id="manageSetlistBtn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 8px;">Manage</button>
+                                </div>
+
+                                <!-- View Mode List -->
+                                <div id="setlistViewMode">
+                                    <div id="setlistSongList" class="setlist-songs-list">
+                                        <!-- Populated dynamically -->
+                                    </div>
+                                </div>
+
+                                <!-- Edit Mode Controls (hidden by default) -->
+                                <div id="setlistEditMode" style="display: none; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                                    <div style="font-size: 0.8rem; font-weight: bold; color: #475569; text-transform: uppercase; margin-bottom: 8px;">Add Song to Setlist</div>
+                                    <div style="display: flex; gap: 8px; position: relative; margin-bottom: 12px;">
+                                        <div style="flex: 1; position: relative;">
+                                            <input type="text" id="setlistSearchInput" class="text-input" style="width: 100%; box-sizing: border-box; padding: 10px 12px; font-size: 0.9rem;" placeholder="Search title or artist..." autocomplete="off">
+                                            <!-- Autocomplete Dropdown -->
+                                            <div id="setlistAutocomplete" class="autocomplete-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #cbd5e1; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 4px;"></div>
+                                        </div>
+                                        <button id="addSongToSetlistBtn" class="btn-primary" style="padding: 10px 16px; font-size: 0.9rem; border-radius: 10px;">Add</button>
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 16px;">Tip: Drag songs by their handles (☰) to reorder, or use the arrow buttons.</div>
+                                </div>
                             </div>
 
                             <div class="section-title" style="margin-top: 24px;">
@@ -545,13 +714,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <!-- Config -->
-    <script src="js/config/firebase-config.js?v=3.145"></script>
+    <script src="js/config/firebase-config.js?v=3.180"></script>
 
     <!-- Utilities -->
-    <script src="js/utils/FirebaseManager.js?v=3.145"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.180"></script>
+
+    <!-- Data Fallback -->
+    <script src="js/data/default_songs.js?v=3.180"></script>
 
     <!-- App Logic -->
-    <script src="js/band.js?v=3.145"></script>
+    <script src="js/band.js?v=3.180"></script>
     <script>
         // Tab switching logic
         function switchTab(tab) {

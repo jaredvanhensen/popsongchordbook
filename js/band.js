@@ -23,6 +23,19 @@ class BandDashboard {
         
         this.toast = document.getElementById('toast');
         
+        // Setlist Elements
+        this.manageSetlistBtn = document.getElementById('manageSetlistBtn');
+        this.setlistViewMode = document.getElementById('setlistViewMode');
+        this.setlistEditMode = document.getElementById('setlistEditMode');
+        this.setlistSongList = document.getElementById('setlistSongList');
+        this.setlistSearchInput = document.getElementById('setlistSearchInput');
+        this.setlistAutocomplete = document.getElementById('setlistAutocomplete');
+        this.addSongToSetlistBtn = document.getElementById('addSongToSetlistBtn');
+        
+        this.setlistSongs = [];
+        this.isSetlistEditMode = false;
+        this.setlistListenerRef = null;
+
         // State
         this.currentUser = null;
         this.bands = [];
@@ -35,6 +48,7 @@ class BandDashboard {
         // Set button colour immediately (before async Firebase init completes)
         this.updatePracticeSessionBtnUI();
         
+        this.setupSetlistHandlers();
         this.init();
     }
 
@@ -182,6 +196,21 @@ class BandDashboard {
             const onlinePresence = snapshot.val() || {};
             this.renderMembersPresence(registeredMembers, onlinePresence);
         });
+
+        // Listen to band setlist updates
+        const setlistRef = this.firebaseManager.database.ref(`bands/${bandId}/setlist`);
+        this.setlistListenerRef = setlistRef.on('value', snapshot => {
+            const data = snapshot.val();
+            this.setlistSongs = [];
+            if (data) {
+                if (Array.isArray(data)) {
+                    this.setlistSongs = data.filter(Boolean);
+                } else if (typeof data === 'object') {
+                    this.setlistSongs = Object.keys(data).map(key => data[key]);
+                }
+            }
+            this.renderSetlist();
+        });
     }
 
     renderMembersPresence(registeredMembers, onlinePresence) {
@@ -266,7 +295,21 @@ class BandDashboard {
             this.firebaseManager.database.ref(`bandSync/${this.selectedBandId}/present`).off('value', this.lobbyListenerRef);
             this.lobbyListenerRef = null;
         }
+        if (this.setlistListenerRef && this.selectedBandId) {
+            this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).off('value', this.setlistListenerRef);
+            this.setlistListenerRef = null;
+        }
         this.selectedBandId = null;
+
+        // Hide edit mode on cleanup
+        if (this.isSetlistEditMode) {
+            this.isSetlistEditMode = false;
+            if (this.manageSetlistBtn) {
+                this.manageSetlistBtn.textContent = 'Manage';
+                this.manageSetlistBtn.className = 'btn-secondary';
+            }
+            if (this.setlistEditMode) this.setlistEditMode.style.display = 'none';
+        }
     }
 
     async togglePracticeSession() {
@@ -422,6 +465,250 @@ class BandDashboard {
         setTimeout(() => {
             this.toast.classList.remove('show');
         }, 2000);
+    }
+
+    // Setlist Helpers & UI Rendering
+    getSongsLibrary() {
+        if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+            return window.parent.appInstance.songManager.songs;
+        }
+        if (typeof DEFAULT_SONGS !== 'undefined') {
+            return DEFAULT_SONGS;
+        }
+        return [];
+    }
+
+    setupSetlistHandlers() {
+        if (!this.manageSetlistBtn) return;
+
+        this.manageSetlistBtn.onclick = () => {
+            this.isSetlistEditMode = !this.isSetlistEditMode;
+            this.manageSetlistBtn.textContent = this.isSetlistEditMode ? 'Done' : 'Manage';
+            this.manageSetlistBtn.className = this.isSetlistEditMode ? 'btn-primary' : 'btn-secondary';
+            this.setlistEditMode.style.display = this.isSetlistEditMode ? 'block' : 'none';
+            this.renderSetlist();
+            
+            this.setlistSearchInput.value = '';
+            this.setlistAutocomplete.style.display = 'none';
+        };
+
+        // Autocomplete
+        this.setlistSearchInput.oninput = (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            this.setlistAutocomplete.innerHTML = '';
+            
+            if (!query) {
+                this.setlistAutocomplete.style.display = 'none';
+                return;
+            }
+
+            const library = this.getSongsLibrary();
+            const matches = library.filter(song => {
+                const title = (song.title || '').toLowerCase();
+                const artist = (song.artist || '').toLowerCase();
+                return title.includes(query) || artist.includes(query);
+            }).slice(0, 8);
+
+            if (matches.length === 0) {
+                this.setlistAutocomplete.style.display = 'none';
+                return;
+            }
+
+            matches.forEach(song => {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.innerHTML = `
+                    <div class="autocomplete-item-title">${song.title}</div>
+                    <div class="autocomplete-item-artist">${song.artist}</div>
+                `;
+                item.onclick = () => {
+                    this.setlistSearchInput.value = song.title;
+                    this.setlistSearchInput.dataset.selectedSongId = song.id;
+                    this.setlistSearchInput.dataset.selectedSongTitle = song.title;
+                    this.setlistSearchInput.dataset.selectedSongArtist = song.artist;
+                    this.setlistAutocomplete.style.display = 'none';
+                };
+                this.setlistAutocomplete.appendChild(item);
+            });
+
+            this.setlistAutocomplete.style.display = 'block';
+        };
+
+        // Hide autocomplete on click outside
+        document.addEventListener('click', (e) => {
+            if (this.setlistAutocomplete && !this.setlistAutocomplete.contains(e.target) && e.target !== this.setlistSearchInput) {
+                this.setlistAutocomplete.style.display = 'none';
+            }
+        });
+
+        // Add Song Button
+        this.addSongToSetlistBtn.onclick = () => {
+            const titleInput = this.setlistSearchInput.value.trim();
+            if (!titleInput) return;
+
+            const songId = this.setlistSearchInput.dataset.selectedSongId;
+            const songTitle = this.setlistSearchInput.dataset.selectedSongTitle || titleInput;
+            let songArtist = this.setlistSearchInput.dataset.selectedSongArtist || 'Unknown Artist';
+
+            if (!songId) {
+                const library = this.getSongsLibrary();
+                const matched = library.find(s => (s.title || '').toLowerCase() === titleInput.toLowerCase());
+                if (matched) {
+                    this.addSong(matched.id, matched.title, matched.artist);
+                    return;
+                }
+            }
+
+            if (songId) {
+                this.addSong(songId, songTitle, songArtist);
+            } else {
+                alert('Please select a song from the autocomplete dropdown list.');
+            }
+        };
+    }
+
+    async addSong(id, title, artist) {
+        if (!this.selectedBandId) return;
+        
+        const alreadyExists = this.setlistSongs.some(s => s.id === id);
+        if (alreadyExists) {
+            if (!confirm(`"${title}" is already in the setlist. Add it again?`)) {
+                return;
+            }
+        }
+
+        const newSong = { id, title, artist };
+        const updatedSetlist = [...this.setlistSongs, newSong];
+        
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        this.showToast(`Added "${title}" to setlist.`);
+        
+        this.setlistSearchInput.value = '';
+        delete this.setlistSearchInput.dataset.selectedSongId;
+        delete this.setlistSearchInput.dataset.selectedSongTitle;
+        delete this.setlistSearchInput.dataset.selectedSongArtist;
+    }
+
+    async deleteSong(index) {
+        if (!this.selectedBandId) return;
+        
+        const song = this.setlistSongs[index];
+        if (!song) return;
+
+        const updatedSetlist = [...this.setlistSongs];
+        updatedSetlist.splice(index, 1);
+        
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        this.showToast(`Removed "${song.title}" from setlist.`);
+    }
+
+    async moveSong(index, direction) {
+        if (!this.selectedBandId) return;
+        
+        const newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= this.setlistSongs.length) return;
+
+        const updatedSetlist = [...this.setlistSongs];
+        const temp = updatedSetlist[index];
+        updatedSetlist[index] = updatedSetlist[newIndex];
+        updatedSetlist[newIndex] = temp;
+
+        await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+    }
+
+    renderSetlist() {
+        if (!this.setlistSongList) return;
+        this.setlistSongList.innerHTML = '';
+
+        if (this.setlistSongs.length === 0) {
+            this.setlistSongList.innerHTML = `<div style="text-align: center; color: #64748b; font-size: 0.9rem; padding: 20px 0;">No songs in setlist yet. Click 'Manage' to add songs!</div>`;
+            return;
+        }
+
+        this.setlistSongs.forEach((song, index) => {
+            const item = document.createElement('div');
+            item.className = 'setlist-song-item';
+            
+            if (!this.isSetlistEditMode) {
+                item.classList.add('clickable');
+                item.onclick = () => this.openSong(song.id);
+
+                item.innerHTML = `
+                    <div style="display: flex; align-items: center; flex: 1; min-width: 0;">
+                        <div class="setlist-song-rank">${index + 1}</div>
+                        <div style="min-width: 0;">
+                            <div class="setlist-song-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${song.title}</div>
+                            <div class="setlist-song-artist" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${song.artist}</div>
+                        </div>
+                    </div>
+                    <div style="color: #4f46e5; font-size: 1.1rem; font-weight: bold;">▶</div>
+                `;
+            } else {
+                item.setAttribute('draggable', 'true');
+                item.dataset.index = index;
+                this.setupDragEvents(item);
+
+                item.innerHTML = `
+                    <div style="display: flex; align-items: center; flex: 1; min-width: 0;">
+                        <div class="drag-handle" title="Drag to reorder">☰</div>
+                        <div class="setlist-song-rank">${index + 1}</div>
+                        <div style="min-width: 0;">
+                            <div class="setlist-song-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${song.title}</div>
+                            <div class="setlist-song-artist" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${song.artist}</div>
+                        </div>
+                    </div>
+                    <div class="setlist-song-controls">
+                        <button class="reorder-btn" title="Move Up" ${index === 0 ? 'disabled' : ''} onclick="event.stopPropagation(); window.bandDashboard.moveSong(${index}, -1)">▲</button>
+                        <button class="reorder-btn" title="Move Down" ${index === this.setlistSongs.length - 1 ? 'disabled' : ''} onclick="event.stopPropagation(); window.bandDashboard.moveSong(${index}, 1)">▼</button>
+                        <button class="reorder-btn" title="Delete Song" style="color: #ef4444;" onclick="event.stopPropagation(); window.bandDashboard.deleteSong(${index})">🗑️</button>
+                    </div>
+                `;
+            }
+
+            this.setlistSongList.appendChild(item);
+        });
+    }
+
+    setupDragEvents(item) {
+        item.addEventListener('dragstart', (e) => {
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', item.dataset.index);
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            document.querySelectorAll('.setlist-song-item').forEach(el => el.classList.remove('drag-over'));
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const draggingEl = document.querySelector('.dragging');
+            if (draggingEl && draggingEl !== item) {
+                item.classList.add('drag-over');
+            }
+        });
+
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over');
+        });
+
+        item.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            item.classList.remove('drag-over');
+            
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+            const toIndex = parseInt(item.dataset.index, 10);
+            
+            if (isNaN(fromIndex) || isNaN(toIndex) || fromIndex === toIndex) return;
+
+            const updatedSetlist = [...this.setlistSongs];
+            const [movedItem] = updatedSetlist.splice(fromIndex, 1);
+            updatedSetlist.splice(toIndex, 0, movedItem);
+
+            await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlist`).set(updatedSetlist);
+        });
     }
 }
 
