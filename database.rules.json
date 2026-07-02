@@ -29,6 +29,10 @@
         ".write": "auth != null && (data.val() == null || data.child('submittedBy').val() === auth.uid || auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
       }
     },
+    "publicSetlist": {
+      ".read": "auth != null",
+      ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
+    },
     "emailToUserId": {
       "$email": {
         ".read": "auth != null",
