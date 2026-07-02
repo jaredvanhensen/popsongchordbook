@@ -503,11 +503,32 @@ class BandDashboard {
             }
 
             const library = this.getSongsLibrary();
-            const matches = library.filter(song => {
+            const scored = [];
+
+            library.forEach(song => {
                 const title = (song.title || '').toLowerCase();
                 const artist = (song.artist || '').toLowerCase();
-                return title.includes(query) || artist.includes(query);
-            }).slice(0, 8);
+                let score = 0;
+
+                if (title === query) score = 10;
+                else if (artist === query) score = 9;
+                else if (title.startsWith(query)) score = 8;
+                else if (artist.startsWith(query)) score = 7;
+                else if (title.includes(query)) score = 6;
+                else if (artist.includes(query)) score = 5;
+
+                if (score > 0) {
+                    scored.push({ song, score });
+                }
+            });
+
+            // Sort by score descending, then alphabetically by title
+            scored.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return a.song.title.localeCompare(b.song.title);
+            });
+
+            const matches = scored.map(item => item.song).slice(0, 20);
 
             if (matches.length === 0) {
                 this.setlistAutocomplete.style.display = 'none';
