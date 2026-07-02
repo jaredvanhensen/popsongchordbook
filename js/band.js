@@ -561,6 +561,59 @@ class BandDashboard {
         }, 2000);
     }
 
+    showPromptModal(title, message, defaultValue = '') {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('promptModal');
+            const titleEl = document.getElementById('promptModalTitle');
+            const msgEl = document.getElementById('promptModalMessage');
+            const inputEl = document.getElementById('promptModalInput');
+            const cancelBtn = document.getElementById('promptModalCancelBtn');
+            const confirmBtn = document.getElementById('promptModalConfirmBtn');
+
+            if (!modal || !titleEl || !msgEl || !inputEl || !cancelBtn || !confirmBtn) {
+                resolve(prompt(message, defaultValue));
+                return;
+            }
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            inputEl.value = defaultValue;
+            
+            modal.style.display = 'flex';
+            
+            setTimeout(() => {
+                inputEl.focus();
+                inputEl.select();
+            }, 50);
+
+            const cleanup = () => {
+                modal.style.display = 'none';
+                confirmBtn.onclick = null;
+                cancelBtn.onclick = null;
+                inputEl.onkeydown = null;
+            };
+
+            confirmBtn.onclick = () => {
+                const val = inputEl.value;
+                cleanup();
+                resolve(val);
+            };
+
+            cancelBtn.onclick = () => {
+                cleanup();
+                resolve(null);
+            };
+
+            inputEl.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                } else if (e.key === 'Escape') {
+                    cancelBtn.click();
+                }
+            };
+        });
+    }
+
     // Setlist Helpers & UI Rendering
     getSongsLibrary() {
         if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
@@ -582,7 +635,7 @@ class BandDashboard {
         if (this.createSetlistBtn) {
             this.createSetlistBtn.onclick = async () => {
                 if (!this.selectedBandId) return;
-                const name = prompt('Enter a name for the new setlist:');
+                const name = await this.showPromptModal('New Setlist', 'Enter a name for the new setlist:');
                 if (!name || !name.trim()) return;
 
                 const newRef = this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists`).push();
@@ -608,7 +661,7 @@ class BandDashboard {
                 const snap = await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/name`).once('value');
                 const currentName = snap.val() || 'Setlist';
 
-                const newName = prompt('Enter a new name for this setlist:', currentName);
+                const newName = await this.showPromptModal('Rename Setlist', 'Enter a new name for this setlist:', currentName);
                 if (!newName || !newName.trim() || newName.trim() === currentName) return;
 
                 await this.firebaseManager.database.ref(`bands/${this.selectedBandId}/setlists/${this.selectedSetlistId}/name`).set(newName.trim());
