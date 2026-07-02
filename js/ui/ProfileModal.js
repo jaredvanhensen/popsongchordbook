@@ -85,7 +85,7 @@ class ProfileModal {
         // Administrators elements
         this.viewAdminsBtn = document.getElementById('profileViewAdminsBtn');
         this.adminsModal = document.getElementById('adminAdminsModal');
-        this.adminsTableBody = document.getElementById('adminAdminsTableBody');
+        this.adminsList = document.getElementById('adminAdminsList');
         this.adminsEmptyMsg = document.getElementById('adminAdminsEmpty');
         this.adminsCloseBtn = document.getElementById('adminAdminsModalClose');
         this.newAdminEmailInput = document.getElementById('newAdminEmailInput');
@@ -2413,13 +2413,13 @@ class ProfileModal {
     }
 
     async renderAdmins() {
-        if (!this.adminsTableBody) return;
-        this.adminsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center; padding: 20px;">Loading...</td></tr>';
+        if (!this.adminsList) return;
+        this.adminsList.innerHTML = '<div style="text-align: center; padding: 20px; color: #64748b;">Loading...</div>';
         this.adminsEmptyMsg?.classList.add('hidden');
 
         try {
             const admins = await this.firebaseManager.getGlobalSetting('admins', {});
-            this.adminsTableBody.innerHTML = '';
+            this.adminsList.innerHTML = '';
 
             const uids = Object.keys(admins);
             
@@ -2430,19 +2430,26 @@ class ProfileModal {
 
             uids.forEach(uid => {
                 const email = admins[uid];
-                const tr = document.createElement('tr');
+                const card = document.createElement('div');
+                card.style.display = 'flex';
+                card.style.alignItems = 'center';
+                card.style.justifyContent = 'space-between';
+                card.style.padding = '12px 16px';
+                card.style.background = '#f8fafc';
+                card.style.border = '1px solid #e2e8f0';
+                card.style.borderRadius = '10px';
                 
-                tr.innerHTML = `
-                    <td style="padding: 12px 8px; font-weight: 500; color: #1e293b; text-align: left;">${email}</td>
-                    <td style="text-align: center; padding: 12px 8px;">
+                card.innerHTML = `
+                    <div style="font-weight: 500; color: #1e293b; text-align: left; word-break: break-all; padding-right: 16px;">${email}</div>
+                    <div style="display: flex; align-items: center; flex-shrink: 0;">
                         <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px; vertical-align: middle;">
                             <input type="checkbox" class="admin-access-toggle" data-uid="${uid}" data-email="${email}" checked style="opacity: 0; width: 0; height: 0;">
                             <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
                         </label>
-                    </td>
+                    </div>
                 `;
                 
-                const checkbox = tr.querySelector('.admin-access-toggle');
+                const checkbox = card.querySelector('.admin-access-toggle');
                 checkbox.onchange = async (e) => {
                     const checked = e.target.checked;
                     if (!checked) {
@@ -2470,11 +2477,11 @@ class ProfileModal {
                     }
                 };
 
-                this.adminsTableBody.appendChild(tr);
+                this.adminsList.appendChild(card);
             });
         } catch (error) {
             console.error('Error rendering admins:', error);
-            this.adminsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: #ef4444; padding: 20px;">Error loading admins.</td></tr>';
+            this.adminsList.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Error loading admins.</div>';
         }
     }
 
