@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.185 - Interactive Scrolling Chords, Band & Teacher Tool</title>
-    <meta name="version" content="3.185">
+    <title>PopSongChordBook v3.186 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.186">
     <meta name="description"
-        content="The ultimate musicians tool with interactive scrolling chords. Play along with YouTube, practice with MIDI, and share setlists. A perfect band practice tool and music teacher student tool. Start playing instantly.">
-    <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
+        content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
+    <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
     <meta name="google-site-verification" content="GifO932pD8fjdFapfqXZIoh_i3lzNZMjzFds_FpDIpg" />
     <link rel="canonical" href="https://www.popsongchordbook.com/">
     
@@ -66,8 +66,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.185">
-    <link rel="stylesheet" href="landing.css?v=3.185">
+    <link rel="stylesheet" href="styles.css?v=3.186">
+    <link rel="stylesheet" href="landing.css?v=3.186">
     <style>
         /* =============================================
            Hero background: screenshot as zoomed,
@@ -462,9 +462,10 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.185">
-    <script>const SITE_VERSION = '3.185';</script>
+    <meta name="application-version" content="v3.186">
+    <script>const SITE_VERSION = '3.186';</script>
     <!-- Version history: 
+        v3.186: Added Band Practice showcase section with slider on landing page, and optimized Band Members & Practice SEO.
         v3.185: Reordered Band Members Presence before Band Setlists, and renamed header to Band Setlists.
         v3.184: Replaced browser alerts/prompts with custom premium modals for a unified interface design.
         v3.183: Enabled multiple setlists with custom naming (e.g. Wedding, Easter Party) on the Band Practice page.
@@ -881,6 +882,74 @@
         </div>
     </div>
 
+    <!-- Band Practice Section -->
+    <div class="band-practice-section">
+        <div class="container">
+            <div class="band-practice-grid">
+                <div class="band-practice-content">
+                    <span class="badge-new" style="background: #e0f2fe; color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);">👥 New Feature</span>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Band Practice with Connect to Band Members</h2>
+                    <p><b>Connect to Band Members:</b> Create a band or join one to sync chord timelines in real-time. Once connected, anyone in the band can start or stop/pause playback for all active members. Scrolling is kept perfectly in sync across all screens!</p>
+                    <p>Never get fooled again by that strange key change or chord turnaround or complex instrumental section! The Chord Timeline will prompt everyone at the same time - you will all be in sync - playing the right chords.</p>
+                    <p>Rehearse collaboratively with shared <b>Band Setlists</b>. Create multiple setlists (e.g. Wedding, Easter Party), rename or delete them, add songs via fast search autocomplete, and drag or reorder songs in real-time.</p>
+                </div>
+                <div class="band-practice-images-stack" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 4px solid white; min-height: auto;">
+                    <!-- Beautiful CSS/JS Carousel Slider -->
+                    <div class="slides-container" style="display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 500%;">
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_details.png" alt="Active Band Details & Members Presence" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Active Band Details & Presence</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Manage active bands, share join codes, and see real-time online status of band members.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_setlists.png" alt="Collaborative Band Setlists" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Collaborative Band Setlists</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Create multiple setlists, add songs via autocomplete search, reorder, and sync live.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_timeline_play.png" alt="Timeline Sync Options" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Timeline Play Mode Sync</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Sync timeline scrolling and play states across all connected band members.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/Play-Mode-screenshot2.jpg" alt="Scrolling Sync Action" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Real-time Teleprompter Sync</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Visual highlights and scrolling chords remain locked together during practice.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/Band_Practice_Rock.png" alt="Live Band Practice Session" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Live Band Practice Mode</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Unlock the ultimate joint music-making tool for your group practice.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slider Navigation Arrows -->
+                    <button class="slider-arrow prev" onclick="moveSlide(-1)" style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #0f172a; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 5; transition: background 0.2s;">‹</button>
+                    <button class="slider-arrow next" onclick="moveSlide(1)" style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #0f172a; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 5; transition: background 0.2s;">›</button>
+
+                    <!-- Slider Navigation Dots -->
+                    <div style="position: absolute; bottom: 85px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 5;">
+                        <span class="slide-dot active" onclick="goToSlide(0)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 1; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(3)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(4)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Instruments Section -->
     <div class="instruments-section">
         <div class="container">
@@ -937,34 +1006,71 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.185"></script>
-    <script src="js/models/SongManager.js?v=3.185"></script>
-    <script src="js/models/SetlistManager.js?v=3.185"></script>
-    <script src="js/utils/Sorter.js?v=3.185"></script>
-    <script src="js/utils/ChordDetector.js?v=3.185"></script>
-    <script src="js/utils/KeyDetector.js?v=3.185"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.185"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.185"></script>
-    <script src="js/ui/ChordModal.js?v=3.185"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.185"></script>
-    <script src="js/ui/TableRenderer.js?v=3.185"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.185"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.185"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.185"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.185"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.185"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.185"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.185"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.185"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.185"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.185"></script>
-    <script src="js/utils/ChordParser.js?v=3.185"></script>
-    <script src="js/ui/AuthModal.js?v=3.185"></script>
-    <script src="js/ui/ProfileModal.js?v=3.185"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.185"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.185"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.185"></script>
-    <script src="js/app.js?v=3.185"></script>
+    <script src="js/config/firebase-config.js?v=3.186"></script>
+    <script src="js/models/SongManager.js?v=3.186"></script>
+    <script src="js/models/SetlistManager.js?v=3.186"></script>
+    <script src="js/utils/Sorter.js?v=3.186"></script>
+    <script src="js/utils/ChordDetector.js?v=3.186"></script>
+    <script src="js/utils/KeyDetector.js?v=3.186"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.186"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.186"></script>
+    <script src="js/ui/ChordModal.js?v=3.186"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.186"></script>
+    <script src="js/ui/TableRenderer.js?v=3.186"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.186"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.186"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.186"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.186"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.186"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.186"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.186"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.186"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.186"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.186"></script>
+    <script src="js/utils/ChordParser.js?v=3.186"></script>
+    <script src="js/ui/AuthModal.js?v=3.186"></script>
+    <script src="js/ui/ProfileModal.js?v=3.186"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.186"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.186"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.186"></script>
+    <script src="js/app.js?v=3.186"></script>
+
+    <!-- Band Practice Image Slider Script -->
+    <script>
+        let currentSlideIdx = 0;
+        const totalSlides = 5;
+
+        function moveSlide(dir) {
+            goToSlide((currentSlideIdx + dir + totalSlides) % totalSlides);
+        }
+
+        function goToSlide(idx) {
+            currentSlideIdx = idx;
+            const container = document.querySelector('.band-practice-images-stack .slides-container');
+            if (container) {
+                container.style.transform = `translateX(-${idx * 20}%)`;
+            }
+            
+            // Update dots
+            const dots = document.querySelectorAll('.band-practice-images-stack .slide-dot');
+            dots.forEach((dot, index) => {
+                if (index === idx) {
+                    dot.classList.add('active');
+                    dot.style.opacity = '1';
+                    dot.style.transform = 'scale(1.2)';
+                } else {
+                    dot.classList.remove('active');
+                    dot.style.opacity = '0.5';
+                    dot.style.transform = 'scale(1)';
+                }
+            });
+        }
+        
+        // Auto play slider every 5 seconds
+        setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+    </script>
 
     <!-- Instrument Selection Modal -->
     <div id="chooseInstrumentModal" class="modal hidden">
@@ -1402,9 +1508,12 @@
                 </div>
             </details>
             <!-- END_SEO_DIRECTORY -->
+            <div style="margin-top: 30px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6; opacity: 0.7; color: rgba(255,255,255,0.85); text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <p><strong>Optimize Your Band Practice:</strong> PopSongChordBook is the ultimate online platform for band members. Coordinate rehearsals using our real-time <strong>Band Members Sync</strong> and shared <strong>Band Setlists</strong>. Whether playing keys, guitar, or ukulele, all members see the same scrolling chords in perfect sync. Improve your group practice session with integrated YouTube tutorials, transpose options, and customizable timelines designed specifically for musicians' collaborative needs.</p>
+            </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.185</span>
+                v<span id="site-version">3.186</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
