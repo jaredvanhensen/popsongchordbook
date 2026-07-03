@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-07-02
+// Synchronized from Firebase on 2026-07-03
 
 const DEFAULT_SONGS = [
     {
@@ -6250,7 +6250,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Adele - Make You Feel My Love",
-            "tempo": 120,
+            "tempo": "65",
             "useFlatNotation": false
         },
         "chorus": "D# A# D7 D# A# | D# A# C7 F",
@@ -6263,7 +6263,7 @@ const DEFAULT_SONGS = [
         "id": "1778669489788sosr37xbv",
         "isPublic": true,
         "key": "G",
-        "lyricOffset": 9,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -6272,7 +6272,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "65",
         "title": "Make You Feel My Love",
         "verse": "A# F G# D# D#m A# C7 F7 A#",
         "verseCue": "",
@@ -6872,7 +6872,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Adele - Someone Like You",
-            "tempo": 120,
+            "tempo": "135",
             "useFlatNotation": false
         },
         "chorus": "Eadd9 F#m7 D ",
@@ -6894,7 +6894,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "135",
         "title": "Someone Like You",
         "verse": "A C#m/G# F#m D",
         "verseCue": "",
@@ -9844,7 +9844,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Alannah Myles - Black Velvet",
-            "tempo": "120",
+            "tempo": "91",
             "useFlatNotation": false
         },
         "chorus": "G#m C# G#m E B | G#m C# B A# D#m",
@@ -9877,7 +9877,7 @@ const DEFAULT_SONGS = [
         "id": "17792587426398bybv8czk",
         "isPublic": true,
         "key": "F#",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -9886,7 +9886,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "91",
         "title": "Black Velvet",
         "verse": "D#m A#sus4 G# F# C#",
         "verseCue": "",
@@ -11788,7 +11788,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Alicia Keys - Fallin",
-            "tempo": 120,
+            "tempo": "96",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -11813,7 +11813,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "96",
         "title": "Fallin",
         "verse": "Em Bm",
         "verseCue": "",
@@ -15617,7 +15617,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Anouk - Sacrifice",
-            "tempo": 120,
+            "tempo": "136",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -15633,7 +15633,7 @@ const DEFAULT_SONGS = [
         "id": "1779016350113hdsl9bw7i",
         "isPublic": true,
         "key": "D",
-        "lyricOffset": 4,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -15642,7 +15642,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "136",
         "title": "Sacrifice",
         "verse": "D# A# C# G#",
         "verseCue": "",
@@ -17509,7 +17509,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Ben E. King - Stand By Me",
-            "tempo": 120,
+            "tempo": "118",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -17524,8 +17524,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779180437711tfe0ti4hp",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 1,
+        "key": "A",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -17534,12 +17534,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "118",
         "title": "Stand By Me",
         "verse": "A F#m D E A",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "1960",
+        "year": "1961",
         "youtubeUrl": "https://youtu.be/dTd2ylacYNU?si=EPJOw0TmEq5tcPlX"
     },
     {
@@ -18422,7 +18422,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Bill Withers - Ain't No Sunshine",
-            "tempo": 120,
+            "tempo": "78",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -18437,7 +18437,7 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779180984981scya63b2b",
         "isPublic": true,
-        "key": "",
+        "key": "Am",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
@@ -18447,7 +18447,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "78",
         "title": "Ain't No Sunshine",
         "verse": "Am Em G Am 2x Em Dm Am Em G Am",
         "verseCue": "",
@@ -24033,7 +24033,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Blink 182 - All The Small Things",
-            "tempo": "120",
+            "tempo": "149",
             "useFlatNotation": false
         },
         "chorus": "C G F G",
@@ -24046,7 +24046,7 @@ const DEFAULT_SONGS = [
         "id": "1779086747037w72trc8p1",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": 3,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -24055,7 +24055,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "149",
         "title": "All The Small Things",
         "verse": "C5 F5 G5 F5",
         "verseCue": "",
@@ -37208,6 +37208,468 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Bruno Mars",
+        "bridge": "C Em Am G F",
+        "bridgeCue": "",
+        "bridgeTitle": "Chorus",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "C",
+                    "time": 0.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 8.463,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 11.159,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 12.576,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 13.864,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 16.584,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 19.306,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 21.962,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 23.34,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 24.639,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 27.363,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 30.045,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 32.812,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 35.438,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 38.202,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 40.848,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 43.58,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 44.871,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 46.209,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 48.971,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 51.669,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 54.389,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 55.662,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 56.971,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 59.749,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 62.414,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 65.137,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 66.506,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 67.78,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 69,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 70.521,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 73.216,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 75.905,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 77.315,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 78.621,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 81.293,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 84.002,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 86.71,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 88.02,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 89.398,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 92.113,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 94.786,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 97.504,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 100.245,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 102.88,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 105.562,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 108.334,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 109.64,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 110.942,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 113.708,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 116.397,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 119.083,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 120.426,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 121.806,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 124.486,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 127.187,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 129.906,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 131.243,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 132.536,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 133.91,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 135.292,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 137.922,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 140.615,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 143.383,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 146.098,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 148.713,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 151.455,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 154.15,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 156.927,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 159.534,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 162.251,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 163.585,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 164.876,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 167.608,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 170.246,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 173.015,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 174.368,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 175.717,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 178.382,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 181.088,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 183.833,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 185.146,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 186.474,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 189.219,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "Bruno Mars - Count On Me",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "C Em Am G F 2x",
+        "chorusCue": "",
+        "chorusTitle": "Verse",
+        "dateAdded": "2026-07-01T20:05:40.031Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:02.32] Oh-oh-oh\n[00:05.19] If you ever find yourself stuck in the middle of the sea\n[00:10.38] I'll sail the world to find you\n[00:15.75] If you ever find yourself lost in the dark and you can't see\n[00:21.14] I'll be the light to guide you\n[00:26.39] \n[00:28.21] We'll find out what we're made of\n[00:32.25] When we are called to help our friends in need\n[00:36.93] \n[00:37.10] You can count on me like 1, 2, 3, I'll be there\n[00:45.76] And I know when I need it\n[00:48.19] I can count on you like 4, 3, 2, and you'll be there\n[00:56.44] 'Cause that's what friends are supposed to do, oh, yeah\n[01:00.57] Ooh-ooh-ooh-ooh-ooh\n[01:03.58] Ooh-ooh-ooh-ooh-ooh\n[01:06.06] Ooh, yeah, yeah\n[01:09.78] \n[01:10.06] If you tossin' and you're turnin' and you just can't fall asleep\n[01:15.16] I'll sing a song beside you\n[01:20.61] And if you ever forget how much you really mean to me\n[01:25.65] Every day I will remind you, oh\n[01:32.06] \n[01:33.15] We'll find out what we're made of\n[01:36.83] When we are called to help our friends in need\n[01:41.60] \n[01:42.08] You can count on me like 1, 2, 3, I'll be there\n[01:50.59] And I know when I need it\n[01:52.99] I can count on you like 4, 3, 2, and you'll be there\n[02:01.14] 'Cause that's what friends are supposed to do, oh, yeah\n[02:05.58] Ooh-ooh-ooh-ooh-ooh\n[02:08.15] Ooh-ooh-ooh-ooh-ooh\n[02:10.85] Ooh, yeah, yeah\n[02:14.32] \n[02:14.53] You'll always have my shoulder when you cry\n[02:25.23] I'll never let go, never say goodbye\n[02:33.48] \n[02:33.78] You know you can count on me like 1, 2, 3, I'll be there\n[02:44.37] And I know when I need it\n[02:46.81] I can count on you like 4, 3, 2, andd you'll be there\n[02:55.11] 'Cause that's what friends are supposed to do, oh, yeah\n[02:59.61] Ooh-ooh-ooh-ooh-ooh\n[03:02.24] Ooh-ooh-ooh-ooh-ooh\n[03:05.04] Ooh\n[03:05.86] You can count on me 'cause I can count on you\n[03:10.95]",
+        "id": "1782936340031co9uxoq0t",
+        "isPublic": true,
+        "key": "C",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Dm Em F G",
+        "preChorusCue": "",
+        "preChorusTitle": "Pre-Chorus",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "Count On Me",
+        "verse": "C",
+        "verseCue": "",
+        "verseTitle": "Intro",
+        "year": "2010",
+        "youtubeUrl": "https://youtu.be/6k8cpUkKK4c?si=wOP4KqU3e5lQ7GwY"
+    },
+    {
+        "artist": "Bruno Mars",
         "bridge": "Gm Dm Gm A",
         "bridgeCue": "",
         "bridgeTitle": "BRIDGE",
@@ -39139,7 +39601,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Bruno Mars - Marry You",
-            "tempo": "120",
+            "tempo": "145",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -39164,7 +39626,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "145",
         "title": "Marry You",
         "verse": "F Gm Bb F",
         "verseCue": "",
@@ -40433,7 +40895,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Bruno Mars - When I Was Your Man",
-            "tempo": 120,
+            "tempo": "73",
             "useFlatNotation": false
         },
         "chorus": "Am C Dm G G7 C Em/B ",
@@ -40511,7 +40973,7 @@ const DEFAULT_SONGS = [
         "id": "1778668608863v0liieoov",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -40520,7 +40982,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "PRE CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "73",
         "title": "When I Was Your Man",
         "verse": "D7 Dm7 C 2x G/B",
         "verseCue": "",
@@ -41899,7 +42361,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Bryan Adams - Cuts Like A Knife",
-            "tempo": "120",
+            "tempo": "96",
             "useFlatNotation": false
         },
         "chorus": "A Bm C G",
@@ -41915,7 +42377,7 @@ const DEFAULT_SONGS = [
         "id": "17802316515015lr19x2cf",
         "isPublic": true,
         "key": "G",
-        "lyricOffset": -10,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -41924,12 +42386,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "96",
         "title": "Cuts Like A Knife",
         "verse": "D G C",
         "verseCue": "",
         "verseTitle": "INTRO,VERSE & CHORUS",
-        "year": "1988",
+        "year": "1983",
         "youtubeUrl": "https://youtu.be/6VZhSkREYBc?si=ntzrCCAPStbpwJxh"
     },
     {
@@ -43973,7 +44435,7 @@ const DEFAULT_SONGS = [
             "barOffset": 0,
             "duration": 300,
             "name": "Bryan Adams - Please Forgive Me",
-            "tempo": 120,
+            "tempo": "134",
             "useFlatNotation": false
         },
         "chorus": "A F#m A D E 2x F#m D",
@@ -43989,7 +44451,7 @@ const DEFAULT_SONGS = [
         "id": "1780232509833q4lidb3sz",
         "isPublic": true,
         "key": "A",
-        "lyricOffset": -10,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -43998,12 +44460,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "134",
         "title": "Please Forgive Me",
         "verse": "A E F#m E D | E A E F#m C#m D A E | A C# F#m C# A E",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2000",
+        "year": "1993",
         "youtubeUrl": "https://youtu.be/9EHAo6rEuas?si=Nc1GIoEtfo-m6cY1"
     },
     {
@@ -48469,7 +48931,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "BTS - Dynamite",
-            "tempo": 120,
+            "tempo": "114",
             "useFlatNotation": false
         },
         "chorus": "C#m F#m B E D#m G#m C# F#",
@@ -48491,7 +48953,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 2",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "114",
         "title": "Dynamite",
         "verse": "C#m F#m B E",
         "verseCue": "",
@@ -49696,7 +50158,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Canaan Smith - Hole In A Bottle",
-            "tempo": 120,
+            "tempo": "113",
             "useFlatNotation": false
         },
         "chorus": "A#m F# G#",
@@ -49721,7 +50183,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "113",
         "title": "Hole In A Bottle",
         "verse": "C# G# F# | C#5 G#5 F#5",
         "verseCue": "",
@@ -50316,7 +50778,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Canaan Smith - Love You Like That",
-            "tempo": 120,
+            "tempo": "145",
             "useFlatNotation": false
         },
         "chorus": "E B G#m F#",
@@ -50331,8 +50793,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779116783854snrqsyc6m",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 1,
+        "key": "G#m",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -50341,7 +50803,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "145",
         "title": "Love You Like That",
         "verse": "G#m F# E B",
         "verseCue": "",
@@ -62984,7 +63446,7 @@ const DEFAULT_SONGS = [
         "verse": "D#sus2 D#7sus2 C#sus2 C#",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "",
+        "year": "1986",
         "youtubeUrl": "https://youtu.be/J9gKyRmic20?si=deBHEfzojrIczUQc"
     },
     {
@@ -65302,7 +65764,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Darius Rucker - Wagon Wheel",
-            "tempo": "120",
+            "tempo": "148",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -65318,7 +65780,7 @@ const DEFAULT_SONGS = [
         "id": "1779306932640n1hqn1kfq",
         "isPublic": true,
         "key": "B",
-        "lyricOffset": 18,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -65327,7 +65789,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "148",
         "title": "Wagon Wheel",
         "verse": "A E F#m D 2x A E D",
         "verseCue": "",
@@ -66332,7 +66794,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Dean Brody - Time",
-            "tempo": 120,
+            "tempo": "89",
             "useFlatNotation": false
         },
         "chorus": "Ab C#add9 4x Cm C# | C# Eb",
@@ -66348,7 +66810,7 @@ const DEFAULT_SONGS = [
         "id": "1779477098673igrd6ticg",
         "isPublic": true,
         "key": "G",
-        "lyricOffset": 4,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -66357,7 +66819,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "89",
         "title": "Time",
         "verse": "G# C#add9 2x",
         "verseCue": "",
@@ -80026,7 +80488,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Dire Straits - Tunnel Of Love",
-            "tempo": 120,
+            "tempo": "138",
             "useFlatNotation": false
         },
         "chorus": "Dm F C G F G Dm 4x",
@@ -80116,7 +80578,7 @@ const DEFAULT_SONGS = [
         "id": "1780296271022d94q76er6",
         "isPublic": true,
         "key": "Dm",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -80125,12 +80587,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "138",
         "title": "Tunnel Of Love",
         "verse": "Dm C Dm Bb | Dm F C Dm Bb C",
         "verseCue": "",
         "verseTitle": "INTRO & Chorus",
-        "year": "1985",
+        "year": "1980",
         "youtubeUrl": "https://youtu.be/gAirINwjaxE?si=bNLC9hpBVooUG_hs"
     },
     {
@@ -86428,7 +86890,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Dua Lipa - Dance The Night",
-            "tempo": 120,
+            "tempo": "110",
             "useFlatNotation": false
         },
         "chorus": "G A Bm E",
@@ -86450,7 +86912,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "110",
         "title": "Dance The Night",
         "verse": "Bm7 E7",
         "verseCue": "",
@@ -87068,7 +87530,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Duran Duran - Ordinary World",
-            "tempo": 140,
+            "tempo": "140",
             "useFlatNotation": false
         },
         "chorus": "C#m2 E F#",
@@ -87152,7 +87614,7 @@ const DEFAULT_SONGS = [
         "id": 103,
         "isPublic": true,
         "key": "E",
-        "lyricOffset": -14,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -87161,12 +87623,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 140,
+        "tempo": "140",
         "title": "Ordinary World",
         "verse": "B F#m D A E",
         "verseCue": "",
         "verseTitle": "INTRO & CHORUS",
-        "year": "1993",
+        "year": "1992",
         "youtubeUrl": "https://youtu.be/FqIACCH20JU?si=XkbvaFfor9yLoINT"
     },
     {
@@ -88932,7 +89394,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Eagles - New Kid In Town",
-            "tempo": 120,
+            "tempo": "107",
             "useFlatNotation": false
         },
         "chorus": "B E | B C#m F# Am7 D",
@@ -89016,7 +89478,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "VERSE 3 & OUTRO Chorus",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "107",
         "title": "New Kid In Town",
         "verse": "E Bsus2 B A B E 2x G#7 | C#m F# 3x F#m7 B",
         "verseCue": "",
@@ -91503,6 +91965,932 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Ed Sheeran",
+        "bridge": "D#m7 A#m C# G# 3x D#m7 C# F# G#",
+        "bridgeCue": "",
+        "bridgeTitle": "Bridge",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "A#m",
+                    "time": 30,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#m",
+                    "time": 33.125,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 34.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 35.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 37.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 39.246,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 40.382,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 42.346,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 43.561,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 45.523,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 46.702,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 48.614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 49.83,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 51.771,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 53.047,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 54.924,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 56.194,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 58.137,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 59.281,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 61.159,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 62.409,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 64.362,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 65.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 67.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 70.75,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 71.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 73.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 74.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 76.954,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 78.128,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 80.113,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 81.237,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 83.305,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 84.424,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 86.341,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 87.605,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 89.453,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 90.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 92.657,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 93.823,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 95.785,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 96.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 98.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 102.005,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 103.281,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 105.255,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 108.28,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 109.484,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 111.478,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 112.644,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 114.528,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 115.775,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 117.747,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 118.901,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 120.89,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 122.076,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 123.991,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 125.117,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 127.111,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 128.294,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 130.227,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 131.437,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 136.562,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 137.727,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 139.634,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 140.918,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 142.825,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 143.936,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 145.879,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 147.104,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 149.011,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 150.268,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 152.211,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 153.383,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 155.3,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 156.494,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 158.479,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 159.676,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 161.648,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 162.798,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 164.702,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 165.894,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 167.922,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 169.012,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 171.052,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 174.172,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 175.437,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 177.373,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 180.467,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 181.623,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 183.534,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 184.798,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 186.679,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 187.844,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 189.884,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 190.986,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 193.01,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 194.203,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 196.111,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 197.338,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 199.209,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 200.464,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 202.368,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#m7",
+                    "time": 203.581,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 211.777,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 212.985,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 214.901,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 216.134,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 218.127,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 219.248,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 221.151,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 222.36,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 224.294,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 225.541,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 227.492,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 228.681,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m7",
+                    "time": 230.654,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 232.932,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 233.775,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 235.41,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 237.004,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 238.001,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 239.963,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 241.15,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 243.077,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 244.288,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 246.193,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 247.408,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 249.355,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 250.547,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 252.568,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 253.76,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 255.703,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 256.916,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 258.841,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 260.027,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 262,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 263.197,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 265.149,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 266.316,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 268.247,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 269.454,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 271.419,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 272.542,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 274.491,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 275.734,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 277.743,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 278.906,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 280.729,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 282.002,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 283.94,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 285.168,
+                    "yOffset": -65
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 8,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 23,
+                    "name": "VERSE 2",
+                    "startIdx": 9,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 27,
+                    "name": "INTERLUDE",
+                    "startIdx": 24,
+                    "type": "interlude"
+                },
+                {
+                    "endIdx": 45,
+                    "name": "VERSE 2",
+                    "startIdx": 28,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 61,
+                    "name": "CHORUS",
+                    "startIdx": 46,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 69,
+                    "name": "INTERLUDE",
+                    "startIdx": 62,
+                    "type": "interlude"
+                },
+                {
+                    "endIdx": 87,
+                    "name": "VERSE 3",
+                    "startIdx": 70,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 103,
+                    "name": "CHORUS",
+                    "startIdx": 88,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 119,
+                    "name": "BRIDGE",
+                    "startIdx": 104,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 151,
+                    "name": "CHORUS",
+                    "startIdx": 120,
+                    "type": "chorus"
+                }
+            ],
+            "duration": 300,
+            "name": "Ed Sheeran - I See Fire",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "A#m C# G# F# | A#m C# G# D#m7 | D#m7 C# F#",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "customMapSections": [
+            {
+                "endIdx": 8,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 23,
+                "name": "VERSE 2",
+                "startIdx": 9,
+                "type": "verse"
+            },
+            {
+                "endIdx": 27,
+                "name": "INTERLUDE",
+                "startIdx": 24,
+                "type": "interlude"
+            },
+            {
+                "endIdx": 45,
+                "name": "VERSE 2",
+                "startIdx": 28,
+                "type": "verse"
+            },
+            {
+                "endIdx": 61,
+                "name": "CHORUS",
+                "startIdx": 46,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 69,
+                "name": "INTERLUDE",
+                "startIdx": 62,
+                "type": "interlude"
+            },
+            {
+                "endIdx": 87,
+                "name": "VERSE 3",
+                "startIdx": 70,
+                "type": "verse"
+            },
+            {
+                "endIdx": 103,
+                "name": "CHORUS",
+                "startIdx": 88,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 119,
+                "name": "BRIDGE",
+                "startIdx": 104,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 151,
+                "name": "CHORUS",
+                "startIdx": 120,
+                "type": "chorus"
+            }
+        ],
+        "dateAdded": "2026-06-25T22:45:35.702Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:00.72] Oh, misty eye of the mountain below\n[00:06.96] Keep careful watch of my brothers' souls\n[00:15.20] And should the sky be filled with fire and smoke\n[00:24.07] Keep watching over Durin's sons\n[00:30.42] \n[00:43.63] If this is to end in fire\n[00:47.76] Then we should all burn together\n[00:50.76] Watch the flames climb high into the night\n[00:56.61] Calling out father oh\n[01:00.79] Stand by and we will\n[01:03.53] Watch the flames burn auburn on\n[01:06.82] The mountain side (high)\n[01:11.92] \n[01:15.28] And if we should die tonight\n[01:19.12] Then we should all die together\n[01:22.33] Raise a glass of wine for the last time\n[01:28.24] Calling out father oh\n[01:32.23] Prepare as we will\n[01:34.89] Watch the flames burn auburn on\n[01:38.39] The mountain side\n[01:41.39] Desolation comes upon the sky\n[01:46.56] Now I see fire\n[01:50.86] Inside the mountain\n[01:53.83] And I see fire\n[01:57.04] Burning the trees\n[02:00.24] And I see fire\n[02:03.62] Hollowing souls\n[02:06.17] And I see fire\n[02:10.48] Blood in the breeze\n[02:12.91] And I hope that you remember me\n[02:18.45] \n[02:28.14] Oh, should my people fall\n[02:31.11] Then surely I'll do the same\n[02:34.67] Confined in mountain halls\n[02:37.47] We got too close to the flame\n[02:40.77] Calling out father oh\n[02:44.97] Hold fast and we will\n[02:47.83] Watch the flames burn auburn on\n[02:50.80] The mountain side\n[02:53.83] Desolation comes upon the sky\n[02:59.30] Now I see fire\n[03:03.12] Inside the mountain\n[03:06.33] And I see fire\n[03:10.14] Burning the trees\n[03:12.54] And I see fire\n[03:17.01] Hollowing souls\n[03:19.26] And I see fire\n[03:22.48] Blood in the breeze\n[03:25.46] And I hope that you remember me\n[03:31.39] And if the night is burning\n[03:34.97] I will cover my eyes\n[03:37.55] For if the dark returns\n[03:40.28] Then my brothers will die\n[03:44.24] And as the sky is falling down\n[03:46.92] It crashed into this lonely town\n[03:50.32] And with that shadow upon the ground\n[03:53.28] I hear my people screaming out\n[03:56.47] Now I see fire\n[04:00.94] Inside the mountains\n[04:03.06] I see fire\n[04:06.85] Burning the trees\n[04:09.34] I see fire\n[04:13.00] Hollowing souls\n[04:15.86] I see fire\n[04:19.31] Blood in the breeze\n[04:22.07] I see fire\n[04:23.63] Oh you know I saw a city burning out (fire)\n[04:27.38] And I see fire\n[04:30.21] Feel the heat upon my skin, yeah (fire)\n[04:34.34] And I see fire (fire)\n[04:38.53] \n[04:41.23] And I see fire burn on and on the mountain side\n[04:46.95]",
+        "id": "1782427535702hai3fl3sw",
+        "isPublic": true,
+        "key": "Bbm",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "A#m F# G# A#m 3x A#m F# G# D#m7",
+        "preChorusCue": "",
+        "preChorusTitle": "CHORUS",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "I See Fire",
+        "verse": "A#m F# G# A#m",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "2013",
+        "youtubeUrl": "https://youtu.be/2fngvQS_PmQ?si=etPVAatJNcpI8fGG"
+    },
+    {
+        "artist": "Ed Sheeran",
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
@@ -92139,6 +93527,378 @@ const DEFAULT_SONGS = [
         "verseTitle": "Block 1",
         "year": "2017",
         "youtubeUrl": "https://youtu.be/2Vv-BfVoq4g?si=6fL4z_9QYI-gsLvX"
+    },
+    {
+        "artist": "Ed Sheeran",
+        "bridge": "C#m A E B",
+        "bridgeCue": "",
+        "bridgeTitle": "Bridge",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "E",
+                    "time": 1.667,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 5.797,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 10.199,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 14.693,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 19.19,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 23.543,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 28.065,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 32.454,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 36.893,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 41.36,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 45.805,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 50.269,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 54.645,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 56.944,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 59.144,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 61.36,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 63.562,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 65.785,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 68.008,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 70.274,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 72.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 76.898,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 81.377,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 85.78,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 90.266,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 94.643,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 99.111,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 103.533,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 107.954,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 112.442,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 116.891,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 121.349,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 125.762,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 130.206,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 132.465,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 134.684,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 136.854,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 139.131,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 141.345,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 143.547,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 145.777,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 148.007,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 152.472,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 156.903,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 161.336,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 165.765,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 170.266,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 174.711,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 179.108,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 183.611,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 188.018,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 192.401,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 196.863,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 201.343,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 205.801,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 210.238,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 214.663,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 219.095,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 223.535,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 227.962,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 232.462,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 236.905,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 241.395,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 245.837,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 250.277,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 254.721,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "Ed Sheeran - Photograph",
+            "tempo": "108",
+            "useFlatNotation": false
+        },
+        "chorus": "C#m A E B 2x",
+        "chorusCue": "",
+        "chorusTitle": "Pre-Chorus",
+        "dateAdded": "2026-06-25T22:35:16.986Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:16.87] Loving can hurt\n[00:21.29] Loving can hurt sometimes\n[00:25.64] But it's the only thing\n[00:28.50] That I know\n[00:31.72] \n[00:34.41] And when it gets hard\n[00:38.49] You know it can get hard sometimes\n[00:43.41] It is the only thing that makes us feel alive\n[00:50.38] \n[00:53.62] We keep this love in a photograph\n[00:58.00] We make these memories for ourselves\n[01:01.63] Where our eyes are never closing\n[01:04.26] Hearts are never broken\n[01:06.50] And time's forever frozen still\n[01:10.12] So you can keep me\n[01:13.43] Inside the pocket of your ripped jeans\n[01:17.85] Holdin' me closer 'til our eyes meet\n[01:22.22] You won't ever be alone\n[01:26.86] Wait for me to come home\n[01:30.11] \n[01:32.30] Loving can heal\n[01:36.79] Loving can mend your soul\n[01:41.25] And is the only thing\n[01:44.09] That I know, know\n[01:49.59] I swear it will get easier\n[01:53.25] Remember that with every piece of ya, mmm\n[01:59.14] And it's the only thing we take with us when we die, mmm\n[02:06.40] \n[02:09.24] We keep this love in a photograph\n[02:13.84] We make these memories for ourselves\n[02:17.25] Where our eyes are never closing\n[02:19.88] Hearts were never broken\n[02:21.95] And time's forever frozen still\n[02:25.81] So you can keep me\n[02:29.07] Inside the pocket of your ripped jeans\n[02:33.42] Holdin' me closer 'til our eyes meet\n[02:37.82] You won't ever be alone\n[02:43.64] And if you hurt me\n[02:46.76] Well, that's okay, baby, only words bleed\n[02:51.17] Inside these pages you just hold me\n[02:55.59] And I won't ever let you go\n[03:00.18] Wait for me to come home\n[03:04.62] Wait for me to come home\n[03:08.92] Wait for me to come home\n[03:13.48] Wait for me to come home\n[03:19.28] Oh, you can fit me\n[03:21.50] Inside the necklace you got when you were 16\n[03:26.60] Next to your heartbeat where I should be\n[03:31.16] Keep it deep within your soul\n[03:37.03] And if you hurt me\n[03:39.96] Well, that's okay, baby, only words bleed\n[03:44.52] Inside these pages you just hold me\n[03:48.95] And I won't ever let you go\n[03:54.55] When I'm away\n[03:57.88] I will remember how you kissed me\n[04:02.37] Under the lamppost back on 6th street\n[04:06.76] Hearing you whisper through the phone\n[04:11.17] Wait for me to come home\n[04:13.69]",
+        "id": "1782426916986d5i2aknmk",
+        "isPublic": true,
+        "key": "E",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "E B C#m A",
+        "preChorusCue": "",
+        "preChorusTitle": "Chorus",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "108",
+        "title": "Photograph",
+        "verse": "E C#m B A",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "2014",
+        "youtubeUrl": "https://youtu.be/nSDgHBxUbVQ?si=-nuOGFvwq9_vGT2x"
     },
     {
         "artist": "Ed Sheeran",
@@ -99436,7 +101196,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Eric Clapton - Tears In Heaven",
-            "tempo": 120,
+            "tempo": "154",
             "useFlatNotation": false
         },
         "chorus": "A E F#m A/E D/F# A/E E 2x",
@@ -99449,7 +101209,7 @@ const DEFAULT_SONGS = [
         "id": "1779201061108puiwzff8g",
         "isPublic": true,
         "key": "A",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -99458,7 +101218,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Verse",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "154",
         "title": "Tears In Heaven",
         "verse": "A E/G# F#m A/E D/F# E7 A",
         "verseCue": "",
@@ -104105,7 +105865,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Extreme - More Than Words",
-            "tempo": 120,
+            "tempo": "92",
             "useFlatNotation": false
         },
         "chorus": "F# Badd9 G#m7 B | C# F# D#m",
@@ -104165,7 +105925,7 @@ const DEFAULT_SONGS = [
         "id": "17790109131883slgdsndn",
         "isPublic": true,
         "key": "F#",
-        "lyricOffset": 6,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -104174,12 +105934,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "PRE CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "92",
         "title": "More Than Words",
         "verse": "F# Badd9 Abm7 B C#",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1993",
+        "year": "1990",
         "youtubeUrl": "https://youtu.be/UrIiLvg58SY?si=OwaycFFXswXQQDax"
     },
     {
@@ -110450,7 +112210,7 @@ const DEFAULT_SONGS = [
         "verse": "D#m B C# D#m 2x  ",
         "verseCue": "",
         "verseTitle": "CHORUS",
-        "year": "",
+        "year": "1987",
         "youtubeUrl": "https://youtu.be/5atiLWT4emI?is=9l_Rtu59KVE9bl3e"
     },
     {
@@ -111557,7 +113317,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Fugees - Killing Me Softly",
-            "tempo": 120,
+            "tempo": "92",
             "useFlatNotation": false
         },
         "chorus": "Am7 D G C Am7 D Em Am7 D7 G B7",
@@ -111572,8 +113332,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779182616039ohz9hxzkl",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": -2,
+        "key": "Em",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -111582,7 +113342,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "92",
         "title": "Killing Me Softly",
         "verse": "Em Am D7 G Em Am D C G C F E",
         "verseCue": "",
@@ -112047,7 +113807,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Gavin DeGraw - You Got Me",
-            "tempo": "120",
+            "tempo": "106",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -112089,12 +113849,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Bridge",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "106",
         "title": "You Got Me",
         "verse": "B C# Ebm F# B C# F#",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "2014",
+        "year": "2011",
         "youtubeUrl": "https://youtu.be/GK8Cfswie-M?si=6umZorHRYzA29Azv"
     },
     {
@@ -113127,7 +114887,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Genesis - No Son Of Mine",
-            "tempo": 120,
+            "tempo": "104",
             "useFlatNotation": false
         },
         "chorus": "D E 4x C G D Am",
@@ -113220,12 +114980,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "104",
         "title": "No Son Of Mine",
         "verse": "Em C D Bsus4 Em D Bm C | Em C D B | D A C G",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "1992",
+        "year": "1991",
         "youtubeUrl": "https://youtu.be/cddQn1mZRfI?si=vXcjjmn2XGNqq0f9"
     },
     {
@@ -114220,7 +115980,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "George Harrison - Got My Mind Set On You",
-            "tempo": 120,
+            "tempo": "149",
             "useFlatNotation": false
         },
         "chorus": "E A B | 8x E A 3x",
@@ -114242,7 +116002,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "149",
         "title": "Got My Mind Set On You",
         "verse": "C#m G#7 C#m E B E",
         "verseCue": "",
@@ -115602,7 +117362,7 @@ const DEFAULT_SONGS = [
         "verse": "C2 Bb2 F",
         "verseCue": "",
         "verseTitle": "Block 1",
-        "year": "",
+        "year": "1990",
         "youtubeUrl": "https://youtu.be/uyFpPSzjfUI?si=gK9COuTxWJpP89pK"
     },
     {
@@ -124560,7 +126320,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Guns N' Roses - Patience",
-            "tempo": 120,
+            "tempo": "120",
             "useFlatNotation": false
         },
         "chorus": "B F# G# C# 2x",
@@ -124641,12 +126401,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "120",
         "title": "Patience",
         "verse": "B F# Ab C# 2x B F# B Ebm | B F# C#",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1991",
+        "year": "1988",
         "youtubeUrl": "https://youtu.be/ErvgV4P6Fzc?si=F3MKlztVMNmGf10z"
     },
     {
@@ -126555,7 +128315,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Guns N'Roses - Paradise City",
-            "tempo": "120",
+            "tempo": "100",
             "useFlatNotation": false
         },
         "chorus": "F#5 A5 B5 F#5",
@@ -126580,12 +128340,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Bridge",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "100",
         "title": "Paradise City",
         "verse": "F# B E B F# 2x",
         "verseCue": "",
         "verseTitle": "Intro & CHORUS",
-        "year": "1990",
+        "year": "1987",
         "youtubeUrl": "https://youtu.be/Rbm6GXllBiw?si=Nmt7jEC_Um_uowyW"
     },
     {
@@ -128559,7 +130319,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Harry Styles - Watermelon Sugar",
-            "tempo": 120,
+            "tempo": "95",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -128571,8 +130331,8 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:00.36] Tastes like strawberries\n[00:03.48] On a summer evenin'\n[00:06.76] And it sounds just like a song\n[00:10.69] I want more berries\n[00:13.37] And that summer feelin'\n[00:16.86] It's so wonderful and warm\n[00:20.08] Breathe me in\n[00:22.54] Breathe me out\n[00:25.12] I don't know if I could ever go without\n[00:30.32] I'm just thinking out loud\n[00:35.49] I don't know if I could ever go without\n[00:40.27] Watermelon sugar\n[00:41.34] High\n[00:42.66] Watermelon sugar\n[00:44.05] High\n[00:45.24] Watermelon sugar\n[00:46.50] High\n[00:47.76] Watermelon sugar high\n[00:50.31] Watermelon sugar\n[00:51.67] Strawberries\n[00:53.83] On a summer evenin'\n[00:57.38] Baby, you're the end of June\n[01:00.91] I want your belly\n[01:03.74] And that summer feelin'\n[01:07.22] Getting washed away in you\n[01:10.42] Breathe me in\n[01:13.07] Breathe me out\n[01:15.56] I don't know if I could ever go without\n[01:20.55] Watermelon sugar\n[01:21.71] High\n[01:22.97] Watermelon sugar\n[01:24.22] High\n[01:25.59] Watermelon sugar\n[01:26.63] High\n[01:27.92] Watermelon sugar high\n[01:30.47] Watermelon sugar\n[01:31.89] High\n[01:33.00] Watermelon sugar\n[01:34.21] High\n[01:35.52] Watermelon sugar\n[01:36.62] High\n[01:37.90] Watermelon sugar high\n[01:41.49] I just wanna taste it\n[01:43.96] I just wanna taste it\n[01:46.56] Watermelon sugar high\n[01:51.14] Tastes like strawberries\n[01:54.11] On a summer evenin'\n[01:57.67] And it sounds just like a song\n[02:01.21] I want your belly\n[02:04.22] And that summer feelin'\n[02:06.04] I don't know if I could ever go without\n[02:10.74] Watermelon sugar\n[02:11.91] High\n[02:13.15] Watermelon sugar\n[02:14.58] High\n[02:15.74] Watermelon sugar (sugar)\n[02:16.96] High\n[02:18.15] Watermelon sugar high (sugar)\n[02:20.69] Watermelon sugar\n[02:21.92] High\n[02:23.36] Watermelon sugar\n[02:24.48] High\n[02:25.75] Watermelon sugar\n[02:26.86] High\n[02:28.21] Watermelon sugar high\n[02:31.68] I just wanna taste it\n[02:34.13] I just wanna taste it\n[02:36.81] Watermelon sugar high\n[02:41.97] I just wanna taste it\n[02:44.35] I just wanna taste it\n[02:46.72] Watermelon sugar high\n[02:50.90] Watermelon sugar\n[02:51.92]",
         "id": "1779017166559zheaor13x",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 10,
+        "key": "C",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -128581,7 +130341,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "95",
         "title": "Watermelon Sugar",
         "verse": "Dm7 Am7 C G ",
         "verseCue": "",
@@ -130484,7 +132244,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Idina Menzel - Let It Go",
-            "tempo": 120,
+            "tempo": "137",
             "useFlatNotation": false
         },
         "chorus": "D# C# C#add9 2x",
@@ -130568,7 +132328,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Chorus",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "137",
         "title": "Let It Go",
         "verse": "Fm C# D# A#sus4 A#m",
         "verseCue": "",
@@ -130943,7 +132703,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Ike & Tina Turner - Proud Mary",
-            "tempo": 120,
+            "tempo": "171",
             "useFlatNotation": false
         },
         "chorus": "D A Bm G D",
@@ -130959,7 +132719,7 @@ const DEFAULT_SONGS = [
         "id": "17791795109155vh5486cj",
         "isPublic": true,
         "key": "D",
-        "lyricOffset": -2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -130968,12 +132728,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "VERSE 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "171",
         "title": "Proud Mary",
         "verse": "D",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1990",
+        "year": "1970",
         "youtubeUrl": "https://youtu.be/TwpVpUYO3MM?si=vVsT8XSxmtPM3U82"
     },
     {
@@ -131308,7 +133068,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Imagine Dragons - Deamons",
-            "tempo": 120,
+            "tempo": "90",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -131333,8 +133093,8 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
-        "title": "Deamons",
+        "tempo": "90",
+        "title": "Demons",
         "verse": "D# A# Cm G#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
@@ -144780,7 +146540,7 @@ const DEFAULT_SONGS = [
         "artist": "John Waite",
         "bridge": "",
         "bridgeCue": "",
-        "bridgeTitle": "",
+        "bridgeTitle": "Block 4",
         "capo": 2,
         "chordData": {
             "barOffset": 0,
@@ -145278,7 +147038,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "John Waite - Missing You",
-            "tempo": "120",
+            "tempo": "209",
             "useFlatNotation": false
         },
         "chorus": "D#m7 Bsus2 C#sus4 G# Bsus2 C#sus4",
@@ -145300,15 +147060,15 @@ const DEFAULT_SONGS = [
         "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
-        "preChorusTitle": "",
+        "preChorusTitle": "Block 2",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "209",
         "title": "Missing You",
         "verse": "F# Bsus2 C#sus4 2x  D#m7 Bsus2 C#sus4",
         "verseCue": "",
         "verseTitle": "INTRO VERSE & CHORUS",
-        "year": "1990",
+        "year": "1984",
         "youtubeUrl": "https://youtu.be/k9e157Ner90?si=J3uaeAGv87C9UdAH"
     },
     {
@@ -152872,7 +154632,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Ain't Back Yet",
-            "tempo": 120,
+            "tempo": "107",
             "useFlatNotation": false
         },
         "chorus": "Bb F Gm Eb Bb F Ab Eb Bb F Ab",
@@ -152888,7 +154648,7 @@ const DEFAULT_SONGS = [
         "id": "17793739276401nt3om75m",
         "isPublic": true,
         "key": "A#",
-        "lyricOffset": 2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -152897,7 +154657,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "107",
         "title": "Ain't Back Yet",
         "verse": "F D# A# 4x",
         "verseCue": "",
@@ -156296,7 +158056,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Don't Blink",
-            "tempo": 120,
+            "tempo": "148",
             "useFlatNotation": false
         },
         "chorus": "E B A B",
@@ -156374,7 +158134,7 @@ const DEFAULT_SONGS = [
         "id": "1779374093319uiho9nov2",
         "isPublic": true,
         "key": "D",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -156383,7 +158143,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "148",
         "title": "Don't Blink",
         "verse": "E B",
         "verseCue": "",
@@ -156943,7 +158703,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Down The Road",
-            "tempo": 120,
+            "tempo": "78",
             "useFlatNotation": false
         },
         "chorus": "E B A E B",
@@ -156968,7 +158728,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "78",
         "title": "Down The Road",
         "verse": "E C#m Abm A",
         "verseCue": "",
@@ -158989,7 +160749,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Reality",
-            "tempo": "120",
+            "tempo": "185",
             "useFlatNotation": false
         },
         "chorus": "C G Dm F",
@@ -159061,7 +160821,7 @@ const DEFAULT_SONGS = [
         "id": "1779372291126fj0pf5itn",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -159070,7 +160830,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "185",
         "title": "Reality",
         "verse": "C G Dm F | Dm Em F G",
         "verseCue": "",
@@ -160635,7 +162395,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Round And Round",
-            "tempo": 120,
+            "tempo": "107",
             "useFlatNotation": false
         },
         "chorus": "A E D E",
@@ -160650,8 +162410,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779373161547294v43q7u",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 6,
+        "key": "F#m",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -160660,7 +162420,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "107",
         "title": "Round And Round",
         "verse": "F#m A B",
         "verseCue": "",
@@ -161220,7 +162980,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Kenny Chesney - Setting The World On Fire",
-            "tempo": 120,
+            "tempo": "94",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -161232,8 +162992,8 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:25.27] Yeah, we got drunk on La Cienega Boulevard\n[00:30.36] Takin' pictures of people we thought were stars\n[00:35.47] It's easy to give in to your heart\n[00:40.56] When you're drunk on La Cienega Boulevard\n[00:46.32] When the song comin' out of the speakers\n[00:48.91] Was the band that you had on your t-shirt\n[00:51.35] We were screamin' 'cause all the streets were empty\n[00:54.54] And you kissed me, and we were\n[00:56.28] Up all night and we were feelin' so good\n[01:00.75] Yeah, we got a little higher than we probably should\n[01:05.19] We were in a hotel singin' in the hallway lights\n[01:10.92] We were strikin' the matches right down to the ashes\n[01:15.39] Settin' the world on fire\n[01:20.43] Settin' the world on fire\n[01:26.88] Wrote \"I love you\" in lipstick on the mirror\n[01:31.65] We were shoutin' out the window, like they could hear us at the pier\n[01:36.53] Said, \"Do you think we'll live forever?\"\n[01:39.27] As we killed another beer\n[01:41.77] And you wrote \"I love you\" in lipstick on the mirror (oh)\n[01:47.65] We were laughin' until we were breathless\n[01:50.16] Never felt anything so reckless\n[01:52.76] We were all lit up and restless\n[01:54.75] And coming alive and we were\n[01:57.26] Up all night and we were feelin' so good\n[02:02.02] Yeah, we got a little higher than we probably should\n[02:06.49] We were in a hotel singin' in the hallway lights\n[02:12.13] We were strikin' the matches right down to the ashes\n[02:16.65] Settin' the world on fire\n[02:21.65] Settin' the world on fire\n[02:25.98] Oh, yeah, yeah\n[02:29.75] \n[02:37.33] Yeah, we were up all night, and we were feelin' so good\n[02:42.82] Yeah, we got a little higher than we probably should\n[02:47.34] We were in a hotel singin' in the hallway lights\n[02:53.00] We were strikin' the matches right down to the ashes\n[02:57.38] Settin' the world on fire\n[03:02.47] Settin' the world on fire\n[03:09.02] World all on fire\n[03:12.83] We were settin' the world all on fire\n[03:17.92] We were settin' the world all on fire\n[03:24.31] World all on fire\n[03:29.08]",
         "id": "1780295604579559haid9f",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 6,
+        "key": "C",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -161242,7 +163002,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "94",
         "title": "Setting The World On Fire",
         "verse": "C G F",
         "verseCue": "",
@@ -165391,7 +167151,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Krezip - Sweet Goodbyes",
-            "tempo": 120,
+            "tempo": "110",
             "useFlatNotation": false
         },
         "chorus": "E Emaj7 E Emaj7",
@@ -165404,7 +167164,7 @@ const DEFAULT_SONGS = [
         "id": "1779016339041ndlhf6jl4",
         "isPublic": true,
         "key": "B",
-        "lyricOffset": 3,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -165413,12 +167173,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "110",
         "title": "Sweet Goodbyes",
         "verse": "Abm F#/Bb B Eadd9 Abm F# E",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2008",
+        "year": "2007",
         "youtubeUrl": "https://youtu.be/ONI8xlyZIyo?si=gR1iH_uj6GHkgNCA"
     },
     {
@@ -167694,7 +169454,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Lady A - What A Song Can Do",
-            "tempo": 120,
+            "tempo": "117",
             "useFlatNotation": false
         },
         "chorus": "Ab Eb Bb Cm Ab Eb Bb 2x",
@@ -167719,7 +169479,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "117",
         "title": "What A Song Can Do",
         "verse": "Eb Ab Cm Bb Ab",
         "verseCue": "",
@@ -168783,7 +170543,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Lady Gaga - Always Remember Us This Way",
-            "tempo": 120,
+            "tempo": "130",
             "useFlatNotation": false
         },
         "chorus": "A# F C A# F G",
@@ -168855,7 +170615,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "130",
         "title": "Always Remember Us This Way",
         "verse": "Am F C G 2x F C Am G | F G Am |  F G C 2x",
         "verseCue": "",
@@ -170382,7 +172142,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Lady Gaga, Bruno Mars - Die With A Smile",
-            "tempo": 120,
+            "tempo": "158",
             "useFlatNotation": false
         },
         "chorus": "Amaj7 Dmaj7",
@@ -170397,7 +172157,7 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779096349570vjb44b3mo",
         "isPublic": true,
-        "key": "",
+        "key": "A",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
@@ -170407,7 +172167,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "PRE CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "158",
         "title": "Die With A Smile",
         "verse": "Amaj7 Dmaj7",
         "verseCue": "",
@@ -178589,6 +180349,543 @@ const DEFAULT_SONGS = [
         "youtubeUrl": "https://youtu.be/Lr_bcQ78W2A?is=h2R6DIRqVIQ-rjtL"
     },
     {
+        "artist": "Liquido",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 1,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "C#",
+                    "time": 0,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 4.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 6.466,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 8.799,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 11.205,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 13.501,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 16.026,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 18.369,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 20.659,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 23.06,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 25.296,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 27.579,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 30.042,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 32.385,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 34.76,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 37.024,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 39.588,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 41.814,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 44.157,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 46.508,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 48.903,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 51.229,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 53.596,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 55.982,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 58.208,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 60.588,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 63.035,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 65.379,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 67.645,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 70.084,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 72.433,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 74.805,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 75.961,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 77.227,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 79.565,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 81.822,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 84.148,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 86.338,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 88.826,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 91.205,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 93.475,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 95.868,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 98.182,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 100.599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 103.056,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 105.348,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 107.721,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 110.059,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 112.354,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 114.719,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 117.117,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 119.532,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 121.863,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 124.198,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 126.535,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 128.927,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 131.177,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 132.382,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 133.435,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 135.961,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 138.274,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 140.64,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 142.965,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 145.238,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 147.688,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 150.063,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 152.255,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 154.936,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 157.409,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 159.596,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 161.864,
+                    "yOffset": -35
+                },
+                {
+                    "name": "N.C.",
+                    "time": 164.395,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 166.534,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 168.966,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 171.188,
+                    "yOffset": -35
+                },
+                {
+                    "name": "N.C.",
+                    "time": 173.673,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 175.992,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 178.248,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 180.664,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 183.077,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebm",
+                    "time": 185.355,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 187.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 190.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 192.613,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 194.821,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 197.214,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 199.472,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 201.817,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 204.177,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 206.413,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 208.925,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 211.337,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 213.597,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 215.893,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 218.248,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 220.695,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 223.097,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 225.384,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#",
+                    "time": 227.632,
+                    "yOffset": -35
+                }
+            ],
+            "duration": 300,
+            "name": "Liquido - Narcotic",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "C# Ebm A B C#",
+        "chorusCue": "",
+        "chorusTitle": "BRIDGE",
+        "dateAdded": "2026-07-02T16:35:05.994Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:42.69] So you face it with a smile\n[00:44.94] There is no need to cry for a trifle's more than this\n[00:52.04] Would you still recall my name and the month it all began?\n[00:56.29] Will you release me with a kiss?\n[01:01.49] Have I tried to draw the veil?\n[01:03.85] If I have, how could I fail?\n[01:06.15] Did I fear the consequence?\n[01:10.81] Dazed by careless words, cozy in my mind\n[01:20.83] I don't mind, I think so\n[01:25.56] I will let you go\n[01:30.25] I don't mind, I think so\n[01:34.95] I will let you go\n[01:39.11] Now you shaped that liquid wax\n[01:41.56] Fit it out with crater cracks, sweet devotion, my delight\n[01:47.81] Oh, you're such a pretty one\n[01:50.10] And the naked thrills of flesh and skin would tease me through the night\n[01:58.06] Now I hate to leave you bare\n[02:00.38] If you need me, I'll be there\n[02:02.77] Don't you ever let me down\n[02:07.43] Dazed by careless words, cozy in my mind\n[02:17.43] I don't mind, I think so\n[02:22.17] I will let you go\n[02:26.86] I don't mind, I think so\n[02:31.54] I will let you go\n[02:35.76] And I touched your face\n[02:38.12] Narcotic mind from lazed Mary Jane\n[02:44.97] And I called your name like an addicted to cocaine\n[02:49.48] Calls for the stuff he'd rather blame\n[02:54.67] And I touched your face\n[02:56.76] Narcotic mind from lazed Mary Jane\n[03:04.03] And I called your name, my cocaine\n[03:11.64] I don't mind, I think so\n[03:16.30] I will let you go\n[03:21.09] I don't mind, I think so\n[03:25.64] I will let you go\n[03:30.29] I don't mind, I think so\n[03:35.14] I will let you go\n[03:39.68] I don't mind, I think so\n[03:44.42] I will let you go\n[03:49.16] I don't mind\n[03:51.25]",
+        "id": "1783010105994k657pbx8w",
+        "isPublic": true,
+        "key": "F#",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "AqpBRBj2XIP2xalIqGQ6vycBpci2",
+        "tempo": "120",
+        "title": "Narcotic",
+        "verse": "C# Ebm F# C#",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1998",
+        "youtubeUrl": "https://youtu.be/PJ7E40Ec5ec?si=TjabrWz8In9sD7id"
+    },
+    {
         "artist": "Little Big Town",
         "bridge": "G# D#",
         "bridgeCue": "",
@@ -186098,7 +188395,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Luke Bryan - Roller Coaster",
-            "tempo": 120,
+            "tempo": "108",
             "useFlatNotation": false
         },
         "chorus": "G# D# Fm C# 2x A#m C# G#",
@@ -186114,7 +188411,7 @@ const DEFAULT_SONGS = [
         "id": "1779118335024uckjsh89o",
         "isPublic": true,
         "key": "Ab",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -186123,7 +188420,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "108",
         "title": "Roller Coaster",
         "verse": "G# D# Fm C#",
         "verseCue": "",
@@ -187588,7 +189885,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Luke Combs - Fast Car",
-            "tempo": "120",
+            "tempo": "98",
             "useFlatNotation": false
         },
         "chorus": "C# G# Fm D# | C# Fm D# 2x C# D#",
@@ -187613,7 +189910,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": "98",
         "title": "Fast Car",
         "verse": "C# G# Fm D#",
         "verseCue": "",
@@ -210293,7 +212590,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Mike + The Mechanics - Over My Shoulder",
-            "tempo": 120,
+            "tempo": "92",
             "useFlatNotation": false
         },
         "chorus": "C# Ab F# Ab 3x Bbm B",
@@ -210309,7 +212606,7 @@ const DEFAULT_SONGS = [
         "id": "1779016259123348ajdwsj",
         "isPublic": true,
         "key": "Eb",
-        "lyricOffset": -2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -210318,12 +212615,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "FILL",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "92",
         "title": "Over My Shoulder",
         "verse": "Fm7 Bb Eb 2x",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2004",
+        "year": "1995",
         "youtubeUrl": "https://youtu.be/H7m1PO7wvYM?si=dA8iOHtkSFK5EDpN"
     },
     {
@@ -210853,7 +213150,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Miley Cyrus - Flowers",
-            "tempo": 120,
+            "tempo": "118",
             "useFlatNotation": false
         },
         "chorus": "Am Dm E7",
@@ -210865,7 +213162,7 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:07.90] We were good, we were gold\n[00:11.81] Kind of dream that can't be sold\n[00:15.89] We were right, 'til we weren't\n[00:19.91] Built a home and watched it burn\n[00:24.22] Mm, I didn't wanna leave you, I didn't wanna lie\n[00:28.70] Started to cry, but then remembered I\n[00:33.33] I can buy myself flowers\n[00:37.46] Write my name in the sand\n[00:41.20] Talk to myself for hours\n[00:45.22] Say things you don't understand\n[00:49.52] I can take myself dancing\n[00:53.65] And I can hold my own hand\n[00:56.72] Yeah, I can love me better than you can\n[01:01.66] Can love me better, I can love me better, baby\n[01:05.60] Can love me better, I can love me better, baby\n[01:08.99] Paint my nails, cherry-red\n[01:12.95] Match the roses that you left\n[01:16.88] No remorse, no regret\n[01:20.89] I forgive every word you said\n[01:25.25] Ooh, I didn't wanna leave ya, baby, I didn't wanna fight\n[01:29.54] Started to cry, but then remembered I\n[01:34.44] I can buy myself flowers\n[01:38.54] Write my name in the sand\n[01:42.44] Talk to myself for hours, yeah\n[01:46.48] Say things you don't understand\n[01:50.84] I can take myself dancing, yeah\n[01:54.81] I can hold my own hand\n[01:57.57] Yeah, I can love me better than you can\n[02:02.72] Can love me better, I can love me better, baby\n[02:06.52] Can love me better, I can love me better, baby\n[02:10.74] Can love me better, I can love me better, baby\n[02:14.76] Can love me better, I (ooh, I)\n[02:18.77] I didn't wanna leave you, I didn't wanna fight\n[02:22.69] Started to cry, but then remembered I\n[02:27.28] I can buy myself flowers, uh-huh\n[02:31.22] Write my name in the sand\n[02:35.22] Talk to myself for hours, yeah\n[02:39.18] Say things you don't understand (better than you)\n[02:43.58] I can take myself dancing, yeah\n[02:47.60] I can hold my own hand\n[02:50.50] Yeah, I can love me better than\n[02:54.56] Yeah, I can love me better than you can\n[02:59.63] Can love me better, I can love me better, baby (huh)\n[03:03.76] Can love me better, I can love me better, baby (than you can)\n[03:07.82] Can love me better, I can love me better, baby\n[03:11.75] Can love me better, I\n[03:13.45]",
         "id": "177903436276662hkge3au",
         "isPublic": true,
-        "key": "",
+        "key": "C",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
@@ -210875,7 +213172,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "118",
         "title": "Flowers",
         "verse": "Cmaj7 | Am Dm G C 2x",
         "verseCue": "",
@@ -219383,7 +221680,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Nirvana - Come As You Are",
-            "tempo": 120,
+            "tempo": "120",
             "useFlatNotation": false
         },
         "chorus": "Em G",
@@ -219399,7 +221696,7 @@ const DEFAULT_SONGS = [
         "id": "1779398464086rmnauwmmn",
         "isPublic": true,
         "key": "F#m",
-        "lyricOffset": -3,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -219408,7 +221705,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "120",
         "title": "Come As You Are",
         "verse": "Em D 4x",
         "verseCue": "",
@@ -221258,7 +223555,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Nirvana - Something In The Way",
-            "tempo": 120,
+            "tempo": "105",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -221283,7 +223580,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "105",
         "title": "Something In The Way",
         "verse": "Fm C#",
         "verseCue": "",
@@ -221538,7 +223835,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Noah Kahan - Stick Season",
-            "tempo": 120,
+            "tempo": "118",
             "useFlatNotation": false
         },
         "chorus": "A/E E F#m D 2x E A",
@@ -221551,7 +223848,7 @@ const DEFAULT_SONGS = [
         "id": "1778668973811ycpuk8w1l",
         "isPublic": true,
         "key": "A",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -221560,7 +223857,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "118",
         "title": "Stick Season",
         "verse": "A E F#m D",
         "verseCue": "",
@@ -222478,7 +224775,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Oasis - Don't Look Back In Anger",
-            "tempo": 120,
+            "tempo": "163",
             "useFlatNotation": false
         },
         "chorus": "C G Am E7 F G C Am G 2x",
@@ -222571,12 +224868,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "PRE CHORUS & SOLO",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "163",
         "title": "Don't Look Back In Anger",
         "verse": "C F C F",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1996",
+        "year": "1995",
         "youtubeUrl": "https://youtu.be/cmpRLQZkTb8?si=uEIOsLhC2VB-tlNO"
     },
     {
@@ -238597,7 +240894,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Pink - Who Knew",
-            "tempo": 120,
+            "tempo": "140",
             "useFlatNotation": false
         },
         "chorus": "D E F#m A 3x D E",
@@ -238672,7 +240969,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "140",
         "title": "Who Knew",
         "verse": "A Bm F#m E 2x",
         "verseCue": "",
@@ -238957,7 +241254,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Pink Floyd - Another Brick In The Wall",
-            "tempo": 120,
+            "tempo": "104",
             "useFlatNotation": false
         },
         "chorus": "F C Dm",
@@ -238972,8 +241269,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1778666670456htxhcq3uw",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 8,
+        "key": "C",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -238982,7 +241279,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "104",
         "title": "Another Brick In The Wall",
         "verse": "Dm G Dm | Dm C Dm C G ",
         "verseCue": "",
@@ -240018,7 +242315,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Pink Floyd - Wish You Were Here",
-            "tempo": 120,
+            "tempo": "123",
             "useFlatNotation": false
         },
         "chorus": "C D/F# Am G D/F# C Am G",
@@ -240075,12 +242372,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "123",
         "title": "Wish You Were Here",
         "verse": "Em7 G 3x Em7 A7 2x G",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1992",
+        "year": "1975",
         "youtubeUrl": "https://youtu.be/IXdNnw99-Ic?si=Ln2jJan5hhOqVN2m"
     },
     {
@@ -241061,7 +243358,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Post Malone - Circles",
-            "tempo": 120,
+            "tempo": "120",
             "useFlatNotation": false
         },
         "chorus": "C F 2x Cmaj7 Fmaj7 Fm 2x",
@@ -241118,7 +243415,7 @@ const DEFAULT_SONGS = [
         "id": "1779398119316svz0zi40z",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": 3,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -241127,7 +243424,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Chorus",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "120",
         "title": "Circles",
         "verse": "Cmaj7 Fmaj7",
         "verseCue": "",
@@ -260053,7 +262350,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Roxette - It Must Have Been Love",
-            "tempo": 120,
+            "tempo": "81",
             "useFlatNotation": false
         },
         "chorus": "C F Dm Am G 2x",
@@ -260122,12 +262419,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "INTERLUDE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "81",
         "title": "It Must Have Been Love",
         "verse": "C F 2x | C F G C F Dm G Am C F G",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "1992",
+        "year": "1987",
         "youtubeUrl": "https://youtu.be/k2C5TjS2sh4?si=uowCyjJlCLZ--LAD"
     },
     {
@@ -262459,7 +264756,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Roxette - Spending My Time",
-            "tempo": 120,
+            "tempo": "171",
             "useFlatNotation": false
         },
         "chorus": "E B C#m A F#m A B C#m",
@@ -262471,7 +264768,7 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:00.62] What's the time? Seems it's already morning\n[00:05.55] I see the sky, it's so beautiful and blue\n[00:11.20] The TV's on, but the only thing showing is a picture of you\n[00:16.48] Oh, I get up and make myself some coffee\n[00:22.97] \n[00:28.27] I try to read a bit but the story's too thin\n[00:33.72] I thank the Lord above\n[00:35.73] You're not here to see me in this shape I'm in\n[00:41.84] \n[00:44.53] Spending my time\n[00:49.82] Watching the days go by\n[00:55.69] Feeling so small\n[00:58.21] I stare at the wall\n[01:01.53] Hoping that you\n[01:04.38] Think of me too\n[01:07.25] I'm spending my time\n[01:12.62] I try to call, but I don't know what to tell you\n[01:18.52] I leave a kiss on your answering machine\n[01:24.48] Oh, help me please\n[01:26.39] Is there someone who can make me wake up from this dream?\n[01:32.93] \n[01:35.10] Spending my time\n[01:40.83] Watching the days go by\n[01:47.06] Feeling so small\n[01:49.27] I stare at the wall\n[01:52.29] Hoping that you are missing me too\n[01:57.13] I'm spending my time (I'm spending my time)\n[02:03.68] Watching the sun go down\n[02:08.58] I fall asleep to the sound of tears of the clown\n[02:14.66] Prayer gone blind\n[02:20.24] I'm spending my time\n[02:24.38] \n[02:26.74] My friends keep telling me, \"Hey, life will go on\"\n[02:33.55] Time will make sure I'll get over you\n[02:39.07] This silly game of love you play, you win only to lose\n[02:45.96] I'm spending my time (spending my time)\n[02:54.40] Watching the days go by\n[03:00.49] Feeling so small\n[03:02.33] I stare at the wall\n[03:05.26] Hoping that you\n[03:08.10] Think of me too\n[03:11.07] I'm spending my time (spending my time)\n[03:16.88] Watching the sun go down\n[03:22.01] I fall asleep to the sound of tears of the clown\n[03:25.28] Prayer gone blind\n[03:29.94] \n[03:34.80] I'm spending my time\n[03:40.76] \n[03:54.16] Spending my time\n[03:57.04] I can't live without your love\n[04:01.27] \n[04:05.15] Spending my time\n[04:08.38] Uh, I'm spending my time, my time, my time\n[04:12.87] The bed is too big without you honey, honey?\n[04:17.15] Spending my time\n[04:19.07] Spending my time\n[04:22.29]",
         "id": "17802337160544rv70o2q7",
         "isPublic": true,
-        "key": "",
+        "key": "E",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
@@ -262481,7 +264778,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "171",
         "title": "Spending My Time",
         "verse": "F#m Bm E F#m D E F#m D E B Bm",
         "verseCue": "",
@@ -274058,7 +276355,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Simple Minds - All The Things She Said",
-            "tempo": 120,
+            "tempo": "104",
             "useFlatNotation": false
         },
         "chorus": "Am Bm C D 4x",
@@ -274071,7 +276368,7 @@ const DEFAULT_SONGS = [
         "id": "1779305577463n3ox493ll",
         "isPublic": true,
         "key": "G",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -274080,12 +276377,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "AqpBRBj2XIP2xalIqGQ6vycBpci2",
-        "tempo": 120,
+        "tempo": "104",
         "title": "All The Things She Said",
         "verse": "Am Dsus4 2x | Am Bm C D",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1986",
+        "year": "1985",
         "youtubeUrl": "https://youtu.be/tytPcvyJASc?si=8r5e69aSwNOsFJg7"
     },
     {
@@ -274756,7 +277053,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Simple Minds - Don't You (Forget About Me)",
-            "tempo": 120,
+            "tempo": "111",
             "useFlatNotation": false
         },
         "chorus": "E D A D",
@@ -274834,12 +277131,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "AqpBRBj2XIP2xalIqGQ6vycBpci2",
-        "tempo": 120,
+        "tempo": "111",
         "title": "Don't You (Forget About Me)",
         "verse": "D E D Em C D 2x",
         "verseCue": "",
         "verseTitle": "INTRO & interlude",
-        "year": "2009",
+        "year": "1985",
         "youtubeUrl": "https://youtu.be/CdqoNKCCt7A?si=uSJ2c1RgxyTFQ_NJ"
     },
     {
@@ -276757,7 +279054,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Sniff 'n' the Tears - Drivers Seat",
-            "tempo": 120,
+            "tempo": "133",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -276769,8 +279066,8 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:22.03] Doing all right\n[00:25.51] A little jiving on a Saturday night\n[00:29.34] 'N come what may\n[00:32.69] Gonna dance the day away\n[00:43.80] Jenny was sweet\n[00:46.98] She always smiled for the people she'd meet\n[00:50.98] On trouble and strife\n[00:54.25] She had another way of looking at life\n[01:05.35] The news is blue (The news is blue)\n[01:09.09] Has it's own way to get to you (Ooh-ooh)\n[01:12.85] What can I do (What can I do?)\n[01:16.32] When I remember my time with you?\n[01:27.19] Pick up your feet\n[01:30.25] Got to move to the trick of the beat\n[01:34.02] There is no elite\n[01:37.52] Just take your place in the driver's seat\n[01:41.64] (Driver's seat, ooh-ooh)\n[01:45.78] (Driver's seat, yeah)\n[01:49.24] Doing all right (Ooh-ooh)\n[01:52.68] A little jiving on a Saturday night (Yeah)\n[01:56.04] 'N come what may (Ooh-ooh)\n[01:59.44] Gonna dance the day away (Yeah)\n[02:03.59] (Driver's seat, ooh-ooh)\n[02:07.49] (Driver's seat, yeah)\n[02:10.75] Jenny was sweet (Ooh-ooh)\n[02:14.24] There is no elite (Yeah)\n[02:17.62] Pick up your feet (Ooh-ooh, ooh-ooh)\n[02:21.83] Pick up, pick up (Yeah)\n[02:25.16] Pick up your feet (Ooh-ooh)\n[02:28.65] Gonna dance the day away (Yeah)\n[02:32.45] (Driver's seat, ooh-ooh, ooh-ooh)\n[02:36.11] (Driver's seat, yeah)\n[02:40.26] (Driver's seat, ooh-ooh)\n[02:43.30] (Driver's seat, yeah)\n[02:52.39] (Yeah)\n[02:57.66] (Driver's seat)\n[03:22.08]",
         "id": "177925930520586i6grzj4",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 1,
+        "key": "Bm",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -276779,12 +279076,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "133",
         "title": "Drivers Seat",
         "verse": "Bm A G",
         "verseCue": "",
         "verseTitle": "All Song",
-        "year": "2014",
+        "year": "1978",
         "youtubeUrl": "https://youtu.be/9SCzVEUlqqA?is=c62b05i6UTk2eQW5"
     },
     {
@@ -277039,7 +279336,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Snow Patrol - Chasing Cars",
-            "tempo": 120,
+            "tempo": "104",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -277064,12 +279361,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "104",
         "title": "Chasing Cars",
         "verse": "A E D A",
         "verseCue": "",
         "verseTitle": "Block 1",
-        "year": "2007",
+        "year": "2006",
         "youtubeUrl": "https://youtu.be/GemKqzILV4w?si=OQYydhnm6NaeLY8Z"
     },
     {
@@ -311749,7 +314046,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "The Animals - House Of The Rising Sun",
-            "tempo": 120,
+            "tempo": "117",
             "useFlatNotation": false
         },
         "chorus": "Am C D F Am C E | Am C D F Am E ",
@@ -311851,7 +314148,7 @@ const DEFAULT_SONGS = [
         "id": "1778668281394uks2u4kf4",
         "isPublic": true,
         "key": "Am",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -311860,12 +314157,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Outro",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "117",
         "title": "House Of The Rising Sun",
         "verse": "Am C D F Am E Am E",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "1990",
+        "year": "1964",
         "youtubeUrl": "https://youtu.be/N4bFqW_eu2I?si=xOCar7QzkdX15WDH"
     },
     {
@@ -318203,7 +320500,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "The Cure - Friday I'm In Love",
-            "tempo": 120,
+            "tempo": "136",
             "useFlatNotation": false
         },
         "chorus": "G A Bm G D A",
@@ -318287,7 +320584,7 @@ const DEFAULT_SONGS = [
         "id": "17792596532990n1dznvi2",
         "isPublic": true,
         "key": "G",
-        "lyricOffset": 2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -318296,12 +320593,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "BRIDGE",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "136",
         "title": "Friday I'm In Love",
         "verse": "D G D A Bm G D A",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2011",
+        "year": "1992",
         "youtubeUrl": "https://youtu.be/mGgMZpGYiy8?si=8sze_GD_1BHmOeGB"
     },
     {
@@ -319338,7 +321635,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "The Police - Every Breath You Take",
-            "tempo": 120,
+            "tempo": "117",
             "useFlatNotation": false
         },
         "chorus": "G# Fm C# D# Fm | G#",
@@ -319401,7 +321698,7 @@ const DEFAULT_SONGS = [
         "id": "1779014420005g2ogxly6i",
         "isPublic": true,
         "key": "F#",
-        "lyricOffset": -1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -319410,7 +321707,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "117",
         "title": "Every Breath You Take",
         "verse": "G# Fm C# D# G#",
         "verseCue": "",
@@ -322714,7 +325011,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "The Script - Exit Wounds",
-            "tempo": 120,
+            "tempo": "115",
             "useFlatNotation": false
         },
         "chorus": "Am F G Dm | Am F Dm F",
@@ -322759,7 +325056,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "115",
         "title": "Exit Wounds",
         "verse": "Am F G Dm",
         "verseCue": "",
@@ -328466,7 +330763,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Tom Petty - Free Fallin'",
-            "tempo": 120,
+            "tempo": "84",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -328482,7 +330779,7 @@ const DEFAULT_SONGS = [
         "id": "177904119256828rk19s02",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": 2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -328491,7 +330788,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "84",
         "title": "Free Fallin'",
         "verse": "F Bb Bb F C",
         "verseCue": "",
@@ -329086,7 +331383,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Tom Petty - I Won't Back Down",
-            "tempo": 120,
+            "tempo": "114",
             "useFlatNotation": false
         },
         "chorus": "C G C | D G C | Em D G 2x",
@@ -329102,7 +331399,7 @@ const DEFAULT_SONGS = [
         "id": "1779288053435j4ja03yoi",
         "isPublic": true,
         "key": "Em",
-        "lyricOffset": 1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -329111,7 +331408,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "114",
         "title": "I Won't Back Down",
         "verse": "Em D G 2x Em D C |  Em D G",
         "verseCue": "",
@@ -329936,7 +332233,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Tom Petty & The Heartbreakers - Into The Great Wide Open",
-            "tempo": 120,
+            "tempo": "82",
             "useFlatNotation": false
         },
         "chorus": "Em Emaj7 Em7 Em6 2x Am G F C | G C G | D",
@@ -330011,7 +332308,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "82",
         "title": "Into The Great Wide Open",
         "verse": "Em Emaj7 Em7 Em6 2x",
         "verseCue": "",
@@ -331171,7 +333468,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Tom Petty & The Heartbreakers - Learning To Fly",
-            "tempo": 120,
+            "tempo": "117",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -331186,8 +333483,8 @@ const DEFAULT_SONGS = [
         ],
         "id": "1779015846625n9uaceyak",
         "isPublic": true,
-        "key": "",
-        "lyricOffset": -1,
+        "key": "C",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -331196,12 +333493,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "117",
         "title": "Learning To Fly",
         "verse": "F C Am G",
         "verseCue": "",
         "verseTitle": "All song",
-        "year": "1993",
+        "year": "1991",
         "youtubeUrl": "https://youtu.be/v-LsnQPwHzI?si=LCNVdNYO6PukKazW"
     },
     {
@@ -338188,7 +340485,7 @@ const DEFAULT_SONGS = [
         "verse": "D# F A# D#3 | D# F A# F | Cm2 D# F A#2",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1986",
         "youtubeUrl": "https://youtu.be/gtmM4tqmtKs?si=cm7okx2X3s1fhEpt"
     },
     {
@@ -342828,6 +345125,449 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO & CHORUS",
         "year": "1993",
         "youtubeUrl": "https://youtu.be/HtxoW7Yuiaw?si=YbD7SKhRxDhz9ssG"
+    },
+    {
+        "artist": "Tracy Chapman",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "D",
+                    "time": 2.652,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 5.569,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 8.935,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 12.243,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 15.528,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 18.832,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 22.091,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 25.427,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 28.637,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 31.931,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 35.21,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 38.455,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 40,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 46.634,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 49.816,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 53.097,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 56.364,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 59.599,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 62.921,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 66.053,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 69.359,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 71.025,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 77.398,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 80.577,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 82.181,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 83.795,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 86.994,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 88.534,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 90.241,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 93.428,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 96.623,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 99.797,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 101.469,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 103.195,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 106.28,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 109.506,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A7",
+                    "time": 112.803,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 116.072,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 119.25,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 122.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 125.731,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 127.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 133.821,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 136.984,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 138.633,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 140.176,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 143.349,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 144.948,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 146.549,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 149.804,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 152.936,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 156.087,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 157.754,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 159.295,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 162.528,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 164.075,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 165.737,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 168.911,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 172.144,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 175.516,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 177.041,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 178.624,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Em",
+                    "time": 181.829,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 183.44,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 185.056,
+                    "yOffset": -35
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 3,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 12,
+                    "name": "VERSE 1",
+                    "startIdx": 4,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 21,
+                    "name": "VERSE 2",
+                    "startIdx": 13,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 32,
+                    "name": "CHORUS",
+                    "startIdx": 22,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 41,
+                    "name": "VERSE 3",
+                    "startIdx": 33,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 64,
+                    "name": "CHORUS",
+                    "startIdx": 42,
+                    "type": "chorus"
+                }
+            ],
+            "duration": 300,
+            "name": "Tracy Chapman - Baby Can I Hold You",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "D Em G 2x Bm A D",
+        "chorusCue": "",
+        "chorusTitle": "Chorus",
+        "customMapSections": [
+            {
+                "endIdx": 3,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 12,
+                "name": "VERSE 1",
+                "startIdx": 4,
+                "type": "verse"
+            },
+            {
+                "endIdx": 21,
+                "name": "VERSE 2",
+                "startIdx": 13,
+                "type": "verse"
+            },
+            {
+                "endIdx": 32,
+                "name": "CHORUS",
+                "startIdx": 22,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 41,
+                "name": "VERSE 3",
+                "startIdx": 33,
+                "type": "verse"
+            },
+            {
+                "endIdx": 64,
+                "name": "CHORUS",
+                "startIdx": 42,
+                "type": "chorus"
+            }
+        ],
+        "dateAdded": "2026-07-01T19:58:22.896Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:15.48] \"Sorry\"\n[00:18.05] Is all that you can't say\n[00:21.76] \n[00:24.41] Years gone by and still\n[00:27.98] \n[00:30.73] Words don't come easily\n[00:34.68] \n[00:37.01] Like sorry, like sorry\n[00:40.25] \n[00:45.47] \"Forgive me\"\n[00:48.89] Is all that you can't say\n[00:52.46] \n[00:55.09] Years gone by and still\n[00:58.81] \n[01:01.69] Words don't come easily\n[01:05.21] \n[01:07.82] Like forgive me, forgive me\n[01:11.63] \n[01:16.04] But you can say, \"Baby\n[01:19.48] Baby, can I hold you tonight?\n[01:23.64] \n[01:26.35] Maybe if I told you the right words\n[01:31.04] Ooh, at the right time\n[01:34.60] You'd be mine\"\n[01:37.29] \n[01:41.79] \"I love you\"\n[01:45.32] Is all that you can't say\n[01:49.45] \n[01:51.68] Years gone by and still\n[01:55.68] \n[01:57.85] Words don't come easily\n[02:03.42] Like I love you, I love you\n[02:07.30] \n[02:11.62] But you can say, \"Baby\n[02:15.62] Baby, can I hold you tonight?\n[02:19.67] \n[02:22.19] Maybe if I told you the right words\n[02:27.47] Ooh, at the right time, you'd be mine\"\n[02:31.65] \n[02:35.55] Baby, can I hold you tonight?\n[02:39.21] \n[02:41.34] Maybe if I told you the right words\n[02:46.41] Ooh, at the right time, you'd be mine\n[02:50.71] \n[02:55.95] You'd be mine\n[02:58.96] \n[03:03.20] You'd be mine\n[03:03.69]",
+        "id": "1782935902896w26rzjkvu",
+        "isPublic": true,
+        "key": "D",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "Baby Can I Hold You",
+        "verse": "D A 2x D A Em A7 | D A Em G A",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1987",
+        "youtubeUrl": "https://youtu.be/DqoLMGSBGYc?si=k9StXSMniE0EDs2w"
     },
     {
         "artist": "Tracy Chapman",
@@ -348905,7 +351645,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "U2 - When Love Comes To Town",
-            "tempo": 120,
+            "tempo": "115",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -348921,7 +351661,7 @@ const DEFAULT_SONGS = [
         "id": "1779086643509ycbds9c8j",
         "isPublic": true,
         "key": "A",
-        "lyricOffset": -2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -348930,12 +351670,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "115",
         "title": "When Love Comes To Town",
         "verse": "A E",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "1992",
+        "year": "1988",
         "youtubeUrl": "https://youtu.be/_TGU35i8czo?si=PieNvyyRdH_CbUK6"
     },
     {
