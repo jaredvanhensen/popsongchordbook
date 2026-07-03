@@ -2833,6 +2833,7 @@ function renderSuggestedChords(groups) {
                     const proceedWithEditing = () => {
                         buttonsRow.innerHTML = '';
                         buttonsRow.classList.add('editing');
+                        groupContainer.classList.add('editing');
                         actions.innerHTML = '';
 
                         // Add title input in the header
@@ -2852,9 +2853,9 @@ function renderSuggestedChords(groups) {
 
                         header.replaceChild(titleInput, titleSpan);
 
-                        const input = document.createElement('input');
-                        input.type = 'text';
+                        const input = document.createElement('textarea');
                         input.className = 'chord-block-edit-input';
+                        input.rows = 2;
                         
                         const originalText = group.chords ? group.chords.join(' ') : '';
                         let displayText = originalText;
@@ -2887,7 +2888,10 @@ function renderSuggestedChords(groups) {
 
                         input.onkeydown = (e) => {
                             e.stopPropagation(); // Prevent global timeline shortcuts from firing while typing
-                            if (e.key === 'Enter') finishEdit(true);
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                finishEdit(true);
+                            }
                             if (e.key === 'Escape') finishEdit(false);
                         };
 

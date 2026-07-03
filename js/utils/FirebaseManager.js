@@ -39,6 +39,7 @@ class FirebaseManager {
             // Listen for global settings/admins updates
             this.database.ref('settings/admins').on('value', (snapshot) => {
                 this.cachedAdmins = snapshot.val() || {};
+                document.dispatchEvent(new CustomEvent('adminsLoaded', { detail: this.cachedAdmins }));
             });
 
             // Initialize App Check (if available and configured)
@@ -2028,7 +2029,7 @@ class FirebaseManager {
             const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
             await this.database.ref(`bandMembers/${bandId}/${uid}`).set({
                 displayName: displayName,
-                role: this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member',
+                role: this.isAdmin(uid) ? 'admin' : 'member',
                 joinedAt: firebase.database.ServerValue.TIMESTAMP
             });
 
@@ -2086,7 +2087,7 @@ class FirebaseManager {
             const displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
             await this.database.ref(`bandMembers/${bandId}/${uid}`).set({
                 displayName: displayName,
-                role: this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member',
+                role: this.isAdmin(uid) ? 'admin' : 'member',
                 joinedAt: firebase.database.ServerValue.TIMESTAMP
             });
 
@@ -2156,7 +2157,7 @@ class FirebaseManager {
                 // 2. If it's the current user, get details from local auth user object
                 else if (memberUid === this.currentUser.uid) {
                     displayName = this.currentUser.displayName || this.currentUser.email.split('@')[0];
-                    role = this.currentUser.email === 'jared@vanhensen.nl' ? 'admin' : 'member';
+                    role = this.isAdmin(memberUid) ? 'admin' : 'member';
                 }
                 // 3. Fallback to reading users/ node with try-catch safety
                 else {

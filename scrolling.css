@@ -3782,6 +3782,9 @@ body.ctrl-held .chord-item {
 
 .chord-block-edit-input {
     width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    resize: vertical;
     padding: 8px 12px;
     border: 2px solid #3b82f6;
     border-radius: 8px;
@@ -3793,6 +3796,7 @@ body.ctrl-held .chord-item {
     outline: none;
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
     margin: 4px 0;
+    box-sizing: border-box;
 }
 
 
@@ -3968,8 +3972,18 @@ body.ctrl-held .chord-item {
     width: 100%;
 }
 
+.chord-toolbar-group.editing {
+    flex: 1 1 100%;
+    width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box;
+}
+
 .chord-block-edit-input {
     width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    resize: vertical;
     padding: 8px 12px;
     border: 2px solid #3b82f6;
     border-radius: 8px;
@@ -3981,6 +3995,7 @@ body.ctrl-held .chord-item {
     outline: none;
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
     margin: 4px 0;
+    box-sizing: border-box;
 }
 
 .chord-toolbar-buttons-row.editing {
@@ -3988,6 +4003,9 @@ body.ctrl-held .chord-item {
     border-radius: 8px;
     padding: 4px;
     border: 1px dashed #cbd5e1;
+    width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box;
 }
 
 /* --- SONG MAP OVERLAY --- */

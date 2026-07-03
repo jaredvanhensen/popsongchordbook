@@ -177,6 +177,20 @@ class App {
         this.setupDecadeFilters();
         // Setup Genre Filters
         this.setupGenreFilters();
+
+        // Setup listener for admins list load/update to dynamic styling
+        document.addEventListener('adminsLoaded', () => {
+            const user = this.firebaseManager.auth.currentUser;
+            const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
+            const newMembersBtn = document.getElementById('btnNewMembers');
+            if (isAdmin) {
+                document.body.classList.add('is-admin');
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                document.body.classList.remove('is-admin');
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+            }
+        });
     }
 
     pushModalState(modalId, closeFn) {
@@ -504,9 +518,10 @@ class App {
         // Show the correct dashboard link in sidebar based on role
         await this.updateDashboardNavLink(user);
 
-        // Add admin styling if the user is jared@vanhensen.nl
+        // Add admin styling if the user is an admin
         const newMembersBtn = document.getElementById('btnNewMembers');
-        if (user && user.email === 'jared@vanhensen.nl') {
+        const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
+        if (isAdmin) {
             document.body.classList.add('is-admin');
             if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
         } else {
