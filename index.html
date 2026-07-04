@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.192 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
-    <meta name="version" content="3.192">
+    <title>PopSongChordBook v3.193 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.193">
     <meta name="description"
         content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
@@ -67,8 +66,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.192">
-    <link rel="stylesheet" href="landing.css?v=3.192">
+    <link rel="stylesheet" href="styles.css?v=3.193">
+    <link rel="stylesheet" href="landing.css?v=3.193">
     <style>
         /* =============================================
            Hero background: screenshot as zoomed,
@@ -463,9 +462,586 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.192">
-    <script>const SITE_VERSION = '3.192';</script>
+    <meta name="application-version" content="v3.193">
+    <script>const SITE_VERSION = '3.193';</script>
     <!-- Version history: 
+        v3.193: Increased filter buttons responsive hiding width threshold to 1280px to fix tablet overlap.
+        v3.192: Enabled modal content scrolling and restricted max-height to 90vh to prevent cut-off header.
+        v3.191: Relocated Year/Genre filters to modal for screens <= 1024px and added genre selection checkboxes.
+        v3.190: Populated original release year metadata for 77 default songs using verified original release dates. 
+        v3.190: Replaced Import Your Songs hero feature with Band Practice in the landing page hero block.
+        v3.186: Added Band Practice showcase section with slider on landing page, and optimized Band Members & Practice SEO.
+        v3.185: Reordered Band Members Presence before Band Setlists, and renamed header to Band Setlists.
+        v3.184: Replaced browser alerts/prompts with custom premium modals for a unified interface design.
+        v3.183: Enabled multiple setlists with custom naming (e.g. Wedding, Easter Party) on the Band Practice page.
+        v3.182: Deployed updated database rules to grant write permissions to the settings/admins list.
+        v3.181: Switched the administrators modal to a flex card list to prevent collapsing toggle switches on mobile viewports.
+        v3.180: Sorted key filters dropdown chromatically starting from C, putting minor keys directly after major keys.
+        v3.179: Fixed minor key enharmonic naming format to attach 'm' to both keys (e.g. A#m / Bbm).
+        v3.178: Combined enharmonic equivalent musical keys (e.g. C# / Db, G# / Ab) in the song list key filter.
+        v3.177: Increased Year column width to 100px to prevent sort indicators clashing with column headers.
+        v3.176: Optimized song table "Added" column width and mobile min-widths, and reduced padding for mobile sort headers.
+        v3.175: Fixed Guitar Chord Trainer back button issue where returning from general practice auto-opened a fallback song.
+        v3.174: Removed sortable option and sort arrow indicators from Status, CTL, and MAP headers.
+        v3.173: Increased Added column width to 120px and added white-space: nowrap to prevent dates wrapping. Globally hid the Block 3 (Pre-Chorus) column.
+        v3.172: Increased Year column header width to 90px to prevent overlapping with sorting indicator icons.
+        v3.171: Added Year column and hid Block 4 column on the song list table.
+        v3.170: Fixed overflow clipping on header-bar and filters-section on desktop/landscape view to allow Years and Genre dropdown popovers to function.
+        v3.169: Enabled Years and Genre dropdown buttons in landscape and desktop views as well, aligning them cleanly below their toggle buttons.
+        v3.168: Restricted Years and Genre dropdown buttons to mobile portrait mode only, restoring original layout on desktop/landscape. Applied unified styling to both dropdowns.
+        v3.167: Fixed mobile clipping of Years dropdown and added matching Genre dropdown popover next to it.
+        v3.166: Replaced inline decade filters with a dropdown popup menu containing search and decade selection options.
+        v3.165: Fine-tuned decade filter button font-size to 7.5px on mobile portrait.
+        v3.164: Reduced decade filter button size on mobile portrait views for a cleaner layout.
+        v3.163: Replaced header Chord Trainer button with decade filter toggle buttons (<80s to 20s).
+        v3.162: Added Release Year metadata field for songs, with automatic year population from MusicBrainz.
+        v3.161: Enabled editing block labels directly from the scrolling timeline in edit mode.
+        v3.160: Added clear golden background highlight and glow on the Song Detail simplify chords button when active.
+        v3.159: Scaled down chord font size in the Now Playing timeline container when the chord name is 6 or more characters (e.g. Ebsus4).
+        v3.158: Extended verify-email.html action handler to support resetPassword mode, implementing a custom password reset form.
+        v3.157: Updated contact email to info@popsongchordbook.com on compliance page.
+        v3.156: Corrected formatting of list items on account-remove.html compliance page.
+        v3.155: Added account deletion request page account-remove.html to comply with Google Play Console requirements.
+        v3.154: Updated version baseline.
+        v2.840: Linked Google Fonts (Inter) in songlist.html to prevent font family mismatch and layout/sizing shifting of left sidebar items when navigating.
+        v2.839: Resolved redirect alert error ("No Song ID provided. Redirecting to library.") when accessing the Chord Trainer from the left sidebar in guitar mode, and fixed missing database key synchronization in both Piano and Guitar Chord Trainers.
+        v2.838: Replaced duplicate user avatar icon with diagonal stacked CDs for Library. Fixed vertical scrolling on Chord Theory and Guitar Chord Theory page when viewed in desktop/landscape modes.
+        v2.815: Enlarged Chord Overview card diagrams on desktop to 150px x 180px and set minmax column width to 180px, while keeping the optimized compact 3-column layout on mobile portrait views. Removed the redundant Guide Toggle (💡 Hints) button from the PC/Landscape header.
+        v2.814: Refined the Guitar Chord Trainer mobile chord suggestion wrapper to left-align (flex-start) all wrapped blocks, ensuring a clean, natural reading layout while keeping Blocks 3 and 4 fully accessible and visible in two rows.
+        v2.813: Re-aligned the Guitar Chord Trainer mobile header layout to display the guitar icon side-by-side with the mode text in one row, and converted the chord suggestion strip into a fluid wrapping flex grid to bring all chord blocks (including blocks 3 and 4) fully onto the screen.
+        v2.812: Compacted the Guitar Chord Trainer header and control sections on mobile portrait screens (< 600px) to maximize fretboard workspace, and forced suggestion buttons into a clean, horizontal scrolling chord strip.
+        v2.811: Compacted Guitar Chord Trainer Chord Overview cards and diagrams globally, removed the redundant Chord Overview header banner and recreate mode swapper from HTML, and updated grid settings to repeat(auto-fill, minmax(120px, 1fr)) with 12px gaps.
+        v2.810: Upgraded Guitar Chord Trainer Mobile Portrait Overview screen layout to support a clean, compact 3-column row displaying 3 chords in a row. Intercepted header BACK button in practice mode to return to Chord Overview instead of leaving. Removed overview strum button and turned Chord Diagrams into direct interactive strum audio triggers.
+        v2.809: Silenced initial chord strum on Guitar Chord Trainer page load to prevent unwanted audio, preserving automatic strumming on user clicks and subsequent navigations.
+        v2.808: Upgraded Guitar Chord Trainer layout: default starts in Chord Overview screen, consolidated BACK button into bottom actions row, turned SHOW SHAPE into 💡 icon, and renamed buttons to CHECK and SKIP for a single-row mobile portrait fit.
+        v2.807: Mobile Guitar Chord Trainer layout improvements: removed the guide toggle button on mobile recreate mode to increase space and preserve challenge, set all action icon sizes to 0.85rem for a tighter header, and shortened switch buttons to Chords/Test with dynamic column spanning.
+        v2.806: Optimized Guitar Chord Trainer mobile portrait experience: unlocked viewport scrolling, created a perfectly aligned 2x2 grid of uniform header control pills (including a mobile-enabled audio toggle), and hidden reference chord diagrams during recreation training exercises to maintain the educational challenge.
+        v2.805: Fixed Guitar Chord Trainer fretboard workbench rendering issues, added robust mobile portrait double-column action wrapping, and refined dynamic navigation modes and recreation triggers.
+        v2.804: Upgraded the Guitar Chord Trainer hints/guide mode to dynamically display all natural notes (C, D, E, F, G, A, B) across the interactive fretboard, and added a premium glassmorphic Chord Overview screen with strum audition buttons and seamless Practice Mode recreation click integration.
+        v2.803: Upgraded open string controls on the virtual fretboard nut to display resolved musical note names (e.g. E, A, D) on selection/hints, ensuring complete visual note consistency across the board.
+        v2.802: Updated the virtual fretboard Hints/Guide dots to dynamically display resolved musical note names (e.g. C, F#, G) instead of finger position numbers, helping users visualize exact guitar note layouts.
+        v2.801: Re-implemented the header Hints/Guide lightbulb toggle button for the Guitar Chord Trainer, wiring it up to dynamically reveal color-coded finger positioning dots directly on the virtual fretboard.
+        v2.800: Removed hints (guide), leaderboard, and stats buttons/icons from the Guitar Chord Trainer header to present a cleaner, less cluttered interface.
+        v2.799: Upgraded the Guitar Chord Trainer to colorize chord blocks matching the Song Map sections (Intro/Verse/Chorus = blue, Interlude = amber, Outro = teal), boosting structural alignment while maintaining high contrast white chord text.
+        v2.798: Released a dedicated, ultra-premium Interactive Guitar Chord Trainer featuring a real-time responsive virtual fretboard with interactive string controls, acoustic strum feedback, basic/pro complexity switching, and full song block integration.
+        v2.797: Removed Ultimate-Guitar link from Tears For Fears - "Advice For The Young At Heart" in the database and default_songs.js, and upgraded the Lyrics HUD in Landscape/PC profiles to premium Nebula Dark Glass featuring true glassmorphism, 24px blur, contrast tuning, and light specular borders.
+        v2.796: Adjusted desktop Lyrics HUD down in PC landscape to ensure full visibility of the bar count, and upgraded to an ultra-premium translucent dark glass style.
+        v2.795: Fixed PC edit mode toolbar overlap with Lyrics HUD using ResizeObserver top-offset calculations, and limited Song Detail modal BPM/Key inputs to max 3 characters.
+        v2.794: Seeded public Beginner setlist from admin's private setlist, moved it right after Public Songs, and camelcased name to "Beginner".
+        v2.793: Simplified BEGINNER setlist label to "🌐 BEGINNER" and resolved "Public Songs" loading race condition.
+        v2.792: Implemented the public, read-only BEGINNER setlist available to all users, with admin modifications.
+        v2.791: Refactored the profile song counter to dynamically display active setlist/filtered song counts.
+        v2.790: Updated version baseline.
+        v2.787: Implemented comprehensive SEO infrastructure: Public Song Previews, Artist Hubs, and Dynamic Sitemap.
+        v2.786: Added Full Screen toggle to Mobile Landscape header to hide browser URL bar.
+        v2.785: Shifted metadata down in Mobile Landscape to fix clipping.
+        v2.784: Compacted Mobile Landscape header to maximize timeline space.
+        v2.783: Increased base header height in Mobile Landscape for all screen sizes.
+        v2.782: Increased header height in Mobile Landscape for better metadata visibility.
+        v2.781: Thinned out header and Lyrics HUD in Mobile Landscape to maximize timeline space.
+        v2.780: Increased header container z-index to resolve overlap with Lyrics HUD.
+        v2.779: Fixed z-index conflict between Lyrics HUD and More Options menu.
+        v2.778: Fixed songlist.html layout bug caused by accidental inclusion of landing.css.
+        v2.777: Reduced chord box width by 50% (maintaining height) in Mobile Landscape for better visibility.
+        v2.776: Reduced chord box size by 50% in Mobile Landscape to improve visibility for complex songs.
+        v2.775: Removed text shadow from Mobile Portrait Lyrics HUD for better legibility on light background.
+        v2.774: Switched Mobile Portrait (Full Mode) Lyrics HUD to light theme (white background / black text).
+        v2.773: Reverted Lyrics HUD colors to original semi-transparent styling per user preference.low bar numbers).
+        v2.765: Enforced unyielding two-row Lyrics HUD height using explicit min-heights and uncollapsible non-breaking spaces.
+        v2.764: Stabilized Lyrics HUD height to remain steady on two rows high.
+        v2.763: Added missing C#sus2, D#7sus2, and other suspended/added tone guitar chords, plus robust proxy diagram fallbacks.
+        v2.762: Refined Lyrics HUD lookahead logic to only preview upcoming text within 4 seconds of timestamp.
+        v2.761: Increased Pure Timeline tablet thumbnail to 135px.
+        v2.760: Increased Pure Timeline tablet thumbnail to 90px.
+        v2.720: Shifted Pure Timeline lyrics HUD higher.
+        v2.719: Fixed lyrics red line length.
+        v2.718: Refined lyrics disabled red line.
+        v2.717: Restored missing lyrics icon in Pure Timeline.
+        v2.716: Refined icon centering in Pure Timeline header.
+        v2.715: Aligned speed icon in Pure Timeline header.
+        v2.714: Optimized Pure Timeline controls for mobile portrait.
+        v2.713: Fixed lyrics HUD mobile portrait overflow.
+        v2.712: Upgraded to interactive scrolling timelines and optimized loading.
+        v2.711: Admin UI: Improved Requested Songs layout for mobile portrait and reduced column widths in Profile tables.
+        v2.710: Enhanced PWA metadata and hidden Audition Keyboard on mobile devices for a cleaner interface.
+        v2.706: Final SEO and layout synchronization.
+        v2.661: Splash screen session optimization and Theory page header cleanup.
+        v2.660: High-Res Guitar+Keyboard PWA Icon and Splash Screen.
+        v2.653: Added A# and A#m Guitar Chord diagrams.
+        v2.640: Corrected Power Chord (5) diagram anchoring.
+        v2.634: Fixed floating menu closing logic.
+        v2.613: Protected Admin/Premium from Paywall and matched toggle design.
+        v2.612: Implemented remote-controlled Paywall toggle in Admin settings.
+        v2.611: Added experimental Paywall Modal design for landing page.
+        v2.609: Added Notes/Tips toggle and fixed unitform chord button sizing.
+        v2.608: Optimized mobile chord block sizing and space utilization.
+        v2.607: Fixed mobile instrument grid overflow and matched reference design.
+        v2.605: Re-hid instrument modal and added logic documentation.
+        v2.604: Fixed mobile 'Open Chord Book' button visibility and song loading issue.
+        v2.603: Integrated Song Map toggle, removed legacy default song seeding (3.2MB saving), and forced light mode for mobile browsers.
+        v2.602: Micro-refinement: Nudged entire Lyrics button up 2px on mobile, restored icons, fixed lyrics HUD hide
+        v2.601: Micro-refinement: Nudged entire Lyrics button up 2px on mobile (encoding error)
+        v2.597: Reinforced mobile portrait toolbar optimization (scrolling.css)
+        v2.596: Nuclear mobile layout fix (Chord Timeline)
+    -->
+    <script>
+        // Register Service Worker (required for Play Store TWA — HTTPS only)
+        if ('serviceWorker' in navigator && location.protocol === 'https:') {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('[SW] Registered, scope:', reg.scope))
+                    .catch(err => console.warn('[SW] Registration failed:', err));
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-logo-container">
+                <img src="images/LogoSmall1050x1050.jpg" alt="PopSongChordBook Logo" class="hero-logo-img">
+            </div>
+            <h1 class="hero-title">Pop Song Chord Book</h1>
+            <p class="hero-subtitle">The Ultimate Pop Song Book for Guitar, Piano & Ukulele</p>
+            <p class="hero-description">
+                Never miss a chord again. Never get lost in a song.
+                The fastest way to learn pop songs on piano or guitar. 
+                Stop memorizing chords — start playing songs instantly.
+            </p>
+            <div class="hero-buttons" style="gap: 10px;">
+                <a href="songlist.html" id="browseSongListBtn" class="btn btn-primary paywall-trigger"
+                    style="padding: 16px 20px; border: 2px solid rgba(255, 255, 255, 0.4); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                    <span class="btn-icon">📋</span>
+                    <span>Open Chord Book</span>
+                </a>
+                <a href="quickstart.html" class="btn"
+                    style="background: rgba(255,255,255,0.15); color: #ffffff; border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(5px); padding: 16px 20px;">
+                    <span class="btn-icon">⚡</span>
+                    <span>Quick Start Guide</span>
+                </a>
+            </div>
+            
+            <div class="hero-features-row">
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">🎵</div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">Hundreds of Songs</span>
+                        <span class="hero-feature-desc">Pop hits across all decades</span>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">⭐</div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">Easy Chords</span>
+                        <span class="hero-feature-desc">Simplified for every player</span>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">📜</div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">Scrolling Chords</span>
+                        <span class="hero-feature-desc">Auto-scroll lyrics & chords</span>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">🎓</div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">Chord Trainer</span>
+                        <span class="hero-feature-desc">Master all popular chords</span>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">
+                        <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="22" height="16" style="display: block;">
+                            <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000" />
+                            <path d="M 45,24 27,14 27,34" fill="#fff" />
+                        </svg>
+                    </div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">YouTube Jamalong</span>
+                        <span class="hero-feature-desc">Play in sync with the video</span>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="hero-feature-icon-wrapper">👥</div>
+                    <div class="hero-feature-text">
+                        <span class="hero-feature-title">Band Practice</span>
+                        <span class="hero-feature-desc">Synced Chord Timelines across devices and setlists creation.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Video Section -->
+    <div class="promo-section">
+        <div class="container">
+            <h2 class="section-title">See it in Action</h2>
+            <p class="section-subtitle">Experience the ultimate playalong songbook in 30 seconds</p>
+            <div class="video-container">
+                <video controls preload="metadata" poster="videos/Thumbnail.png">
+                    <source src="videos/30SecondsPromo-PSCB.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Power Features Section -->
+    <div class="features-section">
+        <div class="container">
+            <h2 class="section-title"><span class="emoji-icon">🔥</span> What makes it powerful?</h2>
+            <p class="section-subtitle">Everything you need to master your favorite songs</p>
+            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; text-align: center;">
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3>Interactive Chords</h3>
+                    <p>Click any chord to see diagrams and hear how it sounds</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Chord Training</h3>
+                    <p>Master your chords with our new interactive 🎹 Chord Trainer game</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Practice anywhere with full mobile support</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Personal Setlists</h3>
+                    <p>Create and organize your favorite songs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Search</h3>
+                    <p>Find songs by artist, title, or key</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎹</div>
+                    <h3>MIDI Support</h3>
+                    <p>Input and record your own songs in real-time using any MIDI keyboard for professional precision</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Chord Teleprompter</h3>
+                    <p>Experience the Scrolling Timeline where lyrics and chords flow together like a professional teleprompter</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="60" height="42">
+                            <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.63-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000" />
+                            <path d="M 45,24 27,14 27,34" fill="#fff" />
+                        </svg>
+                    </div>
+                    <h3>Chord Jam Along</h3>
+                    <p>The ultimate jam along experience. Play along with YouTube video tutorials and stay in perfect sync.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px; font-size: 55px;">👥</div>
+                    <h3>Band Practice Tool</h3>
+                    <p>Connect and jam with band members in real-time. The ultimate band tool and musicians tool for rehearsal sync.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px; font-size: 55px;">🎓</div>
+                    <h3>Music Teacher Tool</h3>
+                    <p>A complete teacher student tool. Assign practice songs, track progress, and organize student lessons seamlessly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                            <polyline points="16 6 12 2 8 6"></polyline>
+                            <line x1="12" y1="2" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h3>Share your songs</h3>
+                    <p>Share your own chord arrangements and custom creations with the community</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
+                        <svg viewBox="0 0 512 512" width="60" height="60" style="transform: rotate(90deg);">
+                            <g>
+                                <path fill="#FFD782" d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C304.552,490.392,300.599,494.345,295.724,494.345z" />
+                                <path fill="#FFC36E" d="M295.724,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C304.552,490.392,300.599,494.345,295.724,494.345z" />
+                                <path fill="#C3E678" d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V123.586c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v361.931C392.828,490.392,388.875,494.345,384,494.345z" />
+                                <path fill="#A5D76E" d="M384,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828H384 c4.875,0,8.828,3.953,8.828,8.828v256C392.828,490.392,388.875,494.345,384,494.345z" />
+                                <path fill="#00D2FF" d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828V335.448c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v150.069C128,490.392,124.047,494.345,119.172,494.345z" />
+                                <path fill="#9BE6D2" d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V70.621c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v414.897C481.103,490.392,477.151,494.345,472.276,494.345z" />
+                                <path fill="#78D2BE" d="M472.276,494.345h-44.138c-4.875,0-8.828-3.953-8.828-8.828V176.552c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v308.966C481.103,490.392,477.151,494.345,472.276,494.345z" />
+                                <path fill="#FF6464" d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828v-256c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v256C216.276,490.392,212.323,494.345,207.448,494.345z" />
+                                <path fill="#D2555A" d="M207.448,494.345H163.31c-4.875,0-8.828-3.953-8.828-8.828V282.483c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v203.034C216.276,490.392,212.323,494.345,207.448,494.345z" />
+                                <path fill="#18BDF6" d="M119.172,494.345H75.034c-4.875,0-8.828-3.953-8.828-8.828v-97.103c0-4.875,3.953-8.828,8.828-8.828 h44.138c4.875,0,8.828,3.953,8.828,8.828v97.103C128,490.392,124.047,494.345,119.172,494.345z" />
+                                <g>
+                                    <path fill="#D7DEED" d="M26.483,450.207H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V450.207z" />
+                                    <path fill="#D7DEED" d="M26.483,397.241H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V397.241z" />
+                                    <path fill="#D7DEED" d="M26.483,344.276H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V344.276z" />
+                                    <path fill="#D7DEED" d="M26.483,291.31H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V291.31z" />
+                                    <path fill="#D7DEED" d="M26.483,238.345H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V238.345z" />
+                                    <path fill="#D7DEED" d="M26.483,185.379H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V185.379z" />
+                                    <path fill="#D7DEED" d="M26.483,132.414H8.828c-4.875,0-8.828-3.953-8.828-8.828l0,0c0-4.875,3.953-8.828,8.828-8.828 h17.655V132.414z" />
+                                    <path fill="#D7DEED" d="M26.483,79.448H8.828C3.953,79.448,0,75.496,0,70.621l0,0c0-4.875,3.953-8.828,8.828-8.828h17.655 V79.448z" />
+                                </g>
+                                <path fill="#C7CFE2" d="M26.483,494.345L26.483,494.345c-4.875,0-8.828-3.953-8.828-8.828V17.655 c0-4.875,3.953-8.828,8.828-8.828l0,0c4.875,0,8.828,3.953,8.828,8.828v467.862C35.31,490.392,31.358,494.345,26.483,494.345z" />
+                                <path fill="#AFB9D2" d="M0,494.345L0,494.345c0-4.875,3.953-8.828,8.828-8.828h494.345c4.875,0,8.828,3.953,8.828,8.828l0,0 c0,4.875-3.953,8.828-8.828,8.828H8.828C3.953,503.172,0,499.22,0,494.345z" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Song Map</h3>
+                    <p>Get a bird's-eye view of your entire song structure and jump instantly to any section</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create your own Songbook Section -->
+    <div class="showcase-section">
+        <div class="container">
+            <h2 class="section-title">Create your own Songbook</h2>
+            <p class="section-subtitle">Add your favorite songs and put them in your own setlists</p>
+            <div class="showcase-icon">📚</div>
+        </div>
+    </div>
+
+    <!-- Featured Artists Section -->
+    <div class="artists-section">
+        <div class="container">
+            <h2 class="section-title">Featured Artists</h2>
+            <p class="section-subtitle">Play popular songs from legendary artists</p>
+
+            <img src="images/PopSongChordBookArtists.jpg" alt="Featured Artists"
+                style="width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); margin-top: 24px;">
+
+            <div
+                style="margin-top: 32px; padding-bottom: 120px; font-size: 1.15rem; line-height: 1.6; color: #475569; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; display: block; overflow: visible; height: auto;">
+                <p>Unlock your musical potential and learn to play the unforgettable hits of your favorite artists like
+                    Michael Jackson, Taylor Swift, U2, and George Michael. Whether you're a beginner or an experienced
+                    musician, our interactive chord sheets make mastering these classics easier than ever. Dive into the
+                    timeless melodies of Bruno Mars, Ed Sheeran, and Mariah Carey, perfectly synced for your practice
+                    sessions. Experience the thrill of performing legendary tracks from Phil Collins, Coldplay, and many
+                    more iconic superstars. Start building your ultimate setlist today and bring these chart-topping
+                    anthems to life!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Song Map Section -->
+    <div class="song-map-section" style="padding: 80px 0; background: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Introducing: Song Map</h2>
+            <p class="section-subtitle">A professional overview of your song structure</p>
+
+            <div class="guide-image-container"
+                style="max-width: 1000px; margin: 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+                <img src="images/song_map_example.png" alt="Song Map Example - Phil Collins"
+                    style="width: 100%; display: block;">
+            </div>
+
+            <div
+                style="margin-top: 32px; font-size: 1.15rem; line-height: 1.6; color: #475569; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">
+                <p>The Song Map provides a comprehensive bird's-eye view of your entire song structure, allowing you to
+                    see the big picture at a glance. Label sections like Intro, Verse, and Chorus with distinct
+                    colors, making it easy to identify the progression of the track. While playing along, the active
+                    chord is highlighted and moves in real-time, so you always know exactly where you are in the
+                    arrangement. This feature also offers the ability to jump instantly to any part of the song by
+                    simply clicking on a section. Whether you're rehearsing or performing, the Song Map keeps you
+                    perfectly oriented and in control of your music.</p>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="quickstart.html#song-map" class="btn btn-guide">
+                    <span class="btn-icon">📖</span>
+                    <span>Learn more in the Guide</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chord Trainer Section -->
+    <div class="trainer-section">
+        <div class="container">
+            <div class="trainer-grid">
+                <div class="trainer-images-stack">
+                    <img src="images/chord_trainer_demo_3.png" alt="Chord Trainer Leaderboards"
+                        class="trainer-img img-leader">
+                    <img src="images/chord_trainer_demo_1.png" alt="Chord Trainer Piano Gameplay"
+                        class="trainer-img img-main">
+                    <img src="images/chord_trainer_demo_2.png" alt="Chord Mastery Statistics"
+                        class="trainer-img img-stats">
+                </div>
+                <div class="trainer-content">
+                    <span class="badge-new">✨ New Feature</span>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Level Up Your Piano Skills
+                    </h2>
+                    <p>Master your chords through interactive gameplay. Identify shapes, play the right notes, and
+                        compete for the top spot on our global leaderboards.</p>
+                    <p>Whether you're a beginner or a pro, the <b>Chord Trainer</b> tracks your accuracy and keeps you
+                        motivated with real-time feedback and detailed mastery statistics. Start your journey to chord
+                        perfection today!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Band Practice Section -->
+    <div class="band-practice-section">
+        <div class="container">
+            <div class="band-practice-grid">
+                <div class="band-practice-content">
+                    <span class="badge-new" style="background: #e0f2fe; color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);">👥 New Feature</span>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Band Practice with Connect to Band Members</h2>
+                    <p><b>Connect to Band Members:</b> Create a band or join one to sync chord timelines in real-time. Once connected, anyone in the band can start or stop/pause playback for all active members. Scrolling is kept perfectly in sync across all screens!</p>
+                    <p>Never get fooled again by that strange key change or chord turnaround or complex instrumental section! The Chord Timeline will prompt everyone at the same time - you will all be in sync - playing the right chords.</p>
+                    <p>Rehearse collaboratively with shared <b>Band Setlists</b>. Create multiple setlists (e.g. Wedding, Easter Party), rename or delete them, add songs via fast search autocomplete, and drag or reorder songs in real-time.</p>
+                </div>
+                <div class="band-practice-images-stack" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 4px solid white; min-height: auto;">
+                    <!-- Beautiful CSS/JS Carousel Slider -->
+                    <div class="slides-container" style="display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 500%;">
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_details.png" alt="Active Band Details & Members Presence" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Active Band Details & Presence</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Manage active bands, share join codes, and see real-time online status of band members.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_setlists.png" alt="Collaborative Band Setlists" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Collaborative Band Setlists</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Create multiple setlists, add songs via autocomplete search, reorder, and sync live.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/band_practice_timeline_play.png" alt="Timeline Sync Options" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Timeline Play Mode Sync</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Sync timeline scrolling and play states across all connected band members.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/Play-Mode-screenshot2.jpg" alt="Scrolling Sync Action" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Real-time Teleprompter Sync</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Visual highlights and scrolling chords remain locked together during practice.</div>
+                            </div>
+                        </div>
+                        <div style="width: 20%; flex-shrink: 0; position: relative;">
+                            <img src="images/Band_Practice_Rock.png" alt="Live Band Practice Session" style="width: 100%; display: block;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
+                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Live Band Practice Mode</div>
+                                <div style="font-size: 0.8rem; opacity: 0.85;">Unlock the ultimate joint music-making tool for your group practice.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slider Navigation Arrows -->
+                    <button class="slider-arrow prev" onclick="moveSlide(-1)" style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #0f172a; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 5; transition: background 0.2s;">‹</button>
+                    <button class="slider-arrow next" onclick="moveSlide(1)" style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #0f172a; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 5; transition: background 0.2s;">›</button>
+
+                    <!-- Slider Navigation Dots -->
+                    <div style="position: absolute; bottom: 85px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 5;">
+                        <span class="slide-dot active" onclick="goToSlide(0)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 1; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(3)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                        <span class="slide-dot" onclick="goToSlide(4)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instruments Section -->
+    <div class="instruments-section">
+        <div class="container">
+            <h2 class="section-title">Master Your Instrument</h2>
+            <div class="instruments-grid">
+
+                <div class="instrument-card guitar-card">
+                    <div class="instrument-icon">🎸</div>
+                    <h3>Guitar</h3>
+                    <p>View clean, simplified chord diagrams for every single song in the library</p>
+                </div>
+                <div class="instrument-card piano-card">
+                    <div class="instrument-icon">🎹</div>
+                    <h3>Piano</h3>
+                    <p>Visualize chords on a virtual keyboard with audio playback</p>
+                </div>
+                <div class="instrument-card ukelele-card">
+                    <div class="instrument-icon">
+                        <svg viewBox="0 0 100 100" width="1em" height="1em" style="vertical-align: middle;">
+                            <g transform="rotate(-35 50 50)">
+                                <rect x="45" y="5" width="10" height="42" rx="2" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+                                <path d="M50,42 c-15,0 -25,12 -25,28 c0,22 12,32 25,32 s25,-10 25,-32 c0,-16 -10,-28 -25,-28" fill="#c08e51" stroke="#5d4037" stroke-width="3"/>
+                                <circle cx="50" cy="65" r="9" fill="#3e2723"/>
+                                <rect x="40" y="85" width="20" height="6" rx="1.5" fill="#3e2723"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Ukulele</h3>
+                    <p>Simplified ukulele chords for easy strumming and playalong</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Start Playing?</h2>
+            <p class="cta-subtitle">Browse hundreds of songs with chords and lyrics</p>
+            <a href="songlist.html" class="btn btn-primary btn-pill paywall-trigger"
+                title="Open Chord Book & Browse Songs">
+                <span class="btn-icon">🎸</span>
+                <span>Open Chord Book</span>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="js/config/firebase-config.js?v=3.193"></script>
+    <script src="js/models/SongManager.js?v=3.193"></script>
+    <script src="js/models/SetlistManager.js?v=3.193"></script>
+    <script src="js/utils/Sorter.js?v=3.193"></script>
+    <script src="js/utils/ChordDetector.js?v=3.193"></script>
+    <script src="js/utils/KeyDetector.js?v=3.193"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.193"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.193"></script>
+    <script src="js/ui/ChordModal.js?v=3.193"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.193"></script>
+    <script src="js/ui/TableRenderer.js?v=3.193"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.193"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.193"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.193"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.193"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.193"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.193"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.193"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.193"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.193"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.193"></script>
+    <script src="js/utils/ChordParser.js?v=3.193"></script>
+    <script src="js/ui/AuthModal.js?v=3.193"></script>
+    <script src="js/ui/ProfileModal.js?v=3.193"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.193"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.193"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.193"></script>
+    <script src="js/app.js?v=3.193"></script>
+
+    <!-- Band Practice Image Slider Script -->
+    <script>
         let currentSlideIdx = 0;
         const totalSlides = 5;
 
@@ -943,7 +1519,7 @@
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.192</span>
+                v<span id="site-version">3.190</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &

@@ -12204,7 +12204,7 @@ body.theme-high-contrast .stats-chart-label {
 }
 
 /* Responsive adjustments: Hide Year and Genre buttons from header bar when screen width is limited */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     #decadeFilterDropdownBtn,
     #genreFilterDropdownBtn {
         display: none !important;
