@@ -1277,6 +1277,9 @@ class App {
             this.songDetailModal.hide();
         }
 
+        // Synchronize header dropdowns with the current filter state
+        this.syncHeaderDropdownsFromFilterState();
+
         let allSongs = this.songManager.getAllSongs();
 
         // Apply filters
@@ -1284,9 +1287,8 @@ class App {
             allSongs = allSongs.filter(song => song.favorite === true);
         }
 
-        // Apply genre filter (combine modal filter and dropdown filter)
-        const modalGenre = this.currentFilter.genre || '';
-        const dropdownGenres = this.currentFilter.genres || [];
+        // Apply genre filter (combine checkboxes, search, and dropdown filters)
+        const activeGenres = this.currentFilter.genres || [];
         const genreSearch = (this.currentFilter.genreSearch || '').trim().toLowerCase();
 
         if (genreSearch !== '') {
@@ -1294,11 +1296,23 @@ class App {
                 const songGenres = Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []);
                 return songGenres.some(g => g.toLowerCase().includes(genreSearch));
             });
-        } else if (dropdownGenres.length > 0 || modalGenre !== '') {
-            const activeGenres = dropdownGenres.length > 0 ? dropdownGenres : [modalGenre];
+        } else if (activeGenres.length > 0) {
             allSongs = allSongs.filter(song => {
                 const songGenres = Array.isArray(song.genre) ? song.genre : (song.genre ? [song.genre] : []);
-                return songGenres.some(g => activeGenres.some(ag => ag.toLowerCase() === g.toLowerCase()));
+                if (songGenres.length === 0) {
+                    return activeGenres.some(ag => ag.toLowerCase() === 'other');
+                }
+                const mainGenres = ['rock', 'country', 'r&b', 'edm', 'dance'];
+                return songGenres.some(g => {
+                    const gLower = g.toLowerCase();
+                    if (activeGenres.some(ag => ag.toLowerCase() === gLower)) {
+                        return true;
+                    }
+                    if (!mainGenres.includes(gLower) && activeGenres.some(ag => ag.toLowerCase() === 'other')) {
+                        return true;
+                    }
+                    return false;
+                });
             });
         }
 
@@ -1484,39 +1498,68 @@ class App {
 
         // Apply filters
         applyFiltersBtn.addEventListener('click', () => {
-            const filterGenreSelect = document.getElementById('filterGenreSelect');
+            // Get checked genres from checkboxes
+            const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+            const checkedGenres = [];
+            genreCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    checkedGenres.push(cb.value);
+                }
+            });
+
+            // Get checked decades from checkboxes
+            const decadeCheckboxes = document.querySelectorAll('.decade-checkbox');
+            const checkedDecades = [];
+            decadeCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    checkedDecades.push(cb.value);
+                }
+            });
+
             this.currentFilter = {
                 favorites: filterFavoritesCheckbox.checked,
                 key: filterKeySelect.value || '',
-                genre: filterGenreSelect ? filterGenreSelect.value || '' : '',
+                genre: '', // Deprecated in favor of genres array
                 withYouTube: filterWithYouTubeCheckbox ? filterWithYouTubeCheckbox.checked : false,
                 withoutYouTube: filterWithoutYouTubeCheckbox ? filterWithoutYouTubeCheckbox.checked : false,
                 withoutLyrics: filterWithoutLyricsCheckbox ? filterWithoutLyricsCheckbox.checked : false,
                 withoutTimeline: filterWithoutTimelineCheckbox ? filterWithoutTimelineCheckbox.checked : false,
                 noPublic: filterNoPublicCheckbox.checked,
                 onlyPublic: filterOnlyPublicCheckbox.checked,
-                decades: this.currentFilter.decades || [],
-                yearSearch: this.currentFilter.yearSearch || '',
-                genres: this.currentFilter.genres || [],
-                genreSearch: this.currentFilter.genreSearch || ''
+                // If all 6 genres are checked, set genres to [] (meaning no filter). Otherwise store checked genres.
+                genres: checkedGenres.length === 6 ? [] : checkedGenres,
+                genreSearch: this.currentFilter.genreSearch || '',
+                // If all 6 decades are checked, set decades to [] (meaning no filter). Otherwise store checked decades.
+                decades: checkedDecades.length === 6 ? [] : checkedDecades,
+                yearSearch: this.currentFilter.yearSearch || ''
             };
+            
             this.loadAndRender();
             filterModal.classList.add('hidden');
             this.updateFilterButtonState();
+            this.syncHeaderDropdownsFromFilterState();
         });
 
         // Clear all filters
         clearAllFiltersBtn.addEventListener('click', () => {
             filterFavoritesCheckbox.checked = false;
             filterKeySelect.value = '';
-            const filterGenreSelect = document.getElementById('filterGenreSelect');
-            if (filterGenreSelect) filterGenreSelect.value = '';
             if (filterWithYouTubeCheckbox) filterWithYouTubeCheckbox.checked = false;
             if (filterWithoutYouTubeCheckbox) filterWithoutYouTubeCheckbox.checked = false;
             if (filterWithoutLyricsCheckbox) filterWithoutLyricsCheckbox.checked = false;
             if (filterWithoutTimelineCheckbox) filterWithoutTimelineCheckbox.checked = false;
             if (filterNoPublicCheckbox) filterNoPublicCheckbox.checked = false;
             if (filterOnlyPublicCheckbox) filterOnlyPublicCheckbox.checked = false;
+
+            // Reset modal checkboxes
+            const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+            genreCheckboxes.forEach(cb => cb.checked = true);
+
+            const decadeCheckboxes = document.querySelectorAll('.decade-checkbox');
+            decadeCheckboxes.forEach(cb => cb.checked = true);
+
+
+
             // Reset decade filter dropdown UI
             const allYearsBtn = document.getElementById('decadeAllYearsBtn');
             const decadeBtns = document.querySelectorAll('.decade-options-grid .decade-select-btn');
@@ -1552,6 +1595,7 @@ class App {
             };
             this.loadAndRender();
             this.updateFilterButtonState();
+            this.syncHeaderDropdownsFromFilterState();
         });
 
         // Prevent both YouTube checkboxes from being checked at the same time
@@ -1722,10 +1766,31 @@ class App {
         if (filterKeySelect) {
             filterKeySelect.value = this.currentFilter.key || '';
         }
-        const filterGenreSelect = document.getElementById('filterGenreSelect');
-        if (filterGenreSelect) {
-            filterGenreSelect.value = this.currentFilter.genre || '';
-        }
+
+        // Restore genre checkboxes selection
+        const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+        const activeGenres = this.currentFilter.genres || [];
+        genreCheckboxes.forEach(cb => {
+            if (activeGenres.length === 0) {
+                cb.checked = true;
+            } else {
+                cb.checked = activeGenres.includes(cb.value);
+            }
+        });
+
+        // Restore decade checkboxes selection
+        const decadeCheckboxes = document.querySelectorAll('.decade-checkbox');
+        const activeDecades = this.currentFilter.decades || [];
+        decadeCheckboxes.forEach(cb => {
+            if (activeDecades.length === 0) {
+                cb.checked = true;
+            } else {
+                cb.checked = activeDecades.includes(cb.value);
+            }
+        });
+
+
+
         if (filterWithYouTubeCheckbox) {
             filterWithYouTubeCheckbox.checked = this.currentFilter.withYouTube;
         }
@@ -1753,7 +1818,9 @@ class App {
         // Check if any filter is active
         const hasActiveFilters = this.currentFilter.favorites ||
             this.currentFilter.key !== '' ||
-            this.currentFilter.genre !== '' ||
+            (this.currentFilter.genres && this.currentFilter.genres.length > 0) ||
+            (this.currentFilter.decades && this.currentFilter.decades.length > 0) ||
+            (this.currentFilter.yearSearch && this.currentFilter.yearSearch !== '') ||
             this.currentFilter.withYouTube ||
             this.currentFilter.withoutYouTube ||
             this.currentFilter.withoutLyrics ||
@@ -1765,6 +1832,58 @@ class App {
             filterBtn.classList.add('active');
         } else {
             filterBtn.classList.remove('active');
+        }
+    }
+
+    syncHeaderDropdownsFromFilterState() {
+        // Sync decades dropdown
+        const allYearsBtn = document.getElementById('decadeAllYearsBtn');
+        const decadeBtns = document.querySelectorAll('.decade-options-grid .decade-select-btn');
+        const decadeSearchInput = document.getElementById('decadeSearchInput');
+        const decades = this.currentFilter.decades || [];
+        const yearSearch = this.currentFilter.yearSearch || '';
+
+        if (decadeSearchInput) decadeSearchInput.value = yearSearch;
+
+        if (yearSearch !== '') {
+            if (allYearsBtn) allYearsBtn.classList.remove('active');
+            if (decadeBtns) decadeBtns.forEach(btn => btn.classList.remove('active'));
+        } else if (decades.length > 0) {
+            if (allYearsBtn) allYearsBtn.classList.remove('active');
+            if (decadeBtns) {
+                decadeBtns.forEach(btn => {
+                    const dec = btn.dataset.decade;
+                    btn.classList.toggle('active', decades.includes(dec));
+                });
+            }
+        } else {
+            if (allYearsBtn) allYearsBtn.classList.add('active');
+            if (decadeBtns) decadeBtns.forEach(btn => btn.classList.remove('active'));
+        }
+
+        // Sync genres dropdown
+        const allGenresBtn = document.getElementById('genreAllGenresBtn');
+        const genreBtns = document.querySelectorAll('.genre-options-grid .genre-select-btn');
+        const genreSearchInput = document.getElementById('genreSearchInput');
+        const genres = this.currentFilter.genres || [];
+        const genreSearch = this.currentFilter.genreSearch || '';
+
+        if (genreSearchInput) genreSearchInput.value = genreSearch;
+
+        if (genreSearch !== '') {
+            if (allGenresBtn) allGenresBtn.classList.remove('active');
+            if (genreBtns) genreBtns.forEach(btn => btn.classList.remove('active'));
+        } else if (genres.length > 0) {
+            if (allGenresBtn) allGenresBtn.classList.remove('active');
+            if (genreBtns) {
+                genreBtns.forEach(btn => {
+                    const gen = btn.dataset.genre;
+                    btn.classList.toggle('active', genres.includes(gen));
+                });
+            }
+        } else {
+            if (allGenresBtn) allGenresBtn.classList.add('active');
+            if (genreBtns) genreBtns.forEach(btn => btn.classList.remove('active'));
         }
     }
 
