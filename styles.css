@@ -11793,6 +11793,15 @@ body.is-admin .songmap-cell {
     display: table-cell !important;
 }
 
+/* Administrator Only Filters */
+.admin-only-filter {
+    display: none !important;
+}
+
+body.is-admin .admin-only-filter {
+    display: block !important;
+}
+
 /* Red alert badge for missing details warning */
 .alert-badge {
     position: absolute;
