@@ -1495,6 +1495,36 @@ document.addEventListener('DOMContentLoaded', () => {
         key.addEventListener('pointercancel', stopKey);
     });
 
+    // Circle of Fifths Event Listeners
+    const circleOfFifthsBtn = document.getElementById('songMapCircleOfFifthsBtn');
+    const circleOfFifthsOverlay = document.getElementById('circleOfFifthsOverlay');
+    const circleOfFifthsClose = document.getElementById('circleOfFifthsModalClose');
+
+    if (circleOfFifthsBtn && circleOfFifthsOverlay) {
+        circleOfFifthsBtn.addEventListener('click', () => {
+            circleOfFifthsOverlay.classList.remove('hidden');
+        });
+    }
+    if (circleOfFifthsClose && circleOfFifthsOverlay) {
+        circleOfFifthsClose.addEventListener('click', () => {
+            circleOfFifthsOverlay.classList.add('hidden');
+        });
+    }
+    if (circleOfFifthsOverlay) {
+        // Since overlay has pointer-events: none, clicks pass through it.
+        // We close the window only on clicking the Close X button, which is standard for tool palettes.
+    }
+    if (typeof initCircleOfFifths === 'function') {
+        initCircleOfFifths();
+    }
+    if (circleOfFifthsOverlay) {
+        const circleOfFifthsContent = circleOfFifthsOverlay.querySelector('.modal-content');
+        const circleOfFifthsHeader = circleOfFifthsOverlay.querySelector('#circleOfFifthsModalHeader');
+        if (circleOfFifthsContent && circleOfFifthsHeader && typeof makeCircleOfFifthsDraggable === 'function') {
+            makeCircleOfFifthsDraggable(circleOfFifthsContent, circleOfFifthsHeader);
+        }
+    }
+
     setupResponsiveView();
 
     // Initialize BandSync
@@ -7284,6 +7314,283 @@ class BandSync {
         // Kick off update loop
         requestAnimationFrame(updateLoop);
     }
+}
+
+function makeCircleOfFifthsDraggable(dragTarget, dragHeader) {
+    if (!dragTarget || !dragHeader) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startTop = 0;
+    let startLeft = 0;
+
+    dragHeader.style.cursor = 'grab';
+
+    const onPointerDown = (e) => {
+        if (e.button !== 0 && e.pointerType === 'mouse') return;
+        if (e.target.closest('button') || e.target.closest('input')) return;
+
+        isDragging = true;
+        dragHeader.style.cursor = 'grabbing';
+        
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const style = window.getComputedStyle(dragTarget);
+        startTop = parseFloat(style.top) || dragTarget.offsetTop;
+        startLeft = parseFloat(style.left) || dragTarget.offsetLeft;
+
+        dragHeader.setPointerCapture(e.pointerId);
+        dragHeader.addEventListener('pointermove', onPointerMove);
+        dragHeader.addEventListener('pointerup', onPointerUp);
+        dragHeader.addEventListener('pointercancel', onPointerUp);
+        e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        
+        dragTarget.style.position = 'fixed';
+        dragTarget.style.margin = '0';
+        dragTarget.style.top = (startTop + dy) + 'px';
+        dragTarget.style.left = (startLeft + dx) + 'px';
+        dragTarget.style.transform = 'none';
+    };
+
+    const onPointerUp = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        dragHeader.style.cursor = 'grab';
+        
+        try {
+            dragHeader.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+        dragHeader.removeEventListener('pointermove', onPointerMove);
+        dragHeader.removeEventListener('pointerup', onPointerUp);
+        dragHeader.removeEventListener('pointercancel', onPointerUp);
+    };
+
+    dragHeader.addEventListener('pointerdown', onPointerDown);
+}
+
+function initCircleOfFifths() {
+    const container = document.getElementById('circleOfFifthsSvgContainer');
+    if (!container) return;
+
+    // Clear any existing contents
+    container.innerHTML = '';
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("viewBox", "0 0 300 300");
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", "100%");
+    svg.style.borderRadius = "50%";
+    svg.style.overflow = "hidden";
+    svg.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
+
+    const cx = 150;
+    const cy = 150;
+    const rOutMajor = 150;
+    const rInMajor = 95;
+    const rOutMinor = 95;
+    const rInMinor = 42;
+
+    const data = [
+        { major: "C", minor: "Am", color: "#e63946" },
+        { major: "G", minor: "Em", color: "#f4a261" },
+        { major: "D", minor: "Bm", color: "#e9c46a" },
+        { major: "A", minor: "F#m", color: "#76c893" },
+        { major: "E", minor: "C#m", color: "#40916c" },
+        { major: "B", minor: "G#m", color: "#1a9396" },
+        { major: "Gb F#", minor: "Ebm", color: "#00b4d8", majorVal: "F#", minorVal: "Ebm" },
+        { major: "Db", minor: "Bbm", color: "#0077b6" },
+        { major: "Ab", minor: "Fm", color: "#1d3557" },
+        { major: "Eb", minor: "Cm", color: "#7209b7" },
+        { major: "Bb", minor: "Gm", color: "#b5179e" },
+        { major: "F", minor: "Dm", color: "#f72585" }
+    ];
+
+    const getSectorPath = (rIn, rOut, startAngle, endAngle) => {
+        const startRad = (startAngle - 90) * Math.PI / 180;
+        const endRad = (endAngle - 90) * Math.PI / 180;
+        
+        const xOutStart = cx + rOut * Math.cos(startRad);
+        const yOutStart = cy + rOut * Math.sin(startRad);
+        const xOutEnd = cx + rOut * Math.cos(endRad);
+        const yOutEnd = cy + rOut * Math.sin(endRad);
+        
+        const xInStart = cx + rIn * Math.cos(startRad);
+        const yInStart = cy + rIn * Math.sin(startRad);
+        const xInEnd = cx + rIn * Math.cos(endRad);
+        const yInEnd = cy + rIn * Math.sin(endRad);
+        
+        return `M ${xOutStart} ${yOutStart} 
+                A ${rOut} ${rOut} 0 0 1 ${xOutEnd} ${yOutEnd} 
+                L ${xInEnd} ${yInEnd} 
+                A ${rIn} ${rIn} 0 0 0 ${xInStart} ${yInStart} 
+                Z`;
+    };
+
+    data.forEach((item, i) => {
+        const startAngle = -15 + i * 30;
+        const endAngle = 15 + i * 30;
+        const midAngle = i * 30;
+        const rad = (midAngle - 90) * Math.PI / 180;
+
+        // --- Major outer slice ---
+        const majorG = document.createElementNS(svgNS, "g");
+        majorG.style.cursor = "pointer";
+        
+        const majorPath = document.createElementNS(svgNS, "path");
+        majorPath.setAttribute("d", getSectorPath(rInMajor, rOutMajor, startAngle, endAngle));
+        majorPath.setAttribute("fill", item.color);
+        majorPath.setAttribute("stroke", "white");
+        majorPath.setAttribute("stroke-width", "1");
+        majorPath.style.transition = "opacity 0.2s, filter 0.2s";
+        
+        majorG.addEventListener('mouseenter', () => {
+            majorPath.setAttribute("opacity", "0.85");
+            majorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
+        });
+        majorG.addEventListener('mouseleave', () => {
+            majorPath.setAttribute("opacity", "1");
+            majorPath.style.filter = "none";
+        });
+
+        const majorVal = item.majorVal || item.major;
+        const handleMajorClick = (e) => {
+            if (e) e.preventDefault();
+            if (typeof initAudio === 'function') initAudio();
+            if (typeof triggerChordAudio === 'function') triggerChordAudio(majorVal, 2.0, true);
+            if (typeof enableTimingCapture !== 'undefined' && enableTimingCapture && typeof recordChord === 'function') {
+                recordChord(majorVal);
+            }
+        };
+        majorG.addEventListener('pointerdown', handleMajorClick);
+
+        const rTextMajor = (rInMajor + rOutMajor) / 2;
+        const xTextMajor = cx + rTextMajor * Math.cos(rad);
+        const yTextMajor = cy + rTextMajor * Math.sin(rad);
+
+        const textMajor = document.createElementNS(svgNS, "text");
+        textMajor.setAttribute("x", xTextMajor);
+        textMajor.setAttribute("y", yTextMajor + 4);
+        textMajor.setAttribute("text-anchor", "middle");
+        textMajor.setAttribute("fill", "white");
+        textMajor.setAttribute("font-size", item.major.length > 3 ? "11" : "15");
+        textMajor.setAttribute("font-weight", "900");
+        textMajor.setAttribute("font-family", "'Inter', sans-serif");
+        textMajor.style.pointerEvents = "none";
+        textMajor.textContent = item.major;
+
+        majorG.appendChild(majorPath);
+        majorG.appendChild(textMajor);
+        svg.appendChild(majorG);
+
+        // --- Minor inner slice ---
+        const minorG = document.createElementNS(svgNS, "g");
+        minorG.style.cursor = "pointer";
+
+        const minorPath = document.createElementNS(svgNS, "path");
+        minorPath.setAttribute("d", getSectorPath(rInMinor, rOutMinor, startAngle, endAngle));
+        minorPath.setAttribute("fill", item.color);
+        minorPath.setAttribute("opacity", "0.85");
+        minorPath.setAttribute("stroke", "white");
+        minorPath.setAttribute("stroke-width", "1");
+        minorPath.style.transition = "opacity 0.2s, filter 0.2s";
+
+        minorG.addEventListener('mouseenter', () => {
+            minorPath.setAttribute("opacity", "0.70");
+            minorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
+        });
+        minorG.addEventListener('mouseleave', () => {
+            minorPath.setAttribute("opacity", "0.85");
+            minorPath.style.filter = "none";
+        });
+
+        const minorVal = item.minorVal || item.minor;
+        const handleMinorClick = (e) => {
+            if (e) e.preventDefault();
+            if (typeof initAudio === 'function') initAudio();
+            if (typeof triggerChordAudio === 'function') triggerChordAudio(minorVal, 2.0, true);
+            if (typeof enableTimingCapture !== 'undefined' && enableTimingCapture && typeof recordChord === 'function') {
+                recordChord(minorVal);
+            }
+        };
+        minorG.addEventListener('pointerdown', handleMinorClick);
+
+        const rTextMinor = (rInMinor + rOutMinor) / 2;
+        const xTextMinor = cx + rTextMinor * Math.cos(rad);
+        const yTextMinor = cy + rTextMinor * Math.sin(rad);
+
+        const textMinor = document.createElementNS(svgNS, "text");
+        textMinor.setAttribute("x", xTextMinor);
+        textMinor.setAttribute("y", yTextMinor + 3);
+        textMinor.setAttribute("text-anchor", "middle");
+        textMinor.setAttribute("fill", "white");
+        textMinor.setAttribute("font-size", item.minor.length > 3 ? "9" : "12");
+        textMinor.setAttribute("font-weight", "700");
+        textMinor.setAttribute("font-family", "'Inter', sans-serif");
+        textMinor.style.pointerEvents = "none";
+        textMinor.textContent = item.minor;
+
+        minorG.appendChild(minorPath);
+        minorG.appendChild(textMinor);
+        svg.appendChild(minorG);
+    });
+
+    // Center white circle
+    const centerCircle = document.createElementNS(svgNS, "circle");
+    centerCircle.setAttribute("cx", cx);
+    centerCircle.setAttribute("cy", cy);
+    centerCircle.setAttribute("r", rInMinor);
+    centerCircle.setAttribute("fill", "white");
+    centerCircle.setAttribute("stroke", "#e2e8f0");
+    centerCircle.setAttribute("stroke-width", "1");
+    svg.appendChild(centerCircle);
+
+    // Inner labels
+    const textCenter1 = document.createElementNS(svgNS, "text");
+    textCenter1.setAttribute("x", cx);
+    textCenter1.setAttribute("y", cy - 18);
+    textCenter1.setAttribute("text-anchor", "middle");
+    textCenter1.setAttribute("fill", "#64748b");
+    textCenter1.setAttribute("font-size", "9");
+    textCenter1.setAttribute("font-weight", "800");
+    textCenter1.setAttribute("font-family", "'Inter', sans-serif");
+    textCenter1.setAttribute("letter-spacing", "0.05em");
+    textCenter1.textContent = "MAJOR";
+    svg.appendChild(textCenter1);
+
+    const textCenter2 = document.createElementNS(svgNS, "text");
+    textCenter2.setAttribute("x", cx);
+    textCenter2.setAttribute("y", cy + 4);
+    textCenter2.setAttribute("text-anchor", "middle");
+    textCenter2.setAttribute("fill", "#94a3b8");
+    textCenter2.setAttribute("font-size", "7.5");
+    textCenter2.setAttribute("font-weight", "700");
+    textCenter2.setAttribute("font-family", "'Inter', sans-serif");
+    textCenter2.setAttribute("letter-spacing", "0.02em");
+    textCenter2.textContent = "RELATIVE";
+    svg.appendChild(textCenter2);
+
+    const textCenter3 = document.createElementNS(svgNS, "text");
+    textCenter3.setAttribute("x", cx);
+    textCenter3.setAttribute("y", cy + 14);
+    textCenter3.setAttribute("text-anchor", "middle");
+    textCenter3.setAttribute("fill", "#94a3b8");
+    textCenter3.setAttribute("font-size", "7.5");
+    textCenter3.setAttribute("font-weight", "700");
+    textCenter3.setAttribute("font-family", "'Inter', sans-serif");
+    textCenter3.setAttribute("letter-spacing", "0.02em");
+    textCenter3.textContent = "MINOR";
+    svg.appendChild(textCenter3);
+
+    container.appendChild(svg);
 }
 
 

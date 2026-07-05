@@ -6556,3 +6556,61 @@ body.text-mode-active #lyricsHUD {
         display: inline-flex !important;
     }
 }
+
+/* Circle of Fifths Button - responsive visibility rules (PC / Landscape only, never on mobile) */
+#songMapCircleOfFifthsBtn {
+    display: none !important;
+}
+
+body:not(.is-mobile-view) #songMapCircleOfFifthsBtn {
+    display: block !important;
+}
+
+@media screen and (min-width: 1025px) {
+    #songMapCircleOfFifthsBtn {
+        display: block !important;
+    }
+}
+
+.circle-fifths-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 0 !important;
+    margin: 0;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 0;
+    overflow: visible;
+    cursor: pointer;
+    flex-shrink: 0;
+    align-self: center;
+    box-sizing: content-box;
+    line-height: 0;
+    font-size: 0;
+    transition: transform 0.15s, opacity 0.15s;
+}
+
+.circle-fifths-btn img {
+    display: block;
+    width: 36px;
+    height: 36px;
+    pointer-events: none;
+}
+
+.circle-fifths-btn:hover {
+    transform: scale(1.12);
+    opacity: 0.9;
+}
+
+.circle-fifths-btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
