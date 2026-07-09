@@ -347,7 +347,18 @@ const GuitarChordDatabase = {
         frets: [2, "x", 3, 3, 2, "x"],
         fingers: [1, 0, 3, 4, 2, 0]
     },
+    "F#maj7": {
+        baseFret: 2,
+        frets: [2, "x", 3, 3, 2, "x"],
+        fingers: [1, 0, 3, 4, 2, 0]
+    },
     "Dbmaj7": {
+        baseFret: 4,
+        frets: ["x", 4, 6, 5, 6, 4],
+        barre: { fret: 4, fromString: 2, toString: 6 },
+        fingers: [0, 1, 3, 2, 4, 1]
+    },
+    "C#maj7": {
         baseFret: 4,
         frets: ["x", 4, 6, 5, 6, 4],
         barre: { fret: 4, fromString: 2, toString: 6 },
@@ -369,6 +380,8 @@ const GuitarChordDatabase = {
     "Gsus4": { frets: [3, 3, 0, 0, 3, 3], fingers: [2, 3, 0, 0, 4, 1] },
     "Asus2": { frets: ["x", 0, 2, 2, 0, 0], fingers: [0, 0, 2, 3, 0, 0] },
     "Asus4": { frets: ["x", 0, 2, 2, 3, 0], fingers: [0, 0, 1, 2, 4, 0] },
+    "A#sus2": { baseFret: 1, frets: ["x", 1, 3, 3, 1, 1], barre: { fret: 1, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
+    "Bbsus2": { baseFret: 1, frets: ["x", 1, 3, 3, 1, 1], barre: { fret: 1, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
     "Bsus2": { baseFret: 2, frets: ["x", 2, 4, 4, 2, 2], barre: { fret: 2, fromString: 2, toString: 6 }, fingers: [0, 1, 3, 4, 1, 1] },
     "Bsus4": { baseFret: 2, frets: ["x", 2, 4, 4, 5, 2], barre: { fret: 2, fromString: 2, toString: 6 }, fingers: [0, 1, 2, 3, 4, 1] },
 

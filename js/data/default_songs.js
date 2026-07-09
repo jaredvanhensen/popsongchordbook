@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-07-03
+// Synchronized from Firebase on 2026-07-09
 
 const DEFAULT_SONGS = [
     {
@@ -54479,6 +54479,468 @@ const DEFAULT_SONGS = [
         "youtubeUrl": "https://youtu.be/9n3A_-HRFfc?si=mMk9BWtoTdj8c23p"
     },
     {
+        "artist": "Chris Isaak",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Bm",
+                    "time": 1.587,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 3.644,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 5.721,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 9.993,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 12.147,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 14.316,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 18.598,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 20.765,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 22.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 27.158,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 29.31,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 31.391,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 35.653,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 37.846,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 40.011,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 44.227,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 46.359,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 48.544,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 52.817,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 54.983,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 57.072,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 61.346,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 63.493,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 65.623,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 69.895,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 72.111,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 74.183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 78.467,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 80.565,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 82.72,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 87.028,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 89.208,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 91.314,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 95.577,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 97.754,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 99.83,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 104.171,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 106.309,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 108.456,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 112.754,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 114.858,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 116.968,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 121.264,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 123.455,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 125.564,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 129.846,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 131.96,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 134.078,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 138.352,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 140.579,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 142.664,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 146.923,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 149.102,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 151.241,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 155.482,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 157.647,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 159.738,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 163.962,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 166.229,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 168.367,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 172.621,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 174.724,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 176.897,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 181.182,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 183.329,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 185.491,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 189.676,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 191.89,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 193.962,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 198.291,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 200.422,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 202.543,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 206.86,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 209.091,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 211.09,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 215.381,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 217.576,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 219.611,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bm",
+                    "time": 223.914,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 226.142,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 228.175,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 232.479,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 235.835,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 239.907,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "Chris Isaak - Wicked Game",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "",
+        "chorusCue": "",
+        "chorusTitle": "Block 2",
+        "dateAdded": "2026-07-08T06:45:17.688Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:35.46] The world was on fire and no-one could save me but you\n[00:43.62] It's strange what desire will make foolish people do\n[00:52.15] I'd never dreamed that I'd meet somebody like you\n[00:58.79] \n[01:00.83] And I'd never dreamed that I'd lose somebody like you\n[01:09.02] No, I don't wanna fall in love\n[01:14.64] (This world is only gonna break your heart)\n[01:17.70] No, I don't wanna fall in love\n[01:22.90] (This world is only gonna break your heart)\n[01:26.21] With you\n[01:29.44] \n[01:34.62] With you\n[01:37.49] \n[01:40.03] (This world is only gonna break your heart)\n[01:44.29] What a wicked game to play, to make me feel this way\n[01:52.88] What a wicked thing to do, to let me dream of you\n[02:01.47] What a wicked thing to say, you never felt this way\n[02:09.95] What a wicked thing to do, to make me dream of you\n[02:17.50] And I don't wanna fall in love\n[02:22.73] (This world is only gonna break your heart)\n[02:26.14] No, I don't wanna fall in love\n[02:31.36] (This world is only gonna break your heart)\n[02:34.69] With you\n[02:37.61] \n[03:09.48] The world was on fire, no one could save me but you\n[03:17.50] It's strange what desire will make foolish people do\n[03:26.19] I'd never dreamed that I'd love somebody like you\n[03:34.66] And I'd never dreamed that I'd lose somebody like you\n[03:42.84] No, I don't wanna fall in love\n[03:48.19] (This world is only gonna break your heart)\n[03:51.59] No, I don't wanna fall in love\n[03:56.53] (This world is only gonna break your heart)\n[04:00.00] With you\n[04:03.02] \n[04:05.46] (This world is only gonna break your heart)\n[04:08.59] With you\n[04:11.67] \n[04:13.87] (This world is only gonna break your heart)\n[04:17.39] No, I...\n[04:22.64] (This world is only gonna break your heart)\n[04:27.22] \n[04:30.80] (This world is only gonna break your heart)\n[04:35.82] Nobody loves no one\n[04:41.89]",
+        "id": "1783493117688zh625vg2i",
+        "isPublic": true,
+        "key": "A",
+        "lyricOffset": -18,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "Wicked Game",
+        "verse": "Bm A E",
+        "verseCue": "",
+        "verseTitle": "All song",
+        "year": "2015",
+        "youtubeUrl": "https://youtu.be/jd-qI62gNJM?is=3zF92j8W5DZrGmwe"
+    },
+    {
         "artist": "Chris Stapleton",
         "bridge": "",
         "bridgeCue": "",
@@ -66826,6 +67288,1422 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO",
         "year": "2016",
         "youtubeUrl": "https://youtu.be/v1JGYmmqwz0?si=Ig2JJX17ajjHDUS5"
+    },
+    {
+        "artist": "Deep Blue Something",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "D",
+                    "time": 0.529,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 1.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 1.498,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 2,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 2.571,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 3.46,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 4.729,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 5.281,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 6,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 6.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 6.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 7.75,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 8.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 9.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 9.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 10.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 11,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 11.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 13.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 14,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 14.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 15.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 15.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 16.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 17.52,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 18.145,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 18.895,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 19.27,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 19.77,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 20.645,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 22,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 22.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 23.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 23.75,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 24.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 25.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 26.428,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 27.053,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 27.803,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 28.178,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 28.678,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 29.553,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 30.658,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 31.283,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 32.033,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 32.408,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 32.908,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 33.783,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 34.942,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 35.567,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 36.317,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 36.692,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 37.192,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 38.067,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 39.54,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 40.165,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 40.915,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 41.29,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 41.79,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 42.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 43.822,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 45.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 46.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 48.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 50.437,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 51.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 52.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 54.708,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 55.444,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 56.865,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 59.129,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 59.828,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 61.261,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 63.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 64.203,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 65.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 67.765,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 68.537,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 69.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 70.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 70.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 71.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 72.135,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 72.82,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 74.183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 74.808,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 75.308,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 75.808,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 76.568,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 77.253,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 78.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 79.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 79.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 80.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 81,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 81.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 82.866,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 83.491,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 83.991,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 84.491,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 85.241,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 85.866,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 87.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 87.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 88.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 88.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 89.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 90.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 91.577,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 92.202,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 92.702,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 93.202,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 93.952,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 94.577,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 96,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 96.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 97.125,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 97.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 98.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 99,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 100.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 101.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 101.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 102.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 102.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 103.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 104.797,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 106.969,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 107.558,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 109.112,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 111.236,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 111.883,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 113.422,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 115.641,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 116.3,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 117.835,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 119.946,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 120.6,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 122.028,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 122.653,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 123.153,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 123.653,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 124.403,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 125.028,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 126.149,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 126.774,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 127.274,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 127.774,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 128.524,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 129.149,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 130.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 131.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 131.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 132.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 132.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 133.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 134.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 135.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 136,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 136.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 137.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 137.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 139.231,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 139.856,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 140.356,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 140.856,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 141.606,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 142.231,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 143.446,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 144.071,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 144.571,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 145.071,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 145.821,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 146.446,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 148.044,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 148.669,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 149.169,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 149.669,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 150.419,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 151.044,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 152.581,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus2",
+                    "time": 153.206,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 153.706,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dsus4",
+                    "time": 154.206,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 154.956,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 155.581,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 156.745,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 158.964,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 159.907,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 161.38,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 163.387,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 164.243,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 165.698,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 167.837,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 168.619,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 170.038,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 171.988,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 172.87,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 174.324,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 176.461,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 177.298,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 178.666,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 180.833,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 181.619,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 183.051,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 185.34,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 186.025,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 187.417,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 189.544,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 190.309,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 191.705,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 193.854,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 194.657,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 196.104,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 198.2,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 198.944,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 200.463,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 202.607,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 203.392,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 204.8,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 206.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 207.651,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 209.053,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 211.303,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 211.943,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 213.312,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 215.626,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 216.34,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 217.833,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 220.025,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 220.76,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 222.207,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 224.359,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 225.16,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 226.493,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 228.644,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 229.463,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 230.996,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 232.986,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 233.838,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 235.264,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G/B",
+                    "time": 237.336,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 238.236,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 239.612,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G/B",
+                    "time": 241.778,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 242.554,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 244.093,
+                    "yOffset": -65
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 11,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 59,
+                    "name": "VERSE 1",
+                    "startIdx": 12,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 71,
+                    "name": "CHORUS",
+                    "startIdx": 60,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 77,
+                    "name": "SOLO",
+                    "startIdx": 72,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 125,
+                    "name": "VERSE 2",
+                    "startIdx": 78,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 137,
+                    "name": "CHORUS",
+                    "startIdx": 126,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 184,
+                    "name": "VERSE 3",
+                    "startIdx": 138,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 197,
+                    "name": "CHORUS",
+                    "startIdx": 185,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 208,
+                    "name": "SOLO",
+                    "startIdx": 198,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 233,
+                    "name": "CHORUS",
+                    "startIdx": 209,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 246,
+                    "name": "OUTRO",
+                    "startIdx": 234,
+                    "type": "outro"
+                }
+            ],
+            "duration": 300,
+            "name": "Deep Blue Something - Breakfast At Tiffany's",
+            "tempo": "110",
+            "useFlatNotation": false
+        },
+        "chorus": "D A G/B",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "customMapSections": [
+            {
+                "endIdx": 11,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 59,
+                "name": "VERSE 1",
+                "startIdx": 12,
+                "type": "verse"
+            },
+            {
+                "endIdx": 71,
+                "name": "CHORUS",
+                "startIdx": 60,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 77,
+                "name": "SOLO",
+                "startIdx": 72,
+                "type": "solo"
+            },
+            {
+                "endIdx": 125,
+                "name": "VERSE 2",
+                "startIdx": 78,
+                "type": "verse"
+            },
+            {
+                "endIdx": 137,
+                "name": "CHORUS",
+                "startIdx": 126,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 184,
+                "name": "VERSE 3",
+                "startIdx": 138,
+                "type": "verse"
+            },
+            {
+                "endIdx": 197,
+                "name": "CHORUS",
+                "startIdx": 185,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 208,
+                "name": "SOLO",
+                "startIdx": 198,
+                "type": "solo"
+            },
+            {
+                "endIdx": 233,
+                "name": "CHORUS",
+                "startIdx": 209,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 246,
+                "name": "OUTRO",
+                "startIdx": 234,
+                "type": "outro"
+            }
+        ],
+        "dateAdded": "2026-07-06T12:10:26.117Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:09.27] You'll say, \"We've got nothing in common\n[00:15.59] No common ground to start from\"\n[00:19.90] And we're falling apart\n[00:25.71] You'll say, \"The world has come between us\n[00:32.13] Our lives have come between us\"\n[00:37.42] Still I know you just don't care\n[00:42.70] And I said, \"What about Breakfast at Tiffany's?\"\n[00:47.89] She said, \"I think I remember the film\"\n[00:51.56] And as I recall I think we both kinda liked it\n[00:55.96] And I said, \"Well, that's the one thing we've got\"\n[01:01.28] \n[01:08.94] I see you, the only one who knew me\n[01:15.71] And now your eyes see through me\n[01:21.07] I guess I was wrong\n[01:29.11] So what now? It's plain to see we're over\n[01:33.42] And I hate when things are over\n[01:38.04] When so much is left undone\n[01:43.54] And I said, \"What about Breakfast at Tiffany's?\"\n[01:48.51] She said, \"I think I remember the film\"\n[01:52.35] And as I recall I think we both kinda liked it\n[01:57.38] And I said, \"Well, that's the one thing we've got\"\n[02:01.83] You'll say, \"That we've got nothing in common\n[02:08.36] No common ground to start from\"\n[02:12.95] And we're falling apart\n[02:18.79] You'll say, \"The world has come between us\n[02:25.52] Our lives have come between us\"\n[02:30.46] Still I know you just don't care\n[02:35.98] And I said, \"What about Breakfast at Tiffany's?\"\n[02:41.05] She said, \"I think I remember the film\"\n[02:44.66] And as I recall I think we both kinda liked it\n[02:49.00] And I said, \"Well, that's the one thing we've got\"\n[02:54.61] \n[03:10.37] Ooh, and I said, \"What about Breakfast at Tiffany's?\"\n[03:15.23] She said, \"I think I remember the film\"\n[03:20.20] And as I recall I think we both kinda liked it\n[03:23.97] And I said, \"Well, that's the one thing we've got\"\n[03:28.25] And I said, \"What about Breakfast at Tiffany's?\"\n[03:32.72] She said, \"I think I remember the film\"\n[03:36.30] And as I recall I think we both kinda liked it\n[03:41.35] And I said, \"Well, that's the one thing we've got\"\n[03:44.41]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "1783339826117a7j6mttqs",
+        "isPublic": true,
+        "key": "D",
+        "lyricOffset": -1,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "AqpBRBj2XIP2xalIqGQ6vycBpci2",
+        "tempo": "110",
+        "title": "Breakfast At Tiffany's",
+        "verse": "D Dsus2 D Dsus4 G/B A",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1995",
+        "youtubeUrl": "https://youtu.be/1ClCpfeIELw?si=uX90lciJYPqUJdoA"
     },
     {
         "artist": "Def Leppard",
@@ -137777,6 +139655,542 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO",
         "year": "2012",
         "youtubeUrl": "https://youtu.be/0e0detkCdDE?is=83e_D8aTg6lyq2jw"
+    },
+    {
+        "artist": "Jason Aldean",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Dm",
+                    "time": 2.048,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 5.208,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 8.097,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 10.983,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 14.063,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 17.062,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 20.131,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 23.174,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 26.263,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 29.303,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 32.33,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 35.443,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 38.475,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 41.5,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 44.573,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 47.674,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 49.47,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 50.712,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 53.748,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 56.781,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 59.816,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 61.11,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 62.948,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 65.961,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 69.058,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 72.118,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 75.185,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 78.203,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 81.281,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 84.384,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 87.506,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 90.457,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 93.472,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 96.543,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 97.966,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 99.666,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 102.65,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 105.733,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 108.772,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 110.008,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 111.86,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 114.89,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 117.999,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 121,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 121.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 124.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 127.118,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 130.5,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 133.254,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 136.34,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 139.355,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 142.4,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 145.449,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 147.094,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 148.532,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 151.605,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 154.655,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 157.688,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 158.885,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 160.827,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 163.827,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 166.896,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 169.876,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 172.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 172.981,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 175.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 176.065,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 179,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 179.187,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 182.056,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 182.377,
+                    "yOffset": -35
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 3,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 11,
+                    "name": "VERSE 1",
+                    "startIdx": 4,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 21,
+                    "name": "CHORUS",
+                    "startIdx": 12,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 23,
+                    "name": "INTERLUDE",
+                    "startIdx": 22,
+                    "type": "interlude"
+                },
+                {
+                    "endIdx": 27,
+                    "name": "VERSE 2",
+                    "startIdx": 24,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 29,
+                    "name": "PRE CHORUS",
+                    "startIdx": 28,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 39,
+                    "name": "CHORUS",
+                    "startIdx": 30,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 48,
+                    "name": "BRIDGE",
+                    "startIdx": 40,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 58,
+                    "name": "CHORUS",
+                    "startIdx": 49,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 62,
+                    "name": "INTERLUDE",
+                    "startIdx": 59,
+                    "type": "interlude"
+                },
+                {
+                    "endIdx": 70,
+                    "name": "OUTRO",
+                    "startIdx": 63,
+                    "type": "outro"
+                }
+            ],
+            "duration": 300,
+            "name": "Jason Aldean - Country Into Rock 'n' Roll",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Dm F C Bb C",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "customMapSections": [
+            {
+                "endIdx": 3,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 11,
+                "name": "VERSE 1",
+                "startIdx": 4,
+                "type": "verse"
+            },
+            {
+                "endIdx": 21,
+                "name": "CHORUS",
+                "startIdx": 12,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 23,
+                "name": "INTERLUDE",
+                "startIdx": 22,
+                "type": "interlude"
+            },
+            {
+                "endIdx": 27,
+                "name": "VERSE 2",
+                "startIdx": 24,
+                "type": "verse"
+            },
+            {
+                "endIdx": 29,
+                "name": "PRE CHORUS",
+                "startIdx": 28,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 39,
+                "name": "CHORUS",
+                "startIdx": 30,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 48,
+                "name": "BRIDGE",
+                "startIdx": 40,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 58,
+                "name": "CHORUS",
+                "startIdx": 49,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 62,
+                "name": "INTERLUDE",
+                "startIdx": 59,
+                "type": "interlude"
+            },
+            {
+                "endIdx": 70,
+                "name": "OUTRO",
+                "startIdx": 63,
+                "type": "outro"
+            }
+        ],
+        "dateAdded": "2026-06-18T20:51:23.193Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:12.60] Silverado on a roll off the blacktop\n[00:15.75] Little smoke roll it up strike a matchbox\n[00:18.85] Been known to be rough on the throttle\n[00:21.75] When we spin a little dust on the bottle, yeah\n[00:25.45] Ya never know what's gonna happen on a back road\n[00:29.28] If you're gonna back talk better have some backbone\n[00:32.13] You might have heard that we take it slow\n[00:34.62] So listen up if you don't know\n[00:36.73] There's one way it goes when it all goes down\n[00:41.78] One way to get when we get this loud\n[00:44.83] Little sideways\n[00:46.30] Little let go\n[00:47.42] Little too high to keep on the down low\n[00:50.83] The dirt covered steel toes we got on\n[00:53.98] Kick it way out here\n[00:55.37] Till Tuesday's Gone\n[00:56.85] Keepin' up with the Jones round here we know\n[01:00.19] How to put a little country into\n[01:01.93] Rock 'n' Roll\n[01:07.67] The only thing we pour is strong if you wanna drink\n[01:10.96] There's always more than you think sitting in the tank\n[01:13.85] Grow our own money put it where our mouth is\n[01:16.74] You ever seen a girl hotter than the south gets\n[01:20.55] She gonna make you wanna stay all night\n[01:23.84] Get ya puttin' in overtime, yeah\n[01:26.70] There's one way it goes when it all goes down\n[01:30.66] One way to get when we get this loud\n[01:33.87] Little sideways\n[01:35.21] Little let go\n[01:36.48] Little too high to keep on the down low\n[01:39.75] The dirt covered steel toes we got on\n[01:42.91] Kick it way out here\n[01:44.23] Till Tuesday's Gone\n[01:45.71] Keepin' up with the Jones round here we know\n[01:49.07] How to put a little country into\n[01:50.99] Rock 'n' Roll\n[01:55.19] How to put a little country into\n[01:57.09] Rock 'n' Roll\n[01:58.22] Ya never know what's gonna happen on a back road\n[02:07.33] (There's one way it goes when it all goes down)\n[02:10.38] You might have heard that we take it slow\n[02:12.55] So listen up if you don't know\n[02:16.54] There's one way it goes when it all goes down\n[02:19.60] One way to get when we get this loud\n[02:22.79] Little sideways\n[02:24.22] Little let go\n[02:25.38] Little too high to keep on the down low\n[02:28.25] The dirt covered steel toes we got on\n[02:31.72] Kick it way out here\n[02:33.11] Till Tuesday's Gone\n[02:35.52] Keepin' up with the Jones round here we know\n[02:38.00] How to put a little country into\n[02:39.87] Rock 'n' Roll\n[02:44.05] How to put a little country into\n[02:45.94] Rock 'n' Roll\n[02:50.21] How to put a little country into\n[02:52.05] Rock 'n' Roll\n[02:52.90]",
+        "genre": [
+            "Country"
+        ],
+        "id": "178181588319394hoinl4o",
+        "isPublic": true,
+        "key": "Dm",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Dm F G | Dm C Bb C",
+        "preChorusCue": "",
+        "preChorusTitle": "BRIDGE",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Country Into Rock 'n' Roll",
+        "verse": "Dm C Bb C",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "2026",
+        "youtubeUrl": "https://youtu.be/YuZII__nB-w?si=BnnqY3KfCIvSjuHJ"
     },
     {
         "artist": "Jason Aldean",
@@ -267694,6 +270108,1203 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Scorpions",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "E",
+                    "time": 0.25,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 4.992,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 9.61,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 14.08,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 18.599,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 23.113,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 25.456,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 27.756,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 30.034,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 32.261,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 34.556,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 36.83,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 39.139,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 41.417,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 43.71,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 46.074,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 48.307,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 50.605,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 52.919,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 55.143,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 57.413,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 59.69,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 62.003,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 64.292,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 66.604,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 68.928,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 71.203,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 73.409,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 75.699,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 78.033,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 80.304,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 82.553,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 84.87,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 87.221,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 89.449,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 91.696,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 94.045,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 96.304,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 100.91,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 105.416,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 107.765,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 110.063,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 112.272,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 114.567,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 116.897,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 119.152,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#m",
+                    "time": 121.407,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 123.701,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 126.009,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 128.342,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 130.607,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 132.886,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 135.177,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 137.417,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 139.785,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 142.028,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 144.294,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 146.608,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 148.927,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 151.174,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 153.435,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 155.779,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 160.336,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 162.618,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 164.909,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 169.445,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 174.056,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 178.626,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 183.171,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 187.759,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 189.965,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 192.334,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 194.601,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 196.905,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 199.165,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 201.453,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 203.791,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 206.079,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 208.352,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#m",
+                    "time": 210.688,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 212.932,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 215.176,
+                    "yOffset": -65
+                }
+            ],
+            "duration": 300,
+            "name": "Scorpions - The World We Used To Know",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "E C#m F#m B 2x",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "dateAdded": "2026-07-05T07:15:31.279Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:23.55] The flowers died on fields of hope\n[00:28.35] All the way from east to west\n[00:32.90] Where the mighty winds will blow\n[00:37.47] I'll put my dreams to rest\n[00:41.80] This scary monster is very much alive\n[00:46.49] Like a hundred years ago\n[00:50.96] If all those missiles would be bread\n[00:55.58] No one had to starve tonight\n[01:00.07] We run for shelter and what is left\n[01:04.82] Is a life ain't worth a dime\n[01:09.02] So far away from human rights\n[01:13.87] Stranded all alone\n[01:16.37] It's a long way to go\n[01:21.14] To find the world we used to know\n[01:25.86] A long way to go\n[01:30.21] To find the better world we used to know\n[01:37.43] \n[01:45.76] Before we make this world a mess\n[01:50.28] We gotta clean up our minds\n[01:54.96] We could be brothers, sisters, yes\n[01:59.45] United once and all the time\n[02:04.03] From out of space the captain takes a look\n[02:08.64] At mother earth, so small\n[02:11.10] It's a long way to go\n[02:16.08] To find the world we used to know\n[02:20.65] A long way to go\n[02:25.20] To find the better world we used to know\n[02:32.03] Who will be cryin' when we fall\n[02:38.48] Just tell me\n[02:41.11] Who in the world can heal our souls\n[02:48.57] \n[03:06.06] It's a long way to go\n[03:10.85] To find the world we used to know\n[03:15.56] A long way to go\n[03:19.92] To find the better world we used to know\n[03:25.85] A better world we used to know\n[03:29.83] A better world\n[03:33.42] It's a long way to go\n[03:37.23]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "1783235731279rdwju7h32",
+        "isPublic": true,
+        "key": "E",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "D E F#",
+        "preChorusCue": "",
+        "preChorusTitle": "BRIDGE",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "The World We Used To Know",
+        "verse": "E | E G#m 4x B F#m 2x",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "2015",
+        "youtubeUrl": "https://youtu.be/z0e05X8i5Ms?si=4xySasa_CQFsSRNh"
+    },
+    {
+        "artist": "Scorpions",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "C",
+                    "time": 16.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 18.15,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 19.916,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 21.694,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 23.486,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 25.236,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 27.03,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 28.815,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 32.638,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 34.179,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 35.847,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 37.591,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 39.368,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 41.162,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 42.902,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 44.725,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 46.401,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 48.167,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 49.956,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 51.758,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 53.559,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 55.302,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 57.071,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 58.85,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 60.644,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 62.372,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 64.083,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 65.858,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 67.596,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 69.37,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 71.14,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 72.914,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 74.976,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 76.466,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 78.228,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 80.012,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 81.788,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 83.556,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 85.292,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 87.034,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 88.732,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 90.554,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 92.317,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 94.14,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 95.866,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 97.66,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 99.427,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 101.134,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 103.148,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 104.677,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 106.408,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 108.153,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 109.921,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 111.725,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 113.479,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 115.257,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 117.03,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 118.811,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 120.531,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 122.344,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 124.053,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 125.851,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 127.639,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 129.383,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 131.093,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 134.726,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 138.259,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 141.749,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 145.187,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 147.043,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 148.824,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 150.586,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 152.343,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 154.064,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 155.822,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 157.617,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 161.302,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 162.94,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 164.708,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 166.563,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 168.204,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 170.002,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 171.795,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 173.692,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 175.293,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 177.001,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 178.818,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 180.513,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 182.315,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 184.1,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 185.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 187.598,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 189.361,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 191.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 192.864,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 194.697,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 196.446,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 198.206,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 199.952,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 201.729,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 203.471,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 205.245,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 206.982,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 208.776,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 210.539,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 212.281,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 214.106,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 215.854,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 217.614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 219.342,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 221.148,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 222.968,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 224.621,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 226.458,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 228.224,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 229.981,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 231.694,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 233.493,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 235.231,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 237.08,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 238.776,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 240.586,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 242.372,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 244.112,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 245.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 247.633,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 249.383,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 251.155,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 252.892,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 254.667,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 256.479,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 258.242,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 259.986,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 261.729,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 263.507,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 265.308,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 266.942,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 268.719,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 270.593,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 272.338,
+                    "yOffset": -35
+                }
+            ],
+            "duration": 300,
+            "name": "Scorpions - White Dove",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "F Am Dm E",
+        "chorusCue": "",
+        "chorusTitle": "BRIDGE",
+        "dateAdded": "2026-07-05T07:33:20.901Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:17.19] A place without a name\n[00:21.33] Under a burning sky\n[00:24.02] There's no milk and honey here\n[00:27.97] In the land of God\n[00:32.79] Someone holds a sign\n[00:34.20] It says we are human, too\n[00:38.01] And while the sun goes down\n[00:41.52] The world goes by\n[00:45.02] White dove\n[00:46.90] Fly with the wind\n[00:48.69] Take our hope under your wings\n[00:51.76] For the world to know\n[00:53.76] That hope will not die\n[00:55.94] Where the children cry\n[00:59.81] Waves, big like a house\n[01:03.37] They're stranded on a piece of wood\n[01:06.72] To leave it all behind\n[01:10.42] To start again\n[01:13.34] But instead of a new life\n[01:16.45] All they find is a door that's closed\n[01:21.01] And they keep looking for\n[01:24.65] A place called hope\n[01:27.48] White dove\n[01:29.23] Fly with the wind\n[01:31.06] Take our hope under your wings\n[01:34.05] For the world to know\n[01:36.09] That hope will not die\n[01:37.92] Where the children cry\n[01:41.56] Na na\n[01:43.37] Na na na na\n[01:45.15] Na na na na na na na na\n[01:48.66] Na na\n[01:50.30] Na na na na\n[01:52.37] Na na na na na\n[01:55.83] Can anyone tell me why (can anyone tell me why)\n[02:02.00] The children of the world (children of the world)\n[02:05.77] Have to pay the price (pay the price)\n[02:24.55] And now you're telling me\n[02:29.92] You've seen it all before\n[02:33.20] I know that's right but still\n[02:36.46] It breaks my heart\n[02:39.51] Well, the golden lamb we've sent\n[02:43.48] Makes us feel better now\n[02:46.81] But you know it's just a drop\n[02:50.86] In a sea of tears\n[02:53.98] White dove\n[02:55.79] Fly with the wind\n[02:57.37] Take our hope under your wings\n[03:00.50] For the world to know\n[03:02.63] That hope will not die\n[03:04.71] Where the children cry\n[03:08.11] White dove\n[03:09.88] Fly with the wind\n[03:11.60] Take our hope under your wings\n[03:14.65] For the world to know\n[03:16.65] That hope will not die\n[03:18.75] Where the children cry\n[03:22.05] Na na\n[03:23.98] Na na na na\n[03:25.82] Na na na na na na na na\n[03:29.22] Na na\n[03:31.03] Na na na na\n[03:33.08] Na na na na na\n[03:37.73]",
+        "id": "1783236800901w5hq6uz4c",
+        "isPublic": true,
+        "key": "",
+        "lyricOffset": 15,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "White Dove",
+        "verse": "C G Dm Am",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1996",
+        "youtubeUrl": "https://youtu.be/J55bvcVUM24?si=6nXPe3bi1D1l3Sq5"
+    },
+    {
+        "artist": "Scorpions",
         "bridge": "E F G E Am | F G Am | F G Em | Am Dm E",
         "bridgeCue": "",
         "bridgeTitle": "Bridge",
@@ -298768,7 +302379,7 @@ const DEFAULT_SONGS = [
         "artist": "Taylor Swift",
         "bridge": "",
         "bridgeCue": "",
-        "bridgeTitle": "",
+        "bridgeTitle": "Block 4",
         "capo": 0,
         "chordData": {
             "barOffset": 0,
@@ -299259,11 +302870,11 @@ const DEFAULT_SONGS = [
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "120",
-        "title": "I Knew I Knew You",
+        "title": "I Knew It, I Knew You",
         "verse": "C F 2x Em F G C Bb Am A7 Dm G",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2013",
+        "year": "2026",
         "youtubeUrl": "https://youtu.be/SzJXikN_4wA?si=dqSKMc5CBHUL2NZ5"
     },
     {
@@ -334760,6 +338371,763 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Toto",
+        "bridge": "Bbm7 Eb C/E Ebm Bb/D Bbm C | Cm7 Eb Gm7 F/A Cm7 Eb Bbm7 C Dm C/G Bb",
+        "bridgeCue": "",
+        "bridgeTitle": "BRIDGE & SOLO",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Bb",
+                    "time": 8.047,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 11.374,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Db",
+                    "time": 14.558,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 17.662,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 19.294,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 20.842,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 24.121,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Db",
+                    "time": 27.191,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 30.311,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 31.881,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 33.474,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm7",
+                    "time": 39.895,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Db",
+                    "time": 41.6,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C/E",
+                    "time": 43,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 44.8,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 46.21,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 48,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 49.367,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 52.613,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 54.259,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am7",
+                    "time": 55.766,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 58.972,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 60.484,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 62.124,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 63.776,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 65.387,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 66.964,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am7",
+                    "time": 68.46,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 71.64,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 73.325,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 74.951,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 76.6,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 78.2,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 84.409,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 87.545,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Db",
+                    "time": 90.761,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 93.922,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 95.481,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 97.064,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 100.313,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbm7",
+                    "time": 103.474,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 106.6,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C/E",
+                    "time": 108,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 109.8,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 114.6,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 115.2,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm7",
+                    "time": 116.288,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 117.761,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C/E",
+                    "time": 119.344,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 120.976,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb/D",
+                    "time": 122.457,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 124.106,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 125.592,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 128.857,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 130.507,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am7",
+                    "time": 131.994,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 135.217,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 136.85,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 138.4,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 139.977,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 141.582,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 143.186,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am7",
+                    "time": 144.66,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 147.877,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 149.58,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 151.082,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 152.657,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 154.206,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm7",
+                    "time": 160.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 162.2,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm7",
+                    "time": 163.6,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F/A",
+                    "time": 165.6,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm7",
+                    "time": 166.985,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 168.599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm7",
+                    "time": 170.257,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 171.752,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 172.4,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C/G",
+                    "time": 173,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb2",
+                    "time": 173.8,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 176.555,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 178.172,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am7",
+                    "time": 179.671,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 182.839,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 184.478,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 186.061,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 187.591,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 189.224,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 190.855,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am7",
+                    "time": 192.317,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 195.515,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 197.205,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 198.719,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 200.295,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 201.861,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm7",
+                    "time": 203.563,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am7",
+                    "time": 205.091,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 208.285,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 209.909,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 211.474,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 213.075,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 214.64,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm7",
+                    "time": 216.228,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am7",
+                    "time": 217.797,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 220.94,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 222.597,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 224.164,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 225.778,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 227.326,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 228.916,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 230.549,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 232.163,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 233.716,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 235.295,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 236.881,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 238.487,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 240.019,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 246.422,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 252.686,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 259.07,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 265.369,
+                    "yOffset": -50
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 10,
+                    "name": "VERSE 1",
+                    "startIdx": 0,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 17,
+                    "name": "PRE CHORUS",
+                    "startIdx": 11,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 32,
+                    "name": "CHORUS",
+                    "startIdx": 18,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 43,
+                    "name": "VERSE 2",
+                    "startIdx": 33,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 52,
+                    "name": "BRIDGE",
+                    "startIdx": 44,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 67,
+                    "name": "CHORUS",
+                    "startIdx": 53,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 78,
+                    "name": "SOLO",
+                    "startIdx": 68,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 102,
+                    "name": "CHORUS",
+                    "startIdx": 79,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 119,
+                    "name": "OUTRO",
+                    "startIdx": 103,
+                    "type": "outro"
+                }
+            ],
+            "duration": 300,
+            "name": "Toto - Anna",
+            "tempo": 75,
+            "useFlatNotation": false
+        },
+        "chorus": "Bbm7 Eb C/E Ebm Bb C",
+        "chorusCue": "",
+        "chorusTitle": "PRE CHORUS",
+        "customMapSections": [
+            {
+                "endIdx": 10,
+                "name": "VERSE 1",
+                "startIdx": 0,
+                "type": "verse"
+            },
+            {
+                "endIdx": 17,
+                "name": "PRE CHORUS",
+                "startIdx": 11,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 32,
+                "name": "CHORUS",
+                "startIdx": 18,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 43,
+                "name": "VERSE 2",
+                "startIdx": 33,
+                "type": "verse"
+            },
+            {
+                "endIdx": 52,
+                "name": "BRIDGE",
+                "startIdx": 44,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 67,
+                "name": "CHORUS",
+                "startIdx": 53,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 78,
+                "name": "SOLO",
+                "startIdx": 68,
+                "type": "solo"
+            },
+            {
+                "endIdx": 102,
+                "name": "CHORUS",
+                "startIdx": 79,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 119,
+                "name": "OUTRO",
+                "startIdx": 103,
+                "type": "outro"
+            }
+        ],
+        "dateAdded": "2026-06-08T13:44:37.526Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:10.19] Anna please turn around\n[00:15.38] We'll work it out somehow\n[00:22.27] Anna don't turn me down\n[00:27.95] There's still a chance if we can hold out once more\n[00:41.20] 'Cause we started out with love\n[00:45.53] That was more than enough\n[00:48.74] And that's a lot to give up\n[00:54.06] Even if you turn and walk away\n[01:00.19] Love will bring you back somehow\n[01:06.68] I will wait forever and a day\n[01:12.50] 'Cause I believe without a doubt\n[01:16.10] The time will not run out on our love\n[01:25.86] Anna you gotta stay\n[01:31.74] It's just a stage we're going through\n[01:38.59] And Anna this all can change\n[01:44.49] If we turn the page we can start all again\n[01:57.53] 'Cause we almost touched the sky\n[02:01.80] And it could never again be this right\n[02:05.16] Anna please change your mind\n[02:10.29] Even if you turn and walk away\n[02:16.37] Love will bring you back somehow\n[02:22.79] I will wait forever and a day\n[02:28.64] 'Cause I believe without a doubt\n[02:32.21] The time will not run out on our love\n[02:58.01] Even if you turn and walk away\n[03:04.09] Love will bring you back somehow\n[03:10.51] I will wait forever and a day\n[03:16.32] 'Cause I believe without a doubt\n[03:20.00] The time will not run out\n[03:23.33] Even if you turn and walk away\n[03:29.55] Love will bring you back somehow\n[03:35.70] I will wait forever and a day\n[03:41.82] 'Cause I believe without a doubt\n[03:45.82] The time will not run out\n[03:47.75] And I believe without a doubt\n[03:51.52] The time will not run out\n[03:53.86] And I believe without a doubt\n[03:58.00] The time will not run out on our love\n[04:51.99]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "1780926277526ujrolj42t",
+        "isPublic": true,
+        "key": "F",
+        "lyricOffset": -2,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "F Dm Am7 Bb Dm7 C Bb | F Dm7 Am7 Bb F Bb C F",
+        "preChorusCue": "",
+        "preChorusTitle": "chorus",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 75,
+        "title": "Anna",
+        "verse": "Bb Am Db Gm7 C 2x F ",
+        "verseCue": "",
+        "verseTitle": "VERSE",
+        "year": "1988",
+        "youtubeUrl": "https://youtu.be/R1CBfNBArSA?si=yGUzsrM-FKAnbK9Y"
+    },
+    {
+        "artist": "Toto",
         "bridge": "F# Bm2 G Em D3 A2 C#m3 G#2",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
@@ -340487,6 +344855,906 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO & VERSE",
         "year": "1986",
         "youtubeUrl": "https://youtu.be/gtmM4tqmtKs?si=cm7okx2X3s1fhEpt"
+    },
+    {
+        "artist": "Toto",
+        "bridge": "A5 A5 B5 C#5 D#5 E5 F5 F5 G5",
+        "bridgeCue": "",
+        "bridgeTitle": "OUTRO",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "E",
+                    "time": 1.936,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 2.619,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 3.305,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 4.564,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 5.105,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 5.731,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 6.572,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 7.237,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 9.452,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 10.166,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 10.886,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 12.32,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 12.754,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 13.22,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 14.032,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 14.74,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 17.079,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 17.803,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 18.553,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 19.961,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 20.409,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 20.926,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 21.726,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 22.391,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 24.738,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 25.439,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 26.266,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 27.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 28.15,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 28.618,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 29.529,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 30.286,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 32.397,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 33.088,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 33.525,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 36.232,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 36.938,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 37.272,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 40.082,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 40.775,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 41.054,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 43.916,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 44.686,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 45.023,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 47.767,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 48.6,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 49.322,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 50.635,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 51.116,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 51.626,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 52.599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 53.254,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 55.481,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 56.357,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 56.981,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 58.322,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 58.791,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 59.324,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 60.273,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 60.971,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 63.154,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 63.809,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 64.122,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 66.948,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 67.692,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 67.977,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 70.798,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 71.469,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 71.765,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 74.615,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 75.331,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 75.626,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 78.483,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 79.384,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 80.144,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 81.331,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 81.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 82.299,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 83.244,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 83.975,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 86.136,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 87.047,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 87.818,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 88.972,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 89.417,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 89.917,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 90.899,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 91.654,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#m",
+                    "time": 93.859,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 97.668,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#m",
+                    "time": 101.467,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 105.311,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 109.18,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#",
+                    "time": 113.022,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#m",
+                    "time": 116.837,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 120.635,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 122.579,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 124.494,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 125.399,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 126.008,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 127.343,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 127.843,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 128.323,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 129.269,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 130.082,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 132.175,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 133.133,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 133.944,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 135.065,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 135.535,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 136.021,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 136.981,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 137.788,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 139.786,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 140.629,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 141.43,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 142.679,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 143.147,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 143.641,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 144.654,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 145.42,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 147.526,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 148.351,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 149.235,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 150.41,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 150.853,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 151.326,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 152.271,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 153.029,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 155.237,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 156.156,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 156.907,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 159.019,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 159.956,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 160.72,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 162.95,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A5",
+                    "time": 166.731,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B5",
+                    "time": 167.125,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#5",
+                    "time": 167.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#5",
+                    "time": 167.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E5",
+                    "time": 168.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F5",
+                    "time": 168.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F5",
+                    "time": 168.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G5",
+                    "time": 169,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 169.336,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 169.554,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 169.883,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#5",
+                    "time": 170.218,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#5",
+                    "time": 170.549,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E5",
+                    "time": 170.876,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F5",
+                    "time": 171.192,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F5",
+                    "time": 171.432,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G5",
+                    "time": 171.758,
+                    "yOffset": -35
+                },
+                {
+                    "name": "repeat",
+                    "time": 172.216,
+                    "yOffset": -65
+                },
+                {
+                    "name": "repeat",
+                    "time": 175.118,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 178.04,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 180.857,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 183.745,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 186.648,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 189.535,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 192.401,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat",
+                    "time": 195.236,
+                    "yOffset": -50
+                },
+                {
+                    "name": "repeat till end",
+                    "time": 198.148,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 201.025,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 203.892,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 206.761,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 209.618,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 212.496,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 215.375,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 218.266,
+                    "yOffset": -50
+                },
+                {
+                    "name": "?",
+                    "time": 221.143,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "Toto - I'll Supply The Love",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "C#m B C#m",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "dateAdded": "2026-07-03T13:23:45.083Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:23.30] You supply the night\n[00:27.18] Baby, I'll supply the love\n[00:30.84] I see a horseman in the sky\n[00:35.49] It makes me turn and wonder why\n[00:39.73] I hear the same old fourteen reasons\n[00:43.88] Must be the changin' by the seasons\n[00:47.61] You supply the night\n[00:51.46] Baby, I'll supply the love\n[00:54.35] You supply the night\n[00:57.46] Baby, I'll supply the love\n[01:01.42] I met the girl across the sea\n[01:06.45] She saved my life and came with me\n[01:10.24] A tender night of dark persuasion\n[01:14.22] Could be my first and last occasion\n[01:18.04] You supply the night\n[01:21.10] Baby, I'll supply the love\n[01:24.10] You supply the night\n[01:28.01] Baby, I'll supply the love\n[01:31.82] You supply the night\n[01:35.29] \n[02:06.63] Baby, I'll supply the love\n[02:10.59] You supply the night\n[02:14.48] Baby, I'll supply the love\n[02:17.77] You supply the night\n[02:22.55] Baby, I'll supply the love\n[02:25.40] You supply the night\n[02:29.83] Baby, I'll supply the love\n[02:33.54] Baby, I'll supply the love\n[02:36.56] Baby, I'll supply the love\n[02:39.89] I'll supply the love\n[02:40.94]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "1783085025083pn6e4mjzm",
+        "isPublic": true,
+        "key": "F",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "C#m D# F#m C#m |C#m D# F#m A B",
+        "preChorusCue": "",
+        "preChorusTitle": "BRIDGE",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "I'll Supply The Love",
+        "verse": "E B A A B E B A",
+        "verseCue": "",
+        "verseTitle": "INTRO & CHORUS",
+        "year": "1979",
+        "youtubeUrl": "https://www.youtube.com/watch?v=nzaeKM9-2Qg"
     },
     {
         "artist": "Toto",
