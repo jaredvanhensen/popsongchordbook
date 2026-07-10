@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.199 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
-    <meta name="version" content="3.199">
+    <title>PopSongChordBook v3.201 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.201">
     <meta name="description"
         content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
@@ -66,8 +66,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.199">
-    <link rel="stylesheet" href="landing.css?v=3.199">
+    <link rel="stylesheet" href="styles.css?v=3.200">
+    <link rel="stylesheet" href="landing.css?v=3.200">
     <style>
         /* =============================================
            Hero background: screenshot as zoomed,
@@ -462,9 +462,11 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.199">
-    <script>const SITE_VERSION = '3.199';</script>
+    <meta name="application-version" content="v3.201">
+    <script>const SITE_VERSION = '3.201';</script>
     <!-- Version history: 
+        v3.201: Added "Keep Music Playing" option for superadmin, fixed timeline TAB popup dragging and auto-closing.
+        v3.200: Added full guitar tab notation support, timeline tab track markers, and floating tab popup.
         v3.199: Added guitar chord diagrams for A#sus2, Bbsus2, C#maj7, and F#maj7.
         v3.198: Removed "Drag header to move window" label and reduced header height on the Circle of Fifths modal.
         v3.197: Added interactive Circle of Fifths chord input tool to timeline toolbar on desktop views.
@@ -1017,34 +1019,34 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.199"></script>
-    <script src="js/models/SongManager.js?v=3.199"></script>
-    <script src="js/models/SetlistManager.js?v=3.199"></script>
-    <script src="js/utils/Sorter.js?v=3.199"></script>
-    <script src="js/utils/ChordDetector.js?v=3.199"></script>
-    <script src="js/utils/KeyDetector.js?v=3.199"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.199"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.199"></script>
-    <script src="js/ui/ChordModal.js?v=3.199"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.199"></script>
-    <script src="js/ui/TableRenderer.js?v=3.199"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.199"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.199"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.199"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.199"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.199"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.199"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.199"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.199"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.199"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.199"></script>
-    <script src="js/utils/ChordParser.js?v=3.199"></script>
-    <script src="js/ui/AuthModal.js?v=3.199"></script>
-    <script src="js/ui/ProfileModal.js?v=3.199"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.199"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.199"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.199"></script>
-    <script src="js/app.js?v=3.199"></script>
+    <script src="js/config/firebase-config.js?v=3.200"></script>
+    <script src="js/models/SongManager.js?v=3.200"></script>
+    <script src="js/models/SetlistManager.js?v=3.200"></script>
+    <script src="js/utils/Sorter.js?v=3.200"></script>
+    <script src="js/utils/ChordDetector.js?v=3.200"></script>
+    <script src="js/utils/KeyDetector.js?v=3.200"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.200"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.200"></script>
+    <script src="js/ui/ChordModal.js?v=3.200"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.200"></script>
+    <script src="js/ui/TableRenderer.js?v=3.200"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.200"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.200"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.200"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.200"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.200"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.200"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.200"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.200"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.200"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.200"></script>
+    <script src="js/utils/ChordParser.js?v=3.200"></script>
+    <script src="js/ui/AuthModal.js?v=3.200"></script>
+    <script src="js/ui/ProfileModal.js?v=3.200"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.200"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.200"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.200"></script>
+    <script src="js/app.js?v=3.200"></script>
 
     <!-- Band Practice Image Slider Script -->
     <script>
@@ -1527,7 +1529,7 @@
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.199</span>
+                v<span id="site-version">3.201</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &

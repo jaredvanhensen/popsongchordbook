@@ -70,6 +70,8 @@ class ProfileModal {
         this.requestsEmptyMsg = document.getElementById('adminRequestsEmpty');
         this.requestsCloseBtn = document.getElementById('adminRequestsModalClose');
         this.adminPaywallToggle = document.getElementById('adminPaywallToggle');
+        this.adminKeepPlayingToggle = document.getElementById('adminKeepPlayingToggle');
+        this.adminKeepPlayingContainer = document.getElementById('adminKeepPlayingContainer');
         this.viewMembersBtn = document.getElementById('profileViewMembersBtn');
         this.viewFacebookGroupsBtn = document.getElementById('profileViewFacebookGroupsBtn');
         this.viewFixRequestsBtn = document.getElementById('profileViewFixRequestsBtn');
@@ -289,6 +291,12 @@ class ProfileModal {
         // Enter key handling for password change
         // Feature Toggles
 
+
+        if (this.adminKeepPlayingToggle) {
+            this.adminKeepPlayingToggle.addEventListener('change', (e) => {
+                localStorage.setItem('keepMusicPlayingAfterTimelineClose', e.target.checked ? 'true' : 'false');
+            });
+        }
 
         if (this.timelineAudioToggle) {
             this.timelineAudioToggle.addEventListener('change', (e) => {
@@ -971,6 +979,18 @@ class ProfileModal {
                         this.adminPaywallToggle.checked = isActive;
                     }
                 });
+
+                // Check if superadmin (jared@vanhensen.nl) to show/hide Keep Music Playing option
+                const email = user ? (user.email || '').toLowerCase() : '';
+                const isSuperAdmin = (email === 'jared@vanhensen.nl');
+                if (this.adminKeepPlayingContainer) {
+                    this.adminKeepPlayingContainer.style.display = isSuperAdmin ? 'flex' : 'none';
+                }
+                if (this.adminKeepPlayingToggle) {
+                    const saved = localStorage.getItem('keepMusicPlayingAfterTimelineClose');
+                    // Default to true (ON) for jared@vanhensen.nl
+                    this.adminKeepPlayingToggle.checked = (saved !== 'false');
+                }
             }
         }
     }

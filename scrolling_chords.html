@@ -16,8 +16,8 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=3.199">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=3.199">
+    <link rel="stylesheet" href="scrolling.css?v=3.200">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=3.200">
 
     <!-- Android TWA detection: hide lyrics when running as Play Store app -->
     <script>
@@ -278,6 +278,9 @@
             <button id="teacherNoteBtn" title="Add Note / Annotations" class="edit-btn" style="background: #fef9c3; border-color: #fef08a; color: #854d0e; display: none; align-items: center; gap: 6px;">
                 <span class="icon" style="font-size: 16px;">📝</span>
                 <span>NOTE</span>
+            </button>
+            <button id="tabBtn" title="Add Guitar Tab at current position" class="edit-btn" style="background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; display: none; align-items: center; gap: 4px; font-family: 'Courier New', monospace; font-weight: 900; letter-spacing: -0.5px;">
+                <span style="font-size: 13px; font-family: 'Courier New', monospace; font-weight: 900;">TAB</span>
             </button>
             <button id="captureBtn" title="Record timing" class="capture-btn hidden">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="#ef4444">
@@ -678,6 +681,8 @@
             <!-- Chords -->
             <div class="chord-track" id="chordTrack"></div>
             <div class="interaction-track" id="interactionTrack"></div>
+            <!-- Tab markers (start-time pins) -->
+            <div class="tab-track" id="tabTrack"></div>
         </div>
 
         <!-- Recording Indicator -->
@@ -782,6 +787,53 @@
         </div>
     </div>
 
+    <!-- Tab Editor Overlay -->
+    <div id="tabEditorOverlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10001; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; pointer-events: auto;">
+        <div style="position: relative; width: min(90vw, 520px); background: #ffffff; padding: 20px 22px 18px 22px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 4px 12px rgba(29,78,216,0.08); border: 1.5px solid #bfdbfe; display: flex; flex-direction: column; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #e0e7ff; padding-bottom: 10px;">
+                <span style="font-size: 0.95rem; font-weight: 800; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">🎸 Guitar Tab</span>
+                <button id="closeTabEditorBtn" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b; font-weight: bold; line-height: 1; padding: 0 4px; opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
+            </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 10px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 0.78rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 4px;">Label (optional)</label>
+                    <input id="tabEditorLabel" type="text" placeholder="e.g. Intro riff, Bridge solo..." style="width: 100%; padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.88rem; font-family: inherit; color: #1e293b; outline: none; box-sizing: border-box; background: #f8fafc;">
+                </div>
+                <div style="width: 100px;">
+                    <label style="font-size: 0.78rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 4px;">Bars Duration</label>
+                    <input id="tabEditorBarsInput" type="number" min="1" max="99" value="4" style="width: 100%; padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.88rem; font-family: inherit; color: #1e293b; outline: none; box-sizing: border-box; background: #f8fafc; text-align: center;">
+                </div>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 0.78rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 4px;">Tab content <span style="color:#94a3b8; font-weight:400; text-transform:none;">(paste your 6-line guitar tab here)</span></label>
+                <textarea id="tabEditorContent" placeholder="e|----------------------|\nB|----------------------|\nG|----------------------|\nD|--------------1/2-0---|\nA|----0-2---2/3-------2-|\nE|-3------3-------------|" style="width: 100%; height: 140px; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.82rem; font-family: 'Courier New', Courier, monospace; color: #1e293b; line-height: 1.6; resize: vertical; outline: none; box-sizing: border-box; background: #f8fafc; white-space: pre; tab-size: 1;"></textarea>
+            </div>
+            <div id="tabEditorBtnGroup" style="display: flex; justify-content: flex-end; gap: 8px; align-items: center; border-top: 1px solid #e0e7ff; padding-top: 12px;">
+                <button id="deleteTabBtn" style="padding: 6px 14px; border-radius: 7px; border: 1px solid rgba(220, 38, 38, 0.4); background: transparent; color: #dc2626; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-right: auto; display: none;" onmouseover="this.style.background='rgba(220,38,38,0.06)'" onmouseout="this.style.background='transparent'">Delete</button>
+                <button id="cancelTabEditorBtn" style="padding: 6px 14px; border-radius: 7px; border: 1px solid #cbd5e1; background: transparent; color: #475569; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='transparent'">Cancel</button>
+                <button id="saveTabBtn" style="padding: 6px 18px; border-radius: 7px; border: none; background: #1d4ed8; color: #ffffff; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#1e40af'" onmouseout="this.style.background='#1d4ed8'">Save Tab</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab View Popup (floating draggable, shown during playback) -->
+    <div id="tabViewPopup" class="tab-popup-window hidden">
+        <div class="tab-popup-header" id="tabViewPopupHeader">
+            <span class="tab-popup-title" id="tabViewPopupTitle">🎸 TAB</span>
+            <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
+                <span style="font-size: 0.72rem; color: rgba(255,255,255,0.8); white-space: nowrap;">Display for:</span>
+                <input id="tabViewBarsInput" type="number" min="1" max="99" value="4" title="Number of bars to display" style="width: 40px; padding: 2px 5px; border: 1px solid rgba(255,255,255,0.4); border-radius: 5px; font-size: 0.82rem; font-family: inherit; color: #ffffff; background: rgba(255,255,255,0.15); text-align: center; outline: none;">
+                <span style="font-size: 0.72rem; color: rgba(255,255,255,0.8);">bars</span>
+            </div>
+            <button id="editTabPopupBtn" title="Edit this tab" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; cursor: pointer; margin-left: 6px; display: inline-flex; align-items: center; gap: 2px;">✏️ Edit</button>
+            <button class="tab-popup-close" id="closeTabViewPopupBtn" title="Close tab popup">&times;</button>
+        </div>
+        <div class="tab-popup-body">
+            <pre id="tabViewContent" class="tab-popup-content"></pre>
+        </div>
+    </div>
+
+
     <!-- Add Note Overlay -->
     <div id="teacherNoteOverlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; pointer-events: auto;">
         <div style="position: relative; width: 340px; background: #fef08a; padding: 20px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 -15px 30px rgba(0, 0, 0, 0.05); transform: rotate(-1deg); display: flex; flex-direction: column; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; pointer-events: auto;">
@@ -835,25 +887,24 @@
             <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
             <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
             <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-            <script src="js/config/firebase-config.js?v=3.199"></script>
-            <script src="js/utils/FirebaseManager.js?v=3.199"></script>
+            <script src="js/config/firebase-config.js?v=3.200"></script>
+            <script src="js/utils/FirebaseManager.js?v=3.200"></script>
  
             <!-- Utils -->
-            <script src="js/utils/PianoAudioPlayer.js?v=3.199" defer></script>
-            <script src="js/utils/ChordParser.js?v=3.199" defer></script>
-            <script src="js/utils/GuitarRenderer.js?v=3.199" defer></script>
-            <script src="js/utils/MidiInputHandler.js?v=3.199" defer></script>
-            <script src="js/utils/LyricsParser.js?v=3.199" defer></script>
-            <script src="js/ui/ConfirmationModal.js?v=3.199" defer></script>
-            <script src="js/ui/ChordEditModal.js?v=3.199" defer></script>
-            <script src="js/ui/BpmEditModal.js?v=3.199" defer></script>
-            <script src="js/data/GuitarChordDatabase.js?v=3.199" defer></script>
-            <script src="js/data/UkuleleChordDatabase.js?v=3.199" defer></script>
-            <script src="js/ui/ChordFinderModal.js?v=3.199" defer></script>
-            <script src="js/ui/ChordProgressionEditor.js?v=3.199" defer></script>
-            <script src="js/scrolling_chords.js?v=3.199" defer></script>
+            <script src="js/utils/PianoAudioPlayer.js?v=3.200" defer></script>
+            <script src="js/utils/ChordParser.js?v=3.200" defer></script>
+            <script src="js/utils/GuitarRenderer.js?v=3.200" defer></script>
+            <script src="js/utils/MidiInputHandler.js?v=3.200" defer></script>
+            <script src="js/utils/LyricsParser.js?v=3.200" defer></script>
+            <script src="js/ui/ConfirmationModal.js?v=3.200" defer></script>
+            <script src="js/ui/ChordEditModal.js?v=3.200" defer></script>
+            <script src="js/ui/BpmEditModal.js?v=3.200" defer></script>
+            <script src="js/data/GuitarChordDatabase.js?v=3.200" defer></script>
+            <script src="js/data/UkuleleChordDatabase.js?v=3.200" defer></script>
+            <script src="js/ui/ChordFinderModal.js?v=3.200" defer></script>
+            <script src="js/ui/ChordProgressionEditor.js?v=3.200" defer></script>
+            <script src="js/scrolling_chords.js?v=3.200" defer></script>
 </body>
-
 </html>
 
 

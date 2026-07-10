@@ -11000,6 +11000,27 @@ div.song-detail-practice-controls {
     height: 12px;
 }
 
+/* TAB insert button in section headers */
+.tab-insert-btn {
+    background: #1d4ed8 !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.tab-insert-btn:hover {
+    background: #1e40af !important;
+    transform: scale(1.08);
+}
+
+.tab-insert-label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    line-height: 1;
+}
+
 .chord-text-notation {
     font-family: 'Inter', -apple-system, system-ui, sans-serif;
     font-size: 1.3rem;

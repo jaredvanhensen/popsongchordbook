@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.198 - Interactive Scrolling Chords & Band Tool</title>
-    <meta name="version" content="3.198">
-    <meta name="application-version" content="v3.198">
+    <title>Song List v3.201 - Interactive Scrolling Chords & Band Tool</title>
+    <meta name="version" content="3.201">
+    <meta name="application-version" content="v3.201">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -24,7 +24,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3.199">
+    <link rel="stylesheet" href="styles.css?v=3.200">
     <style>
         /* Force Chord Blocks (Block 1 - 4) to only show a single row of preview */
         td.chord-cell:not(:has(input)) {
@@ -976,7 +976,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.199</span>
+                        <span id="site-version" class="version-tag">3.201</span>
                     </div>
                 </div>
             </div>
@@ -1445,6 +1445,22 @@
                                 <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
                             </label>
                         </div>
+
+                        <!-- Keep Music Playing Toggle (Superadmin only) -->
+                        <div id="adminKeepPlayingContainer" class="feature-toggle" style="display: none; align-items: center; justify-content: space-between; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ffedd5; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🎵</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px; color: #9a3412;">Keep Music Playing</div>
+                                    <div style="font-size: 11px; color: #64748b;">Keep playing after Timeline close</div>
+                                </div>
+                            </div>
+                            <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="adminKeepPlayingToggle" style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
 
                         <button id="profileViewAdminsBtn" class="modal-submit-btn" style="background: #4f46e5; width: 100%; margin-bottom: 10px;">
                             Administrators
@@ -2329,6 +2345,9 @@
                         <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
                         </h3>
                         <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn tab-insert-btn" data-section="verse" title="View / Add Guitar Tab">
+                                <span class="tab-insert-label">TAB</span>
+                            </button>
                             <button class="header-action-btn text-insert-btn" data-section="verse" title="Add Text Note">
                                 <span class="icon">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2368,6 +2387,9 @@
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="chorusTitle" contenteditable="true">Block 2</h3>
                         <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn tab-insert-btn" data-section="chorus" title="View / Add Guitar Tab">
+                                <span class="tab-insert-label">TAB</span>
+                            </button>
                             <button class="header-action-btn text-insert-btn" data-section="chorus" title="Add Text Note">
                                 <span class="icon">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2407,6 +2429,9 @@
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="preChorusTitle" contenteditable="true">Block 3</h3>
                         <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn tab-insert-btn" data-section="preChorus" title="View / Add Guitar Tab">
+                                <span class="tab-insert-label">TAB</span>
+                            </button>
                             <button class="header-action-btn text-insert-btn" data-section="preChorus" title="Add Text Note">
                                 <span class="icon">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2447,6 +2472,9 @@
                         <h3 class="chord-section-title editable-title" id="bridgeTitle" contenteditable="true">Block 4
                         </h3>
                         <div class="chord-toolbar-header-actions">
+                            <button class="header-action-btn tab-insert-btn" data-section="bridge" title="View / Add Guitar Tab">
+                                <span class="tab-insert-label">TAB</span>
+                            </button>
                             <button class="header-action-btn text-insert-btn" data-section="bridge" title="Add Text Note">
                                 <span class="icon">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2743,6 +2771,31 @@
         </div>
     </div>
 
+    <!-- Tab Viewer Popup (Song Detail Modal — section TAB button) -->
+    <div id="tabViewerPopup" class="hidden" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 12000; width: min(92vw, 580px); background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 14px; box-shadow: 0 20px 50px rgba(0,0,0,0.18), 0 4px 12px rgba(29,78,216,0.08); display: flex; flex-direction: column; overflow: hidden; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+        <div id="tabViewerPopupHeader" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px 10px 18px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-bottom: 1px solid #bfdbfe; cursor: grab; user-select: none;">
+            <span style="font-size: 1rem; font-weight: 800; color: #1d4ed8; letter-spacing: 0.2px; flex: 1;" id="tabViewerTitle">🎸 Guitar Tab</span>
+            <button id="closeTabViewerPopupBtn" title="Close" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b; line-height: 1; padding: 0 4px; opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">&times;</button>
+        </div>
+        <div id="tabViewerNav" style="display: none; align-items: center; justify-content: space-between; padding: 6px 16px; border-bottom: 1px solid #e0e7ff; background: #f8fafc;">
+            <button id="tabViewerPrevBtn" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #1d4ed8; padding: 2px 8px;" title="Previous tab">‹</button>
+            <span id="tabViewerNavLabel" style="font-size: 0.78rem; color: #64748b; font-weight: 600;"></span>
+            <button id="tabViewerNextBtn" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #1d4ed8; padding: 2px 8px;" title="Next tab">›</button>
+        </div>
+        <div style="padding: 16px 18px 14px 18px; overflow: auto; max-height: 60vh;">
+            <div id="tabViewerNoTabs" style="text-align: center; padding: 28px 0; color: #94a3b8; font-size: 0.9rem; display: none;">
+                <div style="font-size: 2rem; margin-bottom: 8px;">🎸</div>
+                <div>No guitar tabs saved for this section yet.</div>
+                <div style="margin-top: 6px; font-size: 0.8rem; color: #cbd5e1;">Open the Timeline to add a TAB at the right position.</div>
+            </div>
+            <pre id="tabViewerContent" style="margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; font-size: 0.84rem; line-height: 1.7; color: #1e293b; white-space: pre; overflow-x: auto; background: transparent;"></pre>
+        </div>
+        <div style="display: flex; justify-content: flex-end; padding: 8px 16px 12px 16px; border-top: 1px solid #e0e7ff; background: #f8fafc;">
+            <button id="closeTabViewerFooterBtn" style="padding: 6px 18px; border-radius: 7px; border: 1px solid #cbd5e1; background: transparent; color: #475569; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='transparent'">Close</button>
+        </div>
+    </div>
+    <div id="tabViewerBackdrop" class="hidden" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.35); backdrop-filter: blur(2px); z-index: 11999;"></div>
+
     <!-- Lyrics Edit Modal -->
     <div id="lyricsEditModal" class="modal hidden">
         <div class="modal-content" style="max-width: 600px; height: 80vh; display: flex; flex-direction: column;">
@@ -2947,42 +3000,42 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check-compat.js"></script>
 
     <!-- Firebase Config -->
-    <script src="js/config/firebase-config.js?v=3.198"></script>
+    <script src="js/config/firebase-config.js?v=3.200"></script>
  
     <!-- Models -->
-    <script src="js/models/SongManager.js?v=3.198"></script>
-    <script src="js/models/SetlistManager.js?v=3.198"></script>
+    <script src="js/models/SongManager.js?v=3.200"></script>
+    <script src="js/models/SetlistManager.js?v=3.200"></script>
     <!-- Utils -->
-    <script src="js/utils/SEO.js?v=3.198"></script>
-    <script src="js/utils/Sorter.js?v=3.198"></script>
-    <script src="js/utils/ChordDetector.js?v=3.198"></script>
-    <script src="js/utils/KeyDetector.js?v=3.198"></script>
-    <script src="js/utils/FirebaseManager.js?v=3.199"></script>
-    <script src="js/utils/PianoAudioPlayer.js?v=3.199"></script>
-    <script src="js/utils/MidiInputHandler.js?v=3.199"></script>
-    <script src="js/utils/LyricsParser.js?v=3.199"></script>
+    <script src="js/utils/SEO.js?v=3.200"></script>
+    <script src="js/utils/Sorter.js?v=3.200"></script>
+    <script src="js/utils/ChordDetector.js?v=3.200"></script>
+    <script src="js/utils/KeyDetector.js?v=3.200"></script>
+    <script src="js/utils/FirebaseManager.js?v=3.200"></script>
+    <script src="js/utils/PianoAudioPlayer.js?v=3.200"></script>
+    <script src="js/utils/MidiInputHandler.js?v=3.200"></script>
+    <script src="js/utils/LyricsParser.js?v=3.200"></script>
     <!-- UI Components -->
-    <script src="js/utils/ChordParser.js?v=3.199"></script>
-    <script src="js/ui/ChordModal.js?v=3.199"></script>
-    <script src="js/ui/SongDetailModal.js?v=3.199"></script>
-    <script src="js/ui/TableRenderer.js?v=3.199"></script>
-    <script src="js/ui/ChordDetectorOverlay.js?v=3.199"></script>
-    <script src="js/ui/PianoChordOverlay.js?v=3.199"></script>
-    <script src="js/data/GuitarChordDatabase.js?v=3.199"></script>
-    <script src="js/utils/GuitarRenderer.js?v=3.199"></script>
-    <script src="js/ui/GuitarChordOverlay.js?v=3.199"></script>
-    <script src="js/data/UkuleleChordDatabase.js?v=3.199"></script>
-    <script src="js/utils/UkuleleRenderer.js?v=3.199"></script>
-    <script src="js/ui/UkuleleChordOverlay.js?v=3.199"></script>
-    <script src="js/ui/ChordFinderModal.js?v=3.199"></script>
-    <script src="js/ui/ChordProgressionEditor.js?v=3.199"></script>
-    <script src="js/ui/AuthModal.js?v=3.199"></script>
-    <script src="js/ui/ProfileModal.js?v=3.199"></script>
-    <script src="js/ui/ShareSongsModal.js?v=3.199"></script>
-    <script src="js/ui/AcceptSongsModal.js?v=3.199"></script>
-    <script src="js/ui/ConfirmationModal.js?v=3.199"></script>
+    <script src="js/utils/ChordParser.js?v=3.200"></script>
+    <script src="js/ui/ChordModal.js?v=3.200"></script>
+    <script src="js/ui/SongDetailModal.js?v=3.200"></script>
+    <script src="js/ui/TableRenderer.js?v=3.200"></script>
+    <script src="js/ui/ChordDetectorOverlay.js?v=3.200"></script>
+    <script src="js/ui/PianoChordOverlay.js?v=3.200"></script>
+    <script src="js/data/GuitarChordDatabase.js?v=3.200"></script>
+    <script src="js/utils/GuitarRenderer.js?v=3.200"></script>
+    <script src="js/ui/GuitarChordOverlay.js?v=3.200"></script>
+    <script src="js/data/UkuleleChordDatabase.js?v=3.200"></script>
+    <script src="js/utils/UkuleleRenderer.js?v=3.200"></script>
+    <script src="js/ui/UkuleleChordOverlay.js?v=3.200"></script>
+    <script src="js/ui/ChordFinderModal.js?v=3.200"></script>
+    <script src="js/ui/ChordProgressionEditor.js?v=3.200"></script>
+    <script src="js/ui/AuthModal.js?v=3.200"></script>
+    <script src="js/ui/ProfileModal.js?v=3.200"></script>
+    <script src="js/ui/ShareSongsModal.js?v=3.200"></script>
+    <script src="js/ui/AcceptSongsModal.js?v=3.200"></script>
+    <script src="js/ui/ConfirmationModal.js?v=3.200"></script>
     <!-- Main App -->
-    <script src="js/app.js?v=3.199"></script>
+    <script src="js/app.js?v=3.200"></script>
     <div id="adminRequestsModal" class="modal auth-modal hidden" style="z-index: 12000;">
         <div class="modal-content" style="max-width: 80vw; width: 80vw; max-height: 85vh; display: flex; flex-direction: column; padding-bottom: 20px;">
             <div class="modal-header">

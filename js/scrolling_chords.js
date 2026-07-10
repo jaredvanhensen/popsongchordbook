@@ -124,6 +124,16 @@ let dragNoteMarkerPointerStartX = 0;
 let dragNoteMarkerStartTime = 0;
 let isTeacherMode = false;
 
+// Tab state
+let timelineTabs = []; // Array of { id, startTime, bars, content, section, label }
+let currentEditingTabId = null; // null = new tab, string = existing tab being edited
+let isDraggingTabMarker = false;
+let dragTabMarkerId = null;
+let dragTabMarkerPointerStartX = 0;
+let dragTabMarkerStartTime = 0;
+let tabPopupClosedById = null; // If user closes popup, remember which tab was closed
+let tabPopupPosition = { left: null, top: null }; // Remember dragged popup position
+
 // Dragging state
 let isDragging = false;
 let dragStartX = 0;
@@ -143,6 +153,15 @@ function saveTimelineNotesToParent() {
         window.parent.postMessage({
             type: 'saveTimelineNotes',
             timelineNotes: timelineNotes
+        }, '*');
+    }
+}
+
+function saveTimelineTabsToParent() {
+    if (window.parent) {
+        window.parent.postMessage({
+            type: 'saveTimelineTabs',
+            timelineTabs: timelineTabs
         }, '*');
     }
 }
@@ -382,6 +401,9 @@ window.addEventListener('message', (event) => {
         } else {
             timelineNotes = [];
         }
+        // Load tabs
+        timelineTabs = Array.isArray(msg.timelineTabs) ? msg.timelineTabs : [];
+        tabPopupClosedById = null; // Reset closed-popup state for new song
         currentTeacherNotes = msg.teacherNotes || '';
         if (msg.userRole !== undefined) {
             isTeacherMode = (msg.userRole === 'teacher');
@@ -389,6 +411,8 @@ window.addEventListener('message', (event) => {
             isTeacherMode = (localStorage.getItem('userRole') === 'teacher');
         }
         updateTeacherNoteButtonVisibility();
+        updateTabButtonVisibility();
+
         if (msg.uid) {
             currentUid = msg.uid;
             // Apply default audio setting from Profile (v3.141)
@@ -556,6 +580,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (audioToggleBtnCompact) audioToggleBtnCompact.addEventListener('click', toggleAudio);
 
     if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // Tab Feature Setup
+    setupTabButtonLogic();
 
     // Teacher Note Event Listeners
     const teacherNoteBtn = document.getElementById('teacherNoteBtn');
@@ -4797,6 +4824,9 @@ function renderStaticElements() {
     if (interactionTrack && interactionFrag) {
         interactionTrack.appendChild(interactionFrag);
     }
+
+    // Render tab markers (TAB pins on the tabTrack)
+    renderTabMarkers();
 }
 
 function togglePlayPause() {
@@ -5272,6 +5302,33 @@ function updateLoop() {
 
     if (isPlaying) {
         animationFrame = requestAnimationFrame(updateLoop);
+    }
+
+    // Tab popup visibility — show/hide based on playback time
+    if (typeof timelineTabs !== 'undefined' && timelineTabs.length > 0) {
+        // Find a tab whose window currently covers playbackTime
+        const activeTab = timelineTabs.find(tab => {
+            const endTime = getTabEndTime(tab);
+            return playbackTime >= tab.startTime && playbackTime < endTime;
+        });
+
+        const popup = document.getElementById('tabViewPopup');
+        if (popup) {
+            const currentPopupTabId = popup.dataset.tabId;
+            if (activeTab) {
+                // If the user closed this specific popup for this tab id, don't reopen it
+                if (activeTab.id !== tabPopupClosedById) {
+                    if (popup.classList.contains('hidden') || currentPopupTabId !== activeTab.id) {
+                        showTabPopup(activeTab);
+                    }
+                }
+            } else {
+                // No active tab — hide popup (but don't remember as "closed by user")
+                if (!popup.classList.contains('hidden')) {
+                    hideTabPopup(false);
+                }
+            }
+        }
     }
 }
 
@@ -6806,6 +6863,415 @@ function updateTeacherNoteButtonVisibility() {
     if (teacherNoteBtn) {
         teacherNoteBtn.classList.toggle('visible-note', visible);
     }
+}
+
+function updateTabButtonVisibility() {
+    const btn = document.getElementById('tabBtn');
+    if (!btn) return;
+    const canEdit = isTeacherMode || !isPublicMode || canEditPublic;
+    const hasTabs = timelineTabs && timelineTabs.length > 0;
+    if (canEdit || hasTabs) {
+        btn.style.display = 'flex';
+    } else {
+        btn.style.display = 'none';
+    }
+}
+
+// ==========================================
+// Guitar Tab Feature (v3.200)
+// ==========================================
+
+/**
+ * Renders "TAB" pin markers on the tabTrack for each saved tab.
+ * Each pin is draggable to adjust the startTime.
+ */
+function renderTabMarkers() {
+    const tabTrack = document.getElementById('tabTrack');
+    if (!tabTrack) return;
+    tabTrack.innerHTML = '';
+    if (!timelineTabs || timelineTabs.length === 0) return;
+
+    const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+
+    timelineTabs.forEach(tab => {
+        const el = document.createElement('div');
+        el.className = 'marker tab-marker';
+        el.style.left = `${Math.round(tab.startTime * pps)}px`;
+        el.dataset.tabId = tab.id;
+        el.title = (tab.label || 'Guitar Tab') + ' — drag to reposition';
+
+        // Drag to reposition startTime
+        el.addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+            if (isPlaying) pause();
+            isDraggingTabMarker = true;
+            dragTabMarkerId = tab.id;
+            dragTabMarkerPointerStartX = e.clientX;
+            dragTabMarkerStartTime = tab.startTime;
+            el.style.cursor = 'grabbing';
+            el.setPointerCapture(e.pointerId);
+        });
+
+        // Click to open editor
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isDraggingTabMarker) return;
+            openTabEditor(tab.id);
+        });
+
+        tabTrack.appendChild(el);
+    });
+}
+
+/**
+ * Computes the end time of a tab based on its startTime and bars count.
+ */
+function getTabEndTime(tab) {
+    const bars = tab.bars || 4;
+    return tab.startTime + (bars * beatsPerBar * secondsPerBeat);
+}
+
+/**
+ * Shows the floating tab popup for a given tab object.
+ */
+function showTabPopup(tab) {
+    const popup = document.getElementById('tabViewPopup');
+    const titleEl = document.getElementById('tabViewPopupTitle');        // matches original HTML ID
+    const contentEl = document.getElementById('tabViewContent');
+    const barsInput = document.getElementById('tabViewBarsInput');        // matches original HTML ID
+    if (!popup || !contentEl) return;
+
+    // Set title
+    if (titleEl) {
+        titleEl.textContent = '🎸 ' + (tab.label || 'TAB') + (tab.section ? ` — ${tab.section}` : '');
+    }
+
+    // Set content
+    contentEl.textContent = tab.content || '';
+
+    // Set bars input value
+    if (barsInput) barsInput.value = tab.bars || 4;
+
+    // Restore position if the popup was previously dragged
+    if (tabPopupPosition.left !== null) {
+        popup.style.left = tabPopupPosition.left;
+        popup.style.top = tabPopupPosition.top;
+        popup.style.right = 'auto';
+    } else {
+        popup.style.left = '';
+        popup.style.top = '80px';
+        popup.style.right = '30px';
+    }
+
+    // Store current tab id
+    popup.dataset.tabId = tab.id;
+
+    popup.classList.remove('hidden');
+}
+
+/**
+ * Hides the tab view popup.
+ */
+function hideTabPopup(rememberClosed) {
+    const popup = document.getElementById('tabViewPopup');
+    if (!popup) return;
+    if (rememberClosed) {
+        tabPopupClosedById = popup.dataset.tabId || null;
+    }
+    popup.classList.add('hidden');
+}
+
+/**
+ * Sets up dragging for the tab view popup window.
+ */
+function setupTabPopupDrag() {
+    const popup = document.getElementById('tabViewPopup');
+    const header = document.getElementById('tabViewPopupHeader');
+    if (!popup || !header) return;
+
+    let isDraggingPopup = false;
+    let popupStartX = 0, popupStartY = 0;
+    let popupOrigLeft = 0, popupOrigTop = 0;
+
+    header.addEventListener('pointerdown', (e) => {
+        // Don't start drag if clicking inside the bars input or close button
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+        
+        isDraggingPopup = true;
+        popupStartX = e.clientX;
+        popupStartY = e.clientY;
+        const rect = popup.getBoundingClientRect();
+        popupOrigLeft = rect.left;
+        popupOrigTop = rect.top;
+        
+        popup.style.left = rect.left + 'px';
+        popup.style.top = rect.top + 'px';
+        popup.style.right = 'auto';
+        popup.style.bottom = 'auto';
+        
+        header.style.cursor = 'grabbing';
+        
+        // Stop bubbling so timeline down handlers don't trigger
+        e.stopPropagation();
+        e.preventDefault();
+
+        const onPointerMove = (moveEvt) => {
+            if (!isDraggingPopup) return;
+            const dx = moveEvt.clientX - popupStartX;
+            const dy = moveEvt.clientY - popupStartY;
+            popup.style.left = (popupOrigLeft + dx) + 'px';
+            popup.style.top = (popupOrigTop + dy) + 'px';
+        };
+
+        const onPointerUp = (upEvt) => {
+            if (isDraggingPopup) {
+                isDraggingPopup = false;
+                header.style.cursor = 'grab';
+                // Save position for restore
+                tabPopupPosition.left = popup.style.left;
+                tabPopupPosition.top = popup.style.top;
+                
+                // Prevent mouse release from triggering timeline seeks
+                upEvt.stopPropagation();
+            }
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp, true);
+        };
+
+        // Attach window listeners to handle movement outside popup boundary
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp, true); // use capture phase
+    });
+}
+
+/**
+ * Opens the tab editor overlay for creating a new tab or editing an existing one.
+ * @param {string|null} tabId — null = new tab at current playhead
+ */
+function openTabEditor(tabId) {
+    const overlay = document.getElementById('tabEditorOverlay');
+    const labelInput = document.getElementById('tabEditorLabel');
+    const contentArea = document.getElementById('tabEditorContent');
+    const barsInput = document.getElementById('tabEditorBarsInput');
+    const deleteBtn = document.getElementById('deleteTabBtn');
+    if (!overlay || !contentArea) return;
+
+    currentEditingTabId = tabId;
+
+    if (tabId === null) {
+        // New tab
+        if (labelInput) labelInput.value = '';
+        contentArea.value = '';
+        if (barsInput) barsInput.value = 4;
+        if (deleteBtn) deleteBtn.style.display = 'none';
+    } else {
+        // Existing tab
+        const tab = timelineTabs.find(t => t.id === tabId);
+        if (!tab) return;
+        if (labelInput) labelInput.value = tab.label || '';
+        contentArea.value = tab.content || '';
+        if (barsInput) barsInput.value = tab.bars || 4;
+        if (deleteBtn) deleteBtn.style.display = 'block';
+    }
+
+    overlay.classList.remove('hidden');
+    setTimeout(() => contentArea.focus(), 120);
+}
+
+/**
+ * Closes the tab editor overlay.
+ */
+function closeTabEditor() {
+    const overlay = document.getElementById('tabEditorOverlay');
+    if (overlay) overlay.classList.add('hidden');
+    currentEditingTabId = null;
+}
+
+
+/**
+ * Helper to find the section type at a given time on the timeline.
+ */
+function getSectionAtTime(time) {
+    if (!chords || chords.length === 0 || !customMapSections || customMapSections.length === 0) {
+        return '';
+    }
+    const chordIdx = chords.findIndex(c => c.time >= time);
+    if (chordIdx === -1) return '';
+    const section = customMapSections.find(sec => chordIdx >= sec.startIdx && chordIdx <= sec.endIdx);
+    if (!section) return '';
+    
+    // Map to parent's section names (verse, chorus, preChorus, bridge)
+    const type = section.type.toLowerCase();
+    if (type === 'verse') return 'verse';
+    if (type === 'chorus') return 'chorus';
+    if (type === 'prechorus') return 'preChorus';
+    if (type === 'bridge') return 'bridge';
+    return type; // intro, outro, etc.
+}
+
+/**
+ * Saves the tab from the editor (create or update).
+ * @param {string} sectionHint - optional section from the section TAB button
+ */
+function saveTab(sectionHint) {
+    const labelInput = document.getElementById('tabEditorLabel');
+    const contentArea = document.getElementById('tabEditorContent');
+    const barsInput = document.getElementById('tabEditorBarsInput');
+    if (!contentArea) return;
+
+    const content = (contentArea.value || '').trim();
+    if (!content) {
+        closeTabEditor();
+        return;
+    }
+
+    const label = labelInput ? (labelInput.value || '').trim() : '';
+    // Bars: use the editor's bars input if available, else default 4
+    const bars = barsInput ? (parseInt(barsInput.value) || 4) : 4;
+
+    if (currentEditingTabId === null) {
+        // Create new tab at current playhead
+        const time = isPlaying ? (performance.now() - startTime) / 1000 : pauseTime;
+        const targetTime = Math.max(0, parseFloat(time.toFixed(2)));
+        const section = sectionHint || getSectionAtTime(targetTime);
+        const newTab = {
+            id: 'tab_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+            startTime: targetTime,
+            bars: bars,
+            content: content,
+            label: label,
+            section: section
+        };
+        timelineTabs.push(newTab);
+        // Auto-show the popup so the user can adjust bars count immediately
+        tabPopupClosedById = null;
+    } else {
+        // Update existing tab
+        const tab = timelineTabs.find(t => t.id === currentEditingTabId);
+        if (tab) {
+            tab.content = content;
+            tab.label = label;
+            tab.bars = bars;
+            tab.section = sectionHint || getSectionAtTime(tab.startTime);
+        }
+    }
+
+    saveTimelineTabsToParent();
+    closeTabEditor();
+    updateTabButtonVisibility();
+    renderStaticElements();
+}
+
+/**
+ * Deletes the currently-edited tab.
+ */
+function deleteTab() {
+    if (currentEditingTabId === null) return;
+    timelineTabs = timelineTabs.filter(t => t.id !== currentEditingTabId);
+    if (tabPopupClosedById === currentEditingTabId) tabPopupClosedById = null;
+    hideTabPopup(false);
+    saveTimelineTabsToParent();
+    closeTabEditor();
+    updateTabButtonVisibility();
+    renderStaticElements();
+}
+
+/**
+ * Wire up all tab UI event listeners.
+ * Called once from init().
+ */
+function setupTabButtonLogic() {
+    const tabBtn = document.getElementById('tabBtn');
+    const overlay = document.getElementById('tabEditorOverlay');
+    const closeEditorBtn = document.getElementById('closeTabEditorBtn');
+    const cancelBtn = document.getElementById('cancelTabEditorBtn');
+    const saveBtn = document.getElementById('saveTabBtn');             // Matches HTML ID saveTabBtn
+    const deleteBtn = document.getElementById('deleteTabBtn');
+    const closePopupBtn = document.getElementById('closeTabViewPopupBtn'); // Matches HTML ID closeTabViewPopupBtn
+    const editPopupBtn = document.getElementById('editTabPopupBtn');      // Matches HTML ID editTabPopupBtn
+    const barsInput = document.getElementById('tabEditorBarsInput');     // Editor Overlay input
+    const barsDisplay = document.getElementById('tabViewBarsInput');     // Popup Header input
+
+    if (tabBtn) {
+        tabBtn.addEventListener('click', () => openTabEditor(null));
+    }
+
+    if (closeEditorBtn) closeEditorBtn.addEventListener('click', closeTabEditor);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeTabEditor);
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => saveTab(''));
+    }
+
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', deleteTab);
+    }
+
+    if (closePopupBtn) {
+        closePopupBtn.addEventListener('click', () => hideTabPopup(true));
+    }
+
+    // ✏️ Edit button inside the popup → open editor for current tab
+    if (editPopupBtn) {
+        editPopupBtn.addEventListener('click', () => {
+            const popup = document.getElementById('tabViewPopup');
+            if (!popup) return;
+            const tabId = popup.dataset.tabId;
+            if (tabId) openTabEditor(tabId);
+        });
+    }
+
+    // Bars display in popup header → update tab.bars live when changed
+    if (barsDisplay) {
+        barsDisplay.addEventListener('change', () => {
+            const popup = document.getElementById('tabViewPopup');
+            if (!popup) return;
+            const tabId = popup.dataset.tabId;
+            const tab = timelineTabs.find(t => t.id === tabId);
+            if (tab) {
+                tab.bars = Math.max(1, Math.min(99, parseInt(barsDisplay.value) || 4));
+                barsDisplay.value = tab.bars;
+                saveTimelineTabsToParent();
+            }
+        });
+    }
+
+    // Close editor overlay on backdrop click
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeTabEditor();
+        });
+    }
+
+    // Drag markers on pointer move / up
+    window.addEventListener('pointermove', (e) => {
+        if (!isDraggingTabMarker || !dragTabMarkerId) return;
+        const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+        const dx = e.clientX - dragTabMarkerPointerStartX;
+        const timeDelta = dx / pps;
+        const tab = timelineTabs.find(t => t.id === dragTabMarkerId);
+        if (tab) {
+            tab.startTime = Math.max(0, parseFloat((dragTabMarkerStartTime + timeDelta).toFixed(3)));
+        }
+        renderTabMarkers();
+    });
+
+    window.addEventListener('pointerup', (e) => {
+        if (!isDraggingTabMarker) return;
+        isDraggingTabMarker = false;
+        const tab = timelineTabs.find(t => t.id === dragTabMarkerId);
+        if (tab) {
+            tab.section = getSectionAtTime(tab.startTime);
+        }
+        const el = document.querySelector(`.tab-marker[data-tab-id="${dragTabMarkerId}"]`);
+        if (el) el.style.cursor = 'grab';
+        dragTabMarkerId = null;
+        saveTimelineTabsToParent();
+        renderStaticElements();
+    });
+
+    // Set up the drag behaviour for the popup window
+    setupTabPopupDrag();
 }
 
 // ==========================================

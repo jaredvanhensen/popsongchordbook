@@ -1099,6 +1099,33 @@ class SongDetailModal {
                     }
                 }
 
+                // 2.7 Save Timeline Tabs
+                else if (event.data.type === 'saveTimelineTabs' && this.currentSongId) {
+                    const tabsArray = event.data.timelineTabs;
+                    console.log('SongDetailModal: Received saveTimelineTabs from Timeline', tabsArray);
+
+                    try {
+                        const song = this.songManager.getSongById(this.currentSongId);
+                        const updates = { timelineTabs: tabsArray };
+
+                        // FORK CHECK: If this is a public song we don't own, fork it first
+                        if (song && song.isPublic && !this.songManager.canEditPublicSong(song)) {
+                            console.log('SongDetailModal: Forking public song on saveTimelineTabs...');
+                            const newSong = await this.forkCurrentSong(updates);
+                            if (newSong && this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
+                                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'songForked', newSongId: newSong.id }, '*');
+                            }
+                            return;
+                        }
+
+                        await this.songManager.updateSong(this.currentSongId, updates);
+                        this.checkForChanges();
+                        console.log('Timeline tabs saved to database');
+                    } catch (e) {
+                        console.error('Error saving timeline tabs:', e);
+                    }
+                }
+
                 // 3. Update lyric sync offset
                 else if (event.data.type === 'updateLyricSync' && this.currentSongId) {
                     const offset = event.data.offset;
@@ -2018,6 +2045,93 @@ class SongDetailModal {
                 }
             });
         });
+
+        // ── TAB insert buttons (one per section) ─────────────────────────────
+        document.querySelectorAll('.tab-insert-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const section = btn.dataset.section || '';
+                this.openTabViewerForSection(section);
+            });
+        });
+    }
+
+    /**
+     * Opens the tab viewer popup, showing tabs linked to the given section.
+     */
+    openTabViewerForSection(section) {
+        const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+        const allTabs = (song && Array.isArray(song.timelineTabs)) ? song.timelineTabs : [];
+
+        // Filter to this section, fallback to all tabs if none for section
+        let sectionTabs = allTabs.filter(t => t.section === section);
+        if (sectionTabs.length === 0) sectionTabs = allTabs; // show all if no section-specific ones
+
+        const popup = document.getElementById('tabViewerPopup');
+        const backdrop = document.getElementById('tabViewerBackdrop');
+        const titleEl = document.getElementById('tabViewerTitle');
+        const contentEl = document.getElementById('tabViewerContent');
+        const navEl = document.getElementById('tabViewerNav');
+        const navLabel = document.getElementById('tabViewerNavLabel');
+        const noTabsEl = document.getElementById('tabViewerNoTabs');
+        if (!popup) return;
+
+        // Display logic
+        const sectionLabel = section ? section.charAt(0).toUpperCase() + section.slice(1) : 'Song';
+        if (titleEl) titleEl.textContent = `🎸 Guitar Tab — ${sectionLabel}`;
+
+        let currentIdx = 0;
+
+        const showTab = (idx) => {
+            if (sectionTabs.length === 0) {
+                if (noTabsEl) { noTabsEl.style.display = 'block'; }
+                if (contentEl) contentEl.textContent = '';
+                if (navEl) navEl.style.display = 'none';
+                return;
+            }
+            if (noTabsEl) noTabsEl.style.display = 'none';
+            const tab = sectionTabs[idx];
+            if (contentEl) contentEl.textContent = tab.content || '';
+            if (titleEl) {
+                const lbl = tab.label || 'Guitar Tab';
+                const sec = tab.section ? ` — ${tab.section.charAt(0).toUpperCase() + tab.section.slice(1)}` : '';
+                const timing = tab.startTime !== undefined ? ` @ ${Math.floor(tab.startTime/60)}:${String(Math.round(tab.startTime%60)).padStart(2,'0')}` : '';
+                titleEl.textContent = `🎸 ${lbl}${sec}${timing}`;
+            }
+            if (sectionTabs.length > 1) {
+                if (navEl) navEl.style.display = 'flex';
+                if (navLabel) navLabel.textContent = `${idx + 1} / ${sectionTabs.length}`;
+            } else {
+                if (navEl) navEl.style.display = 'none';
+            }
+        };
+
+        showTab(0);
+
+        // Navigation buttons
+        const prevBtn = document.getElementById('tabViewerPrevBtn');
+        const nextBtn = document.getElementById('tabViewerNextBtn');
+        if (prevBtn) {
+            prevBtn.onclick = () => { currentIdx = (currentIdx - 1 + sectionTabs.length) % sectionTabs.length; showTab(currentIdx); };
+        }
+        if (nextBtn) {
+            nextBtn.onclick = () => { currentIdx = (currentIdx + 1) % sectionTabs.length; showTab(currentIdx); };
+        }
+
+        // Show popup
+        popup.classList.remove('hidden');
+        if (backdrop) backdrop.classList.remove('hidden');
+
+        const closePopup = () => {
+            popup.classList.add('hidden');
+            if (backdrop) backdrop.classList.add('hidden');
+        };
+
+        const closeBtnTop = document.getElementById('closeTabViewerPopupBtn');
+        const closeBtnFooter = document.getElementById('closeTabViewerFooterBtn');
+        if (closeBtnTop) closeBtnTop.onclick = closePopup;
+        if (closeBtnFooter) closeBtnFooter.onclick = closePopup;
+        if (backdrop) backdrop.onclick = closePopup;
     }
 
     refreshNotation() {
@@ -3704,9 +3818,23 @@ class SongDetailModal {
         this._timelineMinimized = false;
         this._updateTimelineMinimizedIndicator(false);
 
-        // 1. Stop Audio (Piano only, let YouTube keep playing if active)
+        // 1. Stop Audio (Piano only if Keep Music Playing is active, else stop all)
+        const user = this.firebaseManager ? this.firebaseManager.currentUser : null;
+        const email = user ? (user.email || '').toLowerCase() : '';
+        const isSuperAdmin = (email === 'jared@vanhensen.nl');
+        
+        let keepPlaying = false;
+        if (isSuperAdmin) {
+            const saved = localStorage.getItem('keepMusicPlayingAfterTimelineClose');
+            keepPlaying = (saved !== 'false');
+        }
+
         if (this.scrollingChordsFrame && this.scrollingChordsFrame.contentWindow) {
-            this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopPianoAudio' }, '*');
+            if (keepPlaying) {
+                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopPianoAudio' }, '*');
+            } else {
+                this.scrollingChordsFrame.contentWindow.postMessage({ type: 'stopAudio' }, '*');
+            }
         }
 
         // 2. Hide Modal
@@ -3823,6 +3951,7 @@ class SongDetailModal {
             uid: this.songManager.firebaseManager ? this.songManager.firebaseManager.getCurrentUser()?.uid : 'guest',
             teacherNotes: song.teacherNotes || '',
             timelineNotes: song.timelineNotes || [],
+            timelineTabs: song.timelineTabs || [],
             userRole: localStorage.getItem('userRole') || 'student'
         }, '*');
     }
