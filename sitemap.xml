@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-07-09</lastmod>
+        <lastmod>2026-07-21</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -233,6 +233,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bob-marley-redemption-song</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bob-marley-the-wailers-three-little-birds</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -343,7 +348,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-all-for-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-back-to-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-cant-stop-this-thing-we-started</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-cloud-number-nine</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -368,7 +388,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-open-road</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-please-forgive-me</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-remembrance-day</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -388,7 +418,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-straight-from-the-heart</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-summer-of-69</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-thought-id-died-and-gone-to-heaven</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-tonight-we-have-the-stars</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1438,6 +1483,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/logan-mize-great-big-hearts</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/logan-mize-if-you-get-lucky</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1678,6 +1728,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/nate-smith-world-on-fire</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/nickelback-how-you-remind-me</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1694,6 +1749,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/nirvana-come-as-you-are</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/nirvana-heart-shaped-box</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1739,6 +1799,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/olivia-dean-man-i-need</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/olivia-rodrigo-the-cure</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1789,6 +1854,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/paul-simon-you-can-call-me-al</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/pearl-jam-alive</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2873,6 +2943,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/bob-marley</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/bob-marley-the-wailers</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3653,6 +3728,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/olivia-rodrigo</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/one-direction</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -3689,6 +3769,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/paul-simon</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/pearl-jam</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

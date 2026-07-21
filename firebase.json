@@ -2,47 +2,68 @@
   "database": {
     "rules": "database.rules.json"
   },
-  "hosting": {
-    "public": ".",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "headers": [
-      {
-        "source": "**/*.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/.well-known/assetlinks.json",
-        "headers": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          }
-        ]
-      }
-    ],
-    "ignore": [
-      "firebase.json",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/song/**",
-        "destination": "/song.html"
-      },
-      {
-        "source": "/artist/**",
-        "destination": "/artist.html"
-      }
-    ]
-  }
+  "hosting": [
+    {
+      "site": "popsongchordbook-jared",
+      "public": ".",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "headers": [
+        {
+          "source": "**/*.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "/.well-known/assetlinks.json",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        }
+      ],
+      "ignore": [
+        "firebase.json",
+        "**/node_modules/**",
+        "popsongworkshop/**"
+      ],
+      "rewrites": [
+        {
+          "source": "/song/**",
+          "destination": "/song.html"
+        },
+        {
+          "source": "/artist/**",
+          "destination": "/artist.html"
+        }
+      ]
+    },
+    {
+      "site": "popsongworkshop-nl",
+      "public": "popsongworkshop",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "headers": [
+        {
+          "source": "**/*.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

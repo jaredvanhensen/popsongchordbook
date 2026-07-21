@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.201 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
-    <meta name="version" content="3.201">
+    <title>PopSongChordBook v3.202 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.202">
     <meta name="description"
         content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
@@ -462,9 +462,10 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.201">
-    <script>const SITE_VERSION = '3.201';</script>
+    <meta name="application-version" content="v3.202">
+    <script>const SITE_VERSION = '3.202';</script>
     <!-- Version history: 
+        v3.202: Added popsongworkshop.nl multi-site landing page with interactive keyboard.
         v3.201: Added "Keep Music Playing" option for superadmin, fixed timeline TAB popup dragging and auto-closing.
         v3.200: Added full guitar tab notation support, timeline tab track markers, and floating tab popup.
         v3.199: Added guitar chord diagrams for A#sus2, Bbsus2, C#maj7, and F#maj7.
@@ -1275,6 +1276,7 @@
                     <a href="/artist/blake-shelton" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Blake Shelton Chords</a>
                     <a href="/artist/blink-182" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Blink 182 Chords</a>
                     <a href="/artist/blue-yster-cult" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Blue Öyster Cult Chords</a>
+                    <a href="/artist/bob-marley" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Bob Marley Chords</a>
                     <a href="/artist/bob-marley-the-wailers" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Bob Marley &amp; The Wailers Chords</a>
                     <a href="/artist/bon-jovi" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Bon Jovi Chords</a>
                     <a href="/artist/booker-t-the-mgs" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Booker T. &amp; the MG&#039;s Chords</a>
@@ -1431,14 +1433,16 @@
                     <a href="/artist/oasis" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Oasis Chords</a>
                     <a href="/artist/old-dominion" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Old Dominion Chords</a>
                     <a href="/artist/olivia-dean" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Olivia Dean Chords</a>
+                    <a href="/artist/olivia-rodrigo" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Olivia Rodrigo Chords</a>
                     <a href="/artist/one-direction" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">One Direction Chords</a>
                     <a href="/artist/one-republic" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">One Republic Chords</a>
                     <a href="/artist/owl-city" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Owl City Chords</a>
-                    <a href="/artist/parker-mccollum" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Parker Mccollum Chords</a>
+                    <a href="/artist/parker-mccollum" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Parker McCollum Chords</a>
                     <a href="/artist/passenger" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Passenger Chords</a>
                     <a href="/artist/pat-greene" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Pat Greene Chords</a>
                     <a href="/artist/paul-mc-cartney" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Paul Mc Cartney Chords</a>
                     <a href="/artist/paul-simon" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Paul Simon Chords</a>
+                    <a href="/artist/pearl-jam" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Pearl Jam Chords</a>
                     <a href="/artist/pet-shop-boys" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Pet Shop Boys Chords</a>
                     <a href="/artist/phil-collins" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Phil Collins Chords</a>
                     <a href="/artist/pink" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Pink Chords</a>
@@ -1529,7 +1533,7 @@
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.201</span>
+                v<span id="site-version">3.202</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
