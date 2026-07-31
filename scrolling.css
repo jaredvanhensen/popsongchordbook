@@ -6647,6 +6647,26 @@ body:not(.is-mobile-view) #songMapCircleOfFifthsBtn {
     box-shadow: none !important;
 }
 
+.timeline-key-display {
+    display: none;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-left: 8px;
+    margin-right: 12px;
+    align-self: center;
+    user-select: none;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+@media screen and (min-width: 1025px) {
+    #timelineKeyDisplay {
+        display: inline-block !important;
+    }
+}
+
 
 /* =====================================================
    TAB FEATURE STYLES (v3.200)

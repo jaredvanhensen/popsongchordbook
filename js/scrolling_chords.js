@@ -1530,6 +1530,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (circleOfFifthsBtn && circleOfFifthsOverlay) {
         circleOfFifthsBtn.addEventListener('click', () => {
             circleOfFifthsOverlay.classList.remove('hidden');
+            if (typeof initCircleOfFifths === 'function') {
+                initCircleOfFifths();
+            }
         });
     }
     if (circleOfFifthsClose && circleOfFifthsOverlay) {
@@ -3090,6 +3093,10 @@ function updateHUDPosition() {
 
 function loadData(data, url, title, inputSuggestedChords = [], artist = '', songTitle = '', inputFullLyrics = '', inputLyrics = '', inputLyricOffset = 0, inputInstrumentMode = 'piano', key = 'C', capo = 0) {
     if (key) currentSongKey = key;
+    const keyDisplay = document.getElementById('timelineKeyDisplay');
+    if (keyDisplay) {
+        keyDisplay.innerText = currentSongKey || 'C';
+    }
     if (inputInstrumentMode) {
         currentInstrumentMode = inputInstrumentMode;
         syncInstrumentModeClass();
@@ -7849,6 +7856,31 @@ function initCircleOfFifths() {
     // Clear any existing contents
     container.innerHTML = '';
 
+    const keysMatch = (k1, k2) => {
+        if (!k1 || !k2) return false;
+        const normalize = (k) => {
+            k = k.trim();
+            const map = {
+                'A#': 'Bb', 'A#m': 'Bbm',
+                'C#': 'Db', 'C#m': 'Bbm',
+                'D#': 'Eb', 'D#m': 'Ebm',
+                'F#': 'Gb', 'Gb': 'Gb',
+                'G#': 'Ab', 'Ab': 'Ab',
+                'G#m': 'Abm', 'Abm': 'Abm'
+            };
+            return map[k] || k;
+        };
+        const n1 = normalize(k1);
+        const n2 = normalize(k2);
+        if (n1 === n2) return true;
+        if (k2.includes(' ')) {
+            return k2.split(' ').some(part => normalize(part) === n1);
+        }
+        return false;
+    };
+
+    let highlightPathD = null;
+
     const svgNS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNS, "svg");
     svg.setAttribute("viewBox", "0 0 300 300");
@@ -7880,6 +7912,22 @@ function initCircleOfFifths() {
         { major: "F", minor: "Dm", color: "#f72585" }
     ];
 
+    // Find the tonic index and key type (major or minor)
+    let tonicIndex = 0;
+    let isMinorKey = false;
+    for (let idx = 0; idx < data.length; idx++) {
+        if (keysMatch(currentSongKey, data[idx].major) || (data[idx].majorVal && keysMatch(currentSongKey, data[idx].majorVal))) {
+            tonicIndex = idx;
+            isMinorKey = false;
+            break;
+        }
+        if (keysMatch(currentSongKey, data[idx].minor) || (data[idx].minorVal && keysMatch(currentSongKey, data[idx].minorVal))) {
+            tonicIndex = idx;
+            isMinorKey = true;
+            break;
+        }
+    }
+
     const getSectorPath = (rIn, rOut, startAngle, endAngle) => {
         const startRad = (startAngle - 90) * Math.PI / 180;
         const endRad = (endAngle - 90) * Math.PI / 180;
@@ -7907,6 +7955,50 @@ function initCircleOfFifths() {
         const midAngle = i * 30;
         const rad = (midAngle - 90) * Math.PI / 180;
 
+        const isCurrentMajor = keysMatch(currentSongKey, item.major) || (item.majorVal && keysMatch(currentSongKey, item.majorVal));
+        const isCurrentMinor = keysMatch(currentSongKey, item.minor) || (item.minorVal && keysMatch(currentSongKey, item.minorVal));
+
+        if (isCurrentMajor) {
+            highlightPathD = getSectorPath(rInMajor, rOutMajor, startAngle, endAngle);
+        } else if (isCurrentMinor) {
+            highlightPathD = getSectorPath(rInMinor, rOutMinor, startAngle, endAngle);
+        }
+
+        const isDiatonic = (i === tonicIndex || i === ((tonicIndex - 1 + 12) % 12) || i === ((tonicIndex + 1 + 12) % 12));
+
+        // Get Roman numeral labels for Major scale chords: I, ii, iii, IV, V, vi
+        // Or for Minor scale chords: i, III, iv, v, VI, VII
+        let romanNumeralMajor = "";
+        let romanNumeralMinor = "";
+        
+        if (isDiatonic) {
+            if (!isMinorKey) {
+                // Major Key diatonic scale chords
+                if (i === tonicIndex) {
+                    romanNumeralMajor = "I";
+                    romanNumeralMinor = "vi";
+                } else if (i === ((tonicIndex - 1 + 12) % 12)) {
+                    romanNumeralMajor = "IV";
+                    romanNumeralMinor = "ii";
+                } else if (i === ((tonicIndex + 1 + 12) % 12)) {
+                    romanNumeralMajor = "V";
+                    romanNumeralMinor = "iii";
+                }
+            } else {
+                // Minor Key diatonic scale chords
+                if (i === tonicIndex) {
+                    romanNumeralMajor = "III";
+                    romanNumeralMinor = "i";
+                } else if (i === ((tonicIndex - 1 + 12) % 12)) {
+                    romanNumeralMajor = "VI";
+                    romanNumeralMinor = "iv";
+                } else if (i === ((tonicIndex + 1 + 12) % 12)) {
+                    romanNumeralMajor = "VII";
+                    romanNumeralMinor = "v";
+                }
+            }
+        }
+
         // --- Major outer slice ---
         const majorG = document.createElementNS(svgNS, "g");
         majorG.style.cursor = "pointer";
@@ -7918,15 +8010,9 @@ function initCircleOfFifths() {
         majorPath.setAttribute("stroke-width", "1");
         majorPath.style.transition = "opacity 0.2s, filter 0.2s";
         
-        majorG.addEventListener('mouseenter', () => {
-            majorPath.setAttribute("opacity", "0.85");
-            majorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
-        });
-        majorG.addEventListener('mouseleave', () => {
-            majorPath.setAttribute("opacity", "1");
-            majorPath.style.filter = "none";
-        });
-
+        const defaultOpacityMajor = isDiatonic ? "1.0" : "0.55";
+        majorPath.setAttribute("opacity", defaultOpacityMajor);
+        
         const majorVal = item.majorVal || item.major;
         const handleMajorClick = (e) => {
             if (e) e.preventDefault();
@@ -7944,7 +8030,7 @@ function initCircleOfFifths() {
 
         const textMajor = document.createElementNS(svgNS, "text");
         textMajor.setAttribute("x", xTextMajor);
-        textMajor.setAttribute("y", yTextMajor + 4);
+        textMajor.setAttribute("y", romanNumeralMajor ? yTextMajor - 3 : yTextMajor + 4);
         textMajor.setAttribute("text-anchor", "middle");
         textMajor.setAttribute("fill", "white");
         textMajor.setAttribute("font-size", item.major.length > 3 ? "11" : "15");
@@ -7952,9 +8038,42 @@ function initCircleOfFifths() {
         textMajor.setAttribute("font-family", "'Inter', sans-serif");
         textMajor.style.pointerEvents = "none";
         textMajor.textContent = item.major;
+        textMajor.setAttribute("opacity", defaultOpacityMajor);
+
+        // Roman numeral text node
+        let romanTextMajor = null;
+        if (romanNumeralMajor) {
+            romanTextMajor = document.createElementNS(svgNS, "text");
+            romanTextMajor.setAttribute("x", xTextMajor);
+            romanTextMajor.setAttribute("y", yTextMajor + 9);
+            romanTextMajor.setAttribute("text-anchor", "middle");
+            romanTextMajor.setAttribute("fill", "rgba(255, 255, 255, 0.85)");
+            romanTextMajor.setAttribute("font-size", "9.5");
+            romanTextMajor.setAttribute("font-weight", "700");
+            romanTextMajor.setAttribute("font-family", "'Inter', sans-serif");
+            romanTextMajor.style.pointerEvents = "none";
+            romanTextMajor.textContent = romanNumeralMajor;
+            romanTextMajor.setAttribute("opacity", defaultOpacityMajor);
+        }
+
+        majorG.addEventListener('mouseenter', () => {
+            majorPath.setAttribute("opacity", isDiatonic ? "0.85" : "0.55");
+            majorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
+            textMajor.setAttribute("opacity", "1.0");
+            if (romanTextMajor) romanTextMajor.setAttribute("opacity", "1.0");
+        });
+        majorG.addEventListener('mouseleave', () => {
+            majorPath.setAttribute("opacity", defaultOpacityMajor);
+            majorPath.style.filter = "none";
+            textMajor.setAttribute("opacity", defaultOpacityMajor);
+            if (romanTextMajor) romanTextMajor.setAttribute("opacity", defaultOpacityMajor);
+        });
 
         majorG.appendChild(majorPath);
         majorG.appendChild(textMajor);
+        if (romanTextMajor) {
+            majorG.appendChild(romanTextMajor);
+        }
         svg.appendChild(majorG);
 
         // --- Minor inner slice ---
@@ -7964,19 +8083,11 @@ function initCircleOfFifths() {
         const minorPath = document.createElementNS(svgNS, "path");
         minorPath.setAttribute("d", getSectorPath(rInMinor, rOutMinor, startAngle, endAngle));
         minorPath.setAttribute("fill", item.color);
-        minorPath.setAttribute("opacity", "0.85");
+        const defaultOpacityMinor = isDiatonic ? "0.85" : "0.45";
+        minorPath.setAttribute("opacity", defaultOpacityMinor);
         minorPath.setAttribute("stroke", "white");
         minorPath.setAttribute("stroke-width", "1");
         minorPath.style.transition = "opacity 0.2s, filter 0.2s";
-
-        minorG.addEventListener('mouseenter', () => {
-            minorPath.setAttribute("opacity", "0.70");
-            minorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
-        });
-        minorG.addEventListener('mouseleave', () => {
-            minorPath.setAttribute("opacity", "0.85");
-            minorPath.style.filter = "none";
-        });
 
         const minorVal = item.minorVal || item.minor;
         const handleMinorClick = (e) => {
@@ -7995,7 +8106,7 @@ function initCircleOfFifths() {
 
         const textMinor = document.createElementNS(svgNS, "text");
         textMinor.setAttribute("x", xTextMinor);
-        textMinor.setAttribute("y", yTextMinor + 3);
+        textMinor.setAttribute("y", romanNumeralMinor ? yTextMinor - 3 : yTextMinor + 3);
         textMinor.setAttribute("text-anchor", "middle");
         textMinor.setAttribute("fill", "white");
         textMinor.setAttribute("font-size", item.minor.length > 3 ? "9" : "12");
@@ -8003,9 +8114,42 @@ function initCircleOfFifths() {
         textMinor.setAttribute("font-family", "'Inter', sans-serif");
         textMinor.style.pointerEvents = "none";
         textMinor.textContent = item.minor;
+        textMinor.setAttribute("opacity", defaultOpacityMinor);
+
+        // Roman numeral minor text node
+        let romanTextMinor = null;
+        if (romanNumeralMinor) {
+            romanTextMinor = document.createElementNS(svgNS, "text");
+            romanTextMinor.setAttribute("x", xTextMinor);
+            romanTextMinor.setAttribute("y", yTextMinor + 7);
+            romanTextMinor.setAttribute("text-anchor", "middle");
+            romanTextMinor.setAttribute("fill", "rgba(255, 255, 255, 0.8)");
+            romanTextMinor.setAttribute("font-size", "7.5");
+            romanTextMinor.setAttribute("font-weight", "700");
+            romanTextMinor.setAttribute("font-family", "'Inter', sans-serif");
+            romanTextMinor.style.pointerEvents = "none";
+            romanTextMinor.textContent = romanNumeralMinor;
+            romanTextMinor.setAttribute("opacity", defaultOpacityMinor);
+        }
+
+        minorG.addEventListener('mouseenter', () => {
+            minorPath.setAttribute("opacity", isDiatonic ? "0.70" : "0.5");
+            minorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
+            textMinor.setAttribute("opacity", "1.0");
+            if (romanTextMinor) romanTextMinor.setAttribute("opacity", "1.0");
+        });
+        minorG.addEventListener('mouseleave', () => {
+            minorPath.setAttribute("opacity", defaultOpacityMinor);
+            minorPath.style.filter = "none";
+            textMinor.setAttribute("opacity", defaultOpacityMinor);
+            if (romanTextMinor) romanTextMinor.setAttribute("opacity", defaultOpacityMinor);
+        });
 
         minorG.appendChild(minorPath);
         minorG.appendChild(textMinor);
+        if (romanTextMinor) {
+            minorG.appendChild(romanTextMinor);
+        }
         svg.appendChild(minorG);
     });
 
@@ -8055,6 +8199,28 @@ function initCircleOfFifths() {
     textCenter3.setAttribute("letter-spacing", "0.02em");
     textCenter3.textContent = "MINOR";
     svg.appendChild(textCenter3);
+
+    if (highlightPathD) {
+        // Draw a thick dark outline to encapsulate the active slice
+        const outlineOuter = document.createElementNS(svgNS, "path");
+        outlineOuter.setAttribute("d", highlightPathD);
+        outlineOuter.setAttribute("fill", "none");
+        outlineOuter.setAttribute("stroke", "#0f172a"); // dark slate border
+        outlineOuter.setAttribute("stroke-width", "5.5");
+        outlineOuter.setAttribute("stroke-linejoin", "round");
+        outlineOuter.style.pointerEvents = "none";
+        svg.appendChild(outlineOuter);
+
+        // Draw a clean white inner highlight to make it pop beautifully
+        const outlineInner = document.createElementNS(svgNS, "path");
+        outlineInner.setAttribute("d", highlightPathD);
+        outlineInner.setAttribute("fill", "none");
+        outlineInner.setAttribute("stroke", "#ffffff"); // white inner stroke
+        outlineInner.setAttribute("stroke-width", "2");
+        outlineInner.setAttribute("stroke-linejoin", "round");
+        outlineInner.style.pointerEvents = "none";
+        svg.appendChild(outlineInner);
+    }
 
     container.appendChild(svg);
 }
