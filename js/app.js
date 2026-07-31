@@ -177,7 +177,8 @@ class App {
         this.setupDecadeFilters();
         // Setup Genre Filters
         this.setupGenreFilters();
-
+        // Setup Combined Filters (under 1540px view)
+        this.setupCombinedFilters();
         // Setup listener for admins list load/update to dynamic styling
         document.addEventListener('adminsLoaded', () => {
             const user = this.firebaseManager.auth.currentUser;
@@ -790,6 +791,26 @@ class App {
                 this.loadAndRender();
             });
         }
+    }
+
+    setupCombinedFilters() {
+        const btn = document.getElementById('combinedFilterDropdownBtn');
+        const container = document.getElementById('filterDropdownsContainer');
+        if (!btn || !container) return;
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            container.classList.toggle('show');
+            btn.classList.toggle('active', container.classList.contains('show'));
+        });
+
+        // Close on clicking outside
+        document.addEventListener('click', (e) => {
+            if (container.classList.contains('show') && !container.contains(e.target) && e.target !== btn) {
+                container.classList.remove('show');
+                btn.classList.remove('active');
+            }
+        });
     }
 
     setupProfile() {

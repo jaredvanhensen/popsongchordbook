@@ -1088,4 +1088,18 @@ body:not(.edit-mode-active) .text-mode-instruction {
     }
 }
 
+/* Position the statusText (Time display) just above the yellow Now Playing box in mobile landscape modes */
+body.is-mobile-landscape #statusText {
+    display: block !important;
+    bottom: calc(50% + 56px) !important; /* 80px/2 = 40px + 16px gap = 56px */
+}
+
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #statusText,
+body.is-landscape.is-mobile-landscape.instrument-mode-piano #statusText,
+body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #statusText {
+    display: block !important;
+    bottom: calc(50% + 86px) !important; /* 140px / 2 = 70px + 16px gap = 86px */
+    font-size: 0.7rem !important;
+}
+
 

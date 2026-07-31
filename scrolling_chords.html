@@ -515,8 +515,6 @@
             <button id="bpmBtn" class="hidden"></button>
             <button id="exportBtn" class="hidden"></button>
         </div>
-
-        <div id="statusText">Upload a MIDI file to start</div>
     </div>
 
 
@@ -626,7 +624,10 @@
     </div>
 
     <div class="timeline-container" id="timeline">
-        <div class="playhead"></div>
+        <div class="playhead">
+            <!-- Current Time / Status Indicator -->
+            <div id="statusText">⏱ Upload a MIDI file to start</div>
+        </div>
         <div class="main-play-arrow"></div>
 
         <!-- Current Sticky Chord -->

@@ -67,7 +67,7 @@ if (isEmbed) {
     style.textContent = `
         body { color: #1e293b !important; }
         #instructions { color: #64748b !important; }
-        #statusText { color: #334155 !important; }
+        #statusText { color: #ffffff !important; }
         .marker-label { color: #94a3b8 !important; }
         #currentChordDisplay { color: #0f172a !important; text-shadow: none !important; }
         .pure-timeline-menu-container { position: relative !important; }
@@ -368,7 +368,7 @@ function finalizeUndoRedo(message) {
     if (typeof statusText !== 'undefined' && statusText) {
         statusText.innerText = message;
         setTimeout(() => {
-            if (statusText) statusText.innerText = "Time: " + formatTime(typeof pauseTime !== 'undefined' ? pauseTime : 0);
+            if (statusText) statusText.innerText = "⏱ " + formatTime(typeof pauseTime !== 'undefined' ? pauseTime : 0);
         }, 2000);
     }
 }
@@ -5191,7 +5191,7 @@ function updateLoop() {
 
     // Throttle non-critical text updates
     if (!window._lastUIUpdate || now - window._lastUIUpdate > 100) {
-        statusText.innerText = `Time: ${formatTime(playbackTime)}`;
+        statusText.innerText = `⏱ ${formatTime(playbackTime)}`;
         window._lastUIUpdate = now;
     }
 
@@ -5559,7 +5559,7 @@ function performCopy() {
         if (statusText) {
             statusText.innerText = "Select chords first to copy";
             setTimeout(() => {
-                if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+                if (statusText) statusText.innerText = "⏱ " + formatTime(pauseTime);
             }, 2000);
         }
         return;
@@ -5595,7 +5595,7 @@ function performPaste() {
         if (statusText) {
             statusText.innerText = "Nothing in clipboard to paste";
             setTimeout(() => {
-                if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+                if (statusText) statusText.innerText = "⏱ " + formatTime(pauseTime);
             }, 2000);
         }
         return;
@@ -5639,7 +5639,7 @@ function performPaste() {
     if (statusText) {
         statusText.innerText = `Pasted ${newChords.length} chords`;
         setTimeout(() => {
-            if (statusText) statusText.innerText = "Time: " + formatTime(pauseTime);
+            if (statusText) statusText.innerText = "⏱ " + formatTime(pauseTime);
         }, 2000);
     }
 }
@@ -5701,7 +5701,7 @@ function duplicateSelectedChords(offsetOverride = null, selectNew = false) {
     // Optional: Flash success
     if (statusText && !selectNew) { // Don't flash if dragging, distracting
         statusText.innerText = `Duplicated ${newChords.length} chords`;
-        setTimeout(() => statusText.innerText = "Time: " + formatTime(pauseTime), 2000);
+        setTimeout(() => statusText.innerText = "⏱ " + formatTime(pauseTime), 2000);
     }
 }
 

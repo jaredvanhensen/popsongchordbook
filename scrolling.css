@@ -566,16 +566,31 @@ body.edit-mode-active #textModeSaveBtn.edit-only:not(.hidden) {
 
 /* Status Text */
 #statusText {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #64748b;
-    margin-left: auto;
-    margin-right: 85px; /* Added margin to avoid overlap with parent modal controls */
-    padding: 6px 12px;
-    background: #f8fafc;
-    border-radius: 8px;
-    border: 1px solid #f1f5f9;
-    order: 100;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    white-space: nowrap;
+    box-sizing: border-box !important;
+    text-align: center;
+    bottom: calc(50% + 84px); /* 120px/2 = 60px + 24px gap = 84px */
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important; /* clean white text */
+    text-shadow: none !important;
+    background: rgba(76, 29, 149, 0.75) !important; /* translucent dark purple capsule matching timeline */
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 16px !important; /* rounded corners (14-18px) */
+    padding: 5px 12px !important;
+    margin: 0 !important;
+    z-index: 120;
+    pointer-events: none;
+    line-height: 1.25;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .adjust-controls-row {
@@ -1900,9 +1915,13 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
         display: none;
     }
 
-    #backBtn,
-    #statusText {
+    #backBtn {
         display: none;
+    }
+
+    #statusText {
+        display: block !important;
+        bottom: calc(50% + 84px) !important;
     }
 
     .playhead,
@@ -2114,6 +2133,12 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     .playhead,
     .main-play-arrow {
         left: 80px;
+    }
+
+    #statusText {
+        display: block !important;
+        bottom: calc(50% + 46px) !important; /* 60px/2 = 30px + 16px gap = 46px */
+        font-size: 0.6rem !important;
     }
 
     .current-chord-display {
@@ -2768,9 +2793,14 @@ body.ctrl-held .chord-item {
     }
 
     #exportBtn,
-    #backBtn,
-    #statusText {
+    #backBtn {
         display: none;
+    }
+
+    #statusText {
+        display: block !important;
+        bottom: calc(50% + 72px) !important; /* 100px / 2 = 50px + 22px gap = 72px */
+        font-size: 0.7rem !important;
     }
 
     .playhead,
@@ -2914,14 +2944,18 @@ body.ctrl-held .chord-item {
 
     #statusText {
         display: block !important;
-        width: 100% !important;
+        bottom: calc(50% + 40px) !important; /* 55px / 2 = 27.5px + 12.5px gap = 40px */
+        font-size: 0.55rem !important;
         text-align: center !important;
-        font-size: 0.65rem !important;
-        padding: 2px 0 !important;
+        padding: 0 !important;
         margin: 0 !important;
         background: transparent !important;
         border: none !important;
-        order: 100;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        order: unset !important;
+        position: absolute !important;
     }
 
     /* Video Window Docked Mode (Mobile) */
