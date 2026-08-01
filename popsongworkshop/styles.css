@@ -1078,6 +1078,17 @@ p {
     .form-group.full-width {
         grid-column: span 1;
     }
+
+    .promo-video-block {
+        padding: 20px;
+    }
+
+    .promo-video-block h3 {
+        font-size: 1.25rem;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
 }
 
 @media (max-width: 580px) {
@@ -1090,13 +1101,15 @@ p {
         max-width: 100%;
     }
     
-    .video-preview-wrapper {
-        flex-direction: column;
-        gap: 24px;
+    .promo-video-block {
+        padding: 16px;
     }
-    
-    .video-play-btn {
-        width: 100%;
+
+    .promo-video-block h3 {
+        font-size: 1.1rem;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
     
     .blue-bubble {
