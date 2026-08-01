@@ -50,7 +50,7 @@ function initContactForm() {
         const bericht = document.getElementById('bericht').value.trim();
 
         // 2. Construct Email Content
-        const emailTo = 'jaredvanhensen@gmail.com';
+        const emailTo = 'PopSongWorkshop@vanhensen.nl';
         const subject = encodeURIComponent(`Aanvraag Pop Song Workshop - ${school}`);
         
         let bodyText = `Beste Jared,\n\n`;

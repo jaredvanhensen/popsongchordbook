@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-07-21</lastmod>
+        <lastmod>2026-08-01</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -58,7 +58,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/a-ha-stay-on-these-roads</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/a-ha-take-on-me</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/abba-dancing-queen</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -278,6 +288,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/boston-amanda</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/boston-more-than-a-feeling</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -378,12 +393,27 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-here-i-am</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-i-do-it-for-you</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-im-ready</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-its-only-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-one-night-love-affair</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -424,6 +454,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-summer-of-69</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-this-side-of-paradise</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -488,6 +523,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/celine-dion-my-heart-will-go-on</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/chad-kroeger-hero</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -514,6 +554,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/coldplay-clocks</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/coldplay-lost</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -604,6 +649,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/def-leppard-animal</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/def-leppard-lets-get-rocked</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1088,6 +1138,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/inxs-disappear</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/inxs-never-tear-us-apart</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1249,6 +1304,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/kc-the-sunshine-band-give-it-up</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/keane-somewhere-only-we-know</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1658,6 +1718,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/michael-jackson-stranger-in-moscow</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/michael-jackson-thriller</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1978,6 +2043,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/queen-innuendo</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/queen-its-a-kind-of-magic</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2063,6 +2133,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-dangerous</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-dressed-for-success</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/roxette-fading-like-a-flower</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2089,6 +2169,16 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/roxette-spending-my-time</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-the-big-l</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-the-look</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2468,6 +2558,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/the-beatles-hey-jude</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/the-beatles-let-it-be</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2554,6 +2649,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-script-superheroes</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-tokens-in-the-jungle</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2653,6 +2753,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/toto-melanie</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/toto-rosanna</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2728,12 +2833,22 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/ugly-kid-joe-everything-about-you</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/van-halen-jump</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/van-halen-when-its-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/vance-joy-riptide</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2804,6 +2919,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/a-ha</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/abba</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3019,6 +3139,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/causes</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/celine-dion</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -3449,6 +3574,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/kc-the-sunshine-band</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/keane</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -4093,6 +4223,11 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/the-tokens</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/tim-mcgraw</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -4138,7 +4273,17 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/artist/ugly-kid-joe</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/artist/van-halen</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/vance-joy</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
