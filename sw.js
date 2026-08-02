@@ -1,7 +1,7 @@
-// PopSongChordBook Service Worker (v3.224)
+// PopSongChordBook Service Worker (v3.225)
 // Network-first strategy — always fetches fresh content, falls back to cache offline
 
-const CACHE_NAME = 'popsongchordbook-shell-v4';
+const CACHE_NAME = 'popsongchordbook-shell-v5';
 
 // ── Install: skip waiting so the new SW activates immediately ─────────────────
 self.addEventListener('install', event => {

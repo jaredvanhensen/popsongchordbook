@@ -3406,7 +3406,13 @@ class App {
             importUgBtn.addEventListener('click', openImportPage);
         }
         if (combinedImportBtn) {
-            combinedImportBtn.addEventListener('click', openImportPage);
+            combinedImportBtn.addEventListener('click', () => {
+                openImportPage();
+                const createSongModal = document.getElementById('createSongModal');
+                if (createSongModal) {
+                    createSongModal.classList.add('hidden');
+                }
+            });
         }
     }
 
