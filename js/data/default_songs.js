@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-08-01
+// Synchronized from Firebase on 2026-08-02
 
 const DEFAULT_SONGS = [
     {
@@ -251031,10 +251031,10 @@ const DEFAULT_SONGS = [
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "118",
         "title": "Best Song Ever",
-        "verse": "F# C# Ab",
+        "verse": "F# C# G#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2013",
+        "year": "",
         "youtubeUrl": "https://youtu.be/UGKl2kigv88?si=8RpSaQAgFbId238A"
     },
     {
