@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-08-02
+// Synchronized from Firebase on 2026-08-04
 
 const DEFAULT_SONGS = [
     {
@@ -2037,7 +2037,7 @@ const DEFAULT_SONGS = [
         "verse": "F Dm Bb C",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1988",
         "youtubeUrl": "https://youtu.be/nWey1DBAchM?si=BPiQNgpJ1xBlVrpz"
     },
     {
@@ -28136,7 +28136,7 @@ const DEFAULT_SONGS = [
         "verse": "A",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "",
+        "year": "1980",
         "youtubeUrl": "https://youtu.be/LanCLS_hIo4?si=GZEhbw-4MCOzShad"
     },
     {
@@ -34463,7 +34463,7 @@ const DEFAULT_SONGS = [
         "verse": "G C G Em Bm | C G Am D",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1986",
         "youtubeUrl": "https://youtu.be/S4mCIsmiAWc?si=T4pF6tYX2XDivzoc"
     },
     {
@@ -44679,7 +44679,7 @@ const DEFAULT_SONGS = [
         "verse": "D D/F# G D/A A 2x | D Dsus/E D/F#",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1993",
         "youtubeUrl": "https://youtu.be/n-AB7RJpOjY?si=CtnBxP3CrphkPwgu"
     },
     {
@@ -45400,7 +45400,7 @@ const DEFAULT_SONGS = [
         "verse": "C Am F G | F E",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1997",
         "youtubeUrl": "https://youtu.be/ybj9Kaktea4?si=MyDMUdo8hdZlo4sX"
     },
     {
@@ -49263,7 +49263,7 @@ const DEFAULT_SONGS = [
         "verse": "Cm G# D# A# | Fm G#",
         "verseCue": "",
         "verseTitle": "INTRO & Chorus",
-        "year": "",
+        "year": "2002",
         "youtubeUrl": "https://youtu.be/fIgfO9gD5GY?si=JCN2pjaIvRR5Otng"
     },
     {
@@ -50527,7 +50527,7 @@ const DEFAULT_SONGS = [
         "verse": "G Em F Am C 2x D",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1998",
         "youtubeUrl": "https://youtu.be/aQC91K-IohQ?is=HWjhOf1IO_uFO2kQ"
     },
     {
@@ -51892,7 +51892,7 @@ const DEFAULT_SONGS = [
         "verse": "B E | Abm F# E",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1985",
         "youtubeUrl": "https://youtu.be/W3SwEZ2WoUA?is=VsbnwKiUKP1fTXbi"
     },
     {
@@ -58979,7 +58979,7 @@ const DEFAULT_SONGS = [
         "verse": "A E F#m D 3x",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "2005",
         "youtubeUrl": "https://youtu.be/sWk7ZivgWbM?si=x9-uCRvsp8zs0oPG"
     },
     {
@@ -66115,7 +66115,7 @@ const DEFAULT_SONGS = [
         "verse": "C#m B A B",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "",
+        "year": "1997",
         "youtubeUrl": "https://youtu.be/9bFHsd3o1w0?si=IDqpBfCt-P5WR5Qf"
     },
     {
@@ -73572,7 +73572,7 @@ const DEFAULT_SONGS = [
         "verse": "Bm | G3 Em Bm | F Am G",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "",
+        "year": "2000",
         "youtubeUrl": "https://youtu.be/FPzI4dpEcF8?si=sjMDpIqyCU1CLfyu"
     },
     {
@@ -107343,7 +107343,7 @@ const DEFAULT_SONGS = [
         "verse": "B",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "",
+        "year": "2020",
         "youtubeUrl": "https://youtu.be/_NGQfFCFUn4?is=2684YDeXSEiqO_g4"
     },
     {
@@ -111290,6 +111290,366 @@ const DEFAULT_SONGS = [
         "verseTitle": "ALLS SONG",
         "year": "1999",
         "youtubeUrl": "https://youtu.be/zA52uNzx7Y4?si=sKz9l_PCIaTLBcFr"
+    },
+    {
+        "artist": "Ella Langley",
+        "bridge": "F# G# A#m G# | F# G# D#m G#",
+        "bridgeCue": "",
+        "bridgeTitle": "BRIDGE",
+        "capo": 1,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "D#m",
+                    "time": 1.767,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 5.836,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 10.157,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 12.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 14.37,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m",
+                    "time": 18.706,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 23.026,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 27.322,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 31.61,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 35.856,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#",
+                    "time": 40.138,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 44.469,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 48.771,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 53.012,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#",
+                    "time": 57.287,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 61.555,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#m",
+                    "time": 65.875,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 70.165,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 72.322,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 74.49,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m",
+                    "time": 76.64,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 80.923,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 85.103,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 89.409,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 93.742,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 98.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 102.299,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#",
+                    "time": 106.591,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 110.887,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 115.184,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 119.504,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#",
+                    "time": 123.757,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 128.068,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#m",
+                    "time": 132.375,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 136.607,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 138.742,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 140.904,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 145.153,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 147.32,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#m",
+                    "time": 149.483,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 151.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 153.754,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 155.879,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m",
+                    "time": 158.009,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 160.166,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 166.631,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 170.94,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 175.208,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#",
+                    "time": 179.477,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 183.766,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#m",
+                    "time": 188.046,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 192.295,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 194.478,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#m",
+                    "time": 196.615,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 198.794,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F#",
+                    "time": 200.938,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#",
+                    "time": 203.076,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 205.139,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#m",
+                    "time": 209.445,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 213.757,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#m",
+                    "time": 218.036,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#",
+                    "time": 220.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#",
+                    "time": 222.445,
+                    "yOffset": -65
+                }
+            ],
+            "duration": 300,
+            "name": "Ella Langley - Choosin' Texas",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "D#m C# 2x F# G#",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "dateAdded": "2026-07-29T14:23:33.839Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:17.26] Just when I thought I got him to fall in love with Tennessee\n[00:25.59] I should've known better than to take him back to Abilene\n[00:34.12] I put him right back into her arms\n[00:38.58] I wasn't a match for that kind of spark\n[00:42.23] She's from Texas, I can tell by the way\n[00:46.89] He's two-steppin' 'round the room\n[00:50.65] And judging by the smile that's written on his face\n[00:55.53] There's nothin' I can do\n[00:59.97] It doesn't take a crystal ball to see\n[01:04.07] A cowboy always finds a way to leave\n[01:08.26] Drinkin' Jack all by myself\n[01:12.26] He's choosin' Texas, I can tell\n[01:15.79] \n[01:23.36] Well, I guess he forgot about the Smoky Mountain rain\n[01:32.15] Them old Hank tunes, the Memphis blues we used to sing\n[01:40.36] He always loved \"Amarillo By Morning\"\n[01:45.12] I should've taken that as a warnin'\n[01:48.69] She's from Texas, I can tell by the way\n[01:53.13] He's two-steppin' 'round the room\n[01:57.25] And judging by the smile that's written on his face\n[02:01.85] There's nothin' I can do\n[02:06.28] It doesn't take a crystal ball to see\n[02:10.53] A cowboy always finds a way to leave\n[02:14.52] Drinkin' Jack all by myself\n[02:18.55] He's choosin' Texas, I can tell\n[02:23.80] When I'm eastbound and down, and I can't help but cry\n[02:28.38] 'Cause I-40 gets lonelier with every mile\n[02:32.47] I'll know that his mind wasn't ever gonna change\n[02:36.72] 'Cause his heart still belongs to the Lone Star State\n[02:44.33] She's from Texas, I can tell by the way\n[02:49.03] He's two-steppin' 'round the room\n[02:52.61] And judging by the smile that's written on his face\n[02:57.59] There's nothin' I can do, no\n[03:01.51] It doesn't take a crystal ball to see\n[03:06.13] A cowboy always finds a way to leave\n[03:10.27] Drinkin' Jack all by myself\n[03:14.05] He's choosin' Texas, I can tell, no\n[03:18.63] Drinkin' Jack all by myself\n[03:22.72] He's choosin' Texas, I can tell\n[03:27.08] Come on, baby\n[03:29.64] \n[03:32.39] Oh-oh, yeah\n[03:36.40] Just when I thought I got him to fall in love with Tennessee\n[03:43.01]",
+        "genre": [
+            "Country"
+        ],
+        "id": "1785335013839zgdc11w45",
+        "isPublic": true,
+        "key": "C",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "F# C# D#m G# F# A#m F# G# C#",
+        "preChorusCue": "",
+        "preChorusTitle": "CHORUS",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Choosin' Texas",
+        "verse": "D#m C# D#m F# C#",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "2026",
+        "youtubeUrl": "https://youtu.be/hLOheGDwD_0?si=go-sYdhFX5c4PrO2"
     },
     {
         "artist": "Elton John",
@@ -132103,6 +132463,528 @@ const DEFAULT_SONGS = [
             "barOffset": 0,
             "chords": [
                 {
+                    "name": "Dm",
+                    "time": 1.792,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 4.887,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 7.994,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 11.041,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 14.193,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 17.371,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 20.441,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 23.593,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 26.773,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 29.939,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 33.091,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 36.176,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 39.346,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 42.409,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 45.545,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 48.675,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 51.843,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 54.96,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 58.11,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 61.243,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 64.359,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 67.529,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 70.678,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 73.826,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 76.997,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 80.161,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 83.362,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 86.501,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 89.642,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 92.8,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 95.925,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 98.977,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 102.155,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 105.437,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 108.346,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 111.476,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 114.672,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 117.774,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 120.937,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 124.071,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 127.156,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 130.326,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 133.488,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 136.598,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 139.812,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 142.954,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 146.107,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 149.258,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 152.437,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 155.618,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 158.724,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 161.878,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 165.143,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 168.34,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 171.462,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 174.662,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 177.79,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 180.973,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 184.124,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 187.31,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 190.495,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 193.676,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 196.86,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 199.945,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 203.093,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 206.23,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 209.397,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 212.511,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 215.697,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 218.911,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 221.981,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 225.131,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 228.33,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 231.497,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 234.648,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 237.831,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 241.048,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 244.133,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 247.352,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 250.47,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 253.65,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 256.736,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 259.822,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 262.902,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 265.949,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 269.06,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 272.128,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 275.155,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 278.231,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 281.342,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 284.494,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 287.645,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm7",
+                    "time": 290.733,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm7",
+                    "time": 293.863,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbmaj7",
+                    "time": 297.048,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am7",
+                    "time": 300.101,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "George Michael - Careless Whisper",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "Dm7 Gm7 Bbmaj7 Am7",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "dateAdded": "2026-08-02T20:52:30.411Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:14.90] Oh, whoa, whoa, oh\n[00:20.16] \n[00:26.74] I feel so unsure\n[00:32.51] As I take your hand and lead you to the dance floor\n[00:39.57] As the music dies, something in your eyes\n[00:45.46] Calls to mind a silver screen and all its sad goodbyes\n[00:52.17] I'm never gonna dance again\n[00:54.77] Guilty feet have got no rhythm\n[00:58.34] Though it's easy to pretend\n[01:00.90] I know you're not a fool\n[01:04.13] I should have known better than to cheat a friend\n[01:07.30] And waste the chance that I'd been given\n[01:10.92] So I'm never gonna dance again\n[01:13.63] The way I danced with you, oh\n[01:23.99] \n[01:29.45] Time can never mend\n[01:35.75] The careless whispers of a good friend\n[01:42.31] To the heart and mind, ignorance is kind\n[01:48.06] There's no comfort in the truth, pain is all you'll find\n[01:55.18] I'm never gonna dance again\n[01:57.66] Guilty feet have got no rhythm\n[02:01.30] Though it's easy to pretend\n[02:03.97] I know you're not a fool\n[02:07.05] I should have known better than to cheat a friend (shoulda known better, yeah)\n[02:12.38] And waste the chance that I'd been given\n[02:13.64] So I'm never gonna dance again\n[02:16.32] The way I danced with you, oh\n[02:21.49] \n[02:44.82] Never without your love\n[02:46.19] Tonight, the music seems so loud\n[02:47.98] I wish that we could lose this crowd\n[02:51.35] Maybe it's better this way\n[02:54.27] We'd hurt each other with the things we want to say\n[02:57.66] We could have been so good together\n[03:01.14] We could have lived this dance forever\n[03:03.81] But now, who's gonna dance with me?\n[03:08.76] Please, stay\n[03:10.71] And I'm never gonna dance again\n[03:13.38] Guilty feet have got no rhythm\n[03:16.94] Though it's easy to pretend\n[03:19.48] I know you're not a fool\n[03:22.71] I should have known better than to cheat a friend\n[03:25.85] And waste the chance that I'd been given\n[03:29.42] So I'm never gonna dance again\n[03:32.12] The way I danced with you, oh\n[03:41.52] \n[03:49.76] (Now that you're gone)\n[03:52.26] Now that you're gone\n[03:57.23] \n[04:01.45] (Now that you're gone)\n[04:04.91] Was what I did so wrong, so wrong\n[04:08.67] That you had to leave me alone\n[04:13.02]",
+        "id": "1785703950411cccqdqmgo",
+        "isPublic": true,
+        "key": "Dm",
+        "lyricOffset": -1,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "Careless Whisper",
+        "verse": "Dm Gm Bb Am",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1984",
+        "youtubeUrl": "https://youtu.be/izGwDsrQ1eQ?si=KvgxmtdPU4j-3kK5"
+    },
+    {
+        "artist": "George Michael",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
                     "name": "B",
                     "time": 55.403,
                     "yOffset": -50
@@ -133447,6 +134329,378 @@ const DEFAULT_SONGS = [
         "verseTitle": "Block 1",
         "year": "1990",
         "youtubeUrl": "https://youtu.be/uyFpPSzjfUI?si=gK9COuTxWJpP89pK"
+    },
+    {
+        "artist": "George Michael",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Am",
+                    "time": 4.25,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 14.354,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 17.529,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 21.009,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 24.489,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 27.955,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 31.394,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 34.863,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 38.287,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 41.698,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 45.226,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 48.639,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 55.562,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 62.395,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 69.354,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 72.833,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 76.276,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 79.742,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fmaj7",
+                    "time": 83.157,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 86.634,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fmaj7",
+                    "time": 90.091,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 93.597,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 96.963,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 100.38,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 103.785,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 107.311,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 110.738,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 117.662,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 121.096,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 124.602,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 128.031,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 131.515,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 134.993,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 138.418,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 141.787,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 145.302,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 148.716,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 152.211,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 155.694,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 159.161,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 162.543,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 166.039,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 169.481,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 172.902,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 176.332,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fmaj7",
+                    "time": 179.791,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 183.221,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fmaj7",
+                    "time": 186.769,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 190.317,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 193.62,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 197.073,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 200.52,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 203.975,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 207.369,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 210.858,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 214.276,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 217.746,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 221.222,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 224.678,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 228.12,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 231.527,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 234.992,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 238.418,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 241.928,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 245.336,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 262.608,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "George Michael - Hand To Mouth",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Fmaj7 Em 2x Dm Am G Em Am",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "dateAdded": "2026-08-02T18:08:49.610Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:28.26] Jimmy got nothing made himself a name\n[00:31.04] With a gun that he polished for a rainy day\n[00:34.56] A smile and a quote from a vigilante movie\n[00:38.11] Our boy Jimmy\n[00:39.66] Just blew them all away\n[00:43.18] He said it made him crazy\n[00:47.06] Twenty five years living hand to mouth\n[00:50.15] Hand to mouth, hand to mouth, hand to mouth\n[00:55.63] Sweet little baby on a big white doorstep\n[00:58.74] She needs her mother but her mother is dead\n[01:02.40] Just another hooker that the lucky can forget\n[01:05.79] Just another hooker\n[01:07.24] It happens everyday\n[01:10.99] She loved her little baby\n[01:14.34] But she couldn't bear to see her living hand to mouth\n[01:17.78] Hand to mouth, hand to mouth, hand to mouth\n[01:24.11] I believe in the Gods of America\n[01:27.06] America, America\n[01:31.25] I believe in the land of the free\n[01:34.16] The free, the free\n[01:37.22] But no one told me\n[01:38.65] No one told me\n[01:40.03] That the Gods believe in nothing\n[01:44.02] So with empty hands I pray\n[01:46.74] And from day to hopeless day\n[01:49.50] They still don't see me\n[01:53.80] See me\n[02:05.01] Everybody talks about the new generation\n[02:07.72] Jump on the wagon\n[02:09.13] Or they'll leave you behind\n[02:10.99] But no one gave a thought to the rest of the nation\n[02:14.38] Like to help you buddy but I haven't got the time\n[02:19.77] Somebody shouted save me\n[02:23.46] Everybody started living hand to mouth\n[02:26.91] Hand to mouth, hand to mouth, hand to mouth\n[02:32.23] There's a big white lady on a big white doorstep\n[02:35.24] She asked her daddy and her daddy said, yes\n[02:39.06] Has to give a little for the dollars that we get\n[02:42.29] Has to give a little\n[02:43.88] They say it's for the best\n[02:47.50] Somebody shouted maybe\n[02:51.19] Kept on living from hand to mouth\n[02:54.26] Hand to mouth, hand to mouth, hand to mouth\n[03:01.64] So she ran to the arms of America\n[03:04.59] America, America\n[03:08.69] And she kissed the powers that be\n[03:14.33] And someone told me\n[03:16.00] Someone told me\n[03:17.66] That the Gods believe in nothing\n[03:21.09] So with empty hands I pray\n[03:24.77] And I tell myself one day\n[03:27.39] They just might see me...\n[03:34.54] They just might see me...\n[03:49.70]",
+        "id": "1785694129610y7banjb29",
+        "isPublic": true,
+        "key": "Am",
+        "lyricOffset": -1,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Hand To Mouth",
+        "verse": "Am Dm",
+        "verseCue": "",
+        "verseTitle": "INTRO & VERSE",
+        "year": "1988",
+        "youtubeUrl": "https://youtu.be/G-dEqEfw1yI?si=5znUXOcv9V-r42JG"
     },
     {
         "artist": "George Michael",
@@ -150562,7 +151816,7 @@ const DEFAULT_SONGS = [
         "verse": "E A D 2x | E B7 E",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1990",
         "youtubeUrl": "https://youtu.be/Xvo-bfaVsg0?si=RIC5CNDMXiA0rMYE"
     },
     {
@@ -170111,7 +171365,7 @@ const DEFAULT_SONGS = [
         "verse": "A A/G# Bm Esus4 E 2x",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "2004",
         "youtubeUrl": "https://youtu.be/Oextk-If8HQ?si=kUOjrRYCbWvWSOdA"
     },
     {
@@ -202706,7 +203960,7 @@ const DEFAULT_SONGS = [
         "verse": "C# F# C# | F# Ab C# Bbm",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "2026",
         "youtubeUrl": "https://youtu.be/vi0p-u1SvDM?si=bGSbh3g6b6DAoLHX"
     },
     {
@@ -218328,7 +219582,7 @@ const DEFAULT_SONGS = [
         "verse": "Bm A F#m G",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1985",
         "youtubeUrl": "https://youtu.be/FiM0JiE0h5I?si=f-hgwlAkZk66Zri_"
     },
     {
@@ -230647,7 +231901,7 @@ const DEFAULT_SONGS = [
         "verse": "Eb C# F# Ab",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1995",
         "youtubeUrl": "https://youtu.be/pEEMi2j6lYE?is=Gcwz6sGx0Ul1Nmfb"
     },
     {
@@ -249758,6 +251012,850 @@ const DEFAULT_SONGS = [
         "youtubeUrl": "https://youtu.be/x1o2NuPWRCg?si=kmk3LA6Lf2uSx1MZ"
     },
     {
+        "artist": "Olivia Dean",
+        "bridge": "G#maj7 D#maj7 C7 G#maj7 D#maj7 3x",
+        "bridgeCue": "",
+        "bridgeTitle": "Bridge",
+        "capo": 3,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Fm7",
+                    "time": 0,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 4.064,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 5.952,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 9.036,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 12.494,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 15.876,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 19.277,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 22.676,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 26.208,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 29.596,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fm7",
+                    "time": 33.024,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A#7",
+                    "time": 34.739,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 36.371,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 38.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 39.827,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 41.543,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 43.231,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 44.912,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 46.648,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 48.404,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 50.104,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim7",
+                    "time": 51.836,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 53.577,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm7",
+                    "time": 57,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Abmaj7",
+                    "time": 59.211,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ebmaj7",
+                    "time": 62.106,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Abmaj7",
+                    "time": 65.533,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Ebmaj7",
+                    "time": 68.971,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Abmaj7",
+                    "time": 72.362,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Ebmaj7",
+                    "time": 75.834,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Abmaj7",
+                    "time": 79.204,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Ebmaj7",
+                    "time": 82.692,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fm7",
+                    "time": 86.112,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 87.775,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 89.535,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 91.044,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 92.94,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 94.691,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 96.35,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 97.945,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 99.786,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 101.566,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 103.215,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim7",
+                    "time": 104.954,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 106.71,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm7",
+                    "time": 110.097,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 111.896,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 115.257,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C7",
+                    "time": 116.736,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 118.792,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 122.182,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 125.543,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 128.976,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#maj7",
+                    "time": 132.405,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#maj7",
+                    "time": 135.827,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fm7",
+                    "time": 139.244,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 140.947,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 142.684,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 144.435,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 146.083,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 147.8,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 149.494,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C7",
+                    "time": 151.285,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 152.977,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb7",
+                    "time": 154.723,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm7",
+                    "time": 156.428,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim7",
+                    "time": 158.1,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm7",
+                    "time": 159.836,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm7",
+                    "time": 163.337,
+                    "yOffset": -50
+                }
+            ],
+            "duration": 300,
+            "name": "Olivia Dean - It's So Easy",
+            "tempo": "120",
+            "useFlatNotation": false
+        },
+        "chorus": "Abmaj7 Ebmaj7 3x Ab Ebmaj7",
+        "chorusCue": "",
+        "chorusTitle": "Verse",
+        "dateAdded": "2026-06-10T06:54:27.881Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:05.72] I could be the twist, the one to make you stop\n[00:08.95] The icing on your cake, the cherry on the top\n[00:12.43] It's heaven in my heart, and we could find you some space, mm\n[00:19.32] I could be the world to you, the missing piece\n[00:22.54] That extra sentimental kind of chemistry\n[00:25.90] Some people make it hard, with me, that isn't the case\n[00:30.60] 'Cause I make it so easy to fall in love\n[00:37.22] So come give me a call, and we'll fall into us\n[00:44.12] I'm the perfect mix of Saturday night and the rest of your life\n[00:49.43] Anyone with a heart would agree\n[00:53.29] It's so easy to fall in love with\n[00:58.68] The way I do my hair, the way I make you laugh\n[01:02.07] The way we like to share, a walk in Central Park\n[01:05.65] I could be fresh air, might be the girl of your dreams (dream, dream)\n[01:12.00] There's no need to hide if you're into me\n[01:15.34] 'Cause I'm into you quite intimately\n[01:18.85] And maybe one night could turn into three\n[01:22.06] Well, I'm down to see\n[01:23.79] 'Cause I make it so easy to fall in love\n[01:30.58] So come give me a call, and we'll fall into us\n[01:37.20] I'm the perfect mix of Saturday night and the rest of your life\n[01:42.69] Anyone with a heart would agree\n[01:46.46] It's so easy to fall in love with me (me, me)\n[01:55.54] (Me, me, me, me, me, me)\n[02:05.49] It's so easy (me, me)\n[02:08.69] It's so easy (me, me)\n[02:12.13] It's so easy (me, me)\n[02:14.91] Hey-yeah, hey (me, me)\n[02:18.16] It's so easy to fall in love\n[02:23.69] So come give me a call, and we'll fall into us\n[02:30.47] I'm the perfect mix of Saturday night and the rest of your life\n[02:35.89] Anyone with a heart would agree\n[02:39.54] It's so easy to fall in love with me\n[02:45.30]",
+        "id": "1781074467881eowy3rg04",
+        "isPublic": true,
+        "key": "D#",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Fm7 Bb7 Cm7 C7 2x Fm7 Bb7 Cm7 Adim7 Fm7 Gm7",
+        "preChorusCue": "",
+        "preChorusTitle": "Chorus",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "120",
+        "title": "So Easy (To Fall In Love)",
+        "verse": "Fm7 Gm",
+        "verseCue": "",
+        "verseTitle": "Intro",
+        "year": "2025",
+        "youtubeUrl": "https://youtu.be/9JSn36U7d4w?si=ggCHOlNxIinTBhgN"
+    },
+    {
+        "artist": "Olivia Rodrigo",
+        "bridge": "D# Gm Dm Gm Cm F",
+        "bridgeCue": "",
+        "bridgeTitle": "INSTRUMENTAL",
+        "capo": 3,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Bbmaj7",
+                    "time": 0.25,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 4.131,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 6.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 9.304,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 12.425,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 15.267,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#",
+                    "time": 18.175,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 21.057,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 23.968,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 26.927,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#",
+                    "time": 29.901,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 32.82,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 35.731,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 38.719,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 41.633,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 44.664,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 46.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 47.895,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 49.267,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 50.681,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 52.082,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 53.538,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 54.953,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 56.362,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 57.777,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 59.227,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb/A",
+                    "time": 60.744,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 62.235,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 63.717,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 66.994,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 69.904,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#",
+                    "time": 72.732,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 74.437,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 75.763,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 77.305,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 79.16,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 82.063,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#",
+                    "time": 85.009,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 87.863,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 90.788,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 93.741,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#",
+                    "time": 96.685,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 99.685,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 102.538,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 105.451,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 108.373,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 111.335,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 112.736,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 114.212,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 115.841,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 117.156,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 118.566,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 120.049,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 121.477,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 122.914,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 124.317,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#",
+                    "time": 125.761,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb/A",
+                    "time": 127.238,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 128.714,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 130.103,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 133.46,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 136.181,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#",
+                    "time": 139.247,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 140.726,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 142.095,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 143.606,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#",
+                    "time": 145.167,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 148.1,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 151.005,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 153.93,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 156.853,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 159.853,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#",
+                    "time": 163.115,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb/A",
+                    "time": 164.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 165.864,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 167.397,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 170.5,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 173.565,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A#",
+                    "time": 177.856,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 179.416,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 181.162,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 183.306,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F7",
+                    "time": 185,
+                    "yOffset": -65
+                }
+            ],
+            "duration": 300,
+            "name": "Olivia Rodrigo - Less",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Gm Cm D# F 2x Dm Cm Dm Gm F",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "dateAdded": "2026-07-29T14:20:56.193Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:11.93] I feel it again\n[00:16.44] Edge of the bed\n[00:19.28] Body and head protesting\n[00:24.46] My stomach's in knots\n[00:28.02] I don't want to talk\n[00:30.77] Let's just go to bed or something\n[00:35.52] Maybe it'll fix itself tomorrow\n[00:41.16] But I've been saying that like every night\n[00:47.50] You say you can't stand to watch me\n[00:50.27] Cry a minute more\n[00:53.23] So you do the noble thing\n[00:55.86] And open up the door\n[00:58.76] If loving me means letting go\n[01:01.31] And wishing me the best\n[01:06.99] Then I guess\n[01:09.03] I wish, I wish, I wish\n[01:11.22] You loved me less\n[01:15.58] \n[01:18.87] We tried to recreate\n[01:22.82] Our favorite date\n[01:25.73] But we didn't laugh much this time\n[01:31.74] Our trip to Big Sur\n[01:34.83] Only confirmed\n[01:37.59] This isn't what it should feel like\n[01:42.19] And maybe I'm a stubborn overthinker\n[01:47.99] But I've thinking over this a lot\n[01:53.86] And I could try convincing you\n[01:56.66] They're just intrusive thoughts\n[01:59.23] But you've seen me truly happy\n[02:01.64] So you know right now I'm not\n[02:05.24] If loving me means\n[02:06.92] Crying on the curb at LAX\n[02:11.38] \n[02:13.47] Well then I guess\n[02:15.38] I wish, I wish, I wish\n[02:17.50] You loved me less\n[02:21.37] \n[02:42.24] If loving me means saying\n[02:44.60] \"Babe, I think this is the end\"\n[02:51.07] Well I guess\n[02:52.86] I wish, I wish, I wish\n[02:54.97] You loved me less\n[02:56.09]",
+        "id": "17853348561935972feuzm",
+        "isPublic": true,
+        "key": "G",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "A# Gm Cm F 2x A# G# G Cm F A# A Cm F",
+        "preChorusCue": "",
+        "preChorusTitle": "CHORUS",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Less",
+        "verse": "Bbmaj7 Gm Cm F",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "2025",
+        "youtubeUrl": "https://youtu.be/Z4BGtpcp1Jg?si=JwmXWcWVKSG_cv0X"
+    },
+    {
         "artist": "Olivia Rodrigo",
         "bridge": "C# G# F# | C# G# D#m",
         "bridgeCue": "",
@@ -251034,7 +253132,7 @@ const DEFAULT_SONGS = [
         "verse": "F# C# G#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "",
+        "year": "2013",
         "youtubeUrl": "https://youtu.be/UGKl2kigv88?si=8RpSaQAgFbId238A"
     },
     {
@@ -269833,6 +271931,2216 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Queen",
+        "bridge": "A | D A Adim A 4x | Db Bb E A | B Bb A Bb 2x | Ab Eb 2x | Ab Eb F Bb | Eb Bb",
+        "bridgeCue": "",
+        "bridgeTitle": "OPERA",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Gm7",
+                    "time": 2.423,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C7",
+                    "time": 5.529,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F7",
+                    "time": 9.161,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 13.016,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 16.81,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 20.145,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 23.61,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 27.012,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F7",
+                    "time": 30.482,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 33.794,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 34.615,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 35.529,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 36.279,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 37.129,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 37.913,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 38.746,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 39.567,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 40.416,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 42.149,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbdim7",
+                    "time": 43.831,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 45.545,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 50.638,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 53.965,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 57.399,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 60.844,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 64.244,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 69.333,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 70.943,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 74.359,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm7",
+                    "time": 77.785,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B+",
+                    "time": 79.486,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 80.319,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 81.207,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 82.889,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 84.587,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 87.117,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 88.029,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 91.341,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 94.742,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 98.073,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 99.791,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 101.508,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 103.231,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 104.857,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 106.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 107.342,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm7",
+                    "time": 108.207,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 109.892,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 116.753,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 120.175,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 123.567,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 128.642,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 130.335,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 133.719,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm7",
+                    "time": 137.137,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B+",
+                    "time": 138.819,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 139.621,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 140.523,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 142.205,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 143.906,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 146.472,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 147.305,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 150.76,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 154.054,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 157.518,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 159.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 160.846,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 164.339,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 165.99,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 167.671,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 171.072,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 172.766,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 174.524,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 177.925,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 179.614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 181.262,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 183.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 184.666,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 187.882,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 188.293,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 188.713,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 189.128,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 189.569,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 189.999,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 190.385,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 190.83,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 191.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 191.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 191.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 192.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 192.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 193,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 193.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 193.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 194.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 195.976,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 197,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 197.599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "N.C",
+                    "time": 198.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "N.C",
+                    "time": 202.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 204.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 204.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 205.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 205.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 206.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 206.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 206.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 207.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 207.832,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 208.592,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 209.39,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 210.175,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 210.943,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 211.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 212.542,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 213.343,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 215.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 216,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 216.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 217,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 217.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 217.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 218.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 218.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 219.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 220.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 222.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 225.275,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 228.509,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 230.153,
+                    "yOffset": -65
+                },
+                {
+                    "name": "bassnotes Bm A7 D Db Gb Bb Eb",
+                    "time": 233.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 239.708,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 242.868,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 246.22,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 249.7,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 251.397,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 253.125,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 254.86,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 256.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 259.232,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 260.141,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 262.779,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 265.472,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 266.222,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 267.971,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 269.656,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 271.416,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 273.167,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 274.869,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 275.67,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 276.668,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 277.479,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 278.362,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 280,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 281.829,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 283.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gb",
+                    "time": 285.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 287,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 288.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 290.75,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 292.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 296.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 298.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 300.292,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bdim7",
+                    "time": 302,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 302.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bdim7",
+                    "time": 303.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 304.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 305.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 306,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 306.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 308.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 310.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 311.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 313.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 315.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 317.059,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 318.867,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 320.58,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 322.395,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 324.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 328.379,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 329.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 331.405,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebdim7",
+                    "time": 332.981,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 334.38,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C7",
+                    "time": 337.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 342.637,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 344.954,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 347.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 349.625,
+                    "yOffset": -35
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 22,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 47,
+                    "name": "VERSE 1",
+                    "startIdx": 23,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 63,
+                    "name": "VERSE 2",
+                    "startIdx": 48,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 77,
+                    "name": "SOLO",
+                    "startIdx": 64,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 134,
+                    "name": "OPERA",
+                    "startIdx": 78,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 161,
+                    "name": "BRIDGE",
+                    "startIdx": 135,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 174,
+                    "name": "SOLO2",
+                    "startIdx": 162,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 191,
+                    "name": "OUTRO",
+                    "startIdx": 175,
+                    "type": "outro"
+                }
+            ],
+            "duration": 300,
+            "name": "Queen - Bohemian Rhapsody",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Bb Gm Cm F | Bb Gm Cm7 B+ Eb F Fm | Eb Bb Cm Fm Bb Eb Bb Cm Abm Eb Ab Eb Fm7 Bb",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "customMapSections": [
+            {
+                "endIdx": 22,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 47,
+                "name": "VERSE 1",
+                "startIdx": 23,
+                "type": "verse"
+            },
+            {
+                "endIdx": 63,
+                "name": "VERSE 2",
+                "startIdx": 48,
+                "type": "verse"
+            },
+            {
+                "endIdx": 77,
+                "name": "SOLO",
+                "startIdx": 64,
+                "type": "solo"
+            },
+            {
+                "endIdx": 134,
+                "name": "OPERA",
+                "startIdx": 78,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 161,
+                "name": "BRIDGE",
+                "startIdx": 135,
+                "type": "solo"
+            },
+            {
+                "endIdx": 174,
+                "name": "SOLO2",
+                "startIdx": 162,
+                "type": "solo"
+            },
+            {
+                "endIdx": 191,
+                "name": "OUTRO",
+                "startIdx": 175,
+                "type": "outro"
+            }
+        ],
+        "dateAdded": "2026-07-06T09:16:59.787Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:00.42] Is this the real life?\n[00:04.03] Is this just fantasy?\n[00:07.58] Caught in a landside\n[00:10.35] No escape from reality\n[00:14.74] Open your eyes\n[00:17.70] Look up to the skies and see\n[00:25.29] I'm just a poor boy, I need no sympathy\n[00:31.02] Because I'm easy come, easy go\n[00:35.39] Little high, little low\n[00:38.75] Any way the wind blows doesn't really matter to me (to me)\n[00:52.81] \n[00:55.42] Mama\n[00:58.41] Just killed a man\n[01:01.92] Put a gun against his head, pulled my trigger\n[01:06.59] Now he's dead\n[01:09.27] Mama, life had just begun\n[01:15.36] But now I've gone and thrown it all away\n[01:22.64] Mama, oo-oo-oo\n[01:29.21] Didn't mean to make you cry\n[01:32.75] If I'm not back again this time tomorrow\n[01:37.50] Carry on, carry on as if nothing really matters\n[01:46.37] \n[01:54.98] Too late, my time has come\n[02:01.16] Sends shivers down my spine, body's aching all the time\n[02:08.38] Goodbye, everybody, I've got to go\n[02:14.94] Gotta leave you all behind and face the truth\n[02:22.18] Mama, oo-oo-oo (the wind blows)\n[02:29.02] I don't want to die\n[02:32.26] I sometimes wish I'd never been born at all\n[02:38.33] \n[03:06.26] I see a little silhouetto of a man\n[03:09.01] Scaramouch, Scaramouch, will you do the Fandango?\n[03:12.75] Thunderbolts and lightning, very, very frightening me\n[03:16.35] Galileo, Galileo\n[03:17.83] Galileo, Galileo\n[03:19.48] Galileo, Figaro, magnifico, oh-oh-oh\n[03:22.84] I'm just a poor boy nobody loves me\n[03:26.09] He's just a poor boy from a poor family\n[03:29.22] Spare him his life from this monstrosity\n[03:33.84] Easy come, easy go, will you let me go?\n[03:36.68] Bismillah! No, we will not let you go\n[03:39.85] (Let him go!) Bismillah! We will not let you go\n[03:43.13] (Let him go!) Bismillah! We will not let you go\n[03:46.33] (Let me go) will not let you go\n[03:47.78] (Let me go) never let you go\n[03:49.05] (Let me go) (never) let you go (let me go)\n[03:51.55] No, no, no, no, no, no, no\n[03:54.27] Oh, mama mia, mama mia (mama mia, let me go)\n[03:57.42] Beelzebub has a devil put aside for me, for me\n[04:03.81] For me\n[04:07.98] \n[04:15.01] So you think you can stop me and spit in my eye\n[04:20.94] So you think you can love me and leave me to die\n[04:26.06] Oh, baby, can't do this to me, baby\n[04:33.12] Just gotta get out, just gotta get right outta here\n[04:39.04] \n[04:55.22] Oo-oo\n[05:00.13] Oh, yeah, oh, yeah\n[05:05.53] \n[05:11.61] Nothing really matters, anyone can see\n[05:18.67] Nothing really matters\n[05:22.72] Nothing really matters to me\n[05:31.01] \n[05:43.13] Any way the wind blows\n[05:46.33]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "178332941978767mo8f4iu",
+        "isPublic": true,
+        "key": "Bb",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Eb Bb Cm Fm Ab Bb7 Eb Bb Cm Fm Ab Db B Bbm",
+        "preChorusCue": "",
+        "preChorusTitle": "SOLO",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Bohemian Rhapsody",
+        "verse": "Gm7 C7 F7 Bb | Gm Bb Eb Cm F7 | B Bb A Bb 2x Eb Bb Bbdim7 F Bb",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "1975",
+        "youtubeUrl": "https://youtu.be/fJ9rUzIMcZQ?si=wyRCbw_qYXWUGhbW"
+    },
+    {
+        "artist": "Queen",
+        "bridge": "A | D A Adim A 4x | Db Bb E A | B Bb A Bb 2x | Ab Eb 2x | Ab Eb F Bb | Eb Bb",
+        "bridgeCue": "",
+        "bridgeTitle": "OPERA",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Gm7",
+                    "time": 2.423,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C7",
+                    "time": 5.529,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F7",
+                    "time": 9.161,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 13.016,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 16.81,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 20.145,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 23.61,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 27.012,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F7",
+                    "time": 30.482,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 33.794,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 34.615,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 35.529,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 36.279,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 37.129,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 37.913,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 38.746,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 39.567,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 40.416,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 42.149,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbdim7",
+                    "time": 43.831,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 45.545,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 50.638,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 53.965,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 57.399,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 60.844,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 64.244,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 69.333,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 70.943,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 74.359,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm7",
+                    "time": 77.785,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B+",
+                    "time": 79.486,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 80.319,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 81.207,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 82.889,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 84.587,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 87.117,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 88.029,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 91.341,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 94.742,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 98.073,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 99.791,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 101.508,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 103.231,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 104.857,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 106.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 107.342,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm7",
+                    "time": 108.207,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 109.892,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 116.753,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Gm",
+                    "time": 120.175,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm",
+                    "time": 123.567,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 128.642,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 130.335,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 133.719,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Cm7",
+                    "time": 137.137,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B+",
+                    "time": 138.819,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 139.621,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 140.523,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 142.205,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 143.906,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 146.472,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 147.305,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 150.76,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 154.054,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 157.518,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 159.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 160.846,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 164.339,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 165.99,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 167.671,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 171.072,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 172.766,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 174.524,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 177.925,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 179.614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 181.262,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 183.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 184.666,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 187.882,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 188.293,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 188.713,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 189.128,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 189.569,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 189.999,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 190.385,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 190.83,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 191.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 191.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 191.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 192.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 192.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 193,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Adim",
+                    "time": 193.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 193.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 194.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 195.976,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 197,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A",
+                    "time": 197.599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "N.C",
+                    "time": 198.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "N.C",
+                    "time": 202.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 204.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 204.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 205.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 205.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 206.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 206.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 206.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 207.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 207.832,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 208.592,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 209.39,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 210.175,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 210.943,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 211.792,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 212.542,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 213.343,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 215.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 216,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 216.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 217,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 217.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 217.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 218.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 218.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 219.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 220.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 222.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 225.275,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 228.509,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 230.153,
+                    "yOffset": -65
+                },
+                {
+                    "name": "bassnotes Bm A7 D Db Gb Bb Eb",
+                    "time": 233.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 239.708,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 242.868,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 246.22,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 249.7,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 251.397,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 253.125,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 254.86,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 256.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 259.232,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 260.141,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 262.779,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Eb",
+                    "time": 265.472,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Ab",
+                    "time": 266.222,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 267.971,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 269.656,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 271.416,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 273.167,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 274.869,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 275.67,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 276.668,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 277.479,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 278.362,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 280,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Eb",
+                    "time": 281.829,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 283.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gb",
+                    "time": 285.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 287,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 288.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 290.75,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 292.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 296.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 298.5,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 300.292,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bdim7",
+                    "time": 302,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 302.625,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bdim7",
+                    "time": 303.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Cm",
+                    "time": 304.25,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 305.25,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 306,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D",
+                    "time": 306.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 308.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 310.375,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 311.875,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 313.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 315.375,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 317.059,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 318.867,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Cm",
+                    "time": 320.58,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 322.395,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 324.875,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 328.379,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ab",
+                    "time": 329.75,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Eb",
+                    "time": 331.405,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebdim7",
+                    "time": 332.981,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 334.38,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C7",
+                    "time": 337.125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 342.637,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 344.954,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Gm",
+                    "time": 347.625,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 349.625,
+                    "yOffset": -35
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 22,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 47,
+                    "name": "VERSE 1",
+                    "startIdx": 23,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 63,
+                    "name": "VERSE 2",
+                    "startIdx": 48,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 77,
+                    "name": "SOLO",
+                    "startIdx": 64,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 134,
+                    "name": "OPERA",
+                    "startIdx": 78,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 161,
+                    "name": "BRIDGE",
+                    "startIdx": 135,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 174,
+                    "name": "SOLO2",
+                    "startIdx": 162,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 191,
+                    "name": "OUTRO",
+                    "startIdx": 175,
+                    "type": "outro"
+                }
+            ],
+            "duration": 300,
+            "name": "Queen - Bohemian Rhapsody pt2",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Bb Gm Cm F | Bb Gm Cm7 B+ Eb F Fm | Eb Bb Cm Fm Bb Eb Bb Cm Abm Eb Ab Eb Fm7 Bb",
+        "chorusCue": "",
+        "chorusTitle": "VERSE",
+        "customMapSections": [
+            {
+                "endIdx": 22,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 47,
+                "name": "VERSE 1",
+                "startIdx": 23,
+                "type": "verse"
+            },
+            {
+                "endIdx": 63,
+                "name": "VERSE 2",
+                "startIdx": 48,
+                "type": "verse"
+            },
+            {
+                "endIdx": 77,
+                "name": "SOLO",
+                "startIdx": 64,
+                "type": "solo"
+            },
+            {
+                "endIdx": 134,
+                "name": "OPERA",
+                "startIdx": 78,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 161,
+                "name": "BRIDGE",
+                "startIdx": 135,
+                "type": "solo"
+            },
+            {
+                "endIdx": 174,
+                "name": "SOLO2",
+                "startIdx": 162,
+                "type": "solo"
+            },
+            {
+                "endIdx": 191,
+                "name": "OUTRO",
+                "startIdx": 175,
+                "type": "outro"
+            }
+        ],
+        "dateAdded": "2026-07-06T09:16:59.787Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:00.42] Is this the real life?\n[00:04.03] Is this just fantasy?\n[00:07.58] Caught in a landside\n[00:10.35] No escape from reality\n[00:14.74] Open your eyes\n[00:17.70] Look up to the skies and see\n[00:25.29] I'm just a poor boy, I need no sympathy\n[00:31.02] Because I'm easy come, easy go\n[00:35.39] Little high, little low\n[00:38.75] Any way the wind blows doesn't really matter to me (to me)\n[00:52.81] \n[00:55.42] Mama\n[00:58.41] Just killed a man\n[01:01.92] Put a gun against his head, pulled my trigger\n[01:06.59] Now he's dead\n[01:09.27] Mama, life had just begun\n[01:15.36] But now I've gone and thrown it all away\n[01:22.64] Mama, oo-oo-oo\n[01:29.21] Didn't mean to make you cry\n[01:32.75] If I'm not back again this time tomorrow\n[01:37.50] Carry on, carry on as if nothing really matters\n[01:46.37] \n[01:54.98] Too late, my time has come\n[02:01.16] Sends shivers down my spine, body's aching all the time\n[02:08.38] Goodbye, everybody, I've got to go\n[02:14.94] Gotta leave you all behind and face the truth\n[02:22.18] Mama, oo-oo-oo (the wind blows)\n[02:29.02] I don't want to die\n[02:32.26] I sometimes wish I'd never been born at all\n[02:38.33] \n[03:06.26] I see a little silhouetto of a man\n[03:09.01] Scaramouch, Scaramouch, will you do the Fandango?\n[03:12.75] Thunderbolts and lightning, very, very frightening me\n[03:16.35] Galileo, Galileo\n[03:17.83] Galileo, Galileo\n[03:19.48] Galileo, Figaro, magnifico, oh-oh-oh\n[03:22.84] I'm just a poor boy nobody loves me\n[03:26.09] He's just a poor boy from a poor family\n[03:29.22] Spare him his life from this monstrosity\n[03:33.84] Easy come, easy go, will you let me go?\n[03:36.68] Bismillah! No, we will not let you go\n[03:39.85] (Let him go!) Bismillah! We will not let you go\n[03:43.13] (Let him go!) Bismillah! We will not let you go\n[03:46.33] (Let me go) will not let you go\n[03:47.78] (Let me go) never let you go\n[03:49.05] (Let me go) (never) let you go (let me go)\n[03:51.55] No, no, no, no, no, no, no\n[03:54.27] Oh, mama mia, mama mia (mama mia, let me go)\n[03:57.42] Beelzebub has a devil put aside for me, for me\n[04:03.81] For me\n[04:07.98] \n[04:15.01] So you think you can stop me and spit in my eye\n[04:20.94] So you think you can love me and leave me to die\n[04:26.06] Oh, baby, can't do this to me, baby\n[04:33.12] Just gotta get out, just gotta get right outta here\n[04:39.04] \n[04:55.22] Oo-oo\n[05:00.13] Oh, yeah, oh, yeah\n[05:05.53] \n[05:11.61] Nothing really matters, anyone can see\n[05:18.67] Nothing really matters\n[05:22.72] Nothing really matters to me\n[05:31.01] \n[05:43.13] Any way the wind blows\n[05:46.33]",
+        "genre": [
+            "Rock"
+        ],
+        "id": "1785850039917sj46j937o",
+        "isPublic": true,
+        "key": "Bb",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Eb Bb Cm Fm Ab Bb7 Eb Bb Cm Fm Ab Db B Bbm",
+        "preChorusCue": "",
+        "preChorusTitle": "SOLO",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Bohemian Rhapsody pt2",
+        "verse": "Gm7 C7 F7 Bb | Gm Bb Eb Cm F7 | B Bb A Bb 2x Eb Bb Bbdim7 F Bb",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "1975",
+        "youtubeUrl": "https://youtu.be/fJ9rUzIMcZQ?si=wyRCbw_qYXWUGhbW"
+    },
+    {
+        "artist": "Queen",
         "bridge": "(single notes dc#c ag#g) A# D A# E A2",
         "bridgeCue": "",
         "bridgeTitle": "",
@@ -273166,6 +277474,86 @@ const DEFAULT_SONGS = [
                     "yOffset": -50
                 }
             ],
+            "customMapSections": [
+                {
+                    "endIdx": 17,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 36,
+                    "name": "PRE CHORUS",
+                    "startIdx": 27,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 40,
+                    "name": "INTERLUDE",
+                    "startIdx": 37,
+                    "type": "interlude"
+                },
+                {
+                    "endIdx": 46,
+                    "name": "VERSE 1",
+                    "startIdx": 41,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 56,
+                    "name": "PRE CHORUS",
+                    "startIdx": 47,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 65,
+                    "name": "CHORUS",
+                    "startIdx": 57,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 69,
+                    "name": "CHORUS",
+                    "startIdx": 66,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 97,
+                    "name": "SPANISH SOLO",
+                    "startIdx": 70,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 103,
+                    "name": "BRIDGE",
+                    "startIdx": 98,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 130,
+                    "name": "SOLO",
+                    "startIdx": 104,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 118,
+                    "name": "OUTRO",
+                    "startIdx": 111,
+                    "type": "outro"
+                },
+                {
+                    "endIdx": 142,
+                    "name": "VERSE 2",
+                    "startIdx": 131,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 159,
+                    "name": "PRE CHORUS",
+                    "startIdx": 143,
+                    "type": "prechorus"
+                }
+            ],
             "duration": 300,
             "name": "Queen - Innuendo",
             "tempo": "120",
@@ -273174,6 +277562,86 @@ const DEFAULT_SONGS = [
         "chorus": "C# B F# | C# E B | F# B F# G#  ",
         "chorusCue": "",
         "chorusTitle": "PRE CHORUS",
+        "customMapSections": [
+            {
+                "endIdx": 17,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 36,
+                "name": "PRE CHORUS",
+                "startIdx": 27,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 40,
+                "name": "INTERLUDE",
+                "startIdx": 37,
+                "type": "interlude"
+            },
+            {
+                "endIdx": 46,
+                "name": "VERSE 1",
+                "startIdx": 41,
+                "type": "verse"
+            },
+            {
+                "endIdx": 56,
+                "name": "PRE CHORUS",
+                "startIdx": 47,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 65,
+                "name": "CHORUS",
+                "startIdx": 57,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 69,
+                "name": "CHORUS",
+                "startIdx": 66,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 97,
+                "name": "SPANISH SOLO",
+                "startIdx": 70,
+                "type": "solo"
+            },
+            {
+                "endIdx": 103,
+                "name": "BRIDGE",
+                "startIdx": 98,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 130,
+                "name": "SOLO",
+                "startIdx": 104,
+                "type": "solo"
+            },
+            {
+                "endIdx": 118,
+                "name": "OUTRO",
+                "startIdx": 111,
+                "type": "outro"
+            },
+            {
+                "endIdx": 142,
+                "name": "VERSE 2",
+                "startIdx": 131,
+                "type": "verse"
+            },
+            {
+                "endIdx": 159,
+                "name": "PRE CHORUS",
+                "startIdx": 143,
+                "type": "prechorus"
+            }
+        ],
         "dateAdded": "2026-07-10T10:59:07.316Z",
         "externalUrl": "",
         "favorite": false,
@@ -273184,11 +277652,11 @@ const DEFAULT_SONGS = [
         "id": "17836811473167qglj71xa",
         "isPublic": true,
         "key": "C",
-        "lyricOffset": 20,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
-        "preChorus": "A Dm 2x E F 2x | C Fm C Fm7 | Am G F E F E F Dm7 E 3x",
+        "preChorus": "A Dm 2x E F 2x | C Fm C Fm7 | Am G F E 3x",
         "preChorusCue": "",
         "preChorusTitle": "CHORUS & INSTRUMENTAL",
         "songNotes": "",
@@ -273198,7 +277666,7 @@ const DEFAULT_SONGS = [
         "verse": "E F E7 x4 | G# A G# x4 | E F E7 x4",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1975",
         "youtubeUrl": "https://youtu.be/g2N0TkfrQhY?si=ZPUQvjyDz8sr5NNQ"
     },
     {
@@ -274903,6 +279371,758 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO & VERSE",
         "year": "1994",
         "youtubeUrl": "https://youtu.be/t99KH0TR-J4?si=4E4pMYoYmwkekycY"
+    },
+    {
+        "artist": "Queen",
+        "bridge": "Dm Am G Bb Am G Dm Am Em Bb Am G",
+        "bridgeCue": "",
+        "bridgeTitle": "SOLO",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "C",
+                    "time": 15.519,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F",
+                    "time": 18.409,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 19.177,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 19.772,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 21.855,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 22.657,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 24.058,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 26.872,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 27.76,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 28.328,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 30.424,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 31.192,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 32.592,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 36.924,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 41.192,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 45.376,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 49.644,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 53.911,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 54.705,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 55.387,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 56.043,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am",
+                    "time": 56.835,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 57.568,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 58.163,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 62.441,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 63.202,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 63.92,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 64.503,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 65.371,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 66.106,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 66.687,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 71.019,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 71.727,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 72.52,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 73.095,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am",
+                    "time": 73.944,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 74.72,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 75.405,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 77.371,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 79.49,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 81.586,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 83.836,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 85.923,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 88.801,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 89.545,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 90.183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 92.327,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 93.11,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 94.476,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 97.311,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 98.127,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 98.729,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 100.799,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 101.646,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 103,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 107.202,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Dm",
+                    "time": 111.514,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 115.768,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 120.017,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C",
+                    "time": 124.232,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 125.047,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 125.798,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 126.416,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am",
+                    "time": 127.216,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 127.969,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 128.536,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 132.849,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 133.649,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 134.399,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 134.942,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 135.753,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 136.593,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 137.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 141.405,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 142.174,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 142.94,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 143.484,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Am",
+                    "time": 144.299,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 145.06,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bb",
+                    "time": 145.715,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 147.745,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 149.879,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 151.987,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 154.116,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 156.846,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 160.58,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G",
+                    "time": 164.836,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 169.165,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 171.204,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 173.365,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Dm",
+                    "time": 177.648,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Am",
+                    "time": 181.883,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Em",
+                    "time": 186.166,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bb",
+                    "time": 190.383,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 192.569,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 194.718,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 198.935,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 199.788,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 200.569,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 201.105,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 201.937,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 202.672,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 203.275,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 207.488,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 208.302,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 209.061,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 209.584,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 210.441,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 211.189,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 211.793,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 216.035,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 216.839,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 217.584,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 218.157,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 218.972,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 219.776,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bb",
+                    "time": 220.401,
+                    "yOffset": -35
+                },
+                {
+                    "name": "F",
+                    "time": 222.407,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C",
+                    "time": 224.557,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G",
+                    "time": 226.669,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F",
+                    "time": 228.878,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 237.378,
+                    "yOffset": -50
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 13,
+                    "name": "VERSE 1",
+                    "startIdx": 0,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 16,
+                    "name": "PRE CHORUS",
+                    "startIdx": 14,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 40,
+                    "name": "CHORUS",
+                    "startIdx": 17,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 55,
+                    "name": "VERSE 2",
+                    "startIdx": 41,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 58,
+                    "name": "PRE CHORUS",
+                    "startIdx": 56,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 83,
+                    "name": "CHORUS",
+                    "startIdx": 59,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 95,
+                    "name": "SOLO",
+                    "startIdx": 84,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 121,
+                    "name": "CHORUS",
+                    "startIdx": 96,
+                    "type": "chorus"
+                }
+            ],
+            "duration": 300,
+            "name": "Queen - These Are The Days Of Our Lives",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Dm Am G",
+        "chorusCue": "",
+        "chorusTitle": "PRE CHORUS",
+        "customMapSections": [
+            {
+                "endIdx": 13,
+                "name": "VERSE 1",
+                "startIdx": 0,
+                "type": "verse"
+            },
+            {
+                "endIdx": 16,
+                "name": "PRE CHORUS",
+                "startIdx": 14,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 40,
+                "name": "CHORUS",
+                "startIdx": 17,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 55,
+                "name": "VERSE 2",
+                "startIdx": 41,
+                "type": "verse"
+            },
+            {
+                "endIdx": 58,
+                "name": "PRE CHORUS",
+                "startIdx": 56,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 83,
+                "name": "CHORUS",
+                "startIdx": 59,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 95,
+                "name": "SOLO",
+                "startIdx": 84,
+                "type": "solo"
+            },
+            {
+                "endIdx": 121,
+                "name": "CHORUS",
+                "startIdx": 96,
+                "type": "chorus"
+            }
+        ],
+        "dateAdded": "2026-08-03T06:49:02.612Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:08.53] Sometimes I get to feelin'\n[00:11.46] I was back in the old days, long ago\n[00:17.35] When we were kids, when we were young\n[00:20.36] Things seemed so perfect, you know\n[00:25.80] The days were endless, we were crazy, we were young\n[00:30.26] The sun was always shinin'\n[00:32.40] We just lived for fun\n[00:34.79] Sometimes it seems like lately\n[00:37.16] I just don't know\n[00:39.08] The rest of my life's been just a show\n[00:44.63] \n[00:47.17] Those were the days of our lives\n[00:55.32] The bad things in life were so few\n[01:03.82] Those days are all gone now, but one thing is true\n[01:12.38] When I look, and I find, I still love you\n[01:19.46] You can't turn back the clock, you can't turn back the tide\n[01:24.24] Ain't that a shame\n[01:27.66] Ooh, I'd like to go back one time on a roller coaster ride\n[01:32.91] When life was just a game\n[01:36.36] No use in sitting and thinkin' on what you did\n[01:40.58] When you can lay back and enjoy it through your kids\n[01:44.66] Sometimes it seems like lately\n[01:47.85] I just don't know\n[01:49.73] Better sit back and go with the flow\n[01:57.24] 'Cause these are the days of our lives\n[02:05.40] They've flown in the swiftness of time\n[02:12.09] \n[02:14.19] These days are all gone now, but some things remain\n[02:22.64] When I look, and I find, no change\n[02:30.39] \n[03:12.09] Those were the days of our lives, yeah\n[03:20.13] The bad things in life were so few\n[03:28.78] Those days are all gone now, but one thing's still true\n[03:37.11] When I look, and I find\n[03:41.76] I still love you\n[03:45.77] \n[03:50.75] I still love you\n[03:51.76]",
+        "id": "1785739742612zy0pxqamb",
+        "isPublic": true,
+        "key": "C",
+        "lyricOffset": 6,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "C F C G Am G F | C F C G C G F | C F C G Am G Bb F C G F",
+        "preChorusCue": "",
+        "preChorusTitle": "CHORUS",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "These Are The Days Of Our Lives",
+        "verse": "C F C F Bb F | C G",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "1991",
+        "youtubeUrl": "https://youtu.be/oB4K0scMysc?is=2NaBdDu_mMaHW_kQ"
     },
     {
         "artist": "Queen",
@@ -284531,7 +289751,7 @@ const DEFAULT_SONGS = [
         "verse": "D5 E5 4x | E B C#m A",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "",
+        "year": "1989",
         "youtubeUrl": "https://youtu.be/VFNRh26TPmM?si=B69MlDnK1V4FWklZ"
     },
     {
@@ -291470,7 +296690,7 @@ const DEFAULT_SONGS = [
         "verse": "A | A G D A",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1989",
         "youtubeUrl": "https://youtu.be/LlVI7ZNiFlI?si=qfKwRqJQ6sEaQ9UP"
     },
     {
@@ -339787,7 +345007,7 @@ const DEFAULT_SONGS = [
             "tempo": "160",
             "useFlatNotation": false
         },
-        "chorus": "F#m A D C#7",
+        "chorus": "F#m A3 D C#7",
         "chorusCue": "",
         "chorusTitle": "Verse & chorus",
         "dateAdded": "2026-04-22T08:04:24.046Z",
@@ -339808,7 +345028,7 @@ const DEFAULT_SONGS = [
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "160",
         "title": "Lose Control",
-        "verse": "F#m",
+        "verse": "F#m2",
         "verseCue": "",
         "verseTitle": "Intro",
         "year": "2023",
@@ -363388,7 +368608,7 @@ const DEFAULT_SONGS = [
         "verse": "A2 G#m2 C#m2 4x",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "",
+        "year": "1982",
         "youtubeUrl": "https://youtu.be/FTQbiNvZqaY?si=3zyyy4HIgRvrP0Ih"
     },
     {
@@ -371327,7 +376547,7 @@ const DEFAULT_SONGS = [
         "verse": "Cm Eb Bb 2x",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1999",
         "youtubeUrl": "https://youtu.be/u8qvbMXZnd8?si=Uw_SNdFzuFiz5iNj"
     },
     {
@@ -383892,7 +389112,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Ugly Kid Joe - Everything About You",
-            "tempo": "120",
+            "tempo": 120,
             "useFlatNotation": false
         },
         "chorus": "C# B5 G# | F# G#",
@@ -383901,14 +389121,14 @@ const DEFAULT_SONGS = [
         "dateAdded": "2026-07-18T13:23:47.583Z",
         "externalUrl": "",
         "favorite": false,
-        "fullLyrics": "",
+        "fullLyrics": "[00:40.55] I hate the rain and sunny weather\n[00:46.36] And I, I hate the beach and mountains too, boo-hoo\n[00:54.17] And I don't like a thing about the city, no no\n[01:02.29] And I (I, I) hate the countryside too\n[01:09.59] And I hate everything about you\n[01:16.02] Everything about you\n[01:21.33] And I don't like a thing about your mother\n[01:29.58] And I, I hate your daddy's guts too, boo-hoo\n[01:37.58] And I don't like a thing about your sister, no no\n[01:45.20] 'Cause I (I, I) think sex is overrated too\n[01:52.70] And I get sick when I'm around\n[01:57.26] I can't stand to be around\n[02:00.93] I hate everything about you\n[02:06.76] Everything about you\n[02:10.52] Everything about you\n[02:14.45] Everything about you\n[02:17.97] \n[02:20.45] Some say I got a bad attitude\n[02:24.19] But that don't change the way I feel about you\n[02:28.07] And if you think this might be bringing me down\n[02:31.96] Look again 'cause I ain't wearing no frown, get down\n[02:36.92] \n[03:21.47] Well, I don't really care about your sister\n[03:23.56] Bite the little bitch 'cause I already kissed her\n[03:25.52] One thing that I did to your old lady\n[03:27.51] Put her on the bed and she didn't say maybe\n[03:29.35] I know, you know, everybody know\n[03:31.34] The way it come, the way it's gonna go\n[03:33.18] You think it's sad? Well, that's too bad\n[03:34.95] 'Cause I'm having a ball, hatin' every little thing about you\n[03:38.99] Everything about you\n[03:42.62] Everything about\n[03:45.58] I get sick when I'm around\n[03:48.13] I can't stand to be around\n[03:52.18] I hate everything about you, ha ha\n[03:57.01]",
         "genre": [
             "Rock"
         ],
         "id": "17843810275832szufl91x",
         "isPublic": true,
         "key": "F#",
-        "lyricOffset": 0,
+        "lyricOffset": -6,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -383917,12 +389137,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "120",
+        "tempo": 120,
         "title": "Everything About You",
         "verse": "C# G# 4x C#5 G#5 | F#5",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "",
+        "year": "1992",
         "youtubeUrl": "https://youtu.be/Z-zr3D4S4MA?si=JuTTw6jzehRG5VJl"
     },
     {
@@ -387136,7 +392356,7 @@ const DEFAULT_SONGS = [
         "verse": "Bbm Ab C#",
         "verseCue": "",
         "verseTitle": "INTRO, VERSE & CHORUS",
-        "year": "",
+        "year": "2013",
         "youtubeUrl": "https://youtu.be/uJ_1HMAGb4k?si=WOyjy5PwNcsNpsJb"
     },
     {

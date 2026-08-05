@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-08-04</lastmod>
+        <lastmod>2026-08-05</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -853,6 +853,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/ella-langley-choosin-texas</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/elton-john-sacrifice</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -993,6 +998,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/george-michael-careless-whisper</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/george-michael-faith</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1004,6 +1014,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/george-michael-freedom-90</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/george-michael-hand-to-mouth</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1868,6 +1883,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/olivia-dean-so-easy-to-fall-in-love</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/olivia-rodrigo-less</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/olivia-rodrigo-the-cure</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2028,6 +2053,16 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/queen-bohemian-rhapsody</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/queen-bohemian-rhapsody-pt2</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/queen-crazy-little-thing-called-love</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2059,6 +2094,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/queen-show-must-go-on</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/queen-these-are-the-days-of-our-lives</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3274,6 +3314,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/eiffel-65</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/ella-langley</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
