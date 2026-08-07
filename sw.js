@@ -1,4 +1,4 @@
-// PopSongChordBook Service Worker (v3.228)
+// PopSongChordBook Service Worker (v3.229)
 // Network-first strategy — always fetches fresh content, falls back to cache offline
 
 const CACHE_NAME = 'popsongchordbook-shell-v5';

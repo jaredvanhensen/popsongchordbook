@@ -70,8 +70,9 @@ body.is-mobile-landscape .song-detail-thumb-section {
 }
 
 body.is-mobile-landscape .song-detail-thumb {
-    width: 24px; 
-    height: 24px;
+    height: 90% !important;
+    width: auto !important;
+    aspect-ratio: 1 / 1 !important;
     border-radius: 6px;
     object-fit: cover;
     box-shadow: 0 2px 8px rgba(0,0,0,0.4);
@@ -668,8 +669,6 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-portrait.is-mobile-landscape .song-detail-thumb {
-        width: 45px !important; /* Slightly smaller in portrait */
-        height: 45px !important;
         left: 0 !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
@@ -712,8 +711,6 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-mobile-landscape .song-detail-thumb {
-        width: 95px !important; /* Reduced by 30% total to prevent top-clipping */
-        height: 95px !important;
         left: 30px !important;
     }
 
