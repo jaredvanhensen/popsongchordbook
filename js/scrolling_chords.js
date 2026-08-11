@@ -515,6 +515,10 @@ window.addEventListener('message', (event) => {
         renderStaticElements();
         updateLoop();
     }
+    else if (msg.type === 'setTimelineCapoChordsEnabled') {
+        renderStaticElements();
+        updateLoop();
+    }
     else if (msg.type === 'forwardKeyDown') {
         // Manually trigger the local keydown logic for forwarded keys
         const syntheticEvent = {
@@ -2317,13 +2321,14 @@ chordTrack.addEventListener('click', (e) => {
     if (!isEditMode) return; // Only allow editing in Edit Mode
     if (dragHasMoved) return; // Don't trigger edit if we were dragging
 
-    if (e.target.classList.contains('chord-item')) {
+    const target = e.target.closest('.chord-item');
+    if (target) {
         e.stopPropagation(); // prevent other clicks
 
         // Auto-pause to allow editing
         if (isPlaying) pause();
 
-        const index = parseInt(e.target.dataset.index);
+        const index = parseInt(target.dataset.index);
         const realName = chords[index].name;
 
         // Capo-aware display name for editing
@@ -2535,8 +2540,9 @@ window.addEventListener('pointermove', (e) => {
             // Clear previous hover states
             document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
 
-            if (hoverTarget && hoverTarget.classList.contains('chord-item')) {
-                hoverTarget.classList.add('drag-hover');
+            const hoverChordItem = hoverTarget ? hoverTarget.closest('.chord-item') : null;
+            if (hoverChordItem) {
+                hoverChordItem.classList.add('drag-hover');
             }
         } else {
             timeline.style.backgroundColor = '';
@@ -2666,10 +2672,10 @@ window.addEventListener('pointerup', (e) => {
 
             // Check if dropped directly onto a Placeholder '?' chord
             document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
-            const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
+            const dropChordItem = dropTarget ? dropTarget.closest('.chord-item') : null;
 
-            if (dropTarget && dropTarget.classList.contains('chord-item')) {
-                const targetIndex = parseInt(dropTarget.dataset.index);
+            if (dropChordItem) {
+                const targetIndex = parseInt(dropChordItem.dataset.index);
                 if (!isNaN(targetIndex) && chords[targetIndex]) {
                     // Replace existing placeholder
                     saveUndoState();
@@ -4732,7 +4738,25 @@ function renderStaticElements() {
         }
 
         const displayName = simplifyDisplayName(chord.name);
-        el.innerText = displayName;
+        const showOriginalPreference = localStorage.getItem(`feature-timeline-capo-chords-enabled-${currentUid}`) !== 'false';
+        const showOriginal = (currentInstrumentMode === 'guitar' && currentCapoValue !== 0 && showOriginalPreference);
+        if (showOriginal) {
+            el.innerHTML = '';
+            
+            const mainSpan = document.createElement('span');
+            mainSpan.className = 'chord-main';
+            mainSpan.innerText = displayName;
+            
+            const origSpan = document.createElement('span');
+            origSpan.className = 'chord-original';
+            origSpan.innerText = simplifyDisplayName(chord.name, true); // original concert pitch
+            
+            el.appendChild(mainSpan);
+            el.appendChild(origSpan);
+            el.classList.add('has-original');
+        } else {
+            el.innerText = displayName;
+        }
         if (displayName.length > 10) {
             el.classList.add('long-text');
         }

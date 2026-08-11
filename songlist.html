@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.230 - Interactive Scrolling Chords & Band Tool</title>
-    <meta name="version" content="3.230">
-    <meta name="application-version" content="v3.230">
+    <title>Song List v3.231 - Interactive Scrolling Chords & Band Tool</title>
+    <meta name="version" content="3.231">
+    <meta name="application-version" content="v3.231">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -1095,7 +1095,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.230</span>
+                        <span id="site-version" class="version-tag">3.231</span>
                     </div>
                 </div>
             </div>
@@ -1753,6 +1753,24 @@
                             <label class="switch"
                                 style="position: relative; display: inline-block; width: 44px; height: 24px;">
                                 <input type="checkbox" id="profileTimelineToggle"
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider"
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>
+                            </label>
+                        </div>
+
+                        <div class="feature-toggle"
+                            style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">🎸</span>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">Also show real chord names in the Timeline when CAPO is active</div>
+                                    <div style="font-size: 11px; color: #64748b;">Show concert pitch chords under capo chords</div>
+                                </div>
+                            </div>
+                            <label class="switch"
+                                style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                <input type="checkbox" id="profileTimelineCapoChordsToggle"
                                     style="opacity: 0; width: 0; height: 0;">
                                 <span class="slider"
                                     style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px;"></span>

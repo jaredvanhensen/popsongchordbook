@@ -1099,4 +1099,15 @@ body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #statusText {
     font-size: 0.7rem !important;
 }
 
+/* Hide original chords inside tiny timeline boxes in mobile landscape */
+body.is-mobile-landscape #timeline .chord-item.has-original {
+    flex-direction: row !important;
+}
+body.is-mobile-landscape #timeline .chord-item.has-original .chord-original {
+    display: none !important;
+}
+body.is-mobile-landscape #timeline .chord-item.has-original .chord-main {
+    font-size: inherit !important;
+}
+
 

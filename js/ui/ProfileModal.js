@@ -107,6 +107,7 @@ class ProfileModal {
         // Feature Toggles
         this.timelineAudioToggle = document.getElementById('profileTimelineAudioToggle');
         this.timelineToggle = document.getElementById('profileTimelineToggle');
+        this.timelineCapoChordsToggle = document.getElementById('profileTimelineCapoChordsToggle');
         this.songMapToggle = document.getElementById('profileSongMapToggle');
         this.midiToggle = document.getElementById('profileMidiToggle');
         this.notesToggle = document.getElementById('profileNotesToggle');
@@ -317,6 +318,23 @@ class ProfileModal {
                 // Update SongDetailModal live if open
                 if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.scrollingChordsBtn) {
                     window.appInstance.songDetailModal.scrollingChordsBtn.classList.toggle('hidden', !isEnabled);
+                }
+            });
+        }
+
+        if (this.timelineCapoChordsToggle) {
+            this.timelineCapoChordsToggle.addEventListener('change', (e) => {
+                const user = this.firebaseManager.getCurrentUser();
+                const uid = user ? user.uid : 'guest';
+                const isEnabled = e.target.checked;
+                localStorage.setItem(`feature-timeline-capo-chords-enabled-${uid}`, isEnabled ? 'true' : 'false');
+
+                // Update timeline if open
+                if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.scrollingChordsFrame) {
+                    const frame = window.appInstance.songDetailModal.scrollingChordsFrame;
+                    if (frame && frame.contentWindow) {
+                        frame.contentWindow.postMessage({ type: 'setTimelineCapoChordsEnabled' }, '*');
+                    }
                 }
             });
         }
@@ -934,6 +952,9 @@ class ProfileModal {
         }
         if (this.timelineToggle) {
             this.timelineToggle.checked = localStorage.getItem(`feature-timeline-enabled-${uid}`) !== 'false';
+        }
+        if (this.timelineCapoChordsToggle) {
+            this.timelineCapoChordsToggle.checked = localStorage.getItem(`feature-timeline-capo-chords-enabled-${uid}`) !== 'false';
         }
         if (this.songMapToggle) {
             this.songMapToggle.checked = localStorage.getItem(`feature-songmap-enabled-${uid}`) !== 'false';

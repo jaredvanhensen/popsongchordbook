@@ -6806,3 +6806,30 @@ body:not(.is-mobile-view) #songMapCircleOfFifthsBtn {
     overflow-x: auto;
 }
 
+/* Capo Original Chords inside scrolling timeline boxes */
+.chord-item.has-original {
+    flex-direction: column !important;
+    padding: 6px 14px !important;
+    gap: 1px !important;
+}
+
+.chord-item.has-original .chord-main {
+    font-size: 1.7rem !important;
+    font-weight: 900 !important;
+    line-height: 1.15 !important;
+    display: block !important;
+}
+
+.chord-item.has-original .chord-original {
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    opacity: 0.82 !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    margin-top: 1px !important;
+}
+
