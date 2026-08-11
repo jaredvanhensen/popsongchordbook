@@ -66,6 +66,7 @@ class SongDetailModal {
         this.clearChordDataBtn = document.getElementById('clearChordDataBtn');
         this.lyricsBtn = document.getElementById('songDetailLyricsBtn');
         this.scrollingChordsBtn = document.getElementById('songDetailScrollingChordsBtn');
+        this.timelineBanner = document.getElementById('songDetailTimelineBanner');
         this.songMapBtn = document.getElementById('songDetailSongMapBtn');
         this.chordTrainerBtn = document.getElementById('songDetailChordTrainerBtn');
         this.notesInput = document.getElementById('songDetailNotesInput');
@@ -1548,6 +1549,27 @@ class SongDetailModal {
                 this.handleDeleteSong();
             });
         }
+
+        // Setup Timeline CTA Banner Button click handler
+        const bannerStartBtn = document.getElementById('songDetailBannerStartBtn');
+        if (bannerStartBtn) {
+            bannerStartBtn.addEventListener('click', (e) => {
+                console.log('Banner Start button clicked - launching timeline');
+                if (this.scrollingChordsBtn) {
+                    this.scrollingChordsBtn.click();
+                }
+            });
+        }
+
+        // Add window resize listener to update banner visibility responsively
+        window.addEventListener('resize', () => {
+            if (this.modal && !this.modal.classList.contains('hidden') && this.currentSongId) {
+                const song = this.songManager.getSongById(this.currentSongId);
+                if (song) {
+                    this.updateTimelineBannerVisibility(song);
+                }
+            }
+        });
         
         this.setupRemainingEventListeners();
     }
@@ -2402,6 +2424,29 @@ class SongDetailModal {
                 }
             }
         });
+    }
+
+    /**
+     * Toggles the visibility of the Timeline CTA Banner (Option D) dynamically
+     * based on available screen space and empty song sections.
+     */
+    updateTimelineBannerVisibility(song) {
+        if (!this.timelineBanner) return;
+
+        // Viewport check: minimum width of 1025px and minimum height of 780px (desktop view)
+        const isLargeViewport = window.innerWidth >= 1025 && window.innerHeight >= 780;
+        
+        // Content check: is there empty space (at least one of Block 3 or Block 4 is empty)
+        const hasEmptyBlocks = !song.preChorus?.trim() || !song.bridge?.trim();
+
+        // Notes check: if notes is also enabled, check if it's not too long
+        const isNotesShort = !song.songNotes || song.songNotes.trim().length < 150;
+
+        if (isLargeViewport && hasEmptyBlocks && isNotesShort) {
+            this.timelineBanner.classList.remove('hidden');
+        } else {
+            this.timelineBanner.classList.add('hidden');
+        }
     }
 
     /**
@@ -4323,6 +4368,7 @@ class SongDetailModal {
             this.updateLyricsTickerContent();
         }
 
+        this.updateTimelineBannerVisibility(song);
         this.updateAlertBadges();
         this.fetchThumbnail(song.artist, song.title);
     }

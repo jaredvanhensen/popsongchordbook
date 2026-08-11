@@ -12300,5 +12300,192 @@ body.theme-high-contrast .stats-chart-label {
     flex: 1;
 }
 
+/* ==========================================================================
+   CUSTOM TIMELINE BUTTON ENHANCEMENTS (Options A + B Combined)
+   ========================================================================== */
+#songDetailScrollingChordsBtn .icon {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+    animation: timelinePulseGlow 3s infinite ease-in-out;
+}
+
+#songDetailScrollingChordsBtn .icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Translucent dark overlay with a play symbol in the center */
+#songDetailScrollingChordsBtn .icon::after {
+    content: '▶';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4); /* Translucent dark backdrop */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    transition: background 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    z-index: 2;
+    border-radius: 8px;
+}
+
+/* Combined Hover effects (stronger static glow & lift, pauses the breathing animation) */
+#songDetailScrollingChordsBtn:hover .icon {
+    animation-play-state: paused;
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6), 0 0 15px rgba(250, 204, 21, 0.5) !important;
+}
+
+#songDetailScrollingChordsBtn:hover .icon::after {
+    background: rgba(15, 23, 42, 0.6);
+    font-size: 24px;
+    color: #fca5a5; /* Transition to coral-red play symbol on hover */
+}
+
+/* Pulsing red live play indicator in the top-right corner of the thumbnail */
+#songDetailScrollingChordsBtn .icon::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    z-index: 3;
+    box-shadow: 0 0 0 rgba(239, 68, 68, 0.7);
+    animation: livePlayPulse 1.8s infinite;
+}
+
+/* Keyframes for the breathing neon purple & gold glow outline */
+@keyframes timelinePulseGlow {
+    0% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 4px rgba(139, 92, 246, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 4px 18px rgba(139, 92, 246, 0.7), 0 0 10px rgba(250, 204, 21, 0.55);
+        transform: scale(1.03);
+    }
+    100% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 4px rgba(139, 92, 246, 0.4);
+        transform: scale(1);
+    }
+}
+
+/* Keyframes for the pulsing red live indicator dot */
+@keyframes livePlayPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+/* Glassy Timeline CTA Banner (Option D) */
+.timeline-cta-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 8px 32px rgba(118, 75, 162, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    width: 100%;
+    margin: 8px 0 0 0;
+    transition: all 0.3s ease;
+    grid-column: span 2; /* Span across columns in PC layout grid */
+}
+
+.timeline-cta-banner.hidden {
+    display: none !important;
+}
+
+.timeline-cta-banner:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: linear-gradient(135deg, #7089f5 0%, #8254b3 100%);
+    box-shadow: 0 12px 40px rgba(118, 75, 162, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.timeline-cta-banner .banner-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.timeline-cta-banner .banner-icon-wrapper {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+}
+
+.timeline-cta-banner .banner-text-details h4 {
+    margin: 0 0 4px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff !important;
+    letter-spacing: 0.2px;
+    font-family: 'Inter', sans-serif;
+}
+
+.timeline-cta-banner .banner-text-details p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.3;
+}
+
+.timeline-cta-banner .banner-action-btn {
+    background: #ffffff;
+    color: #5b21b6; /* Deep purple text for high contrast on white button */
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+}
+
+.timeline-cta-banner .banner-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    background: #f8fafc;
+    color: #4c1d95;
+}
+
+.timeline-cta-banner .banner-action-btn:active {
+    transform: translateY(1px);
+}
+
 
 

@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.229 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
-    <meta name="version" content="3.229">
+    <title>PopSongChordBook v3.230 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.230">
     <meta name="description"
         content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
@@ -463,9 +463,10 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.229">
-    <script>const SITE_VERSION = '3.229';</script>
+    <meta name="application-version" content="v3.230">
+    <script>const SITE_VERSION = '3.230';</script>
     <!-- Version history: 
+        v3.230: Combined Option A & B styling for timeline button, added conditional inline banner, enlarged mobile sidebar pull-tab.
         v3.229: Styled mobile song detail thumbnail to scale dynamically to 90% of toolbar height.
         v3.228: Add height-based media query for windowed 1080p sidebar scrollbar fix.
         v3.227: Duplicated Queen - Bohemian Rhapsody into Bohemian Rhapsody pt2.
@@ -1286,6 +1287,7 @@
                     <a href="/artist/america" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">America Chords</a>
                     <a href="/artist/american-young" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">American Young Chords</a>
                     <a href="/artist/amy-macdonald" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Amy Macdonald Chords</a>
+                    <a href="/artist/anotr" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">ANOTR Chords</a>
                     <a href="/artist/anouk" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Anouk Chords</a>
                     <a href="/artist/atc" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">ATC Chords</a>
                     <a href="/artist/avril-lavigne" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Avril Lavigne Chords</a>
@@ -1311,6 +1313,7 @@
                     <a href="/artist/bruno-mars" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Bruno Mars Chords</a>
                     <a href="/artist/bryan-adams" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Bryan Adams Chords</a>
                     <a href="/artist/bts" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">BTS Chords</a>
+                    <a href="/artist/cameron-whitcomb" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Cameron Whitcomb Chords</a>
                     <a href="/artist/camila-cabello" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Camila Cabello Chords</a>
                     <a href="/artist/canaan-smith" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Canaan Smith Chords</a>
                     <a href="/artist/capital-cities" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Capital Cities Chords</a>
@@ -1325,6 +1328,7 @@
                     <a href="/artist/christina-aguilera" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Christina Aguilera Chords</a>
                     <a href="/artist/coldplay" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Coldplay Chords</a>
                     <a href="/artist/commodores" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Commodores Chords</a>
+                    <a href="/artist/conan-gray" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Conan Gray Chords</a>
                     <a href="/artist/creedence-clearwater-revival" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Creedence Clearwater Revival Chords</a>
                     <a href="/artist/crowded-house" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Crowded House Chords</a>
                     <a href="/artist/daft-punk" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Daft Punk Chords</a>
@@ -1404,6 +1408,7 @@
                     <a href="/artist/journey" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Journey Chords</a>
                     <a href="/artist/justin-bieber" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Justin Bieber Chords</a>
                     <a href="/artist/kansas" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Kansas Chords</a>
+                    <a href="/artist/katseye" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Katseye Chords</a>
                     <a href="/artist/kc-the-sunshine-band" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">KC &amp; The Sunshine Band Chords</a>
                     <a href="/artist/keane" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Keane Chords</a>
                     <a href="/artist/keith-urban" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Keith Urban Chords</a>
@@ -1452,6 +1457,7 @@
                     <a href="/artist/mr-big" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Mr. Big Chords</a>
                     <a href="/artist/mr-mister" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Mr. Mister Chords</a>
                     <a href="/artist/mr-president" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Mr. President Chords</a>
+                    <a href="/artist/myles-smith" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Myles Smith Chords</a>
                     <a href="/artist/natalie-imbruglia" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Natalie Imbruglia Chords</a>
                     <a href="/artist/nate-moran" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Nate Moran Chords</a>
                     <a href="/artist/nate-smith" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Nate Smith Chords</a>
@@ -1509,6 +1515,7 @@
                     <a href="/artist/spandau-ballet" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Spandau Ballet Chords</a>
                     <a href="/artist/spice-girls" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Spice Girls Chords</a>
                     <a href="/artist/starship" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Starship Chords</a>
+                    <a href="/artist/stephen-sanchez" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Stephen Sanchez Chords</a>
                     <a href="/artist/steve-miller-band" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Steve Miller Band Chords</a>
                     <a href="/artist/sting" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Sting Chords</a>
                     <a href="/artist/sturgill-simpson" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Sturgill Simpson Chords</a>
@@ -1535,6 +1542,7 @@
                     <a href="/artist/the-rolling-stones" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">The Rolling Stones Chords</a>
                     <a href="/artist/the-script" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">The Script Chords</a>
                     <a href="/artist/the-tokens" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">The Tokens Chords</a>
+                    <a href="/artist/the-weeknd" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">The Weeknd Chords</a>
                     <a href="/artist/tim-mcgraw" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Tim McGraw Chords</a>
                     <a href="/artist/tim-mcgraw-taylor-swift-keith-urban" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Tim McGraw, Taylor Swift, Keith Urban Chords</a>
                     <a href="/artist/tina-turner" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Tina Turner Chords</a>
@@ -1555,6 +1563,7 @@
                     <a href="/artist/whitesnake" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Whitesnake Chords</a>
                     <a href="/artist/whitney-houston" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Whitney Houston Chords</a>
                     <a href="/artist/zac-brown-band" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Zac Brown Band Chords</a>
+                    <a href="/artist/zach-bryan" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Zach Bryan Chords</a>
                     <a href="/artist/zz-top" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">ZZ Top Chords</a>
                 </div>
             </details>
@@ -1564,7 +1573,7 @@
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.229</span>
+                v<span id="site-version">3.230</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &

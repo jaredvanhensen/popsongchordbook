@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.229 - Interactive Scrolling Chords & Band Tool</title>
-    <meta name="version" content="3.229">
-    <meta name="application-version" content="v3.229">
+    <title>Song List v3.230 - Interactive Scrolling Chords & Band Tool</title>
+    <meta name="version" content="3.230">
+    <meta name="application-version" content="v3.230">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -88,29 +88,73 @@
             background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: #ffffff;
             border: none;
-            border-radius: 0 10px 10px 0;
-            width: 22px;
-            height: 56px;
+            border-radius: 0 16px 16px 0;
+            width: 30px;
+            height: 72px;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 18px;
             font-weight: 900;
-            box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
-            transition: width 0.2s ease, background 0.2s ease;
+            box-shadow: 3px 0 14px rgba(79, 70, 229, 0.45);
+            transition: width 0.2s ease, background 0.2s ease, transform 0.2s ease;
             padding: 0;
             letter-spacing: -1px;
             -webkit-tap-highlight-color: transparent;
+            animation: initialSidebarFlash 6s ease-in-out 1;
         }
         #mobileSidebarTab:hover,
         #mobileSidebarTab:focus {
-            width: 28px;
+            width: 36px;
             background: linear-gradient(135deg, #4338ca, #6366f1);
             outline: none;
         }
         #mobileSidebarTab.sidebar-is-open {
             opacity: 0;       /* hide tab when sidebar is fully open */
             pointer-events: none;
+        }
+
+        @keyframes initialSidebarFlash {
+            0% {
+                transform: translateY(-50%) scale(1);
+                filter: brightness(1);
+                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            }
+            8% {
+                transform: translateY(-50%) scale(1.25);
+                filter: brightness(1.45);
+                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
+            }
+            16% {
+                transform: translateY(-50%) scale(1);
+                filter: brightness(1);
+                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            }
+            24% {
+                transform: translateY(-50%) scale(1.25);
+                filter: brightness(1.45);
+                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
+            }
+            32% {
+                transform: translateY(-50%) scale(1);
+                filter: brightness(1);
+                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            }
+            40% {
+                transform: translateY(-50%) scale(1.25);
+                filter: brightness(1.45);
+                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
+            }
+            48% {
+                transform: translateY(-50%) scale(1);
+                filter: brightness(1);
+                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+                filter: brightness(1);
+                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            }
         }
 
         /* ── Sidebar interior styles — apply on ALL screen sizes ─────────── */
@@ -1051,7 +1095,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.229</span>
+                        <span id="site-version" class="version-tag">3.230</span>
                     </div>
                 </div>
             </div>
@@ -2596,6 +2640,17 @@
                     </div>
                     <textarea id="songDetailNotesInput" class="song-notes-textarea"
                         placeholder="Add playing tips, hand positions, or instructions here..."></textarea>
+                </div>
+                <!-- Timeline CTA Banner (Option D) -->
+                <div id="songDetailTimelineBanner" class="timeline-cta-banner hidden">
+                    <div class="banner-left">
+                        <div class="banner-icon-wrapper">🎵</div>
+                        <div class="banner-text-details">
+                            <h4>Play with Scrolling Chords</h4>
+                            <p>Open the timeline to play along with the track in real-time!</p>
+                        </div>
+                    </div>
+                    <button id="songDetailBannerStartBtn" class="banner-action-btn">Start Player ▶</button>
                 </div>
                 <div id="songKeyboardSection" class="audition-keyboard hidden">
                     <div class="keyboard-keys">
