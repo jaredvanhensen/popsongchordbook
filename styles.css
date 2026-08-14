@@ -12306,7 +12306,9 @@ body.theme-high-contrast .stats-chart-label {
 #songDetailScrollingChordsBtn .icon {
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+    outline: 1.5px solid rgba(139, 92, 246, 0.5);
+    outline-offset: 0px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, outline 0.3s ease, outline-offset 0.3s ease !important;
     animation: timelinePulseGlow 3s infinite ease-in-out;
 }
 
@@ -12369,16 +12371,29 @@ body.theme-high-contrast .stats-chart-label {
 /* Keyframes for the breathing neon purple & gold glow outline */
 @keyframes timelinePulseGlow {
     0% {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 4px rgba(139, 92, 246, 0.4);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 
+                    0 0 6px rgba(139, 92, 246, 0.5), 
+                    0 0 2px rgba(250, 204, 21, 0.3);
         transform: scale(1);
+        outline: 1.5px solid rgba(139, 92, 246, 0.5);
+        outline-offset: 0px;
     }
     50% {
-        box-shadow: 0 4px 18px rgba(139, 92, 246, 0.7), 0 0 10px rgba(250, 204, 21, 0.55);
-        transform: scale(1.03);
+        box-shadow: 0 4px 22px rgba(139, 92, 246, 0.8), 
+                    0 0 16px rgba(139, 92, 246, 0.7), 
+                    0 0 26px rgba(250, 204, 21, 0.9), 
+                    0 0 8px rgba(250, 204, 21, 0.6);
+        transform: scale(1.05);
+        outline: 2.5px solid rgba(250, 204, 21, 0.95);
+        outline-offset: 1px;
     }
     100% {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 4px rgba(139, 92, 246, 0.4);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 
+                    0 0 6px rgba(139, 92, 246, 0.5), 
+                    0 0 2px rgba(250, 204, 21, 0.3);
         transform: scale(1);
+        outline: 1.5px solid rgba(139, 92, 246, 0.5);
+        outline-offset: 0px;
     }
 }
 
