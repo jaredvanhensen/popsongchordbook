@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-08-11</lastmod>
+        <lastmod>2026-08-14</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -1324,6 +1324,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/johnny-cash-hurt</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/johnny-hates-jazz-shattered-dreams</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -3684,6 +3689,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/artist/johnny-cash</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/artist/johnny-hates-jazz</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>

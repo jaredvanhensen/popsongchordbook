@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-08-11
+// Synchronized from Firebase on 2026-08-14
 
 const DEFAULT_SONGS = [
     {
@@ -65832,7 +65832,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Camila Cabello - Havana",
-            "tempo": 105,
+            "tempo": "105",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -65889,21 +65889,21 @@ const DEFAULT_SONGS = [
         "id": 71,
         "isPublic": true,
         "key": "Gm",
-        "lyricOffset": -3,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
-        "practiceCount": "1",
+        "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 105,
+        "tempo": "105",
         "title": "Havana",
         "verse": "Gm Eb D",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2017",
+        "year": "",
         "youtubeUrl": "https://youtu.be/egtD5GfAh58?si=nNbFGngFbhi8RacO"
     },
     {
@@ -82176,7 +82176,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 2,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -82409,7 +82409,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Daft Punk - Get Lucky",
-            "tempo": 116,
+            "tempo": "116",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -82451,7 +82451,7 @@ const DEFAULT_SONGS = [
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
-        "practiceCount": "1",
+        "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
         "preChorusTitle": "Block 3",
@@ -82462,7 +82462,7 @@ const DEFAULT_SONGS = [
         "verse": "Bm7   D2  F#m3 E3",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2013",
+        "year": "",
         "youtubeUrl": "https://youtu.be/5NV6Rdv1a3I?si=Ub2jXNkgNyk2f50H"
     },
     {
@@ -169665,7 +169665,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 3,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -170229,7 +170229,7 @@ const DEFAULT_SONGS = [
         "verse": "Gm | Bb | Dm | C |",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2013",
+        "year": "",
         "youtubeUrl": "https://youtu.be/CfihYWRWRTQ?si=8jH-iXjcsnVeYHiU"
     },
     {
@@ -171288,6 +171288,568 @@ const DEFAULT_SONGS = [
         "verseTitle": "INTRO & VERSE",
         "year": "2002",
         "youtubeUrl": "https://youtu.be/8AHCfZTRGiI?si=jegmWueiUj9_0hyW"
+    },
+    {
+        "artist": "Johnny Hates Jazz",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Dm",
+                    "time": 1.131,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 2.529,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 4.489,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 6.53,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 8.513,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 10.53,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 12.474,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 14.457,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 16.462,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 18.426,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 20.407,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 22.441,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 24.376,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 26.361,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 28.359,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 30.326,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 32.296,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 34.28,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 36.202,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 38.125,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 40.282,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 42.269,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 44.248,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 46.249,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 48.189,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 50.19,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 52.176,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 54.158,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 56.188,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 58.087,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 60.138,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 61.886,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 64.091,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 66.113,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 68.124,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 70.058,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 72.018,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 74.065,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 76.034,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 77.995,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C",
+                    "time": 79.994,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 81.976,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 83.995,
+                    "yOffset": -65
+                },
+                {
+                    "name": "G",
+                    "time": 85.928,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 87.897,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 89.898,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 91.863,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 93.881,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 95.897,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 97.865,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 99.819,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 101.848,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 103.802,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 105.804,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 107.787,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 109.779,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 111.807,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 113.754,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 115.748,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 117.909,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 119.683,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 121.5,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 123.669,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 125.453,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 127.694,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 129.326,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 131.579,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Db",
+                    "time": 133.283,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Dm",
+                    "time": 135.551,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 137.504,
+                    "yOffset": -35
+                },
+                {
+                    "name": "A#maj7",
+                    "time": 139.563,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Gm",
+                    "time": 141.534,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 143.518,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 145.47,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 147.481,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 149.284,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 151.483,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 153.269,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 155.435,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 157.167,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 159.405,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 161.157,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 163.34,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 165.035,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 167.303,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 169.104,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 171.304,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 173.004,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 175.255,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 177.037,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 179.256,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 181.159,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 183.222,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 184.942,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 187.176,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 189.174,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 191.129,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 193.179,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 195.113,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 196.845,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Ebm",
+                    "time": 199.106,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 200.916,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bmaj7",
+                    "time": 203.069,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Abm",
+                    "time": 204.712,
+                    "yOffset": -35
+                }
+            ],
+            "duration": 300,
+            "name": "Johnny Hates Jazz - Shattered Dreams",
+            "tempo": 120,
+            "useFlatNotation": false
+        },
+        "chorus": "Dm Am Bbmaj7 Gm",
+        "chorusCue": "",
+        "chorusTitle": "CHORUS",
+        "dateAdded": "2026-08-12T13:08:25.547Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:16.45] So much for your promises\n[00:19.62] They died the day you let me go\n[00:24.31] Caught up in a web of lies\n[00:27.72] But it was just too late to know\n[00:32.60] I thought it was you\n[00:35.47] Who would stand by my side\n[00:39.15] And now you've given me, given me\n[00:42.84] Nothing but shattered dreams, shattered dreams\n[00:47.01] Feel like I could run away, run away\n[00:50.75] From this empty heart\n[00:58.90] You said you'd die for me\n[01:04.29] Woke up to reality\n[01:07.16] And found the future not so bright\n[01:12.18] I dreamt the impossible\n[01:15.04] That maybe things could work out right\n[01:20.08] I thought it was you\n[01:22.92] Who would do me no wrong\n[01:26.95] But now you've given me, given me\n[01:30.36] Nothing but shattered dreams, shattered dreams\n[01:34.61] Feel like I could run away, run away\n[01:38.55] From this empty heart\n[01:43.85] You've given me, given me\n[01:46.73] Nothing but shattered dreams, shattered dreams\n[01:50.68] Feel like I could run away, run away\n[01:54.34] From this empty heart\n[02:00.33] \n[02:06.09] From this empty heart\n[02:15.52] I thought it was you\n[02:18.65] Who said they'd die for love\n[02:22.49] And now you've given me, given me\n[02:25.85] Nothing but shattered dreams, shattered dreams\n[02:30.03] Feel like I could run away, run away\n[02:34.03] From this empty heart\n[02:39.08] You've given me, given me\n[02:41.95] Nothing but shattered dreams, shattered dreams\n[02:45.65] Feel like I could run away, run away\n[02:49.67] From this empty heart\n[02:54.62] Oh, no, no, no\n[02:58.31] You said you'd die for me\n[03:03.01] Oh, for\n[03:07.24] Die for me\n[03:14.96] So much for your promises\n[03:20.22] So much for your promises\n[03:21.52]",
+        "id": "1786540105547sylt3ceip",
+        "isPublic": true,
+        "key": "Dm",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "Ebm Db B Db 2x Db Ab Bmaj7 Ab | Ebm Bbm Bmaj7 Abm",
+        "preChorusCue": "",
+        "preChorusTitle": "RAISED CHORUS",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": 120,
+        "title": "Shattered Dreams",
+        "verse": "Dm Am Bbmaj7 Gm 2x C G Bbmaj7 G",
+        "verseCue": "",
+        "verseTitle": "INTRO",
+        "year": "1987",
+        "youtubeUrl": "https://youtu.be/ctwqa3QCwMw?si=5V_7GHXuOJRdOAc9"
     },
     {
         "artist": "Jon Bon Jovi",
@@ -172501,322 +173063,322 @@ const DEFAULT_SONGS = [
                 {
                     "name": "D2",
                     "time": 16.63980199809265,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 17.792492828338624,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 20.109365051498415,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 21.872825085830687,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 24.24373204196167,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 26.141401973297118,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 28.3631849294281,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 30.248171013351442,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 32.5449528512268,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 34.28282990272522,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 36.59490293896484,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 38.54067508964538,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 40.86948606484985,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 42.5779238664856,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 44.935109061035156,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 46.762469047683716,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 49.10397485694885,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 50.74787502670288,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 51.844089019073486,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 53.01068417356873,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 57.38401286076355,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 59.11400086076355,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 60.19845603814697,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 61.30978296948242,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 65.66863801907348,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 67.51413197520446,
-                    "yOffset": -90
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 68.44527401716614,
-                    "yOffset": -10
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 69.52054694659424,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 73.9150450591278,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 75.663243792099,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 76.7015140591278,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 77.77667283215332,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 84.828,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 86.13,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 88.403,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 90.388,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 92.499,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 94.605,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 96.688,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 98.738,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 100.772,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 102.838,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 104.915,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 106.977,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 109.064,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 110.973,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 113.177,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 115.244,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 117.357,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 119.132,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 120.152,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 121.294,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 125.631,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 127.47,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 128.504,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 129.592,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 133.885,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 135.677,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 136.775,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 138.041,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 142.182,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 144.041,
-                    "yOffset": -90
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 145.01,
-                    "yOffset": -10
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 146.126,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
@@ -172826,62 +173388,62 @@ const DEFAULT_SONGS = [
                 {
                     "name": "D2",
                     "time": 167.044,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 168.91,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 169.94,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 171.14,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 175.294,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 177.045,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 178.081,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 179.373,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "D2",
                     "time": 183.617,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "G3",
                     "time": 185.325,
-                    "yOffset": -50
+                    "yOffset": -35
                 },
                 {
                     "name": "Bm",
                     "time": 186.535,
-                    "yOffset": -50
+                    "yOffset": -65
                 },
                 {
                     "name": "A",
                     "time": 187.846,
-                    "yOffset": -50
+                    "yOffset": -35
                 }
             ],
             "customMapSections": [
@@ -172918,7 +173480,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Justin Bieber - Anyone",
-            "tempo": "116",
+            "tempo": 116,
             "useFlatNotation": false
         },
         "chorus": "",
@@ -172963,7 +173525,7 @@ const DEFAULT_SONGS = [
         "id": 14,
         "isPublic": true,
         "key": "D",
-        "lyricOffset": -25,
+        "lyricOffset": 11,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -172972,7 +173534,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": "116",
+        "tempo": 116,
         "title": "Anyone",
         "verse": "D2 G3 Bm A",
         "verseCue": "",
@@ -174841,7 +175403,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 1,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -175978,7 +176540,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "KC & The Sunshine Band - Give It Up",
-            "tempo": 125,
+            "tempo": "125",
             "useFlatNotation": false
         },
         "chorus": "Ab2 Bb2 2x",
@@ -176089,7 +176651,7 @@ const DEFAULT_SONGS = [
         "verse": "Eb3 Bb2 Ab2",
         "verseCue": "",
         "verseTitle": "INTRO, VERSE & Chorus",
-        "year": "1983",
+        "year": "",
         "youtubeUrl": "https://youtu.be/KHL5k7St5SY?si=Mjd1x98xOYjQZGfv"
     },
     {
@@ -227296,7 +227858,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 4,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -227952,7 +228514,7 @@ const DEFAULT_SONGS = [
         "verse": "E B G#m F#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2012",
+        "year": "",
         "youtubeUrl": "https://youtu.be/smKgVuSB18k?si=pnaVRCOlIVoS8eoX"
     },
     {
@@ -258798,7 +259360,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 1,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -259299,7 +259861,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "One Republic - Apologize",
-            "tempo": 118,
+            "tempo": "118",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -259356,7 +259918,7 @@ const DEFAULT_SONGS = [
         "id": 191,
         "isPublic": true,
         "key": "Bm",
-        "lyricOffset": -16,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -259365,12 +259927,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 118,
+        "tempo": "118",
         "title": "Apologize",
         "verse": "Cm2 G# D#3 A#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2007",
+        "year": "",
         "youtubeUrl": "https://youtu.be/ZSM3w1v-A_Y?si=NLDqkkNMhFoF0EQh"
     },
     {
@@ -271203,7 +271765,7 @@ const DEFAULT_SONGS = [
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
-        "practiceCount": "1",
+        "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
         "preChorusTitle": "Block 2",
@@ -271211,10 +271773,10 @@ const DEFAULT_SONGS = [
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "114",
         "title": "What About Us",
-        "verse": "Fm C# G#",
+        "verse": "Fm2 C# G#",
         "verseCue": "",
         "verseTitle": "All song",
-        "year": "2017",
+        "year": "",
         "youtubeUrl": "https://youtu.be/Uly501wCkYI?is=xbjH7K0QCtm66Vzf"
     },
     {
@@ -349121,7 +349683,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Taylor Swift - We Are Never Getting Back Together",
-            "tempo": 172,
+            "tempo": "172",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -349136,8 +349698,8 @@ const DEFAULT_SONGS = [
         ],
         "id": 149,
         "isPublic": true,
-        "key": "",
-        "lyricOffset": 3,
+        "key": "G",
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -349146,12 +349708,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 172,
+        "tempo": "172",
         "title": "We Are Never Getting Back Together",
         "verse": "C G D Em",
         "verseCue": "",
-        "verseTitle": "Block 1",
-        "year": "2014",
+        "verseTitle": "ALL SONG",
+        "year": "",
         "youtubeUrl": "https://youtu.be/WA4iX5D9Z64?si=uM7PzjZ5n9WH9Vhm"
     },
     {
@@ -351598,7 +352160,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 2,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -351862,7 +352424,7 @@ const DEFAULT_SONGS = [
         "verse": "F#m2",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "2023",
+        "year": "",
         "youtubeUrl": "https://youtu.be/QvvhiIevsX8?is=bD4QdG3WNamSgktu"
     },
     {
@@ -365356,7 +365918,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 2,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -365675,7 +366237,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "The Script - For the First Time",
-            "tempo": 174,
+            "tempo": "174",
             "useFlatNotation": false
         },
         "chorus": "F#m D A E 2x",
@@ -365726,7 +366288,7 @@ const DEFAULT_SONGS = [
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
-        "practiceCount": "1",
+        "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
         "preChorusTitle": "BLOCK 3",
@@ -365737,7 +366299,7 @@ const DEFAULT_SONGS = [
         "verse": "A E F#m D",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "2010",
+        "year": "",
         "youtubeUrl": "https://youtu.be/8yIDkU6_c-w?si=NZ_SlqzlwQ_OALuY"
     },
     {
@@ -390487,7 +391049,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 2,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -391680,7 +392242,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Tracy Chapman - Fast Car",
-            "tempo": 104,
+            "tempo": "104",
             "useFlatNotation": false
         },
         "chorus": "D A F#m E | D F#m E 2x | D E",
@@ -391809,7 +392371,7 @@ const DEFAULT_SONGS = [
         "id": 204,
         "isPublic": true,
         "key": "A",
-        "lyricOffset": 1,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -391818,12 +392380,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 104,
+        "tempo": "104",
         "title": "Fast Car",
         "verse": "D3 A2 F#m E 6x",
         "verseCue": "",
         "verseTitle": "VERSE & Instrumental",
-        "year": "1988",
+        "year": "",
         "youtubeUrl": "https://youtu.be/AIOAlaACuv4?si=56qFrfm3lw7Zu1CK"
     },
     {
@@ -403634,7 +404196,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 1,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -404120,7 +404682,7 @@ const DEFAULT_SONGS = [
         "verse": "Fm Cm3 Eb Bb3",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2020",
+        "year": "",
         "youtubeUrl": "https://youtu.be/XwxLwG2_Sxk?si=Q5GKuX0-_nyOyvDt"
     },
     {

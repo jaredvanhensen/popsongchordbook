@@ -2672,6 +2672,7 @@ window.addEventListener('pointerup', (e) => {
 
             // Check if dropped directly onto a Placeholder '?' chord
             document.querySelectorAll('.chord-item.drag-hover').forEach(el => el.classList.remove('drag-hover'));
+            const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
             const dropChordItem = dropTarget ? dropTarget.closest('.chord-item') : null;
 
             if (dropChordItem) {

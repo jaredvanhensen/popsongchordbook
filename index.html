@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.231 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
-    <meta name="version" content="3.231">
+    <title>PopSongChordBook v3.232 - Scrolling Chords, Band Practice Sync & Band Members Tool</title>
+    <meta name="version" content="3.232">
     <meta name="description"
         content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
@@ -463,9 +463,10 @@
     <meta name="forced-colors" content="none">
     <link rel="apple-touch-icon" href="images/pwa_icon_512.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-version" content="v3.231">
-    <script>const SITE_VERSION = '3.231';</script>
+    <meta name="application-version" content="v3.232">
+    <script>const SITE_VERSION = '3.232';</script>
     <!-- Version history: 
+        v3.232: Fixed drag and drop behavior on the scrolling chord timeline, resolving a reference error where dropTarget was undefined.
         v3.231: Display original concert pitch chord names inside timeline chord boxes when capo is active in guitar mode; added option in profile menu.
         v3.230: Combined Option A & B styling for timeline button, added conditional inline banner, enlarged mobile sidebar pull-tab.
         v3.229: Styled mobile song detail thumbnail to scale dynamically to 90% of toolbar height.
@@ -1405,6 +1406,7 @@
                     <a href="/artist/john-newman" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">John Newman Chords</a>
                     <a href="/artist/john-waite" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">John Waite Chords</a>
                     <a href="/artist/johnny-cash" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Johnny Cash Chords</a>
+                    <a href="/artist/johnny-hates-jazz" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Johnny Hates Jazz Chords</a>
                     <a href="/artist/jon-bon-jovi" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Jon Bon Jovi Chords</a>
                     <a href="/artist/journey" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Journey Chords</a>
                     <a href="/artist/justin-bieber" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Justin Bieber Chords</a>
@@ -1574,7 +1576,7 @@
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.231</span>
+                v<span id="site-version">3.232</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
