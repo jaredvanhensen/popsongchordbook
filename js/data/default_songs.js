@@ -1,5 +1,5 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-08-14
+// Synchronized from Firebase on 2026-08-15
 
 const DEFAULT_SONGS = [
     {
@@ -351514,7 +351514,7 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Tears For Fears",
-        "bridge": "Am7 Bb Am7",
+        "bridge": "Am7 Bb Am",
         "bridgeCue": "",
         "bridgeTitle": "BRIDGE",
         "capo": 0,
@@ -351875,17 +351875,27 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
+                    "name": "Am",
+                    "time": 174.713,
+                    "yOffset": -35
+                },
+                {
                     "name": "Bb",
                     "time": 176.707,
-                    "yOffset": -50
+                    "yOffset": -65
+                },
+                {
+                    "name": "Am",
+                    "time": 178.737,
+                    "yOffset": -35
                 },
                 {
                     "name": "Bb",
-                    "time": 181.01,
-                    "yOffset": -50
+                    "time": 180.738,
+                    "yOffset": -65
                 },
                 {
-                    "name": "Bb",
+                    "name": "Am",
                     "time": 184.535,
                     "yOffset": -50
                 },
@@ -351895,8 +351905,8 @@ const DEFAULT_SONGS = [
                     "yOffset": -50
                 },
                 {
-                    "name": "Am7",
-                    "time": 196.75,
+                    "name": "Am",
+                    "time": 195.984,
                     "yOffset": -50
                 },
                 {
@@ -351911,7 +351921,7 @@ const DEFAULT_SONGS = [
                 },
                 {
                     "name": "Fmaj7",
-                    "time": 220.157,
+                    "time": 219.836,
                     "yOffset": -50
                 },
                 {
@@ -352051,7 +352061,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 534.59,
             "name": "Tears For Fears - Advice For The Young At Heart",
-            "tempo": 122,
+            "tempo": "122",
             "useFlatNotation": false
         },
         "chorus": "Gm7   Bb   C2 |  C7 Bb C2/D F | D7",
@@ -352138,7 +352148,7 @@ const DEFAULT_SONGS = [
         "id": "1777830788521zasgkttgh",
         "isPublic": true,
         "key": "F",
-        "lyricOffset": -2,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -352147,12 +352157,12 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 122,
+        "tempo": "122",
         "title": "Advice For The Young At Heart",
         "verse": "Fmaj7   Em7 | Cmaj7",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
-        "year": "1990",
+        "year": "",
         "youtubeUrl": "https://youtu.be/vBtzFOgKcv8?si=CtR77iHXr2SpztFE"
     },
     {
