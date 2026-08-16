@@ -96976,7 +96976,7 @@ const DEFAULT_SONGS = [
         "key": "G",
         "lyricOffset": 0,
         "patchDetails": "",
-        "performAbility": 0,
+        "performAbility": 3,
         "practiceCount": "0",
         "preChorus": "G Em C Am G D 2x | Em C G A",
         "preChorusCue": "",
@@ -96988,7 +96988,7 @@ const DEFAULT_SONGS = [
         "verse": "D G C | D G C G",
         "verseCue": "",
         "verseTitle": "Verse",
-        "year": "1980",
+        "year": "",
         "youtubeUrl": "https://youtu.be/vcwl-Q7pAtY?si=U8YEXEAd9ZmhfeQ4"
     },
     {
@@ -259352,7 +259352,7 @@ const DEFAULT_SONGS = [
         "verse": "F# C# G#",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2013",
+        "year": "",
         "youtubeUrl": "https://youtu.be/UGKl2kigv88?si=8RpSaQAgFbId238A"
     },
     {

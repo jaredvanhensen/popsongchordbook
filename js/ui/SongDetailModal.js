@@ -5428,6 +5428,14 @@ class SongDetailModal {
         if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
             this.firebaseManager.updatePresenceStatus('Browsing Songlist');
         }
+
+        // Return to lessons page if opened from there
+        if (window.appInstance && window.appInstance.openedSongFromLessons) {
+            window.appInstance.openedSongFromLessons = false;
+            if (typeof window.openDashboardPanel === 'function') {
+                window.openDashboardPanel('lessons.html');
+            }
+        }
     }
 
     async openPureTimelineForSong(songId) {

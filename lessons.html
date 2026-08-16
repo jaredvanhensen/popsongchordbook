@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Beginner Lessons - PopSongChordBook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --accent-primary: #7c3aed;
+            --accent-secondary: #db2777;
+            --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            --piano-key-white: #ffffff;
+            --piano-key-black: #0f172a;
+            --piano-key-highlight: #c084fc;
+            --piano-key-highlight-border: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .lessons-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            .lessons-layout {
+                grid-template-columns: 1fr;
+            }
+            .piano-sidebar {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: #ffffff;
+                padding-bottom: 15px;
+                border-bottom: 2px solid var(--card-border);
+            }
+        }
+
+        header {
+            margin-bottom: 40px;
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(219, 39, 119, 0.03) 100%);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Sidebar Piano Card */
+        .piano-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .piano-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 30px;
+        }
+
+        .piano-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .piano-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* SVG Keyboard styling */
+        .keyboard-svg {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            background: #1e293b;
+            padding: 4px;
+        }
+
+        .white-key {
+            fill: var(--piano-key-white);
+            stroke: #cbd5e1;
+            stroke-width: 1px;
+            transition: fill 0.1s ease;
+            cursor: pointer;
+        }
+
+        .white-key:hover {
+            fill: #f1f5f9;
+        }
+
+        .black-key {
+            fill: var(--piano-key-black);
+            stroke: #020617;
+            stroke-width: 1px;
+            transition: fill 0.1s ease;
+            cursor: pointer;
+        }
+
+        .black-key:hover {
+            fill: #334155;
+        }
+
+        .key-highlighted.white-key {
+            fill: #a78bfa !important;
+            stroke: #7c3aed !important;
+        }
+
+        .key-highlighted.black-key {
+            fill: #c084fc !important;
+            stroke: #a855f7 !important;
+        }
+
+        /* Chord selector pills inside visualizer */
+        .chord-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .chord-preview-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .chord-preview-btn:hover, .chord-preview-btn.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Lesson cards */
+        .lessons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .lesson-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-color: #cbd5e1;
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .lesson-tag {
+            background: var(--accent-gradient);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .lesson-duration {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .lesson-card h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .lesson-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .theory-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--accent-primary);
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+
+        .theory-box h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .theory-box p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Chords list */
+        .chord-shapes-section {
+            margin-bottom: 25px;
+        }
+
+        .chord-shapes-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .chord-shape-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chord-badge {
+            background: rgba(124, 58, 237, 0.06);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            color: #7c3aed;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chord-badge:hover {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Practice Songs list */
+        .practice-songs-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .practice-song-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .practice-song-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .practice-song-card:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .song-artist {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .song-play-icon {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            transition: transform 0.2s ease;
+        }
+
+        .practice-song-card:hover .song-play-icon {
+            transform: scale(1.2);
+            color: var(--accent-secondary);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            background: #cbd5e1;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Fingering diagrams */
+        .fingering-section {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .fingering-section h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chord-fingering-diagram {
+            display: inline-block;
+            background: #1e293b;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .fingering-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lessons-layout">
+        <!-- Header -->
+        <header>
+            <h1>Keyboard Beginner Lessons</h1>
+            <p>A fast track training program designed to teach you chord-shape systems so you can play your favorite pop songs instantly.</p>
+        </header>
+
+        <!-- Main Lessons Column -->
+        <div class="lessons-list">
+
+            <!-- Lesson 1 -->
+            <article class="lesson-card">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Lesson 1</span>
+                    <span class="lesson-duration">⏱️ 15 mins</span>
+                </div>
+                <h2>Chord Group 1: White Key Triads (C, F, G Shapes)</h2>
+                <p class="lesson-desc">Start by learning the fundamental "white key shapes" where the chords consist entirely of white keys. Once mastered, we apply the minor equivalents (Am, Dm, Em) which share identical physical shapes.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Chord Shapes Theory</h4>
+                    <p>Major chords (C, F, G) on white keys use standard shape spacing (root, skip 3 semitones, skip 2 semitones). The minor shapes (Am, Dm, Em) have the exact same shape index, making them easy transitions.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="visualizeChord('C')" onmouseenter="visualizeChord('C')">C Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('F')" onmouseenter="visualizeChord('F')">F Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('G')" onmouseenter="visualizeChord('G')">G Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Am')" onmouseenter="visualizeChord('Am')">A Minor</span>
+                        <span class="chord-badge" onclick="visualizeChord('Dm')" onmouseenter="visualizeChord('Dm')">D Minor</span>
+                        <span class="chord-badge" onclick="visualizeChord('Em')" onmouseenter="visualizeChord('Em')">E Minor</span>
+                    </div>
+                </div>
+
+                <div class="fingering-section">
+                    <h5>🖐️ C Major Shape Fingering</h5>
+                    <div class="chord-fingering-diagram" data-chord="C"></div>
+                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on C, <strong>3</strong> (Middle) on E, and <strong>5</strong> (Pinky) on G. Apply this same physical shape to F and G major chords, as well as the minor chords (Am, Dm, Em)!</p>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Harry Styles', 'Sign Of The Times')">
+                            <div class="song-info">
+                                <span class="song-title">Sign of the Times</span>
+                                <span class="song-artist">Harry Styles • F - Dm - C</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Taylor Swift', 'All Too Well')">
+                            <div class="song-info">
+                                <span class="song-title">All Too Well</span>
+                                <span class="song-artist">Taylor Swift • C - G - Am - F</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('ATC', 'Around The World')">
+                            <div class="song-info">
+                                <span class="song-title">Around The World</span>
+                                <span class="song-artist">ATC • Am - Em - F - G</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/rgl9LzP6eP0?rel=0" allowfullscreen></iframe>
+                </div>
+            </article>
+
+            <!-- Lesson 2 -->
+            <article class="lesson-card">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Lesson 2</span>
+                    <span class="lesson-duration">⏱️ 20 mins</span>
+                </div>
+                <h2>Chord Group 2: The Triangle Shapes (D, E, A Shapes)</h2>
+                <p class="lesson-desc">Now we move to shapes containing one black key in the middle. Because the black key sits between two white keys, we refer to these physically as "triangle shapes".</p>
+
+                <div class="theory-box">
+                    <h4>💡 Chord Shapes Theory</h4>
+                    <p>Chords like D (D - F# - A), E (E - G# - B), and A (A - C# - E) feature a black key played by the middle finger, surrounded by white keys for the thumb and pinky finger.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="visualizeChord('D')" onmouseenter="visualizeChord('D')">D Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('E')" onmouseenter="visualizeChord('E')">E Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('A')" onmouseenter="visualizeChord('A')">A Major</span>
+                    </div>
+                </div>
+
+                <div class="fingering-section">
+                    <h5>🖐️ D Major Shape Fingering</h5>
+                    <div class="chord-fingering-diagram" data-chord="D"></div>
+                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on D, <strong>3</strong> (Middle) on the black key F#, and <strong>5</strong> (Pinky) on A. Apply this middle-finger-black-key spacing to E and A major chords!</p>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Madcon', 'Don\'t Worry')">
+                            <div class="song-info">
+                                <span class="song-title">Don't Worry</span>
+                                <span class="song-artist">Madcon • Am - C - G - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Creedence Clearwater Revival', 'Bad Moon Rising')">
+                            <div class="song-info">
+                                <span class="song-title">Bad Moon Rising</span>
+                                <span class="song-artist">Creedence Clearwater Revival • D - A - G - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Queen', 'Hammer To Fall')">
+                            <div class="song-info">
+                                <span class="song-title">Hammer To Fall</span>
+                                <span class="song-artist">Queen • A - E - D - A</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bob Marley & The Wailers', 'Three Little Birds')">
+                            <div class="song-info">
+                                <span class="song-title">Three Little Birds</span>
+                                <span class="song-artist">Bob Marley • A - D - E</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Tim McGraw', 'Southern Voice')">
+                            <div class="song-info">
+                                <span class="song-title">Southern Voice</span>
+                                <span class="song-artist">Tim McGraw • A - D - E</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Snow Patrol', 'Chasing Cars')">
+                            <div class="song-info">
+                                <span class="song-title">Chasing Cars</span>
+                                <span class="song-artist">Snow Patrol • A - E - D - A</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/P5F4_8Z1Szo?rel=0" allowfullscreen></iframe>
+                </div>
+            </article>
+
+            <!-- Lesson 3 -->
+            <article class="lesson-card">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Lesson 3</span>
+                    <span class="lesson-duration">⏱️ 15 mins</span>
+                </div>
+                <h2>Chord Group 3: Black-Key Bound Shapes (Db, Eb, Ab)</h2>
+                <p class="lesson-desc">These chords are inverted "triangles" where the thumb and pinky sit on black keys, and the middle finger sits on a white key. Mastering this provides easy access to pop songs written in flat keys.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Chord Shapes Theory</h4>
+                    <p>Db (Db - F - Ab), Eb (Eb - G - Bb), and Ab (Ab - C - Eb) major chords are bound by black keys on the outside, and a single white key in the middle.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="visualizeChord('Db')" onmouseenter="visualizeChord('Db')">Db Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Eb')" onmouseenter="visualizeChord('Eb')">Eb Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Ab')" onmouseenter="visualizeChord('Ab')">Ab Major</span>
+                    </div>
+                </div>
+
+                <div class="fingering-section">
+                    <h5>🖐️ Db Major Shape Fingering</h5>
+                    <div class="chord-fingering-diagram" data-chord="Db"></div>
+                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key Db, <strong>3</strong> (Middle) on the white key F, and <strong>5</strong> (Pinky) on the black key Ab. Apply this same black-white-black shape to Eb and Ab major chords!</p>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/4jKk63U0_e4?rel=0" allowfullscreen></iframe>
+                </div>
+            </article>
+
+            <!-- Lesson 4 -->
+            <article class="lesson-card">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Lesson 4</span>
+                    <span class="lesson-duration">⏱️ 15 mins</span>
+                </div>
+                <h2>Chord Group 4: The Outliers (B & Bb Chords)</h2>
+                <p class="lesson-desc">The B and Bb chords don't fit perfectly in standard symmetric shapes. They are transitional shapes that require distinct placements.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Chord Shapes Theory</h4>
+                    <p>Bb major (Bb - D - F) begins with a black key followed by two white keys. B major (B - D# - F#) starts with a white key followed by two black keys.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="visualizeChord('B')" onmouseenter="visualizeChord('B')">B Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Bb')" onmouseenter="visualizeChord('Bb')">Bb Major</span>
+                    </div>
+                </div>
+
+                <div class="fingering-section">
+                    <h5>🖐️ B Major & Bb Major Fingering</h5>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">B Major (White-Black-Black)</div>
+                            <div class="chord-fingering-diagram" data-chord="B"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Bb Major (Black-White-White)</div>
+                            <div class="chord-fingering-diagram" data-chord="Bb"></div>
+                        </div>
+                    </div>
+                    <p class="fingering-note" style="margin-top: 8px;">For B Major: Right hand fingers <strong>1</strong> on B, <strong>3</strong> on D#, <strong>5</strong> on F#. For Bb Major: Right hand fingers <strong>1</strong> on Bb, <strong>3</strong> on D, <strong>5</strong> on F.</p>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/N9wWpZ3p4R0?rel=0" allowfullscreen></iframe>
+                </div>
+            </article>
+
+            <!-- Lesson 5 -->
+            <article class="lesson-card">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Lesson 5</span>
+                    <span class="lesson-duration">⏱️ 10 mins</span>
+                </div>
+                <h2>Chord Group 5: The All-Black Key Triad (F# / Gb)</h2>
+                <p class="lesson-desc">F# Major (F# - A# - C#) is the easiest chord in terms of grouping because it consists entirely of black keys. Learning this completes your circle of basic major triads!</p>
+
+                <div class="theory-box">
+                    <h4>💡 Chord Shapes Theory</h4>
+                    <p>To play F#, place your thumb on F#, middle finger on A#, and pinky on C#. All three keys are in the 3-black-key group cluster!</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="visualizeChord('F#')" onmouseenter="visualizeChord('F#')">F# Major</span>
+                    </div>
+                </div>
+
+                <div class="fingering-section">
+                    <h5>🖐️ F# Major Shape Fingering</h5>
+                    <div class="chord-fingering-diagram" data-chord="F#"></div>
+                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key F#, <strong>3</strong> (Middle) on the black key A#, and <strong>5</strong> (Pinky) on the black key C#. All three notes sit entirely on black keys!</p>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/F4P-uO3h_n8?rel=0" allowfullscreen></iframe>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Sticky Right Sidebar Visualizer Column -->
+        <div class="piano-sidebar">
+            <div class="piano-card">
+                <h3>Chord Visualizer</h3>
+                <p>Hover over or click any chord shape badge in the lessons list to highlight the notes on the keyboard below.</p>
+
+                <!-- 2-Octave Keyboard SVG (C3 to B4) -->
+                <svg class="keyboard-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg">
+                    <!-- White Keys (x coords 0 to 520, width 40, height 150) -->
+                    <rect id="key-C3" class="white-key" x="0" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-D3" class="white-key" x="40" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-E3" class="white-key" x="80" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-F3" class="white-key" x="120" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-G3" class="white-key" x="160" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-A3" class="white-key" x="200" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-B3" class="white-key" x="240" y="0" width="40" height="150" rx="3" />
+                    
+                    <rect id="key-C4" class="white-key" x="280" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-D4" class="white-key" x="320" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-E4" class="white-key" x="360" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-F4" class="white-key" x="400" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-G4" class="white-key" x="440" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-A4" class="white-key" x="480" y="0" width="40" height="150" rx="3" />
+                    <rect id="key-B4" class="white-key" x="520" y="0" width="40" height="150" rx="3" />
+
+                    <!-- Black Keys (placed carefully, width 24, height 95) -->
+                    <!-- Octave 1 -->
+                    <rect id="key-Db3" class="black-key" x="28" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-Eb3" class="black-key" x="72" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-F#3" class="black-key" x="148" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-Ab3" class="black-key" x="192" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-A#3" class="black-key" x="236" y="0" width="24" height="95" rx="2" />
+                    
+                    <!-- Octave 2 -->
+                    <rect id="key-Db4" class="black-key" x="308" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-Eb4" class="black-key" x="352" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-F#4" class="black-key" x="428" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-Ab4" class="black-key" x="472" y="0" width="24" height="95" rx="2" />
+                    <rect id="key-A#4" class="black-key" x="516" y="0" width="24" height="95" rx="2" />
+                </svg>
+
+                <div class="chord-preview-grid">
+                    <button class="chord-preview-btn" onclick="visualizeChord('C')">C</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('F')">F</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('G')">G</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Am')">Am</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Dm')">Dm</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Em')">Em</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils/PianoAudioPlayer.js"></script>
+    <script>
+        const CHORD_NOTES = {
+            'C': ['C3', 'E3', 'G3'],
+            'F': ['F3', 'A3', 'C4'],
+            'G': ['G3', 'B3', 'D4'],
+            'Am': ['A3', 'C4', 'E4'],
+            'Dm': ['D3', 'F3', 'A3'],
+            'Em': ['E3', 'G3', 'B3'],
+            'D': ['D3', 'F#3', 'A3'],
+            'E': ['E3', 'G#3', 'B3'],
+            'A': ['A3', 'C#4', 'E4'],
+            'Db': ['Db3', 'F3', 'Ab3'],
+            'Eb': ['Eb3', 'G3', 'Bb3'],
+            'Ab': ['Ab3', 'C4', 'Eb4'],
+            'B': ['B3', 'D#4', 'F#4'],
+            'Bb': ['Bb3', 'D4', 'F4'],
+            'F#': ['F#3', 'A#3', 'C#4']
+        };
+
+        let audioPlayer = null;
+        const noteToSemitone = {
+            'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4,
+            'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8, 'A': 9, 'A#': 10, 'Bb': 10, 'B': 11
+        };
+
+        function noteNameToMidi(noteName) {
+            const match = noteName.match(/^([A-G][#b]?)([0-9])$/);
+            if (!match) return 60;
+            const note = match[1];
+            const octave = parseInt(match[2], 10);
+            const semitone = noteToSemitone[note];
+            return (octave + 1) * 12 + semitone;
+        }
+
+        function playChordAudio(chordName) {
+            const notes = CHORD_NOTES[chordName];
+            if (!notes) return;
+
+            if (!audioPlayer && typeof PianoAudioPlayer !== 'undefined') {
+                audioPlayer = new PianoAudioPlayer();
+            }
+
+            if (audioPlayer) {
+                const midiNotes = notes.map(noteNameToMidi);
+                audioPlayer.playChord(midiNotes, 1.5, 0.6, 0.02, false);
+            }
+        }
+
+        function visualizeChord(chordName) {
+            // Check if user clicked (we only play audio on click, not on hover)
+            const isClick = (window.event && window.event.type === 'click');
+
+            // Clear current highlights
+            document.querySelectorAll('.keyboard-svg rect').forEach(key => {
+                key.classList.remove('key-highlighted');
+            });
+            document.querySelectorAll('.chord-preview-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Find matching notes
+            const notes = CHORD_NOTES[chordName];
+            if (notes) {
+                notes.forEach(noteId => {
+                    const keyEl = document.getElementById(`key-${noteId}`);
+                    if (keyEl) {
+                        keyEl.classList.add('key-highlighted');
+                    }
+                });
+            }
+
+            // Set active pill button in sidebar if present
+            const buttons = document.querySelectorAll('.chord-preview-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText === chordName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (isClick) {
+                playChordAudio(chordName);
+            }
+        }
+
+        const whiteKeys = [
+            { id: 'C3', name: 'C', x: 0 },
+            { id: 'D3', name: 'D', x: 16 },
+            { id: 'E3', name: 'E', x: 32 },
+            { id: 'F3', name: 'F', x: 48 },
+            { id: 'G3', name: 'G', x: 64 },
+            { id: 'A3', name: 'A', x: 80 },
+            { id: 'B3', name: 'B', x: 96 },
+            { id: 'C4', name: 'C', x: 112 },
+            { id: 'D4', name: 'D', x: 128 },
+            { id: 'E4', name: 'E', x: 144 },
+            { id: 'F4', name: 'F', x: 160 },
+            { id: 'G4', name: 'G', x: 176 },
+            { id: 'A4', name: 'A', x: 192 },
+            { id: 'B4', name: 'B', x: 208 },
+            { id: 'C5', name: 'C', x: 224 }
+        ];
+
+        const blackKeys = [
+            { id: 'C#3', name: 'C#', x: 11 },
+            { id: 'Db3', name: 'Db', x: 11 },
+            { id: 'D#3', name: 'D#', x: 27 },
+            { id: 'Eb3', name: 'Eb', x: 27 },
+            { id: 'F#3', name: 'F#', x: 59 },
+            { id: 'Gb3', name: 'Gb', x: 59 },
+            { id: 'G#3', name: 'G#', x: 75 },
+            { id: 'Ab3', name: 'Ab', x: 75 },
+            { id: 'A#3', name: 'A#', x: 91 },
+            { id: 'Bb3', name: 'Bb', x: 91 },
+            { id: 'C#4', name: 'C#', x: 123 },
+            { id: 'Db4', name: 'Db', x: 123 },
+            { id: 'D#4', name: 'D#', x: 139 },
+            { id: 'Eb4', name: 'Eb', x: 139 },
+            { id: 'F#4', name: 'F#', x: 171 },
+            { id: 'Gb4', name: 'Gb', x: 171 },
+            { id: 'G#4', name: 'G#', x: 187 },
+            { id: 'Ab4', name: 'Ab', x: 187 },
+            { id: 'A#4', name: 'A#', x: 203 },
+            { id: 'Bb4', name: 'Bb', x: 203 }
+        ];
+
+        function createFingeringKeyboardSVG(chordName, notes) {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "240");
+            svg.setAttribute("height", "70");
+            svg.setAttribute("viewBox", "0 0 240 70");
+            svg.style.borderRadius = "4px";
+
+            // Draw white keys
+            whiteKeys.forEach(key => {
+                const rect = document.createElementNS(svgNS, "rect");
+                rect.setAttribute("x", key.x);
+                rect.setAttribute("y", "0");
+                rect.setAttribute("width", "16");
+                rect.setAttribute("height", "70");
+                rect.setAttribute("stroke", "#cbd5e1");
+                rect.setAttribute("stroke-width", "0.5");
+                
+                const noteIndex = notes.indexOf(key.id);
+                if (noteIndex !== -1) {
+                    rect.setAttribute("fill", "#c084fc");
+                } else {
+                    rect.setAttribute("fill", "#ffffff");
+                }
+                svg.appendChild(rect);
+            });
+
+            // Draw black keys
+            blackKeys.forEach(key => {
+                const rect = document.createElementNS(svgNS, "rect");
+                rect.setAttribute("x", key.x);
+                rect.setAttribute("y", "0");
+                rect.setAttribute("width", "10");
+                rect.setAttribute("height", "42");
+                rect.setAttribute("stroke", "#020617");
+                rect.setAttribute("stroke-width", "0.5");
+
+                const noteIndex = notes.indexOf(key.id);
+                if (noteIndex !== -1) {
+                    rect.setAttribute("fill", "#a78bfa");
+                } else {
+                    rect.setAttribute("fill", "#0f172a");
+                }
+                svg.appendChild(rect);
+            });
+
+            // Draw fingering labels (circles + text)
+            notes.forEach((noteId, index) => {
+                const finger = index === 0 ? '1' : (index === 1 ? '3' : '5');
+                
+                // Find in white keys
+                const wKey = whiteKeys.find(k => k.id === noteId);
+                if (wKey) {
+                    const cx = wKey.x + 8;
+                    const cy = 54;
+                    
+                    const circle = document.createElementNS(svgNS, "circle");
+                    circle.setAttribute("cx", cx);
+                    circle.setAttribute("cy", cy);
+                    circle.setAttribute("r", "5.5");
+                    circle.setAttribute("fill", "#7c3aed");
+                    svg.appendChild(circle);
+                    
+                    const text = document.createElementNS(svgNS, "text");
+                    text.setAttribute("x", cx);
+                    text.setAttribute("y", cy + 3);
+                    text.setAttribute("fill", "#ffffff");
+                    text.setAttribute("font-size", "8");
+                    text.setAttribute("font-family", "Inter, sans-serif");
+                    text.setAttribute("font-weight", "bold");
+                    text.setAttribute("text-anchor", "middle");
+                    text.textContent = finger;
+                    svg.appendChild(text);
+                } else {
+                    // Find in black keys
+                    const bKey = blackKeys.find(k => k.id === noteId);
+                    if (bKey) {
+                        const cx = bKey.x + 5;
+                        const cy = 30;
+                        
+                        const circle = document.createElementNS(svgNS, "circle");
+                        circle.setAttribute("cx", cx);
+                        circle.setAttribute("cy", cy);
+                        circle.setAttribute("r", "4.5");
+                        circle.setAttribute("fill", "#6d28d9");
+                        svg.appendChild(circle);
+                        
+                        const text = document.createElementNS(svgNS, "text");
+                        text.setAttribute("x", cx);
+                        text.setAttribute("y", cy + 2.5);
+                        text.setAttribute("fill", "#ffffff");
+                        text.setAttribute("font-size", "7");
+                        text.setAttribute("font-family", "Inter, sans-serif");
+                        text.setAttribute("font-weight", "bold");
+                        text.setAttribute("text-anchor", "middle");
+                        text.textContent = finger;
+                        svg.appendChild(text);
+                    }
+                }
+            });
+
+            return svg;
+        }
+
+        function renderFingeringDiagrams() {
+            document.querySelectorAll('.chord-fingering-diagram').forEach(container => {
+                const chordName = container.dataset.chord;
+                const notes = CHORD_NOTES[chordName];
+                if (notes) {
+                    const svg = createFingeringKeyboardSVG(chordName, notes);
+                    container.innerHTML = '';
+                    container.appendChild(svg);
+                }
+            });
+        }
+
+        function openSongByName(artist, title) {
+            if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                const songs = window.parent.appInstance.songManager.songs;
+                // Search for a case-insensitive, trimmed match
+                const match = songs.find(s => 
+                    s.artist.toLowerCase().trim() === artist.toLowerCase().trim() && 
+                    s.title.toLowerCase().trim() === title.toLowerCase().trim()
+                );
+                
+                if (match) {
+                    // Tell the parent app we opened from lessons
+                    window.parent.appInstance.openedSongFromLessons = true;
+                    // Close the dashboard panel inside parent window
+                    if (typeof window.parent.closeDashboardPanel === 'function') {
+                        window.parent.closeDashboardPanel();
+                    }
+                    // Load the song modal
+                    window.parent.appInstance.navigateToSong(match.id);
+                } else {
+                    alert(`Song not found in library: "${artist} - ${title}". Please make sure default songs are loaded.`);
+                }
+            } else {
+                alert("Cannot load song details. Application context not found.");
+            }
+        }
+
+        // Initialize diagrams and show C chord by default
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFingeringDiagrams();
+            visualizeChord('C');
+        });
+    </script>
+</body>
+</html>

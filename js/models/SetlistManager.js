@@ -8,10 +8,17 @@ class SetlistManager {
         this.syncEnabled = false;
         this.onSetlistsChanged = null; // Callback for when setlists change externally
         
-        // Initialize public Beginner setlist
+        // Initialize public Beginner setlists
         this.beginnerSetlist = {
             id: 'beginner_setlist_id',
-            name: 'Beginner',
+            name: '🎸 Beginner',
+            songIds: [],
+            isPublic: true,
+            createdAt: new Date().toISOString()
+        };
+        this.beginnerKeyboardSetlist = {
+            id: 'beginner_keyboard_setlist_id',
+            name: '🎹 Beginner',
             songIds: [],
             isPublic: true,
             createdAt: new Date().toISOString()
@@ -20,25 +27,61 @@ class SetlistManager {
             const cachedBeginner = localStorage.getItem('popsongPublicSetlist_beginner');
             if (cachedBeginner) {
                 this.beginnerSetlist = JSON.parse(cachedBeginner);
+                this.beginnerSetlist.name = '🎸 Beginner';
+            }
+            const cachedKeyboard = localStorage.getItem('popsongPublicSetlist_beginner_keyboard');
+            if (cachedKeyboard) {
+                this.beginnerKeyboardSetlist = JSON.parse(cachedKeyboard);
+                this.beginnerKeyboardSetlist.name = '🎹 Beginner';
             }
         } catch (e) {
-            console.error('Error parsing cached beginner setlist:', e);
+            console.error('Error parsing cached beginner setlists:', e);
+        }
+    }
+
+    syncKeyboardSetlistWithGuitarIfNeeded() {
+        if (this.beginnerSetlist && this.beginnerSetlist.songIds && this.beginnerSetlist.songIds.length > 0) {
+            if (!this.beginnerKeyboardSetlist.songIds || this.beginnerKeyboardSetlist.songIds.length === 0) {
+                this.beginnerKeyboardSetlist.songIds = [...this.beginnerSetlist.songIds];
+                this.beginnerKeyboardSetlist.name = '🎹 Beginner';
+                if (this.firebaseManager) {
+                    this.firebaseManager.updateGlobalSetting('beginnerKeyboardSetlist', this.beginnerKeyboardSetlist)
+                        .catch(err => console.error('Failed to sync public beginner keyboard setlist:', err));
+                }
+                localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
+                if (this.onSetlistsChanged) this.onSetlistsChanged();
+            }
         }
     }
 
     async loadSetlists(forceFromFirebase = false) {
-        // Load public beginner setlist from Firebase
+        // Load public beginner setlists from Firebase
         if (this.firebaseManager) {
             this.firebaseManager.getGlobalSetting('beginnerSetlist')
                 .then(data => {
                     if (data) {
                         this.beginnerSetlist = data;
-                        this.beginnerSetlist.name = 'Beginner'; // Guarantee spelling is Beginner
+                        this.beginnerSetlist.name = '🎸 Beginner';
                         localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                        this.syncKeyboardSetlistWithGuitarIfNeeded();
                         if (this.onSetlistsChanged) this.onSetlistsChanged();
                     }
                 })
                 .catch(err => console.error('Error loading beginner setlist from Firebase:', err));
+
+            this.firebaseManager.getGlobalSetting('beginnerKeyboardSetlist')
+                .then(data => {
+                    if (data) {
+                        this.beginnerKeyboardSetlist = data;
+                        this.beginnerKeyboardSetlist.name = '🎹 Beginner';
+                        localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
+                        this.syncKeyboardSetlistWithGuitarIfNeeded();
+                        if (this.onSetlistsChanged) this.onSetlistsChanged();
+                    } else {
+                        this.syncKeyboardSetlistWithGuitarIfNeeded();
+                    }
+                })
+                .catch(err => console.error('Error loading beginner keyboard setlist from Firebase:', err));
         }
 
         // First, try to load from cache (localStorage)
@@ -137,28 +180,48 @@ class SetlistManager {
     }
 
     normalizeSetlists(setlists) {
-        // If we are the admin and there's a private BEGINNER/Beginner setlist, seed the public Beginner one from it if public one is currently empty
+        // If we are the admin and there's a private BEGINNER/Beginner setlist, seed the public Beginner ones from it if they are empty
         const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
         const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
         if (isAdmin && Array.isArray(setlists)) {
             const privateBeginner = setlists.find(sl => sl && sl.name && (sl.name.toUpperCase() === 'BEGINNER'));
             if (privateBeginner && privateBeginner.songIds && privateBeginner.songIds.length > 0) {
+                let changedGuitar = false;
+                let changedKeyboard = false;
+
                 if (!this.beginnerSetlist.songIds || this.beginnerSetlist.songIds.length === 0) {
                     this.beginnerSetlist.songIds = [...privateBeginner.songIds];
                     this.beginnerSetlist.createdAt = privateBeginner.createdAt || this.beginnerSetlist.createdAt;
-                    this.beginnerSetlist.name = 'Beginner';
+                    this.beginnerSetlist.name = '🎸 Beginner';
+                    changedGuitar = true;
                     
                     // Save to Firebase settings and localStorage
                     this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist)
                         .catch(err => console.error('Failed to auto-seed public beginner setlist:', err));
                     localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
                 }
+
+                if (!this.beginnerKeyboardSetlist.songIds || this.beginnerKeyboardSetlist.songIds.length === 0) {
+                    this.beginnerKeyboardSetlist.songIds = [...privateBeginner.songIds];
+                    this.beginnerKeyboardSetlist.createdAt = privateBeginner.createdAt || this.beginnerKeyboardSetlist.createdAt;
+                    this.beginnerKeyboardSetlist.name = '🎹 Beginner';
+                    changedKeyboard = true;
+                    
+                    // Save to Firebase settings and localStorage
+                    this.firebaseManager.updateGlobalSetting('beginnerKeyboardSetlist', this.beginnerKeyboardSetlist)
+                        .catch(err => console.error('Failed to auto-seed public beginner keyboard setlist:', err));
+                    localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
+                }
+
+                if ((changedGuitar || changedKeyboard) && this.onSetlistsChanged) {
+                    this.onSetlistsChanged();
+                }
             }
         }
 
         if (!Array.isArray(setlists)) return [];
         const normalized = setlists
-            .filter(sl => sl && sl.name && sl.name.toUpperCase() !== 'DEMO' && sl.name.toUpperCase() !== 'BEGINNER')
+            .filter(sl => sl && sl.name && sl.name.toUpperCase() !== 'DEMO' && sl.name.toUpperCase() !== 'BEGINNER' && sl.name !== '🎸 Beginner' && sl.name !== '🎹 Beginner')
             .map(setlist => ({
                 id: setlist.id || Date.now().toString() + Math.random(),
                 name: setlist.name || 'Unnamed Setlist',
@@ -273,16 +336,22 @@ class SetlistManager {
     }
 
     async deleteSetlist(id) {
-        if (id === 'beginner_setlist_id') {
+        if (id === 'beginner_setlist_id' || id === 'beginner_keyboard_setlist_id') {
             const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
             const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
             if (!isAdmin) {
-                console.error('Permission denied: Only admin can delete the Beginner setlist.');
+                console.error('Permission denied: Only admin can delete public Beginner setlists.');
                 return;
             }
-            this.beginnerSetlist.songIds = [];
-            await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
-            localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+            if (id === 'beginner_setlist_id') {
+                this.beginnerSetlist.songIds = [];
+                await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+                localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+            } else {
+                this.beginnerKeyboardSetlist.songIds = [];
+                await this.firebaseManager.updateGlobalSetting('beginnerKeyboardSetlist', this.beginnerKeyboardSetlist);
+                localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
+            }
             if (this.onSetlistsChanged) this.onSetlistsChanged();
             return;
         }
@@ -291,18 +360,26 @@ class SetlistManager {
     }
 
     async updateSetlistName(id, newName) {
-        if (id === 'beginner_setlist_id') {
+        if (id === 'beginner_setlist_id' || id === 'beginner_keyboard_setlist_id') {
             const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
             const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
             if (!isAdmin) {
-                console.error('Permission denied: Only admin can rename the Beginner setlist.');
+                console.error('Permission denied: Only admin can rename public Beginner setlists.');
                 return null;
             }
-            this.beginnerSetlist.name = newName.trim();
-            await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
-            localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
-            if (this.onSetlistsChanged) this.onSetlistsChanged();
-            return this.beginnerSetlist;
+            if (id === 'beginner_setlist_id') {
+                this.beginnerSetlist.name = newName.trim();
+                await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
+                localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                if (this.onSetlistsChanged) this.onSetlistsChanged();
+                return this.beginnerSetlist;
+            } else {
+                this.beginnerKeyboardSetlist.name = newName.trim();
+                await this.firebaseManager.updateGlobalSetting('beginnerKeyboardSetlist', this.beginnerKeyboardSetlist);
+                localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
+                if (this.onSetlistsChanged) this.onSetlistsChanged();
+                return this.beginnerKeyboardSetlist;
+            }
         }
         const setlist = this.getSetlist(id);
         if (setlist && newName && newName.trim()) {
@@ -326,6 +403,9 @@ class SetlistManager {
         if (id === 'beginner_setlist_id') {
             return this.beginnerSetlist;
         }
+        if (id === 'beginner_keyboard_setlist_id') {
+            return this.beginnerKeyboardSetlist;
+        }
         return this.setlists.find(sl => sl.id === id);
     }
 
@@ -337,6 +417,12 @@ class SetlistManager {
                 list.push(this.beginnerSetlist);
             }
         }
+        if (this.beginnerKeyboardSetlist) {
+            // Ensure no duplicate if already added
+            if (!list.some(sl => sl.id === 'beginner_keyboard_setlist_id')) {
+                list.push(this.beginnerKeyboardSetlist);
+            }
+        }
         return list;
     }
 
@@ -345,14 +431,17 @@ class SetlistManager {
     }
 
     async addSongsToSetlist(setlistId, songIds) {
-        if (setlistId === 'beginner_setlist_id') {
+        if (setlistId === 'beginner_setlist_id' || setlistId === 'beginner_keyboard_setlist_id') {
             const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
             const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
             if (!isAdmin) {
-                console.error('Permission denied: Only admin can add songs to the Beginner setlist.');
+                console.error('Permission denied: Only admin can add songs to public Beginner setlists.');
                 return false;
             }
-            const setlist = this.beginnerSetlist;
+            const setlist = setlistId === 'beginner_setlist_id' ? this.beginnerSetlist : this.beginnerKeyboardSetlist;
+            const firebaseKey = setlistId === 'beginner_setlist_id' ? 'beginnerSetlist' : 'beginnerKeyboardSetlist';
+            const storageKey = setlistId === 'beginner_setlist_id' ? 'popsongPublicSetlist_beginner' : 'popsongPublicSetlist_beginner_keyboard';
+            
             if (setlist && Array.isArray(songIds)) {
                 let changed = false;
                 songIds.forEach(songId => {
@@ -363,8 +452,8 @@ class SetlistManager {
                     }
                 });
                 if (changed) {
-                    await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
-                    localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                    await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    localStorage.setItem(storageKey, JSON.stringify(setlist));
                     if (this.onSetlistsChanged) this.onSetlistsChanged();
                     return true;
                 }
@@ -394,22 +483,25 @@ class SetlistManager {
     }
 
     async removeSongFromSetlist(setlistId, songId) {
-        if (setlistId === 'beginner_setlist_id') {
+        if (setlistId === 'beginner_setlist_id' || setlistId === 'beginner_keyboard_setlist_id') {
             const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
             const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
             if (!isAdmin) {
-                console.error('Permission denied: Only admin can remove songs from the Beginner setlist.');
+                console.error('Permission denied: Only admin can remove songs from public Beginner setlists.');
                 return false;
             }
-            const setlist = this.beginnerSetlist;
+            const setlist = setlistId === 'beginner_setlist_id' ? this.beginnerSetlist : this.beginnerKeyboardSetlist;
+            const firebaseKey = setlistId === 'beginner_setlist_id' ? 'beginnerSetlist' : 'beginnerKeyboardSetlist';
+            const storageKey = setlistId === 'beginner_setlist_id' ? 'popsongPublicSetlist_beginner' : 'popsongPublicSetlist_beginner_keyboard';
+            
             if (setlist) {
                 const idStr = String(songId);
                 const originalLength = setlist.songIds.length;
                 setlist.songIds = setlist.songIds.filter(id => String(id) !== idStr);
 
                 if (setlist.songIds.length !== originalLength) {
-                    await this.firebaseManager.updateGlobalSetting('beginnerSetlist', this.beginnerSetlist);
-                    localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
+                    await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    localStorage.setItem(storageKey, JSON.stringify(setlist));
                     if (this.onSetlistsChanged) this.onSetlistsChanged();
                     return true;
                 }

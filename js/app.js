@@ -1,4 +1,4 @@
-// Main Application (v3.234)
+// Main Application (v3.241)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -46,6 +46,7 @@ class App {
             genres: [],
             genreSearch: ''
         };
+        this.openedSongFromLessons = false;
 
         // UI Elements
         this.elements = {};
@@ -58,7 +59,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.234");
+        console.log("Pop Song Chord Book - 3.241");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -184,12 +185,15 @@ class App {
             const user = this.firebaseManager.auth.currentUser;
             const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
             const newMembersBtn = document.getElementById('btnNewMembers');
+            const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
             if (isAdmin) {
                 document.body.classList.add('is-admin');
                 if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+                if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
             } else {
                 document.body.classList.remove('is-admin');
                 if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+                if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
             }
         });
     }
@@ -521,13 +525,16 @@ class App {
 
         // Add admin styling if the user is an admin
         const newMembersBtn = document.getElementById('btnNewMembers');
+        const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
         const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
         if (isAdmin) {
             document.body.classList.add('is-admin');
             if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+            if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
         } else {
             document.body.classList.remove('is-admin');
             if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+            if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
         }
     }
 
@@ -549,7 +556,9 @@ class App {
         // Remove admin styling
         document.body.classList.remove('is-admin');
         const newMembersBtn = document.getElementById('btnNewMembers');
+        const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
         if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+        if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
 
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
@@ -1655,110 +1664,88 @@ class App {
         this.updateFilterButtonState();
     }
 
-    normalizeKeyName(key) {
+    getCombinedKeyLabel(key) {
         if (!key) return '';
-        const k = key.trim();
+        const k = key.trim().toLowerCase();
+        
+        const relativeKeyMap = {
+            'c': 'C / Am', 'am': 'C / Am',
+            'g': 'G / Em', 'em': 'G / Em',
+            'd': 'D / Bm', 'bm': 'D / Bm',
+            'a': 'A / F#m', 'f#m': 'A / F#m', 'gbm': 'A / F#m',
+            'e': 'E / C#m', 'c#m': 'E / C#m', 'dbm': 'E / C#m',
+            'b': 'B / G#m', 'g#m': 'B / G#m', 'abm': 'B / G#m',
+            'f#': 'F# / D#m', 'gb': 'F# / D#m', 'd#m': 'F# / D#m', 'ebm': 'F# / D#m',
+            'f': 'F / Dm', 'dm': 'F / Dm',
+            'bb': 'Bb / Gm', 'a#': 'Bb / Gm', 'gm': 'Bb / Gm',
+            'eb': 'Eb / Cm', 'd#': 'Eb / Cm', 'cm': 'Eb / Cm',
+            'ab': 'Ab / Fm', 'g#': 'Ab / Fm', 'fm': 'Ab / Fm',
+            'db': 'Db / Bbm', 'c#': 'Db / Bbm', 'bbm': 'Db / Bbm', 'a#m': 'Db / Bbm'
+        };
+
+        const standardLabels = [
+            'C / Am', 'G / Em', 'D / Bm', 'A / F#m', 'E / C#m', 'B / G#m',
+            'F# / D#m', 'F / Dm', 'Bb / Gm', 'Eb / Cm', 'Ab / Fm', 'Db / Bbm'
+        ];
+        const match = standardLabels.find(label => label.toLowerCase() === k);
+        if (match) return match;
         
         if (k.includes('/')) {
             const parts = k.split('/').map(p => p.trim());
-            return this.normalizeKeyName(parts[0]);
+            return this.getCombinedKeyLabel(parts[0]);
         }
         
-        const isMinor = k.toLowerCase().endsWith('m') && !k.toLowerCase().endsWith('dim');
-        const root = isMinor ? k.slice(0, -1) : k;
-        const suffix = isMinor ? 'm' : '';
-        const rootLower = root.toLowerCase();
+        const mapped = relativeKeyMap[k];
+        if (mapped) return mapped;
         
-        if (rootLower === 'c#' || rootLower === 'db') return `C#${suffix} / Db${suffix}`;
-        if (rootLower === 'd#' || rootLower === 'eb') return `D#${suffix} / Eb${suffix}`;
-        if (rootLower === 'f#' || rootLower === 'gb') return `F#${suffix} / Gb${suffix}`;
-        if (rootLower === 'g#' || rootLower === 'ab') return `G#${suffix} / Ab${suffix}`;
-        if (rootLower === 'a#' || rootLower === 'bb') return `A#${suffix} / Bb${suffix}`;
+        let clean = k;
+        if (clean.endsWith('maj')) clean = clean.slice(0, -3);
+        if (clean.endsWith('min')) clean = clean.slice(0, -3) + 'm';
         
-        return k;
+        const mappedClean = relativeKeyMap[clean];
+        if (mappedClean) return mappedClean;
+        
+        return key.trim().charAt(0).toUpperCase() + key.trim().slice(1);
+    }
+
+    normalizeKeyName(key) {
+        return this.getCombinedKeyLabel(key);
     }
 
     keysMatch(songKey, filterKey) {
         if (!songKey || !filterKey) return false;
-        const s = songKey.trim().toLowerCase();
-        const f = filterKey.trim().toLowerCase();
         
-        if (s === f) return true;
+        const songLabel = this.getCombinedKeyLabel(songKey);
+        const filterLabel = this.getCombinedKeyLabel(filterKey);
         
-        if (f.includes('/')) {
-            const parts = f.split('/').map(p => p.trim());
-            return parts.includes(s);
-        }
-        
-        if (s.includes('/')) {
-            const parts = s.split('/').map(p => p.trim());
-            return parts.includes(f);
-        }
-        
-        return false;
+        return songLabel.toLowerCase() === filterLabel.toLowerCase();
     }
 
     populateKeySelect() {
         const filterKeySelect = document.getElementById('filterKeySelect');
         if (!filterKeySelect) return;
 
-        // Get all unique keys from songs (both explicit and detected)
-        const allSongs = this.songManager.getAllSongs();
-        const keys = new Set();
-
-        allSongs.forEach(song => {
-            if (song.key && song.key.trim() !== '') {
-                keys.add(this.normalizeKeyName(song.key));
-            } else if (this.keyDetector) {
-                const detectedKey = this.keyDetector.detectFromSong(song);
-                if (detectedKey) {
-                    keys.add(this.normalizeKeyName(detectedKey));
-                }
-            }
-        });
-
-        const sortedKeys = Array.from(keys).sort((a, b) => {
-            const getSortRank = (key) => {
-                if (!key) return 999;
-                const firstPart = key.split('/')[0].trim();
-                const isMinor = firstPart.toLowerCase().endsWith('m') && !firstPart.toLowerCase().endsWith('dim');
-                const root = isMinor ? firstPart.slice(0, -1) : firstPart;
-                const rootLower = root.toLowerCase();
-                
-                const semitoneMap = {
-                    'c': 0, 'b#': 0,
-                    'c#': 1, 'db': 1,
-                    'd': 2,
-                    'd#': 3, 'eb': 3,
-                    'e': 4, 'fb': 4,
-                    'f': 5, 'e#': 5,
-                    'f#': 6, 'gb': 6,
-                    'g': 7,
-                    'g#': 8, 'ab': 8,
-                    'a': 9,
-                    'a#': 10, 'bb': 10,
-                    'b': 11, 'cb': 11
-                };
-                
-                const semitone = semitoneMap[rootLower];
-                if (semitone === undefined) return 100;
-                return semitone * 2 + (isMinor ? 1 : 0);
-            };
-            
-            const rankA = getSortRank(a);
-            const rankB = getSortRank(b);
-            if (rankA !== rankB) {
-                return rankA - rankB;
-            }
-            return a.localeCompare(b);
-        });
+        const fixedKeys = [
+            'C / Am',
+            'G / Em',
+            'D / Bm',
+            'A / F#m',
+            'E / C#m',
+            'B / G#m',
+            'F# / D#m',
+            'F / Dm',
+            'Bb / Gm',
+            'Eb / Cm',
+            'Ab / Fm',
+            'Db / Bbm'
+        ];
 
         // Save current selection
         const currentValue = filterKeySelect.value;
 
         // Clear and populate
         filterKeySelect.innerHTML = '<option value="">All Keys</option>';
-        sortedKeys.forEach(key => {
+        fixedKeys.forEach(key => {
             const option = document.createElement('option');
             option.value = key;
             option.textContent = key;
@@ -2032,18 +2019,25 @@ class App {
             select.appendChild(publicOption);
         }
 
-        // Add Beginner setlist right after Public Songs
+        // Add Beginner setlists right after Public Songs
         const beginnerSetlist = this.setlistManager.getSetlist('beginner_setlist_id');
         if (beginnerSetlist) {
             const option = document.createElement('option');
             option.value = 'beginner_setlist_id';
-            option.textContent = '🌐 Beginner';
+            option.textContent = '🎸 Beginner';
+            select.appendChild(option);
+        }
+        const beginnerKeyboardSetlist = this.setlistManager.getSetlist('beginner_keyboard_setlist_id');
+        if (beginnerKeyboardSetlist) {
+            const option = document.createElement('option');
+            option.value = 'beginner_keyboard_setlist_id';
+            option.textContent = '🎹 Beginner';
             select.appendChild(option);
         }
 
         // Add all other setlists
         this.setlistManager.getAllSetlists().forEach(setlist => {
-            if (setlist.id === 'beginner_setlist_id') return; // Already added
+            if (setlist.id === 'beginner_setlist_id' || setlist.id === 'beginner_keyboard_setlist_id') return; // Already added
             const option = document.createElement('option');
             option.value = setlist.id;
             option.textContent = setlist.name;
@@ -2076,7 +2070,7 @@ class App {
         const addSongBtn = document.getElementById('addSongBtn');
         const importControls = document.querySelector('.import-export-controls');
 
-        const isBeginnerSetlist = this.currentSetlistId === 'beginner_setlist_id';
+        const isBeginnerSetlist = this.currentSetlistId === 'beginner_setlist_id' || this.currentSetlistId === 'beginner_keyboard_setlist_id';
         const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
         const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
         const showEditDelete = this.currentSetlistId && this.currentSetlistId !== '__public__' && (!isBeginnerSetlist || isAdmin);
@@ -2452,13 +2446,20 @@ class App {
                 if (beginnerSetlist) {
                     const option = document.createElement('option');
                     option.value = 'beginner_setlist_id';
-                    option.textContent = '🌐 Beginner';
+                    option.textContent = '🎸 Beginner';
+                    select.appendChild(option);
+                }
+                const beginnerKeyboardSetlist = this.setlistManager.getSetlist('beginner_keyboard_setlist_id');
+                if (beginnerKeyboardSetlist) {
+                    const option = document.createElement('option');
+                    option.value = 'beginner_keyboard_setlist_id';
+                    option.textContent = '🎹 Beginner';
                     select.appendChild(option);
                 }
             }
 
             setlists.forEach(setlist => {
-                if (setlist.id === 'beginner_setlist_id') return; // Already added
+                if (setlist.id === 'beginner_setlist_id' || setlist.id === 'beginner_keyboard_setlist_id') return; // Already added
                 const option = document.createElement('option');
                 option.value = setlist.id;
                 option.textContent = setlist.name;
