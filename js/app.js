@@ -185,17 +185,17 @@ class App {
             const user = this.firebaseManager.auth.currentUser;
             const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
             const newMembersBtn = document.getElementById('btnNewMembers');
-            const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
             if (isAdmin) {
                 document.body.classList.add('is-admin');
                 if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
-                if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
             } else {
                 document.body.classList.remove('is-admin');
                 if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
-                if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
             }
         });
+
+        // Initial visibility check for lessons button
+        this.updateLessonsBtnVisibility();
     }
 
     pushModalState(modalId, closeFn) {
@@ -525,17 +525,17 @@ class App {
 
         // Add admin styling if the user is an admin
         const newMembersBtn = document.getElementById('btnNewMembers');
-        const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
         const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
         if (isAdmin) {
             document.body.classList.add('is-admin');
             if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
-            if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
         } else {
             document.body.classList.remove('is-admin');
             if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
-            if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
         }
+
+        // Update lessons button visibility
+        this.updateLessonsBtnVisibility();
     }
 
     handleAuthFailure() {
@@ -556,9 +556,10 @@ class App {
         // Remove admin styling
         document.body.classList.remove('is-admin');
         const newMembersBtn = document.getElementById('btnNewMembers');
-        const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
         if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
-        if (keyboardLessonsBtn) keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
+
+        // Update lessons button visibility (keeps it visible for guests if instrumentMode is piano)
+        this.updateLessonsBtnVisibility();
 
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
@@ -996,6 +997,7 @@ class App {
                     }
                 }
             }
+            this.updateLessonsBtnVisibility();
         } catch (error) {
             console.error('App: Error syncing preferences:', error);
         }
@@ -1099,6 +1101,9 @@ class App {
             if (this.profileModal) {
                 this.profileModal.updateInstrumentUI(instrument);
             }
+
+            // Update lessons button visibility
+            this.updateLessonsBtnVisibility();
         };
     }
 
@@ -4033,6 +4038,19 @@ class App {
         overlay.onclick = (e) => {
             if (e.target === overlay) close(false);
         };
+    }
+
+    updateLessonsBtnVisibility() {
+        const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
+        if (!keyboardLessonsBtn) return;
+        
+        const mode = localStorage.getItem('instrumentMode') || 'piano';
+        // Visible if the instrument is set to keyboard ('piano')
+        if (mode === 'piano') {
+            keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
+        } else {
+            keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
+        }
     }
 }
 
