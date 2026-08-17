@@ -4347,6 +4347,10 @@ class SongDetailModal {
             this.practiceCountDisplay.textContent = song.practiceCount || '0';
         }
 
+        // Update ability stars display
+        this.currentAbilityValue = song.performAbility || 0;
+        this.updateAbilityStars(this.currentAbilityValue);
+
         // Auto-focus and enter edit mode for artist field if requested (for new songs)
         if (autoEditArtist && this.artistElement) {
             setTimeout(() => {
@@ -4628,11 +4632,34 @@ class SongDetailModal {
     }
 
 
-    cycleAbility() {
+    async cycleAbility() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
         const currentValue = this.currentAbilityValue || 0;
         const newValue = (currentValue + 1) % 4; // Cycle 0, 1, 2, 3
+        
         this.updateAbilityStars(newValue);
-        this.checkForChanges();
+
+        if (this.originalSongData) {
+            this.originalSongData.performAbility = newValue;
+        }
+
+        try {
+            const canEdit = this.songManager.canEditPublicSong(song);
+            if (song.isPublic && !canEdit) {
+                console.log('SongDetailModal: Detected public song ability rating - creating private copy...');
+                await this.forkCurrentSong({ performAbility: newValue });
+            } else {
+                await this.songManager.updateSong(this.currentSongId, { performAbility: newValue });
+                if (this.onUpdate) {
+                    this.onUpdate();
+                }
+            }
+        } catch (error) {
+            console.error('Error saving performAbility:', error);
+        }
     }
 
     updateAbilityStars(value) {
@@ -5301,6 +5328,12 @@ class SongDetailModal {
                 const hasLyrics = this.fullLyricsInput.value.trim() !== '';
                 this.lyricsStatusText.style.display = hasLyrics ? 'block' : 'none';
             }
+        }
+
+        // Restore perform ability stars
+        if (this.originalSongData) {
+            this.currentAbilityValue = this.originalSongData.performAbility || 0;
+            this.updateAbilityStars(this.currentAbilityValue);
         }
 
         // Reset change tracking
