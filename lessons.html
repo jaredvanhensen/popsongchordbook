@@ -158,6 +158,21 @@
             stroke: #a855f7 !important;
         }
 
+        .key-label {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            fill: #475569; /* Slate 600 */
+            text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
+            transition: fill 0.15s ease;
+        }
+
+        .key-highlighted + .key-label {
+            fill: #ffffff !important;
+        }
+
         /* Chord selector pills inside visualizer */
         .chord-preview-grid {
             display: grid;
@@ -490,6 +505,48 @@
                             </div>
                             <span class="song-play-icon">▶</span>
                         </div>
+                        <div class="practice-song-card" onclick="openSongByName('Alphaville', 'Forever Young')">
+                            <div class="song-info">
+                                <span class="song-title">Forever Young</span>
+                                <span class="song-artist">Alphaville • C - G - Am - F</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Ed Sheeran', 'Happier')">
+                            <div class="song-info">
+                                <span class="song-title">Happier</span>
+                                <span class="song-artist">Ed Sheeran • Am - F - C</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Creedence Clearwater Revival', 'Have You Ever Seen The Rain')">
+                            <div class="song-info">
+                                <span class="song-title">Have You Ever Seen The Rain</span>
+                                <span class="song-artist">Creedence Clearwater Revival • C - G - Am - F</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Dr. Alban', 'It\'s My Life')">
+                            <div class="song-info">
+                                <span class="song-title">It's My Life</span>
+                                <span class="song-artist">Dr. Alban • Am - G - F</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Beatles', 'Let it Be')">
+                            <div class="song-info">
+                                <span class="song-title">Let It Be</span>
+                                <span class="song-artist">The Beatles • C - G - Am - F</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Shawn Mendes', 'Senorita')">
+                            <div class="song-info">
+                                <span class="song-title">Senorita</span>
+                                <span class="song-artist">Shawn Mendes • Am - C - F - G</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
                     </div>
                 </div>
 
@@ -609,6 +666,26 @@
                     <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key Db, <strong>3</strong> (Middle) on the white key F, and <strong>5</strong> (Pinky) on the black key Ab. Apply this same black-white-black shape to Eb and Ab major chords!</p>
                 </div>
 
+                <div class="practice-songs-section">
+                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('KC & The Sunshine Band', 'Give It Up')">
+                            <div class="song-info">
+                                <span class="song-title">Give It Up</span>
+                                <span class="song-artist">KC & The Sunshine Band • Eb - Ab - Bb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('John Legend', 'All of Me')">
+                            <div class="song-info">
+                                <span class="song-title">All of Me</span>
+                                <span class="song-artist">John Legend • Fm - Db - Ab - Eb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/4jKk63U0_e4?rel=0" allowfullscreen></iframe>
                 </div>
@@ -651,6 +728,54 @@
                     <p class="fingering-note" style="margin-top: 8px;">For B Major: Right hand fingers <strong>1</strong> on B, <strong>3</strong> on D#, <strong>5</strong> on F#. For Bb Major: Right hand fingers <strong>1</strong> on Bb, <strong>3</strong> on D, <strong>5</strong> on F.</p>
                 </div>
 
+                <div class="practice-songs-section">
+                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Dire Straits', 'Walk of Life')">
+                            <div class="song-info">
+                                <span class="song-title">Walk of Life</span>
+                                <span class="song-artist">Dire Straits • E - A - B</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('The Black Eyed Peas', 'Where Is the Love?')">
+                            <div class="song-info">
+                                <span class="song-title">Where Is the Love?</span>
+                                <span class="song-artist">The Black Eyed Peas • F - C - Dm - Bb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Jessie J', 'Price Tag')">
+                            <div class="song-info">
+                                <span class="song-title">Price Tag</span>
+                                <span class="song-artist">Jessie J • F - Am - Bb - C</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bruno Mars', 'Just the Way You Are')">
+                            <div class="song-info">
+                                <span class="song-title">Just the Way You Are</span>
+                                <span class="song-artist">Bruno Mars • F - Dm - Bb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Phil Collins', 'In The Air Tonight')">
+                            <div class="song-info">
+                                <span class="song-title">In The Air Tonight</span>
+                                <span class="song-artist">Phil Collins • Dm - C - Bb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Fleetwood Mac', 'Go Your Own Way')">
+                            <div class="song-info">
+                                <span class="song-title">Go Your Own Way</span>
+                                <span class="song-artist">Fleetwood Mac • F - C - Bb</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/N9wWpZ3p4R0?rel=0" allowfullscreen></iframe>
                 </div>
@@ -683,6 +808,40 @@
                     <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key F#, <strong>3</strong> (Middle) on the black key A#, and <strong>5</strong> (Pinky) on the black key C#. All three notes sit entirely on black keys!</p>
                 </div>
 
+                <div class="practice-songs-section">
+                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Tracy Chapman', 'Fast Car')">
+                            <div class="song-info">
+                                <span class="song-title">Fast Car</span>
+                                <span class="song-artist">Tracy Chapman • A - F#m - D - E</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('The Script', 'For the First Time')">
+                            <div class="song-info">
+                                <span class="song-title">For The First Time</span>
+                                <span class="song-artist">The Script • A - E - F#m - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Guns N\' Roses', 'Knockin\' On Heavens Door')">
+                            <div class="song-info">
+                                <span class="song-title">Knocking On Heavens Door</span>
+                                <span class="song-artist">Guns N' Roses • F# - C# - B</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Backstreet Boys', 'I Want It That Way')">
+                            <div class="song-info">
+                                <span class="song-title">I Want It That Way</span>
+                                <span class="song-artist">Backstreet Boys • F#m - D - A - E</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/F4P-uO3h_n8?rel=0" allowfullscreen></iframe>
                 </div>
@@ -700,20 +859,34 @@
                 <svg class="keyboard-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg">
                     <!-- White Keys (x coords 0 to 520, width 40, height 150) -->
                     <rect id="key-C3" class="white-key" x="0" y="0" width="40" height="150" rx="3" />
+                    <text x="20" y="132" class="key-label">C</text>
                     <rect id="key-D3" class="white-key" x="40" y="0" width="40" height="150" rx="3" />
+                    <text x="60" y="132" class="key-label">D</text>
                     <rect id="key-E3" class="white-key" x="80" y="0" width="40" height="150" rx="3" />
+                    <text x="100" y="132" class="key-label">E</text>
                     <rect id="key-F3" class="white-key" x="120" y="0" width="40" height="150" rx="3" />
+                    <text x="140" y="132" class="key-label">F</text>
                     <rect id="key-G3" class="white-key" x="160" y="0" width="40" height="150" rx="3" />
+                    <text x="180" y="132" class="key-label">G</text>
                     <rect id="key-A3" class="white-key" x="200" y="0" width="40" height="150" rx="3" />
+                    <text x="220" y="132" class="key-label">A</text>
                     <rect id="key-B3" class="white-key" x="240" y="0" width="40" height="150" rx="3" />
+                    <text x="260" y="132" class="key-label">B</text>
                     
                     <rect id="key-C4" class="white-key" x="280" y="0" width="40" height="150" rx="3" />
+                    <text x="300" y="132" class="key-label">C</text>
                     <rect id="key-D4" class="white-key" x="320" y="0" width="40" height="150" rx="3" />
+                    <text x="340" y="132" class="key-label">D</text>
                     <rect id="key-E4" class="white-key" x="360" y="0" width="40" height="150" rx="3" />
+                    <text x="380" y="132" class="key-label">E</text>
                     <rect id="key-F4" class="white-key" x="400" y="0" width="40" height="150" rx="3" />
+                    <text x="420" y="132" class="key-label">F</text>
                     <rect id="key-G4" class="white-key" x="440" y="0" width="40" height="150" rx="3" />
+                    <text x="460" y="132" class="key-label">G</text>
                     <rect id="key-A4" class="white-key" x="480" y="0" width="40" height="150" rx="3" />
+                    <text x="500" y="132" class="key-label">A</text>
                     <rect id="key-B4" class="white-key" x="520" y="0" width="40" height="150" rx="3" />
+                    <text x="540" y="132" class="key-label">B</text>
 
                     <!-- Black Keys (placed carefully, width 24, height 95) -->
                     <!-- Octave 1 -->
@@ -792,6 +965,22 @@
             }
         }
 
+        function getSvgKeyId(noteName) {
+            const enharmonics = {
+                'C#3': 'Db3',
+                'D#3': 'Eb3',
+                'Gb3': 'F#3',
+                'G#3': 'Ab3',
+                'Bb3': 'A#3',
+                'C#4': 'Db4',
+                'D#4': 'Eb4',
+                'Gb4': 'F#4',
+                'G#4': 'Ab4',
+                'Bb4': 'A#4'
+            };
+            return enharmonics[noteName] || noteName;
+        }
+
         function visualizeChord(chordName) {
             // Check if user clicked (we only play audio on click, not on hover)
             const isClick = (window.event && window.event.type === 'click');
@@ -808,7 +997,8 @@
             const notes = CHORD_NOTES[chordName];
             if (notes) {
                 notes.forEach(noteId => {
-                    const keyEl = document.getElementById(`key-${noteId}`);
+                    const resolvedId = getSvgKeyId(noteId);
+                    const keyEl = document.getElementById(`key-${resolvedId}`);
                     if (keyEl) {
                         keyEl.classList.add('key-highlighted');
                     }

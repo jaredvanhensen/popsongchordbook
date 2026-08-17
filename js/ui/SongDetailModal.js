@@ -3184,33 +3184,33 @@ class SongDetailModal {
 
         // Check current values - use textContent directly (not trimmed) to detect all changes including spaces
         // For title, use originalTitle from dataset (without key) or extract from textContent
-        const titleText = this.titleElement ? (this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '')) : '';
+        const titleText = this.titleElement ? (this.titleElement.dataset.originalTitle || this.titleElement.textContent.replace(/\s*\([^)]*\)\s*$/, '')) : (this.originalSongData ? this.originalSongData.title : '');
         const currentData = {
-            artist: this.artistElement ? this.artistElement.textContent : '',
+            artist: this.artistElement ? this.artistElement.textContent : (this.originalSongData ? this.originalSongData.artist : ''),
             title: titleText,
-            verse: this.getOriginalSectionValue('verse'),
-            verseTitle: this.sections.verse?.title ? this.sections.verse.title.textContent : '',
-            verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : '',
-            preChorus: this.getOriginalSectionValue('preChorus'),
-            preChorusTitle: this.sections.preChorus?.title ? this.sections.preChorus.title.textContent : '',
-            preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : '',
-            chorus: this.getOriginalSectionValue('chorus'),
-            chorusTitle: this.sections.chorus?.title ? this.sections.chorus.title.textContent : '',
-            chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : '',
-            bridge: this.getOriginalSectionValue('bridge'),
-            bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : '',
-            bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : '',
-            key: this.keyDisplay ? this.keyDisplay.textContent : '',
-            tempo: this.bpmDisplay ? this.bpmDisplay.textContent : '',
-            fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : '',
-            patchDetails: this.patchDetailsInput ? this.patchDetailsInput.value : '',
-            practiceCount: this.practiceCountInput ? this.practiceCountInput.value : '',
-            lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0,
-            performAbility: this.currentAbilityValue || 0,
-            songNotes: this.notesInput ? this.notesInput.value : '',
-            capo: this.capoValue || 0,
+            verse: this.sections.verse?.editInput ? this.getOriginalSectionValue('verse') : (this.originalSongData ? this.originalSongData.verse : ''),
+            verseTitle: this.sections.verse?.title ? this.sections.verse.title.textContent : (this.originalSongData ? this.originalSongData.verseTitle : 'Block 1'),
+            verseCue: this.sections.verse?.cue ? this.sections.verse.cue.value : (this.originalSongData ? this.originalSongData.verseCue : ''),
+            preChorus: this.sections.preChorus?.editInput ? this.getOriginalSectionValue('preChorus') : (this.originalSongData ? this.originalSongData.preChorus : ''),
+            preChorusTitle: this.sections.preChorus?.title ? this.sections.preChorus.title.textContent : (this.originalSongData ? this.originalSongData.preChorusTitle : 'Block 3'),
+            preChorusCue: this.sections.preChorus?.cue ? this.sections.preChorus.cue.value : (this.originalSongData ? this.originalSongData.preChorusCue : ''),
+            chorus: this.sections.chorus?.editInput ? this.getOriginalSectionValue('chorus') : (this.originalSongData ? this.originalSongData.chorus : ''),
+            chorusTitle: this.sections.chorus?.title ? this.sections.chorus.title.textContent : (this.originalSongData ? this.originalSongData.chorusTitle : 'Block 2'),
+            chorusCue: this.sections.chorus?.cue ? this.sections.chorus.cue.value : (this.originalSongData ? this.originalSongData.chorusCue : ''),
+            bridge: this.sections.bridge?.editInput ? this.getOriginalSectionValue('bridge') : (this.originalSongData ? this.originalSongData.bridge : ''),
+            bridgeTitle: this.sections.bridge?.title ? this.sections.bridge.title.textContent : (this.originalSongData ? this.originalSongData.bridgeTitle : 'Block 4'),
+            bridgeCue: this.sections.bridge?.cue ? this.sections.bridge.cue.value : (this.originalSongData ? this.originalSongData.bridgeCue : ''),
+            key: this.keyDisplay ? this.keyDisplay.textContent : (this.originalSongData ? this.originalSongData.key : ''),
+            tempo: this.bpmDisplay ? this.bpmDisplay.textContent : (this.originalSongData ? this.originalSongData.tempo : ''),
+            fullLyrics: this.fullLyricsInput ? this.fullLyricsInput.value : (this.originalSongData ? this.originalSongData.fullLyrics : ''),
+            patchDetails: this.patchDetailsInput ? this.patchDetailsInput.value : (this.originalSongData ? this.originalSongData.patchDetails : ''),
+            practiceCount: this.practiceCountInput ? this.practiceCountInput.value : (this.originalSongData ? this.originalSongData.practiceCount : ''),
+            lyricOffset: this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : (this.originalSongData ? this.originalSongData.lyricOffset : 0),
+            performAbility: this.currentAbilityValue !== undefined ? this.currentAbilityValue : (this.originalSongData ? this.originalSongData.performAbility : 0),
+            songNotes: this.notesInput ? this.notesInput.value : (this.originalSongData ? this.originalSongData.songNotes : ''),
+            capo: this.capoValue !== undefined ? this.capoValue : (this.originalSongData ? this.originalSongData.capo : 0),
             isPublic: this.originalSongData ? this.originalSongData.isPublic : false,
-            year: this.songYearInput ? this.songYearInput.value : ''
+            year: this.songYearInput ? this.songYearInput.value : (this.originalSongData ? this.originalSongData.year : '')
         };
 
         // Compare with original - normalize whitespace for comparison (trim each value)
@@ -4816,28 +4816,37 @@ class SongDetailModal {
         const originalYoutubeUrl = this.originalSongData ? (this.originalSongData.youtubeUrl || '') : '';
 
         const performSave = async () => {
-            const patchDetails = this.patchDetailsInput ? this.patchDetailsInput.value.trim() : '';
-            let practiceCount = this.practiceCountInput ? this.practiceCountInput.value.trim() : '0';
-            if (practiceCount === '') practiceCount = '0';
-            const lyricOffset = this.lyricOffsetInput ? parseFloat(this.lyricOffsetInput.value) || 0 : 0;
-            const performAbility = this.currentAbilityValue || 0;
-            const fullLyrics = this.fullLyricsInput ? this.fullLyricsInput.value.trim() : '';
-
-            let yearVal = this.songYearInput ? this.songYearInput.value.trim() : '';
-            if (yearVal !== '') {
-                yearVal = yearVal.replace(/\D/g, '').substring(0, 4);
-            }
-
             const updates = {
-                youtubeUrl: youtubeUrl,
-                patchDetails: patchDetails,
-                practiceCount: practiceCount,
-                lyricOffset: lyricOffset,
-                performAbility: performAbility,
-                fullLyrics: fullLyrics,
-                genre: this.selectedGenres || [],
-                year: yearVal
+                youtubeUrl: youtubeUrl
             };
+
+            if (this.patchDetailsInput) {
+                updates.patchDetails = this.patchDetailsInput.value.trim();
+            }
+            if (this.practiceCountInput) {
+                let practiceCount = this.practiceCountInput.value.trim();
+                if (practiceCount === '') practiceCount = '0';
+                updates.practiceCount = practiceCount;
+            }
+            if (this.lyricOffsetInput) {
+                updates.lyricOffset = parseFloat(this.lyricOffsetInput.value) || 0;
+            }
+            if (this.currentAbilityValue !== undefined) {
+                updates.performAbility = this.currentAbilityValue;
+            }
+            if (this.fullLyricsInput) {
+                updates.fullLyrics = this.fullLyricsInput.value.trim();
+            }
+            if (this.selectedGenres) {
+                updates.genre = this.selectedGenres;
+            }
+            if (this.songYearInput) {
+                let yearVal = this.songYearInput.value.trim();
+                if (yearVal !== '') {
+                    yearVal = yearVal.replace(/\D/g, '').substring(0, 4);
+                }
+                updates.year = yearVal;
+            }
 
             await this.songManager.updateSong(this.currentSongId, updates);
             this.finalizeSave(youtubeUrl, externalUrl);
