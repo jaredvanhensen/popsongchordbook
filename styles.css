@@ -12502,5 +12502,158 @@ body.theme-high-contrast .stats-chart-label {
     transform: translateY(1px);
 }
 
+/* ==========================================================================
+   Practice Streak Header Widget & Confetti Animations
+   ========================================================================== */
+
+.header-streak-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 1.5px solid #fdba74;
+    color: #c2410c;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(234, 88, 12, 0.15);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    user-select: none;
+    margin-left: 4px;
+}
+
+.header-streak-widget:hover {
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+    background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+}
+
+.header-streak-widget:active {
+    transform: scale(0.96);
+}
+
+.header-streak-widget .streak-flame {
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.header-streak-widget.pulse .streak-flame {
+    animation: streakFlamePulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes streakFlamePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.7) rotate(-12deg); }
+    100% { transform: scale(1); }
+}
+
+.header-streak-widget .streak-num {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ea580c;
+}
+
+.header-streak-widget .streak-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9a3412;
+    text-transform: lowercase;
+}
+
+.header-streak-widget .streak-award-icon {
+    font-size: 14px;
+    margin-left: 2px;
+}
+
+/* Floating +1 animation */
+.streak-plus-one {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    border: 1.5px solid #ffedd5;
+    border-radius: 12px;
+    padding: 2px 8px;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+    pointer-events: none;
+    animation: floatUpFadeOut 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 10000;
+    white-space: nowrap;
+}
+
+@keyframes floatUpFadeOut {
+    0% { opacity: 0; transform: translate(-50%, 8px) scale(0.5); }
+    20% { opacity: 1; transform: translate(-50%, -4px) scale(1.2); }
+    40% { opacity: 1; transform: translate(-50%, -14px) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -45px) scale(0.85); }
+}
+
+/* Confetti Canvas Container */
+#streakConfettiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999999;
+}
+
+/* Popup Toast for Streak Increase */
+.streak-popup-toast {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    box-shadow: 0 10px 30px rgba(234, 88, 12, 0.45);
+    border: 2px solid #ffedd5;
+    z-index: 1000000;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    animation: streakToastPop 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.streak-popup-toast strong {
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff7ed;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.streak-popup-toast .streak-toast-fire {
+    font-size: 22px;
+    animation: flamePulse 0.6s ease infinite alternate;
+}
+
+@keyframes streakToastPop {
+    0% { opacity: 0; transform: translate(-50%, -35px) scale(0.6); }
+    15% { opacity: 1; transform: translate(-50%, 0) scale(1.08); }
+    25% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -25px) scale(0.85); }
+}
+
 
 

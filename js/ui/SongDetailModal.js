@@ -5539,12 +5539,14 @@ class SongDetailModal {
                 await this.songManager.updateSong(this.currentSongId, { practiceCount: count.toString() });
             }
 
-            // Update Practice Streak if authenticated
+            // Update Practice Streak & trigger confetti animation
             const fbManager = this.firebaseManager || (window.appInstance ? window.appInstance.firebaseManager : null);
             if (fbManager) {
                 const user = fbManager.getCurrentUser();
-                if (user) {
-                    fbManager.updatePracticeStreak(user.uid);
+                const userId = user ? user.uid : null;
+                const streakResult = await fbManager.updatePracticeStreak(userId);
+                if (streakResult && window.appInstance && window.appInstance.updateStreakWidget) {
+                    window.appInstance.updateStreakWidget(streakResult, streakResult.isNewStreakDay);
                 }
             }
         } catch (error) {

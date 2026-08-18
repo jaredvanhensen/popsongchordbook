@@ -1263,21 +1263,63 @@ class FirebaseManager {
     }
 
     async updatePracticeStreak(userId) {
-        if (!this.initialized || !userId) return null;
+        let stats = null;
+        let isNewStreakDay = false;
 
-        try {
-            const statsRef = this.database.ref(`users/${userId}/practiceStats`);
-            const snapshot = await statsRef.once('value');
-            const stats = snapshot.val() || {
-                currentStreak: 0,
-                longestStreak: 0,
-                lastPracticeDate: null,
-                totalDaysPracticed: 0
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        if (this.initialized && userId) {
+            try {
+                const statsRef = this.database.ref(`users/${userId}/practiceStats`);
+                const snapshot = await statsRef.once('value');
+                stats = snapshot.val() || {
+                    currentStreak: 0,
+                    longestStreak: 0,
+                    lastPracticeDate: null,
+                    totalDaysPracticed: 0
+                };
+
+                let lastDate = null;
+                if (stats.lastPracticeDate) {
+                    const d = new Date(stats.lastPracticeDate);
+                    lastDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+                }
+
+                if (lastDate === today) {
+                    localStorage.setItem('practiceStats', JSON.stringify(stats));
+                    return { ...stats, isNewStreakDay: false, awardUnlocked: null };
+                }
+
+                isNewStreakDay = true;
+                if (lastDate === today - oneDay) {
+                    stats.currentStreak = (stats.currentStreak || 0) + 1;
+                } else {
+                    stats.currentStreak = 1;
+                }
+
+                if (stats.currentStreak > (stats.longestStreak || 0)) {
+                    stats.longestStreak = stats.currentStreak;
+                }
+
+                stats.lastPracticeDate = now.toISOString();
+                stats.totalDaysPracticed = (stats.totalDaysPracticed || 0) + 1;
+
+                await statsRef.set(stats);
+            } catch (error) {
+                console.error('Error updating practice streak in Firebase:', error);
+            }
+        }
+
+        if (!stats) {
+            const local = JSON.parse(localStorage.getItem('practiceStats') || '{}');
+            stats = {
+                currentStreak: local.currentStreak || 0,
+                longestStreak: local.longestStreak || 0,
+                lastPracticeDate: local.lastPracticeDate || null,
+                totalDaysPracticed: local.totalDaysPracticed || 0
             };
-
-            const now = new Date();
-            // Get date only (midnight) for comparison
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
             let lastDate = null;
             if (stats.lastPracticeDate) {
@@ -1285,18 +1327,14 @@ class FirebaseManager {
                 lastDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
             }
 
-            const oneDay = 24 * 60 * 60 * 1000;
-
             if (lastDate === today) {
-                // Already practiced today, don't increment streak but return current stats
-                return stats;
+                return { ...stats, isNewStreakDay: false, awardUnlocked: null };
             }
 
+            isNewStreakDay = true;
             if (lastDate === today - oneDay) {
-                // Practiced yesterday, increment streak
-                stats.currentStreak++;
+                stats.currentStreak = (stats.currentStreak || 0) + 1;
             } else {
-                // Missed a day or first time
                 stats.currentStreak = 1;
             }
 
@@ -1306,24 +1344,48 @@ class FirebaseManager {
 
             stats.lastPracticeDate = now.toISOString();
             stats.totalDaysPracticed = (stats.totalDaysPracticed || 0) + 1;
-
-            await statsRef.set(stats);
-            return stats;
-        } catch (error) {
-            console.error('Error updating practice streak:', error);
-            return null;
         }
+
+        localStorage.setItem('practiceStats', JSON.stringify(stats));
+
+        const awardUnlocked = isNewStreakDay && (stats.currentStreak % 5 === 0) ? stats.currentStreak : null;
+
+        return {
+            ...stats,
+            isNewStreakDay: isNewStreakDay,
+            awardUnlocked: awardUnlocked
+        };
+    }
+
+    async resetTodayStreakForTesting(userId) {
+        const yesterdayISO = new Date(Date.now() - 86400000).toISOString();
+        if (this.initialized && userId) {
+            try {
+                await this.database.ref(`users/${userId}/practiceStats/lastPracticeDate`).set(yesterdayISO);
+            } catch (e) {
+                console.error('Failed to reset Firebase streak date:', e);
+            }
+        }
+        let local = JSON.parse(localStorage.getItem('practiceStats') || '{}');
+        local.lastPracticeDate = yesterdayISO;
+        localStorage.setItem('practiceStats', JSON.stringify(local));
+        return true;
     }
 
     async getPracticeStats(userId) {
-        if (!this.initialized || !userId) return null;
-        try {
-            const snapshot = await this.database.ref(`users/${userId}/practiceStats`).once('value');
-            return snapshot.val();
-        } catch (e) {
-            console.error("Error getting practice stats:", e);
-            return null;
+        if (this.initialized && userId) {
+            try {
+                const snapshot = await this.database.ref(`users/${userId}/practiceStats`).once('value');
+                const data = snapshot.val();
+                if (data) {
+                    localStorage.setItem('practiceStats', JSON.stringify(data));
+                    return data;
+                }
+            } catch (e) {
+                console.error("Error getting practice stats from Firebase:", e);
+            }
         }
+        return JSON.parse(localStorage.getItem('practiceStats') || '{}');
     }
 
     async saveHighScores(userId, highScores) {

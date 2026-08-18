@@ -196,6 +196,8 @@ class App {
 
         // Initial visibility check for lessons button
         this.updateLessonsBtnVisibility();
+        // Initialize practice streak widget & listeners
+        this.initStreakWidget();
     }
 
     pushModalState(modalId, closeFn) {
@@ -4052,11 +4054,247 @@ class App {
             keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
         }
     }
+
+    async initStreakWidget() {
+        const widget = document.getElementById('headerStreakWidget');
+        if (!widget) return;
+
+        widget.addEventListener('click', () => {
+            if (this.profileModal) {
+                this.profileModal.show();
+            }
+        });
+
+        const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+        const userId = user ? user.uid : null;
+        let stats = null;
+
+        if (this.firebaseManager) {
+            stats = await this.firebaseManager.getPracticeStats(userId);
+        } else {
+            stats = JSON.parse(localStorage.getItem('practiceStats') || '{}');
+        }
+
+        if (stats) {
+            this.updateStreakWidget(stats, false);
+        }
+    }
+
+    updateStreakWidget(stats, isIncremented = false) {
+        const countEl = document.getElementById('headerStreakCount');
+        const awardEl = document.getElementById('headerStreakAward');
+        const widget = document.getElementById('headerStreakWidget');
+
+        const currentStreak = stats ? (stats.currentStreak || 0) : 0;
+        const longestStreak = stats ? (stats.longestStreak || currentStreak) : 0;
+
+        if (countEl) countEl.textContent = currentStreak;
+
+        // Medal assignment based on highest unlocked milestone (matching Profile Milestones: 100d=👑, 30d=💎, 14d=⭐, 10d=🥇, 7d=🥈, 3d=🥉)
+        if (awardEl) {
+            if (longestStreak >= 100) {
+                awardEl.textContent = '👑';
+                awardEl.title = 'Centurion Badge (100+ Days)';
+                awardEl.classList.remove('hidden');
+            } else if (longestStreak >= 30) {
+                awardEl.textContent = '💎';
+                awardEl.title = '1 Month Badge (30+ Days)';
+                awardEl.classList.remove('hidden');
+            } else if (longestStreak >= 14) {
+                awardEl.textContent = '⭐';
+                awardEl.title = '2 Week Badge (14+ Days)';
+                awardEl.classList.remove('hidden');
+            } else if (longestStreak >= 10) {
+                awardEl.textContent = '🥇';
+                awardEl.title = '10 Day Badge (10+ Days)';
+                awardEl.classList.remove('hidden');
+            } else if (longestStreak >= 7) {
+                awardEl.textContent = '🥈';
+                awardEl.title = '1 Week Badge (7+ Days)';
+                awardEl.classList.remove('hidden');
+            } else if (longestStreak >= 3) {
+                awardEl.textContent = '🥉';
+                awardEl.title = '3 Day Badge (3+ Days)';
+                awardEl.classList.remove('hidden');
+            } else {
+                awardEl.classList.add('hidden');
+            }
+        }
+
+        if (isIncremented && widget) {
+            // Flame pulse
+            widget.classList.add('pulse');
+            setTimeout(() => widget.classList.remove('pulse'), 700);
+
+            // Floating +1
+            const plusOne = document.createElement('div');
+            plusOne.className = 'streak-plus-one';
+            plusOne.textContent = '+1 🔥';
+            widget.appendChild(plusOne);
+            setTimeout(() => plusOne.remove(), 1600);
+
+            // Confetti animation + popup toast
+            this.launchStreakConfetti(currentStreak);
+
+            // Milestone Award Check (Every 5 days)
+            if (stats.awardUnlocked) {
+                this.showStreakAwardModal(stats.awardUnlocked);
+            }
+        }
+
+        // Sync with Profile Modal displays
+        if (this.profileModal) {
+            this.profileModal.updateStreakDisplay();
+        }
+    }
+
+    launchStreakConfetti(streakCount = 1) {
+        // Show Popup Toast banner
+        let toast = document.getElementById('streakPopupToast');
+        if (toast) toast.remove();
+
+        toast = document.createElement('div');
+        toast.id = 'streakPopupToast';
+        toast.className = 'streak-popup-toast';
+        toast.innerHTML = `<span class="streak-toast-fire">🔥</span> Daily Streak increased to: <strong>${streakCount}</strong>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast) toast.remove();
+        }, 2800);
+
+        let canvas = document.getElementById('streakConfettiCanvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'streakConfettiCanvas';
+            document.body.appendChild(canvas);
+        }
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ['#f97316', '#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#eab308'];
+        const particles = [];
+        const count = 75;
+
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.4) - 20,
+                r: Math.random() * 6 + 4,
+                d: Math.random() * count,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: Math.floor(Math.random() * 10) - 10,
+                tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                tiltAngle: 0,
+                speedY: Math.random() * 3 + 2,
+                speedX: Math.random() * 2 - 1
+            });
+        }
+
+        let startTime = Date.now();
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let remaining = false;
+
+            particles.forEach(p => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.tilt = Math.sin(p.tiltAngle) * 15;
+
+                if (p.y < canvas.height) {
+                    remaining = true;
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                    ctx.stroke();
+                }
+            });
+
+            if (remaining && Date.now() - startTime < 3000) {
+                requestAnimationFrame(draw);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+        draw();
+    }
+
+    showStreakAwardModal(days) {
+        const modal = document.getElementById('streakAwardModal');
+        if (!modal) return;
+
+        const iconEl = document.getElementById('streakAwardModalIcon');
+        const titleEl = document.getElementById('streakAwardModalTitle');
+        const descEl = document.getElementById('streakAwardModalDesc');
+        const closeBtn = document.getElementById('streakAwardModalClose');
+        const claimBtn = document.getElementById('streakAwardModalClaimBtn');
+
+        let icon = "🏅";
+        let title = `${days}-Day Practice Badge!`;
+        let desc = `Je bent al ${days} dagen achter elkaar aan het oefenen. Blijf zo doorgaan voor de volgende medaille!`;
+
+        if (days >= 100) {
+            icon = "👑";
+            title = "100-Day Centurion Streak!";
+            desc = "Buitengewoon! 100 dagen oefen-streak behaald! Kroon ontgrendeld!";
+        } else if (days >= 30) {
+            icon = "💎";
+            title = "30-Day Month Streak!";
+            desc = "Een maand lang elke dag geoefend! Diamant ontgrendeld!";
+        } else if (days >= 14) {
+            icon = "⭐";
+            title = "14-Day 2-Week Streak!";
+            desc = "2 weken achter elkaar geoefend! Gouden Ster ontgrendeld!";
+        } else if (days >= 10) {
+            icon = "🥇";
+            title = "10-Day Streak!";
+            desc = "Geweldig! 10 dagen streak behaald. Gouden medaille ontgrendeld!";
+        } else if (days >= 7) {
+            icon = "🥈";
+            title = "7-Day 1-Week Streak!";
+            desc = "1 week achter elkaar geoefend! Zilveren medaille ontgrendeld!";
+        } else if (days >= 3) {
+            icon = "🥉";
+            title = "3-Day Practice Badge!";
+            desc = "Lekker bezig! 3 dagen achter elkaar geoefend! Bronzen medaille ontgrendeld!";
+        }
+
+        if (iconEl) iconEl.textContent = icon;
+        if (titleEl) titleEl.textContent = title;
+        if (descEl) descEl.textContent = desc;
+
+        modal.classList.remove('hidden');
+
+        const closeModal = () => modal.classList.add('hidden');
+        if (closeBtn) closeBtn.onclick = closeModal;
+        if (claimBtn) claimBtn.onclick = closeModal;
+    }
+
+    async resetStreakForTesting() {
+        const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+        const userId = user ? user.uid : null;
+        if (this.firebaseManager) {
+            await this.firebaseManager.resetTodayStreakForTesting(userId);
+        } else {
+            const yesterdayISO = new Date(Date.now() - 86400000).toISOString();
+            let local = JSON.parse(localStorage.getItem('practiceStats') || '{}');
+            local.lastPracticeDate = yesterdayISO;
+            localStorage.setItem('practiceStats', JSON.stringify(local));
+        }
+        const stats = await (this.firebaseManager ? this.firebaseManager.getPracticeStats(userId) : JSON.parse(localStorage.getItem('practiceStats') || '{}'));
+        this.updateStreakWidget(stats, false);
+        alert('Streak datum gereset naar gisteren! Klik nu op de oefenteller van een liedje om de animatie + popup toast te testen!');
+    }
 }
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
+    window.resetStreakForTesting = () => window.appInstance.resetStreakForTesting();
 });
 
 

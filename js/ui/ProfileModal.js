@@ -228,12 +228,12 @@ class ProfileModal {
 
         // Close button
         if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', () => {
-                if (window.appInstance) {
-                    window.appInstance.popModalState('profile');
-                } else {
-                    this.hide();
+            this.closeBtn.addEventListener('click', (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
+                this.hide();
             });
         }
 
@@ -864,6 +864,15 @@ class ProfileModal {
 
     async show() {
         if (!this.modal) return;
+
+        if (window.appInstance && typeof window.appInstance.pushModalState === 'function') {
+            const isInStack = window.appInstance.modalStack && window.appInstance.modalStack.some(m => String(m.id) === 'profile');
+            if (!isInStack) {
+                window.appInstance.pushModalState('profile', () => this.hide(true));
+            }
+        }
+
+        this.modal.classList.remove('hidden');
 
         const user = this.firebaseManager.getCurrentUser();
         const uid = user ? user.uid : 'guest';
@@ -1911,7 +1920,6 @@ class ProfileModal {
     hide(fromPopState = false) {
         if (!fromPopState && window.appInstance) {
             window.appInstance.popModalState('profile');
-            return;
         }
         if (this.modal) {
             this.modal.classList.add('hidden');
