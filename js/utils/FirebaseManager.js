@@ -1569,28 +1569,54 @@ class FirebaseManager {
 
     detectClientPlatform() {
         const ua = navigator.userAgent || '';
-        const ref = document.referrer || '';
-        const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-        const search = window.location.search || '';
+        let ref = '';
+        try {
+            ref = document.referrer || (window.top && window.top.document ? window.top.document.referrer : '') || '';
+        } catch (e) {
+            ref = document.referrer || '';
+        }
 
-        if (ref.startsWith('android-app://') || ref.includes('com.popsongchordbook') || search.includes('source=android') || window.isNativeAndroidApp) {
+        const search = window.location.search || '';
+        const isAndroid = /Android/i.test(ua);
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+        // Display mode checks (Standalone / WebAPK / TWA)
+        const isStandalone = (window.matchMedia && (
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.matchMedia('(display-mode: minimal-ui)').matches ||
+            window.matchMedia('(display-mode: fullscreen)').matches
+        )) || window.navigator.standalone === true;
+
+        // 1. Explicit Android App referrer (TWA / WebAPK launched from Play Store)
+        if (ref.includes('android-app://') || ref.includes('com.popsongchordbook') || search.includes('source=android') || search.includes('utm_source=android') || window.isNativeAndroidApp) {
             return 'Android App (Play Store)';
         }
-        if (/Android/i.test(ua) && (/wv/i.test(ua) || (window.chrome && !window.chrome.runtime))) {
+
+        // 2. Android Device running in Standalone / TWA / WebAPK mode
+        if (isAndroid && isStandalone) {
+            return 'Android App (Play Store)';
+        }
+
+        // 3. Android WebView (Native container wrapper)
+        if (isAndroid && (/wv/i.test(ua) || /Version\/[\d.]+/i.test(ua))) {
             return 'Android App (WebView)';
         }
-        if (/Android/i.test(ua) && isStandalone) {
-            return 'Android App (PWA)';
+
+        // 4. iOS Standalone / PWA
+        if (isIOS && isStandalone) {
+            return 'iOS App (PWA)';
         }
-        if (isStandalone) {
-            return 'Standalone App';
-        }
-        if (/Android/i.test(ua)) {
+
+        // 5. Standard Android Browser (Chrome / Firefox)
+        if (isAndroid) {
             return 'Android Browser';
         }
-        if (/iPhone|iPad|iPod/i.test(ua)) {
+
+        // 6. Standard iOS Browser
+        if (isIOS) {
             return 'iOS Browser';
         }
+
         return 'Desktop Browser';
     }
 
@@ -1630,7 +1656,7 @@ class FirebaseManager {
                 username: val.username || 'Anon',
                 referral: val.referral || '',
                 clientType: val.clientType || 'Browser',
-                isAndroidApp: val.isAndroidApp || false
+                isAndroidApp: !!val.isAndroidApp || (val.clientType ? val.clientType.includes('Android App') : false)
             }));
         } catch (e) {
             console.error('Error getting all users from /users:', e);
