@@ -608,6 +608,7 @@
         .sbc-3.earned { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
         .sbc-4.earned { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
         .sbc-5.earned { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .sbc-6.earned { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); }
 
         .sbc-emoji {
             font-size: 1.5rem;
@@ -1094,6 +1095,43 @@
                 </div>
             </article>
 
+            <!-- Lesson 6 -->
+            <article class="lesson-card" id="lesson-card-6">
+                <div class="lesson-meta">
+                    <span class="lesson-tag" id="lesson-tag-6">Lesson 6</span>
+                </div>
+                <h2>Adding the Bass Note: Playing with Two Hands</h2>
+                <p class="lesson-desc">This is where the magic happens. To make your music sound rich, professional, and deep, you must use your left hand effectively.</p>
+
+                <div class="theory-box" style="border-left-color: #3b82f6; background: #eff6ff;">
+                    <h4 style="color: #1e40af;">⭐ The Golden Rule of Bass</h4>
+                    <p style="color: #1e40af;">Your Left Hand should <strong>ALWAYS</strong> play the Root Note (the BASS note) of the chord.</p>
+                    <p style="color: #1e40af; margin-top: 8px;">If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
+                </div>
+
+                <div class="fingering-section" style="margin-top: 20px;">
+                    <h5>🖐️ Two Hand Technique</h5>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+                        <div style="flex: 1; min-width: 200px; background: #f1f5f9; padding: 15px; border-radius: 12px; text-align: center;">
+                            <span style="display: block; font-weight: 800; font-size: 1.1rem; color: #4f46e5;">Left Hand</span>
+                            Plays Root Note (Low Bass)
+                        </div>
+                        <div style="flex: 1; min-width: 200px; background: #f1f5f9; padding: 15px; border-radius: 12px; text-align: center;">
+                            <span style="display: block; font-weight: 800; font-size: 1.1rem; color: #7c3aed;">Right Hand</span>
+                            Plays the Triad or Inversion
+                        </div>
+                    </div>
+                    <div style="border-radius: 16px; overflow: hidden; margin-top: 15px; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                        <img src="piano_two_hands_technique_1776318235440.png" alt="Two Hand Technique" style="width: 100%; display: block; object-fit: cover;">
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="complete-section-6" onclick="handleLessonComplete(6)">
+                    <div class="lesson-checkbox" id="checkbox-6">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-6">Mark as complete</span>
+                </div>
+            </article>
+
         </div>
 
         <!-- Sticky Right Sidebar Visualizer Column -->
@@ -1161,7 +1199,7 @@
                 </div>
 
                 <div class="lesson-badges-panel">
-                    <h4>Lesson Badges</h4>
+                    <h4>Lesson Index &amp; Badges</h4>
                     <div class="badge-cards-grid">
                         <div class="sidebar-badge-card sbc-1 locked" id="sidebar-badge-1" onclick="scrollToLesson(1)">
                             <span class="sbc-emoji">🎹</span>
@@ -1187,6 +1225,11 @@
                             <span class="sbc-emoji">🏆</span>
                             <span class="sbc-label">Lesson 5</span>
                             <span class="sbc-check" id="sbc-check-5">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-6 locked" id="sidebar-badge-6" onclick="scrollToLesson(6)">
+                            <span class="sbc-emoji">🙌</span>
+                            <span class="sbc-label">Lesson 6</span>
+                            <span class="sbc-check" id="sbc-check-6">🔒</span>
                         </div>
                     </div>
                 </div>
@@ -1493,7 +1536,8 @@
             2: { name: 'Triangle Shape Pro',  emoji: '🔺' },
             3: { name: 'Black Key Binder',    emoji: '⬛' },
             4: { name: 'Outlier Conqueror',   emoji: '🎯' },
-            5: { name: 'Full Circle Champion',emoji: '🏆' }
+            5: { name: 'Full Circle Champion',emoji: '🏆' },
+            6: { name: 'Two Hand Bass Master',emoji: '🙌' }
         };
 
         // Load progress from Firebase (via parent app) or localStorage
@@ -1551,7 +1595,7 @@
 
         // Apply the progress state object to all UI elements
         function applyProgressToUI(progress) {
-            for (let id = 1; id <= 5; id++) {
+            for (let id = 1; id <= 6; id++) {
                 const done = !!progress[id];
                 const card     = document.getElementById(`lesson-card-${id}`);
                 const sec      = document.getElementById(`complete-section-${id}`);
@@ -1623,7 +1667,7 @@
 
         // Show/hide the all-badges celebration banner
         function checkAllBadgesEarned(progress) {
-            const allDone = [1, 2, 3, 4, 5].every(id => !!progress[id]);
+            const allDone = [1, 2, 3, 4, 5, 6].every(id => !!progress[id]);
             const banner = document.getElementById('all-badges-banner');
 
             if (allDone) {
