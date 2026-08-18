@@ -1800,9 +1800,8 @@ class SongDetailModal {
                 ];
 
                 const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
-                const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
-                this.pianoChordOverlay.show(blocks, startIndex);
+                this.pianoChordOverlay.show(blocks, 0);
             }
         };
     }
@@ -2548,9 +2547,8 @@ class SongDetailModal {
         ];
 
         const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
-        const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
-        this.ukuleleChordOverlay.show(blocks, startIndex);
+        this.ukuleleChordOverlay.show(blocks, 0);
     }
 
     showGuitarChords(sectionKey = 'verse') {
@@ -2564,9 +2562,8 @@ class SongDetailModal {
         ];
 
         const sectionKeyToIdx = { 'verse': 0, 'chorus': 1, 'preChorus': 2, 'bridge': 3 };
-        const startIndex = sectionKeyToIdx[sectionKey] || 0;
 
-        this.guitarChordOverlay.show(blocks, startIndex);
+        this.guitarChordOverlay.show(blocks, 0);
     }
 
     setupDynamicButtons() {

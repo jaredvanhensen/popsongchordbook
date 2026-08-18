@@ -302,6 +302,32 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.252</span>
+                    <span class="version-date">August 18, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Lesson Progress & Badge System:</strong> Added a "Mark as Complete" button to the bottom of each of the 5 Keyboard Beginner Lessons. Clicking it marks the lesson as done, earns the user a named badge (🎹 White Key Master, 🔺 Triangle Shape Pro, ⬛ Black Key Binder, 🎯 Outlier Conqueror, 🏆 Full Circle Champion), and highlights the lesson card. Progress is saved to the user's Firebase account (<code>users/{uid}/preferences/lessonProgress</code>). Once all 5 lessons are marked complete, a celebratory "🏅 All Lessons Completed!" banner appears at the top of the lessons list, showing all earned badges.</li>
+                        <li><strong>Lesson Tag Font Color Fix:</strong> Made the "Lesson 1", "Lesson 2", etc. badge label text white (#ffffff) for proper readability on the purple/pink gradient background.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.251</span>
+                    <span class="version-date">August 18, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Beginner Lessons Mobile Layout & Cleanup:</strong> Repositioned the Chord Visualizer in the mobile layout so that it displays at the top of the viewport and stays sticky while scrolling, making it visible next to the active lesson's Shape Fingering graphic. Also removed lesson duration labels from all beginner lessons to clean up the metadata display.</li>
+                        <li><strong>Dashboard Panel History Fix:</strong> Resolved a browser history bug where launching a song from the beginner lessons panel loaded inside the dashboard iframe would require the user to click the close (X) button twice. Fixed by replacing iframe `.src` assignments with `location.replace()` to prevent pushing unnecessary entries onto the navigation history stack.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.250</span>
                     <span class="version-date">August 17, 2026</span>
                 </div>

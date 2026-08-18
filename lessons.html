@@ -47,16 +47,52 @@
         }
 
         @media (max-width: 1024px) {
+            body {
+                padding: 15px;
+            }
             .lessons-layout {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            header {
+                order: 0;
+                margin-bottom: 20px;
+                padding: 20px;
             }
             .piano-sidebar {
+                order: 1;
                 position: sticky;
                 top: 0;
                 z-index: 100;
                 background: #ffffff;
-                padding-bottom: 15px;
+                padding: 6px 0;
                 border-bottom: 2px solid var(--card-border);
+            }
+            .lessons-list {
+                order: 2;
+            }
+            .piano-card {
+                position: static;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+            .piano-card h3 {
+                font-size: 0.95rem;
+                margin-bottom: 4px;
+                text-align: center;
+                color: var(--text-primary);
+            }
+            .piano-card p {
+                display: none;
+            }
+            .piano-card .chord-preview-grid {
+                display: none;
+            }
+            .keyboard-svg {
+                max-width: 380px;
+                margin: 0 auto;
+                display: block;
             }
         }
 
@@ -231,6 +267,7 @@
 
         .lesson-tag {
             background: var(--accent-gradient);
+            color: #ffffff;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -239,10 +276,6 @@
             letter-spacing: 0.5px;
         }
 
-        .lesson-duration {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
 
         .lesson-card h2 {
             font-size: 1.6rem;
@@ -435,6 +468,191 @@
             color: var(--text-secondary);
             line-height: 1.5;
         }
+
+        /* === Lesson Progress & Badges === */
+        .lesson-complete-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .lesson-checkbox {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 2.5px solid #cbd5e1;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+            color: transparent;
+        }
+
+        .lesson-complete-section:hover .lesson-checkbox {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+
+        .lesson-complete-section.completed .lesson-checkbox {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+        }
+
+        .lesson-complete-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .lesson-complete-section:hover .lesson-complete-label {
+            color: #7c3aed;
+        }
+
+        .lesson-complete-section.completed .lesson-complete-label {
+            color: #7c3aed;
+        }
+
+        .lesson-card.lesson-done {
+            border-color: rgba(124, 58, 237, 0.3);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.02) 0%, rgba(219, 39, 119, 0.02) 100%);
+        }
+
+        .lesson-tag.done-tag::after {
+            content: ' ✓';
+            font-size: 0.85em;
+        }
+
+        /* Sidebar Badge Panel */
+        .lesson-badges-panel {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .lesson-badges-panel h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .badge-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .sidebar-badge-card {
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-badge-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Locked/unearned state — muted gray */
+        .sidebar-badge-card.locked {
+            background: #f1f5f9;
+            border: 1.5px solid #e2e8f0;
+        }
+
+        .sidebar-badge-card.locked .sbc-emoji {
+            opacity: 0.35;
+            filter: grayscale(1);
+        }
+
+        .sidebar-badge-card.locked .sbc-label {
+            color: #94a3b8;
+        }
+
+        .sidebar-badge-card.locked .sbc-check {
+            color: #cbd5e1;
+        }
+
+        /* Earned state — colorful gradient */
+        .sidebar-badge-card.earned {
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-badge-card.earned .sbc-label,
+        .sidebar-badge-card.earned .sbc-check {
+            color: #ffffff;
+        }
+
+        /* Individual card color themes */
+        .sbc-1.earned { background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%); }
+        .sbc-2.earned { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); }
+        .sbc-3.earned { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .sbc-4.earned { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .sbc-5.earned { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+
+        .sbc-emoji {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+
+        .sbc-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .sbc-check {
+            font-size: 1rem;
+            display: block;
+        }
+
+        /* All-badges celebration banner */
+        .all-badges-banner {
+            display: none;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.35);
+            animation: bannerAppear 0.5s ease;
+        }
+
+        .all-badges-banner.visible {
+            display: block;
+        }
+
+        @keyframes bannerAppear {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .all-badges-banner p {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -449,11 +667,15 @@
         <!-- Main Lessons Column -->
         <div class="lessons-list">
 
+            <!-- All Lessons Completed Banner (shown when all 5 done) -->
+            <div class="all-badges-banner" id="all-badges-banner">
+                <p>🏅 All 5 Beginner Lessons Completed! You're a Chord Master!</p>
+            </div>
+
             <!-- Lesson 1 -->
-            <article class="lesson-card">
+            <article class="lesson-card" id="lesson-card-1">
                 <div class="lesson-meta">
-                    <span class="lesson-tag">Lesson 1</span>
-                    <span class="lesson-duration">⏱️ 15 mins</span>
+                    <span class="lesson-tag" id="lesson-tag-1">Lesson 1</span>
                 </div>
                 <h2>Chord Group 1: White Key Triads (C, F, G Shapes)</h2>
                 <p class="lesson-desc">Start by learning the fundamental "white key shapes" where the chords consist entirely of white keys. Once mastered, we apply the minor equivalents (Am, Dm, Em) which share identical physical shapes.</p>
@@ -553,13 +775,17 @@
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/rgl9LzP6eP0?rel=0" allowfullscreen></iframe>
                 </div>
+
+                <div class="lesson-complete-section" id="complete-section-1" onclick="handleLessonComplete(1)">
+                    <div class="lesson-checkbox" id="checkbox-1">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-1">Mark as complete</span>
+                </div>
             </article>
 
             <!-- Lesson 2 -->
-            <article class="lesson-card">
+            <article class="lesson-card" id="lesson-card-2">
                 <div class="lesson-meta">
-                    <span class="lesson-tag">Lesson 2</span>
-                    <span class="lesson-duration">⏱️ 20 mins</span>
+                    <span class="lesson-tag" id="lesson-tag-2">Lesson 2</span>
                 </div>
                 <h2>Chord Group 2: The Triangle Shapes (D, E, A Shapes)</h2>
                 <p class="lesson-desc">Now we move to shapes containing one black key in the middle. Because the black key sits between two white keys, we refer to these physically as "triangle shapes".</p>
@@ -635,13 +861,17 @@
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/P5F4_8Z1Szo?rel=0" allowfullscreen></iframe>
                 </div>
+
+                <div class="lesson-complete-section" id="complete-section-2" onclick="handleLessonComplete(2)">
+                    <div class="lesson-checkbox" id="checkbox-2">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-2">Mark as complete</span>
+                </div>
             </article>
 
             <!-- Lesson 3 -->
-            <article class="lesson-card">
+            <article class="lesson-card" id="lesson-card-3">
                 <div class="lesson-meta">
-                    <span class="lesson-tag">Lesson 3</span>
-                    <span class="lesson-duration">⏱️ 15 mins</span>
+                    <span class="lesson-tag" id="lesson-tag-3">Lesson 3</span>
                 </div>
                 <h2>Chord Group 3: Black-Key Bound Shapes (Db, Eb, Ab)</h2>
                 <p class="lesson-desc">These chords are inverted "triangles" where the thumb and pinky sit on black keys, and the middle finger sits on a white key. Mastering this provides easy access to pop songs written in flat keys.</p>
@@ -672,7 +902,7 @@
                         <div class="practice-song-card" onclick="openSongByName('KC & The Sunshine Band', 'Give It Up')">
                             <div class="song-info">
                                 <span class="song-title">Give It Up</span>
-                                <span class="song-artist">KC & The Sunshine Band • Eb - Ab - Bb</span>
+                                <span class="song-artist">KC &amp; The Sunshine Band • Eb - Ab - Bb</span>
                             </div>
                             <span class="song-play-icon">▶</span>
                         </div>
@@ -689,15 +919,19 @@
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/4jKk63U0_e4?rel=0" allowfullscreen></iframe>
                 </div>
+
+                <div class="lesson-complete-section" id="complete-section-3" onclick="handleLessonComplete(3)">
+                    <div class="lesson-checkbox" id="checkbox-3">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-3">Mark as complete</span>
+                </div>
             </article>
 
             <!-- Lesson 4 -->
-            <article class="lesson-card">
+            <article class="lesson-card" id="lesson-card-4">
                 <div class="lesson-meta">
-                    <span class="lesson-tag">Lesson 4</span>
-                    <span class="lesson-duration">⏱️ 15 mins</span>
+                    <span class="lesson-tag" id="lesson-tag-4">Lesson 4</span>
                 </div>
-                <h2>Chord Group 4: The Outliers (B & Bb Chords)</h2>
+                <h2>Chord Group 4: The Outliers (B &amp; Bb Chords)</h2>
                 <p class="lesson-desc">The B and Bb chords don't fit perfectly in standard symmetric shapes. They are transitional shapes that require distinct placements.</p>
 
                 <div class="theory-box">
@@ -714,7 +948,7 @@
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ B Major & Bb Major Fingering</h5>
+                    <h5>🖐️ B Major &amp; Bb Major Fingering</h5>
                     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
                         <div>
                             <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">B Major (White-Black-Black)</div>
@@ -779,13 +1013,17 @@
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/N9wWpZ3p4R0?rel=0" allowfullscreen></iframe>
                 </div>
+
+                <div class="lesson-complete-section" id="complete-section-4" onclick="handleLessonComplete(4)">
+                    <div class="lesson-checkbox" id="checkbox-4">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-4">Mark as complete</span>
+                </div>
             </article>
 
             <!-- Lesson 5 -->
-            <article class="lesson-card">
+            <article class="lesson-card" id="lesson-card-5">
                 <div class="lesson-meta">
-                    <span class="lesson-tag">Lesson 5</span>
-                    <span class="lesson-duration">⏱️ 10 mins</span>
+                    <span class="lesson-tag" id="lesson-tag-5">Lesson 5</span>
                 </div>
                 <h2>Chord Group 5: The All-Black Key Triad (F# / Gb)</h2>
                 <p class="lesson-desc">F# Major (F# - A# - C#) is the easiest chord in terms of grouping because it consists entirely of black keys. Learning this completes your circle of basic major triads!</p>
@@ -844,6 +1082,11 @@
 
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/F4P-uO3h_n8?rel=0" allowfullscreen></iframe>
+                </div>
+
+                <div class="lesson-complete-section" id="complete-section-5" onclick="handleLessonComplete(5)">
+                    <div class="lesson-checkbox" id="checkbox-5">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-5">Mark as complete</span>
                 </div>
             </article>
 
@@ -911,6 +1154,37 @@
                     <button class="chord-preview-btn" onclick="visualizeChord('Am')">Am</button>
                     <button class="chord-preview-btn" onclick="visualizeChord('Dm')">Dm</button>
                     <button class="chord-preview-btn" onclick="visualizeChord('Em')">Em</button>
+                </div>
+
+                <div class="lesson-badges-panel">
+                    <h4>Lesson Badges</h4>
+                    <div class="badge-cards-grid">
+                        <div class="sidebar-badge-card sbc-1 locked" id="sidebar-badge-1" onclick="scrollToLesson(1)">
+                            <span class="sbc-emoji">🎹</span>
+                            <span class="sbc-label">Lesson 1</span>
+                            <span class="sbc-check" id="sbc-check-1">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-2 locked" id="sidebar-badge-2" onclick="scrollToLesson(2)">
+                            <span class="sbc-emoji">🔺</span>
+                            <span class="sbc-label">Lesson 2</span>
+                            <span class="sbc-check" id="sbc-check-2">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-3 locked" id="sidebar-badge-3" onclick="scrollToLesson(3)">
+                            <span class="sbc-emoji">⬛</span>
+                            <span class="sbc-label">Lesson 3</span>
+                            <span class="sbc-check" id="sbc-check-3">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-4 locked" id="sidebar-badge-4" onclick="scrollToLesson(4)">
+                            <span class="sbc-emoji">🎯</span>
+                            <span class="sbc-label">Lesson 4</span>
+                            <span class="sbc-check" id="sbc-check-4">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-5 locked" id="sidebar-badge-5" onclick="scrollToLesson(5)">
+                            <span class="sbc-emoji">🏆</span>
+                            <span class="sbc-label">Lesson 5</span>
+                            <span class="sbc-check" id="sbc-check-5">🔒</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1205,7 +1479,155 @@
         window.addEventListener('DOMContentLoaded', () => {
             renderFingeringDiagrams();
             visualizeChord('C');
+            loadLessonProgress();
         });
+
+        // === Lesson Progress & Badge System ===
+
+        const LESSON_BADGES = {
+            1: { name: 'White Key Master',    emoji: '🎹' },
+            2: { name: 'Triangle Shape Pro',  emoji: '🔺' },
+            3: { name: 'Black Key Binder',    emoji: '⬛' },
+            4: { name: 'Outlier Conqueror',   emoji: '🎯' },
+            5: { name: 'Full Circle Champion',emoji: '🏆' }
+        };
+
+        // Load progress from Firebase (via parent app) or localStorage
+        async function loadLessonProgress() {
+            let progress = {};
+            const fm = window.parent?.appInstance?.firebaseManager;
+
+            if (fm && fm.initialized && fm.currentUser) {
+                try {
+                    const stored = await fm.getPreference('lessonProgress', {});
+                    progress = stored || {};
+                } catch (e) {
+                    console.warn('Could not load lesson progress from Firebase, using localStorage:', e);
+                    progress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+                }
+            } else {
+                // Not connected to Firebase — poll briefly then fallback to localStorage
+                // (lessons page may load before auth finishes)
+                progress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+                // Try again after auth settles
+                setTimeout(async () => {
+                    const fm2 = window.parent?.appInstance?.firebaseManager;
+                    if (fm2 && fm2.initialized && fm2.currentUser) {
+                        try {
+                            const stored = await fm2.getPreference('lessonProgress', {});
+                            if (stored && Object.keys(stored).length > 0) {
+                                applyProgressToUI(stored);
+                            }
+                        } catch (e) { /* ignore */ }
+                    }
+                }, 2500);
+            }
+
+            applyProgressToUI(progress);
+        }
+
+        // Save a single lesson's completion state
+        async function saveLessonProgress(lessonId, completed) {
+            const fm = window.parent?.appInstance?.firebaseManager;
+
+            // Always update localStorage as a quick fallback
+            const stored = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            stored[lessonId] = completed;
+            localStorage.setItem('lessonProgress', JSON.stringify(stored));
+
+            // Also save to Firebase if available
+            if (fm && fm.initialized && fm.currentUser) {
+                try {
+                    await fm.updatePreference(`lessonProgress/${lessonId}`, completed);
+                } catch (e) {
+                    console.warn('Could not save lesson progress to Firebase:', e);
+                }
+            }
+        }
+
+        // Apply the progress state object to all UI elements
+        function applyProgressToUI(progress) {
+            for (let id = 1; id <= 5; id++) {
+                const done = !!progress[id];
+                const card     = document.getElementById(`lesson-card-${id}`);
+                const sec      = document.getElementById(`complete-section-${id}`);
+                const label    = document.getElementById(`complete-label-${id}`);
+                const tag      = document.getElementById(`lesson-tag-${id}`);
+                const sbcCard  = document.getElementById(`sidebar-badge-${id}`);
+                const sbcCheck = document.getElementById(`sbc-check-${id}`);
+
+                if (!sec) continue;
+
+                if (done) {
+                    card.classList.add('lesson-done');
+                    sec.classList.add('completed');
+                    label.textContent = 'Completed!';
+                    tag.classList.add('done-tag');
+
+                    if (sbcCard) {
+                        sbcCard.classList.remove('locked');
+                        sbcCard.classList.add('earned');
+                    }
+                    if (sbcCheck) {
+                        sbcCheck.textContent = '✓';
+                    }
+                } else {
+                    card.classList.remove('lesson-done');
+                    sec.classList.remove('completed');
+                    label.textContent = 'Mark as complete';
+                    tag.classList.remove('done-tag');
+
+                    if (sbcCard) {
+                        sbcCard.classList.remove('earned');
+                        sbcCard.classList.add('locked');
+                    }
+                    if (sbcCheck) {
+                        sbcCheck.textContent = '🔒';
+                    }
+                }
+            }
+            checkAllBadgesEarned(progress);
+        }
+
+        function scrollToLesson(id) {
+            const card = document.getElementById(`lesson-card-${id}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Toggle a lesson's completion on click
+        async function handleLessonComplete(lessonId) {
+            const stored = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            const fm = window.parent?.appInstance?.firebaseManager;
+            let currentProgress = { ...stored };
+
+            // If Firebase available, load from there for freshest state
+            if (fm && fm.initialized && fm.currentUser) {
+                try {
+                    const fbProgress = await fm.getPreference('lessonProgress', {});
+                    if (fbProgress) currentProgress = { ...fbProgress };
+                } catch (e) { /* use localStorage */ }
+            }
+
+            const nowDone = !currentProgress[lessonId];
+            currentProgress[lessonId] = nowDone;
+
+            await saveLessonProgress(lessonId, nowDone);
+            applyProgressToUI(currentProgress);
+        }
+
+        // Show/hide the all-badges celebration banner
+        function checkAllBadgesEarned(progress) {
+            const allDone = [1, 2, 3, 4, 5].every(id => !!progress[id]);
+            const banner = document.getElementById('all-badges-banner');
+
+            if (allDone) {
+                banner.classList.add('visible');
+            } else {
+                banner.classList.remove('visible');
+            }
+        }
     </script>
 </body>
 </html>
