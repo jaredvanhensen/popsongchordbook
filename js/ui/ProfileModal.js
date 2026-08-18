@@ -1369,6 +1369,11 @@ class ProfileModal {
                 tr.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; // Light red background for duplicates
             }
 
+            const isApp = user.isAndroidApp || (user.clientType && user.clientType.includes('Android App'));
+            const clientBadge = isApp
+                ? `<span style="background: #10b981; color: white; padding: 2px 6px; border-radius: 6px; font-size: 0.75em; font-weight: 700; margin-left: 4px;" title="${user.clientType || 'Android App'}">📱 App</span>`
+                : `<span style="background: #94a3b8; color: white; padding: 2px 6px; border-radius: 6px; font-size: 0.75em; font-weight: 700; margin-left: 4px;" title="${user.clientType || 'Browser'}">🌐 Web</span>`;
+
             tr.innerHTML = `
                 <td class="rank-column" style="font-weight: 700; color: #64748b; width: 30px;">${user.chronoIndex}</td>
                 <td title="${user.email || 'Anon'}" style="word-break: break-all; max-width: 260px; ${isDuplicate ? 'color: #ef4444; font-weight: 700;' : ''}">
@@ -1377,7 +1382,7 @@ class ProfileModal {
                 </td>
                 <td style="white-space: nowrap; font-size: 0.9em; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="${user.referral || ''}">${user.referral || '-'}</td>
                 <td style="white-space: nowrap; font-size: 0.85em; width: 80px;">${dateStr}</td>
-                <td style="white-space: nowrap; font-size: 0.85em; width: 80px;" title="${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'}">${lastLoginStr}</td>
+                <td style="white-space: nowrap; font-size: 0.85em; width: 120px;" title="${user.clientType || ''} (${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-'})">${lastLoginStr}${clientBadge}</td>
                 <td class="request-actions" style="text-align: center;">
                     <button class="action-btn delete-member-btn" 
                             title="Delete Member" 

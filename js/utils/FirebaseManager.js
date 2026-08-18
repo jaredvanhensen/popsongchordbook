@@ -1567,11 +1567,41 @@ class FirebaseManager {
         this.database.ref(`users/${userId}/publicFavorites`).off();
     }
 
+    detectClientPlatform() {
+        const ua = navigator.userAgent || '';
+        const ref = document.referrer || '';
+        const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        const search = window.location.search || '';
+
+        if (ref.startsWith('android-app://') || ref.includes('com.popsongchordbook') || search.includes('source=android') || window.isNativeAndroidApp) {
+            return 'Android App (Play Store)';
+        }
+        if (/Android/i.test(ua) && (/wv/i.test(ua) || (window.chrome && !window.chrome.runtime))) {
+            return 'Android App (WebView)';
+        }
+        if (/Android/i.test(ua) && isStandalone) {
+            return 'Android App (PWA)';
+        }
+        if (isStandalone) {
+            return 'Standalone App';
+        }
+        if (/Android/i.test(ua)) {
+            return 'Android Browser';
+        }
+        if (/iPhone|iPad|iPod/i.test(ua)) {
+            return 'iOS Browser';
+        }
+        return 'Desktop Browser';
+    }
+
     async updateLastLogin(userId) {
         if (!this.initialized || !userId) return;
         try {
+            const platform = this.detectClientPlatform();
             const updates = {
-                lastLogin: firebase.database.ServerValue.TIMESTAMP
+                lastLogin: firebase.database.ServerValue.TIMESTAMP,
+                clientType: platform,
+                isAndroidApp: platform.includes('Android App')
             };
             if (this.currentUser && this.currentUser.displayName) {
                 updates.displayName = this.currentUser.displayName;
@@ -1598,7 +1628,9 @@ class FirebaseManager {
                 createdAt: val.createdAt || 0,
                 lastLogin: val.lastLogin || null,
                 username: val.username || 'Anon',
-                referral: val.referral || ''
+                referral: val.referral || '',
+                clientType: val.clientType || 'Browser',
+                isAndroidApp: val.isAndroidApp || false
             }));
         } catch (e) {
             console.error('Error getting all users from /users:', e);
