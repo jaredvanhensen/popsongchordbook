@@ -302,6 +302,241 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.296</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Audio Initialization Fix:</strong> Fixed Web Audio API initialization inside <code>playPatternDemo</code> and <code>playInversionDemo</code>. Now both functions ensure that the <code>PianoAudioPlayer</code> is fully initialized on the very first click, resolving intermittent silence issues.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.295</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Chord Inversion Logic Swap:</strong> Corrected the inversion order in Lesson 8 according to standard music theory. First Inversion is now correctly E–G–C (C3) and Second Inversion is G–C–E (C2). Swapped the columns, notes, SVG diagrams, translation mapping, and audio playback index keys to follow this correct sequence.</li>
+                        <li><strong>Header Capitalization:</strong> Lowercased the notation explanation section header from <em>"Hoe Deze App Inversies Noteert"</em> to <em>"Hoe deze app inversies noteert: C2, C3 &amp; slash notatie"</em> (and similar in English).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.294</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Header Card Spacing:</strong> Halved the whitespace margin below the top header card on the Lessons dashboard page (from 40px to 20px).</li>
+                        <li><strong>Dutch Text Adjustment:</strong> Updated the Dutch launch title translation from <em>"Kies een Les om te Beginnen"</em> to <em>"Kies een les om te beginnen"</em> (uncapitalized "les" and "beginnen").</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.293</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Lesson 8 UI &amp; Layout Polish:</strong> Expanded all three virtual keyboard diagrams to 2 full octaves (C3–B4) so the inversion notes (like G3, C4, E4) fit perfectly. Replaced the keyboard emoji badge on Root Position C with matching blue numeric keycap badge 1️⃣.</li>
+                        <li><strong>Fingering on SVG Keyboards:</strong> Finger numbers (1, 2, 5, etc.) are now drawn directly inside the SVG keys of all three cards for clearer visualization.</li>
+                        <li><strong>Vertical Alignment:</strong> Normalized min-heights of card wrappers (headers, SVG blocks, note pills, and descriptions) so the keyboard SVGs and Speel Demo / Play Demo buttons align exactly on the same horizontal line.</li>
+                        <li><strong>Translation Bugfix:</strong> Resolved a translation bug in Lesson 8 where the slash notation explanation paragraph remained English in Dutch mode.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.292</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Added Lesson 8: Chord Inversions (EN) / Akkoord Inversies (NL):</strong> Full new lesson covering root position, 1st inversion (C2), and 2nd inversion (C3) of C Major. Includes inline SVG piano keyboard diagrams for each position, interactive audio demo buttons (arpeggiated playback), and a notation explainer table comparing the app's C2/C3 shorthand to the standard slash notation (C/G, C/E).</li>
+                        <li><strong>Progress Tracking:</strong> Updated lesson counter, progress bar, badge system, and completion banner from 7 to 8 lessons throughout.</li>
+                        <li><strong>Bilingual (EN/NL):</strong> Full Dutch translations added for all Lesson 8 content, tables, inversion card labels, and audio button labels.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.291</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Typo & Header Alignment Fixes:</strong> Fixed typo <em>"Coldplay - Clocks Patron"</em> to <em>"Coldplay - Clocks Patroon"</em> in Dutch. Updated pattern title number badges (`2️⃣`, `3️⃣`, etc.) to align to the top line (`align-items: flex-start`), preventing badges from floating mid-box on multi-line titles.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.290</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Single Language Consistency Fix:</strong> Fixed mixed English/Dutch titles in Lesson 7 Explainer Box. English mode now strictly displays `1 (Root Note)`, `3 (Third)`, `5 (Fifth)`, `8 (Octave)`, `10 (Tenth)`; Dutch mode now strictly displays `1 (Grondtoon)`, `3 (Terts)`, `5 (Kwint)`, `8 (Octaaf)`, `10 (Tiende)`.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.289</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Lesson 7 Note Numbers Explainer Box:</strong> Added a dedicated interactive theory explainer box explaining what note numbers `1`, `3`, `5`, `8`, and `10` mean in pop chord patterns and arpeggios, fully translated in English and Dutch.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.288</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>4x Repetition for Pattern Demos:</strong> Configured audio demos for Pattern 5 (Waterfall Arpeggio) and Pattern 6 (1-5-8-10 Roll) to repeat 4 times continuously with synchronized SVG keyboard visualizer key highlighting.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.287</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Pattern Order Swap (Pattern 2 & 3):</strong> Swapped Pattern 2 (Ascending Triad Roll) and Pattern 3 (Coldplay - Clocks Pattern) order in Lesson 7. Added the note <em>"This is the same as pattern two but now the other way around."</em> to Pattern 3 in English and Dutch translations.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.286</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Pattern 6 (1-5-8-10 Roll) 4-Note Sustained Audio Fix:</strong> Updated Pattern 6 audio demo to roll exactly 4 notes (`1-C3`, `5-G3`, `8-C4`, `10-E4`) and hold them ringing together as a sustained open voicing, with cumulative SVG keyboard key highlighting.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.285</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Coldplay - Clocks Eb -> Bb -> G Sequence Update:</strong> Updated Pattern 2 in Lesson 7 to play the exact descending `Eb` → `Bb` → `G` note order (5-Eb4, 3-Bb3, 1-G3). Updated text descriptions, note labels, audio synthesis, and visualizer key highlighting in English and Dutch.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.284</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Practice Header Spacing:</strong> Increased bottom margin space after the practice section header (`🎹 Oefen Akkoordafstanden (Beweeg/Klik om te visualiseren)`) across all beginner lesson pages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.283</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Clocks Pattern MIDI Fix:</strong> Corrected the JavaScript MIDI audio playback array in `playPatternDemo(2)` to play Eb Major (`Eb3` bass + `G4` → `Eb4` → `Bb3` → `G4` → `Eb4` → `Bb3` → `G4` → `Eb4`) instead of C Major.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.282</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Coldplay - Clocks Eb Major Riff Update:</strong> Updated Pattern 2 in Lesson 7 to play the authentic Coldplay <em>Clocks</em> arpeggio in Eb Major (`Eb` bass + `G` → `Eb` → `Bb` → `G` → `Eb` → `Bb` → `G` → `Eb`). Updated text descriptions, note labels, audio synthesis, and visualizer key highlighting in English and Dutch modes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.281</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Expanded Lesson 7 Arpeggio Patterns (Coldplay - Clocks):</strong> Expanded Lesson 7 to 6 essential pop chord patterns. Added Pattern 2: Coldplay - Clocks Pattern (`5 – 3 – 1 – 5 – 3 – 1 – 5 – 3`) and Pattern 3: Ascending Triad Roll (`1 – 3 – 5 – 1 – 3 – 5 – 1 – 3`) featuring LH Root Bass support, RH 1-3-5 triad fingerings, and dedicated audio demos with live keyboard visualizer synchronization.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.280</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Duplicate Number Emoji Cleanup:</strong> Removed duplicate number emoji prefixes (`1️⃣`, `2️⃣`, `3️⃣`, `4️⃣`) from Lesson 7 pattern titles in English and Dutch translation objects, preventing double badge icons from appearing when switching languages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.279</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Interactive Arpeggio Audio Demos:</strong> Added interactive audio playback buttons (`▶ Play Demo` / `▶ Beluister Demo`) to each of the 4 pop chord pattern cards in Lesson 7. Features real-time note-by-note audio synthesis via `PianoAudioPlayer` and live synchronization with the SVG keyboard visualizer.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.278</span>
+                    <span class="version-date">August 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Lesson 7 Added (Chord Patterns &amp; Arpeggios):</strong> Added Lesson 7 to the Keyboard Beginner Lessons module in `lessons.html`. Features 4 essential rhythmic pop chord patterns (The Broken Triad, Pulsing Bass-Chord Split, Waterfall Arpeggio, 1-5-8-10 Modern Pop Roll) and theory explanations for playing arpeggios vs block chords. Fully integrated with English &amp; Dutch language selection, launch cards, sidebar badges, and updated 7-lesson progress tracking.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.277</span>
                     <span class="version-date">August 22, 2026</span>
                 </div>

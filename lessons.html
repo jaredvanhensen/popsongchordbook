@@ -100,7 +100,7 @@
         }
 
         header {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             grid-column: 1 / -1;
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(219, 39, 119, 0.03) 100%);
             border: 1px solid var(--card-border);
@@ -319,13 +319,15 @@
             margin-bottom: 25px;
         }
 
-        .chord-shapes-section h4 {
+        .chord-shapes-section h4,
+        .practice-box h5,
+        [id^="practice-header-"] {
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 24px;
         }
 
         .chord-shape-list {
@@ -609,6 +611,7 @@
         .sbc-4.earned { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
         .sbc-5.earned { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
         .sbc-6.earned { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); }
+        .sbc-7.earned { background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); }
 
         .sbc-emoji {
             font-size: 1.5rem;
@@ -1027,9 +1030,9 @@
         <!-- Main Lessons Column -->
         <div class="lessons-list">
 
-            <!-- All Lessons Completed Banner (shown when all 6 done) -->
+            <!-- All Lessons Completed Banner (shown when all 7 done) -->
             <div class="all-badges-banner" id="all-badges-banner">
-                <p>🏅 All 6 Beginner Lessons Completed! You're a Chord Master!</p>
+                <p>🏅 All 7 Beginner Lessons Completed! You're a Chord Master!</p>
             </div>
 
             <!-- Single Lesson Top Navigation Bar -->
@@ -1038,7 +1041,7 @@
                     ← Back
                 </button>
                 <div class="lesson-counter-indicator" id="lesson-counter-indicator">
-                    Lesson 1 of 6
+                    Lesson 1 of 8
                 </div>
             </div>
 
@@ -1063,7 +1066,7 @@
                     </div>
                     <div class="overall-progress-bar-container">
                         <div class="progress-info">
-                            <span id="overall-progress-text">0 of 6 Lessons Completed</span>
+                            <span id="overall-progress-text">0 of 8 Lessons Completed</span>
                             <span id="overall-progress-percent">0%</span>
                         </div>
                         <div class="progress-track">
@@ -1145,6 +1148,30 @@
                             <span class="launch-status-text" id="launch-status-6">🔒 Incomplete</span>
                         </div>
                     </div>
+
+                    <div class="launch-card sbc-7" id="launch-card-7" onclick="openLesson(7)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎼</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-7">Lesson 7</span>
+                        </div>
+                        <h3 id="launch-card-title-7">Group 7: Chord Patterns &amp; Arpeggios</h3>
+                        <p class="launch-desc" id="launch-card-desc-7">4 essential rhythmic patterns &amp; arpeggios to turn static chords into flowing music.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-7">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-8" id="launch-card-8" onclick="openLesson(8)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🔄</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-8">Lesson 8</span>
+                        </div>
+                        <h3 id="launch-card-title-8">Lesson 8: Chord Inversions</h3>
+                        <p class="launch-desc" id="launch-card-desc-8">Learn how to rearrange chord notes to create smoother hand movements and richer sounds.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-8">🔒 Incomplete</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1164,12 +1191,12 @@
                 <div class="chord-shapes-section">
                     <h4 id="practice-header-1">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" id="badge-c" onclick="visualizeChord('C')" onmouseenter="visualizeChord('C')">C Major</span>
-                        <span class="chord-badge" id="badge-f" onclick="visualizeChord('F')" onmouseenter="visualizeChord('F')">F Major</span>
-                        <span class="chord-badge" id="badge-g" onclick="visualizeChord('G')" onmouseenter="visualizeChord('G')">G Major</span>
-                        <span class="chord-badge" id="badge-am" onclick="visualizeChord('Am')" onmouseenter="visualizeChord('Am')">A Minor</span>
-                        <span class="chord-badge" id="badge-dm" onclick="visualizeChord('Dm')" onmouseenter="visualizeChord('Dm')">D Minor</span>
-                        <span class="chord-badge" id="badge-em" onclick="visualizeChord('Em')" onmouseenter="visualizeChord('Em')">E Minor</span>
+                        <span class="chord-badge" id="badge-c" onclick="visualizeChord('C', true)" onmouseenter="visualizeChord('C', false)">C Major</span>
+                        <span class="chord-badge" id="badge-f" onclick="visualizeChord('F', true)" onmouseenter="visualizeChord('F', false)">F Major</span>
+                        <span class="chord-badge" id="badge-g" onclick="visualizeChord('G', true)" onmouseenter="visualizeChord('G', false)">G Major</span>
+                        <span class="chord-badge" id="badge-am" onclick="visualizeChord('Am', true)" onmouseenter="visualizeChord('Am', false)">A Minor</span>
+                        <span class="chord-badge" id="badge-dm" onclick="visualizeChord('Dm', true)" onmouseenter="visualizeChord('Dm', false)">D Minor</span>
+                        <span class="chord-badge" id="badge-em" onclick="visualizeChord('Em', true)" onmouseenter="visualizeChord('Em', false)">E Minor</span>
                     </div>
                 </div>
 
@@ -1274,9 +1301,9 @@
                 <div class="chord-shapes-section">
                     <h4 id="practice-header-2">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" id="badge-d" onclick="visualizeChord('D')" onmouseenter="visualizeChord('D')">D Major</span>
-                        <span class="chord-badge" id="badge-e" onclick="visualizeChord('E')" onmouseenter="visualizeChord('E')">E Major</span>
-                        <span class="chord-badge" id="badge-a" onclick="visualizeChord('A')" onmouseenter="visualizeChord('A')">A Major</span>
+                        <span class="chord-badge" id="badge-d" onclick="visualizeChord('D', true)" onmouseenter="visualizeChord('D', false)">D Major</span>
+                        <span class="chord-badge" id="badge-e" onclick="visualizeChord('E', true)" onmouseenter="visualizeChord('E', false)">E Major</span>
+                        <span class="chord-badge" id="badge-a" onclick="visualizeChord('A', true)" onmouseenter="visualizeChord('A', false)">A Major</span>
                     </div>
                 </div>
 
@@ -1360,9 +1387,9 @@
                 <div class="chord-shapes-section">
                     <h4 id="practice-header-3">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" id="badge-db" onclick="visualizeChord('Db')" onmouseenter="visualizeChord('Db')">Db Major</span>
-                        <span class="chord-badge" id="badge-eb" onclick="visualizeChord('Eb')" onmouseenter="visualizeChord('Eb')">Eb Major</span>
-                        <span class="chord-badge" id="badge-ab" onclick="visualizeChord('Ab')" onmouseenter="visualizeChord('Ab')">Ab Major</span>
+                        <span class="chord-badge" id="badge-db" onclick="visualizeChord('Db', true)" onmouseenter="visualizeChord('Db', false)">Db Major</span>
+                        <span class="chord-badge" id="badge-eb" onclick="visualizeChord('Eb', true)" onmouseenter="visualizeChord('Eb', false)">Eb Major</span>
+                        <span class="chord-badge" id="badge-ab" onclick="visualizeChord('Ab', true)" onmouseenter="visualizeChord('Ab', false)">Ab Major</span>
                     </div>
                 </div>
 
@@ -1418,8 +1445,8 @@
                 <div class="chord-shapes-section">
                     <h4 id="practice-header-4">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" id="badge-b" onclick="visualizeChord('B')" onmouseenter="visualizeChord('B')">B Major</span>
-                        <span class="chord-badge" id="badge-bb" onclick="visualizeChord('Bb')" onmouseenter="visualizeChord('Bb')">Bb Major</span>
+                        <span class="chord-badge" id="badge-b" onclick="visualizeChord('B', true)" onmouseenter="visualizeChord('B', false)">B Major</span>
+                        <span class="chord-badge" id="badge-bb" onclick="visualizeChord('Bb', true)" onmouseenter="visualizeChord('Bb', false)">Bb Major</span>
                     </div>
                 </div>
 
@@ -1512,8 +1539,8 @@
                 <div class="chord-shapes-section">
                     <h4 id="practice-header-5">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" id="badge-fs" onclick="visualizeChord('F#')" onmouseenter="visualizeChord('F#')">F# Major</span>
-                        <span class="chord-badge" id="badge-dsm" onclick="visualizeChord('D#m')" onmouseenter="visualizeChord('D#m')">D# Minor (Ebm)</span>
+                        <span class="chord-badge" id="badge-fs" onclick="visualizeChord('F#', true)" onmouseenter="visualizeChord('F#', false)">F# Major</span>
+                        <span class="chord-badge" id="badge-dsm" onclick="visualizeChord('D#m', true)" onmouseenter="visualizeChord('D#m', false)">D# Minor (Ebm)</span>
                     </div>
                 </div>
 
@@ -1613,6 +1640,497 @@
                 </div>
             </article>
 
+            <!-- Lesson 7 -->
+            <article class="lesson-card" id="lesson-card-7">
+                <div class="lesson-meta">
+                    <span class="lesson-tag" id="lesson-tag-7">Lesson 7</span>
+                </div>
+                <h2 id="lesson-title-7">Group 7: Chord Patterns &amp; Arpeggios</h2>
+                <p class="lesson-desc" id="lesson-desc-7">Learn how to break apart block chords into rhythmic patterns and fluid arpeggios that bring pop songs to life.</p>
+
+                <div class="theory-box" style="border-left-color: #06b6d4; background: #ecfeff;">
+                    <h4 id="theory-title-7" style="color: #0891b2;">⭐ Why Play Patterns &amp; Arpeggios?</h4>
+                    <p id="theory-desc-7-1" style="color: #0e7490;">Playing block chords (striking all notes together) works well, but doing it continuously can sound robotic, heavy, or static.</p>
+                    <p id="theory-desc-7-2" style="color: #0e7490; margin-top: 8px;"><strong>Arpeggios</strong> (playing chord notes one-by-one) and <strong>rhythmic patterns</strong> create motion, elegance, and emotional depth. They allow you to build intensity from a gentle verse to a powerful chorus!</p>
+                </div>
+
+                <div class="explainer-box-7" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 16px 20px; margin-top: 15px;">
+                    <h4 id="numbers-explainer-title-7" style="color: #0f172a; font-weight: 700; font-size: 0.98rem; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px;">
+                        <span>💡</span> <span>Understanding Note Numbers (1, 3, 5, 8, 10)</span>
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 0.85rem; color: #334155;">
+                        <div style="background: white; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                            <strong style="color: #0284c7; display: block; margin-bottom: 2px;" id="num-title-1">1 (Root Note)</strong>
+                            <span id="num-exp-1">1st note of scale/chord (e.g. C). Sets the chord foundation.</span>
+                        </div>
+                        <div style="background: white; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                            <strong style="color: #0284c7; display: block; margin-bottom: 2px;" id="num-title-3">3 (Third)</strong>
+                            <span id="num-exp-3">3rd note of scale (e.g. E). Determines Major vs Minor.</span>
+                        </div>
+                        <div style="background: white; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                            <strong style="color: #0284c7; display: block; margin-bottom: 2px;" id="num-title-5">5 (Fifth)</strong>
+                            <span id="num-exp-5">5th note of scale (e.g. G). Adds harmonic stability.</span>
+                        </div>
+                        <div style="background: white; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                            <strong style="color: #0284c7; display: block; margin-bottom: 2px;" id="num-title-8">8 (Octave)</strong>
+                            <span id="num-exp-8">8th note (same as Root 1, but 1 octave higher, e.g. High C).</span>
+                        </div>
+                        <div style="background: white; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+                            <strong style="color: #0284c7; display: block; margin-bottom: 2px;" id="num-title-10">10 (Tenth)</strong>
+                            <span id="num-exp-10">10th note (same as Third 3, but 1 octave higher, e.g. High E). Creates wide pop voicing.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patterns-section" style="margin-top: 20px;">
+                    <h4 id="patterns-header-7" style="font-weight: 700; font-size: 1.15rem; margin-bottom: 15px; color: var(--text-primary);">🎵 6 Essential Pop Chord Patterns</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <!-- Pattern 1 -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">1️⃣</span>
+                                    <h5 id="p1-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">The Broken Triad (1 – 3 – 5 – 3)</h5>
+                                </div>
+                                <p id="p1-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">Play the 3 notes of the chord one-by-one in a steady rocking motion. LH plays Root Bass; RH plays 1 – 3 – 5 – 3.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p1-notes-7">LH Bass (C) → RH C → E → G → E</div>
+                                <button class="pattern-play-btn" id="p1-btn-7" onclick="playPatternDemo(1)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p1-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 2: Ascending Triad Roll -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">2️⃣</span>
+                                    <h5 id="p2-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">Ascending Triad Roll (1 – 3 – 5 – 1 – 3 – 5 – 1 – 3)</h5>
+                                </div>
+                                <p id="p2-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">A driving 8th-note ascending roll using fingers 1, 3, 5 over LH Root Bass. Creates forward momentum in energetic pop tracks.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p2-notes-7">LH Bass (C) → RH C → E → G → C → E → G → C → E</div>
+                                <button class="pattern-play-btn" id="p2-btn-7" onclick="playPatternDemo(2)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p2-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 3: Coldplay - Clocks -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">3️⃣</span>
+                                    <h5 id="p3-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">Coldplay - Clocks Pattern (5 – 3 – 1 – 5 – 3 – 1 – 5 – 3)</h5>
+                                </div>
+                                <p id="p3-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">The legendary piano riff from Coldplay's 'Clocks' in Eb Major. LH holds the Root Bass (Eb); RH plays descending 5 – 3 – 1 twice (Eb → Bb → G) and ends on 5 – 3. This is the same as pattern two but now the other way around.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p3-notes-7">LH Bass (Eb) → RH Eb → Bb → G → Eb → Bb → G → Eb → Bb</div>
+                                <button class="pattern-play-btn" id="p3-btn-7" onclick="playPatternDemo(3)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p3-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 4: Pulsing Bass-Chord Split -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">4️⃣</span>
+                                    <h5 id="p4-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">Pulsing Bass-Chord Split</h5>
+                                </div>
+                                <p id="p4-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">Left hand strikes the low Bass on Beat 1 &amp; 3; Right hand pulses light chords on Beats 2 &amp; 4.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p4-notes-7">LH Bass (C) → RH Chord (C-E-G)</div>
+                                <button class="pattern-play-btn" id="p4-btn-7" onclick="playPatternDemo(4)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p4-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 5: Waterfall Arpeggio -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">5️⃣</span>
+                                    <h5 id="p5-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">Waterfall Arpeggio (Bass – 1 – 3 – 5 – 8)</h5>
+                                </div>
+                                <p id="p5-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">Start with low Left Hand bass, then roll smoothly upwards through the right hand notes up to the octave.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p5-notes-7">LH Low C → RH C → E → G → High C</div>
+                                <button class="pattern-play-btn" id="p5-btn-7" onclick="playPatternDemo(5)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p5-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 6: Modern Pop Roll -->
+                        <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.3rem; line-height: 1.25; flex-shrink: 0;">6️⃣</span>
+                                    <h5 id="p6-title-7" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">1 – 5 – 8 – 10 Modern Pop Roll</h5>
+                                </div>
+                                <p id="p6-desc-7" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 10px;">Spanned open 4-note voicing (Adele / Coldplay style). LH plays 1 + 5 (C + G), RH plays 8 + 10 (C + E) letting all 4 notes ring out together.</p>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; color: #334155; text-align: center; flex: 1; min-width: 140px;" id="p6-notes-7">LH 1+5 (C + G) → RH 8+10 (High C + E)</div>
+                                <button class="pattern-play-btn" id="p6-btn-7" onclick="playPatternDemo(6)" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);">
+                                    <span>▶</span> <span id="p6-btn-text-7">Play Demo</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practice-box">
+                    <h5 id="practice-header-7">🎹 Practice Chord Spacing (Hover/Click to visualize)</h5>
+                    <div class="chord-badges-container">
+                        <span class="chord-badge" onclick="visualizeChord('C', true)">C Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Am', true)">A Minor</span>
+                        <span class="chord-badge" onclick="visualizeChord('F', true)">F Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('G', true)">G Major</span>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="complete-section-7" onclick="handleLessonComplete(7)">
+                    <div class="lesson-checkbox" id="checkbox-7">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-7">Mark as complete</span>
+                </div>
+            </article>
+
+            <!-- Lesson 8: Chord Inversions -->
+            <article class="lesson-card" id="lesson-card-8">
+                <div class="lesson-meta">
+                    <span class="lesson-tag" id="lesson-tag-8">Lesson 8</span>
+                </div>
+                <h2 id="lesson-title-8">Lesson 8: Chord Inversions</h2>
+                <p class="lesson-desc" id="lesson-desc-8">Learn how to rearrange the notes of a chord into different orders — called inversions. This unlocks smoother hand movement, richer piano sounds, and gives you the tools to understand chord notation used in sheet music and apps.</p>
+
+                <!-- Theory Box -->
+                <div class="theory-box">
+                    <h4 id="theory-title-8">⭐ What Is a Chord Inversion?</h4>
+                    <p id="theory-desc-8-1" style="color: #1e40af;">A chord inversion is simply playing the same 3 notes of a chord in a <strong>different order</strong> — starting from a note other than the root.</p>
+                    <p id="theory-desc-8-2" style="color: #374151; margin-top: 8px;">Instead of always starting on C (C – E – G), you can start on G (G – C – E) or E (E – G – C). The chord still sounds like C Major — just with a different color and bass note. This makes moving between chords <strong>much smoother</strong> because your hand doesn't have to jump as far.</p>
+                </div>
+
+                <!-- App Notation Explainer Box -->
+                <div style="background: #fef9c3; border: 1.5px solid #fcd34d; border-radius: 14px; padding: 18px 22px; margin-top: 18px; margin-bottom: 4px;">
+                    <h4 id="notation-explainer-title-8" style="color: #92400e; font-weight: 700; font-size: 0.98rem; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px;">
+                        <span>📖</span> <span id="notation-explainer-heading-8">How This App Notates Inversions: C2, C3 &amp; Slash Notation</span>
+                    </h4>
+                    <p id="notation-explainer-body-8" style="font-size: 0.88rem; color: #78350f; margin-bottom: 14px;">In this app, inversions are written with a number after the chord name to show which position the <strong>root note</strong> sits in:</p>
+                    <!-- Notation Table -->
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
+                            <thead>
+                                <tr style="background: #fef3c7;">
+                                    <th style="padding: 10px 14px; text-align: left; color: #92400e; font-weight: 700;" id="tbl-header-notation">Notation</th>
+                                    <th style="padding: 10px 14px; text-align: left; color: #92400e; font-weight: 700;" id="tbl-header-name">Name</th>
+                                    <th style="padding: 10px 14px; text-align: left; color: #92400e; font-weight: 700;" id="tbl-header-notes">Note Order</th>
+                                    <th style="padding: 10px 14px; text-align: left; color: #92400e; font-weight: 700;" id="tbl-header-meaning">Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid #fde68a;">
+                                    <td style="padding: 10px 14px; font-weight: 700; color: #0284c7;">C</td>
+                                    <td style="padding: 10px 14px;" id="tbl-root-name">Root Position</td>
+                                    <td style="padding: 10px 14px; font-family: monospace; color: #0f172a; font-weight: 600;">C – E – G</td>
+                                    <td style="padding: 10px 14px; color: #374151;" id="tbl-root-meaning">C is in 1st position. Standard triad.</td>
+                                </tr>
+                                <tr style="border-top: 1px solid #fde68a; background: #fffbeb;">
+                                    <td style="padding: 10px 14px; font-weight: 700; color: #0284c7;">C3</td>
+                                    <td style="padding: 10px 14px;" id="tbl-inv1-name">1st Inversion</td>
+                                    <td style="padding: 10px 14px; font-family: monospace; color: #0f172a; font-weight: 600;">E – G – C</td>
+                                    <td style="padding: 10px 14px; color: #374151;" id="tbl-inv1-meaning">C is in 3rd position. E is lowest note.</td>
+                                </tr>
+                                <tr style="border-top: 1px solid #fde68a;">
+                                    <td style="padding: 10px 14px; font-weight: 700; color: #0284c7;">C2</td>
+                                    <td style="padding: 10px 14px;" id="tbl-inv2-name">2nd Inversion</td>
+                                    <td style="padding: 10px 14px; font-family: monospace; color: #0f172a; font-weight: 600;">G – C – E</td>
+                                    <td style="padding: 10px 14px; color: #374151;" id="tbl-inv2-meaning">C is in 2nd position. G is lowest note.</td>
+                                </tr>
+                                <tr style="border-top: 2px solid #d97706; background: #fef9c3;">
+                                    <td style="padding: 10px 14px; font-weight: 700; color: #7c3aed;">C/E</td>
+                                    <td style="padding: 10px 14px;" id="tbl-slash2-name">Slash Notation</td>
+                                    <td style="padding: 10px 14px; font-family: monospace; color: #0f172a; font-weight: 600;">E – G – C</td>
+                                    <td style="padding: 10px 14px; color: #374151;" id="tbl-slash2-meaning">C chord with E as the lowest (bass) note. Same as C3.</td>
+                                </tr>
+                                <tr style="border-top: 1px solid #fde68a; background: #fef9c3;">
+                                    <td style="padding: 10px 14px; font-weight: 700; color: #7c3aed;">C/G</td>
+                                    <td style="padding: 10px 14px;" id="tbl-slash1-name">Slash Notation</td>
+                                    <td style="padding: 10px 14px; font-family: monospace; color: #0f172a; font-weight: 600;">G – C – E</td>
+                                    <td style="padding: 10px 14px; color: #374151;" id="tbl-slash1-meaning">C chord with G as the lowest (bass) note. Same as C2.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p id="notation-explainer-slash-note" style="font-size: 0.82rem; color: #92400e; margin-top: 10px;"></p>
+                </div>
+
+                <!-- The 3 Inversion Cards -->
+                <div style="margin-top: 22px;">
+                    <h4 id="inversions-header-8" style="font-weight: 700; font-size: 1.15rem; margin-bottom: 16px; color: var(--text-primary);">🎹 The 3 Positions of C Major</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 22px;">
+
+                        <!-- Root Position -->
+                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">1️⃣</span>
+                                    <div>
+                                        <h5 id="inv0-title-8" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">Root Position — C</h5>
+                                        <p id="inv0-subtitle-8" style="font-size: 0.8rem; color: var(--text-secondary); margin: 2px 0 0 0;">C is in 1st position</p>
+                                    </div>
+                                </div>
+                                <!-- SVG piano diagram: 2 octaves, C3 to B4. Highlighted: C3 (1), E3 (3), G3 (5) -->
+                                <div style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 280px; border-radius: 8px; display: block; margin: 0 auto;">
+                                        <!-- White keys -->
+                                        <rect x="0" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="20" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="40" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="60" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="80" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="100" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="120" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="140" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="160" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="180" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="200" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="220" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="240" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="260" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <!-- Black keys -->
+                                        <rect x="14.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="34.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="74.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="94.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="114.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="154.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="174.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="214.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="234.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="254.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <!-- Labels -->
+                                        <text x="10" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">C</text>
+                                        <text x="30" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="50" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">E</text>
+                                        <text x="70" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="90" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">G</text>
+                                        <text x="110" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="130" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <text x="150" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">C</text>
+                                        <text x="170" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="190" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">E</text>
+                                        <text x="210" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="230" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">G</text>
+                                        <text x="250" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="270" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <!-- Finger numbers -->
+                                        <text x="10" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">1</text>
+                                        <text x="50" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">3</text>
+                                        <text x="90" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">5</text>
+                                    </svg>
+                                </div>
+                                <div style="display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; font-size: 0.75rem; color: #475569; min-height: 26px;">
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">C3 (1)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">E3 (3)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">G3 (5)</span>
+                                </div>
+                                <div style="background: #eff6ff; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-weight: 700; font-size: 0.9rem; color: #1e40af; text-align: center;" id="inv0-notes-8">C – E – G</div>
+                                <p id="inv0-desc-8" style="font-size: 0.83rem; color: var(--text-secondary); text-align: center; margin: 0; min-height: 52px; display: flex; align-items: center; justify-content: center;">Fingers: 1 – 3 – 5. The standard, most common chord position.</p>
+                            </div>
+                            <button onclick="playInversionDemo(0)" id="inv0-btn-8" style="margin-top: 12px; background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 9px 14px; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(6,182,212,0.25);">
+                                <span>▶</span> <span id="inv0-btn-text-8">Play Demo</span>
+                            </button>
+                        </div>
+
+                        <!-- 1st Inversion / C3 -->
+                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">2️⃣</span>
+                                    <div>
+                                        <h5 id="inv1-title-8" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">1st Inversion — C3</h5>
+                                        <p id="inv1-subtitle-8" style="font-size: 0.8rem; color: var(--text-secondary); margin: 2px 0 0 0;">C is in 3rd position · also written as C/E</p>
+                                    </div>
+                                </div>
+                                <!-- SVG piano diagram: 2 octaves, C3 to B4. Highlighted: E3 (1), G3 (2), C4 (5) -->
+                                <div style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 280px; border-radius: 8px; display: block; margin: 0 auto;">
+                                        <!-- White keys -->
+                                        <rect x="0" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="20" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="40" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="60" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="80" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="100" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="120" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="140" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="160" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="180" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="200" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="220" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="240" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="260" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <!-- Black keys -->
+                                        <rect x="14.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="34.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="74.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="94.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="114.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="154.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="174.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="214.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="234.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="253.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <!-- Labels -->
+                                        <text x="10" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">C</text>
+                                        <text x="30" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="50" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">E</text>
+                                        <text x="70" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="90" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">G</text>
+                                        <text x="110" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="130" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <text x="150" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">C</text>
+                                        <text x="170" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="190" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">E</text>
+                                        <text x="210" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="230" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">G</text>
+                                        <text x="250" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="270" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <!-- Finger numbers -->
+                                        <text x="50" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">1</text>
+                                        <text x="90" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">2</text>
+                                        <text x="150" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">5</text>
+                                    </svg>
+                                </div>
+                                <div style="display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; font-size: 0.75rem; color: #475569; min-height: 26px;">
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">E3 (1)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">G3 (2)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">C4 (5)</span>
+                                </div>
+                                <div style="background: #eff6ff; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-weight: 700; font-size: 0.9rem; color: #1e40af; text-align: center;" id="inv1-notes-8">E – G – C</div>
+                                <p id="inv1-desc-8" style="font-size: 0.83rem; color: var(--text-secondary); text-align: center; margin: 0; min-height: 52px; display: flex; align-items: center; justify-content: center;">Fingers: 1 – 2 – 5. E is the lowest note. C sits in position 3.</p>
+                            </div>
+                            <button onclick="playInversionDemo(1)" id="inv1-btn-8" style="margin-top: 12px; background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 9px 14px; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(6,182,212,0.25);">
+                                <span>▶</span> <span id="inv1-btn-text-8">Play Demo</span>
+                            </button>
+                        </div>
+
+                        <!-- 2nd Inversion / C2 -->
+                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
+                                    <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">3️⃣</span>
+                                    <div>
+                                        <h5 id="inv2-title-8" style="font-weight: 700; margin: 0; font-size: 1rem; color: #0284c7; line-height: 1.25;">2nd Inversion — C2</h5>
+                                        <p id="inv2-subtitle-8" style="font-size: 0.8rem; color: var(--text-secondary); margin: 2px 0 0 0;">C is in 2nd position · also written as C/G</p>
+                                    </div>
+                                </div>
+                                <!-- SVG piano diagram: 2 octaves, C3 to B4. Highlighted: G3 (1), C4 (2), E4 (5) -->
+                                <div style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 280px; border-radius: 8px; display: block; margin: 0 auto;">
+                                        <!-- White keys -->
+                                        <rect x="0" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="20" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="40" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="60" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="80" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="100" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="120" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="140" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="160" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="180" y="0" width="18" height="80" rx="2" fill="#c084fc" stroke="#7c3aed" stroke-width="1.2" />
+                                        <rect x="200" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="220" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="240" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <rect x="260" y="0" width="18" height="80" rx="2" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1" />
+                                        <!-- Black keys -->
+                                        <rect x="14.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="34.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="74.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="94.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="114.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="154.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="174.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="214.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="234.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <rect x="254.5" y="0" width="11" height="46" rx="1.5" fill="#0f172a" />
+                                        <!-- Labels -->
+                                        <text x="10" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">C</text>
+                                        <text x="30" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="50" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">E</text>
+                                        <text x="70" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="90" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">G</text>
+                                        <text x="110" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="130" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <text x="150" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">C</text>
+                                        <text x="170" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">D</text>
+                                        <text x="190" y="72" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">E</text>
+                                        <text x="210" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">F</text>
+                                        <text x="230" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">G</text>
+                                        <text x="250" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">A</text>
+                                        <text x="270" y="72" font-family="Inter,sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">B</text>
+                                        <!-- Finger numbers -->
+                                        <text x="90" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">1</text>
+                                        <text x="150" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">2</text>
+                                        <text x="190" y="55" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed" font-weight="700" text-anchor="middle">5</text>
+                                    </svg>
+                                </div>
+                                <div style="display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; font-size: 0.75rem; color: #475569; min-height: 26px;">
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">G3 (1)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">C4 (2)</span>
+                                    <span style="color:#94a3b8;">+</span>
+                                    <span style="background:#c084fc; color:#fff; border-radius:6px; padding:2px 8px; font-weight:700;">E4 (5)</span>
+                                </div>
+                                <div style="background: #eff6ff; padding: 8px 12px; border-radius: 8px; font-family: monospace; font-weight: 700; font-size: 0.9rem; color: #1e40af; text-align: center;" id="inv2-notes-8">G – C – E</div>
+                                <p id="inv2-desc-8" style="font-size: 0.83rem; color: var(--text-secondary); text-align: center; margin: 0; min-height: 52px; display: flex; align-items: center; justify-content: center;">Fingers: 1 – 2 – 5. G is the lowest note. C sits in position 2.</p>
+                            </div>
+                            <button onclick="playInversionDemo(2)" id="inv2-btn-8" style="margin-top: 12px; background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); color: white; border: none; padding: 9px 14px; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(6,182,212,0.25);">
+                                <span>▶</span> <span id="inv2-btn-text-8">Play Demo</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Why Inversions Matter tip box -->
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;">
+                        <p id="inv-tip-8" style="font-size: 0.88rem; color: #166534; margin: 0;">
+                            <strong>🎯 Pro Tip:</strong> <span id="inv-tip-body-8">When moving from Am → C, instead of jumping to Root Position C (C–E–G), use 1st Inversion C2 (G–C–E). Your pinky barely moves! Inversions are the secret to smooth, professional-sounding transitions.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice Box -->
+                <div class="practice-box">
+                    <h5 id="practice-header-8">🎹 Practice Chord Spacing (Hover/Click to visualize)</h5>
+                    <div class="chord-badges-container">
+                        <span class="chord-badge" onclick="visualizeChord('C', true)">C Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('Am', true)">A Minor</span>
+                        <span class="chord-badge" onclick="visualizeChord('F', true)">F Major</span>
+                        <span class="chord-badge" onclick="visualizeChord('G', true)">G Major</span>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="complete-section-8" onclick="handleLessonComplete(8)">
+                    <div class="lesson-checkbox" id="checkbox-8">✓</div>
+                    <span class="lesson-complete-label" id="complete-label-8">Mark as complete</span>
+                </div>
+            </article>
+
             <!-- Bottom Lesson Navigation Bar -->
             <div id="bottom-lesson-nav" class="bottom-lesson-nav">
                 <button class="bottom-nav-btn secondary" onclick="showLaunchPage()">≡ Lesson Index &amp; Badges</button>
@@ -1676,12 +2194,12 @@
                 </svg>
 
                 <div class="chord-preview-grid">
-                    <button class="chord-preview-btn" onclick="visualizeChord('C')">C</button>
-                    <button class="chord-preview-btn" onclick="visualizeChord('F')">F</button>
-                    <button class="chord-preview-btn" onclick="visualizeChord('G')">G</button>
-                    <button class="chord-preview-btn" onclick="visualizeChord('Am')">Am</button>
-                    <button class="chord-preview-btn" onclick="visualizeChord('Dm')">Dm</button>
-                    <button class="chord-preview-btn" onclick="visualizeChord('Em')">Em</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('C', true)">C</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('F', true)">F</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('G', true)">G</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Am', true)">Am</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Dm', true)">Dm</button>
+                    <button class="chord-preview-btn" onclick="visualizeChord('Em', true)">Em</button>
                 </div>
 
                 <div class="lesson-badges-panel">
@@ -1716,6 +2234,16 @@
                             <span class="sbc-emoji">🙌</span>
                             <span class="sbc-label" id="sbc-label-6">Lesson 6</span>
                             <span class="sbc-check" id="sbc-check-6">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-7 locked" id="sidebar-badge-7" onclick="scrollToLesson(7)">
+                            <span class="sbc-emoji">🎼</span>
+                            <span class="sbc-label" id="sbc-label-7">Lesson 7</span>
+                            <span class="sbc-check" id="sbc-check-7">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-8 locked" id="sidebar-badge-8" onclick="scrollToLesson(8)">
+                            <span class="sbc-emoji">🔄</span>
+                            <span class="sbc-label" id="sbc-label-8">Lesson 8</span>
+                            <span class="sbc-check" id="sbc-check-8">🔒</span>
                         </div>
                     </div>
                 </div>
@@ -1774,6 +2302,133 @@
             }
         }
 
+        let activePatternTimeouts = [];
+
+        function stopPatternAudio() {
+            activePatternTimeouts.forEach(t => clearTimeout(t));
+            activePatternTimeouts = [];
+            if (audioPlayer) {
+                audioPlayer.stopAllActiveNotes(0.1);
+            }
+        }
+
+        function midiToNoteName(midi) {
+            const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+            const octave = Math.floor(midi / 12) - 1;
+            const noteIndex = midi % 12;
+            return notes[noteIndex] + octave;
+        }
+
+        function playPatternDemo(patternNum) {
+            stopPatternAudio();
+
+            if (!audioPlayer && typeof PianoAudioPlayer !== 'undefined') {
+                audioPlayer = new PianoAudioPlayer();
+            }
+
+            if (!audioPlayer) return;
+
+            if (!audioPlayer.isInitialized) {
+                audioPlayer.initialize().then(() => {
+                    playPatternDemoInternal(patternNum);
+                }).catch(err => console.error("Failed to initialize audio player:", err));
+            } else {
+                playPatternDemoInternal(patternNum);
+            }
+        }
+
+        function playPatternDemoInternal(patternNum) {
+            if (audioPlayer.audioContext && audioPlayer.audioContext.state === 'suspended') {
+                audioPlayer.audioContext.resume();
+            }
+
+            let sequence = [];
+            
+            if (patternNum === 1) {
+                // 1) The Broken Triad: LH Bass C3 (48) + RH C4 (60) -> E4 (64) -> G4 (67) -> E4 (64) (x2)
+                const rhNotes = [60, 64, 67, 64, 60, 64, 67, 64];
+                sequence = [
+                    { note: [48], delay: 0.0, duration: 2.4 },
+                    ...rhNotes.map((n, i) => ({ note: n, delay: i * 0.26, duration: 0.5 }))
+                ];
+            } else if (patternNum === 2) {
+                // 2) Ascending Triad Roll: LH Bass C3 (48) + RH 1(C4=60) -> 3(E4=64) -> 5(G4=67) -> 1(60) -> 3(64) -> 5(67) -> 1(60) -> 3(64)
+                const rhNotes = [60, 64, 67, 60, 64, 67, 60, 64];
+                sequence = [
+                    { note: [48], delay: 0.0, duration: 2.2 },
+                    ...rhNotes.map((n, i) => ({ note: n, delay: i * 0.22, duration: 0.45 }))
+                ];
+            } else if (patternNum === 3) {
+                // 3) Coldplay - Clocks in Eb Major: LH Bass Eb3 (51) + RH 5(Eb4=63) -> 3(Bb3=58) -> 1(G3=55) -> 5(63) -> 3(58) -> 1(55) -> 5(63) -> 3(58)
+                const rhNotes = [63, 58, 55, 63, 58, 55, 63, 58];
+                sequence = [
+                    { note: [51], delay: 0.0, duration: 2.2 },
+                    ...rhNotes.map((n, i) => ({ note: n, delay: i * 0.22, duration: 0.45 }))
+                ];
+            } else if (patternNum === 4) {
+                // 4) Pulsing Bass-Chord Split: Bass (C3=48) -> Chord [C4, E4, G4] (60, 64, 67)
+                sequence = [
+                    { note: [48], delay: 0.0, duration: 0.8 },
+                    { note: [60, 64, 67], delay: 0.35, duration: 0.4 },
+                    { note: [48], delay: 0.70, duration: 0.8 },
+                    { note: [60, 64, 67], delay: 1.05, duration: 0.4 }
+                ];
+            } else if (patternNum === 5) {
+                // 5) Waterfall Arpeggio: Low C (48) -> C4 (60) -> E4 (64) -> G4 (67) -> High C5 (72) (Repeated 4 times)
+                const baseNotes = [48, 60, 64, 67, 72];
+                sequence = [];
+                for (let rep = 0; rep < 4; rep++) {
+                    baseNotes.forEach((n, i) => {
+                        sequence.push({
+                            note: n,
+                            delay: (rep * 1.1) + (i * 0.20),
+                            duration: 0.8
+                        });
+                    });
+                }
+            } else if (patternNum === 6) {
+                // 6) 1 - 5 - 8 - 10 Modern Pop Roll: LH C3 (48) + G3 (55), RH C4 (60) + E4 (64) (Repeated 4 times)
+                const baseNotes = [48, 55, 60, 64];
+                sequence = [];
+                for (let rep = 0; rep < 4; rep++) {
+                    baseNotes.forEach((n, i) => {
+                        sequence.push({
+                            note: n,
+                            delay: (rep * 1.1) + (i * 0.20),
+                            duration: 1.2 - (i * 0.15),
+                            clearKeysFirst: (i === 0),
+                            keepPreviousKeys: true
+                        });
+                    });
+                }
+            }
+
+            sequence.forEach(item => {
+                const tId = setTimeout(() => {
+                    if (Array.isArray(item.note)) {
+                        audioPlayer.playChord(item.note, item.duration, 0.6, 0.01, false);
+                    } else {
+                        audioPlayer.playNote(item.note, item.duration, 0.65);
+                    }
+
+                    // Highlight keys on SVG visualizer
+                    if (item.clearKeysFirst || (!item.keepPreviousKeys)) {
+                        document.querySelectorAll('.keyboard-svg rect').forEach(k => k.classList.remove('key-highlighted'));
+                    }
+                    const midiArray = Array.isArray(item.note) ? item.note : [item.note];
+                    midiArray.forEach(m => {
+                        const noteName = midiToNoteName(m);
+                        if (noteName) {
+                            const resolvedId = getSvgKeyId(noteName);
+                            const keyEl = document.getElementById(`key-${resolvedId}`);
+                            if (keyEl) keyEl.classList.add('key-highlighted');
+                        }
+                    });
+                }, item.delay * 1000);
+                activePatternTimeouts.push(tId);
+            });
+        }
+
         function getSvgKeyId(noteName) {
             const enharmonics = {
                 'C#3': 'Db3',
@@ -1790,10 +2445,7 @@
             return enharmonics[noteName] || noteName;
         }
 
-        function visualizeChord(chordName) {
-            // Check if user clicked (we only play audio on click, not on hover)
-            const isClick = (window.event && window.event.type === 'click');
-
+        function visualizeChord(chordName, playAudio = false) {
             // Clear current highlights
             document.querySelectorAll('.keyboard-svg rect').forEach(key => {
                 key.classList.remove('key-highlighted');
@@ -1822,7 +2474,7 @@
                 }
             });
 
-            if (isClick) {
+            if (playAudio) {
                 playChordAudio(chordName);
             }
         }
@@ -2025,14 +2677,14 @@
 
         function openLesson(id) {
             id = parseInt(id, 10);
-            if (isNaN(id) || id < 1 || id > 6) id = 1;
+            if (isNaN(id) || id < 1 || id > 8) id = 1;
             currentLessonId = id;
 
             document.body.classList.remove('mode-launch');
             document.body.classList.add('mode-single-lesson');
 
             // Hide all lesson cards, show only active one
-            for (let i = 1; i <= 6; i++) {
+            for (let i = 1; i <= 8; i++) {
                 const card = document.getElementById(`lesson-card-${i}`);
                 if (card) {
                     card.style.display = (i === id) ? 'block' : 'none';
@@ -2041,7 +2693,7 @@
 
             // Update Nav indicators
             const counter = document.getElementById('lesson-counter-indicator');
-            if (counter) counter.textContent = `Lesson ${id} of 6`;
+            if (counter) counter.textContent = `Lesson ${id} of 8`;
 
             const prevBtn = document.getElementById('nav-prev-btn');
             const nextBtn = document.getElementById('nav-next-btn');
@@ -2049,14 +2701,14 @@
             const bNextBtn = document.getElementById('bottom-next-btn');
 
             if (prevBtn) prevBtn.disabled = (id <= 1);
-            if (nextBtn) nextBtn.disabled = (id >= 6);
+            if (nextBtn) nextBtn.disabled = (id >= 8);
             if (bPrevBtn) bPrevBtn.disabled = (id <= 1);
-            if (bNextBtn) bNextBtn.disabled = (id >= 6);
+            if (bNextBtn) bNextBtn.disabled = (id >= 8);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // Visualize default chord for this lesson
-            const defaultChords = { 1: 'C', 2: 'D', 3: 'Db', 4: 'B', 5: 'C', 6: 'C' };
+            const defaultChords = { 1: 'C', 2: 'D', 3: 'Db', 4: 'B', 5: 'C', 6: 'C', 7: 'C', 8: 'C' };
             if (typeof visualizeChord === 'function') {
                 visualizeChord(defaultChords[id] || 'C');
             }
@@ -2065,8 +2717,59 @@
         function navigateLesson(delta) {
             if (!currentLessonId) currentLessonId = 1;
             const target = currentLessonId + delta;
-            if (target >= 1 && target <= 6) {
+            if (target >= 1 && target <= 8) {
                 openLesson(target);
+            }
+        }
+
+        // === Inversion Demo Audio ===
+        let activeInversionTimeouts = [];
+
+        function playInversionDemo(invType) {
+            if (!audioPlayer) audioPlayer = new PianoAudioPlayer();
+
+            if (!audioPlayer.isInitialized) {
+                audioPlayer.initialize().then(() => {
+                    playInversionDemoInternal(invType);
+                }).catch(err => console.error("Failed to initialize audio player:", err));
+            } else {
+                playInversionDemoInternal(invType);
+            }
+        }
+
+        function playInversionDemoInternal(invType) {
+            // invType: 0 = Root (C3-E3-G3), 1 = 1st Inv (E3-G3-C4), 2 = 2nd Inv (G3-C4-E4)
+            // Cancel any running inversion demo
+            activeInversionTimeouts.forEach(t => clearTimeout(t));
+            activeInversionTimeouts = [];
+
+            const invNotes = [
+                [48, 52, 55],   // Root: C3, E3, G3
+                [52, 55, 60],   // C3: E3, G3, C4 (1st Inversion)
+                [55, 60, 64]    // C2: G3, C4, E4 (2nd Inversion)
+            ];
+            const notes = invNotes[invType] || invNotes[0];
+            const noteDuration = 0.55;
+            const gap = 0.18;
+
+            if (audioPlayer.audioContext && audioPlayer.audioContext.state === 'suspended') {
+                audioPlayer.audioContext.resume();
+            }
+
+            // Play each note arpeggiated then hold all together
+            notes.forEach((midi, i) => {
+                const t = setTimeout(() => {
+                    audioPlayer.playNote(midi, noteDuration + (notes.length - i) * gap + 0.6, 0.82, 0);
+                }, i * (gap * 1000));
+                activeInversionTimeouts.push(t);
+            });
+
+            // Update button feedback
+            const btn = document.getElementById(`inv${invType}-btn-8`);
+            if (btn) {
+                btn.style.opacity = '0.7';
+                const t2 = setTimeout(() => { btn.style.opacity = '1'; }, (notes.length * gap + 1.5) * 1000);
+                activeInversionTimeouts.push(t2);
             }
         }
 
@@ -2078,10 +2781,10 @@
                 headerSubtitle: "A fast track training program designed to teach you chord-shape systems so you can play your favorite pop songs instantly.",
                 launchTitle: "Choose a Lesson to Begin",
                 launchSubtitle: "Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.",
-                allBadgesCompleted: "🏅 All 6 Beginner Lessons Completed! You're a Chord Master!",
-                progressText: "{count} of 6 Lessons Completed",
+                allBadgesCompleted: "🏅 All 8 Beginner Lessons Completed! You're a Chord Master!",
+                progressText: "{count} of 8 Lessons Completed",
                 backToIndex: "← Back",
-                lessonCounter: "Lesson {id} of 6",
+                lessonCounter: "Lesson {id} of 8",
                 lessonTag: "Lesson {id}",
                 prev: "← Prev",
                 next: "Next →",
@@ -2121,6 +2824,14 @@
                 card6: {
                     title: "Group 6: Left Hand Bass & Two-Hand Play",
                     desc: "Adding octave bass notes with left hand & two-handed accompaniment technique."
+                },
+                card7: {
+                    title: "Group 7: Chord Patterns & Arpeggios",
+                    desc: "4 essential rhythmic patterns & arpeggios to turn static chords into flowing music."
+                },
+                card8: {
+                    title: "Lesson 8: Chord Inversions",
+                    desc: "Learn how to rearrange chord notes to create smoother hand movements and richer sounds."
                 },
 
                 // Detailed Lesson Content
@@ -2170,17 +2881,96 @@
                     lhText: "Plays Root Note (Low Bass)",
                     rhLabel: "Right Hand",
                     rhText: "Plays the Triad or Inversion"
+                },
+                lesson7: {
+                    title: "Group 7: Chord Patterns & Arpeggios",
+                    desc: "Learn how to break apart block chords into rhythmic patterns and fluid arpeggios that bring pop songs to life.",
+                    theoryTitle: "⭐ Why Play Patterns & Arpeggios?",
+                    theory1: "Playing block chords (striking all notes together) works well, but doing it continuously can sound robotic, heavy, or static.",
+                    theory2: "Arpeggios (playing chord notes one-by-one) and rhythmic patterns create motion, elegance, and emotional depth. They allow you to build intensity from a gentle verse to a powerful chorus!",
+                    numbersExplainerTitle: "💡 Understanding Note Numbers (1, 3, 5, 8, 10)",
+                    numTitle1: "1 (Root Note)",
+                    numExp1: "1st note of scale/chord (e.g. C). Sets the chord foundation.",
+                    numTitle3: "3 (Third)",
+                    numExp3: "3rd note of scale (e.g. E). Determines Major vs Minor.",
+                    numTitle5: "5 (Fifth)",
+                    numExp5: "5th note of scale (e.g. G). Adds harmonic stability.",
+                    numTitle8: "8 (Octave)",
+                    numExp8: "8th note (same as Root 1, but 1 octave higher, e.g. High C).",
+                    numTitle10: "10 (Tenth)",
+                    numExp10: "10th note (same as Third 3, but 1 octave higher, e.g. High E). Creates wide pop voicing.",
+                    patternsHeader: "🎵 6 Essential Pop Chord Patterns",
+                    p1Title: "The Broken Triad (1 – 3 – 5 – 3)",
+                    p1Desc: "Play the 3 notes of the chord one-by-one in a steady rocking motion. LH plays Root Bass; RH plays 1 – 3 – 5 – 3.",
+                    p1Notes: "LH Bass (C) → RH C → E → G → E",
+                    p2Title: "Ascending Triad Roll (1 – 3 – 5 – 1 – 3 – 5 – 1 – 3)",
+                    p2Desc: "A driving 8th-note ascending roll using fingers 1, 3, 5 over LH Root Bass. Creates forward momentum in energetic pop tracks.",
+                    p2Notes: "LH Bass (C) → RH C → E → G → C → E → G → C → E",
+                    p3Title: "Coldplay - Clocks Pattern (5 – 3 – 1 – 5 – 3 – 1 – 5 – 3)",
+                    p3Desc: "The legendary piano riff from Coldplay's 'Clocks' in Eb Major. LH holds the Root Bass (Eb); RH plays descending 5 – 3 – 1 twice (Eb → Bb → G) and ends on 5 – 3. This is the same as pattern two but now the other way around.",
+                    p3Notes: "LH Bass (Eb) → RH Eb → Bb → G → Eb → Bb → G → Eb → Bb",
+                    p4Title: "Pulsing Bass-Chord Split",
+                    p4Desc: "Left hand strikes the low Bass on Beat 1 & 3; Right hand pulses light chords on Beats 2 & 4.",
+                    p4Notes: "LH Bass (C) → RH Chord (C-E-G)",
+                    p5Title: "Waterfall Arpeggio (Bass – 1 – 3 – 5 – 8)",
+                    p5Desc: "Start with low Left Hand bass, then roll smoothly upwards through the right hand notes up to the octave.",
+                    p5Notes: "LH Low C → RH C → E → G → High C",
+                    p6Title: "1 – 5 – 8 – 10 Modern Pop Roll",
+                    p6Desc: "Spanned open 4-note voicing (Adele / Coldplay style). LH plays 1 + 5 (C + G), RH plays 8 + 10 (C + E) letting all 4 notes ring out together.",
+                    p6Notes: "LH 1+5 (C + G) → RH 8+10 (High C + E)"
+                },
+                lesson8: {
+                    title: "Lesson 8: Chord Inversions",
+                    desc: "Learn how to rearrange the notes of a chord into different orders — called inversions. This unlocks smoother hand movement, richer piano sounds, and gives you the tools to understand chord notation used in sheet music and apps.",
+                    theoryTitle: "⭐ What Is a Chord Inversion?",
+                    theory1: "A chord inversion is simply playing the same 3 notes of a chord in a different order — starting from a note other than the root.",
+                    theory2: "Instead of always starting on C (C – E – G), you can start on G (G – C – E) or E (E – G – C). The chord still sounds like C Major — just with a different color and bass note. This makes moving between chords much smoother because your hand doesn't have to jump as far.",
+                    notationHeading: "How this app notates inversions: C2, C3 & slash notation",
+                    notationBody: "In this app, inversions are written with a number after the chord name to show which position the root note sits in:",
+                    tblHeaderNotation: "Notation",
+                    tblHeaderName: "Name",
+                    tblHeaderNotes: "Note Order",
+                    tblHeaderMeaning: "Meaning",
+                    tblRootName: "Root Position",
+                    tblRootMeaning: "C is in 1st position. Standard triad.",
+                    tblInv1Name: "1st Inversion",
+                    tblInv1Meaning: "C is in 3rd position. E is lowest note.",
+                    tblInv2Name: "2nd Inversion",
+                    tblInv2Meaning: "C is in 2nd position. G is lowest note.",
+                    tblSlash1Name: "Slash Notation",
+                    tblSlash1Meaning: "C chord with G as the lowest (bass) note. Same as C2.",
+                    tblSlash2Name: "Slash Notation",
+                    tblSlash2Meaning: "C chord with E as the lowest (bass) note. Same as C3.",
+                    slashNoteLabel: "Slash notation",
+                    slashNoteText: "(C/G, C/E) is commonly used in sheet music and other apps. The chord before the slash is the chord, the note after the slash is the bass note. This app uses the C2/C3 shorthand for speed.",
+                    inversionsHeader: "🎹 The 3 Positions of C Major",
+                    inv0Title: "Root Position — C",
+                    inv0Subtitle: "C is in 1st position",
+                    inv0Notes: "C – E – G",
+                    inv0Desc: "Fingers: 1 – 3 – 5. The standard, most common chord position.",
+                    inv0Btn: "Play Demo",
+                    inv1Title: "1st Inversion — C3",
+                    inv1Subtitle: "C is in 3rd position · also written as C/E",
+                    inv1Notes: "E – G – C",
+                    inv1Desc: "Fingers: 1 – 2 – 5. E is the lowest note. C sits in position 3.",
+                    inv1Btn: "Play Demo",
+                    inv2Title: "2nd Inversion — C2",
+                    inv2Subtitle: "C is in 2nd position · also written as C/G",
+                    inv2Notes: "G – C – E",
+                    inv2Desc: "Fingers: 1 – 2 – 5. G is the lowest note. C sits in position 2.",
+                    inv2Btn: "Play Demo",
+                    invTipBody: "When moving from Am → C, instead of jumping to Root Position C (C–E–G), use 1st Inversion C2 (G–C–E). Your pinky barely moves! Inversions are the secret to smooth, professional-sounding transitions."
                 }
             },
             nl: {
                 headerTitle: "Piano & Keyboard Beginnerslessen",
                 headerSubtitle: "Een snelle trainingsmethode om akkoordvormen te leren, zodat je direct je favoriete popliedjes kunt spelen.",
-                launchTitle: "Kies een Les om te Beginnen",
+                launchTitle: "Kies een les om te beginnen",
                 launchSubtitle: "Leer stap-voor-stap akkoordvormen. Selecteer hieronder een les om te oefenen.",
-                allBadgesCompleted: "🏅 Alle 6 Beginnerslessen Voltooid! Je bent een Akkoordmeester!",
-                progressText: "{count} van de 6 Lessen Voltooid",
+                allBadgesCompleted: "🏅 Alle 8 Beginnerslessen Voltooid! Je bent een Akkoordmeester!",
+                progressText: "{count} van de 8 Lessen Voltooid",
                 backToIndex: "← Terug",
-                lessonCounter: "Les {id} van 6",
+                lessonCounter: "Les {id} van 8",
                 lessonTag: "Les {id}",
                 prev: "← Vorige",
                 next: "Volgende →",
@@ -2220,6 +3010,14 @@
                 card6: {
                     title: "Groep 6: Linkerhand Bas & Tweehandig Spel",
                     desc: "Basnoten toevoegen in de linkerhand & tweehandige begeleidingstechniek."
+                },
+                card7: {
+                    title: "Groep 7: Akkoordpatronen & Arpeggio's",
+                    desc: "4 essentiële ritmische patronen & arpeggio's om van statische akkoorden meeslepende muziek te maken."
+                },
+                card8: {
+                    title: "Les 8: Akkoord Inversies",
+                    desc: "Leer hoe je akkoordnoten kunt herschikken voor vloeiendere handbewegingen en rijkere klanken."
                 },
 
                 // Detailed Lesson Content
@@ -2269,6 +3067,85 @@
                     lhText: "Speelt Grondnoot (Lage Bas)",
                     rhLabel: "Rechterhand",
                     rhText: "Speelt Drieklank of Omkering"
+                },
+                lesson7: {
+                    title: "Akkoordgroep 7: Akkoordpatronen & Arpeggio's",
+                    desc: "Leer hoe je blokakkoorden kunt opbreken in ritmische patronen en vloeiende arpeggio's die popnummers tot leven brengen.",
+                    theoryTitle: "⭐ Waarom Patronen & Arpeggio's Spelen?",
+                    theory1: "Blokakkoorden spelen (alle noten tegelijk aanslaan) is een prima basis, maar als je dit continu doet kan het robotachtig, zwaar of statisch klinken.",
+                    theory2: "Arpeggio's (akkoordnoten één voor één spelen) en ritmische patronen zorgen voor beweging, elegantie en emotionele diepte. Hiermee bouw je de intensiteit prachtig op van een rustig couplet naar een krachtig refrein!",
+                    numbersExplainerTitle: "💡 Akkoordnoten Uitleg (1, 3, 5, 8, 10)",
+                    numTitle1: "1 (Grondtoon)",
+                    numExp1: "1e noot van de toonladder (bijv. C). Bepaalt de basis van het akkoord.",
+                    numTitle3: "3 (Terts)",
+                    numExp3: "3e noot van de toonladder (bijv. E). Bepaalt Majeur vs Mineur.",
+                    numTitle5: "5 (Kwint)",
+                    numExp5: "5e noot van de toonladder (bijv. G). Zorgt voor balans en stevigheid.",
+                    numTitle8: "8 (Octaaf)",
+                    numExp8: "8e noot (dezelfde noot als Grondtoon 1, maar 1 octaaf hoger, bijv. Hoge C).",
+                    numTitle10: "10 (Tiende)",
+                    numExp10: "10e noot (dezelfde noot als Terts 3, maar 1 octaaf hoger, bijv. Hoge E). Zorgt voor een wijd pop-geluid.",
+                    patternsHeader: "🎵 6 Essentiële Pop Akkoordpatronen",
+                    p1Title: "De Gebroken Drieklank (1 – 3 – 5 – 3)",
+                    p1Desc: "Speel de 3 akkoordnoten één voor één in een wiegende beweging. LH speelt Grondbas; RH speelt 1 – 3 – 5 – 3.",
+                    p1Notes: "LH Bas (C) → RH C → E → G → E",
+                    p2Title: "Stijgende Drieklank Roll (1 – 3 – 5 – 1 – 3 – 5 – 1 – 3)",
+                    p2Desc: "Een stuwende stijgende roll in 8ste noten met vingers 1, 3, 5 boven de LH Grondbas. Zorgt voor energie in pop- en rocknummers.",
+                    p2Notes: "LH Bas (C) → RH C → E → G → C → E → G → C → E",
+                    p3Title: "Coldplay - Clocks Patroon (5 – 3 – 1 – 5 – 3 – 1 – 5 – 3)",
+                    p3Desc: "De legendarische pianoriff uit Coldplay's 'Clocks' in Eb Majeur. LH houdt de Grondbas (Eb); RH speelt dalend 5 – 3 – 1 twee keer (Eb → Bb → G) en eindigt op 5 – 3. Dit is hetzelfde als patroon twee, maar dan andersom.",
+                    p3Notes: "LH Bas (Eb) → RH Eb → Bb → G → Eb → Bb → G → Eb → Bb",
+                    p4Title: "Pulserende Bas-Akkoord Splitsing",
+                    p4Desc: "Linkerhand slaat de lage basnoot op tel 1 & 3; Rechterhand pulst lichte akkoorden op tel 2 & 4.",
+                    p4Notes: "LH Bas (C) → RH Akkoord (C-E-G)",
+                    p5Title: "Waterval Arpeggio (Bas – 1 – 3 – 5 – 8)",
+                    p5Desc: "Begin met een lage basnoot in de linkerhand en rol vloeiend omhoog door de rechterhandnoten tot het octaaf.",
+                    p5Notes: "LH Lage C → RH C → E → G → Hoge C",
+                    p6Title: "1 – 5 – 8 – 10 Moderne Pop Roll",
+                    p6Desc: "Wijdverspreide open 4-noten ligging (Adele / Coldplay stijl). LH speelt 1 + 5 (C + G), RH speelt 8 + 10 (C + E) waarbij alle 4 de noten samen doorklinken.",
+                    p6Notes: "LH 1+5 (C + G) → RH 8+10 (Hoge C + E)"
+                },
+                lesson8: {
+                    title: "Les 8: Akkoord Inversies",
+                    desc: "Leer hoe je de noten van een akkoord in een andere volgorde kunt spelen — dit worden inversies (omkeringen) genoemd. Dit zorgt voor vloeiendere handbewegingen, rijkere pianoklanken, en helpt je akkoordnotaties in bladmuziek en apps te begrijpen.",
+                    theoryTitle: "⭐ Wat Is een Akkoord Inversie?",
+                    theory1: "Een akkoord inversie is simpelweg het spelen van dezelfde 3 noten van een akkoord in een andere volgorde — beginnend bij een andere noot dan de grondtoon.",
+                    theory2: "In plaats van altijd op C te beginnen (C – E – G), kun je beginnen op G (G – C – E) of E (E – G – C). Het akkoord klinkt nog steeds als C Majeur — maar met een andere kleur en basnoot. Dit maakt de overgang tussen akkoorden veel vloeiender omdat je hand minder ver hoeft te springen.",
+                    notationHeading: "Hoe deze app inversies noteert: C2, C3 & slash notatie",
+                    notationBody: "In deze app worden inversies geschreven met een getal na de akkoordnaam om aan te geven op welke positie de grondtoon staat:",
+                    tblHeaderNotation: "Notatie",
+                    tblHeaderName: "Naam",
+                    tblHeaderNotes: "Notenvolgorde",
+                    tblHeaderMeaning: "Betekenis",
+                    tblRootName: "Grondligging",
+                    tblRootMeaning: "C staat op de 1e positie. Standaard drieklank.",
+                    tblInv1Name: "Eerste Omkering",
+                    tblInv1Meaning: "C staat op de 3e positie. E is de laagste noot.",
+                    tblInv2Name: "Tweede Omkering",
+                    tblInv2Meaning: "C staat op de 2e positie. G is de laagste noot.",
+                    tblSlash1Name: "Slash Notatie",
+                    tblSlash1Meaning: "C akkoord met G als de laagste (bas) noot. Gelijk aan C2.",
+                    tblSlash2Name: "Slash Notatie",
+                    tblSlash2Meaning: "C akkoord met E als de laagste (bas) noot. Gelijk aan C3.",
+                    slashNoteLabel: "Slash notatie",
+                    slashNoteText: "(C/G, C/E) wordt veel gebruikt in bladmuziek en andere apps. Het akkoord vóór de slash is het akkoord, de noot na de slash is de basnoot. Deze app gebruikt de C2/C3 afkorting voor snelheid.",
+                    inversionsHeader: "🎹 De 3 Posities van C Majeur",
+                    inv0Title: "Grondligging — C",
+                    inv0Subtitle: "C staat op de 1e positie",
+                    inv0Notes: "C – E – G",
+                    inv0Desc: "Vingers: 1 – 3 – 5. De standaard, meest voorkomende akkoordpositie.",
+                    inv0Btn: "Speel Demo",
+                    inv1Title: "Eerste Omkering — C3",
+                    inv1Subtitle: "C staat op de 3e positie · ook geschreven als C/E",
+                    inv1Notes: "E – G – C",
+                    inv1Desc: "Vingers: 1 – 2 – 5. E is de laagste noot. C staat op positie 3.",
+                    inv1Btn: "Speel Demo",
+                    inv2Title: "Tweede Omkering — C2",
+                    inv2Subtitle: "C staat op de 2e positie · ook geschreven als C/G",
+                    inv2Notes: "G – C – E",
+                    inv2Desc: "Vingers: 1 – 2 – 5. G is de laagste noot. C staat op positie 2.",
+                    inv2Btn: "Speel Demo",
+                    invTipBody: "Bij de overgang van Am → C, in plaats van te springen naar de grondligging C (C–E–G), gebruik je de eerste omkering C2 (G–C–E). Je pink beweegt nauwelijks! Inversies zijn het geheim achter vloeiende, professioneel klinkende overgangen."
                 }
             }
         };
@@ -2279,7 +3156,9 @@
             3: { name: 'Vallei V-Vorm Pro',        emoji: '🔻' },
             4: { name: 'Buitenbeen Veroveraar',    emoji: '🎯' },
             5: { name: '3 Zwarte Toetsen Meester', emoji: '⬛' },
-            6: { name: 'Tweehandige Bas Meester',  emoji: '🙌' }
+            6: { name: 'Tweehandige Bas Meester',  emoji: '🙌' },
+            7: { name: 'Arpeggio & Patronen Meester', emoji: '🎼' },
+            8: { name: 'Inversie Meester',         emoji: '🔄' }
         };
 
         let currentLang = localStorage.getItem('lessonsLang') || 'en';
@@ -2318,7 +3197,7 @@
             }
 
             // Launch Cards & Lesson Badge Tags (Lesson X vs Les X)
-            for (let id = 1; id <= 6; id++) {
+            for (let id = 1; id <= 8; id++) {
                 const cData = t[`card${id}`];
                 const cardTitle = document.getElementById(`launch-card-title-${id}`);
                 const cardDesc = document.getElementById(`launch-card-desc-${id}`);
@@ -2404,6 +3283,131 @@
                 if (rhText) rhText.textContent = l6Data.rhText;
             }
 
+            // Lesson 7 special elements
+            const l7Data = t.lesson7;
+            if (l7Data) {
+                const th7_1 = document.getElementById('theory-desc-7-1');
+                const th7_2 = document.getElementById('theory-desc-7-2');
+                const expTitle = document.getElementById('numbers-explainer-title-7');
+                const t1 = document.getElementById('num-title-1');
+                const exp1 = document.getElementById('num-exp-1');
+                const t3 = document.getElementById('num-title-3');
+                const exp3 = document.getElementById('num-exp-3');
+                const t5 = document.getElementById('num-title-5');
+                const exp5 = document.getElementById('num-exp-5');
+                const t8 = document.getElementById('num-title-8');
+                const exp8 = document.getElementById('num-exp-8');
+                const t10 = document.getElementById('num-title-10');
+                const exp10 = document.getElementById('num-exp-10');
+                const pHeader7 = document.getElementById('patterns-header-7');
+                const p1Title7 = document.getElementById('p1-title-7');
+                const p1Desc7 = document.getElementById('p1-desc-7');
+                const p1Notes7 = document.getElementById('p1-notes-7');
+                const p2Title7 = document.getElementById('p2-title-7');
+                const p2Desc7 = document.getElementById('p2-desc-7');
+                const p2Notes7 = document.getElementById('p2-notes-7');
+                const p3Title7 = document.getElementById('p3-title-7');
+                const p3Desc7 = document.getElementById('p3-desc-7');
+                const p3Notes7 = document.getElementById('p3-notes-7');
+                const p4Title7 = document.getElementById('p4-title-7');
+                const p4Desc7 = document.getElementById('p4-desc-7');
+                const p4Notes7 = document.getElementById('p4-notes-7');
+
+                const p5Title7 = document.getElementById('p5-title-7');
+                const p5Desc7 = document.getElementById('p5-desc-7');
+                const p5Notes7 = document.getElementById('p5-notes-7');
+                const p6Title7 = document.getElementById('p6-title-7');
+                const p6Desc7 = document.getElementById('p6-desc-7');
+                const p6Notes7 = document.getElementById('p6-notes-7');
+
+                if (th7_1) th7_1.textContent = l7Data.theory1;
+                if (th7_2) th7_2.innerHTML = `<strong>${currentLang === 'nl' ? "Arpeggio's" : "Arpeggios"}</strong> ${l7Data.theory2.substring(l7Data.theory2.indexOf(' ')+1)}`;
+                if (expTitle) expTitle.innerHTML = `<span>💡</span> <span>${l7Data.numbersExplainerTitle.substring(2).trim()}</span>`;
+                if (t1) t1.textContent = l7Data.numTitle1;
+                if (exp1) exp1.textContent = l7Data.numExp1;
+                if (t3) t3.textContent = l7Data.numTitle3;
+                if (exp3) exp3.textContent = l7Data.numExp3;
+                if (t5) t5.textContent = l7Data.numTitle5;
+                if (exp5) exp5.textContent = l7Data.numExp5;
+                if (t8) t8.textContent = l7Data.numTitle8;
+                if (exp8) exp8.textContent = l7Data.numExp8;
+                if (t10) t10.textContent = l7Data.numTitle10;
+                if (exp10) exp10.textContent = l7Data.numExp10;
+                if (pHeader7) pHeader7.textContent = l7Data.patternsHeader;
+                if (p1Title7) p1Title7.textContent = l7Data.p1Title;
+                if (p1Desc7) p1Desc7.textContent = l7Data.p1Desc;
+                if (p1Notes7) p1Notes7.textContent = l7Data.p1Notes;
+                if (p2Title7) p2Title7.textContent = l7Data.p2Title;
+                if (p2Desc7) p2Desc7.textContent = l7Data.p2Desc;
+                if (p2Notes7) p2Notes7.textContent = l7Data.p2Notes;
+                if (p3Title7) p3Title7.textContent = l7Data.p3Title;
+                if (p3Desc7) p3Desc7.textContent = l7Data.p3Desc;
+                if (p3Notes7) p3Notes7.textContent = l7Data.p3Notes;
+                if (p4Title7) p4Title7.textContent = l7Data.p4Title;
+                if (p4Desc7) p4Desc7.textContent = l7Data.p4Desc;
+                if (p4Notes7) p4Notes7.textContent = l7Data.p4Notes;
+                if (p5Title7) p5Title7.textContent = l7Data.p5Title;
+                if (p5Desc7) p5Desc7.textContent = l7Data.p5Desc;
+                if (p5Notes7) p5Notes7.textContent = l7Data.p5Notes;
+                if (p6Title7) p6Title7.textContent = l7Data.p6Title;
+                if (p6Desc7) p6Desc7.textContent = l7Data.p6Desc;
+                if (p6Notes7) p6Notes7.textContent = l7Data.p6Notes;
+
+                const demoBtnText = currentLang === 'nl' ? 'Beluister Demo' : 'Play Demo';
+                ['1', '2', '3', '4', '5', '6'].forEach(num => {
+                    const el = document.getElementById(`p${num}-btn-text-7`);
+                    if (el) el.textContent = demoBtnText;
+                });
+            }
+
+            // --- Lesson 8 specific translations ---
+            const l8Data = t.lesson8;
+            if (l8Data) {
+                const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+                setT('lesson-title-8', l8Data.title);
+                setT('lesson-desc-8', l8Data.desc);
+                setT('theory-title-8', l8Data.theoryTitle);
+                setT('theory-desc-8-1', l8Data.theory1);
+                setT('theory-desc-8-2', l8Data.theory2);
+                setT('notation-explainer-heading-8', l8Data.notationHeading);
+                setT('notation-explainer-body-8', l8Data.notationBody);
+                setT('tbl-header-notation', l8Data.tblHeaderNotation);
+                setT('tbl-header-name', l8Data.tblHeaderName);
+                setT('tbl-header-notes', l8Data.tblHeaderNotes);
+                setT('tbl-header-meaning', l8Data.tblHeaderMeaning);
+                setT('tbl-root-name', l8Data.tblRootName);
+                setT('tbl-root-meaning', l8Data.tblRootMeaning);
+                setT('tbl-inv1-name', l8Data.tblInv1Name);
+                setT('tbl-inv1-meaning', l8Data.tblInv1Meaning);
+                setT('tbl-inv2-name', l8Data.tblInv2Name);
+                setT('tbl-inv2-meaning', l8Data.tblInv2Meaning);
+                setT('tbl-slash1-name', l8Data.tblSlash1Name);
+                setT('tbl-slash1-meaning', l8Data.tblSlash1Meaning);
+                setT('tbl-slash2-name', l8Data.tblSlash2Name);
+                setT('tbl-slash2-meaning', l8Data.tblSlash2Meaning);
+                const slashNoteEl = document.getElementById('notation-explainer-slash-note');
+                if (slashNoteEl && l8Data.slashNoteLabel && l8Data.slashNoteText) {
+                    slashNoteEl.innerHTML = `💡 <strong>${l8Data.slashNoteLabel}</strong> ${l8Data.slashNoteText}`;
+                }
+                setT('inversions-header-8', l8Data.inversionsHeader);
+                setT('inv0-title-8', l8Data.inv0Title);
+                setT('inv0-subtitle-8', l8Data.inv0Subtitle);
+                setT('inv0-notes-8', l8Data.inv0Notes);
+                setT('inv0-desc-8', l8Data.inv0Desc);
+                setT('inv0-btn-text-8', l8Data.inv0Btn);
+                setT('inv1-title-8', l8Data.inv1Title);
+                setT('inv1-subtitle-8', l8Data.inv1Subtitle);
+                setT('inv1-notes-8', l8Data.inv1Notes);
+                setT('inv1-desc-8', l8Data.inv1Desc);
+                setT('inv1-btn-text-8', l8Data.inv1Btn);
+                setT('inv2-title-8', l8Data.inv2Title);
+                setT('inv2-subtitle-8', l8Data.inv2Subtitle);
+                setT('inv2-notes-8', l8Data.inv2Notes);
+                setT('inv2-desc-8', l8Data.inv2Desc);
+                setT('inv2-btn-text-8', l8Data.inv2Btn);
+                setT('inv-tip-body-8', l8Data.invTipBody);
+            }
+
             // Sidebar visualizer card
             const sbCardTitle = document.getElementById('sidebar-card-title');
             const sbCardDesc = document.getElementById('sidebar-card-desc');
@@ -2438,7 +3442,7 @@
             applyLanguageToUI();
             loadLessonProgress();
 
-            const hashMatch = location.hash.match(/#lesson-?([1-6])/i);
+            const hashMatch = location.hash.match(/#lesson-?([1-8])/i);
             if (hashMatch) {
                 openLesson(hashMatch[1]);
             } else {
@@ -2454,7 +3458,9 @@
             3: { name: 'Valley V-Shape Pro',      emoji: '🔻' },
             4: { name: 'Outlier Conqueror',       emoji: '🎯' },
             5: { name: 'All-Black Key Master',    emoji: '⬛' },
-            6: { name: 'Two Hand Bass Master',    emoji: '🙌' }
+            6: { name: 'Two Hand Bass Master',    emoji: '🙌' },
+            7: { name: 'Pattern & Arpeggio Master', emoji: '🎼' },
+            8: { name: 'Inversion Master',        emoji: '🔄' }
         };
 
         // Load progress from Firebase (via parent app) or localStorage
@@ -2511,7 +3517,7 @@
             const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
             const badgesDict = (currentLang === 'nl') ? LESSON_BADGES_NL : LESSON_BADGES;
 
-            for (let id = 1; id <= 6; id++) {
+            for (let id = 1; id <= 8; id++) {
                 const done = !!progress[id];
                 if (done) doneCount++;
 
@@ -2561,7 +3567,7 @@
             const textEl = document.getElementById('overall-progress-text');
             const percentEl = document.getElementById('overall-progress-percent');
             const fillEl = document.getElementById('overall-progress-fill');
-            const pct = Math.round((doneCount / 6) * 100);
+            const pct = Math.round((doneCount / 8) * 100);
 
             if (textEl) textEl.textContent = t.progressText.replace('{count}', doneCount);
             if (percentEl) percentEl.textContent = `${pct}%`;
@@ -2602,7 +3608,7 @@
 
         // Show/hide the all-badges celebration banner
         function checkAllBadgesEarned(progress) {
-            const allDone = [1, 2, 3, 4, 5, 6].every(id => !!progress[id]);
+            const allDone = [1, 2, 3, 4, 5, 6, 7, 8].every(id => !!progress[id]);
             const banner = document.getElementById('all-badges-banner');
 
             if (allDone) {
