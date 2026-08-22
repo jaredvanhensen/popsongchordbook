@@ -2564,6 +2564,11 @@ td:has(.row-edit-input.input-focused) {
         margin-right: 0 !important; /* Remove desktop margins to tighten layout */
     }
 
+    .filter-buttons .header-streak-widget {
+        padding: 4px 8px !important;
+        font-size: 12px !important;
+    }
+
     .setlist-controls {
         flex: 1 1 auto;
         flex-wrap: wrap;
@@ -12522,7 +12527,7 @@ body.theme-high-contrast .stats-chart-label {
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     user-select: none;
-    margin-left: 4px;
+    flex-shrink: 0;
 }
 
 .header-streak-widget:hover {

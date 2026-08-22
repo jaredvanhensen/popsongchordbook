@@ -658,6 +658,312 @@
             font-weight: 700;
             margin: 0;
         }
+
+        /* === Launch Page & Single Lesson View Modes === */
+
+        .launch-header {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(219, 39, 119, 0.04) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px 30px;
+            margin-bottom: 25px;
+        }
+
+        .launch-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .launch-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .overall-progress-bar-container {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* Launch Grid of 6 Lesson Cards */
+        .launch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .launch-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12);
+            border-color: #a78bfa;
+        }
+
+        .launch-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .launch-emoji {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .launch-badge-tag {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .launch-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .launch-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .launch-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .launch-footer::after {
+            content: '→';
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .launch-card:hover .launch-footer::after {
+            color: #7c3aed;
+            transform: translateX(4px);
+        }
+
+        .launch-status-text {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .launch-card.completed .launch-status-text {
+            color: #059669;
+        }
+
+        .launch-card.completed {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(124, 58, 237, 0.02) 100%);
+        }
+
+        /* Single Lesson Navigation Bar */
+        .single-lesson-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 110;
+        }
+
+        .nav-back-index-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: var(--text-primary);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-back-index-btn:hover {
+            background: #7c3aed;
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .lesson-counter-indicator {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .lesson-prev-next-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-step-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .nav-step-btn:hover:not(:disabled) {
+            background: #7c3aed;
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .nav-step-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Bottom Lesson Nav Bar */
+        .bottom-lesson-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-btn {
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .bottom-nav-btn:hover:not(:disabled) {
+            background: #e2e8f0;
+        }
+
+        .bottom-nav-btn.primary {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+        }
+
+        .bottom-nav-btn.primary:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .bottom-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Mode classes for hiding/showing components */
+        body.mode-launch .lessons-list .lesson-card {
+            display: none !important;
+        }
+
+        body.mode-launch .piano-sidebar {
+            display: none !important;
+        }
+
+        body.mode-launch .lessons-layout {
+            grid-template-columns: 1fr !important;
+        }
+
+        body.mode-single-lesson #lessons-launch-page {
+            display: none !important;
+        }
+
+        body.mode-single-lesson header {
+            display: none !important;
+        }
+
+        body.mode-single-lesson .single-lesson-nav {
+            display: flex !important;
+        }
+
+        body.mode-single-lesson .bottom-lesson-nav {
+            display: flex !important;
+        }
+
+        body.mode-single-lesson .lesson-badges-panel {
+            display: none !important; /* Hide sidebar 6-badge index grid when inside single lesson */
+        }
     </style>
 </head>
 <body>
@@ -672,9 +978,115 @@
         <!-- Main Lessons Column -->
         <div class="lessons-list">
 
-            <!-- All Lessons Completed Banner (shown when all 5 done) -->
+            <!-- All Lessons Completed Banner (shown when all 6 done) -->
             <div class="all-badges-banner" id="all-badges-banner">
-                <p>🏅 All 5 Beginner Lessons Completed! You're a Chord Master!</p>
+                <p>🏅 All 6 Beginner Lessons Completed! You're a Chord Master!</p>
+            </div>
+
+            <!-- Single Lesson Top Navigation Bar -->
+            <div id="single-lesson-nav" class="single-lesson-nav">
+                <button class="nav-back-index-btn" onclick="showLaunchPage()">
+                    ← Back to Index
+                </button>
+                <div class="lesson-counter-indicator" id="lesson-counter-indicator">
+                    Lesson 1 of 6
+                </div>
+                <div class="lesson-prev-next-group">
+                    <button class="nav-step-btn" id="nav-prev-btn" onclick="navigateLesson(-1)">← Prev</button>
+                    <button class="nav-step-btn" id="nav-next-btn" onclick="navigateLesson(1)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Launch Page / Overview Section -->
+            <div id="lessons-launch-page" class="lessons-launch-page">
+                <div class="launch-header">
+                    <h2>Choose a Lesson to Begin</h2>
+                    <p>Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.</p>
+                    <div class="overall-progress-bar-container">
+                        <div class="progress-info">
+                            <span id="overall-progress-text">0 of 6 Lessons Completed</span>
+                            <span id="overall-progress-percent">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="overall-progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Index & Badges Launch Grid -->
+                <div class="launch-grid">
+                    <div class="launch-card sbc-1" id="launch-card-1" onclick="openLesson(1)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎹</span>
+                            <span class="launch-badge-tag">Lesson 1</span>
+                        </div>
+                        <h3>Group 1: White Key Triads</h3>
+                        <p class="launch-desc">Fundamentale "witte toetsen" vormen. Chords: C, F, G Major &amp; Am, Dm, Em Minor.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-1">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-2" id="launch-card-2" onclick="openLesson(2)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🔺</span>
+                            <span class="launch-badge-tag">Lesson 2</span>
+                        </div>
+                        <h3>Group 2: Black Key Top Triangles</h3>
+                        <p class="launch-desc">Driehoekige handvormen met zwarte boventoetsen. Chords: D, E, A Major &amp; Dm, Em, Am Minor.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-2">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-3" id="launch-card-3" onclick="openLesson(3)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">⬛</span>
+                            <span class="launch-badge-tag">Lesson 3</span>
+                        </div>
+                        <h3>Group 3: Black Key Flat Shapes</h3>
+                        <p class="launch-desc">Vlakke akkoordvormen met zwarte grontoetsen. Chords: Db, Eb, Ab Major &amp; Minor.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-3">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-4" id="launch-card-4" onclick="openLesson(4)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎯</span>
+                            <span class="launch-badge-tag">Lesson 4</span>
+                        </div>
+                        <h3>Group 4: The Outliers</h3>
+                        <p class="launch-desc">Unieke en uitdagende akkoordvormen. Chords: B, Bb, F# Major &amp; Minor.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-4">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-5" id="launch-card-5" onclick="openLesson(5)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🏆</span>
+                            <span class="launch-badge-tag">Lesson 5</span>
+                        </div>
+                        <h3>Inversions &amp; Voice Leading</h3>
+                        <p class="launch-desc">Omkeringen &amp; vloeiende overgangen tussen akkoorden zonder te springen.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-5">🔒 Incomplete</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-6" id="launch-card-6" onclick="openLesson(6)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🙌</span>
+                            <span class="launch-badge-tag">Lesson 6</span>
+                        </div>
+                        <h3>Left Hand Bass &amp; Two-Hand Play</h3>
+                        <p class="launch-desc">Basnoten toevoegen in de linkerhand &amp; tweehandige begeleidingstechniek.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-6">🔒 Incomplete</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Lesson 1 -->
@@ -1132,6 +1544,13 @@
                 </div>
             </article>
 
+            <!-- Bottom Lesson Navigation Bar -->
+            <div id="bottom-lesson-nav" class="bottom-lesson-nav">
+                <button class="bottom-nav-btn" id="bottom-prev-btn" onclick="navigateLesson(-1)">← Previous Lesson</button>
+                <button class="bottom-nav-btn secondary" onclick="showLaunchPage()">≡ Lesson Index &amp; Badges</button>
+                <button class="bottom-nav-btn primary" id="bottom-next-btn" onclick="navigateLesson(1)">Next Lesson →</button>
+            </div>
+
         </div>
 
         <!-- Sticky Right Sidebar Visualizer Column -->
@@ -1522,11 +1941,78 @@
             }
         }
 
-        // Initialize diagrams and show C chord by default
+        // Navigation & Single Lesson Mode logic
+        let currentLessonId = null;
+
+        function showLaunchPage() {
+            currentLessonId = null;
+            document.body.classList.remove('mode-single-lesson');
+            document.body.classList.add('mode-launch');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (history.replaceState) {
+                history.replaceState(null, '', location.pathname);
+            }
+        }
+
+        function openLesson(id) {
+            id = parseInt(id, 10);
+            if (isNaN(id) || id < 1 || id > 6) id = 1;
+            currentLessonId = id;
+
+            document.body.classList.remove('mode-launch');
+            document.body.classList.add('mode-single-lesson');
+
+            // Hide all lesson cards, show only active one
+            for (let i = 1; i <= 6; i++) {
+                const card = document.getElementById(`lesson-card-${i}`);
+                if (card) {
+                    card.style.display = (i === id) ? 'block' : 'none';
+                }
+            }
+
+            // Update Nav indicators
+            const counter = document.getElementById('lesson-counter-indicator');
+            if (counter) counter.textContent = `Lesson ${id} of 6`;
+
+            const prevBtn = document.getElementById('nav-prev-btn');
+            const nextBtn = document.getElementById('nav-next-btn');
+            const bPrevBtn = document.getElementById('bottom-prev-btn');
+            const bNextBtn = document.getElementById('bottom-next-btn');
+
+            if (prevBtn) prevBtn.disabled = (id <= 1);
+            if (nextBtn) nextBtn.disabled = (id >= 6);
+            if (bPrevBtn) bPrevBtn.disabled = (id <= 1);
+            if (bNextBtn) bNextBtn.disabled = (id >= 6);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Visualize default chord for this lesson
+            const defaultChords = { 1: 'C', 2: 'D', 3: 'Db', 4: 'B', 5: 'C', 6: 'C' };
+            if (typeof visualizeChord === 'function') {
+                visualizeChord(defaultChords[id] || 'C');
+            }
+        }
+
+        function navigateLesson(delta) {
+            if (!currentLessonId) currentLessonId = 1;
+            const target = currentLessonId + delta;
+            if (target >= 1 && target <= 6) {
+                openLesson(target);
+            }
+        }
+
+        // Initialize diagrams and show launch page or target hash lesson
         window.addEventListener('DOMContentLoaded', () => {
             renderFingeringDiagrams();
             visualizeChord('C');
             loadLessonProgress();
+
+            const hashMatch = location.hash.match(/#lesson-?([1-6])/i);
+            if (hashMatch) {
+                openLesson(hashMatch[1]);
+            } else {
+                showLaunchPage();
+            }
         });
 
         // === Lesson Progress & Badge System ===
@@ -1555,9 +2041,7 @@
                 }
             } else {
                 // Not connected to Firebase — poll briefly then fallback to localStorage
-                // (lessons page may load before auth finishes)
                 progress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
-                // Try again after auth settles
                 setTimeout(async () => {
                     const fm2 = window.parent?.appInstance?.firebaseManager;
                     if (fm2 && fm2.initialized && fm2.currentUser) {
@@ -1578,12 +2062,10 @@
         async function saveLessonProgress(lessonId, completed) {
             const fm = window.parent?.appInstance?.firebaseManager;
 
-            // Always update localStorage as a quick fallback
             const stored = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
             stored[lessonId] = completed;
             localStorage.setItem('lessonProgress', JSON.stringify(stored));
 
-            // Also save to Firebase if available
             if (fm && fm.initialized && fm.currentUser) {
                 try {
                     await fm.updatePreference(`lessonProgress/${lessonId}`, completed);
@@ -1595,8 +2077,11 @@
 
         // Apply the progress state object to all UI elements
         function applyProgressToUI(progress) {
+            let doneCount = 0;
             for (let id = 1; id <= 6; id++) {
                 const done = !!progress[id];
+                if (done) doneCount++;
+
                 const card     = document.getElementById(`lesson-card-${id}`);
                 const sec      = document.getElementById(`complete-section-${id}`);
                 const label    = document.getElementById(`complete-label-${id}`);
@@ -1604,44 +2089,56 @@
                 const sbcCard  = document.getElementById(`sidebar-badge-${id}`);
                 const sbcCheck = document.getElementById(`sbc-check-${id}`);
 
-                if (!sec) continue;
+                const launchCard   = document.getElementById(`launch-card-${id}`);
+                const launchStatus = document.getElementById(`launch-status-${id}`);
+                const badgeInfo    = LESSON_BADGES[id];
 
                 if (done) {
-                    card.classList.add('lesson-done');
-                    sec.classList.add('completed');
-                    label.textContent = 'Completed!';
-                    tag.classList.add('done-tag');
+                    if (card) card.classList.add('lesson-done');
+                    if (sec) sec.classList.add('completed');
+                    if (label) label.textContent = 'Completed!';
+                    if (tag) tag.classList.add('done-tag');
 
                     if (sbcCard) {
                         sbcCard.classList.remove('locked');
                         sbcCard.classList.add('earned');
                     }
-                    if (sbcCheck) {
-                        sbcCheck.textContent = '✓';
-                    }
+                    if (sbcCheck) sbcCheck.textContent = '✓';
+
+                    if (launchCard) launchCard.classList.add('completed');
+                    if (launchStatus) launchStatus.textContent = `✓ ${badgeInfo ? badgeInfo.name : 'Completed'}`;
                 } else {
-                    card.classList.remove('lesson-done');
-                    sec.classList.remove('completed');
-                    label.textContent = 'Mark as complete';
-                    tag.classList.remove('done-tag');
+                    if (card) card.classList.remove('lesson-done');
+                    if (sec) sec.classList.remove('completed');
+                    if (label) label.textContent = 'Mark as complete';
+                    if (tag) tag.classList.remove('done-tag');
 
                     if (sbcCard) {
                         sbcCard.classList.remove('earned');
                         sbcCard.classList.add('locked');
                     }
-                    if (sbcCheck) {
-                        sbcCheck.textContent = '🔒';
-                    }
+                    if (sbcCheck) sbcCheck.textContent = '🔒';
+
+                    if (launchCard) launchCard.classList.remove('completed');
+                    if (launchStatus) launchStatus.textContent = '🔒 Incomplete';
                 }
             }
+
+            // Update overall progress bar
+            const textEl = document.getElementById('overall-progress-text');
+            const percentEl = document.getElementById('overall-progress-percent');
+            const fillEl = document.getElementById('overall-progress-fill');
+            const pct = Math.round((doneCount / 6) * 100);
+
+            if (textEl) textEl.textContent = `${doneCount} of 6 Lessons Completed`;
+            if (percentEl) percentEl.textContent = `${pct}%`;
+            if (fillEl) fillEl.style.width = `${pct}%`;
+
             checkAllBadgesEarned(progress);
         }
 
         function scrollToLesson(id) {
-            const card = document.getElementById(`lesson-card-${id}`);
-            if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            openLesson(id);
         }
 
         // Toggle a lesson's completion on click
@@ -1650,7 +2147,6 @@
             const fm = window.parent?.appInstance?.firebaseManager;
             let currentProgress = { ...stored };
 
-            // If Firebase available, load from there for freshest state
             if (fm && fm.initialized && fm.currentUser) {
                 try {
                     const fbProgress = await fm.getPreference('lessonProgress', {});
