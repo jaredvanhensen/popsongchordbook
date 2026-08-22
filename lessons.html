@@ -669,6 +669,55 @@
             margin-bottom: 25px;
         }
 
+        .launch-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .lang-toggle-btn {
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: #7c3aed;
+        }
+
+        .lang-pill {
+            padding: 4px 10px;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #64748b;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-toggle-btn.mini .lang-pill {
+            padding: 3px 7px;
+            font-size: 0.75rem;
+        }
+
+        .lang-pill.active {
+            background: #ffffff;
+            color: var(--text-primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
         .launch-header h2 {
             font-size: 1.4rem;
             font-weight: 800;
@@ -679,7 +728,7 @@
         .launch-header p {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
 
         .overall-progress-bar-container {
@@ -1000,8 +1049,16 @@
             <!-- Launch Page / Overview Section -->
             <div id="lessons-launch-page" class="lessons-launch-page">
                 <div class="launch-header">
-                    <h2>Choose a Lesson to Begin</h2>
-                    <p>Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.</p>
+                    <div class="launch-header-top">
+                        <div>
+                            <h2 id="txt-launch-title">Choose a Lesson to Begin</h2>
+                            <p id="txt-launch-subtitle">Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.</p>
+                        </div>
+                        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal">
+                            <span class="lang-pill lang-pill-en active">🇬🇧 EN</span>
+                            <span class="lang-pill lang-pill-nl">🇳🇱 NL</span>
+                        </button>
+                    </div>
                     <div class="overall-progress-bar-container">
                         <div class="progress-info">
                             <span id="overall-progress-text">0 of 6 Lessons Completed</span>
@@ -1018,10 +1075,10 @@
                     <div class="launch-card sbc-1" id="launch-card-1" onclick="openLesson(1)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">🎹</span>
-                            <span class="launch-badge-tag">Lesson 1</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-1">Lesson 1</span>
                         </div>
-                        <h3>Group 1: White Key Triads</h3>
-                        <p class="launch-desc">Fundamentale "witte toetsen" vormen. Chords: C, F, G Major &amp; Am, Dm, Em Minor.</p>
+                        <h3 id="launch-card-title-1">Group 1: White Key Triads</h3>
+                        <p class="launch-desc" id="launch-card-desc-1">Fundamental white key shapes. Chords: C, F, G Major &amp; Am, Dm, Em Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-1">🔒 Incomplete</span>
                         </div>
@@ -1030,10 +1087,10 @@
                     <div class="launch-card sbc-2" id="launch-card-2" onclick="openLesson(2)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">🔺</span>
-                            <span class="launch-badge-tag">Lesson 2</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-2">Lesson 2</span>
                         </div>
-                        <h3>Group 2: Black Key Top Triangles</h3>
-                        <p class="launch-desc">Driehoekige handvormen met zwarte boventoetsen. Chords: D, E, A Major &amp; Dm, Em, Am Minor.</p>
+                        <h3 id="launch-card-title-2">Group 2: Black Key Top Triangles</h3>
+                        <p class="launch-desc" id="launch-card-desc-2">Triangular hand shapes with black top keys. Chords: D, E, A Major &amp; Dm, Em, Am Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-2">🔒 Incomplete</span>
                         </div>
@@ -1042,10 +1099,10 @@
                     <div class="launch-card sbc-3" id="launch-card-3" onclick="openLesson(3)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">⬛</span>
-                            <span class="launch-badge-tag">Lesson 3</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-3">Lesson 3</span>
                         </div>
-                        <h3>Group 3: Black Key Flat Shapes</h3>
-                        <p class="launch-desc">Vlakke akkoordvormen met zwarte grontoetsen. Chords: Db, Eb, Ab Major &amp; Minor.</p>
+                        <h3 id="launch-card-title-3">Group 3: Black Key Flat Shapes</h3>
+                        <p class="launch-desc" id="launch-card-desc-3">Flat chord shapes with black root notes. Chords: Db, Eb, Ab Major &amp; Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-3">🔒 Incomplete</span>
                         </div>
@@ -1054,10 +1111,10 @@
                     <div class="launch-card sbc-4" id="launch-card-4" onclick="openLesson(4)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">🎯</span>
-                            <span class="launch-badge-tag">Lesson 4</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-4">Lesson 4</span>
                         </div>
-                        <h3>Group 4: The Outliers</h3>
-                        <p class="launch-desc">Unieke en uitdagende akkoordvormen. Chords: B, Bb, F# Major &amp; Minor.</p>
+                        <h3 id="launch-card-title-4">Group 4: The Outliers</h3>
+                        <p class="launch-desc" id="launch-card-desc-4">Unique and challenging chord shapes. Chords: B, Bb, F# Major &amp; Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-4">🔒 Incomplete</span>
                         </div>
@@ -1066,10 +1123,10 @@
                     <div class="launch-card sbc-5" id="launch-card-5" onclick="openLesson(5)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">🏆</span>
-                            <span class="launch-badge-tag">Lesson 5</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-5">Lesson 5</span>
                         </div>
-                        <h3>Inversions &amp; Voice Leading</h3>
-                        <p class="launch-desc">Omkeringen &amp; vloeiende overgangen tussen akkoorden zonder te springen.</p>
+                        <h3 id="launch-card-title-5">Group 5: The 3 Black Key Chords (F# / Gb)</h3>
+                        <p class="launch-desc" id="launch-card-desc-5">All-black key triad shapes. Chords: F# / Gb Major &amp; F#m Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-5">🔒 Incomplete</span>
                         </div>
@@ -1078,10 +1135,10 @@
                     <div class="launch-card sbc-6" id="launch-card-6" onclick="openLesson(6)">
                         <div class="launch-card-header">
                             <span class="launch-emoji">🙌</span>
-                            <span class="launch-badge-tag">Lesson 6</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-6">Lesson 6</span>
                         </div>
-                        <h3>Left Hand Bass &amp; Two-Hand Play</h3>
-                        <p class="launch-desc">Basnoten toevoegen in de linkerhand &amp; tweehandige begeleidingstechniek.</p>
+                        <h3 id="launch-card-title-6">Left Hand Bass &amp; Two-Hand Play</h3>
+                        <p class="launch-desc" id="launch-card-desc-6">Adding octave bass notes with left hand &amp; two-handed accompaniment technique.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-6">🔒 Incomplete</span>
                         </div>
@@ -1618,36 +1675,36 @@
                 </div>
 
                 <div class="lesson-badges-panel">
-                    <h4>Lesson Index &amp; Badges</h4>
+                    <h4 id="sidebar-badges-title">Lesson Index &amp; Badges</h4>
                     <div class="badge-cards-grid">
                         <div class="sidebar-badge-card sbc-1 locked" id="sidebar-badge-1" onclick="scrollToLesson(1)">
                             <span class="sbc-emoji">🎹</span>
-                            <span class="sbc-label">Lesson 1</span>
+                            <span class="sbc-label" id="sbc-label-1">Lesson 1</span>
                             <span class="sbc-check" id="sbc-check-1">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-2 locked" id="sidebar-badge-2" onclick="scrollToLesson(2)">
                             <span class="sbc-emoji">🔺</span>
-                            <span class="sbc-label">Lesson 2</span>
+                            <span class="sbc-label" id="sbc-label-2">Lesson 2</span>
                             <span class="sbc-check" id="sbc-check-2">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-3 locked" id="sidebar-badge-3" onclick="scrollToLesson(3)">
                             <span class="sbc-emoji">⬛</span>
-                            <span class="sbc-label">Lesson 3</span>
+                            <span class="sbc-label" id="sbc-label-3">Lesson 3</span>
                             <span class="sbc-check" id="sbc-check-3">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-4 locked" id="sidebar-badge-4" onclick="scrollToLesson(4)">
                             <span class="sbc-emoji">🎯</span>
-                            <span class="sbc-label">Lesson 4</span>
+                            <span class="sbc-label" id="sbc-label-4">Lesson 4</span>
                             <span class="sbc-check" id="sbc-check-4">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-5 locked" id="sidebar-badge-5" onclick="scrollToLesson(5)">
                             <span class="sbc-emoji">🏆</span>
-                            <span class="sbc-label">Lesson 5</span>
+                            <span class="sbc-label" id="sbc-label-5">Lesson 5</span>
                             <span class="sbc-check" id="sbc-check-5">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-6 locked" id="sidebar-badge-6" onclick="scrollToLesson(6)">
                             <span class="sbc-emoji">🙌</span>
-                            <span class="sbc-label">Lesson 6</span>
+                            <span class="sbc-label" id="sbc-label-6">Lesson 6</span>
                             <span class="sbc-check" id="sbc-check-6">🔒</span>
                         </div>
                     </div>
@@ -2001,10 +2058,192 @@
             }
         }
 
+        // === Language Translation System (EN / NL) ===
+
+        const TRANSLATIONS = {
+            en: {
+                headerTitle: "Keyboard Beginner Lessons",
+                headerSubtitle: "A fast track training program designed to teach you chord-shape systems so you can play your favorite pop songs instantly.",
+                launchTitle: "Choose a Lesson to Begin",
+                launchSubtitle: "Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.",
+                allBadgesCompleted: "🏅 All 6 Beginner Lessons Completed! You're a Chord Master!",
+                progressText: "{count} of 6 Lessons Completed",
+                backToIndex: "← Back to Index",
+                lessonCounter: "Lesson {id} of 6",
+                lessonTag: "Lesson {id}",
+                prev: "← Prev",
+                next: "Next →",
+                prevLesson: "← Previous Lesson",
+                indexAndBadges: "≡ Lesson Index & Badges",
+                nextLesson: "Next Lesson →",
+                statusIncomplete: "🔒 Incomplete",
+                statusCompleted: "✓ {badge}",
+                completedText: "Completed!",
+                markCompleteText: "Mark as complete",
+                
+                card1: {
+                    title: "Group 1: White Key Triads",
+                    desc: "Fundamental white key shapes. Chords: C, F, G Major & Am, Dm, Em Minor."
+                },
+                card2: {
+                    title: "Group 2: Black Key Top Triangles",
+                    desc: "Triangular hand shapes with black top keys. Chords: D, E, A Major & Dm, Em, Am Minor."
+                },
+                card3: {
+                    title: "Group 3: Black Key Flat Shapes",
+                    desc: "Flat chord shapes with black root notes. Chords: Db, Eb, Ab Major & Minor."
+                },
+                card4: {
+                    title: "Group 4: The Outliers",
+                    desc: "Unique and challenging chord shapes. Chords: B, Bb, F# Major & Minor."
+                },
+                card5: {
+                    title: "Group 5: The 3 Black Key Chords (F# / Gb)",
+                    desc: "All-black key triad shapes. Chords: F# / Gb Major & F#m Minor."
+                },
+                card6: {
+                    title: "Group 6: Left Hand Bass & Two-Hand Play",
+                    desc: "Adding octave bass notes with left hand & two-handed accompaniment technique."
+                }
+            },
+            nl: {
+                headerTitle: "Piano & Keyboard Beginnerslessen",
+                headerSubtitle: "Een snelle trainingsmethode om akkoordvormen te leren, zodat je direct je favoriete popliedjes kunt spelen.",
+                launchTitle: "Kies een Les om te Beginnen",
+                launchSubtitle: "Leer stap-voor-stap akkoordvormen. Selecteer hieronder een les om te oefenen.",
+                allBadgesCompleted: "🏅 Alle 6 Beginnerslessen Voltooid! Je bent een Akkoordmeester!",
+                progressText: "{count} van de 6 Lessen Voltooid",
+                backToIndex: "← Terug naar Index",
+                lessonCounter: "Les {id} van 6",
+                lessonTag: "Les {id}",
+                prev: "← Vorige",
+                next: "Volgende →",
+                prevLesson: "← Vorige Les",
+                indexAndBadges: "≡ Lessenindex & Badges",
+                nextLesson: "Volgende Les →",
+                statusIncomplete: "🔒 Onvoltooid",
+                statusCompleted: "✓ {badge}",
+                completedText: "Voltooid!",
+                markCompleteText: "Markeer als voltooid",
+                
+                card1: {
+                    title: "Groep 1: Witte Toetsen Drieklanken",
+                    desc: "Fundamentele \"witte toetsen\" vormen. Chords: C, F, G Major & Am, Dm, Em Minor."
+                },
+                card2: {
+                    title: "Groep 2: Zwarte Boventoetsen Driehoeken",
+                    desc: "Driehoekige handvormen met zwarte boventoetsen. Chords: D, E, A Major & Dm, Em, Am Minor."
+                },
+                card3: {
+                    title: "Groep 3: Zwarte Grondtoetsen",
+                    desc: "Vlakke akkoordvormen met zwarte grondtoetsen. Chords: Db, Eb, Ab Major & Minor."
+                },
+                card4: {
+                    title: "Groep 4: De Buitenbeentjes",
+                    desc: "Unieke en uitdagende akkoordvormen. Chords: B, Bb, F# Major & Minor."
+                },
+                card5: {
+                    title: "Groep 5: De 3 zwarte toetsen akkoorden (F# / Gb)",
+                    desc: "Volledig zwarte toetsen akkoordvormen. Chords: F# / Gb Major & F#m Minor."
+                },
+                card6: {
+                    title: "Groep 6: Linkerhand Bas & Tweehandig Spel",
+                    desc: "Basnoten toevoegen in de linkerhand & tweehandige begeleidingstechniek."
+                }
+            }
+        };
+
+        const LESSON_BADGES_NL = {
+            1: { name: 'Witte Toetsen Meester',    emoji: '🎹' },
+            2: { name: 'Driehoek Vorm Pro',        emoji: '🔺' },
+            3: { name: 'Zwarte Toetsen Binder',    emoji: '⬛' },
+            4: { name: 'Buitenbeen Veroveraar',    emoji: '🎯' },
+            5: { name: 'Vloeiende Cirkel Kampioen',emoji: '🏆' },
+            6: { name: 'Tweehandige Bas Meester',  emoji: '🙌' }
+        };
+
+        let currentLang = localStorage.getItem('lessonsLang') || 'en';
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'nl' : 'en';
+            localStorage.setItem('lessonsLang', currentLang);
+            applyLanguageToUI();
+        }
+
+        function applyLanguageToUI() {
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            
+            // Header & Launch Header
+            const h1 = document.querySelector('header h1');
+            const hp = document.querySelector('header p');
+            const launchTitle = document.getElementById('txt-launch-title');
+            const launchSubtitle = document.getElementById('txt-launch-subtitle');
+            const bannerText = document.querySelector('#all-badges-banner p');
+            const sbTitle = document.getElementById('sidebar-badges-title');
+
+            if (h1) h1.textContent = t.headerTitle;
+            if (hp) hp.textContent = t.headerSubtitle;
+            if (launchTitle) launchTitle.textContent = t.launchTitle;
+            if (launchSubtitle) launchSubtitle.textContent = t.launchSubtitle;
+            if (bannerText) bannerText.textContent = t.allBadgesCompleted;
+            if (sbTitle) sbTitle.textContent = t.indexAndBadges.replace(/^≡\s*/, '');
+
+            // Language Toggle Pill States (EN vs NL)
+            if (currentLang === 'nl') {
+                document.querySelectorAll('.lang-pill-en').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.lang-pill-nl').forEach(el => el.classList.add('active'));
+            } else {
+                document.querySelectorAll('.lang-pill-en').forEach(el => el.classList.add('active'));
+                document.querySelectorAll('.lang-pill-nl').forEach(el => el.classList.remove('active'));
+            }
+
+            // Launch Cards & Lesson Badge Tags (Lesson X vs Les X)
+            for (let id = 1; id <= 6; id++) {
+                const cData = t[`card${id}`];
+                const cardTitle = document.getElementById(`launch-card-title-${id}`);
+                const cardDesc = document.getElementById(`launch-card-desc-${id}`);
+
+                if (cData) {
+                    if (cardTitle) cardTitle.textContent = cData.title;
+                    if (cardDesc) cardDesc.textContent = cData.desc;
+                }
+
+                const tagText = t.lessonTag.replace('{id}', id);
+                const launchTag = document.getElementById(`launch-badge-tag-${id}`);
+                const lessonTag = document.getElementById(`lesson-tag-${id}`);
+                const sbcLabel  = document.getElementById(`sbc-label-${id}`);
+
+                if (launchTag) launchTag.textContent = tagText;
+                if (lessonTag) lessonTag.textContent = tagText;
+                if (sbcLabel) sbcLabel.textContent = tagText;
+            }
+
+            // Navigation Buttons
+            const backBtns = document.querySelectorAll('.nav-back-index-btn');
+            backBtns.forEach(btn => btn.textContent = t.backToIndex);
+
+            const prevStep = document.getElementById('nav-prev-btn');
+            const nextStep = document.getElementById('nav-next-btn');
+            if (prevStep) prevStep.textContent = t.prev;
+            if (nextStep) nextStep.textContent = t.next;
+
+            const bPrev = document.getElementById('bottom-prev-btn');
+            const bMid = document.querySelector('.bottom-nav-btn.secondary');
+            const bNext = document.getElementById('bottom-next-btn');
+            if (bPrev) bPrev.textContent = t.prevLesson;
+            if (bMid) bMid.textContent = t.indexAndBadges;
+            if (bNext) bNext.textContent = t.nextLesson;
+
+            // Re-apply progress state in selected language
+            const stored = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            applyProgressToUI(stored);
+        }
+
         // Initialize diagrams and show launch page or target hash lesson
         window.addEventListener('DOMContentLoaded', () => {
             renderFingeringDiagrams();
             visualizeChord('C');
+            applyLanguageToUI();
             loadLessonProgress();
 
             const hashMatch = location.hash.match(/#lesson-?([1-6])/i);
@@ -2040,7 +2279,6 @@
                     progress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
                 }
             } else {
-                // Not connected to Firebase — poll briefly then fallback to localStorage
                 progress = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
                 setTimeout(async () => {
                     const fm2 = window.parent?.appInstance?.firebaseManager;
@@ -2078,6 +2316,9 @@
         // Apply the progress state object to all UI elements
         function applyProgressToUI(progress) {
             let doneCount = 0;
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+            const badgesDict = (currentLang === 'nl') ? LESSON_BADGES_NL : LESSON_BADGES;
+
             for (let id = 1; id <= 6; id++) {
                 const done = !!progress[id];
                 if (done) doneCount++;
@@ -2091,12 +2332,12 @@
 
                 const launchCard   = document.getElementById(`launch-card-${id}`);
                 const launchStatus = document.getElementById(`launch-status-${id}`);
-                const badgeInfo    = LESSON_BADGES[id];
+                const badgeInfo    = badgesDict[id];
 
                 if (done) {
                     if (card) card.classList.add('lesson-done');
                     if (sec) sec.classList.add('completed');
-                    if (label) label.textContent = 'Completed!';
+                    if (label) label.textContent = t.completedText;
                     if (tag) tag.classList.add('done-tag');
 
                     if (sbcCard) {
@@ -2106,11 +2347,11 @@
                     if (sbcCheck) sbcCheck.textContent = '✓';
 
                     if (launchCard) launchCard.classList.add('completed');
-                    if (launchStatus) launchStatus.textContent = `✓ ${badgeInfo ? badgeInfo.name : 'Completed'}`;
+                    if (launchStatus) launchStatus.textContent = `✓ ${badgeInfo ? badgeInfo.name : t.completedText}`;
                 } else {
                     if (card) card.classList.remove('lesson-done');
                     if (sec) sec.classList.remove('completed');
-                    if (label) label.textContent = 'Mark as complete';
+                    if (label) label.textContent = t.markCompleteText;
                     if (tag) tag.classList.remove('done-tag');
 
                     if (sbcCard) {
@@ -2120,7 +2361,7 @@
                     if (sbcCheck) sbcCheck.textContent = '🔒';
 
                     if (launchCard) launchCard.classList.remove('completed');
-                    if (launchStatus) launchStatus.textContent = '🔒 Incomplete';
+                    if (launchStatus) launchStatus.textContent = t.statusIncomplete;
                 }
             }
 
@@ -2130,9 +2371,15 @@
             const fillEl = document.getElementById('overall-progress-fill');
             const pct = Math.round((doneCount / 6) * 100);
 
-            if (textEl) textEl.textContent = `${doneCount} of 6 Lessons Completed`;
+            if (textEl) textEl.textContent = t.progressText.replace('{count}', doneCount);
             if (percentEl) percentEl.textContent = `${pct}%`;
             if (fillEl) fillEl.style.width = `${pct}%`;
+
+            // Update current lesson counter if active
+            if (currentLessonId) {
+                const counter = document.getElementById('lesson-counter-indicator');
+                if (counter) counter.textContent = t.lessonCounter.replace('{id}', currentLessonId);
+            }
 
             checkAllBadgesEarned(progress);
         }
