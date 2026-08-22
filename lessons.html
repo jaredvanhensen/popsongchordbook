@@ -940,7 +940,7 @@
         .bottom-lesson-nav {
             display: none;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 10px;
             margin-top: 30px;
             padding-top: 20px;
@@ -1035,14 +1035,10 @@
             <!-- Single Lesson Top Navigation Bar -->
             <div id="single-lesson-nav" class="single-lesson-nav">
                 <button class="nav-back-index-btn" onclick="showLaunchPage()">
-                    ← Back to Index
+                    ← Back
                 </button>
                 <div class="lesson-counter-indicator" id="lesson-counter-indicator">
                     Lesson 1 of 6
-                </div>
-                <div class="lesson-prev-next-group">
-                    <button class="nav-step-btn" id="nav-prev-btn" onclick="navigateLesson(-1)">← Prev</button>
-                    <button class="nav-step-btn" id="nav-next-btn" onclick="navigateLesson(1)">Next →</button>
                 </div>
             </div>
 
@@ -1619,9 +1615,7 @@
 
             <!-- Bottom Lesson Navigation Bar -->
             <div id="bottom-lesson-nav" class="bottom-lesson-nav">
-                <button class="bottom-nav-btn" id="bottom-prev-btn" onclick="navigateLesson(-1)">← Previous Lesson</button>
                 <button class="bottom-nav-btn secondary" onclick="showLaunchPage()">≡ Lesson Index &amp; Badges</button>
-                <button class="bottom-nav-btn primary" id="bottom-next-btn" onclick="navigateLesson(1)">Next Lesson →</button>
             </div>
 
         </div>
@@ -2086,7 +2080,7 @@
                 launchSubtitle: "Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.",
                 allBadgesCompleted: "🏅 All 6 Beginner Lessons Completed! You're a Chord Master!",
                 progressText: "{count} of 6 Lessons Completed",
-                backToIndex: "← Back to Index",
+                backToIndex: "← Back",
                 lessonCounter: "Lesson {id} of 6",
                 lessonTag: "Lesson {id}",
                 prev: "← Prev",
@@ -2185,7 +2179,7 @@
                 launchSubtitle: "Leer stap-voor-stap akkoordvormen. Selecteer hieronder een les om te oefenen.",
                 allBadgesCompleted: "🏅 Alle 6 Beginnerslessen Voltooid! Je bent een Akkoordmeester!",
                 progressText: "{count} van de 6 Lessen Voltooid",
-                backToIndex: "← Terug naar Index",
+                backToIndex: "← Terug",
                 lessonCounter: "Les {id} van 6",
                 lessonTag: "Les {id}",
                 prev: "← Vorige",
