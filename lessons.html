@@ -1055,8 +1055,14 @@
                             <p id="txt-launch-subtitle">Master keyboard chord shapes step-by-step. Select a lesson below to start practicing.</p>
                         </div>
                         <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal">
-                            <span class="lang-pill lang-pill-en active">🇬🇧 EN</span>
-                            <span class="lang-pill lang-pill-nl">🇳🇱 NL</span>
+                            <span class="lang-pill lang-pill-en active">
+                                <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-uk-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-uk-clip)"><rect width="60" height="42" fill="#012169"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#ffffff" stroke-width="7"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#C8102E" stroke-width="3"/><path d="M30,0 V42 M0,21 H60" stroke="#ffffff" stroke-width="11"/><path d="M30,0 V42 M0,21 H60" stroke="#C8102E" stroke-width="6"/></g></svg>
+                                EN
+                            </span>
+                            <span class="lang-pill lang-pill-nl">
+                                <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-nl-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-nl-clip)"><rect width="60" height="14" fill="#AE1C28"/><rect y="14" width="60" height="14" fill="#FFFFFF"/><rect y="28" width="60" height="14" fill="#21468B"/></g></svg>
+                                NL
+                            </span>
                         </button>
                     </div>
                     <div class="overall-progress-bar-container">
@@ -1077,7 +1083,7 @@
                             <span class="launch-emoji">🎹</span>
                             <span class="launch-badge-tag" id="launch-badge-tag-1">Lesson 1</span>
                         </div>
-                        <h3 id="launch-card-title-1">Group 1: White Key Triads</h3>
+                        <h3 id="launch-card-title-1">Group 1: White Key Chords</h3>
                         <p class="launch-desc" id="launch-card-desc-1">Fundamental white key shapes. Chords: C, F, G Major &amp; Am, Dm, Em Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-1">🔒 Incomplete</span>
@@ -1089,8 +1095,8 @@
                             <span class="launch-emoji">🔺</span>
                             <span class="launch-badge-tag" id="launch-badge-tag-2">Lesson 2</span>
                         </div>
-                        <h3 id="launch-card-title-2">Group 2: Black Key Top Triangles</h3>
-                        <p class="launch-desc" id="launch-card-desc-2">Triangular hand shapes with black top keys. Chords: D, E, A Major &amp; Dm, Em, Am Minor.</p>
+                        <h3 id="launch-card-title-2">Group 2: The Mountain or ∧-shape chords</h3>
+                        <p class="launch-desc" id="launch-card-desc-2">Triangular hand shapes with 1 black key in the middle. Chords: D, E &amp; A Major.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-2">🔒 Incomplete</span>
                         </div>
@@ -1098,10 +1104,10 @@
 
                     <div class="launch-card sbc-3" id="launch-card-3" onclick="openLesson(3)">
                         <div class="launch-card-header">
-                            <span class="launch-emoji">⬛</span>
+                            <span class="launch-emoji">🔻</span>
                             <span class="launch-badge-tag" id="launch-badge-tag-3">Lesson 3</span>
                         </div>
-                        <h3 id="launch-card-title-3">Group 3: Black Key Flat Shapes</h3>
+                        <h3 id="launch-card-title-3">Group 3: The Valley or V-shape chords</h3>
                         <p class="launch-desc" id="launch-card-desc-3">Flat chord shapes with black root notes. Chords: Db, Eb, Ab Major &amp; Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-3">🔒 Incomplete</span>
@@ -1114,7 +1120,7 @@
                             <span class="launch-badge-tag" id="launch-badge-tag-4">Lesson 4</span>
                         </div>
                         <h3 id="launch-card-title-4">Group 4: The Outliers</h3>
-                        <p class="launch-desc" id="launch-card-desc-4">Unique and challenging chord shapes. Chords: B, Bb, F# Major &amp; Minor.</p>
+                        <p class="launch-desc" id="launch-card-desc-4">Unique and challenging chord shapes (B and Bb).</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-4">🔒 Incomplete</span>
                         </div>
@@ -1122,11 +1128,11 @@
 
                     <div class="launch-card sbc-5" id="launch-card-5" onclick="openLesson(5)">
                         <div class="launch-card-header">
-                            <span class="launch-emoji">🏆</span>
+                            <span class="launch-emoji">⬛</span>
                             <span class="launch-badge-tag" id="launch-badge-tag-5">Lesson 5</span>
                         </div>
-                        <h3 id="launch-card-title-5">Group 5: The 3 Black Key Chords (F# / Gb)</h3>
-                        <p class="launch-desc" id="launch-card-desc-5">All-black key triad shapes. Chords: F# / Gb Major &amp; F#m Minor.</p>
+                        <h3 id="launch-card-title-5">Group 5: The 3 Black Key Chords (F# / Gb and D#m / Ebm)</h3>
+                        <p class="launch-desc" id="launch-card-desc-5">All-black key triad shapes. Chords: F# / Gb Major &amp; D#m / Ebm Minor.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-5">🔒 Incomplete</span>
                         </div>
@@ -1151,34 +1157,34 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-1">Lesson 1</span>
                 </div>
-                <h2>Chord Group 1: White Key Triads (C, F, G Shapes)</h2>
-                <p class="lesson-desc">Start by learning the fundamental "white key shapes" where the chords consist entirely of white keys. Once mastered, we apply the minor equivalents (Am, Dm, Em) which share identical physical shapes.</p>
+                <h2 id="lesson-title-1">Chord Group 1: White Key Chords (C, F, G Shapes)</h2>
+                <p class="lesson-desc" id="lesson-desc-1">Start by learning the fundamental "white key shapes" where the chords consist entirely of white keys. Once mastered, we apply the minor equivalents (Am, Dm, Em) which share identical physical shapes.</p>
 
                 <div class="theory-box">
-                    <h4>💡 Chord Shapes Theory</h4>
-                    <p>Major chords (C, F, G) on white keys use standard shape spacing (root, skip 3 semitones, skip 2 semitones). The minor shapes (Am, Dm, Em) have the exact same shape index, making them easy transitions.</p>
+                    <h4 id="theory-title-1">💡 Chord Shapes Theory</h4>
+                    <p id="theory-desc-1">Major chords (C, F, G) on white keys use standard shape spacing (root, skip 3 semitones, skip 2 semitones). The minor shapes (Am, Dm, Em) have the exact same shape index, making them easy transitions.</p>
                 </div>
 
                 <div class="chord-shapes-section">
-                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <h4 id="practice-header-1">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="visualizeChord('C')" onmouseenter="visualizeChord('C')">C Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('F')" onmouseenter="visualizeChord('F')">F Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('G')" onmouseenter="visualizeChord('G')">G Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('Am')" onmouseenter="visualizeChord('Am')">A Minor</span>
-                        <span class="chord-badge" onclick="visualizeChord('Dm')" onmouseenter="visualizeChord('Dm')">D Minor</span>
-                        <span class="chord-badge" onclick="visualizeChord('Em')" onmouseenter="visualizeChord('Em')">E Minor</span>
+                        <span class="chord-badge" id="badge-c" onclick="visualizeChord('C')" onmouseenter="visualizeChord('C')">C Major</span>
+                        <span class="chord-badge" id="badge-f" onclick="visualizeChord('F')" onmouseenter="visualizeChord('F')">F Major</span>
+                        <span class="chord-badge" id="badge-g" onclick="visualizeChord('G')" onmouseenter="visualizeChord('G')">G Major</span>
+                        <span class="chord-badge" id="badge-am" onclick="visualizeChord('Am')" onmouseenter="visualizeChord('Am')">A Minor</span>
+                        <span class="chord-badge" id="badge-dm" onclick="visualizeChord('Dm')" onmouseenter="visualizeChord('Dm')">D Minor</span>
+                        <span class="chord-badge" id="badge-em" onclick="visualizeChord('Em')" onmouseenter="visualizeChord('Em')">E Minor</span>
                     </div>
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ C Major Shape Fingering</h5>
+                    <h5 id="fingering-title-1">🖐️ C Major Shape Fingering</h5>
                     <div class="chord-fingering-diagram" data-chord="C"></div>
-                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on C, <strong>3</strong> (Middle) on E, and <strong>5</strong> (Pinky) on G. Apply this same physical shape to F and G major chords, as well as the minor chords (Am, Dm, Em)!</p>
+                    <p class="fingering-note" id="fingering-note-1">Use right hand fingers: <strong>1</strong> (Thumb) on C, <strong>3</strong> (Middle) on E, and <strong>5</strong> (Pinky) on G. Apply this same physical shape to F and G major chords, as well as the minor chords (Am, Dm, Em)!</p>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <h4 id="songs-header-1">🎵 Apply Chords to Pop Songs</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Harry Styles', 'Sign Of The Times')">
                             <div class="song-info">
@@ -1261,31 +1267,31 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-2">Lesson 2</span>
                 </div>
-                <h2>Chord Group 2: The Triangle Shapes (D, E, A Shapes)</h2>
-                <p class="lesson-desc">Now we move to shapes containing one black key in the middle. Because the black key sits between two white keys, we refer to these physically as "triangle shapes".</p>
+                <h2 id="lesson-title-2">Chord Group 2: The Mountain or ∧-shape Chords (D, E, A Shapes)</h2>
+                <p class="lesson-desc" id="lesson-desc-2">Now we move to shapes containing one black key in the middle. Because the black key sits between two white keys, we refer to these physically as "triangle shapes".</p>
 
                 <div class="theory-box">
-                    <h4>💡 Chord Shapes Theory</h4>
-                    <p>Chords like D (D - F# - A), E (E - G# - B), and A (A - C# - E) feature a black key played by the middle finger, surrounded by white keys for the thumb and pinky finger.</p>
+                    <h4 id="theory-title-2">💡 Chord Shapes Theory</h4>
+                    <p id="theory-desc-2">Chords like D (D - F# - A), E (E - G# - B), and A (A - C# - E) feature a black key played by the middle finger, surrounded by white keys for the thumb and pinky finger.</p>
                 </div>
 
                 <div class="chord-shapes-section">
-                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <h4 id="practice-header-2">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="visualizeChord('D')" onmouseenter="visualizeChord('D')">D Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('E')" onmouseenter="visualizeChord('E')">E Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('A')" onmouseenter="visualizeChord('A')">A Major</span>
+                        <span class="chord-badge" id="badge-d" onclick="visualizeChord('D')" onmouseenter="visualizeChord('D')">D Major</span>
+                        <span class="chord-badge" id="badge-e" onclick="visualizeChord('E')" onmouseenter="visualizeChord('E')">E Major</span>
+                        <span class="chord-badge" id="badge-a" onclick="visualizeChord('A')" onmouseenter="visualizeChord('A')">A Major</span>
                     </div>
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ D Major Shape Fingering</h5>
+                    <h5 id="fingering-title-2">🖐️ D Major Shape Fingering</h5>
                     <div class="chord-fingering-diagram" data-chord="D"></div>
-                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on D, <strong>3</strong> (Middle) on the black key F#, and <strong>5</strong> (Pinky) on A. Apply this middle-finger-black-key spacing to E and A major chords!</p>
+                    <p class="fingering-note" id="fingering-note-2">Use right hand fingers: <strong>1</strong> (Thumb) on D, <strong>3</strong> (Middle) on the black key F#, and <strong>5</strong> (Pinky) on A. Apply this middle-finger-black-key spacing to E and A major chords!</p>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <h4 id="songs-header-2">🎵 Apply Chords to Pop Songs</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Madcon', 'Don\'t Worry')">
                             <div class="song-info">
@@ -1347,31 +1353,31 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-3">Lesson 3</span>
                 </div>
-                <h2>Chord Group 3: Black-Key Bound Shapes (Db, Eb, Ab)</h2>
-                <p class="lesson-desc">These chords are inverted "triangles" where the thumb and pinky sit on black keys, and the middle finger sits on a white key. Mastering this provides easy access to pop songs written in flat keys.</p>
+                <h2 id="lesson-title-3">Chord Group 3: The Valley or V-shape Chords (Db, Eb, Ab)</h2>
+                <p class="lesson-desc" id="lesson-desc-3">These chords are inverted "triangles" where the thumb and pinky sit on black keys, and the middle finger sits on a white key. Mastering this provides easy access to pop songs written in flat keys.</p>
 
                 <div class="theory-box">
-                    <h4>💡 Chord Shapes Theory</h4>
-                    <p>Db (Db - F - Ab), Eb (Eb - G - Bb), and Ab (Ab - C - Eb) major chords are bound by black keys on the outside, and a single white key in the middle.</p>
+                    <h4 id="theory-title-3">💡 Chord Shapes Theory</h4>
+                    <p id="theory-desc-3">Db (Db - F - Ab), Eb (Eb - G - Bb), and Ab (Ab - C - Eb) major chords are bound by black keys on the outside, and a single white key in the middle.</p>
                 </div>
 
                 <div class="chord-shapes-section">
-                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <h4 id="practice-header-3">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="visualizeChord('Db')" onmouseenter="visualizeChord('Db')">Db Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('Eb')" onmouseenter="visualizeChord('Eb')">Eb Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('Ab')" onmouseenter="visualizeChord('Ab')">Ab Major</span>
+                        <span class="chord-badge" id="badge-db" onclick="visualizeChord('Db')" onmouseenter="visualizeChord('Db')">Db Major</span>
+                        <span class="chord-badge" id="badge-eb" onclick="visualizeChord('Eb')" onmouseenter="visualizeChord('Eb')">Eb Major</span>
+                        <span class="chord-badge" id="badge-ab" onclick="visualizeChord('Ab')" onmouseenter="visualizeChord('Ab')">Ab Major</span>
                     </div>
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ Db Major Shape Fingering</h5>
+                    <h5 id="fingering-title-3">🖐️ Db Major Shape Fingering</h5>
                     <div class="chord-fingering-diagram" data-chord="Db"></div>
-                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key Db, <strong>3</strong> (Middle) on the white key F, and <strong>5</strong> (Pinky) on the black key Ab. Apply this same black-white-black shape to Eb and Ab major chords!</p>
+                    <p class="fingering-note" id="fingering-note-3">Use right hand fingers: <strong>1</strong> (Thumb) on the black key Db, <strong>3</strong> (Middle) on the white key F, and <strong>5</strong> (Pinky) on the black key Ab. Apply this same black-white-black shape to Eb and Ab major chords!</p>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <h4 id="songs-header-3">🎵 Apply Chords to Pop Songs</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('KC & The Sunshine Band', 'Give It Up')">
                             <div class="song-info">
@@ -1405,24 +1411,24 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-4">Lesson 4</span>
                 </div>
-                <h2>Chord Group 4: The Outliers (B &amp; Bb Chords)</h2>
-                <p class="lesson-desc">The B and Bb chords don't fit perfectly in standard symmetric shapes. They are transitional shapes that require distinct placements.</p>
+                <h2 id="lesson-title-4">Chord Group 4: The Outliers (B &amp; Bb Chords)</h2>
+                <p class="lesson-desc" id="lesson-desc-4">The B and Bb chords don't fit perfectly in standard symmetric shapes. They are transitional shapes that require distinct placements.</p>
 
                 <div class="theory-box">
-                    <h4>💡 Chord Shapes Theory</h4>
-                    <p>Bb major (Bb - D - F) begins with a black key followed by two white keys. B major (B - D# - F#) starts with a white key followed by two black keys.</p>
+                    <h4 id="theory-title-4">💡 Chord Shapes Theory</h4>
+                    <p id="theory-desc-4">Bb major (Bb - D - F) begins with a black key followed by two white keys. B major (B - D# - F#) starts with a white key followed by two black keys.</p>
                 </div>
 
                 <div class="chord-shapes-section">
-                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <h4 id="practice-header-4">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="visualizeChord('B')" onmouseenter="visualizeChord('B')">B Major</span>
-                        <span class="chord-badge" onclick="visualizeChord('Bb')" onmouseenter="visualizeChord('Bb')">Bb Major</span>
+                        <span class="chord-badge" id="badge-b" onclick="visualizeChord('B')" onmouseenter="visualizeChord('B')">B Major</span>
+                        <span class="chord-badge" id="badge-bb" onclick="visualizeChord('Bb')" onmouseenter="visualizeChord('Bb')">Bb Major</span>
                     </div>
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ B Major &amp; Bb Major Fingering</h5>
+                    <h5 id="fingering-title-4">🖐️ B Major &amp; Bb Major Fingering</h5>
                     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
                         <div>
                             <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">B Major (White-Black-Black)</div>
@@ -1433,11 +1439,11 @@
                             <div class="chord-fingering-diagram" data-chord="Bb"></div>
                         </div>
                     </div>
-                    <p class="fingering-note" style="margin-top: 8px;">For B Major: Right hand fingers <strong>1</strong> on B, <strong>3</strong> on D#, <strong>5</strong> on F#. For Bb Major: Right hand fingers <strong>1</strong> on Bb, <strong>3</strong> on D, <strong>5</strong> on F.</p>
+                    <p class="fingering-note" id="fingering-note-4" style="margin-top: 8px;">For B Major: Right hand fingers <strong>1</strong> on B, <strong>3</strong> on D#, <strong>5</strong> on F#. For Bb Major: Right hand fingers <strong>1</strong> on Bb, <strong>3</strong> on D, <strong>5</strong> on F.</p>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <h4 id="songs-header-4">🎵 Apply Chords to Pop Songs</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Dire Straits', 'Walk of Life')">
                             <div class="song-info">
@@ -1499,29 +1505,39 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-5">Lesson 5</span>
                 </div>
-                <h2>Chord Group 5: The All-Black Key Triad (F# / Gb)</h2>
-                <p class="lesson-desc">F# Major (F# - A# - C#) is the easiest chord in terms of grouping because it consists entirely of black keys. Learning this completes your circle of basic major triads!</p>
+                <h2 id="lesson-title-5">Chord Group 5: The 3 Black Key Chords (F# / Gb and D#m / Ebm)</h2>
+                <p class="lesson-desc" id="lesson-desc-5">F# Major (F# - A# - C#) and D# Minor (D# - F# - A#) are the only triads consisting entirely of black keys. Learning these completes your circle of basic triads!</p>
 
                 <div class="theory-box">
-                    <h4>💡 Chord Shapes Theory</h4>
-                    <p>To play F#, place your thumb on F#, middle finger on A#, and pinky on C#. All three keys are in the 3-black-key group cluster!</p>
+                    <h4 id="theory-title-5">💡 Chord Shapes Theory</h4>
+                    <p id="theory-desc-5">To play F#, place your thumb on F#, middle finger on A#, and pinky on C#. For D#m / Ebm, play D#, F#, and A#. All notes sit in the 3-black-key cluster!</p>
                 </div>
 
                 <div class="chord-shapes-section">
-                    <h4>🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
+                    <h4 id="practice-header-5">🎹 Practice Chord Spacing (Hover/Click to visualize)</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="visualizeChord('F#')" onmouseenter="visualizeChord('F#')">F# Major</span>
+                        <span class="chord-badge" id="badge-fs" onclick="visualizeChord('F#')" onmouseenter="visualizeChord('F#')">F# Major</span>
+                        <span class="chord-badge" id="badge-dsm" onclick="visualizeChord('D#m')" onmouseenter="visualizeChord('D#m')">D# Minor (Ebm)</span>
                     </div>
                 </div>
 
                 <div class="fingering-section">
-                    <h5>🖐️ F# Major Shape Fingering</h5>
-                    <div class="chord-fingering-diagram" data-chord="F#"></div>
-                    <p class="fingering-note">Use right hand fingers: <strong>1</strong> (Thumb) on the black key F#, <strong>3</strong> (Middle) on the black key A#, and <strong>5</strong> (Pinky) on the black key C#. All three notes sit entirely on black keys!</p>
+                    <h5 id="fingering-title-5">🖐️ F# Major &amp; D# Minor Shape Fingering</h5>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">F# Major (F# - A# - C#)</div>
+                            <div class="chord-fingering-diagram" data-chord="F#"></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">D# Minor / Eb Minor (D# - F# - A#)</div>
+                            <div class="chord-fingering-diagram" data-chord="D#m"></div>
+                        </div>
+                    </div>
+                    <p class="fingering-note" id="fingering-note-5" style="margin-top: 8px;">Use right hand fingers: <strong>1</strong> (Thumb) on F#, <strong>3</strong> (Middle) on A#, and <strong>5</strong> (Pinky) on C# for F# Major. For D#m / Ebm, play <strong>1</strong> on D#, <strong>3</strong> on F#, and <strong>5</strong> on A#. Both chords sit entirely on black keys!</p>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4>🎵 Apply Chords to Pop Songs</h4>
+                    <h4 id="songs-header-5">🎵 Apply Chords to Pop Songs</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Tracy Chapman', 'Fast Car')">
                             <div class="song-info">
@@ -1569,25 +1585,25 @@
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-6">Lesson 6</span>
                 </div>
-                <h2>Adding the Bass Note: Playing with Two Hands</h2>
-                <p class="lesson-desc">This is where the magic happens. To make your music sound rich, professional, and deep, you must use your left hand effectively.</p>
+                <h2 id="lesson-title-6">Adding the Bass Note: Playing with Two Hands</h2>
+                <p class="lesson-desc" id="lesson-desc-6">This is where the magic happens. To make your music sound rich, professional, and deep, you must use your left hand effectively.</p>
 
                 <div class="theory-box" style="border-left-color: #3b82f6; background: #eff6ff;">
-                    <h4 style="color: #1e40af;">⭐ The Golden Rule of Bass</h4>
-                    <p style="color: #1e40af;">Your Left Hand should <strong>ALWAYS</strong> play the Root Note (the BASS note) of the chord.</p>
-                    <p style="color: #1e40af; margin-top: 8px;">If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
+                    <h4 id="theory-title-6" style="color: #1e40af;">⭐ The Golden Rule of Bass</h4>
+                    <p id="theory-desc-6-1" style="color: #1e40af;">Your Left Hand should <strong>ALWAYS</strong> play the Root Note (the BASS note) of the chord.</p>
+                    <p id="theory-desc-6-2" style="color: #1e40af; margin-top: 8px;">If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
                 </div>
 
                 <div class="fingering-section" style="margin-top: 20px;">
-                    <h5>🖐️ Two Hand Technique</h5>
+                    <h5 id="fingering-title-6">🖐️ Two Hand Technique</h5>
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
                         <div style="flex: 1; min-width: 200px; background: #f1f5f9; padding: 15px; border-radius: 12px; text-align: center;">
-                            <span style="display: block; font-weight: 800; font-size: 1.1rem; color: #4f46e5;">Left Hand</span>
-                            Plays Root Note (Low Bass)
+                            <span id="lh-label-6" style="display: block; font-weight: 800; font-size: 1.1rem; color: #4f46e5;">Left Hand</span>
+                            <span id="lh-text-6">Plays Root Note (Low Bass)</span>
                         </div>
                         <div style="flex: 1; min-width: 200px; background: #f1f5f9; padding: 15px; border-radius: 12px; text-align: center;">
-                            <span style="display: block; font-weight: 800; font-size: 1.1rem; color: #7c3aed;">Right Hand</span>
-                            Plays the Triad or Inversion
+                            <span id="rh-label-6" style="display: block; font-weight: 800; font-size: 1.1rem; color: #7c3aed;">Right Hand</span>
+                            <span id="rh-text-6">Plays the Triad or Inversion</span>
                         </div>
                     </div>
                     <div style="border-radius: 16px; overflow: hidden; margin-top: 15px; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
@@ -1613,8 +1629,8 @@
         <!-- Sticky Right Sidebar Visualizer Column -->
         <div class="piano-sidebar">
             <div class="piano-card">
-                <h3>Chord Visualizer</h3>
-                <p>Hover over or click any chord shape badge in the lessons list to highlight the notes on the keyboard below.</p>
+                <h3 id="sidebar-card-title">Chord Visualizer</h3>
+                <p id="sidebar-card-desc">Hover over or click any chord shape badge in the lessons list to highlight the notes on the keyboard below.</p>
 
                 <!-- 2-Octave Keyboard SVG (C3 to B4) -->
                 <svg class="keyboard-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg">
@@ -1730,7 +1746,9 @@
             'Ab': ['Ab3', 'C4', 'Eb4'],
             'B': ['B3', 'D#4', 'F#4'],
             'Bb': ['Bb3', 'D4', 'F4'],
-            'F#': ['F#3', 'A#3', 'C#4']
+            'F#': ['F#3', 'A#3', 'C#4'],
+            'D#m': ['D#3', 'F#3', 'A#3'],
+            'Ebm': ['Eb3', 'Gb3', 'Bb3']
         };
 
         let audioPlayer = null;
@@ -2080,30 +2098,84 @@
                 statusCompleted: "✓ {badge}",
                 completedText: "Completed!",
                 markCompleteText: "Mark as complete",
+                sidebarTitle: "Chord Visualizer",
+                sidebarDesc: "Hover over or click any chord shape badge in the lessons list to highlight the notes on the keyboard below.",
+                theoryHeader: "💡 Chord Shapes Theory",
+                practiceHeader: "🎹 Practice Chord Spacing (Hover/Click to visualize)",
+                songsHeader: "🎵 Apply Chords to Pop Songs",
                 
                 card1: {
-                    title: "Group 1: White Key Triads",
+                    title: "Group 1: White Key Chords",
                     desc: "Fundamental white key shapes. Chords: C, F, G Major & Am, Dm, Em Minor."
                 },
                 card2: {
-                    title: "Group 2: Black Key Top Triangles",
-                    desc: "Triangular hand shapes with black top keys. Chords: D, E, A Major & Dm, Em, Am Minor."
+                    title: "Group 2: The Mountain or ∧-shape chords",
+                    desc: "Triangular hand shapes with 1 black key in the middle. Chords: D, E & A Major."
                 },
                 card3: {
-                    title: "Group 3: Black Key Flat Shapes",
+                    title: "Group 3: The Valley or V-shape chords",
                     desc: "Flat chord shapes with black root notes. Chords: Db, Eb, Ab Major & Minor."
                 },
                 card4: {
                     title: "Group 4: The Outliers",
-                    desc: "Unique and challenging chord shapes. Chords: B, Bb, F# Major & Minor."
+                    desc: "Unique and challenging chord shapes (B and Bb)."
                 },
                 card5: {
-                    title: "Group 5: The 3 Black Key Chords (F# / Gb)",
-                    desc: "All-black key triad shapes. Chords: F# / Gb Major & F#m Minor."
+                    title: "Group 5: The 3 Black Key Chords (F# / Gb and D#m / Ebm)",
+                    desc: "All-black key triad shapes. Chords: F# / Gb Major & D#m / Ebm Minor."
                 },
                 card6: {
                     title: "Group 6: Left Hand Bass & Two-Hand Play",
                     desc: "Adding octave bass notes with left hand & two-handed accompaniment technique."
+                },
+
+                // Detailed Lesson Content
+                lesson1: {
+                    title: "Chord Group 1: White Key Chords (C, F, G Shapes)",
+                    desc: "Start by learning the fundamental \"white key shapes\" where the chords consist entirely of white keys. Once mastered, we apply the minor equivalents (Am, Dm, Em) which share identical physical shapes.",
+                    theory: "Major chords (C, F, G) on white keys use standard shape spacing (root, skip 3 semitones, skip 2 semitones). The minor shapes (Am, Dm, Em) have the exact same shape index, making them easy transitions.",
+                    fingeringTitle: "🖐️ C Major Shape Fingering",
+                    fingeringNote: "Use right hand fingers: 1 (Thumb) on C, 3 (Middle) on E, and 5 (Pinky) on G. Apply this same physical shape to F and G major chords, as well as the minor chords (Am, Dm, Em)!"
+                },
+                lesson2: {
+                    title: "Chord Group 2: The Mountain or ∧-shape Chords (D, E, A Shapes)",
+                    desc: "Now we move to shapes containing one black key in the middle. Because the black key sits between two white keys, we refer to these physically as \"triangle shapes\".",
+                    theory: "Chords like D (D - F# - A), E (E - G# - B), and A (A - C# - E) feature a black key played by the middle finger, surrounded by white keys for the thumb and pinky finger.",
+                    fingeringTitle: "🖐️ D Major Shape Fingering",
+                    fingeringNote: "Use right hand fingers: 1 (Thumb) on D, 3 (Middle) on the black key F#, and 5 (Pinky) on A. Apply this middle-finger-black-key spacing to E and A major chords!"
+                },
+                lesson3: {
+                    title: "Chord Group 3: The Valley or V-shape Chords (Db, Eb, Ab)",
+                    desc: "These chords are inverted \"triangles\" where the thumb and pinky sit on black keys, and the middle finger sits on a white key. Mastering this provides easy access to pop songs written in flat keys.",
+                    theory: "Db (Db - F - Ab), Eb (Eb - G - Bb), and Ab (Ab - C - Eb) major chords are bound by black keys on the outside, and a single white key in the middle.",
+                    fingeringTitle: "🖐️ Db Major Shape Fingering",
+                    fingeringNote: "Use right hand fingers: 1 (Thumb) on the black key Db, 3 (Middle) on the white key F, and 5 (Pinky) on the black key Ab. Apply this same black-white-black shape to Eb and Ab major chords!"
+                },
+                lesson4: {
+                    title: "Chord Group 4: The Outliers (B & Bb Chords)",
+                    desc: "The B and Bb chords don't fit perfectly in standard symmetric shapes. They are transitional shapes that require distinct placements.",
+                    theory: "Bb major (Bb - D - F) begins with a black key followed by two white keys. B major (B - D# - F#) starts with a white key followed by two black keys.",
+                    fingeringTitle: "🖐️ B Major & Bb Major Fingering",
+                    fingeringNote: "For B Major: Right hand fingers 1 on B, 3 on D#, 5 on F#. For Bb Major: Right hand fingers 1 on Bb, 3 on D, 5 on F."
+                },
+                lesson5: {
+                    title: "Chord Group 5: The 3 Black Key Chords (F# / Gb and D#m / Ebm)",
+                    desc: "F# Major (F# - A# - C#) and D# Minor (D# - F# - A#) are the only triads consisting entirely of black keys. Learning these completes your circle of basic triads!",
+                    theory: "To play F#, place your thumb on F#, middle finger on A#, and pinky on C#. For D#m / Ebm, play D#, F#, and A#. All notes sit in the 3-black-key cluster!",
+                    fingeringTitle: "🖐️ F# Major & D# Minor Shape Fingering",
+                    fingeringNote: "Use right hand fingers: 1 (Thumb) on F#, 3 (Middle) on A#, and 5 (Pinky) on C# for F# Major. For D#m / Ebm, play 1 on D#, 3 on F#, and 5 on A#. Both chords sit entirely on black keys!"
+                },
+                lesson6: {
+                    title: "Adding the Bass Note: Playing with Two Hands",
+                    desc: "This is where the magic happens. To make your music sound rich, professional, and deep, you must use your left hand effectively.",
+                    theoryTitle: "⭐ The Golden Rule of Bass",
+                    theory1: "Your Left Hand should ALWAYS play the Root Note (the BASS note) of the chord.",
+                    theory2: "If you are playing a C Major chord with your right hand, play a low C (or two C's an octave apart) with your left hand. This \"anchors\" the sound and gives it that professional piano-ballad feel.",
+                    fingeringTitle: "🖐️ Two Hand Technique",
+                    lhLabel: "Left Hand",
+                    lhText: "Plays Root Note (Low Bass)",
+                    rhLabel: "Right Hand",
+                    rhText: "Plays the Triad or Inversion"
                 }
             },
             nl: {
@@ -2125,30 +2197,84 @@
                 statusCompleted: "✓ {badge}",
                 completedText: "Voltooid!",
                 markCompleteText: "Markeer als voltooid",
+                sidebarTitle: "Akkoord Visualiseerder",
+                sidebarDesc: "Beweeg over of klik op een akkoordknop in de lessenlijst om de noten op het toetsenbord te verlichten.",
+                theoryHeader: "💡 Akkoordvormen Theorie",
+                practiceHeader: "🎹 Oefen Akkoordafstanden (Beweeg/Klik om te visualiseren)",
+                songsHeader: "🎵 Pas Akkoorden Toe op Popnummers",
                 
                 card1: {
-                    title: "Groep 1: Witte Toetsen Drieklanken",
-                    desc: "Fundamentele \"witte toetsen\" vormen. Chords: C, F, G Major & Am, Dm, Em Minor."
+                    title: "Groep 1: Witte Toetsen Akkoorden",
+                    desc: "Fundamentele \"witte toetsen\" vormen. Akkoorden: C, F, G Majeur & Am, Dm, Em Mineur."
                 },
                 card2: {
-                    title: "Groep 2: Zwarte Boventoetsen Driehoeken",
-                    desc: "Driehoekige handvormen met zwarte boventoetsen. Chords: D, E, A Major & Dm, Em, Am Minor."
+                    title: "Groep 2: De Berg of ∧-vorm akkoorden",
+                    desc: "Driehoekige handvormen met 1 zwarte toets in het midden. Akkoorden: D, E & A Majeur."
                 },
                 card3: {
-                    title: "Groep 3: Zwarte Grondtoetsen",
-                    desc: "Vlakke akkoordvormen met zwarte grondtoetsen. Chords: Db, Eb, Ab Major & Minor."
+                    title: "Groep 3: De Vallei of V-vorm akkoorden",
+                    desc: "Vlakke akkoordvormen met zwarte grondtoetsen. Akkoorden: Db, Eb, Ab Majeur & Mineur."
                 },
                 card4: {
                     title: "Groep 4: De Buitenbeentjes",
-                    desc: "Unieke en uitdagende akkoordvormen. Chords: B, Bb, F# Major & Minor."
+                    desc: "Unieke en uitdagende akkoordvormen (B en Bb)."
                 },
                 card5: {
-                    title: "Groep 5: De 3 zwarte toetsen akkoorden (F# / Gb)",
-                    desc: "Volledig zwarte toetsen akkoordvormen. Chords: F# / Gb Major & F#m Minor."
+                    title: "Groep 5: De 3 Zwarte Toetsen Akkoorden (F# / Gb en D#m / Ebm)",
+                    desc: "Volledig zwarte toetsen akkoordvormen. Akkoorden: F# / Gb Majeur & D#m / Ebm Mineur."
                 },
                 card6: {
                     title: "Groep 6: Linkerhand Bas & Tweehandig Spel",
                     desc: "Basnoten toevoegen in de linkerhand & tweehandige begeleidingstechniek."
+                },
+
+                // Detailed Lesson Content
+                lesson1: {
+                    title: "Akkoordgroep 1: Witte Toetsen Akkoorden (C, F, G Vormen)",
+                    desc: "Begin met het leren van de fundamentele \"witte toetsen vormen\" waarbij de akkoorden volledig uit witte toetsen bestaan. Zodra je deze beheerst, passen we de mineurakkoorden (Am, Dm, Em) toe die exact dezelfde fysieke handvorm hebben.",
+                    theory: "Majeurakkoorden (C, F, G) op witte toetsen gebruiken een standaard vormafstand (grondnoot, 3 halve tonen, 2 halve tonen). De mineurvormen (Am, Dm, Em) hebben exact dezelfde fysieke handafstand, wat het overstappen heel eenvoudig maakt.",
+                    fingeringTitle: "🖐️ C Majeur Vorm Vingerszetting",
+                    fingeringNote: "Gebruik rechterhand vingers: 1 (Duim) op C, 3 (Middelvinger) op E, en 5 (Pink) op G. Pas dezelfde fysieke vorm toe op F en G majeur akkoorden, evenals de mineurakkoorden (Am, Dm, Em)!"
+                },
+                lesson2: {
+                    title: "Akkoordgroep 2: De Berg of ∧-vorm Akkoorden (D, E, A Vormen)",
+                    desc: "Nu stappen we over op vormen met één zwarte toets in het midden. Omdat de zwarte toets tussen twee witte toetsen ligt, noemen we dit fysiek \"driehoeksvormen\".",
+                    theory: "Akkoorden zoals D (D - F# - A), E (E - G# - B), en A (A - C# - E) hebben een zwarte toets gespeeld door de middelvinger, omringd door witte toetsen voor duim en pink.",
+                    fingeringTitle: "🖐️ D Majeur Vorm Vingerszetting",
+                    fingeringNote: "Gebruik rechterhand vingers: 1 (Duim) op D, 3 (Middelvinger) op de zwarte toets F#, en 5 (Pink) op A. Pas deze middelvinger-zwarte-toets afstand toe op E en A majeur akkoorden!"
+                },
+                lesson3: {
+                    title: "Akkoordgroep 3: De Vallei of V-vorm Akkoorden (Db, Eb, Ab)",
+                    desc: "Deze akkoorden zijn omgekeerde \"driehoeken\" waarbij de duim en pink op zwarte toetsen rusten, en de middelvinger op een witte toets. Hiermee speel je eenvoudig popnummers in mol-toonsoorten.",
+                    theory: "Db (Db - F - Ab), Eb (Eb - G - Bb), en Ab (Ab - C - Eb) majeurakkoorden worden omringd door zwarte toetsen aan de buitenkant, en één witte toets in het midden.",
+                    fingeringTitle: "🖐️ Db Majeur Vorm Vingerszetting",
+                    fingeringNote: "Gebruik rechterhand vingers: 1 (Duim) op de zwarte toets Db, 3 (Middelvinger) op de witte toets F, en 5 (Pink) op de zwarte toets Ab. Pas dezelfde zwart-wit-zwart vorm toe op Eb en Ab majeurakkoorden!"
+                },
+                lesson4: {
+                    title: "Akkoordgroep 4: De Buitenbeentjes (B & Bb Akkoorden)",
+                    desc: "De B en Bb akkoorden passen niet perfect in symmetrische vormen. Het zijn unieke overgangsvormen met een eigen handpositie.",
+                    theory: "Bb majeur (Bb - D - F) begint met een zwarte toets gevolgd door twee witte toetsen. B majeur (B - D# - F#) begint met een witte toets gevolgd door twee zwarte toetsen.",
+                    fingeringTitle: "🖐️ B Majeur & Bb Majeur Vingerszetting",
+                    fingeringNote: "Voor B Majeur: Rechterhand vingers 1 op B, 3 op D#, 5 op F#. Voor Bb Majeur: Rechterhand vingers 1 op Bb, 3 op D, 5 op F."
+                },
+                lesson5: {
+                    title: "Akkoordgroep 5: De 3 Zwarte Toetsen Akkoorden (F# / Gb en D#m / Ebm)",
+                    desc: "F# Majeur (F# - A# - C#) en D# Mineur (D# - F# - A#) zijn de enige akkoorden die volledig uit zwarte toetsen bestaan. Hiermee maak je de cirkel van basisakkoorden compleet!",
+                    theory: "Om F# te spelen, plaats je je duim op F#, middelvinger op A#, en pink op C#. Voor D#m / Ebm speel je D#, F# en A#. Alle noten liggen in het cluster van 3 zwarte toetsen!",
+                    fingeringTitle: "🖐️ F# Majeur & D# Mineur Vingerszetting",
+                    fingeringNote: "Rechterhand: 1 (Duim) op F#, 3 (Middelvinger) op A#, 5 (Pink) op C# voor F# Majeur. Voor D#m / Ebm: 1 op D#, 3 op F#, 5 op A#. Beide akkoorden liggen volledig op zwarte toetsen!"
+                },
+                lesson6: {
+                    title: "Basnoot Toevoegen: Tweehandig Spelen",
+                    desc: "Hier gebeurt de magie. Om je muziek rijk, professioneel en vol te laten klinken, gebruik je je linkerhand effectief.",
+                    theoryTitle: "⭐ De Gouden Regel van de Bas",
+                    theory1: "Je Linkerhand moet ALTIJD de Grondnoot (de BASnoot) van het akkoord spelen.",
+                    theory2: "Als je een C Majeur akkoord speelt met je rechterhand, speel dan een lage C (of twee C's een octaaf uit elkaar) met je linkerhand. Dit verankert het geluid en geeft die professionele piano-ballad sound.",
+                    fingeringTitle: "🖐️ Tweehandige Begeleidingstechniek",
+                    lhLabel: "Linkerhand",
+                    lhText: "Speelt Grondnoot (Lage Bas)",
+                    rhLabel: "Rechterhand",
+                    rhText: "Speelt Drieklank of Omkering"
                 }
             }
         };
@@ -2156,9 +2282,9 @@
         const LESSON_BADGES_NL = {
             1: { name: 'Witte Toetsen Meester',    emoji: '🎹' },
             2: { name: 'Driehoek Vorm Pro',        emoji: '🔺' },
-            3: { name: 'Zwarte Toetsen Binder',    emoji: '⬛' },
+            3: { name: 'Vallei V-Vorm Pro',        emoji: '🔻' },
             4: { name: 'Buitenbeen Veroveraar',    emoji: '🎯' },
-            5: { name: 'Vloeiende Cirkel Kampioen',emoji: '🏆' },
+            5: { name: '3 Zwarte Toetsen Meester', emoji: '⬛' },
             6: { name: 'Tweehandige Bas Meester',  emoji: '🙌' }
         };
 
@@ -2216,7 +2342,79 @@
                 if (launchTag) launchTag.textContent = tagText;
                 if (lessonTag) lessonTag.textContent = tagText;
                 if (sbcLabel) sbcLabel.textContent = tagText;
+
+                // Detailed lesson content translation
+                const lData = t[`lesson${id}`];
+                if (lData) {
+                    const lTitle = document.getElementById(`lesson-title-${id}`);
+                    const lDesc = document.getElementById(`lesson-desc-${id}`);
+                    const thTitle = document.getElementById(`theory-title-${id}`);
+                    const thDesc = document.getElementById(`theory-desc-${id}`);
+                    const prHeader = document.getElementById(`practice-header-${id}`);
+                    const fingTitle = document.getElementById(`fingering-title-${id}`);
+                    const fingNote = document.getElementById(`fingering-note-${id}`);
+                    const songHeader = document.getElementById(`songs-header-${id}`);
+
+                    if (lTitle) lTitle.textContent = lData.title;
+                    if (lDesc) lDesc.textContent = lData.desc;
+                    if (thTitle) thTitle.textContent = lData.theoryTitle || t.theoryHeader;
+                    if (thDesc) thDesc.textContent = lData.theory;
+                    if (prHeader) prHeader.textContent = t.practiceHeader;
+                    if (fingTitle) fingTitle.textContent = lData.fingeringTitle;
+                    if (fingNote) fingNote.innerHTML = lData.fingeringNote;
+                    if (songHeader) songHeader.textContent = t.songsHeader;
+                }
             }
+
+            // Translate Chord Badges (Major/Minor -> Majeur/Mineur)
+            const chordBadgesMap = {
+                'badge-c':   { en: 'C Major',   nl: 'C Majeur' },
+                'badge-f':   { en: 'F Major',   nl: 'F Majeur' },
+                'badge-g':   { en: 'G Major',   nl: 'G Majeur' },
+                'badge-am':  { en: 'A Minor',   nl: 'A Mineur' },
+                'badge-dm':  { en: 'D Minor',   nl: 'D Mineur' },
+                'badge-em':  { en: 'E Minor',   nl: 'E Mineur' },
+                'badge-d':   { en: 'D Major',   nl: 'D Majeur' },
+                'badge-e':   { en: 'E Major',   nl: 'E Majeur' },
+                'badge-a':   { en: 'A Major',   nl: 'A Majeur' },
+                'badge-db':  { en: 'Db Major',  nl: 'Db Majeur' },
+                'badge-eb':  { en: 'Eb Major',  nl: 'Eb Majeur' },
+                'badge-ab':  { en: 'Ab Major',  nl: 'Ab Majeur' },
+                'badge-b':   { en: 'B Major',   nl: 'B Majeur' },
+                'badge-bb':  { en: 'Bb Major',  nl: 'Bb Majeur' },
+                'badge-fs':  { en: 'F# Major',  nl: 'F# Majeur' },
+                'badge-dsm': { en: 'D# Minor (Ebm)', nl: 'D# Mineur (Ebm)' }
+            };
+            Object.keys(chordBadgesMap).forEach(bId => {
+                const el = document.getElementById(bId);
+                if (el) {
+                    el.textContent = (currentLang === 'nl') ? chordBadgesMap[bId].nl : chordBadgesMap[bId].en;
+                }
+            });
+
+            // Lesson 6 special elements
+            const l6Data = t.lesson6;
+            if (l6Data) {
+                const th6_1 = document.getElementById('theory-desc-6-1');
+                const th6_2 = document.getElementById('theory-desc-6-2');
+                const lhLabel = document.getElementById('lh-label-6');
+                const lhText = document.getElementById('lh-text-6');
+                const rhLabel = document.getElementById('rh-label-6');
+                const rhText = document.getElementById('rh-text-6');
+
+                if (th6_1) th6_1.textContent = l6Data.theory1;
+                if (th6_2) th6_2.textContent = l6Data.theory2;
+                if (lhLabel) lhLabel.textContent = l6Data.lhLabel;
+                if (lhText) lhText.textContent = l6Data.lhText;
+                if (rhLabel) rhLabel.textContent = l6Data.rhLabel;
+                if (rhText) rhText.textContent = l6Data.rhText;
+            }
+
+            // Sidebar visualizer card
+            const sbCardTitle = document.getElementById('sidebar-card-title');
+            const sbCardDesc = document.getElementById('sidebar-card-desc');
+            if (sbCardTitle) sbCardTitle.textContent = t.sidebarTitle;
+            if (sbCardDesc) sbCardDesc.textContent = t.sidebarDesc;
 
             // Navigation Buttons
             const backBtns = document.querySelectorAll('.nav-back-index-btn');
@@ -2257,12 +2455,12 @@
         // === Lesson Progress & Badge System ===
 
         const LESSON_BADGES = {
-            1: { name: 'White Key Master',    emoji: '🎹' },
-            2: { name: 'Triangle Shape Pro',  emoji: '🔺' },
-            3: { name: 'Black Key Binder',    emoji: '⬛' },
-            4: { name: 'Outlier Conqueror',   emoji: '🎯' },
-            5: { name: 'Full Circle Champion',emoji: '🏆' },
-            6: { name: 'Two Hand Bass Master',emoji: '🙌' }
+            1: { name: 'White Key Master',        emoji: '🎹' },
+            2: { name: 'Triangle Shape Pro',      emoji: '🔺' },
+            3: { name: 'Valley V-Shape Pro',      emoji: '🔻' },
+            4: { name: 'Outlier Conqueror',       emoji: '🎯' },
+            5: { name: 'All-Black Key Master',    emoji: '⬛' },
+            6: { name: 'Two Hand Bass Master',    emoji: '🙌' }
         };
 
         // Load progress from Firebase (via parent app) or localStorage
