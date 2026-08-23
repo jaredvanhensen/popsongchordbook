@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.300 - Interactive Scrolling Chords &amp; Band Tool</title>
-    <meta name="version" content="3.300">
-    <meta name="application-version" content="v3.300">
+    <title>Song List v3.301 - Interactive Scrolling Chords &amp; Band Tool</title>
+    <meta name="version" content="3.301">
+    <meta name="application-version" content="v3.301">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -1047,15 +1047,23 @@
                 if (tableWrapper) tableWrapper.style.display = 'none';
                 if (customView) customView.classList.add('hidden');
 
+                // Append version parameter to prevent browser caching of dashboard panels
+                var targetUrl = url;
+                if (url.indexOf('.html') !== -1) {
+                    var metaVer = document.querySelector('meta[name="version"]');
+                    var ver = metaVer ? metaVer.getAttribute('content') : '3.301';
+                    targetUrl = url + '?v=' + ver;
+                }
+
                 // Load and show the panel
                 if (iframe.contentWindow) {
                     try {
-                        iframe.contentWindow.location.replace(url);
+                        iframe.contentWindow.location.replace(targetUrl);
                     } catch (e) {
-                        iframe.src = url;
+                        iframe.src = targetUrl;
                     }
                 } else {
-                    iframe.src = url;
+                    iframe.src = targetUrl;
                 }
                 panel.classList.remove('hidden');
 
@@ -1119,7 +1127,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.300</span>
+                        <span id="site-version" class="version-tag">3.301</span>
                     </div>
                 </div>
             </div>
