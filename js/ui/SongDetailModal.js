@@ -471,6 +471,11 @@ class SongDetailModal {
         if (window.appInstance && window.appInstance.profileModal) {
             window.appInstance.profileModal.updateInstrumentUI(this.instrumentMode);
         }
+
+        // Update lessons button visibility in sidebar
+        if (window.appInstance && typeof window.appInstance.updateLessonsBtnVisibility === 'function') {
+            window.appInstance.updateLessonsBtnVisibility();
+        }
     }
 
     updateInstrumentToggleUI() {

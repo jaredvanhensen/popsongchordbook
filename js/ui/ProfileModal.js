@@ -2438,6 +2438,11 @@ class ProfileModal {
                 }, '*');
             }
         }
+
+        // Update lessons button visibility in sidebar
+        if (window.appInstance && typeof window.appInstance.updateLessonsBtnVisibility === 'function') {
+            window.appInstance.updateLessonsBtnVisibility();
+        }
     }
 
     updateInstrumentUI(instrument) {
