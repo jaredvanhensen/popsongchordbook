@@ -4065,6 +4065,26 @@ class App {
             }
         });
 
+        // Move streak widget to top left on desktop (when sidebar is visible), and next to filterBtn on mobile
+        const adjustWidgetPosition = () => {
+            const isDesktop = window.innerWidth >= 1080;
+            const filterBtn = document.getElementById('filterBtn');
+            const topLeft = document.querySelector('.header-top-left');
+            if (isDesktop && topLeft) {
+                if (widget.parentElement !== topLeft) {
+                    topLeft.appendChild(widget);
+                }
+            } else if (!isDesktop && filterBtn && filterBtn.parentElement) {
+                if (widget.parentElement !== filterBtn.parentElement) {
+                    // Insert right after filterBtn
+                    filterBtn.parentNode.insertBefore(widget, filterBtn.nextSibling);
+                }
+            }
+        };
+
+        window.addEventListener('resize', adjustWidgetPosition);
+        adjustWidgetPosition(); // Initial position check
+
         const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
         const userId = user ? user.uid : null;
         let stats = null;
