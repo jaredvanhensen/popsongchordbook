@@ -1016,6 +1016,80 @@
         body.mode-single-lesson .lesson-badges-panel {
             display: none !important; /* Hide sidebar 6-badge index grid when inside single lesson */
         }
+
+        /* Responsive Layouts for Lesson 7 and 8 Grids on Mobile */
+        .inversion-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .inversion-card-item {
+            background: var(--card-bg);
+            border: 2px solid #0284c7;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .notation-explainer-box {
+            background: #fef9c3;
+            border: 1.5px solid #fcd34d;
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-top: 18px;
+            margin-bottom: 4px;
+        }
+
+        .notation-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .lessons-layout {
+                gap: 10px;
+            }
+            .lesson-card {
+                padding: 18px;
+                border-radius: 14px;
+            }
+            .inversion-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .inversion-card-item {
+                padding: 15px;
+            }
+            .patterns-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .notation-explainer-box {
+                padding: 12px 14px;
+            }
+            .launch-grid {
+                grid-template-columns: 1fr;
+            }
+            .single-lesson-nav {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1684,7 +1758,7 @@
 
                 <div class="patterns-section" style="margin-top: 20px;">
                     <h4 id="patterns-header-7" style="font-weight: 700; font-size: 1.15rem; margin-bottom: 15px; color: var(--text-primary);">🎵 6 Essential Pop Chord Patterns</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                    <div class="patterns-grid">
                         <!-- Pattern 1 -->
                         <div style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
@@ -1821,13 +1895,13 @@
                 </div>
 
                 <!-- App Notation Explainer Box -->
-                <div style="background: #fef9c3; border: 1.5px solid #fcd34d; border-radius: 14px; padding: 18px 22px; margin-top: 18px; margin-bottom: 4px;">
+                <div class="notation-explainer-box">
                     <h4 id="notation-explainer-title-8" style="color: #92400e; font-weight: 700; font-size: 0.98rem; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px;">
                         <span>📖</span> <span id="notation-explainer-heading-8">How This App Notates Inversions: C2, C3 &amp; Slash Notation</span>
                     </h4>
                     <p id="notation-explainer-body-8" style="font-size: 0.88rem; color: #78350f; margin-bottom: 14px;">In this app, inversions are written with a number after the chord name to show which position the <strong>root note</strong> sits in:</p>
                     <!-- Notation Table -->
-                    <div style="overflow-x: auto;">
+                    <div class="notation-table-wrapper">
                         <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
                             <thead>
                                 <tr style="background: #fef3c7;">
@@ -1877,10 +1951,10 @@
                 <!-- The 3 Inversion Cards -->
                 <div style="margin-top: 22px;">
                     <h4 id="inversions-header-8" style="font-weight: 700; font-size: 1.15rem; margin-bottom: 16px; color: var(--text-primary);">🎹 The 3 Positions of C Major</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 22px;">
+                    <div class="inversion-cards-grid">
 
                         <!-- Root Position -->
-                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                        <div class="inversion-card-item">
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
                                     <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">1️⃣</span>
@@ -1955,7 +2029,7 @@
                         </div>
 
                         <!-- 1st Inversion / C3 -->
-                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                        <div class="inversion-card-item">
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
                                     <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">2️⃣</span>
@@ -2030,7 +2104,7 @@
                         </div>
 
                         <!-- 2nd Inversion / C2 -->
-                        <div style="background: var(--card-bg); border: 2px solid #0284c7; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                        <div class="inversion-card-item">
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="min-height: 85px; display: flex; align-items: flex-start; gap: 10px;">
                                     <span style="font-size: 1.5rem; flex-shrink: 0; line-height: 1.2;">3️⃣</span>
@@ -2122,6 +2196,43 @@
                         <span class="chord-badge" onclick="visualizeChord('Am', true)">A Minor</span>
                         <span class="chord-badge" onclick="visualizeChord('F', true)">F Major</span>
                         <span class="chord-badge" onclick="visualizeChord('G', true)">G Major</span>
+                </div>
+
+                <!-- Chord Fingering Section for Lesson 8 -->
+                <div class="fingering-section" style="margin-top: 25px;">
+                    <h5 id="fingering-title-8">🖐️ Lesson 8 Inversion transitions (Am → F3 &amp; G → Em3)</h5>
+                    <div class="inversion-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 15px; margin-bottom: 12px;">
+                        <div style="text-align: center;">
+                            <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); display: block; margin-bottom: 6px;">Am</span>
+                            <div class="chord-fingering-diagram" data-chord="Am"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); display: block; margin-bottom: 6px;">F3</span>
+                            <div class="chord-fingering-diagram" data-chord="F3"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); display: block; margin-bottom: 6px;">G</span>
+                            <div class="chord-fingering-diagram" data-chord="G"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); display: block; margin-bottom: 6px;">Em3</span>
+                            <div class="chord-fingering-diagram" data-chord="Em3"></div>
+                        </div>
+                    </div>
+                    <p class="fingering-note" id="fingering-note-8">See how only the thumb moves one step to the right when changing from Am to F3 and also when changing from G to Em3.</p>
+                </div>
+
+                <!-- Practice Songs Section for Lesson 8 -->
+                <div class="practice-songs-section">
+                    <h4 id="songs-header-8">🎵 Apply Inversions to Pop Songs</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Dr. Alban', 'It\'s My Life')">
+                            <div class="song-info">
+                                <span class="song-title">It's My Life</span>
+                                <span class="song-artist">Dr. Alban • Am - F3 - G - Em3</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
                     </div>
                 </div>
 
@@ -2255,11 +2366,15 @@
     <script>
         const CHORD_NOTES = {
             'C': ['C3', 'E3', 'G3'],
+            'C2': ['G3', 'C4', 'E4'],
+            'C3': ['E3', 'G3', 'C4'],
             'F': ['F3', 'A3', 'C4'],
+            'F3': ['A3', 'C4', 'F4'],
             'G': ['G3', 'B3', 'D4'],
             'Am': ['A3', 'C4', 'E4'],
             'Dm': ['D3', 'F3', 'A3'],
             'Em': ['E3', 'G3', 'B3'],
+            'Em3': ['G3', 'B3', 'E4'],
             'D': ['D3', 'F#3', 'A3'],
             'E': ['E3', 'G#3', 'B3'],
             'A': ['A3', 'C#4', 'E4'],
@@ -2693,7 +2808,10 @@
 
             // Update Nav indicators
             const counter = document.getElementById('lesson-counter-indicator');
-            if (counter) counter.textContent = `Lesson ${id} of 8`;
+            if (counter) {
+                const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+                counter.textContent = t.lessonCounter.replace('{id}', id);
+            }
 
             const prevBtn = document.getElementById('nav-prev-btn');
             const nextBtn = document.getElementById('nav-next-btn');
@@ -2959,7 +3077,10 @@
                     inv2Notes: "G – C – E",
                     inv2Desc: "Fingers: 1 – 2 – 5. G is the lowest note. C sits in position 2.",
                     inv2Btn: "Play Demo",
-                    invTipBody: "When moving from Am → C, instead of jumping to Root Position C (C–E–G), use 1st Inversion C2 (G–C–E). Your pinky barely moves! Inversions are the secret to smooth, professional-sounding transitions."
+                    invTipBody: "When moving from Am → C, instead of jumping to Root Position C (C–E–G), use 1st Inversion C2 (G–C–E). Your pinky barely moves! Inversions are the secret to smooth, professional-sounding transitions.",
+                    fingeringTitle: "🖐️ Lesson 8 Inversion transitions (Am → F3 & G → Em3)",
+                    fingeringNote: "See how only the thumb moves one step to the right when changing from Am to F3 and also when changing from G to Em3.",
+                    songsHeader: "🎵 Apply Inversions to Pop Songs"
                 }
             },
             nl: {
@@ -3128,7 +3249,7 @@
                     tblSlash2Name: "Slash Notatie",
                     tblSlash2Meaning: "C akkoord met E als de laagste (bas) noot. Gelijk aan C3.",
                     slashNoteLabel: "Slash notatie",
-                    slashNoteText: "(C/G, C/E) wordt veel gebruikt in bladmuziek en andere apps. Het akkoord vóór de slash is het akkoord, de noot na de slash is de basnoot. Deze app gebruikt de C2/C3 afkorting voor snelheid.",
+                    slashNoteText: "(C/G, C/E) wordt veel gebruikt in bladmuziek en andere apps. Het akkoord vóór de slash is het akkoord, de noot na de slash is de basnoot of de eerste noot van de drieklank. C/G is dan dus G C E. Deze app gebruikt de C2/C3 afkorting voor snellere herkenning op welke positie de C staat (op de 2e of 3e plaats)",
                     inversionsHeader: "🎹 De 3 Posities van C Majeur",
                     inv0Title: "Grondligging — C",
                     inv0Subtitle: "C staat op de 1e positie",
@@ -3145,7 +3266,10 @@
                     inv2Notes: "G – C – E",
                     inv2Desc: "Vingers: 1 – 2 – 5. G is de laagste noot. C staat op positie 2.",
                     inv2Btn: "Speel Demo",
-                    invTipBody: "Bij de overgang van Am → C, in plaats van te springen naar de grondligging C (C–E–G), gebruik je de eerste omkering C2 (G–C–E). Je pink beweegt nauwelijks! Inversies zijn het geheim achter vloeiende, professioneel klinkende overgangen."
+                    invTipBody: "Bij de overgang van Am → C, in plaats van te springen naar de grondligging C (C–E–G), gebruik je de eerste omkering C2 (G–C–E). Alléén je pink doet één stapje naar links. De andere vingers blijven staan! Minder beweging, minder kans op fouten en vloeiendere overgang. Inversies zijn het geheim achter vloeiende, professioneel klinkende overgangen.",
+                    fingeringTitle: "🖐️ Les 8 Omkerings-overgangen (Am → F3 & G → Em3)",
+                    fingeringNote: "Zie hoe alleen de duim één stap naar rechts beweegt bij de overgang van Am naar F3 en ook bij de overgang van G naar Em3.",
+                    songsHeader: "🎵 Pas Inversies Toe op Popnummers"
                 }
             }
         };
@@ -3406,6 +3530,9 @@
                 setT('inv2-desc-8', l8Data.inv2Desc);
                 setT('inv2-btn-text-8', l8Data.inv2Btn);
                 setT('inv-tip-body-8', l8Data.invTipBody);
+                setT('fingering-title-8', l8Data.fingeringTitle);
+                setT('fingering-note-8', l8Data.fingeringNote);
+                setT('songs-header-8', l8Data.songsHeader);
             }
 
             // Sidebar visualizer card
