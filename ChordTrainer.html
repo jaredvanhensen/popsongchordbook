@@ -88,6 +88,14 @@
                     <span class="nav-icon">🎒</span>
                     <span class="nav-text">Student Dashboard</span>
                 </a>
+                <a href="songlist.html?view=lessons" class="nav-item" id="btnKeyboardLessons" style="display: none;">
+                    <span class="nav-icon">🚀</span>
+                    <span class="nav-text">Beginner Lessons</span>
+                </a>
+                <a href="songlist.html?view=newmembers" class="nav-item" id="btnNewMembers" style="display: none;">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">New Members</span>
+                </a>
                 <script>
                     (function() {
                         var role = localStorage.getItem('userRole');
@@ -98,6 +106,13 @@
                         } else if (teacher || role === 'student') {
                             var btn = document.getElementById('btnDashboardStudent');
                             if (btn) btn.style.display = '';
+                        }
+                        
+                        // Update lessons button visibility
+                        var keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
+                        if (keyboardLessonsBtn) {
+                            var mode = localStorage.getItem('instrumentMode') || 'piano';
+                            keyboardLessonsBtn.style.display = (mode === 'piano') ? 'flex' : 'none';
                         }
                     })();
                 </script>
@@ -386,6 +401,35 @@
     <script>
         // Ensure Firebase Manager is initialized
         window.firebaseManager = new FirebaseManager();
+
+        // Listen for admins list load/update to dynamic styling
+        document.addEventListener('adminsLoaded', () => {
+            const user = window.firebaseManager.auth.currentUser;
+            const isAdmin = user && window.firebaseManager.isAdmin(user.uid);
+            const newMembersBtn = document.getElementById('btnNewMembers');
+            if (isAdmin) {
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+            }
+        });
+
+        // Set up auth listener for admin button
+        window.firebaseManager.initialize().then(() => {
+            window.firebaseManager.onAuthStateChanged((user) => {
+                const newMembersBtn = document.getElementById('btnNewMembers');
+                if (!user) {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+                    return;
+                }
+                const isAdmin = window.firebaseManager.isAdmin(user.uid);
+                if (isAdmin) {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+                } else {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+                }
+            });
+        });
 
         function goToChordsTheory() {
             const mode = localStorage.getItem('instrumentMode') || 'piano';

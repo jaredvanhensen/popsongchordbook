@@ -281,6 +281,35 @@
     <script>
         window.firebaseManager = new FirebaseManager();
 
+        // Listen for admins list load/update to dynamic styling
+        document.addEventListener('adminsLoaded', () => {
+            const user = window.firebaseManager.auth.currentUser;
+            const isAdmin = user && window.firebaseManager.isAdmin(user.uid);
+            const newMembersBtn = document.getElementById('btnNewMembers');
+            if (isAdmin) {
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+            }
+        });
+
+        // Set up auth listener for admin button
+        window.firebaseManager.initialize().then(() => {
+            window.firebaseManager.onAuthStateChanged((user) => {
+                const newMembersBtn = document.getElementById('btnNewMembers');
+                if (!user) {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+                    return;
+                }
+                const isAdmin = window.firebaseManager.isAdmin(user.uid);
+                if (isAdmin) {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'flex', 'important');
+                } else {
+                    if (newMembersBtn) newMembersBtn.style.setProperty('display', 'none', 'important');
+                }
+            });
+        });
+
         function goToChordsTheory() {
             const mode = localStorage.getItem('instrumentMode') || 'piano';
             if (mode === 'guitar') {

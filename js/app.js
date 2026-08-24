@@ -364,6 +364,13 @@ class App {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('quickstart.html');
             } else if (viewParam === 'band') {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('band.html');
+            } else if (viewParam === 'lessons') {
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('lessons.html');
+            } else if (viewParam === 'newmembers') {
+                // Wait for auth to settle, then open members modal
+                setTimeout(() => {
+                    if (this.profileModal) this.profileModal.showMembersModal();
+                }, 1000);
             }
             // Clear URL parameters to prevent sticky view on refresh
             window.history.replaceState({}, '', window.location.pathname);
