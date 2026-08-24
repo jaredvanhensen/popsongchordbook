@@ -491,6 +491,44 @@
                 height: 100vh !important;
             }
         }
+
+        /* Language Toggle Button Styles */
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lang-pill {
+            padding: 4px 10px;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-pill.active {
+            background: #ffffff;
+            color: #4f46e5;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
     </style>
     <link rel="stylesheet" href="css/sidebar.css">
 </head>
@@ -574,20 +612,30 @@
         <!-- Main Content Area -->
         <main class="app-main">
             <header class="glass-header">
-        <div class="header-content">
-            <a href="songlist.html" class="back-btn" onclick="event.preventDefault(); if (document.referrer && (document.referrer.includes('songlist.html') || document.referrer.includes('songlist2.html') || document.referrer.includes('ChordTrainer.html'))) { if (window.history.length > 1) { window.history.back(); } else { window.location.href = document.referrer; } } else { window.location.href = 'songlist.html'; }">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-            </a>
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">📖</span>
-                <h3 style="margin: 0; letter-spacing: 0.5px;">CHORD THEORY</h3>
-            </div>
-        </div>
-    </header>
+                <div class="header-content">
+                    <a href="songlist.html" class="back-btn" onclick="event.preventDefault(); if (document.referrer && (document.referrer.includes('songlist.html') || document.referrer.includes('songlist2.html') || document.referrer.includes('ChordTrainer.html'))) { if (window.history.length > 1) { window.history.back(); } else { window.location.href = document.referrer; } } else { window.location.href = 'songlist.html'; }">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span id="txt-back">Back</span>
+                    </a>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">📖</span>
+                        <h3 style="margin: 0; letter-spacing: 0.5px;" id="txt-header-title">CHORD THEORY</h3>
+                    </div>
+                </div>
+                <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal">
+                    <span class="lang-pill lang-pill-en active">
+                        <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-uk-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-uk-clip)"><rect width="60" height="42" fill="#012169"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#ffffff" stroke-width="7"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#C8102E" stroke-width="3"/><path d="M30,0 V42 M0,21 H60" stroke="#ffffff" stroke-width="11"/><path d="M30,0 V42 M0,21 H60" stroke="#C8102E" stroke-width="6"/></g></svg>
+                        EN
+                    </span>
+                    <span class="lang-pill lang-pill-nl">
+                        <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-nl-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-nl-clip)"><rect width="60" height="14" fill="#AE1C28"/><rect y="14" width="60" height="14" fill="#FFFFFF"/><rect y="28" width="60" height="14" fill="#21468B"/></g></svg>
+                        NL
+                    </span>
+                </button>
+            </header>
 
     <div class="container">
         
@@ -595,37 +643,37 @@
             <div style="margin-bottom: 20px; font-size: 4rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
                 📖
             </div>
-            <h1>Chord Theory & Tips</h1>
-            <p>Master the building blocks of music. From basic major chords to professional two-hand techniques.</p>
+            <h1 id="txt-hero-title">Chord Theory & Tips</h1>
+            <p id="txt-hero-subtitle">Master the building blocks of music. From basic major chords to professional two-hand techniques.</p>
         </section>
 
         <!-- What is a Chord -->
         <article class="theory-card">
-            <h2 class="section-title"><span class="icon">💡</span> What is a Chord?</h2>
-            <p>At its simplest, a <strong>chord</strong> is a group of notes played together at the same time. While you can play any combination of notes, the most common chords in pop music are <strong>Triads</strong>—which consist of three specific notes.</p>
+            <h2 class="section-title" id="txt-sec1-title"><span class="icon">💡</span> What is a Chord?</h2>
+            <p id="txt-sec1-p1">At its simplest, a <strong>chord</strong> is a group of notes played together at the same time. While you can play any combination of notes, the most common chords in pop music are <strong>Triads</strong>—which consist of three specific notes.</p>
             
             <div class="pro-tip">
-                <h4><span class="icon">✨</span> The Magic Formula</h4>
-                <p>Most chords are built by taking a Root note, skipping a note, taking the next, skipping another, and taking the third. This is called playing in thirds!</p>
+                <h4 id="txt-magic-title"><span class="icon">✨</span> The Magic Formula</h4>
+                <p id="txt-magic-desc">Most chords are built by taking a Root note, skipping a note, taking the next, skipping another, and taking the third. This is called playing in thirds!</p>
             </div>
 
             <div style="text-align: center; margin-top: 20px;">
                 <img src="corrected_hand_numbering.png" alt="Finger numbering for the right hand" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                <p style="margin-top: 15px; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif;">Finger numbering for the right hand</p>
+                <p style="margin-top: 15px; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif;" id="txt-hand-caption">Finger numbering for the right hand</p>
             </div>
 
             <div class="pro-tip" style="margin-top: 30px; border-left-color: #f59e0b; background: #fffbeb;">
-                <h4><span class="icon">🎹</span> The "Shape" Secret</h4>
-                <p>Did you know? On the piano, many chords share the exact same physical "shape." If you learn the hand position for one, you've learned them all for that group!</p>
+                <h4 id="txt-secret-title"><span class="icon">🎹</span> The "Shape" Secret</h4>
+                <p id="txt-secret-desc">Did you know? On the piano, many chords share the exact same physical "shape." If you learn the hand position for one, you've learned them all for that group!</p>
             </div>
 
                 <div class="fingering-shapes-grid">
                     <!-- Group 1 -->
                     <div class="shape-card">
                         <div>
-                            <div class="shape-badge">The "All White" Shape</div>
+                            <div class="shape-badge" id="txt-g1-badge">The "All White" Shape</div>
                             <span class="chord-list">C • Dm • Em • F • G • Am</span>
-                            <p class="shape-desc">All three notes are played on <strong>White Keys</strong>. Hand sits flat.</p>
+                            <p class="shape-desc" id="txt-g1-desc">All three notes are played on <strong>White Keys</strong>. Hand sits flat.</p>
                         </div>
                         <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
                              <svg viewBox="0 -10 280 140" width="100%">
@@ -657,15 +705,15 @@
                                 <text x="103" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#4f46e5">5</text>
                              </svg>
                         </div>
-                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: C Major</div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;" id="txt-g1-example">Example: C Major</div>
                     </div>
 
                     <!-- Group 2 -->
                     <div class="shape-card">
                         <div>
-                            <div class="shape-badge">The "Valley" Shape</div>
+                            <div class="shape-badge" id="txt-g2-badge">The "Valley" Shape</div>
                             <span class="chord-list">C# • D# • G#</span>
-                            <p class="shape-desc"><strong>Black - White - Black</strong> pattern. Your middle finger dips down into the valley.</p>
+                            <p class="shape-desc" id="txt-g2-desc"><strong>Black - White - Black</strong> pattern. Your middle finger dips down into the valley.</p>
                         </div>
                         <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
                              <svg viewBox="0 -10 280 140" width="100%">
@@ -697,15 +745,15 @@
                                 <text x="115" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">5</text>
                              </svg>
                         </div>
-                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: C# Major</div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;" id="txt-g2-example">Example: C# Major</div>
                     </div>
 
                     <!-- Group 3 -->
                     <div class="shape-card">
                         <div>
-                            <div class="shape-badge">The "Mountain" Shape</div>
+                            <div class="shape-badge" id="txt-g3-badge">The "Mountain" Shape</div>
                             <span class="chord-list">A • D • E • Cm • Fm • Gm</span>
-                            <p class="shape-desc"><strong>White - Black - White</strong> pattern. Your middle finger reaches up to the mountain peak.</p>
+                            <p class="shape-desc" id="txt-g3-desc"><strong>White - Black - White</strong> pattern. Your middle finger reaches up to the mountain peak.</p>
                         </div>
                         <div style="background: white; padding: 12px; border-radius: 12px; border: 2px solid #1e293b; margin-top: 15px; max-width: 260px; margin-left: auto; margin-right: auto;">
                              <svg viewBox="0 -10 280 140" width="100%">
@@ -737,13 +785,13 @@
                                 <text x="126" y="120" font-size="16" font-weight="900" text-anchor="middle" fill="#4f46e5">5</text>
                              </svg>
                         </div>
-                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: D Major</div>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;" id="txt-g3-example">Example: D Major</div>
                     </div>
 
                 <!-- Group 4 -->
                 <div class="shape-card outlier">
-                    <div class="shape-badge" style="background: #4f46e5;">Special "Outliers"</div>
-                    <div style="font-size: 0.85rem; margin-bottom: 12px;">
+                    <div class="shape-badge" style="background: #4f46e5;" id="txt-g4-badge">Special "Outliers"</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 12px;" id="txt-g4-desc">
                         <strong>B:</strong> W-B-B • <strong>Bm:</strong> W-W-B • <strong>A#:</strong> B-W-W
                     </div>
                     
@@ -778,21 +826,20 @@
                             <text x="206.5" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">3</text>
                             <text x="252.5" y="50" font-size="16" font-weight="900" text-anchor="middle" fill="white">5</text>
                          </svg>
-
                     </div>
-                    <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;">Example: B Major</div>
+                    <div style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 700;" id="txt-g4-example">Example: B Major</div>
                 </div>
             </div>
         </article>
 
         <!-- Building Basic Chords -->
         <article class="theory-card">
-            <h2 class="section-title"><span class="icon">🎹</span> Building Major & Minor Chords</h2>
-            <p>The difference between a "happy" Major chord and a "sad" Minor chord is just <strong>one half-step</strong> on the middle note.</p>
+            <h2 class="section-title" id="txt-sec2-title"><span class="icon">🎹</span> Building Major & Minor Chords</h2>
+            <p id="txt-sec2-p1">The difference between a "happy" Major chord and a "sad" Minor chord is just <strong>one half-step</strong> on the middle note.</p>
             
             <div class="pro-tip" style="background: #f0fdf4; border-left-color: #22c55e; margin-bottom: 25px;">
-                <h4 style="color: #166534;"><span class="icon">🏷️</span> Chord Names:</h4>
-                <p style="color: #166534;">In the music world, <strong>"C Major"</strong> is usually just called <strong>"C"</strong>. If you see a chord name on its own (like G, F, or C), it's a Major chord. When it has that little <strong>"m"</strong> behind its name, it's called a minor Chord! <strong>Am</strong> would mean an A Minor chord.</p>
+                <h4 style="color: #166534;" id="txt-tip-title"><span class="icon">🏷️</span> Chord Names:</h4>
+                <p style="color: #166534;" id="txt-tip-desc">In the music world, <strong>"C Major"</strong> is usually just called <strong>"C"</strong>. If you see a chord name on its own (like G, F, or C), it's a Major chord. When it has that little <strong>"m"</strong> behind its name, it's called a minor Chord! <strong>Am</strong> would mean an A Minor chord.</p>
             </div>
 
             <div class="chord-grid">
@@ -854,14 +901,14 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: 40px;">Sharps (#) and Flats (b)</h3>
-            <p>Don't be afraid of the black keys! A <strong>C# (C Sharp)</strong> is just the key directly to the right of C. An <strong>Eb (E Flat)</strong> is the key directly to the left of E. They are the same black keys, just named based on which white key you're referencing.</p>
+            <h3 style="margin-top: 40px;" id="txt-sec2-sub">Sharps (#) and Flats (b)</h3>
+            <p id="txt-sec2-p2">Don't be afraid of the black keys! A <strong>C# (C Sharp)</strong> is just the key directly to the right of C. An <strong>Eb (E Flat)</strong> is the key directly to the left of E. They are the same black keys, just named based on which white key you're referencing.</p>
             
             <!-- Start of Ultra-Premium Brand-Sync Illustration -->
             <div class="super-illustration-container brand-vortex">
                 <div class="hero-labels">
-                    <div class="hero-title-box">C MAJOR</div>
-                    <div class="hero-title-box">C# MAJOR</div>
+                    <div class="hero-title-box" id="txt-hero-c-major">C MAJOR</div>
+                    <div class="hero-title-box" id="txt-hero-cs-major">C# MAJOR</div>
                 </div>
                 
                 <div class="dual-keyboard-wrapper">
@@ -1047,13 +1094,13 @@
             </style>
             <!-- End of Ultra-Premium Brand-Sync Illustration -->
             <p style="text-align: center; margin-top: -20px; margin-bottom: 40px; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif; font-size: 1.1rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-                <span style="color: var(--primary-color);">💡 The Half-Step Principle:</span> Notice how every single key shifts exactly one position to the right when moving from C Major to C# Major.
+                <span style="color: var(--primary-color);" id="txt-halfstep-caption">💡 The Half-Step Principle:</span> <span id="txt-halfstep-desc">Notice how every single key shifts exactly one position to the right when moving from C Major to C# Major.</span>
             </p>
 
             <!-- Major Chords Cheat Sheet Re-creation -->
             <div class="cheat-sheet-section">
-                <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; margin-bottom: 10px; text-decoration: underline;">Major Chords</h2>
-                <div style="text-align: center; margin-bottom: 40px; color: #64748b; font-weight: 500;">Physical Finger Patterns Cheat Sheet</div>
+                <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; margin-bottom: 10px; text-decoration: underline;" id="txt-sheet-title">Major Chords</h2>
+                <div style="text-align: center; margin-bottom: 40px; color: #64748b; font-weight: 500;" id="txt-sheet-sub">Physical Finger Patterns Cheat Sheet</div>
 
                 <div class="cheat-sheet-grid">
                     <!-- KEY LAYOUT: 11 white keys (C to F2), 8 black keys.
@@ -1065,7 +1112,7 @@
 
                     <!-- Row 1: White - White - White -->
                     <div class="cheat-group">
-                        <div class="cheat-group-header">White - White - White</div>
+                        <div class="cheat-group-header" id="txt-row-www">White - White - White</div>
                         <div class="chord-items">
 
                             <!-- C Major: C(0) E(44) G(88) -->
@@ -1093,7 +1140,7 @@
                             </div>
 
                             <!-- F Major: F(66) A(110) C2(154) -->
-                            <div class="chord-item"><span class="chord-item-name">F Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-f">F Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1117,7 +1164,7 @@
                             </div>
 
                             <!-- G Major: G(88) B(132) D2(176) -->
-                            <div class="chord-item"><span class="chord-item-name">G Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-g">G Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1145,11 +1192,11 @@
 
                     <!-- Row 2: White - Black - White -->
                     <div class="cheat-group">
-                        <div class="cheat-group-header">White - Black - White</div>
+                        <div class="cheat-group-header" id="txt-row-wbw">White - Black - White</div>
                         <div class="chord-items">
 
                             <!-- D Major: D(22) F#(79 black) A(110) -->
-                            <div class="chord-item"><span class="chord-item-name">D Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-d">D Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="#4f46e5"/>
@@ -1173,7 +1220,7 @@
                             </div>
 
                             <!-- E Major: E(44) G#(101 black) B(132) -->
-                            <div class="chord-item"><span class="chord-item-name">E Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-e">E Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1197,7 +1244,7 @@
                             </div>
 
                             <!-- A Major: A(110) C#2(167 black) E2(198) -->
-                            <div class="chord-item"><span class="chord-item-name">A Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-a">A Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1225,11 +1272,11 @@
 
                     <!-- Row 3: Black - White - Black -->
                     <div class="cheat-group">
-                        <div class="cheat-group-header">Black - White - Black</div>
+                        <div class="cheat-group-header" id="txt-row-bwb">Black - White - Black</div>
                         <div class="chord-items">
 
                             <!-- C# Major: C#(13 black) F/E#(66 white) G#(101 black) -->
-                            <div class="chord-item"><span class="chord-item-name">C# Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-db">C# Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1253,7 +1300,7 @@
                             </div>
 
                             <!-- Eb Major: D#(35 black) G(88 white) A#(123 black) -->
-                            <div class="chord-item"><span class="chord-item-name">Eb Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-eb">Eb Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1277,7 +1324,7 @@
                             </div>
 
                             <!-- Ab Major: G#(101 black) C2(154 white) D#2(189 black) -->
-                            <div class="chord-item"><span class="chord-item-name">Ab Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-ab">Ab Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1305,11 +1352,11 @@
 
                     <!-- Row 4: Other -->
                     <div class="cheat-group">
-                        <div class="cheat-group-header">Other</div>
+                        <div class="cheat-group-header" id="txt-row-oth">Other</div>
                         <div class="chord-items">
 
                             <!-- F# Major: F#(79 black) A#(123 black) C#2(167 black) — all black -->
-                            <div class="chord-item"><span class="chord-item-name">F# Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-fs">F# Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1333,7 +1380,7 @@
                             </div>
 
                             <!-- B Major: B(132 white) D#2(189 black) F#2(232 black) -->
-                            <div class="chord-item"><span class="chord-item-name">B Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-b">B Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 250 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1358,7 +1405,7 @@
                             </div>
 
                             <!-- Bb Major: A#/Bb(123 black) D2(176 white) F2(220 white) -->
-                            <div class="chord-item"><span class="chord-item-name">Bb Major</span>
+                            <div class="chord-item"><span class="chord-item-name" id="txt-chord-bb">Bb Major</span>
                                 <div class="mini-keyboard"><svg viewBox="0 0 244 95" style="display:block;width:100%">
                                     <rect x="0"   y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
                                     <rect x="22"  y="0" width="20" height="90" rx="2" fill="white" stroke="#ccc" stroke-width=".5"/>
@@ -1390,12 +1437,12 @@
 
                 <!-- Minor Chords Section -->
                 <div style="margin-top: 60px; border-top: 3px solid #f1f5f9; padding-top: 40px;">
-                    <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; color: #db2777;"><span class="icon">🎹</span> Minor Chords</h2>
+                    <h2 class="section-title" style="justify-content: center; font-size: 2.2rem; color: #db2777;" id="txt-minor-title"><span class="icon">🎹</span> Minor Chords</h2>
                     <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: #475569; font-size: 1.1rem; text-align: center;">
-                        <p>To turn any Major chord into a <strong>Minor chord</strong>, simply move the middle note (it's called the "third") exactly <strong>one key to the left</strong>. This "lowering of the third" instantly transforms a bright, happy sound into a moody, sad tone.</p>
+                        <p id="txt-minor-p1">To turn any Major chord into a <strong>Minor chord</strong>, simply move the middle note (it's called the "third") exactly <strong>one key to the left</strong>. This "lowering of the third" instantly transforms a bright, happy sound into a moody, sad tone.</p>
                         <div class="pro-tip" style="background: #fdf2f8; border-left-color: #db2777; margin-top: 20px; text-align: left;">
-                            <h4 style="color: #9d174d;"><span class="icon">💡</span> Pro Tip: Just One Step</h4>
-                            <p style="color: #9d174d;">Even if the middle note is a black key (like in D Major), you still just move it one step left (to the white key). The pattern is always the same!</p>
+                            <h4 style="color: #9d174d;" id="txt-minor-tip-title"><span class="icon">💡</span> Pro Tip: Just One Step</h4>
+                            <p style="color: #9d174d;" id="txt-minor-tip-desc">Even if the middle note is a black key (like in D Major), you still just move it one step left (to the white key). The pattern is always the same!</p>
                         </div>
                     </div>
                 </div>
@@ -1404,41 +1451,41 @@
 
         <!-- Inversions -->
         <article class="theory-card">
-            <h2 class="section-title"><span class="icon">🔄</span> Chord Inversions</h2>
-            <p>You don't always have to play the Root note at the bottom. Shuffling the notes makes transitions smoother and sounds more professional.</p>
+            <h2 class="section-title" id="txt-inversions-title"><span class="icon">🔄</span> Chord Inversions</h2>
+            <p id="txt-inversions-p1">You don't always have to play the Root note at the bottom. Shuffling the notes makes transitions smoother and sounds more professional.</p>
             
             <div class="inversion-stack">
                 <div class="inversion-item">
-                    <h4 style="color: #4f46e5;">Root Position (C)</h4>
-                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: C - E - G</p>
-                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">The standard "home" shape.</div>
+                    <h4 style="color: #4f46e5;" id="txt-root-pos-title">Root Position (C)</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;" id="txt-root-pos-notes">Notes: C - E - G</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;" id="txt-root-pos-desc">The standard "home" shape.</div>
                 </div>
                 <div class="inversion-item">
-                    <h4 style="color: #7c3aed;">1st Inversion</h4>
-                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: E - G - C</p>
-                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">Move the C to the top. Great for connecting to F chords!</div>
+                    <h4 style="color: #7c3aed;" id="txt-first-inv-title">1st Inversion</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;" id="txt-first-inv-notes">Notes: E - G - C</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;" id="txt-first-inv-desc">Move the C to the top. Great for connecting to F chords!</div>
                 </div>
                 <div class="inversion-item">
-                    <h4 style="color: #ec4899;">2nd Inversion</h4>
-                    <p style="font-size: 0.9rem; margin: 10px 0;">Notes: G - C - E</p>
-                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;">Move the E to the top. Sounds very powerful and stable.</div>
+                    <h4 style="color: #ec4899;" id="txt-second-inv-title">2nd Inversion</h4>
+                    <p style="font-size: 0.9rem; margin: 10px 0;" id="txt-second-inv-notes">Notes: G - C - E</p>
+                    <div style="font-style: italic; font-size: 0.85rem; color: #64748b;" id="txt-second-inv-desc">Move the E to the top. Sounds very powerful and stable.</div>
                 </div>
             </div>
         </article>
         
         <article class="theory-card" style="background: linear-gradient(to right, #ffffff, #f5f3ff);">
-            <h2 class="section-title"><span class="icon">🙌</span> Playing with Two Hands</h2>
+            <h2 class="section-title" id="txt-twohands-title"><span class="icon">🙌</span> Playing with Two Hands</h2>
             
             <div class="hand-example">
                 <div class="hand-text">
-                    <p>This is where the magic happens. To make your music sound <strong>rich, professional, and deep</strong>, you must use your left hand effectively.</p>
+                    <p id="txt-twohands-p1">This is where the magic happens. To make your music sound <strong>rich, professional, and deep</strong>, you must use your left hand effectively.</p>
                     
                     <div class="pro-tip" style="background: #eff6ff; border-left-color: #3b82f6;">
-                        <h4 style="color: #1e40af;"><span class="icon">⭐</span> The Gold Rule of Bass</h4>
-                        <p style="color: #1e40af; font-size: 1.1rem;">Your Left Hand should ALWAYS play the Root Note (the BASS note) of the chord.</p>
+                        <h4 style="color: #1e40af;" id="txt-twohands-tip-title"><span class="icon">⭐</span> The Gold Rule of Bass</h4>
+                        <p style="color: #1e40af; font-size: 1.1rem;" id="txt-twohands-tip-desc">Your Left Hand should ALWAYS play the Root Note (the BASS note) of the chord.</p>
                     </div>
 
-                    <p>If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
+                    <p id="txt-twohands-p2">If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C's an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.</p>
                 </div>
                 <div class="hand-visual" style="overflow: hidden;">
                     <img src="piano_two_hands_technique_1776318235440.png" alt="Two Hand Technique" style="width: 100%; height: 100%; object-fit: cover;">
@@ -1447,18 +1494,18 @@
 
             <div class="fingering-guide">
                 <div class="finger-card">
-                    <span>Left Hand</span>
-                    Plays Root Note (Low Bass)
+                    <span id="txt-lh-label">Left Hand</span>
+                    <span id="txt-lh-desc">Plays Root Note (Low Bass)</span>
                 </div>
                 <div class="finger-card">
-                    <span>Right Hand</span>
-                    Plays the Triad or Inversion
+                    <span id="txt-rh-label">Right Hand</span>
+                    <span id="txt-rh-desc">Plays the Triad or Inversion</span>
                 </div>
             </div>
         </article>
 
         <section style="text-align: center; margin-top: 60px;">
-            <a href="ChordTrainer.html" class="back-btn" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
+            <a href="ChordTrainer.html" class="back-btn" id="btn-practice-chords" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
                 Got it! Let's Practice Chords 📖
             </a>
         </section>
@@ -1466,7 +1513,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
+        <p id="txt-footer">&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
     </footer>
 
         </main>
@@ -1557,6 +1604,349 @@
                 window.location.href = 'ChordTrainer.html';
             }
         }
+
+        // Language Translation System
+        const TRANSLATIONS = {
+            'txt-back': {
+                en: 'Back',
+                nl: 'Terug'
+            },
+            'txt-header-title': {
+                en: 'CHORD THEORY',
+                nl: 'AKKOORDEN THEORIE'
+            },
+            'txt-hero-title': {
+                en: 'Chord Theory & Tips',
+                nl: 'Akkoorden Theorie & Tips'
+            },
+            'txt-hero-subtitle': {
+                en: 'Master the building blocks of music. From basic major chords to professional two-hand techniques.',
+                nl: 'Beheers de bouwstenen van muziek. Van basis majeur akkoorden tot professionele technieken voor twee handen.'
+            },
+            'txt-sec1-title': {
+                en: '<span class="icon">💡</span> What is a Chord?',
+                nl: '<span class="icon">💡</span> Wat is een Akkoord?'
+            },
+            'txt-sec1-p1': {
+                en: 'At its simplest, a <strong>chord</strong> is a group of notes played together at the same time. While you can play any combination of notes, the most common chords in pop music are <strong>Triads</strong>—which consist of three specific notes.',
+                nl: 'In de eenvoudigste vorm is een <strong>akkoord</strong> een groep noten die tegelijkertijd worden gespeeld. Hoewel je elke combinatie van noten kunt spelen, zijn de meest voorkomende akkoorden in popmuziek <strong>drieklanken</strong> (Triads)—die bestaan uit drie specifieke noten.'
+            },
+            'txt-magic-title': {
+                en: '<span class="icon">✨</span> The Magic Formula',
+                nl: '<span class="icon">✨</span> De Magische Formule'
+            },
+            'txt-magic-desc': {
+                en: 'Most chords are built by taking a Root note, skipping a note, taking the next, skipping another, and taking the third. This is called playing in thirds!',
+                nl: 'De meeste akkoorden worden gebouwd door een grondtoon (Root) te nemen, een noot over te slaan, de volgende te nemen, er nog een over te slaan, en de derde te nemen. Dit noemen we spelen in tertsen!'
+            },
+            'txt-hand-caption': {
+                en: 'Finger numbering for the right hand',
+                nl: 'Vinger-nummering voor de rechterhand'
+            },
+            'txt-secret-title': {
+                en: '<span class="icon">🎹</span> The "Shape" Secret',
+                nl: '<span class="icon">🎹</span> Het "Vorm" Geheim'
+            },
+            'txt-secret-desc': {
+                en: 'Did you know? On the piano, many chords share the exact same physical "shape." If you learn the hand position for one, you\'ve learned them all for that group!',
+                nl: 'Wist je dat? Op de piano delen veel akkoorden exact dezelfde fysieke "vorm". Als je de handpositie voor de ene leert, heb je ze meteen allemaal voor die groep geleerd!'
+            },
+            'txt-g1-badge': {
+                en: 'The "All White" Shape',
+                nl: 'De "Alleen Wit" Vorm'
+            },
+            'txt-g1-desc': {
+                en: 'All three notes are played on <strong>White Keys</strong>. Hand sits flat.',
+                nl: 'Alle drie de noten worden op <strong>witte toetsen</strong> gespeeld. Hand ligt vlak.'
+            },
+            'txt-g1-example': {
+                en: 'Example: C Major',
+                nl: 'Voorbeeld: C Majeur'
+            },
+            'txt-g2-badge': {
+                en: 'The "Valley" Shape',
+                nl: 'De "Dal" Vorm'
+            },
+            'txt-g2-desc': {
+                en: '<strong>Black - White - Black</strong> pattern. Your middle finger dips down into the valley.',
+                nl: '<strong>Zwart - Wit - Zwart</strong> patroon. Je middelvinger zakt in het dal.'
+            },
+            'txt-g2-example': {
+                en: 'Example: C# Major',
+                nl: 'Voorbeeld: C# Majeur'
+            },
+            'txt-g3-badge': {
+                en: 'The "Mountain" Shape',
+                nl: 'De "Berg" Vorm'
+            },
+            'txt-g3-desc': {
+                en: '<strong>White - Black - White</strong> pattern. Your middle finger reaches up to the mountain peak.',
+                nl: '<strong>Wit - Zwart - Wit</strong> patroon. Je middelvinger reikt omhoog naar de bergtop.'
+            },
+            'txt-g3-example': {
+                en: 'Example: D Major',
+                nl: 'Voorbeeld: D Majeur'
+            },
+            'txt-g4-badge': {
+                en: 'Special "Outliers"',
+                nl: 'Speciale "Uitzonderingen"'
+            },
+            'txt-g4-desc': {
+                en: '<strong>B:</strong> W-B-B • <strong>Bm:</strong> W-W-B • <strong>A#:</strong> B-W-W',
+                nl: '<strong>B:</strong> W-Z-Z • <strong>Bm:</strong> W-W-Z • <strong>Bb / A#:</strong> Z-W-W'
+            },
+            'txt-g4-example': {
+                en: 'Example: B Major',
+                nl: 'Voorbeeld: B Majeur'
+            },
+            'txt-sec2-title': {
+                en: '<span class="icon">🎹</span> Building Major & Minor Chords',
+                nl: '<span class="icon">🎹</span> Majeur & Mineur Akkoorden Bouwen'
+            },
+            'txt-sec2-p1': {
+                en: 'The difference between a "happy" Major chord and a "sad" Minor chord is just <strong>one half-step</strong> on the middle note.',
+                nl: 'Het verschil tussen een "vrolijk" Majeur akkoord en een "verdrietig" Mineur akkoord is slechts <strong>één halve stap</strong> op de middelste noot.'
+            },
+            'txt-tip-title': {
+                en: '<span class="icon">🏷️</span> Chord Names:',
+                nl: '<span class="icon">🏷️</span> Akkoordnamen:'
+            },
+            'txt-tip-desc': {
+                en: 'In the music world, <strong>"C Major"</strong> is usually just called <strong>"C"</strong>. If you see a chord name on its own (like G, F, or C), it\'s a Major chord. When it has that little <strong>"m"</strong> behind its name, it\'s called a minor Chord! <strong>Am</strong> would mean an A Minor chord.',
+                nl: 'In de muziekwereld wordt <strong>"C Majeur"</strong> meestal gewoon <strong>"C"</strong> genoemd. Als je een akkoordnaam los ziet staan (zoals G, F of C), is het een Majeur akkoord. Als er een kleine <strong>"m"</strong> achter staat, is het een mineur akkoord! Dus <strong>Am</strong> betekent A Mineur.'
+            },
+            'txt-sec2-sub': {
+                en: 'Sharps (#) and Flats (b)',
+                nl: 'Kruisen (#) en Mollen (b)'
+            },
+            'txt-sec2-p2': {
+                en: 'Don\'t be afraid of the black keys! A <strong>C# (C Sharp)</strong> is just the key directly to the right of C. An <strong>Eb (E Flat)</strong> is the key directly to the left of E. They are the same black keys, just named based on which white key you\'re referencing.',
+                nl: 'Wees niet bang voor de zwarte toetsen! Een <strong>C# (C Kruis / Sharp)</strong> is gewoon de toets direct rechts van de C. Een <strong>Eb (E Mol / Flat)</strong> is de toets direct links van de E. Dit zijn dezelfde zwarte toetsen, alleen anders genoemd afhankelijk van welke witte toets je als basis neemt.'
+            },
+            'txt-hero-c-major': {
+                en: 'C MAJOR',
+                nl: 'C MAJEUR'
+            },
+            'txt-hero-cs-major': {
+                en: 'C# MAJOR',
+                nl: 'C# MAJEUR'
+            },
+            'txt-halfstep-caption': {
+                en: '💡 The Half-Step Principle:',
+                nl: '💡 Het Halve-Toon-Principe:'
+            },
+            'txt-halfstep-desc': {
+                en: 'Notice how every single key shifts exactly one position to the right when moving from C Major to C# Major.',
+                nl: 'Let op hoe elke toets precies één positie naar rechts verschuift bij de overgang van C Majeur naar C# Majeur.'
+            },
+            'txt-sheet-title': {
+                en: 'Major Chords',
+                nl: 'Majeur Akkoorden'
+            },
+            'txt-sheet-sub': {
+                en: 'Physical Finger Patterns Cheat Sheet',
+                nl: 'Snelkaart voor Fysieke Vingerpatronen'
+            },
+            'txt-row-www': {
+                en: 'White - White - White',
+                nl: 'Wit - Wit - Wit'
+            },
+            'txt-row-wbw': {
+                en: 'White - Black - White',
+                nl: 'Wit - Zwart - Wit'
+            },
+            'txt-row-bwb': {
+                en: 'Black - White - Black',
+                nl: 'Zwart - Wit - Zwart'
+            },
+            'txt-row-oth': {
+                en: 'Other',
+                nl: 'Overig'
+            },
+            'txt-chord-f': {
+                en: 'F Major',
+                nl: 'F Majeur'
+            },
+            'txt-chord-g': {
+                en: 'G Major',
+                nl: 'G Majeur'
+            },
+            'txt-chord-d': {
+                en: 'D Major',
+                nl: 'D Majeur'
+            },
+            'txt-chord-e': {
+                en: 'E Major',
+                nl: 'E Majeur'
+            },
+            'txt-chord-a': {
+                en: 'A Major',
+                nl: 'A Majeur'
+            },
+            'txt-chord-db': {
+                en: 'C# Major',
+                nl: 'C# Majeur'
+            },
+            'txt-chord-eb': {
+                en: 'Eb Major',
+                nl: 'Eb Majeur'
+            },
+            'txt-chord-ab': {
+                en: 'Ab Major',
+                nl: 'Ab Majeur'
+            },
+            'txt-chord-fs': {
+                en: 'F# Major',
+                nl: 'F# Majeur'
+            },
+            'txt-chord-b': {
+                en: 'B Major',
+                nl: 'B Majeur'
+            },
+            'txt-chord-bb': {
+                en: 'Bb Major',
+                nl: 'Bb Majeur'
+            },
+            'txt-minor-title': {
+                en: '<span class="icon">🎹</span> Minor Chords',
+                nl: '<span class="icon">🎹</span> Mineur Akkoorden'
+            },
+            'txt-minor-p1': {
+                en: 'To turn any Major chord into a <strong>Minor chord</strong>, simply move the middle note (it\'s called the "third") exactly <strong>one key to the left</strong>. This "lowering of the third" instantly transforms a bright, happy sound into a moody, sad tone.',
+                nl: 'Om van een Majeur akkoord een <strong>Mineur akkoord</strong> te maken, verplaats je simpelweg de middelste noot (de "terts") precies <strong>één toets naar links</strong>. Deze verlaging van de terts verandert een heldere, vrolijke klank direct in een melancholisch, droevig geluid.'
+            },
+            'txt-minor-tip-title': {
+                en: '<span class="icon">💡</span> Pro Tip: Just One Step',
+                nl: '<span class="icon">💡</span> Pro Tip: Slechts één stap'
+            },
+            'txt-minor-tip-desc': {
+                en: 'Even if the middle note is a black key (like in D Major), you still just move it one step left (to the white key). The pattern is always the same!',
+                nl: 'Zelfs als de middelste noot een zwarte toets is (zoals bij D Majeur), schuif je die nog steeds één stap naar links (naar de witte toets). Het patroon is altijd hetzelfde!'
+            },
+            'txt-inversions-title': {
+                en: '<span class="icon">🔄</span> Chord Inversions',
+                nl: '<span class="icon">🔄</span> Omkeringen (Inversions)'
+            },
+            'txt-inversions-p1': {
+                en: 'You don\'t always have to play the Root note at the bottom. Shuffling the notes makes transitions smoother and sounds more professional.',
+                nl: 'Je hoeft de grondtoon (Root) niet altijd als laagste noot te spelen. Door de volgorde van de noten te husselen, verlopen overgangen soepeler en klinkt het professioneler.'
+            },
+            'txt-root-pos-title': {
+                en: 'Root Position (C)',
+                nl: 'Grondpositie (C)'
+            },
+            'txt-root-pos-notes': {
+                en: 'Notes: C - E - G',
+                nl: 'Noten: C - E - G'
+            },
+            'txt-root-pos-desc': {
+                en: 'The standard "home" shape.',
+                nl: 'De standaard basisvorm.'
+            },
+            'txt-first-inv-title': {
+                en: '1st Inversion',
+                nl: '1e Omkering'
+            },
+            'txt-first-inv-notes': {
+                en: 'Notes: E - G - C',
+                nl: 'Noten: E - G - C'
+            },
+            'txt-first-inv-desc': {
+                en: 'Move the C to the top. Great for connecting to F chords!',
+                nl: 'Verplaats de C naar de bovenkant. Ideaal om aan te sluiten op F-akkoorden!'
+            },
+            'txt-second-inv-title': {
+                en: '2nd Inversion',
+                nl: '2e Omkering'
+            },
+            'txt-second-inv-notes': {
+                en: 'Notes: G - C - E',
+                nl: 'Noten: G - C - E'
+            },
+            'txt-second-inv-desc': {
+                en: 'Move the E to the top. Sounds very powerful and stable.',
+                nl: 'Verplaats de E naar de bovenkant. Klinkt heel krachtig en stabiel.'
+            },
+            'txt-twohands-title': {
+                en: '<span class="icon">🙌</span> Playing with Two Hands',
+                nl: '<span class="icon">🙌</span> Spelen met Twee Handen'
+            },
+            'txt-twohands-p1': {
+                en: 'This is where the magic happens. To make your music sound <strong>rich, professional, and deep</strong>, you must use your left hand effectively.',
+                nl: 'Dit is waar de magie ontstaat. Om je muziek <strong>vol, professioneel en diep</strong> te laten klinken, moet je je linkerhand effectief inzetten.'
+            },
+            'txt-twohands-tip-title': {
+                en: '<span class="icon">⭐</span> The Gold Rule of Bass',
+                nl: '<span class="icon">⭐</span> De Gouden Basregel'
+            },
+            'txt-twohands-tip-desc': {
+                en: 'Your Left Hand should ALWAYS play the Root Note (the BASS note) of the chord.',
+                nl: 'Je linkerhand moet ALTIJD de grondtoon (de basnoot) van het akkoord spelen.'
+            },
+            'txt-twohands-p2': {
+                en: 'If you are playing a <strong>C Major</strong> chord with your right hand, play a low <strong>C</strong> (or two C\'s an octave apart) with your left hand. This "anchors" the sound and gives it that professional piano-ballad feel.',
+                nl: 'Als je een <strong>C Majeur</strong> akkoord met je rechterhand speelt, speel dan een lage <strong>C</strong> (of twee C\'s een octaaf uit elkaar) met je linkerhand. Dit "verankert" het geluid en geeft het die professionele piano-ballad sfeer.'
+            },
+            'txt-lh-label': {
+                en: 'Left Hand',
+                nl: 'Linkerhand'
+            },
+            'txt-lh-desc': {
+                en: 'Plays Root Note (Low Bass)',
+                nl: 'Speelt de grondtoon (Lage Bas)'
+            },
+            'txt-rh-label': {
+                en: 'Right Hand',
+                nl: 'Rechterhand'
+            },
+            'txt-rh-desc': {
+                en: 'Plays the Triad or Inversion',
+                nl: 'Speelt de drieklank of omkering'
+            },
+            'txt-footer': {
+                en: '&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook',
+                nl: '&copy; 2026 PopSongChordBook • Jouw Interactieve Meespeel-Liedjesboek'
+            },
+            'btn-practice-chords': {
+                en: 'Got it! Let\'s Practice Chords 📖',
+                nl: 'Begrepen! Laten we akkoorden oefenen 📖'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+
+        function applyLanguageToUI() {
+            // Apply text translations
+            for (const key in TRANSLATIONS) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerHTML = TRANSLATIONS[key][currentLanguage] || TRANSLATIONS[key]['en'];
+                }
+            }
+
+            // Update header language button active state
+            const toggleBtn = document.getElementById('langToggleBtn');
+            if (toggleBtn) {
+                const pillEn = toggleBtn.querySelector('.lang-pill-en');
+                const pillNl = toggleBtn.querySelector('.lang-pill-nl');
+                if (currentLanguage === 'nl') {
+                    if (pillEn) pillEn.classList.remove('active');
+                    if (pillNl) pillNl.classList.add('active');
+                } else {
+                    if (pillEn) pillEn.classList.add('active');
+                    if (pillNl) pillNl.classList.remove('active');
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            currentLanguage = (currentLanguage === 'en') ? 'nl' : 'en';
+            localStorage.setItem('preferredLanguage', currentLanguage);
+            applyLanguageToUI();
+        }
+
+        // Apply translations on load
+        applyLanguageToUI();
     </script>
 </body>
 
