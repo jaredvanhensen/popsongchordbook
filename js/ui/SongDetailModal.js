@@ -4204,17 +4204,6 @@ class SongDetailModal {
         }
         if (this.titleElement) {
             const titleText = song.title || '';
-            let keyText = song.key || '';
-            let isGuessed = false;
-
-            // If no explicit key, try to detect it
-            if (!keyText.trim() && this.keyDetector) {
-                const detectedKey = this.keyDetector.detectFromSong(song);
-                if (detectedKey) {
-                    keyText = detectedKey;
-                    isGuessed = true;
-                }
-            }
 
             // Display title
             this.titleElement.textContent = titleText;
@@ -5011,14 +5000,6 @@ class SongDetailModal {
         }
 
         let keyText = song.key || '';
-
-        // If no explicit key, try to detect it
-        if (!keyText.trim() && this.keyDetector) {
-            const detectedKey = this.keyDetector.detectFromSong(song);
-            if (detectedKey) {
-                keyText = detectedKey;
-            }
-        }
 
         const formattedKey = this.formatKeyText(keyText);
         this.keyDisplay.textContent = formattedKey;
