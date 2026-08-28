@@ -2787,7 +2787,7 @@
                 
                 if (match) {
                     // Tell the parent app we opened from lessons
-                    window.parent.appInstance.openedSongFromLessons = true;
+                    window.parent.appInstance.openedSongFromLessons = currentLessonId || true;
                     // Close the dashboard panel inside parent window
                     if (typeof window.parent.closeDashboardPanel === 'function') {
                         window.parent.closeDashboardPanel();
@@ -2819,6 +2819,9 @@
             id = parseInt(id, 10);
             if (isNaN(id) || id < 1 || id > 8) id = 1;
             currentLessonId = id;
+            if (history.replaceState) {
+                history.replaceState(null, '', `#lesson-${id}`);
+            }
 
             document.body.classList.remove('mode-launch');
             document.body.classList.add('mode-single-lesson');

@@ -3,7 +3,7 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-08-17</lastmod>
+        <lastmod>2026-08-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -273,6 +273,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/bon-jovi-keep-the-faith</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/bon-jovi-living-on-a-prayer</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -474,6 +479,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/bryan-adams-summer-of-69</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/bryan-adams-the-ballad-of-terry-fox</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2258,7 +2268,17 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-june-afternoon</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.popsongchordbook.com/song/roxette-listen-to-your-heart</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/roxette-place-your-love</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -2704,6 +2724,11 @@
     </url>
     <url>
         <loc>https://www.popsongchordbook.com/song/the-police-every-breath-you-take</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.popsongchordbook.com/song/the-pretty-reckless-house-on-a-hill</loc>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

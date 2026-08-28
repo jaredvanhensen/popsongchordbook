@@ -5456,9 +5456,14 @@ class SongDetailModal {
 
         // Return to lessons page if opened from there
         if (window.appInstance && window.appInstance.openedSongFromLessons) {
+            const lessonId = window.appInstance.openedSongFromLessons;
             window.appInstance.openedSongFromLessons = false;
             if (typeof window.openDashboardPanel === 'function') {
-                window.openDashboardPanel('lessons.html');
+                if (lessonId && lessonId !== true) {
+                    window.openDashboardPanel(`lessons.html#lesson-${lessonId}`);
+                } else {
+                    window.openDashboardPanel('lessons.html');
+                }
             }
         }
     }
