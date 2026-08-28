@@ -4320,6 +4320,20 @@ class SongDetailModal {
             this.notesInput.value = song.songNotes || '';
         }
 
+        // Initialize other setting inputs
+        if (this.songYearInput) {
+            this.songYearInput.value = song.year || '';
+        }
+        if (this.patchDetailsInput) {
+            this.patchDetailsInput.value = song.patchDetails || '';
+        }
+        if (this.practiceCountInput) {
+            this.practiceCountInput.value = (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : '0';
+        }
+        if (this.lyricOffsetInput) {
+            this.lyricOffsetInput.value = song.lyricOffset || '';
+        }
+
         // Show modal
         if (this.modal) {
             const user = this.songManager.firebaseManager.getCurrentUser();
@@ -5341,6 +5355,20 @@ class SongDetailModal {
         if (this.originalSongData) {
             this.currentAbilityValue = this.originalSongData.performAbility || 0;
             this.updateAbilityStars(this.currentAbilityValue);
+        }
+
+        // Restore other setting inputs
+        if (this.songYearInput) {
+            this.songYearInput.value = song.year || '';
+        }
+        if (this.patchDetailsInput) {
+            this.patchDetailsInput.value = song.patchDetails || '';
+        }
+        if (this.practiceCountInput) {
+            this.practiceCountInput.value = (song.practiceCount !== undefined && song.practiceCount !== null) ? song.practiceCount.toString() : '0';
+        }
+        if (this.lyricOffsetInput) {
+            this.lyricOffsetInput.value = song.lyricOffset || '';
         }
 
         // Reset change tracking

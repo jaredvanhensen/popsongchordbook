@@ -1,4 +1,4 @@
-﻿// Main Application (v3.250)
+// Main Application (v3.250)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -1116,6 +1116,9 @@ class App {
 
             // Update lessons button visibility
             this.updateLessonsBtnVisibility();
+
+            // Reload and render table with new instrument transpose settings
+            this.loadAndRender();
         };
     }
 
@@ -2961,8 +2964,30 @@ class App {
     }
 
     async handleCellEdit(songId, field, value) {
-        await this.songManager.updateSong(songId, { [field]: value });
+        let valueToSave = value;
+        const chordFields = ['verse', 'chorus', 'preChorus', 'bridge'];
+        if (chordFields.includes(field)) {
+            const song = this.songManager.getSongById(songId);
+            const capoVal = song ? parseInt(song.capo) || 0 : 0;
+            const instrumentMode = localStorage.getItem('instrumentMode') || 'piano';
+            if (instrumentMode === 'guitar' && capoVal !== 0) {
+                // Transpose BACK to original key
+                valueToSave = this.transposeBlockText(value, capoVal);
+            }
+        }
+        await this.songManager.updateSong(songId, { [field]: valueToSave });
         // Selection remains visible in the row itself
+    }
+
+    transposeBlockText(text, semitones) {
+        if (!text || semitones === 0) return text || '';
+        const parser = new ChordParser();
+        const items = text.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
+        return items.map(item => {
+            const trimmed = item.trim();
+            if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
+            return parser.transpose(trimmed, semitones);
+        }).join(' ');
     }
 
     setupAddSongButton() {

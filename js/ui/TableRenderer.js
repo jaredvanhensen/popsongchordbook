@@ -225,23 +225,41 @@ class TableRenderer {
         yearCell.className = 'year-cell editable';
         row.appendChild(yearCell);
 
+        // Determine if chords should be transposed for Guitar Capo
+        const instrumentMode = localStorage.getItem('instrumentMode') || 'piano';
+        const capoVal = parseInt(song.capo) || 0;
+        const isGuitar = instrumentMode === 'guitar';
+        const shouldTranspose = isGuitar && capoVal !== 0;
+
+        let displayVerse = song.verse || '';
+        let displayChorus = song.chorus || '';
+        let displayPreChorus = song.preChorus || '';
+        let displayBridge = song.bridge || '';
+
+        if (shouldTranspose) {
+            displayVerse = this.transposeBlockText(displayVerse, -capoVal);
+            displayChorus = this.transposeBlockText(displayChorus, -capoVal);
+            displayPreChorus = this.transposeBlockText(displayPreChorus, -capoVal);
+            displayBridge = this.transposeBlockText(displayBridge, -capoVal);
+        }
+
         // Verse
-        const verseCell = this.createEditableCell(song.verse, 'verse', song.id);
+        const verseCell = this.createEditableCell(displayVerse, 'verse', song.id);
         verseCell.className += ' verse-cell chord-cell';
         row.appendChild(verseCell);
 
         // Chorus
-        const chorusCell = this.createEditableCell(song.chorus, 'chorus', song.id);
+        const chorusCell = this.createEditableCell(displayChorus, 'chorus', song.id);
         chorusCell.className += ' chorus-cell chord-cell';
         row.appendChild(chorusCell);
 
         // Pre-Chorus
-        const preChorusCell = this.createEditableCell(song.preChorus || '', 'preChorus', song.id);
+        const preChorusCell = this.createEditableCell(displayPreChorus, 'preChorus', song.id);
         preChorusCell.className += ' pre-chorus-cell chord-cell';
         row.appendChild(preChorusCell);
 
         // Bridge
-        const bridgeCell = this.createEditableCell(song.bridge || '', 'bridge', song.id);
+        const bridgeCell = this.createEditableCell(displayBridge, 'bridge', song.id);
         bridgeCell.className += ' bridge-cell chord-cell';
         row.appendChild(bridgeCell);
 
@@ -791,6 +809,21 @@ class TableRenderer {
 
     getSelectedRowId() {
         return this.selectedRowId;
+    }
+
+    transposeBlockText(text, semitones) {
+        if (!text || semitones === 0) return text || '';
+        if (!this.chordParser && typeof ChordParser !== 'undefined') {
+            this.chordParser = new ChordParser();
+        }
+        if (!this.chordParser) return text;
+        
+        const items = text.match(/\[.*?\]|\||\d+x|[^\s|]+/g) || [];
+        return items.map(item => {
+            const trimmed = item.trim();
+            if (trimmed === '|' || /^\d+x$/.test(trimmed) || /^\[.*\]$/.test(trimmed)) return trimmed;
+            return this.chordParser.transpose(trimmed, semitones);
+        }).join(' ');
     }
 }
 

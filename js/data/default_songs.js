@@ -85171,10 +85171,10 @@ const DEFAULT_SONGS = [
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "116",
         "title": "Get Lucky",
-        "verse": "Bm7   D2  F#m3 E3",
+        "verse": "Bm   D2  F#m3 E3",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "2013",
+        "year": "",
         "youtubeUrl": "https://youtu.be/5NV6Rdv1a3I?si=Ub2jXNkgNyk2f50H"
     },
     {

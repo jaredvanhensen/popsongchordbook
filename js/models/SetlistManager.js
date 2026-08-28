@@ -452,7 +452,16 @@ class SetlistManager {
                     }
                 });
                 if (changed) {
-                    await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    const result = await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    if (result && result.success === false) {
+                        // Restore state
+                        songIds.forEach(songId => {
+                            const idStr = String(songId);
+                            setlist.songIds = setlist.songIds.filter(id => String(id) !== idStr);
+                        });
+                        console.error('Failed to update global setting on Firebase:', result.error);
+                        return false;
+                    }
                     localStorage.setItem(storageKey, JSON.stringify(setlist));
                     if (this.onSetlistsChanged) this.onSetlistsChanged();
                     return true;
@@ -467,7 +476,7 @@ class SetlistManager {
                 // Ensure ID is string to prevent mismatch
                 const idStr = String(songId);
                 // Check if ALREADY exists (comparing strings)
-                if (!setlist.songIds.some(existingId => String(existingId) === idStr)) {
+                if (!setlist.songIds.some(existingId => String(existingId) === String(idStr))) {
                     setlist.songIds.push(idStr);
                     changed = true;
                 }
@@ -500,7 +509,13 @@ class SetlistManager {
                 setlist.songIds = setlist.songIds.filter(id => String(id) !== idStr);
 
                 if (setlist.songIds.length !== originalLength) {
-                    await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    const result = await this.firebaseManager.updateGlobalSetting(firebaseKey, setlist);
+                    if (result && result.success === false) {
+                        // Restore state
+                        setlist.songIds.push(idStr);
+                        console.error('Failed to update global setting on Firebase:', result.error);
+                        return false;
+                    }
                     localStorage.setItem(storageKey, JSON.stringify(setlist));
                     if (this.onSetlistsChanged) this.onSetlistsChanged();
                     return true;
