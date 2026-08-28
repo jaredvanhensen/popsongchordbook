@@ -58,7 +58,15 @@
     },
     "settings": {
       ".read": true,
-      ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
+      "admins": {
+        ".write": "auth != null && auth.token.email === 'jared@vanhensen.nl'"
+      },
+      "beginnerSetlist": {
+        ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
+      },
+      "beginnerKeyboardSetlist": {
+        ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
+      }
     },
     "teacherCodes": {
       ".read": "auth != null",

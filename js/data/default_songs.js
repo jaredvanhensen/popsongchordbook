@@ -154084,7 +154084,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -50
                 },
                 {
-                    "name": "D2",
+                    "name": "Bm",
                     "time": 25.293006967575074,
                     "yOffset": -50
                 },
@@ -262643,7 +262643,7 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:32.919] I'm holding on your rope\n[00:34.654] Got me ten feet off the ground\n[00:40.872] And I'm hearing what you say\n[00:42.760] But I just can't make a sound\n[00:49.032] You tell me that you need me\n[00:51.424] Then you go and cut me down\n[00:54.984] But wait\n[00:57.267] You tell me that you're sorry\n[00:59.566] Didn't think I'd turn around and say\n[01:05.081] That it's too late to apologize\n[01:09.353] It's too late\n[01:13.073] I said it's too late to apologize\n[01:17.482] It's too late\n[01:21.290] Too late\n[01:25.129] Oh oh\n[01:29.818] I'd take another chance take a fall\n[01:32.640] Take a shot for you\n[01:36.663] Oh oh\n[01:37.924] I need you like a heart\n[01:39.748] Needs a beat\n[01:40.720] But it's nothing new\n[01:44.008] Yeah yeah\n[01:46.137] I loved you with the fire red\n[01:49.081] Now it's turning blue and you say\n[01:54.427] Sorry like the angel\n[01:56.521] Heaven let me think was you\n[01:59.762] But I'm afraid\n[02:02.348] It's too late to apologize\n[02:06.380] It's too late\n[02:09.932] I said it's too late to apologize\n[02:14.508] It's too late\n[02:17.955] Oh\n[02:36.897] It's too late to apologize\n[02:41.008] It's too late\n[02:44.599] I said it's too late to apologize\n[02:49.095] It's too late\n[02:52.701] I said it's too late to apologize yeah\n[03:00.671] I said it's too late to apologize yeah\n[03:09.527] I'm holding on your rope got me ten feet off the ground",
         "id": 191,
         "isPublic": true,
-        "key": "Bm",
+        "key": "A#m",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,

@@ -1,4 +1,4 @@
-// Main Application (v3.250)
+﻿// Main Application (v3.250)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -86,7 +86,9 @@ class App {
             (songId) => this.handleTogglePractice(songId), // Pass Practice toggle handler
             (songId) => this.setlistManager.isSongInPracticeSetlist(songId), // Pass Practice state checker
             () => this.openPracticeRandomSong(), // Pass Next Practice Random handler
-            () => this.handlePracticeRandomPrev() // Pass Previous Practice Random handler
+            () => this.handlePracticeRandomPrev(), // Pass Previous Practice Random handler
+            (songId) => this.handleRemoveFromSetlistFromModal(songId), // Pass Remove from Setlist handler
+            (songId) => this.canRemoveFromAnySetlist(songId) // Pass can remove from any setlist checker
         );
         this.chordDetectorOverlay = new ChordDetectorOverlay();
         this.currentFilter = {
@@ -269,6 +271,7 @@ class App {
         this.setlistManager.onSetlistsChanged = () => this.handleSetlistChange();
         this.setupAddSongsToSetlistModal();
         this.setupAddToSetlistSingleModal();
+        this.setupRemoveFromSetlistSingleModal();
         if (this.isInitialized) return;
         this.setupImportExport();
         this.isInitialized = true;
@@ -1465,8 +1468,8 @@ class App {
         this.currentSongsList = allSongs;
         this.songDetailModal.setSongs(allSongs);
 
-        // Set or unset removal handler depending on setlist mode
-        if (this.currentSetlistId && this.currentSetlistId !== '__public__') {
+        // Set or unset removal handler depending on setlist mode and edit permissions
+        if (this.currentSetlistId && this.currentSetlistId !== '__public__' && this.canEditSetlist(this.currentSetlistId)) {
             this.tableRenderer.onRemoveFromSetlist = (songId) => this.handleRemoveFromSetlist(songId);
         } else {
             this.tableRenderer.onRemoveFromSetlist = null;
@@ -2484,6 +2487,145 @@ class App {
         modal.classList.remove('hidden');
     }
 
+    canEditSetlist(setlistId) {
+        if (setlistId === 'beginner_setlist_id' || setlistId === 'beginner_keyboard_setlist_id') {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = this.firebaseManager && user && this.firebaseManager.isAdmin(user.uid);
+            return !!isAdmin;
+        }
+        return true;
+    }
+
+    canRemoveFromAnySetlist(songId) {
+        const containingSetlists = this.setlistManager.getAllSetlists().filter(setlist => 
+            setlist.songIds && setlist.songIds.some(id => String(id) === String(songId)) && this.canEditSetlist(setlist.id)
+        );
+        return containingSetlists.length > 0;
+    }
+
+    handleRemoveFromSetlistFromModal(songId) {
+        const containingSetlists = this.setlistManager.getAllSetlists().filter(setlist => 
+            setlist.songIds && setlist.songIds.some(id => String(id) === String(songId)) && this.canEditSetlist(setlist.id)
+        );
+
+        if (containingSetlists.length === 0) {
+            this.showHUD('Song is not in any editable setlist', 'error');
+            return;
+        }
+
+        if (containingSetlists.length === 1) {
+            // Only 1 setlist, directly show confirmation
+            const setlist = containingSetlists[0];
+            const song = this.songManager.getSongById(songId);
+            const title = song ? song.title : 'this song';
+
+            this.showConfirm({
+                title: 'Remove from setlist?',
+                message: `Remove "${title}" from the setlist "${setlist.name}"?\n(Song will stay in your library)`,
+                confirmText: 'Remove',
+                type: 'danger'
+            }, async (confirmed) => {
+                if (confirmed) {
+                    const success = await this.setlistManager.removeSongFromSetlist(setlist.id, songId);
+                    if (success) {
+                        this.showHUD('Song removed from setlist');
+                        this.loadAndRender();
+                    } else {
+                        this.showHUD('Failed to remove song from setlist', 'error');
+                    }
+                }
+            });
+        } else {
+            // Multiple setlists, open choice modal
+            this.openRemoveFromSetlistSingleModal(songId, containingSetlists);
+        }
+    }
+
+    setupRemoveFromSetlistSingleModal() {
+        const modal = document.getElementById('removeFromSetlistSingleModal');
+        const closeBtn = document.getElementById('removeFromSetlistSingleModalClose');
+        const cancelBtn = document.getElementById('removeFromSetlistSingleCancelBtn');
+        const confirmBtn = document.getElementById('removeFromSetlistSingleConfirmBtn');
+        const select = document.getElementById('removeFromSetlistSelect');
+
+        if (!modal) return;
+
+        this.activeRemoveFromSetlistSongId = null;
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            this.activeRemoveFromSetlistSongId = null;
+        };
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', async () => {
+                const setlistId = select.value;
+                const songId = this.activeRemoveFromSetlistSongId;
+                if (setlistId && songId) {
+                    const song = this.songManager.getSongById(songId);
+                    const title = song ? song.title : 'this song';
+                    const setlist = this.setlistManager.getSetlist(setlistId);
+                    const setlistName = setlist ? setlist.name : 'selected setlist';
+
+                    closeModal(); // Hide selection modal before showing confirmation
+
+                    this.showConfirm({
+                        title: 'Remove from setlist?',
+                        message: `Remove "${title}" from the setlist "${setlistName}"?\n(Song will stay in your library)`,
+                        confirmText: 'Remove',
+                        type: 'danger'
+                    }, async (confirmed) => {
+                        if (confirmed) {
+                            try {
+                                const success = await this.setlistManager.removeSongFromSetlist(setlistId, songId);
+                                if (success) {
+                                    this.showHUD('Song removed from setlist');
+                                    this.loadAndRender();
+                                } else {
+                                    this.showHUD('Failed to remove song from setlist', 'error');
+                                }
+                            } catch (error) {
+                                console.error('Error removing song from setlist:', error);
+                                this.confirmationModal.show('Error', 'Failed to remove song from setlist.', () => { }, null, 'OK', 'danger', true);
+                            }
+                        }
+                    });
+                } else {
+                    this.confirmationModal.show('Wait', 'Please select a setlist first.', () => { }, null, 'OK', 'primary', true);
+                }
+            });
+        }
+    }
+
+    openRemoveFromSetlistSingleModal(songId, containingSetlists) {
+        const modal = document.getElementById('removeFromSetlistSingleModal');
+        const select = document.getElementById('removeFromSetlistSelect');
+
+        if (!modal || !select) return;
+
+        this.activeRemoveFromSetlistSongId = songId;
+
+        // Populate select with only the setlists that contain this song
+        select.innerHTML = '<option value="" disabled selected>Select a setlist...</option>';
+        containingSetlists.forEach(setlist => {
+            const option = document.createElement('option');
+            option.value = setlist.id;
+            option.textContent = setlist.name;
+            select.appendChild(option);
+        });
+
+        modal.classList.remove('hidden');
+    }
+
     openAddSongsToSetlistModal() {
         const modal = document.getElementById('addSongsToSetlistModal');
         const modalTitle = document.getElementById('addSongsModalTitle');
@@ -3084,9 +3226,13 @@ class App {
             type: 'danger'
         }, async (confirmed) => {
             if (confirmed) {
-                await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
-                this.showHUD('Song removed from setlist');
-                this.loadAndRender();
+                const success = await this.setlistManager.removeSongFromSetlist(this.currentSetlistId, songId);
+                if (success) {
+                    this.showHUD('Song removed from setlist');
+                    this.loadAndRender();
+                } else {
+                    this.showHUD('Failed to remove song from setlist (Read-only setlist)', 'error');
+                }
             }
         });
     }
@@ -4323,6 +4469,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.appInstance = new App();
     window.resetStreakForTesting = () => window.appInstance.resetStreakForTesting();
 });
+
 
 
 

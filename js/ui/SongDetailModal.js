@@ -1,6 +1,6 @@
 // SongDetailModal - Modal voor song details weergave (v2.597)
 class SongDetailModal {
-    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null) {
+    constructor(songManager, onNavigate, onUpdate = null, chordModal = null, onToggleFavorite = null, onPlayYouTube = null, keyDetector = null, onAddToSetlist = null, onTogglePractice = null, isPracticeChecker = null, onPracticeRandomNext = null, onPracticeRandomPrev = null, onRemoveFromSetlist = null, canRemoveFromAnySetlist = null) {
         this.songManager = songManager;
         this.onNavigate = onNavigate;
         this.onUpdate = onUpdate;
@@ -9,6 +9,8 @@ class SongDetailModal {
         this.onPlayYouTube = onPlayYouTube;
         this.keyDetector = keyDetector;
         this.onAddToSetlist = onAddToSetlist;
+        this.onRemoveFromSetlist = onRemoveFromSetlist;
+        this.canRemoveFromAnySetlist = canRemoveFromAnySetlist;
         this.onTogglePractice = onTogglePractice;
         this.isPracticeChecker = isPracticeChecker;
         this.onPracticeRandomNext = onPracticeRandomNext;
@@ -36,6 +38,7 @@ class SongDetailModal {
         this.youtubePlayBtn = document.getElementById('songDetailYouTubePlayBtn');
         this.externalUrlBtn = document.getElementById('songDetailExternalUrlBtn');
         this.addToSetlistBtn = document.getElementById('menuAddToSetlist');
+        this.removeFromSetlistBtn = document.getElementById('menuRemoveFromSetlist');
         this.publishSongBtn = document.getElementById('menuPublishSong');
         this.shareSongBtn = document.getElementById('menuShareSong');
         this.statusIcon = document.getElementById('songDetailStatusIcon');
@@ -1424,6 +1427,19 @@ class SongDetailModal {
                 }
                 if (this.onAddToSetlist && this.currentSongId) {
                     this.onAddToSetlist(this.currentSongId);
+                }
+            });
+        }
+
+        // Setup Remove From Setlist button
+        if (this.removeFromSetlistBtn) {
+            this.removeFromSetlistBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                if (this.onRemoveFromSetlist && this.currentSongId) {
+                    this.onRemoveFromSetlist(this.currentSongId);
                 }
             });
         }
@@ -4183,6 +4199,14 @@ class SongDetailModal {
                 this.deleteBtn.style.display = 'none';
             } else {
                 this.deleteBtn.style.display = '';
+            }
+        }
+
+        if (this.removeFromSetlistBtn) {
+            if (this.canRemoveFromAnySetlist && this.canRemoveFromAnySetlist(song.id)) {
+                this.removeFromSetlistBtn.style.display = '';
+            } else {
+                this.removeFromSetlistBtn.style.display = 'none';
             }
         }
 
