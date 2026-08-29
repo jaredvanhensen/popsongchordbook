@@ -27,11 +27,15 @@ class SetlistManager {
             const cachedBeginner = localStorage.getItem('popsongPublicSetlist_beginner');
             if (cachedBeginner) {
                 this.beginnerSetlist = JSON.parse(cachedBeginner);
+                this.beginnerSetlist.id = 'beginner_setlist_id'; // Always enforce correct id
+                this.beginnerSetlist.isPublic = true;
                 this.beginnerSetlist.name = '🎸 Beginner';
             }
             const cachedKeyboard = localStorage.getItem('popsongPublicSetlist_beginner_keyboard');
             if (cachedKeyboard) {
                 this.beginnerKeyboardSetlist = JSON.parse(cachedKeyboard);
+                this.beginnerKeyboardSetlist.id = 'beginner_keyboard_setlist_id'; // Always enforce correct id
+                this.beginnerKeyboardSetlist.isPublic = true;
                 this.beginnerKeyboardSetlist.name = '🎹 Beginner';
             }
         } catch (e) {
@@ -61,6 +65,8 @@ class SetlistManager {
                 .then(data => {
                     if (data) {
                         this.beginnerSetlist = data;
+                        this.beginnerSetlist.id = 'beginner_setlist_id'; // Always enforce correct id
+                        this.beginnerSetlist.isPublic = true;
                         this.beginnerSetlist.name = '🎸 Beginner';
                         localStorage.setItem('popsongPublicSetlist_beginner', JSON.stringify(this.beginnerSetlist));
                         this.syncKeyboardSetlistWithGuitarIfNeeded();
@@ -73,6 +79,8 @@ class SetlistManager {
                 .then(data => {
                     if (data) {
                         this.beginnerKeyboardSetlist = data;
+                        this.beginnerKeyboardSetlist.id = 'beginner_keyboard_setlist_id'; // Always enforce correct id
+                        this.beginnerKeyboardSetlist.isPublic = true;
                         this.beginnerKeyboardSetlist.name = '🎹 Beginner';
                         localStorage.setItem('popsongPublicSetlist_beginner_keyboard', JSON.stringify(this.beginnerKeyboardSetlist));
                         this.syncKeyboardSetlistWithGuitarIfNeeded();

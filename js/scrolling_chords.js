@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.250)
+// Scrolling Chords Logic (v3.312)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -200,7 +200,7 @@ let suggestedChords = []; // Store blocks globally for smart keyboard matching
 
 // Metronome/Audio state
 let metronomeEnabled = false;
-let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.141)
+let audioEnabled = true; // Initial default, will be overridden by Profile setting (v3.312)
 let currentUid = 'guest'; // Track current user for preferences
 let loadedSongId = null; // Track current loaded song ID for band sync
 let wasAudioEnabledBeforeCapture = true;
@@ -415,7 +415,7 @@ window.addEventListener('message', (event) => {
 
         if (msg.uid) {
             currentUid = msg.uid;
-            // Apply default audio setting from Profile (v3.141)
+            // Apply default audio setting from Profile (v3.312)
             const profileAudioDefault = localStorage.getItem(`feature-timeline-audio-enabled-${currentUid}`);
             audioEnabled = profileAudioDefault !== null ? (profileAudioDefault === 'true') : false; // Default to OFF if no setting
             syncPureTimelineButtons(); // Update UI buttons
@@ -6910,7 +6910,7 @@ function updateTabButtonVisibility() {
 }
 
 // ==========================================
-// Guitar Tab Feature (v3.200)
+// Guitar Tab Feature (v3.312)
 // ==========================================
 
 /**
