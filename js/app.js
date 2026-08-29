@@ -1,4 +1,4 @@
-// Main Application (v3.312)
+// Main Application (v3.313)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -3366,7 +3366,7 @@ class App {
         const songs = this.songManager.getAllSongs();
         const setlists = this.setlistManager.getAllSetlists();
 
-        let msg = `Diagnostics (v3.312):\n`;
+        let msg = `Diagnostics (v3.313):\n`;
         msg += `User: ${user ? user.email : 'Not Logged In'}\n`;
         msg += `UID: ${user ? user.uid : 'N/A'}\n`;
         msg += `Songs (Local): ${songs.length}\n`;
@@ -3603,7 +3603,7 @@ class App {
     }
 
     setupExtractorListener() {
-        console.log('UG Extractor listener initialized (v3.312)');
+        console.log('UG Extractor listener initialized (v3.313)');
         window.addEventListener('message', async (event) => {
             if (event.data && event.data.type === 'UG_EXTRACTOR_IMPORT') {
                 console.log('Received UG Extractor import signal from:', event.origin);
@@ -4222,14 +4222,28 @@ class App {
 
     updateLessonsBtnVisibility() {
         const keyboardLessonsBtn = document.getElementById('btnKeyboardLessons');
-        if (!keyboardLessonsBtn) return;
+        const guitarLessonsBtn = document.getElementById('btnGuitarLessons');
         
         const mode = localStorage.getItem('instrumentMode') || 'piano';
-        // Visible if the instrument is set to keyboard ('piano')
-        if (mode === 'piano') {
-            keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
-        } else {
-            keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
+        
+        if (keyboardLessonsBtn) {
+            // Visible if the instrument is set to keyboard ('piano')
+            if (mode === 'piano') {
+                keyboardLessonsBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                keyboardLessonsBtn.style.setProperty('display', 'none', 'important');
+            }
+        }
+
+        if (guitarLessonsBtn) {
+            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
+            const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
+            // Visible ONLY for ADMINS for now
+            if (isAdmin) {
+                guitarLessonsBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                guitarLessonsBtn.style.setProperty('display', 'none', 'important');
+            }
         }
     }
 

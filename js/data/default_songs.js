@@ -1,7 +1,40 @@
 // Default songs to be loaded for new users if their library is empty.
-// Synchronized from Firebase on 2026-08-28
+// Synchronized from Firebase on 2026-08-29
 
 const DEFAULT_SONGS = [
+    {
+        "artist": "4 Non Blondes",
+        "bridge": "",
+        "bridgeCue": "",
+        "bridgeTitle": "Block 4",
+        "capo": 0,
+        "chorus": "",
+        "chorusCue": "",
+        "chorusTitle": "Block 2",
+        "dateAdded": "2026-08-29T17:42:41.940Z",
+        "externalUrl": "",
+        "favorite": false,
+        "fullLyrics": "[00:30.08] 25 years and my life is still\n[00:33.76] Trying to get up that great big hill of hope\n[00:39.12] For a destination\n[00:44.21] I realized quickly when I knew I should\n[00:47.52] That the world was made up of this brotherhood of man\n[00:53.89] For whatever that means\n[00:58.17] And so I cry sometimes\n[01:00.85] When I'm lying in bed just to get it all out\n[01:03.44] What's in my head\n[01:05.31] And I, I am feeling a little peculiar\n[01:12.55] And so I wake in the morning\n[01:14.60] And I step outside\n[01:16.08] And I take a deep breath and I get real high\n[01:19.96] And I scream from the top of my lungs\n[01:22.48] What's going on?\n[01:25.84] And I say, hey yeah yeah-eh-eh, hey yeah yeah\n[01:33.48] I said hey, what's going on?\n[01:40.02] And I say, hey yeah yeah-eh-eh, hey yeah yeah\n[01:47.75] I said hey, what's going on?\n[01:55.26] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[02:10.51] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[02:23.85] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[02:24.85] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[02:25.94] And I try, oh my god do I try!\n[02:29.88] I try all the time, in this institution\n[02:37.14] And I pray, oh my god do I pray!\n[02:43.69] I pray every single day\n[02:47.72] For revolution\n[02:52.24] And so I cry sometimes\n[02:54.08] When I'm lying in bed just to get it all out\n[02:57.45] What's in my head\n[02:59.03] And I, I am feeling a little peculiar\n[03:06.33] And so I wake in the morning\n[03:08.18] And I step outside\n[03:09.85] And I take a deep breath and I get real high\n[03:13.45] And I scream from the top of my lungs\n[03:16.27] What's going on?\n[03:19.82] And I say, hey yeah yeah-eh-eh, hey yeah yeah\n[03:27.21] I said hey, what's going on?\n[03:33.71] And I say, hey yeah yeah-eh-eh, hey yeah yeah\n[03:41.54] I said hey, what's going on?\n[03:48.26] And I say, hey yeah yeah-eh-eh, hey yeah yeah\n[03:55.62] I said hey, what's going on?\n[04:02.12] And I say, hey yeah yeah-eh-eh, hey yeah yeah-yeah-yeah\n[04:09.93] I said hey, what's going on?\n[04:17.71] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[04:24.57] Ooh, ooh ooh, hoo, hoo, hoo, hoo\n[04:30.06] \n[04:33.22] 25 years and my life is still\n[04:37.03] Trying to get up that great big hill of hope\n[04:43.13] For a destination\n[04:45.94]",
+        "id": "17880253619408zq3edqkn",
+        "isPublic": true,
+        "key": "",
+        "lyricOffset": 0,
+        "patchDetails": "",
+        "performAbility": 0,
+        "practiceCount": "0",
+        "preChorus": "",
+        "preChorusCue": "",
+        "preChorusTitle": "Block 3",
+        "songNotes": "",
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "tempo": "",
+        "title": "What's Up",
+        "verse": "A Bm D Asus2",
+        "verseCue": "",
+        "verseTitle": "ALL SONG",
+        "year": "1993",
+        "youtubeUrl": "https://youtu.be/6NXnxTNIWkc?si=qViZ9RuiyY4WlguI"
+    },
     {
         "artist": "A-ha",
         "bridge": "",
@@ -56945,7 +56978,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Bryan Adams - Remembrance Day",
-            "tempo": 120,
+            "tempo": "120",
             "useFlatNotation": false
         },
         "chorus": "D#m E D#m C#",
@@ -56960,7 +56993,7 @@ const DEFAULT_SONGS = [
         ],
         "id": "1784282476535vvs7k8uj0",
         "isPublic": true,
-        "key": "A",
+        "key": "F#",
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
@@ -56970,7 +57003,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "CHORUS",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 120,
+        "tempo": "120",
         "title": "Remembrance Day",
         "verse": "F# B",
         "verseCue": "",
@@ -85174,7 +85207,7 @@ const DEFAULT_SONGS = [
         "verse": "Bm   D2  F#m3 E3",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "",
+        "year": "2013",
         "youtubeUrl": "https://youtu.be/5NV6Rdv1a3I?si=Ub2jXNkgNyk2f50H"
     },
     {
@@ -105903,7 +105936,7 @@ const DEFAULT_SONGS = [
             "tempo": "111",
             "useFlatNotation": false
         },
-        "chorus": "C#m E B C#m",
+        "chorus": "C#m E B C#m B C#m",
         "chorusCue": "",
         "chorusTitle": "Verse",
         "dateAdded": "2026-04-15T20:40:52.223Z",
@@ -105930,7 +105963,7 @@ const DEFAULT_SONGS = [
         "verse": "C#m",
         "verseCue": "",
         "verseTitle": "Intro",
-        "year": "1975",
+        "year": "1973",
         "youtubeUrl": "https://youtu.be/Ixrje2rXLMA?si=vQ_r9bAp9KOjBJHS"
     },
     {
@@ -114943,7 +114976,7 @@ const DEFAULT_SONGS = [
         "verse": "Am F3 C2",
         "verseCue": "",
         "verseTitle": "ALL SONG",
-        "year": "",
+        "year": "2017",
         "youtubeUrl": "https://youtu.be/iWZmdoY1aTE?si=apWlBslACvQq6N7-"
     },
     {
@@ -227086,7 +227119,7 @@ const DEFAULT_SONGS = [
         "verse": "G C D | G Bm C2 D3",
         "verseCue": "",
         "verseTitle": "INTRO",
-        "year": "",
+        "year": "1994",
         "youtubeUrl": "https://youtu.be/yXQViqx6GMY?si=HwUSPbTLELJMe3Bj"
     },
     {
@@ -291693,7 +291726,7 @@ const DEFAULT_SONGS = [
         "bridge": "",
         "bridgeCue": "",
         "bridgeTitle": "Block 4",
-        "capo": 0,
+        "capo": 4,
         "chordData": {
             "barOffset": 0,
             "chords": [
@@ -291785,7 +291818,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "Ray Charles - Hit The Road Jack",
-            "tempo": 173,
+            "tempo": "173",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -291798,7 +291831,7 @@ const DEFAULT_SONGS = [
         "id": 212,
         "isPublic": true,
         "key": "G#m",
-        "lyricOffset": 12,
+        "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
@@ -291807,7 +291840,7 @@ const DEFAULT_SONGS = [
         "preChorusTitle": "Block 3",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
-        "tempo": 173,
+        "tempo": "173",
         "title": "Hit The Road Jack",
         "verse": "G#m F# E D#",
         "verseCue": "",
@@ -364813,7 +364846,7 @@ const DEFAULT_SONGS = [
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "167",
         "title": "Zombie",
-        "verse": "Em C G D/F#",
+        "verse": "Em C G D",
         "verseCue": "",
         "verseTitle": "ALL SONG",
         "year": "1994",
@@ -402535,7 +402568,7 @@ const DEFAULT_SONGS = [
             ],
             "duration": 300,
             "name": "U2 - With Or Without You",
-            "tempo": 110,
+            "tempo": "110",
             "useFlatNotation": false
         },
         "chorus": "",
@@ -402634,7 +402667,7 @@ const DEFAULT_SONGS = [
         "lyricOffset": 0,
         "patchDetails": "",
         "performAbility": 0,
-        "practiceCount": "1",
+        "practiceCount": "0",
         "preChorus": "",
         "preChorusCue": "",
         "preChorusTitle": "Block 3",
@@ -402644,7 +402677,7 @@ const DEFAULT_SONGS = [
         "title": "With Or Without You",
         "verse": "D2 A Bm G",
         "verseCue": "",
-        "verseTitle": "Block 1",
+        "verseTitle": "ALL SONG",
         "year": "1987",
         "youtubeUrl": "https://youtu.be/ujNeHIo7oTE?si=9-R082F_SWgPU29P"
     },

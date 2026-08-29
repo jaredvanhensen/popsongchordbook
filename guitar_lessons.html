@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Lessons - PopSongChordBook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --accent-primary: #2563eb;
+            --accent-secondary: #0284c7;
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* Under Construction Banner */
+        .under-construction-banner {
+            background: #fffbeb;
+            border: 2px dashed #f59e0b;
+            color: #b45309;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+        }
+
+        .under-construction-banner .icon {
+            font-size: 1.4rem;
+        }
+
+        .lessons-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                padding: 15px;
+            }
+            .lessons-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            header {
+                order: 0;
+                margin-bottom: 20px;
+                padding: 20px;
+            }
+            .guitar-sidebar {
+                order: 1;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: #ffffff;
+                padding: 6px 0;
+                border-bottom: 2px solid var(--card-border);
+            }
+            .lessons-list {
+                order: 2;
+            }
+            .guitar-card {
+                position: static;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+            .guitar-card h3, .guitar-card p {
+                display: none;
+            }
+            .lesson-card {
+                scroll-margin-top: 140px;
+            }
+        }
+
+        header {
+            margin-bottom: 20px;
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(2, 132, 199, 0.03) 100%);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Mode visibility control */
+        body.mode-launch .lesson-card {
+            display: none !important;
+        }
+
+        body.mode-launch .single-lesson-nav,
+        body.mode-launch .bottom-lesson-nav {
+            display: none !important;
+        }
+
+        body.mode-single-lesson #lessons-launch-page {
+            display: none !important;
+        }
+
+        body.mode-single-lesson header {
+            display: none !important;
+        }
+
+        body.mode-single-lesson .single-lesson-nav {
+            display: flex !important;
+        }
+
+        body.mode-single-lesson .bottom-lesson-nav {
+            display: flex !important;
+        }
+
+        body.mode-single-lesson .lesson-badges-panel {
+            display: none !important;
+        }
+
+        /* Launch Page & Header styling */
+        .launch-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(2, 132, 199, 0.04) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px 30px;
+            margin-bottom: 25px;
+        }
+
+        .launch-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .lang-toggle-btn {
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: #2563eb;
+        }
+
+        .lang-pill {
+            padding: 4px 10px;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #64748b;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-pill.active {
+            background: #ffffff;
+            color: var(--text-primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .launch-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .launch-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .overall-progress-bar-container {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* Launch Grid of 9 Lesson Cards */
+        .launch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .launch-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+            border-color: #60a5fa;
+        }
+
+        .launch-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .launch-emoji {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .launch-badge-tag {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .launch-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .launch-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .launch-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .launch-footer::after {
+            content: '→';
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .launch-card:hover .launch-footer::after {
+            color: #2563eb;
+            transform: translateX(4px);
+        }
+
+        .launch-status-text {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .launch-card.completed .launch-status-text {
+            color: #059669;
+        }
+
+        .launch-card.completed {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(37, 99, 235, 0.02) 100%);
+        }
+
+        /* Single Lesson Top Navigation Bar */
+        .single-lesson-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 110;
+        }
+
+        .nav-back-index-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: var(--text-primary);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-back-index-btn:hover {
+            background: #e2e8f0;
+            color: var(--accent-primary);
+        }
+
+        .lesson-counter-indicator {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Bottom Lesson Nav Bar */
+        .bottom-lesson-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn-lesson-nav {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: var(--text-primary);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-lesson-nav:hover:not(:disabled) {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .btn-lesson-nav:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Sidebar Guitar Card & Badges */
+        .guitar-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .guitar-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 30px;
+        }
+
+        .guitar-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .guitar-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 180px;
+        }
+
+        .chord-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .chord-preview-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .chord-preview-btn:hover, .chord-preview-btn.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Sidebar Badges Panel */
+        .lesson-badges-panel {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .lesson-badges-panel h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .badge-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .sidebar-badge-card {
+            border-radius: 14px;
+            padding: 10px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-badge-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .sidebar-badge-card.locked {
+            background: #f1f5f9;
+            border: 1.5px solid #e2e8f0;
+        }
+
+        .sidebar-badge-card.locked .sbc-emoji {
+            opacity: 0.35;
+            filter: grayscale(1);
+        }
+
+        .sidebar-badge-card.locked .sbc-label {
+            color: #94a3b8;
+        }
+
+        .sidebar-badge-card.locked .sbc-check {
+            color: #cbd5e1;
+        }
+
+        .sidebar-badge-card.earned {
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-badge-card.earned .sbc-label,
+        .sidebar-badge-card.earned .sbc-check {
+            color: #ffffff;
+        }
+
+        .sbc-1.earned { background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%); }
+        .sbc-2.earned { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .sbc-3.earned { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .sbc-4.earned { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+        .sbc-5.earned { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .sbc-6.earned { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); }
+        .sbc-7.earned { background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); }
+        .sbc-8.earned { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%); }
+        .sbc-9.earned { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+
+        .sbc-emoji {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 3px;
+            line-height: 1;
+        }
+
+        .sbc-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .sbc-check {
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        /* Completion Checkbox inside single lesson cards */
+        .lesson-complete-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .lesson-complete-section:hover {
+            border-color: #2563eb;
+            background: #f1f5f9;
+        }
+
+        .lesson-checkbox {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            color: transparent;
+        }
+
+        .lesson-complete-section.completed .lesson-checkbox {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .lesson-complete-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .lesson-complete-section.completed .lesson-complete-label {
+            color: #2563eb;
+        }
+
+        /* Lessons List & Cards */
+        .lessons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-width: 0;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-width: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            scroll-margin-top: 20px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .lesson-tag {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .lesson-card h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .lesson-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .theory-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--accent-primary);
+            padding: 18px 22px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+
+        .theory-box h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .theory-box p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .theory-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .chord-shapes-section {
+            margin-bottom: 25px;
+        }
+
+        .chord-shapes-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .chord-shape-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chord-badge {
+            background: rgba(37, 99, 235, 0.06);
+            border: 1px solid rgba(37, 99, 235, 0.18);
+            color: var(--accent-primary);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chord-badge:hover {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Practice Songs list */
+        .practice-songs-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+
+        .practice-song-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .practice-song-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .practice-song-card:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .song-artist {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .song-play-icon {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            transition: transform 0.2s ease;
+        }
+
+        .practice-song-card:hover .song-play-icon {
+            transform: scale(1.2);
+            color: var(--accent-secondary);
+        }
+
+        /* 6-String Fretboard SVG horizontal style */
+        .fretboard-container {
+            width: 100%;
+            overflow-x: auto;
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .fretboard-svg {
+            width: 100%;
+            min-width: 720px;
+            height: auto;
+            display: block;
+        }
+
+        .tab-box {
+            font-family: 'Courier New', Courier, monospace;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin-top: 12px;
+            border: 1px solid #334155;
+        }
+    </style>
+</head>
+<body class="mode-launch">
+
+    <div class="under-construction-banner">
+        <span class="icon">🚧</span>
+        <span><strong>UNDER CONSTRUCTION</strong> — Deze gitaarlessen zijn momenteel in ontwikkeling (alleen zichtbaar voor admins).</span>
+    </div>
+
+    <div class="lessons-layout">
+        
+        <!-- Header -->
+        <header>
+            <h1 id="header-title">Beginner Lessons</h1>
+            <p id="header-subtitle">Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.</p>
+        </header>
+
+        <!-- Main Lessons Column -->
+        <div class="lessons-list">
+
+            <!-- Single Lesson Top Navigation Bar -->
+            <div id="single-lesson-nav" class="single-lesson-nav">
+                <button class="nav-back-index-btn" onclick="showLaunchPage()">
+                    ← <span id="btn-back-text">Terug</span>
+                </button>
+                <div class="lesson-counter-indicator" id="lesson-counter-indicator">
+                    Les 1 van 9
+                </div>
+            </div>
+
+            <!-- Launch Page / Overview Section -->
+            <div id="lessons-launch-page" class="lessons-launch-page">
+                <div class="launch-header">
+                    <div class="launch-header-top">
+                        <div>
+                            <h2 id="txt-launch-title">Kies een les om te beginnen</h2>
+                            <p id="txt-launch-subtitle">Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen.</p>
+                        </div>
+                        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal">
+                            <span class="lang-pill lang-pill-nl active">
+                                <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-nl-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-nl-clip)"><rect width="60" height="14" fill="#AE1C28"/><rect y="14" width="60" height="14" fill="#FFFFFF"/><rect y="28" width="60" height="14" fill="#21468B"/></g></svg>
+                                NL
+                            </span>
+                            <span class="lang-pill lang-pill-en">
+                                <svg class="flag-icon" viewBox="0 0 60 42" width="18" height="13" style="border-radius: 2px; flex-shrink: 0; display: inline-block; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.25);"><clipPath id="flag-uk-clip"><rect width="60" height="42" rx="4"/></clipPath><g clip-path="url(#flag-uk-clip)"><rect width="60" height="42" fill="#012169"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#ffffff" stroke-width="7"/><path d="M0,0 L60,42 M60,0 L0,42" stroke="#C8102E" stroke-width="3"/><path d="M30,0 V42 M0,21 H60" stroke="#ffffff" stroke-width="11"/><path d="M30,0 V42 M0,21 H60" stroke="#C8102E" stroke-width="6"/></g></svg>
+                                EN
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Progress Indicator Bar -->
+                    <div class="overall-progress-bar-container">
+                        <div class="progress-info">
+                            <span id="overall-progress-text">0 van 9 Lessen Voltooid</span>
+                            <span id="overall-progress-percent">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="overall-progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Launch Grid of 9 Lesson Cards -->
+                <div class="launch-grid">
+                    <div class="launch-card sbc-1" id="launch-card-1" onclick="openLesson(1)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎸</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-1">Les 1</span>
+                        </div>
+                        <h3 id="launch-card-title-1">Noten op de hals</h3>
+                        <p class="launch-desc" id="launch-card-desc-1">Basis harmonieleer &amp; de 6 snaren van het fretboard.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-1">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-2" id="launch-card-2" onclick="openLesson(2)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">⚡</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-2">Les 2</span>
+                        </div>
+                        <h3 id="launch-card-title-2">Power Chords</h3>
+                        <p class="launch-desc" id="launch-card-desc-2">Pop &amp; Rock basis: 5th chords op de lage E en A snaren.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-2">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-3" id="launch-card-3" onclick="openLesson(3)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎵</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-3">Les 3</span>
+                        </div>
+                        <h3 id="launch-card-title-3">C, G, Dm, Am &amp; Em</h3>
+                        <p class="launch-desc" id="launch-card-desc-3">De meest gebruikte open basisakkoorden voor popnummers.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-3">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-4" id="launch-card-4" onclick="openLesson(4)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🧷</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-4">Les 4</span>
+                        </div>
+                        <h3 id="launch-card-title-4">Spelen met CAPO</h3>
+                        <p class="launch-desc" id="launch-card-desc-4">Transponeren zonder nieuwe akkoordgrepen te leren.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-4">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-5" id="launch-card-5" onclick="openLesson(5)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎶</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-5">Les 5</span>
+                        </div>
+                        <h3 id="launch-card-title-5">D, A en E Majeur</h3>
+                        <p class="launch-desc" id="launch-card-desc-5">Open Majeur akkoorden &amp; vrolijke pop-progressies.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-5">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-6" id="launch-card-6" onclick="openLesson(6)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎷</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-6">Les 6</span>
+                        </div>
+                        <h3 id="launch-card-title-6">Een Blues Schema</h3>
+                        <p class="launch-desc" id="launch-card-desc-6">Het klassieke 12-maten bluesschema in E &amp; A.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-6">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-7" id="launch-card-7" onclick="openLesson(7)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">💪</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-7">Les 7</span>
+                        </div>
+                        <h3 id="launch-card-title-7">F en F# Barré</h3>
+                        <p class="launch-desc" id="launch-card-desc-7">Wijsvinger als menselijke capo: E-vorm barré-akkoorden.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-7">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-8" id="launch-card-8" onclick="openLesson(8)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🏆</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-8">Les 8</span>
+                        </div>
+                        <h3 id="launch-card-title-8">Bm en B Barré</h3>
+                        <p class="launch-desc" id="launch-card-desc-8">Wijsvinger als menselijke capo: A-vorm barré-akkoorden.</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-8">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+
+                    <div class="launch-card sbc-9" id="launch-card-9" onclick="openLesson(9)">
+                        <div class="launch-card-header">
+                            <span class="launch-emoji">🎸</span>
+                            <span class="launch-badge-tag" id="launch-badge-tag-9">Les 9</span>
+                        </div>
+                        <h3 id="launch-card-title-9">Eb Stemming</h3>
+                        <p class="launch-desc" id="launch-card-desc-9">Halve toon lager stemmen (Half-step down tuning).</p>
+                        <div class="launch-footer">
+                            <span class="launch-status-text" id="launch-status-9">🔒 Niet voltooid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LES 1 -->
+            <article class="lesson-card" id="lesson-card-1">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 1</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Basis Harmonieleer</span>
+                </div>
+                <h2>Noten op de hals als basis voor de akkoorden</h2>
+                <p class="lesson-desc">Voordat je akkoorden leert, is het belangrijk om te begrijpen hoe noten over de 6 snaren van de gitaarhals zijn verdeeld. Dit helpt je straks om barré-akkoorden en powerchords supersnel te vinden.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Hoe werken de noten op de gitaarhals?</h4>
+                    <p>De standaard stemming van een 6-snarige gitaar is <strong>E - A - D - G - B - e</strong> (van laag naar hoog).</p>
+                    <p>Elke fret omhoog is een <strong>halve toonafstand</strong> (semitoon). Tussen de noten <strong>B &amp; C</strong> en <strong>E &amp; F</strong> zit géén kruis (#) of mol (b) — dit zijn natuurlijke halve tonen.</p>
+                    <p><strong>Toonladdervolgorde op de E-snaar:</strong> E (los) &rarr; F (1e fret) &rarr; F# &rarr; G (3e fret) &rarr; G# &rarr; A (5e fret) &rarr; A# &rarr; B (7e fret) &rarr; C (8e fret) &rarr; C# &rarr; D (10e fret) &rarr; D# &rarr; E (12e fret).</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>Visualisatie van de 6-Snarige Horizontale Gitaarhals</h4>
+                    <div class="fretboard-container">
+                        <svg class="fretboard-svg" viewBox="0 0 780 180" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Fretboard Wood Background -->
+                            <rect x="50" y="15" width="700" height="135" fill="#2d1b0f" rx="6" />
+                            <!-- Nut -->
+                            <rect x="45" y="15" width="10" height="135" fill="#f8fafc" rx="2" />
+
+                            <!-- Frets (1 to 12) -->
+                            <line x1="105" y1="15" x2="105" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="160" y1="15" x2="160" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="215" y1="15" x2="215" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="270" y1="15" x2="270" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="325" y1="15" x2="325" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="380" y1="15" x2="380" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="435" y1="15" x2="435" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="490" y1="15" x2="490" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="545" y1="15" x2="545" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="600" y1="15" x2="600" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="655" y1="15" x2="655" y2="150" stroke="#cbd5e1" stroke-width="3" />
+                            <line x1="710" y1="15" x2="710" y2="150" stroke="#cbd5e1" stroke-width="3" />
+
+                            <!-- Fret Markers (Dots) on 3, 5, 7, 9, 12 -->
+                            <circle cx="187.5" cy="82.5" r="5" fill="#94a3b8" />
+                            <circle cx="297.5" cy="82.5" r="5" fill="#94a3b8" />
+                            <circle cx="407.5" cy="82.5" r="5" fill="#94a3b8" />
+                            <circle cx="517.5" cy="82.5" r="5" fill="#94a3b8" />
+                            <circle cx="682.5" cy="55" r="4" fill="#94a3b8" />
+                            <circle cx="682.5" cy="110" r="4" fill="#94a3b8" />
+
+                            <!-- Fret Numbers -->
+                            <text x="77.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">Fret 1</text>
+                            <text x="187.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 3</text>
+                            <text x="297.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 5</text>
+                            <text x="407.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 7</text>
+                            <text x="517.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 9</text>
+                            <text x="682.5" y="170" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 12</text>
+
+                            <!-- 6 Strings (from 1/high e to 6/low E) -->
+                            <line x1="45" y1="30" x2="745" y2="30" stroke="#f1f5f9" stroke-width="1.2" />
+                            <text x="25" y="34" font-family="Inter" font-size="12" font-weight="800" fill="#38bdf8" text-anchor="middle">e</text>
+
+                            <line x1="45" y1="51" x2="745" y2="51" stroke="#cbd5e1" stroke-width="1.6" />
+                            <text x="25" y="55" font-family="Inter" font-size="12" font-weight="800" fill="#cbd5e1" text-anchor="middle">B</text>
+
+                            <line x1="45" y1="72" x2="745" y2="72" stroke="#cbd5e1" stroke-width="2.0" />
+                            <text x="25" y="76" font-family="Inter" font-size="12" font-weight="800" fill="#cbd5e1" text-anchor="middle">G</text>
+
+                            <line x1="45" y1="93" x2="745" y2="93" stroke="#cbd5e1" stroke-width="2.4" />
+                            <text x="25" y="97" font-family="Inter" font-size="12" font-weight="800" fill="#cbd5e1" text-anchor="middle">D</text>
+
+                            <line x1="45" y1="114" x2="745" y2="114" stroke="#e2e8f0" stroke-width="3.0" />
+                            <text x="25" y="118" font-family="Inter" font-size="12" font-weight="800" fill="#38bdf8" text-anchor="middle">A</text>
+
+                            <line x1="45" y1="135" x2="745" y2="135" stroke="#f8fafc" stroke-width="3.6" />
+                            <text x="25" y="139" font-family="Inter" font-size="12" font-weight="800" fill="#38bdf8" text-anchor="middle">E</text>
+
+                            <!-- Notes on Low E String (bottom string) -->
+                            <circle cx="45" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="45" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">E</text>
+
+                            <circle cx="77.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="77.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">F</text>
+
+                            <circle cx="187.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="187.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">G</text>
+
+                            <circle cx="297.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="297.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">A</text>
+
+                            <circle cx="407.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="407.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">B</text>
+
+                            <circle cx="462.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="462.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">C</text>
+
+                            <circle cx="572.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="572.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">D</text>
+
+                            <circle cx="682.5" cy="135" r="9" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="682.5" y="138.5" font-family="Inter" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">E</text>
+
+                            <!-- Notes on A String -->
+                            <circle cx="45" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="45" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">A</text>
+
+                            <circle cx="132.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="132.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">B</text>
+
+                            <circle cx="187.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="187.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">C</text>
+
+                            <circle cx="297.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="297.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">D</text>
+
+                            <circle cx="407.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="407.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">E</text>
+
+                            <circle cx="462.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="462.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">F</text>
+
+                            <circle cx="572.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="572.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">G</text>
+
+                            <circle cx="682.5" cy="114" r="8" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="682.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">A</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-1" onclick="toggleLessonComplete(1)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-1">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-1">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 2 -->
+            <article class="lesson-card" id="lesson-card-2">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 2</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Pop &amp; Rock Basis</span>
+                </div>
+                <h2>Power Chords (5th Chords)</h2>
+                <p class="lesson-desc">Powerchords zijn de basis van bijna alle rock-, pop- en punkmuziek. Ze bestaan uit slechts 2 (of 3) snaren: de grondtoon en de kwint.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Waarom Powerchords zo krachtig zijn</h4>
+                    <p>Omdat een powerchord geen terts bevat, is hij <strong>noch majeur noch mineur</strong>. Je kunt dezelfde greep over het hele fretboard verschuiven!</p>
+                    <p><strong>Greepvorm op de lage E-snaar:</strong> Grondtoon op de E-snaar (met je indexvinger), 2 frets hoger op de A-snaar (met je ringvinger of pink).</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>Akkoorden in deze les:</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="selectGuitarChord('E5')">E5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('G5')">G5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('A5')">A5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('C5')">C5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('D5')">D5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('F5')">F5</span>
+                    </div>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensongs met Powerchords:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Toto', 'Hold The Line')">
+                            <div class="song-info">
+                                <span class="song-title">Hold The Line</span>
+                                <span class="song-artist">Toto</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Green Day', 'When I Come Around')">
+                            <div class="song-info">
+                                <span class="song-title">When I Come Around</span>
+                                <span class="song-artist">Green Day</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Survivor', 'Eye of the Tiger')">
+                            <div class="song-info">
+                                <span class="song-title">Eye of the Tiger</span>
+                                <span class="song-artist">Survivor</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bryan Adams', 'Summer of \'69')">
+                            <div class="song-info">
+                                <span class="song-title">Summer of '69</span>
+                                <span class="song-artist">Bryan Adams</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-2" onclick="toggleLessonComplete(2)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-2">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-2">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 3 -->
+            <article class="lesson-card" id="lesson-card-3">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 3</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Open Basisakkoorden</span>
+                </div>
+                <h2>C, G, Dm, Am en Em akkoorden</h2>
+                <p class="lesson-desc">Met deze 5 open akkoorden kun je letterlijk honderden bekende pop- en kampvuurnummers spelen.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Tips voor zuivere open akkoorden</h4>
+                    <p>• Druk de snaren in vlak achter het fretje (niet er bovenop).</p>
+                    <p>• Zorg dat je vingers mooi recht/bol staan zodat ze geen aanliggende snaren dempen.</p>
+                    <p>• Bij het <strong>Dm</strong> akkoord sla je alleen de onderste 4 snaren aan.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>Akkoorden in deze les:</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="selectGuitarChord('C')">C</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('G')">G</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('Dm')">Dm</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('Am')">Am</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('Em')">Em</span>
+                    </div>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensongs:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Cranberries', 'Zombie')">
+                            <div class="song-info">
+                                <span class="song-title">Zombie</span>
+                                <span class="song-artist">Cranberries (Em - C - G - D)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-3" onclick="toggleLessonComplete(3)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-3">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-3">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 4 -->
+            <article class="lesson-card" id="lesson-card-4">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 4</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Techniek &amp; Hulpmiddelen</span>
+                </div>
+                <h2>Spelen met CAPO (Capodaster)</h2>
+                <p class="lesson-desc">De capo is het geheime wapen van iedere gitarist. Hiermee verander je de toonsoort van je gitaar zonder dat je nieuwe akkoordgrepen hoeft te leren!</p>
+
+                <div class="theory-box">
+                    <h4>💡 Hoe werkt een Capo?</h4>
+                    <p>De capo klem je op een specifieke fret (bijv. Fret 1, 2 of 3). De capo werkt als een 'verplaatsbare kam' (nut). Speel je bijvoorbeeld de vertrouwde akkoordgrepen <strong>Em - C - G</strong> met een capo op Fret 1, dan klinkt het nummer in Fm!</p>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensong met Capo:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Pink', 'What About Us')">
+                            <div class="song-info">
+                                <span class="song-title">What About Us</span>
+                                <span class="song-artist">P!nk (Capo 1: Em - C - G)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-4" onclick="toggleLessonComplete(4)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-4">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-4">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 5 -->
+            <article class="lesson-card" id="lesson-card-5">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 5</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Open Majeur Akkoorden</span>
+                </div>
+                <h2>D, A en E Majeur akkoorden</h2>
+                <p class="lesson-desc">Samen met de akkoorden uit les 3 beheers je nu alle belangrijke open Majeur- en Mineurakkoorden.</p>
+
+                <div class="chord-shapes-section">
+                    <h4>Akkoorden in deze les:</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="selectGuitarChord('D')">D</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('A')">A</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('E')">E</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('Em')">Em</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('G')">G</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('Am')">Am</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('C')">C</span>
+                    </div>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensongs:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Creedence Clearwater Revival', 'Bad Moon Rising')">
+                            <div class="song-info">
+                                <span class="song-title">Bad Moon Rising</span>
+                                <span class="song-artist">CCR (D - A - G)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Lynyrd Skynyrd', 'Sweet Home Alabama')">
+                            <div class="song-info">
+                                <span class="song-title">Sweet Home Alabama</span>
+                                <span class="song-artist">Lynyrd Skynyrd (D - C - G)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Oasis', 'Wonderwall')">
+                            <div class="song-info">
+                                <span class="song-title">Wonderwall</span>
+                                <span class="song-artist">Oasis (Em7 - G - D - A7sus4)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Dolly Parton', 'Jolene')">
+                            <div class="song-info">
+                                <span class="song-title">Jolene</span>
+                                <span class="song-artist">Dolly Parton (Am - C - G)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Pink Floyd', 'Wish You Were Here')">
+                            <div class="song-info">
+                                <span class="song-title">Wish You Were Here</span>
+                                <span class="song-artist">Pink Floyd (Em - G - D)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-5" onclick="toggleLessonComplete(5)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-5">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-5">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 6 -->
+            <article class="lesson-card" id="lesson-card-6">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 6</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Stijl &amp; Progressie</span>
+                </div>
+                <h2>Een Blues Schema (12-Bar Blues)</h2>
+                <p class="lesson-desc">Het 12-maten bluesschema is de hoeksteen van moderne pop-, rock- en bluesmuziek. Het maakt gebruik van de I - IV - V akkoorden (E7, A7, B7 of A7, D7, E7).</p>
+
+                <div class="theory-box">
+                    <h4>🎶 Het 12-Maten Bluesschema in E:</h4>
+                    <div class="tab-box">
+| E7 | E7 | E7 | E7 |
+| A7 | A7 | E7 | E7 |
+| B7 | A7 | E7 | B7 |
+                    </div>
+                    <p style="margin-top: 10px;">Probeer een relaxed blues-ritme aan te houden en voeg eventueel een 7-akkoord toevoeging toe voor het echte bluessfeer gevoel!</p>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-6" onclick="toggleLessonComplete(6)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-6">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-6">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 7 -->
+            <article class="lesson-card" id="lesson-card-7">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 7</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Barré-Akkoorden (E-Vorm)</span>
+                </div>
+                <h2>F en F# akkoorden (E-vorm Barré)</h2>
+                <p class="lesson-desc">Met barré-akkoorden gebruik je je wijsvinger als een 'menselijke capo'. Het F-akkoord is de eerste grote uitdaging voor iedere gitarist, maar opent de hele gitaarhals!</p>
+
+                <div class="theory-box">
+                    <h4>💡 E-Vorm Barré Uitleg</h4>
+                    <p>Pak een standaard open <strong>E-akkoord</strong>. Schuif alle vingers 1 fret omhoog en leg je wijsvinger plat over de 1e fret. Dit is het <strong>F akkoord</strong>!</p>
+                    <p>Schuif je dezelfde greep door naar Fret 2, dan speel je een <strong>F# Majeur</strong> akkoord.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>Akkoorden in deze les:</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="selectGuitarChord('F')">F</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('F#')">F#</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('F#m')">F#m</span>
+                    </div>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensongs:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('The Animals', 'House of the Rising Sun')">
+                            <div class="song-info">
+                                <span class="song-title">House of the Rising Sun</span>
+                                <span class="song-artist">The Animals (Am - C - D - F)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bruce Springsteen', 'Human Touch')">
+                            <div class="song-info">
+                                <span class="song-title">Human Touch</span>
+                                <span class="song-artist">Bruce Springsteen</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Beatles', 'Let it Be')">
+                            <div class="song-info">
+                                <span class="song-title">Let It Be</span>
+                                <span class="song-artist">The Beatles (C - G - Am - F)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-7" onclick="toggleLessonComplete(7)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-7">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-7">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 8 -->
+            <article class="lesson-card" id="lesson-card-8">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 8</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Barré-Akkoorden (A-Vorm)</span>
+                </div>
+                <h2>Bm en B akkoorden (A-vorm Barré)</h2>
+                <p class="lesson-desc">De A-vorm barré heeft zijn grondtoon op de A-snaar. Bm (B mineur) en B Majeur zijn onmisbare barré-akkoorden in popmuziek.</p>
+
+                <div class="theory-box">
+                    <h4>💡 A-Vorm Barré Uitleg</h4>
+                    <p>Leg je wijsvinger op Fret 2 als barré (vanaf de A-snaar). Plaats de vorm van een Am of A akkoord 2 frets hoger op het fretboard.</p>
+                    <p>• <strong>Bm (B mineur):</strong> Barré fret 2 (A-snaar), Am-vorm op fret 3 en 4.</p>
+                    <p>• <strong>B (B Majeur):</strong> Barré fret 2 (A-snaar), A-vorm op fret 4.</p>
+                </div>
+
+                <div class="chord-shapes-section">
+                    <h4>Akkoorden in deze les:</h4>
+                    <div class="chord-shape-list">
+                        <span class="chord-badge" onclick="selectGuitarChord('Bm')">Bm</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('B')">B</span>
+                    </div>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensongs:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Fleetwood Mac', 'Go Your Own Way')">
+                            <div class="song-info">
+                                <span class="song-title">Go Your Own Way</span>
+                                <span class="song-artist">Fleetwood Mac</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('4 Non Blondes', 'What\'s Up')">
+                            <div class="song-info">
+                                <span class="song-title">What's Up?</span>
+                                <span class="song-artist">4 Non Blondes (A - Bm - D)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bryan Adams', 'Summer of \'69')">
+                            <div class="song-info">
+                                <span class="song-title">Summer of '69</span>
+                                <span class="song-artist">Bryan Adams</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('U2', 'With or Without You')">
+                            <div class="song-info">
+                                <span class="song-title">With or Without You</span>
+                                <span class="song-artist">U2 (D - A - Bm - G)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-8" onclick="toggleLessonComplete(8)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-8">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-8">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- LES 9 -->
+            <article class="lesson-card" id="lesson-card-9">
+                <div class="lesson-meta">
+                    <span class="lesson-tag">Les 9</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Gitaar Stemmingen</span>
+                </div>
+                <h2>Eb Stemming (Half-Step Down)</h2>
+                <p class="lesson-desc">Veel legendarische gitaristen stemmen hun gitaar een halve toon lager: Eb - Ab - Db - Gb - Bb - Eb.</p>
+
+                <div class="theory-box">
+                    <h4>💡 Waarom zou je in Eb stemmen?</h4>
+                    <p><strong>1. Lagere snaarspanning:</strong> De snaren voelen soepeler aan, wat benden en opdrukken veel makkelijker maakt.</p>
+                    <p><strong>2. Vocalen:</strong> Het ligt net iets lager, wat zingen voor veel zangers (zoals Jimi Hendrix, Slash/Guns N' Roses, Stevie Ray Vaughan) aanzienlijk comfortabeler maakt.</p>
+                    <p><strong>3. Vette sound:</strong> Het geeft je gitaar een wat donkerdere, warmere en vollere klank.</p>
+                </div>
+
+                <div class="practice-songs-section">
+                    <h4>Oefensong in Eb stemming:</h4>
+                    <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('Guns N\' Roses', 'Knockin\' On Heaven\'s Door')">
+                            <div class="song-info">
+                                <span class="song-title">Knockin' On Heaven's Door</span>
+                                <span class="song-artist">Guns N' Roses (Eb stemming)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-section" id="lesson-complete-9" onclick="toggleLessonComplete(9)">
+                    <div class="lesson-checkbox" id="lesson-checkbox-9">✓</div>
+                    <span class="lesson-complete-label" id="lesson-complete-label-9">Markeer als voltooid</span>
+                </div>
+            </article>
+
+            <!-- Bottom Single Lesson Nav -->
+            <div id="bottom-lesson-nav" class="bottom-lesson-nav">
+                <button class="btn-lesson-nav" id="nav-prev-btn" onclick="navigateLesson(-1)">← Vorige Les</button>
+                <button class="btn-lesson-nav" id="nav-next-btn" onclick="navigateLesson(1)">Volgende Les →</button>
+            </div>
+
+        </div>
+
+        <!-- Sidebar Diagram Preview & Badges -->
+        <aside class="guitar-sidebar">
+            <div class="guitar-card">
+                <h3 id="sidebarChordTitle">Gitaarakkoord Preview</h3>
+                <p>Klik op een akkoord in de les om de greepvorm te bekijken.</p>
+
+                <div class="diagram-container" id="guitarDiagramContainer">
+                    <svg width="120" height="150" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="120" height="150" fill="white" />
+                        <line x1="25" y1="25" x2="95" y2="25" stroke="black" stroke-width="4" />
+                        <line x1="25" y1="55" x2="95" y2="55" stroke="black" stroke-width="1" />
+                        <line x1="25" y1="85" x2="95" y2="85" stroke="black" stroke-width="1" />
+                        <line x1="25" y1="115" x2="95" y2="115" stroke="black" stroke-width="1" />
+                        <line x1="25" y1="145" x2="95" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="25" y1="25" x2="25" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="39" y1="25" x2="39" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="53" y1="25" x2="53" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="67" y1="25" x2="67" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="81" y1="25" x2="81" y2="145" stroke="black" stroke-width="1" />
+                        <line x1="95" y1="25" x2="95" y2="145" stroke="black" stroke-width="1" />
+                        <text x="60" y="90" font-family="Inter" font-size="12" font-weight="600" text-anchor="middle" fill="#64748b">Selecteer Akkoord</text>
+                    </svg>
+                </div>
+
+                <div class="chord-preview-grid">
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('C')">C</button>
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('G')">G</button>
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('D')">D</button>
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('Am')">Am</button>
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('Em')">Em</button>
+                    <button class="chord-preview-btn" onclick="selectGuitarChord('F')">F</button>
+                </div>
+
+                <!-- 9 Lesson Badges Panel -->
+                <div class="lesson-badges-panel">
+                    <h4>Mijn Voortgang &amp; Badges</h4>
+                    <div class="badge-cards-grid">
+                        <div class="sidebar-badge-card sbc-1 locked" id="sidebar-badge-1" onclick="openLesson(1)">
+                            <span class="sbc-emoji">🎸</span>
+                            <span class="sbc-label">Les 1</span>
+                            <span class="sbc-check" id="sbc-check-1">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-2 locked" id="sidebar-badge-2" onclick="openLesson(2)">
+                            <span class="sbc-emoji">⚡</span>
+                            <span class="sbc-label">Les 2</span>
+                            <span class="sbc-check" id="sbc-check-2">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-3 locked" id="sidebar-badge-3" onclick="openLesson(3)">
+                            <span class="sbc-emoji">🎵</span>
+                            <span class="sbc-label">Les 3</span>
+                            <span class="sbc-check" id="sbc-check-3">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-4 locked" id="sidebar-badge-4" onclick="openLesson(4)">
+                            <span class="sbc-emoji">🧷</span>
+                            <span class="sbc-label">Les 4</span>
+                            <span class="sbc-check" id="sbc-check-4">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-5 locked" id="sidebar-badge-5" onclick="openLesson(5)">
+                            <span class="sbc-emoji">🎶</span>
+                            <span class="sbc-label">Les 5</span>
+                            <span class="sbc-check" id="sbc-check-5">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-6 locked" id="sidebar-badge-6" onclick="openLesson(6)">
+                            <span class="sbc-emoji">🎷</span>
+                            <span class="sbc-label">Les 6</span>
+                            <span class="sbc-check" id="sbc-check-6">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-7 locked" id="sidebar-badge-7" onclick="openLesson(7)">
+                            <span class="sbc-emoji">💪</span>
+                            <span class="sbc-label">Les 7</span>
+                            <span class="sbc-check" id="sbc-check-7">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-8 locked" id="sidebar-badge-8" onclick="openLesson(8)">
+                            <span class="sbc-emoji">🏆</span>
+                            <span class="sbc-label">Les 8</span>
+                            <span class="sbc-check" id="sbc-check-8">🔒</span>
+                        </div>
+                        <div class="sidebar-badge-card sbc-9 locked" id="sidebar-badge-9" onclick="openLesson(9)">
+                            <span class="sbc-emoji">🎸</span>
+                            <span class="sbc-label">Les 9</span>
+                            <span class="sbc-check" id="sbc-check-9">🔒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- External scripts for guitar diagrams -->
+    <script src="js/data/GuitarChordDatabase.js"></script>
+    <script src="js/utils/GuitarRenderer.js"></script>
+    <script>
+        const guitarRenderer = new GuitarRenderer();
+        let currentLang = localStorage.getItem('preferredLanguage') || 'nl';
+        let completedLessons = {};
+
+        try {
+            const saved = localStorage.getItem('popsongGuitarLessonsProgress');
+            if (saved) completedLessons = JSON.parse(saved);
+        } catch(e) {}
+
+        const TRANSLATIONS = {
+            nl: {
+                headerTitle: "Beginner Lessons",
+                headerSubtitle: "Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.",
+                launchTitle: "Kies een les om te beginnen",
+                launchSubtitle: "Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen.",
+                progressText: "{count} van 9 Lessen Voltooid",
+                backText: "Terug",
+                lessonCounter: "Les {id} van 9",
+                prev: "← Vorige Les",
+                next: "Volgende Les →",
+                statusIncomplete: "🔒 Niet voltooid",
+                statusCompleted: "✓ Voltooid",
+                completedText: "Voltooid!",
+                markCompleteText: "Markeer als voltooid",
+                badgeTag: "Les {id}",
+                cards: {
+                    1: { title: "Noten op de hals", desc: "Basis harmonieleer & de 6 snaren van het fretboard." },
+                    2: { title: "Power Chords", desc: "Pop & Rock basis: 5th chords op de lage E en A snaren." },
+                    3: { title: "C, G, Dm, Am & Em", desc: "De meest gebruikte open basisakkoorden voor popnummers." },
+                    4: { title: "Spelen met CAPO", desc: "Transponeren zonder nieuwe akkoordgrepen te leren." },
+                    5: { title: "D, A en E Majeur", desc: "Open Majeur akkoorden & vrolijke pop-progressies." },
+                    6: { title: "Een Blues Schema", desc: "Het klassieke 12-maten bluesschema in E & A." },
+                    7: { title: "F en F# Barré", desc: "Wijsvinger als menselijke capo: E-vorm barré-akkoorden." },
+                    8: { title: "Bm en B Barré", desc: "Wijsvinger als menselijke capo: A-vorm barré-akkoorden." },
+                    9: { title: "Eb Stemming", desc: "Halve toon lager stemmen (Half-step down tuning)." }
+                }
+            },
+            en: {
+                headerTitle: "Beginner Lessons",
+                headerSubtitle: "Step-by-step guitar lessons: from fretboard notes and power chords to open chords, capo, barre chords, and Eb tuning.",
+                launchTitle: "Choose a Lesson to Begin",
+                launchSubtitle: "Master guitar chords step-by-step. Select a lesson below to start practicing.",
+                progressText: "{count} of 9 Lessons Completed",
+                backText: "Back",
+                lessonCounter: "Lesson {id} of 9",
+                prev: "← Prev Lesson",
+                next: "Next Lesson →",
+                statusIncomplete: "🔒 Incomplete",
+                statusCompleted: "✓ Completed",
+                completedText: "Completed!",
+                markCompleteText: "Mark as complete",
+                badgeTag: "Lesson {id}",
+                cards: {
+                    1: { title: "Fretboard Notes", desc: "Basic harmony & the 6 strings of the guitar fretboard." },
+                    2: { title: "Power Chords", desc: "Pop & Rock essentials: 5th chords on low E & A strings." },
+                    3: { title: "C, G, Dm, Am & Em", desc: "The most essential open chords for playing pop songs." },
+                    4: { title: "Playing with a CAPO", desc: "Transpose instantly without learning new chord shapes." },
+                    5: { title: "D, A & E Major", desc: "Bright open Major chords & upbeat chord progressions." },
+                    6: { title: "The 12-Bar Blues", desc: "The classic 12-bar blues progression in E & A." },
+                    7: { title: "F & F# Barre Chords", desc: "Use your index finger as a capo: E-shape barre chords." },
+                    8: { title: "Bm & B Barre Chords", desc: "Use your index finger as a capo: A-shape barre chords." },
+                    9: { title: "Eb Tuning", desc: "Half-step down tuning guide & advantages." }
+                }
+            }
+        };
+
+        function updateProgress() {
+            let count = 0;
+            for (let i = 1; i <= 9; i++) {
+                if (completedLessons[i]) count++;
+            }
+
+            const percent = Math.round((count / 9) * 100);
+            const fill = document.getElementById('overall-progress-fill');
+            const percentText = document.getElementById('overall-progress-percent');
+            const progressText = document.getElementById('overall-progress-text');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.nl;
+
+            if (fill) fill.style.width = percent + '%';
+            if (percentText) percentText.textContent = percent + '%';
+            if (progressText) progressText.textContent = t.progressText.replace('{count}', count);
+
+            // Update Launch Cards & Sidebar Badges
+            for (let i = 1; i <= 9; i++) {
+                const card = document.getElementById(`launch-card-${i}`);
+                const status = document.getElementById(`launch-status-${i}`);
+                const sidebarCard = document.getElementById(`sidebar-badge-${i}`);
+                const sidebarCheck = document.getElementById(`sbc-check-${i}`);
+                const completeSection = document.getElementById(`lesson-complete-${i}`);
+                const completeLabel = document.getElementById(`lesson-complete-label-${i}`);
+
+                const isDone = !!completedLessons[i];
+
+                if (card) {
+                    card.classList.toggle('completed', isDone);
+                }
+                if (status) {
+                    status.textContent = isDone ? t.statusCompleted : t.statusIncomplete;
+                }
+                if (sidebarCard) {
+                    sidebarCard.classList.toggle('earned', isDone);
+                    sidebarCard.classList.toggle('locked', !isDone);
+                }
+                if (sidebarCheck) {
+                    sidebarCheck.textContent = isDone ? '✓' : '🔒';
+                }
+                if (completeSection) {
+                    completeSection.classList.toggle('completed', isDone);
+                }
+                if (completeLabel) {
+                    completeLabel.textContent = isDone ? t.completedText : t.markCompleteText;
+                }
+            }
+
+            try {
+                localStorage.setItem('popsongGuitarLessonsProgress', JSON.stringify(completedLessons));
+            } catch(e) {}
+        }
+
+        function toggleLessonComplete(id) {
+            completedLessons[id] = !completedLessons[id];
+            updateProgress();
+        }
+
+        let currentLessonId = null;
+
+        function showLaunchPage() {
+            currentLessonId = null;
+            document.body.classList.remove('mode-single-lesson');
+            document.body.classList.add('mode-launch');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (history.replaceState) {
+                history.replaceState(null, '', location.pathname);
+            }
+        }
+
+        function openLesson(id) {
+            id = parseInt(id, 10);
+            if (isNaN(id) || id < 1 || id > 9) id = 1;
+            currentLessonId = id;
+
+            if (history.replaceState) {
+                history.replaceState(null, '', `#lesson-${id}`);
+            }
+
+            document.body.classList.remove('mode-launch');
+            document.body.classList.add('mode-single-lesson');
+
+            for (let i = 1; i <= 9; i++) {
+                const card = document.getElementById(`lesson-card-${i}`);
+                if (card) {
+                    card.style.display = (i === id) ? 'block' : 'none';
+                }
+            }
+
+            const counter = document.getElementById('lesson-counter-indicator');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.nl;
+            if (counter) counter.textContent = t.lessonCounter.replace('{id}', id);
+
+            const prevBtn = document.getElementById('nav-prev-btn');
+            const nextBtn = document.getElementById('nav-next-btn');
+            if (prevBtn) prevBtn.disabled = (id <= 1);
+            if (nextBtn) nextBtn.disabled = (id >= 9);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const defaultChords = { 1: 'C', 2: 'E5', 3: 'C', 4: 'Em', 5: 'D', 6: 'E7', 7: 'F', 8: 'Bm', 9: 'G' };
+            selectGuitarChord(defaultChords[id] || 'C');
+        }
+
+        function navigateLesson(delta) {
+            if (!currentLessonId) currentLessonId = 1;
+            const target = currentLessonId + delta;
+            if (target >= 1 && target <= 9) {
+                openLesson(target);
+            }
+        }
+
+        function selectGuitarChord(chordName) {
+            const titleEl = document.getElementById('sidebarChordTitle');
+            const container = document.getElementById('guitarDiagramContainer');
+            if (titleEl) titleEl.textContent = `Akkoord: ${chordName}`;
+            
+            document.querySelectorAll('.chord-preview-btn, .chord-badge').forEach(btn => {
+                if (btn.textContent.trim() === chordName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            const db = (typeof GuitarChordDatabase !== 'undefined') ? GuitarChordDatabase : (window.GuitarChordDatabase || {});
+            let chordData = db[chordName];
+            if (Array.isArray(chordData)) {
+                chordData = chordData[0];
+            }
+
+            if (chordData && container && typeof guitarRenderer !== 'undefined') {
+                container.innerHTML = guitarRenderer.renderSVG(chordData);
+            }
+        }
+
+        function openSongByName(artist, title) {
+            if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                const songs = window.parent.appInstance.songManager.songs;
+                const match = songs.find(s => 
+                    s.artist.toLowerCase().trim() === artist.toLowerCase().trim() && 
+                    s.title.toLowerCase().trim() === title.toLowerCase().trim()
+                );
+                
+                if (match) {
+                    if (typeof window.parent.closeDashboardPanel === 'function') {
+                        window.parent.closeDashboardPanel();
+                    }
+                    window.parent.appInstance.navigateToSong(match.id);
+                } else {
+                    alert(`Song not found in library: "${artist} - ${title}".`);
+                }
+            } else {
+                alert("Cannot load song details. Application context not found.");
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'nl') ? 'en' : 'nl';
+            localStorage.setItem('preferredLanguage', currentLang);
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const btn = document.getElementById('langToggleBtn');
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.nl;
+            
+            if (btn) {
+                const nlPill = btn.querySelector('.lang-pill-nl');
+                const enPill = btn.querySelector('.lang-pill-en');
+                if (nlPill && enPill) {
+                    nlPill.classList.toggle('active', currentLang === 'nl');
+                    enPill.classList.toggle('active', currentLang === 'en');
+                }
+            }
+
+            const headerTitle = document.getElementById('header-title');
+            const headerSub = document.getElementById('header-subtitle');
+            const launchTitle = document.getElementById('txt-launch-title');
+            const launchSub = document.getElementById('txt-launch-subtitle');
+            const backText = document.getElementById('btn-back-text');
+            const prevBtn = document.getElementById('nav-prev-btn');
+            const nextBtn = document.getElementById('nav-next-btn');
+
+            if (headerTitle) headerTitle.textContent = t.headerTitle;
+            if (headerSub) headerSub.textContent = t.headerSubtitle;
+            if (launchTitle) launchTitle.textContent = t.launchTitle;
+            if (launchSub) launchSub.textContent = t.launchSubtitle;
+            if (backText) backText.textContent = t.backText;
+            if (prevBtn) prevBtn.textContent = t.prev;
+            if (nextBtn) nextBtn.textContent = t.next;
+
+            // Translate launch cards
+            for (let i = 1; i <= 9; i++) {
+                const titleEl = document.getElementById(`launch-card-title-${i}`);
+                const descEl = document.getElementById(`launch-card-desc-${i}`);
+                const tagEl = document.getElementById(`launch-badge-tag-${i}`);
+                
+                if (t.cards && t.cards[i]) {
+                    if (titleEl) titleEl.textContent = t.cards[i].title;
+                    if (descEl) descEl.textContent = t.cards[i].desc;
+                }
+                if (tagEl) tagEl.textContent = t.badgeTag.replace('{id}', i);
+            }
+
+            updateProgress();
+        }
+
+        // Initialize mode on load
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLanguage();
+            selectGuitarChord('C');
+            if (location.hash && location.hash.startsWith('#lesson-')) {
+                const id = parseInt(location.hash.replace('#lesson-', ''), 10);
+                if (!isNaN(id)) openLesson(id);
+                else showLaunchPage();
+            } else {
+                showLaunchPage();
+            }
+        });
+    </script>
+</body>
+</html>
