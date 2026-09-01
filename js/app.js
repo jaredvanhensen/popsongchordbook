@@ -4238,8 +4238,8 @@ class App {
         if (guitarLessonsBtn) {
             const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
             const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
-            // Visible ONLY for ADMINS for now
-            if (isAdmin) {
+            // Visible ONLY when instrument is set to guitar AND user is admin
+            if (mode === 'guitar' && isAdmin) {
                 guitarLessonsBtn.style.setProperty('display', 'flex', 'important');
             } else {
                 guitarLessonsBtn.style.setProperty('display', 'none', 'important');
