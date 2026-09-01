@@ -325888,7 +325888,7 @@ const DEFAULT_SONGS = [
             "barOffset": 0,
             "chords": [
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 0,
                     "yOffset": -65
                 },
@@ -325898,17 +325898,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 3.725,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 5.547,
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 9.315,
                     "yOffset": -50
                 },
@@ -325918,17 +325918,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 14.45,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 15.125,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 16.191,
                     "yOffset": -35
                 },
@@ -325938,22 +325938,22 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 19.836,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 21.674,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 22.472,
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 23.354,
                     "yOffset": -65
                 },
@@ -325963,22 +325963,22 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 26.9,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 28.72,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 29.584,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 30.469,
                     "yOffset": -35
                 },
@@ -325993,7 +325993,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 37.642,
                     "yOffset": -65
                 },
@@ -326003,7 +326003,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 41.166,
                     "yOffset": -65
                 },
@@ -326013,7 +326013,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 44.772,
                     "yOffset": -65
                 },
@@ -326023,17 +326023,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 48.309,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#7",
+                    "name": "Bb7",
                     "time": 50.085,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 51.893,
                     "yOffset": -65
                 },
@@ -326043,7 +326043,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 55.422,
                     "yOffset": -65
                 },
@@ -326053,22 +326053,22 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 59.038,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 60.823,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 62.589,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 66.133,
                     "yOffset": -35
                 },
@@ -326078,17 +326078,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 69.785,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 71.517,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 73.339,
                     "yOffset": -35
                 },
@@ -326098,17 +326098,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 76.785,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 78.619,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 80.451,
                     "yOffset": -35
                 },
@@ -326118,22 +326118,22 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 84.119,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 85.705,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 86.62,
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 87.54,
                     "yOffset": -65
                 },
@@ -326148,7 +326148,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 94.615,
                     "yOffset": -35
                 },
@@ -326158,7 +326158,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 98.215,
                     "yOffset": -35
                 },
@@ -326168,7 +326168,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 101.785,
                     "yOffset": -35
                 },
@@ -326178,17 +326178,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 105.338,
                     "yOffset": -35
                 },
                 {
-                    "name": "A#7",
+                    "name": "Bb7",
                     "time": 107.167,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 108.967,
                     "yOffset": -35
                 },
@@ -326198,7 +326198,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 112.467,
                     "yOffset": -35
                 },
@@ -326208,27 +326208,27 @@ const DEFAULT_SONGS = [
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 116.119,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 117.855,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 119.64,
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 123.185,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 124.953,
                     "yOffset": -35
                 },
@@ -326243,27 +326243,27 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 130.285,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 132.101,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 133.871,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 135.704,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 137.453,
                     "yOffset": -65
                 },
@@ -326273,7 +326273,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 141.038,
                     "yOffset": -65
                 },
@@ -326283,7 +326283,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 144.538,
                     "yOffset": -65
                 },
@@ -326293,17 +326293,17 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 148.089,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#7",
+                    "name": "Bb7",
                     "time": 149.876,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 151.643,
                     "yOffset": -65
                 },
@@ -326313,7 +326313,7 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 155.223,
                     "yOffset": -65
                 },
@@ -326323,22 +326323,22 @@ const DEFAULT_SONGS = [
                     "yOffset": -35
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 158.86,
                     "yOffset": -65
                 },
                 {
-                    "name": "D#",
+                    "name": "Eb",
                     "time": 160.694,
                     "yOffset": -35
                 },
                 {
-                    "name": "D#m",
+                    "name": "Ebm",
                     "time": 162.397,
                     "yOffset": -65
                 },
                 {
-                    "name": "A#",
+                    "name": "Bb",
                     "time": 168.215,
                     "yOffset": -50
                 }
@@ -326346,9 +326346,9 @@ const DEFAULT_SONGS = [
             "duration": 300,
             "name": "Stephen Sanchez - Until I Found You",
             "tempo": "120",
-            "useFlatNotation": false
+            "useFlatNotation": true
         },
-        "chorus": "D# F A# Dm | D# F A# A#7 | D# F A# Dm D# D#m",
+        "chorus": "Eb F Bb Dm | Eb F Bb Bb7 | Eb F Bb Dm Eb Ebm",
         "chorusCue": "",
         "chorusTitle": "CHORUS",
         "dateAdded": "2026-08-09T05:47:34.315Z",
@@ -326357,19 +326357,19 @@ const DEFAULT_SONGS = [
         "fullLyrics": "[00:10.33] Georgia, wrap me up in all your-\n[00:17.48] I want you in my arms\n[00:22.85] Oh, let me hold you\n[00:27.59] I'll never let you go again like I did\n[00:33.54] Oh, I used to say\n[00:37.29] \"I would never fall in love again until I found her\"\n[00:44.37] I said, \"I would never fall unless it's you I fall into\"\n[00:51.68] I was lost within the darkness, but then I found her\n[00:58.38] I found you\n[01:07.80] Georgia, pulled me in\n[01:12.63] I asked to love her once again\n[01:19.27] You fell, I caught you\n[01:24.36] I'll never let you go again like I did\n[01:30.66] Oh, I used to say\n[01:34.31] \"I would never fall in love again until I found her\"\n[01:41.24] I said, \"I would never fall unless it's you I fall into\"\n[01:48.72] I was lost within the darkness, but then I found her\n[01:55.27] I found you\n[02:04.76] \n[02:17.41] I would never fall in love again until I found her\n[02:24.66] I said, \"I would never fall unless it's you I fall into\"\n[02:31.58] I was lost within the darkness, but then I found her\n[02:38.13] I found you\n[02:45.99]",
         "id": "1786254454315wu90ki0wu",
         "isPublic": true,
-        "key": "A#",
+        "key": "Bb",
         "lyricOffset": -1,
         "patchDetails": "",
         "performAbility": 0,
         "practiceCount": "0",
-        "preChorus": "A# A# Dm Dm D# D# D#m D#m",
+        "preChorus": "Bb Bb Dm Dm Eb Eb Ebm Ebm",
         "preChorusCue": "",
         "preChorusTitle": "INSTRUMENTAL",
         "songNotes": "",
         "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
         "tempo": "120",
         "title": "Until I Found You",
-        "verse": "A# Dm D# D#m 3x | A# F F7\n",
+        "verse": "Bb Dm Eb Ebm 3x | Bb F F7\n",
         "verseCue": "",
         "verseTitle": "INTRO & VERSE",
         "year": "2026",
