@@ -22,6 +22,7 @@ class SongDetailModal {
         this.closeBtn = document.getElementById('songDetailModalCloseTop');
         this.deleteBtn = document.getElementById('menuDeleteSong');
         this.swapBlocksBtn = document.getElementById('menuSwapBlocks');
+        this.startEditModeBtn = document.getElementById('menuStartEditMode');
         this.prevBtn = document.getElementById('songDetailPrev');
         this.nextBtn = document.getElementById('songDetailNext');
         this.saveBtn = document.getElementById('songDetailSaveBtn');
@@ -164,6 +165,14 @@ class SongDetailModal {
         this.originalSongData = null;
         this.isRandomMode = false;
         this.transposeOffset = 0;
+
+        // Circle of Fifths edit widget
+        this.cofWidget = document.getElementById('songDetailCofWidget');
+        this.cofHeader = document.getElementById('songDetailCofHeader');
+        this.cofClose  = document.getElementById('songDetailCofClose');
+        this.cofContainer = document.getElementById('songDetailCofContainer');
+        this.cofSelectedBlock = 'verse'; // default target block for chord insertion
+        this._cofDragSetup = false; // track whether drag is already wired up
 
         // Initialize Instrument Mode (Piano/Guitar)
         const user = songManager.firebaseManager ? songManager.firebaseManager.getCurrentUser() : null;
@@ -1418,6 +1427,24 @@ class SongDetailModal {
             });
         }
 
+        // Setup Start Edit Mode button (opens Circle of Fifths widget and enters edit mode)
+        if (this.startEditModeBtn) {
+            this.startEditModeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                const anyEditing = Object.keys(this.sections).some(k => this.sections[k] && this.sections[k].editInput && !this.sections[k].editInput.classList.contains('hidden'));
+                if (!anyEditing) {
+                    this.toggleBlockEdit('verse');
+                } else {
+                    const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+                    const songKey = song ? (song.key || '') : '';
+                    this.openCofWidget(songKey);
+                }
+            });
+        }
+
         // Setup Add To Setlist button
         if (this.addToSetlistBtn) {
             this.addToSetlistBtn.addEventListener('click', (e) => {
@@ -1534,6 +1561,7 @@ class SongDetailModal {
 
                 // Ignore clicks inside known tool overlays that need the editor open
                 const isInsideHelper = e.target.closest(
+                    '.song-detail-cof-widget, #songDetailCofWidget, ' +
                     '.piano-chord-overlay, .chord-progression-overlay, .chord-finder-overlay, ' +
                     '.title-suggestions-portal, #youtubeUrlModal, #lyricsEditModal, ' +
                     '#confirmationModal, .confirmation-modal-overlay'
@@ -2280,18 +2308,25 @@ class SongDetailModal {
             if (section.applyBtn) section.applyBtn.classList.add('hidden');
             section.content.classList.remove('hidden');
             this.renderChordBlock(key, section.editInput.value);
+
+            // Hide Circle of Fifths widget if no blocks are in edit mode
+            const anyEditing = Object.keys(this.sections).some(k => this.sections[k] && this.sections[k].editInput && !this.sections[k].editInput.classList.contains('hidden'));
+            if (!anyEditing && this.cofWidget && !this._isSwitchingBlock) {
+                this.cofWidget.classList.add('hidden');
+            }
         } else {
             // Switch to edit
             // Close other editing blocks first
+            this._isSwitchingBlock = true;
             Object.keys(this.sections).forEach(otherKey => {
                 if (otherKey !== key) {
                     const otherSection = this.sections[otherKey];
-                    if (!otherSection.editInput.classList.contains('hidden')) {
-                        // RECURSIVE-ISH: Close this block by calling toggleBlockEdit or manually
+                    if (otherSection && otherSection.editInput && !otherSection.editInput.classList.contains('hidden')) {
                         this.toggleBlockEdit(otherKey);
                     }
                 }
             });
+            this._isSwitchingBlock = false;
 
             // TRANSPOSE FOR DISPLAY: Show the chords relative to the Capo in the textarea
             if (this.instrumentMode === 'guitar' && this.capoValue !== 0) {
@@ -2310,6 +2345,10 @@ class SongDetailModal {
             section.content.classList.add('hidden');
             section.editInput.focus();
             this._lastActiveSection = key;
+            this.cofSelectedBlock = key;
+
+            // Automatically open/show Circle of Fifths widget in edit mode
+            this.openCofWidget();
         }
     }
 
@@ -4108,6 +4147,11 @@ class SongDetailModal {
             }
         }
 
+        // Hide Circle of Fifths widget when switching to a new song
+        if (this.cofWidget && !this.cofWidget.classList.contains('hidden')) {
+            this.cofWidget.classList.add('hidden');
+        }
+
         // Initialize MIDI input if enabled globally
         if (window.midiInputHandler && localStorage.getItem('feature-midi-enabled-global') === 'true') {
             window.midiInputHandler.requestAccess();
@@ -4385,6 +4429,16 @@ class SongDetailModal {
             setTimeout(() => {
                 this.enterEditMode(this.artistElement);
             }, 100);
+        }
+
+        // When adding a new song (empty chords / autoEditArtist), automatically enter block edit mode & show Circle of Fifths
+        const isNewSong = autoEditArtist || (!song.verse && !song.chorus && !song.preChorus && !song.bridge && (!song.songNotes || !song.songNotes.trim()));
+        if (isNewSong) {
+            setTimeout(() => {
+                if (this.sections.verse && this.sections.verse.editInput && this.sections.verse.editInput.classList.contains('hidden')) {
+                    this.toggleBlockEdit('verse');
+                }
+            }, 150);
         }
 
         // Populate Full Lyrics Input
@@ -5788,6 +5842,204 @@ class SongDetailModal {
             element.textContent += text;
         }
         this.checkForChanges();
+    }
+
+    // ─── Circle of Fifths Edit Widget ─────────────────────────────────────────
+
+    /**
+     * Opens the Circle of Fifths widget, renders the CoF SVG, and wires up
+     * the block-selector pills so double-clicking a sector inserts a chord.
+     * @param {string} songKey - The current song's key (e.g. "C", "Am", "F#")
+     */
+    openCofWidget(songKey) {
+        if (!this.cofWidget || !this.cofContainer) return;
+
+        // Update pill labels to reflect actual block titles
+        const pillMap = {
+            verse: 'verseTitle',
+            chorus: 'chorusTitle',
+            preChorus: 'preChorusTitle',
+            bridge: 'bridgeTitle'
+        };
+        const pills = this.cofWidget.querySelectorAll('.cof-block-pill');
+        pills.forEach(pill => {
+            const block = pill.dataset.block;
+            const titleEl = document.getElementById(pillMap[block]);
+            if (titleEl) {
+                const label = titleEl.textContent.trim();
+                if (label) pill.textContent = label;
+            }
+            if (!pill._pillWired) {
+                pill.addEventListener('click', (e) => {
+                    if (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    pills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    const targetBlock = pill.dataset.block;
+                    this.cofSelectedBlock = targetBlock;
+
+                    // Automatically enter edit mode on target block if it's not currently editing
+                    if (this.sections[targetBlock] && this.sections[targetBlock].editInput && this.sections[targetBlock].editInput.classList.contains('hidden')) {
+                        this.toggleBlockEdit(targetBlock);
+                    }
+                });
+                pill._pillWired = true;
+            }
+        });
+
+        // Determine currently active editing block or use current selected block
+        let activeEditingBlock = Object.keys(this.sections).find(k => this.sections[k] && this.sections[k].editInput && !this.sections[k].editInput.classList.contains('hidden'));
+        if (!activeEditingBlock) {
+            activeEditingBlock = this.cofSelectedBlock || 'verse';
+        }
+        this.cofSelectedBlock = activeEditingBlock;
+
+        pills.forEach(p => {
+            p.classList.toggle('active', p.dataset.block === activeEditingBlock);
+        });
+
+        // If songKey wasn't passed, look up current song key
+        if (!songKey && this.currentSongId && this.songManager) {
+            const song = this.songManager.getSongById(this.currentSongId);
+            if (song) songKey = song.key || '';
+        }
+
+        // Render the Circle of Fifths SVG
+        if (typeof initCircleOfFifths === 'function') {
+            initCircleOfFifths(
+                this.cofContainer,
+                songKey || 'C',
+                (chordName) => this.insertChordFromCof(chordName)
+            );
+        }
+
+        // Show the widget
+        this.cofWidget.classList.remove('hidden');
+
+        // Wire close button (once)
+        if (this.cofClose && !this.cofClose._cofCloseWired) {
+            this.cofClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.cofWidget) this.cofWidget.classList.add('hidden');
+            });
+            this.cofClose._cofCloseWired = true;
+        }
+
+        // Set up dragging (once)
+        if (!this._cofDragSetup) {
+            this.setupCofDraggable();
+            this._cofDragSetup = true;
+        }
+    }
+
+    /**
+     * Inserts a chord name into the currently selected block textarea.
+     * If the block is not in edit mode, switches it to edit mode first.
+     * Inserts at the cursor if focused, otherwise appends at the end.
+     * @param {string} chordName - Chord to insert (e.g. "C", "Am", "F#m")
+     */
+    insertChordFromCof(chordName) {
+        const key = this.cofSelectedBlock;
+        const section = this.sections[key];
+        if (!section || !section.editInput) return;
+
+        const input = section.editInput;
+        const isEditing = !input.classList.contains('hidden');
+        let newValue;
+
+        if (!isEditing) {
+            // Open the block for editing first
+            this.toggleBlockEdit(key);
+            const value = input.value;
+            const needsSpace = value.length > 0 && !value.match(/\s$/);
+            newValue = value + (needsSpace ? ' ' : '') + chordName;
+            input.value = newValue;
+            input.focus();
+            input.selectionStart = input.selectionEnd = newValue.length;
+        } else {
+            // Insert at cursor position
+            const startPos = (input.selectionStart !== undefined) ? input.selectionStart : input.value.length;
+            const endPos   = (input.selectionEnd !== undefined)   ? input.selectionEnd   : input.value.length;
+            const value    = input.value;
+            const prefix   = value.substring(0, startPos);
+            const suffix   = value.substring(endPos);
+            const needsSpaceBefore = prefix.length > 0 && !prefix.match(/\s$/);
+            const needsSpaceAfter  = suffix.length > 0 && !suffix.match(/^\s/);
+            const insertion = (needsSpaceBefore ? ' ' : '') + chordName + (needsSpaceAfter ? ' ' : '');
+            newValue = prefix + insertion + suffix;
+            input.value = newValue;
+            input.focus();
+            const newPos = startPos + insertion.length;
+            input.setSelectionRange(newPos, newPos);
+        }
+
+        this.renderChordBlock(key, newValue);
+        this.hasUnsavedChanges = true;
+        this.checkForChanges();
+    }
+
+    /**
+     * Makes the Circle of Fifths widget draggable by its header.
+     * Uses pointer capture so drag works even when cursor leaves the element.
+     */
+    setupCofDraggable() {
+        const dragTarget = this.cofWidget;
+        const dragHeader = this.cofHeader;
+        if (!dragTarget || !dragHeader) return;
+
+        let isDragging = false;
+        let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+
+        dragHeader.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0 && e.pointerType === 'mouse') return;
+            if (e.target.closest('button')) return;
+
+            isDragging = true;
+            dragHeader.style.cursor = 'grabbing';
+
+            startX = e.clientX;
+            startY = e.clientY;
+
+            // Lock in current position as fixed coords
+            const rect = dragTarget.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop  = rect.top;
+
+            // Switch to explicit fixed positioning so we can move it freely
+            dragTarget.style.position = 'fixed';
+            dragTarget.style.left  = startLeft + 'px';
+            dragTarget.style.top   = startTop  + 'px';
+            dragTarget.style.right  = 'auto';
+            dragTarget.style.bottom = 'auto';
+            dragTarget.style.transform = 'none';
+
+            dragHeader.setPointerCapture(e.pointerId);
+
+            const onMove = (ev) => {
+                if (!isDragging) return;
+                const dx = ev.clientX - startX;
+                const dy = ev.clientY - startY;
+                dragTarget.style.left = (startLeft + dx) + 'px';
+                dragTarget.style.top  = (startTop  + dy) + 'px';
+            };
+
+            const onUp = (ev) => {
+                if (!isDragging) return;
+                isDragging = false;
+                dragHeader.style.cursor = 'grab';
+                try { dragHeader.releasePointerCapture(ev.pointerId); } catch (err) {}
+                dragHeader.removeEventListener('pointermove', onMove);
+                dragHeader.removeEventListener('pointerup',   onUp);
+                dragHeader.removeEventListener('pointercancel', onUp);
+            };
+
+            dragHeader.addEventListener('pointermove', onMove);
+            dragHeader.addEventListener('pointerup',   onUp);
+            dragHeader.addEventListener('pointercancel', onUp);
+            e.preventDefault();
+        });
     }
 }
 

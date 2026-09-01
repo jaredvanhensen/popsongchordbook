@@ -7874,9 +7874,10 @@ function makeCircleOfFifthsDraggable(dragTarget, dragHeader) {
     dragHeader.addEventListener('pointerdown', onPointerDown);
 }
 
-function initCircleOfFifths() {
-    const container = document.getElementById('circleOfFifthsSvgContainer');
+function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
+    const container = containerOverride || document.getElementById('circleOfFifthsSvgContainer');
     if (!container) return;
+    const activeKey = (keyOverride !== undefined) ? keyOverride : currentSongKey;
 
     // Clear any existing contents
     container.innerHTML = '';
@@ -7941,12 +7942,12 @@ function initCircleOfFifths() {
     let tonicIndex = 0;
     let isMinorKey = false;
     for (let idx = 0; idx < data.length; idx++) {
-        if (keysMatch(currentSongKey, data[idx].major) || (data[idx].majorVal && keysMatch(currentSongKey, data[idx].majorVal))) {
+        if (keysMatch(activeKey, data[idx].major) || (data[idx].majorVal && keysMatch(activeKey, data[idx].majorVal))) {
             tonicIndex = idx;
             isMinorKey = false;
             break;
         }
-        if (keysMatch(currentSongKey, data[idx].minor) || (data[idx].minorVal && keysMatch(currentSongKey, data[idx].minorVal))) {
+        if (keysMatch(activeKey, data[idx].minor) || (data[idx].minorVal && keysMatch(activeKey, data[idx].minorVal))) {
             tonicIndex = idx;
             isMinorKey = true;
             break;
@@ -7980,8 +7981,8 @@ function initCircleOfFifths() {
         const midAngle = i * 30;
         const rad = (midAngle - 90) * Math.PI / 180;
 
-        const isCurrentMajor = keysMatch(currentSongKey, item.major) || (item.majorVal && keysMatch(currentSongKey, item.majorVal));
-        const isCurrentMinor = keysMatch(currentSongKey, item.minor) || (item.minorVal && keysMatch(currentSongKey, item.minorVal));
+        const isCurrentMajor = keysMatch(activeKey, item.major) || (item.majorVal && keysMatch(activeKey, item.majorVal));
+        const isCurrentMinor = keysMatch(activeKey, item.minor) || (item.minorVal && keysMatch(activeKey, item.minorVal));
 
         if (isCurrentMajor) {
             highlightPathD = getSectorPath(rInMajor, rOutMajor, startAngle, endAngle);
@@ -8048,6 +8049,15 @@ function initCircleOfFifths() {
             }
         };
         majorG.addEventListener('pointerdown', handleMajorClick);
+
+        // Double-click inserts chord into active song block (used by Song Detail modal)
+        if (typeof onChordDblClick === 'function') {
+            majorG.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChordDblClick(majorVal);
+            });
+        }
 
         const rTextMajor = (rInMajor + rOutMajor) / 2;
         const xTextMajor = cx + rTextMajor * Math.cos(rad);
@@ -8124,6 +8134,15 @@ function initCircleOfFifths() {
             }
         };
         minorG.addEventListener('pointerdown', handleMinorClick);
+
+        // Double-click inserts chord into active song block (used by Song Detail modal)
+        if (typeof onChordDblClick === 'function') {
+            minorG.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChordDblClick(minorVal);
+            });
+        }
 
         const rTextMinor = (rInMinor + rOutMinor) / 2;
         const xTextMinor = cx + rTextMinor * Math.cos(rad);
