@@ -5906,13 +5906,27 @@ class SongDetailModal {
             if (song) songKey = song.key || '';
         }
 
-        // Render the Circle of Fifths SVG
+        // Render the Circle of Fifths SVG.
+        // Pass null when no key is set → all chords shown at full opacity.
+        // onKeySelected is called when the user long-presses (2s) a sector.
         if (typeof initCircleOfFifths === 'function') {
-            initCircleOfFifths(
-                this.cofContainer,
-                songKey || 'C',
-                (chordName) => this.insertChordFromCof(chordName)
-            );
+            const renderCof = (key) => {
+                initCircleOfFifths(
+                    this.cofContainer,
+                    key || null,
+                    (chordName) => this.insertChordFromCof(chordName),
+                    (newKey) => {
+                        // Long-press callback: write the new key into the KEY field
+                        if (this.keyDisplay) {
+                            this.keyDisplay.textContent = newKey;
+                            this.checkForChanges();
+                        }
+                        // Re-render CoF with the newly selected key (dimming kicks in)
+                        renderCof(newKey);
+                    }
+                );
+            };
+            renderCof(songKey);
         }
 
         // Show the widget

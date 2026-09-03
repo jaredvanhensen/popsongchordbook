@@ -1,12 +1,31 @@
 /**
  * CircleOfFifthsRenderer.js
  * Utility to render an interactive Circle of Fifths SVG diagram inside a container.
+ *
+ * Signature: initCircleOfFifths(container, keyOverride, onChordDblClick, onKeySelected)
+ *   - container      : DOM element to render into (falls back to #circleOfFifthsSvgContainer)
+ *   - keyOverride    : string key (e.g. "C", "Am") or null/'' for "no key set" mode
+ *   - onChordDblClick: callback(chordName) when user double-clicks a sector
+ *   - onKeySelected  : callback(keyName, isMajor) when user long-presses (2 s) a sector to set key
+ *
+ * Behaviour when keyOverride is null / empty string:
+ *   - All sectors are rendered at full opacity (no blur, no highlight)
+ *   - A hint "hold 2s = set key" is shown in the centre
+ *   - Long-pressing any sector for 2 s calls onKeySelected with the chord name
+ *
+ * Behaviour when keyOverride is set:
+ *   - Diatonic sectors (tonic + two nearest neighbours) are fully opaque
+ *   - Non-diatonic sectors are dimmed (opacity 0.55 major / 0.45 minor)
+ *   - The tonic sector gets a highlight outline
  */
 
-function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
+function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onKeySelected) {
     const container = containerOverride || document.getElementById('circleOfFifthsSvgContainer');
     if (!container) return;
-    const activeKey = (keyOverride !== undefined) ? keyOverride : (typeof currentSongKey !== 'undefined' ? currentSongKey : 'C');
+
+    // Determine whether a key is actually set
+    const hasKey = keyOverride !== null && keyOverride !== undefined && String(keyOverride).trim() !== '';
+    const activeKey = hasKey ? String(keyOverride).trim() : '';
 
     // Clear any existing contents
     container.innerHTML = '';
@@ -69,33 +88,35 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
 
     let tonicIndex = 0;
     let isMinorKey = false;
-    for (let idx = 0; idx < data.length; idx++) {
-        if (keysMatch(activeKey, data[idx].major) || (data[idx].majorVal && keysMatch(activeKey, data[idx].majorVal))) {
-            tonicIndex = idx;
-            isMinorKey = false;
-            break;
-        }
-        if (keysMatch(activeKey, data[idx].minor) || (data[idx].minorVal && keysMatch(activeKey, data[idx].minorVal))) {
-            tonicIndex = idx;
-            isMinorKey = true;
-            break;
+    if (hasKey) {
+        for (let idx = 0; idx < data.length; idx++) {
+            if (keysMatch(activeKey, data[idx].major) || (data[idx].majorVal && keysMatch(activeKey, data[idx].majorVal))) {
+                tonicIndex = idx;
+                isMinorKey = false;
+                break;
+            }
+            if (keysMatch(activeKey, data[idx].minor) || (data[idx].minorVal && keysMatch(activeKey, data[idx].minorVal))) {
+                tonicIndex = idx;
+                isMinorKey = true;
+                break;
+            }
         }
     }
 
     const getSectorPath = (rIn, rOut, startAngle, endAngle) => {
         const startRad = (startAngle - 90) * Math.PI / 180;
         const endRad = (endAngle - 90) * Math.PI / 180;
-        
+
         const xOutStart = cx + rOut * Math.cos(startRad);
         const yOutStart = cy + rOut * Math.sin(startRad);
         const xOutEnd = cx + rOut * Math.cos(endRad);
         const yOutEnd = cy + rOut * Math.sin(endRad);
-        
+
         const xInStart = cx + rIn * Math.cos(startRad);
         const yInStart = cy + rIn * Math.sin(startRad);
         const xInEnd = cx + rIn * Math.cos(endRad);
         const yInEnd = cy + rIn * Math.sin(endRad);
-        
+
         return `M ${xOutStart} ${yOutStart} 
                 A ${rOut} ${rOut} 0 0 1 ${xOutEnd} ${yOutEnd} 
                 L ${xInEnd} ${yInEnd} 
@@ -103,14 +124,87 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
                 Z`;
     };
 
+    // ── Long-press state ─────────────────────────────────────────────────────
+    const LONG_PRESS_DURATION = 2000; // ms
+    let longPressTimer = null;
+    let longPressOverlay = null;
+
+    function showLongPressProgress(duration) {
+        if (longPressOverlay && longPressOverlay.parentNode) {
+            longPressOverlay.parentNode.removeChild(longPressOverlay);
+        }
+        longPressOverlay = document.createElementNS(svgNS, 'g');
+        longPressOverlay.style.pointerEvents = 'none';
+
+        // Animated ring sweeping around the outer rim
+        const ringR = (rOutMajor + rInMajor) / 2;
+        const ringCircumference = 2 * Math.PI * ringR;
+        const ring = document.createElementNS(svgNS, 'circle');
+        ring.setAttribute('cx', cx);
+        ring.setAttribute('cy', cy);
+        ring.setAttribute('r', ringR);
+        ring.setAttribute('fill', 'none');
+        ring.setAttribute('stroke', 'rgba(255,255,255,0.9)');
+        ring.setAttribute('stroke-width', '5');
+        ring.setAttribute('stroke-dasharray', ringCircumference);
+        ring.setAttribute('stroke-dashoffset', ringCircumference);
+        ring.setAttribute('stroke-linecap', 'round');
+        ring.style.transform = 'rotate(-90deg)';
+        ring.style.transformOrigin = '150px 150px';
+        ring.style.transition = `stroke-dashoffset ${duration}ms linear`;
+        longPressOverlay.appendChild(ring);
+        svg.appendChild(longPressOverlay);
+
+        // Kick off the transition on the next two animation frames
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                ring.setAttribute('stroke-dashoffset', '0');
+            });
+        });
+    }
+
+    function cancelLongPress() {
+        if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+        if (longPressOverlay && longPressOverlay.parentNode) {
+            longPressOverlay.parentNode.removeChild(longPressOverlay);
+            longPressOverlay = null;
+        }
+    }
+
+    /**
+     * Attaches a 3-second hold gesture to a sector <g>.
+     * Only active when onKeySelected callback is provided.
+     */
+    function attachLongPress(g, chordName, isMajor) {
+        if (typeof onKeySelected !== 'function') return;
+
+        g.addEventListener('pointerdown', () => {
+            cancelLongPress();
+            showLongPressProgress(LONG_PRESS_DURATION);
+            longPressTimer = setTimeout(() => {
+                longPressTimer = null;
+                if (longPressOverlay && longPressOverlay.parentNode) {
+                    longPressOverlay.parentNode.removeChild(longPressOverlay);
+                    longPressOverlay = null;
+                }
+                onKeySelected(chordName, isMajor);
+            }, LONG_PRESS_DURATION);
+        });
+
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
+            g.addEventListener(evt, cancelLongPress);
+        });
+    }
+
+    // ── Render all sectors ───────────────────────────────────────────────────
     data.forEach((item, i) => {
         const startAngle = -15 + i * 30;
         const endAngle = 15 + i * 30;
         const midAngle = i * 30;
         const rad = (midAngle - 90) * Math.PI / 180;
 
-        const isCurrentMajor = keysMatch(activeKey, item.major) || (item.majorVal && keysMatch(activeKey, item.majorVal));
-        const isCurrentMinor = keysMatch(activeKey, item.minor) || (item.minorVal && keysMatch(activeKey, item.minorVal));
+        const isCurrentMajor = hasKey && (keysMatch(activeKey, item.major) || (item.majorVal && keysMatch(activeKey, item.majorVal)));
+        const isCurrentMinor = hasKey && (keysMatch(activeKey, item.minor) || (item.minorVal && keysMatch(activeKey, item.minorVal)));
 
         if (isCurrentMajor) {
             highlightPathD = getSectorPath(rInMajor, rOutMajor, startAngle, endAngle);
@@ -118,12 +212,13 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
             highlightPathD = getSectorPath(rInMinor, rOutMinor, startAngle, endAngle);
         }
 
-        const isDiatonic = (i === tonicIndex || i === ((tonicIndex - 1 + 12) % 12) || i === ((tonicIndex + 1 + 12) % 12));
+        // When no key is set, every sector is fully visible ("diatonic")
+        const isDiatonic = !hasKey || (i === tonicIndex || i === ((tonicIndex - 1 + 12) % 12) || i === ((tonicIndex + 1 + 12) % 12));
 
         let romanNumeralMajor = "";
         let romanNumeralMinor = "";
-        
-        if (isDiatonic) {
+
+        if (hasKey && isDiatonic) {
             if (!isMinorKey) {
                 if (i === tonicIndex) {
                     romanNumeralMajor = "I"; romanNumeralMinor = "vi";
@@ -143,21 +238,22 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
             }
         }
 
-        // --- Major outer slice ---
+        // ─── Major outer slice ────────────────────────────────────────────
         const majorG = document.createElementNS(svgNS, "g");
         majorG.style.cursor = "pointer";
-        
+
         const majorPath = document.createElementNS(svgNS, "path");
         majorPath.setAttribute("d", getSectorPath(rInMajor, rOutMajor, startAngle, endAngle));
         majorPath.setAttribute("fill", item.color);
         majorPath.setAttribute("stroke", "white");
         majorPath.setAttribute("stroke-width", "1");
         majorPath.style.transition = "opacity 0.2s, filter 0.2s";
-        
+
         const defaultOpacityMajor = isDiatonic ? "1.0" : "0.55";
         majorPath.setAttribute("opacity", defaultOpacityMajor);
-        
+
         const majorVal = item.majorVal || item.major;
+
         const handleMajorClick = (e) => {
             if (e) e.preventDefault();
             if (typeof initAudio === 'function') initAudio();
@@ -185,6 +281,8 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
                 onChordDblClick(majorVal);
             });
         }
+
+        attachLongPress(majorG, majorVal, true);
 
         const rTextMajor = (rInMajor + rOutMajor) / 2;
         const xTextMajor = cx + rTextMajor * Math.cos(rad);
@@ -218,7 +316,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         }
 
         majorG.addEventListener('mouseenter', () => {
-            majorPath.setAttribute("opacity", isDiatonic ? "0.85" : "0.55");
+            majorPath.setAttribute("opacity", isDiatonic ? "0.85" : "0.65");
             majorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
             textMajor.setAttribute("opacity", "1.0");
             if (romanTextMajor) romanTextMajor.setAttribute("opacity", "1.0");
@@ -235,7 +333,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         if (romanTextMajor) majorG.appendChild(romanTextMajor);
         svg.appendChild(majorG);
 
-        // --- Minor inner slice ---
+        // ─── Minor inner slice ────────────────────────────────────────────
         const minorG = document.createElementNS(svgNS, "g");
         minorG.style.cursor = "pointer";
 
@@ -249,6 +347,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         minorPath.style.transition = "opacity 0.2s, filter 0.2s";
 
         const minorVal = item.minorVal || item.minor;
+
         const handleMinorClick = (e) => {
             if (e) e.preventDefault();
             if (typeof initAudio === 'function') initAudio();
@@ -276,6 +375,8 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
                 onChordDblClick(minorVal);
             });
         }
+
+        attachLongPress(minorG, minorVal, false);
 
         const rTextMinor = (rInMinor + rOutMinor) / 2;
         const xTextMinor = cx + rTextMinor * Math.cos(rad);
@@ -309,7 +410,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         }
 
         minorG.addEventListener('mouseenter', () => {
-            minorPath.setAttribute("opacity", isDiatonic ? "0.70" : "0.5");
+            minorPath.setAttribute("opacity", isDiatonic ? "0.70" : "0.58");
             minorPath.style.filter = "brightness(1.1) drop-shadow(0px 0px 4px rgba(0,0,0,0.25))";
             textMinor.setAttribute("opacity", "1.0");
             if (romanTextMinor) romanTextMinor.setAttribute("opacity", "1.0");
@@ -327,6 +428,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         svg.appendChild(minorG);
     });
 
+    // ── Centre white circle ──────────────────────────────────────────────────
     const centerCircle = document.createElementNS(svgNS, "circle");
     centerCircle.setAttribute("cx", cx);
     centerCircle.setAttribute("cy", cy);
@@ -336,6 +438,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
     centerCircle.setAttribute("stroke-width", "1");
     svg.appendChild(centerCircle);
 
+    // Centre labels
     const textCenter1 = document.createElementNS(svgNS, "text");
     textCenter1.setAttribute("x", cx);
     textCenter1.setAttribute("y", cy - 18);
@@ -372,6 +475,22 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
     textCenter3.textContent = "MINOR";
     svg.appendChild(textCenter3);
 
+    // "hold 2s = set key" hint (only when no key is set and callback is provided)
+    if (!hasKey && typeof onKeySelected === 'function') {
+        const hintText = document.createElementNS(svgNS, "text");
+        hintText.setAttribute("x", cx);
+        hintText.setAttribute("y", cy + 30);
+        hintText.setAttribute("text-anchor", "middle");
+        hintText.setAttribute("fill", "#94a3b8");
+        hintText.setAttribute("font-size", "6");
+        hintText.setAttribute("font-weight", "600");
+        hintText.setAttribute("font-family", "'Inter', sans-serif");
+        hintText.style.pointerEvents = "none";
+        hintText.textContent = "hold 2s = set key";
+        svg.appendChild(hintText);
+    }
+
+    // ── Key highlight outline (only when a key is set) ───────────────────────
     if (highlightPathD) {
         const outlineOuter = document.createElementNS(svgNS, "path");
         outlineOuter.setAttribute("d", highlightPathD);
