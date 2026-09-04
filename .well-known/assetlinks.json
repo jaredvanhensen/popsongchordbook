@@ -1,12 +1,15 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.popsongchordbook.app",
-        "sha256_cert_fingerprints": [
-          "C5:72:E1:AF:32:04:F4:06:8A:55:D2:68:5C:F8:D2:8E:EE:7B:D7:C6:A3:31:87:00:43:B4:15:4D:1D:67:2A:CE"
-        ]
+      "sha256_cert_fingerprints": [
+        "C5:72:E1:AF:32:04:F4:06:8A:55:D2:68:5C:F8:D2:8E:EE:7B:D7:C6:A3:31:87:00:43:B4:15:4D:1D:67:2A:CE",
+        "C1:B8:D8:64:99:8A:58:EC:4B:77:7B:4C:2E:5E:6C:6E:C6:92:49:3B:62:23:11:55:94:93:DB:A4:37:5F:6F:8B"
+      ]
     }
   }
 ]
