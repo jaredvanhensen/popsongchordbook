@@ -166,13 +166,18 @@ class SongDetailModal {
         this.isRandomMode = false;
         this.transposeOffset = 0;
 
-        // Circle of Fifths edit widget
+        // Circle of Fifths / Linear edit widget
         this.cofWidget = document.getElementById('songDetailCofWidget');
         this.cofHeader = document.getElementById('songDetailCofHeader');
         this.cofClose  = document.getElementById('songDetailCofClose');
         this.cofContainer = document.getElementById('songDetailCofContainer');
+        this.linearContainer = document.getElementById('songDetailLinearContainer');
+        this.cofTitle = document.getElementById('songDetailCofTitle');
+        this.cofHint = document.getElementById('songDetailCofHint');
+        this.cofViewToggle = document.getElementById('songDetailCofViewToggle');
         this.cofSelectedBlock = 'verse'; // default target block for chord insertion
         this._cofDragSetup = false; // track whether drag is already wired up
+        this.cofViewMode = localStorage.getItem('popSongChordBook_cofViewMode') || 'circle';
 
         // Initialize Instrument Mode (Piano/Guitar)
         const user = songManager.firebaseManager ? songManager.firebaseManager.getCurrentUser() : null;
@@ -5844,11 +5849,11 @@ class SongDetailModal {
         this.checkForChanges();
     }
 
-    // ─── Circle of Fifths Edit Widget ─────────────────────────────────────────
+    // ─── Circle of Fifths / Linear Chords Edit Widget ──────────────────────────
 
     /**
-     * Opens the Circle of Fifths widget, renders the CoF SVG, and wires up
-     * the block-selector pills so double-clicking a sector inserts a chord.
+     * Opens the Circle of Fifths / Linear Chords widget, renders the active view,
+     * and wires up the block-selector pills so chords can be inserted.
      * @param {string} songKey - The current song's key (e.g. "C", "Am", "F#")
      */
     openCofWidget(songKey) {
@@ -5905,29 +5910,32 @@ class SongDetailModal {
             const song = this.songManager.getSongById(this.currentSongId);
             if (song) songKey = song.key || '';
         }
-
-        // Render the Circle of Fifths SVG.
-        // Pass null when no key is set → all chords shown at full opacity.
-        // onKeySelected is called when the user long-presses (2s) a sector.
-        if (typeof initCircleOfFifths === 'function') {
-            const renderCof = (key) => {
-                initCircleOfFifths(
-                    this.cofContainer,
-                    key || null,
-                    (chordName) => this.insertChordFromCof(chordName),
-                    (newKey) => {
-                        // Long-press callback: write the new key into the KEY field
-                        if (this.keyDisplay) {
-                            this.keyDisplay.textContent = newKey;
-                            this.checkForChanges();
-                        }
-                        // Re-render CoF with the newly selected key (dimming kicks in)
-                        renderCof(newKey);
-                    }
-                );
-            };
-            renderCof(songKey);
+        if (!songKey && this.keyDisplay) {
+            const displayVal = this.keyDisplay.textContent.trim();
+            if (displayVal && displayVal !== 'KEY' && displayVal !== '--') {
+                songKey = displayVal;
+            }
         }
+        this._currentCofKey = songKey || '';
+
+        // Wire view toggle buttons (once)
+        if (this.cofViewToggle && !this.cofViewToggle._cofToggleWired) {
+            const toggleBtns = this.cofViewToggle.querySelectorAll('.cof-toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    const view = btn.dataset.view;
+                    this.switchCofViewMode(view, this._currentCofKey);
+                });
+            });
+            this.cofViewToggle._cofToggleWired = true;
+        }
+
+        // Render the currently selected view mode (Circle or Linear)
+        this.switchCofViewMode(this.cofViewMode || 'circle', this._currentCofKey);
 
         // Show the widget
         this.cofWidget.classList.remove('hidden');
@@ -5945,6 +5953,555 @@ class SongDetailModal {
         if (!this._cofDragSetup) {
             this.setupCofDraggable();
             this._cofDragSetup = true;
+        }
+    }
+
+    /**
+     * Switches between Circle of Fifths view and Horizontal Linear Chords view.
+     * @param {'circle'|'linear'} mode
+     * @param {string} [key]
+     */
+    switchCofViewMode(mode, key) {
+        this.cofViewMode = mode || 'circle';
+        try {
+            localStorage.setItem('popSongChordBook_cofViewMode', this.cofViewMode);
+        } catch (e) { /* ignore */ }
+
+        if (key === undefined) {
+            key = this._currentCofKey || (this.keyDisplay ? this.keyDisplay.textContent.trim() : '');
+        }
+        if (key === 'KEY' || key === '--') key = '';
+        this._currentCofKey = key || '';
+
+        // Update toggle buttons active state
+        if (this.cofViewToggle) {
+            const toggleBtns = this.cofViewToggle.querySelectorAll('.cof-toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === this.cofViewMode);
+            });
+        }
+
+        if (this.cofViewMode === 'linear') {
+            if (this.cofWidget) this.cofWidget.classList.add('view-linear');
+            if (this.cofContainer) this.cofContainer.classList.add('hidden');
+            if (this.linearContainer) this.linearContainer.classList.remove('hidden');
+            if (this.cofTitle) this.cofTitle.textContent = '🎹 Diatonic Chords';
+            if (this.cofHint) this.cofHint.innerHTML = 'Click = preview &middot; Double-click = insert &middot; Select Key to change';
+            this.renderLinearChords(this._currentCofKey);
+        } else {
+            if (this.cofWidget) this.cofWidget.classList.remove('view-linear');
+            if (this.cofContainer) this.cofContainer.classList.remove('hidden');
+            if (this.linearContainer) this.linearContainer.classList.add('hidden');
+            if (this.cofTitle) this.cofTitle.textContent = '🎡 Circle of Fifths';
+            if (this.cofHint) this.cofHint.innerHTML = 'Click = preview &middot; Double-click = insert &middot; Hold 2s = set KEY';
+            this.renderCofSvg(this._currentCofKey);
+        }
+    }
+
+    /**
+     * Renders Circle of Fifths SVG inside this.cofContainer.
+     * @param {string} key
+     */
+    renderCofSvg(key) {
+        if (!this.cofContainer || typeof initCircleOfFifths !== 'function') return;
+        initCircleOfFifths(
+            this.cofContainer,
+            key || null,
+            (chordName) => this.insertChordFromCof(chordName),
+            (newKey) => {
+                this.updateWidgetKey(newKey);
+            }
+        );
+    }
+
+    /**
+     * Returns the diatonic chords, common borrowed chords, and scale degrees for a given musical key.
+     * @param {string} rawKey
+     * @returns {{ key: string, isMinor: boolean, chords: string[], degrees: string[], borrowed: Array<{name: string, degree: string}> }}
+     */
+    getDiatonicScale(rawKey) {
+        const majorScales = {
+            'C':  { 
+                chords: ['C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bdim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'Bb', degree: '♭VII' },
+                    { name: 'Ab', degree: '♭VI' },
+                    { name: 'Eb', degree: '♭III' },
+                    { name: 'Fm', degree: 'iv' },
+                    { name: 'D',  degree: 'II' }
+                ]
+            },
+            'G':  { 
+                chords: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'F',  degree: '♭VII' },
+                    { name: 'Eb', degree: '♭VI' },
+                    { name: 'Bb', degree: '♭III' },
+                    { name: 'Cm', degree: 'iv' },
+                    { name: 'A',  degree: 'II' }
+                ]
+            },
+            'D':  { 
+                chords: ['D', 'Em', 'F#m', 'G', 'A', 'Bm', 'C#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'C',  degree: '♭VII' },
+                    { name: 'Bb', degree: '♭VI' },
+                    { name: 'F',  degree: '♭III' },
+                    { name: 'Gm', degree: 'iv' },
+                    { name: 'E',  degree: 'II' }
+                ]
+            },
+            'A':  { 
+                chords: ['A', 'Bm', 'C#m', 'D', 'E', 'F#m', 'G#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'G',  degree: '♭VII' },
+                    { name: 'F',  degree: '♭VI' },
+                    { name: 'C',  degree: '♭III' },
+                    { name: 'Dm', degree: 'iv' },
+                    { name: 'B',  degree: 'II' }
+                ]
+            },
+            'E':  { 
+                chords: ['E', 'F#m', 'G#m', 'A', 'B', 'C#m', 'D#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'D',  degree: '♭VII' },
+                    { name: 'C',  degree: '♭VI' },
+                    { name: 'G',  degree: '♭III' },
+                    { name: 'Am', degree: 'iv' },
+                    { name: 'F#', degree: 'II' }
+                ]
+            },
+            'B':  { 
+                chords: ['B', 'C#m', 'D#m', 'E', 'F#', 'G#m', 'A#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'A',  degree: '♭VII' },
+                    { name: 'G',  degree: '♭VI' },
+                    { name: 'D',  degree: '♭III' },
+                    { name: 'Em', degree: 'iv' },
+                    { name: 'C#', degree: 'II' }
+                ]
+            },
+            'F#': { 
+                chords: ['F#', 'G#m', 'A#m', 'B', 'C#', 'D#m', 'E#dim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'E',  degree: '♭VII' },
+                    { name: 'D',  degree: '♭VI' },
+                    { name: 'A',  degree: '♭III' },
+                    { name: 'Bm', degree: 'iv' },
+                    { name: 'G#', degree: 'II' }
+                ]
+            },
+            'Gb': { 
+                chords: ['Gb', 'Abm', 'Bbm', 'Cb', 'Db', 'Ebm', 'Fdim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'E',   degree: '♭VII' },
+                    { name: 'D',   degree: '♭VI' },
+                    { name: 'A',   degree: '♭III' },
+                    { name: 'Bbm', degree: 'iv' },
+                    { name: 'Ab',  degree: 'II' }
+                ]
+            },
+            'Db': { 
+                chords: ['Db', 'Ebm', 'Fm', 'Gb', 'Ab', 'Bbm', 'Cdim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'B',   degree: '♭VII' },
+                    { name: 'A',   degree: '♭VI' },
+                    { name: 'E',   degree: '♭III' },
+                    { name: 'Gbm', degree: 'iv' },
+                    { name: 'Eb',  degree: 'II' }
+                ]
+            },
+            'Ab': { 
+                chords: ['Ab', 'Bbm', 'Cm', 'Db', 'Eb', 'Fm', 'Gdim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'Gb',  degree: '♭VII' },
+                    { name: 'E',   degree: '♭VI' },
+                    { name: 'B',   degree: '♭III' },
+                    { name: 'Dbm', degree: 'iv' },
+                    { name: 'Bb',  degree: 'II' }
+                ]
+            },
+            'Eb': { 
+                chords: ['Eb', 'Fm', 'Gm', 'Ab', 'Bb', 'Cm', 'Ddim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'Db',  degree: '♭VII' },
+                    { name: 'B',   degree: '♭VI' },
+                    { name: 'Gb',  degree: '♭III' },
+                    { name: 'Abm', degree: 'iv' },
+                    { name: 'F',   degree: 'II' }
+                ]
+            },
+            'Bb': { 
+                chords: ['Bb', 'Cm', 'Dm', 'Eb', 'F', 'Gm', 'Adim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'Ab',  degree: '♭VII' },
+                    { name: 'Gb',  degree: '♭VI' },
+                    { name: 'Db',  degree: '♭III' },
+                    { name: 'Ebm', degree: 'iv' },
+                    { name: 'C',   degree: 'II' }
+                ]
+            },
+            'F':  { 
+                chords: ['F', 'Gm', 'Am', 'Bb', 'C', 'Dm', 'Edim'], 
+                degrees: ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+                borrowed: [
+                    { name: 'Eb',  degree: '♭VII' },
+                    { name: 'Db',  degree: '♭VI' },
+                    { name: 'Ab',  degree: '♭III' },
+                    { name: 'Bbm', degree: 'iv' },
+                    { name: 'G',   degree: 'II' }
+                ]
+            }
+        };
+
+        const minorScales = {
+            'Am':  { 
+                chords: ['Am', 'Bdim', 'C', 'Dm', 'Em', 'F', 'G'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'E',   degree: 'V' },
+                    { name: 'E7',  degree: 'V7' },
+                    { name: 'D',   degree: 'IV' },
+                    { name: 'A',   degree: 'I' },
+                    { name: 'F#m', degree: 'vi' }
+                ]
+            },
+            'Em':  { 
+                chords: ['Em', 'F#dim', 'G', 'Am', 'Bm', 'C', 'D'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'B',   degree: 'V' },
+                    { name: 'B7',  degree: 'V7' },
+                    { name: 'A',   degree: 'IV' },
+                    { name: 'E',   degree: 'I' },
+                    { name: 'C#m', degree: 'vi' }
+                ]
+            },
+            'Bm':  { 
+                chords: ['Bm', 'C#dim', 'D', 'Em', 'F#m', 'G', 'A'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'F#',  degree: 'V' },
+                    { name: 'F#7', degree: 'V7' },
+                    { name: 'E',   degree: 'IV' },
+                    { name: 'B',   degree: 'I' },
+                    { name: 'G#m', degree: 'vi' }
+                ]
+            },
+            'F#m': { 
+                chords: ['F#m', 'G#dim', 'A', 'Bm', 'C#m', 'D', 'E'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'C#',  degree: 'V' },
+                    { name: 'C#7', degree: 'V7' },
+                    { name: 'B',   degree: 'IV' },
+                    { name: 'F#',  degree: 'I' },
+                    { name: 'D#m', degree: 'vi' }
+                ]
+            },
+            'C#m': { 
+                chords: ['C#m', 'D#dim', 'E', 'F#m', 'G#m', 'A', 'B'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'G#',  degree: 'V' },
+                    { name: 'G#7', degree: 'V7' },
+                    { name: 'F#',  degree: 'IV' },
+                    { name: 'C#',  degree: 'I' },
+                    { name: 'A#m', degree: 'vi' }
+                ]
+            },
+            'G#m': { 
+                chords: ['G#m', 'A#dim', 'B', 'C#m', 'D#m', 'E', 'F#'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'D#',  degree: 'V' },
+                    { name: 'D#7', degree: 'V7' },
+                    { name: 'C#',  degree: 'IV' },
+                    { name: 'G#',  degree: 'I' }
+                ]
+            },
+            'Ebm': { 
+                chords: ['Ebm', 'Fdim', 'Gb', 'Abm', 'Bbm', 'Cb', 'Db'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'Bb',  degree: 'V' },
+                    { name: 'Bb7', degree: 'V7' },
+                    { name: 'Ab',  degree: 'IV' },
+                    { name: 'Eb',  degree: 'I' }
+                ]
+            },
+            'Bbm': { 
+                chords: ['Bbm', 'Cdim', 'Db', 'Ebm', 'Fm', 'Gb', 'Ab'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'F',   degree: 'V' },
+                    { name: 'F7',  degree: 'V7' },
+                    { name: 'Eb',  degree: 'IV' },
+                    { name: 'Bb',  degree: 'I' }
+                ]
+            },
+            'Fm':  { 
+                chords: ['Fm', 'Gdim', 'Ab', 'Bbm', 'Cm', 'Db', 'Eb'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'C',   degree: 'V' },
+                    { name: 'C7',  degree: 'V7' },
+                    { name: 'Bb',  degree: 'IV' },
+                    { name: 'F',   degree: 'I' },
+                    { name: 'Dm',  degree: 'vi' }
+                ]
+            },
+            'Cm':  { 
+                chords: ['Cm', 'Ddim', 'Eb', 'Fm', 'Gm', 'Ab', 'Bb'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'G',   degree: 'V' },
+                    { name: 'G7',  degree: 'V7' },
+                    { name: 'F',   degree: 'IV' },
+                    { name: 'C',   degree: 'I' },
+                    { name: 'Am',  degree: 'vi' }
+                ]
+            },
+            'Gm':  { 
+                chords: ['Gm', 'Adim', 'Bb', 'Cm', 'Dm', 'Eb', 'F'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'D',   degree: 'V' },
+                    { name: 'D7',  degree: 'V7' },
+                    { name: 'C',   degree: 'IV' },
+                    { name: 'G',   degree: 'I' },
+                    { name: 'Em',  degree: 'vi' }
+                ]
+            },
+            'Dm':  { 
+                chords: ['Dm', 'Edim', 'F', 'Gm', 'Am', 'Bb', 'C'], 
+                degrees: ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+                borrowed: [
+                    { name: 'A',   degree: 'V' },
+                    { name: 'A7',  degree: 'V7' },
+                    { name: 'G',   degree: 'IV' },
+                    { name: 'D',   degree: 'I' },
+                    { name: 'Bm',  degree: 'vi' }
+                ]
+            }
+        };
+
+        let key = String(rawKey || 'C').trim();
+        key = key.replace(/major/i, '').replace(/minor/i, 'm').trim();
+        if (key.includes('/')) key = key.split('/')[0].trim();
+        if (key.includes(' ')) key = key.split(' ')[0].trim();
+
+        // Enharmonic normalization
+        const aliasMap = {
+            'A#': 'Bb', 'A#m': 'Bbm',
+            'D#': 'Eb', 'D#m': 'Ebm',
+            'G#': 'Ab', 'Abm': 'G#m',
+            'C#': 'Db'
+        };
+        if (aliasMap[key]) key = aliasMap[key];
+
+        if (minorScales[key]) {
+            return { key, isMinor: true, chords: minorScales[key].chords, degrees: minorScales[key].degrees, borrowed: minorScales[key].borrowed || [] };
+        }
+        if (majorScales[key]) {
+            return { key, isMinor: false, chords: majorScales[key].chords, degrees: majorScales[key].degrees, borrowed: majorScales[key].borrowed || [] };
+        }
+        // Fallback to C major
+        return { key: 'C', isMinor: false, chords: majorScales['C'].chords, degrees: majorScales['C'].degrees, borrowed: majorScales['C'].borrowed || [] };
+    }
+
+    /**
+     * Renders the Horizontal Linear Diatonic & Borrowed Chords bar inside this.linearContainer.
+     * @param {string} songKey
+     */
+    renderLinearChords(songKey) {
+        if (!this.linearContainer) return;
+        this.linearContainer.innerHTML = '';
+
+        const scaleData = this.getDiatonicScale(songKey || this._currentCofKey);
+        const activeKey = scaleData.key;
+
+        // 1. Key Bar (Label + Key Dropdown Selector)
+        const keyBar = document.createElement('div');
+        keyBar.className = 'linear-key-bar';
+
+        const keyLabel = document.createElement('span');
+        keyLabel.className = 'linear-key-label';
+        keyLabel.textContent = 'Key:';
+
+        const keySelect = document.createElement('select');
+        keySelect.className = 'linear-key-select';
+        keySelect.title = 'Select Key for Diatonic & Borrowed Chords';
+
+        const allKeyOptions = [
+            'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F',
+            'Am', 'Em', 'Bm', 'F#m', 'C#m', 'G#m', 'Ebm', 'Bbm', 'Fm', 'Cm', 'Gm', 'Dm'
+        ];
+
+        allKeyOptions.forEach(k => {
+            const opt = document.createElement('option');
+            opt.value = k;
+            opt.textContent = k.endsWith('m') ? `${k} (minor)` : `${k} (major)`;
+            if (k === activeKey) opt.selected = true;
+            keySelect.appendChild(opt);
+        });
+
+        keySelect.addEventListener('change', (e) => {
+            e.stopPropagation();
+            const chosenKey = keySelect.value;
+            this.updateWidgetKey(chosenKey);
+        });
+
+        keyBar.appendChild(keyLabel);
+        keyBar.appendChild(keySelect);
+        this.linearContainer.appendChild(keyBar);
+
+        // Reusable card creator
+        const createChordCard = (chordName, degree, roleClass) => {
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.className = `linear-chord-card ${roleClass}`;
+            card.title = `${chordName} (${degree}) — Click: preview | Double-click: insert | Hold 2s: set key`;
+
+            const nameEl = document.createElement('span');
+            nameEl.className = 'linear-chord-name';
+            nameEl.textContent = chordName;
+
+            const degEl = document.createElement('span');
+            degEl.className = 'linear-chord-degree';
+            degEl.textContent = degree;
+
+            card.appendChild(nameEl);
+            card.appendChild(degEl);
+
+            let longPressTimer = null;
+
+            // Single click / pointerdown: play audio preview
+            card.addEventListener('pointerdown', (e) => {
+                if (e) e.preventDefault();
+                this.playChordAudioPreview(chordName);
+
+                // Long press 2s to set key
+                if (longPressTimer) clearTimeout(longPressTimer);
+                longPressTimer = setTimeout(() => {
+                    longPressTimer = null;
+                    this.updateWidgetKey(chordName);
+                }, 2000);
+            });
+
+            const cancelLongPress = () => {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+            };
+            card.addEventListener('pointerup', cancelLongPress);
+            card.addEventListener('pointercancel', cancelLongPress);
+            card.addEventListener('pointerleave', cancelLongPress);
+
+            // Double click: insert chord into selected block
+            card.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                cancelLongPress();
+                this.insertChordFromCof(chordName);
+            });
+
+            return card;
+        };
+
+        // 2. Diatonic Heading & Chords Row (7 horizontal chord cards)
+        const diatonicHeading = document.createElement('div');
+        diatonicHeading.className = 'linear-section-title';
+        diatonicHeading.textContent = 'Diatonic Chords';
+        this.linearContainer.appendChild(diatonicHeading);
+
+        const chordsRow = document.createElement('div');
+        chordsRow.className = 'linear-chords-row';
+
+        scaleData.chords.forEach((chordName, idx) => {
+            const degree = scaleData.degrees[idx];
+            let roleClass = '';
+            if (!scaleData.isMinor) {
+                if (idx === 0 || idx === 5) roleClass = 'role-tonic';
+                else if (idx === 3 || idx === 1) roleClass = 'role-subdominant';
+                else if (idx === 4 || idx === 6) roleClass = 'role-dominant';
+            } else {
+                if (idx === 0 || idx === 2) roleClass = 'role-tonic';
+                else if (idx === 3 || idx === 5 || idx === 1) roleClass = 'role-subdominant';
+                else if (idx === 4 || idx === 6) roleClass = 'role-dominant';
+            }
+
+            const card = createChordCard(chordName, degree, roleClass);
+            chordsRow.appendChild(card);
+        });
+
+        this.linearContainer.appendChild(chordsRow);
+
+        // 3. Borrowed / Modal Chords Section
+        if (scaleData.borrowed && scaleData.borrowed.length > 0) {
+            const borrowedHeading = document.createElement('div');
+            borrowedHeading.className = 'linear-section-title';
+            borrowedHeading.style.marginTop = '6px';
+            borrowedHeading.textContent = 'Common Borrowed / Modal Chords';
+            this.linearContainer.appendChild(borrowedHeading);
+
+            const borrowedRow = document.createElement('div');
+            borrowedRow.className = 'linear-borrowed-row';
+
+            scaleData.borrowed.forEach(item => {
+                const card = createChordCard(item.name, item.degree, 'role-borrowed');
+                borrowedRow.appendChild(card);
+            });
+
+            this.linearContainer.appendChild(borrowedRow);
+        }
+    }
+
+    /**
+     * Plays chord audio preview using available audio engines.
+     * @param {string} chordName
+     */
+    playChordAudioPreview(chordName) {
+        if (typeof initAudio === 'function') initAudio();
+        if (typeof triggerChordAudio === 'function') {
+            triggerChordAudio(chordName, 2.0, true);
+        } else if (this.sharedAudioPlayer) {
+            const parsed = this.chordParser ? this.chordParser.parse(chordName) : null;
+            if (parsed && parsed.notes) {
+                this.sharedAudioPlayer.initialize().then(() => {
+                    this.sharedAudioPlayer.playChord(parsed.notes, 2.0);
+                });
+            }
+        }
+    }
+
+    /**
+     * Updates key across the song modal, KEY field, and edit widget.
+     * @param {string} newKey
+     */
+    updateWidgetKey(newKey) {
+        if (this.keyDisplay) {
+            this.keyDisplay.textContent = newKey;
+            this.checkForChanges();
+        }
+        this._currentCofKey = newKey;
+        if (this.cofViewMode === 'linear') {
+            this.renderLinearChords(newKey);
+        } else {
+            this.renderCofSvg(newKey);
         }
     }
 

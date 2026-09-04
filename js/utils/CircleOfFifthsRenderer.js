@@ -125,8 +125,10 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
     };
 
     // ── Long-press state ─────────────────────────────────────────────────────
-    const LONG_PRESS_DURATION = 2000; // ms
+    const LONG_PRESS_DURATION = 2000; // ms total to set key
+    const LONG_PRESS_SHOW_DELAY = 1000; // ms before progress ring becomes visible (prevents flash on normal clicks)
     let longPressTimer = null;
+    let longPressShowTimer = null;
     let longPressOverlay = null;
 
     function showLongPressProgress(duration) {
@@ -164,6 +166,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
     }
 
     function cancelLongPress() {
+        if (longPressShowTimer) { clearTimeout(longPressShowTimer); longPressShowTimer = null; }
         if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
         if (longPressOverlay && longPressOverlay.parentNode) {
             longPressOverlay.parentNode.removeChild(longPressOverlay);
@@ -172,17 +175,26 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
     }
 
     /**
-     * Attaches a 3-second hold gesture to a sector <g>.
+     * Attaches a hold gesture to a sector <g>.
      * Only active when onKeySelected callback is provided.
+     * Starts showing the progress ring after 1s of holding.
      */
     function attachLongPress(g, chordName, isMajor) {
         if (typeof onKeySelected !== 'function') return;
 
         g.addEventListener('pointerdown', () => {
             cancelLongPress();
-            showLongPressProgress(LONG_PRESS_DURATION);
+            
+            // Only show the progress ring after holding for 1 second (so normal clicks never show it)
+            const remainingDuration = LONG_PRESS_DURATION - LONG_PRESS_SHOW_DELAY;
+            longPressShowTimer = setTimeout(() => {
+                longPressShowTimer = null;
+                showLongPressProgress(remainingDuration);
+            }, LONG_PRESS_SHOW_DELAY);
+
             longPressTimer = setTimeout(() => {
                 longPressTimer = null;
+                if (longPressShowTimer) { clearTimeout(longPressShowTimer); longPressShowTimer = null; }
                 if (longPressOverlay && longPressOverlay.parentNode) {
                     longPressOverlay.parentNode.removeChild(longPressOverlay);
                     longPressOverlay = null;

@@ -12662,7 +12662,7 @@ body.theme-high-contrast .stats-chart-label {
 
 
 /* ===================================================
-   Circle of Fifths Edit Widget — Song Detail Modal
+   Circle of Fifths / Linear Chords Widget — Song Detail Modal
    =================================================== */
 
 .song-detail-cof-widget {
@@ -12679,8 +12679,13 @@ body.theme-high-contrast .stats-chart-label {
     touch-action: none;
     bottom: 200px;
     right: 40px;
-    width: 268px;
+    width: 310px;
+    transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     animation: modalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.song-detail-cof-widget.view-linear {
+    width: min(96vw, 440px);
 }
 
 .song-detail-cof-widget.hidden {
@@ -12697,14 +12702,62 @@ body.theme-high-contrast .stats-chart-label {
     padding-bottom: 5px;
     cursor: grab;
     user-select: none;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
     color: #1e293b;
     font-family: 'Outfit', sans-serif;
-    gap: 6px;
+    gap: 8px;
 }
 
 .song-detail-cof-header:active { cursor: grabbing; }
+
+.cof-header-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #1e293b;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cof-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.cof-view-toggle {
+    display: inline-flex;
+    background: #f1f5f9;
+    border-radius: 20px;
+    padding: 2px;
+    border: 1px solid #e2e8f0;
+}
+
+.cof-toggle-btn {
+    border: none;
+    background: transparent;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    color: #64748b;
+    padding: 2px 6px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.cof-toggle-btn:hover {
+    color: #1e293b;
+}
+
+.cof-toggle-btn.active {
+    background: #6366f1;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(99, 102, 241, 0.35);
+}
 
 .song-detail-cof-close {
     background: none;
@@ -12756,6 +12809,163 @@ body.theme-high-contrast .stats-chart-label {
 .cof-block-pill:hover { background: #f1f5f9; border-color: #94a3b8; }
 .cof-block-pill.active { background: #667eea; border-color: #667eea; color: #ffffff; }
 
+/* ─── Linear Diatonic Chords View ─── */
+.song-detail-linear-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 0 2px;
+}
+
+.song-detail-linear-container.hidden {
+    display: none !important;
+}
+
+.linear-key-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 2px;
+}
+
+.linear-key-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.linear-key-select {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1e293b;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 2px 8px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.linear-key-select:focus {
+    border-color: #6366f1;
+}
+
+.linear-chords-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+
+.linear-chord-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 2px 6px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.linear-chord-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-color: #94a3b8;
+    background: #ffffff;
+}
+
+.linear-chord-card:active {
+    transform: translateY(0) scale(0.96);
+    background: #e0e7ff;
+}
+
+/* Harmonic role styling */
+.linear-chord-card.role-tonic {
+    border-color: #6366f1;
+    background: #eef2ff;
+}
+.linear-chord-card.role-tonic .linear-chord-name {
+    color: #4338ca;
+}
+
+.linear-chord-card.role-subdominant {
+    border-color: #0ea5e9;
+    background: #f0f9ff;
+}
+.linear-chord-card.role-subdominant .linear-chord-name {
+    color: #0369a1;
+}
+
+.linear-chord-card.role-dominant {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
+.linear-chord-card.role-dominant .linear-chord-name {
+    color: #b45309;
+}
+
+.linear-chord-card.role-borrowed {
+    border-color: #f0abfc;
+    background: #fdf4ff;
+}
+.linear-chord-card.role-borrowed .linear-chord-name {
+    color: #86198f;
+}
+.linear-chord-card.role-borrowed .linear-chord-degree {
+    color: #a21caf;
+}
+
+.linear-section-title {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 2px 0 1px 2px;
+}
+
+.linear-borrowed-row {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.linear-borrowed-row .linear-chord-card {
+    flex: 1;
+    min-width: 40px;
+}
+
+.linear-chord-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.1;
+    font-family: 'Outfit', sans-serif;
+    margin-bottom: 3px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.linear-chord-degree {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #64748b;
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.2px;
+}
+
 .cof-hint {
     font-size: 10px;
     color: #94a3b8;
@@ -12771,11 +12981,17 @@ body.theme-high-contrast .stats-chart-label {
         left: 50% !important;
         right: auto !important;
         transform: translateX(-50%) !important;
-        width: 230px;
+        width: min(94vw, 300px);
+    }
+    .song-detail-cof-widget.view-linear {
+        width: min(94vw, 380px) !important;
     }
     #songDetailCofContainer {
-        width: 200px !important;
-        height: 200px !important;
+        width: 220px !important;
+        height: 220px !important;
+    }
+    .linear-chord-name {
+        font-size: 12px;
     }
 }
 
