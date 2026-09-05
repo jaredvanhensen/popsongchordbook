@@ -1,0 +1,941 @@
+{
+  "version": "1.0",
+  "exportDate": "2026-09-05T08:21:00.000Z",
+  "songs": [
+    {
+      "artist": "Phil Collins",
+      "title": "Another Day in Paradise",
+      "verse": "Fm2 D#2 Bbm",
+      "chorus": "Fm D#3 Bbm2 Fm D# (4x)",
+      "preChorus": "Fm2 D#2 C#2 D#2",
+      "bridge": "D#3 Fm D# G# 2x",
+      "favorite": false,
+      "youtubeUrl": "https://youtu.be/Qt2mbGP6vFI?si=8jyGgEuGo1D60szP",
+      "externalUrl": "",
+      "key": "D#",
+      "verseCue": "Intro",
+      "preChorusCue": "Oh..think twice",
+      "chorusCue": "She walks out",
+      "bridgeCue": "Oh lord",
+      "fullLyrics": "[00:56.419] She calls out to the man on the street\n[01:01.591] Sir can you help me\n[01:06.033] It's cold and I've nowhere to sleep\n[01:10.494] Is there somewhere you can tell me\n[01:15.172] He walks on doesn't look back\n[01:19.959] He pretends he can't hear her\n[01:24.679] Starts to whistle\n[01:25.998] As he crosses the street\n[01:29.290] Seems embarrassed to be there\n[01:33.718] Oh think twice\n[01:37.576] It's another day for you and me in paradise\n[01:43.166] Oh think twice\n[01:46.985] It's another day for you in this paradise\n[02:01.298] Just think about it\n[02:11.718] She calls out to the man on the street\n[02:16.523] He can see she's been crying\n[02:21.014] Shen's got blisters\n[02:22.281] On the soles of her feet\n[02:25.937] She can't walk but she's trying\n[02:29.877] Oh think twice\n[02:34.092] It's another day for you and me in paradise\n[02:39.321] Oh think twice\n[02:43.420] It's just another day for you in this paradise\n[02:57.564] Just think about it\n[03:09.231] Oh lord is there nothing more anybody can do\n[03:17.276] Oh lord there must be something you can say\n[03:29.463] You can tell from the lines on her face\n[03:34.074] You can see that she's been there\n[03:38.373] Probably been moved on from every place\n[03:43.520] Cause she didn't fit in there\n[03:47.971] Oh think twice\n[03:51.961] It's another day for you and me in paradise\n[03:57.147] Oh think twice\n[04:01.310] It's just another day for you you need paradise\n[04:10.526] Just think about it\n[04:20.125] Think about it\n[04:24.871] It's just another day for you and me in paradise\n[04:34.237] It's just another day for you and me in paradise\n[04:44.019] Paradise\n[04:48.267] Just think about it\n[04:53.323] Paradise\n[04:57.662] Just think about it\n[05:02.736] Paradise paradise",
+      "chordData": {
+        "barOffset": 0,
+        "chords": [
+          {
+            "name": "Fm2",
+            "time": 0,
+            "yOffset": -50
+          },
+          {
+            "name": "D#2",
+            "time": 3.382,
+            "yOffset": -50
+          },
+          {
+            "name": "Bbm2",
+            "time": 7.941,
+            "yOffset": -50
+          },
+          {
+            "name": "Fm2",
+            "time": 12.726503066757202,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 15.021815120162964,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 16.126710019073485,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 17.360864011444093,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 19.752158185012817,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 20.950731175476076,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 22.084876940872192,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 24.430894080108644,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 25.574317950408936,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 26.7937488588562,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 29.15208808201599,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 30.342851051498414,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 31.471809856948852,
+            "yOffset": -65
+          },
+          {
+            "name": "D#3",
+            "time": 33.855882062942506,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 34.98738798474121,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 36.33496396376037,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 38.5541519294281,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 40.95234087602234,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 43.28185301525879,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 44.46591291035462,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 45.62922189700318,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 48.05820908392334,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 50.39989683024597,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 52.711874937057495,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 53.85533008773804,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 55.05707784741211,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 57.43255290844726,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 59.825362093460086,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 62.154818087738036,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 63.32114500190735,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 64.46695709918212,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 66.89681690463257,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 69.27197295231629,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 71.60334801673889,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 72.82200598716736,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 73.94695711135864,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 76.27506685256958,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 78.6917610168457,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 81.06645679473877,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 82.2619059085846,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 83.41505312919617,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 85.7686779499054,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 88.08383893966675,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 90.46824979782104,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 91.68812608718872,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 92.79374885559082,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 95.14327478408813,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 96.3475251197815,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 97.47355008125305,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 99.82522702217102,
+            "yOffset": -35
+          },
+          {
+            "name": "C#2",
+            "time": 101.01802515983582,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 102.16434407234192,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 103.3512909412384,
+            "yOffset": -65
+          },
+          {
+            "name": "D#3",
+            "time": 105.74838495254517,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 106.87788486480713,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 108.06456089019775,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 110.42848992347717,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 112.78345704078674,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 115.14488315582275,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 116.31172895431519,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 117.47648000717163,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 119.86526393890381,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 122.25996994972229,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 124.58882594108582,
+            "yOffset": -35
+          },
+          {
+            "name": "C#2",
+            "time": 125.7535560131073,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 126.96884608268738,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 128.10651898384094,
+            "yOffset": -65
+          },
+          {
+            "name": "D#3",
+            "time": 130.49015092849731,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 131.64205598831177,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 132.84556484222412,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 135.25056791305542,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 137.60424089431763,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 139.9572970867157,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 141.1396360397339,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 142.30219507217407,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 144.68536806106567,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 147.05432796478271,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 149.3698079586029,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 150.56947207450867,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 151.7288670539856,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 154.06649708747864,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 155.26788997650146,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 156.41724395751953,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 158.74900794029236,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 159.94639992713928,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 161.08271288871765,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 163.48622107505798,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 164.67381501197815,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 165.81157803535461,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 168.18820691108704,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 169.38048100471497,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 170.52841901779175,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 172.90979409217834,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 174.07549786567688,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 175.24159598350525,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 177.60462999343872,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 178.7845778465271,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 179.95759797096252,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 182.32766699790955,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 183.50428986549377,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 184.67381501197815,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 188.2386929988861,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 189.41804599761963,
+            "yOffset": -65
+          },
+          {
+            "name": "G#",
+            "time": 190.5796799659729,
+            "yOffset": -35
+          },
+          {
+            "name": "D#3",
+            "time": 194.13735103607178,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 197.68535089492798,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 198.8550148010254,
+            "yOffset": -65
+          },
+          {
+            "name": "G#",
+            "time": 200.02484488487244,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 203.6264669895172,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 205.99285197257996,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 207.1648988723755,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 208.31885504722595,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 210.6698260307312,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 211.8541579246521,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 213.0456109046936,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 215.4208447933197,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 216.593740940094,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 217.7552559375763,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 220.10093808174133,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 221.30932593345642,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 222.4578149318695,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 224.8142340183258,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 226.0125880241394,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 227.1683440208435,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 229.54471397399902,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 230.7359540462494,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 231.86720085144043,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 234.24949502944946,
+            "yOffset": -35
+          },
+          {
+            "name": "C#2",
+            "time": 235.4370219707489,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 236.6231369972229,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 237.78453493118286,
+            "yOffset": -65
+          },
+          {
+            "name": "D#3",
+            "time": 240.1650390625,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm2",
+            "time": 241.31972694396973,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 242.49652194976807,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 244.87285685539246,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm",
+            "time": 247.2370729446411,
+            "yOffset": -35
+          },
+          {
+            "name": "D#",
+            "time": 249.5962369441986,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm2",
+            "time": 250.77114701271057,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm",
+            "time": 251.93922305107117,
+            "yOffset": -65
+          },
+          {
+            "name": "D#",
+            "time": 254.34149980545044,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 256.70293402671814,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 259.0494499206543,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 260.23749899864197,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 261.3857500553131,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 263.7634289264679,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 264.95470094680786,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 266.11029291152954,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 268.46820282936096,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 269.65839886665344,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 270.81057691574097,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 273.1868350505829,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 274.37505197525024,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 275.5255479812622,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 277.8974549770355,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 279.0880310535431,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 280.2359480857849,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 282.6074171066284,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 283.7885060310364,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 284.9754128456116,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 287.32415199279785,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 288.5135118961334,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 289.673898935318,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 292.0519390106201,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 293.2272210121155,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 294.3980770111084,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 296.7601668834686,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 297.9405629634857,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 299.1030991077423,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 301.4727199077606,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 302.67116808891296,
+            "yOffset": -35
+          },
+          {
+            "name": "Fm2",
+            "time": 303.82912492752075,
+            "yOffset": -65
+          },
+          {
+            "name": "D#2",
+            "time": 306.19522190093994,
+            "yOffset": -35
+          },
+          {
+            "name": "Bbm",
+            "time": 307.378947019577,
+            "yOffset": -65
+          },
+          {
+            "name": "Fm2",
+            "time": 308.53763794898987,
+            "yOffset": -35
+          },
+          {
+            "name": "D#2",
+            "time": 310.9238800907135,
+            "yOffset": -65
+          },
+          {
+            "name": "Bbm",
+            "time": 312.11226081848145,
+            "yOffset": -35
+          }
+        ],
+        "duration": 315.42,
+        "name": "AnotherDay",
+        "tempo": 102
+      },
+      "practiceCount": "2",
+      "patchDetails": "",
+      "lyricOffset": 0,
+      "performAbility": 0,
+      "verseTitle": "Intro/Verse",
+      "preChorusTitle": "Pre-Chorus",
+      "chorusTitle": "Chorus",
+      "bridgeTitle": "Bridge",
+      "songNotes": "",
+      "capo": 0,
+      "isPublic": false,
+      "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+      "dateAdded": "2026-04-09T00:00:00.000Z",
+      "id": "phil_collins_another_day_in_paradise_1788589701188",
+      "tempo": "102"
+    }
+  ]
+}

@@ -272175,6 +272175,935 @@ const DEFAULT_SONGS = [
     },
     {
         "artist": "Phil Collins",
+        "title": "Another Day in Paradise",
+        "verse": "Fm2 D#2 Bbm",
+        "chorus": "Fm D#3 Bbm2 Fm D# (4x)",
+        "preChorus": "Fm2 D#2 C#2 D#2",
+        "bridge": "D#3 Fm D# G# 2x",
+        "favorite": false,
+        "youtubeUrl": "https://youtu.be/Qt2mbGP6vFI?si=8jyGgEuGo1D60szP",
+        "externalUrl": "",
+        "key": "D#",
+        "verseCue": "Intro",
+        "preChorusCue": "Oh..think twice",
+        "chorusCue": "She walks out",
+        "bridgeCue": "Oh lord",
+        "fullLyrics": "[00:56.419] She calls out to the man on the street\n[01:01.591] Sir can you help me\n[01:06.033] It's cold and I've nowhere to sleep\n[01:10.494] Is there somewhere you can tell me\n[01:15.172] He walks on doesn't look back\n[01:19.959] He pretends he can't hear her\n[01:24.679] Starts to whistle\n[01:25.998] As he crosses the street\n[01:29.290] Seems embarrassed to be there\n[01:33.718] Oh think twice\n[01:37.576] It's another day for you and me in paradise\n[01:43.166] Oh think twice\n[01:46.985] It's another day for you in this paradise\n[02:01.298] Just think about it\n[02:11.718] She calls out to the man on the street\n[02:16.523] He can see she's been crying\n[02:21.014] Shen's got blisters\n[02:22.281] On the soles of her feet\n[02:25.937] She can't walk but she's trying\n[02:29.877] Oh think twice\n[02:34.092] It's another day for you and me in paradise\n[02:39.321] Oh think twice\n[02:43.420] It's just another day for you in this paradise\n[02:57.564] Just think about it\n[03:09.231] Oh lord is there nothing more anybody can do\n[03:17.276] Oh lord there must be something you can say\n[03:29.463] You can tell from the lines on her face\n[03:34.074] You can see that she's been there\n[03:38.373] Probably been moved on from every place\n[03:43.520] Cause she didn't fit in there\n[03:47.971] Oh think twice\n[03:51.961] It's another day for you and me in paradise\n[03:57.147] Oh think twice\n[04:01.310] It's just another day for you you need paradise\n[04:10.526] Just think about it\n[04:20.125] Think about it\n[04:24.871] It's just another day for you and me in paradise\n[04:34.237] It's just another day for you and me in paradise\n[04:44.019] Paradise\n[04:48.267] Just think about it\n[04:53.323] Paradise\n[04:57.662] Just think about it\n[05:02.736] Paradise paradise",
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "Fm2",
+                    "time": 0,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D#2",
+                    "time": 3.382,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 7.941,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Fm2",
+                    "time": 12.726503066757202,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 15.021815120162964,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 16.126710019073485,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 17.360864011444093,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 19.752158185012817,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 20.950731175476076,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 22.084876940872192,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 24.430894080108644,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 25.574317950408936,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 26.7937488588562,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 29.15208808201599,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 30.342851051498414,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 31.471809856948852,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#3",
+                    "time": 33.855882062942506,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 34.98738798474121,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 36.33496396376037,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 38.5541519294281,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 40.95234087602234,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 43.28185301525879,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 44.46591291035462,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 45.62922189700318,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 48.05820908392334,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 50.39989683024597,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 52.711874937057495,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 53.85533008773804,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 55.05707784741211,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#",
+                    "time": 57.43255290844726,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 59.825362093460086,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 62.154818087738036,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 63.32114500190735,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 64.46695709918212,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 66.89681690463257,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 69.27197295231629,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 71.58937900762939,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#2",
+                    "time": 73.92628289700318,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 76.29700097711182,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 78.67948601716614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 81.06754907629394,
+                    "yOffset": -35
+                },
+                {
+                    "name": "C#2",
+                    "time": 83.3992299370575,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 85.73049891989136,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 88.2946508588562,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 88.72059490844727,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 90.3833699217987,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 91.57625987983704,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 92.78461322125244,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 95.1747689294281,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 96.33518596757507,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 97.52260820599365,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 99.90542492370605,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 100.9944088626709,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 102.2100451525879,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 104.54542498092651,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 105.71939895803833,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 106.94967316784668,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 109.2713799332428,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 110.42590579400635,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 111.59963293705749,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 114.00987696757507,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 116.35047995231628,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#3",
+                    "time": 118.52941176470588,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 119.70588235294117,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 121.1764705882353,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 123.37784399809266,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 125.80445591798401,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 128.14194412016298,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#2",
+                    "time": 130.5255569217987,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 132.8585171335144,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 135.18803298092652,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 137.56907,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#2",
+                    "time": 139.93174605912782,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 142.3100900152588,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 144.70195197520448,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 146.97528109727477,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 148.14996916784668,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 149.32797892752075,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 151.7194571029968,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 152.81614193896485,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 154.0610399923706,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 156.3805259961853,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 157.55451104577637,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 158.75723395231628,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 161.11830495994568,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 162.296960956131,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#3",
+                    "time": 163.61897709918213,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 165.76642989128112,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 168.1701880782013,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 170.5620960858307,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#3",
+                    "time": 172.908963792099,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 175.2370658474121,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 177.62107705340577,
+                    "yOffset": -35
+                },
+                {
+                    "name": "G#",
+                    "time": 180.00164697711182,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 184.66616998664855,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#3",
+                    "time": 187.04608500572203,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 188.15962211253358,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 189.36088411062622,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#",
+                    "time": 191.78812606103514,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm",
+                    "time": 194.15302498474122,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#3",
+                    "time": 196.48076002098082,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm2",
+                    "time": 197.5857499923706,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 198.81403817929078,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#",
+                    "time": 201.21289201335145,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 203.57127804005432,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 205.9201601487732,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#2",
+                    "time": 208.273589835968,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 210.61873802670289,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm",
+                    "time": 212.9498439065399,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 215.32627797711183,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#2",
+                    "time": 217.70596290081787,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 220.0981290038147,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 222.44422803051756,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 224.74521012588502,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 225.8831760896454,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 227.12549788365175,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 229.4967459332428,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 230.58781996566773,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 231.8401507730255,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 234.16514603623963,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 235.33379106484986,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 236.54876290844726,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 238.86121294277953,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 240.04314888937378,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 241.25604090081788,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 243.61401108392334,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 244.73999101335144,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 245.9520088588562,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 248.31282806294251,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 249.4500370267029,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 250.68769801907348,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 253.03568082643127,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 254.18431594659424,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 255.40868487602233,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 257.72598893133545,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 258.8609601125336,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 260.1269839408722,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 262.4478169332428,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 263.5941540324249,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 264.8338809828339,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 267.14065298664855,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 268.3398760362396,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Fm2",
+                    "time": 269.5765639370575,
+                    "yOffset": -35
+                },
+                {
+                    "name": "D#2",
+                    "time": 271.8894840839233,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bbm",
+                    "time": 273.0336308512268,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Fm2",
+                    "time": 274.24061001716615,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D#2",
+                    "time": 276.5947930553131,
+                    "yOffset": -35
+                },
+                {
+                    "name": "Bbm",
+                    "time": 277.7225629332428,
+                    "yOffset": -65
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 2,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 14,
+                    "name": "INTRO",
+                    "startIdx": 3,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 34,
+                    "name": "VERSE 1",
+                    "startIdx": 15,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 42,
+                    "name": "CHORUS",
+                    "startIdx": 35,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 55,
+                    "name": "INTRO",
+                    "startIdx": 43,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 65,
+                    "name": "VERSE 2",
+                    "startIdx": 56,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 73,
+                    "name": "CHORUS",
+                    "startIdx": 66,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 85,
+                    "name": "INTRO",
+                    "startIdx": 74,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 93,
+                    "name": "BRIDGE",
+                    "startIdx": 86,
+                    "type": "bridge"
+                },
+                {
+                    "endIdx": 103,
+                    "name": "VERSE 3",
+                    "startIdx": 94,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 111,
+                    "name": "CHORUS",
+                    "startIdx": 104,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 147,
+                    "name": "INTRO",
+                    "startIdx": 112,
+                    "type": "intro"
+                }
+            ],
+            "duration": 300,
+            "name": "Phil Collins - Another Day in Paradise",
+            "tempo": 102,
+            "useFlatNotation": false
+        },
+        "practiceCount": "4",
+        "patchDetails": "",
+        "lyricOffset": -25,
+        "performAbility": 0,
+        "verseTitle": "INTRO",
+        "preChorusTitle": "CHORUS",
+        "chorusTitle": "VERSE",
+        "bridgeTitle": "BRIDGE",
+        "songNotes": "",
+        "capo": 0,
+        "isPublic": true,
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "customMapSections": [
+            {
+                "endIdx": 2,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 14,
+                "name": "INTRO",
+                "startIdx": 3,
+                "type": "intro"
+            },
+            {
+                "endIdx": 34,
+                "name": "VERSE 1",
+                "startIdx": 15,
+                "type": "verse"
+            },
+            {
+                "endIdx": 42,
+                "name": "CHORUS",
+                "startIdx": 35,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 55,
+                "name": "INTRO",
+                "startIdx": 43,
+                "type": "intro"
+            },
+            {
+                "endIdx": 65,
+                "name": "VERSE 2",
+                "startIdx": 56,
+                "type": "verse"
+            },
+            {
+                "endIdx": 73,
+                "name": "CHORUS",
+                "startIdx": 66,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 85,
+                "name": "INTRO",
+                "startIdx": 74,
+                "type": "intro"
+            },
+            {
+                "endIdx": 93,
+                "name": "BRIDGE",
+                "startIdx": 86,
+                "type": "bridge"
+            },
+            {
+                "endIdx": 103,
+                "name": "VERSE 3",
+                "startIdx": 94,
+                "type": "verse"
+            },
+            {
+                "endIdx": 111,
+                "name": "CHORUS",
+                "startIdx": 104,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 147,
+                "name": "INTRO",
+                "startIdx": 112,
+                "type": "intro"
+            }
+        ],
+        "dateAdded": "2026-03-26T21:00:00.000Z",
+        "id": 12,
+        "tempo": 102
+    },
+    {
+        "artist": "Phil Collins",
         "bridge": "G# D# Fm D# 2x",
         "bridgeCue": "",
         "bridgeTitle": "BRIDGE PT.2",
@@ -296726,6 +297655,535 @@ const DEFAULT_SONGS = [
         "verseTitle": "VERSE & Chorus",
         "year": "1981",
         "youtubeUrl": "https://youtu.be/QYHxGBH6o4M?is=Fjz4i1cGXb5imV5I"
+    },
+    {
+        "artist": "Robbie Williams",
+        "title": "Angels",
+        "verse": "E A C#m B",
+        "chorus": "F#m A C#m A | D A E 2x",
+        "preChorus": "B C#m A (E) 2x|  F#m D A E",
+        "bridge": "Bm A E 2x",
+        "favorite": false,
+        "youtubeUrl": "https://youtu.be/luwAMFcc2f8?si=47GXH1627gQVmQFG",
+        "externalUrl": "",
+        "key": "E",
+        "verseCue": "",
+        "preChorusCue": "",
+        "chorusCue": "",
+        "bridgeCue": "",
+        "fullLyrics": "[00:05.992] I sit and wait\n[00:09.080] Does an angel contemplate my fate\n[00:18.970] And do they know\n[00:21.203] The places where we go\n[00:24.052] When we're grey and old\n[00:30.335] 'Cos I've been told\n[00:34.261] That salvation lets their wings unfold\n[00:43.898] So when I'm lying in my bed\n[00:47.808] Thoughts running through my head\n[00:50.902] And I feel that love is dead\n[00:55.479] I'm loving angels instead\n[00:59.702] And through it all she offers me protection\n[01:05.893] A lot of love and affection\n[01:09.392] Whether I'm right or wrong\n[01:12.452] And down the waterfall\n[01:15.676] Wherever it may take me\n[01:18.753] I know that life won't break me\n[01:22.166] When I come to call she won't forsake me\n[01:30.659] I'm loving angels instead\n[01:37.088] When I'm feeling weak\n[01:38.893] And my pain walks down a one way street\n[01:48.363] I look above\n[01:51.332] And I know I'll always be blessed with love\n[02:01.804] And as the feeling grows\n[02:04.668] She breathes flesh to my bones\n[02:07.988] And when love is dead\n[02:11.965] I'm loving angels instead\n[02:16.439] And through it all she offers me protection\n[02:22.639] A lot of love and affection\n[02:26.044] Whether I'm right or wrong\n[02:29.221] And down the waterfall\n[02:32.332] Wherever it may take me\n[02:35.587] I know that life won't break me\n[02:39.032] When I come to call she won't forsake me\n[02:47.367] I'm loving angels instead\n[03:39.426] And through it all she offers me protection\n[03:45.836] A lot of love and affection\n[03:49.425] Whether I'm right or wrong\n[03:52.339] And down the waterfall\n[03:55.540] Wherever it may take me\n[03:58.570] I know that life won't break me\n[04:02.196] When I come to call she won't forsake me\n[04:10.594] I'm loving angels instead",
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "E",
+                    "time": 0.4184829008178711,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 3.4663099923706056,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 6.581165040054321,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 9.742620017166137,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 12.912055129699707,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 15.279903127792359,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 16.19410791798401,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 19.340721864578246,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 22.45957602479553,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 25.765860950408936,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 28.11489492752075,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 28.924536177383423,
+                    "yOffset": -65
+                },
+                {
+                    "name": "F#m",
+                    "time": 32.13885509536743,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 35.388509162124635,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 38.58796397711182,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 41.73706290081787,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 45.055879912261965,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 48.16129699809265,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 51.35678203051758,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 54.609248118255614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 56.21614186076355,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 57.85694003051758,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 60.94913703242493,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 64.19880003814697,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 67.4111959256134,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 70.6357770743866,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 73.7182990858307,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 76.96872801907348,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 80.18215107247924,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 83.28683509727477,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#m",
+                    "time": 87,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 89.74584196948243,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 91.31959706103515,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 93.03997804959107,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 96.35150302861022,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 99.39617296376038,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 102.60242101716614,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 105.01911504005432,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 105.9,
+                    "yOffset": -65
+                },
+                {
+                    "name": "E",
+                    "time": 108.9890928626709,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 112.18531099809265,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 115.43608088937378,
+                    "yOffset": -65
+                },
+                {
+                    "name": "C#m",
+                    "time": 117.80580398092651,
+                    "yOffset": -35
+                },
+                {
+                    "name": "B",
+                    "time": 118.67029489318848,
+                    "yOffset": -65
+                },
+                {
+                    "name": "D",
+                    "time": 121.84510580926514,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 125,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 128.16611590844727,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 131.46325087602233,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 132.98138309727477,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 134.57596499427797,
+                    "yOffset": -65
+                },
+                {
+                    "name": "B",
+                    "time": 137.7761478397827,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 141.031136917984,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 144.1948649885559,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 147.38752286457824,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 150.56225985313415,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 153.75420396757508,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 156.9603738550415,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 160.19898590081786,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#m",
+                    "time": 163.3981748188019,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 166.61713988365173,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 168.22483306103516,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 169.83817487602235,
+                    "yOffset": -65
+                },
+                {
+                    "name": "Bm",
+                    "time": 172.8,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 176.104,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 179.359,
+                    "yOffset": -50
+                },
+                {
+                    "name": "Bm",
+                    "time": 185.742,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 188.917,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 192.058,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 195.3262890305176,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 198.507,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 201.659,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 204.892,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B",
+                    "time": 208.10412904196167,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#m",
+                    "time": 211.398,
+                    "yOffset": -50
+                },
+                {
+                    "name": "A",
+                    "time": 214.575,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 217.71,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#m",
+                    "time": 220.925,
+                    "yOffset": -50
+                },
+                {
+                    "name": "D",
+                    "time": 224.152,
+                    "yOffset": -65
+                },
+                {
+                    "name": "A",
+                    "time": 225.791,
+                    "yOffset": -35
+                },
+                {
+                    "name": "E",
+                    "time": 227.671,
+                    "yOffset": -65
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 21,
+                    "name": "VERSE",
+                    "startIdx": 0,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 33,
+                    "name": "CHORUS",
+                    "startIdx": 22,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 50,
+                    "name": "VERSE",
+                    "startIdx": 34,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 53,
+                    "name": "CHORUS",
+                    "startIdx": 51,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 62,
+                    "name": "CHORUS",
+                    "startIdx": 54,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 68,
+                    "name": "SOLO",
+                    "startIdx": 63,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 78,
+                    "name": "CHORUS",
+                    "startIdx": 69,
+                    "type": "chorus"
+                }
+            ],
+            "duration": 300,
+            "name": "Robbie Williams - Angels",
+            "tempo": 150,
+            "useFlatNotation": false
+        },
+        "practiceCount": "1",
+        "patchDetails": "",
+        "lyricOffset": -1,
+        "performAbility": 0,
+        "verseTitle": "INTRO & VERSE",
+        "preChorusTitle": "CHORUS",
+        "chorusTitle": "VERSE pt2",
+        "bridgeTitle": "solo",
+        "songNotes": "",
+        "capo": 0,
+        "isPublic": true,
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "customMapSections": [
+            {
+                "endIdx": 21,
+                "name": "VERSE",
+                "startIdx": 0,
+                "type": "verse"
+            },
+            {
+                "endIdx": 33,
+                "name": "CHORUS",
+                "startIdx": 22,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 50,
+                "name": "VERSE",
+                "startIdx": 34,
+                "type": "verse"
+            },
+            {
+                "endIdx": 53,
+                "name": "CHORUS",
+                "startIdx": 51,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 62,
+                "name": "CHORUS",
+                "startIdx": 54,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 68,
+                "name": "SOLO",
+                "startIdx": 63,
+                "type": "solo"
+            },
+            {
+                "endIdx": 78,
+                "name": "CHORUS",
+                "startIdx": 69,
+                "type": "chorus"
+            }
+        ],
+        "dateAdded": "2026-03-26T21:00:00.000Z",
+        "id": 11,
+        "tempo": 150
     },
     {
         "artist": "Robbie Williams",
@@ -331859,6 +333317,579 @@ const DEFAULT_SONGS = [
         "verseTitle": "Intro",
         "year": "1982",
         "youtubeUrl": "https://youtu.be/btPJPFnesV4?si=MaaCcuNM3jhyg9O6"
+    },
+    {
+        "artist": "Suzan & Freek",
+        "title": "Als het avond is",
+        "verse": "G#m B2 E",
+        "chorus": "G#m F# G#m B E | G#m F# G#m B C#",
+        "preChorus": "E B2 G#m F#",
+        "bridge": "",
+        "favorite": false,
+        "youtubeUrl": "https://youtu.be/nBmhCIW7KCA?si=MDv7ljNs5YsWfiBH",
+        "externalUrl": "",
+        "key": "B",
+        "verseCue": "",
+        "preChorusCue": "",
+        "chorusCue": "",
+        "bridgeCue": "",
+        "fullLyrics": "[00:09.141] Soms voel ik me slecht\n[00:10.776] Dat je niet zo vaak meer echt praten wil\n[00:18.465] Dan mis ik de tijd dat\n[00:20.283] Ik kwaad op je kon zijn nu is het stil\n[00:27.173] Met het vallen van de nacht\n[00:29.496] Fluister ik nu zacht hoor je mij misschien\n[00:36.429] Ik weet gewoon niet hoe\n[00:40.973] Bij alles wat ik doe\n[00:45.827] Ik kan het niet hebben als het avond is\n[00:49.676] Oh want 's avonds mis ik je vaak\n[00:54.634] Je weet dat ik niet luister als je praat als dit\n[00:58.812] En me raakt als dit\n[01:00.907] En dan gaat\n[01:04.138] Zeg me dat het goedkomt\n[01:06.053] Geef me stukjes toekomst\n[01:08.541] Of moet ik je maar laten gaan\n[01:13.131] Ik kan het niet hebben als het avond is\n[01:16.990] Ik heb je vaak gemist inderdaad\n[01:22.065] Nu sta je hier weer voor me\n[01:24.419] Ik twijfel geen seconde voel jij dit ook\n[01:31.590] Jouw hand in de mijne\n[01:33.514] Of is dit te weinig om door te gaan\n[01:40.483] Bij alles wat je zegt\n[01:42.370] Ik voel niet dat je vecht is dit klaar misschien\n[01:49.655] Ik weet gewoon niet hoe\n[01:54.143] Bij alles wat ik doe\n[01:58.933] Ik kan het niet hebben als het avond is\n[02:02.835] Oh want 's avonds mis ik je vaak\n[02:07.695] Je weet dat ik niet luister als je praat als dit\n[02:12.007] En me raakt als dit\n[02:14.050] En dan gaat\n[02:17.216] Zeg me dat het goedkomt\n[02:19.180] Geef me stukjes toekomst\n[02:21.707] Of moet ik je maar laten gaan\n[02:26.305] Ik kan het niet hebben als het avond is\n[02:30.126] Ik heb je vaak gemist inderdaad\n[02:53.790] Ik kan het niet hebben als het avond is\n[02:57.706] Oh want 's avonds mis ik je vaak\n[03:03.050] Ik kan het niet hebben als het avond is\n[03:06.664] Ik heb je vaak gemist inderdaad",
+        "chordData": {
+            "barOffset": 0,
+            "chords": [
+                {
+                    "name": "G#m",
+                    "time": 0,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 2.2857142857142856,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 4.571428571428571,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 9.35169598474121,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 11.671911061035157,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 13.959155906539918,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 18.52237211444092,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 20.791798876022337,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 23.078776156402586,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 27.669416919891358,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 29.978539839782716,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 32.17786410299683,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 36.816897017166134,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 39.14285714285714,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 41.17777995994568,
+                    "yOffset": -50
+                },
+                {
+                    "name": "C#",
+                    "time": 43.63822012016296,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 46.06405008201599,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 48.235847198364254,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 50.4999629294281,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 52.75919604196167,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 55.10380797329712,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 57.37619711825562,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 59.632148826431276,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 61.95025304768372,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 64.2091010152588,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 66.51524598664857,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 68.78819002670288,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 71.08374204005432,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 73.37250500953674,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 75.67664702288819,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 77.93667006103516,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 80.28571428571428,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 82.55957901144409,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 84.80243001907348,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 87.07168090463257,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 91.67454505340577,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 93.93507401144409,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 96.21260503242493,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 100.78234599046326,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 103.04816003242493,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 105.31912507438659,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 109.89574000190734,
+                    "yOffset": -90
+                },
+                {
+                    "name": "F#",
+                    "time": 110.42560900190735,
+                    "yOffset": -10
+                },
+                {
+                    "name": "G#m",
+                    "time": 110.96122193896484,
+                    "yOffset": -90
+                },
+                {
+                    "name": "B",
+                    "time": 111.55682998474121,
+                    "yOffset": -10
+                },
+                {
+                    "name": "E",
+                    "time": 112.1836749408722,
+                    "yOffset": -90
+                },
+                {
+                    "name": "G#m",
+                    "time": 114.56012408392334,
+                    "yOffset": -90
+                },
+                {
+                    "name": "F#",
+                    "time": 115.26730008583068,
+                    "yOffset": -10
+                },
+                {
+                    "name": "G#m",
+                    "time": 115.70630487220764,
+                    "yOffset": -90
+                },
+                {
+                    "name": "B",
+                    "time": 116.26633115449523,
+                    "yOffset": -10
+                },
+                {
+                    "name": "C#",
+                    "time": 116.86523188746644,
+                    "yOffset": -90
+                },
+                {
+                    "name": "E",
+                    "time": 119.30233997138977,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 121.32050295231629,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 123.66428409346008,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 125.88041800762939,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 128.25676607820128,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 130.51224712016295,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 132.7483008474121,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 135.03292000572205,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 137.3602080114441,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 139.6247611564026,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 141.88196605340576,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 144.23283917356872,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 146.4804140076294,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 148.7674020305176,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 151.12520389318848,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 155.64282482070922,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 157.86079399427794,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 160.19416504196167,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 162.51487887983703,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 164.821412874115,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 167.17101299427796,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 169.3353501220703,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 171.66244300190735,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 173.93419412779235,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 176.21196081880188,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 178.45491388937378,
+                    "yOffset": -50
+                },
+                {
+                    "name": "F#",
+                    "time": 180.79836692752076,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 183.09803415830993,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 185.37613994087218,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 187.64409599427796,
+                    "yOffset": -50
+                },
+                {
+                    "name": "G#m",
+                    "time": 192.2026691525879,
+                    "yOffset": -50
+                },
+                {
+                    "name": "B2",
+                    "time": 194.5485659523163,
+                    "yOffset": -50
+                },
+                {
+                    "name": "E",
+                    "time": 196.85470613160706,
+                    "yOffset": -50
+                }
+            ],
+            "customMapSections": [
+                {
+                    "endIdx": 2,
+                    "name": "INTRO",
+                    "startIdx": 0,
+                    "type": "intro"
+                },
+                {
+                    "endIdx": 12,
+                    "name": "VERSE",
+                    "startIdx": 3,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 15,
+                    "name": "PRE CHORUS",
+                    "startIdx": 13,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 31,
+                    "name": "CHORUS",
+                    "startIdx": 16,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 44,
+                    "name": "VERSE",
+                    "startIdx": 32,
+                    "type": "verse"
+                },
+                {
+                    "endIdx": 50,
+                    "name": "PRE CHORUS",
+                    "startIdx": 45,
+                    "type": "prechorus"
+                },
+                {
+                    "endIdx": 65,
+                    "name": "CHORUS",
+                    "startIdx": 51,
+                    "type": "chorus"
+                },
+                {
+                    "endIdx": 73,
+                    "name": "SOLO",
+                    "startIdx": 66,
+                    "type": "solo"
+                },
+                {
+                    "endIdx": 83,
+                    "name": "CHORUS",
+                    "startIdx": 74,
+                    "type": "chorus"
+                }
+            ],
+            "duration": 300,
+            "name": "Suzan & Freek - Als het avond is",
+            "tempo": "105",
+            "useFlatNotation": false
+        },
+        "practiceCount": "1",
+        "patchDetails": "",
+        "lyricOffset": 0,
+        "performAbility": 0,
+        "verseTitle": "INTRO & VERSE",
+        "preChorusTitle": "CHORUS",
+        "chorusTitle": "PRE CHORUS",
+        "bridgeTitle": "Block 4",
+        "songNotes": "",
+        "capo": 4,
+        "isPublic": true,
+        "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+        "customMapSections": [
+            {
+                "endIdx": 2,
+                "name": "INTRO",
+                "startIdx": 0,
+                "type": "intro"
+            },
+            {
+                "endIdx": 12,
+                "name": "VERSE",
+                "startIdx": 3,
+                "type": "verse"
+            },
+            {
+                "endIdx": 15,
+                "name": "PRE CHORUS",
+                "startIdx": 13,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 31,
+                "name": "CHORUS",
+                "startIdx": 16,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 44,
+                "name": "VERSE",
+                "startIdx": 32,
+                "type": "verse"
+            },
+            {
+                "endIdx": 50,
+                "name": "PRE CHORUS",
+                "startIdx": 45,
+                "type": "prechorus"
+            },
+            {
+                "endIdx": 65,
+                "name": "CHORUS",
+                "startIdx": 51,
+                "type": "chorus"
+            },
+            {
+                "endIdx": 73,
+                "name": "SOLO",
+                "startIdx": 66,
+                "type": "solo"
+            },
+            {
+                "endIdx": 83,
+                "name": "CHORUS",
+                "startIdx": 74,
+                "type": "chorus"
+            }
+        ],
+        "dateAdded": "2026-03-26T21:00:00.000Z",
+        "id": 9,
+        "tempo": "105"
     },
     {
         "artist": "Suzanna Vega",

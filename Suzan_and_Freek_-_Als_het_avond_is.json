@@ -1,0 +1,579 @@
+{
+  "version": "1.0",
+  "exportDate": "2026-09-05T07:28:04.979Z",
+  "songs": [
+    {
+      "artist": "Suzan & Freek",
+      "title": "Als het avond is",
+      "verse": "G#m B2 E",
+      "chorus": "G#m F# G#m B E | G#m F# G#m B C#",
+      "preChorus": "E B2 G#m F#",
+      "bridge": "",
+      "favorite": false,
+      "youtubeUrl": "https://youtu.be/nBmhCIW7KCA?si=MDv7ljNs5YsWfiBH",
+      "externalUrl": "",
+      "key": "B",
+      "verseCue": "",
+      "preChorusCue": "",
+      "chorusCue": "",
+      "bridgeCue": "",
+      "fullLyrics": "[00:09.141] Soms voel ik me slecht\n[00:10.776] Dat je niet zo vaak meer echt praten wil\n[00:18.465] Dan mis ik de tijd dat\n[00:20.283] Ik kwaad op je kon zijn nu is het stil\n[00:27.173] Met het vallen van de nacht\n[00:29.496] Fluister ik nu zacht hoor je mij misschien\n[00:36.429] Ik weet gewoon niet hoe\n[00:40.973] Bij alles wat ik doe\n[00:45.827] Ik kan het niet hebben als het avond is\n[00:49.676] Oh want 's avonds mis ik je vaak\n[00:54.634] Je weet dat ik niet luister als je praat als dit\n[00:58.812] En me raakt als dit\n[01:00.907] En dan gaat\n[01:04.138] Zeg me dat het goedkomt\n[01:06.053] Geef me stukjes toekomst\n[01:08.541] Of moet ik je maar laten gaan\n[01:13.131] Ik kan het niet hebben als het avond is\n[01:16.990] Ik heb je vaak gemist inderdaad\n[01:22.065] Nu sta je hier weer voor me\n[01:24.419] Ik twijfel geen seconde voel jij dit ook\n[01:31.590] Jouw hand in de mijne\n[01:33.514] Of is dit te weinig om door te gaan\n[01:40.483] Bij alles wat je zegt\n[01:42.370] Ik voel niet dat je vecht is dit klaar misschien\n[01:49.655] Ik weet gewoon niet hoe\n[01:54.143] Bij alles wat ik doe\n[01:58.933] Ik kan het niet hebben als het avond is\n[02:02.835] Oh want 's avonds mis ik je vaak\n[02:07.695] Je weet dat ik niet luister als je praat als dit\n[02:12.007] En me raakt als dit\n[02:14.050] En dan gaat\n[02:17.216] Zeg me dat het goedkomt\n[02:19.180] Geef me stukjes toekomst\n[02:21.707] Of moet ik je maar laten gaan\n[02:26.305] Ik kan het niet hebben als het avond is\n[02:30.126] Ik heb je vaak gemist inderdaad\n[02:53.790] Ik kan het niet hebben als het avond is\n[02:57.706] Oh want 's avonds mis ik je vaak\n[03:03.050] Ik kan het niet hebben als het avond is\n[03:06.664] Ik heb je vaak gemist inderdaad",
+      "chordData": {
+        "barOffset": 0,
+        "chords": [
+          {
+            "name": "G#m",
+            "time": 0,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 2.2857142857142856,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 4.571428571428571,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 9.35169598474121,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 11.671911061035157,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 13.959155906539918,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 18.52237211444092,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 20.791798876022337,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 23.078776156402586,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 27.669416919891358,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 29.978539839782716,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 32.17786410299683,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 36.816897017166134,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 39.14285714285714,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 41.17777995994568,
+            "yOffset": -50
+          },
+          {
+            "name": "C#",
+            "time": 43.63822012016296,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 46.06405008201599,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 48.235847198364254,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 50.4999629294281,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 52.75919604196167,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 55.10380797329712,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 57.37619711825562,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 59.632148826431276,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 61.95025304768372,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 64.2091010152588,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 66.51524598664857,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 68.78819002670288,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 71.08374204005432,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 73.37250500953674,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 75.67664702288819,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 77.93667006103516,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 80.28571428571428,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 82.55957901144409,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 84.80243001907348,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 87.07168090463257,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 91.67454505340577,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 93.93507401144409,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 96.21260503242493,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 100.78234599046326,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 103.04816003242493,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 105.31912507438659,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 109.89574000190734,
+            "yOffset": -90
+          },
+          {
+            "name": "F#",
+            "time": 110.42560900190735,
+            "yOffset": -10
+          },
+          {
+            "name": "G#m",
+            "time": 110.96122193896484,
+            "yOffset": -90
+          },
+          {
+            "name": "B",
+            "time": 111.55682998474121,
+            "yOffset": -10
+          },
+          {
+            "name": "E",
+            "time": 112.1836749408722,
+            "yOffset": -90
+          },
+          {
+            "name": "G#m",
+            "time": 114.56012408392334,
+            "yOffset": -90
+          },
+          {
+            "name": "F#",
+            "time": 115.26730008583068,
+            "yOffset": -10
+          },
+          {
+            "name": "G#m",
+            "time": 115.70630487220764,
+            "yOffset": -90
+          },
+          {
+            "name": "B",
+            "time": 116.26633115449523,
+            "yOffset": -10
+          },
+          {
+            "name": "C#",
+            "time": 116.86523188746644,
+            "yOffset": -90
+          },
+          {
+            "name": "E",
+            "time": 119.30233997138977,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 121.32050295231629,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 123.66428409346008,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 125.88041800762939,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 128.25676607820128,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 130.51224712016295,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 132.7483008474121,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 135.03292000572205,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 137.3602080114441,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 139.6247611564026,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 141.88196605340576,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 144.23283917356872,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 146.4804140076294,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 148.7674020305176,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 151.12520389318848,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 155.64282482070922,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 157.86079399427794,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 160.19416504196167,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 162.51487887983703,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 164.821412874115,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 167.17101299427796,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 169.3353501220703,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 171.66244300190735,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 173.93419412779235,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 176.21196081880188,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 178.45491388937378,
+            "yOffset": -50
+          },
+          {
+            "name": "F#",
+            "time": 180.79836692752076,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 183.09803415830993,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 185.37613994087218,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 187.64409599427796,
+            "yOffset": -50
+          },
+          {
+            "name": "G#m",
+            "time": 192.2026691525879,
+            "yOffset": -50
+          },
+          {
+            "name": "B2",
+            "time": 194.5485659523163,
+            "yOffset": -50
+          },
+          {
+            "name": "E",
+            "time": 196.85470613160706,
+            "yOffset": -50
+          }
+        ],
+        "customMapSections": [
+          {
+            "endIdx": 2,
+            "name": "INTRO",
+            "startIdx": 0,
+            "type": "intro"
+          },
+          {
+            "endIdx": 12,
+            "name": "VERSE",
+            "startIdx": 3,
+            "type": "verse"
+          },
+          {
+            "endIdx": 15,
+            "name": "PRE CHORUS",
+            "startIdx": 13,
+            "type": "prechorus"
+          },
+          {
+            "endIdx": 31,
+            "name": "CHORUS",
+            "startIdx": 16,
+            "type": "chorus"
+          },
+          {
+            "endIdx": 44,
+            "name": "VERSE",
+            "startIdx": 32,
+            "type": "verse"
+          },
+          {
+            "endIdx": 50,
+            "name": "PRE CHORUS",
+            "startIdx": 45,
+            "type": "prechorus"
+          },
+          {
+            "endIdx": 65,
+            "name": "CHORUS",
+            "startIdx": 51,
+            "type": "chorus"
+          },
+          {
+            "endIdx": 73,
+            "name": "SOLO",
+            "startIdx": 66,
+            "type": "solo"
+          },
+          {
+            "endIdx": 83,
+            "name": "CHORUS",
+            "startIdx": 74,
+            "type": "chorus"
+          }
+        ],
+        "duration": 300,
+        "name": "Suzan & Freek - Als het avond is",
+        "tempo": "105",
+        "useFlatNotation": false
+      },
+      "practiceCount": "1",
+      "patchDetails": "",
+      "lyricOffset": 0,
+      "performAbility": 0,
+      "verseTitle": "INTRO & VERSE",
+      "preChorusTitle": "CHORUS",
+      "chorusTitle": "PRE CHORUS",
+      "bridgeTitle": "Block 4",
+      "songNotes": "",
+      "capo": 4,
+      "isPublic": true,
+      "submittedBy": "9oAEJa3dqsPKSAGrQdgOMxwZiNk2",
+      "customMapSections": [
+        {
+          "endIdx": 2,
+          "name": "INTRO",
+          "startIdx": 0,
+          "type": "intro"
+        },
+        {
+          "endIdx": 12,
+          "name": "VERSE",
+          "startIdx": 3,
+          "type": "verse"
+        },
+        {
+          "endIdx": 15,
+          "name": "PRE CHORUS",
+          "startIdx": 13,
+          "type": "prechorus"
+        },
+        {
+          "endIdx": 31,
+          "name": "CHORUS",
+          "startIdx": 16,
+          "type": "chorus"
+        },
+        {
+          "endIdx": 44,
+          "name": "VERSE",
+          "startIdx": 32,
+          "type": "verse"
+        },
+        {
+          "endIdx": 50,
+          "name": "PRE CHORUS",
+          "startIdx": 45,
+          "type": "prechorus"
+        },
+        {
+          "endIdx": 65,
+          "name": "CHORUS",
+          "startIdx": 51,
+          "type": "chorus"
+        },
+        {
+          "endIdx": 73,
+          "name": "SOLO",
+          "startIdx": 66,
+          "type": "solo"
+        },
+        {
+          "endIdx": 83,
+          "name": "CHORUS",
+          "startIdx": 74,
+          "type": "chorus"
+        }
+      ],
+      "dateAdded": "2026-03-26T21:00:00.000Z",
+      "id": 9,
+      "tempo": "105"
+    }
+  ]
+}

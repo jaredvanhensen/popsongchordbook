@@ -771,7 +771,16 @@
 
         function importSelectedJson() {
             if (!selectedJsonData) return;
-            postToMain(selectedJsonData);
+            // Handle both wrapped { "songs": [...] } library format and bare song object
+            let song = selectedJsonData;
+            if (song.songs && Array.isArray(song.songs) && song.songs.length > 0) {
+                song = song.songs[0];
+            }
+            if (!song.title && !song.artist) {
+                alert('Invalid song JSON: no title or artist found.');
+                return;
+            }
+            postToMain(song);
         }
 
         function postToMain(song) {

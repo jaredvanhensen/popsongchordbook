@@ -597,6 +597,8 @@ class SongManager {
             // Add new songs
             this.songs = [...existingSongs, ...newSongs];
 
+            await this.saveSongs();
+
             // Return info about duplicates
             return {
                 added: newSongs.length,

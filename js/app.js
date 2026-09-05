@@ -3561,45 +3561,24 @@ class App {
             });
         }
 
-        // --- Single Song Import ---
-
-        const importSongFile = document.getElementById('importSongFile');
-        if (importSongFile) {
-            importSongFile.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    this.importSingleSong(file);
-                }
-                e.target.value = '';
-            });
-        }
-
-        // --- Import Song (Mobile & Desktop UG) ---
-        const importUgBtn = document.getElementById('importUgBtn');
+        // --- Import Song button: opens the combined extractor page ---
         const combinedImportBtn = document.getElementById('combinedImportBtn');
-
-        const openImportPage = () => {
-            const isLandscape = window.innerWidth > window.innerHeight;
-            const isPC = window.innerWidth > 1080;
-            if (isPC && isLandscape && typeof window.openDashboardPanel === 'function') {
-                window.openDashboardPanel('popsongchordbook-super-extractor-gemini.html');
-            } else {
-                window.open('popsongchordbook-super-extractor-gemini.html', '_blank');
-            }
-        };
-
-        if (importUgBtn) {
-            importUgBtn.addEventListener('click', openImportPage);
-        }
         if (combinedImportBtn) {
             combinedImportBtn.addEventListener('click', () => {
-                openImportPage();
+                // Close the Add Song modal
                 const createSongModal = document.getElementById('createSongModal');
-                if (createSongModal) {
-                    createSongModal.classList.add('hidden');
+                if (createSongModal) createSongModal.classList.add('hidden');
+                // Open the extractor page (has both Quick JSON Import and UG extractor)
+                const isLandscape = window.innerWidth > window.innerHeight;
+                const isPC = window.innerWidth > 1080;
+                if (isPC && isLandscape && typeof window.openDashboardPanel === 'function') {
+                    window.openDashboardPanel('popsongchordbook-super-extractor-gemini.html');
+                } else {
+                    window.open('popsongchordbook-super-extractor-gemini.html', '_blank');
                 }
             });
         }
+
     }
 
     setupExtractorListener() {
@@ -3901,16 +3880,12 @@ class App {
                     // Re-render
                     this.loadAndRender();
 
-                    // Show feedback
-                    const btn = document.getElementById('importSongFile'); // label's for
-                    const labelBtn = document.querySelector(`label[for="importSongFile"]`);
-                    const icon = labelBtn ? labelBtn.querySelector('.icon') : null;
-                    if (icon) {
-                        const original = icon.textContent;
-                        icon.textContent = '✓';
-                        setTimeout(() => icon.textContent = original, 2000);
-                        this.showHUD('Song imported successfully');
-                    }
+                    // Close the Add Song modal
+                    const createSongModal = document.getElementById('createSongModal');
+                    if (createSongModal) createSongModal.classList.add('hidden');
+
+                    // Always show success HUD
+                    this.showHUD(`✓ "${songName}" imported successfully`);
                 },
                 null,
                 'Import'
