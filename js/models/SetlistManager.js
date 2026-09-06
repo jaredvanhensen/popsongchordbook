@@ -237,12 +237,14 @@ class SetlistManager {
                 createdAt: setlist.createdAt || new Date().toISOString()
             }));
 
-        // Ensure "PRACTICE" setlist exists if not already present
-        const hasPractice = normalized.some(sl => sl.name.toUpperCase() === 'PRACTICE');
-        if (!hasPractice) {
+        // Ensure "Practice list" setlist exists if not already present
+        const practiceSetlist = normalized.find(sl => sl.id === 'practice_setlist_id' || sl.name.toUpperCase() === 'PRACTICE' || sl.name.toLowerCase() === 'practice list');
+        if (practiceSetlist) {
+            practiceSetlist.name = 'Practice list';
+        } else {
             normalized.push({
                 id: 'practice_setlist_id', // Stable ID for practice setlist
-                name: 'PRACTICE',
+                name: 'Practice list',
                 songIds: [],
                 createdAt: new Date().toISOString()
             });
@@ -251,7 +253,7 @@ class SetlistManager {
     }
 
     getPracticeSetlist() {
-        return this.setlists.find(sl => sl.name.toUpperCase() === 'PRACTICE');
+        return this.setlists.find(sl => sl.id === 'practice_setlist_id' || sl.name.toUpperCase() === 'PRACTICE' || sl.name.toLowerCase() === 'practice list');
     }
 
     isSongInPracticeSetlist(songId) {
@@ -260,10 +262,11 @@ class SetlistManager {
     }
 
     async togglePracticeSong(songId) {
-        const practiceSetlist = this.getPracticeSetlist();
+        let practiceSetlist = this.getPracticeSetlist();
         if (!practiceSetlist) {
             // This shouldn't normally happen since normalizeSetlists ensures it
-            await this.createSetlist('PRACTICE');
+            practiceSetlist = await this.createSetlist('Practice list');
+            if (practiceSetlist) practiceSetlist.id = 'practice_setlist_id';
             return this.togglePracticeSong(songId);
         }
 

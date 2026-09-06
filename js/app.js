@@ -2039,7 +2039,16 @@ class App {
             select.appendChild(publicOption);
         }
 
-        // Add Beginner setlists right after Public Songs
+        // Add Practice list right at the top of Setlist choices
+        const practiceSetlist = this.setlistManager.getPracticeSetlist();
+        if (practiceSetlist) {
+            const option = document.createElement('option');
+            option.value = practiceSetlist.id;
+            option.textContent = '🎯 Practice list';
+            select.appendChild(option);
+        }
+
+        // Add Beginner setlists right after Practice list
         const beginnerSetlist = this.setlistManager.getSetlist('beginner_setlist_id');
         if (beginnerSetlist) {
             const option = document.createElement('option');
@@ -2058,6 +2067,7 @@ class App {
         // Add all other setlists
         this.setlistManager.getAllSetlists().forEach(setlist => {
             if (setlist.id === 'beginner_setlist_id' || setlist.id === 'beginner_keyboard_setlist_id') return; // Already added
+            if (practiceSetlist && (setlist.id === practiceSetlist.id || setlist.name.toLowerCase() === 'practice list' || setlist.name.toUpperCase() === 'PRACTICE')) return; // Already added at top
             const option = document.createElement('option');
             option.value = setlist.id;
             option.textContent = setlist.name;
