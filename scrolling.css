@@ -2838,11 +2838,11 @@ body.ctrl-held .chord-item {
     }
 
     .song-title-display {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
     }
 
     .artist-display {
-        font-size: 0.9rem !important;
+        font-size: 1.0rem !important;
     }
 
     .controls-container {

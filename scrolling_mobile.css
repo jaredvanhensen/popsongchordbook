@@ -123,7 +123,7 @@ body.is-mobile-landscape .header-metadata {
 }
 
 body.is-mobile-landscape .artist-display { 
-    font-size: 0.75rem !important; /* Even smaller */
+    font-size: 0.85rem !important; /* Even smaller */
     opacity: 0.8 !important; 
     color: rgba(255, 255, 255, 0.9) !important; 
     margin: 0 !important; 
@@ -131,7 +131,7 @@ body.is-mobile-landscape .artist-display {
     font-weight: 500 !important;
 }
 body.is-mobile-landscape .song-title-display { 
-    font-size: 1.0rem !important; /* Reduced for ultra-compact row */
+    font-size: 1.1rem !important; /* Reduced for ultra-compact row */
     margin: 0 !important; 
     color: white !important; 
     font-weight: 700 !important; 
@@ -659,12 +659,12 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-portrait.is-mobile-landscape .song-title-display {
-        font-size: 0.95rem !important;
+        font-size: 1.05rem !important;
         text-align: left !important;
     }
 
     body.is-portrait.is-mobile-landscape .artist-display {
-        font-size: 0.65rem !important;
+        font-size: 0.75rem !important;
         text-align: left !important;
     }
 
@@ -719,11 +719,11 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 
     body.is-mobile-landscape .song-title-display {
-        font-size: 1.5rem !important; /* Balanced scale */
+        font-size: 1.6rem !important; /* Balanced scale */
     }
 
     body.is-mobile-landscape .artist-display {
-        font-size: 1.1rem !important; /* Balanced scale */
+        font-size: 1.2rem !important; /* Balanced scale */
     }
 
     body.is-mobile-landscape .pure-timeline-controls {

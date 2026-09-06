@@ -5168,12 +5168,12 @@ td:has(.row-edit-input.input-focused) {
 
     td {
         padding: 8px 6px;
-        font-size: 0.8em;
+        font-size: 0.9em;
         min-height: 40px;
     }
 
     td.title-cell {
-        font-size: 0.85em;
+        font-size: 0.95em;
         min-width: 150px;
     }
 
@@ -5294,11 +5294,11 @@ td:has(.row-edit-input.input-focused) {
 
     td {
         padding: 6px 4px;
-        font-size: 0.7em;
+        font-size: 0.8em;
     }
 
     td.title-cell {
-        font-size: 0.75em;
+        font-size: 0.85em;
         min-width: 0;
     }
 }
@@ -6880,7 +6880,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-artist {
-        font-size: 0.85em;
+        font-size: 0.95em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -6888,7 +6888,7 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-title {
-        font-size: 1.1em;
+        font-size: 1.2em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

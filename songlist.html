@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Song List v3.320 - Interactive Scrolling Chords &amp; Band Tool</title>
-    <meta name="version" content="3.320">
-    <meta name="application-version" content="v3.320">
+    <title>Song List v3.321 - Interactive Scrolling Chords &amp; Band Tool</title>
+    <meta name="version" content="3.321">
+    <meta name="application-version" content="v3.321">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -101,7 +101,6 @@
             padding: 0;
             letter-spacing: -1px;
             -webkit-tap-highlight-color: transparent;
-            animation: initialSidebarFlash 6s ease-in-out 1;
         }
         #mobileSidebarTab:hover,
         #mobileSidebarTab:focus {
@@ -114,46 +113,46 @@
             pointer-events: none;
         }
 
-        @keyframes initialSidebarFlash {
+        #mobileSidebarTab.highlight-glow {
+            animation: tabGlowHighlight 3s ease-in-out 1;
+        }
+
+        @keyframes tabGlowHighlight {
             0% {
                 transform: translateY(-50%) scale(1);
-                filter: brightness(1);
-                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+                box-shadow: 3px 0 14px rgba(79, 70, 229, 0.45);
             }
-            8% {
-                transform: translateY(-50%) scale(1.25);
-                filter: brightness(1.45);
-                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
+            15% {
+                transform: translateY(-50%) scale(1.35);
+                background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+                box-shadow: 0 0 25px #f43f5e, 0 0 40px rgba(139, 92, 246, 0.9), 4px 0 30px rgba(244, 63, 94, 0.9);
+                filter: brightness(1.35);
             }
-            16% {
-                transform: translateY(-50%) scale(1);
-                filter: brightness(1);
-                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            30% {
+                transform: translateY(-50%) scale(1.05);
+                box-shadow: 0 0 15px #f43f5e, 0 0 25px rgba(139, 92, 246, 0.7);
             }
-            24% {
-                transform: translateY(-50%) scale(1.25);
-                filter: brightness(1.45);
-                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
+            45% {
+                transform: translateY(-50%) scale(1.35);
+                background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+                box-shadow: 0 0 25px #f43f5e, 0 0 40px rgba(139, 92, 246, 0.9), 4px 0 30px rgba(244, 63, 94, 0.9);
+                filter: brightness(1.35);
             }
-            32% {
-                transform: translateY(-50%) scale(1);
-                filter: brightness(1);
-                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            60% {
+                transform: translateY(-50%) scale(1.05);
+                box-shadow: 0 0 15px #f43f5e, 0 0 25px rgba(139, 92, 246, 0.7);
             }
-            40% {
-                transform: translateY(-50%) scale(1.25);
-                filter: brightness(1.45);
-                box-shadow: 3px 0 25px rgba(99, 102, 241, 0.8), 0 0 15px rgba(99, 102, 241, 0.6);
-            }
-            48% {
-                transform: translateY(-50%) scale(1);
-                filter: brightness(1);
-                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
+            75% {
+                transform: translateY(-50%) scale(1.35);
+                background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+                box-shadow: 0 0 25px #f43f5e, 0 0 40px rgba(139, 92, 246, 0.9), 4px 0 30px rgba(244, 63, 94, 0.9);
+                filter: brightness(1.35);
             }
             100% {
                 transform: translateY(-50%) scale(1);
+                background: linear-gradient(135deg, #4f46e5, #6366f1);
+                box-shadow: 3px 0 14px rgba(79, 70, 229, 0.45);
                 filter: brightness(1);
-                box-shadow: 3px 0 12px rgba(79, 70, 229, 0.45);
             }
         }
 
@@ -4461,6 +4460,15 @@
                 document.body.style.overflow = '';
             }
 
+            function triggerTabHighlight() {
+                tab.classList.remove('highlight-glow');
+                void tab.offsetWidth; // Force reflow
+                tab.classList.add('highlight-glow');
+                setTimeout(function() {
+                    tab.classList.remove('highlight-glow');
+                }, 3000);
+            }
+
             // Tab click: open
             tab.addEventListener('click', openSidebar);
 
@@ -4473,6 +4481,29 @@
                     if (!isDesktop()) closeSidebar();
                 });
             });
+
+            // Auto-open left sidebar for 3 seconds right away after launch of app on mobile
+            if (!isDesktop()) {
+                openSidebar();
+                var autoCloseTimer = setTimeout(function() {
+                    autoCloseTimer = null;
+                    closeSidebar();
+                    triggerTabHighlight();
+                }, 3000);
+
+                var cancelAutoClose = function() {
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                        triggerTabHighlight();
+                    }
+                };
+
+                backdrop.addEventListener('click', cancelAutoClose);
+                sidebar.querySelectorAll('.nav-item').forEach(function(item) {
+                    item.addEventListener('click', cancelAutoClose);
+                });
+            }
 
             // Swipe-right-from-left-edge to open, swipe-left to close
             var touchStartX = null;
