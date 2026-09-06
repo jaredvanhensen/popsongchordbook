@@ -479,6 +479,7 @@ window.addEventListener('message', (event) => {
             if (msg.instrumentMode) {
                 currentInstrumentMode = msg.instrumentMode;
                 syncInstrumentModeClass();
+                updateTabButtonVisibility();
             }
             if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
             renderSuggestedChords(suggestedChords);
@@ -495,6 +496,7 @@ window.addEventListener('message', (event) => {
     else if (msg.type === 'setInstrumentMode') {
         currentInstrumentMode = msg.instrumentMode;
         syncInstrumentModeClass();
+        updateTabButtonVisibility();
         if (msg.capo !== undefined) currentCapoValue = parseInt(msg.capo) || 0;
         // Force audition display to refresh for new instrument mode
         window.lastAuditionChordName = null;
@@ -3107,6 +3109,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     if (inputInstrumentMode) {
         currentInstrumentMode = inputInstrumentMode;
         syncInstrumentModeClass();
+        updateTabButtonVisibility();
     }
     currentCapoValue = capo || 0;
 
@@ -6900,6 +6903,13 @@ function updateTeacherNoteButtonVisibility() {
 function updateTabButtonVisibility() {
     const btn = document.getElementById('tabBtn');
     if (!btn) return;
+    const mode = (typeof currentInstrumentMode !== 'undefined' && currentInstrumentMode)
+        ? currentInstrumentMode
+        : (localStorage.getItem('instrumentMode') || 'piano');
+    if (mode === 'piano' || mode === 'keyboard') {
+        btn.style.display = 'none';
+        return;
+    }
     const canEdit = isTeacherMode || !isPublicMode || canEditPublic;
     const hasTabs = timelineTabs && timelineTabs.length > 0;
     if (canEdit || hasTabs) {

@@ -1525,6 +1525,8 @@ class App {
         const filterModalClose = document.getElementById('filterModalClose');
         const applyFiltersBtn = document.getElementById('applyFiltersBtn');
         const clearAllFiltersBtn = document.getElementById('clearAllFiltersBtn');
+        if (!filterBtn || !filterModal || !applyFiltersBtn) return;
+
         const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
         const filterKeySelect = document.getElementById('filterKeySelect');
         const filterWithYouTubeCheckbox = document.getElementById('filterWithYouTubeCheckbox');
@@ -2034,6 +2036,7 @@ class App {
 
     updateSetlistSelect() {
         const select = document.getElementById('setlistSelect');
+        if (!select) return;
         const currentValue = select.value;
         select.innerHTML = '<option value="">All Songs</option>';
 

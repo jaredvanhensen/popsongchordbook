@@ -5975,6 +5975,13 @@ body.ctrl-held .chord-item {
         display: inline !important;
     }
 
+    #tabBtn .icon,
+    #tabBtn .tab-icon {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
     /* ============================================================
        UNIFORM BUTTON SIZING - Mobile only
        All toolbar buttons must be exactly 34x34px, icons 18px
