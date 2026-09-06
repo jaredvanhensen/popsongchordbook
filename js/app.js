@@ -1161,7 +1161,14 @@ class App {
             setTimeout(() => {
                 overlay.classList.add('hidden');
                 overlay.classList.remove('transition-out');
+                if (typeof window.startMobileSidebarIntro === 'function') {
+                    window.startMobileSidebarIntro();
+                }
             }, 500);
+        } else {
+            if (typeof window.startMobileSidebarIntro === 'function') {
+                window.startMobileSidebarIntro();
+            }
         }
     }
 
