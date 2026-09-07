@@ -1,4 +1,4 @@
-// Main Application (v3.326)
+// Main Application (v3.327)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -59,7 +59,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.326");
+        console.log("Pop Song Chord Book - 3.327");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -1131,8 +1131,8 @@ class App {
         document.body.style.cursor = 'wait';
     }
 
-    hideLoadingIndicator() {
-        this.hideInitialLoadingOverlay();
+    hideLoadingIndicator(triggerIntro = false) {
+        this.hideInitialLoadingOverlay(triggerIntro);
         document.body.style.cursor = 'default';
     }
 
@@ -1156,19 +1156,19 @@ class App {
         overlay.classList.remove('hidden');
     }
 
-    hideInitialLoadingOverlay() {
+    hideInitialLoadingOverlay(triggerIntro = false) {
         const overlay = document.getElementById('initial-loading-overlay');
         if (overlay) {
             overlay.classList.add('transition-out');
             setTimeout(() => {
                 overlay.classList.add('hidden');
                 overlay.classList.remove('transition-out');
-                if (typeof window.startMobileSidebarIntro === 'function') {
+                if (triggerIntro && typeof window.startMobileSidebarIntro === 'function') {
                     window.startMobileSidebarIntro();
                 }
             }, 500);
         } else {
-            if (typeof window.startMobileSidebarIntro === 'function') {
+            if (triggerIntro && typeof window.startMobileSidebarIntro === 'function') {
                 window.startMobileSidebarIntro();
             }
         }
@@ -1210,8 +1210,8 @@ class App {
                     await new Promise(resolve => setTimeout(resolve, remaining));
                 }
             }
-            // Hide loading indicator
-            this.hideLoadingIndicator();
+            // Hide loading indicator (and trigger mobile sidebar intro now that user is logged in)
+            this.hideLoadingIndicator(true);
         }
     }
 
