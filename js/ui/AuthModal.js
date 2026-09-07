@@ -1,4 +1,4 @@
-﻿// AuthModal - Authentication modal for login and create account
+// AuthModal - Authentication modal for login and create account
 class AuthModal {
     constructor(firebaseManager, onAuthSuccess = null) {
         this.firebaseManager = firebaseManager;
@@ -124,6 +124,13 @@ class AuthModal {
 
     show(loginMode = true) {
         if (!this.modal) return;
+
+        // Hide initial loading overlay if visible so it doesn't overlap login screen
+        const overlay = document.getElementById('initial-loading-overlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('transition-out');
+        }
 
         this.isLoginMode = loginMode;
         this.allowHide = false; // Prevent hiding

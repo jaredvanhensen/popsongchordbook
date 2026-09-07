@@ -1,4 +1,4 @@
-// Main Application (v3.313)
+// Main Application (v3.326)
 class App {
     constructor() {
         // Initialize Firebase Manager first
@@ -59,7 +59,7 @@ class App {
     }
 
     async init() {
-        console.log("Pop Song Chord Book - 3.250");
+        console.log("Pop Song Chord Book - 3.326");
 
         // Apply saved theme immediately
         const savedTheme = localStorage.getItem('user-theme') || 'theme-classic';
@@ -573,6 +573,8 @@ class App {
         // Update lessons button visibility (keeps it visible for guests if instrumentMode is piano)
         this.updateLessonsBtnVisibility();
 
+        // Hide initial loading overlay so it does not block the login modal
+        this.hideInitialLoadingOverlay();
 
         // Show login modal (unless we are showing the verification confirmation or signing up/busy)
         if (this.authModal && !this.authModal.isShowingVerification && !this.authModal.isBusy) {

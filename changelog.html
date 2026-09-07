@@ -302,6 +302,18 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.326</span>
+                    <span class="version-date">September 7, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Initial Loading Screen &amp; Mobile Login Fix:</strong> Fixed an issue on mobile devices where unauthenticated users remained stuck behind the "LOADING YOUR SONGS..." screen overlay while the login modal was open beneath it (causing the mobile touch keyboard to pop up over a blocked view). Added explicit calls in <code>js/app.js</code> and <code>js/ui/AuthModal.js</code> to immediately hide the initial loading overlay whenever authentication fails or the login modal is displayed.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.325</span>
                     <span class="version-date">September 6, 2026</span>
                 </div>
