@@ -956,12 +956,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const metronomeToggle = document.getElementById('metronomeToggle');
     const octaveOptions = document.querySelectorAll('.octave-option');
-    const menuBpmOption = document.getElementById('menuBpmOption');
-    const menuBpmDisplay = document.getElementById('menuBpmDisplay');
+    const menuConvertNotationBtn = document.getElementById('menuConvertNotationBtn');
+    const menuConvertNotationDisplay = document.getElementById('menuConvertNotationDisplay');
 
     function syncSettingsMenu() {
         if (metronomeToggle) metronomeToggle.checked = metronomeEnabled;
-        if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
 
         // Sync Octave Display
         if (menuOctaveValue) {
@@ -973,6 +972,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const val = parseInt(opt.dataset.val);
             opt.classList.toggle('active', val === playbackOctave);
         });
+
+        // Sync convert notation label
+        if (typeof updateConvertNotationLabel === 'function') updateConvertNotationLabel();
     }
 
     // Pure View Toggle inside Hamburger (if it exists)
@@ -1048,12 +1050,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if (menuBpmOption) {
-        menuBpmOption.addEventListener('click', () => {
-            changeBpm();
-            setTimeout(() => {
-                if (menuBpmDisplay) menuBpmDisplay.innerText = currentTempo;
-            }, 100);
+
+
+    // Convert Chords notation (♭ ↔ #) — hamburger menu action
+    function convertAllChordsNotation() {
+        if (!chords || chords.length === 0) return;
+
+        // Mapping tables
+        const toFlatMap = {
+            'A#': 'Bb', 'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab'
+        };
+        const toSharpMap = {
+            'Bb': 'A#', 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#'
+        };
+
+        // Detect current notation: if any chord contains '#', we're in sharp mode → convert to flats
+        // If any chord contains 'b' (lowercase, as note flat), we're in flat mode → convert to sharps
+        const hasSharp = chords.some(c => c.name && c.name.includes('#'));
+        const toFlats = hasSharp;
+        const map = toFlats ? toFlatMap : toSharpMap;
+
+        function convertChordName(name) {
+            if (!name) return name;
+            // Replace root + slash-bass note using regex
+            // Pattern: matches a note name (letter + optional #/b) with optional suffix
+            return name.replace(/([A-G][#b]?)/g, (match) => {
+                return map[match] !== undefined ? map[match] : match;
+            });
+        }
+
+        chords.forEach(c => {
+            c.name = convertChordName(c.name);
+        });
+
+        // Update the menu label to reflect new state
+        updateConvertNotationLabel();
+
+        // Redraw timeline
+        renderStaticElements();
+
+        // Mark as having unsaved changes
+        checkForChanges();
+
+        // Show brief status message
+        const msg = toFlats ? 'Chords converted to Flats ♭' : 'Chords converted to Sharps #';
+        if (statusText) {
+            statusText.innerText = msg;
+            setTimeout(() => { if (statusText) statusText.innerText = '⏱ ' + formatTime(pauseTime); }, 2500);
+        }
+
+    }
+
+    function updateConvertNotationLabel() {
+        if (!menuConvertNotationDisplay) return;
+        // Detect current notation state after any conversion
+        const hasSharp = chords && chords.some(c => c.name && c.name.includes('#'));
+        // If currently in sharps → the button should offer converting to flats
+        // If currently in flats (or no sharps) → offer converting to sharps
+        if (hasSharp) {
+            menuConvertNotationDisplay.textContent = 'Flats ♭';
+        } else {
+            menuConvertNotationDisplay.textContent = 'Sharps #';
+        }
+    }
+
+    if (menuConvertNotationBtn) {
+        menuConvertNotationBtn.addEventListener('click', () => {
+            convertAllChordsNotation();
+            if (timelineHamburgerMenu) timelineHamburgerMenu.classList.add('hidden');
         });
     }
 

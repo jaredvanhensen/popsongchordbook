@@ -461,9 +461,11 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.327">
-    <script>const SITE_VERSION = '3.327';</script>
+    <meta name="application-version" content="v3.329">
+    <script>const SITE_VERSION = '3.329';</script>
     <!-- Version history: 
+        v3.329: Added "Convert Chords to Flats/Sharps" option in Song Detail modal hamburger menu to convert all chord blocks (Verse, Chorus, Pre-Chorus, Bridge) and Key between flat (♭) and sharp (#) notation.
+        v3.328: Added "Convert Chords to Flats/Sharps" option in the Timeline hamburger menu to bulk-convert all chord names between flat (♭) and sharp (#) notation. Removed redundant Tempo (BPM) item from the same menu since BPM is already editable in the Song Detail modal.
         v3.320: Fixed Quick JSON Import unwrap bug in super-extractor, streamlined single-song import confirmation, and restored Phil Collins, Suzan & Freek, and Robbie Williams songs.
         v3.319: Added Horizontal Diatonic Chords & Common Borrowed Chords linear bar with Circle of Fifths view switch in Song Detail edit widget.
         v3.318: Added Google Play Digital Asset Links (.well-known/assetlinks.json) for Android App Deep Links domain verification.
@@ -627,6 +629,7 @@
         v2.808: Upgraded Guitar Chord Trainer layout: default starts in Chord Overview screen, consolidated BACK button into bottom actions row, turned SHOW SHAPE into 💡 icon, and renamed buttons to CHECK and SKIP for a single-row mobile portrait fit.
         v2.807: Mobile Guitar Chord Trainer layout improvements: removed the guide toggle button on mobile recreate mode to increase space and preserve challenge, set all action icon sizes to 0.85rem for a tighter header, and shortened switch buttons to Chords/Test with dynamic column spanning.
         v2.806: Optimized Guitar Chord Trainer mobile portrait experience: unlocked viewport scrolling, created a perfectly aligned 2x2 grid of uniform header control pills (including a mobile-enabled audio toggle), and hidden reference chord diagrams during recreation training exercises to maintain the educational challenge.
+        v2.809: Converted all timeline chords for Dan + Shay - "10.000 hours" from sharp notation (#) to flat notation (♭) across default songs and live database.
         v2.805: Fixed Guitar Chord Trainer fretboard workbench rendering issues, added robust mobile portrait double-column action wrapping, and refined dynamic navigation modes and recreation triggers.
         v2.804: Upgraded the Guitar Chord Trainer hints/guide mode to dynamically display all natural notes (C, D, E, F, G, A, B) across the interactive fretboard, and added a premium glassmorphic Chord Overview screen with strum audition buttons and seamless Practice Mode recreation click integration.
         v2.803: Upgraded open string controls on the virtual fretboard nut to display resolved musical note names (e.g. E, A, D) on selection/hints, ensuring complete visual note consistency across the board.

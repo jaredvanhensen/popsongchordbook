@@ -22,6 +22,7 @@ class SongDetailModal {
         this.closeBtn = document.getElementById('songDetailModalCloseTop');
         this.deleteBtn = document.getElementById('menuDeleteSong');
         this.swapBlocksBtn = document.getElementById('menuSwapBlocks');
+        this.convertNotationBtn = document.getElementById('menuConvertNotation');
         this.startEditModeBtn = document.getElementById('menuStartEditMode');
         this.prevBtn = document.getElementById('songDetailPrev');
         this.nextBtn = document.getElementById('songDetailNext');
@@ -1506,6 +1507,17 @@ class SongDetailModal {
             });
         }
 
+        // Setup Convert Notation button
+        if (this.convertNotationBtn) {
+            this.convertNotationBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.hamburgerMenu) {
+                    this.hamburgerMenu.classList.add('hidden');
+                }
+                this.handleConvertNotation();
+            });
+        }
+
         // Setup Transpose buttons
         if (this.transposeUpBtn) {
             this.transposeUpBtn.addEventListener('click', (e) => {
@@ -1536,6 +1548,7 @@ class SongDetailModal {
             if (this.hamburgerBtn && this.hamburgerMenu) {
                 this.hamburgerBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    this.updateConvertNotationLabel();
                     this.hamburgerMenu.classList.toggle('hidden');
                 });
             }
@@ -1672,6 +1685,141 @@ class SongDetailModal {
             window.appInstance.showHUD('Blocks 2 & 3 Swapped 🔀');
         } else {
             console.log('Blocks 2 & 3 Swapped');
+        }
+    }
+
+    updateConvertNotationLabel() {
+        const display = document.getElementById('songDetailConvertNotationDisplay');
+        if (!display) return;
+
+        let hasSharp = false;
+        if (this.sections) {
+            ['verse', 'preChorus', 'chorus', 'bridge'].forEach(key => {
+                const section = this.sections[key];
+                if (section && section.editInput && section.editInput.value && section.editInput.value.includes('#')) {
+                    hasSharp = true;
+                }
+            });
+        }
+        if (this.keyDisplay && this.keyDisplay.textContent && this.keyDisplay.textContent.includes('#')) {
+            hasSharp = true;
+        }
+        const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+        if (song && song.chordData && Array.isArray(song.chordData.chords)) {
+            if (song.chordData.chords.some(c => c.name && c.name.includes('#'))) {
+                hasSharp = true;
+            }
+        }
+
+        if (hasSharp) {
+            display.textContent = 'Flats ♭';
+        } else {
+            display.textContent = 'Sharps #';
+        }
+    }
+
+    handleConvertNotation() {
+        const toFlatMap = {
+            'A#': 'Bb', 'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab'
+        };
+        const toSharpMap = {
+            'Bb': 'A#', 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#'
+        };
+
+        // Detect if anything currently uses sharp notation
+        let hasSharp = false;
+        if (this.sections) {
+            ['verse', 'preChorus', 'chorus', 'bridge'].forEach(key => {
+                const section = this.sections[key];
+                if (section && section.editInput && section.editInput.value && section.editInput.value.includes('#')) {
+                    hasSharp = true;
+                }
+            });
+        }
+        if (this.keyDisplay && this.keyDisplay.textContent && this.keyDisplay.textContent.includes('#')) {
+            hasSharp = true;
+        }
+        const song = this.currentSongId ? this.songManager.getSongById(this.currentSongId) : null;
+        if (song && song.chordData && Array.isArray(song.chordData.chords)) {
+            if (song.chordData.chords.some(c => c.name && c.name.includes('#'))) {
+                hasSharp = true;
+            }
+        }
+
+        const toFlats = hasSharp;
+        const map = toFlats ? toFlatMap : toSharpMap;
+
+        const convertChordString = (text) => {
+            if (!text || typeof text !== 'string') return text;
+            return text.replace(/\[.*?\]|\||\d+x|[^\s|]+/g, (token) => {
+                const trimmed = token.trim();
+                if (trimmed.startsWith('[') && trimmed.endsWith(']')) return token;
+                if (trimmed === '|' || /^\d+x$/.test(trimmed)) return token;
+                return token.replace(/([A-G][#b]?)/g, (m) => map[m] !== undefined ? map[m] : m);
+            });
+        };
+
+        let hasChanges = false;
+
+        // Convert all chord sections
+        if (this.sections) {
+            ['verse', 'preChorus', 'chorus', 'bridge'].forEach(key => {
+                const section = this.sections[key];
+                if (section && section.editInput) {
+                    const currentText = section.editInput.value || '';
+                    if (currentText.trim()) {
+                        const newText = convertChordString(currentText);
+                        if (newText !== currentText) {
+                            section.editInput.value = newText;
+                            this.renderChordBlock(key, newText);
+                            hasChanges = true;
+                        }
+                    }
+                }
+            });
+        }
+
+        // Convert Key
+        if (this.keyDisplay && this.keyDisplay.textContent.trim()) {
+            const currentKey = this.keyDisplay.textContent.trim();
+            const newKey = convertChordString(currentKey);
+            if (newKey !== currentKey) {
+                this.keyDisplay.textContent = newKey;
+                this.updateKeyDisplay();
+                hasChanges = true;
+            }
+        }
+
+        // Convert Timeline chordData if present on the song object
+        if (song && song.chordData && Array.isArray(song.chordData.chords) && song.chordData.chords.length > 0) {
+            let chordDataChanged = false;
+            song.chordData.chords.forEach(c => {
+                if (c.name) {
+                    const newName = convertChordString(c.name);
+                    if (newName !== c.name) {
+                        c.name = newName;
+                        chordDataChanged = true;
+                    }
+                }
+            });
+            song.chordData.useFlatNotation = toFlats;
+            if (chordDataChanged) {
+                hasChanges = true;
+            }
+        }
+
+        if (hasChanges) {
+            this.hasUnsavedChanges = true;
+            this.checkForChanges();
+        }
+
+        this.updateConvertNotationLabel();
+
+        const msg = toFlats ? 'Chords converted to Flats ♭' : 'Chords converted to Sharps #';
+        if (window.appInstance && typeof window.appInstance.showHUD === 'function') {
+            window.appInstance.showHUD(msg);
+        } else {
+            console.log(msg);
         }
     }
 
@@ -4258,6 +4406,8 @@ class SongDetailModal {
                 this.removeFromSetlistBtn.style.display = 'none';
             }
         }
+
+        this.updateConvertNotationLabel();
 
         // Update artist and title
         if (this.artistElement) {
