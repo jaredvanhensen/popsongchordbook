@@ -6585,13 +6585,15 @@ class SongDetailModal {
             const degree = scaleData.degrees[idx];
             let roleClass = '';
             if (!scaleData.isMinor) {
-                if (idx === 0 || idx === 5) roleClass = 'role-tonic';
-                else if (idx === 3 || idx === 1) roleClass = 'role-subdominant';
-                else if (idx === 4 || idx === 6) roleClass = 'role-dominant';
+                if (idx === 0) roleClass = 'role-tonic';
+                else if (idx === 1 || idx === 2 || idx === 5) roleClass = 'role-minor-chord';
+                else if (idx === 3 || idx === 4) roleClass = 'role-dominant';
+                else if (idx === 6) roleClass = 'role-diminished';
             } else {
-                if (idx === 0 || idx === 2) roleClass = 'role-tonic';
-                else if (idx === 3 || idx === 5 || idx === 1) roleClass = 'role-subdominant';
-                else if (idx === 4 || idx === 6) roleClass = 'role-dominant';
+                if (idx === 0) roleClass = 'role-tonic';
+                else if (idx === 1) roleClass = 'role-diminished';
+                else if (idx === 2 || idx === 5 || idx === 6) roleClass = 'role-minor-chord';
+                else if (idx === 3 || idx === 4) roleClass = 'role-dominant';
             }
 
             const card = createChordCard(chordName, degree, roleClass);

@@ -12892,19 +12892,14 @@ body.theme-high-contrast .stats-chart-label {
 
 /* Harmonic role styling */
 .linear-chord-card.role-tonic {
-    border-color: #6366f1;
-    background: #eef2ff;
+    border-color: #22c55e;
+    background: #dcfce7;
 }
 .linear-chord-card.role-tonic .linear-chord-name {
-    color: #4338ca;
+    color: #15803d;
 }
-
-.linear-chord-card.role-subdominant {
-    border-color: #0ea5e9;
-    background: #f0f9ff;
-}
-.linear-chord-card.role-subdominant .linear-chord-name {
-    color: #0369a1;
+.linear-chord-card.role-tonic .linear-chord-degree {
+    color: #16a34a;
 }
 
 .linear-chord-card.role-dominant {
@@ -12913,6 +12908,35 @@ body.theme-high-contrast .stats-chart-label {
 }
 .linear-chord-card.role-dominant .linear-chord-name {
     color: #b45309;
+}
+.linear-chord-card.role-dominant .linear-chord-degree {
+    color: #d97706;
+}
+
+.linear-chord-card.role-subdominant,
+.linear-chord-card.role-minor-chord {
+    border-color: #38bdf8;
+    background: #f0f9ff;
+}
+.linear-chord-card.role-subdominant .linear-chord-name,
+.linear-chord-card.role-minor-chord .linear-chord-name {
+    color: #0369a1;
+}
+.linear-chord-card.role-subdominant .linear-chord-degree,
+.linear-chord-card.role-minor-chord .linear-chord-degree {
+    color: #0284c7;
+}
+
+.linear-chord-card.role-diminished {
+    border-color: #e2e8f0;
+    background: #f8fafc;
+    opacity: 0.72;
+}
+.linear-chord-card.role-diminished .linear-chord-name {
+    color: #64748b;
+}
+.linear-chord-card.role-diminished .linear-chord-degree {
+    color: #94a3b8;
 }
 
 .linear-chord-card.role-borrowed {
