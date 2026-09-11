@@ -2940,9 +2940,24 @@ class SongDetailModal {
         // Setup key field
         if (this.keyDisplay) {
             const keyBadge = this.keyDisplay.closest('.song-detail-key-badge');
-            (keyBadge || this.keyDisplay).addEventListener('click', (e) => {
+            const targetKeyEl = keyBadge || this.keyDisplay;
+
+            targetKeyEl.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.enterEditMode(this.keyDisplay);
+            });
+
+            targetKeyEl.addEventListener('dblclick', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (document.activeElement === this.keyDisplay) {
+                    this.keyDisplay.blur();
+                }
+                try {
+                    window.getSelection()?.removeAllRanges();
+                } catch (_) {}
+                const currentKey = (this.keyDisplay ? this.keyDisplay.textContent.trim() : '') || (this.originalSongData ? this.originalSongData.key : '');
+                this.openCofWidget(currentKey);
             });
             this.keyDisplay.addEventListener('blur', (e) => {
                 // Don't blur if we're moving to next field with Tab
@@ -6647,6 +6662,12 @@ class SongDetailModal {
     updateWidgetKey(newKey) {
         if (this.keyDisplay) {
             this.keyDisplay.textContent = newKey;
+            const container = this.keyDisplay.closest('.song-detail-key-badge');
+            if (container) {
+                container.style.display = 'inline-flex';
+                container.classList.remove('hidden');
+            }
+            this.updateLeftBadgesVisibility();
             this.checkForChanges();
         }
         this._currentCofKey = newKey;
