@@ -643,6 +643,479 @@
             color: #2563eb;
         }
 
+        /* Lesson 1 Fretboard & Note Quiz Styles */
+        .fretboard-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-toggle-fretboard {
+            background: #f1f5f9;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-toggle-fretboard:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+            color: var(--text-primary);
+        }
+
+        .btn-toggle-fretboard.active-hidden {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
+
+        .fretboard-hidden-placeholder {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 36px 20px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .fretboard-hidden-placeholder:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .fhp-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .fhp-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .quiz-intro-box {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-top: 24px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .quiz-intro-box strong {
+            color: var(--text-primary);
+        }
+
+        /* Powerchord Fretboard Section (Lesson 2) */
+        .powerchord-fretboard-section {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .powerchord-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .powerchord-selector-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .btn-pc-select {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-pc-select:hover {
+            border-color: #6366f1;
+            background: #eff6ff;
+            color: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        .btn-pc-select.active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+        }
+
+        .powerchord-info-banner {
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .powerchord-legend-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pc-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pc-dot-sample {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .lesson-quiz-section {
+            margin-top: 24px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .quiz-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .quiz-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .quiz-controls-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-quiz-tool {
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-quiz-tool:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-quiz-tool.active {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
+
+        .quiz-progress-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: #eff6ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .quiz-question-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .quiz-question-prompt {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .quiz-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .quiz-option-btn {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            background: #eff6ff;
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+        }
+
+        .quiz-option-btn.selected-correct {
+            background: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+            font-weight: 700;
+        }
+
+        .quiz-option-btn.selected-wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+            font-weight: 700;
+        }
+
+        .quiz-feedback-box {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .quiz-feedback-box.correct {
+            display: block;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .quiz-feedback-box.wrong {
+            display: block;
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        .quiz-feedback-box strong {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .quiz-actions {
+            margin-top: 16px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-quiz-next {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 22px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.15s ease;
+            display: none;
+        }
+
+        .btn-quiz-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        .quiz-result-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-result-emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .quiz-result-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .quiz-result-score {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+        }
+
+        .quiz-result-msg {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-quiz-restart {
+            background: #f1f5f9;
+            color: var(--text-primary);
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-quiz-restart:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Lessons List & Cards */
         .lessons-list {
             display: flex;
@@ -749,7 +1222,7 @@
             transition: all 0.2s ease;
         }
 
-        .chord-badge:hover {
+        .chord-badge:hover, .chord-badge.active {
             background: var(--accent-primary);
             color: #ffffff;
             border-color: transparent;
@@ -885,7 +1358,7 @@
                     <div class="launch-header-top">
                         <div>
                             <h2 id="txt-launch-title">Kies een les om te beginnen</h2>
-                            <p id="txt-launch-subtitle">Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen.</p>
+                            <p id="txt-launch-subtitle">Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen. Zodra je een paar akkoorden kunt spelen kun je aan de slag met de liedjes.</p>
                         </div>
                         <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal">
                             <span class="lang-pill lang-pill-nl active">
@@ -919,7 +1392,7 @@
                             <span class="launch-badge-tag" id="launch-badge-tag-1">Les 1</span>
                         </div>
                         <h3 id="launch-card-title-1">Noten op de hals</h3>
-                        <p class="launch-desc" id="launch-card-desc-1">Basis harmonieleer &amp; de 6 snaren van het fretboard.</p>
+                        <p class="launch-desc" id="launch-card-desc-1">Een paar noten die je echt moet weten &amp; de 6 snaren.</p>
                         <div class="launch-footer">
                             <span class="launch-status-text" id="launch-status-1">🔒 Niet voltooid</span>
                         </div>
@@ -1027,7 +1500,7 @@
             <article class="lesson-card" id="lesson-card-1">
                 <div class="lesson-meta">
                     <span class="lesson-tag" id="lesson-tag-1">Les 1</span>
-                    <span id="lesson-cat-1" style="font-size: 0.85rem; color: var(--text-secondary);">Basis Harmonieleer</span>
+                    <span id="lesson-cat-1" style="font-size: 0.85rem; color: var(--text-secondary);">Een paar noten die je echt moet weten</span>
                 </div>
                 <h2 id="lesson-title-1">Noten op de hals als basis voor de akkoorden</h2>
                 <p class="lesson-desc" id="lesson-desc-1">Voordat je akkoorden leert, is het belangrijk om te begrijpen hoe noten over de 6 snaren van de gitaarhals zijn verdeeld. Dit helpt je straks om barré-akkoorden en powerchords supersnel te vinden.</p>
@@ -1035,13 +1508,18 @@
                 <div class="theory-box" id="theory-box-1">
                     <h4>💡 Hoe werken de noten op de gitaarhals?</h4>
                     <p>De standaard stemming van een 6-snarige gitaar is <strong>E - A - D - G - B - e</strong> (van laag naar hoog).</p>
-                    <p>Elke fret omhoog is een <strong>halve toonafstand</strong> (semitoon). Tussen de noten <strong>B &amp; C</strong> en <strong>E &amp; F</strong> zit géén kruis (#) of mol (b) — dit zijn natuurlijke halve tonen.</p>
+                    <p>Elke fret omhoog is een <strong>halve toonafstand</strong> (semitoon). Tussen de noten <strong>B &amp; C</strong> en <strong>E &amp; F</strong> zit géén kruis (#) of mol (b). Een noot waar een # achter staat noem je <em>is</em> en een noot waar een b achter staat noem je <em>es</em>. Dus G# spreek je uit als <em>Gis</em> en Bb spreek je uit als <em>Bes</em>.</p>
                     <p><strong>Toonladdervolgorde op de E-snaar:</strong> E (los) &rarr; F (1e fret) &rarr; F# &rarr; G (3e fret) &rarr; G# &rarr; A (5e fret) &rarr; A# &rarr; B (7e fret) &rarr; C (8e fret) &rarr; C# &rarr; D (10e fret) &rarr; D# &rarr; E (12e fret).</p>
                 </div>
 
-                <div class="chord-shapes-section">
-                    <h4 id="fretboard-heading-1">Visualisatie van de 6-Snarige Horizontale Gitaarhals</h4>
-                    <div class="fretboard-container">
+                <div class="chord-shapes-section" id="fretboard-section-1">
+                    <div class="fretboard-header-row">
+                        <h4 id="fretboard-heading-1">Visualisatie van de 6-Snarige Horizontale Gitaarhals</h4>
+                        <button type="button" class="btn-toggle-fretboard" id="btnToggleFretboard" onclick="toggleFretboardVisibility()">
+                            <span id="icoBtnToggleFretboard">🙈</span> <span id="txtBtnToggleFretboard">Verberg Hals (Blind Test)</span>
+                        </button>
+                    </div>
+                    <div class="fretboard-container" id="fretboardContainer1">
                         <svg class="fretboard-svg" viewBox="0 0 780 180" xmlns="http://www.w3.org/2000/svg">
                             <!-- Fretboard Wood Background -->
                             <rect x="50" y="15" width="700" height="135" fill="#2d1b0f" rx="6" />
@@ -1148,6 +1626,63 @@
                             <text x="682.5" y="117" font-family="Inter" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">A</text>
                         </svg>
                     </div>
+                    <div class="fretboard-hidden-placeholder" id="fretboardHiddenPlaceholder" onclick="toggleFretboardVisibility()" style="display: none;">
+                        <span class="fhp-icon">🙈</span>
+                        <span class="fhp-text" id="txtFretboardHiddenPlaceholder">Hals-diagram is verborgen voor de test. Klik hier om het te tonen.</span>
+                    </div>
+                </div>
+
+                <!-- Lesson 1 Quiz Intro -->
+                <div class="quiz-intro-box" id="quiz-intro-1">
+                    <p>Het lijkt nu wat veel om gelijk te onthouden, maar zorg dat je het vooral <strong>BEGRIJPT</strong>. Begin bij de namen van de snaren en vervolgens de <strong>G</strong> en de <strong>C</strong>. De rest kun je dan hieruit afleiden. Als we dan straks met de eerste akkoorden beginnen snap jij waar de laagste noot van het akkoord zit en waar de naam van het akkoord vandaan komt!</p>
+                    <p style="margin-top: 10px;">Hier volgt een korte oefening om de noten even in je systeem te krijgen. De naam van de 6 snaren en de <strong>F, G, B en C</strong>. Dat is voor nu voldoende. Succes!</p>
+                </div>
+
+                <!-- Lesson 1 Interactive Note Quiz -->
+                <div class="lesson-quiz-section" id="lesson-1-quiz-section">
+                    <div class="quiz-header">
+                        <div class="quiz-title-wrap">
+                            <span class="quiz-icon">🎯</span>
+                            <h3 class="quiz-title" id="quiz-header-title">Notentest: Overhoor jezelf!</h3>
+                        </div>
+                        <div class="quiz-controls-wrap">
+                            <button type="button" class="btn-quiz-tool" id="btnQuizShuffle" onclick="shuffleQuizQuestions()" title="Vragen shuffelen">
+                                🔀 <span id="txtQuizShuffle">Shuffle</span>
+                            </button>
+                            <button type="button" class="btn-quiz-tool" id="btnQuizToggleNeck" onclick="toggleFretboardVisibility()" title="Hals verbergen of tonen">
+                                <span id="icoQuizToggleNeck">🙈</span> <span id="txtQuizToggleNeck">Verberg Hals</span>
+                            </button>
+                            <span class="quiz-progress-text" id="quiz-progress-indicator">Vraag 1 van 10</span>
+                        </div>
+                    </div>
+                    <div class="quiz-progress-track">
+                        <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="quiz-question-card" id="quiz-question-container">
+                        <span class="quiz-question-tag" id="quiz-question-category">Open Snaren</span>
+                        <div class="quiz-question-prompt" id="quiz-question-text">Welke noot is de open 6e snaar (de dikste snaar)?</div>
+                        <div class="quiz-options-grid" id="quiz-options-container">
+                            <!-- Options rendered by JS -->
+                        </div>
+                        <div class="quiz-feedback-box" id="quiz-feedback-box">
+                            <strong id="quiz-feedback-title"></strong>
+                            <span id="quiz-feedback-text"></span>
+                        </div>
+                        <div class="quiz-actions">
+                            <button type="button" class="btn-quiz-next" id="quiz-next-btn" onclick="nextQuizQuestion()">Volgende Vraag →</button>
+                        </div>
+                    </div>
+
+                    <!-- Results Container -->
+                    <div class="quiz-result-card" id="quiz-result-container">
+                        <span class="quiz-result-emoji" id="quiz-result-emoji">🏆</span>
+                        <h4 class="quiz-result-title" id="quiz-result-title">Geweldig gedaan!</h4>
+                        <div class="quiz-result-score" id="quiz-result-score">Score: 10 / 10 (100%)</div>
+                        <p class="quiz-result-msg" id="quiz-result-msg">Je kent de open snaren en noten op de hals uitstekend!</p>
+                        <button type="button" class="btn-quiz-restart" id="quiz-restart-btn" onclick="resetLesson1Quiz()">🔄 Opnieuw Oefenen</button>
+                    </div>
                 </div>
 
                 <div class="lesson-complete-section" id="lesson-complete-1" onclick="toggleLessonComplete(1)">
@@ -1163,23 +1698,118 @@
                     <span id="lesson-cat-2" style="font-size: 0.85rem; color: var(--text-secondary);">Pop &amp; Rock Basis</span>
                 </div>
                 <h2 id="lesson-title-2">Power Chords (5th Chords)</h2>
-                <p class="lesson-desc" id="lesson-desc-2">Powerchords zijn de basis van bijna alle rock-, pop- en punkmuziek. Ze bestaan uit slechts 2 (of 3) snaren: de grondtoon en de kwint.</p>
+                <p class="lesson-desc" id="lesson-desc-2">Powerchords zijn de basis van bijna alle rock-, pop- en punkmuziek. Ze bestaan uit slechts 2 (of 3) snaren: de grondtoon en de kwint. Moeilijke namen? Zie ‘grondtoon’ als de naam van het akkoord. Kwint wil zeggen 5 toonladder-stapjes vanaf de grondtoon. Dus bij een C powerchord is het C - d - e - f - G. Een C en een G dus. Geen andere noten. Dat geeft dit akkoord een erg dominant / stevig karakter.</p>
 
                 <div class="theory-box" id="theory-box-2">
                     <h4>💡 Waarom Powerchords zo krachtig zijn</h4>
-                    <p>Omdat een powerchord geen terts bevat, is hij <strong>noch majeur noch mineur</strong>. Je kunt dezelfde greep over het hele fretboard verschuiven!</p>
+                    <p>Wat een Powerchord zo krachtig en handig maakt is dat je precies dezelfde greep over het hele fretboard kan verschuiven! Waar andere akkoorden bijna allemaal een andere vorm hebben is dat bij de powerchords niet zo. Leer één greep en ga los!</p>
                     <p><strong>Greepvorm op de lage E-snaar:</strong> Grondtoon op de E-snaar (met je indexvinger), 2 frets hoger op de A-snaar (met je ringvinger of pink).</p>
+                </div>
+
+                <!-- Lesson 2 Powerchord Fretboard Visualizer (6th String) -->
+                <div class="powerchord-fretboard-section" id="powerchord-fretboard-section-2">
+                    <div class="powerchord-header-row">
+                        <h4 id="powerchord-heading-2">Powerchords op de 6e snaar (Lage E-snaar)</h4>
+                        <span id="powerchord-instruction-2" style="font-size: 0.85rem; font-weight: 600; color: #4f46e5;">Klik op een powerchord hieronder:</span>
+                    </div>
+
+                    <div class="powerchord-selector-bar" id="powerchord6thSelectorBar">
+                        <button type="button" class="btn-pc-select active" data-pc="F" onclick="selectPowerchordFretboard('F')" id="btn-pc-F">F Powerchord (F5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="G" onclick="selectPowerchordFretboard('G')" id="btn-pc-G">G Powerchord (G5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="A" onclick="selectPowerchordFretboard('A')" id="btn-pc-A">A Powerchord (A5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="B" onclick="selectPowerchordFretboard('B')" id="btn-pc-B">B Powerchord (B5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="C" onclick="selectPowerchordFretboard('C')" id="btn-pc-C">C Powerchord (C5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="D" onclick="selectPowerchordFretboard('D')" id="btn-pc-D">D Powerchord (D5)</button>
+                        <button type="button" class="btn-pc-select" data-pc="E" onclick="selectPowerchordFretboard('E')" id="btn-pc-E">E Powerchord (E5)</button>
+                    </div>
+
+                    <div class="powerchord-info-banner" id="powerchordInfoBanner">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <div class="fretboard-container" id="powerchordFretboardSvgContainer">
+                        <!-- SVG Rendered by JS -->
+                    </div>
+
+                    <div class="powerchord-legend-row">
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #ef4444; border: 1.5px solid #b91c1c;"></span>
+                            <span id="txtPcLegendRoot">Rood = Grondtoon (Wijsvinger)</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #0284c7; border: 1.5px solid #0369a1;"></span>
+                            <span id="txtPcLegendFifth">Blauw = Kwint / 5th (Ringvinger)</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #f43f5e; border: 1.5px solid #e11d48;"></span>
+                            <span id="txtPcLegendOctave">Roze = Octaaf (Optioneel met pink)</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span style="color: #ef4444; font-weight: 800; font-size: 1.1rem; line-height: 1;">×</span>
+                            <span id="txtPcLegendMute">Niet aanslaan / dempen</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 2 Powerchords vanaf de 5e snaar (A-snaar) -->
+                <div class="theory-box" id="theory-box-2-astring" style="margin-top: 24px;">
+                    <h4 id="powerchord-a-string-theory-title">💡 Powerchords vanaf de 5e snaar (A-snaar)</h4>
+                    <p id="powerchord-a-string-theory-p1">Waarom zou je powerchords vanaf de 5e snaar spelen? Veel powerchords kun je zowel op de 6e (lage E) als op de 5e (A) snaar spelen. Dit is ontzettend handig bij het overspringen tussen akkoorden in liedjes. Je hand hoeft dan niet steeds helemaal naar rechts of links een grote afstand over de hals af te leggen!</p>
+                    <p id="powerchord-a-string-theory-p2" style="margin-top: 8px;">Als een nummer bijvoorbeeld wisselt tussen <strong>A5, D5 en E5</strong>, speel je A5 open (of op fret 5 van de lage E), en D5 en E5 direct daaronder op fret 5 en 7 van de A-snaar. Zo blijft je hand heerlijk ontspannen in dezelfde positie rond fret 5 en 7!</p>
+                </div>
+
+                <div class="powerchord-fretboard-section" id="powerchord-a-string-fretboard-section">
+                    <div class="powerchord-header-row">
+                        <h4 id="powerchord-a-string-heading">Visualisatie van Powerchords op de 5e Snaar (A-snaar)</h4>
+                        <span id="powerchord-a-string-instruction" style="font-size: 0.85rem; font-weight: 600; color: #4f46e5;">Klik op een powerchord hieronder:</span>
+                    </div>
+
+                    <div class="powerchord-selector-bar" id="powerchord5thSelectorBar">
+                        <button type="button" class="btn-pc-select active" data-pc-a="A" onclick="selectPowerchordAStringFretboard('A')" id="btn-pc-a-A">A Powerchord (A5)</button>
+                        <button type="button" class="btn-pc-select" data-pc-a="B" onclick="selectPowerchordAStringFretboard('B')" id="btn-pc-a-B">B Powerchord (B5)</button>
+                        <button type="button" class="btn-pc-select" data-pc-a="C" onclick="selectPowerchordAStringFretboard('C')" id="btn-pc-a-C">C Powerchord (C5)</button>
+                        <button type="button" class="btn-pc-select" data-pc-a="D" onclick="selectPowerchordAStringFretboard('D')" id="btn-pc-a-D">D Powerchord (D5)</button>
+                        <button type="button" class="btn-pc-select" data-pc-a="E" onclick="selectPowerchordAStringFretboard('E')" id="btn-pc-a-E">E Powerchord (E5)</button>
+                    </div>
+
+                    <div class="powerchord-info-banner" id="powerchordAStringInfoBanner">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <div class="fretboard-container" id="powerchordAStringFretboardSvgContainer">
+                        <!-- SVG Rendered by JS -->
+                    </div>
+
+                    <div class="powerchord-legend-row">
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #ef4444; border: 1.5px solid #b91c1c;"></span>
+                            <span id="txtPcALegendRoot">Rood = Grondtoon op A-snaar</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #0284c7; border: 1.5px solid #0369a1;"></span>
+                            <span id="txtPcALegendFifth">Blauw = Kwint / 5th op D-snaar</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span class="pc-dot-sample" style="background: #f43f5e; border: 1.5px solid #e11d48;"></span>
+                            <span id="txtPcALegendOctave">Roze = Octaaf op G-snaar</span>
+                        </div>
+                        <div class="pc-legend-item">
+                            <span style="color: #ef4444; font-weight: 800; font-size: 1.1rem; line-height: 1;">×</span>
+                            <span id="txtPcALegendMute">Lage E, B en e snaren dempen</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="chord-shapes-section">
                     <h4 id="chord-shapes-heading-2">Akkoorden in deze les:</h4>
                     <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="selectGuitarChord('E5')">E5</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('G5')">G5</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('A5')">A5</span>
                         <span class="chord-badge" onclick="selectGuitarChord('C5')">C5</span>
                         <span class="chord-badge" onclick="selectGuitarChord('D5')">D5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('E5')">E5</span>
                         <span class="chord-badge" onclick="selectGuitarChord('F5')">F5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('G5')">G5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('A5')">A5</span>
+                        <span class="chord-badge" onclick="selectGuitarChord('B5')">B5</span>
                     </div>
                 </div>
 
@@ -1584,6 +2214,11 @@
                     </svg>
                 </div>
 
+                <div class="diagram-root-legend" id="sidebarRootLegend" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: #dc2626; margin: 8px 0 12px 0;">
+                    <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #ef4444; border: 1.5px solid #b91c1c;"></span>
+                    <span id="txtSidebarRootLegend">Rode stip = Grondtoon</span>
+                </div>
+
                 <div class="chord-preview-grid">
                     <button class="chord-preview-btn" onclick="selectGuitarChord('C')">C</button>
                     <button class="chord-preview-btn" onclick="selectGuitarChord('G')">G</button>
@@ -1649,11 +2284,13 @@
 
     </div>
 
-    <!-- External scripts for guitar diagrams -->
+    <!-- External scripts for guitar diagrams and audio -->
+    <script src="js/utils/PianoAudioPlayer.js"></script>
     <script src="js/data/GuitarChordDatabase.js"></script>
     <script src="js/utils/GuitarRenderer.js"></script>
     <script>
         const guitarRenderer = new GuitarRenderer();
+        let guitarAudioPlayer = null;
         let currentLang = localStorage.getItem('preferredLanguage') || 'nl';
         let completedLessons = {};
         let currentSelectedChord = null;
@@ -1663,13 +2300,33 @@
             if (saved) completedLessons = JSON.parse(saved);
         } catch(e) {}
 
+        function playPowerchordAudio(notes) {
+            if (!notes || !notes.length) return;
+            try {
+                if (!guitarAudioPlayer && typeof PianoAudioPlayer !== 'undefined') {
+                    guitarAudioPlayer = new PianoAudioPlayer();
+                }
+                if (guitarAudioPlayer) {
+                    guitarAudioPlayer.initialize().then(() => {
+                        if (guitarAudioPlayer.audioContext && guitarAudioPlayer.audioContext.state === 'suspended') {
+                            guitarAudioPlayer.audioContext.resume();
+                        }
+                        guitarAudioPlayer.setSound('guitar-strum');
+                        guitarAudioPlayer.playChord(notes, 2.5, 0.45, 0.035, true);
+                    }).catch(e => console.warn('Audio play failed:', e));
+                }
+            } catch(e) {
+                console.warn('Web Audio error:', e);
+            }
+        }
+
         const TRANSLATIONS = {
             nl: {
                 headerTitle: "Beginner Lessons",
                 headerSubtitle: "Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.",
                 underConstruction: "<strong>UNDER CONSTRUCTION</strong> — Deze gitaarlessen zijn momenteel in ontwikkeling (alleen zichtbaar voor admins).",
                 launchTitle: "Kies een les om te beginnen",
-                launchSubtitle: "Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen.",
+                launchSubtitle: "Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen. Zodra je een paar akkoorden kunt spelen kun je aan de slag met de liedjes.",
                 progressText: "{count} van 9 Lessen Voltooid",
                 backText: "Terug",
                 lessonCounter: "Les {id} van 9",
@@ -1684,10 +2341,19 @@
                 sidebarDesc: "Klik op een akkoord in de les om de greepvorm te bekijken.",
                 sidebarChordPrefix: "Akkoord: ",
                 sidebarSvgSelect: "Selecteer Akkoord",
+                sidebarRootLegend: "Rode stip = Grondtoon",
+                powerchordLegendRoot: "Rood = Grondtoon (Wijsvinger)",
+                powerchordLegendFifth: "Blauw = Kwint / 5th (Ringvinger)",
+                powerchordLegendOctave: "Roze = Octaaf (Optioneel met pink)",
+                powerchordLegendMute: "Niet aanslaan / dempen",
+                powerchordALegendRoot: "Rood = Grondtoon op A-snaar",
+                powerchordALegendFifth: "Blauw = Kwint / 5th op D-snaar",
+                powerchordALegendOctave: "Roze = Octaaf op G-snaar",
+                powerchordALegendMute: "Lage E, B en e snaren dempen",
                 sidebarBadgesTitle: "Mijn Voortgang & Badges",
                 sidebarBadgeLesson: "Les {id}",
                 cards: {
-                    1: { title: "Noten op de hals", desc: "Basis harmonieleer & de 6 snaren van het fretboard." },
+                    1: { title: "Noten op de hals", desc: "Een paar noten die je echt moet weten & de 6 snaren." },
                     2: { title: "Power Chords", desc: "Pop & Rock basis: 5th chords op de lage E en A snaren." },
                     3: { title: "C, G, Dm, Am & Em", desc: "De meest gebruikte open basisakkoorden voor popnummers." },
                     4: { title: "Spelen met CAPO", desc: "Transponeren zonder nieuwe akkoordgrepen te leren." },
@@ -1699,22 +2365,31 @@
                 },
                 lessonDetails: {
                     1: {
-                        cat: "Basis Harmonieleer",
+                        cat: "Een paar noten die je echt moet weten",
                         title: "Noten op de hals als basis voor de akkoorden",
                         desc: "Voordat je akkoorden leert, is het belangrijk om te begrijpen hoe noten over de 6 snaren van de gitaarhals zijn verdeeld. Dit helpt je straks om barré-akkoorden en powerchords supersnel te vinden.",
                         theory: `<h4>💡 Hoe werken de noten op de gitaarhals?</h4>
 <p>De standaard stemming van een 6-snarige gitaar is <strong>E - A - D - G - B - e</strong> (van laag naar hoog).</p>
-<p>Elke fret omhoog is een <strong>halve toonafstand</strong> (semitoon). Tussen de noten <strong>B &amp; C</strong> en <strong>E &amp; F</strong> zit géén kruis (#) of mol (b) — dit zijn natuurlijke halve tonen.</p>
+<p>Elke fret omhoog is een <strong>halve toonafstand</strong> (semitoon). Tussen de noten <strong>B &amp; C</strong> en <strong>E &amp; F</strong> zit géén kruis (#) of mol (b). Een noot waar een # achter staat noem je <em>is</em> en een noot waar een b achter staat noem je <em>es</em>. Dus <strong>G#</strong> spreek je uit als <em>Gis</em> en <strong>Bb</strong> spreek je uit als <em>Bes</em>.</p>
 <p><strong>Toonladdervolgorde op de E-snaar:</strong> E (los) &rarr; F (1e fret) &rarr; F# &rarr; G (3e fret) &rarr; G# &rarr; A (5e fret) &rarr; A# &rarr; B (7e fret) &rarr; C (8e fret) &rarr; C# &rarr; D (10e fret) &rarr; D# &rarr; E (12e fret).</p>`,
+                        quizIntro: `<p>Het lijkt nu wat veel om gelijk te onthouden, maar zorg dat je het vooral <strong>BEGRIJPT</strong>. Begin bij de namen van de snaren en vervolgens de <strong>G</strong> en de <strong>C</strong>. De rest kun je dan hieruit afleiden. Als we dan straks met de eerste akkoorden beginnen snap jij waar de laagste noot van het akkoord zit en waar de naam van het akkoord vandaan komt!</p>
+<p style="margin-top: 10px;">Hier volgt een korte oefening om de noten even in je systeem te krijgen. De naam van de 6 snaren en de <strong>F, G, B en C</strong>. Dat is voor nu voldoende. Succes!</p>`,
                         fretboardHeading: "Visualisatie van de 6-Snarige Horizontale Gitaarhals"
                     },
                     2: {
                         cat: "Pop & Rock Basis",
                         title: "Power Chords (5th Chords)",
-                        desc: "Powerchords zijn de basis van bijna alle rock-, pop- en punkmuziek. Ze bestaan uit slechts 2 (of 3) snaren: de grondtoon en de kwint.",
+                        desc: "Powerchords zijn de basis van bijna alle rock-, pop- en punkmuziek. Ze bestaan uit slechts 2 (of 3) snaren: de grondtoon en de kwint. Moeilijke namen? Zie ‘grondtoon’ als de naam van het akkoord. Kwint wil zeggen 5 toonladder-stapjes vanaf de grondtoon. Dus bij een C powerchord is het C - d - e - f - G. Een C en een G dus. Geen andere noten. Dat geeft dit akkoord een erg dominant / stevig karakter.",
                         theory: `<h4>💡 Waarom Powerchords zo krachtig zijn</h4>
-<p>Omdat een powerchord geen terts bevat, is hij <strong>noch majeur noch mineur</strong>. Je kunt dezelfde greep over het hele fretboard verschuiven!</p>
+<p>Wat een Powerchord zo krachtig en handig maakt is dat je precies dezelfde greep over het hele fretboard kan verschuiven! Waar andere akkoorden bijna allemaal een andere vorm hebben is dat bij de powerchords niet zo. Leer één greep en ga los!</p>
 <p><strong>Greepvorm op de lage E-snaar:</strong> Grondtoon op de E-snaar (met je indexvinger), 2 frets hoger op de A-snaar (met je ringvinger of pink).</p>`,
+                        fretboardHeading: "Powerchords op de 6e snaar (Lage E-snaar)",
+                        fretboardInstruction: "Klik op een powerchord hieronder:",
+                        fretboardAHeading: "Visualisatie van Powerchords op de 5e Snaar (A-snaar)",
+                        fretboardAInstruction: "Klik op een powerchord hieronder:",
+                        aStringTheoryTitle: "💡 Powerchords vanaf de 5e snaar (A-snaar)",
+                        aStringTheoryP1: "Waarom zou je powerchords vanaf de 5e snaar spelen? Veel powerchords kun je zowel op de 6e (lage E) als op de 5e (A) snaar spelen. Dit is ontzettend handig bij het overspringen tussen akkoorden in liedjes. Je hand hoeft dan niet steeds helemaal naar rechts of links een grote afstand over de hals af te leggen!",
+                        aStringTheoryP2: "Als een nummer bijvoorbeeld wisselt tussen <strong>A5, D5 en E5</strong>, speel je A5 open (of op fret 5 van de lage E), en D5 en E5 direct daaronder op fret 5 en 7 van de A-snaar. Zo blijft je hand heerlijk ontspannen in dezelfde positie rond fret 5 en 7!",
                         chordHeading: "Akkoorden in deze les:",
                         practiceHeading: "Oefensongs met Powerchords:"
                     },
@@ -1810,10 +2485,19 @@
                 sidebarDesc: "Click a chord in the lesson to view the chord diagram.",
                 sidebarChordPrefix: "Chord: ",
                 sidebarSvgSelect: "Select Chord",
+                sidebarRootLegend: "Red dot = Root note",
+                powerchordLegendRoot: "Red = Root Note (Index Finger)",
+                powerchordLegendFifth: "Blue = 5th (Ring Finger)",
+                powerchordLegendOctave: "Pink = Octave (Optional with pinky)",
+                powerchordLegendMute: "Do not strum / Mute",
+                powerchordALegendRoot: "Red = Root Note on A String",
+                powerchordALegendFifth: "Blue = 5th on D String",
+                powerchordALegendOctave: "Pink = Octave on G String",
+                powerchordALegendMute: "Mute low E, B, and high e strings",
                 sidebarBadgesTitle: "My Progress & Badges",
                 sidebarBadgeLesson: "Lesson {id}",
                 cards: {
-                    1: { title: "Fretboard Notes", desc: "Basic harmony & the 6 strings of the guitar fretboard." },
+                    1: { title: "Fretboard Notes", desc: "Essential notes you really need to know & the 6 strings." },
                     2: { title: "Power Chords", desc: "Pop & Rock essentials: 5th chords on low E & A strings." },
                     3: { title: "C, G, Dm, Am & Em", desc: "The most essential open chords for playing pop songs." },
                     4: { title: "Playing with a CAPO", desc: "Transpose instantly without learning new chord shapes." },
@@ -1825,22 +2509,31 @@
                 },
                 lessonDetails: {
                     1: {
-                        cat: "Basic Harmony",
+                        cat: "Essential notes you really need to know",
                         title: "Fretboard Notes as Foundation for Chords",
                         desc: "Before learning chords, it is essential to understand how notes are distributed across the 6 strings of the guitar fretboard. This helps you find barre chords and power chords in no time.",
                         theory: `<h4>💡 How do notes work on the fretboard?</h4>
 <p>The standard tuning of a 6-string guitar is <strong>E - A - D - G - B - e</strong> (from lowest string to highest).</p>
-<p>Each fret up is a <strong>half step</strong> (semitone). Between notes <strong>B &amp; C</strong> and <strong>E &amp; F</strong> there is no sharp (#) or flat (b) — these are natural half steps.</p>
+<p>Each fret up is a <strong>half step</strong> (semitone). Between notes <strong>B &amp; C</strong> and <strong>E &amp; F</strong> there is no sharp (#) or flat (b). A note with a # is called <em>sharp</em> and a note with a b is called <em>flat</em> (e.g. <strong>G#</strong> is G sharp, <strong>Bb</strong> is B flat).</p>
 <p><strong>Scale sequence on the low E string:</strong> E (open) &rarr; F (1st fret) &rarr; F# &rarr; G (3rd fret) &rarr; G# &rarr; A (5th fret) &rarr; A# &rarr; B (7th fret) &rarr; C (8th fret) &rarr; C# &rarr; D (10th fret) &rarr; D# &rarr; E (12th fret).</p>`,
+                        quizIntro: `<p>It might seem like a lot to memorize right now, but make sure you mainly <strong>UNDERSTAND</strong> the logic. Start with the names of the strings, followed by <strong>G</strong> and <strong>C</strong>. You can deduce the rest from there. When we start with the first chords soon, you'll understand where the lowest note comes from and how chords get their names!</p>
+<p style="margin-top: 10px;">Here is a quick quiz to get these notes into your system: the 6 open strings plus <strong>F, G, B, and C</strong>. That is all you need for now. Good luck!</p>`,
                         fretboardHeading: "Visualization of the 6-String Guitar Fretboard"
                     },
                     2: {
                         cat: "Pop & Rock Essentials",
                         title: "Power Chords (5th Chords)",
-                        desc: "Power chords are the backbone of rock, pop, and punk music. They consist of just 2 (or 3) strings: the root note and the 5th.",
+                        desc: "Power chords are the backbone of rock, pop, and punk music. They consist of just 2 (or 3) strings: the root note and the fifth. Confusing names? Think of 'root' as the name of the chord. Fifth means 5 scale steps up from the root. So for a C power chord it is C - d - e - f - G: a C and a G. No other notes. This gives the chord a very punchy, powerful character.",
                         theory: `<h4>💡 Why Power Chords are so versatile</h4>
-<p>Because a power chord has no 3rd, it is <strong>neither major nor minor</strong>. You can move the exact same shape up and down the fretboard!</p>
+<p>What makes a Power Chord so powerful and convenient is that you can shift the exact same shape across the entire fretboard! While open chords almost all have different shapes, power chords keep the same shape everywhere. Learn one shape and rock on!</p>
 <p><strong>Shape on the low E string:</strong> Root note on the E string (index finger), 2 frets higher on the A string (ring finger or pinky).</p>`,
+                        fretboardHeading: "Power Chords Rooted on the 6th String (Low E)",
+                        fretboardInstruction: "Click a power chord below:",
+                        fretboardAHeading: "Power Chords Rooted on the 5th String (A String)",
+                        fretboardAInstruction: "Click a power chord below:",
+                        aStringTheoryTitle: "💡 Power Chords from the 5th String (A String)",
+                        aStringTheoryP1: "Why play power chords rooted on the 5th string? Many power chords can be played on either the 6th (low E) or 5th (A) string. This is extremely practical when jumping between chords in songs. Your fretting hand doesn't have to make huge leaps back and forth across the fretboard!",
+                        aStringTheoryP2: "For example, if a song alternates between <strong>A5, D5, and E5</strong>, you play A5 open (or on fret 5 of low E), and D5 and E5 right below it on frets 5 and 7 of the A string. This keeps your hand comfortable and relaxed around frets 5 and 7!",
                         chordHeading: "Chords in this lesson:",
                         practiceHeading: "Practice Songs with Power Chords:"
                     },
@@ -1988,6 +2681,71 @@
             }
         }
 
+        const LESSON_SIDEBAR_CHORDS = {
+            1: ['C', 'G', 'D', 'Am', 'Em', 'F'],
+            2: ['C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5'],
+            3: ['C', 'G', 'Dm', 'Am', 'Em'],
+            4: ['C', 'G', 'Em', 'Am', 'D'],
+            5: ['D', 'A', 'E', 'G', 'C'],
+            6: ['E', 'E7', 'A', 'A7', 'B7'],
+            7: ['F', 'F#', 'Fm', 'F#m', 'G'],
+            8: ['Bm', 'B', 'B7', 'C#m', 'C#'],
+            9: ['G', 'C', 'D', 'Em', 'Am']
+        };
+
+        function playGuitarChordAudio(chordName) {
+            if (!chordName) return;
+            try {
+                if (chordName.endsWith('5')) {
+                    const rootChar = chordName.replace('5', '');
+                    if (typeof POWERCHORDS_FRETBOARD !== 'undefined' && POWERCHORDS_FRETBOARD[rootChar] && POWERCHORDS_FRETBOARD[rootChar].notes) {
+                        playPowerchordAudio(POWERCHORDS_FRETBOARD[rootChar].notes);
+                        return;
+                    }
+                    if (typeof POWERCHORDS_A_STRING_FRETBOARD !== 'undefined' && POWERCHORDS_A_STRING_FRETBOARD[rootChar] && POWERCHORDS_A_STRING_FRETBOARD[rootChar].notes) {
+                        playPowerchordAudio(POWERCHORDS_A_STRING_FRETBOARD[rootChar].notes);
+                        return;
+                    }
+                }
+
+                const db = (typeof GuitarChordDatabase !== 'undefined') ? GuitarChordDatabase : (window.GuitarChordDatabase || {});
+                let chordData = db[chordName];
+                if (Array.isArray(chordData)) chordData = chordData[0];
+                if (!chordData || !chordData.frets) return;
+
+                const openStrings = [40, 45, 50, 55, 59, 64];
+                const notes = [];
+                chordData.frets.forEach((fret, sIdx) => {
+                    if (fret !== 'x' && fret !== 'X' && fret !== null && fret !== undefined && !isNaN(parseInt(fret, 10)) && parseInt(fret, 10) >= 0) {
+                        notes.push(openStrings[sIdx] + parseInt(fret, 10));
+                    }
+                });
+
+                if (notes.length) {
+                    playPowerchordAudio(notes);
+                }
+            } catch(e) {
+                console.warn('Error playing guitar chord audio:', e);
+            }
+        }
+
+        function updateSidebarChordButtons(lessonId) {
+            const grid = document.querySelector('.chord-preview-grid');
+            if (!grid) return;
+            const chords = LESSON_SIDEBAR_CHORDS[lessonId] || LESSON_SIDEBAR_CHORDS[1];
+            grid.innerHTML = '';
+            chords.forEach(chord => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'chord-preview-btn' + (chord === currentSelectedChord ? ' active' : '');
+                btn.textContent = chord;
+                btn.onclick = () => {
+                    selectGuitarChord(chord, true);
+                };
+                grid.appendChild(btn);
+            });
+        }
+
         function openLesson(id) {
             id = parseInt(id, 10);
             if (isNaN(id) || id < 1 || id > 9) id = 1;
@@ -2018,8 +2776,15 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            const defaultChords = { 1: 'C', 2: 'E5', 3: 'C', 4: 'Em', 5: 'D', 6: 'E7', 7: 'F', 8: 'Bm', 9: 'G' };
-            selectGuitarChord(defaultChords[id] || 'C');
+            updateSidebarChordButtons(id);
+
+            const defaultChords = { 1: 'C', 2: 'C5', 3: 'C', 4: 'Em', 5: 'D', 6: 'E7', 7: 'F', 8: 'Bm', 9: 'G' };
+            selectGuitarChord(defaultChords[id] || 'C', false);
+
+            if (id === 2) {
+                renderPowerchordFretboard(currentPowerchordKey || 'F', false);
+                renderPowerchordAStringFretboard(currentPowerchordAKey || 'A', false);
+            }
         }
 
         function navigateLesson(delta) {
@@ -2030,7 +2795,7 @@
             }
         }
 
-        function selectGuitarChord(chordName) {
+        function selectGuitarChord(chordName, playAudio = true) {
             currentSelectedChord = chordName;
             const titleEl = document.getElementById('sidebarChordTitle');
             const container = document.getElementById('guitarDiagramContainer');
@@ -2052,7 +2817,11 @@
             }
 
             if (chordData && container && typeof guitarRenderer !== 'undefined') {
-                container.innerHTML = guitarRenderer.renderSVG(chordData);
+                container.innerHTML = guitarRenderer.renderSVG(chordData, { chordName: chordName, highlightRoot: true });
+            }
+
+            if (playAudio) {
+                playGuitarChordAudio(chordName);
             }
         }
 
@@ -2065,6 +2834,11 @@
                 );
                 
                 if (match) {
+                    window.parent.appInstance.openedSongFromLessons = {
+                        type: 'guitar',
+                        lessonId: currentLessonId || 1,
+                        url: `guitar_lessons.html#lesson-${currentLessonId || 1}`
+                    };
                     if (typeof window.parent.closeDashboardPanel === 'function') {
                         window.parent.closeDashboardPanel();
                     }
@@ -2075,6 +2849,658 @@
             } else {
                 alert("Cannot load song details. Application context not found.");
             }
+        }
+
+        /* LESSON 1 NOTE QUIZ DATA & CONTROLLER */
+        const LESSON_1_QUIZ_DATA = {
+            nl: {
+                title: "Notentest: Overhoor jezelf!",
+                progress: "Vraag {current} van {total}",
+                nextBtn: "Volgende Vraag →",
+                restartBtn: "🔄 Opnieuw Oefenen",
+                shuffleBtn: "Shuffle",
+                hideFretboardBtn: "Verberg Hals (Blind Test)",
+                showFretboardBtn: "Toon Hals Diagram",
+                hideFretboardShort: "Verberg Hals",
+                showFretboardShort: "Toon Hals",
+                fretboardHiddenNotice: "Hals-diagram is verborgen voor de test. Klik hier om het te tonen.",
+                scoreLabel: "Score: {score} / {total} ({pct}%)",
+                perfectTitle: "Geweldig gedaan!",
+                perfectMsg: "Je kent de open snaren en basisnoten op de hals uitstekend!",
+                goodTitle: "Goed gedaan!",
+                goodMsg: "Je bent al aardig op weg! Oefen nog een keertje om alle noten vlekkeloos te onthouden.",
+                retryTitle: "Blijf oefenen!",
+                retryMsg: "Kijk nog even goed naar het hals-diagram hierboven en probeer de test opnieuw.",
+                feedbackCorrect: "🎉 Uitstekend!",
+                feedbackWrong: "❌ Helaas!",
+                questions: [
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 6e snaar (de dikste snaar)?",
+                        options: ["E (Lage E)", "A", "D", "G"],
+                        correct: 0,
+                        explanation: "De stemming van laag naar hoog begint met de lage E-snaar."
+                    },
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 5e snaar?",
+                        options: ["E", "A", "D", "B"],
+                        correct: 1,
+                        explanation: "De 5e snaar is de A-snaar (volgorde: E - A - D - G - B - e)."
+                    },
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 4e snaar?",
+                        options: ["G", "B", "D", "A"],
+                        correct: 2,
+                        explanation: "De 4e snaar is de D-snaar."
+                    },
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 3e snaar?",
+                        options: ["D", "G", "B", "e"],
+                        correct: 1,
+                        explanation: "De 3e snaar is de G-snaar."
+                    },
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 2e snaar?",
+                        options: ["A", "G", "B", "e"],
+                        correct: 2,
+                        explanation: "De 2e snaar is de B-snaar."
+                    },
+                    {
+                        category: "Open Snaren",
+                        prompt: "Welke noot is de open 1e snaar (de dunste snaar)?",
+                        options: ["e (Hoge e)", "B", "G", "D"],
+                        correct: 0,
+                        explanation: "De 1e snaar is de hoge e-snaar."
+                    },
+                    {
+                        category: "Noten op de Hals",
+                        prompt: "Welke noot ligt op de 1e fret van de lage E-snaar?",
+                        options: ["F", "F#", "G", "D"],
+                        correct: 0,
+                        explanation: "Tussen E en F zit een natuurlijke halve toonafstand (1 fret), dus Fret 1 op de E-snaar is de noot F."
+                    },
+                    {
+                        category: "Noten op de Hals",
+                        prompt: "Welke noot ligt op de 3e fret van de lage E-snaar?",
+                        options: ["F", "G", "A", "C"],
+                        correct: 1,
+                        explanation: "Fret 1 is F, Fret 2 is F#, en Fret 3 (bij de eerste markering) is de noot G."
+                    },
+                    {
+                        category: "Noten op de Hals",
+                        prompt: "Welke noot ligt op de 2e fret van de A-snaar?",
+                        options: ["A#", "B", "C", "D"],
+                        correct: 1,
+                        explanation: "De open snaar is A, Fret 1 is A#, en Fret 2 is de noot B."
+                    },
+                    {
+                        category: "Noten op de Hals",
+                        prompt: "Welke noot ligt op de 3e fret van de A-snaar?",
+                        options: ["B", "B#", "C", "D"],
+                        correct: 2,
+                        explanation: "Tussen B en C zit een natuurlijke halve toon (1 fret). Fret 2 is B, dus Fret 3 is direct de noot C!"
+                    }
+                ]
+            },
+            en: {
+                title: "Note Quiz: Test Yourself!",
+                progress: "Question {current} of {total}",
+                nextBtn: "Next Question →",
+                restartBtn: "🔄 Practice Again",
+                shuffleBtn: "Shuffle",
+                hideFretboardBtn: "Hide Fretboard (Blind Test)",
+                showFretboardBtn: "Show Fretboard Diagram",
+                hideFretboardShort: "Hide Fretboard",
+                showFretboardShort: "Show Fretboard",
+                fretboardHiddenNotice: "Fretboard diagram is hidden for the test. Click here to reveal.",
+                scoreLabel: "Score: {score} / {total} ({pct}%)",
+                perfectTitle: "Awesome job!",
+                perfectMsg: "You have mastered the open strings and fretboard notes!",
+                goodTitle: "Great effort!",
+                goodMsg: "You're making great progress! Take another round to get a flawless score.",
+                retryTitle: "Keep practicing!",
+                retryMsg: "Check the fretboard diagram above once more and try the quiz again.",
+                feedbackCorrect: "🎉 Correct!",
+                feedbackWrong: "❌ Not quite!",
+                questions: [
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 6th string (the lowest/thickest string)?",
+                        options: ["E (Low E)", "A", "D", "G"],
+                        correct: 0,
+                        explanation: "Guitar standard tuning from low to high starts on the Low E string."
+                    },
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 5th string?",
+                        options: ["E", "A", "D", "B"],
+                        correct: 1,
+                        explanation: "The 5th string is the A string (order: E - A - D - G - B - e)."
+                    },
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 4th string?",
+                        options: ["G", "B", "D", "A"],
+                        correct: 2,
+                        explanation: "The 4th string is the D string."
+                    },
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 3rd string?",
+                        options: ["D", "G", "B", "e"],
+                        correct: 1,
+                        explanation: "The 3rd string is the G string."
+                    },
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 2nd string?",
+                        options: ["A", "G", "B", "e"],
+                        correct: 2,
+                        explanation: "The 2nd string is the B string."
+                    },
+                    {
+                        category: "Open Strings",
+                        prompt: "Which note is the open 1st string (the highest/thinnest string)?",
+                        options: ["e (High e)", "B", "G", "D"],
+                        correct: 0,
+                        explanation: "The 1st string is the high e string."
+                    },
+                    {
+                        category: "Fretboard Notes",
+                        prompt: "Which note is on the 1st fret of the low E string?",
+                        options: ["F", "F#", "G", "D"],
+                        correct: 0,
+                        explanation: "Between E and F is a natural half step (1 fret), so Fret 1 on the low E string is the note F."
+                    },
+                    {
+                        category: "Fretboard Notes",
+                        prompt: "Which note is on the 3rd fret of the low E string?",
+                        options: ["F", "G", "A", "C"],
+                        correct: 1,
+                        explanation: "Fret 1 is F, Fret 2 is F#, and Fret 3 (first dot marker) is the note G."
+                    },
+                    {
+                        category: "Fretboard Notes",
+                        prompt: "Which note is on the 2nd fret of the A string?",
+                        options: ["A#", "B", "C", "D"],
+                        correct: 1,
+                        explanation: "Open is A, Fret 1 is A#, and Fret 2 is the note B."
+                    },
+                    {
+                        category: "Fretboard Notes",
+                        prompt: "Which note is on the 3rd fret of the A string?",
+                        options: ["B", "B#", "C", "D"],
+                        correct: 2,
+                        explanation: "Between B and C is a natural half step (1 fret). Fret 2 is B, so Fret 3 is the note C!"
+                    }
+                ]
+            }
+        };
+
+        const POWERCHORDS_FRETBOARD = {
+            'F': { name: 'F5', rootFret: 1, fifthFret: 3, rootName: 'F', fifthName: 'C', noteNl: 'Lage E-snaar Fret 1 & A-snaar Fret 3', noteEn: 'Low E string Fret 1 & A string Fret 3', notes: [41, 48, 53] },
+            'G': { name: 'G5', rootFret: 3, fifthFret: 5, rootName: 'G', fifthName: 'D', noteNl: 'Lage E-snaar Fret 3 & A-snaar Fret 5', noteEn: 'Low E string Fret 3 & A string Fret 5', notes: [43, 50, 55] },
+            'A': { name: 'A5', rootFret: 5, fifthFret: 7, rootName: 'A', fifthName: 'E', noteNl: 'Lage E-snaar Fret 5 & A-snaar Fret 7', noteEn: 'Low E string Fret 5 & A string Fret 7', notes: [45, 52, 57] },
+            'B': { name: 'B5', rootFret: 7, fifthFret: 9, rootName: 'B', fifthName: 'F#', noteNl: 'Lage E-snaar Fret 7 & A-snaar Fret 9', noteEn: 'Low E string Fret 7 & A string Fret 9', notes: [47, 54, 59] },
+            'C': { name: 'C5', rootFret: 8, fifthFret: 10, rootName: 'C', fifthName: 'G', noteNl: 'Lage E-snaar Fret 8 & A-snaar Fret 10', noteEn: 'Low E string Fret 8 & A string Fret 10', notes: [48, 55, 60] },
+            'D': { name: 'D5', rootFret: 10, fifthFret: 12, rootName: 'D', fifthName: 'A', noteNl: 'Lage E-snaar Fret 10 & A-snaar Fret 12', noteEn: 'Low E string Fret 10 & A string Fret 12', notes: [50, 57, 62] },
+            'E': { name: 'E5', rootFret: 0, fifthFret: 2, rootName: 'E', fifthName: 'B', noteNl: 'Losse E-snaar (0) & A-snaar Fret 2', noteEn: 'Open E string (0) & A string Fret 2', notes: [40, 47, 52] }
+        };
+
+        const POWERCHORDS_A_STRING_FRETBOARD = {
+            'A': { name: 'A5', rootFret: 0, fifthFret: 2, rootName: 'A', fifthName: 'E', noteNl: 'Losse A-snaar (0) & D-snaar Fret 2', noteEn: 'Open A string (0) & D string Fret 2', notes: [45, 52, 57] },
+            'B': { name: 'B5', rootFret: 2, fifthFret: 4, rootName: 'B', fifthName: 'F#', noteNl: 'A-snaar Fret 2 & D-snaar Fret 4', noteEn: 'A string Fret 2 & D string Fret 4', notes: [47, 54, 59] },
+            'C': { name: 'C5', rootFret: 3, fifthFret: 5, rootName: 'C', fifthName: 'G', noteNl: 'A-snaar Fret 3 & D-snaar Fret 5', noteEn: 'A string Fret 3 & D string Fret 5', notes: [48, 55, 60] },
+            'D': { name: 'D5', rootFret: 5, fifthFret: 7, rootName: 'D', fifthName: 'A', noteNl: 'A-snaar Fret 5 & D-snaar Fret 7', noteEn: 'A string Fret 5 & D string Fret 7', notes: [50, 57, 62] },
+            'E': { name: 'E5', rootFret: 7, fifthFret: 9, rootName: 'E', fifthName: 'B', noteNl: 'A-snaar Fret 7 & D-snaar Fret 9', noteEn: 'A string Fret 7 & D string Fret 9', notes: [52, 59, 64] }
+        };
+
+        let currentPowerchordKey = 'F';
+        let currentPowerchordAKey = 'A';
+
+        function getFretCenterX(fret) {
+            if (fret === 0) return 45;
+            const fretPositions = {
+                1: 77.5, 2: 132.5, 3: 187.5, 4: 242.5, 5: 297.5, 6: 352.5,
+                7: 407.5, 8: 462.5, 9: 517.5, 10: 572.5, 11: 627.5, 12: 682.5
+            };
+            return fretPositions[fret] || 45;
+        }
+
+        function selectPowerchordFretboard(chordKey) {
+            currentPowerchordKey = chordKey;
+            renderPowerchordFretboard(chordKey, true);
+        }
+
+        function renderPowerchordFretboard(chordKey, playAudio = false) {
+            if (chordKey) currentPowerchordKey = chordKey;
+            const data = POWERCHORDS_FRETBOARD[currentPowerchordKey] || POWERCHORDS_FRETBOARD['F'];
+            const container = document.getElementById('powerchordFretboardSvgContainer');
+            const banner = document.getElementById('powerchordInfoBanner');
+            const isNL = (currentLang === 'nl');
+
+            // Update active button
+            document.querySelectorAll('#powerchord6thSelectorBar .btn-pc-select').forEach(btn => {
+                const key = btn.getAttribute('data-pc');
+                btn.classList.toggle('active', key === currentPowerchordKey);
+            });
+
+            if (banner) {
+                banner.innerHTML = isNL
+                    ? `⚡ <strong>${data.name} Powerchord:</strong> Grondtoon = <span style="color:#dc2626;font-weight:700;">${data.rootName}</span> • Kwint = <span style="color:#0284c7;font-weight:700;">${data.fifthName}</span> (${data.noteNl})`
+                    : `⚡ <strong>${data.name} Power Chord:</strong> Root note = <span style="color:#dc2626;font-weight:700;">${data.rootName}</span> • Fifth = <span style="color:#0284c7;font-weight:700;">${data.fifthName}</span> (${data.noteEn})`;
+            }
+
+            if (playAudio && data.notes) {
+                playPowerchordAudio(data.notes);
+            }
+
+            if (!container) return;
+
+            const rootX = getFretCenterX(data.rootFret);
+            const fifthX = getFretCenterX(data.fifthFret);
+            const octaveX = fifthX;
+
+            let svg = `<svg class="fretboard-svg" viewBox="0 0 780 215" xmlns="http://www.w3.org/2000/svg">
+                <!-- Fretboard Wood Background -->
+                <rect x="50" y="15" width="700" height="160" fill="#2d1b0f" rx="6" />
+                <!-- Nut -->
+                <rect x="45" y="15" width="10" height="160" fill="#f8fafc" rx="2" />
+
+                <!-- Frets (1 to 12) -->
+                <line x1="105" y1="15" x2="105" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="160" y1="15" x2="160" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="215" y1="15" x2="215" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="270" y1="15" x2="270" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="325" y1="15" x2="325" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="380" y1="15" x2="380" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="435" y1="15" x2="435" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="490" y1="15" x2="490" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="545" y1="15" x2="545" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="600" y1="15" x2="600" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="655" y1="15" x2="655" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="710" y1="15" x2="710" y2="175" stroke="#cbd5e1" stroke-width="3" />
+
+                <!-- Fret Markers (Dots) on 3, 5, 7, 9, 12 -->
+                <circle cx="187.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="297.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="407.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="517.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="682.5" cy="65" r="4" fill="#94a3b8" />
+                <circle cx="682.5" cy="125" r="4" fill="#94a3b8" />
+
+                <!-- Fret Numbers -->
+                <text x="77.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">Fret 1</text>
+                <text x="187.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 3</text>
+                <text x="297.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 5</text>
+                <text x="407.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 7</text>
+                <text x="517.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 9</text>
+                <text x="682.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 12</text>
+
+                <!-- Visual Grip Highlight Box between Frets -->
+                <rect x="${Math.min(rootX, fifthX) - 18}" y="96" width="${Math.abs(fifthX - rootX) + 36}" height="84" fill="#6366f1" fill-opacity="0.18" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4 3" rx="8" />
+
+                <!-- 6 Strings (from 1/high e to 6/low E) -->
+                <line x1="45" y1="30" x2="745" y2="30" stroke="#f1f5f9" stroke-width="1.2" opacity="0.4" />
+                <text x="20" y="34" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">e</text>
+                <text x="34" y="34" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <line x1="45" y1="57" x2="745" y2="57" stroke="#cbd5e1" stroke-width="1.6" opacity="0.4" />
+                <text x="20" y="61" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">B</text>
+                <text x="34" y="61" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <line x1="45" y1="84" x2="745" y2="84" stroke="#cbd5e1" stroke-width="2.0" opacity="0.4" />
+                <text x="20" y="88" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">G</text>
+                <text x="34" y="88" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <line x1="45" y1="111" x2="745" y2="111" stroke="#cbd5e1" stroke-width="2.4" />
+                <text x="20" y="115" font-family="Inter" font-size="12" font-weight="800" fill="#f43f5e" text-anchor="middle">D</text>
+
+                <line x1="45" y1="138" x2="745" y2="138" stroke="#e2e8f0" stroke-width="3.0" />
+                <text x="20" y="142" font-family="Inter" font-size="12" font-weight="800" fill="#0284c7" text-anchor="middle">A</text>
+
+                <line x1="45" y1="165" x2="745" y2="165" stroke="#f8fafc" stroke-width="3.6" />
+                <text x="20" y="169" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">E</text>
+
+                <!-- Octave Note (D String, cy=111) -->
+                <circle cx="${octaveX}" cy="111" r="13" fill="#f43f5e" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${octaveX}" y="115.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.rootName}</text>
+
+                <!-- Fifth Note / Kwint (A String, cy=138) -->
+                <circle cx="${fifthX}" cy="138" r="13" fill="#0284c7" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${fifthX}" y="142.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.fifthName}</text>
+
+                <!-- Root Note / Grondtoon (Low E String, cy=165) -->
+                <circle cx="${rootX}" cy="165" r="13" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${rootX}" y="169.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.rootName}</text>
+            </svg>`;
+
+            container.innerHTML = svg;
+
+            // Sync sidebar preview with the selected chord
+            selectGuitarChord(data.name, false);
+        }
+
+        function selectPowerchordAStringFretboard(chordKey) {
+            currentPowerchordAKey = chordKey;
+            renderPowerchordAStringFretboard(chordKey, true);
+        }
+
+        function renderPowerchordAStringFretboard(chordKey, playAudio = false) {
+            if (chordKey) currentPowerchordAKey = chordKey;
+            const data = POWERCHORDS_A_STRING_FRETBOARD[currentPowerchordAKey] || POWERCHORDS_A_STRING_FRETBOARD['A'];
+            const container = document.getElementById('powerchordAStringFretboardSvgContainer');
+            const banner = document.getElementById('powerchordAStringInfoBanner');
+            const isNL = (currentLang === 'nl');
+
+            // Update active button
+            document.querySelectorAll('#powerchord5thSelectorBar .btn-pc-select').forEach(btn => {
+                const key = btn.getAttribute('data-pc-a');
+                btn.classList.toggle('active', key === currentPowerchordAKey);
+            });
+
+            if (banner) {
+                banner.innerHTML = isNL
+                    ? `⚡ <strong>${data.name} Powerchord (5e snaar):</strong> Grondtoon = <span style="color:#dc2626;font-weight:700;">${data.rootName}</span> • Kwint = <span style="color:#0284c7;font-weight:700;">${data.fifthName}</span> (${data.noteNl})`
+                    : `⚡ <strong>${data.name} Power Chord (5th string):</strong> Root note = <span style="color:#dc2626;font-weight:700;">${data.rootName}</span> • Fifth = <span style="color:#0284c7;font-weight:700;">${data.fifthName}</span> (${data.noteEn})`;
+            }
+
+            if (playAudio && data.notes) {
+                playPowerchordAudio(data.notes);
+            }
+
+            if (!container) return;
+
+            const rootX = getFretCenterX(data.rootFret);
+            const fifthX = getFretCenterX(data.fifthFret);
+            const octaveX = fifthX;
+
+            let svg = `<svg class="fretboard-svg" viewBox="0 0 780 215" xmlns="http://www.w3.org/2000/svg">
+                <!-- Fretboard Wood Background -->
+                <rect x="50" y="15" width="700" height="160" fill="#2d1b0f" rx="6" />
+                <!-- Nut -->
+                <rect x="45" y="15" width="10" height="160" fill="#f8fafc" rx="2" />
+
+                <!-- Frets (1 to 12) -->
+                <line x1="105" y1="15" x2="105" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="160" y1="15" x2="160" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="215" y1="15" x2="215" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="270" y1="15" x2="270" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="325" y1="15" x2="325" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="380" y1="15" x2="380" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="435" y1="15" x2="435" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="490" y1="15" x2="490" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="545" y1="15" x2="545" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="600" y1="15" x2="600" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="655" y1="15" x2="655" y2="175" stroke="#cbd5e1" stroke-width="3" />
+                <line x1="710" y1="15" x2="710" y2="175" stroke="#cbd5e1" stroke-width="3" />
+
+                <!-- Fret Markers (Dots) on 3, 5, 7, 9, 12 -->
+                <circle cx="187.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="297.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="407.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="517.5" cy="95" r="5" fill="#94a3b8" />
+                <circle cx="682.5" cy="65" r="4" fill="#94a3b8" />
+                <circle cx="682.5" cy="125" r="4" fill="#94a3b8" />
+
+                <!-- Fret Numbers -->
+                <text x="77.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">Fret 1</text>
+                <text x="187.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 3</text>
+                <text x="297.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 5</text>
+                <text x="407.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 7</text>
+                <text x="517.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 9</text>
+                <text x="682.5" y="198" font-family="Inter" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Fret 12</text>
+
+                <!-- Visual Grip Highlight Box between Frets -->
+                <rect x="${Math.min(rootX, fifthX) - 18}" y="69" width="${Math.abs(fifthX - rootX) + 36}" height="84" fill="#6366f1" fill-opacity="0.18" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4 3" rx="8" />
+
+                <!-- 6 Strings (from 1/high e to 6/low E) -->
+                <line x1="45" y1="30" x2="745" y2="30" stroke="#f1f5f9" stroke-width="1.2" opacity="0.4" />
+                <text x="20" y="34" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">e</text>
+                <text x="34" y="34" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <line x1="45" y1="57" x2="745" y2="57" stroke="#cbd5e1" stroke-width="1.6" opacity="0.4" />
+                <text x="20" y="61" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">B</text>
+                <text x="34" y="61" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <line x1="45" y1="84" x2="745" y2="84" stroke="#cbd5e1" stroke-width="2.0" />
+                <text x="20" y="88" font-family="Inter" font-size="12" font-weight="800" fill="#f43f5e" text-anchor="middle">G</text>
+
+                <line x1="45" y1="111" x2="745" y2="111" stroke="#cbd5e1" stroke-width="2.4" />
+                <text x="20" y="115" font-family="Inter" font-size="12" font-weight="800" fill="#0284c7" text-anchor="middle">D</text>
+
+                <line x1="45" y1="138" x2="745" y2="138" stroke="#e2e8f0" stroke-width="3.0" />
+                <text x="20" y="142" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">A</text>
+
+                <line x1="45" y1="165" x2="745" y2="165" stroke="#f8fafc" stroke-width="3.6" opacity="0.4" />
+                <text x="20" y="169" font-family="Inter" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">E</text>
+                <text x="34" y="169" font-family="Inter" font-size="12" font-weight="800" fill="#ef4444" text-anchor="middle">×</text>
+
+                <!-- Octave Note (G String, cy=84) -->
+                <circle cx="${octaveX}" cy="84" r="13" fill="#f43f5e" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${octaveX}" y="88.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.rootName}</text>
+
+                <!-- Fifth Note / Kwint (D String, cy=111) -->
+                <circle cx="${fifthX}" cy="111" r="13" fill="#0284c7" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${fifthX}" y="115.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.fifthName}</text>
+
+                <!-- Root Note / Grondtoon (A String, cy=138) -->
+                <circle cx="${rootX}" cy="138" r="13" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
+                <text x="${rootX}" y="142.5" font-family="Inter" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle">${data.rootName}</text>
+            </svg>`;
+
+            container.innerHTML = svg;
+
+            selectGuitarChord(data.name, false);
+        }
+
+        let isFretboardHidden = false;
+        let quizQuestionOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        let quizState = {
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+            selectedOption: null,
+            isCompleted: false
+        };
+
+        function toggleFretboardVisibility() {
+            isFretboardHidden = !isFretboardHidden;
+            updateFretboardVisibilityUI();
+        }
+
+        function updateFretboardVisibilityUI() {
+            const data = LESSON_1_QUIZ_DATA[currentLang] || LESSON_1_QUIZ_DATA.nl;
+            const container = document.getElementById('fretboardContainer1');
+            const placeholder = document.getElementById('fretboardHiddenPlaceholder');
+            const btnSection = document.getElementById('txtBtnToggleFretboard');
+            const btnSectionIco = document.getElementById('icoBtnToggleFretboard');
+            const btnSectionEl = document.getElementById('btnToggleFretboard');
+            const txtQuizNeck = document.getElementById('txtQuizToggleNeck');
+            const icoQuizNeck = document.getElementById('icoQuizToggleNeck');
+            const btnQuizNeckEl = document.getElementById('btnQuizToggleNeck');
+            const txtHiddenNotice = document.getElementById('txtFretboardHiddenPlaceholder');
+            const txtShuffle = document.getElementById('txtQuizShuffle');
+
+            if (container) container.style.display = isFretboardHidden ? 'none' : 'block';
+            if (placeholder) placeholder.style.display = isFretboardHidden ? 'flex' : 'none';
+            if (txtHiddenNotice) txtHiddenNotice.textContent = data.fretboardHiddenNotice;
+
+            if (txtShuffle) txtShuffle.textContent = data.shuffleBtn;
+            if (txtQuizNeck) txtQuizNeck.textContent = isFretboardHidden ? data.showFretboardShort : data.hideFretboardShort;
+            if (icoQuizNeck) icoQuizNeck.textContent = isFretboardHidden ? '👁️' : '🙈';
+            if (btnQuizNeckEl) btnQuizNeckEl.classList.toggle('active', isFretboardHidden);
+
+            if (btnSection) btnSection.textContent = isFretboardHidden ? data.showFretboardBtn : data.hideFretboardBtn;
+            if (btnSectionIco) btnSectionIco.textContent = isFretboardHidden ? '👁️' : '🙈';
+            if (btnSectionEl) btnSectionEl.classList.toggle('active-hidden', isFretboardHidden);
+        }
+
+        function shuffleQuizQuestions() {
+            for (let i = quizQuestionOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [quizQuestionOrder[i], quizQuestionOrder[j]] = [quizQuestionOrder[j], quizQuestionOrder[i]];
+            }
+            quizState.currentIndex = 0;
+            quizState.score = 0;
+            quizState.answered = false;
+            quizState.selectedOption = null;
+            quizState.isCompleted = false;
+            renderLesson1Quiz();
+        }
+
+        function renderLesson1Quiz() {
+            const data = LESSON_1_QUIZ_DATA[currentLang] || LESSON_1_QUIZ_DATA.nl;
+            const questions = data.questions;
+            const total = questions.length;
+
+            const titleEl = document.getElementById('quiz-header-title');
+            const indicatorEl = document.getElementById('quiz-progress-indicator');
+            const fillEl = document.getElementById('quiz-progress-fill');
+            const qContainer = document.getElementById('quiz-question-container');
+            const rContainer = document.getElementById('quiz-result-container');
+
+            if (titleEl) titleEl.textContent = data.title;
+
+            if (quizState.isCompleted) {
+                if (qContainer) qContainer.style.display = 'none';
+                if (rContainer) rContainer.style.display = 'block';
+                if (fillEl) fillEl.style.width = '100%';
+                if (indicatorEl) indicatorEl.textContent = data.progress.replace('{current}', total).replace('{total}', total);
+
+                const pct = Math.round((quizState.score / total) * 100);
+                const rEmoji = document.getElementById('quiz-result-emoji');
+                const rTitle = document.getElementById('quiz-result-title');
+                const rScore = document.getElementById('quiz-result-score');
+                const rMsg = document.getElementById('quiz-result-msg');
+                const rRestart = document.getElementById('quiz-restart-btn');
+
+                if (rScore) rScore.textContent = data.scoreLabel.replace('{score}', quizState.score).replace('{total}', total).replace('{pct}', pct);
+                if (rRestart) rRestart.textContent = data.restartBtn;
+
+                if (pct >= 90) {
+                    if (rEmoji) rEmoji.textContent = '🏆';
+                    if (rTitle) rTitle.textContent = data.perfectTitle;
+                    if (rMsg) rMsg.textContent = data.perfectMsg;
+                } else if (pct >= 60) {
+                    if (rEmoji) rEmoji.textContent = '🌟';
+                    if (rTitle) rTitle.textContent = data.goodTitle;
+                    if (rMsg) rMsg.textContent = data.goodMsg;
+                } else {
+                    if (rEmoji) rEmoji.textContent = '🎸';
+                    if (rTitle) rTitle.textContent = data.retryTitle;
+                    if (rMsg) rMsg.textContent = data.retryMsg;
+                }
+                return;
+            }
+
+            if (qContainer) qContainer.style.display = 'block';
+            if (rContainer) rContainer.style.display = 'none';
+
+            const qIdx = (quizQuestionOrder[quizState.currentIndex] !== undefined) ? quizQuestionOrder[quizState.currentIndex] : quizState.currentIndex;
+            const currentQ = questions[qIdx];
+            const currNum = quizState.currentIndex + 1;
+
+            if (indicatorEl) indicatorEl.textContent = data.progress.replace('{current}', currNum).replace('{total}', total);
+            if (fillEl) fillEl.style.width = Math.round(((currNum - 1) / total) * 100) + '%';
+
+            const catEl = document.getElementById('quiz-question-category');
+            const promptEl = document.getElementById('quiz-question-text');
+            const optionsEl = document.getElementById('quiz-options-container');
+            const fbBox = document.getElementById('quiz-feedback-box');
+            const fbTitle = document.getElementById('quiz-feedback-title');
+            const fbText = document.getElementById('quiz-feedback-text');
+            const nextBtn = document.getElementById('quiz-next-btn');
+
+            if (catEl) catEl.textContent = currentQ.category;
+            if (promptEl) promptEl.textContent = currentQ.prompt;
+            if (nextBtn) nextBtn.textContent = data.nextBtn;
+
+            if (optionsEl) {
+                optionsEl.innerHTML = '';
+                currentQ.options.forEach((optText, optIdx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'quiz-option-btn';
+                    btn.textContent = optText;
+                    btn.disabled = quizState.answered;
+
+                    if (quizState.answered) {
+                        if (optIdx === currentQ.correct) {
+                            btn.classList.add('selected-correct');
+                        } else if (optIdx === quizState.selectedOption) {
+                            btn.classList.add('selected-wrong');
+                        }
+                    } else {
+                        btn.onclick = () => handleQuizOptionSelect(optIdx);
+                    }
+                    optionsEl.appendChild(btn);
+                });
+            }
+
+            if (quizState.answered) {
+                const isCorrect = (quizState.selectedOption === currentQ.correct);
+                if (fbBox) {
+                    fbBox.className = 'quiz-feedback-box ' + (isCorrect ? 'correct' : 'wrong');
+                    fbBox.style.display = 'block';
+                    if (fbTitle) fbTitle.textContent = isCorrect ? data.feedbackCorrect : data.feedbackWrong;
+                    if (fbText) fbText.textContent = currentQ.explanation;
+                }
+                if (nextBtn) nextBtn.style.display = 'inline-block';
+            } else {
+                if (fbBox) {
+                    fbBox.className = 'quiz-feedback-box';
+                    fbBox.style.display = 'none';
+                }
+                if (nextBtn) nextBtn.style.display = 'none';
+            }
+        }
+
+        function handleQuizOptionSelect(optIdx) {
+            if (quizState.answered) return;
+            const data = LESSON_1_QUIZ_DATA[currentLang] || LESSON_1_QUIZ_DATA.nl;
+            const qIdx = (quizQuestionOrder[quizState.currentIndex] !== undefined) ? quizQuestionOrder[quizState.currentIndex] : quizState.currentIndex;
+            const currentQ = data.questions[qIdx];
+
+            quizState.answered = true;
+            quizState.selectedOption = optIdx;
+
+            if (optIdx === currentQ.correct) {
+                quizState.score++;
+            }
+
+            renderLesson1Quiz();
+        }
+
+        function nextQuizQuestion() {
+            const data = LESSON_1_QUIZ_DATA[currentLang] || LESSON_1_QUIZ_DATA.nl;
+            const total = data.questions.length;
+
+            if (quizState.currentIndex + 1 < total) {
+                quizState.currentIndex++;
+                quizState.answered = false;
+                quizState.selectedOption = null;
+            } else {
+                quizState.isCompleted = true;
+            }
+
+            renderLesson1Quiz();
+        }
+
+        function resetLesson1Quiz() {
+            quizState = {
+                currentIndex: 0,
+                score: 0,
+                answered: false,
+                selectedOption: null,
+                isCompleted: false
+            };
+            renderLesson1Quiz();
         }
 
         function toggleLanguage() {
@@ -2129,6 +3555,8 @@
             if (sidebarChordDesc) sidebarChordDesc.textContent = t.sidebarDesc;
             if (sidebarBadgesTitle) sidebarBadgesTitle.textContent = t.sidebarBadgesTitle;
             if (sidebarSvgPlaceholder) sidebarSvgPlaceholder.textContent = t.sidebarSvgSelect;
+            const sidebarRootLegendEl = document.getElementById('txtSidebarRootLegend');
+            if (sidebarRootLegendEl && t.sidebarRootLegend) sidebarRootLegendEl.textContent = t.sidebarRootLegend;
 
             // Translate launch cards, lesson tags, sidebar badges & detailed lesson content
             for (let i = 1; i <= 9; i++) {
@@ -2170,6 +3598,70 @@
                 fretboardHeading.textContent = t.lessonDetails[1].fretboardHeading;
             }
 
+            const powerchordHeading = document.getElementById('powerchord-heading-2');
+            if (powerchordHeading && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].fretboardHeading) {
+                powerchordHeading.textContent = t.lessonDetails[2].fretboardHeading;
+            }
+
+            const powerchordInstruction = document.getElementById('powerchord-instruction-2');
+            if (powerchordInstruction && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].fretboardInstruction) {
+                powerchordInstruction.textContent = t.lessonDetails[2].fretboardInstruction;
+            }
+
+            const powerchordATheoryTitle = document.getElementById('powerchord-a-string-theory-title');
+            if (powerchordATheoryTitle && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].aStringTheoryTitle) {
+                powerchordATheoryTitle.innerHTML = t.lessonDetails[2].aStringTheoryTitle;
+            }
+
+            const powerchordATheoryP1 = document.getElementById('powerchord-a-string-theory-p1');
+            if (powerchordATheoryP1 && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].aStringTheoryP1) {
+                powerchordATheoryP1.innerHTML = t.lessonDetails[2].aStringTheoryP1;
+            }
+
+            const powerchordATheoryP2 = document.getElementById('powerchord-a-string-theory-p2');
+            if (powerchordATheoryP2 && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].aStringTheoryP2) {
+                powerchordATheoryP2.innerHTML = t.lessonDetails[2].aStringTheoryP2;
+            }
+
+            const powerchordAHeading = document.getElementById('powerchord-a-string-heading');
+            if (powerchordAHeading && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].fretboardAHeading) {
+                powerchordAHeading.textContent = t.lessonDetails[2].fretboardAHeading;
+            }
+
+            const powerchordAInstruction = document.getElementById('powerchord-a-string-instruction');
+            if (powerchordAInstruction && t.lessonDetails && t.lessonDetails[2] && t.lessonDetails[2].fretboardAInstruction) {
+                powerchordAInstruction.textContent = t.lessonDetails[2].fretboardAInstruction;
+            }
+
+            const txtPcLegendRoot = document.getElementById('txtPcLegendRoot');
+            if (txtPcLegendRoot && t.powerchordLegendRoot) txtPcLegendRoot.textContent = t.powerchordLegendRoot;
+
+            const txtPcLegendFifth = document.getElementById('txtPcLegendFifth');
+            if (txtPcLegendFifth && t.powerchordLegendFifth) txtPcLegendFifth.textContent = t.powerchordLegendFifth;
+
+            const txtPcLegendOctave = document.getElementById('txtPcLegendOctave');
+            if (txtPcLegendOctave && t.powerchordLegendOctave) txtPcLegendOctave.textContent = t.powerchordLegendOctave;
+
+            const txtPcLegendMute = document.getElementById('txtPcLegendMute');
+            if (txtPcLegendMute && t.powerchordLegendMute) txtPcLegendMute.textContent = t.powerchordLegendMute;
+
+            const txtPcALegendRoot = document.getElementById('txtPcALegendRoot');
+            if (txtPcALegendRoot && t.powerchordALegendRoot) txtPcALegendRoot.textContent = t.powerchordALegendRoot;
+
+            const txtPcALegendFifth = document.getElementById('txtPcALegendFifth');
+            if (txtPcALegendFifth && t.powerchordALegendFifth) txtPcALegendFifth.textContent = t.powerchordALegendFifth;
+
+            const txtPcALegendOctave = document.getElementById('txtPcALegendOctave');
+            if (txtPcALegendOctave && t.powerchordALegendOctave) txtPcALegendOctave.textContent = t.powerchordALegendOctave;
+
+            const txtPcALegendMute = document.getElementById('txtPcALegendMute');
+            if (txtPcALegendMute && t.powerchordALegendMute) txtPcALegendMute.textContent = t.powerchordALegendMute;
+
+            const quizIntro1 = document.getElementById('quiz-intro-1');
+            if (quizIntro1 && t.lessonDetails && t.lessonDetails[1] && t.lessonDetails[1].quizIntro) {
+                quizIntro1.innerHTML = t.lessonDetails[1].quizIntro;
+            }
+
             const practiceHint9 = document.getElementById('practice-hint-9');
             if (practiceHint9 && t.lessonDetails && t.lessonDetails[9] && t.lessonDetails[9].practiceHint) {
                 practiceHint9.textContent = t.lessonDetails[9].practiceHint;
@@ -2180,13 +3672,32 @@
                 counter.textContent = t.lessonCounter.replace('{id}', currentLessonId);
             }
 
+            if (currentLessonId) {
+                updateSidebarChordButtons(currentLessonId);
+            }
+
+            updateFretboardVisibilityUI();
+            renderLesson1Quiz();
+            renderPowerchordFretboard(currentPowerchordKey, false);
+            renderPowerchordAStringFretboard(currentPowerchordAKey, false);
             updateProgress();
         }
 
         // Initialize mode on load
         window.addEventListener('DOMContentLoaded', () => {
             applyLanguage();
-            selectGuitarChord('C');
+            renderLesson1Quiz();
+            selectGuitarChord('C', false);
+            if (location.hash && location.hash.startsWith('#lesson-')) {
+                const id = parseInt(location.hash.replace('#lesson-', ''), 10);
+                if (!isNaN(id)) openLesson(id);
+                else showLaunchPage();
+            } else {
+                showLaunchPage();
+            }
+        });
+
+        window.addEventListener('hashchange', () => {
             if (location.hash && location.hash.startsWith('#lesson-')) {
                 const id = parseInt(location.hash.replace('#lesson-', ''), 10);
                 if (!isNaN(id)) openLesson(id);

@@ -2935,7 +2935,11 @@
                 
                 if (match) {
                     // Tell the parent app we opened from lessons
-                    window.parent.appInstance.openedSongFromLessons = currentLessonId || true;
+                    window.parent.appInstance.openedSongFromLessons = {
+                        type: 'keyboard',
+                        lessonId: currentLessonId || 1,
+                        url: `lessons.html#lesson-${currentLessonId || 1}`
+                    };
                     // Close the dashboard panel inside parent window
                     if (typeof window.parent.closeDashboardPanel === 'function') {
                         window.parent.closeDashboardPanel();

@@ -5732,11 +5732,15 @@ class SongDetailModal {
 
         // Return to lessons page if opened from there
         if (window.appInstance && window.appInstance.openedSongFromLessons) {
-            const lessonId = window.appInstance.openedSongFromLessons;
+            const lessonInfo = window.appInstance.openedSongFromLessons;
             window.appInstance.openedSongFromLessons = false;
             if (typeof window.openDashboardPanel === 'function') {
-                if (lessonId && lessonId !== true) {
-                    window.openDashboardPanel(`lessons.html#lesson-${lessonId}`);
+                if (typeof lessonInfo === 'object' && lessonInfo.url) {
+                    window.openDashboardPanel(lessonInfo.url);
+                } else if (typeof lessonInfo === 'string') {
+                    window.openDashboardPanel(lessonInfo);
+                } else if (lessonInfo && lessonInfo !== true) {
+                    window.openDashboardPanel(`lessons.html#lesson-${lessonInfo}`);
                 } else {
                     window.openDashboardPanel('lessons.html');
                 }
