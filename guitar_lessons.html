@@ -72,25 +72,35 @@
 
         @media (max-width: 1024px) {
             body {
-                padding: 15px;
+                padding: 12px;
             }
             .lessons-layout {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 15px;
             }
             header {
                 order: 0;
                 margin-bottom: 20px;
                 padding: 20px;
             }
+            .single-lesson-nav {
+                position: static;
+                margin-bottom: 14px;
+                padding: 8px 12px;
+                box-shadow: none;
+            }
             .guitar-sidebar {
                 order: 1;
                 position: sticky;
                 top: 0;
                 z-index: 100;
-                background: #ffffff;
-                padding: 6px 0;
-                border-bottom: 2px solid var(--card-border);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(8px);
+                padding: 6px 14px;
+                border: 1px solid var(--card-border);
+                border-radius: 14px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+                margin-bottom: 14px;
             }
             .lessons-list {
                 order: 2;
@@ -100,12 +110,62 @@
                 padding: 0;
                 border: none;
                 box-shadow: none;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                background: transparent;
             }
-            .guitar-card h3, .guitar-card p {
+            .guitar-card-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                flex-grow: 1;
+            }
+            .guitar-card h3 {
+                display: block !important;
+                font-size: 1.05rem;
+                font-weight: 800;
+                color: var(--accent-primary);
+                margin: 0;
+                line-height: 1.2;
+            }
+            .guitar-card p {
                 display: none;
             }
+            .guitar-card .chord-preview-grid {
+                display: none;
+            }
+            .guitar-card .diagram-root-legend {
+                display: flex !important;
+                font-size: 0.72rem;
+                margin: 2px 0 0 0 !important;
+                justify-content: flex-start !important;
+                color: #dc2626;
+            }
+            .guitar-card .diagram-container {
+                min-height: auto;
+                padding: 2px 6px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                background: #f8fafc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .guitar-card .diagram-container svg {
+                height: 64px;
+                width: auto;
+                max-width: 58px;
+                display: block;
+            }
+            .guitar-card .lesson-badges-panel {
+                display: none !important;
+            }
             .lesson-card {
-                scroll-margin-top: 140px;
+                scroll-margin-top: 100px;
             }
         }
 
@@ -141,6 +201,14 @@
         body.mode-launch .single-lesson-nav,
         body.mode-launch .bottom-lesson-nav {
             display: none !important;
+        }
+
+        body.mode-launch .guitar-sidebar {
+            display: none !important;
+        }
+
+        body.mode-launch .lessons-layout {
+            grid-template-columns: 1fr !important;
         }
 
         body.mode-single-lesson #lessons-launch-page {
@@ -1894,7 +1962,35 @@
                         <div class="practice-song-card" onclick="openSongByName('Cranberries', 'Zombie')">
                             <div class="song-info">
                                 <span class="song-title">Zombie</span>
-                                <span class="song-artist">Cranberries (Em - C - G - D)</span>
+                                <span class="song-artist">Cranberries • Em - C - G - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Ed Sheeran', 'Perfect')">
+                            <div class="song-info">
+                                <span class="song-title">Perfect</span>
+                                <span class="song-artist">Ed Sheeran • G - Em - C - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Dolly Parton', 'Jolene')">
+                            <div class="song-info">
+                                <span class="song-title">Jolene</span>
+                                <span class="song-artist">Dolly Parton • Am - C - G - Em</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Tracy Chapman', 'Fast Car')">
+                            <div class="song-info">
+                                <span class="song-title">Fast Car</span>
+                                <span class="song-artist">Tracy Chapman • C - G - Em - D</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Madcon', 'Don\'t Worry')">
+                            <div class="song-info">
+                                <span class="song-title">Don't Worry</span>
+                                <span class="song-artist">Madcon • Am - C - G - D</span>
                             </div>
                             <span class="song-play-icon">▶</span>
                         </div>
@@ -2201,8 +2297,14 @@
         <!-- Sidebar Diagram Preview & Badges -->
         <aside class="guitar-sidebar">
             <div class="guitar-card">
-                <h3 id="sidebarChordTitle">Gitaarakkoord Preview</h3>
-                <p id="sidebarChordDesc">Klik op een akkoord in de les om de greepvorm te bekijken.</p>
+                <div class="guitar-card-info">
+                    <h3 id="sidebarChordTitle">Gitaarakkoord Preview</h3>
+                    <p id="sidebarChordDesc">Klik op een akkoord in de les om de greepvorm te bekijken.</p>
+                    <div class="diagram-root-legend" id="sidebarRootLegend" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: #dc2626; margin: 8px 0 12px 0;">
+                        <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #ef4444; border: 1.5px solid #b91c1c;"></span>
+                        <span id="txtSidebarRootLegend">Rode stip = Grondtoon</span>
+                    </div>
+                </div>
 
                 <div class="diagram-container" id="guitarDiagramContainer">
                     <svg width="120" height="150" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg">
@@ -2220,11 +2322,6 @@
                         <line x1="95" y1="25" x2="95" y2="145" stroke="black" stroke-width="1" />
                         <text id="sidebarSvgPlaceholder" x="60" y="90" font-family="Inter" font-size="12" font-weight="600" text-anchor="middle" fill="#64748b">Selecteer Akkoord</text>
                     </svg>
-                </div>
-
-                <div class="diagram-root-legend" id="sidebarRootLegend" style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: #dc2626; margin: 8px 0 12px 0;">
-                    <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #ef4444; border: 1.5px solid #b91c1c;"></span>
-                    <span id="txtSidebarRootLegend">Rode stip = Grondtoon</span>
                 </div>
 
                 <div class="chord-preview-grid">
