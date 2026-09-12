@@ -1397,6 +1397,30 @@
             overflow-x: auto;
             margin-top: 12px;
             border: 1px solid #334155;
+            white-space: pre;
+        }
+
+        .practice-intro-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .tab-badge-root {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #0284c7;
+            color: #ffffff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            line-height: 1;
+            vertical-align: middle;
+            box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
         }
     </style>
 </head>
@@ -1411,7 +1435,7 @@
         
         <!-- Header -->
         <header>
-            <h1 id="header-title">Beginner Lessons</h1>
+            <h1 id="header-title">Beginner lessen</h1>
             <p id="header-subtitle">Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.</p>
         </header>
 
@@ -1891,6 +1915,26 @@
 
                 <div class="practice-songs-section">
                     <h4 id="practice-heading-2">Oefensongs met Powerchords:</h4>
+                    <div id="practice-intro-2" class="practice-intro-text">
+                        <p style="margin-bottom: 8px;">Hier zijn een paar iconische rock songs waarin Powerchords gebruikt worden. Het is leuk om even mee te beginnen aangezien deze powerchord shape steeds hetzelfde en dus verplaatsbaar is.</p>
+                        <p style="margin-bottom: 8px;">Om aan te geven op welk vakjes je met je wijsvinger moet beginnen gebruik ik voor het voorbeeld even een mini tablatuur. Tablatuur vind je vaak voor gitaarsolo's en gitaarspel. Elke regel van de tab stelt een snaar voor net zoals de bovenstaande afbeelding van de gitaarhals.</p>
+                        <p style="margin-bottom: 6px;">Een powerchord ziet er op tablatuur als volgt uit:</p>
+                        <div class="tab-box" style="margin-bottom: 16px;">      A5 (6e snaar)
+e |-------------------|
+B |-------------------|
+G |-------------------|
+D |--(7)--------------|  ← Pink / Octaaf (Optioneel)
+A |-- 7 --------------|  ← Ringvinger / Kwint (Fret 7)
+E |-- <span class="tab-badge-root">5</span> --------------|  ← Wijsvinger / Grondtoon (Fret 5)</div>
+                        <p style="margin-bottom: 8px;">Probeer de powerchords in de volgende liedjes. Zodra je die liedjes opent zul je speciaal voor deze liedjes ook de TAB in de Timeline zien:</p>
+                        <div style="margin: 10px 0 14px 0;">
+                            <img src="images/timeline_button_icon.png" alt="Timeline knop" style="max-width: 140px; height: auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); display: inline-block;">
+                        </div>
+                        <p style="margin-bottom: 8px;">Vervolgens zie je hier de akkoorden en ook de TAB voor deze oefening:</p>
+                        <div style="margin: 10px 0 18px 0;">
+                            <img src="images/timeline_tab_example.png" alt="Timeline TAB voorbeeld" style="width: 100%; max-width: 760px; height: auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); border: 1px solid #cbd5e1; display: block;">
+                        </div>
+                    </div>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Toto', 'Hold The Line')">
                             <div class="song-info">
@@ -2427,7 +2471,7 @@
 
         const TRANSLATIONS = {
             nl: {
-                headerTitle: "Beginner Lessons",
+                headerTitle: "Beginner lessen",
                 headerSubtitle: "Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.",
                 underConstruction: "<strong>UNDER CONSTRUCTION</strong> — Deze gitaarlessen zijn momenteel in ontwikkeling (alleen zichtbaar voor admins).",
                 launchTitle: "Kies een les om te beginnen",
@@ -2496,7 +2540,25 @@
                         aStringTheoryP1: "Waarom zou je powerchords vanaf de 5e snaar spelen? Veel powerchords kun je zowel op de 6e (lage E) als op de 5e (A) snaar spelen. Dit is ontzettend handig bij het overspringen tussen akkoorden in liedjes. Je hand hoeft dan niet steeds helemaal naar rechts of links een grote afstand over de hals af te leggen!",
                         aStringTheoryP2: "Als een nummer bijvoorbeeld wisselt tussen <strong>A5, D5 en E5</strong>, speel je A5 open (of op fret 5 van de lage E), en D5 en E5 direct daaronder op fret 5 en 7 van de A-snaar. Zo blijft je hand heerlijk ontspannen in dezelfde positie rond fret 5 en 7!",
                         chordHeading: "Akkoorden in deze les:",
-                        practiceHeading: "Oefensongs met Powerchords:"
+                        practiceHeading: "Oefensongs met Powerchords:",
+                        practiceIntro: `<p style="margin-bottom: 8px;">Hier zijn een paar iconische rock songs waarin Powerchords gebruikt worden. Het is leuk om even mee te beginnen aangezien deze powerchord shape steeds hetzelfde en dus verplaatsbaar is.</p>
+<p style="margin-bottom: 8px;">Om aan te geven op welk vakjes je met je wijsvinger moet beginnen gebruik ik voor het voorbeeld even een mini tablatuur. Tablatuur vind je vaak voor gitaarsolo's en gitaarspel. Elke regel van de tab stelt een snaar voor net zoals de bovenstaande afbeelding van de gitaarhals.</p>
+<p style="margin-bottom: 6px;">Een powerchord ziet er op tablatuur als volgt uit:</p>
+<div class="tab-box" style="margin-bottom: 16px;">      A5 (6e snaar)
+e |-------------------|
+B |-------------------|
+G |-------------------|
+D |--(7)--------------|  ← Pink / Octaaf (Optioneel)
+A |-- 7 --------------|  ← Ringvinger / Kwint (Fret 7)
+E |-- <span class="tab-badge-root">5</span> --------------|  ← Wijsvinger / Grondtoon (Fret 5)</div>
+<p style="margin-bottom: 8px;">Probeer de powerchords in de volgende liedjes. Zodra je die liedjes opent zul je speciaal voor deze liedjes ook de TAB in de Timeline zien:</p>
+<div style="margin: 10px 0 14px 0;">
+    <img src="images/timeline_button_icon.png" alt="Timeline knop" style="max-width: 140px; height: auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); display: inline-block;">
+</div>
+<p style="margin-bottom: 8px;">Vervolgens zie je hier de akkoorden en ook de TAB voor deze oefening:</p>
+<div style="margin: 10px 0 18px 0;">
+    <img src="images/timeline_tab_example.png" alt="Timeline TAB voorbeeld" style="width: 100%; max-width: 760px; height: auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); border: 1px solid #cbd5e1; display: block;">
+</div>`
                     },
                     3: {
                         cat: "Open Basisakkoorden",
@@ -2640,7 +2702,25 @@
                         aStringTheoryP1: "Why play power chords rooted on the 5th string? Many power chords can be played on either the 6th (low E) or 5th (A) string. This is extremely practical when jumping between chords in songs. Your fretting hand doesn't have to make huge leaps back and forth across the fretboard!",
                         aStringTheoryP2: "For example, if a song alternates between <strong>A5, D5, and E5</strong>, you play A5 open (or on fret 5 of low E), and D5 and E5 right below it on frets 5 and 7 of the A string. This keeps your hand comfortable and relaxed around frets 5 and 7!",
                         chordHeading: "Chords in this lesson:",
-                        practiceHeading: "Practice Songs with Power Chords:"
+                        practiceHeading: "Practice Songs with Power Chords:",
+                        practiceIntro: `<p style="margin-bottom: 8px;">Here are a few iconic rock songs that use power chords. They're great fun to start with because the power chord shape is identical across the fretboard and easily moveable.</p>
+<p style="margin-bottom: 8px;">To show which fret to place your index finger on, we use a mini tablature (tab) example. Tablature is commonly used for guitar riffs, solos, and chords. Each line of the tab represents a guitar string, matching the fretboard diagram above.</p>
+<p style="margin-bottom: 6px;">A power chord looks like this on guitar tablature:</p>
+<div class="tab-box" style="margin-bottom: 16px;">      A5 (6th string)
+e |-------------------|
+B |-------------------|
+G |-------------------|
+D |--(7)--------------|  ← Pinky / Octave (Optional)
+A |-- 7 --------------|  ← Ring finger / 5th (Fret 7)
+E |-- <span class="tab-badge-root">5</span> --------------|  ← Index finger / Root (Fret 5)</div>
+<p style="margin-bottom: 8px;">Try playing power chords in the songs below. When you open these songs, you will also find the dedicated TAB in the Timeline:</p>
+<div style="margin: 10px 0 14px 0;">
+    <img src="images/timeline_button_icon.png" alt="Timeline button" style="max-width: 140px; height: auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); display: inline-block;">
+</div>
+<p style="margin-bottom: 8px;">Here you can follow both the chord flow and the TAB for this exercise:</p>
+<div style="margin: 10px 0 18px 0;">
+    <img src="images/timeline_tab_example.png" alt="Timeline TAB example" style="width: 100%; max-width: 760px; height: auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); border: 1px solid #cbd5e1; display: block;">
+</div>`
                     },
                     3: {
                         cat: "Open Essential Chords",
@@ -2933,10 +3013,28 @@
         function openSongByName(artist, title) {
             if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
                 const songs = window.parent.appInstance.songManager.songs;
-                const match = songs.find(s => 
-                    s.artist.toLowerCase().trim() === artist.toLowerCase().trim() && 
-                    s.title.toLowerCase().trim() === title.toLowerCase().trim()
+                const normalize = s => (s || '').toLowerCase().replace(/['"`]/g, '').replace(/\s+/g, ' ').trim();
+                const normArtist = normalize(artist);
+                const normTitle = normalize(title);
+
+                // 1. Exact normalized match
+                let match = songs.find(s => 
+                    normalize(s.artist) === normArtist && 
+                    normalize(s.title) === normTitle
                 );
+
+                // 2. Fallback: match by artist & title partial / inclusion
+                if (!match) {
+                    match = songs.find(s => 
+                        (normalize(s.artist).includes(normArtist) || normArtist.includes(normalize(s.artist))) &&
+                        (normalize(s.title).includes(normTitle) || normTitle.includes(normalize(s.title)))
+                    );
+                }
+
+                // 3. Fallback: match by normalized title alone
+                if (!match) {
+                    match = songs.find(s => normalize(s.title) === normTitle);
+                }
                 
                 if (match) {
                     window.parent.appInstance.openedSongFromLessons = {
@@ -3688,6 +3786,7 @@
                     const theoryEl = document.getElementById(`theory-box-${i}`);
                     const chordH = document.getElementById(`chord-shapes-heading-${i}`);
                     const practiceH = document.getElementById(`practice-heading-${i}`);
+                    const practiceIntroEl = document.getElementById(`practice-intro-${i}`);
 
                     if (catEl && d.cat) catEl.textContent = d.cat;
                     if (lTitleEl && d.title) lTitleEl.textContent = d.title;
@@ -3695,6 +3794,7 @@
                     if (theoryEl && d.theory) theoryEl.innerHTML = d.theory;
                     if (chordH && d.chordHeading) chordH.textContent = d.chordHeading;
                     if (practiceH && d.practiceHeading) practiceH.textContent = d.practiceHeading;
+                    if (practiceIntroEl && d.practiceIntro !== undefined) practiceIntroEl.innerHTML = d.practiceIntro;
                 }
             }
 

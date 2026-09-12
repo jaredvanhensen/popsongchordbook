@@ -2935,11 +2935,28 @@
         function openSongByName(artist, title) {
             if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
                 const songs = window.parent.appInstance.songManager.songs;
-                // Search for a case-insensitive, trimmed match
-                const match = songs.find(s => 
-                    s.artist.toLowerCase().trim() === artist.toLowerCase().trim() && 
-                    s.title.toLowerCase().trim() === title.toLowerCase().trim()
+                const normalize = s => (s || '').toLowerCase().replace(/['"`]/g, '').replace(/\s+/g, ' ').trim();
+                const normArtist = normalize(artist);
+                const normTitle = normalize(title);
+
+                // 1. Exact normalized match
+                let match = songs.find(s => 
+                    normalize(s.artist) === normArtist && 
+                    normalize(s.title) === normTitle
                 );
+
+                // 2. Fallback: match by artist & title partial / inclusion
+                if (!match) {
+                    match = songs.find(s => 
+                        (normalize(s.artist).includes(normArtist) || normArtist.includes(normalize(s.artist))) &&
+                        (normalize(s.title).includes(normTitle) || normTitle.includes(normalize(s.title)))
+                    );
+                }
+
+                // 3. Fallback: match by normalized title alone
+                if (!match) {
+                    match = songs.find(s => normalize(s.title) === normTitle);
+                }
                 
                 if (match) {
                     // Tell the parent app we opened from lessons
