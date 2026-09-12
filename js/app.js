@@ -368,7 +368,11 @@ class App {
             } else if (viewParam === 'band') {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('band.html');
             } else if (viewParam === 'lessons') {
-                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('lessons.html');
+                const mode = localStorage.getItem('instrumentMode') || 'piano';
+                const lessonPage = mode === 'guitar' ? 'guitar_lessons.html' : 'lessons.html';
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel(lessonPage);
+            } else if (viewParam === 'guitar_lessons') {
+                if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('guitar_lessons.html');
             } else if (viewParam === 'newmembers') {
                 // Wait for auth to settle, then open members modal
                 setTimeout(() => {
@@ -4233,10 +4237,8 @@ class App {
         }
 
         if (guitarLessonsBtn) {
-            const user = this.firebaseManager ? this.firebaseManager.getCurrentUser() : null;
-            const isAdmin = user && this.firebaseManager && this.firebaseManager.isAdmin(user.uid);
-            // Visible ONLY when instrument is set to guitar AND user is admin
-            if (mode === 'guitar' && isAdmin) {
+            // Visible when instrument is set to guitar
+            if (mode === 'guitar') {
                 guitarLessonsBtn.style.setProperty('display', 'flex', 'important');
             } else {
                 guitarLessonsBtn.style.setProperty('display', 'none', 'important');
