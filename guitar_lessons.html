@@ -42,26 +42,6 @@
             min-height: 100vh;
         }
 
-        /* Under Construction Banner */
-        .under-construction-banner {
-            background: #fffbeb;
-            border: 2px dashed #f59e0b;
-            color: #b45309;
-            padding: 14px 20px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
-        }
-
-        .under-construction-banner .icon {
-            font-size: 1.4rem;
-        }
-
         .lessons-layout {
             display: grid;
             grid-template-columns: 1fr 340px;
@@ -1732,11 +1712,6 @@
 </head>
 <body class="mode-launch">
 
-    <div class="under-construction-banner">
-        <span class="icon">🚧</span>
-        <span id="under-construction-text"><strong>UNDER CONSTRUCTION</strong> — Deze gitaarlessen zijn momenteel in ontwikkeling (alleen zichtbaar voor admins).</span>
-    </div>
-
     <div class="lessons-layout">
         
         <!-- Header -->
@@ -3259,7 +3234,6 @@ E |-------------------------------------------------------------------------|</d
             nl: {
                 headerTitle: "Beginner lessen",
                 headerSubtitle: "Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.",
-                underConstruction: "<strong>UNDER CONSTRUCTION</strong> — Deze gitaarlessen zijn momenteel in ontwikkeling (alleen zichtbaar voor admins).",
                 launchTitle: "Kies een les om te beginnen",
                 launchSubtitle: "Krijg gitaarakkoorden stap-voor-stap onder de knie. Kies een les hieronder om te oefenen. Zodra je een paar akkoorden kunt spelen kun je aan de slag met de liedjes.",
                 progressText: "{count} van 9 Lessen Voltooid",
@@ -3657,7 +3631,6 @@ E |-------------------------------------------------------------------------|</d
             en: {
                 headerTitle: "Beginner Lessons",
                 headerSubtitle: "Step-by-step guitar lessons: from fretboard notes and power chords to open chords, capo, barre chords, and Eb tuning.",
-                underConstruction: "<strong>UNDER CONSTRUCTION</strong> — These guitar lessons are currently under development (admin view only).",
                 launchTitle: "Choose a Lesson to Begin",
                 launchSubtitle: "Master guitar chords step-by-step. Select a lesson below to start practicing.",
                 progressText: "{count} of 9 Lessons Completed",
@@ -5372,7 +5345,6 @@ E |-------------------------------------------------------------------------|</d
 
             const headerTitle = document.getElementById('header-title');
             const headerSub = document.getElementById('header-subtitle');
-            const underConstructionText = document.getElementById('under-construction-text');
             const launchTitle = document.getElementById('txt-launch-title');
             const launchSub = document.getElementById('txt-launch-subtitle');
             const backText = document.getElementById('btn-back-text');
@@ -5386,7 +5358,6 @@ E |-------------------------------------------------------------------------|</d
 
             if (headerTitle) headerTitle.textContent = t.headerTitle;
             if (headerSub) headerSub.textContent = t.headerSubtitle;
-            if (underConstructionText) underConstructionText.innerHTML = t.underConstruction;
             if (launchTitle) launchTitle.textContent = t.launchTitle;
             if (launchSub) launchSub.textContent = t.launchSubtitle;
             if (backText) backText.textContent = t.backText;
