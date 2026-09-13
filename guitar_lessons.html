@@ -84,10 +84,12 @@
                 padding: 20px;
             }
             .single-lesson-nav {
-                position: static;
-                margin-bottom: 14px;
+                order: 0;
+                position: static !important;
+                margin-bottom: 8px;
                 padding: 8px 12px;
                 box-shadow: none;
+                border-radius: 12px;
             }
             .guitar-sidebar {
                 order: 1;
@@ -96,11 +98,11 @@
                 z-index: 100;
                 background: rgba(255, 255, 255, 0.98);
                 backdrop-filter: blur(8px);
-                padding: 6px 14px;
+                padding: 8px 14px;
                 border: 1px solid var(--card-border);
                 border-radius: 14px;
                 box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-                margin-bottom: 14px;
+                margin-bottom: 12px;
             }
             .lessons-list {
                 order: 2;
@@ -253,6 +255,49 @@
 
         body.mode-single-lesson .lesson-badges-panel {
             display: none !important;
+        }
+
+        /* Lesson 1: No chords in this lesson - hide chord visualizer / sidebar across ALL devices */
+        body.lesson-1-active .guitar-sidebar {
+            display: none !important;
+        }
+
+        body.lesson-1-active .lessons-layout {
+            grid-template-columns: 1fr !important;
+        }
+
+        /* Mobile-only Screen Rotation Tip (Lesson 1) */
+        .mobile-rotate-tip {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(2, 132, 199, 0.04) 100%);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            line-height: 1.4;
+        }
+
+        .mobile-rotate-tip .mrt-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            display: inline-block;
+            animation: rotateHint 2.5s ease-in-out infinite;
+        }
+
+        @keyframes rotateHint {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-rotate-tip {
+                display: flex;
+            }
         }
 
         /* Launch Page & Header styling */
@@ -466,9 +511,7 @@
             padding: 10px 16px;
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            position: sticky;
-            top: 0;
-            z-index: 110;
+            grid-column: 1 / -1;
         }
 
         .nav-back-index-btn {
@@ -1702,18 +1745,18 @@
             <p id="header-subtitle">Stap-voor-stap gitaar leren spelen: van noten op de hals en powerchords tot basisakkoorden, capo, barré-akkoorden en Eb-stemming.</p>
         </header>
 
+        <!-- Single Lesson Top Navigation Bar -->
+        <div id="single-lesson-nav" class="single-lesson-nav">
+            <button class="nav-back-index-btn" onclick="showLaunchPage()">
+                ← <span id="btn-back-text">Terug</span>
+            </button>
+            <div class="lesson-counter-indicator" id="lesson-counter-indicator">
+                Les 1 van 9
+            </div>
+        </div>
+
         <!-- Main Lessons Column -->
         <div class="lessons-list">
-
-            <!-- Single Lesson Top Navigation Bar -->
-            <div id="single-lesson-nav" class="single-lesson-nav">
-                <button class="nav-back-index-btn" onclick="showLaunchPage()">
-                    ← <span id="btn-back-text">Terug</span>
-                </button>
-                <div class="lesson-counter-indicator" id="lesson-counter-indicator">
-                    Les 1 van 9
-                </div>
-            </div>
 
             <!-- Launch Page / Overview Section -->
             <div id="lessons-launch-page" class="lessons-launch-page">
@@ -1881,6 +1924,10 @@
                         <button type="button" class="btn-toggle-fretboard" id="btnToggleFretboard" onclick="toggleFretboardVisibility()">
                             <span id="icoBtnToggleFretboard">🙈</span> <span id="txtBtnToggleFretboard">Verberg Hals (Blind Test)</span>
                         </button>
+                    </div>
+                    <div class="mobile-rotate-tip" id="mobile-rotate-tip-1">
+                        <span class="mrt-icon">🔄</span>
+                        <span class="mrt-text" id="txt-mobile-rotate-tip-1">Tip: Draai je telefoon horizontaal (landscape) om de hele gitaarhals in één keer te zien!</span>
                     </div>
                     <div class="fretboard-container" id="fretboardContainer1">
                         <svg class="fretboard-svg" viewBox="0 0 780 180" xmlns="http://www.w3.org/2000/svg">
@@ -3230,6 +3277,7 @@ E |-------------------------------------------------------------------------|</d
                 sidebarChordPrefix: "Akkoord: ",
                 sidebarSvgSelect: "Selecteer Akkoord",
                 sidebarRootLegend: "Rode stip = Grondtoon",
+                mobileRotateTip: "Tip: Draai je telefoon horizontaal (landscape) om de hele gitaarhals in één keer te zien!",
                 powerchordLegendRoot: "Rood = Grondtoon (Wijsvinger)",
                 powerchordLegendFifth: "Blauw = Kwint / 5th (Ringvinger)",
                 powerchordLegendOctave: "Roze = Octaaf (Optioneel met pink)",
@@ -3627,6 +3675,7 @@ E |-------------------------------------------------------------------------|</d
                 sidebarChordPrefix: "Chord: ",
                 sidebarSvgSelect: "Select Chord",
                 sidebarRootLegend: "Red dot = Root note",
+                mobileRotateTip: "Tip: Rotate your phone to landscape mode to view the entire guitar fretboard at once!",
                 powerchordLegendRoot: "Red = Root Note (Index Finger)",
                 powerchordLegendFifth: "Blue = 5th (Ring Finger)",
                 powerchordLegendOctave: "Pink = Octave (Optional with pinky)",
@@ -4068,7 +4117,7 @@ E |-------------------------------------------------------------------------|</d
         function showLaunchPage() {
             stopGuitarStrumDemo();
             currentLessonId = null;
-            document.body.classList.remove('mode-single-lesson');
+            document.body.classList.remove('mode-single-lesson', 'lesson-1-active');
             document.body.classList.add('mode-launch');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (history.replaceState) {
@@ -4514,6 +4563,12 @@ E |-------------------------------------------------------------------------|</d
 
             document.body.classList.remove('mode-launch');
             document.body.classList.add('mode-single-lesson');
+
+            if (id === 1) {
+                document.body.classList.add('lesson-1-active');
+            } else {
+                document.body.classList.remove('lesson-1-active');
+            }
 
             for (let i = 1; i <= 9; i++) {
                 const card = document.getElementById(`lesson-card-${i}`);
@@ -5592,6 +5647,11 @@ E |-------------------------------------------------------------------------|</d
             const practiceHint9GNR2 = document.getElementById('practice-hint-9-gnr2');
             if (practiceHint9GNR2 && t.lessonDetails && t.lessonDetails[9] && t.lessonDetails[9].practiceHintGNR2) {
                 practiceHint9GNR2.textContent = t.lessonDetails[9].practiceHintGNR2;
+            }
+
+            const rotateTip1 = document.getElementById('txt-mobile-rotate-tip-1');
+            if (rotateTip1 && t.mobileRotateTip) {
+                rotateTip1.textContent = t.mobileRotateTip;
             }
 
             const counter = document.getElementById('lesson-counter-indicator');
