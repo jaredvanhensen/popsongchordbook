@@ -167,6 +167,30 @@
             .lesson-card {
                 scroll-margin-top: 100px;
             }
+            .tab-box {
+                font-size: 0.76rem;
+                padding: 12px 14px;
+                line-height: 1.45;
+                letter-spacing: -0.2px;
+            }
+            .tab-badge-root {
+                width: 16px;
+                height: 16px;
+                font-size: 0.72rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-box {
+                font-size: 0.72rem;
+                padding: 10px 12px;
+                line-height: 1.4;
+            }
+            .tab-badge-root {
+                width: 15px;
+                height: 15px;
+                font-size: 0.68rem;
+            }
         }
 
         header {
@@ -1422,6 +1446,245 @@
             vertical-align: middle;
             box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
         }
+
+        .tab-rotate-hint {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-top: 6px;
+            padding: 2px 2px;
+            font-weight: 500;
+        }
+
+        .tab-rotate-hint svg {
+            color: #0284c7;
+            flex-shrink: 0;
+            width: 14px;
+            height: 14px;
+        }
+
+        @media (min-width: 900px) {
+            .tab-rotate-hint {
+                display: none;
+            }
+        }
+
+        /* Lesson 3: Open Chords Grid & Strumming Patterns */
+        .payoff-stat-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(2, 132, 199, 0.05) 100%);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .payoff-stat-num {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent-primary);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .payoff-stat-text {
+            font-size: 0.93rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .open-chords-showcase {
+            margin: 24px 0 20px 0;
+        }
+
+        .open-chords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .open-chord-card {
+            background: #f8fafc;
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .open-chord-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
+            background: #ffffff;
+        }
+
+        .open-chord-card.active {
+            border-color: var(--accent-primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+        }
+
+        .open-chord-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 4px;
+            padding: 0 4px;
+        }
+
+        .open-chord-name {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .open-chord-strings-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .open-chord-svg-wrap {
+            width: 100%;
+            max-width: 110px;
+            height: auto;
+            margin: 4px auto;
+        }
+
+        .open-chord-svg-wrap svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .open-chord-play-cue {
+            margin-top: 6px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Strumming Patterns Section */
+        .strum-patterns-section {
+            margin: 26px 0 20px 0;
+        }
+
+        .strum-pattern-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .strum-pattern-card {
+            background: #f8fafc;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            transition: border-color 0.2s ease;
+        }
+
+        .strum-pattern-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .strum-pattern-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .strum-pattern-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strum-play-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .strum-play-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+
+        .strum-play-btn.playing {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+        }
+
+        .strum-rhythm-display {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #38bdf8;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-x: auto;
+            border: 1px solid #334155;
+        }
+
+        .strum-arrows-row {
+            font-size: 1.15rem;
+            letter-spacing: 4px;
+            font-weight: 800;
+            color: #38bdf8;
+            white-space: pre;
+        }
+
+        .strum-count-row {
+            font-size: 0.82rem;
+            letter-spacing: 4px;
+            color: #94a3b8;
+            white-space: pre;
+        }
+
+        .strum-pattern-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body class="mode-launch">
@@ -1548,7 +1811,7 @@
 
                     <div class="launch-card sbc-6" id="launch-card-6" onclick="openLesson(6)">
                         <div class="launch-card-header">
-                            <span class="launch-emoji">🎷</span>
+                            <span class="launch-emoji">🎩</span>
                             <span class="launch-badge-tag" id="launch-badge-tag-6">Les 6</span>
                         </div>
                         <h3 id="launch-card-title-6">Een Blues Schema</h3>
@@ -1920,12 +2183,14 @@
                         <p style="margin-bottom: 8px;">Om aan te geven op welk vakjes je met je wijsvinger moet beginnen gebruik ik voor het voorbeeld even een mini tablatuur. Tablatuur vind je vaak voor gitaarsolo's en gitaarspel. Elke regel van de tab stelt een snaar voor net zoals de bovenstaande afbeelding van de gitaarhals.</p>
                         <p style="margin-bottom: 6px;">Een powerchord ziet er op tablatuur als volgt uit:</p>
                         <div class="tab-box" style="margin-bottom: 16px;">      A5 (6e snaar)
-e |-------------------|
-B |-------------------|
-G |-------------------|
-D |--(7)--------------|  ← Pink / Octaaf (Optioneel)
-A |-- 7 --------------|  ← Ringvinger / Kwint (Fret 7)
-E |-- <span class="tab-badge-root">5</span> --------------|  ← Wijsvinger / Grondtoon (Fret 5)</div>
+e |--------------|
+B |--------------|
+G |--------------|
+D |--(7)---------|
+A |-- 7 ---------|
+E |-- <span class="tab-badge-root">5</span> --------|
+
+<span style="color: #94a3b8; font-size: 0.82rem; white-space: normal; display: block; font-family: 'Inter', sans-serif;">(Je kunt de pink in het begin weglaten totdat je comfortabel bent met de 2-vinger versie)</span></div>
                         <p style="margin-bottom: 8px;">Merk op dat je het A5-akkoord op 2 verschillende manieren kunt spelen. Eén manier is zoals hierboven in de diagrammen getoond wordt met de open 5e snaar (de A-snaar), maar een andere manier die vaak handiger is, is spelen op de 5e fret van de 6e snaar (de lage E). Het hangt er maar net vanaf welk vorig of volgend akkoord je speelt. Bepaal het zelf!</p>
                         <p style="margin-bottom: 8px;">Probeer de powerchords in de volgende liedjes. Zodra je die liedjes opent zul je speciaal voor deze liedjes ook de TAB in de Timeline zien:</p>
                         <div style="margin: 10px 0 14px 0;">
@@ -1982,6 +2247,10 @@ G |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 D |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 A |-- 9--4--5-5--7----|---9--4--5-5--7----|---7--4-3-2--|
 E |-------------------|-------------------|-------------|</div>
+                            <div class="tab-rotate-hint">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                                <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+                            </div>
                         </div>
 
                         <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -1995,6 +2264,10 @@ G |---------------------------------------------|
 D |--4-4-4---11-11-11---13-13---9~--------------|
 A |--4-4-4---11-11-11---13-13---9~--------------|
 E |--2-2-2----9--9--9---11-11---7~--------------|</div>
+                            <div class="tab-rotate-hint">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                                <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+                            </div>
                         </div>
 
                         <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2008,6 +2281,10 @@ G |---------------------------------------------------|
 D |--10-----10--8---10-----10--8---10-----10--5---6---|
 A |--10-----10--8---10-----10--8---10-----10--5---6---|
 E |-- 8------8--6----8------8--6----8------8--3---4---|</div>
+                            <div class="tab-rotate-hint">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                                <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+                            </div>
                         </div>
 
                         <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2021,6 +2298,10 @@ G |--7---7-------------------------------7---7------------------------------|
 D |--7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---|
 A |--5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---|
 E |-------------------------------------------------------------------------|</div>
+                            <div class="tab-rotate-hint">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                                <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2041,25 +2322,164 @@ E |-------------------------------------------------------------------------|</d
                 <p class="lesson-desc" id="lesson-desc-3">Met deze 5 open akkoorden kun je letterlijk honderden bekende pop- en kampvuurnummers spelen.</p>
 
                 <div class="theory-box" id="theory-box-3">
-                    <h4>💡 Tips voor zuivere open akkoorden</h4>
-                    <p>• Druk de snaren in vlak achter het fretje (niet er bovenop).</p>
-                    <p>• Zorg dat je vingers mooi recht/bol staan zodat ze geen aanliggende snaren dempen.</p>
-                    <p>• Bij het <strong>D</strong> akkoord sla je aan vanaf de 4e snaar (D-snaar) en demp je de lage E en A snaren.</p>
+                    <h4>💡 Waarom deze 5 akkoorden goud waard zijn (The Ultimate Payoff)</h4>
+                    
+                    <div class="payoff-stat-banner">
+                        <div class="payoff-stat-num">70%+</div>
+                        <div class="payoff-stat-text">
+                            <strong>Van alle pop- en rockhits</strong> in de muziekgeschiedenis zijn gebouwd op combinaties van deze 5 eenvoudige akkoorden. Leer deze 5 grepen en je kunt direct meespelen met honderden wereldhits!
+                        </div>
+                    </div>
+
+                    <p><strong>Het "4-Chord Song" Fenomeen:</strong> Nummers als <em>Zombie</em> (Cranberries), <em>Perfect</em> (Ed Sheeran), <em>Let It Be</em> (The Beatles), <em>With Or Without You</em> (U2), <em>Someone Like You</em> (Adele) en <em>Don't Stop Believin'</em> gebruiken allemaal exact dezelfde akkoordenreeks (I - V - vi - IV: <strong>G - D - Em - C</strong> of <strong>C - G - Am - F/Em</strong>)!</p>
+
+                    <p style="margin-top: 10px;"><strong>Aanmoediging voor beginners:</strong> In de eerste week voelen je vingertoppen misschien wat gevoelig en gaat het wisselen tussen akkoorden wat langzaam. Wees gerust: <em>iedere gitarist ter wereld</em> heeft dit meegemaakt. Binnen enkele dagen ontstaat er een natuurlijk eeltlaagje op je vingertoppen en neemt je spiergeheugen het over. De payoff is gigantisch: eenmaal in je vingers raak je deze vaardigheid nooit meer kwijt!</p>
+
+                    <h4 style="margin-top: 18px;">🎯 Tips voor zuiver geluid & snelle wissels:</h4>
+                    <p>• <strong>Ankervingers (Anchor Fingers):</strong> Let bij het wisselen goed op welke vingers kunnen blijven staan of slechts 1 fretje hoeven te verschuiven (bijv. tussen <strong>Em</strong> en <strong>G</strong>, of tussen <strong>Am</strong> en <strong>C</strong>).</p>
+                    <p>• <strong>Vingers mooi bol en vlak achter de fret:</strong> Druk de snaren in met het topje van je vinger vlak achter de fret (niet erbovenop) zodat aanliggende snaren vrij kunnen doorklinken.</p>
+                    <p>• <strong>Welke snaren sla je aan?</strong></p>
+                    <p style="padding-left: 14px;">- <strong>G & Em:</strong> Sla alle 6 snaren aan (vanaf de lage E-snaar).</p>
+                    <p style="padding-left: 14px;">- <strong>C & Am:</strong> Sla 5 snaren aan (vanaf de A-snaar, lage E niet aanslaan of zachtjes dempen met de duim/ringvinger).</p>
+                    <p style="padding-left: 14px;">- <strong>D:</strong> Sla 4 snaren aan (vanaf de D-snaar, lage E en A overslaan).</p>
+                    <p>• <strong>De 1-Minuut Wissel-Drill:</strong> Kies twee akkoorden (bijv. G en Em) en wissel 60 seconden heen en weer terwijl je rustig meetelt. Probeer elke dag 2 wissels meer te halen!</p>
                 </div>
 
-                <div class="chord-shapes-section">
-                    <h4 id="chord-shapes-heading-3">Akkoorden in deze les:</h4>
-                    <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="selectGuitarChord('C')">C</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('G')">G</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('D')">D</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('Am')">Am</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('Em')">Em</span>
+                <!-- Open Chords Showcase with SVG Diagrams (Before Practice Songs) -->
+                <div class="open-chords-showcase" id="open-chords-showcase-3">
+                    <h4 id="open-chords-showcase-heading-3" style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px;">🎸 Akkoorden in deze les (Klik om te beluisteren):</h4>
+                    <p id="open-chords-showcase-desc-3" style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 12px;">Bekijk de vingerposities hieronder. Klik op een akkoord om de zuivere gitaarklank te horen en het diagram in de preview te activeren:</p>
+                    
+                    <div class="open-chords-grid">
+                        <div class="open-chord-card active" onclick="selectGuitarChord('C')" id="open-chord-card-C">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">C</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-C">5 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-C"></div>
+                            <span class="open-chord-play-cue">🔊 Speel C</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('G')" id="open-chord-card-G">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">G</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-G">6 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-G"></div>
+                            <span class="open-chord-play-cue">🔊 Speel G</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('D')" id="open-chord-card-D">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">D</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-D">4 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-D"></div>
+                            <span class="open-chord-play-cue">🔊 Speel D</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('Am')" id="open-chord-card-Am">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">Am</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-Am">5 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-Am"></div>
+                            <span class="open-chord-play-cue">🔊 Speel Am</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('Em')" id="open-chord-card-Em">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">Em</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-Em">6 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-Em"></div>
+                            <span class="open-chord-play-cue">🔊 Speel Em</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strumming Patterns Section with Audio Demos -->
+                <div class="strum-patterns-section" id="strum-patterns-section-3">
+                    <h4 id="strum-patterns-heading-3" style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px;">🎶 Veelgebruikte Strumming Patronen (Slagjes):</h4>
+                    <p id="strum-patterns-desc-3" style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 12px;">Met je rechterhand geef je het liedje zijn ritme en groove. Oefen deze 4 klassieke slagjes mee met de audio demo's (gespeeld in G → Em):</p>
+                    
+                    <div class="strum-pattern-list">
+                        <!-- Pattern 1 -->
+                        <div class="strum-pattern-card">
+                            <div class="strum-pattern-top">
+                                <div class="strum-pattern-title">
+                                    <span>1.</span>
+                                    <span id="txt-strum-title-1">Het 4-Kwarts Basisritme (Steady Downbeats)</span>
+                                </div>
+                                <button type="button" class="strum-play-btn" id="btn-strum-demo-1" onclick="playGuitarStrumDemo(1)">
+                                    <span>▶</span> <span id="txt-strum-btn-1">Beluister Demo</span>
+                                </button>
+                            </div>
+                            <div class="strum-rhythm-display">
+                                <div class="strum-arrows-row">↓     ↓     ↓     ↓</div>
+                                <div class="strum-count-row">1     2     3     4</div>
+                            </div>
+                            <p class="strum-pattern-desc" id="txt-strum-desc-1">Sla op elke tel rustig naar beneden. Uitstekend om je timing strak te krijgen en te focussen op soepele akkoordwisselingen op tel 1 van de volgende maat.</p>
+                        </div>
+
+                        <!-- Pattern 2 -->
+                        <div class="strum-pattern-card">
+                            <div class="strum-pattern-top">
+                                <div class="strum-pattern-title">
+                                    <span>2.</span>
+                                    <span id="txt-strum-title-2">De 8-Stroken Pop/Rock Flow (Down-Up Motion)</span>
+                                </div>
+                                <button type="button" class="strum-play-btn" id="btn-strum-demo-2" onclick="playGuitarStrumDemo(2)">
+                                    <span>▶</span> <span id="txt-strum-btn-2">Beluister Demo</span>
+                                </button>
+                            </div>
+                            <div class="strum-rhythm-display">
+                                <div class="strum-arrows-row">↓  ↑  ↓  ↑  ↓  ↑  ↓  ↑</div>
+                                <div class="strum-count-row">1  &  2  &  3  &  4  &</div>
+                            </div>
+                            <p class="strum-pattern-desc" id="txt-strum-desc-2">Beweeg je rechterarm als een ontspannen slinger continu op en neer. Neerslag op de tellen (1, 2, 3, 4) en opgaande slag op de 'en' (&).</p>
+                        </div>
+
+                        <!-- Pattern 3 -->
+                        <div class="strum-pattern-card">
+                            <div class="strum-pattern-top">
+                                <div class="strum-pattern-title">
+                                    <span>3.</span>
+                                    <span id="txt-strum-title-3">Het Beroemde "Island / Pop" Patroon (De #1 Slag van de Popmuziek)</span>
+                                </div>
+                                <button type="button" class="strum-play-btn" id="btn-strum-demo-3" onclick="playGuitarStrumDemo(3)">
+                                    <span>▶</span> <span id="txt-strum-btn-3">Beluister Demo</span>
+                                </button>
+                            </div>
+                            <div class="strum-rhythm-display">
+                                <div class="strum-arrows-row">↓     ↓  ↑     ↑  ↓  ↑</div>
+                                <div class="strum-count-row">1     2  &    (3)& 4  &</div>
+                            </div>
+                            <p class="strum-pattern-desc" id="txt-strum-desc-3">Hét meest gespeelde gitaarslagje in de popgeschiedenis (o.a. <em>Zombie</em>, <em>Riptide</em>, <em>Let It Be</em>). Tip: op tel 3 beweegt je hand omlaag zonder de snaren te raken, en sla je op de '3&' omhoog!</p>
+                        </div>
+
+                        <!-- Pattern 4 -->
+                        <div class="strum-pattern-card">
+                            <div class="strum-pattern-top">
+                                <div class="strum-pattern-title">
+                                    <span>4.</span>
+                                    <span id="txt-strum-title-4">De Ballad / Accent Slag (Bas + Neer-Op)</span>
+                                </div>
+                                <button type="button" class="strum-play-btn" id="btn-strum-demo-4" onclick="playGuitarStrumDemo(4)">
+                                    <span>▶</span> <span id="txt-strum-btn-4">Beluister Demo</span>
+                                </button>
+                            </div>
+                            <div class="strum-rhythm-display">
+                                <div class="strum-arrows-row">[Bas]    ↓  ↑   [Bas]    ↓  ↑</div>
+                                <div class="strum-count-row">  1      2  &     3      4  &</div>
+                            </div>
+                            <p class="strum-pattern-desc" id="txt-strum-desc-4">Sla op tel 1 en 3 alleen de diepste bassnaar van het akkoord aan, gevolgd door een lichte neer-en-op slag op tel 2& en 4&. Ideaal voor intieme popballads en country.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4 id="practice-heading-3">Oefensongs:</h4>
+                    <h4 id="practice-heading-3">Oefensongs met Open Akkoorden:</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Cranberries', 'Zombie')">
                             <div class="song-info">
@@ -2147,22 +2567,66 @@ E |-------------------------------------------------------------------------|</d
                 <h2 id="lesson-title-5">D, A en E Majeur akkoorden</h2>
                 <p class="lesson-desc" id="lesson-desc-5">Samen met de akkoorden uit les 3 beheers je nu alle belangrijke open Majeur- en Mineurakkoorden.</p>
 
-                <div class="chord-shapes-section">
-                    <h4 id="chord-shapes-heading-5">Akkoorden in deze les:</h4>
-                    <div class="chord-shape-list">
-                        <span class="chord-badge" onclick="selectGuitarChord('D')">D</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('A')">A</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('E')">E</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('Em')">Em</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('G')">G</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('Am')">Am</span>
-                        <span class="chord-badge" onclick="selectGuitarChord('C')">C</span>
+                <div class="theory-box" id="theory-box-5">
+                    <h4>💡 Tips voor D, A en E Majeur akkoorden</h4>
+                    <p>• <strong>D Majeur (Driehoek-vorm):</strong> Sla aan vanaf de 4e snaar (D-snaar). De open D is de grondtoon van het akkoord. Houd je vingers mooi compact.</p>
+                    <p>• <strong>A Majeur (3 vingers in 1 vakje):</strong> Wijs-, middel- en ringvinger staan alle drie naast elkaar op fret 2 van de D-, G- en B-snaar. Sla aan vanaf de 5e snaar (A-snaar).</p>
+                    <p>• <strong>E Majeur (De basis van alle rock):</strong> Sla alle 6 snaren aan! De lage E is de diepe grondtoon. Merk op dat de vorm precies hetzelfde is als Am, maar 1 snaar omhoog geschoven!</p>
+                    <p style="margin-top: 10px;">• <strong>Tip voor Wild Thing (The Troggs):</strong> Voor <em>Wild Thing</em> (A - D - E - D) kan de snelle <strong>G - A - G - A</strong> akkoordovergang voor een beginner wat te snel aanvoelen. Maar je kunt heel makkelijk gewoon de <strong>open snaren</strong> aanslaan: vergeet het G-akkoord even! Een vluchtige slag over de <strong>middelste 4 losse snaren</strong> is al ruimschoots voldoende en geeft je hand alle rust om soepel te wisselen.</p>
+                </div>
+
+                <!-- Open Chords Showcase with SVG Diagrams (D, A, E) -->
+                <div class="open-chords-showcase" id="open-chords-showcase-5">
+                    <h4 id="open-chords-showcase-heading-5" style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px;">🎸 Akkoorden in deze les (Klik om te beluisteren):</h4>
+                    <p id="open-chords-showcase-desc-5" style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 12px;">Bekijk de vingerposities hieronder. Klik op een akkoord om de zuivere gitaarklank te horen en het diagram in de preview te activeren:</p>
+                    
+                    <div class="open-chords-grid">
+                        <div class="open-chord-card active" onclick="selectGuitarChord('D')" id="open-chord-card-5-D">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">D</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-5-D">4 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-5-D"></div>
+                            <span class="open-chord-play-cue">🔊 Speel D</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('A')" id="open-chord-card-5-A">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">A</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-5-A">5 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-5-A"></div>
+                            <span class="open-chord-play-cue">🔊 Speel A</span>
+                        </div>
+
+                        <div class="open-chord-card" onclick="selectGuitarChord('E')" id="open-chord-card-5-E">
+                            <div class="open-chord-header">
+                                <span class="open-chord-name">E</span>
+                                <span class="open-chord-strings-badge" id="badge-strings-5-E">6 snaren</span>
+                            </div>
+                            <div class="open-chord-svg-wrap" id="open-chord-svg-5-E"></div>
+                            <span class="open-chord-play-cue">🔊 Speel E</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="practice-songs-section">
                     <h4 id="practice-heading-5">Oefensongs:</h4>
                     <div class="practice-song-list">
+                        <div class="practice-song-card" onclick="openSongByName('The Troggs', 'Wild Thing')">
+                            <div class="song-info">
+                                <span class="song-title">Wild Thing</span>
+                                <span class="song-artist">The Troggs (A - D - E - D)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Bob Marley & The Wailers', 'Three Little Birds')">
+                            <div class="song-info">
+                                <span class="song-title">Three Little Birds</span>
+                                <span class="song-artist">Bob Marley (A - D - E)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
                         <div class="practice-song-card" onclick="openSongByName('Creedence Clearwater Revival', 'Bad Moon Rising')">
                             <div class="song-info">
                                 <span class="song-title">Bad Moon Rising</span>
@@ -2181,13 +2645,6 @@ E |-------------------------------------------------------------------------|</d
                             <div class="song-info">
                                 <span class="song-title">Wonderwall</span>
                                 <span class="song-artist">Oasis (Em7 - G - D - A7sus4)</span>
-                            </div>
-                            <span class="song-play-icon">▶</span>
-                        </div>
-                        <div class="practice-song-card" onclick="openSongByName('Dolly Parton', 'Jolene')">
-                            <div class="song-info">
-                                <span class="song-title">Jolene</span>
-                                <span class="song-artist">Dolly Parton (Am - C - G)</span>
                             </div>
                             <span class="song-play-icon">▶</span>
                         </div>
@@ -2370,12 +2827,26 @@ E |-------------------------------------------------------------------------|</d
                 </div>
 
                 <div class="practice-songs-section">
-                    <h4 id="practice-heading-9">Oefensong in Eb stemming:</h4>
+                    <h4 id="practice-heading-9">Oefensongs in Eb stemming:</h4>
                     <div class="practice-song-list">
                         <div class="practice-song-card" onclick="openSongByName('Guns N\' Roses', 'Knockin\' On Heaven\'s Door')">
                             <div class="song-info">
                                 <span class="song-title">Knockin' On Heaven's Door</span>
                                 <span class="song-artist" id="practice-hint-9">Guns N' Roses (Eb stemming)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('U2', 'Desire')">
+                            <div class="song-info">
+                                <span class="song-title">Desire</span>
+                                <span class="song-artist" id="practice-hint-9-u2">U2 (Eb stemming)</span>
+                            </div>
+                            <span class="song-play-icon">▶</span>
+                        </div>
+                        <div class="practice-song-card" onclick="openSongByName('Guns N\' Roses', 'Sweet Child O\' Mine')">
+                            <div class="song-info">
+                                <span class="song-title">Sweet Child O' Mine</span>
+                                <span class="song-artist" id="practice-hint-9-gnr2">Guns N' Roses (Eb stemming)</span>
                             </div>
                             <span class="song-play-icon">▶</span>
                         </div>
@@ -2465,7 +2936,7 @@ E |-------------------------------------------------------------------------|</d
                             <span class="sbc-check" id="sbc-check-5">🔒</span>
                         </div>
                         <div class="sidebar-badge-card sbc-6 locked" id="sidebar-badge-6" onclick="openLesson(6)">
-                            <span class="sbc-emoji">🎷</span>
+                            <span class="sbc-emoji">🎩</span>
                             <span class="sbc-label" id="sbc-label-6">Les 6</span>
                             <span class="sbc-check" id="sbc-check-6">🔒</span>
                         </div>
@@ -2557,6 +3028,34 @@ E |-------------------------------------------------------------------------|</d
                 powerchordALegendFifth: "Blauw = Kwint / 5th op D-snaar",
                 powerchordALegendOctave: "Roze = Octaaf op G-snaar",
                 powerchordALegendMute: "Lage E, B en e snaren dempen",
+                openChordsShowcaseHeading: "🎸 Akkoorden in deze les (Klik om te beluisteren):",
+                openChordsShowcaseDesc: "Bekijk de vingerposities hieronder. Klik op een akkoord om de zuivere gitaarklank te horen en het diagram in de preview te activeren:",
+                badgeStrings5: "5 snaren",
+                badgeStrings6: "6 snaren",
+                badgeStrings4: "4 snaren",
+                playCuePrefix: "🔊 Speel ",
+                strumPatternsHeading: "🎶 Veelgebruikte Strumming Patronen (Slagjes):",
+                strumPatternsDesc: "Met je rechterhand geef je het liedje zijn ritme en groove. Oefen deze 4 klassieke slagjes mee met de audio demo's (gespeeld in G → Em):",
+                strumBtnPlay: "Beluister Demo",
+                strumBtnStop: "Stop Demo",
+                strumPatterns: {
+                    1: {
+                        title: "Het 4-Kwarts Basisritme (Steady Downbeats)",
+                        desc: "Sla op elke tel rustig naar beneden. Uitstekend om je timing strak te krijgen en te focussen op soepele akkoordwisselingen op tel 1 van de volgende maat."
+                    },
+                    2: {
+                        title: "De 8-Stroken Pop/Rock Flow (Down-Up Motion)",
+                        desc: "Beweeg je rechterarm als een ontspannen slinger continu op en neer. Neerslag op de tellen (1, 2, 3, 4) en opgaande slag op de 'en' (&)."
+                    },
+                    3: {
+                        title: "Het Beroemde \"Island / Pop\" Patroon (De #1 Slag van de Popmuziek)",
+                        desc: "Hét meest gespeelde gitaarslagje in de popgeschiedenis (o.a. Zombie, Riptide, Let It Be). Tip: op tel 3 beweegt je hand omlaag zonder de snaren te raken, en sla je op de '3&' omhoog!"
+                    },
+                    4: {
+                        title: "De Ballad / Accent Slag (Bas + Neer-Op)",
+                        desc: "Sla op tel 1 en 3 alleen de diepste bassnaar van het akkoord aan, gevolgd door een lichte neer-en-op slag op tel 2& en 4&. Ideaal voor intieme popballads en country."
+                    }
+                },
                 sidebarBadgesTitle: "Mijn Voortgang & Badges",
                 sidebarBadgeLesson: "Les {id}",
                 cards: {
@@ -2603,12 +3102,14 @@ E |-------------------------------------------------------------------------|</d
 <p style="margin-bottom: 8px;">Om aan te geven op welk vakjes je met je wijsvinger moet beginnen gebruik ik voor het voorbeeld even een mini tablatuur. Tablatuur vind je vaak voor gitaarsolo's en gitaarspel. Elke regel van de tab stelt een snaar voor net zoals de bovenstaande afbeelding van de gitaarhals.</p>
 <p style="margin-bottom: 6px;">Een powerchord ziet er op tablatuur als volgt uit:</p>
 <div class="tab-box" style="margin-bottom: 16px;">      A5 (6e snaar)
-e |-------------------|
-B |-------------------|
-G |-------------------|
-D |--(7)--------------|  ← Pink / Octaaf (Optioneel)
-A |-- 7 --------------|  ← Ringvinger / Kwint (Fret 7)
-E |-- <span class="tab-badge-root">5</span> --------------|  ← Wijsvinger / Grondtoon (Fret 5)</div>
+e |--------------|
+B |--------------|
+G |--------------|
+D |--(7)---------|
+A |-- 7 ---------|
+E |-- <span class="tab-badge-root">5</span> --------|
+
+<span style="color: #94a3b8; font-size: 0.82rem; white-space: normal; display: block; font-family: 'Inter', sans-serif;">(Je kunt de pink in het begin weglaten totdat je comfortabel bent met de 2-vinger versie)</span></div>
 <p style="margin-bottom: 8px;">Merk op dat je het A5-akkoord op 2 verschillende manieren kunt spelen. Eén manier is zoals hierboven in de diagrammen getoond wordt met de open 5e snaar (de A-snaar), maar een andere manier die vaak handiger is, is spelen op de 5e fret van de 6e snaar (de lage E). Het hangt er maar net vanaf welk vorig of volgend akkoord je speelt. Bepaal het zelf!</p>
 <p style="margin-bottom: 8px;">Probeer de powerchords in de volgende liedjes. Zodra je die liedjes opent zul je speciaal voor deze liedjes ook de TAB in de Timeline zien:</p>
 <div style="margin: 10px 0 14px 0;">
@@ -2632,6 +3133,10 @@ G |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 D |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 A |-- 9--4--5-5--7----|---9--4--5-5--7----|---7--4-3-2--|
 E |-------------------|-------------------|-------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2645,6 +3150,10 @@ G |---------------------------------------------|
 D |--4-4-4---11-11-11---13-13---9~--------------|
 A |--4-4-4---11-11-11---13-13---9~--------------|
 E |--2-2-2----9--9--9---11-11---7~--------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2658,6 +3167,10 @@ G |---------------------------------------------------|
 D |--10-----10--8---10-----10--8---10-----10--5---6---|
 A |--10-----10--8---10-----10--8---10-----10--5---6---|
 E |-- 8------8--6----8------8--6----8------8--3---4---|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2671,18 +3184,34 @@ G |--7---7-------------------------------7---7------------------------------|
 D |--7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---|
 A |--5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---|
 E |-------------------------------------------------------------------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Draai je scherm (Landscape) voor de hele tab</span>
+    </div>
 </div>`
                     },
                     3: {
                         cat: "Open Basisakkoorden",
                         title: "C, G, D, Am en Em akkoorden",
                         desc: "Met deze 5 open akkoorden kun je letterlijk honderden bekende pop- en kampvuurnummers spelen.",
-                        theory: `<h4>💡 Tips voor zuivere open akkoorden</h4>
-<p>• Druk de snaren in vlak achter het fretje (niet er bovenop).</p>
-<p>• Zorg dat je vingers mooi recht/bol staan zodat ze geen aanliggende snaren dempen.</p>
-<p>• Bij het <strong>D</strong> akkoord sla je aan vanaf de 4e snaar (D-snaar) en demp je de lage E en A snaren.</p>`,
-                        chordHeading: "Akkoorden in deze les:",
-                        practiceHeading: "Oefensongs:"
+                        theory: `<h4>💡 Waarom deze 5 akkoorden goud waard zijn (The Ultimate Payoff)</h4>
+<div class="payoff-stat-banner">
+    <div class="payoff-stat-num">70%+</div>
+    <div class="payoff-stat-text">
+        <strong>Van alle pop- en rockhits</strong> in de muziekgeschiedenis zijn gebouwd op combinaties van deze 5 eenvoudige akkoorden. Leer deze 5 grepen en je kunt direct meespelen met honderden wereldhits!
+    </div>
+</div>
+<p><strong>Het "4-Chord Song" Fenomeen:</strong> Nummers als <em>Zombie</em> (Cranberries), <em>Perfect</em> (Ed Sheeran), <em>Let It Be</em> (The Beatles), <em>With Or Without You</em> (U2), <em>Someone Like You</em> (Adele) en <em>Don't Stop Believin'</em> gebruiken allemaal exact dezelfde akkoordenreeks (I - V - vi - IV: <strong>G - D - Em - C</strong> of <strong>C - G - Am - F/Em</strong>)!</p>
+<p style="margin-top: 10px;"><strong>Aanmoediging voor beginners:</strong> In de eerste week voelen je vingertoppen misschien wat gevoelig en gaat het wisselen tussen akkoorden wat langzaam. Wees gerust: <em>iedere gitarist ter wereld</em> heeft dit meegemaakt. Binnen enkele dagen ontstaat er een natuurlijk eeltlaagje op je vingertoppen en neemt je spiergeheugen het over. De payoff is gigantisch: eenmaal in je vingers raak je deze vaardigheid nooit meer kwijt!</p>
+<h4 style="margin-top: 18px;">🎯 Tips voor zuiver geluid &amp; snelle wissels:</h4>
+<p>• <strong>Ankervingers (Anchor Fingers):</strong> Let bij het wisselen goed op welke vingers kunnen blijven staan of slechts 1 fretje hoeven te verschuiven (bijv. tussen <strong>Em</strong> en <strong>G</strong>, of tussen <strong>Am</strong> en <strong>C</strong>).</p>
+<p>• <strong>Vingers mooi bol en vlak achter de fret:</strong> Druk de snaren in met het topje van je vinger vlak achter de fret (niet erbovenop) zodat aanliggende snaren vrij kunnen doorklinken.</p>
+<p>• <strong>Welke snaren sla je aan?</strong></p>
+<p style="padding-left: 14px;">- <strong>G &amp; Em:</strong> Sla alle 6 snaren aan (vanaf de lage E-snaar).</p>
+<p style="padding-left: 14px;">- <strong>C &amp; Am:</strong> Sla 5 snaren aan (vanaf de A-snaar, lage E niet aanslaan of zachtjes dempen met de duim/ringvinger).</p>
+<p style="padding-left: 14px;">- <strong>D:</strong> Sla 4 snaren aan (vanaf de D-snaar, lage E en A overslaan).</p>
+<p>• <strong>De 1-Minuut Wissel-Drill:</strong> Kies twee akkoorden (bijv. G en Em) en wissel 60 seconden heen en weer terwijl je rustig meetelt. Probeer elke dag 2 wissels meer te halen!</p>`,
+                        practiceHeading: "Oefensongs met Open Akkoorden:"
                     },
                     4: {
                         cat: "Techniek & Hulpmiddelen",
@@ -2696,8 +3225,12 @@ E |-------------------------------------------------------------------------|</d
                         cat: "Open Majeur Akkoorden",
                         title: "D, A en E Majeur akkoorden",
                         desc: "Samen met de akkoorden uit les 3 beheers je nu alle belangrijke open Majeur- en Mineurakkoorden.",
-                        chordHeading: "Akkoorden in deze les:",
-                        practiceHeading: "Oefensongs:"
+                        theory: `<h4>💡 Tips voor D, A en E Majeur akkoorden</h4>
+<p>• <strong>D Majeur (Driehoek-vorm):</strong> Sla aan vanaf de 4e snaar (D-snaar). De open D is de grondtoon van het akkoord. Houd je vingers mooi compact.</p>
+<p>• <strong>A Majeur (3 vingers in 1 vakje):</strong> Wijs-, middel- en ringvinger staan alle drie naast elkaar op fret 2 van de D-, G- en B-snaar. Sla aan vanaf de 5e snaar (A-snaar).</p>
+<p>• <strong>E Majeur (De basis van alle rock):</strong> Sla alle 6 snaren aan! De lage E is de diepe grondtoon. Merk op dat de vorm precies hetzelfde is als Am, maar 1 snaar omhoog geschoven!</p>
+<p style="margin-top: 10px;">• <strong>Tip voor Wild Thing (The Troggs):</strong> Voor <em>Wild Thing</em> (A - D - E - D) kan de snelle <strong>G - A - G - A</strong> akkoordovergang voor een beginner wat te snel aanvoelen. Maar je kunt heel makkelijk gewoon de <strong>open snaren</strong> aanslaan: vergeet het G-akkoord even! Een vluchtige slag over de <strong>middelste 4 losse snaren</strong> is al ruimschoots voldoende en geeft je hand alle rust om soepel te wisselen.</p>`,
+                        practiceHeading: "Oefensongs met D, A & E:"
                     },
                     6: {
                         cat: "Stijl & Progressie",
@@ -2740,8 +3273,10 @@ E |-------------------------------------------------------------------------|</d
 <p><strong>1. Lagere snaarspanning:</strong> De snaren voelen soepeler aan, wat benden en opdrukken veel makkelijker maakt.</p>
 <p><strong>2. Vocalen:</strong> Het ligt net iets lager, wat zingen voor veel zangers (zoals Jimi Hendrix, Slash/Guns N' Roses, Stevie Ray Vaughan) aanzienlijk comfortabeler maakt.</p>
 <p><strong>3. Vette sound:</strong> Het geeft je gitaar een wat donkerdere, warmere en vollere klank.</p>`,
-                        practiceHeading: "Oefensong in Eb stemming:",
-                        practiceHint: "Guns N' Roses (Eb stemming)"
+                        practiceHeading: "Oefensongs in Eb stemming:",
+                        practiceHint: "Guns N' Roses (Eb stemming)",
+                        practiceHintU2: "U2 (Eb stemming)",
+                        practiceHintGNR2: "Guns N' Roses (Eb stemming)"
                     }
                 }
             },
@@ -2774,6 +3309,34 @@ E |-------------------------------------------------------------------------|</d
                 powerchordALegendFifth: "Blue = 5th on D String",
                 powerchordALegendOctave: "Pink = Octave on G String",
                 powerchordALegendMute: "Mute low E, B, and high e strings",
+                openChordsShowcaseHeading: "🎸 Chords in this lesson (Click to listen):",
+                openChordsShowcaseDesc: "Review the finger placements below. Click on any chord to hear its guitar audio and display it in the preview panel:",
+                badgeStrings5: "5 strings",
+                badgeStrings6: "6 strings",
+                badgeStrings4: "4 strings",
+                playCuePrefix: "🔊 Play ",
+                strumPatternsHeading: "🎶 Essential Strumming Patterns:",
+                strumPatternsDesc: "Your strumming hand sets the song's pulse, rhythm, and groove. Practice these 4 classic patterns along with the audio demos (played in G → Em):",
+                strumBtnPlay: "Listen Demo",
+                strumBtnStop: "Stop Demo",
+                strumPatterns: {
+                    1: {
+                        title: "The Steady 4-Beat Downstroke Pattern",
+                        desc: "Strum steadily downwards on every beat (1, 2, 3, 4). Perfect for locking into tempo and focusing on smooth chord transitions on beat 1 of each new bar."
+                    },
+                    2: {
+                        title: "The 8-Stroke Pop/Rock Flow (Down-Up Motion)",
+                        desc: "Keep your strumming arm swinging like a relaxed pendulum. Downstrum on the numbers (1, 2, 3, 4) and upstrum on the 'and' (&)."
+                    },
+                    3: {
+                        title: "The Iconic \"Island / Pop\" Strum (The #1 Pop Strumming Pattern)",
+                        desc: "The single most popular strumming pattern in modern music (e.g. Zombie, Riptide, Let It Be). Pro tip: On beat 3 your hand swings down without touching the strings, then strums up on the '3&'!"
+                    },
+                    4: {
+                        title: "The Ballad / Accent Strum (Bass + Down-Up)",
+                        desc: "Strum only the lowest bass note of the chord on beats 1 and 3, followed by a crisp down-up strum on 2& and 4&. Beautiful for intimate acoustic ballads."
+                    }
+                },
                 sidebarBadgesTitle: "My Progress & Badges",
                 sidebarBadgeLesson: "Lesson {id}",
                 cards: {
@@ -2795,7 +3358,7 @@ E |-------------------------------------------------------------------------|</d
                         theory: `<h4>💡 How do notes work on the fretboard?</h4>
 <p>The standard tuning of a 6-string guitar is <strong>E - A - D - G - B - e</strong> (from lowest string to highest).</p>
 <p>Each fret up is a <strong>half step</strong> (semitone). Between notes <strong>B &amp; C</strong> and <strong>E &amp; F</strong> there is no sharp (#) or flat (b). A note with a # is called <em>sharp</em> and a note with a b is called <em>flat</em> (e.g. <strong>G#</strong> is G sharp, <strong>Bb</strong> is B flat).</p>
-<p><strong>Scale sequence on the low E string:</strong> E (open) &rarr; F (1st fret) &rarr; F# &rarr; G (3rd fret) &rarr; G# &rarr; A (5th fret) &rarr; A# &rarr; B (7th fret) &rarr; C (8th fret) &rarr; C# &rarr; D (10th fret) &rarr; D# &rarr; E (12th fret).</p>`,
+<p><strong>Scale sequence on the low E string:</strong> E (open) &rarr; F (1st fret) &rarr; F# &rarr; G (3rd fret) &rarr; G# &rarr; A (5th fret) &rarr; A# &rarr; B (7e fret) &rarr; C (8th fret) &rarr; C# &rarr; D (10th fret) &rarr; D# &rarr; E (12th fret).</p>`,
                         quizIntro: `<p>It might seem like a lot to memorize right now, but make sure you mainly <strong>UNDERSTAND</strong> the logic. Start with the names of the strings, followed by <strong>G</strong> and <strong>C</strong>. You can deduce the rest from there. When we start with the first chords soon, you'll understand where the lowest note comes from and how chords get their names!</p>
 <p style="margin-top: 10px;">Here is a quick quiz to get these notes into your system: the 6 open strings plus <strong>F, G, B, and C</strong>. That is all you need for now. Good luck!</p>`,
                         fretboardHeading: "Visualization of the 6-String Guitar Fretboard"
@@ -2820,12 +3383,14 @@ E |-------------------------------------------------------------------------|</d
 <p style="margin-bottom: 8px;">To show which fret to place your index finger on, we use a mini tablature (tab) example. Tablature is commonly used for guitar riffs, solos, and chords. Each line of the tab represents a guitar string, matching the fretboard diagram above.</p>
 <p style="margin-bottom: 6px;">A power chord looks like this on guitar tablature:</p>
 <div class="tab-box" style="margin-bottom: 16px;">      A5 (6th string)
-e |-------------------|
-B |-------------------|
-G |-------------------|
-D |--(7)--------------|  ← Pinky / Octave (Optional)
-A |-- 7 --------------|  ← Ring finger / 5th (Fret 7)
-E |-- <span class="tab-badge-root">5</span> --------------|  ← Index finger / Root (Fret 5)</div>
+e |--------------|
+B |--------------|
+G |--------------|
+D |--(7)---------|
+A |-- 7 ---------|
+E |-- <span class="tab-badge-root">5</span> --------|
+
+<span style="color: #94a3b8; font-size: 0.82rem; white-space: normal; display: block; font-family: 'Inter', sans-serif;">(You can leave out the Pinky at first until you are comfortable enough with the 2 finger version)</span></div>
 <p style="margin-bottom: 8px;">Notice that you can play the A5 chord in 2 different ways. One way is the way it is shown above in the diagrams using the open 5th string (The A String) but another way that might be more convenient is playing on the 5th fret of the 6th string (The Low E). It just depends on what previous chord or next chord you are playing. Decide for yourself!</p>
 <p style="margin-bottom: 8px;">Try playing power chords in the songs below. When you open these songs, you will also find the dedicated TAB in the Timeline:</p>
 <div style="margin: 10px 0 14px 0;">
@@ -2835,7 +3400,7 @@ E |-- <span class="tab-badge-root">5</span> --------------|  ← Index finger / 
 <div style="margin: 10px 0 18px 0;">
     <img src="images/timeline_tab_example.png" alt="Timeline TAB example" style="width: 100%; max-width: 760px; height: auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); border: 1px solid #cbd5e1; display: block;">
 </div>`,
-                        practiceTabs: `<h4 style="margin: 0 0 8px 0; font-size: 1.05rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;"><span>🎸</span> <span>Iconic Riffs & TABs for these songs:</span></h4>
+                        practiceTabs: `<h4 style="margin: 0 0 8px 0; font-size: 1.05rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px;"><span>🎸</span> <span>TABs for these songs:</span></h4>
 <p style="margin-bottom: 14px; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5;">For your convenience, here are the guitar tabs for the famous sections of these songs:</p>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2849,6 +3414,10 @@ G |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 D |--11--6--7-7--9----|--11--6--7-7--9----|-------------|
 A |-- 9--4--5-5--7----|---9--4--5-5--7----|---7--4-3-2--|
 E |-------------------|-------------------|-------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Rotate device to landscape to view full TAB</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2862,6 +3431,10 @@ G |---------------------------------------------|
 D |--4-4-4---11-11-11---13-13---9~--------------|
 A |--4-4-4---11-11-11---13-13---9~--------------|
 E |--2-2-2----9--9--9---11-11---7~--------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Rotate device to landscape to view full TAB</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2875,6 +3448,10 @@ G |---------------------------------------------------|
 D |--10-----10--8---10-----10--8---10-----10--5---6---|
 A |--10-----10--8---10-----10--8---10-----10--5---6---|
 E |-- 8------8--6----8------8--6----8------8--3---4---|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Rotate device to landscape to view full TAB</span>
+    </div>
 </div>
 
 <div class="song-tab-card" style="margin-bottom: 18px;">
@@ -2888,18 +3465,34 @@ G |--7---7-------------------------------7---7------------------------------|
 D |--7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---7-7-7-7-7-7-7-7---|
 A |--5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---5-5-5-5-5-5-5-5---|
 E |-------------------------------------------------------------------------|</div>
+    <div class="tab-rotate-hint">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Tip: Rotate device to landscape to view full TAB</span>
+    </div>
 </div>`
                     },
                     3: {
-                        cat: "Open Essential Chords",
-                        title: "C, G, D, Am and Em Chords",
-                        desc: "With these 5 open chords you can play hundreds of famous pop and campfire songs.",
-                        theory: `<h4>💡 Tips for clean open chords</h4>
-<p>• Press strings down right behind the fret wire (not directly on top).</p>
-<p>• Curve your fingers nicely so they don't mute adjacent strings.</p>
-<p>• For the <strong>D</strong> chord, strum from the 4th string (D string) down and mute the low E and A strings.</p>`,
-                        chordHeading: "Chords in this lesson:",
-                        practiceHeading: "Practice Songs:"
+                        cat: "Essential Open Chords",
+                        title: "C, G, D, Am & Em Chords",
+                        desc: "With these 5 open chords you can play literally hundreds of classic pop, rock, and acoustic hits.",
+                        theory: `<h4>💡 Why These 5 Chords Are Pure Gold (The Ultimate Payoff)</h4>
+<div class="payoff-stat-banner">
+    <div class="payoff-stat-num">70%+</div>
+    <div class="payoff-stat-text">
+        <strong>Of all pop and rock hits</strong> in music history are built on combinations of these 5 simple chords. Master these 5 shapes and you will be able to play along with hundreds of global hits!
+    </div>
+</div>
+<p><strong>The "4-Chord Song" Phenomenon:</strong> Songs like <em>Zombie</em> (Cranberries), <em>Perfect</em> (Ed Sheeran), <em>Let It Be</em> (The Beatles), <em>With Or Without You</em> (U2), <em>Someone Like You</em> (Adele), and <em>Don't Stop Believin'</em> all use the exact same chord progression (I - V - vi - IV: <strong>G - D - Em - C</strong> or <strong>C - G - Am - F/Em</strong>)!</p>
+<p style="margin-top: 10px;"><strong>Encouragement for beginners:</strong> During your first week, your fingertips might feel slightly tender and switching chords may feel slow. Rest assured: <em>every guitarist in history</em> started right here. Within a few days, a natural layer of calluses forms and muscle memory kicks in. The payoff is immense: once mastered, you will never lose this skill!</p>
+<h4 style="margin-top: 18px;">🎯 Tips for Clean Tone &amp; Fast Transitions:</h4>
+<p>• <strong>Anchor Fingers:</strong> When switching chords, notice which fingers stay on the same string or only slide by 1 fret (e.g. between <strong>Em</strong> and <strong>G</strong>, or between <strong>Am</strong> and <strong>C</strong>).</p>
+<p>• <strong>Curved Knuckles &amp; Behind the Fret:</strong> Press strings down with your fingertips directly behind the fret wire (not on top of it) so neighboring strings ring out freely.</p>
+<p>• <strong>Which strings to strum?</strong></p>
+<p style="padding-left: 14px;">- <strong>G &amp; Em:</strong> Strum all 6 strings (starting from the low E string).</p>
+<p style="padding-left: 14px;">- <strong>C &amp; Am:</strong> Strum 5 strings (starting from the A string; do not strum low E or mute gently with your thumb/ring finger).</p>
+<p style="padding-left: 14px;">- <strong>D:</strong> Strum 4 strings (starting from the D string; skip low E and A strings).</p>
+<p>• <strong>The 1-Minute Chord Change Drill:</strong> Pick two chords (e.g. G and Em) and switch back and forth for 60 seconds while counting your clean switches. Aim to gain 2 more switches each day!</p>`,
+                        practiceHeading: "Practice Songs with Open Chords:"
                     },
                     4: {
                         cat: "Technique & Tools",
@@ -2912,9 +3505,13 @@ E |-------------------------------------------------------------------------|</d
                     5: {
                         cat: "Open Major Chords",
                         title: "D, A and E Major Chords",
-                        desc: "Combined with Lesson 3, you now master all fundamental open Major and Minor chords.",
-                        chordHeading: "Chords in this lesson:",
-                        practiceHeading: "Practice Songs:"
+                        desc: "Combined with the chords from Lesson 3, you now master all fundamental open Major and Minor chords.",
+                        theory: `<h4>💡 Tips for D, A and E Major Chords</h4>
+<p>• <strong>D Major (Triangle Shape):</strong> Strum starting from the 4th string (D string). The open D is the root note of the chord. Keep your fingers compact.</p>
+<p>• <strong>A Major (3 fingers in 1 fret):</strong> Index, middle, and ring fingers line up together on fret 2 across the D, G, and B strings. Strum from the 5th string (A string).</p>
+<p>• <strong>E Major (The backbone of rock):</strong> Strum all 6 strings! The low E is the deep root note. Notice how this shape is identical to Am, just shifted up by 1 string!</p>
+<p style="margin-top: 10px;">• <strong>Tip for Wild Thing (The Troggs):</strong> For <em>Wild Thing</em> (A - D - E - D), the rapid <strong>G - A - G - A</strong> chord transition between phrases can seem too fast for beginners. Pro tip: you can easily just play the <strong>open strings</strong> and forget about fretting the G chord! A relaxed open strum across the <strong>middle 4 open strings</strong> sounds authentic and gives your fretting hand plenty of time to land smoothly on the next chord.</p>`,
+                        practiceHeading: "Practice Songs with D, A & E:"
                     },
                     6: {
                         cat: "Style & Progression",
@@ -2957,8 +3554,10 @@ E |-------------------------------------------------------------------------|</d
 <p><strong>1. Lower string tension:</strong> Strings feel looser and softer, making string bends much easier.</p>
 <p><strong>2. Vocals:</strong> The lower pitch makes singing high notes much more comfortable for vocalists (e.g. Jimi Hendrix, Slash/Guns N' Roses, Stevie Ray Vaughan).</p>
 <p><strong>3. Richer tone:</strong> Delivers a darker, warmer, and thicker guitar sound.</p>`,
-                        practiceHeading: "Practice Song in Eb Tuning:",
-                        practiceHint: "Guns N' Roses (Eb tuning)"
+                        practiceHeading: "Practice Songs in Eb Tuning:",
+                        practiceHint: "Guns N' Roses (Eb tuning)",
+                        practiceHintU2: "U2 (Eb tuning)",
+                        practiceHintGNR2: "Guns N' Roses (Eb tuning)"
                     }
                 }
             }
@@ -3025,6 +3624,7 @@ E |-------------------------------------------------------------------------|</d
         let currentLessonId = null;
 
         function showLaunchPage() {
+            stopGuitarStrumDemo();
             currentLessonId = null;
             document.body.classList.remove('mode-single-lesson');
             document.body.classList.add('mode-launch');
@@ -3039,11 +3639,11 @@ E |-------------------------------------------------------------------------|</d
             2: ['C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5'],
             3: ['C', 'G', 'D', 'Am', 'Em'],
             4: ['C', 'G', 'Em', 'Am', 'D'],
-            5: ['D', 'A', 'E', 'G', 'C'],
+            5: ['D', 'A', 'E'],
             6: ['E', 'E7', 'A', 'A7', 'B7'],
             7: ['F', 'F#', 'Fm', 'F#m', 'G'],
             8: ['Bm', 'B', 'B7', 'C#m', 'C#'],
-            9: ['G', 'C', 'D', 'Em', 'Am']
+            9: ['G', 'C', 'D', 'Em', 'Am', 'A', 'E']
         };
 
         function playGuitarChordAudio(chordName) {
@@ -3099,10 +3699,210 @@ E |-------------------------------------------------------------------------|</d
             });
         }
 
+        function renderLesson3ChordDiagrams() {
+            const chords = ['C', 'G', 'D', 'Am', 'Em'];
+            const db = (typeof GuitarChordDatabase !== 'undefined') ? GuitarChordDatabase : (window.GuitarChordDatabase || {});
+            
+            chords.forEach(chordName => {
+                const wrap = document.getElementById(`open-chord-svg-${chordName}`);
+                if (!wrap) return;
+                
+                let chordData = db[chordName];
+                if (Array.isArray(chordData)) chordData = chordData[0];
+                
+                if (chordData && typeof guitarRenderer !== 'undefined') {
+                    wrap.innerHTML = guitarRenderer.renderSVG(chordData, { chordName: chordName, highlightRoot: true });
+                }
+            });
+        }
+
+        function renderLesson5ChordDiagrams() {
+            const chords = ['D', 'A', 'E'];
+            const db = (typeof GuitarChordDatabase !== 'undefined') ? GuitarChordDatabase : (window.GuitarChordDatabase || {});
+            
+            chords.forEach(chordName => {
+                const wrap = document.getElementById(`open-chord-svg-5-${chordName}`);
+                if (!wrap) return;
+                
+                let chordData = db[chordName];
+                if (Array.isArray(chordData)) chordData = chordData[0];
+                
+                if (chordData && typeof guitarRenderer !== 'undefined') {
+                    wrap.innerHTML = guitarRenderer.renderSVG(chordData, { chordName: chordName, highlightRoot: true });
+                }
+            });
+        }
+
+        let activeStrumTimeouts = [];
+        let currentPlayingStrumId = null;
+
+        function stopGuitarStrumDemo() {
+            activeStrumTimeouts.forEach(id => clearTimeout(id));
+            activeStrumTimeouts = [];
+            
+            if (guitarAudioPlayer) {
+                guitarAudioPlayer.stopAllActiveNotes(0.08);
+            }
+
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.nl;
+            const playText = t.strumBtnPlay || "Beluister Demo";
+            
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`btn-strum-demo-${i}`);
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.innerHTML = `<span>▶</span> <span>${playText}</span>`;
+                }
+            }
+            currentPlayingStrumId = null;
+        }
+
+        function playGuitarStrumDemo(patternId) {
+            if (currentPlayingStrumId === patternId) {
+                stopGuitarStrumDemo();
+                return;
+            }
+
+            stopGuitarStrumDemo();
+            currentPlayingStrumId = patternId;
+
+            const t = TRANSLATIONS[currentLang] || TRANSLATIONS.nl;
+            const stopText = t.strumBtnStop || "Stop Demo";
+            const btn = document.getElementById(`btn-strum-demo-${patternId}`);
+            if (btn) {
+                btn.classList.add('playing');
+                btn.innerHTML = `<span>⏹</span> <span>${stopText}</span>`;
+            }
+
+            try {
+                if (!guitarAudioPlayer && typeof PianoAudioPlayer !== 'undefined') {
+                    guitarAudioPlayer = new PianoAudioPlayer();
+                }
+                if (!guitarAudioPlayer) return;
+
+                guitarAudioPlayer.initialize().then(() => {
+                    if (guitarAudioPlayer.audioContext && guitarAudioPlayer.audioContext.state === 'suspended') {
+                        guitarAudioPlayer.audioContext.resume();
+                    }
+                    guitarAudioPlayer.setSound('guitar-strum');
+
+                    // G Major chord: 3-2-0-0-0-3 (G2=43, B2=47, D3=50, G3=55, B3=59, G4=67)
+                    // Em chord: 0-2-2-0-0-0 (E2=40, B2=47, E3=52, G3=55, B3=59, E4=64)
+                    const gNotes = [43, 47, 50, 55, 59, 67];
+                    const emNotes = [40, 47, 52, 55, 59, 64];
+                    const gBass = [43];
+                    const emBass = [40];
+
+                    const playDown = (notes, dur = 0.5, vol = 0.42) => {
+                        const sorted = [...notes].sort((a, b) => a - b);
+                        guitarAudioPlayer.playChord(sorted, dur, vol, 0.032, true);
+                    };
+
+                    const playUp = (notes, dur = 0.4, vol = 0.32) => {
+                        const reversed = [...notes].sort((a, b) => b - a);
+                        guitarAudioPlayer.playChord(reversed, dur, vol, 0.022, true);
+                    };
+
+                    const playSingle = (noteArray, dur = 0.6, vol = 0.48) => {
+                        guitarAudioPlayer.playChord(noteArray, dur, vol, 0.01, false);
+                    };
+
+                    // 100 BPM => 1 beat = 580ms, half beat (&) = 290ms
+                    const beatMs = 580;
+                    const halfBeatMs = beatMs / 2;
+
+                    let schedule = [];
+
+                    if (patternId === 1) {
+                        // Pattern 1: Steady 4 Downbeats (2 bars G, 2 bars Em)
+                        for (let b = 0; b < 4; b++) schedule.push({ time: b * beatMs, action: () => playDown(gNotes, 0.55, 0.42) });
+                        for (let b = 0; b < 4; b++) schedule.push({ time: (4 + b) * beatMs, action: () => playDown(gNotes, 0.55, 0.42) });
+                        for (let b = 0; b < 4; b++) schedule.push({ time: (8 + b) * beatMs, action: () => playDown(emNotes, 0.55, 0.42) });
+                        for (let b = 0; b < 4; b++) schedule.push({ time: (12 + b) * beatMs, action: () => playDown(emNotes, 0.55, 0.42) });
+                    } else if (patternId === 2) {
+                        // Pattern 2: 8-Strokes Pop/Rock Flow: Down-Up (1 & 2 & 3 & 4 &)
+                        const addBar8 = (notes, startBar) => {
+                            for (let b = 0; b < 4; b++) {
+                                schedule.push({ time: (startBar * 4 + b) * beatMs, action: () => playDown(notes, 0.35, 0.42) });
+                                schedule.push({ time: (startBar * 4 + b) * beatMs + halfBeatMs, action: () => playUp(notes, 0.28, 0.30) });
+                            }
+                        };
+                        addBar8(gNotes, 0);
+                        addBar8(gNotes, 1);
+                        addBar8(emNotes, 2);
+                        addBar8(emNotes, 3);
+                    } else if (patternId === 3) {
+                        // Pattern 3: Island / Pop (↓  ↓↑  ↑↓↑ / 1, 2&, 3&, 4&)
+                        const addIslandBar = (notes, startBar) => {
+                            const barStart = startBar * 4 * beatMs;
+                            // 1 (Down)
+                            schedule.push({ time: barStart, action: () => playDown(notes, 0.55, 0.45) });
+                            // 2 (Down)
+                            schedule.push({ time: barStart + beatMs, action: () => playDown(notes, 0.35, 0.40) });
+                            // 2& (Up)
+                            schedule.push({ time: barStart + beatMs + halfBeatMs, action: () => playUp(notes, 0.28, 0.32) });
+                            // 3 (Ghost down -> 3& Up)
+                            schedule.push({ time: barStart + 2 * beatMs + halfBeatMs, action: () => playUp(notes, 0.32, 0.34) });
+                            // 4 (Down)
+                            schedule.push({ time: barStart + 3 * beatMs, action: () => playDown(notes, 0.32, 0.40) });
+                            // 4& (Up)
+                            schedule.push({ time: barStart + 3 * beatMs + halfBeatMs, action: () => playUp(notes, 0.28, 0.30) });
+                        };
+                        addIslandBar(gNotes, 0);
+                        addIslandBar(gNotes, 1);
+                        addIslandBar(emNotes, 2);
+                        addIslandBar(emNotes, 3);
+                    } else if (patternId === 4) {
+                        // Pattern 4: Ballad / Accent (Bass + Down-Up)
+                        const addBalladBar = (bass, notes, startBar) => {
+                            const barStart = startBar * 4 * beatMs;
+                            // 1: Bass note
+                            schedule.push({ time: barStart, action: () => playSingle(bass, 0.55, 0.50) });
+                            // 2: Down
+                            schedule.push({ time: barStart + beatMs, action: () => playDown(notes, 0.32, 0.38) });
+                            // 2&: Up
+                            schedule.push({ time: barStart + beatMs + halfBeatMs, action: () => playUp(notes, 0.26, 0.28) });
+                            // 3: Bass note
+                            schedule.push({ time: barStart + 2 * beatMs, action: () => playSingle(bass, 0.55, 0.48) });
+                            // 4: Down
+                            schedule.push({ time: barStart + 3 * beatMs, action: () => playDown(notes, 0.32, 0.38) });
+                            // 4&: Up
+                            schedule.push({ time: barStart + 3 * beatMs + halfBeatMs, action: () => playUp(notes, 0.26, 0.28) });
+                        };
+                        addBalladBar(gBass, gNotes, 0);
+                        addBalladBar(gBass, gNotes, 1);
+                        addBalladBar(emBass, emNotes, 2);
+                        addBalladBar(emBass, emNotes, 3);
+                    }
+
+                    // Schedule all strum events
+                    schedule.forEach(item => {
+                        const tid = setTimeout(item.action, item.time);
+                        activeStrumTimeouts.push(tid);
+                    });
+
+                    // Schedule end of demo
+                    const totalDuration = 16 * beatMs + 600;
+                    const endTid = setTimeout(() => {
+                        stopGuitarStrumDemo();
+                    }, totalDuration);
+                    activeStrumTimeouts.push(endTid);
+                }).catch(e => {
+                    console.warn('Audio demo failed:', e);
+                    stopGuitarStrumDemo();
+                });
+            } catch(e) {
+                console.warn('Strum demo error:', e);
+                stopGuitarStrumDemo();
+            }
+        }
+
         function openLesson(id) {
             id = parseInt(id, 10);
             if (isNaN(id) || id < 1 || id > 9) id = 1;
             currentLessonId = id;
+
+            stopGuitarStrumDemo();
 
             if (history.replaceState) {
                 history.replaceState(null, '', `#lesson-${id}`);
@@ -3137,6 +3937,10 @@ E |-------------------------------------------------------------------------|</d
             if (id === 2) {
                 renderPowerchordFretboard(currentPowerchordKey || 'F', false);
                 renderPowerchordAStringFretboard(currentPowerchordAKey || 'A', false);
+            } else if (id === 3) {
+                renderLesson3ChordDiagrams();
+            } else if (id === 5) {
+                renderLesson5ChordDiagrams();
             }
         }
 
@@ -3161,6 +3965,11 @@ E |-------------------------------------------------------------------------|</d
                 } else {
                     btn.classList.remove('active');
                 }
+            });
+
+            document.querySelectorAll('.open-chord-card').forEach(card => {
+                const isThisChord = (card.id === `open-chord-card-${chordName}` || card.id === `open-chord-card-5-${chordName}`);
+                card.classList.toggle('active', isThisChord);
             });
 
             const db = (typeof GuitarChordDatabase !== 'undefined') ? GuitarChordDatabase : (window.GuitarChordDatabase || {});
@@ -4032,6 +4841,71 @@ E |-------------------------------------------------------------------------|</d
             const txtPcALegendMute = document.getElementById('txtPcALegendMute');
             if (txtPcALegendMute && t.powerchordALegendMute) txtPcALegendMute.textContent = t.powerchordALegendMute;
 
+            // Lesson 3 Open Chords Showcase and Strumming Patterns
+            const openChordsShowcaseHeading = document.getElementById('open-chords-showcase-heading-3');
+            if (openChordsShowcaseHeading && t.openChordsShowcaseHeading) openChordsShowcaseHeading.textContent = t.openChordsShowcaseHeading;
+
+            const openChordsShowcaseDesc = document.getElementById('open-chords-showcase-desc-3');
+            if (openChordsShowcaseDesc && t.openChordsShowcaseDesc) openChordsShowcaseDesc.textContent = t.openChordsShowcaseDesc;
+
+            const badgeC = document.getElementById('badge-strings-C');
+            if (badgeC && t.badgeStrings5) badgeC.textContent = t.badgeStrings5;
+            const badgeG = document.getElementById('badge-strings-G');
+            if (badgeG && t.badgeStrings6) badgeG.textContent = t.badgeStrings6;
+            const badgeD = document.getElementById('badge-strings-D');
+            if (badgeD && t.badgeStrings4) badgeD.textContent = t.badgeStrings4;
+            const badgeAm = document.getElementById('badge-strings-Am');
+            if (badgeAm && t.badgeStrings5) badgeAm.textContent = t.badgeStrings5;
+            const badgeEm = document.getElementById('badge-strings-Em');
+            if (badgeEm && t.badgeStrings6) badgeEm.textContent = t.badgeStrings6;
+
+            ['C', 'G', 'D', 'Am', 'Em'].forEach(chord => {
+                const cue = document.querySelector(`#open-chord-card-${chord} .open-chord-play-cue`);
+                if (cue && t.playCuePrefix) cue.textContent = `${t.playCuePrefix}${chord}`;
+            });
+
+            const strumHeading = document.getElementById('strum-patterns-heading-3');
+            if (strumHeading && t.strumPatternsHeading) strumHeading.textContent = t.strumPatternsHeading;
+
+            const strumDesc = document.getElementById('strum-patterns-desc-3');
+            if (strumDesc && t.strumPatternsDesc) strumDesc.textContent = t.strumPatternsDesc;
+
+            for (let p = 1; p <= 4; p++) {
+                const pTitle = document.getElementById(`txt-strum-title-${p}`);
+                const pDesc = document.getElementById(`txt-strum-desc-${p}`);
+                const pBtn = document.getElementById(`txt-strum-btn-${p}`);
+                if (t.strumPatterns && t.strumPatterns[p]) {
+                    if (pTitle) pTitle.textContent = t.strumPatterns[p].title;
+                    if (pDesc) pDesc.textContent = t.strumPatterns[p].desc;
+                }
+                if (pBtn && t.strumBtnPlay && (!currentPlayingStrumId || currentPlayingStrumId !== p)) {
+                    pBtn.textContent = t.strumBtnPlay;
+                }
+            }
+
+            renderLesson3ChordDiagrams();
+
+            // Lesson 5 Open Chords Showcase
+            const openChordsShowcaseHeading5 = document.getElementById('open-chords-showcase-heading-5');
+            if (openChordsShowcaseHeading5 && t.openChordsShowcaseHeading) openChordsShowcaseHeading5.textContent = t.openChordsShowcaseHeading;
+
+            const openChordsShowcaseDesc5 = document.getElementById('open-chords-showcase-desc-5');
+            if (openChordsShowcaseDesc5 && t.openChordsShowcaseDesc) openChordsShowcaseDesc5.textContent = t.openChordsShowcaseDesc;
+
+            const badge5D = document.getElementById('badge-strings-5-D');
+            if (badge5D && t.badgeStrings4) badge5D.textContent = t.badgeStrings4;
+            const badge5A = document.getElementById('badge-strings-5-A');
+            if (badge5A && t.badgeStrings5) badge5A.textContent = t.badgeStrings5;
+            const badge5E = document.getElementById('badge-strings-5-E');
+            if (badge5E && t.badgeStrings6) badge5E.textContent = t.badgeStrings6;
+
+            ['D', 'A', 'E'].forEach(chord => {
+                const cue = document.querySelector(`#open-chord-card-5-${chord} .open-chord-play-cue`);
+                if (cue && t.playCuePrefix) cue.textContent = `${t.playCuePrefix}${chord}`;
+            });
+
+            renderLesson5ChordDiagrams();
+
             const quizIntro1 = document.getElementById('quiz-intro-1');
             if (quizIntro1 && t.lessonDetails && t.lessonDetails[1] && t.lessonDetails[1].quizIntro) {
                 quizIntro1.innerHTML = t.lessonDetails[1].quizIntro;
@@ -4040,6 +4914,16 @@ E |-------------------------------------------------------------------------|</d
             const practiceHint9 = document.getElementById('practice-hint-9');
             if (practiceHint9 && t.lessonDetails && t.lessonDetails[9] && t.lessonDetails[9].practiceHint) {
                 practiceHint9.textContent = t.lessonDetails[9].practiceHint;
+            }
+
+            const practiceHint9U2 = document.getElementById('practice-hint-9-u2');
+            if (practiceHint9U2 && t.lessonDetails && t.lessonDetails[9] && t.lessonDetails[9].practiceHintU2) {
+                practiceHint9U2.textContent = t.lessonDetails[9].practiceHintU2;
+            }
+
+            const practiceHint9GNR2 = document.getElementById('practice-hint-9-gnr2');
+            if (practiceHint9GNR2 && t.lessonDetails && t.lessonDetails[9] && t.lessonDetails[9].practiceHintGNR2) {
+                practiceHint9GNR2.textContent = t.lessonDetails[9].practiceHintGNR2;
             }
 
             const counter = document.getElementById('lesson-counter-indicator');
@@ -4062,6 +4946,8 @@ E |-------------------------------------------------------------------------|</d
         window.addEventListener('DOMContentLoaded', () => {
             applyLanguage();
             renderLesson1Quiz();
+            renderLesson3ChordDiagrams();
+            renderLesson5ChordDiagrams();
             selectGuitarChord('C', false);
             if (location.hash && location.hash.startsWith('#lesson-')) {
                 const id = parseInt(location.hash.replace('#lesson-', ''), 10);
