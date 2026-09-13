@@ -61,6 +61,12 @@ const GuitarChordDatabase = {
         frets: [0, 2, 0, 1, 0, 0],
         fingers: [0, 2, 0, 1, 0, 0]
     },
+    "F (Easy)": {
+        baseFret: 1,
+        frets: ["x", "x", 3, 2, 1, 1],
+        barre: { fret: 1, fromString: 5, toString: 6 },
+        fingers: [0, 0, 3, 2, 1, 1]
+    },
     "F": {
         baseFret: 1,
         frets: [1, 3, 3, 2, 1, 1],
