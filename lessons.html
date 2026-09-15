@@ -2975,7 +2975,10 @@
                     alert(`Song not found in library: "${artist} - ${title}". Please make sure default songs are loaded.`);
                 }
             } else {
-                alert("Cannot load song details. Application context not found.");
+                // Standalone mode (opened directly, not inside songlist iframe).
+                // Redirect to songlist.html — anonymous users will hit the login screen there.
+                const params = new URLSearchParams({ artist, title, ref: 'lessons' });
+                window.location.href = 'songlist.html?' + params.toString();
             }
         }
 

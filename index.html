@@ -6,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.350 - Scrolling Chords, Band Sync & Band Members Tool</title>
-    <meta name="version" content="3.350">
+    <title>PopSongChordBook v3.351 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
+    <meta name="version" content="3.351">
     <meta name="description"
-        content="The ultimate musicians and band practice tool with interactive scrolling chords. Connect band members in real-time, sync setlists, play along with YouTube, and master your instrument. Start playing together instantly.">
-    <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper">
+        content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
+    <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn piano online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
     <meta name="google-site-verification" content="GifO932pD8fjdFapfqXZIoh_i3lzNZMjzFds_FpDIpg" />
     <link rel="canonical" href="https://www.popsongchordbook.com/">
     
@@ -59,7 +59,61 @@
       }
     }
     </script>
- 
+
+    <!-- Structured Data: Free Guitar Beginner Lessons Course -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Free Beginner Guitar Lessons — Guitar Fast Track Method",
+      "description": "A free step-by-step beginner guitar method covering fretboard notes, power chords, open chords (C, G, D, Am, Em), capo use, barre chords, and Eb tuning. Learn to play pop songs fast — no account needed.",
+      "provider": {
+        "@type": "Organization",
+        "name": "PopSongChordBook",
+        "sameAs": "https://www.popsongchordbook.com"
+      },
+      "url": "https://www.popsongchordbook.com/guitar_lessons.html",
+      "courseMode": "online",
+      "isAccessibleForFree": true,
+      "inLanguage": ["en", "nl"],
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "instructor": {
+          "@type": "Organization",
+          "name": "PopSongChordBook"
+        }
+      }
+    }
+    </script>
+
+    <!-- Structured Data: Free Piano & Keyboard Beginner Lessons Course -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Free Beginner Piano & Keyboard Lessons — Pop Piano Fast Track Method",
+      "description": "A free step-by-step beginner piano and keyboard method using chord-shape groups. Covers white key chords, mountain shapes, valley shapes, outliers, black key chords, minor mountains, left hand bass, chord patterns & arpeggios, and inversions. Play pop songs fast — no account needed.",
+      "provider": {
+        "@type": "Organization",
+        "name": "PopSongChordBook",
+        "sameAs": "https://www.popsongchordbook.com"
+      },
+      "url": "https://www.popsongchordbook.com/lessons.html",
+      "courseMode": "online",
+      "isAccessibleForFree": true,
+      "inLanguage": ["en", "nl"],
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "instructor": {
+          "@type": "Organization",
+          "name": "PopSongChordBook"
+        }
+      }
+    }
+    </script>
+
     <!-- Favicons & App Icons for Search Engines (Google, Bing) & Mobile Devices -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="192x192" href="/images/pwa_icon_192.png">
@@ -459,6 +513,382 @@
                 gap: 16px;
             }
         }
+        /* ─── Hero Primary CTA Buttons ─── */
+        .hero-primary-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 480px;
+            margin: 20px auto 0;
+        }
+
+        .hero-btn-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: #ffffff;
+            color: #4f46e5;
+            border: 2px solid rgba(255,255,255,0.4);
+            transition: filter 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+
+        .hero-btn-ghost {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            border: 2px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: filter 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+
+        /* ─── Divider Line under Open Chord Book ─── */
+        .hero-buttons-divider {
+            width: 100%;
+            max-width: 440px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            margin: 16px auto;
+        }
+
+        /* ─── Fast Track Buttons Group ─── */
+        .hero-fasttrack-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .hero-fasttrack-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .hero-btn-fasttrack {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-size: 0.90rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            transition: filter 0.2s, transform 0.15s;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .hero-btn-main:hover,
+        .hero-btn-ghost:hover,
+        .hero-btn-fasttrack:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-hero-guitar {
+            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+            color: #ffffff;
+            box-shadow: 0 3px 14px rgba(22, 163, 74, 0.45);
+        }
+
+        .btn-hero-piano {
+            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+            color: #ffffff;
+            box-shadow: 0 3px 14px rgba(124, 58, 237, 0.45);
+        }
+
+        .hero-fasttrack-label {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.65);
+            letter-spacing: 0.02em;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .hero-description {
+                margin-bottom: 12px !important;
+            }
+
+            .hero-primary-buttons {
+                flex-direction: column;
+                max-width: 290px;
+                margin: 0 auto;
+                gap: 7px;
+            }
+
+            .hero-btn-main {
+                padding: 10px 14px;
+                font-size: 0.88rem;
+                border-radius: 10px;
+            }
+
+            .hero-btn-ghost {
+                padding: 9px 14px;
+                font-size: 0.86rem;
+                border-radius: 10px;
+            }
+
+            .hero-buttons-divider {
+                max-width: 260px;
+                margin: 10px auto;
+            }
+
+            .hero-fasttrack-group {
+                max-width: 290px;
+                gap: 5px;
+            }
+
+            .hero-fasttrack-buttons {
+                gap: 6px;
+            }
+
+            .hero-btn-fasttrack {
+                padding: 9px 12px;
+                font-size: 0.86rem;
+                border-radius: 10px;
+            }
+
+            .hero-fasttrack-label {
+                font-size: 0.62rem;
+                line-height: 1.25;
+            }
+        }
+
+
+        /* =============================================
+           FREE BEGINNER LESSONS SECTION
+        ============================================= */
+        .free-lessons-section {
+            padding: 90px 0 70px;
+            background: linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 50%, #f3e8ff 100%);
+            border-top: 1px solid #e0e7ff;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .free-lessons-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .badge-free {
+            display: inline-block;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 18px;
+            border-radius: 99px;
+            box-shadow: 0 2px 10px rgba(22, 163, 74, 0.35);
+            margin-bottom: 4px;
+        }
+
+        .lessons-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .lesson-launch-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(79, 70, 229, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .lesson-launch-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 55px rgba(79, 70, 229, 0.18), 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .lesson-card-preview-wrap {
+            position: relative;
+            overflow: hidden;
+            background: #1e1b4b;
+        }
+
+        .lesson-card-preview-img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            object-position: top left;
+            transition: transform 0.35s ease;
+        }
+
+        .lesson-launch-card:hover .lesson-card-preview-img {
+            transform: scale(1.03);
+        }
+
+        .lesson-card-instrument-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            padding: 5px 14px;
+            border-radius: 99px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .guitar-badge {
+            background: rgba(22, 163, 74, 0.92);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(22, 163, 74, 0.45);
+        }
+
+        .piano-badge {
+            background: rgba(109, 40, 217, 0.92);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(109, 40, 217, 0.45);
+        }
+
+        .lesson-card-body {
+            padding: 26px 28px 28px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .lesson-card-labels {
+            margin-bottom: 18px;
+        }
+
+        .lesson-label-main {
+            display: block;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .lesson-label-sub {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            letter-spacing: 0.02em;
+        }
+
+        .lesson-card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+        }
+
+        .lesson-card-list li {
+            font-size: 0.82rem;
+            color: #475569;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-fast-track {
+            display: block;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: filter 0.2s ease, transform 0.15s ease;
+            margin-top: auto;
+        }
+
+        .btn-fast-track:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+        }
+
+        .btn-guitar-track {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 18px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-piano-track {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4);
+        }
+
+        .lessons-register-note {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 36px;
+            font-style: italic;
+        }
+
+        /* Responsive: single column on mobile */
+        @media (max-width: 768px) {
+            .lessons-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+                max-width: 500px;
+            }
+
+            .lesson-card-list {
+                grid-template-columns: 1fr 1fr;
+                gap: 5px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .free-lessons-section {
+                padding: 60px 0 50px;
+            }
+
+            .lesson-card-list {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-card-body {
+                padding: 20px;
+            }
+        }
     </style>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -466,9 +896,10 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.350">
-    <script>const SITE_VERSION = '3.350';</script>
+    <meta name="application-version" content="v3.351">
+    <script>const SITE_VERSION = '3.351';</script>
     <!-- Version history: 
+        v3.351: Added Free Beginner Lessons section on landing page with Guitar Fast Track and Keyboard/Piano Fast Track cards, preview screenshots, SEO Course structured data, and enriched meta keywords for beginner guitar/piano/keyboard method search queries.
         v3.350: Optimized vertical spacing in PC/landscape sidebar (reduced logo size, header padding around divider, and menu item padding) to fit all navigation items down to New Members without scrollbars.
         v3.349: Added Text mode to Circle of Fifths/Linear chord editing widget and suppressed soft keyboard popup during Circle and Linear visual chord editing.
         v3.348: Removed Under Construction banners across all Beginner Guitar Lessons for a clean, production-ready interface.
@@ -750,17 +1181,31 @@
                 The fastest way to learn pop songs on piano or guitar. 
                 Stop memorizing chords — start playing songs instantly.
             </p>
-            <div class="hero-buttons" style="gap: 10px;">
-                <a href="songlist.html" id="browseSongListBtn" class="btn btn-primary paywall-trigger"
-                    style="padding: 16px 20px; border: 2px solid rgba(255, 255, 255, 0.4); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+            <div class="hero-primary-buttons">
+                <a href="songlist.html" id="browseSongListBtn" class="hero-btn-main paywall-trigger">
                     <span class="btn-icon">📋</span>
                     <span>Open Chord Book</span>
                 </a>
-                <a href="quickstart.html" class="btn"
-                    style="background: rgba(255,255,255,0.15); color: #ffffff; border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(5px); padding: 16px 20px;">
+                <a href="quickstart.html" class="hero-btn-ghost">
                     <span class="btn-icon">⚡</span>
                     <span>Quick Start Guide</span>
                 </a>
+            </div>
+
+            <!-- Divider Line -->
+            <div class="hero-buttons-divider"></div>
+
+            <!-- Fast Track Buttons Group -->
+            <div class="hero-fasttrack-group">
+                <div class="hero-fasttrack-buttons">
+                    <a href="guitar_lessons.html" class="hero-btn-fasttrack btn-hero-guitar">
+                        🎸 Guitar Fast Track
+                    </a>
+                    <a href="lessons.html" class="hero-btn-fasttrack btn-hero-piano">
+                        🎹 Keyboard / Piano Fast Track
+                    </a>
+                </div>
+                <span class="hero-fasttrack-label">FREE Beginner Lessons for Guitar / Piano / Keyboard</span>
             </div>
             
             <div class="hero-features-row">
@@ -997,6 +1442,85 @@
                     <span>Learn more in the Guide</span>
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Free Beginner Lessons Section -->
+    <div class="free-lessons-section">
+        <div class="container">
+            <div class="free-lessons-header">
+                <span class="badge-free">🆓 100% FREE</span>
+                <h2 class="section-title" style="margin-top: 16px;">Start Playing Pop Songs Today</h2>
+                <p class="section-subtitle">Step-by-step beginner methods for guitar and piano/keyboard — no account needed to browse the lessons</p>
+            </div>
+
+            <div class="lessons-cards-grid">
+
+                <!-- Guitar Fast Track Card -->
+                <div class="lesson-launch-card">
+                    <div class="lesson-card-preview-wrap">
+                        <img src="images/lessons_guitar_preview.png"
+                            alt="Free Beginner Guitar Lessons - PopSongChordBook Guitar Fast Track Method"
+                            class="lesson-card-preview-img">
+                        <span class="lesson-card-instrument-badge guitar-badge">🎸 Guitar</span>
+                    </div>
+                    <div class="lesson-card-body">
+                        <div class="lesson-card-labels">
+                            <span class="lesson-label-main">FREE Beginner Guitar Lessons</span>
+                            <span class="lesson-label-sub">FREE Beginner Guitar Method</span>
+                        </div>
+                        <ul class="lesson-card-list">
+                            <li>📌 Lesson 1 — Fretboard Notes</li>
+                            <li>⚡ Lesson 2 — Power Chords</li>
+                            <li>🎛️ Lesson 3 — Playing with a CAPO</li>
+                            <li>🎵 Lesson 4 — C, G, D, Am &amp; Em</li>
+                            <li>🌟 Lesson 5 — D, A &amp; E Major</li>
+                            <li>🎷 Lesson 6 — The 12-Bar Blues</li>
+                            <li>🤘 Lesson 7 — F &amp; F# Barre Chords</li>
+                            <li>🤙 Lesson 8 — Bm &amp; B Barre Chords</li>
+                            <li>🎚️ Lesson 9 — Eb Tuning</li>
+                        </ul>
+                        <a href="guitar_lessons.html" class="btn-fast-track btn-guitar-track">
+                            🎸 Guitar Fast Track &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Piano / Keyboard Fast Track Card -->
+                <div class="lesson-launch-card">
+                    <div class="lesson-card-preview-wrap">
+                        <img src="images/lessons_piano_preview.png"
+                            alt="Free Beginner Piano and Keyboard Lessons - PopSongChordBook Piano Fast Track Method"
+                            class="lesson-card-preview-img">
+                        <span class="lesson-card-instrument-badge piano-badge">🎹 Piano / Keyboard</span>
+                    </div>
+                    <div class="lesson-card-body">
+                        <div class="lesson-card-labels">
+                            <span class="lesson-label-main">FREE Pop Piano Beginner Lessons</span>
+                            <span class="lesson-label-sub">FREE Pop Piano Keyboard Method</span>
+                        </div>
+                        <ul class="lesson-card-list">
+                            <li>⬜ Lesson 1 — White Key Chords</li>
+                            <li>🔺 Lesson 2 — Mountain / ∧-shape Chords</li>
+                            <li>🔻 Lesson 3 — Valley / V-shape Chords</li>
+                            <li>🏅 Lesson 4 — The Outliers (B &amp; Bb)</li>
+                            <li>⬛ Lesson 5 — The 3 Black Key Chords</li>
+                            <li>🏔️ Lesson 6 — Minor Mountains (Cm, Fm, Gm)</li>
+                            <li>🥂 Lesson 7 — Left Hand Bass &amp; Two-Hand Play</li>
+                            <li>🎻 Lesson 8 — Chord Patterns &amp; Arpeggios</li>
+                            <li>🔄 Lesson 9 — Chord Inversions</li>
+                        </ul>
+                        <a href="lessons.html" class="btn-fast-track btn-piano-track">
+                            🎹 Keyboard / Piano Fast Track &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- end .lessons-cards-grid -->
+
+            <p class="lessons-register-note">
+                🎵 Browse all lessons freely — a free account is only required when you want to open a practice song.
+            </p>
         </div>
     </div>
 

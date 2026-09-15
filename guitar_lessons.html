@@ -4668,7 +4668,10 @@ E |-------------------------------------------------------------------------|</d
                     alert(`Song not found in library: "${artist} - ${title}".`);
                 }
             } else {
-                alert("Cannot load song details. Application context not found.");
+                // Standalone mode (opened directly, not inside songlist iframe).
+                // Redirect to songlist.html — anonymous users will hit the login screen there.
+                const params = new URLSearchParams({ artist, title, ref: 'guitar_lessons' });
+                window.location.href = 'songlist.html?' + params.toString();
             }
         }
 
