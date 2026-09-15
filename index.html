@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.351 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
-    <meta name="version" content="3.351">
+    <title>PopSongChordBook v3.353 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
+    <meta name="version" content="3.353">
     <meta name="description"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn piano online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -513,58 +513,97 @@
                 gap: 16px;
             }
         }
-        /* ─── Hero Primary CTA Buttons ─── */
+        /* ─── Hero Primary CTA Buttons (Obvious Hero Action) ─── */
         .hero-primary-buttons {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             gap: 12px;
             width: 100%;
-            max-width: 480px;
-            margin: 20px auto 0;
+            max-width: 440px;
+            margin: 22px auto 0;
         }
 
         .hero-btn-main {
-            flex: 1;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 13px 18px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
+            gap: 11px;
+            padding: 17px 28px;
+            border-radius: 16px;
+            font-size: 1.12rem;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
             text-decoration: none;
-            background: #ffffff;
-            color: #4f46e5;
-            border: 2px solid rgba(255,255,255,0.4);
-            transition: filter 0.2s, transform 0.15s;
+            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+            color: #312e81;
+            border: 2.5px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 28px rgba(147, 51, 234, 0.55), 0 10px 32px rgba(79, 70, 229, 0.45);
+            animation: heroCtaGlow 3.5s ease-in-out infinite;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             white-space: nowrap;
         }
 
+        .hero-btn-main .cta-icon {
+            font-size: 1.35rem;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            transition: transform 0.25s ease;
+        }
+
+        @keyframes heroCtaGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 24px rgba(147, 51, 234, 0.5), 0 8px 30px rgba(79, 70, 229, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 0 38px rgba(168, 85, 247, 0.75), 0 12px 40px rgba(99, 102, 241, 0.55);
+            }
+        }
+
+        .hero-btn-main:hover {
+            transform: translateY(-3px) scale(1.025);
+            filter: brightness(1.03);
+            box-shadow: 0 0 0 2px #ffffff, 0 0 46px rgba(168, 85, 247, 0.9), 0 16px 48px rgba(79, 70, 229, 0.6);
+            color: #1e1b4b;
+        }
+
+        .hero-btn-main:hover .cta-icon {
+            transform: scale(1.15) rotate(-6deg);
+        }
+
         .hero-btn-ghost {
-            flex: 1;
+            width: 100%;
+            max-width: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 13px 18px;
+            padding: 10px 16px;
             border-radius: 12px;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             font-weight: 700;
             text-decoration: none;
-            background: rgba(255,255,255,0.15);
-            color: #ffffff;
-            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.14);
+            color: rgba(255, 255, 255, 0.92);
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            transition: filter 0.2s, transform 0.15s;
+            transition: filter 0.2s, transform 0.15s, background 0.2s;
             white-space: nowrap;
+        }
+
+        .hero-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.22);
+            filter: brightness(1.1);
+            transform: translateY(-1px);
         }
 
         /* ─── Divider Line under Open Chord Book ─── */
         .hero-buttons-divider {
             width: 100%;
-            max-width: 440px;
+            max-width: 360px;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
             margin: 16px auto;
@@ -603,13 +642,6 @@
             width: 100%;
         }
 
-        .hero-btn-main:hover,
-        .hero-btn-ghost:hover,
-        .hero-btn-fasttrack:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-        }
-
         .btn-hero-guitar {
             background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
             color: #ffffff;
@@ -637,31 +669,36 @@
             }
 
             .hero-primary-buttons {
-                flex-direction: column;
-                max-width: 290px;
+                max-width: 320px;
                 margin: 0 auto;
-                gap: 7px;
+                gap: 8px;
             }
 
             .hero-btn-main {
-                padding: 10px 14px;
-                font-size: 0.88rem;
-                border-radius: 10px;
+                padding: 14px 20px;
+                font-size: 0.96rem;
+                letter-spacing: 0.02em;
+                border-radius: 14px;
+            }
+
+            .hero-btn-main .cta-icon {
+                font-size: 1.2rem;
             }
 
             .hero-btn-ghost {
-                padding: 9px 14px;
-                font-size: 0.86rem;
+                max-width: 220px;
+                padding: 8px 12px;
+                font-size: 0.80rem;
                 border-radius: 10px;
             }
 
             .hero-buttons-divider {
-                max-width: 260px;
+                max-width: 240px;
                 margin: 10px auto;
             }
 
             .hero-fasttrack-group {
-                max-width: 290px;
+                max-width: 280px;
                 gap: 5px;
             }
 
@@ -671,8 +708,20 @@
 
             .hero-btn-fasttrack {
                 padding: 9px 12px;
-                font-size: 0.86rem;
+                font-size: 0.85rem;
                 border-radius: 10px;
+            }
+
+            /* High-contrast mobile pills against blue gradient */
+            .btn-hero-guitar {
+                border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+                box-shadow: 0 4px 16px rgba(22, 163, 74, 0.55) !important;
+            }
+
+            .btn-hero-piano {
+                background: linear-gradient(135deg, #a21caf 0%, #d946ef 100%) !important;
+                border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+                box-shadow: 0 4px 18px rgba(217, 70, 239, 0.6) !important;
             }
 
             .hero-fasttrack-label {
@@ -896,9 +945,11 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.351">
-    <script>const SITE_VERSION = '3.351';</script>
+    <meta name="application-version" content="v3.353">
+    <script>const SITE_VERSION = '3.353';</script>
     <!-- Version history: 
+        v3.353: Stacked Quick Start Guide below Open Pop Song Chord Book for clean symmetry, and added high-contrast magenta-violet gradient to Keyboard/Piano Fast Track button on mobile to ensure crisp visibility against blue background.
+        v3.352: Renamed primary hero button to 'Open Pop Song Chord Book' and enlarged it with prominent styling; refined divider and stacked Fast Track layout.
         v3.351: Added Free Beginner Lessons section on landing page with Guitar Fast Track and Keyboard/Piano Fast Track cards, preview screenshots, SEO Course structured data, and enriched meta keywords for beginner guitar/piano/keyboard method search queries.
         v3.350: Optimized vertical spacing in PC/landscape sidebar (reduced logo size, header padding around divider, and menu item padding) to fit all navigation items down to New Members without scrollbars.
         v3.349: Added Text mode to Circle of Fifths/Linear chord editing widget and suppressed soft keyboard popup during Circle and Linear visual chord editing.
@@ -1183,8 +1234,8 @@
             </p>
             <div class="hero-primary-buttons">
                 <a href="songlist.html" id="browseSongListBtn" class="hero-btn-main paywall-trigger">
-                    <span class="btn-icon">📋</span>
-                    <span>Open Chord Book</span>
+                    <span class="btn-icon cta-icon">🎵</span>
+                    <span>OPEN POP SONG CHORD BOOK</span>
                 </a>
                 <a href="quickstart.html" class="hero-btn-ghost">
                     <span class="btn-icon">⚡</span>
