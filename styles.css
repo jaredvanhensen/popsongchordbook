@@ -12688,6 +12688,10 @@ body.theme-high-contrast .stats-chart-label {
     width: min(96vw, 440px);
 }
 
+.song-detail-cof-widget.view-text {
+    width: min(94vw, 320px);
+}
+
 .song-detail-cof-widget.hidden {
     display: none !important;
 }
@@ -12990,13 +12994,43 @@ body.theme-high-contrast .stats-chart-label {
     letter-spacing: 0.2px;
 }
 
+.song-detail-cof-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    padding-top: 4px;
+    touch-action: none;
+}
+
+.song-detail-cof-bottom:active {
+    cursor: grabbing;
+}
+
+.cof-drag-bar {
+    width: 36px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin-top: 3px;
+    transition: background 0.15s ease;
+}
+
+.song-detail-cof-bottom:hover .cof-drag-bar,
+.song-detail-cof-bottom:active .cof-drag-bar {
+    background: #6366f1;
+}
+
 .cof-hint {
     font-size: 10px;
     color: #94a3b8;
-    margin: 5px 0 0;
+    margin: 2px 0 0;
     text-align: center;
     font-style: italic;
     line-height: 1.3;
+    user-select: none;
 }
 
 @media (max-width: 1024px) {

@@ -2135,8 +2135,12 @@ class SongDetailModal {
                     input.value = newValue;
 
                     // Move cursor to the absolute end
-                    input.focus();
-                    input.selectionStart = input.selectionEnd = newValue.length;
+                    if (this.cofViewMode === 'text') {
+                        input.focus();
+                        input.selectionStart = input.selectionEnd = newValue.length;
+                    } else {
+                        input.blur();
+                    }
                 } else {
                     // Already in edit mode: insert exactly at current cursor position
                     const startPos = input.selectionStart;
@@ -2150,9 +2154,13 @@ class SongDetailModal {
                     input.value = newValue;
 
                     // Move cursor right after the newly inserted part
-                    input.focus();
                     const newPos = startPos + (needsSpaceBefore ? 3 : 2);
-                    input.setSelectionRange(newPos, newPos);
+                    if (this.cofViewMode === 'text') {
+                        input.focus();
+                        input.setSelectionRange(newPos, newPos);
+                    } else {
+                        input.blur();
+                    }
                 }
 
                 // Trigger change detection and re-render
@@ -2433,6 +2441,12 @@ class SongDetailModal {
                     this.hasUnsavedChanges = true;
                     this.checkForChanges();
                 });
+
+                section.editInput.addEventListener('focus', () => {
+                    if (this.cofViewMode !== 'text' && this.cofWidget && !this.cofWidget.classList.contains('hidden')) {
+                        this.switchCofViewMode('text');
+                    }
+                });
             }
 
             if (section.applyBtn) {
@@ -2496,7 +2510,11 @@ class SongDetailModal {
                 section.applyBtn.textContent = 'Exit';
             }
             section.content.classList.add('hidden');
-            section.editInput.focus();
+            if (this.cofViewMode === 'text') {
+                section.editInput.focus();
+            } else {
+                section.editInput.blur();
+            }
             this._lastActiveSection = key;
             this.cofSelectedBlock = key;
 
@@ -6058,6 +6076,19 @@ class SongDetailModal {
                     if (this.sections[targetBlock] && this.sections[targetBlock].editInput && this.sections[targetBlock].editInput.classList.contains('hidden')) {
                         this.toggleBlockEdit(targetBlock);
                     }
+
+                    if (this.cofViewMode === 'text') {
+                        if (this.sections[targetBlock] && this.sections[targetBlock].editInput) {
+                            this.sections[targetBlock].editInput.focus();
+                        }
+                    } else {
+                        if (this.sections[targetBlock] && this.sections[targetBlock].editInput) {
+                            this.sections[targetBlock].editInput.blur();
+                        }
+                        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+                            document.activeElement.blur();
+                        }
+                    }
                 });
                 pill._pillWired = true;
             }
@@ -6103,7 +6134,7 @@ class SongDetailModal {
             this.cofViewToggle._cofToggleWired = true;
         }
 
-        // Render the currently selected view mode (Circle or Linear)
+        // Render the currently selected view mode (Circle, Linear, or Text)
         this.switchCofViewMode(this.cofViewMode || 'circle', this._currentCofKey);
 
         // Show the widget
@@ -6126,8 +6157,8 @@ class SongDetailModal {
     }
 
     /**
-     * Switches between Circle of Fifths view and Horizontal Linear Chords view.
-     * @param {'circle'|'linear'} mode
+     * Switches between Circle of Fifths view, Horizontal Linear Chords view, and Text Input mode.
+     * @param {'circle'|'linear'|'text'} mode
      * @param {string} [key]
      */
     switchCofViewMode(mode, key) {
@@ -6142,28 +6173,64 @@ class SongDetailModal {
         if (key === 'KEY' || key === '--') key = '';
         this._currentCofKey = key || '';
 
-        // Update toggle buttons active state
+        // Update toggle buttons: hide current mode button so only the 2 alternative switch options are shown
         if (this.cofViewToggle) {
             const toggleBtns = this.cofViewToggle.querySelectorAll('.cof-toggle-btn');
             toggleBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.view === this.cofViewMode);
+                const isCurrent = btn.dataset.view === this.cofViewMode;
+                btn.classList.toggle('active', isCurrent);
+                btn.style.display = isCurrent ? 'none' : 'inline-block';
             });
         }
 
-        if (this.cofViewMode === 'linear') {
+        if (this.cofWidget) {
+            this.cofWidget.classList.remove('view-linear', 'view-text');
+        }
+
+        if (this.cofViewMode === 'text') {
+            if (this.cofWidget) this.cofWidget.classList.add('view-text');
+            if (this.cofContainer) this.cofContainer.classList.add('hidden');
+            if (this.linearContainer) this.linearContainer.classList.add('hidden');
+            if (this.cofTitle) this.cofTitle.textContent = '✏️ Text Input';
+            if (this.cofHint) this.cofHint.innerHTML = 'Type chords into the active block &middot; Keyboard enabled';
+
+            // Focus the currently selected block's input to show keyboard
+            const targetBlock = this.cofSelectedBlock || 'verse';
+            const targetSection = this.sections[targetBlock];
+            if (targetSection && targetSection.editInput) {
+                if (targetSection.editInput.classList.contains('hidden')) {
+                    this.toggleBlockEdit(targetBlock);
+                }
+                setTimeout(() => {
+                    if (targetSection.editInput) {
+                        targetSection.editInput.focus();
+                        targetSection.editInput.selectionStart = targetSection.editInput.selectionEnd = targetSection.editInput.value.length;
+                    }
+                }, 50);
+            }
+        } else if (this.cofViewMode === 'linear') {
             if (this.cofWidget) this.cofWidget.classList.add('view-linear');
             if (this.cofContainer) this.cofContainer.classList.add('hidden');
             if (this.linearContainer) this.linearContainer.classList.remove('hidden');
-            if (this.cofTitle) this.cofTitle.textContent = '🎹 Diatonic Chords';
+            if (this.cofTitle) this.cofTitle.textContent = '🎹 Linear Diatonic Chords';
             if (this.cofHint) this.cofHint.innerHTML = 'Click = preview &middot; Double-click = insert &middot; Select Key to change';
             this.renderLinearChords(this._currentCofKey);
+
+            // Dismiss soft keyboard so widget is unobstructed
+            if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+                document.activeElement.blur();
+            }
         } else {
-            if (this.cofWidget) this.cofWidget.classList.remove('view-linear');
             if (this.cofContainer) this.cofContainer.classList.remove('hidden');
             if (this.linearContainer) this.linearContainer.classList.add('hidden');
             if (this.cofTitle) this.cofTitle.textContent = '🎡 Circle of Fifths';
             if (this.cofHint) this.cofHint.innerHTML = 'Click = preview &middot; Double-click = insert &middot; Hold 2s = set KEY';
             this.renderCofSvg(this._currentCofKey);
+
+            // Dismiss soft keyboard so widget is unobstructed
+            if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+                document.activeElement.blur();
+            }
         }
     }
 
@@ -6704,8 +6771,12 @@ class SongDetailModal {
             const needsSpace = value.length > 0 && !value.match(/\s$/);
             newValue = value + (needsSpace ? ' ' : '') + chordName;
             input.value = newValue;
-            input.focus();
-            input.selectionStart = input.selectionEnd = newValue.length;
+            if (this.cofViewMode === 'text') {
+                input.focus();
+                input.selectionStart = input.selectionEnd = newValue.length;
+            } else {
+                input.blur();
+            }
         } else {
             // Insert at cursor position
             const startPos = (input.selectionStart !== undefined) ? input.selectionStart : input.value.length;
@@ -6718,9 +6789,13 @@ class SongDetailModal {
             const insertion = (needsSpaceBefore ? ' ' : '') + chordName + (needsSpaceAfter ? ' ' : '');
             newValue = prefix + insertion + suffix;
             input.value = newValue;
-            input.focus();
             const newPos = startPos + insertion.length;
-            input.setSelectionRange(newPos, newPos);
+            if (this.cofViewMode === 'text') {
+                input.focus();
+                input.setSelectionRange(newPos, newPos);
+            } else {
+                input.blur();
+            }
         }
 
         this.renderChordBlock(key, newValue);
@@ -6729,64 +6804,68 @@ class SongDetailModal {
     }
 
     /**
-     * Makes the Circle of Fifths widget draggable by its header.
-     * Uses pointer capture so drag works even when cursor leaves the element.
+     * Makes the Circle of Fifths / Linear widget draggable by its header or bottom handle.
+     * Uses pointer capture so drag works smoothly across mouse, touch, and pen.
      */
     setupCofDraggable() {
         const dragTarget = this.cofWidget;
-        const dragHeader = this.cofHeader;
-        if (!dragTarget || !dragHeader) return;
+        if (!dragTarget) return;
 
-        let isDragging = false;
-        let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+        const bottomHandle = document.getElementById('songDetailCofBottom') || this.cofHint;
+        const dragHandles = [this.cofHeader, bottomHandle].filter(Boolean);
 
-        dragHeader.addEventListener('pointerdown', (e) => {
-            if (e.button !== 0 && e.pointerType === 'mouse') return;
-            if (e.target.closest('button')) return;
+        dragHandles.forEach(handle => {
+            let isDragging = false;
+            let startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
-            isDragging = true;
-            dragHeader.style.cursor = 'grabbing';
+            handle.addEventListener('pointerdown', (e) => {
+                if (e.button !== 0 && e.pointerType === 'mouse') return;
+                if (e.target.closest('button') || e.target.closest('select')) return;
 
-            startX = e.clientX;
-            startY = e.clientY;
+                isDragging = true;
+                handle.style.cursor = 'grabbing';
 
-            // Lock in current position as fixed coords
-            const rect = dragTarget.getBoundingClientRect();
-            startLeft = rect.left;
-            startTop  = rect.top;
+                startX = e.clientX;
+                startY = e.clientY;
 
-            // Switch to explicit fixed positioning so we can move it freely
-            dragTarget.style.position = 'fixed';
-            dragTarget.style.left  = startLeft + 'px';
-            dragTarget.style.top   = startTop  + 'px';
-            dragTarget.style.right  = 'auto';
-            dragTarget.style.bottom = 'auto';
-            dragTarget.style.transform = 'none';
+                // Lock in current position as fixed coords
+                const rect = dragTarget.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop  = rect.top;
 
-            dragHeader.setPointerCapture(e.pointerId);
+                // Switch to explicit fixed positioning so we can move it freely
+                dragTarget.style.position = 'fixed';
+                dragTarget.style.left  = startLeft + 'px';
+                dragTarget.style.top   = startTop  + 'px';
+                dragTarget.style.right  = 'auto';
+                dragTarget.style.bottom = 'auto';
+                dragTarget.style.transform = 'none';
 
-            const onMove = (ev) => {
-                if (!isDragging) return;
-                const dx = ev.clientX - startX;
-                const dy = ev.clientY - startY;
-                dragTarget.style.left = (startLeft + dx) + 'px';
-                dragTarget.style.top  = (startTop  + dy) + 'px';
-            };
+                handle.setPointerCapture(e.pointerId);
 
-            const onUp = (ev) => {
-                if (!isDragging) return;
-                isDragging = false;
-                dragHeader.style.cursor = 'grab';
-                try { dragHeader.releasePointerCapture(ev.pointerId); } catch (err) {}
-                dragHeader.removeEventListener('pointermove', onMove);
-                dragHeader.removeEventListener('pointerup',   onUp);
-                dragHeader.removeEventListener('pointercancel', onUp);
-            };
+                const onMove = (ev) => {
+                    if (!isDragging) return;
+                    const dx = ev.clientX - startX;
+                    const dy = ev.clientY - startY;
+                    dragTarget.style.left = (startLeft + dx) + 'px';
+                    dragTarget.style.top  = (startTop  + dy) + 'px';
+                };
 
-            dragHeader.addEventListener('pointermove', onMove);
-            dragHeader.addEventListener('pointerup',   onUp);
-            dragHeader.addEventListener('pointercancel', onUp);
-            e.preventDefault();
+                const onUp = (ev) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    handle.style.cursor = 'grab';
+                    try { handle.releasePointerCapture(ev.pointerId); } catch (err) {}
+                    handle.removeEventListener('pointermove', onMove);
+                    handle.removeEventListener('pointerup',   onUp);
+                    handle.removeEventListener('pointercancel', onUp);
+                };
+
+                handle.addEventListener('pointermove', onMove);
+                handle.addEventListener('pointerup',   onUp);
+                handle.addEventListener('pointercancel', onUp);
+                e.preventDefault();
+            });
         });
     }
 }

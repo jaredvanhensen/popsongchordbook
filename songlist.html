@@ -6,8 +6,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.348">
-    <meta name="application-version" content="v3.348">
+    <meta name="version" content="3.349">
+    <meta name="application-version" content="v3.349">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist.html">
@@ -2944,9 +2944,10 @@
         <div id="songDetailCofHeader" class="song-detail-cof-header">
             <span id="songDetailCofTitle" class="cof-header-title">🎡 Circle of Fifths</span>
             <div class="cof-header-controls">
-                <div class="cof-view-toggle" id="songDetailCofViewToggle" title="Switch between Circle of Fifths and Linear Diatonic Chords">
+                <div class="cof-view-toggle" id="songDetailCofViewToggle" title="Switch between Circle of Fifths, Linear Diatonic Chords, and Text Input">
                     <button type="button" class="cof-toggle-btn active" data-view="circle" title="Circle of Fifths">🎡 Circle</button>
                     <button type="button" class="cof-toggle-btn" data-view="linear" title="Horizontal Diatonic Chords (I - vii°)">🎹 Linear</button>
+                    <button type="button" class="cof-toggle-btn" data-view="text" title="Manual Text Input">✏️ Text</button>
                 </div>
                 <button type="button" id="songDetailCofClose" class="song-detail-cof-close" title="Close">&times;</button>
             </div>
@@ -2963,7 +2964,10 @@
         <div id="songDetailCofContainer" style="width:240px;height:240px;user-select:none;"></div>
         <!-- Linear Diatonic Chords Container -->
         <div id="songDetailLinearContainer" class="song-detail-linear-container hidden"></div>
-        <p class="cof-hint" id="songDetailCofHint">Click = preview &middot; Double-click = insert &middot; Hold 2s = set KEY</p>
+        <div id="songDetailCofBottom" class="song-detail-cof-bottom" title="Drag to move">
+            <p class="cof-hint" id="songDetailCofHint">Click = preview &middot; Double-click = insert &middot; Hold 2s = set KEY</p>
+            <div class="cof-drag-bar"></div>
+        </div>
     </div>
 
     <!-- YouTube URL Modal -->
