@@ -49,13 +49,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 30px 20px;
+        padding: 16px 20px 12px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .brand-logo {
-        width: 140px;
-        height: 140px;
-        border-radius: 32px;
+        width: 120px;
+        height: 120px;
+        border-radius: 28px;
         object-fit: cover;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -64,9 +64,9 @@
         transform: scale(1.06);
     }
     .brand-text-logo {
-        width: 210px;
+        width: 190px;
         height: auto;
-        margin-top: 14px;
+        margin-top: 10px;
         border-radius: 9999px;
         overflow: hidden;
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -79,19 +79,19 @@
     .sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        padding: 20px 12px;
+        gap: 3px;
+        padding: 10px 12px;
     }
     .nav-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 12px 16px;
+        padding: 8.5px 16px;
         color: #c7d2fe;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 600;
-        line-height: 1.6; /* Explicit: prevents inheriting different line-height from each page's body */
+        line-height: 1.5; /* Explicit: prevents inheriting different line-height from each page's body */
         border-radius: 10px;
         transition: all 0.2s ease;
     }
