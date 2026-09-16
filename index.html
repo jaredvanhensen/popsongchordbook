@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.354 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
-    <meta name="version" content="3.354">
+    <title>PopSongChordBook v3.355 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
+    <meta name="version" content="3.355">
     <meta name="description"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn piano online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -279,7 +279,7 @@
             }
         }
 
-        /* Hero Section with screenshot as CSS background */
+        /* Hero Section with screenshot as CSS background (Desktop) */
         .hero-section {
             position: relative;
             background: #0b0526 !important;
@@ -289,7 +289,7 @@
             justify-content: center;
         }
 
-        /* Layer 1: The screenshot, zoomed in and slightly tilted */
+        /* Desktop Layer 1: The screenshot, zoomed in and slightly tilted */
         .hero-section::before {
             content: '';
             position: absolute;
@@ -302,7 +302,7 @@
             z-index: 0;
         }
 
-        /* Layer 2: Dark purple gradient overlay — keeps text legible */
+        /* Desktop Layer 2: Dark purple gradient overlay */
         .hero-section::after {
             content: '';
             position: absolute;
@@ -316,92 +316,121 @@
             z-index: 1;
         }
 
-        /* ─── OPTION 1 (too high, black void at bottom) — kept as reference ───
-        @media (max-width: 600px) and (orientation: portrait), (max-width: 480px) {
-            .hero-section::before {
-                background-position: left top;
-                background-size: 140%;
-                inset: -5% -5% -15% -5%;
-                transform: rotate(-2deg) scale(1.04);
-            }
-        }
-        ─────────────────────────────────────────────────────────────────────── */
-
-        /* ─── Mobile portrait: image at top, clean blue-purple below (like screenshot 2) ─── */
+        /* ─── Mobile portrait: Scrolling Chords Timeline (MOBILE ONLY) ─── */
         @media (max-width: 600px) and (orientation: portrait),
                (max-width: 480px) {
 
-            /* Base = vibrant blue-purple of old index.html */
             .hero-section {
-                background: linear-gradient(160deg, #667eea 0%, #764ba2 100%) !important;
+                background: #120732 !important;
+                padding: 44px 16px 52px !important;
             }
 
-            /* Image: sized to show the top-left area (sidebar + logo area) */
+            /* Mobile Image: clean cropped scrolling chord timeline anchored flush to top-left */
             .hero-section::before {
-                background-size: 200%;
-                background-position: left top;
-                background-repeat: no-repeat;      /* no tiling — only at the top */
-                inset: -5% -2% -15% -2%;
-                transform: rotate(-2deg) scale(1.04);
-                opacity: 0.80;
+                background-image: url('images/hero_timeline_backdrop.jpg') !important;
+                background-size: 185% auto !important;
+                background-position: 0 0 !important;
+                background-repeat: no-repeat !important;
+                opacity: 0.92 !important;
+                filter: saturate(1.25) contrast(1.08) brightness(1.04) !important;
+                inset: 0 !important;
+                transform: none !important;
             }
 
-            /* Gradient: transparent at top (shows the image/screenshot),
-               then quickly goes fully opaque by ~50% so the text area is
-               a clean solid blue-purple — exactly like screenshot 2 */
+            /* Light transparent wash — no dark blockout */
             .hero-section::after {
-                background:
-                    linear-gradient(to bottom,
-                        rgba(80, 50, 180, 0.05)  0%,    /* very top: image shows */
-                        rgba(80, 50, 180, 0.30)  25%,   /* fading in */
-                        rgba(90, 60, 180, 0.82)  45%,   /* mostly covered */
-                        rgba(100, 65, 175, 0.98) 60%,   /* fully solid */
-                        rgba(110, 70, 170, 1.00) 100%); /* stays solid */
+                background: linear-gradient(to bottom,
+                    rgba(8, 3, 24, 0.20) 0%,
+                    rgba(20, 8, 50, 0.08) 35%,
+                    rgba(8, 3, 24, 0.35) 100%) !important;
             }
 
-            /* Heavier font weight for mobile — easier to read at smaller sizes */
             .hero-title {
                 font-weight: 900 !important;
-                font-size: 2.4rem !important;
+                font-size: 2.35rem !important;
                 letter-spacing: -0.5px;
-                /* Golden yellow — stands out against both the image and the blue gradient */
-                color: #FFD93D !important;
-                /* Thick dark stroke so the yellow letters have a crisp edge */
-                -webkit-text-stroke: 5px rgba(0, 0, 10, 0.85) !important;
-                text-stroke: 5px rgba(0, 0, 10, 0.85) !important;
+                color: #ffffff !important;
+                -webkit-text-stroke: 4px #070318 !important;
+                text-stroke: 4px #070318 !important;
                 paint-order: stroke fill;
-                text-shadow: 0 3px 14px rgba(0, 0, 0, 0.50) !important;
-            }
-            .hero-subtitle {
-                font-weight: 700 !important;
-                font-size: 1.15rem !important;
-            }
-            .hero-description {
-                font-weight: 500 !important;
-                font-size: 1rem !important;
+                text-shadow: 0 4px 14px rgba(0, 0, 0, 0.95), 0 0 20px #070318 !important;
+                margin-bottom: 12px !important;
             }
 
-            /* No stroke needed — text sits on clean solid background below */
-            .hero-title,
-            .hero-subtitle,
+            .hero-subtitle {
+                font-weight: 800 !important;
+                font-size: 1.12rem !important;
+                color: #FFDE38 !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0 !important;
+                display: block !important;
+                margin-bottom: 14px !important;
+                -webkit-text-stroke: 3px #070318 !important;
+                text-stroke: 3px #070318 !important;
+                paint-order: stroke fill;
+                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 16px #070318 !important;
+            }
+
             .hero-description {
-                -webkit-text-stroke: 0;
-                text-stroke: 0;
-                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+                font-weight: 700 !important;
+                font-size: 0.96rem !important;
+                color: #ffffff !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0 6px !important;
+                max-width: 360px;
+                margin: 0 auto 20px !important;
+                line-height: 1.55 !important;
+                -webkit-text-stroke: 2.5px #070318 !important;
+                text-stroke: 2.5px #070318 !important;
+                paint-order: stroke fill;
+                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 14px #070318 !important;
             }
         }
 
-        /* ── Desktop text stroke: subtle outline against the background image ── */
-        .hero-title,
-        .hero-subtitle,
-        .hero-description {
+        /* ── Desktop text clarity ── */
+        .hero-title {
+            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            color: #ffffff;
             -webkit-text-stroke: 1.5px rgba(0, 0, 15, 0.75);
             text-stroke: 1.5px rgba(0, 0, 15, 0.75);
             paint-order: stroke fill;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85), 0 0 40px rgba(168, 85, 247, 0.3);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
 
-        /* On mobile the stroke rules above are overridden by the mobile block */
+        .hero-subtitle {
+            font-size: clamp(1.15rem, 2.8vw, 1.6rem);
+            font-weight: 700;
+            color: #e0e7ff;
+            -webkit-text-stroke: 1px rgba(0, 0, 15, 0.75);
+            text-stroke: 1px rgba(0, 0, 15, 0.75);
+            paint-order: stroke fill;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+            font-weight: 500;
+            color: #c7d2fe;
+            max-width: 680px;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+            -webkit-text-stroke: 0.5px rgba(0, 0, 15, 0.75);
+            text-stroke: 0.5px rgba(0, 0, 15, 0.75);
+            paint-order: stroke fill;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+        }
 
         /* Hero logo style replacing bouncing guitar/keyboard */
         .hero-logo-container {
@@ -518,95 +547,152 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             width: 100%;
-            max-width: 440px;
-            margin: 22px auto 0;
+            max-width: 480px;
+            margin: 24px auto 0;
         }
 
+        /* ── Button 1: Flagship 3D Yellow Accent Hero Button ── */
         .hero-btn-main {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 11px;
-            padding: 17px 28px;
-            border-radius: 16px;
-            font-size: 1.12rem;
+            gap: 12px;
+            padding: 18px 30px;
+            border-radius: 18px;
+            font-size: 1.25rem;
             font-weight: 900;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
             text-decoration: none;
-            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-            color: #312e81;
-            border: 2.5px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 28px rgba(147, 51, 234, 0.55), 0 10px 32px rgba(79, 70, 229, 0.45);
-            animation: heroCtaGlow 3.5s ease-in-out infinite;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(180deg, #FFF066 0%, #FFCC00 40%, #F59E0B 85%, #D97706 100%);
+            color: #0b0526;
+            border: 2px solid #FEF08A;
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -3px 0 rgba(180, 83, 9, 0.7),
+                0 6px 0 #92400e,
+                0 9px 2px rgba(0, 0, 0, 0.4),
+                0 14px 30px rgba(245, 158, 11, 0.45),
+                0 0 35px rgba(255, 204, 0, 0.35);
+            animation: heroCtaPulse 3.5s ease-in-out infinite;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             white-space: nowrap;
+            position: relative;
+            cursor: pointer;
         }
 
         .hero-btn-main .cta-icon {
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             display: inline-block;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
             transition: transform 0.25s ease;
         }
 
-        @keyframes heroCtaGlow {
+        @keyframes heroCtaPulse {
             0%, 100% {
-                box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 24px rgba(147, 51, 234, 0.5), 0 8px 30px rgba(79, 70, 229, 0.4);
+                box-shadow: 
+                    inset 0 2px 0 rgba(255, 255, 255, 0.95),
+                    inset 0 -3px 0 rgba(180, 83, 9, 0.7),
+                    0 6px 0 #92400e,
+                    0 9px 2px rgba(0, 0, 0, 0.4),
+                    0 14px 28px rgba(245, 158, 11, 0.4),
+                    0 0 30px rgba(255, 204, 0, 0.3);
             }
             50% {
-                box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 0 38px rgba(168, 85, 247, 0.75), 0 12px 40px rgba(99, 102, 241, 0.55);
+                box-shadow: 
+                    inset 0 2px 0 rgba(255, 255, 255, 1),
+                    inset 0 -3px 0 rgba(180, 83, 9, 0.75),
+                    0 6px 0 #92400e,
+                    0 9px 2px rgba(0, 0, 0, 0.5),
+                    0 18px 38px rgba(245, 158, 11, 0.65),
+                    0 0 45px rgba(255, 204, 0, 0.55);
             }
         }
 
         .hero-btn-main:hover {
-            transform: translateY(-3px) scale(1.025);
-            filter: brightness(1.03);
-            box-shadow: 0 0 0 2px #ffffff, 0 0 46px rgba(168, 85, 247, 0.9), 0 16px 48px rgba(79, 70, 229, 0.6);
-            color: #1e1b4b;
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 1),
+                inset 0 -3px 0 rgba(180, 83, 9, 0.75),
+                0 9px 0 #92400e,
+                0 12px 3px rgba(0, 0, 0, 0.45),
+                0 20px 42px rgba(245, 158, 11, 0.6),
+                0 0 50px rgba(255, 204, 0, 0.5);
+            color: #070318;
         }
 
         .hero-btn-main:hover .cta-icon {
-            transform: scale(1.15) rotate(-6deg);
+            transform: scale(1.2) rotate(-8deg);
         }
 
+        .hero-btn-main:active {
+            transform: translateY(4px);
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(180, 83, 9, 0.5),
+                0 2px 0 #92400e,
+                0 4px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        /* ── Button 2: 3D Frosted Electric Indigo Quick Start Guide ── */
         .hero-btn-ghost {
             width: 100%;
-            max-width: 250px;
+            max-width: 270px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.88rem;
+            gap: 9px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 0.95rem;
             font-weight: 700;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.14);
-            color: rgba(255, 255, 255, 0.92);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            transition: filter 0.2s, transform 0.15s, background 0.2s;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.08) 100%);
+            color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 4px 0 rgba(12, 6, 38, 0.8),
+                0 8px 18px rgba(0, 0, 0, 0.35);
+            transition: all 0.2s ease;
             white-space: nowrap;
         }
 
         .hero-btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.22);
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 100%);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.65),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 6px 0 rgba(12, 6, 38, 0.85),
+                0 12px 24px rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+        }
+
+        .hero-btn-ghost:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 1px 0 rgba(12, 6, 38, 0.8),
+                0 4px 10px rgba(0, 0, 0, 0.25);
         }
 
         /* ─── Divider Line under Open Chord Book ─── */
         .hero-buttons-divider {
             width: 100%;
-            max-width: 360px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            margin: 16px auto;
+            max-width: 380px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 217, 61, 0.35) 25%, rgba(192, 132, 252, 0.6) 50%, rgba(255, 217, 61, 0.35) 75%, transparent);
+            margin: 20px auto;
+            border-radius: 99px;
         }
 
         /* ─── Fast Track Buttons Group ─── */
@@ -614,16 +700,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
-            max-width: 320px;
+            max-width: 360px;
             margin: 0 auto;
         }
 
         .hero-fasttrack-buttons {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
         }
 
@@ -631,102 +717,153 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 11px 16px;
-            border-radius: 12px;
-            font-size: 0.90rem;
-            font-weight: 700;
+            padding: 13px 20px;
+            border-radius: 14px;
+            font-size: 0.98rem;
+            font-weight: 800;
             text-decoration: none;
-            letter-spacing: 0.01em;
-            transition: filter 0.2s, transform 0.15s;
+            letter-spacing: 0.02em;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             white-space: nowrap;
             width: 100%;
+            cursor: pointer;
         }
 
+        /* ── Button 3: 3D Guitar Fast Track (Forest/Emerald) ── */
         .btn-hero-guitar {
-            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+            background: linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #15803d 100%);
             color: #ffffff;
-            box-shadow: 0 3px 14px rgba(22, 163, 74, 0.45);
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.65),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 4px 0 #0f5132,
+                0 7px 2px rgba(0, 0, 0, 0.3),
+                0 10px 22px rgba(22, 163, 74, 0.45);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
-        .btn-hero-piano {
-            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+        .btn-hero-guitar:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.75),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 6px 0 #0f5132,
+                0 9px 2px rgba(0, 0, 0, 0.35),
+                0 14px 28px rgba(22, 163, 74, 0.55);
             color: #ffffff;
-            box-shadow: 0 3px 14px rgba(124, 58, 237, 0.45);
+        }
+
+        .btn-hero-guitar:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 #0f5132,
+                0 4px 10px rgba(22, 163, 74, 0.4);
+        }
+
+        /* ── Button 4: 3D Keyboard/Piano Fast Track (PopSong Purple 🟣) ── */
+        .btn-hero-piano {
+            background: linear-gradient(180deg, #a855f7 0%, #8b5cf6 45%, #6d28d9 90%, #581c87 100%);
+            color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 4px 0 #3b0764,
+                0 7px 2px rgba(0, 0, 0, 0.3),
+                0 10px 24px rgba(139, 92, 246, 0.5);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-hero-piano:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+                0 6px 0 #3b0764,
+                0 9px 2px rgba(0, 0, 0, 0.35),
+                0 14px 30px rgba(139, 92, 246, 0.6);
+            color: #ffffff;
+        }
+
+        .btn-hero-piano:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 #3b0764,
+                0 4px 10px rgba(139, 92, 246, 0.4);
         }
 
         .hero-fasttrack-label {
-            font-size: 0.72rem;
-            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.82);
             letter-spacing: 0.02em;
             text-align: center;
-            line-height: 1.3;
+            line-height: 1.35;
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
             .hero-description {
-                margin-bottom: 12px !important;
+                margin-bottom: 16px !important;
+                font-size: 0.94rem !important;
+                line-height: 1.55 !important;
             }
 
             .hero-primary-buttons {
-                max-width: 320px;
+                max-width: 340px;
                 margin: 0 auto;
-                gap: 8px;
+                gap: 10px;
             }
 
             .hero-btn-main {
-                padding: 14px 20px;
-                font-size: 0.96rem;
-                letter-spacing: 0.02em;
-                border-radius: 14px;
+                padding: 16px 20px;
+                font-size: 1.10rem;
+                letter-spacing: 0.03em;
+                border-radius: 16px;
+                width: 100%;
             }
 
             .hero-btn-main .cta-icon {
-                font-size: 1.2rem;
+                font-size: 1.35rem;
             }
 
             .hero-btn-ghost {
-                max-width: 220px;
-                padding: 8px 12px;
-                font-size: 0.80rem;
-                border-radius: 10px;
+                max-width: 240px;
+                padding: 10px 16px;
+                font-size: 0.88rem;
+                border-radius: 12px;
             }
 
             .hero-buttons-divider {
-                max-width: 240px;
-                margin: 10px auto;
+                max-width: 260px;
+                margin: 14px auto;
             }
 
             .hero-fasttrack-group {
-                max-width: 280px;
-                gap: 5px;
+                max-width: 300px;
+                gap: 8px;
             }
 
             .hero-fasttrack-buttons {
-                gap: 6px;
+                gap: 8px;
             }
 
             .hero-btn-fasttrack {
-                padding: 9px 12px;
-                font-size: 0.85rem;
-                border-radius: 10px;
-            }
-
-            /* High-contrast mobile pills against blue gradient */
-            .btn-hero-guitar {
-                border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
-                box-shadow: 0 4px 16px rgba(22, 163, 74, 0.55) !important;
-            }
-
-            .btn-hero-piano {
-                background: linear-gradient(135deg, #a21caf 0%, #d946ef 100%) !important;
-                border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
-                box-shadow: 0 4px 18px rgba(217, 70, 239, 0.6) !important;
+                padding: 11px 16px;
+                font-size: 0.92rem;
+                border-radius: 12px;
             }
 
             .hero-fasttrack-label {
-                font-size: 0.62rem;
-                line-height: 1.25;
+                font-size: 0.70rem;
+                line-height: 1.3;
+                color: rgba(255, 255, 255, 0.85);
             }
         }
 
@@ -945,9 +1082,10 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.354">
-    <script>const SITE_VERSION = '3.354';</script>
+    <meta name="application-version" content="v3.355">
+    <script>const SITE_VERSION = '3.355';</script>
     <!-- Version history: 
+        v3.355: Redesigned landing page hero with 3D tactile buttons (yellow Open Pop Song Chord Book, electric indigo Quick Start, emerald guitar, purple piano) and bright flush-aligned Scrolling Chords Timeline backdrop on mobile.
         v3.354: Harmonized Guitar Beginner Lessons pill tags (Les 1, Les 2, etc.) to use the same vibrant purple/magenta gradient as Piano Beginner Lessons.
         v3.353: Stacked Quick Start Guide below Open Pop Song Chord Book for clean symmetry, and added high-contrast magenta-violet gradient to Keyboard/Piano Fast Track button on mobile to ensure crisp visibility against blue background.
         v3.352: Renamed primary hero button to 'Open Pop Song Chord Book' and enlarged it with prominent styling; refined divider and stacked Fast Track layout.
