@@ -1024,54 +1024,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Setup virtual keyboard size toggle button (100% / 150% / 200%)
-    const keyboardSizeToggleBtn = document.getElementById('keyboardSizeToggleBtn');
+    // Setup Virtual Keyboard Consolidated Settings Gear Menu
+    const keyboardSettingsBtn = document.getElementById('keyboardSettingsBtn');
+    const keyboardSettingsMenu = document.getElementById('keyboardSettingsMenu');
     const auditionKeyboard = document.getElementById('auditionKeyboard');
-    if (keyboardSizeToggleBtn && auditionKeyboard) {
-        const applyScale = (scale) => {
+
+    if (keyboardSettingsBtn && keyboardSettingsMenu && auditionKeyboard) {
+        // Toggle settings popup menu
+        keyboardSettingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            keyboardSettingsMenu.classList.toggle('hidden');
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+            if (!keyboardSettingsMenu.classList.contains('hidden') &&
+                !keyboardSettingsMenu.contains(e.target) &&
+                !keyboardSettingsBtn.contains(e.target)) {
+                keyboardSettingsMenu.classList.add('hidden');
+            }
+        });
+
+        // 1. Voicing Mode Controls (🏠 Root vs 🔄 Smooth)
+        const ksVoicingRootBtn = document.getElementById('ksVoicingRootBtn');
+        const ksVoicingSmoothBtn = document.getElementById('ksVoicingSmoothBtn');
+
+        const updateVoicingUI = (isRoot) => {
+            if (ksVoicingRootBtn) ksVoicingRootBtn.classList.toggle('active', isRoot);
+            if (ksVoicingSmoothBtn) ksVoicingSmoothBtn.classList.toggle('active', !isRoot);
+            localStorage.setItem('keyboard_root_position_mode', isRoot ? 'true' : 'false');
+            if (window._lastActiveChordName) {
+                updateAuditionKeyboardChord(window._lastActiveChordName);
+            }
+        };
+
+        const initialIsRoot = localStorage.getItem('keyboard_root_position_mode') !== 'false';
+        updateVoicingUI(initialIsRoot);
+
+        if (ksVoicingRootBtn) {
+            ksVoicingRootBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                updateVoicingUI(true);
+            });
+        }
+        if (ksVoicingSmoothBtn) {
+            ksVoicingSmoothBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                updateVoicingUI(false);
+            });
+        }
+
+        // 2. Keyboard Size Controls (100% / 150% / 200%)
+        const ksSizeBtns = keyboardSettingsMenu.querySelectorAll('.ks-size-btn');
+
+        const updateScaleUI = (scale) => {
             auditionKeyboard.classList.remove('size-150', 'size-200');
             if (scale === '150') {
                 auditionKeyboard.classList.add('size-150');
             } else if (scale === '200') {
                 auditionKeyboard.classList.add('size-200');
             }
-            keyboardSizeToggleBtn.textContent = `${scale}%`;
+            ksSizeBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.scale === scale);
+            });
             localStorage.setItem('keyboard_size_scale', scale);
         };
 
-        const savedScale = localStorage.getItem('keyboard_size_scale') || '100';
-        applyScale(savedScale);
+        const initialScale = localStorage.getItem('keyboard_size_scale') || '100';
+        updateScaleUI(initialScale);
 
-        keyboardSizeToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const currentScale = localStorage.getItem('keyboard_size_scale') || '100';
-            const nextScale = currentScale === '100' ? '150' : (currentScale === '150' ? '200' : '100');
-            applyScale(nextScale);
-        });
-    }
-
-    // Setup virtual keyboard root position toggle button (🏠 Root vs 🔄 Smooth)
-    const keyboardRootToggleBtn = document.getElementById('keyboardRootToggleBtn');
-    if (keyboardRootToggleBtn && auditionKeyboard) {
-        const applyRootMode = (isRoot) => {
-            keyboardRootToggleBtn.classList.toggle('smooth-mode', !isRoot);
-            keyboardRootToggleBtn.textContent = isRoot ? '🏠 Root' : '🔄 Smooth';
-            keyboardRootToggleBtn.title = 'Play chords in ROOT position or use inversions for smooth transitions';
-            localStorage.setItem('keyboard_root_position_mode', isRoot ? 'true' : 'false');
-        };
-
-        const savedRootMode = localStorage.getItem('keyboard_root_position_mode') !== 'false';
-        applyRootMode(savedRootMode);
-
-        keyboardRootToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const currentIsRoot = localStorage.getItem('keyboard_root_position_mode') !== 'false';
-            applyRootMode(!currentIsRoot);
-            if (window._lastActiveChordName) {
-                updateAuditionKeyboardChord(window._lastActiveChordName);
-            }
+        ksSizeBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const selectedScale = btn.dataset.scale;
+                updateScaleUI(selectedScale);
+            });
         });
     }
 

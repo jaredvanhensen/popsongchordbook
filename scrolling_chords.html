@@ -22,8 +22,8 @@
     <meta name="apple-mobile-web-app-title" content="ChordBook">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <link rel="stylesheet" href="scrolling.css?v=3.367">
-    <link rel="stylesheet" href="scrolling_mobile.css?v=3.367">
+    <link rel="stylesheet" href="scrolling.css?v=3.368">
+    <link rel="stylesheet" href="scrolling_mobile.css?v=3.368">
 
     <!-- Android TWA detection: hide lyrics when running as Play Store app -->
     <script>
@@ -648,8 +648,28 @@
 
         <!-- Audition Keyboard (Landscape Only) -->
         <div id="auditionKeyboard" class="audition-keyboard">
-            <button id="keyboardRootToggleBtn" class="keyboard-root-toggle-btn" title="Play chords in ROOT position or use inversions for smooth transitions">🏠 Root</button>
-            <button id="keyboardSizeToggleBtn" class="keyboard-size-toggle-btn" title="Toggle Virtual Keyboard Size (100% / 200%)">100%</button>
+            <div id="keyboardSettingsWrapper" class="keyboard-settings-wrapper">
+                <button id="keyboardSettingsBtn" class="keyboard-settings-btn" title="Virtual Keyboard Settings">
+                    <span class="icon">☰</span>
+                </button>
+                <div id="keyboardSettingsMenu" class="keyboard-settings-menu hidden">
+                    <div class="ks-menu-section">
+                        <label class="ks-menu-label">Voicing Mode</label>
+                        <div class="ks-btn-group">
+                            <button id="ksVoicingRootBtn" class="ks-select-btn active" title="Play chords in ROOT position">🏠 Root</button>
+                            <button id="ksVoicingSmoothBtn" class="ks-select-btn" title="Use inversions for smooth transitions">🔄 Smooth</button>
+                        </div>
+                    </div>
+                    <div class="ks-menu-section">
+                        <label class="ks-menu-label">Keyboard Size</label>
+                        <div class="ks-btn-group">
+                            <button class="ks-size-btn" data-scale="100">100%</button>
+                            <button class="ks-size-btn" data-scale="150">150%</button>
+                            <button class="ks-size-btn" data-scale="200">200%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="keyboard-keys">
                 <!-- White Keys (C3-B4) -->
                 <div class="key white" data-note="48"></div>
