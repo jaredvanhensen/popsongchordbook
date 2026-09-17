@@ -6760,11 +6760,13 @@ td:has(.row-edit-input.input-focused) {
 @media (max-width: 1080px) {
     .song-detail-modal {
         padding: 0;
+        padding-top: max(0px, env(safe-area-inset-top));
+        box-sizing: border-box;
     }
 
     .song-detail-modal-content {
         width: 100%;
-        height: 100%;
+        height: calc(100% - max(0px, env(safe-area-inset-top)));
         max-width: 100%;
         border-radius: 0;
         margin: 0;
