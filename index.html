@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.355 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
-    <meta name="version" content="3.355">
+    <title>PopSongChordBook v3.359 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync</title>
+    <meta name="version" content="3.359">
     <meta name="description"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn piano online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -322,7 +322,7 @@
 
             .hero-section {
                 background: #120732 !important;
-                padding: 44px 16px 52px !important;
+                padding: 32px 16px 52px !important;
             }
 
             /* Mobile Image: clean cropped scrolling chord timeline anchored flush to top-left */
@@ -331,53 +331,54 @@
                 background-size: 185% auto !important;
                 background-position: 0 0 !important;
                 background-repeat: no-repeat !important;
-                opacity: 0.92 !important;
+                opacity: 0.95 !important;
                 filter: saturate(1.25) contrast(1.08) brightness(1.04) !important;
                 inset: 0 !important;
+                height: 120vw !important;
+                max-height: 520px !important;
                 transform: none !important;
             }
 
-            /* Light transparent wash — no dark blockout */
+            /* Light transparent wash — blends cleanly into solid background right at bottom of image */
             .hero-section::after {
                 background: linear-gradient(to bottom,
-                    rgba(8, 3, 24, 0.20) 0%,
-                    rgba(20, 8, 50, 0.08) 35%,
-                    rgba(8, 3, 24, 0.35) 100%) !important;
+                    rgba(8, 3, 24, 0.12) 0%,
+                    rgba(20, 8, 50, 0.04) 30%,
+                    rgba(8, 3, 24, 0.20) 70%,
+                    rgba(18, 7, 50, 0.92) 100vw,
+                    #120732 118vw) !important;
+            }
+
+            .hero-logo-container {
+                margin-bottom: 12px !important;
+            }
+
+            .hero-logo-img {
+                width: 95px !important;
+                height: 95px !important;
+                border-radius: 22px !important;
             }
 
             .hero-title {
                 font-weight: 900 !important;
-                font-size: 2.35rem !important;
+                font-size: 2.25rem !important;
                 letter-spacing: -0.5px;
                 color: #ffffff !important;
-                -webkit-text-stroke: 4px #070318 !important;
-                text-stroke: 4px #070318 !important;
+                -webkit-text-stroke: 3.5px #070318 !important;
+                text-stroke: 3.5px #070318 !important;
                 paint-order: stroke fill;
                 text-shadow: 0 4px 14px rgba(0, 0, 0, 0.95), 0 0 20px #070318 !important;
-                margin-bottom: 12px !important;
+                margin-bottom: 0 !important;
             }
 
             .hero-subtitle {
-                font-weight: 800 !important;
-                font-size: 1.12rem !important;
-                color: #FFDE38 !important;
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-                padding: 0 !important;
-                display: block !important;
-                margin-bottom: 14px !important;
-                -webkit-text-stroke: 3px #070318 !important;
-                text-stroke: 3px #070318 !important;
-                paint-order: stroke fill;
-                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 16px #070318 !important;
+                display: none !important;
             }
 
+            /* Changing text part positioned directly BELOW the background image */
             .hero-description {
                 font-weight: 700 !important;
-                font-size: 0.96rem !important;
+                font-size: clamp(0.74rem, 3.3vw, 0.98rem) !important;
                 color: #ffffff !important;
                 background: transparent !important;
                 border: none !important;
@@ -385,11 +386,19 @@
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
                 padding: 0 6px !important;
-                max-width: 360px;
-                margin: 0 auto 20px !important;
-                line-height: 1.55 !important;
-                -webkit-text-stroke: 2.5px #070318 !important;
-                text-stroke: 2.5px #070318 !important;
+                max-width: 96vw !important;
+                margin-top: clamp(115px, calc(118vw - 278px), 220px) !important;
+                margin-bottom: 18px !important;
+                line-height: 1.35 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                min-height: 1.5em !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                -webkit-text-stroke: 1.5px #070318 !important;
+                text-stroke: 1.5px #070318 !important;
                 paint-order: stroke fill;
                 text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 14px #070318 !important;
             }
@@ -420,16 +429,33 @@
         }
 
         .hero-description {
-            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-            font-weight: 500;
-            color: #c7d2fe;
-            max-width: 680px;
-            margin: 0 auto 28px;
-            line-height: 1.65;
+            font-size: clamp(0.95rem, 1.8vw, 1.18rem);
+            font-weight: 600;
+            color: #ffffff;
+            max-width: 720px;
+            margin: 0 auto 24px;
+            line-height: 1.4;
+            min-height: 1.6em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
             -webkit-text-stroke: 0.5px rgba(0, 0, 15, 0.75);
             text-stroke: 0.5px rgba(0, 0, 15, 0.75);
             paint-order: stroke fill;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+        }
+
+        #heroRotatorText {
+            display: inline-block;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #heroRotatorText.tagline-fade-out {
+            opacity: 0;
+            transform: translateY(-4px);
         }
 
         /* Hero logo style replacing bouncing guitar/keyboard */
@@ -809,10 +835,21 @@
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
+            .hero-subtitle {
+                display: none !important;
+            }
+
             .hero-description {
-                margin-bottom: 16px !important;
-                font-size: 0.94rem !important;
-                line-height: 1.55 !important;
+                margin-top: clamp(115px, calc(118vw - 278px), 220px) !important;
+                margin-bottom: 18px !important;
+                font-size: clamp(0.74rem, 3.3vw, 0.98rem) !important;
+                line-height: 1.35 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
             .hero-primary-buttons {
@@ -1082,9 +1119,13 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.355">
-    <script>const SITE_VERSION = '3.355';</script>
+    <meta name="application-version" content="v3.359">
+    <script>const SITE_VERSION = '3.359';</script>
     <!-- Version history: 
+        v3.359: Fine-tuned mobile hero rotating text position (lowered 1 line) for perfect optical balance beneath the timeline graphic.
+        v3.358: Shifted mobile rotating tagline and CTA action buttons up (~100px) to sit closely beneath the background timeline keyboard/chord graphics without excessive empty gap.
+        v3.357: Repositioned rotating tagline and CTA action buttons on mobile to sit cleanly below the full scrolling chords timeline background visual.
+        v3.356: Refined mobile hero section: removed yellow subtitle on mobile devices and replaced static description with an animated single-line rotator cycling 5 value propositions every 2 seconds.
         v3.355: Redesigned landing page hero with 3D tactile buttons (yellow Open Pop Song Chord Book, electric indigo Quick Start, emerald guitar, purple piano) and bright flush-aligned Scrolling Chords Timeline backdrop on mobile.
         v3.354: Harmonized Guitar Beginner Lessons pill tags (Les 1, Les 2, etc.) to use the same vibrant purple/magenta gradient as Piano Beginner Lessons.
         v3.353: Stacked Quick Start Guide below Open Pop Song Chord Book for clean symmetry, and added high-contrast magenta-violet gradient to Keyboard/Piano Fast Track button on mobile to ensure crisp visibility against blue background.
@@ -1366,11 +1407,7 @@
             </div>
             <h1 class="hero-title">Pop Song Chord Book</h1>
             <p class="hero-subtitle">The Ultimate Pop Song Book for Guitar, Piano & Ukulele</p>
-            <p class="hero-description">
-                Never miss a chord again. Never get lost in a song.
-                The fastest way to learn pop songs on piano or guitar. 
-                Stop memorizing chords — start playing songs instantly.
-            </p>
+            <p class="hero-description"><span id="heroRotatorText">Never miss a chord again!</span></p>
             <div class="hero-primary-buttons">
                 <a href="songlist.html" id="browseSongListBtn" class="hero-btn-main paywall-trigger">
                     <span class="btn-icon cta-icon">🎵</span>
@@ -2473,6 +2510,29 @@
                 });
             }
         });
+
+        // Hero Tagline 2-Second Rotator
+        (function initHeroTaglineRotator() {
+            const phrases = [
+                "Never miss a chord again!",
+                "Never get lost in a song again !",
+                "The Fastest way to learn Pop Songs on Piano or Guitar",
+                "Stop memorizing chords - Start Playing songs instantly!",
+                "Play songs from START to FINISH in 1 go!"
+            ];
+            let currentIndex = 0;
+            const el = document.getElementById('heroRotatorText');
+            if (!el) return;
+
+            setInterval(() => {
+                el.classList.add('tagline-fade-out');
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % phrases.length;
+                    el.textContent = phrases[currentIndex];
+                    el.classList.remove('tagline-fade-out');
+                }, 200);
+            }, 2000);
+        })();
     </script>
         </main>
     </div>
