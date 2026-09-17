@@ -6773,13 +6773,12 @@ td:has(.row-edit-input.input-focused) {
     }
 
     .song-detail-header {
-        padding: max(5px, env(safe-area-inset-top)) 15px 5px;
-        min-height: 125px;
-        height: calc(125px + max(0px, env(safe-area-inset-top) - 5px));
+        padding: 5px 15px;
+        height: 125px;
         display: grid;
         grid-template-columns: 64px 1fr 45px;
         /* Widened for 59px thumbnail */
-        grid-template-rows: calc(70px + max(0px, env(safe-area-inset-top) - 5px)) 55px;
+        grid-template-rows: 70px 55px;
         grid-template-areas:
             "thumb title close"
             "prev actions next";
