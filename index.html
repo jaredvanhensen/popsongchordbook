@@ -1408,7 +1408,7 @@
         // Register Service Worker (required for Play Store TWA — HTTPS only)
         if ('serviceWorker' in navigator && location.protocol === 'https:') {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                navigator.serviceWorker.register('./sw.js?v=3.365')
                     .then(reg => console.log('[SW] Registered, scope:', reg.scope))
                     .catch(err => console.warn('[SW] Registration failed:', err));
             });
