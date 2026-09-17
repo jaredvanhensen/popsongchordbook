@@ -920,6 +920,20 @@ body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-uku
     pointer-events: none !important;
 }
 
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-150,
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.size-150 {
+    transform: translateY(-50%) scale(1.5) !important;
+    transform-origin: center center !important;
+    z-index: 2200 !important;
+}
+
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-200,
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.size-200 {
+    transform: translateY(-50%) scale(2) !important;
+    transform-origin: center center !important;
+    z-index: 2200 !important;
+}
+
 /* Shrink the virtual keyboard keys by 50% to fit perfectly inside the yellow container */
 body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys,
 body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard .keyboard-keys {

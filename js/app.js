@@ -771,15 +771,16 @@ class App {
         // All Genres handler
         allGenresBtn.addEventListener('click', () => {
             allGenresBtn.classList.add('active');
-            genreBtns.forEach(b => b.classList.remove('active'));
+            genreBtns.forEach(b => b.classList.add('active'));
             if (searchInput) searchInput.value = '';
 
             this.currentFilter.genres = [];
             this.currentFilter.genreSearch = '';
+            this.syncFilterModalFromHeaderState();
             this.loadAndRender();
         });
 
-        // Genre buttons handler
+        // Genre buttons handler (multi-select toggle on/off)
         genreBtns.forEach(btnEl => {
             btnEl.addEventListener('click', () => {
                 btnEl.classList.toggle('active');
@@ -789,13 +790,15 @@ class App {
                 const activeBtns = Array.from(genreBtns).filter(b => b.classList.contains('active'));
                 const activeGenres = activeBtns.map(b => b.dataset.genre);
 
-                if (activeGenres.length > 0) {
+                if (activeGenres.length === 0 || activeGenres.length === genreBtns.length) {
+                    allGenresBtn.classList.add('active');
+                    genreBtns.forEach(b => b.classList.add('active'));
+                    this.currentFilter.genres = [];
+                } else {
                     allGenresBtn.classList.remove('active');
                     this.currentFilter.genres = activeGenres;
-                } else {
-                    allGenresBtn.classList.add('active');
-                    this.currentFilter.genres = [];
                 }
+                this.syncFilterModalFromHeaderState();
                 this.loadAndRender();
             });
         });
@@ -811,11 +814,13 @@ class App {
 
                 if (val === '') {
                     allGenresBtn.classList.add('active');
+                    genreBtns.forEach(b => b.classList.add('active'));
                     this.currentFilter.genreSearch = '';
                 } else {
                     allGenresBtn.classList.remove('active');
                     this.currentFilter.genreSearch = val;
                 }
+                this.syncFilterModalFromHeaderState();
                 this.loadAndRender();
             });
         }
@@ -1916,7 +1921,7 @@ class App {
         if (genreSearch !== '') {
             if (allGenresBtn) allGenresBtn.classList.remove('active');
             if (genreBtns) genreBtns.forEach(btn => btn.classList.remove('active'));
-        } else if (genres.length > 0) {
+        } else if (genres.length > 0 && genres.length < (genreBtns ? genreBtns.length : 6)) {
             if (allGenresBtn) allGenresBtn.classList.remove('active');
             if (genreBtns) {
                 genreBtns.forEach(btn => {
@@ -1926,8 +1931,21 @@ class App {
             }
         } else {
             if (allGenresBtn) allGenresBtn.classList.add('active');
-            if (genreBtns) genreBtns.forEach(btn => btn.classList.remove('active'));
+            if (genreBtns) genreBtns.forEach(btn => btn.classList.add('active'));
         }
+    }
+
+    syncFilterModalFromHeaderState() {
+        const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+        const activeGenres = this.currentFilter.genres || [];
+        genreCheckboxes.forEach(cb => {
+            if (activeGenres.length === 0) {
+                cb.checked = true;
+            } else {
+                cb.checked = activeGenres.includes(cb.value);
+            }
+        });
+        this.updateFilterButtonState();
     }
 
     setupSearch() {

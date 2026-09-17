@@ -1024,6 +1024,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Setup virtual keyboard size toggle button (100% / 150% / 200%)
+    const keyboardSizeToggleBtn = document.getElementById('keyboardSizeToggleBtn');
+    const auditionKeyboard = document.getElementById('auditionKeyboard');
+    if (keyboardSizeToggleBtn && auditionKeyboard) {
+        const applyScale = (scale) => {
+            auditionKeyboard.classList.remove('size-150', 'size-200');
+            if (scale === '150') {
+                auditionKeyboard.classList.add('size-150');
+            } else if (scale === '200') {
+                auditionKeyboard.classList.add('size-200');
+            }
+            keyboardSizeToggleBtn.textContent = `${scale}%`;
+            localStorage.setItem('keyboard_size_scale', scale);
+        };
+
+        const savedScale = localStorage.getItem('keyboard_size_scale') || '100';
+        applyScale(savedScale);
+
+        keyboardSizeToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const currentScale = localStorage.getItem('keyboard_size_scale') || '100';
+            const nextScale = currentScale === '100' ? '150' : (currentScale === '150' ? '200' : '100');
+            applyScale(nextScale);
+        });
+    }
+
+    // Setup virtual keyboard root position toggle button (🏠 Root vs 🔄 Smooth)
+    const keyboardRootToggleBtn = document.getElementById('keyboardRootToggleBtn');
+    if (keyboardRootToggleBtn && auditionKeyboard) {
+        const applyRootMode = (isRoot) => {
+            keyboardRootToggleBtn.classList.toggle('smooth-mode', !isRoot);
+            keyboardRootToggleBtn.textContent = isRoot ? '🏠 Root' : '🔄 Smooth';
+            keyboardRootToggleBtn.title = 'Play chords in ROOT position or use inversions for smooth transitions';
+            localStorage.setItem('keyboard_root_position_mode', isRoot ? 'true' : 'false');
+        };
+
+        const savedRootMode = localStorage.getItem('keyboard_root_position_mode') !== 'false';
+        applyRootMode(savedRootMode);
+
+        keyboardRootToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const currentIsRoot = localStorage.getItem('keyboard_root_position_mode') !== 'false';
+            applyRootMode(!currentIsRoot);
+            if (window._lastActiveChordName) {
+                updateAuditionKeyboardChord(window._lastActiveChordName);
+            }
+        });
+    }
+
     if (metronomeToggle) {
         metronomeToggle.addEventListener('change', () => {
             toggleMetronome();
@@ -2111,6 +2162,8 @@ function updateAuditionKeyboardChord(chordName) {
     // Clear all existing highlights
     keyboard.querySelectorAll('.key.chord-highlight').forEach(k => k.classList.remove('chord-highlight'));
 
+    window._lastActiveChordName = chordName;
+
     if (!chordName || chordName === '') {
         // No chord: reset the proximity anchor so the next chord starts fresh
         window._lastKeyboardCentroid = null;
@@ -2121,66 +2174,82 @@ function updateAuditionKeyboardChord(chordName) {
     const chord = chordParser.parse(chordName);
     if (!chord || !chord.notes) return;
 
-    // -----------------------------------------------------------------------
-    // PROXIMITY-AWARE VOICING
-    // Goal: among all valid octave shifts for this chord, pick the one whose
-    // resulting voicing centroid (average MIDI note) is closest to the centroid
-    // of the PREVIOUS chord that was displayed. This prevents the keyboard from
-    // jumping an octave when consecutive chords could be shown in the same range.
-    //
-    // The bass-note anchoring still preserves inversion order (e.g. G#m3 stays
-    // as B-D#-G# rather than collapsing to a root-position voicing).
-    // -----------------------------------------------------------------------
     const KEYBOARD_MIN = 48;
     const KEYBOARD_MAX = 71;
 
-    const notes = [...chord.notes];
-    const sortedNotes = [...notes].sort((a, b) => a - b);
-    const bassNote = sortedNotes[0];
-
-    // Collect ALL valid octave-shifts (those landing the bass in range)
-    const candidateVoicings = [];
-    for (let octaveShift = -5; octaveShift <= 5; octaveShift++) {
-        const shift = octaveShift * 12;
-        const shiftedBass = bassNote + shift;
-        if (shiftedBass >= KEYBOARD_MIN && shiftedBass <= KEYBOARD_MAX) {
-            // Apply this shift to all notes, then clamp out-of-range notes by
-            // pitch-class-mapping (preserves inversion order for in-range notes)
-            const transposed = notes.map(n => {
-                let v = n + shift;
-                while (v > KEYBOARD_MAX) v -= 12;
-                while (v < KEYBOARD_MIN) v += 12;
-                return v;
-            });
-            const centroid = transposed.reduce((s, v) => s + v, 0) / transposed.length;
-            candidateVoicings.push({ transposed, centroid });
-        }
-    }
+    const isRootPositionMode = localStorage.getItem('keyboard_root_position_mode') !== 'false';
+    const isExplicitInversion = (chord.inversion && chord.inversion > 0) || (chordName && chordName.includes('/'));
 
     let bestTransposedNotes = null;
 
-    if (candidateVoicings.length > 0) {
-        if (window._lastKeyboardCentroid != null) {
-            // Pick the voicing whose centroid is NEAREST to the previous chord's centroid
-            candidateVoicings.sort((a, b) =>
-                Math.abs(a.centroid - window._lastKeyboardCentroid) -
-                Math.abs(b.centroid - window._lastKeyboardCentroid)
-            );
+    if (isRootPositionMode && !isExplicitInversion) {
+        // --- FORCE ROOT POSITION ---
+        // Ensure standard notes start with root note (chord.notes[0])
+        const rawNotes = [...chord.notes];
+        const rootNote = rawNotes[0];
+        let rootShift = 0;
+        let shiftedRoot = rootNote;
+
+        while (shiftedRoot < KEYBOARD_MIN) {
+            shiftedRoot += 12;
+            rootShift += 12;
         }
-        // Default (no previous chord): first candidate = lowest valid shift (natural position)
-        bestTransposedNotes = candidateVoicings[0].transposed;
-        // Update the proximity anchor for next chord
-        window._lastKeyboardCentroid = candidateVoicings[0].centroid;
-    } else {
-        // Ultimate fallback: transpose notes individually to fit within range
-        bestTransposedNotes = notes.map(n => {
-            let v = n;
-            while (v < KEYBOARD_MIN) v += 12;
+        while (shiftedRoot > KEYBOARD_MAX - 7) {
+            shiftedRoot -= 12;
+            rootShift -= 12;
+        }
+
+        bestTransposedNotes = rawNotes.map(n => {
+            let v = n + rootShift;
             while (v > KEYBOARD_MAX) v -= 12;
+            while (v < KEYBOARD_MIN) v += 12;
             return v;
         });
-        const centroid = bestTransposedNotes.reduce((s, v) => s + v, 0) / bestTransposedNotes.length;
-        window._lastKeyboardCentroid = centroid;
+        window._lastKeyboardCentroid = bestTransposedNotes.reduce((s, v) => s + v, 0) / bestTransposedNotes.length;
+    } else {
+        // -----------------------------------------------------------------------
+        // PROXIMITY-AWARE VOICING (SMOOTH INVERSIONS)
+        // -----------------------------------------------------------------------
+        const notes = [...chord.notes];
+        const sortedNotes = [...notes].sort((a, b) => a - b);
+        const bassNote = sortedNotes[0];
+
+        // Collect ALL valid octave-shifts (those landing the bass in range)
+        const candidateVoicings = [];
+        for (let octaveShift = -5; octaveShift <= 5; octaveShift++) {
+            const shift = octaveShift * 12;
+            const shiftedBass = bassNote + shift;
+            if (shiftedBass >= KEYBOARD_MIN && shiftedBass <= KEYBOARD_MAX) {
+                const transposed = notes.map(n => {
+                    let v = n + shift;
+                    while (v > KEYBOARD_MAX) v -= 12;
+                    while (v < KEYBOARD_MIN) v += 12;
+                    return v;
+                });
+                const centroid = transposed.reduce((s, v) => s + v, 0) / transposed.length;
+                candidateVoicings.push({ transposed, centroid });
+            }
+        }
+
+        if (candidateVoicings.length > 0) {
+            if (window._lastKeyboardCentroid != null) {
+                candidateVoicings.sort((a, b) =>
+                    Math.abs(a.centroid - window._lastKeyboardCentroid) -
+                    Math.abs(b.centroid - window._lastKeyboardCentroid)
+                );
+            }
+            bestTransposedNotes = candidateVoicings[0].transposed;
+            window._lastKeyboardCentroid = candidateVoicings[0].centroid;
+        } else {
+            bestTransposedNotes = notes.map(n => {
+                let v = n;
+                while (v < KEYBOARD_MIN) v += 12;
+                while (v > KEYBOARD_MAX) v -= 12;
+                return v;
+            });
+            const centroid = bestTransposedNotes.reduce((s, v) => s + v, 0) / bestTransposedNotes.length;
+            window._lastKeyboardCentroid = centroid;
+        }
     }
 
     // Highlight matching keys on the mini keyboard
