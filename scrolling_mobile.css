@@ -945,6 +945,33 @@ body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard 
     background: #ededed !important;
 }
 
+/* ============================================================
+   FIX: Keyboard Settings Popup — Mobile Landscape (v3.369)
+   1. Button placed at TOP-RIGHT CORNER of the yellow Now Playing
+      chord box (right: 2px inside the 110px audition keyboard overlay).
+   2. Menu opens to the RIGHT (into open timeline space) instead of
+      upward (which placed it behind the top toolbar).
+   3. Keyboard Size section hidden — no room for 150%/200% on mobile.
+   Only targets body.is-landscape.is-mobile-landscape — desktop
+   and non-mobile landscape are completely unaffected.
+============================================================ */
+body.is-landscape.is-mobile-landscape .keyboard-settings-wrapper {
+    top: -28px !important; /* Sit ABOVE the yellow Now Playing chord box, not inside it */
+    right: 2px !important; /* Aligned to the right edge of the chord box */
+}
+
+body.is-landscape.is-mobile-landscape .keyboard-settings-menu {
+    bottom: auto !important;       /* Cancel the upward-opening default */
+    top: 0 !important;             /* Align top of menu with the button */
+    right: auto !important;        /* Cancel right-alignment */
+    left: calc(100% + 4px) !important; /* Open to the RIGHT of the wrapper */
+}
+
+/* Hide Keyboard Size (100%/150%/200%) on mobile landscape — no space for it */
+body.is-landscape.is-mobile-landscape .keyboard-settings-menu .ks-menu-section:has(.ks-size-btn) {
+    display: none !important;
+}
+
 @media (max-width: 768px), screen and (max-height: 400px) {
     body.is-landscape.is-mobile-landscape .landscape-header-bar {
         min-height: 64px !important;
