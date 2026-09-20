@@ -93,6 +93,26 @@ function generateSitemap() {
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>${BASE_URL}/beginner-lessons.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/guitar_lessons.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/keyboard&amp;piano-lessons.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/ChordTrainer.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>${BASE_URL}/ChordTheory&amp;Tips.html</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>

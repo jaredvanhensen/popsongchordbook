@@ -2971,7 +2971,7 @@
                     window.parent.appInstance.openedSongFromLessons = {
                         type: 'keyboard',
                         lessonId: currentLessonId || 1,
-                        url: `lessons.html#lesson-${currentLessonId || 1}`
+                        url: `keyboard&piano-lessons.html#lesson-${currentLessonId || 1}`
                     };
                     // Close the dashboard panel inside parent window
                     if (typeof window.parent.closeDashboardPanel === 'function') {
@@ -2985,7 +2985,7 @@
             } else {
                 // Standalone mode (opened directly, not inside songlist iframe).
                 // Redirect to songlist.html — anonymous users will hit the login screen there.
-                const params = new URLSearchParams({ artist, title, ref: 'lessons' });
+                const params = new URLSearchParams({ artist, title, ref: 'keyboard&piano-lessons' });
                 window.location.href = 'songlist.html?' + params.toString();
             }
         }
@@ -3848,6 +3848,15 @@
             applyLanguageToUI();
             loadLessonProgress();
 
+            const hashMatch = location.hash.match(/#lesson-?([1-9])/i);
+            if (hashMatch) {
+                openLesson(hashMatch[1]);
+            } else {
+                showLaunchPage();
+            }
+        });
+
+        window.addEventListener('hashchange', () => {
             const hashMatch = location.hash.match(/#lesson-?([1-9])/i);
             if (hashMatch) {
                 openLesson(hashMatch[1]);

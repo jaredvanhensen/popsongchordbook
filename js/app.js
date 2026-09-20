@@ -369,7 +369,7 @@ class App {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('band.html');
             } else if (viewParam === 'lessons') {
                 const mode = localStorage.getItem('instrumentMode') || 'piano';
-                const lessonPage = mode === 'guitar' ? 'guitar_lessons.html' : 'lessons.html';
+                const lessonPage = mode === 'guitar' ? 'guitar_lessons.html' : 'keyboard&piano-lessons.html';
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel(lessonPage);
             } else if (viewParam === 'guitar_lessons') {
                 if (typeof window.openDashboardPanel === 'function') window.openDashboardPanel('guitar_lessons.html');

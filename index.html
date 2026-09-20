@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.370 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
-    <meta name="version" content="3.370">
+    <title>PopSongChordBook v3.371 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
+    <meta name="version" content="3.371">
     <meta name="description"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn piano online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -99,7 +99,7 @@
         "name": "PopSongChordBook",
         "sameAs": "https://www.popsongchordbook.com"
       },
-      "url": "https://www.popsongchordbook.com/lessons.html",
+      "url": "https://www.popsongchordbook.com/keyboard&piano-lessons.html",
       "courseMode": "online",
       "isAccessibleForFree": true,
       "inLanguage": ["en", "nl"],
@@ -318,65 +318,97 @@
 
         /* ─── Mobile portrait: Scrolling Chords Timeline (MOBILE ONLY) ─── */
         @media (max-width: 600px) and (orientation: portrait),
-               (max-width: 480px) {
+               (max-width: 480px) and (orientation: portrait) {
 
             .hero-section {
                 background: #120732 !important;
-                padding: 32px 16px 52px !important;
+                padding: 0 16px 52px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
             }
 
-            /* Mobile Image: clean cropped scrolling chord timeline anchored flush to top-left */
-            .hero-section::before {
+            .hero-section::before,
+            .hero-section::after {
+                display: none !important;
+            }
+
+            .hero-content {
+                padding: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            /* Dedicated Visual Banner containing the backdrop image, logo and title */
+            .hero-visual-banner {
+                position: relative !important;
+                width: 100vw !important;
+                margin-left: calc(-50vw + 50%) !important;
+                margin-right: calc(-50vw + 50%) !important;
+                height: 119.4vw !important;
+                max-height: 520px !important;
                 background-image: url('images/hero_timeline_backdrop.jpg') !important;
                 background-size: 185% auto !important;
                 background-position: 0 0 !important;
                 background-repeat: no-repeat !important;
-                opacity: 0.95 !important;
-                filter: saturate(1.25) contrast(1.08) brightness(1.04) !important;
-                inset: 0 !important;
-                height: 120vw !important;
-                max-height: 520px !important;
-                transform: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                padding-top: 24px !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                filter: saturate(1.22) contrast(1.06) brightness(1.02) !important;
             }
 
-            /* Light transparent wash — blends cleanly into solid background right at bottom of image */
-            .hero-section::after {
-                background: linear-gradient(to bottom,
-                    rgba(8, 3, 24, 0.12) 0%,
-                    rgba(20, 8, 50, 0.04) 30%,
-                    rgba(8, 3, 24, 0.20) 70%,
-                    rgba(18, 7, 50, 0.92) 100vw,
-                    #120732 118vw) !important;
+            /* Smooth fade overlay at the bottom of the visual banner into #120732 */
+            .hero-visual-banner::after {
+                content: '' !important;
+                position: absolute !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                height: 25% !important;
+                background: linear-gradient(to bottom, rgba(18, 7, 50, 0) 0%, rgba(18, 7, 50, 0.7) 70%, #120732 100%) !important;
+                pointer-events: none !important;
+                z-index: 1 !important;
             }
 
             .hero-logo-container {
-                margin-bottom: 12px !important;
+                margin-bottom: 8px !important;
+                position: relative !important;
+                z-index: 2 !important;
             }
 
             .hero-logo-img {
-                width: 95px !important;
-                height: 95px !important;
+                width: 90px !important;
+                height: 90px !important;
                 border-radius: 22px !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
             }
 
             .hero-title {
                 font-weight: 900 !important;
-                font-size: 2.25rem !important;
-                letter-spacing: -0.5px;
+                font-size: clamp(1.9rem, 7.5vw, 2.3rem) !important;
+                letter-spacing: -0.5px !important;
                 color: #ffffff !important;
                 -webkit-text-stroke: 3.5px #070318 !important;
                 text-stroke: 3.5px #070318 !important;
-                paint-order: stroke fill;
+                paint-order: stroke fill !important;
                 text-shadow: 0 4px 14px rgba(0, 0, 0, 0.95), 0 0 20px #070318 !important;
                 margin-bottom: 0 !important;
-                transform: translateY(-10px) !important;
+                transform: translateY(-4px) !important;
+                position: relative !important;
+                z-index: 2 !important;
+                text-align: center !important;
+                line-height: 1.15 !important;
             }
 
             .hero-subtitle {
                 display: none !important;
             }
 
-            /* Changing text part positioned directly BELOW the background image */
+            /* Changing text line ALWAYS starts directly BELOW the visual banner */
             .hero-description {
                 font-weight: 700 !important;
                 font-size: clamp(0.74rem, 3.3vw, 0.98rem) !important;
@@ -388,7 +420,7 @@
                 -webkit-backdrop-filter: none !important;
                 padding: 0 6px !important;
                 max-width: 96vw !important;
-                margin-top: clamp(115px, calc(118vw - 278px), 220px) !important;
+                margin-top: 14px !important;
                 margin-bottom: 18px !important;
                 line-height: 1.35 !important;
                 white-space: nowrap !important;
@@ -398,10 +430,10 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                -webkit-text-stroke: 1.5px #070318 !important;
-                text-stroke: 1.5px #070318 !important;
-                paint-order: stroke fill;
-                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 14px #070318 !important;
+                -webkit-text-stroke: 0.5px rgba(0, 0, 15, 0.75) !important;
+                text-stroke: 0.5px rgba(0, 0, 15, 0.75) !important;
+                paint-order: stroke fill !important;
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75) !important;
             }
         }
 
@@ -581,13 +613,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             width: 100%;
-            max-width: 480px;
+            max-width: 440px;
             margin: 24px auto 0;
         }
 
-        /* ── Button 1: Flagship 3D Yellow Accent Hero Button ── */
+        /* ── Button 1: Flagship 3D Purple-Blue Hero Button with Rotating Border Ray & Flash ── */
         .hero-btn-main {
             width: 100%;
             display: flex;
@@ -601,21 +633,73 @@
             letter-spacing: 0.04em;
             text-transform: uppercase;
             text-decoration: none;
-            background: linear-gradient(180deg, #FFF066 0%, #FFCC00 40%, #F59E0B 85%, #D97706 100%);
-            color: #0b0526;
-            border: 2px solid #FEF08A;
+            color: #ffffff;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+            background: #4c2882;
             box-shadow: 
                 inset 0 2px 0 rgba(255, 255, 255, 0.95),
-                inset 0 -3px 0 rgba(180, 83, 9, 0.7),
-                0 6px 0 #92400e,
-                0 9px 2px rgba(0, 0, 0, 0.4),
-                0 14px 30px rgba(245, 158, 11, 0.45),
-                0 0 35px rgba(255, 204, 0, 0.35);
-            animation: heroCtaPulse 3.5s ease-in-out infinite;
+                inset 0 -3px 0 rgba(40, 10, 80, 0.4),
+                0 6px 0 #4c2882,
+                0 9px 2px rgba(0, 0, 0, 0.35),
+                0 14px 28px rgba(102, 126, 234, 0.5),
+                0 0 32px rgba(118, 75, 162, 0.35);
+            animation: heroCtaPulse 3s ease-in-out infinite;
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             white-space: nowrap;
+        }
+
+        /* Continuous rotating luminous light ray circling around the border */
+        .hero-btn-main::before {
+            content: '';
+            position: absolute;
+            top: -150%;
+            left: -150%;
+            width: 400%;
+            height: 400%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 220deg,
+                rgba(255, 255, 255, 0.4) 270deg,
+                #fef08a 310deg,
+                #ffffff 330deg,
+                #e879f9 350deg,
+                transparent 360deg
+            );
+            animation: rotateBorderRay 2.8s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Inner body layer providing background & 3D bevel */
+        .hero-btn-main::after {
+            content: '';
+            position: absolute;
+            inset: 2.5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15.5px;
+            z-index: 1;
+            pointer-events: none;
+            box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.65);
+            transition: background 0.2s ease;
+        }
+
+        .hero-btn-main > * {
             position: relative;
-            cursor: pointer;
+            z-index: 2;
+        }
+
+        @keyframes rotateBorderRay {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .hero-btn-main .cta-icon {
@@ -629,34 +713,39 @@
             0%, 100% {
                 box-shadow: 
                     inset 0 2px 0 rgba(255, 255, 255, 0.95),
-                    inset 0 -3px 0 rgba(180, 83, 9, 0.7),
-                    0 6px 0 #92400e,
-                    0 9px 2px rgba(0, 0, 0, 0.4),
-                    0 14px 28px rgba(245, 158, 11, 0.4),
-                    0 0 30px rgba(255, 204, 0, 0.3);
+                    inset 0 -3px 0 rgba(40, 10, 80, 0.4),
+                    0 6px 0 #4c2882,
+                    0 9px 2px rgba(0, 0, 0, 0.35),
+                    0 14px 26px rgba(102, 126, 234, 0.45),
+                    0 0 28px rgba(118, 75, 162, 0.3);
             }
             50% {
                 box-shadow: 
                     inset 0 2px 0 rgba(255, 255, 255, 1),
-                    inset 0 -3px 0 rgba(180, 83, 9, 0.75),
-                    0 6px 0 #92400e,
-                    0 9px 2px rgba(0, 0, 0, 0.5),
-                    0 18px 38px rgba(245, 158, 11, 0.65),
-                    0 0 45px rgba(255, 204, 0, 0.55);
+                    inset 0 -3px 0 rgba(40, 10, 80, 0.5),
+                    0 6px 0 #4c2882,
+                    0 9px 2px rgba(0, 0, 0, 0.45),
+                    0 18px 40px rgba(102, 126, 234, 0.75),
+                    0 0 46px rgba(192, 132, 252, 0.65),
+                    0 0 24px rgba(254, 240, 138, 0.45);
             }
         }
 
         .hero-btn-main:hover {
             transform: translateY(-3px);
-            filter: brightness(1.05);
+            filter: brightness(1.08);
             box-shadow: 
                 inset 0 2px 0 rgba(255, 255, 255, 1),
-                inset 0 -3px 0 rgba(180, 83, 9, 0.75),
-                0 9px 0 #92400e,
-                0 12px 3px rgba(0, 0, 0, 0.45),
-                0 20px 42px rgba(245, 158, 11, 0.6),
-                0 0 50px rgba(255, 204, 0, 0.5);
-            color: #070318;
+                inset 0 -3px 0 rgba(40, 10, 80, 0.5),
+                0 9px 0 #4c2882,
+                0 12px 3px rgba(0, 0, 0, 0.4),
+                0 20px 38px rgba(102, 126, 234, 0.65),
+                0 0 46px rgba(118, 75, 162, 0.55);
+            color: #ffffff;
+        }
+
+        .hero-btn-main:hover::after {
+            background: linear-gradient(135deg, #7088fa 0%, #8354b5 100%);
         }
 
         .hero-btn-main:hover .cta-icon {
@@ -667,65 +756,65 @@
             transform: translateY(4px);
             box-shadow: 
                 inset 0 2px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(180, 83, 9, 0.5),
-                0 2px 0 #92400e,
-                0 4px 10px rgba(245, 158, 11, 0.4);
+                inset 0 -1px 0 rgba(40, 10, 80, 0.3),
+                0 2px 0 #4c2882,
+                0 4px 10px rgba(102, 126, 234, 0.35);
         }
 
-        /* ── Button 2: 3D Frosted Electric Indigo Quick Start Guide ── */
+        /* ── Button 2: 3D Crisp White Quick Start Guide Button ── */
         .hero-btn-ghost {
             width: 100%;
-            max-width: 270px;
+            max-width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 9px;
-            padding: 12px 20px;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            font-weight: 700;
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 1.0rem;
+            font-weight: 800;
             text-decoration: none;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.08) 100%);
-            color: #ffffff;
-            border: 1.5px solid rgba(255, 255, 255, 0.42);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            box-sizing: border-box;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #e2e8f0 100%);
+            color: #0f172a;
+            border: 1.5px solid rgba(255, 255, 255, 0.95);
             box-shadow: 
-                inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-                0 4px 0 rgba(12, 6, 38, 0.8),
-                0 8px 18px rgba(0, 0, 0, 0.35);
+                inset 0 1.5px 0 rgba(255, 255, 255, 1),
+                inset 0 -2px 0 rgba(148, 163, 184, 0.4),
+                0 4px 0 #94a3b8,
+                0 7px 2px rgba(0, 0, 0, 0.25),
+                0 10px 22px rgba(255, 255, 255, 0.25);
             transition: all 0.2s ease;
             white-space: nowrap;
         }
 
         .hero-btn-ghost:hover {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 100%);
-            border-color: rgba(255, 255, 255, 0.7);
+            background: linear-gradient(180deg, #ffffff 0%, #ffffff 60%, #f1f5f9 100%);
+            border-color: #ffffff;
             transform: translateY(-2px);
             box-shadow: 
-                inset 0 1.5px 0 rgba(255, 255, 255, 0.65),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-                0 6px 0 rgba(12, 6, 38, 0.85),
-                0 12px 24px rgba(0, 0, 0, 0.4);
-            color: #ffffff;
+                inset 0 1.5px 0 rgba(255, 255, 255, 1),
+                inset 0 -2px 0 rgba(148, 163, 184, 0.4),
+                0 6px 0 #94a3b8,
+                0 10px 24px rgba(255, 255, 255, 0.35);
+            color: #0f172a;
         }
 
         .hero-btn-ghost:active {
             transform: translateY(3px);
             box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 1px 0 rgba(12, 6, 38, 0.8),
-                0 4px 10px rgba(0, 0, 0, 0.25);
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 #94a3b8,
+                0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* ─── Divider Line under Open Chord Book ─── */
         .hero-buttons-divider {
             width: 100%;
-            max-width: 380px;
+            max-width: 440px;
             height: 2px;
             background: linear-gradient(90deg, transparent, rgba(255, 217, 61, 0.35) 25%, rgba(192, 132, 252, 0.6) 50%, rgba(255, 217, 61, 0.35) 75%, transparent);
-            margin: 20px auto;
+            margin: 18px auto;
             border-radius: 99px;
         }
 
@@ -734,9 +823,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            max-width: 360px;
+            max-width: 440px;
             margin: 0 auto;
         }
 
@@ -751,19 +840,58 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 13px 20px;
+            padding: 13px 18px;
             border-radius: 14px;
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             font-weight: 800;
             text-decoration: none;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.01em;
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             white-space: nowrap;
             width: 100%;
             cursor: pointer;
+            box-sizing: border-box;
         }
 
-        /* ── Button 3: 3D Guitar Fast Track (Forest/Emerald) ── */
+        /* ── Button 3: 3D All Beginner Lessons Button (Exact Modal Block 2 / Chorus Light Yellow) ── */
+        .btn-hero-all-lessons {
+            background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 45%, #fde68a 100%);
+            color: #92400e;
+            border: 1.5px solid #f59e0b;
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -2px 0 rgba(217, 119, 6, 0.3),
+                0 4px 0 #d97706,
+                0 7px 2px rgba(0, 0, 0, 0.25),
+                0 10px 22px rgba(245, 158, 11, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-hero-all-lessons:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(180deg, #ffffff 0%, #fef3c7 50%, #fde68a 100%);
+            border-color: #f59e0b;
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 1),
+                inset 0 -2px 0 rgba(217, 119, 6, 0.35),
+                0 6px 0 #d97706,
+                0 9px 2px rgba(0, 0, 0, 0.3),
+                0 14px 28px rgba(245, 158, 11, 0.35);
+            color: #78350f;
+        }
+
+        .btn-hero-all-lessons:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 #d97706,
+                0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ── Button 3b: 3D Guitar Fast Track (Forest/Emerald) ── */
         .btn-hero-guitar {
             background: linear-gradient(180deg, #22c55e 0%, #16a34a 55%, #15803d 100%);
             color: #ffffff;
@@ -845,7 +973,7 @@
         @media (max-width: 600px) and (orientation: portrait),
                (max-width: 480px) {
             .hero-title {
-                transform: translateY(-10px) !important;
+                transform: translateY(-4px) !important;
             }
 
             .hero-subtitle {
@@ -853,7 +981,7 @@
             }
 
             .hero-description {
-                margin-top: clamp(115px, calc(118vw - 278px), 220px) !important;
+                margin-top: 14px !important;
                 margin-bottom: 18px !important;
                 font-size: clamp(0.74rem, 3.3vw, 0.98rem) !important;
                 line-height: 1.35 !important;
@@ -867,47 +995,59 @@
 
             .hero-primary-buttons {
                 max-width: 340px;
+                width: 100%;
                 margin: 0 auto;
                 gap: 10px;
             }
 
             .hero-btn-main {
-                padding: 16px 20px;
-                font-size: 1.10rem;
-                letter-spacing: 0.03em;
-                border-radius: 16px;
+                padding: 15px 18px;
+                font-size: 1.05rem;
+                letter-spacing: 0.02em;
+                border-radius: 15px;
                 width: 100%;
+                max-width: 100%;
+            }
+
+            .hero-btn-main::after {
+                border-radius: 13px;
             }
 
             .hero-btn-main .cta-icon {
-                font-size: 1.35rem;
+                font-size: 1.3rem;
             }
 
             .hero-btn-ghost {
-                max-width: 240px;
-                padding: 10px 16px;
-                font-size: 0.88rem;
-                border-radius: 12px;
+                width: 100%;
+                max-width: 100%;
+                padding: 12px 16px;
+                font-size: 0.90rem;
+                border-radius: 14px;
             }
 
             .hero-buttons-divider {
-                max-width: 260px;
+                max-width: 280px;
                 margin: 14px auto;
             }
 
             .hero-fasttrack-group {
-                max-width: 300px;
+                max-width: 340px;
+                width: 100%;
                 gap: 8px;
             }
 
             .hero-fasttrack-buttons {
                 gap: 8px;
+                width: 100%;
             }
 
             .hero-btn-fasttrack {
-                padding: 11px 16px;
-                font-size: 0.92rem;
-                border-radius: 12px;
+                width: 100%;
+                max-width: 100%;
+                padding: 12px 10px;
+                font-size: clamp(0.72rem, 3.2vw, 0.86rem);
+                border-radius: 14px;
+                letter-spacing: 0;
             }
 
             .hero-fasttrack-label {
@@ -1422,10 +1562,12 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <div class="hero-logo-container">
-                <img src="images/LogoSmall1050x1050.jpg" alt="PopSongChordBook Logo" class="hero-logo-img">
+            <div class="hero-visual-banner">
+                <div class="hero-logo-container">
+                    <img src="images/LogoSmall1050x1050.jpg" alt="PopSongChordBook Logo" class="hero-logo-img">
+                </div>
+                <h1 class="hero-title">Pop Song Chord Book</h1>
             </div>
-            <h1 class="hero-title">Pop Song Chord Book</h1>
             <p class="hero-description" id="heroTaglineRotator">
                 <span class="hero-tagline active">Never miss a chord again!</span>
                 <span class="hero-tagline">Never get lost in a song again !</span>
@@ -1447,17 +1589,12 @@
             <!-- Divider Line -->
             <div class="hero-buttons-divider"></div>
 
-            <!-- Fast Track Buttons Group -->
+            <!-- Beginner Lessons Main Button -->
             <div class="hero-fasttrack-group">
-                <div class="hero-fasttrack-buttons">
-                    <a href="guitar_lessons.html" class="hero-btn-fasttrack btn-hero-guitar">
-                        🎸 Guitar Fast Track
-                    </a>
-                    <a href="lessons.html" class="hero-btn-fasttrack btn-hero-piano">
-                        🎹 Keyboard / Piano Fast Track
-                    </a>
-                </div>
-                <span class="hero-fasttrack-label">FREE Beginner Lessons for Guitar / Piano / Keyboard</span>
+                <a href="beginner-lessons.html" class="hero-btn-fasttrack btn-hero-all-lessons">
+                    <span style="font-size: 1.05em; margin-right: 3px;">🎸🎹</span> <span>FREE Beginner Lessons (Guitar &amp; Piano)</span>
+                </a>
+                <span class="hero-fasttrack-label">Step-by-Step Pop Song Lessons 1 to 9 &bull; Free &amp; Interactive</span>
             </div>
             
             <div class="hero-features-row">
@@ -1762,13 +1899,19 @@
                             <li>🎻 Lesson 8 — Chord Patterns &amp; Arpeggios</li>
                             <li>🔄 Lesson 9 — Chord Inversions</li>
                         </ul>
-                        <a href="lessons.html" class="btn-fast-track btn-piano-track">
+                        <a href="keyboard&piano-lessons.html" class="btn-fast-track btn-piano-track">
                             🎹 Keyboard / Piano Fast Track &rarr;
                         </a>
                     </div>
                 </div>
 
             </div><!-- end .lessons-cards-grid -->
+
+            <div style="text-align: center; margin-top: 24px;">
+                <a href="beginner-lessons.html" class="hero-btn-ghost" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; border-radius: 12px; padding: 12px 24px; text-decoration: none;">
+                    <span>📚</span> <span>Bekijk het Complete Lessen- &amp; Liedjesoverzicht (Gitaar &amp; Keyboard) &rarr;</span>
+                </a>
+            </div>
 
             <p class="lessons-register-note">
                 🎵 Browse all lessons freely — a free account is only required when you want to open a practice song.

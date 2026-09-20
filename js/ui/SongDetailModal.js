@@ -5758,9 +5758,9 @@ class SongDetailModal {
                 } else if (typeof lessonInfo === 'string') {
                     window.openDashboardPanel(lessonInfo);
                 } else if (lessonInfo && lessonInfo !== true) {
-                    window.openDashboardPanel(`lessons.html#lesson-${lessonInfo}`);
+                    window.openDashboardPanel(`keyboard&piano-lessons.html#lesson-${lessonInfo}`);
                 } else {
-                    window.openDashboardPanel('lessons.html');
+                    window.openDashboardPanel('keyboard&piano-lessons.html');
                 }
             }
         }
