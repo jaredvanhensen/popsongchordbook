@@ -36,8 +36,17 @@ function fetchSongs() {
     if (!token) {
         console.log('No token provided. Attempting to fetch songs via Firebase CLI...');
         try {
-            const output = execSync('npx firebase database:get /publicSongs --instance popsongchordbook-jared-default-rtdb', { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
-            const json = JSON.parse(output);
+            const output = execSync('firebase database:get /publicSongs --instance popsongchordbook-jared-default-rtdb --non-interactive', { 
+                encoding: 'utf8', 
+                maxBuffer: 50 * 1024 * 1024,
+                shell: true 
+            });
+            const firstBrace = output.search(/[{\[]/);
+            if (firstBrace === -1) {
+                throw new Error("No JSON object or array found in output.");
+            }
+            const cleanOutput = output.substring(firstBrace).trim();
+            const json = JSON.parse(cleanOutput);
             processJSON(json);
         } catch (err) {
             console.error('Failed to fetch via Firebase CLI:', err.message);

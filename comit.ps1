@@ -98,7 +98,16 @@ if (Test-Path $appJsFile) {
     # Update console.log (e.g. console.log("Pop Song Chord Book - $12.544)"))
     $appJsContent = $appJsContent -replace 'Pop Song Chord Book - [\$\d\.]+', ("Pop Song Chord Book - $newVersion")
     Set-Content $appJsFile $appJsContent -Encoding UTF8
-}
+# 6b. Run static pages pre-renderer and sitemap generator
+Write-Host "--- SYNCING DATABASE & GENERATING SEO PAGES ---" -ForegroundColor Cyan
+Write-Host "Syncing latest songs from database..."
+node scripts/sync_songs.js
+
+Write-Host "Running static pages pre-renderer..."
+node scripts/generate_static_pages.js
+
+Write-Host "Generating sitemap..."
+node scripts/generate_sitemap.js
 
 
 # 7. Git Operations
