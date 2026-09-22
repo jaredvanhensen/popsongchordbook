@@ -309,6 +309,24 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.372</span>
+                    <span class="version-date">September 22, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Beginner Lessons Song Link &amp; Routing Fix:</strong>
+                            <ul>
+                                <li><strong>Direct Song Navigation from Lessons:</strong> Fixed song pill links on <code>beginner-lessons.html</code> which previously linked to <code>/index.html</code> (causing infinite redirect errors). Songs now link directly to <code>/songlist.html?artist=...&amp;title=...</code>.</li>
+                                <li><strong>Automatic Song Open via Query Parameters:</strong> Enhanced <code>js/app.js</code> to recognize <code>artist</code> and <code>title</code> query parameters on load and automatically search, match, and open the interactive song modal and scrolling chords.</li>
+                                <li><strong>Seamless In-App &amp; Standalone Experience:</strong> Added click event delegation on <code>beginner-lessons.html</code> to open songs instantly when embedded inside the dashboard iframe without reloading, and fall back to full standalone songbook navigation with URL parameters.</li>
+                                <li><strong>Landing Page Fallback Protection:</strong> Added URL parameter safety forwarding on <code>index.html</code> to catch any incoming links with song query parameters and route them immediately to the player.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.371</span>
                     <span class="version-date">September 20, 2026</span>
                 </div>

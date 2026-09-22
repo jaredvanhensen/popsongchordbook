@@ -320,25 +320,60 @@ class App {
 
         this.loadAndRender();
         
-        // Handle direct song navigation via URL (back from Trainer)
+        // Handle direct song navigation via URL (back from Trainer, lessons, or shared links)
         const urlParams = new URLSearchParams(window.location.search);
         const urlSongId = (urlParams.get('songId') || urlParams.get('id'))?.trim();
-        if (urlSongId) {
-            console.log('App: Auto-navigating to song ID:', urlSongId);
+        const urlArtist = urlParams.get('artist')?.trim();
+        const urlTitle = urlParams.get('title')?.trim();
+
+        if (urlSongId || urlTitle) {
+            console.log('App: Auto-navigating to song:', urlSongId || `${urlArtist} - ${urlTitle}`);
             let attempts = 0;
             const checkAndNavigate = () => {
-                const song = this.songManager.getSongById(urlSongId);
+                let song = null;
+                if (urlSongId) {
+                    song = this.songManager.getSongById(urlSongId);
+                } else {
+                    const songs = this.songManager.songs;
+                    const normalize = s => (s || '').toLowerCase().replace(/['"`]/g, '').replace(/\s+/g, ' ').trim();
+                    const normArtist = normalize(urlArtist);
+                    const normTitle = normalize(urlTitle);
+
+                    // 1. Exact normalized match
+                    if (normArtist && normTitle) {
+                        song = songs.find(s => 
+                            normalize(s.artist) === normArtist && 
+                            normalize(s.title) === normTitle
+                        );
+                    }
+
+                    // 2. Inclusion match
+                    if (!song && normArtist && normTitle) {
+                        song = songs.find(s => 
+                            (normalize(s.artist).includes(normArtist) || normArtist.includes(normalize(s.artist))) &&
+                            (normalize(s.title).includes(normTitle) || normTitle.includes(normalize(s.title)))
+                        );
+                    }
+
+                    // 3. Match title only
+                    if (!song && normTitle) {
+                        song = songs.find(s => normalize(s.title) === normTitle || normalize(s.title).includes(normTitle));
+                    }
+                }
+
                 if (song) {
-                    console.log('App: Song found, opening modal');
-                    this.navigateToSong(urlSongId);
+                    console.log('App: Song found, opening modal:', song.title);
+                    this.navigateToSong(song.id);
                     // Clear the parameter from URL to prevent reopening on manual refresh
                     window.history.replaceState({}, '', window.location.pathname);
                 } else if (attempts < 20) {
                     attempts++;
                     setTimeout(checkAndNavigate, 200);
-                } else {
+                } else if (urlSongId) {
                     console.warn('App: Could not find song locally, attempting to fetch from teacher if assigned:', urlSongId);
                     this.fetchSongFromTeacherAndNavigate(urlSongId);
+                } else {
+                    console.warn('App: Could not find song locally for artist/title:', urlArtist, urlTitle);
                 }
             };
             checkAndNavigate();

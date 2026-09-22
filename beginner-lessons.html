@@ -231,8 +231,8 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
+            justify-content: flex-start;
+            gap: 36px;
         }
 
         .nav-logo {
@@ -610,6 +610,7 @@
         /* Lessons Section */
         .lessons-section {
             margin-bottom: 45px;
+            scroll-margin-top: 85px;
         }
 
         .section-headline {
@@ -1044,9 +1045,8 @@
                     <a href="/guitar_lessons.html" class="nav-link" id="nav-guitar">Guitar Lessons</a>
                     <a href="/keyboard&piano-lessons.html" class="nav-link" id="nav-keyboard">Keyboard Lessons</a>
                     <a href="/ChordTrainer.html" class="nav-link" id="nav-trainer">Chord Trainer</a>
-                    <a href="/band.html" class="nav-link" id="nav-band">Band Sync</a>
+                    <a href="/band.html" class="nav-link" id="nav-band">Band Practice</a>
                 </div>
-                <a href="/index.html" class="btn-nav-cta" id="nav-cta-btn">Open Pop Song Chord Book →</a>
             </div>
         </div>
     </nav>
@@ -1067,14 +1067,14 @@
                         <span class="btn-main-title" id="txt-hero-open">Open Pop Song Chord Book</span>
                     </span>
                 </a>
-                <a href="#lessons-catalog" class="btn-hero-guitar" onclick="switchInstrument('guitar')">
+                <a href="#section-guitar" class="btn-hero-guitar" onclick="switchInstrument('guitar', true)">
                     <span class="btn-icon">🎸</span>
                     <span class="btn-text-block">
                         <span class="btn-main-title" id="txt-hero-guitar-main">Explore Guitar Lessons</span>
                         <span class="btn-range-badge" id="txt-hero-guitar-sub">(1 to 9)</span>
                     </span>
                 </a>
-                <a href="#lessons-catalog" class="btn-hero-piano" onclick="switchInstrument('piano')">
+                <a href="#section-piano" class="btn-hero-piano" onclick="switchInstrument('piano', true)">
                     <span class="btn-icon">🎹</span>
                     <span class="btn-text-block">
                         <span class="btn-main-title" id="txt-hero-piano-main">Explore Keyboard Lessons</span>
@@ -1084,20 +1084,8 @@
             </div>
         </header>
 
-        <!-- Instrument Switcher Toggle -->
-        <div class="instrument-selector-wrap" id="lessons-catalog">
-            <div class="instrument-toggle">
-                <button type="button" class="toggle-btn active-guitar" id="btnTabGuitar" onclick="switchInstrument('guitar')">
-                    <span>🎸</span> <span id="txt-tab-guitar">Guitar Lessons (1 to 9)</span>
-                </button>
-                <button type="button" class="toggle-btn" id="btnTabPiano" onclick="switchInstrument('piano')">
-                    <span>🎹</span> <span id="txt-tab-piano">Keyboard / Piano Lessons (1 to 9)</span>
-                </button>
-            </div>
-        </div>
-
         <!-- Visual Showcase (Scrolling Chords, Song Map, Detail Player) -->
-        <section class="showcase-card">
+        <section class="showcase-card" id="lessons-catalog">
             <div class="showcase-header">
                 <h2 id="showcase-heading">What Makes PopSongChordBook Unique for Beginners?</h2>
                 <p id="showcase-desc">
@@ -1173,28 +1161,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g2-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Toto&title=Hold%20The%20Line" class="song-item-pill">
+                            <a href="/songlist.html?artist=Toto&title=Hold%20The%20Line" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Hold The Line</span>
                                     <span class="song-artist">Toto</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Green%20Day&title=When%20I%20Come%20Around" class="song-item-pill">
+                            <a href="/songlist.html?artist=Green%20Day&title=When%20I%20Come%20Around" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">When I Come Around</span>
                                     <span class="song-artist">Green Day</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Survivor&title=Eye%20of%20the%20Tiger" class="song-item-pill">
+                            <a href="/songlist.html?artist=Survivor&title=Eye%20of%20the%20Tiger" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Eye of the Tiger</span>
                                     <span class="song-artist">Survivor</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Bryan%20Adams&title=Summer%20of%20'69" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bryan%20Adams&title=Summer%20of%20'69" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Summer of '69</span>
                                     <span class="song-artist">Bryan Adams</span>
@@ -1218,28 +1206,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g3-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Ed%20Sheeran&title=Perfect" class="song-item-pill">
+                            <a href="/songlist.html?artist=Ed%20Sheeran&title=Perfect" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Perfect</span>
                                     <span class="song-artist">Ed Sheeran (Capo 1)</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Tracy%20Chapman&title=Fast%20Car" class="song-item-pill">
+                            <a href="/songlist.html?artist=Tracy%20Chapman&title=Fast%20Car" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Fast Car</span>
                                     <span class="song-artist">Tracy Chapman (Capo 2)</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Pink&title=What%20About%20Us" class="song-item-pill">
+                            <a href="/songlist.html?artist=Pink&title=What%20About%20Us" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">What About Us</span>
                                     <span class="song-artist">P!nk</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Dolly%20Parton&title=Jolene" class="song-item-pill">
+                            <a href="/songlist.html?artist=Dolly%20Parton&title=Jolene" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Jolene</span>
                                     <span class="song-artist">Dolly Parton (Capo 4)</span>
@@ -1263,28 +1251,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g4-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=The%20Cranberries&title=Zombie" class="song-item-pill">
+                            <a href="/songlist.html?artist=The%20Cranberries&title=Zombie" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Zombie</span>
                                     <span class="song-artist">The Cranberries</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Eagles&title=Take%20It%20Easy" class="song-item-pill">
+                            <a href="/songlist.html?artist=Eagles&title=Take%20It%20Easy" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Take It Easy</span>
                                     <span class="song-artist">Eagles</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Steve%20Miller%20Band&title=The%20Joker" class="song-item-pill">
+                            <a href="/songlist.html?artist=Steve%20Miller%20Band&title=The%20Joker" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">The Joker</span>
                                     <span class="song-artist">Steve Miller Band</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Coldplay&title=Viva%20La%20Vida" class="song-item-pill">
+                            <a href="/songlist.html?artist=Coldplay&title=Viva%20La%20Vida" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Viva La Vida</span>
                                     <span class="song-artist">Coldplay</span>
@@ -1308,42 +1296,42 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g5-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=The%20Troggs&title=Wild%20Thing" class="song-item-pill">
+                            <a href="/songlist.html?artist=The%20Troggs&title=Wild%20Thing" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Wild Thing</span>
                                     <span class="song-artist">The Troggs</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Bob%20Marley&title=Three%20Little%20Birds" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bob%20Marley&title=Three%20Little%20Birds" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Three Little Birds</span>
                                     <span class="song-artist">Bob Marley</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Creedence%20Clearwater%20Revival&title=Bad%20Moon%20Rising" class="song-item-pill">
+                            <a href="/songlist.html?artist=Creedence%20Clearwater%20Revival&title=Bad%20Moon%20Rising" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Bad Moon Rising</span>
                                     <span class="song-artist">CCR</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Lynyrd%20Skynyrd&title=Sweet%20Home%20Alabama" class="song-item-pill">
+                            <a href="/songlist.html?artist=Lynyrd%20Skynyrd&title=Sweet%20Home%20Alabama" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Sweet Home Alabama</span>
                                     <span class="song-artist">Lynyrd Skynyrd</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Oasis&title=Wonderwall" class="song-item-pill">
+                            <a href="/songlist.html?artist=Oasis&title=Wonderwall" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Wonderwall</span>
                                     <span class="song-artist">Oasis</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Pink%20Floyd&title=Wish%20You%20Were%20Here" class="song-item-pill">
+                            <a href="/songlist.html?artist=Pink%20Floyd&title=Wish%20You%20Were%20Here" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Wish You Were Here</span>
                                     <span class="song-artist">Pink Floyd</span>
@@ -1385,21 +1373,21 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g7-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=The%20Animals&title=House%20of%20the%20Rising%20Sun" class="song-item-pill">
+                            <a href="/songlist.html?artist=The%20Animals&title=House%20of%20the%20Rising%20Sun" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">House of the Rising Sun</span>
                                     <span class="song-artist">The Animals</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=The%20Beatles&title=Let%20It%20Be" class="song-item-pill">
+                            <a href="/songlist.html?artist=The%20Beatles&title=Let%20It%20Be" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Let It Be</span>
                                     <span class="song-artist">The Beatles</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Bruce%20Springsteen&title=Human%20Touch" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bruce%20Springsteen&title=Human%20Touch" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Human Touch</span>
                                     <span class="song-artist">Bruce Springsteen</span>
@@ -1423,14 +1411,14 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g8-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Fleetwood%20Mac&title=Go%20Your%20Own%20Way" class="song-item-pill">
+                            <a href="/songlist.html?artist=Fleetwood%20Mac&title=Go%20Your%20Own%20Way" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Go Your Own Way</span>
                                     <span class="song-artist">Fleetwood Mac</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=U2&title=With%20Or%20Without%20You" class="song-item-pill">
+                            <a href="/songlist.html?artist=U2&title=With%20Or%20Without%20You" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">With Or Without You</span>
                                     <span class="song-artist">U2</span>
@@ -1454,7 +1442,7 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="g9-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=U2&title=Desire" class="song-item-pill">
+                            <a href="/songlist.html?artist=U2&title=Desire" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Desire</span>
                                     <span class="song-artist">U2 (Eb Tuning)</span>
@@ -1494,42 +1482,42 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p1-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Harry%20Styles&title=Sign%20Of%20The%20Times" class="song-item-pill">
+                            <a href="/songlist.html?artist=Harry%20Styles&title=Sign%20Of%20The%20Times" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Sign Of The Times</span>
                                     <span class="song-artist">Harry Styles</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Taylor%20Swift&title=All%20Too%20Well" class="song-item-pill">
+                            <a href="/songlist.html?artist=Taylor%20Swift&title=All%20Too%20Well" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">All Too Well</span>
                                     <span class="song-artist">Taylor Swift</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=The%20Beatles&title=Let%20It%20Be" class="song-item-pill">
+                            <a href="/songlist.html?artist=The%20Beatles&title=Let%20It%20Be" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Let It Be</span>
                                     <span class="song-artist">The Beatles</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Alphaville&title=Forever%20Young" class="song-item-pill">
+                            <a href="/songlist.html?artist=Alphaville&title=Forever%20Young" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Forever Young</span>
                                     <span class="song-artist">Alphaville</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Ed%20Sheeran&title=Happier" class="song-item-pill">
+                            <a href="/songlist.html?artist=Ed%20Sheeran&title=Happier" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Happier</span>
                                     <span class="song-artist">Ed Sheeran</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Shawn%20Mendes&title=Senorita" class="song-item-pill">
+                            <a href="/songlist.html?artist=Shawn%20Mendes&title=Senorita" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Señorita</span>
                                     <span class="song-artist">Shawn Mendes & Camila</span>
@@ -1553,28 +1541,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p2-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Creedence%20Clearwater%20Revival&title=Bad%20Moon%20Rising" class="song-item-pill">
+                            <a href="/songlist.html?artist=Creedence%20Clearwater%20Revival&title=Bad%20Moon%20Rising" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Bad Moon Rising</span>
                                     <span class="song-artist">CCR</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Queen&title=Hammer%20To%20Fall" class="song-item-pill">
+                            <a href="/songlist.html?artist=Queen&title=Hammer%20To%20Fall" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Hammer To Fall</span>
                                     <span class="song-artist">Queen</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Bob%20Marley&title=Three%20Little%20Birds" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bob%20Marley&title=Three%20Little%20Birds" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Three Little Birds</span>
                                     <span class="song-artist">Bob Marley</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Snow%20Patrol&title=Chasing%20Cars" class="song-item-pill">
+                            <a href="/songlist.html?artist=Snow%20Patrol&title=Chasing%20Cars" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Chasing Cars</span>
                                     <span class="song-artist">Snow Patrol</span>
@@ -1598,14 +1586,14 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p3-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=John%20Legend&title=All%20of%20Me" class="song-item-pill">
+                            <a href="/songlist.html?artist=John%20Legend&title=All%20of%20Me" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">All Of Me</span>
                                     <span class="song-artist">John Legend</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=KC%20%26%20The%20Sunshine%20Band&title=Give%20It%20Up" class="song-item-pill">
+                            <a href="/songlist.html?artist=KC%20%26%20The%20Sunshine%20Band&title=Give%20It%20Up" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Give It Up</span>
                                     <span class="song-artist">KC & The Sunshine Band</span>
@@ -1629,28 +1617,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p4-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Bruno%20Mars&title=Just%20The%20Way%20You%20Are" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bruno%20Mars&title=Just%20The%20Way%20You%20Are" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Just The Way You Are</span>
                                     <span class="song-artist">Bruno Mars</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Phil%20Collins&title=In%20The%20Air%20Tonight" class="song-item-pill">
+                            <a href="/songlist.html?artist=Phil%20Collins&title=In%20The%20Air%20Tonight" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">In The Air Tonight</span>
                                     <span class="song-artist">Phil Collins</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Jessie%20J&title=Price%20Tag" class="song-item-pill">
+                            <a href="/songlist.html?artist=Jessie%20J&title=Price%20Tag" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Price Tag</span>
                                     <span class="song-artist">Jessie J</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Dire%20Straits&title=Walk%20of%20Life" class="song-item-pill">
+                            <a href="/songlist.html?artist=Dire%20Straits&title=Walk%20of%20Life" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Walk of Life</span>
                                     <span class="song-artist">Dire Straits</span>
@@ -1674,21 +1662,21 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p5-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Foreigner&title=I%20Want%20To%20Know%20What%20Love%20Is" class="song-item-pill">
+                            <a href="/songlist.html?artist=Foreigner&title=I%20Want%20To%20Know%20What%20Love%20Is" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">I Want To Know What Love Is</span>
                                     <span class="song-artist">Foreigner</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Eagles&title=Hotel%20California" class="song-item-pill">
+                            <a href="/songlist.html?artist=Eagles&title=Hotel%20California" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Hotel California</span>
                                     <span class="song-artist">Eagles</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Bruno%20Mars&title=The%20Lazy%20Song" class="song-item-pill">
+                            <a href="/songlist.html?artist=Bruno%20Mars&title=The%20Lazy%20Song" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">The Lazy Song</span>
                                     <span class="song-artist">Bruno Mars</span>
@@ -1712,28 +1700,28 @@
                     <div class="lesson-songs-wrap">
                         <div class="lesson-songs-title" id="p6-songs-title">🎵 Iconic classics in this lesson:</div>
                         <div class="songs-grid">
-                            <a href="/index.html?artist=Adele&title=Hello" class="song-item-pill">
+                            <a href="/songlist.html?artist=Adele&title=Hello" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Hello</span>
                                     <span class="song-artist">Adele</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Queen&title=We%20Are%20The%20Champions" class="song-item-pill">
+                            <a href="/songlist.html?artist=Queen&title=We%20Are%20The%20Champions" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">We Are The Champions</span>
                                     <span class="song-artist">Queen</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Lady%20Gaga&title=Paparazzi" class="song-item-pill">
+                            <a href="/songlist.html?artist=Lady%20Gaga&title=Paparazzi" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Paparazzi</span>
                                     <span class="song-artist">Lady Gaga</span>
                                 </div>
                                 <span class="song-play-cue">▶ <span class="txt-play">Play</span></span>
                             </a>
-                            <a href="/index.html?artist=Coldplay&title=Talk" class="song-item-pill">
+                            <a href="/songlist.html?artist=Coldplay&title=Talk" class="song-item-pill">
                                 <div class="song-item-info">
                                     <span class="song-item-title">Talk</span>
                                     <span class="song-artist">Coldplay</span>
@@ -1852,7 +1840,7 @@
                 navGuitar: "Guitar Lessons",
                 navKeyboard: "Keyboard Lessons",
                 navTrainer: "Chord Trainer",
-                navBand: "Band Sync",
+                navBand: "Band Practice",
                 navCta: "Open Pop Song Chord Book →",
                 heroBadge: "🎓 Free Interactive Method",
                 heroTitle: "Free Beginner Lessons for Guitar & Keyboard",
@@ -1994,7 +1982,7 @@
                 navGuitar: "Gitaarlessen",
                 navKeyboard: "Keyboardlessen",
                 navTrainer: "Chord Trainer",
-                navBand: "Band Sync",
+                navBand: "Band Practice",
                 navCta: "Open Pop Song Chord Book →",
                 heroBadge: "🎓 Gratis Interactieve Methode",
                 heroTitle: "Gratis Beginnerslessen voor Gitaar & Keyboard",
@@ -2324,22 +2312,63 @@
             applyLanguage();
         }
 
-        function switchInstrument(instrument) {
+        function switchInstrument(instrument, shouldScroll = false) {
             const guitarSec = document.getElementById('section-guitar');
             const pianoSec = document.getElementById('section-piano');
             const btnGuitar = document.getElementById('btnTabGuitar');
             const btnPiano = document.getElementById('btnTabPiano');
 
+            const targetSec = (instrument === 'guitar') ? guitarSec : pianoSec;
+
             if (instrument === 'guitar') {
-                guitarSec.style.display = 'block';
-                pianoSec.style.display = 'none';
-                btnGuitar.className = 'toggle-btn active-guitar';
-                btnPiano.className = 'toggle-btn';
+                if (guitarSec) guitarSec.style.display = 'block';
+                if (pianoSec) pianoSec.style.display = 'none';
+                if (btnGuitar) btnGuitar.className = 'toggle-btn active-guitar';
+                if (btnPiano) btnPiano.className = 'toggle-btn';
             } else {
-                guitarSec.style.display = 'none';
-                pianoSec.style.display = 'block';
-                btnGuitar.className = 'toggle-btn';
-                btnPiano.className = 'toggle-btn active-piano';
+                if (guitarSec) guitarSec.style.display = 'none';
+                if (pianoSec) pianoSec.style.display = 'block';
+                if (btnGuitar) btnGuitar.className = 'toggle-btn';
+                if (btnPiano) btnPiano.className = 'toggle-btn active-piano';
+            }
+
+            if (shouldScroll && targetSec) {
+                targetSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function openSongFromLessons(event, artist, title) {
+            if (window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                if (event) event.preventDefault();
+                const songs = window.parent.appInstance.songManager.songs;
+                const normalize = s => (s || '').toLowerCase().replace(/['"`]/g, '').replace(/\s+/g, ' ').trim();
+                const normArtist = normalize(artist);
+                const normTitle = normalize(title);
+
+                let match = songs.find(s => 
+                    normalize(s.artist) === normArtist && 
+                    normalize(s.title) === normTitle
+                );
+
+                if (!match) {
+                    match = songs.find(s => 
+                        (normalize(s.artist).includes(normArtist) || normArtist.includes(normalize(s.artist))) &&
+                        (normalize(s.title).includes(normTitle) || normTitle.includes(normalize(s.title)))
+                    );
+                }
+
+                if (!match) {
+                    match = songs.find(s => normalize(s.title) === normTitle || normalize(s.title).includes(normTitle));
+                }
+
+                if (match) {
+                    if (typeof window.parent.closeDashboardPanel === 'function') {
+                        window.parent.closeDashboardPanel();
+                    }
+                    window.parent.appInstance.navigateToSong(match.id);
+                } else {
+                    window.location.href = `/songlist.html?artist=${encodeURIComponent(artist)}&title=${encodeURIComponent(title)}&ref=beginner_lessons`;
+                }
             }
         }
 
@@ -2353,6 +2382,23 @@
             } else {
                 switchInstrument('guitar');
             }
+
+            // Delegated click handling for embedded iframe mode
+            document.addEventListener('click', (e) => {
+                const pill = e.target.closest('.song-item-pill');
+                if (pill && window.parent && window.parent.appInstance && window.parent.appInstance.songManager) {
+                    try {
+                        const url = new URL(pill.href, window.location.origin);
+                        const artist = url.searchParams.get('artist');
+                        const title = url.searchParams.get('title');
+                        if (artist && title) {
+                            openSongFromLessons(e, artist, title);
+                        }
+                    } catch (err) {
+                        console.error('Error parsing song link:', err);
+                    }
+                }
+            });
         });
     </script>
 </body>
