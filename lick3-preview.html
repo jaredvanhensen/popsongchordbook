@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lick No. 3 - Visual Virtual Keyboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            margin: 0;
+        }
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 760px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        h1 {
+            margin: 0 0 8px 0;
+            color: #f1f5f9;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .keyboard-wrap {
+            background: #090d16;
+            padding: 20px 10px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge-red {
+            width: 14px;
+            height: 14px;
+            background: #ef4444;
+            border-radius: 3px;
+        }
+        .steps {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .step-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .step-box h4 {
+            margin: 0 0 6px 0;
+            color: #38bdf8;
+            font-size: 0.9rem;
+        }
+        .step-box p {
+            margin: 0;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+        .step-notes {
+            color: #f87171;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎹 LICK no. 3 — Visual Virtual Keyboard</h1>
+        <div class="subtitle">Key of C Major • All played notes highlighted in <strong>RED</strong></div>
+
+        <div class="keyboard-wrap">
+            <svg viewBox="0 0 530 100" xmlns="http://www.w3.org/2000/svg" style="width: 100%; min-width: 500px; display: block; margin: 0 auto;">
+                <!-- OCTAVE 3 -->
+                <!-- C3 (LH RED) -->
+                <rect x="0" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="12" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">LH 5</text>
+                <text x="12" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">C</text>
+
+                <!-- D3 -->
+                <rect x="24" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="36" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">D</text>
+
+                <!-- E3 -->
+                <rect x="48" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="60" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">E</text>
+
+                <!-- F3 -->
+                <rect x="72" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="84" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">F</text>
+
+                <!-- G3 -->
+                <rect x="96" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="108" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">G</text>
+
+                <!-- A3 -->
+                <rect x="120" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="132" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">A</text>
+
+                <!-- B3 -->
+                <rect x="144" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="156" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">B</text>
+
+                <!-- OCTAVE 4 -->
+                <!-- C4 (RH RED: End of Run) -->
+                <rect x="168" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="180" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 1</text>
+                <text x="180" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">C</text>
+
+                <!-- D4 (RH RED: Run Note) -->
+                <rect x="192" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="204" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 2</text>
+                <text x="204" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">D</text>
+
+                <!-- E4 (RH RED: Chord & Run) -->
+                <rect x="216" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="228" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 3</text>
+                <text x="228" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">E</text>
+
+                <!-- F4 (RH RED: Run Note) -->
+                <rect x="240" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="252" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 4</text>
+                <text x="252" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">F</text>
+
+                <!-- G4 (RH RED: Chord & Dyad) -->
+                <rect x="264" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="276" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 5/1</text>
+                <text x="276" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">G</text>
+
+                <!-- A4 -->
+                <rect x="288" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="300" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">A</text>
+
+                <!-- B4 -->
+                <rect x="312" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="324" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">B</text>
+
+                <!-- OCTAVE 5 -->
+                <!-- C5 (RH RED: Chord & Dyad) -->
+                <rect x="336" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="348" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 1/5</text>
+                <text x="348" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">C</text>
+
+                <!-- D5 (RH RED: Lick Note) -->
+                <rect x="360" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="372" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 2</text>
+                <text x="372" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">D</text>
+
+                <!-- E5 (RH RED: Dyad) -->
+                <rect x="384" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="396" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 3</text>
+                <text x="396" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">E</text>
+
+                <!-- F5 -->
+                <rect x="408" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="420" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">F</text>
+
+                <!-- G5 (RH RED: Peak Note) -->
+                <rect x="432" y="0" width="24" height="100" rx="2.5" fill="#ef4444" stroke="#dc2626" stroke-width="1.5" />
+                <text x="444" y="70" font-family="Inter,sans-serif" font-size="8.5" fill="#ffffff" font-weight="800" text-anchor="middle">RH 5</text>
+                <text x="444" y="90" font-family="Inter,sans-serif" font-size="10" fill="#ffffff" font-weight="900" text-anchor="middle">G</text>
+
+                <!-- A5 -->
+                <rect x="456" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="468" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">A</text>
+
+                <!-- B5 -->
+                <rect x="480" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="492" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">B</text>
+
+                <!-- C6 -->
+                <rect x="504" y="0" width="24" height="100" rx="2.5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                <text x="516" y="90" font-family="Inter,sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">C</text>
+
+                <!-- Black Keys -->
+                <rect x="16" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="40" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="88" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="112" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="136" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+
+                <rect x="184" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="208" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="256" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="280" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="304" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+
+                <rect x="352" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="376" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="424" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="448" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+                <rect x="472" y="0" width="14" height="58" rx="2" fill="#0f172a" />
+            </svg>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="badge-red"></span>
+                <span><strong>Red Keys</strong> = Played in this Lick (LH C3 &amp; RH Notes)</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #94a3b8;">⚪</span>
+                <span><strong>White / Black Keys</strong> = Not played</span>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="step-box">
+                <h4>Beat 1 (Chord)</h4>
+                <p>LH: <span class="step-notes">C3</span> (held)<br>RH: <span class="step-notes">E4 – G4 – C5</span><br>Fingers: 1 – 2 – 5</p>
+            </div>
+            <div class="step-box">
+                <h4>Beat 2 (Chord)</h4>
+                <p>LH: <span class="step-notes">C3</span> (held)<br>RH: <span class="step-notes">E4 – G4 – C5</span><br>Fingers: 1 – 2 – 5</p>
+            </div>
+            <div class="step-box">
+                <h4>Beat 3 (Lick)</h4>
+                <p>1. <span class="step-notes">[E5 + G5]</span> (3+5)<br>2. <span class="step-notes">D5</span> (2)<br>3. <span class="step-notes">C5</span> (1)<br>4. <span class="step-notes">[G4 + C5]</span> (1+5)</p>
+            </div>
+            <div class="step-box">
+                <h4>Beat 4 (Run)</h4>
+                <p>Descending 16ths:<br><span class="step-notes">F4 ➔ E4 ➔ D4 ➔ C4</span><br>Fingers: 4 ➔ 3 ➔ 2 ➔ 1</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
