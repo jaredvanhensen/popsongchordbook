@@ -309,14 +309,55 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.380</span>
+                    <span class="version-date">September 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Scrolling Chord Timeline — Screen Wake Lock API:</strong>
+                            <ul>
+                                <li><strong>Keep Screen Awake During Playback:</strong> Integrated the Screen Wake Lock API (<code>navigator.wakeLock</code>) across the Scrolling Chord Timeline. While playing or syncing along with a song, mobile devices (including Android Google Play TWA app and mobile web browsers) will keep the screen active and prevent dimming or sleep timeouts.</li>
+                                <li><strong>Intelligent Power Management:</strong> Automatically releases the wake lock when playback is paused, stopped, or when leaving the timeline.</li>
+                                <li><strong>Automatic Tab Resumption:</strong> Re-acquires the wake lock seamlessly if the user switches back to the active song tab while playback is running.</li>
+                                <li><strong>Iframe Permissions Policy:</strong> Configured <code>allow="autoplay; screen-wake-lock"</code> on embedded timeline iframes to grant screen wake lock delegation in modal viewports.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.379</span>
+                    <span class="version-date">September 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Keyboard Lesson 8 — Lick No. 2 Video Added &amp; Renamed:</strong>
+                            <ul>
+                                <li><strong>Embedded Video Player:</strong> Added video demonstration (<code>videos/Add9-ArpeggioLick2.mp4</code>) at the bottom of Lick No. 2 (Octave Rocking Pop Lick &amp; Run) in Beginner Keyboard Lesson 8.</li>
+                                <li><strong>Title Standardized:</strong> Renamed lick heading and legend across HTML, English, and Dutch translations to <em>Lick No. 2: Octave Rocking Pop Lick &amp; Run</em>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Google Search Console &amp; SEO Clean URLs Optimization:</strong>
+                            <ul>
+                                <li><strong>Sitemap XML Streamlined:</strong> Updated <code>sitemap.xml</code> and the sitemap generator script to output clean URLs without <code>.html</code> extensions, eliminating 301 redirect warnings in Google Search Console.</li>
+                                <li><strong>Canonical Links Standardized:</strong> Cleaned all <code>&lt;link rel="canonical"&gt;</code>, Open Graph, and Twitter tags across root pages (<code>/beginner-lessons</code>, <code>/songlist</code>, <code>/band</code>, <code>/teacher</code>, <code>/student</code>, etc.) to point directly to clean URLs.</li>
+                                <li><strong>Pre-rendered Pages Refreshed:</strong> Regenerated all 635 static song pages and 312 artist hub pages with clean internal navigation and breadcrumb links.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.378</span>
                     <span class="version-date">September 22, 2026</span>
                 </div>
                 <div class="version-body">
                     <ul>
-                        <li><strong>Keyboard Lesson 8 — Lick No. 3 (Octave Rocking Pop Lick &amp; Run):</strong>
+                        <li><strong>Keyboard Lesson 8 — Lick No. 2 (Octave Rocking Pop Lick &amp; Run):</strong>
                             <ul>
-                                <li><strong>New Pop Lick &amp; Rundown:</strong> Added Lick No. 3 to Beginner Keyboard Lesson 8 featuring a two-handed pop pattern in C Major with 1st inversion C chords, a 16th-note dyad lick (<code>[E5+G5] ➔ D5 ➔ C5 ➔ [G4+C5]</code>), and a descending scalar rundown to Middle C (<code>F4 ➔ E4 ➔ D4 ➔ C4</code>).</li>
+                                <li><strong>New Pop Lick &amp; Rundown:</strong> Added Lick No. 2 to Beginner Keyboard Lesson 8 featuring a two-handed pop pattern in C Major with 1st inversion C chords, a 16th-note dyad lick (<code>[E5+G5] ➔ D5 ➔ C5 ➔ [G4+C5]</code>), and a descending scalar rundown to Middle C (<code>F4 ➔ E4 ➔ D4 ➔ C4</code>).</li>
                                 <li><strong>Visual Virtual Keyboard:</strong> Interactive SVG keyboard highlighting all played notes across Octaves 3, 4, and 5 in vivid <strong>RED</strong> with clear finger annotations.</li>
                                 <li><strong>Interactive Web Audio Synth:</strong> One-click audio synthesizer previewing the rhythmically accurate lick and cascade run at tempo.</li>
                                 <li><strong>Bilingual Support:</strong> Full English and Dutch translations for title, descriptions, and fingering tips.</li>

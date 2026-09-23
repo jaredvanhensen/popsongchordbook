@@ -1,4 +1,4 @@
-// Scrolling Chords Logic (v3.313)
+// Scrolling Chords Logic (v3.380)
 
 const midiInput = document.getElementById('midiInput');
 const statusText = document.getElementById('statusText');
@@ -93,6 +93,47 @@ let pauseTime = 0; // The timestamp in the song where we paused
 let animationFrame;
 let isCountingIn = false;
 let barOffsetInBeats = 0;
+
+// Screen Wake Lock API to prevent phone screen from sleeping during playback
+let wakeLockSentinel = null;
+
+async function requestScreenWakeLock() {
+    if ('wakeLock' in navigator) {
+        try {
+            if (!wakeLockSentinel || wakeLockSentinel.released) {
+                wakeLockSentinel = await navigator.wakeLock.request('screen');
+                wakeLockSentinel.addEventListener('release', () => {
+                    wakeLockSentinel = null;
+                });
+            }
+        } catch (err) {
+            // Wake lock request can fail (e.g. low battery, background tab, permission denied)
+            console.warn('Screen Wake Lock request failed:', err);
+        }
+    }
+}
+
+async function releaseScreenWakeLock() {
+    if (wakeLockSentinel) {
+        try {
+            await wakeLockSentinel.release();
+        } catch (err) {
+            console.warn('Screen Wake Lock release failed:', err);
+        } finally {
+            wakeLockSentinel = null;
+        }
+    }
+}
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && isPlaying) {
+        requestScreenWakeLock();
+    }
+});
+
+window.addEventListener('beforeunload', () => {
+    releaseScreenWakeLock();
+});
 // Disable lyrics when running as the Android Play Store TWA app
 // (standalone display-mode on Android = TWA; all other contexts get lyrics normally)
 const ANDROID_APP_MODE = sessionStorage.getItem('pscb_android_app') === '1';
@@ -432,6 +473,7 @@ window.addEventListener('message', (event) => {
         }
     }
     else if (msg.type === 'stopAudio') {
+        releaseScreenWakeLock();
         if (pianoPlayer) pianoPlayer.stopAll();
         if (youtubePlayer && isYoutubePlaying && typeof youtubePlayer.pauseVideo === 'function') {
             youtubePlayer.pauseVideo();
@@ -5034,6 +5076,7 @@ function togglePlayPause() {
 
 function play() {
     if (isPlaying) return;
+    requestScreenWakeLock();
     if (window.bandSyncInstance) {
         window.bandSyncInstance.updateBandSyncBtn(true);
     }
@@ -5120,6 +5163,7 @@ function stopCountIn() {
 }
 
 function pause() {
+    releaseScreenWakeLock();
     isPlaying = false;
     if (window.bandSyncInstance) {
         window.bandSyncInstance.updateBandSyncBtn(false);
@@ -5604,6 +5648,7 @@ function onPlayerStateChange(event) {
         if (!isPlaying) {
             // Play timeline from YouTube's current position
             isPlaying = true;
+            requestScreenWakeLock();
             playPauseBtn.innerHTML = `
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                 <span>Pause</span>
@@ -7933,6 +7978,7 @@ class BandSync {
 
     executeSyncStart(position) {
         isPlaying = true;
+        requestScreenWakeLock();
         startTime = performance.now() - (position * 1000);
         
         // Update play/pause buttons

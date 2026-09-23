@@ -882,7 +882,7 @@ class SongDetailModal {
                     newFrame.style.width = '100%';
                     newFrame.style.height = '100%';
                     newFrame.style.border = 'none';
-                    newFrame.setAttribute('allow', 'autoplay');
+                    newFrame.setAttribute('allow', 'autoplay; screen-wake-lock');
 
                     // 1. Assign onload logic
                     newFrame.onload = () => {

@@ -3,67 +3,67 @@
     <!-- Main Pages -->
     <url>
         <loc>https://www.popsongchordbook.com/</loc>
-        <lastmod>2026-09-20</lastmod>
+        <lastmod>2026-09-23</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/songlist.html</loc>
+        <loc>https://www.popsongchordbook.com/songlist</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/quickstart.html</loc>
+        <loc>https://www.popsongchordbook.com/quickstart</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/band.html</loc>
+        <loc>https://www.popsongchordbook.com/band</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/teacher.html</loc>
+        <loc>https://www.popsongchordbook.com/teacher</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/student.html</loc>
+        <loc>https://www.popsongchordbook.com/student</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/changelog.html</loc>
+        <loc>https://www.popsongchordbook.com/changelog</loc>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/beginner-lessons.html</loc>
+        <loc>https://www.popsongchordbook.com/beginner-lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/guitar_lessons.html</loc>
+        <loc>https://www.popsongchordbook.com/guitar_lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/keyboard&amp;piano-lessons.html</loc>
+        <loc>https://www.popsongchordbook.com/keyboard&amp;piano-lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/ChordTrainer.html</loc>
+        <loc>https://www.popsongchordbook.com/ChordTrainer</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/ChordTheory&amp;Tips.html</loc>
+        <loc>https://www.popsongchordbook.com/ChordTheory&amp;Tips</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
     <url>
-        <loc>https://www.popsongchordbook.com/ChordTheory&amp;TipsGuitar.html</loc>
+        <loc>https://www.popsongchordbook.com/ChordTheory&amp;TipsGuitar</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>

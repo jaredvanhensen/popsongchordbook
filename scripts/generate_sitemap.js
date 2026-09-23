@@ -63,62 +63,62 @@ function generateSitemap() {
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/songlist.html</loc>
+        <loc>${BASE_URL}/songlist</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/quickstart.html</loc>
+        <loc>${BASE_URL}/quickstart</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/band.html</loc>
+        <loc>${BASE_URL}/band</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/teacher.html</loc>
+        <loc>${BASE_URL}/teacher</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/student.html</loc>
+        <loc>${BASE_URL}/student</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/changelog.html</loc>
+        <loc>${BASE_URL}/changelog</loc>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/beginner-lessons.html</loc>
+        <loc>${BASE_URL}/beginner-lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/guitar_lessons.html</loc>
+        <loc>${BASE_URL}/guitar_lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/keyboard&amp;piano-lessons.html</loc>
+        <loc>${BASE_URL}/keyboard&amp;piano-lessons</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/ChordTrainer.html</loc>
+        <loc>${BASE_URL}/ChordTrainer</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/ChordTheory&amp;Tips.html</loc>
+        <loc>${BASE_URL}/ChordTheory&amp;Tips</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
     <url>
-        <loc>${BASE_URL}/ChordTheory&amp;TipsGuitar.html</loc>
+        <loc>${BASE_URL}/ChordTheory&amp;TipsGuitar</loc>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>`;

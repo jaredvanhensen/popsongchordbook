@@ -284,7 +284,7 @@
 <body>
     <div class="preview-container">
         <div class="breadcrumb">
-            <a href="/index.html">Home</a> / <a href="/songlist.html">Songs</a> / <span id="breadcrumb-song">Walk of Life</span>
+            <a href="/">Home</a> / <a href="/songlist">Songs</a> / <span id="breadcrumb-song">Walk of Life</span>
         </div>
 
         <article class="song-card">
@@ -352,7 +352,7 @@ E A E A
 
             <div class="cta-container">
                 <h3>Want to play the full version with real-time scrolling and audio?</h3>
-            <a href="/index.html" class="cta-button" id="play-full-btn">Go To PopSongChordBook</a>
+            <a href="/" class="cta-button" id="play-full-btn">Go To PopSongChordBook</a>
         </div>
 
             <section class="faq-section">
@@ -405,7 +405,7 @@ E A E A
 
             if (!song) {
                 // If visited directly or song not found, go back to main library
-                window.location.href = "/songlist.html";
+                window.location.href = "/songlist";
                 return;
             }
 
@@ -444,7 +444,7 @@ E A E A
             document.getElementById('chords-preview').innerText = previewText || "Preview not available.";
 
             // CTA Link
-            document.getElementById('play-full-btn').href = "/index.html";
+            document.getElementById('play-full-btn').href = "/";
 
             // FAQ
             const faqContainer = document.getElementById('faq-container');
