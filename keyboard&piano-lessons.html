@@ -2947,6 +2947,24 @@
 
         let activePatternTimeouts = [];
 
+        function pauseAllVideos(exceptVideo = null) {
+            document.querySelectorAll('video').forEach(v => {
+                if (v !== exceptVideo && !v.paused) {
+                    v.pause();
+                }
+            });
+        }
+
+        // Global capture listener: stop all other videos and synth audio when any video starts playing
+        document.addEventListener('play', function (e) {
+            if (e.target && e.target.tagName === 'VIDEO') {
+                pauseAllVideos(e.target);
+                if (typeof stopPatternAudio === 'function') {
+                    stopPatternAudio();
+                }
+            }
+        }, true);
+
         function stopPatternAudio() {
             activePatternTimeouts.forEach(t => clearTimeout(t));
             activePatternTimeouts = [];
@@ -2963,6 +2981,7 @@
         }
 
         function playPatternDemo(patternNum) {
+            pauseAllVideos();
             stopPatternAudio();
 
             if (!audioPlayer && typeof PianoAudioPlayer !== 'undefined') {
@@ -3405,6 +3424,8 @@
         let currentLessonId = null;
 
         function showLaunchPage() {
+            pauseAllVideos();
+            stopPatternAudio();
             currentLessonId = null;
             document.body.classList.remove('mode-single-lesson');
             document.body.classList.add('mode-launch');
@@ -3415,6 +3436,8 @@
         }
 
         function openLesson(id) {
+            pauseAllVideos();
+            stopPatternAudio();
             id = parseInt(id, 10);
             if (isNaN(id) || id < 1 || id > 9) id = 1;
             currentLessonId = id;
