@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title id="doc-title">PopSongChordBook v3.383 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
-    <meta name="version" content="3.383">
+    <title id="doc-title">PopSongChordBook v3.384 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
+    <meta name="version" content="3.384">
     <meta name="description" id="doc-meta-desc"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn guitar online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -28,127 +27,6 @@
                 }
             } catch(e) {}
         })();
-
-        // Multilingual & SEO Language Support (EN / NL)
-        const INDEX_TRANSLATIONS = {
-            en: {
-                docTitle: "PopSongChordBook v3.383 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync",
-                docMetaDesc: "The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.",
-                topAnnouncement: "✨ Interactive Pop & Rock Songbook & Free Lessons",
-                taglines: [
-                    "Never miss a chord again!",
-                    "Never get lost in a song again !",
-                    "The Fastest way to learn Pop Songs on Piano or Guitar",
-                    "Stop memorizing chords - Start Playing songs instantly!",
-                    "Play songs from START to FINISH in 1 go!"
-                ],
-                btnOpen: "OPEN POP SONG CHORD BOOK",
-                btnQuickstart: "Quick Start Guide",
-                btnLessons: "FREE Beginner Lessons (Guitar & Piano)",
-                lessonsLabel: "Step-by-Step Pop Song Lessons 1 to 9 • Free & Interactive"
-            },
-            nl: {
-                docTitle: "PopSongChordBook v3.383 - Gitaar Liedjes met Akkoorden, Gratis Gitaarlessen & Band Sync",
-                docMetaDesc: "Speel de leukste gitaar liedjes en popklassiekers met interactieve scrollende akkoorden, realtime songteksten en gratis beginnerslessen voor gitaar en piano. Speel mee met YouTube en sync je band.",
-                topAnnouncement: "✨ Interactief Pop & Rock Akkoordenboek & Gratis Lessen",
-                taglines: [
-                    "Nooit meer een akkoord missen!",
-                    "Nooit meer de weg kwijtraken in een liedje!",
-                    "De snelste manier om gitaar liedjes te leren op gitaar of piano",
-                    "Stop met akkoorden stampen - Begin direct met gitaar liedjes spelen!",
-                    "Speel liedjes van BEGIN tot EIND in 1 keer mee!"
-                ],
-                btnOpen: "OPEN POP SONG CHORD BOOK",
-                btnQuickstart: "Snelstart Gids",
-                btnLessons: "GRATIS Beginnerslessen (Gitaar & Piano)",
-                lessonsLabel: "Stap-voor-stap popliedjes lessen 1 t/m 9 • Gratis & Interactief"
-            }
-        };
-
-        const indexUrlParams = new URLSearchParams(window.location.search);
-        const indexLangParam = indexUrlParams.get('lang');
-        let indexCurrentLang = (indexLangParam === 'nl' || indexLangParam === 'en')
-            ? indexLangParam
-            : (localStorage.getItem('preferredLanguage') || 'en');
-
-        function applyIndexLanguage() {
-            const t = INDEX_TRANSLATIONS[indexCurrentLang] || INDEX_TRANSLATIONS.en;
-            document.documentElement.lang = indexCurrentLang;
-
-            if (t.docTitle) {
-                document.title = t.docTitle;
-                const ogTitle = document.getElementById('og-title');
-                if (ogTitle) ogTitle.setAttribute('content', t.docTitle);
-                const twTitle = document.getElementById('tw-title');
-                if (twTitle) twTitle.setAttribute('content', t.docTitle);
-            }
-
-            if (t.docMetaDesc) {
-                const metaDesc = document.getElementById('doc-meta-desc');
-                if (metaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
-                const ogDesc = document.getElementById('og-desc');
-                if (ogDesc) ogDesc.setAttribute('content', t.docMetaDesc);
-                const twDesc = document.getElementById('tw-desc');
-                if (twDesc) twDesc.setAttribute('content', t.docMetaDesc);
-            }
-
-            const topText = document.getElementById('top-announcement-text');
-            if (topText && t.topAnnouncement) topText.textContent = t.topAnnouncement;
-
-            const btnOpen = document.getElementById('txt-btn-open');
-            if (btnOpen && t.btnOpen) btnOpen.textContent = t.btnOpen;
-
-            const btnQuick = document.getElementById('txt-btn-quickstart');
-            if (btnQuick && t.btnQuickstart) btnQuick.textContent = t.btnQuickstart;
-
-            const btnLess = document.getElementById('txt-btn-lessons');
-            if (btnLess && t.btnLessons) btnLess.textContent = t.btnLessons;
-
-            const lessLabel = document.getElementById('txt-lessons-label');
-            if (lessLabel && t.lessonsLabel) lessLabel.innerHTML = t.lessonsLabel;
-
-            // Update taglines
-            if (t.taglines && t.taglines.length) {
-                const taglines = document.querySelectorAll('#heroTaglineRotator .hero-tagline');
-                taglines.forEach((el, idx) => {
-                    if (t.taglines[idx]) el.textContent = t.taglines[idx];
-                });
-            }
-
-            // Update toggle button pills
-            const btn = document.getElementById('langToggleBtn');
-            if (btn) {
-                const enPill = btn.querySelector('.lang-pill-en');
-                const nlPill = btn.querySelector('.lang-pill-nl');
-                if (indexCurrentLang === 'en') {
-                    if (enPill) enPill.classList.add('active');
-                    if (nlPill) nlPill.classList.remove('active');
-                } else {
-                    if (enPill) enPill.classList.remove('active');
-                    if (nlPill) nlPill.classList.add('active');
-                }
-            }
-        }
-
-        function toggleLanguage() {
-            indexCurrentLang = (indexCurrentLang === 'en') ? 'nl' : 'en';
-            localStorage.setItem('preferredLanguage', indexCurrentLang);
-            const url = new URL(window.location);
-            if (indexCurrentLang === 'nl') {
-                url.searchParams.set('lang', 'nl');
-            } else {
-                url.searchParams.delete('lang');
-            }
-            window.history.replaceState({}, '', url);
-            applyIndexLanguage();
-        }
-
-        // Initialize language on load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', applyIndexLanguage);
-        } else {
-            applyIndexLanguage();
-        }
     </script>
     
     <!-- Forward direct song parameter visits on landing page to the main songbook app -->
@@ -1849,29 +1727,29 @@
                 <div class="hero-feature-item">
                     <div class="hero-feature-icon-wrapper">🎵</div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">Hundreds of Songs</span>
-                        <span class="hero-feature-desc">Pop hits across all decades</span>
+                        <span class="hero-feature-title" id="hf-title-1">Hundreds of Songs</span>
+                        <span class="hero-feature-desc" id="hf-desc-1">Pop hits across all decades</span>
                     </div>
                 </div>
                 <div class="hero-feature-item">
                     <div class="hero-feature-icon-wrapper">⭐</div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">Easy Chords</span>
-                        <span class="hero-feature-desc">Simplified for every player</span>
+                        <span class="hero-feature-title" id="hf-title-2">Easy Chords</span>
+                        <span class="hero-feature-desc" id="hf-desc-2">Simplified for every player</span>
                     </div>
                 </div>
                 <div class="hero-feature-item">
                     <div class="hero-feature-icon-wrapper">📜</div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">Scrolling Chords</span>
-                        <span class="hero-feature-desc">Auto-scroll lyrics & chords</span>
+                        <span class="hero-feature-title" id="hf-title-3">Scrolling Chords</span>
+                        <span class="hero-feature-desc" id="hf-desc-3">Auto-scroll lyrics & chords</span>
                     </div>
                 </div>
                 <div class="hero-feature-item">
                     <div class="hero-feature-icon-wrapper">🎓</div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">Chord Trainer</span>
-                        <span class="hero-feature-desc">Master all popular chords</span>
+                        <span class="hero-feature-title" id="hf-title-4">Chord Trainer</span>
+                        <span class="hero-feature-desc" id="hf-desc-4">Master all popular chords</span>
                     </div>
                 </div>
                 <div class="hero-feature-item">
@@ -1882,15 +1760,15 @@
                         </svg>
                     </div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">YouTube Jamalong</span>
-                        <span class="hero-feature-desc">Play in sync with the video</span>
+                        <span class="hero-feature-title" id="hf-title-5">YouTube Jamalong</span>
+                        <span class="hero-feature-desc" id="hf-desc-5">Play in sync with the video</span>
                     </div>
                 </div>
                 <div class="hero-feature-item">
                     <div class="hero-feature-icon-wrapper">👥</div>
                     <div class="hero-feature-text">
-                        <span class="hero-feature-title">Band Practice</span>
-                        <span class="hero-feature-desc">Synced Chord Timelines across devices and setlists creation.</span>
+                        <span class="hero-feature-title" id="hf-title-6">Band Practice</span>
+                        <span class="hero-feature-desc" id="hf-desc-6">Synced Chord Timelines across devices and setlists creation.</span>
                     </div>
                 </div>
             </div>
@@ -1900,8 +1778,8 @@
     <!-- Promo Video Section -->
     <div class="promo-section">
         <div class="container">
-            <h2 class="section-title">See it in Action</h2>
-            <p class="section-subtitle">Experience the ultimate playalong songbook in 30 seconds</p>
+            <h2 class="section-title" id="promo-title">See it in Action</h2>
+            <p class="section-subtitle" id="promo-subtitle">Experience the ultimate playalong songbook in 30 seconds</p>
             <div class="video-container">
                 <video controls preload="metadata" poster="videos/Thumbnail.png">
                     <source src="videos/30SecondsPromo-PSCB.mp4" type="video/mp4">
@@ -1914,44 +1792,44 @@
     <!-- Power Features Section -->
     <div class="features-section">
         <div class="container">
-            <h2 class="section-title"><span class="emoji-icon">🔥</span> What makes it powerful?</h2>
-            <p class="section-subtitle">Everything you need to master your favorite songs</p>
+            <h2 class="section-title" id="feat-main-title"><span class="emoji-icon">🔥</span> What makes it powerful?</h2>
+            <p class="section-subtitle" id="feat-main-subtitle">Everything you need to master your favorite songs</p>
             <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; text-align: center;">
                 <div class="feature-card">
                     <div class="feature-icon">🎵</div>
-                    <h3>Interactive Chords</h3>
-                    <p>Click any chord to see diagrams and hear how it sounds</p>
+                    <h3 id="fc-title-1">Interactive Chords</h3>
+                    <p id="fc-desc-1">Click any chord to see diagrams and hear how it sounds</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎓</div>
-                    <h3>Chord Training</h3>
-                    <p>Master your chords with our new interactive 🎹 Chord Trainer game</p>
+                    <h3 id="fc-title-2">Chord Training</h3>
+                    <p id="fc-desc-2">Master your chords with our new interactive 🎹 Chord Trainer game</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">📱</div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Practice anywhere with full mobile support</p>
+                    <h3 id="fc-title-3">Mobile Friendly</h3>
+                    <p id="fc-desc-3">Practice anywhere with full mobile support</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⭐</div>
-                    <h3>Personal Setlists</h3>
-                    <p>Create and organize your favorite songs</p>
+                    <h3 id="fc-title-4">Personal Setlists</h3>
+                    <p id="fc-desc-4">Create and organize your favorite songs</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
-                    <h3>Smart Search</h3>
-                    <p>Find songs by artist, title, or key</p>
+                    <h3 id="fc-title-5">Smart Search</h3>
+                    <p id="fc-desc-5">Find songs by artist, title, or key</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎹</div>
-                    <h3>MIDI Support</h3>
-                    <p>Input and record your own songs in real-time using any MIDI keyboard for professional precision</p>
+                    <h3 id="fc-title-6">MIDI Support</h3>
+                    <p id="fc-desc-6">Input and record your own songs in real-time using any MIDI keyboard for professional precision</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📜</div>
-                    <h3>Chord Teleprompter</h3>
-                    <p>Experience the Scrolling Timeline where lyrics and chords flow together like a professional teleprompter</p>
+                    <h3 id="fc-title-7">Chord Teleprompter</h3>
+                    <p id="fc-desc-7">Experience the Scrolling Timeline where lyrics and chords flow together like a professional teleprompter</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
@@ -1960,18 +1838,18 @@
                             <path d="M 45,24 27,14 27,34" fill="#fff" />
                         </svg>
                     </div>
-                    <h3>Chord Jam Along</h3>
-                    <p>The ultimate jam along experience. Play along with YouTube video tutorials and stay in perfect sync.</p>
+                    <h3 id="fc-title-8">Chord Jam Along</h3>
+                    <p id="fc-desc-8">The ultimate jam along experience. Play along with YouTube video tutorials and stay in perfect sync.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px; font-size: 55px;">👥</div>
-                    <h3>Band Practice Tool</h3>
-                    <p>Connect and jam with band members in real-time. The ultimate band tool and musicians tool for rehearsal sync.</p>
+                    <h3 id="fc-title-9">Band Practice Tool</h3>
+                    <p id="fc-desc-9">Connect and jam with band members in real-time. The ultimate band tool and musicians tool for rehearsal sync.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px; font-size: 55px;">🎓</div>
-                    <h3>Music Teacher Tool</h3>
-                    <p>A complete teacher student tool. Assign practice songs, track progress, and organize student lessons seamlessly.</p>
+                    <h3 id="fc-title-10">Music Teacher Tool</h3>
+                    <p id="fc-desc-10">A complete teacher student tool. Assign practice songs, track progress, and organize student lessons seamlessly.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
@@ -1981,8 +1859,8 @@
                             <line x1="12" y1="2" x2="12" y2="15"></line>
                         </svg>
                     </div>
-                    <h3>Share your songs</h3>
-                    <p>Share your own chord arrangements and custom creations with the community</p>
+                    <h3 id="fc-title-11">Share your songs</h3>
+                    <p id="fc-desc-11">Share your own chord arrangements and custom creations with the community</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
@@ -2013,8 +1891,8 @@
                             </g>
                         </svg>
                     </div>
-                    <h3>Song Map</h3>
-                    <p>Get a bird's-eye view of your entire song structure and jump instantly to any section</p>
+                    <h3 id="fc-title-12">Song Map</h3>
+                    <p id="fc-desc-12">Get a bird's-eye view of your entire song structure and jump instantly to any section</p>
                 </div>
             </div>
         </div>
@@ -2023,8 +1901,8 @@
     <!-- Create your own Songbook Section -->
     <div class="showcase-section">
         <div class="container">
-            <h2 class="section-title">Create your own Songbook</h2>
-            <p class="section-subtitle">Add your favorite songs and put them in your own setlists</p>
+            <h2 class="section-title" id="showcase-title">Create your own Songbook</h2>
+            <p class="section-subtitle" id="showcase-sub">Add your favorite songs and put them in your own setlists</p>
             <div class="showcase-icon">📚</div>
         </div>
     </div>
@@ -2032,21 +1910,15 @@
     <!-- Featured Artists Section -->
     <div class="artists-section">
         <div class="container">
-            <h2 class="section-title">Featured Artists</h2>
-            <p class="section-subtitle">Play popular songs from legendary artists</p>
+            <h2 class="section-title" id="artists-title">Featured Artists</h2>
+            <p class="section-subtitle" id="artists-sub">Play popular songs from legendary artists</p>
 
             <img src="images/PopSongChordBookArtists.jpg" alt="Featured Artists"
                 style="width: 100%; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); margin-top: 24px;">
 
             <div
                 style="margin-top: 32px; padding-bottom: 120px; font-size: 1.15rem; line-height: 1.6; color: #475569; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; display: block; overflow: visible; height: auto;">
-                <p>Unlock your musical potential and learn to play the unforgettable hits of your favorite artists like
-                    Michael Jackson, Taylor Swift, U2, and George Michael. Whether you're a beginner or an experienced
-                    musician, our interactive chord sheets make mastering these classics easier than ever. Dive into the
-                    timeless melodies of Bruno Mars, Ed Sheeran, and Mariah Carey, perfectly synced for your practice
-                    sessions. Experience the thrill of performing legendary tracks from Phil Collins, Coldplay, and many
-                    more iconic superstars. Start building your ultimate setlist today and bring these chart-topping
-                    anthems to life!</p>
+                <p id="artists-desc">Unlock your musical potential and learn to play the unforgettable hits of your favorite artists like Michael Jackson, Taylor Swift, U2, and George Michael. Whether you're a beginner or an experienced musician, our interactive chord sheets make mastering these classics easier than ever. Dive into the timeless melodies of Bruno Mars, Ed Sheeran, and Mariah Carey, perfectly synced for your practice sessions. Experience the thrill of performing legendary tracks from Phil Collins, Coldplay, and many more iconic superstars. Start building your ultimate setlist today and bring these chart-topping anthems to life!</p>
             </div>
         </div>
     </div>
@@ -2054,8 +1926,8 @@
     <!-- Song Map Section -->
     <div class="song-map-section" style="padding: 80px 0; background: #f8fafc;">
         <div class="container">
-            <h2 class="section-title">Introducing: Song Map</h2>
-            <p class="section-subtitle">A professional overview of your song structure</p>
+            <h2 class="section-title" id="songmap-title">Introducing: Song Map</h2>
+            <p class="section-subtitle" id="songmap-sub">A professional overview of your song structure</p>
 
             <div class="guide-image-container"
                 style="max-width: 1000px; margin: 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
@@ -2065,18 +1937,12 @@
 
             <div
                 style="margin-top: 32px; font-size: 1.15rem; line-height: 1.6; color: #475569; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">
-                <p>The Song Map provides a comprehensive bird's-eye view of your entire song structure, allowing you to
-                    see the big picture at a glance. Label sections like Intro, Verse, and Chorus with distinct
-                    colors, making it easy to identify the progression of the track. While playing along, the active
-                    chord is highlighted and moves in real-time, so you always know exactly where you are in the
-                    arrangement. This feature also offers the ability to jump instantly to any part of the song by
-                    simply clicking on a section. Whether you're rehearsing or performing, the Song Map keeps you
-                    perfectly oriented and in control of your music.</p>
+                <p id="songmap-desc">The Song Map provides a comprehensive bird's-eye view of your entire song structure, allowing you to see the big picture at a glance. Label sections like Intro, Verse, and Chorus with distinct colors, making it easy to identify the progression of the track. While playing along, the active chord is highlighted and moves in real-time, so you always know exactly where you are in the arrangement. This feature also offers the ability to jump instantly to any part of the song by simply clicking on a section. Whether you're rehearsing or performing, the Song Map keeps you perfectly oriented and in control of your music.</p>
             </div>
             <div style="text-align: center; margin-top: 30px;">
                 <a href="/quickstart#song-map" class="btn btn-guide">
                     <span class="btn-icon">📖</span>
-                    <span>Learn more in the Guide</span>
+                    <span id="songmap-btn-text">Learn more in the Guide</span>
                 </a>
             </div>
         </div>
@@ -2087,8 +1953,8 @@
         <div class="container">
             <div class="free-lessons-header">
                 <span class="badge-free">🆓 100% FREE</span>
-                <h2 class="section-title" style="margin-top: 16px;">Start Playing Pop Songs Today</h2>
-                <p class="section-subtitle">Step-by-step beginner methods for guitar and piano/keyboard — no account needed to browse the lessons</p>
+                <h2 class="section-title" id="fl-title" style="margin-top: 16px;">Start Playing Pop Songs Today</h2>
+                <p class="section-subtitle" id="fl-sub">Step-by-step beginner methods for guitar and piano/keyboard — no account needed to browse the lessons</p>
             </div>
 
             <div class="lessons-cards-grid">
@@ -2103,8 +1969,8 @@
                     </div>
                     <div class="lesson-card-body">
                         <div class="lesson-card-labels">
-                            <span class="lesson-label-main">FREE Beginner Guitar Lessons</span>
-                            <span class="lesson-label-sub">FREE Beginner Guitar Method</span>
+                            <span class="lesson-label-main" id="fl-g-main">FREE Beginner Guitar Lessons</span>
+                            <span class="lesson-label-sub" id="fl-g-sub">FREE Beginner Guitar Method</span>
                         </div>
                         <ul class="lesson-card-list">
                             <li>📌 Lesson 1 — Fretboard Notes</li>
@@ -2117,7 +1983,7 @@
                             <li>🤙 Lesson 8 — Bm &amp; B Barre Chords</li>
                             <li>🎚️ Lesson 9 — Eb Tuning</li>
                         </ul>
-                        <a href="/guitar_lessons" class="btn-fast-track btn-guitar-track">
+                        <a href="/guitar_lessons" class="btn-fast-track btn-guitar-track" id="fl-g-btn">
                             🎸 Guitar Fast Track &rarr;
                         </a>
                     </div>
@@ -2133,8 +1999,8 @@
                     </div>
                     <div class="lesson-card-body">
                         <div class="lesson-card-labels">
-                            <span class="lesson-label-main">FREE Pop Piano Beginner Lessons</span>
-                            <span class="lesson-label-sub">FREE Pop Piano Keyboard Method</span>
+                            <span class="lesson-label-main" id="fl-p-main">FREE Pop Piano Beginner Lessons</span>
+                            <span class="lesson-label-sub" id="fl-p-sub">FREE Pop Piano Keyboard Method</span>
                         </div>
                         <ul class="lesson-card-list">
                             <li>⬜ Lesson 1 — White Key Chords</li>
@@ -2147,7 +2013,7 @@
                             <li>🎻 Lesson 8 — Chord Patterns &amp; Arpeggios</li>
                             <li>🔄 Lesson 9 — Chord Inversions</li>
                         </ul>
-                        <a href="/keyboard&piano-lessons" class="btn-fast-track btn-piano-track">
+                        <a href="/keyboard&piano-lessons" class="btn-fast-track btn-piano-track" id="fl-p-btn">
                             🎹 Keyboard / Piano Fast Track &rarr;
                         </a>
                     </div>
@@ -2161,7 +2027,7 @@
                 </a>
             </div>
 
-            <p class="lessons-register-note">
+            <p class="lessons-register-note" id="fl-note">
                 🎵 Browse all lessons freely — a free account is only required when you want to open a practice song.
             </p>
         </div>
@@ -2180,14 +2046,10 @@
                         class="trainer-img img-stats">
                 </div>
                 <div class="trainer-content">
-                    <span class="badge-new">✨ New Feature</span>
-                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Level Up Your Piano Skills
-                    </h2>
-                    <p>Master your chords through interactive gameplay. Identify shapes, play the right notes, and
-                        compete for the top spot on our global leaderboards.</p>
-                    <p>Whether you're a beginner or a pro, the <b>Chord Trainer</b> tracks your accuracy and keeps you
-                        motivated with real-time feedback and detailed mastery statistics. Start your journey to chord
-                        perfection today!</p>
+                    <span class="badge-new" id="trainer-badge">✨ New Feature</span>
+                    <h2 class="section-title" id="trainer-title" style="text-align: left; margin-bottom: 24px;">Level Up Your Piano Skills</h2>
+                    <p id="trainer-desc-1">Master your chords through interactive gameplay. Identify shapes, play the right notes, and compete for the top spot on our global leaderboards.</p>
+                    <p id="trainer-desc-2">Whether you're a beginner or a pro, the <b>Chord Trainer</b> tracks your accuracy and keeps you motivated with real-time feedback and detailed mastery statistics. Start your journey to chord perfection today!</p>
                 </div>
             </div>
         </div>
@@ -2198,11 +2060,11 @@
         <div class="container">
             <div class="band-practice-grid">
                 <div class="band-practice-content">
-                    <span class="badge-new" style="background: #e0f2fe; color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);">👥 New Feature</span>
-                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Band Practice with Connect to Band Members</h2>
-                    <p><b>Connect to Band Members:</b> Create a band or join one to sync chord timelines in real-time. Once connected, anyone in the band can start or stop/pause playback for all active members. Scrolling is kept perfectly in sync across all screens!</p>
-                    <p>Never get fooled again by that strange key change or chord turnaround or complex instrumental section! The Chord Timeline will prompt everyone at the same time - you will all be in sync - playing the right chords.</p>
-                    <p>Rehearse collaboratively with shared <b>Band Setlists</b>. Create multiple setlists (e.g. Wedding, Easter Party), rename or delete them, add songs via fast search autocomplete, and drag or reorder songs in real-time.</p>
+                    <span class="badge-new" id="band-badge" style="background: #e0f2fe; color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);">👥 New Feature</span>
+                    <h2 class="section-title" id="band-title" style="text-align: left; margin-bottom: 24px;">Band Practice with Connect to Band Members</h2>
+                    <p id="band-desc-1"><b>Connect to Band Members:</b> Create a band or join one to sync chord timelines in real-time. Once connected, anyone in the band can start or stop/pause playback for all active members. Scrolling is kept perfectly in sync across all screens!</p>
+                    <p id="band-desc-2">Never get fooled again by that strange key change or chord turnaround or complex instrumental section! The Chord Timeline will prompt everyone at the same time - you will all be in sync - playing the right chords.</p>
+                    <p id="band-desc-3">Rehearse collaboratively with shared <b>Band Setlists</b>. Create multiple setlists (e.g. Wedding, Easter Party), rename or delete them, add songs via fast search autocomplete, and drag or reorder songs in real-time.</p>
                 </div>
                 <div class="band-practice-images-stack" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 4px solid white; min-height: auto;">
                     <!-- Beautiful CSS/JS Carousel Slider -->
@@ -2210,36 +2072,36 @@
                         <div style="width: 20%; flex-shrink: 0; position: relative;">
                             <img src="images/band_practice_details.png" alt="Active Band Details & Members Presence" style="width: 100%; display: block;">
                             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
-                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Active Band Details & Presence</div>
-                                <div style="font-size: 0.8rem; opacity: 0.85;">Manage active bands, share join codes, and see real-time online status of band members.</div>
+                                <div id="slide-t-1" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Active Band Details & Presence</div>
+                                <div id="slide-d-1" style="font-size: 0.8rem; opacity: 0.85;">Manage active bands, share join codes, and see real-time online status of band members.</div>
                             </div>
                         </div>
                         <div style="width: 20%; flex-shrink: 0; position: relative;">
                             <img src="images/band_practice_setlists.png" alt="Collaborative Band Setlists" style="width: 100%; display: block;">
                             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
-                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Collaborative Band Setlists</div>
-                                <div style="font-size: 0.8rem; opacity: 0.85;">Create multiple setlists, add songs via autocomplete search, reorder, and sync live.</div>
+                                <div id="slide-t-2" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Collaborative Band Setlists</div>
+                                <div id="slide-d-2" style="font-size: 0.8rem; opacity: 0.85;">Create multiple setlists, add songs via autocomplete search, reorder, and sync live.</div>
                             </div>
                         </div>
                         <div style="width: 20%; flex-shrink: 0; position: relative;">
                             <img src="images/band_practice_timeline_play.png" alt="Timeline Sync Options" style="width: 100%; display: block;">
                             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
-                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Timeline Play Mode Sync</div>
-                                <div style="font-size: 0.8rem; opacity: 0.85;">Sync timeline scrolling and play states across all connected band members.</div>
+                                <div id="slide-t-3" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Timeline Play Mode Sync</div>
+                                <div id="slide-d-3" style="font-size: 0.8rem; opacity: 0.85;">Sync timeline scrolling and play states across all connected band members.</div>
                             </div>
                         </div>
                         <div style="width: 20%; flex-shrink: 0; position: relative;">
                             <img src="images/Play-Mode-screenshot2.jpg" alt="Scrolling Sync Action" style="width: 100%; display: block;">
                             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
-                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Real-time Teleprompter Sync</div>
-                                <div style="font-size: 0.8rem; opacity: 0.85;">Visual highlights and scrolling chords remain locked together during practice.</div>
+                                <div id="slide-t-4" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Real-time Teleprompter Sync</div>
+                                <div id="slide-d-4" style="font-size: 0.8rem; opacity: 0.85;">Visual highlights and scrolling chords remain locked together during practice.</div>
                             </div>
                         </div>
                         <div style="width: 20%; flex-shrink: 0; position: relative;">
                             <img src="images/Band_Practice_Rock.png" alt="Live Band Practice Session" style="width: 100%; display: block;">
                             <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(15,23,42,0.9)); padding: 30px 16px 12px; color: white; text-align: left; font-family: 'Inter', sans-serif;">
-                                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Live Band Practice Mode</div>
-                                <div style="font-size: 0.8rem; opacity: 0.85;">Unlock the ultimate joint music-making tool for your group practice.</div>
+                                <div id="slide-t-5" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 2px;">Live Band Practice Mode</div>
+                                <div id="slide-d-5" style="font-size: 0.8rem; opacity: 0.85;">Unlock the ultimate joint music-making tool for your group practice.</div>
                             </div>
                         </div>
                     </div>
@@ -2264,18 +2126,18 @@
     <!-- Instruments Section -->
     <div class="instruments-section">
         <div class="container">
-            <h2 class="section-title">Master Your Instrument</h2>
+            <h2 class="section-title" id="inst-title">Master Your Instrument</h2>
             <div class="instruments-grid">
 
                 <div class="instrument-card guitar-card">
                     <div class="instrument-icon">🎸</div>
-                    <h3>Guitar</h3>
-                    <p>View clean, simplified chord diagrams for every single song in the library</p>
+                    <h3 id="inst-g-title">Guitar</h3>
+                    <p id="inst-g-desc">View clean, simplified chord diagrams for every single song in the library</p>
                 </div>
                 <div class="instrument-card piano-card">
                     <div class="instrument-icon">🎹</div>
-                    <h3>Piano</h3>
-                    <p>Visualize chords on a virtual keyboard with audio playback</p>
+                    <h3 id="inst-p-title">Piano</h3>
+                    <p id="inst-p-desc">Visualize chords on a virtual keyboard with audio playback</p>
                 </div>
                 <div class="instrument-card ukelele-card">
                     <div class="instrument-icon">
@@ -2288,8 +2150,8 @@
                             </g>
                         </svg>
                     </div>
-                    <h3>Ukulele</h3>
-                    <p>Simplified ukulele chords for easy strumming and playalong</p>
+                    <h3 id="inst-u-title">Ukulele</h3>
+                    <p id="inst-u-desc">Simplified ukulele chords for easy strumming and playalong</p>
                 </div>
             </div>
         </div>
@@ -2299,12 +2161,12 @@
     <!-- CTA Section -->
     <div class="cta-section">
         <div class="container">
-            <h2 class="cta-title">Ready to Start Playing?</h2>
-            <p class="cta-subtitle">Browse hundreds of songs with chords and lyrics</p>
+            <h2 class="cta-title" id="final-cta-title">Ready to Start Playing?</h2>
+            <p class="cta-subtitle" id="final-cta-subtitle">Browse hundreds of songs with chords and lyrics</p>
             <a href="/songlist" class="btn btn-primary btn-pill paywall-trigger"
                 title="Open Chord Book & Browse Songs">
                 <span class="btn-icon">🎸</span>
-                <span>Open Chord Book</span>
+                <span id="final-cta-btn">Open Chord Book</span>
             </a>
         </div>
     </div>
@@ -2861,7 +2723,7 @@
             </details>
             <!-- END_SEO_DIRECTORY -->
             <div style="margin-top: 30px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6; opacity: 0.7; color: rgba(255,255,255,0.85); text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
-                <p><strong>Optimize Your Band Practice:</strong> PopSongChordBook is the ultimate online platform for band members. Coordinate rehearsals using our real-time <strong>Band Members Sync</strong> and shared <strong>Band Setlists</strong>. Whether playing keys, guitar, or ukulele, all members see the same scrolling chords in perfect sync. Improve your group practice session with integrated YouTube tutorials, transpose options, and customizable timelines designed specifically for musicians' collaborative needs.</p>
+                <p id="footer-band-summary"><strong>Optimize Your Band Practice:</strong> PopSongChordBook is the ultimate online platform for band members. Coordinate rehearsals using our real-time <strong>Band Members Sync</strong> and shared <strong>Band Setlists</strong>. Whether playing keys, guitar, or ukulele, all members see the same scrolling chords in perfect sync. Improve your group practice session with integrated YouTube tutorials, transpose options, and customizable timelines designed specifically for musicians' collaborative needs.</p>
             </div>
             <p>&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
@@ -2963,135 +2825,396 @@
                 }, 200);
             }, 2000);
         })();
+        
+        // Multilingual & Full Page SEO Language Engine (EN / NL)
+        const INDEX_TRANSLATIONS = {
+            en: {
+                docTitle: "PopSongChordBook v3.384 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync",
+                docMetaDesc: "The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.",
+                topAnnouncement: "✨ Interactive Pop & Rock Songbook & Free Lessons",
+                taglines: [
+                    "Never miss a chord again!",
+                    "Never get lost in a song again !",
+                    "The Fastest way to learn Pop Songs on Piano or Guitar",
+                    "Stop memorizing chords - Start Playing songs instantly!",
+                    "Play songs from START to FINISH in 1 go!"
+                ],
+                btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnQuickstart: "Quick Start Guide",
+                btnLessons: "FREE Beginner Lessons (Guitar & Piano)",
+                lessonsLabel: "Step-by-Step Pop Song Lessons 1 to 9 • Free & Interactive",
+                hfTitle1: "Hundreds of Songs",
+                hfDesc1: "Pop hits across all decades",
+                hfTitle2: "Easy Chords",
+                hfDesc2: "Simplified for every player",
+                hfTitle3: "Scrolling Chords",
+                hfDesc3: "Auto-scroll lyrics & chords",
+                hfTitle4: "Chord Trainer",
+                hfDesc4: "Master all popular chords",
+                hfTitle5: "YouTube Jamalong",
+                hfDesc5: "Play in sync with the video",
+                hfTitle6: "Band Practice",
+                hfDesc6: "Synced Chord Timelines across devices and setlists creation.",
+                promoTitle: "See it in Action",
+                promoSubtitle: "Experience the ultimate playalong songbook in 30 seconds",
+                featMainTitle: "🔥 What makes it powerful?",
+                featMainSubtitle: "Everything you need to master your favorite songs",
+                fcTitle1: "Interactive Chords",
+                fcDesc1: "Click any chord to see diagrams and hear how it sounds",
+                fcTitle2: "Chord Training",
+                fcDesc2: "Master your chords with our new interactive 🎹 Chord Trainer game",
+                fcTitle3: "Mobile Friendly",
+                fcDesc3: "Practice anywhere with full mobile support",
+                fcTitle4: "Personal Setlists",
+                fcDesc4: "Create and organize your favorite songs",
+                fcTitle5: "Smart Search",
+                fcDesc5: "Find songs by artist, title, or key",
+                fcTitle6: "MIDI Support",
+                fcDesc6: "Input and record your own songs in real-time using any MIDI keyboard for professional precision",
+                fcTitle7: "Chord Teleprompter",
+                fcDesc7: "Experience the Scrolling Timeline where lyrics and chords flow together like a professional teleprompter",
+                fcTitle8: "Chord Jam Along",
+                fcDesc8: "The ultimate jam along experience. Play along with YouTube video tutorials and stay in perfect sync.",
+                fcTitle9: "Band Practice Tool",
+                fcDesc9: "Connect and jam with band members in real-time. The ultimate band tool and musicians tool for rehearsal sync.",
+                fcTitle10: "Music Teacher Tool",
+                fcDesc10: "A complete teacher student tool. Assign practice songs, track progress, and organize student lessons seamlessly.",
+                fcTitle11: "Share your songs",
+                fcDesc11: "Share your own chord arrangements and custom creations with the community",
+                fcTitle12: "Song Map",
+                fcDesc12: "Get a bird's-eye view of your entire song structure and jump instantly to any section",
+                showcaseTitle: "Create your own Songbook",
+                showcaseSub: "Add your favorite songs and put them in your own setlists",
+                artistsTitle: "Featured Artists",
+                artistsSub: "Play popular songs from legendary artists",
+                artistsDesc: "Unlock your musical potential and learn to play the unforgettable hits of your favorite artists like Michael Jackson, Taylor Swift, U2, and George Michael. Whether you're a beginner or an experienced musician, our interactive chord sheets make mastering these classics easier than ever. Dive into the timeless melodies of Bruno Mars, Ed Sheeran, and Mariah Carey, perfectly synced for your practice sessions. Experience the thrill of performing legendary tracks from Phil Collins, Coldplay, and many more iconic superstars. Start building your ultimate setlist today and bring these chart-topping anthems to life!",
+                songmapTitle: "Introducing: Song Map",
+                songmapSub: "A professional overview of your song structure",
+                songmapDesc: "The Song Map provides a comprehensive bird's-eye view of your entire song structure, allowing you to see the big picture at a glance. Label sections like Intro, Verse, and Chorus with distinct colors, making it easy to identify the progression of the track. While playing along, the active chord is highlighted and moves in real-time, so you always know exactly where you are in the arrangement. This feature also offers the ability to jump instantly to any part of the song by simply clicking on a section. Whether you're rehearsing or performing, the Song Map keeps you perfectly oriented and in control of your music.",
+                songmapBtn: "Learn more in the Guide",
+                flTitle: "Start Playing Pop Songs Today",
+                flSub: "Step-by-step beginner methods for guitar and piano/keyboard — no account needed to browse the lessons",
+                flGMain: "FREE Beginner Guitar Lessons",
+                flGSub: "FREE Beginner Guitar Method",
+                flGBtn: "🎸 Guitar Fast Track →",
+                flPMain: "FREE Pop Piano Beginner Lessons",
+                flPSub: "FREE Pop Piano Keyboard Method",
+                flPBtn: "🎹 Keyboard / Piano Fast Track →",
+                flNote: "🎵 Browse all lessons freely — a free account is only required when you want to open a practice song.",
+                trainerBadge: "✨ New Feature",
+                trainerTitle: "Level Up Your Piano Skills",
+                trainerDesc1: "Master your chords through interactive gameplay. Identify shapes, play the right notes, and compete for the top spot on our global leaderboards.",
+                trainerDesc2: "Whether you're a beginner or a pro, the <b>Chord Trainer</b> tracks your accuracy and keeps you motivated with real-time feedback and detailed mastery statistics. Start your journey to chord perfection today!",
+                bandBadge: "👥 New Feature",
+                bandTitle: "Band Practice with Connect to Band Members",
+                bandDesc1: "<b>Connect to Band Members:</b> Create a band or join one to sync chord timelines in real-time. Once connected, anyone in the band can start or stop/pause playback for all active members. Scrolling is kept perfectly in sync across all screens!",
+                bandDesc2: "Never get fooled again by that strange key change or chord turnaround or complex instrumental section! The Chord Timeline will prompt everyone at the same time - you will all be in sync - playing the right chords.",
+                bandDesc3: "Rehearse collaboratively with shared <b>Band Setlists</b>. Create multiple setlists (e.g. Wedding, Easter Party), rename or delete them, add songs via fast search autocomplete, and drag or reorder songs in real-time.",
+                slideT1: "Active Band Details & Presence",
+                slideD1: "Manage active bands, share join codes, and see real-time online status of band members.",
+                slideT2: "Collaborative Band Setlists",
+                slideD2: "Create multiple setlists, add songs via autocomplete search, reorder, and sync live.",
+                slideT3: "Timeline Play Mode Sync",
+                slideD3: "Sync timeline scrolling and play states across all connected band members.",
+                slideT4: "Real-time Teleprompter Sync",
+                slideD4: "Visual highlights and scrolling chords remain locked together during practice.",
+                slideT5: "Live Band Practice Mode",
+                slideD5: "Unlock the ultimate joint music-making tool for your group practice.",
+                instTitle: "Master Your Instrument",
+                instGTitle: "Guitar",
+                instGDesc: "View clean, simplified chord diagrams for every single song in the library",
+                instPTitle: "Piano",
+                instPDesc: "Visualize chords on a virtual keyboard with audio playback",
+                instUTitle: "Ukulele",
+                instUDesc: "Simplified ukulele chords for easy strumming and playalong",
+                finalCtaTitle: "Ready to Start Playing?",
+                finalCtaSub: "Browse hundreds of songs with chords and lyrics",
+                finalCtaBtn: "Open Chord Book",
+                footerSummary: "<strong>Optimize Your Band Practice:</strong> PopSongChordBook is the ultimate online platform for band members. Coordinate rehearsals using our real-time <strong>Band Members Sync</strong> and shared <strong>Band Setlists</strong>. Whether playing keys, guitar, or ukulele, all members see the same scrolling chords in perfect sync. Improve your group practice session with integrated YouTube tutorials, transpose options, and customizable timelines designed specifically for musicians' collaborative needs."
+            },
+            nl: {
+                docTitle: "PopSongChordBook v3.384 - Gitaar Liedjes met Akkoorden, Gratis Gitaarlessen & Band Sync",
+                docMetaDesc: "Speel de leukste gitaar liedjes en popklassiekers met interactieve scrollende akkoorden, realtime songteksten en gratis beginnerslessen voor gitaar en piano. Speel mee met YouTube en sync je band.",
+                topAnnouncement: "✨ Interactief Pop & Rock Akkoordenboek & Gratis Lessen",
+                taglines: [
+                    "Nooit meer een akkoord missen!",
+                    "Nooit meer de weg kwijtraken in een liedje!",
+                    "De snelste manier om gitaar liedjes te leren op gitaar of piano",
+                    "Stop met akkoorden stampen - Begin direct met gitaar liedjes spelen!",
+                    "Speel liedjes van BEGIN tot EIND in 1 keer mee!"
+                ],
+                btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnQuickstart: "Snelstart Gids",
+                btnLessons: "GRATIS Beginnerslessen (Gitaar & Piano)",
+                lessonsLabel: "Stap-voor-stap popliedjes lessen 1 t/m 9 • Gratis & Interactief",
+                hfTitle1: "Honderden Liedjes",
+                hfDesc1: "Pophits uit alle decennia",
+                hfTitle2: "Makkelijke Akkoorden",
+                hfDesc2: "Vereenvoudigd voor elke gitarist & pianist",
+                hfTitle3: "Scrollende Akkoorden",
+                hfDesc3: "Automatisch scrollen van tekst & akkoorden",
+                hfTitle4: "Chord Trainer",
+                hfDesc4: "Beheers alle populaire akkoorden",
+                hfTitle5: "YouTube Jamalong",
+                hfDesc5: "Speel synchroon mee met de originele videoclip",
+                hfTitle6: "Band Practice",
+                hfDesc6: "Gesynchroniseerde akkoordentijdlijnen over meerdere apparaten.",
+                promoTitle: "Zie het in Actie",
+                promoSubtitle: "Ervaar het ultieme meespeel-akkoordenboek in 30 seconden",
+                featMainTitle: "🔥 Wat maakt het zo krachtig?",
+                featMainSubtitle: "Alles wat je nodig hebt om je favoriete gitaar liedjes te leren spelen",
+                fcTitle1: "Interactieve Akkoorden",
+                fcDesc1: "Klik op elk akkoord voor heldere grepen, diagrammen en pianogeluid",
+                fcTitle2: "Akkoorden Training",
+                fcDesc2: "Beheers al je akkoorden razendsnel met de interactieve 🎹 Chord Trainer game",
+                fcTitle3: "Mobielvriendelijk",
+                fcDesc3: "Oefen altijd en overal met volledige smartphone- en tabletondersteuning",
+                fcTitle4: "Eigen Setlists",
+                fcDesc4: "Maak en beheer je eigen favoriete songlijsten voor repetities en optredens",
+                fcTitle5: "Slim Zoeken",
+                fcDesc5: "Vind direct gitaar liedjes op artiest, titel of toonsoort",
+                fcTitle6: "MIDI Ondersteuning",
+                fcDesc6: "Voer realtime je eigen liedjes in met elk MIDI-keyboard voor maximale precisie",
+                fcTitle7: "Akkoorden Teleprompter",
+                fcDesc7: "Ervaar de scrollende tijdlijn waarin tekst en akkoorden synchroon meelopen als een professionele autocue",
+                fcTitle8: "Akkoorden Jam-Along",
+                fcDesc8: "De ultieme meespeelervaring. Speel mee met YouTube video's en blijf perfect in de maat.",
+                fcTitle9: "Band Practice Tool",
+                fcDesc9: "Verbind en jam realtime met bandleden. Dé tool voor strakke bandrepetities.",
+                fcTitle10: "Muziekdocent Tool",
+                fcDesc10: "Een complete docent-leerling tool. Wijs oefenliedjes toe, volg voortgang en organiseer lessen.",
+                fcTitle11: "Deel je liedjes",
+                fcDesc11: "Deel je eigen akkoordenarrangementen en creaties met de community",
+                fcTitle12: "Song Map",
+                fcDesc12: "Zie in één oogopslag de hele songstructuur en spring direct naar elk gewenst couplet of refrein",
+                showcaseTitle: "Maak je eigen Songbook",
+                showcaseSub: "Voeg je favoriete liedjes toe en organiseer ze in je eigen setlists",
+                artistsTitle: "Uitgelichte Artiesten",
+                artistsSub: "Speel populaire gitaar liedjes van legendarische topartiesten",
+                artistsDesc: "Ontgrendel je muzikale talent en leer onvergetelijke hits spelen van artiesten als Michael Jackson, Taylor Swift, U2 en George Michael. Of je nu beginner bent of ervaren muzikant, onze interactieve akkoordenschema's maken het meespelen makkelijker dan ooit. Duik in tijdloze melodieën van Bruno Mars, Ed Sheeran en Coldplay, perfect gesynchroniseerd voor jouw oefensessies. Bouw vandaag nog je ultieme setlist op en breng deze geweldige klassiekers tot leven!",
+                songmapTitle: "Nieuw: De Song Map",
+                songmapSub: "Een professioneel overzicht van je complete songstructuur",
+                songmapDesc: "De Song Map geeft een overzichtelijk totaalbeeld van de hele structuur van het liedje. Geef secties zoals Intro, Couplet en Refrein herkenbare kleuren, zodat je direct ziet hoe het nummer verloopt. Tijdens het meespelen licht het actieve akkoord realtime op, zodat je altijd precies weet waar je bent in het arrangement. Klik op een sectie om er direct naartoe te springen. Zo hou je tijdens het oefenen of optreden altijd 100% controle.",
+                songmapBtn: "Lees meer in de Snelstartgids",
+                flTitle: "Begin Vandaag met Gitaar Liedjes Spelen",
+                flSub: "Stap-voor-stap beginnersmethodes voor gitaar en piano/keyboard — bekijk alle lessen direct gratis",
+                flGMain: "GRATIS Gitaarlessen voor Beginners",
+                flGSub: "GRATIS Gitaarmethode (Fast Track)",
+                flGBtn: "🎸 Gitaar Fast Track →",
+                flPMain: "GRATIS Pop Piano Beginnerslessen",
+                flPSub: "GRATIS Pop Piano Keyboard Methode",
+                flPBtn: "🎹 Keyboard / Piano Fast Track →",
+                flNote: "🎵 Bekijk alle lessen gratis — een gratis account is alleen nodig om een specifiek meespeelliedje te openen.",
+                trainerBadge: "✨ Nieuwe Functie",
+                trainerTitle: "Verbeter je Pianovaardigheden",
+                trainerDesc1: "Beheers akkoorden via interactieve gameplay. Herken grepen, speel de juiste noten en scoor op de wereldwijde ranglijsten.",
+                trainerDesc2: "Of je nu beginner bent of gevorderde, de <b>Chord Trainer</b> houdt je nauwkeurigheid bij en motiveert met realtime feedback en statistieken. Begin vandaag nog met oefenen!",
+                bandBadge: "👥 Nieuwe Functie",
+                bandTitle: "Band Practice met Bandleden Synchronisatie",
+                bandDesc1: "<b>Verbind met Bandleden:</b> Maak een band aan of sluit je aan om akkoordentijdlijnen realtime te synchroniseren. Eenmaal verbonden kan iedereen de playback starten of pauzeren voor alle actieve bandleden. Het scrollen loopt synchroon over alle schermen!",
+                bandDesc2: "Nooit meer twijfelen bij een onverwachte toonsoortwisseling, bridge of complex instrumentaal stuk. De tijdlijn toont iedereen exact op hetzelfde moment de juiste akkoorden.",
+                bandDesc3: "Oefen samen met gedeelde <b>Band Setlists</b>. Maak meerdere lijsten aan (bruiloft, feest, optreden), voeg snel liedjes toe en sleep ze in de gewenste volgorde.",
+                slideT1: "Actieve Band Details & Leden Status",
+                slideD1: "Beheer actieve bands, deel koppelcodes en bekijk de live online status van bandleden.",
+                slideT2: "Gezamenlijke Band Setlists",
+                slideD2: "Maak meerdere setlists aan, voeg liedjes toe via slim zoeken en sync direct live.",
+                slideT3: "Tijdlijn Afspeelmodus Sync",
+                slideD3: "Synchroniseer tijdlijnscrollen en afspeelstatus over alle verbonden bandleden.",
+                slideT4: "Real-time Teleprompter Sync",
+                slideD4: "Visuele highlights en scrollende akkoorden blijven perfect gekoppeld tijdens het repeteren.",
+                slideT5: "Live Band Practice Modus",
+                slideD5: "Ontgrendel de ultieme gezamenlijke muziektool voor jouw bandrepetities.",
+                instTitle: "Beheers Je Instrument",
+                instGTitle: "Gitaar",
+                instGDesc: "Duidelijke, vereenvoudigde akkoorddiagrammen voor elk nummer in de bibliotheek",
+                instPTitle: "Piano",
+                instPDesc: "Bekijk akkoorden op een virtueel toetsenbord met geluidsweergave",
+                instUTitle: "Ukelele",
+                instUDesc: "Eenvoudige ukelele-akkoorden om direct mee te kunnen tokkelen en zingen",
+                finalCtaTitle: "Klaar om te Beginnen met Spelen?",
+                finalCtaSub: "Blader door honderden gitaar liedjes met akkoorden en songteksten",
+                finalCtaBtn: "Open Akkoordenboek",
+                footerSummary: "<strong>Optimaliseer je Band Repetities:</strong> PopSongChordBook is het ultieme online platform voor muzikanten en bands. Coördineer repetities met realtime <strong>Band Members Sync</strong> en gedeelde <strong>Band Setlists</strong>. Of je nu toetsen, gitaar of ukelele speelt, iedereen ziet dezelfde scrollende akkoorden in perfecte harmonie. Verbeter je repetities met geïntegreerde YouTube-meespeeltracks en aanpasbare tijdlijnen."
+            }
+        };
+
+        const indexUrlParams = new URLSearchParams(window.location.search);
+        const indexLangParam = indexUrlParams.get('lang');
+        let indexCurrentLang = (indexLangParam === 'nl' || indexLangParam === 'en')
+            ? indexLangParam
+            : (localStorage.getItem('preferredLanguage') || 'en');
+
+        function applyIndexLanguage() {
+            const t = INDEX_TRANSLATIONS[indexCurrentLang] || INDEX_TRANSLATIONS.en;
+            document.documentElement.lang = indexCurrentLang;
+
+            if (t.docTitle) {
+                document.title = t.docTitle;
+                const ogTitle = document.getElementById('og-title');
+                if (ogTitle) ogTitle.setAttribute('content', t.docTitle);
+                const twTitle = document.getElementById('tw-title');
+                if (twTitle) twTitle.setAttribute('content', t.docTitle);
+            }
+
+            if (t.docMetaDesc) {
+                const metaDesc = document.getElementById('doc-meta-desc');
+                if (metaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
+                const ogDesc = document.getElementById('og-desc');
+                if (ogDesc) ogDesc.setAttribute('content', t.docMetaDesc);
+                const twDesc = document.getElementById('tw-desc');
+                if (twDesc) twDesc.setAttribute('content', t.docMetaDesc);
+            }
+
+            const elementMap = {
+                'top-announcement-text': t.topAnnouncement,
+                'txt-btn-open': t.btnOpen,
+                'txt-btn-quickstart': t.btnQuickstart,
+                'txt-btn-lessons': t.btnLessons,
+                'txt-lessons-label': t.lessonsLabel,
+                'hf-title-1': t.hfTitle1,
+                'hf-desc-1': t.hfDesc1,
+                'hf-title-2': t.hfTitle2,
+                'hf-desc-2': t.hfDesc2,
+                'hf-title-3': t.hfTitle3,
+                'hf-desc-3': t.hfDesc3,
+                'hf-title-4': t.hfTitle4,
+                'hf-desc-4': t.hfDesc4,
+                'hf-title-5': t.hfTitle5,
+                'hf-desc-5': t.hfDesc5,
+                'hf-title-6': t.hfTitle6,
+                'hf-desc-6': t.hfDesc6,
+                'promo-title': t.promoTitle,
+                'promo-subtitle': t.promoSubtitle,
+                'feat-main-title': t.featMainTitle,
+                'feat-main-subtitle': t.featMainSubtitle,
+                'fc-title-1': t.fcTitle1,
+                'fc-desc-1': t.fcDesc1,
+                'fc-title-2': t.fcTitle2,
+                'fc-desc-2': t.fcDesc2,
+                'fc-title-3': t.fcTitle3,
+                'fc-desc-3': t.fcDesc3,
+                'fc-title-4': t.fcTitle4,
+                'fc-desc-4': t.fcDesc4,
+                'fc-title-5': t.fcTitle5,
+                'fc-desc-5': t.fcDesc5,
+                'fc-title-6': t.fcTitle6,
+                'fc-desc-6': t.fcDesc6,
+                'fc-title-7': t.fcTitle7,
+                'fc-desc-7': t.fcDesc7,
+                'fc-title-8': t.fcTitle8,
+                'fc-desc-8': t.fcDesc8,
+                'fc-title-9': t.fcTitle9,
+                'fc-desc-9': t.fcDesc9,
+                'fc-title-10': t.fcTitle10,
+                'fc-desc-10': t.fcDesc10,
+                'fc-title-11': t.fcTitle11,
+                'fc-desc-11': t.fcDesc11,
+                'fc-title-12': t.fcTitle12,
+                'fc-desc-12': t.fcDesc12,
+                'showcase-title': t.showcaseTitle,
+                'showcase-sub': t.showcaseSub,
+                'artists-title': t.artistsTitle,
+                'artists-sub': t.artistsSub,
+                'artists-desc': t.artistsDesc,
+                'songmap-title': t.songmapTitle,
+                'songmap-sub': t.songmapSub,
+                'songmap-desc': t.songmapDesc,
+                'songmap-btn-text': t.songmapBtn,
+                'fl-title': t.flTitle,
+                'fl-sub': t.flSub,
+                'fl-g-main': t.flGMain,
+                'fl-g-sub': t.flGSub,
+                'fl-g-btn': t.flGBtn,
+                'fl-p-main': t.flPMain,
+                'fl-p-sub': t.flPSub,
+                'fl-p-btn': t.flPBtn,
+                'fl-note': t.flNote,
+                'trainer-badge': t.trainerBadge,
+                'trainer-title': t.trainerTitle,
+                'trainer-desc-1': t.trainerDesc1,
+                'trainer-desc-2': t.trainerDesc2,
+                'band-badge': t.bandBadge,
+                'band-title': t.bandTitle,
+                'band-desc-1': t.bandDesc1,
+                'band-desc-2': t.bandDesc2,
+                'band-desc-3': t.bandDesc3,
+                'slide-t-1': t.slideT1,
+                'slide-d-1': t.slideD1,
+                'slide-t-2': t.slideT2,
+                'slide-d-2': t.slideD2,
+                'slide-t-3': t.slideT3,
+                'slide-d-3': t.slideD3,
+                'slide-t-4': t.slideT4,
+                'slide-d-4': t.slideD4,
+                'slide-t-5': t.slideT5,
+                'slide-d-5': t.slideD5,
+                'inst-title': t.instTitle,
+                'inst-g-title': t.instGTitle,
+                'inst-g-desc': t.instGDesc,
+                'inst-p-title': t.instPTitle,
+                'inst-p-desc': t.instPDesc,
+                'inst-u-title': t.instUTitle,
+                'inst-u-desc': t.instUDesc,
+                'final-cta-title': t.finalCtaTitle,
+                'final-cta-subtitle': t.finalCtaSub,
+                'final-cta-btn': t.finalCtaBtn,
+                'footer-band-summary': t.footerSummary
+            };
+
+            for (const [id, val] of Object.entries(elementMap)) {
+                const el = document.getElementById(id);
+                if (el && val !== undefined) {
+                    if (val.includes('<') && val.includes('>')) {
+                        el.innerHTML = val;
+                    } else {
+                        el.textContent = val;
+                    }
+                }
+            }
+
+            // Update taglines
+            if (t.taglines && t.taglines.length) {
+                const taglines = document.querySelectorAll('#heroTaglineRotator .hero-tagline');
+                taglines.forEach((el, idx) => {
+                    if (t.taglines[idx]) el.textContent = t.taglines[idx];
+                });
+            }
+
+            // Update toggle button pills
+            const btn = document.getElementById('langToggleBtn');
+            if (btn) {
+                const enPill = btn.querySelector('.lang-pill-en');
+                const nlPill = btn.querySelector('.lang-pill-nl');
+                if (indexCurrentLang === 'en') {
+                    if (enPill) enPill.classList.add('active');
+                    if (nlPill) nlPill.classList.remove('active');
+                } else {
+                    if (enPill) enPill.classList.remove('active');
+                    if (nlPill) nlPill.classList.add('active');
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            indexCurrentLang = (indexCurrentLang === 'en') ? 'nl' : 'en';
+            localStorage.setItem('preferredLanguage', indexCurrentLang);
+            const url = new URL(window.location);
+            if (indexCurrentLang === 'nl') {
+                url.searchParams.set('lang', 'nl');
+            } else {
+                url.searchParams.delete('lang');
+            }
+            window.history.replaceState({}, '', url);
+            applyIndexLanguage();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyIndexLanguage);
+        } else {
+            applyIndexLanguage();
+        }
     </script>
+
         </main>
     </div>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
