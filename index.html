@@ -6,13 +6,150 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PopSongChordBook v3.382 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
-    <meta name="version" content="3.382">
-    <meta name="description"
+    <title id="doc-title">PopSongChordBook v3.383 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
+    <meta name="version" content="3.383">
+    <meta name="description" id="doc-meta-desc"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn guitar online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
     <meta name="google-site-verification" content="GifO932pD8fjdFapfqXZIoh_i3lzNZMjzFds_FpDIpg" />
-    <link rel="canonical" href="https://www.popsongchordbook.com/">
+    <link rel="canonical" id="doc-canonical" href="https://www.popsongchordbook.com/">
+    <link rel="alternate" hreflang="en" href="https://www.popsongchordbook.com/">
+    <link rel="alternate" hreflang="nl" href="https://www.popsongchordbook.com/?lang=nl">
+    <link rel="alternate" hreflang="x-default" href="https://www.popsongchordbook.com/">
+
+    <!-- Early language detection from URL param for SEO & fast render -->
+    <script>
+        (function() {
+            try {
+                var p = new URLSearchParams(window.location.search).get('lang');
+                var l = (p === 'nl' || p === 'en') ? p : (localStorage.getItem('preferredLanguage') || 'en');
+                if (l === 'nl') {
+                    document.documentElement.lang = 'nl';
+                }
+            } catch(e) {}
+        })();
+
+        // Multilingual & SEO Language Support (EN / NL)
+        const INDEX_TRANSLATIONS = {
+            en: {
+                docTitle: "PopSongChordBook v3.383 - Free Beginner Guitar & Piano Lessons, Scrolling Chords & Band Sync",
+                docMetaDesc: "The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.",
+                topAnnouncement: "✨ Interactive Pop & Rock Songbook & Free Lessons",
+                taglines: [
+                    "Never miss a chord again!",
+                    "Never get lost in a song again !",
+                    "The Fastest way to learn Pop Songs on Piano or Guitar",
+                    "Stop memorizing chords - Start Playing songs instantly!",
+                    "Play songs from START to FINISH in 1 go!"
+                ],
+                btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnQuickstart: "Quick Start Guide",
+                btnLessons: "FREE Beginner Lessons (Guitar & Piano)",
+                lessonsLabel: "Step-by-Step Pop Song Lessons 1 to 9 • Free & Interactive"
+            },
+            nl: {
+                docTitle: "PopSongChordBook v3.383 - Gitaar Liedjes met Akkoorden, Gratis Gitaarlessen & Band Sync",
+                docMetaDesc: "Speel de leukste gitaar liedjes en popklassiekers met interactieve scrollende akkoorden, realtime songteksten en gratis beginnerslessen voor gitaar en piano. Speel mee met YouTube en sync je band.",
+                topAnnouncement: "✨ Interactief Pop & Rock Akkoordenboek & Gratis Lessen",
+                taglines: [
+                    "Nooit meer een akkoord missen!",
+                    "Nooit meer de weg kwijtraken in een liedje!",
+                    "De snelste manier om gitaar liedjes te leren op gitaar of piano",
+                    "Stop met akkoorden stampen - Begin direct met gitaar liedjes spelen!",
+                    "Speel liedjes van BEGIN tot EIND in 1 keer mee!"
+                ],
+                btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnQuickstart: "Snelstart Gids",
+                btnLessons: "GRATIS Beginnerslessen (Gitaar & Piano)",
+                lessonsLabel: "Stap-voor-stap popliedjes lessen 1 t/m 9 • Gratis & Interactief"
+            }
+        };
+
+        const indexUrlParams = new URLSearchParams(window.location.search);
+        const indexLangParam = indexUrlParams.get('lang');
+        let indexCurrentLang = (indexLangParam === 'nl' || indexLangParam === 'en')
+            ? indexLangParam
+            : (localStorage.getItem('preferredLanguage') || 'en');
+
+        function applyIndexLanguage() {
+            const t = INDEX_TRANSLATIONS[indexCurrentLang] || INDEX_TRANSLATIONS.en;
+            document.documentElement.lang = indexCurrentLang;
+
+            if (t.docTitle) {
+                document.title = t.docTitle;
+                const ogTitle = document.getElementById('og-title');
+                if (ogTitle) ogTitle.setAttribute('content', t.docTitle);
+                const twTitle = document.getElementById('tw-title');
+                if (twTitle) twTitle.setAttribute('content', t.docTitle);
+            }
+
+            if (t.docMetaDesc) {
+                const metaDesc = document.getElementById('doc-meta-desc');
+                if (metaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
+                const ogDesc = document.getElementById('og-desc');
+                if (ogDesc) ogDesc.setAttribute('content', t.docMetaDesc);
+                const twDesc = document.getElementById('tw-desc');
+                if (twDesc) twDesc.setAttribute('content', t.docMetaDesc);
+            }
+
+            const topText = document.getElementById('top-announcement-text');
+            if (topText && t.topAnnouncement) topText.textContent = t.topAnnouncement;
+
+            const btnOpen = document.getElementById('txt-btn-open');
+            if (btnOpen && t.btnOpen) btnOpen.textContent = t.btnOpen;
+
+            const btnQuick = document.getElementById('txt-btn-quickstart');
+            if (btnQuick && t.btnQuickstart) btnQuick.textContent = t.btnQuickstart;
+
+            const btnLess = document.getElementById('txt-btn-lessons');
+            if (btnLess && t.btnLessons) btnLess.textContent = t.btnLessons;
+
+            const lessLabel = document.getElementById('txt-lessons-label');
+            if (lessLabel && t.lessonsLabel) lessLabel.innerHTML = t.lessonsLabel;
+
+            // Update taglines
+            if (t.taglines && t.taglines.length) {
+                const taglines = document.querySelectorAll('#heroTaglineRotator .hero-tagline');
+                taglines.forEach((el, idx) => {
+                    if (t.taglines[idx]) el.textContent = t.taglines[idx];
+                });
+            }
+
+            // Update toggle button pills
+            const btn = document.getElementById('langToggleBtn');
+            if (btn) {
+                const enPill = btn.querySelector('.lang-pill-en');
+                const nlPill = btn.querySelector('.lang-pill-nl');
+                if (indexCurrentLang === 'en') {
+                    if (enPill) enPill.classList.add('active');
+                    if (nlPill) nlPill.classList.remove('active');
+                } else {
+                    if (enPill) enPill.classList.remove('active');
+                    if (nlPill) nlPill.classList.add('active');
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            indexCurrentLang = (indexCurrentLang === 'en') ? 'nl' : 'en';
+            localStorage.setItem('preferredLanguage', indexCurrentLang);
+            const url = new URL(window.location);
+            if (indexCurrentLang === 'nl') {
+                url.searchParams.set('lang', 'nl');
+            } else {
+                url.searchParams.delete('lang');
+            }
+            window.history.replaceState({}, '', url);
+            applyIndexLanguage();
+        }
+
+        // Initialize language on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyIndexLanguage);
+        } else {
+            applyIndexLanguage();
+        }
+    </script>
     
     <!-- Forward direct song parameter visits on landing page to the main songbook app -->
     <script>
@@ -157,6 +294,89 @@
         }
         .app-main {
             width: 100%;
+        }
+
+        /* Top Utility Bar (Language Toggle & Tagline) */
+        .site-top-bar {
+            background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            padding: 6px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 1001;
+        }
+
+        .top-bar-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .top-bar-announcement {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 0.2px;
+        }
+
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 20px;
+            padding: 2px 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .lang-pill {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #94a3b8;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .lang-pill.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.45);
+        }
+
+        .lang-pill-sep {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #64748b;
+            user-select: none;
+            line-height: 1;
+            padding: 0 1px;
         }
 
         /* Desktop Sidebar: shown on screen sizes 1080px and wider */
@@ -1571,6 +1791,22 @@
 
 <body>
 
+    <!-- Top Utility Bar (Language Toggle & Tagline) -->
+    <div class="site-top-bar">
+        <div class="top-bar-container">
+            <div class="top-bar-announcement">
+                <span id="top-announcement-text">✨ Interactive Pop &amp; Rock Songbook &amp; Free Lessons</span>
+            </div>
+            <div class="top-bar-actions">
+                <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
+                    <span class="lang-pill lang-pill-en active">EN</span>
+                    <span class="lang-pill-sep">/</span>
+                    <span class="lang-pill lang-pill-nl">NL</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
@@ -1590,11 +1826,11 @@
             <div class="hero-primary-buttons">
                 <a href="/songlist" id="browseSongListBtn" class="hero-btn-main paywall-trigger">
                     <span class="btn-icon cta-icon">🎵</span>
-                    <span>OPEN POP SONG CHORD BOOK</span>
+                    <span id="txt-btn-open">OPEN POP SONG CHORD BOOK</span>
                 </a>
                 <a href="/quickstart" class="hero-btn-ghost">
                     <span class="btn-icon">⚡</span>
-                    <span>Quick Start Guide</span>
+                    <span id="txt-btn-quickstart">Quick Start Guide</span>
                 </a>
             </div>
 
@@ -1604,9 +1840,9 @@
             <!-- Beginner Lessons Main Button -->
             <div class="hero-fasttrack-group">
                 <a href="/beginner-lessons" class="hero-btn-fasttrack btn-hero-all-lessons">
-                    <span style="font-size: 1.05em; margin-right: 3px;">🎸🎹</span> <span>FREE Beginner Lessons (Guitar &amp; Piano)</span>
+                    <span style="font-size: 1.05em; margin-right: 3px;">🎸🎹</span> <span id="txt-btn-lessons">FREE Beginner Lessons (Guitar &amp; Piano)</span>
                 </a>
-                <span class="hero-fasttrack-label">Step-by-Step Pop Song Lessons 1 to 9 &bull; Free &amp; Interactive</span>
+                <span class="hero-fasttrack-label" id="txt-lessons-label">Step-by-Step Pop Song Lessons 1 to 9 &bull; Free &amp; Interactive</span>
             </div>
             
             <div class="hero-features-row">

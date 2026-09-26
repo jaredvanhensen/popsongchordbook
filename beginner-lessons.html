@@ -6,12 +6,28 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title id="doc-title">Free Beginner Guitar &amp; Piano / Keyboard Lessons — PopSongChordBook</title>
-    <meta name="version" content="3.382">
+    <meta name="version" content="3.383">
     <meta name="description" id="doc-meta-desc"
         content="Learn to play legendary pop and rock classics on guitar or keyboard/piano. Free step-by-step beginner lessons 1 to 9 with real-time scrolling chords and YouTube play-along.">
     <meta name="keywords"
         content="beginner guitar lessons, beginner piano lessons, keyboard lessons, learn guitar online, learn piano online, pop songs chords, scrolling chords, popsongchordbook, guitar chords, piano chords, play along youtube">
-    <link rel="canonical" href="https://www.popsongchordbook.com/beginner-lessons">
+    <link rel="canonical" id="doc-canonical" href="https://www.popsongchordbook.com/beginner-lessons">
+    <link rel="alternate" hreflang="en" href="https://www.popsongchordbook.com/beginner-lessons">
+    <link rel="alternate" hreflang="nl" href="https://www.popsongchordbook.com/beginner-lessons?lang=nl">
+    <link rel="alternate" hreflang="x-default" href="https://www.popsongchordbook.com/beginner-lessons">
+
+    <!-- Early language detection from URL param for SEO & fast render -->
+    <script>
+        (function() {
+            try {
+                var p = new URLSearchParams(window.location.search).get('lang');
+                var l = (p === 'nl' || p === 'en') ? p : (localStorage.getItem('preferredLanguage') || 'en');
+                if (l === 'nl') {
+                    document.documentElement.lang = 'nl';
+                }
+            } catch(e) {}
+        })();
+    </script>
 
     <!-- SEO Protection: Prevent indexing on github.io testing domain -->
     <script>
@@ -1974,8 +1990,8 @@
                 txtPlay: "Play"
             },
             nl: {
-                docTitle: "Gratis Beginnerslessen Gitaar & Piano / Keyboard — PopSongChordBook",
-                docMetaDesc: "Leer direct bekende pop- en rockklassiekers spelen op gitaar of keyboard/piano. Gratis stap-voor-stap beginnerslessen 1 t/m 9 met realtime scrollende akkoorden en meespelen met YouTube.",
+                docTitle: "Gratis Gitaarlessen & Gitaar Liedjes met Akkoorden — PopSongChordBook",
+                docMetaDesc: "Leer populaire gitaar liedjes en klassiekers spelen met gratis beginnerslessen (1 t/m 9). Realtime scrollende akkoorden, songteksten en meespelen met YouTube.",
                 topAnnouncement: "✨ Interactief Pop & Rock Akkoordenboek & Gratis Lessen",
                 topMobileText: "🎓 Gratis Lessen",
                 navSonglist: "Songlijst",
@@ -2117,12 +2133,28 @@
             }
         };
 
-        // Default language is English ('en')
-        let currentLang = localStorage.getItem('preferredLanguage') || 'en';
+        // Check URL param first (?lang=nl or ?lang=en), then localStorage, fallback to English
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        let currentLang = (langParam === 'nl' || langParam === 'en')
+            ? langParam
+            : (localStorage.getItem('preferredLanguage') || 'en');
 
         function applyLanguage() {
             const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
             document.documentElement.lang = currentLang;
+
+            // Update Meta Description & Open Graph tags for SEO
+            const metaDesc = document.getElementById('doc-meta-desc');
+            if (metaDesc && t.docMetaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc && t.docMetaDesc) ogDesc.setAttribute('content', t.docMetaDesc);
+            const twDesc = document.getElementById('tw-desc');
+            if (twDesc && t.docMetaDesc) twDesc.setAttribute('content', t.docMetaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle && t.docTitle) ogTitle.setAttribute('content', t.docTitle);
+            const twTitle = document.getElementById('tw-title');
+            if (twTitle && t.docTitle) twTitle.setAttribute('content', t.docTitle);
 
             // Update language toggle pill styles
             const btn = document.getElementById('langToggleBtn');
@@ -2309,6 +2341,13 @@
         function toggleLanguage() {
             currentLang = (currentLang === 'en') ? 'nl' : 'en';
             localStorage.setItem('preferredLanguage', currentLang);
+            const url = new URL(window.location);
+            if (currentLang === 'nl') {
+                url.searchParams.set('lang', 'nl');
+            } else {
+                url.searchParams.delete('lang');
+            }
+            window.history.replaceState({}, '', url);
             applyLanguage();
         }
 
