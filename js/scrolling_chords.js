@@ -134,10 +134,7 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('beforeunload', () => {
     releaseScreenWakeLock();
 });
-// Disable lyrics when running as the Android Play Store TWA app
-// (standalone display-mode on Android = TWA; all other contexts get lyrics normally)
-const ANDROID_APP_MODE = sessionStorage.getItem('pscb_android_app') === '1';
-let lyricsEnabled = !ANDROID_APP_MODE;
+let lyricsEnabled = true;
 let isTextMode = false;
 let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
@@ -3661,7 +3658,6 @@ function shiftChords(deltaSteps) {
 }
 
 function toggleLyricsHUD() {
-    if (ANDROID_APP_MODE) return; // Lyrics disabled in Android Play Store app
     lyricsEnabled = !lyricsEnabled;
     const pureLyricsBtn = document.getElementById('pureLyricsBtn');
     if (lyricsEnabled) {
