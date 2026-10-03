@@ -591,6 +591,7 @@ if (window.parent) {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Scrolling Chords: Initializing Event Listeners');
     syncInstrumentModeClass();
+    if (typeof updateTimelineZoomScale === 'function') updateTimelineZoomScale();
 
     if (midiInput) midiInput.addEventListener('change', handleFileSelect);
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
@@ -1617,6 +1618,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#pureZoomInDisplay, #pureZoomOutDisplay').forEach(el => el.innerText = `${levels[nextIndex]}%`);
             if (typeof renderStaticElements === 'function') renderStaticElements();
             if (typeof syncScrollToAudio === 'function') syncScrollToAudio();
+            if (typeof updateLoop === 'function') updateLoop();
         });
 
         // --- Zoom Out Cycle Button (80 -> 60 -> 40 -> 100%) ---
@@ -1634,6 +1636,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#pureZoomInDisplay, #pureZoomOutDisplay').forEach(el => el.innerText = `${levels[nextIndex]}%`);
             if (typeof renderStaticElements === 'function') renderStaticElements();
             if (typeof syncScrollToAudio === 'function') syncScrollToAudio();
+            if (typeof updateLoop === 'function') updateLoop();
         });
 
         // --- New Direct Toolbar Buttons (Restart, Lyrics, Speed) ---
@@ -4923,6 +4926,7 @@ function determineStaggerPositions() {
 }
 
 function renderStaticElements() {
+    if (typeof updateTimelineZoomScale === 'function') updateTimelineZoomScale();
     determineStaggerPositions();
     // Render chords
     chordTrack.innerHTML = '';
@@ -5997,6 +6001,23 @@ function snapToGrid(time) {
 }
 
 // --- Zoom Logic ---
+function updateTimelineZoomScale() {
+    const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
+    // Scale chord blocks proportionally with zoom level (100% zoom = 1.0)
+    // When zooming out (< 100 pps), chords shrink down proportionally (min 0.35 for readability)
+    // When zooming in (> 100 pps), allow slight increase up to 1.15 to preserve crispness
+    const zoomScale = Math.min(1.15, Math.max(0.35, pps / 100));
+    document.documentElement.style.setProperty('--chord-zoom-scale', zoomScale);
+    const timelineEl = document.getElementById('timeline');
+    if (timelineEl) {
+        timelineEl.style.setProperty('--chord-zoom-scale', zoomScale);
+    }
+    const chordTrackEl = document.getElementById('chordTrack');
+    if (chordTrackEl) {
+        chordTrackEl.style.setProperty('--chord-zoom-scale', zoomScale);
+    }
+}
+
 function zoom(direction, customFactor = null) {
     const factor = customFactor || ZOOM_FACTOR;
     if (direction > 0) {
@@ -6004,6 +6025,10 @@ function zoom(direction, customFactor = null) {
     } else {
         PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, PIXELS_PER_SECOND / factor);
     }
+
+    updateTimelineZoomScale();
+    if (typeof syncPureTimelineButtons === 'function') syncPureTimelineButtons();
+    if (typeof renderStaticElements === 'function') renderStaticElements();
 
     // Immediate refresh
     updateLoop();

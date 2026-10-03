@@ -5645,6 +5645,35 @@ td:has(.row-edit-input.input-focused) {
     font-size: 1.1em;
 }
 
+.simplify-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    width: 100%;
+}
+
+.simplify-menu-item .menu-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.simplify-menu-item .menu-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.simplify-menu-item .menu-subtitle {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.simplify-menu-item.active .menu-title {
+    color: #facc15;
+}
+
 .song-detail-action-btn {
     background: transparent;
     border: none;
@@ -6335,6 +6364,114 @@ td:has(.row-edit-input.input-focused) {
     box-sizing: border-box;
     min-height: 0;
     padding-bottom: 40px; /* Space to clear floating footer/save btn */
+}
+
+/* Reusable Song Detail Tip Banner */
+.song-detail-tip-banner {
+    grid-column: 1 / -1; /* Spans full width when body is in two-column grid */
+    position: relative;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 12px 18px;
+    margin: 0 0 4px 0;
+    box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #ffffff;
+    z-index: 100;
+    animation: tipBannerSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-sizing: border-box;
+}
+
+.song-detail-tip-banner.hiding {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+.song-detail-tip-banner.hidden {
+    display: none !important;
+}
+
+@keyframes tipBannerSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tip-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.tip-banner-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.tip-banner-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #f1f5f9;
+}
+
+.tip-banner-text strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.tip-badge {
+    display: inline-block;
+    background: #facc15;
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin: 0 4px;
+    vertical-align: baseline;
+}
+
+.tip-banner-close {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.tip-banner-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.08);
+}
+
+.tip-banner-close:active {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0.95);
 }
 
 .song-chord-section {

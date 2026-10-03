@@ -31,6 +31,14 @@ class SongDetailModal {
         this.titleElement = document.getElementById('songDetailTitle');
         this.favoriteBtn = document.getElementById('songDetailFavoriteBtn');
         this.simplifyBtn = document.getElementById('songDetailSimplifyBtn');
+        this.simplifyMenu = document.getElementById('simplifyMenu');
+        this.simplifyToggleBtn = document.getElementById('songDetailSimplifyToggle');
+        this.whiteKeysBtn = document.getElementById('songDetailWhiteKeys');
+        this.simplifyResetBtn = document.getElementById('songDetailSimplifyReset');
+        this.tipBanner = document.getElementById('songDetailTipBanner');
+        this.tipBannerText = document.getElementById('songDetailTipBannerText');
+        this.tipBannerClose = document.getElementById('songDetailTipBannerClose');
+        this.tipBannerTimer = null;
         this.simplifyChords = false;
         this.chordSearchBtn = document.getElementById('menuSearchGoogle');
         this.practiceBtn = document.getElementById('songDetailPracticeBtn');
@@ -808,7 +816,50 @@ class SongDetailModal {
         if (this.simplifyBtn) {
             this.simplifyBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                // ONLY show the selection menu when instrument is KEYBOARD (piano)
+                if (this.instrumentMode === 'piano') {
+                    if (this.simplifyMenu) {
+                        const isHidden = this.simplifyMenu.classList.contains('hidden');
+                        this.simplifyMenu.classList.toggle('hidden');
+                        if (isHidden) {
+                            this._positionMenuFixed(this.simplifyMenu, this.simplifyBtn);
+                        }
+                    }
+                } else {
+                    // For Guitar / Ukulele, toggle simplify chords directly
+                    this.toggleSimplifyChords(this.currentSongId);
+                }
+            });
+        }
+
+        if (this.simplifyToggleBtn) {
+            this.simplifyToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.simplifyMenu) this.simplifyMenu.classList.add('hidden');
                 this.toggleSimplifyChords(this.currentSongId);
+            });
+        }
+
+        if (this.whiteKeysBtn) {
+            this.whiteKeysBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.simplifyMenu) this.simplifyMenu.classList.add('hidden');
+                this.applyWhiteKeysOnly();
+            });
+        }
+
+        if (this.simplifyResetBtn) {
+            this.simplifyResetBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.simplifyMenu) this.simplifyMenu.classList.add('hidden');
+                this.resetToNormal();
+            });
+        }
+
+        if (this.tipBannerClose) {
+            this.tipBannerClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.hideTipBanner();
             });
         }
 
@@ -1561,6 +1612,14 @@ class SongDetailModal {
                     e.target !== this.transposeBtn &&
                     !this.transposeBtn.contains(e.target)) {
                     this.transposeMenu.classList.add('hidden');
+                }
+
+                // Simplify Menu logic
+                if (this.simplifyMenu && !this.simplifyMenu.classList.contains('hidden') &&
+                    !this.simplifyMenu.contains(e.target) &&
+                    e.target !== this.simplifyBtn &&
+                    !this.simplifyBtn.contains(e.target)) {
+                    this.simplifyMenu.classList.add('hidden');
                 }
 
                 // Hamburger Menu logic
@@ -4354,6 +4413,8 @@ class SongDetailModal {
         this.updateCapoUI();
         this.simplifyChords = this.getSimplifyChords(song.id);
         this.updateSimplifyUI();
+        this.hideTipBanner();
+        if (this.simplifyMenu) this.simplifyMenu.classList.add('hidden');
         this.hasUnsavedChanges = false;
         this.isRandomMode = isRandomMode;
         this.isPracticeRandomMode = isPracticeRandomMode;
@@ -4892,6 +4953,223 @@ class SongDetailModal {
         } else {
             this.simplifyBtn.title = 'Simplify chords (remove extensions)';
         }
+        if (this.simplifyToggleBtn) {
+            this.simplifyToggleBtn.classList.toggle('active', !!this.simplifyChords);
+            const subtitle = this.simplifyToggleBtn.querySelector('.menu-subtitle');
+            if (subtitle) {
+                subtitle.textContent = this.simplifyChords ? 'Active (extensions removed)' : 'Remove chord extensions';
+            }
+        }
+    }
+
+    /**
+     * Transposes all chords of the current song to the key of C Major or A Minor (all white keys).
+     * ONLY intended for Keyboard (piano) mode.
+     * Displays a 5-second Tip Banner with the recommended physical keyboard transpose value.
+     */
+    applyWhiteKeysOnly() {
+        if (!this.currentSongId) return;
+        const song = this.songManager.getSongById(this.currentSongId);
+        if (!song) return;
+
+        // 1. Gather all actual chord text currently displayed in the sections
+        const sectionKeys = ['verse', 'chorus', 'preChorus', 'bridge'];
+        const allText = sectionKeys
+            .map(k => (this.sections[k]?.editInput?.value || song[k] || ''))
+            .join(' ');
+
+        // Extract individual chords
+        const chordMatches = allText.match(/(?:^|[\s,.;:(\[|])([A-G][#b]?(?:m|min|maj|M|dim|aug|sus|add)?[0-9]?(?:sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug)?[0-9]?(?:\/[A-G][#b]?)?)(?=[\s,.;:)\]|]|$)/g) || [];
+        const cleanChords = chordMatches.map(c => c.trim().replace(/^[\s,.;:(\[|]+/, '').replace(/[\s,.;:)\]|]+$/, '')).filter(Boolean);
+
+        // Check if any chord currently has flats or sharps in the name
+        const hasAccidentals = cleanChords.some(c => /^[A-G][#b]/.test(c) || /\/[A-G][#b]/.test(c));
+
+        // 2. Detect musical key directly from the actual chord progression
+        let activeKey = null;
+        if (typeof KeyDetector !== 'undefined') {
+            const detector = new KeyDetector();
+            activeKey = (detector.detectKey(allText) || '').trim();
+        }
+
+        // If KeyDetector returned no key, or returned a key without accidentals while chords clearly have accidentals:
+        if (!activeKey || (hasAccidentals && !/^[A-G][#b]/.test(activeKey))) {
+            const firstAccidental = cleanChords.find(c => /^[A-G][#b]/.test(c));
+            if (firstAccidental) {
+                activeKey = firstAccidental;
+            } else if (song.key && song.key.trim()) {
+                activeKey = song.key.trim();
+            } else if (cleanChords.length > 0) {
+                activeKey = cleanChords[0];
+            } else {
+                activeKey = 'C';
+            }
+        }
+
+        const noteToSemitone = {
+            'C': 0, 'C#': 1, 'Db': 1,
+            'D': 2, 'D#': 3, 'Eb': 3,
+            'E': 4, 'Fb': 4,
+            'F': 5, 'F#': 6, 'Gb': 6,
+            'G': 7, 'G#': 8, 'Ab': 8,
+            'A': 9, 'A#': 10, 'Bb': 10,
+            'B': 11, 'Cb': 11
+        };
+
+        const isMinor = /m(?!aj)/i.test(activeKey) || /min|-/i.test(activeKey);
+        const rootMatch = activeKey.match(/^([A-Ga-g])([#b]?)/);
+        if (!rootMatch) return;
+        const rootNote = rootMatch[1].toUpperCase() + (rootMatch[2] || '');
+
+        const rootSemitone = noteToSemitone[rootNote];
+        if (rootSemitone === undefined) return;
+
+        // 3. Target white-key root: C (0) for Major, A (9) for Minor
+        const targetSemitone = isMinor ? 9 : 0;
+
+        // Calculate semitone shift for the chord chart
+        let diff = (targetSemitone - rootSemitone + 12) % 12;
+        if (diff > 6) {
+            diff -= 12;
+        }
+
+        // Safety check: If chords have accidentals but diff turned out to be 0:
+        // scan candidate offsets to find one that eliminates accidentals
+        if (hasAccidentals && diff === 0) {
+            const candidateOffsets = [-1, 1, -2, 2, -3, 3, -4, 4, -5, 5, 6];
+            for (const t of candidateOffsets) {
+                const stillHasAcc = cleanChords.some(chord => {
+                    const match = chord.match(/^([A-G][#b]?)/);
+                    if (!match) return false;
+                    const semi = noteToSemitone[match[1]];
+                    if (semi === undefined) return false;
+                    const newSemi = (semi + t + 12) % 12;
+                    return [1, 3, 6, 8, 10].includes(newSemi);
+                });
+                if (!stillHasAcc) {
+                    diff = t;
+                    break;
+                }
+            }
+        }
+
+        // 4. Apply transposition if needed
+        if (diff !== 0) {
+            this.transposeChords(diff);
+            this.sendDataToTimeline();
+        }
+
+        // 5. Calculate hardware keyboard transpose value
+        const keyboardTranspose = -diff;
+        let transposeDisplay;
+        if (keyboardTranspose > 0) {
+            transposeDisplay = `+${keyboardTranspose}`;
+        } else if (keyboardTranspose < 0) {
+            transposeDisplay = `${keyboardTranspose}`;
+        } else {
+            transposeDisplay = '0';
+        }
+
+        // 6. Show the 5-second Tip Banner
+        let tipHtml;
+        if (keyboardTranspose === 0 && !hasAccidentals) {
+            tipHtml = `Playing along? All chords are already on white keys!`;
+        } else {
+            tipHtml = `Playing along? Use Transpose <span class="tip-badge">${transposeDisplay}</span> on your keyboard to match the song.`;
+        }
+
+        this.showTipBanner(tipHtml, 5000);
+    }
+
+    /**
+     * Shows a reusable floating tip banner at the top of the Song Detail body.
+     * @param {string} htmlContent - Banner message HTML
+     * @param {number} duration - Auto-dismiss timeout in ms (default 5000)
+     */
+    showTipBanner(htmlContent, duration = 5000) {
+        if (!this.tipBanner || !this.tipBannerText) return;
+
+        if (this.tipBannerTimer) {
+            clearTimeout(this.tipBannerTimer);
+            this.tipBannerTimer = null;
+        }
+
+        this.tipBannerText.innerHTML = htmlContent;
+        this.tipBanner.classList.remove('hiding');
+        this.tipBanner.classList.remove('hidden');
+
+        if (duration > 0) {
+            this.tipBannerTimer = setTimeout(() => {
+                this.hideTipBanner();
+            }, duration);
+        }
+    }
+
+    /**
+     * Hides the tip banner with a smooth exit animation.
+     */
+    hideTipBanner() {
+        if (!this.tipBanner) return;
+
+        if (this.tipBannerTimer) {
+            clearTimeout(this.tipBannerTimer);
+            this.tipBannerTimer = null;
+        }
+
+        if (!this.tipBanner.classList.contains('hidden')) {
+            this.tipBanner.classList.add('hiding');
+            setTimeout(() => {
+                if (this.tipBanner) {
+                    this.tipBanner.classList.add('hidden');
+                    this.tipBanner.classList.remove('hiding');
+                }
+            }, 300);
+        }
+    }
+
+    /**
+     * Resets chords and key back to their original unmodified state,
+     * disables simplify chords, and dismisses any active tip banner.
+     */
+    resetToNormal() {
+        if (!this.currentSongId) return;
+
+        // 1. Turn off simplify chords if active
+        if (this.simplifyChords) {
+            this.simplifyChords = false;
+            localStorage.setItem(`simplify-chords-${this.currentSongId}`, 'false');
+            this.updateSimplifyUI();
+        }
+
+        // 2. Restore original section chords and key from originalSongData if available
+        if (this.originalSongData) {
+            const sectionKeys = ['verse', 'chorus', 'preChorus', 'bridge'];
+            sectionKeys.forEach(key => {
+                const section = this.sections[key];
+                if (section && section.editInput) {
+                    const originalText = this.originalSongData[key] || '';
+                    section.editInput.value = originalText;
+                    this.renderChordBlock(key, originalText);
+                }
+            });
+
+            if (this.originalSongData.key) {
+                this.songManager.updateSong(this.currentSongId, { key: this.originalSongData.key });
+                this.updateKeyDisplay();
+            }
+        } else if (this.transposeOffset !== 0) {
+            // Fallback: reverse transpose offset
+            this.transposeChords(-this.transposeOffset);
+        }
+
+        this.transposeOffset = 0;
+
+        // 3. Dismiss any active tip banner
+        this.hideTipBanner();
+
+        // 4. Sync with timeline and check for changes
+        this.sendDataToTimeline();
+        this.checkForChanges();
     }
 
     simplifyChord(name) {
@@ -5436,10 +5714,10 @@ class SongDetailModal {
             // Kies de notenaam (voorkeur voor dezelfde accidental als origineel, anders de eerste optie)
             const newNoteOptions = semitoneToNote[newSemitone];
             let newNote;
-            if (accidental === '#' && newNoteOptions.includes(rootNote + '#')) {
-                newNote = rootNote + '#';
-            } else if (accidental === 'b' && newNoteOptions.includes(rootNote + 'b')) {
-                newNote = rootNote + 'b';
+            if (accidental === '#') {
+                newNote = newNoteOptions.find(n => n.includes('#')) || newNoteOptions[0];
+            } else if (accidental === 'b') {
+                newNote = newNoteOptions.find(n => n.includes('b')) || newNoteOptions[0];
             } else {
                 // Gebruik de eerste optie, maar probeer consistent te blijven
                 newNote = newNoteOptions[0];
@@ -5455,9 +5733,8 @@ class SongDetailModal {
             if (!chordString || typeof chordString !== 'string') return chordString;
 
             // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
-            // Pattern om akkoorden te vinden (inclusief accidentals en suffixes)
-            // Strict pattern: Capitalized root, delimiters boundaries, strictly valid suffixes
-            const chordPattern = /(^|[\s,.;:(\[])([A-G][#b]?(?:m|min|maj|M|dim|aug|sus|add)?(?:[0-9]|sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug|°|ø)*(?:\/[A-G][#b]?)?)(?=$|[\s,.;:)\]])/g;
+            // Strict pattern: Capitalized root, delimiters boundaries (including '|'), strictly valid suffixes
+            const chordPattern = /(^|[\s,.;:(\[|])([A-G][#b]?(?:m|min|maj|M|dim|aug|sus|add)?(?:[0-9]|sus[24]?|add[29]|maj[79]?|min[79]?|dim[79]?|aug|°|ø)*(?:\/[A-G][#b]?)?)(?=$|[\s,.;:)\]|])/g;
 
             return chordString.replace(chordPattern, (match, prefix, chord) => {
                 let newChord;
@@ -5714,7 +5991,9 @@ class SongDetailModal {
         // Ensure all floating menus (now in portals/body root) are also hidden
         if (this.capoMenu) this.capoMenu.classList.add('hidden');
         if (this.transposeMenu) this.transposeMenu.classList.add('hidden');
+        if (this.simplifyMenu) this.simplifyMenu.classList.add('hidden');
         if (this.hamburgerMenu) this.hamburgerMenu.classList.add('hidden');
+        this.hideTipBanner();
 
         this.currentSongId = null;
         this.hasUnsavedChanges = false;

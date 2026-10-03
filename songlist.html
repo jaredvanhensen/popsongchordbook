@@ -6,8 +6,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.387">
-    <meta name="application-version" content="v3.387">
+    <meta name="version" content="3.389">
+    <meta name="application-version" content="v3.389">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist">
@@ -2522,9 +2522,34 @@
                     <button id="songDetailChordTrainerBtn" class="song-detail-action-btn" title="Chord Trainer for this song">
                         <span class="icon">🎓</span>
                     </button>
-                    <button id="songDetailSimplifyBtn" class="song-detail-action-btn" title="Simplify chords (remove extensions)">
-                        <span class="icon">✨</span>
-                    </button>
+                    <div class="transpose-menu-container">
+                        <button id="songDetailSimplifyBtn" class="song-detail-action-btn" title="Simplify chords (remove extensions)">
+                            <span class="icon">✨</span>
+                        </button>
+                        <div id="simplifyMenu" class="transpose-menu hidden">
+                            <button id="songDetailSimplifyToggle" class="transpose-menu-item simplify-menu-item" title="Simplify chords">
+                                <span class="icon">✨</span>
+                                <div class="menu-text-group">
+                                    <span class="menu-title">Simplify Chords</span>
+                                    <span class="menu-subtitle">Remove chord extensions</span>
+                                </div>
+                            </button>
+                            <button id="songDetailWhiteKeys" class="transpose-menu-item simplify-menu-item" title="White Keys only (C / Am)">
+                                <span class="icon">🎹</span>
+                                <div class="menu-text-group">
+                                    <span class="menu-title">White Keys only</span>
+                                    <span class="menu-subtitle">Transpose to C / Am</span>
+                                </div>
+                            </button>
+                            <button id="songDetailSimplifyReset" class="transpose-menu-item simplify-menu-item" title="Reset to normal">
+                                <span class="icon">↺</span>
+                                <div class="menu-text-group">
+                                    <span class="menu-title">Reset to normal</span>
+                                    <span class="menu-subtitle">Restore original chords</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                     <button id="songDetailFavoriteBtn" class="song-detail-action-btn" title="Add to favorites">
                         <span class="icon">☆</span>
                     </button>
@@ -2588,6 +2613,14 @@
                 <button class="song-detail-close-top" id="songDetailModalCloseTop" title="Close modal">&times;</button>
             </div>
             <div class="song-detail-body">
+                <!-- Reusable Tip Banner -->
+                <div id="songDetailTipBanner" class="song-detail-tip-banner hidden">
+                    <div class="tip-banner-content">
+                        <span class="tip-banner-icon">💡</span>
+                        <span class="tip-banner-text" id="songDetailTipBannerText"></span>
+                    </div>
+                    <button id="songDetailTipBannerClose" class="tip-banner-close" title="Close tip">&times;</button>
+                </div>
                 <div class="song-chord-section" id="verseSection">
                     <div class="chord-section-header">
                         <h3 class="chord-section-title editable-title" id="verseTitle" contenteditable="true">Block 1
