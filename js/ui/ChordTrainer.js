@@ -939,68 +939,62 @@ class ChordTrainer {
             chordName = root + type;
             
             const parsed = this.chordParser.parse(chordName) || this.chordParser.parse('C');
-            notes = parsed && parsed.notes ? [...parsed.notes] : [48, 52, 55];
-            
+            let rawNotes = parsed && parsed.notes ? [...parsed.notes] : [48, 52, 55];
+
+            // Normalize raw notes into a compact ascending voicing starting from the root note
+            const rootMIDI = rawNotes[0];
+            const pitchClasses = [...new Set(rawNotes.map(n => ((n - rootMIDI) % 12 + 12) % 12))].sort((a, b) => a - b);
+            const compactNotes = pitchClasses.map(interval => rootMIDI + interval);
+
             // Handle random inversion / slash chords
             inversion = 0;
-            displayName = chordName;
-            
             if (this.useInversions && Math.random() > 0.4) {
-                inversion = Math.floor(Math.random() * notes.length);
-                if (inversion > 0) {
-                    // Check bass note for display name without permanent mutation yet
-                    const n0 = notes[inversion % notes.length]; 
-                    // This is simple logic: notes[inversion] is roughly the new bass if we rotated
-                    // But notes.shift() is what actually happens in the original code. 
-                    // Let's just do a mock rotation.
-                    const tempNotesForDisplay = [...notes];
-                    for(let i=0; i<inversion; i++) {
-                        const n = tempNotesForDisplay.shift();
-                        tempNotesForDisplay.push(n + 12);
-                    }
-                    const bassNote = this.getNoteName(tempNotesForDisplay[0], root);
-                    displayName = `${chordName}/${bassNote}`;
+                inversion = Math.floor(Math.random() * compactNotes.length);
+            }
+
+            notes = [...compactNotes];
+            if (inversion > 0) {
+                for (let i = 0; i < inversion; i++) {
+                    const n = notes.shift();
+                    notes.push(n + 12);
                 }
             }
+
+            // Ensure notes are sorted from lowest to highest pitch
+            notes.sort((a, b) => a - b);
+
+            // Center / fit notes between minMIDI (48, C3) and maxMIDI (72, C5)
+            const minMIDI = 48; // C3
+            const maxMIDI = 72; // Limit to 2 octaves + C for both mobile and desktop to fit keyboard
+            let shiftCount = 0;
+            const maxShifts = 10; // Prevent infinite loops
+
+            while (shiftCount < maxShifts) {
+                const currentMin = notes[0];
+                const currentMax = notes[notes.length - 1];
+
+                if (currentMin < minMIDI) {
+                    notes = notes.map(n => n + 12);
+                    shiftCount++;
+                    continue;
+                }
+                if (currentMax > maxMIDI) {
+                    notes = notes.map(n => n - 12);
+                    shiftCount++;
+                    continue;
+                }
+                break; // Fits!
+            }
+
+            // Determine bass note and displayName strictly from the ACTUAL lowest note (notes[0])
+            const actualBassNote = this.getNoteName(notes[0], root);
+            if (this.normalizeNoteName(actualBassNote) === this.normalizeNoteName(root)) {
+                displayName = chordName;
+            } else {
+                displayName = `${chordName}/${actualBassNote}`;
+            }
+
         } while (this.currentChord && displayName === this.currentChord.name);
-
-        // Finalize the notes after uniqueness check
-        if (inversion > 0) {
-            for(let i=0; i<inversion; i++) {
-                const n = notes.shift();
-                notes.push(n + 12);
-            }
-        }
-
-        // Mobile: C3(48) to C5(72), Desktop: C3(48) to C5(72) + octave?
-        const isMob = this.isMobile();
-        const minMIDI = 48; // C3
-        const maxMIDI = 72; // Limit to 2 octaves + C for both mobile and desktop to fit keyboard
-        
-        // Final sort to be sure
-        notes.sort((a, b) => a - b);
-        
-        // Intelligent centering loop: shift chord until it fits properly
-        // We try to keep it as centered as possible, but priority is fitting within view.
-        let shiftCount = 0;
-        const maxShifts = 10; // Prevent infinite loops
-        
-        while (shiftCount < maxShifts) {
-            const currentMin = notes[0];
-            const currentMax = notes[notes.length - 1];
-            
-            if (currentMin < minMIDI) {
-                notes = notes.map(n => n + 12);
-                shiftCount++;
-                continue;
-            }
-            if (currentMax > maxMIDI) {
-                notes = notes.map(n => n - 12);
-                shiftCount++;
-                continue;
-            }
-            break; // Fits!
-        }
 
         const adjustedNotes = [...notes]; 
 
@@ -1084,10 +1078,26 @@ class ChordTrainer {
             types = ['7', 'maj7', 'm7', '6', 'add9'];
         }
         
+        // If the current chord is an inversion (e.g. C/E or Badd9/C#), offer root position as a natural distractor
+        if (this.currentChord.name.includes('/')) {
+            const rootChord = this.currentChord.baseName;
+            if (!options.some(o => this.normalizeChordName(o) === this.normalizeChordName(rootChord))) {
+                options.push(rootChord);
+            }
+        }
+        
         while(options.length < 4) {
             const root = roots[Math.floor(Math.random() * roots.length)];
             const type = types[Math.floor(Math.random() * types.length)];
-            const opt = root + type;
+            let opt = root + type;
+
+            // Occasionally offer a slash chord distractor if in inversion mode
+            if (this.useInversions && Math.random() < 0.35) {
+                const otherRoot = roots[Math.floor(Math.random() * roots.length)];
+                if (otherRoot !== root) {
+                    opt = `${opt}/${otherRoot}`;
+                }
+            }
             
             // Avoid duplicate enharmonic options
             const isDuplicate = options.some(o => 
@@ -1183,6 +1193,12 @@ class ChordTrainer {
             const isCorrect = this.normalizeChordName(selection) === this.normalizeChordName(this.currentChord.name);
             this.validate(isCorrect);
         }
+    }
+
+    normalizeNoteName(note) {
+        if (!note) return "";
+        const map = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
+        return map[note] || note;
     }
 
     normalizeChordName(name) {
