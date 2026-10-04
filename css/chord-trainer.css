@@ -237,7 +237,8 @@ body {
     padding: 30px 40px;
     background: var(--trainer-bg);
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .chord-box-container {
@@ -328,8 +329,44 @@ body {
 }
 
 .action-buttons {
-    margin-top: auto;
-    padding: 20px 0;
+    margin-top: 10px;
+    padding: 10px 0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.next-chord-active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.7) !important;
+    animation: pulseNextBtn 1.5s infinite ease-in-out !important;
+}
+
+@keyframes pulseNextBtn {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 28px rgba(16, 185, 129, 0.9);
+    }
+}
+
+.mode-btn.correct-answer {
+    background: #10b981 !important;
+    color: white !important;
+    border-color: #059669 !important;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.6) !important;
+}
+
+.mode-btn.wrong-answer {
+    background: #ef4444 !important;
+    color: white !important;
+    border-color: #dc2626 !important;
 }
 
 /* Chord Tip Bar */

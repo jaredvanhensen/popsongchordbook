@@ -449,6 +449,19 @@ class ChordTrainer {
         this.dom.checkBtn.addEventListener('click', () => this.checkAnswer());
         this.dom.nextBtn.addEventListener('click', () => this.nextQuestion());
 
+        // Keyboard navigation (Space or Enter to advance)
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.code === 'Space' || e.code === 'Enter') {
+                e.preventDefault();
+                if (this.isSongPracticeMode) {
+                    this.handleSongPracticeNext();
+                } else {
+                    this.nextQuestion();
+                }
+            }
+        });
+
         // Modal
         const statsBtns = [this.dom.openStatsBtn, this.dom.openStatsBtnMobile, this.dom.openStatsBtnCompact];
         statsBtns.forEach(btn => btn && btn.addEventListener('click', () => this.showStats()));
@@ -899,6 +912,12 @@ class ChordTrainer {
         this.dom.chordBoxContainer.style.display = 'block';
         this.dom.resultOverlay.classList.remove('show');
         
+        // Reset NEXT button state
+        if (this.dom.nextBtn) {
+            this.dom.nextBtn.classList.remove('next-chord-active');
+            this.dom.nextBtn.textContent = 'SKIP / NEXT ➔';
+        }
+
         // Hide toolbar toggle by default
         if (this.dom.toggleKeyboardToolbarBtn) {
             this.dom.toggleKeyboardToolbarBtn.style.display = 'none';
@@ -1013,6 +1032,18 @@ class ChordTrainer {
         this.dom.answerOptions.innerHTML = '';
         this.clearGuides();
 
+        if (this.dom.nextBtn) {
+            this.dom.nextBtn.classList.remove('hidden', 'next-chord-active');
+            this.dom.nextBtn.textContent = 'SKIP / NEXT ➔';
+        }
+        if (this.dom.checkBtn) {
+            if (this.currentMode === 1 || this.currentMode === 3) {
+                this.dom.checkBtn.classList.add('hidden');
+            } else {
+                this.dom.checkBtn.classList.remove('hidden');
+            }
+        }
+
         switch (this.currentMode) {
             case 1: // 1. Shape to Chord
                 this.dom.chordDisplay.textContent = '?';
@@ -1114,7 +1145,7 @@ class ChordTrainer {
             const btn = document.createElement('button');
             btn.className = this.isMobile() ? 'mode-btn small-btn' : 'mode-btn';
             btn.textContent = opt;
-            btn.addEventListener('click', () => this.handleSelection(opt));
+            btn.addEventListener('click', () => this.handleSelection(opt, btn));
             this.dom.answerOptions.appendChild(btn);
         });
     }
@@ -1188,8 +1219,11 @@ class ChordTrainer {
         });
     }
 
-    handleSelection(selection) {
+    handleSelection(selection, clickedBtn) {
         if (this.currentMode === 1 || this.currentMode === 3) {
+            if (clickedBtn) {
+                clickedBtn.classList.add('selected-choice');
+            }
             const isCorrect = this.normalizeChordName(selection) === this.normalizeChordName(this.currentChord.name);
             this.validate(isCorrect);
         }
@@ -1347,24 +1381,35 @@ class ChordTrainer {
     }
 
     showFeedback(isCorrect) {
-        // Reveal the name in the golden box
-            if (this.dom.chordDisplay) {
-                if (this.songPracticePhase === 'demo') {
-                    this.dom.chordDisplay.textContent = this.currentChord.name;
-                    this.dom.chordDisplay.style.opacity = '1';
-                } else {
-                    this.dom.chordDisplay.textContent = '?';
-                    this.dom.chordDisplay.style.opacity = '1';
-                }
-            }
-
-        // For identifying modes, show the correct keys as feedback
-        if ((this.currentMode === 1 || this.currentMode === 3) && !this.isSongPracticeMode) {
-            this.highlightKeys(this.currentChord.notes, 'correct');
+        // Reveal the name in the golden box so the user can inspect it
+        if (this.dom.chordDisplay && this.currentChord) {
+            this.dom.chordDisplay.textContent = this.currentChord.name;
+            this.dom.chordDisplay.style.opacity = '1';
         }
 
-        // For "Play the Chord" mode, highlight user selection results
-        if (this.currentMode === 2) {
+        // For identifying modes, highlight keys and options as feedback
+        if ((this.currentMode === 1 || this.currentMode === 3) && !this.isSongPracticeMode) {
+            this.highlightKeys(this.currentChord.notes, 'correct');
+
+            const optionBtns = this.dom.answerOptions.querySelectorAll('button');
+            if (isCorrect) {
+                optionBtns.forEach(b => {
+                    b.disabled = true;
+                    if (this.normalizeChordName(b.textContent) === this.normalizeChordName(this.currentChord.name)) {
+                        b.classList.add('correct-answer');
+                    }
+                });
+            } else {
+                optionBtns.forEach(b => {
+                    if (b.classList.contains('selected-choice')) {
+                        b.classList.add('wrong-answer');
+                    }
+                });
+            }
+        }
+
+        // For "Play the Chord" mode and Mode 4, show correct keys
+        if (this.currentMode === 2 || this.currentMode === 4) {
             this.highlightKeys(this.currentChord.notes, 'correct');
         }
 
@@ -1375,22 +1420,22 @@ class ChordTrainer {
                 this.audioPlayer.playChord(this.currentChord.notes.map(n => n), 1.0, 1.0);
             }
 
-            // Auto-advance after 3 seconds (not in ranked mode or song practice)
-            // Auto-advance
-            if (!this.isSongPracticeMode) {
-                if (this.timerInterval === null) {
-                    // Free Play: 3 second delay so user can see their success
-                    clearTimeout(this.autoAdvanceTimer);
-                    this.autoAdvanceTimer = setTimeout(() => {
-                        this.nextQuestion();
-                    }, 3000);
-                } else {
-                    // Ranked Mode: Immediate transition (fast-paced)
-                    clearTimeout(this.autoAdvanceTimer);
-                    this.autoAdvanceTimer = setTimeout(() => {
-                        this.nextQuestion();
-                    }, 600); // Short delay for better UX
-                }
+            // Activate NEXT button so user can advance when ready
+            if (this.dom.nextBtn) {
+                this.dom.nextBtn.classList.add('next-chord-active');
+                this.dom.nextBtn.textContent = 'NEXT CHORD ➔';
+            }
+
+            // In Ranked Mode: Fast automatic transition with running timer
+            if (!this.isSongPracticeMode && this.timerInterval !== null) {
+                clearTimeout(this.autoAdvanceTimer);
+                this.autoAdvanceTimer = setTimeout(() => {
+                    this.nextQuestion();
+                }, 600);
+            } else {
+                // In Free Play: NEVER auto-advance!
+                // The user can take their time to inspect the chord, keys, and notes.
+                clearTimeout(this.autoAdvanceTimer);
             }
         } else {
             this.dom.resultOverlay.classList.remove('correct');
@@ -2036,16 +2081,25 @@ class ChordTrainer {
             this.dom.notesDisplay.textContent = 'DEMONSTRATION';
             this.highlightKeys(this.currentChord.notes, 'correct');
             this.dom.showChordBtn.classList.add('hidden');
-            this.dom.songPracticeNextBtn.textContent = 'NEXT';
+            if (this.dom.songPracticeNextBtn) {
+                this.dom.songPracticeNextBtn.textContent = 'TRY THIS CHORD ➔';
+                this.dom.songPracticeNextBtn.classList.remove('next-chord-active');
+            }
         } else {
             this.dom.notesDisplay.textContent = 'RECREATE THIS CHORD';
             this.clearGuides();
             this.dom.showChordBtn.classList.remove('hidden');
-            this.dom.songPracticeNextBtn.textContent = 'SKIP CHORD';
+            if (this.dom.songPracticeNextBtn) {
+                this.dom.songPracticeNextBtn.textContent = 'SKIP CHORD ➔';
+                this.dom.songPracticeNextBtn.classList.remove('next-chord-active');
+            }
         }
     }
 
     handleSongPracticeNext() {
+        if (this.dom.songPracticeNextBtn) {
+            this.dom.songPracticeNextBtn.classList.remove('next-chord-active');
+        }
         if (this.songPracticePhase === 'demo') {
             this.songPracticePhase = 'practice';
             this.nextQuestion();
@@ -2090,12 +2144,11 @@ class ChordTrainer {
             this.isQuestionHandled = true;
             this.showFeedback(true);
             
-            // Automatically move to demo of next chord after a delay
-            setTimeout(() => {
-                this.songPracticePhase = 'demo';
-                this.songChordIndex = (this.songChordIndex + 1) % this.songChords.length;
-                this.nextQuestion();
-            }, 1000);
+            // Prompt user with NEXT button - no auto advance so user can inspect
+            if (this.dom.songPracticeNextBtn) {
+                this.dom.songPracticeNextBtn.textContent = 'NEXT CHORD ➔';
+                this.dom.songPracticeNextBtn.classList.add('next-chord-active');
+            }
         }
     }
 
