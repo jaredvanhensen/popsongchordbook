@@ -4985,27 +4985,6 @@ class SongDetailModal {
         // Check if any chord currently has flats or sharps in the name
         const hasAccidentals = cleanChords.some(c => /^[A-G][#b]/.test(c) || /\/[A-G][#b]/.test(c));
 
-        // 2. Detect musical key directly from the actual chord progression
-        let activeKey = null;
-        if (typeof KeyDetector !== 'undefined') {
-            const detector = new KeyDetector();
-            activeKey = (detector.detectKey(allText) || '').trim();
-        }
-
-        // If KeyDetector returned no key, or returned a key without accidentals while chords clearly have accidentals:
-        if (!activeKey || (hasAccidentals && !/^[A-G][#b]/.test(activeKey))) {
-            const firstAccidental = cleanChords.find(c => /^[A-G][#b]/.test(c));
-            if (firstAccidental) {
-                activeKey = firstAccidental;
-            } else if (song.key && song.key.trim()) {
-                activeKey = song.key.trim();
-            } else if (cleanChords.length > 0) {
-                activeKey = cleanChords[0];
-            } else {
-                activeKey = 'C';
-            }
-        }
-
         const noteToSemitone = {
             'C': 0, 'C#': 1, 'Db': 1,
             'D': 2, 'D#': 3, 'Eb': 3,
@@ -5015,6 +4994,71 @@ class SongDetailModal {
             'A': 9, 'A#': 10, 'Bb': 10,
             'B': 11, 'Cb': 11
         };
+
+        // 2. Detect musical key directly from the chord progression
+        // We evaluate both the opening section (Intro/Verse) and the whole song
+        const firstSectionKey = sectionKeys.find(k => (this.sections[k]?.editInput?.value || song[k] || '').trim().length > 0);
+        const firstSectionText = firstSectionKey ? (this.sections[firstSectionKey]?.editInput?.value || song[firstSectionKey] || '') : allText;
+
+        let activeKey = null;
+        if (typeof KeyDetector !== 'undefined') {
+            const detector = new KeyDetector();
+            const verseKey = (detector.detectKey(firstSectionText) || '').trim();
+            const overallKey = (detector.detectKey(allText) || '').trim();
+
+            if (verseKey && overallKey && verseKey !== overallKey) {
+                // The song modulates between sections (e.g. verse in G, ending in A).
+                // Prioritize whichever key produces fewer black-key roots in the opening section!
+                const calcShift = (k) => {
+                    const minor = /m(?!aj)/i.test(k) || /min|-/i.test(k);
+                    const rm = k.match(/^([A-Ga-g])([#b]?)/);
+                    if (!rm) return 0;
+                    const rn = rm[1].toUpperCase() + (rm[2] || '');
+                    const rs = noteToSemitone[rn];
+                    if (rs === undefined) return 0;
+                    const ts = minor ? 9 : 0;
+                    let d = (ts - rs + 12) % 12;
+                    if (d > 6) d -= 12;
+                    return d;
+                };
+
+                const countBlackRoots = (text, shift) => {
+                    const matches = text.match(/(?:^|[\s,.;:(\[|])([A-G][#b]?)/g) || [];
+                    const blackRoots = new Set([1, 3, 6, 8, 10]); // C#, D#, F#, G#, A#
+                    let count = 0;
+                    matches.forEach(m => {
+                        const root = m.trim().replace(/^[\s,.;:(\[|]+/, '');
+                        const semi = noteToSemitone[root];
+                        if (semi !== undefined) {
+                            const newSemi = (semi + shift + 12) % 12;
+                            if (blackRoots.has(newSemi)) count++;
+                        }
+                    });
+                    return count;
+                };
+
+                const shiftV = calcShift(verseKey);
+                const shiftO = calcShift(overallKey);
+                const blackV = countBlackRoots(firstSectionText, shiftV);
+                const blackO = countBlackRoots(firstSectionText, shiftO);
+
+                activeKey = (blackV <= blackO) ? verseKey : overallKey;
+            } else {
+                activeKey = verseKey || overallKey;
+            }
+        }
+
+        // Fallback if KeyDetector returned no key:
+        // Prioritize actual chords over the song.key field (which is often inaccurate)
+        if (!activeKey) {
+            if (cleanChords.length > 0) {
+                activeKey = cleanChords[0];
+            } else if (song.key && song.key.trim()) {
+                activeKey = song.key.trim();
+            } else {
+                activeKey = 'C';
+            }
+        }
 
         const isMinor = /m(?!aj)/i.test(activeKey) || /min|-/i.test(activeKey);
         const rootMatch = activeKey.match(/^([A-Ga-g])([#b]?)/);
@@ -5070,15 +5114,50 @@ class SongDetailModal {
             transposeDisplay = '0';
         }
 
-        // 6. Show the 5-second Tip Banner
+        // 6. Check if any chords in the song still contain black keys
+        // (due to modal chords, borrowed chords, or key modulations)
+        const hasBlackKeys = (chord) => {
+            if (!chord) return false;
+            const parts = chord.split('/');
+            for (const part of parts) {
+                const clean = part.trim();
+                // 1. Any sharp or flat in the root note
+                if (/^[A-G][#b]/.test(clean)) return true;
+                // 2. Chords on natural roots that contain black keys:
+                // Major triads with sharps: D, E, A, B
+                if (/^(D|E|A|B)(?:[0-9]|maj|M|add|\(|$)/i.test(clean) && !/^(D|E|A|B)m(?!aj)/i.test(clean)) return true;
+                // Minor triads with flats: Cm, Fm, Gm, Bm (Bm has F#)
+                if (/^(C|F|G|B)m/i.test(clean)) return true;
+                // Dim/aug chords that introduce accidentals
+                if (/^(C|D|E|F|G|A)dim/i.test(clean)) return true;
+                if (/^[A-G]aug/i.test(clean)) return true;
+                if (/^F7/i.test(clean)) return true;
+                if (/^Gmaj7/i.test(clean)) return true;
+            }
+            return false;
+        };
+
+        const stillHasBlackKeys = cleanChords.some(c => {
+            const transposed = this.chordParser ? this.chordParser.transpose(c, diff) : c;
+            return hasBlackKeys(transposed);
+        });
+
+        // 7. Show the Tip Banner
+        const modalWarningHtml = `<div class="tip-banner-modal-note" style="margin-top:8px;background:linear-gradient(135deg,#7e22ce 0%,#9333ea 50%,#a855f7 100%);border:1px solid rgba(255,255,255,0.45);border-radius:8px;padding:7px 12px;display:flex;align-items:center;gap:8px;color:#ffffff;font-size:0.88rem;font-weight:500;box-shadow:0 4px 14px rgba(126,34,206,0.4);"><span style="font-size:1.1rem;line-height:1;flex-shrink:0;">⚠️</span><span>This song has a modal chord structure or key modulation, so it cannot be completely transposed to only white keys.</span></div>`;
+
         let tipHtml;
-        if (keyboardTranspose === 0 && !hasAccidentals) {
-            tipHtml = `Playing along? All chords are already on white keys!`;
+        if (keyboardTranspose === 0) {
+            tipHtml = stillHasBlackKeys
+                ? `Playing along? Most chords are on white keys.${modalWarningHtml}`
+                : `Playing along? All chords are already on white keys!`;
         } else {
             tipHtml = `Playing along? Use Transpose <span class="tip-badge">${transposeDisplay}</span> on your keyboard to match the song.`;
+            if (stillHasBlackKeys) {
+                tipHtml += modalWarningHtml;
+            }
         }
 
-        this.showTipBanner(tipHtml, 5000);
+        this.showTipBanner(tipHtml, 10000);
     }
 
     /**
@@ -5662,6 +5741,39 @@ class SongDetailModal {
             }
             window.open(url, '_blank');
         }
+    }
+
+    get transposeOffset() {
+        return this._transposeOffset || 0;
+    }
+
+    set transposeOffset(value) {
+        this._transposeOffset = value;
+        this.updateTransposeBadge();
+    }
+
+    /**
+     * Shows a red badge on the Transpose toolbar button with the current
+     * number of semitones transposed (e.g. +1, -2). Hidden when 0.
+     */
+    updateTransposeBadge() {
+        const btn = this.transposeBtn;
+        if (!btn) return;
+        let badge = btn.querySelector('.transpose-offset-badge');
+        const offset = this._transposeOffset || 0;
+        if (offset === 0) {
+            if (badge) badge.style.display = 'none';
+            return;
+        }
+        if (!badge) {
+            btn.style.position = 'relative';
+            badge = document.createElement('span');
+            badge.className = 'transpose-offset-badge';
+            badge.style.cssText = 'position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#ef4444;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,0.4);z-index:2;';
+            btn.appendChild(badge);
+        }
+        badge.textContent = offset > 0 ? `+${offset}` : `${offset}`;
+        badge.style.display = '';
     }
 
     transposeChords(semitones) {
