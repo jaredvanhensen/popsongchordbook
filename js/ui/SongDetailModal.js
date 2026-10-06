@@ -912,8 +912,8 @@ class SongDetailModal {
                     scrollingChordsModal.classList.remove('timeline-hidden');
                     this._updateTimelineMinimizedIndicator(false);
 
-                    // No need to send data on restore since the iframe stayed active and has all current data
-                    // this.sendDataToTimeline();
+                    // Sync data on restore to ensure any changes made while minimized are active
+                    this.sendDataToTimeline();
 
                     if (window.appInstance) {
                         window.appInstance.pushModalState('scrollingChords', () => {
@@ -4250,11 +4250,17 @@ class SongDetailModal {
         console.log('Sending chord data to Timeline view', song);
 
         // Extract chords from song blocks for the toolbar
+        const getSectionText = (key, defaultText) => {
+            return (this.sections && this.sections[key]?.editInput)
+                ? this.sections[key].editInput.value
+                : (defaultText || '');
+        };
+
         const sections = [
-            { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: song.verse || '' },
-            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: song.chorus || '' },
-            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: song.preChorus || '' },
-            { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: song.bridge || '' }
+            { name: song.verseTitle || 'BLOCK 1', type: 'verse', text: getSectionText('verse', song.verse) },
+            { name: song.chorusTitle || 'BLOCK 2', type: 'chorus', text: getSectionText('chorus', song.chorus) },
+            { name: song.preChorusTitle || 'BLOCK 3', type: 'pre-chorus', text: getSectionText('preChorus', song.preChorus) },
+            { name: song.bridgeTitle || 'BLOCK 4', type: 'bridge', text: getSectionText('bridge', song.bridge) }
         ];
 
         // Grouped blocks follow the order of fields: Verse, Chorus, Pre-Chorus, Bridge
@@ -4268,11 +4274,28 @@ class SongDetailModal {
             };
         });
 
-
-
         // Prepare data for timeline
-        const timelineData = song.chordData ? { ...song.chordData } : { chords: [] };
+        let timelineData = song.chordData ? JSON.parse(JSON.stringify(song.chordData)) : { chords: [] };
         if (song.tempo) timelineData.tempo = song.tempo;
+
+        // If song is transposed (via White Keys Only or transpose buttons), transpose timeline chords accordingly!
+        const offset = this.transposeOffset || 0;
+        if (offset !== 0 && Array.isArray(timelineData.chords) && this.chordParser) {
+            timelineData.chords.forEach(c => {
+                if (c && c.name) {
+                    c.name = this.chordParser.transpose(c.name, offset);
+                }
+            });
+        }
+
+        // If simplify chords is active, simplify chord extensions on the timeline chords as well
+        if (this.simplifyChords && Array.isArray(timelineData.chords)) {
+            timelineData.chords.forEach(c => {
+                if (c && c.name) {
+                    c.name = this.simplifyChord(c.name);
+                }
+            });
+        }
 
         // Send data
         const lastPosition = (this._timelinePositions && this._timelinePositions[this.currentSongId]) || 0;
@@ -5100,8 +5123,22 @@ class SongDetailModal {
         // 4. Apply transposition if needed
         if (diff !== 0) {
             this.transposeChords(diff);
-            this.sendDataToTimeline();
         }
+
+        // Also activate simplifyChords so extensions are simplified to clean triads
+        this.simplifyChords = true;
+        localStorage.setItem(`simplify-chords-${this.currentSongId}`, 'true');
+        this.updateSimplifyUI();
+
+        // Re-render blocks with simplified chord names
+        Object.keys(this.sections).forEach(key => {
+            const section = this.sections[key];
+            if (section && section.editInput) {
+                this.renderChordBlock(key, section.editInput.value);
+            }
+        });
+
+        this.sendDataToTimeline();
 
         // 5. Calculate hardware keyboard transpose value
         const keyboardTranspose = -diff;
@@ -5903,6 +5940,7 @@ class SongDetailModal {
             // Markeer als gewijzigd
             this.checkForChanges();
             this.transposeOffset += semitones;
+            this.sendDataToTimeline();
         }
     }
 
