@@ -11,6 +11,7 @@
     --text-color: #ffffff;
     --hud-top-offset: 140px;
     --chord-zoom-scale: 1;
+    --chord-user-zoom: 1;
     /* Default offset, JS will refine this */
 }
 
@@ -1405,21 +1406,21 @@ body.edit-mode-active .marker-track-handle {
     pointer-events: auto;
     will-change: auto;
     /* Optimized: only on when needed, or just remove if causing memory issues */
-    font-size: calc(2.2rem * var(--chord-zoom-scale, 1));
+    font-size: calc(2.2rem * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1));
     /* Massive chords as per image */
     font-weight: 900;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: calc(90px * var(--chord-zoom-scale, 1));
-    height: calc(90px * var(--chord-zoom-scale, 1));
+    min-width: calc(90px * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1));
+    height: calc(90px * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1));
     /* Block shape */
 
     /* Button Look - High Fidelity */
     background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-    padding: calc(10px * var(--chord-zoom-scale, 1)) calc(20px * var(--chord-zoom-scale, 1));
-    border-radius: calc(18px * var(--chord-zoom-scale, 1));
+    padding: calc(10px * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1)) calc(20px * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1));
+    border-radius: calc(18px * var(--chord-zoom-scale, 1) * var(--chord-user-zoom, 1));
     /* Rounded blocks */
     box-shadow: 0 calc(8px * var(--chord-zoom-scale, 1)) 0px #312e81, 0 calc(15px * var(--chord-zoom-scale, 1)) calc(25px * var(--chord-zoom-scale, 1)) rgba(0, 0, 0, 0.3);
     border: calc(2px * var(--chord-zoom-scale, 1)) solid rgba(255, 255, 255, 0.2);

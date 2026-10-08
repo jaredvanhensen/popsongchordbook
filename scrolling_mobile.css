@@ -161,15 +161,15 @@ body.is-mobile-landscape .timeline-container {
     z-index: 500;
 }
 
-/* Shrink Chords MUCH smaller (65px) in landscape (v2.457) */
-/* Nuclear Specificity Override: Removed top:40% !important to allow staggering */
+/* Square Chord Boxes on Mobile Landscape (v3.395) */
 body.is-mobile-landscape #timeline .chord-item {
-    width: 28px !important; /* 50% horizontal reduction as requested */
-    height: 44px !important; /* Reduced ~20% from 55px */
-    font-size: 0.7rem !important; /* Reduced symbol size to fit narrow box */
-    border-radius: 8px !important;
+    width: calc(44px * var(--chord-user-zoom, 1)) !important;
+    height: calc(44px * var(--chord-user-zoom, 1)) !important;
+    font-size: calc(0.85rem * var(--chord-user-zoom, 1)) !important;
+    border-radius: calc(10px * var(--chord-user-zoom, 1)) !important;
     padding: 2px !important;
     transform: translateY(-50%) !important;
+    transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease, border-radius 0.2s ease !important;
 }
 
 /* Shrink the BIG Yellow box (current chord display) to prevent collision with Guitar Chord Diagram (v3.083) */
@@ -274,7 +274,8 @@ body.is-mobile-landscape #statusText {
 /* Adjust Playhead/Arrow for full-height timeline under header */
 body.is-mobile-landscape .main-play-arrow {
     transform: translate(-50%, -50%) !important;
-    top: calc(50% - 22px) !important; /* Aligned with the TOP of the 44px chord box */
+    top: calc(50% - (44px * var(--chord-user-zoom, 1)) / 2) !important;
+    transition: top 0.2s ease !important;
 }
 
 /* --- Pure Timeline Additional UI Controls (v2.472) --- */
@@ -332,7 +333,8 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact,
 #pureTimelineFullModeBtn,
 #pureTimelineMenuBtn,
-#fullscreenToggleBtn {
+#fullscreenToggleBtn,
+#pureIntelligentZoomBtn {
     min-width: 28px !important; /* Ultra-compact (was 42px) */
     height: 28px !important;
     background: rgba(255, 255, 255, 0.15) !important;
@@ -349,7 +351,8 @@ body.is-mobile-landscape .header-controls-row {
 #youtubeToggleBtnCompact .icon,
 #pureTimelineFullModeBtn .icon,
 #pureTimelineMenuBtn .icon,
-#fullscreenToggleBtn .icon {
+#fullscreenToggleBtn .icon,
+#pureIntelligentZoomBtn .icon {
     font-size: 1.0rem !important; /* Ultra-compact icons */
     color: white !important;
 }
@@ -594,7 +597,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact,
     body.is-portrait #pureTimelineFullModeBtn,
     body.is-portrait #pureTimelineMenuBtn,
-    body.is-portrait #fullscreenToggleBtn {
+    body.is-portrait #fullscreenToggleBtn,
+    body.is-portrait #pureIntelligentZoomBtn {
         min-width: 34px !important;
         height: 34px !important;
     }
@@ -605,7 +609,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-portrait #youtubeToggleBtnCompact .icon,
     body.is-portrait #pureTimelineFullModeBtn .icon,
     body.is-portrait #pureTimelineMenuBtn .icon,
-    body.is-portrait #fullscreenToggleBtn .icon {
+    body.is-portrait #fullscreenToggleBtn .icon,
+    body.is-portrait #pureIntelligentZoomBtn .icon {
         font-size: 1.15rem !important;
     }
 
@@ -698,8 +703,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     }
 }
 
-/* --- v2.757 TABLET LANDSCAPE: PURE TIMELINE (Wide & Tall) --- */
-@media (min-width: 768px) {
+/* --- v2.757 TABLET LANDSCAPE: PURE TIMELINE (Wide & Tall Tablets only) --- */
+@media (min-width: 768px) and (min-height: 550px) {
     body.is-mobile-landscape .landscape-header-bar {
         padding: 20px 30px !important;
         gap: 15px !important;
@@ -737,7 +742,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact,
     body.is-mobile-landscape #pureTimelineFullModeBtn,
     body.is-mobile-landscape #pureTimelineMenuBtn,
-    body.is-mobile-landscape #fullscreenToggleBtn {
+    body.is-mobile-landscape #fullscreenToggleBtn,
+    body.is-mobile-landscape #pureIntelligentZoomBtn {
         height: 42px !important; 
         min-width: 42px !important;
         background: rgba(255, 255, 255, 0.2) !important;
@@ -750,7 +756,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
     body.is-mobile-landscape #youtubeToggleBtnCompact .icon,
     body.is-mobile-landscape #pureTimelineFullModeBtn .icon,
     body.is-mobile-landscape #pureTimelineMenuBtn .icon,
-    body.is-mobile-landscape #fullscreenToggleBtn .icon {
+    body.is-mobile-landscape #fullscreenToggleBtn .icon,
+    body.is-mobile-landscape #pureIntelligentZoomBtn .icon {
         font-size: 1.35rem !important; /* Refined icon scale */
     }
 
@@ -801,17 +808,19 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
         height: 30px !important;
     }
 
-    /* Increase Chord Box Size by 50% for Tablet (v2.789) */
+    /* Square Chord Box Size for Tablet (v3.395) */
     body.is-mobile-landscape #timeline .chord-item {
-        width: 42px !important; 
-        height: 82px !important;
-        font-size: 1.05rem !important;
-        border-radius: 12px !important;
+        width: calc(60px * var(--chord-user-zoom, 1)) !important; 
+        height: calc(60px * var(--chord-user-zoom, 1)) !important;
+        font-size: calc(1.15rem * var(--chord-user-zoom, 1)) !important;
+        border-radius: calc(12px * var(--chord-user-zoom, 1)) !important;
+        transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease, border-radius 0.2s ease !important;
     }
 
-    /* Adjust Playhead for taller boxes */
+    /* Adjust Playhead for tablet boxes */
     body.is-mobile-landscape .main-play-arrow {
-        top: calc(50% - 41px) !important; /* Aligned with top of 82px box */
+        top: calc(50% - (60px * var(--chord-user-zoom, 1)) / 2) !important;
+        transition: top 0.2s ease !important;
     }
 
     /* Adjust Bar Labels for taller boxes */
@@ -1149,6 +1158,42 @@ body.is-mobile-landscape #timeline .chord-item.has-original .chord-original {
 }
 body.is-mobile-landscape #timeline .chord-item.has-original .chord-main {
     font-size: inherit !important;
+}
+
+/* Intelligent Chord Zoom Toast & Animation */
+.chord-zoom-toast {
+    position: fixed;
+    top: 92px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #ffffff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.18);
+    white-space: nowrap;
+}
+.chord-zoom-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+@keyframes shakeBtn {
+    0%, 100% { transform: scale(1); }
+    20%, 60% { transform: translateX(-3px) scale(1); }
+    40%, 80% { transform: translateX(3px) scale(1); }
+}
+.pure-timeline-controls button.shake {
+    animation: shakeBtn 0.35s ease;
 }
 
 

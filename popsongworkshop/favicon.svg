@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="psw-chassis" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#004ad4"/>
+      <stop offset="100%" stop-color="#002b70"/>
+    </linearGradient>
+    <linearGradient id="psw-key-white" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="90%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="psw-key-black" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="psw-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#psw-shadow)">
+    <!-- Outer Keyboard Body / Chassis -->
+    <rect x="2" y="4" width="60" height="56" rx="8" fill="url(#psw-chassis)" stroke="#001a47" stroke-width="1.2"/>
+    
+    <!-- Accent strip above keys (PopSongWorkshop Yellow) -->
+    <rect x="6" y="10" width="52" height="3.5" rx="1" fill="#ffd000"/>
+    
+    <!-- White Keys (7 keys: C D E F G A B) -->
+    <g transform="translate(6, 13.5)">
+      <rect x="0" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="7.5" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="15" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="22.5" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="30" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="37.5" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      <rect x="45" y="0" width="7" height="42" rx="1.5" fill="url(#psw-key-white)"/>
+      
+      <!-- Black Keys (2 + 3 pattern: C#, D#, F#, G#, A#) -->
+      <rect x="4.8" y="0" width="5.2" height="25" rx="1.2" fill="url(#psw-key-black)"/>
+      <rect x="12.3" y="0" width="5.2" height="25" rx="1.2" fill="url(#psw-key-black)"/>
+      
+      <rect x="27.3" y="0" width="5.2" height="25" rx="1.2" fill="url(#psw-key-black)"/>
+      <rect x="34.8" y="0" width="5.2" height="25" rx="1.2" fill="url(#psw-key-black)"/>
+      <rect x="42.3" y="0" width="5.2" height="25" rx="1.2" fill="url(#psw-key-black)"/>
+    </g>
+  </g>
+</svg>

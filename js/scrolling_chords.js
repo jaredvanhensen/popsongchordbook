@@ -1538,6 +1538,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof initTextModeOverlaySize === 'function') {
                 initTextModeOverlaySize();
             }
+            if (typeof validateAndApplyChordZoom === 'function') {
+                validateAndApplyChordZoom();
+            }
         };
 
         // Setup the Pure Timeline Buttons
@@ -1649,6 +1652,17 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             if (typeof cycleSpeed === 'function') cycleSpeed();
         });
+
+        // --- Intelligent Chord Zoom Buttons (Toolbar + Menu) ---
+        const handleIntelligentChordZoom = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof cycleIntelligentChordZoom === 'function') {
+                cycleIntelligentChordZoom();
+            }
+        };
+        document.getElementById('pureIntelligentZoomBtn')?.addEventListener('click', handleIntelligentChordZoom);
+        document.getElementById('pureMenuChordBlockZoomBtn')?.addEventListener('click', handleIntelligentChordZoom);
 
         document.getElementById('fullscreenToggleBtn')?.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2020,6 +2034,158 @@ function cycleSpeed() {
     }
 }
 
+// =========================================================================
+// INTELLIGENT CHORD BLOCK ZOOM SYSTEM (v3.395)
+// 8-step cycle in 25% increments up to +200% (max 3.0x), then cycle back to 0%.
+// Constraint: ONLY increases when there is vertical clearance for all chords!
+// =========================================================================
+
+window.chordZoomLevel = parseInt(localStorage.getItem('pure-timeline-chord-zoom') || '0', 10);
+if (isNaN(window.chordZoomLevel) || window.chordZoomLevel < 0 || window.chordZoomLevel > 8) {
+    window.chordZoomLevel = 0;
+}
+
+function getChordZoomMultiplier(step) {
+    // 0 = 100% (0% increase), 1 = 125% (+25%), ..., 8 = 300% (+200% increase)
+    return 1.0 + (step * 0.25);
+}
+
+function showChordZoomToast(message) {
+    let toast = document.querySelector('.chord-zoom-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'chord-zoom-toast';
+        document.body.appendChild(toast);
+    }
+    toast.innerText = message;
+    toast.classList.remove('show');
+    void toast.offsetWidth; // force reflow
+    toast.classList.add('show');
+    clearTimeout(window._chordZoomToastTimer);
+    window._chordZoomToastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 1800);
+}
+
+function applyChordZoom(step, showFeedback = false, customMessage = '') {
+    window.chordZoomLevel = step;
+    try {
+        localStorage.setItem('pure-timeline-chord-zoom', String(step));
+    } catch (e) {}
+
+    const multiplier = getChordZoomMultiplier(step);
+    document.documentElement.style.setProperty('--chord-user-zoom', multiplier);
+
+    const timelineEl = document.getElementById('timeline');
+    if (timelineEl) {
+        timelineEl.style.setProperty('--chord-user-zoom', multiplier);
+    }
+    const chordTrackEl = document.getElementById('chordTrack');
+    if (chordTrackEl) {
+        chordTrackEl.style.setProperty('--chord-user-zoom', multiplier);
+    }
+
+    const pct = Math.round(multiplier * 100);
+    const addedPct = step * 25;
+    const labelText = step === 0 ? '100%' : `${pct}% (+${addedPct}%)`;
+
+    const zoomDisplay = document.getElementById('pureChordZoomDisplay');
+    if (zoomDisplay) zoomDisplay.innerText = labelText;
+
+    const zoomBtn = document.getElementById('pureIntelligentZoomBtn');
+    if (zoomBtn) {
+        zoomBtn.title = `Intelligent Chord Zoom: ${labelText}`;
+        zoomBtn.classList.toggle('active', step > 0);
+    }
+
+    if (showFeedback) {
+        showChordZoomToast(customMessage || `Chord Size: ${labelText}`);
+    }
+}
+
+function checkCanIncreaseChordZoom(targetStep) {
+    const targetMultiplier = getChordZoomMultiplier(targetStep);
+    const chordElements = document.querySelectorAll('#timeline .chord-item');
+    if (!chordElements.length) return true;
+
+    // Boundaries in viewport space
+    let topLimit = 0;
+    const headerBar = document.getElementById('landscapeHeaderBar');
+    if (headerBar && headerBar.offsetHeight > 0) {
+        topLimit = headerBar.getBoundingClientRect().bottom;
+    }
+
+    let bottomLimit = window.innerHeight;
+    const lyricsHUD = document.getElementById('lyricsHUD');
+    if (lyricsHUD && !lyricsHUD.classList.contains('hidden') && lyricsHUD.offsetHeight > 0) {
+        bottomLimit = lyricsHUD.getBoundingClientRect().top;
+    }
+
+    const safetyMargin = 6; // px to ensure chords never touch or collide with toolbar/bottom
+    const currentMultiplier = getChordZoomMultiplier(window.chordZoomLevel || 0);
+
+    for (const el of chordElements) {
+        const rect = el.getBoundingClientRect();
+        if (rect.height === 0) continue;
+
+        // Base unscaled height of chord box
+        const baseHeight = rect.height / currentMultiplier;
+        const proposedHeight = baseHeight * targetMultiplier;
+        const centerY = rect.top + rect.height / 2;
+
+        const proposedTop = centerY - (proposedHeight / 2);
+        const proposedBottom = centerY + (proposedHeight / 2);
+
+        if (proposedTop < (topLimit + safetyMargin)) {
+            return false; // Top collision / too close to toolbar
+        }
+        if (proposedBottom > (bottomLimit - safetyMargin)) {
+            return false; // Bottom collision / too close to lyrics or screen bottom
+        }
+    }
+    return true;
+}
+
+function validateAndApplyChordZoom() {
+    // If screen shrunk or lyrics toggled, ensure current zoom still fits
+    while (window.chordZoomLevel > 0 && !checkCanIncreaseChordZoom(window.chordZoomLevel)) {
+        window.chordZoomLevel--;
+    }
+    applyChordZoom(window.chordZoomLevel, false);
+}
+
+function cycleIntelligentChordZoom() {
+    const currentStep = window.chordZoomLevel || 0;
+    const maxSteps = 8; // 8 steps of +25% = max +200%
+
+    if (currentStep >= maxSteps) {
+        // At max (200%), cycle back to 0%
+        applyChordZoom(0, true, 'Chord Size: 100% (Reset)');
+        return;
+    }
+
+    const nextStep = currentStep + 1;
+    const fits = checkCanIncreaseChordZoom(nextStep);
+
+    if (fits) {
+        applyChordZoom(nextStep, true);
+    } else {
+        // Space is constrained!
+        if (currentStep > 0) {
+            // Already zoomed, next step doesn't fit -> cycle back to 0%
+            applyChordZoom(0, true, 'Chord Size: 100% (Max fit reached, reset)');
+        } else {
+            // At 0% and even +25% doesn't fit -> keep at 0% and notify
+            const zoomBtn = document.getElementById('pureIntelligentZoomBtn');
+            if (zoomBtn) {
+                zoomBtn.classList.add('shake');
+                setTimeout(() => zoomBtn.classList.remove('shake'), 400);
+            }
+            showChordZoomToast('No space to enlarge chord blocks in this view');
+        }
+    }
+}
+
 /**
  * Synchronizes the visual state of the compact (Pure Timeline) buttons with the global state.
  */
@@ -2046,6 +2212,18 @@ function syncPureTimelineButtons() {
     const pureSpeedDisplay = document.getElementById('pureMenuSpeedDisplay');
     if (pureSpeedDisplay) {
         pureSpeedDisplay.innerText = `${currentSpeed}x`;
+    }
+
+    const chordZoomDisp = document.getElementById('pureChordZoomDisplay');
+    if (chordZoomDisp) {
+        const step = window.chordZoomLevel || 0;
+        chordZoomDisp.innerText = step === 0 ? '100%' : `${100 + step * 25}% (+${step * 25}%)`;
+    }
+    const chordZoomBtn = document.getElementById('pureIntelligentZoomBtn');
+    if (chordZoomBtn) {
+        const step = window.chordZoomLevel || 0;
+        chordZoomBtn.classList.toggle('active', step > 0);
+        chordZoomBtn.title = `Intelligent Chord Zoom: ${step === 0 ? '100%' : `${100 + step * 25}% (+${step * 25}%)`}`;
     }
 }
 
@@ -3670,6 +3848,9 @@ function toggleLyricsHUD() {
     } else {
         hideLyricsHUD();
     }
+    if (typeof validateAndApplyChordZoom === 'function') {
+        setTimeout(validateAndApplyChordZoom, 50);
+    }
 }
 
 function toggleTextMode() {
@@ -4562,6 +4743,9 @@ function hideLyricsHUD() {
     if (toggleLyricsBtn) toggleLyricsBtn.classList.remove('active');
     const pureLyricsBtn = document.getElementById('pureLyricsBtn');
     if (pureLyricsBtn) pureLyricsBtn.classList.remove('active');
+    if (typeof validateAndApplyChordZoom === 'function') {
+        setTimeout(validateAndApplyChordZoom, 50);
+    }
 }
 
 function exportToJSON() {
@@ -5064,6 +5248,10 @@ function renderStaticElements() {
 
     // Render tab markers (TAB pins on the tabTrack)
     renderTabMarkers();
+
+    if (typeof applyChordZoom === 'function') {
+        applyChordZoom(window.chordZoomLevel || 0, false);
+    }
 }
 
 function togglePlayPause() {
