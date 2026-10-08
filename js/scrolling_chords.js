@@ -223,7 +223,13 @@ window.lastLyricIndex = -1;
 function getPlayheadOffset() {
     const w = window.innerWidth;
     if (w <= 600) return 80;
-    if (w <= 1024) return 180;
+    if (w <= 1024) {
+        // In Tablet Pure Timeline landscape, align playhead to 220px with the larger 165px Now Playing card
+        if (document.body && document.body.classList.contains('is-mobile-landscape') && window.innerHeight >= 550) {
+            return 220;
+        }
+        return 180;
+    }
     return 220;
 }
 
@@ -333,6 +339,12 @@ function updateCurrentChordDisplay(text) {
     
     if (currentChordDisplay.innerText !== displayText) {
         currentChordDisplay.innerText = displayText;
+    }
+
+    if (displayText && displayText.length >= 7) {
+        currentChordDisplay.classList.add('chord-long');
+    } else {
+        currentChordDisplay.classList.remove('chord-long');
     }
     
     if (displayText) {

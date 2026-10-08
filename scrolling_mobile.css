@@ -1225,4 +1225,73 @@ body.is-mobile-landscape #timeline .chord-item.has-original .chord-main {
     animation: shakeBtn 0.35s ease;
 }
 
+/* ============================================================
+   v3.397: PC & TABLET PURE TIMELINE — 50% LARGER NOW PLAYING CHORD BOX & DIAGRAMS
+   Keeps mobile phone landscape (height < 550px) completely untouched.
+   Enlarges the yellow Now Playing card from 110x140px to 165x210px (+50%)
+   and scales the virtual keyboard & guitar/ukulele chord diagrams proportionally.
+============================================================ */
+@media (min-width: 768px) and (min-height: 550px) {
+    /* Enlarge Now Playing yellow card */
+    body.is-landscape.is-mobile-landscape .current-chord-display,
+    body.is-landscape.is-mobile-landscape.instrument-mode-guitar .current-chord-display,
+    body.is-landscape.is-mobile-landscape.instrument-mode-piano .current-chord-display,
+    body.is-landscape.is-mobile-landscape.instrument-mode-ukulele .current-chord-display {
+        width: 165px !important;
+        height: 210px !important;
+        font-size: 42px !important;
+        padding: 14px 0 0 0 !important;
+        border-radius: 18px !important;
+    }
+
+    /* Dynamically adjust font size for long chord names (7+ characters) */
+    body.is-landscape.is-mobile-landscape .current-chord-display.chord-long {
+        font-size: 32px !important;
+    }
+
+    /* Position Virtual Piano Keyboard transparently inside the 165x210px card */
+    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
+    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+        width: 165px !important;
+        height: 210px !important;
+        padding: 0 0 14px 0 !important;
+    }
+
+    /* Scale piano keyboard keys by 50% (95x40px -> 145x60px) */
+    body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys,
+    body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard .keyboard-keys {
+        width: 145px !important;
+        height: 60px !important;
+        border-radius: 6px !important;
+    }
+
+    /* Position Guitar / Ukulele diagram container inside the 165x210px card */
+    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram,
+    body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionGuitarDiagram {
+        width: 165px !important;
+        height: 210px !important;
+        padding: 0 0 10px 0 !important;
+    }
+
+    /* Scale Guitar / Ukulele SVG diagram by 50% (85x95px -> 130x142px) */
+    body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram svg,
+    body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionGuitarDiagram svg {
+        width: 130px !important;
+        height: 142px !important;
+    }
+
+    /* Position hamburger settings button cleanly on top-right of 165px card */
+    body.is-landscape.is-mobile-landscape .keyboard-settings-wrapper {
+        top: -14px !important;
+        right: 4px !important;
+    }
+
+    /* Ensure tablet playhead has 40px clearance from the 165px card (align with PC desktop at 220px) */
+    body.is-mobile-landscape .playhead,
+    body.is-mobile-landscape .main-play-arrow {
+        left: 220px !important;
+    }
+}
+
+
 
