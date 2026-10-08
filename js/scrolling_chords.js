@@ -2147,6 +2147,7 @@ function checkCanIncreaseChordZoom(targetStep) {
 }
 
 function validateAndApplyChordZoom() {
+    if (!document.body.classList.contains('is-mobile-landscape')) return;
     // If screen shrunk or lyrics toggled, ensure current zoom still fits
     while (window.chordZoomLevel > 0 && !checkCanIncreaseChordZoom(window.chordZoomLevel)) {
         window.chordZoomLevel--;
@@ -5078,6 +5079,45 @@ function isSubset(pattern, notes) {
  * Pre-calculates vertical offsets for chords to prevent overlaps during fast changes.
  * Ensures that for any sequence of close chords, the first is UP and the second is DOWN.
  */
+function getChordTopStyle(chord) {
+    if (!chord) return '50%';
+    const isLandscape = document.body.classList.contains('is-mobile-landscape');
+    const isPhone = isLandscape && window.innerHeight < 550;
+    const isTablet = isLandscape && !isPhone && window.innerWidth <= 1024;
+    
+    const tier = chord.staggerTier || (chord.yOffset <= -60 ? 'up' : (chord.yOffset >= -30 ? 'down' : 'mid'));
+
+    if (tier === 'center' || tier === 'mid') {
+        return '50%';
+    }
+
+    let offsetPx = 70; // Default for Normal Desktop (90px box -> ~20px slight overlap, never hits lyrics or keyboard)
+    if (isLandscape) {
+        if (isPhone) {
+            offsetPx = 52; // Mobile Phone
+        } else if (isTablet) {
+            offsetPx = 95; // Tablet
+        } else {
+            offsetPx = 110; // PC Landscape PLAY MODE: 110px offset for wide, clear vertical separation
+        }
+    }
+
+    if (tier === 'up') {
+        return `calc(50% - ${offsetPx}px)`;
+    } else if (tier === 'down') {
+        return `calc(50% + ${offsetPx}px)`;
+    }
+    return '50%';
+}
+
+function getChordTopPercent(chord) {
+    return 50;
+}
+
+/**
+ * Pre-calculates vertical offsets for chords to prevent overlaps during fast changes.
+ * Supports multi-tier staggering (UP, DOWN, MID) so 3+ quick chords never occlude each other.
+ */
 function determineStaggerPositions() {
     if (!chords || chords.length === 0) return;
 
@@ -5085,28 +5125,50 @@ function determineStaggerPositions() {
     // This allows chords to visually "pass" each other without swapping DOM elements
     const sortedChords = [...chords].sort((a, b) => a.time - b.time);
 
-    const THRESHOLD = 2.5; // Seconds (Higher for better spacing - v2.454)
-    let lastOffset = -50; 
+    const THRESHOLD = 2.5; // Seconds
+
+    // Build contiguous clusters of chords that are close together
+    const clusters = [];
+    let currentCluster = [];
 
     for (let i = 0; i < sortedChords.length; i++) {
         const chord = sortedChords[i];
         const prevChord = i > 0 ? sortedChords[i - 1] : null;
-        const nextChord = i < sortedChords.length - 1 ? sortedChords[i + 1] : null;
 
-        // Is this chord part of a "close" cluster?
-        const isCluster = (prevChord && (chord.time - prevChord.time < THRESHOLD)) || 
-                          (nextChord && (nextChord.time - chord.time < THRESHOLD));
-
-        if (isCluster) {
-            // Pick the opposite of the last used stagger position
-            lastOffset = (lastOffset === -65) ? -35 : -65;
-            chord.yOffset = lastOffset;
+        if (prevChord && (chord.time - prevChord.time < THRESHOLD)) {
+            currentCluster.push(chord);
         } else {
-            // Isolated chord: Center (50% Top)
-            chord.yOffset = -50;
-            lastOffset = -50; // Reset state machine
+            if (currentCluster.length > 0) {
+                clusters.push(currentCluster);
+            }
+            currentCluster = [chord];
         }
     }
+    if (currentCluster.length > 0) {
+        clusters.push(currentCluster);
+    }
+
+    clusters.forEach(cluster => {
+        if (cluster.length === 1) {
+            cluster[0].staggerTier = 'center';
+            cluster[0].yOffset = -50;
+        } else if (cluster.length === 2) {
+            cluster[0].staggerTier = 'up';
+            cluster[0].yOffset = -72;
+            cluster[1].staggerTier = 'down';
+            cluster[1].yOffset = -25;
+        } else {
+            // 3 or more chords in rapid sequence (e.g. Africa: A, G#m, C#m)
+            // Cycle: UP -> DOWN -> MID -> UP -> DOWN -> MID...
+            const tierSequence = ['up', 'down', 'mid'];
+            const offsetSequence = [-72, -25, -48];
+            for (let k = 0; k < cluster.length; k++) {
+                const seqIdx = k % 3;
+                cluster[k].staggerTier = tierSequence[seqIdx];
+                cluster[k].yOffset = offsetSequence[seqIdx];
+            }
+        }
+    });
 }
 
 function renderStaticElements() {
@@ -5155,10 +5217,8 @@ function renderStaticElements() {
         const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
         el.style.left = `${Math.round(chord.time * pps)}px`;
 
-        // Apply staggering offset (Baseline moved to 40% in landscape v2.456)
-        const baseline = document.body.classList.contains('is-mobile-landscape') ? 90 : 100;
-        const y = chord.yOffset !== undefined ? (chord.yOffset + baseline) : 50;
-        el.style.top = `${y}%`;
+        // Apply staggering offset
+        el.style.top = typeof getChordTopStyle === 'function' ? getChordTopStyle(chord) : '50%';
 
         chordFrag.appendChild(el);
     });
@@ -5584,8 +5644,7 @@ function updateLoop() {
 
             // PERFORMANCE: Re-sync position during loop to support dragging and zoom feedback
             el.style.left = `${Math.round(absX)}px`;
-            const y = chord.yOffset !== undefined ? (chord.yOffset + 100) : 50;
-            el.style.top = `${y}%`;
+            el.style.top = typeof getChordTopStyle === 'function' ? getChordTopStyle(chord) : '50%';
 
             // Toggle active state
             if (i <= activeIndex) {
