@@ -174,38 +174,141 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
         }
     }
 
+    let lastDblClickTime = 0;
+    const triggerInsert = (chord) => {
+        const now = Date.now();
+        if (now - lastDblClickTime < 500) return;
+        lastDblClickTime = now;
+        if (typeof onChordDblClick === 'function') {
+            onChordDblClick(chord);
+        }
+    };
+
+    const playChordAudio = (chordVal) => {
+        if (typeof initAudio === 'function') initAudio();
+        if (typeof triggerChordAudio === 'function') {
+            triggerChordAudio(chordVal, 2.0, true);
+        } else if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer) {
+            const modal = window.appInstance.songDetailModal;
+            const parsed = modal.chordParser ? modal.chordParser.parse(chordVal) : null;
+            if (parsed && parsed.notes) {
+                modal.sharedAudioPlayer.initialize().then(() => {
+                    modal.sharedAudioPlayer.playChord(parsed.notes, 2.0);
+                });
+            }
+        }
+        if (typeof enableTimingCapture !== 'undefined' && enableTimingCapture && typeof recordChord === 'function') {
+            recordChord(chordVal);
+        }
+    };
+
     /**
-     * Attaches a hold gesture to a sector <g>.
-     * Only active when onKeySelected callback is provided.
-     * Starts showing the progress ring after 1s of holding.
+     * Attaches tap, double-tap (for chord insertion), and hold (for setting key)
+     * gestures to a sector <g>. Supports mobile touch and desktop mouse seamlessly.
      */
-    function attachLongPress(g, chordName, isMajor) {
-        if (typeof onKeySelected !== 'function') return;
+    function attachSectorEvents(g, chordVal, isMajor, pathEl) {
+        let lastTapTime = 0;
+        let pressStartTime = 0;
+        let startX = 0;
+        let startY = 0;
+        let hasMoved = false;
 
-        g.addEventListener('pointerdown', () => {
-            cancelLongPress();
-            
-            // Only show the progress ring after holding for 1 second (so normal clicks never show it)
-            const remainingDuration = LONG_PRESS_DURATION - LONG_PRESS_SHOW_DELAY;
-            longPressShowTimer = setTimeout(() => {
-                longPressShowTimer = null;
-                showLongPressProgress(remainingDuration);
-            }, LONG_PRESS_SHOW_DELAY);
+        const onPointerDown = (e) => {
+            if (e.isPrimary === false) return;
+            if (e) e.preventDefault();
 
-            longPressTimer = setTimeout(() => {
-                longPressTimer = null;
-                if (longPressShowTimer) { clearTimeout(longPressShowTimer); longPressShowTimer = null; }
-                if (longPressOverlay && longPressOverlay.parentNode) {
-                    longPressOverlay.parentNode.removeChild(longPressOverlay);
-                    longPressOverlay = null;
+            const now = Date.now();
+            pressStartTime = now;
+            startX = e.clientX || 0;
+            startY = e.clientY || 0;
+            hasMoved = false;
+
+            const timeSinceLastTap = now - lastTapTime;
+
+            // Double-tap detected: insert chord into active chord block
+            if (typeof onChordDblClick === 'function' && timeSinceLastTap > 40 && timeSinceLastTap < 450) {
+                lastTapTime = 0;
+                cancelLongPress();
+
+                // Visual feedback: brief highlight pulse
+                if (pathEl) {
+                    const origFilter = pathEl.style.filter;
+                    pathEl.style.filter = "brightness(1.4) drop-shadow(0px 0px 8px rgba(255,255,255,0.8))";
+                    setTimeout(() => { pathEl.style.filter = origFilter; }, 200);
                 }
-                onKeySelected(chordName, isMajor);
-            }, LONG_PRESS_DURATION);
-        });
 
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
-            g.addEventListener(evt, cancelLongPress);
-        });
+                triggerInsert(chordVal);
+            } else {
+                lastTapTime = now;
+
+                // Single press: start 2s long-press timer if onKeySelected is enabled
+                if (typeof onKeySelected === 'function') {
+                    cancelLongPress();
+                    const remainingDuration = LONG_PRESS_DURATION - LONG_PRESS_SHOW_DELAY;
+                    longPressShowTimer = setTimeout(() => {
+                        longPressShowTimer = null;
+                        showLongPressProgress(remainingDuration);
+                    }, LONG_PRESS_SHOW_DELAY);
+
+                    longPressTimer = setTimeout(() => {
+                        longPressTimer = null;
+                        lastTapTime = 0;
+                        if (longPressShowTimer) { clearTimeout(longPressShowTimer); longPressShowTimer = null; }
+                        if (longPressOverlay && longPressOverlay.parentNode) {
+                            longPressOverlay.parentNode.removeChild(longPressOverlay);
+                            longPressOverlay = null;
+                        }
+                        onKeySelected(chordVal, isMajor);
+                    }, LONG_PRESS_DURATION);
+                }
+            }
+
+            playChordAudio(chordVal);
+        };
+
+        const onPointerMove = (e) => {
+            if (!pressStartTime) return;
+            const dx = (e.clientX || 0) - startX;
+            const dy = (e.clientY || 0) - startY;
+            if (Math.hypot(dx, dy) > 12) {
+                hasMoved = true;
+                cancelLongPress();
+                lastTapTime = 0;
+            }
+        };
+
+        const onPointerUp = (e) => {
+            const now = Date.now();
+            if (hasMoved || (now - pressStartTime > 350)) {
+                lastTapTime = 0;
+            }
+            pressStartTime = 0;
+            cancelLongPress();
+        };
+
+        const onPointerCancel = () => {
+            pressStartTime = 0;
+            lastTapTime = 0;
+            cancelLongPress();
+        };
+
+        g.addEventListener('pointerdown', onPointerDown);
+        g.addEventListener('pointermove', onPointerMove);
+        g.addEventListener('pointerup', onPointerUp);
+        g.addEventListener('pointercancel', onPointerCancel);
+        g.addEventListener('pointerleave', onPointerCancel);
+
+        // Native dblclick event fallback for PC mouse
+        if (typeof onChordDblClick === 'function') {
+            g.addEventListener('dblclick', (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                cancelLongPress();
+                triggerInsert(chordVal);
+            });
+        }
     }
 
     // ── Render all sectors ───────────────────────────────────────────────────
@@ -265,36 +368,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
         majorPath.setAttribute("opacity", defaultOpacityMajor);
 
         const majorVal = item.majorVal || item.major;
-
-        const handleMajorClick = (e) => {
-            if (e) e.preventDefault();
-            if (typeof initAudio === 'function') initAudio();
-            if (typeof triggerChordAudio === 'function') {
-                triggerChordAudio(majorVal, 2.0, true);
-            } else if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer) {
-                const modal = window.appInstance.songDetailModal;
-                const parsed = modal.chordParser ? modal.chordParser.parse(majorVal) : null;
-                if (parsed && parsed.notes) {
-                    modal.sharedAudioPlayer.initialize().then(() => {
-                        modal.sharedAudioPlayer.playChord(parsed.notes, 2.0);
-                    });
-                }
-            }
-            if (typeof enableTimingCapture !== 'undefined' && enableTimingCapture && typeof recordChord === 'function') {
-                recordChord(majorVal);
-            }
-        };
-        majorG.addEventListener('pointerdown', handleMajorClick);
-
-        if (typeof onChordDblClick === 'function') {
-            majorG.addEventListener('dblclick', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onChordDblClick(majorVal);
-            });
-        }
-
-        attachLongPress(majorG, majorVal, true);
+        attachSectorEvents(majorG, majorVal, true, majorPath);
 
         const rTextMajor = (rInMajor + rOutMajor) / 2;
         const xTextMajor = cx + rTextMajor * Math.cos(rad);
@@ -359,36 +433,7 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
         minorPath.style.transition = "opacity 0.2s, filter 0.2s";
 
         const minorVal = item.minorVal || item.minor;
-
-        const handleMinorClick = (e) => {
-            if (e) e.preventDefault();
-            if (typeof initAudio === 'function') initAudio();
-            if (typeof triggerChordAudio === 'function') {
-                triggerChordAudio(minorVal, 2.0, true);
-            } else if (window.appInstance && window.appInstance.songDetailModal && window.appInstance.songDetailModal.sharedAudioPlayer) {
-                const modal = window.appInstance.songDetailModal;
-                const parsed = modal.chordParser ? modal.chordParser.parse(minorVal) : null;
-                if (parsed && parsed.notes) {
-                    modal.sharedAudioPlayer.initialize().then(() => {
-                        modal.sharedAudioPlayer.playChord(parsed.notes, 2.0);
-                    });
-                }
-            }
-            if (typeof enableTimingCapture !== 'undefined' && enableTimingCapture && typeof recordChord === 'function') {
-                recordChord(minorVal);
-            }
-        };
-        minorG.addEventListener('pointerdown', handleMinorClick);
-
-        if (typeof onChordDblClick === 'function') {
-            minorG.addEventListener('dblclick', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onChordDblClick(minorVal);
-            });
-        }
-
-        attachLongPress(minorG, minorVal, false);
+        attachSectorEvents(minorG, minorVal, false, minorPath);
 
         const rTextMinor = (rInMinor + rOutMinor) / 2;
         const xTextMinor = cx + rTextMinor * Math.cos(rad);

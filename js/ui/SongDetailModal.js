@@ -7052,19 +7052,9 @@ class SongDetailModal {
             card.appendChild(degEl);
 
             let longPressTimer = null;
-
-            // Single click / pointerdown: play audio preview
-            card.addEventListener('pointerdown', (e) => {
-                if (e) e.preventDefault();
-                this.playChordAudioPreview(chordName);
-
-                // Long press 2s to set key
-                if (longPressTimer) clearTimeout(longPressTimer);
-                longPressTimer = setTimeout(() => {
-                    longPressTimer = null;
-                    this.updateWidgetKey(chordName);
-                }, 2000);
-            });
+            let lastTapTime = 0;
+            let pressStartTime = 0;
+            let startX = 0, startY = 0, hasMoved = false;
 
             const cancelLongPress = () => {
                 if (longPressTimer) {
@@ -7072,16 +7062,86 @@ class SongDetailModal {
                     longPressTimer = null;
                 }
             };
-            card.addEventListener('pointerup', cancelLongPress);
-            card.addEventListener('pointercancel', cancelLongPress);
-            card.addEventListener('pointerleave', cancelLongPress);
 
-            // Double click: insert chord into selected block
-            card.addEventListener('dblclick', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            const triggerCardInsert = () => {
+                const now = Date.now();
+                if (now - (this._lastLinearDblClickTime || 0) < 500) return;
+                this._lastLinearDblClickTime = now;
                 cancelLongPress();
                 this.insertChordFromCof(chordName);
+            };
+
+            // Pointer down: audio preview, double-tap detection, and 2s long press
+            card.addEventListener('pointerdown', (e) => {
+                if (e.isPrimary === false) return;
+                if (e) e.preventDefault();
+
+                const now = Date.now();
+                pressStartTime = now;
+                startX = e.clientX || 0;
+                startY = e.clientY || 0;
+                hasMoved = false;
+
+                const timeSinceLastTap = now - lastTapTime;
+
+                // Double tap detected (mobile touch & PC)
+                if (timeSinceLastTap > 40 && timeSinceLastTap < 450) {
+                    lastTapTime = 0;
+                    cancelLongPress();
+                    card.classList.add('active');
+                    setTimeout(() => card.classList.remove('active'), 200);
+                    triggerCardInsert();
+                } else {
+                    lastTapTime = now;
+                    // Long press 2s to set key
+                    cancelLongPress();
+                    longPressTimer = setTimeout(() => {
+                        longPressTimer = null;
+                        lastTapTime = 0;
+                        this.updateWidgetKey(chordName);
+                    }, 2000);
+                }
+
+                this.playChordAudioPreview(chordName);
+            });
+
+            card.addEventListener('pointermove', (e) => {
+                if (!pressStartTime) return;
+                const dx = (e.clientX || 0) - startX;
+                const dy = (e.clientY || 0) - startY;
+                if (Math.hypot(dx, dy) > 12) {
+                    hasMoved = true;
+                    cancelLongPress();
+                    lastTapTime = 0;
+                }
+            });
+
+            card.addEventListener('pointerup', (e) => {
+                const now = Date.now();
+                if (hasMoved || (now - pressStartTime > 350)) {
+                    lastTapTime = 0;
+                }
+                pressStartTime = 0;
+                cancelLongPress();
+            });
+
+            card.addEventListener('pointercancel', () => {
+                pressStartTime = 0;
+                lastTapTime = 0;
+                cancelLongPress();
+            });
+            card.addEventListener('pointerleave', () => {
+                pressStartTime = 0;
+                cancelLongPress();
+            });
+
+            // Double click: insert chord into selected block (desktop fallback)
+            card.addEventListener('dblclick', (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                triggerCardInsert();
             });
 
             return card;
