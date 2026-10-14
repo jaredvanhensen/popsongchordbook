@@ -292,14 +292,36 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick, onK
             cancelLongPress();
         };
 
+        // pointerleave fires right after pointerup on touch screens, so it must NOT
+        // reset lastTapTime (otherwise a double-tap can never be detected).
+        const onPointerLeave = () => {
+            pressStartTime = 0;
+            cancelLongPress();
+        };
+
+        g.style.touchAction = 'manipulation';
         g.addEventListener('pointerdown', onPointerDown);
         g.addEventListener('pointermove', onPointerMove);
         g.addEventListener('pointerup', onPointerUp);
         g.addEventListener('pointercancel', onPointerCancel);
-        g.addEventListener('pointerleave', onPointerCancel);
+        g.addEventListener('pointerleave', onPointerLeave);
 
-        // Native dblclick event fallback for PC mouse
         if (typeof onChordDblClick === 'function') {
+            // Click-based double-tap fallback (installed app / WebView); triggerInsert is debounced.
+            let lastClickTime = 0;
+            g.addEventListener('click', () => {
+                const now = Date.now();
+                const delta = now - lastClickTime;
+                if (delta > 40 && delta < 450) {
+                    lastClickTime = 0;
+                    cancelLongPress();
+                    triggerInsert(chordVal);
+                } else {
+                    lastClickTime = now;
+                }
+            });
+
+            // Native dblclick event fallback for PC mouse
             g.addEventListener('dblclick', (e) => {
                 if (e) {
                     e.preventDefault();
