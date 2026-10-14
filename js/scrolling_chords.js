@@ -8541,7 +8541,22 @@ function initCircleOfFifths(containerOverride, keyOverride, onChordDblClick) {
         g.addEventListener('pointercancel', () => { pressStartTime = 0; lastTapTime = 0; });
         g.addEventListener('pointerleave', () => { pressStartTime = 0; });
 
+        g.style.touchAction = 'manipulation';
+
         if (typeof onChordDblClick === 'function') {
+            // Mobile fallback: detect double-tap through click events when pointer
+            // events are cancelled/swallowed by the browser (triggerInsert is debounced).
+            let lastClickTime = 0;
+            g.addEventListener('click', (e) => {
+                const now = Date.now();
+                const delta = now - lastClickTime;
+                if (delta > 40 && delta < 450) {
+                    lastClickTime = 0;
+                    triggerInsert(chordVal);
+                } else {
+                    lastClickTime = now;
+                }
+            });
             g.addEventListener('dblclick', (e) => {
                 if (e) {
                     e.preventDefault();

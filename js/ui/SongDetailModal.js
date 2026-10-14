@@ -186,7 +186,7 @@ class SongDetailModal {
         this.cofViewToggle = document.getElementById('songDetailCofViewToggle');
         this.cofSelectedBlock = 'verse'; // default target block for chord insertion
         this._cofDragSetup = false; // track whether drag is already wired up
-        this.cofViewMode = localStorage.getItem('popSongChordBook_cofViewMode') || 'circle';
+        this.cofViewMode = 'circle';
 
         // Initialize Instrument Mode (Piano/Guitar)
         const user = songManager.firebaseManager ? songManager.firebaseManager.getCurrentUser() : null;
@@ -2561,6 +2561,11 @@ class SongDetailModal {
 
             // Set the baseline value for this editing session
             section.initialEditValue = section.editInput.value;
+
+            // Default to Circle of Fifths whenever the picker is freshly opened
+            if (!this.cofWidget || this.cofWidget.classList.contains('hidden')) {
+                this.cofViewMode = 'circle';
+            }
 
             section.section.classList.add('editing');
             section.editInput.classList.remove('hidden');
