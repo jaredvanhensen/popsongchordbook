@@ -41,6 +41,12 @@ class AuthModal {
         // Close button
         this.closeBtn = document.getElementById('authModalClose');
 
+        // Header and Tab navigation elements
+        this.modalTitle = document.getElementById('authModalTitle');
+        this.tabsContainer = document.getElementById('authTabs');
+        this.tabLogin = document.getElementById('authTabLogin');
+        this.tabCreate = document.getElementById('authTabCreate');
+
         if (this.loginForm) {
             this.resendVerificationBtn = document.createElement('button');
             this.resendVerificationBtn.type = 'button';
@@ -63,6 +69,19 @@ class AuthModal {
     }
 
     setupEventListeners() {
+        // Tab buttons
+        if (this.tabLogin) {
+            this.tabLogin.addEventListener('click', () => {
+                this.switchToLoginMode();
+            });
+        }
+
+        if (this.tabCreate) {
+            this.tabCreate.addEventListener('click', () => {
+                this.switchToCreateMode();
+            });
+        }
+
         // Login form
         if (this.loginForm) {
             this.loginForm.addEventListener('submit', (e) => {
@@ -162,8 +181,12 @@ class AuthModal {
         setTimeout(() => {
             if (loginMode && this.loginEmailInput) {
                 this.loginEmailInput.focus();
-            } else if (!loginMode && this.createEmailInput) {
-                this.createEmailInput.focus();
+            } else if (!loginMode) {
+                if (this.createUsernameInput) {
+                    this.createUsernameInput.focus();
+                } else if (this.createEmailInput) {
+                    this.createEmailInput.focus();
+                }
             }
         }, 100);
     }
@@ -185,6 +208,10 @@ class AuthModal {
         if (this.createForm) this.createForm.classList.add('hidden');
         if (this.verificationForm) this.verificationForm.classList.add('hidden');
         if (this.resendVerificationBtn) this.resendVerificationBtn.style.display = 'none';
+        if (this.tabsContainer) this.tabsContainer.classList.remove('hidden');
+        if (this.tabLogin) this.tabLogin.classList.add('active');
+        if (this.tabCreate) this.tabCreate.classList.remove('active');
+        if (this.modalTitle) this.modalTitle.textContent = 'Log In';
         this.clearErrors();
     }
 
@@ -194,6 +221,10 @@ class AuthModal {
         if (this.loginForm) this.loginForm.classList.add('hidden');
         if (this.createForm) this.createForm.classList.remove('hidden');
         if (this.verificationForm) this.verificationForm.classList.add('hidden');
+        if (this.tabsContainer) this.tabsContainer.classList.remove('hidden');
+        if (this.tabCreate) this.tabCreate.classList.add('active');
+        if (this.tabLogin) this.tabLogin.classList.remove('active');
+        if (this.modalTitle) this.modalTitle.textContent = 'Create an Account';
         this.clearErrors();
     }
 
@@ -202,6 +233,8 @@ class AuthModal {
         this.isShowingVerification = true;
         if (this.loginForm) this.loginForm.classList.add('hidden');
         if (this.createForm) this.createForm.classList.add('hidden');
+        if (this.tabsContainer) this.tabsContainer.classList.add('hidden');
+        if (this.modalTitle) this.modalTitle.textContent = 'Verify Your Email';
         if (this.verificationForm) {
             this.verificationForm.classList.remove('hidden');
             if (this.verificationMsg) {

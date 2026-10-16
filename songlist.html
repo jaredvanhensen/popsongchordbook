@@ -6,8 +6,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.400">
-    <meta name="application-version" content="v3.400">
+    <meta name="version" content="3.401">
+    <meta name="application-version" content="v3.401">
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist">
@@ -1465,10 +1465,16 @@
     <div id="authModal" class="modal auth-modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="authModalTitle">Login</h3>
+                <h3 id="authModalTitle">Log In</h3>
                 <button class="modal-close" id="authModalClose">&times;</button>
             </div>
             <div class="modal-body">
+                <!-- Tabs for switching between Log In and Create Account -->
+                <div class="auth-tabs" id="authTabs">
+                    <button type="button" id="authTabLogin" class="auth-tab-btn active">Log In</button>
+                    <button type="button" id="authTabCreate" class="auth-tab-btn">Create Account</button>
+                </div>
+
                 <!-- Login Form -->
                 <form id="authLoginForm" class="auth-form">
                     <div class="auth-form-group">
@@ -1484,12 +1490,24 @@
                     <div id="authLoginError" class="auth-error hidden"></div>
                     <div id="authLoginSuccess" class="auth-success hidden"></div>
                     <button type="submit" id="authLoginBtn" class="modal-submit-btn auth-submit-btn">Login</button>
-                    <div class="auth-toggle">
-                        <button type="button" id="authForgotPassword" class="auth-toggle-link"
-                            style="display: block; margin: 0 auto 10px;">Forgot my password?</button>
-                        <span>No account yet?</span>
-                        <button type="button" id="authToggleToCreate" class="auth-toggle-link">Create an
-                            account</button>
+                    <button type="button" id="authForgotPassword" class="auth-toggle-link"
+                        style="display: block; margin: 12px auto 6px;">Forgot my password?</button>
+                    <div class="auth-divider">
+                        <span>Don't have an account yet?</span>
+                    </div>
+                    <div class="auth-toggle auth-register-card">
+                        <button type="button" id="authToggleToCreate" class="auth-create-account-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <line x1="19" y1="8" x2="19" y2="14"></line>
+                                <line x1="22" y1="11" x2="16" y2="11"></line>
+                            </svg>
+                            Create an Account — Free
+                        </button>
+                        <div class="auth-register-perks">
+                            <span>✨ Free access to all chords &amp; songs</span>
+                        </div>
                     </div>
                 </form>
 
@@ -1532,9 +1550,11 @@
                     <div id="authCreateError" class="auth-error hidden"></div>
                     <button type="submit" id="authCreateBtn" class="modal-submit-btn auth-submit-btn">Create
                         account</button>
-                    <div class="auth-toggle">
+                    <div class="auth-divider">
                         <span>Already have an account?</span>
-                        <button type="button" id="authToggleToLogin" class="auth-toggle-link">Login</button>
+                    </div>
+                    <div class="auth-toggle auth-register-card">
+                        <button type="button" id="authToggleToLogin" class="auth-secondary-btn">Log In to Your Account</button>
                     </div>
                 </form>
 
