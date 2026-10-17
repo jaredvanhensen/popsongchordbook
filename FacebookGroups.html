@@ -2034,7 +2034,6 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     : '';
 
                 const pastMonthUrl = `https://www.google.com/search?q=${encodeURIComponent(lead.query)}&tbs=qdr:m`;
-                const allTimeUrl = `https://www.google.com/search?q=${encodeURIComponent(lead.query)}`;
 
                 card.innerHTML = `
                     <div class="reddit-lead-header">
@@ -2051,9 +2050,6 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     <div class="reddit-actions">
                         <a href="${pastMonthUrl}" target="_blank" rel="noopener" class="btn-reddit-recent" title="Open Google search filtered to the past month">
                             <i class="fa-regular fa-calendar-days"></i> Past Month
-                        </a>
-                        <a href="${allTimeUrl}" target="_blank" rel="noopener" class="btn-reddit-search" title="Open Google search for all time">
-                            <i class="fa-brands fa-google"></i> All Time
                         </a>
                         <button class="btn-reddit-copy" onclick="copyRedditText('${escapeAttribute(lead.query)}')" title="Copy search string to clipboard">
                             <i class="fa-regular fa-copy"></i> Copy
