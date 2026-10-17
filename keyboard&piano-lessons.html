@@ -1421,11 +1421,15 @@
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/o6M76WJCMJQ?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-1a" src="https://www.youtube.com/embed/o6M76WJCMJQ?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/-H-6Xx9c_Cs?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-1b" src="https://www.youtube.com/embed/-H-6Xx9c_Cs?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+
+                <div class="video-container">
+                    <iframe id="lesson-video-1c" src="https://www.youtube.com/embed/AfrFQW5k340?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="lesson-complete-section" id="complete-section-1" onclick="handleLessonComplete(1)">
@@ -1511,7 +1515,7 @@
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/P5F4_8Z1Szo?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-2" src="https://www.youtube.com/embed/P5F4_8Z1Szo?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="lesson-complete-section" id="complete-section-2" onclick="handleLessonComplete(2)">
@@ -1569,7 +1573,7 @@
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/4jKk63U0_e4?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-3" src="https://www.youtube.com/embed/4jKk63U0_e4?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="lesson-complete-section" id="complete-section-3" onclick="handleLessonComplete(3)">
@@ -1663,7 +1667,7 @@
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/N9wWpZ3p4R0?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-4" src="https://www.youtube.com/embed/N9wWpZ3p4R0?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="lesson-complete-section" id="complete-section-4" onclick="handleLessonComplete(4)">
@@ -1743,7 +1747,7 @@
                 </div>
 
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/F4P-uO3h_n8?rel=0" allowfullscreen></iframe>
+                    <iframe id="lesson-video-5" src="https://www.youtube.com/embed/F4P-uO3h_n8?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>
 
                 <div class="lesson-complete-section" id="complete-section-5" onclick="handleLessonComplete(5)">
@@ -2908,6 +2912,7 @@
     </div>
 
     <script src="js/utils/PianoAudioPlayer.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const CHORD_NOTES = {
             'C': ['C3', 'E3', 'G3'],
@@ -2967,15 +2972,159 @@
 
         let activePatternTimeouts = [];
 
-        function pauseAllVideos(exceptVideo = null) {
-            document.querySelectorAll('video').forEach(v => {
-                if (v !== exceptVideo && !v.paused) {
-                    v.pause();
+        let ytLessonPlayers = [];
+
+        function initYouTubeLessonPlayers() {
+            if (typeof YT === 'undefined' || !YT.Player) return;
+            const iframes = document.querySelectorAll('.video-container iframe');
+            iframes.forEach((iframe, idx) => {
+                if (!iframe.id) {
+                    iframe.id = 'yt-lesson-video-' + (idx + 1);
+                }
+                if (iframe._ytPlayer) return;
+
+                try {
+                    const player = new YT.Player(iframe.id, {
+                        events: {
+                            'onReady': function () {
+                                iframe._ytPlayer = player;
+                            },
+                            'onStateChange': function (e) {
+                                // 1 = YT.PlayerState.PLAYING
+                                if (e.data === 1 || (window.YT && e.data === YT.PlayerState.PLAYING)) {
+                                    pauseAllVideos(iframe);
+                                    if (typeof stopPatternAudio === 'function') {
+                                        stopPatternAudio();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    iframe._ytPlayer = player;
+                    ytLessonPlayers.push(player);
+                } catch (err) {
+                    console.warn('Could not initialize YT.Player for', iframe.id, err);
                 }
             });
         }
 
-        // Global capture listener: stop all other videos and synth audio when any video starts playing
+        // Initialize when YT API is ready, or immediately if already loaded
+        if (window.YT && window.YT.Player) {
+            initYouTubeLessonPlayers();
+        } else {
+            const prevYTReady = window.onYouTubeIframeAPIReady;
+            window.onYouTubeIframeAPIReady = function () {
+                if (typeof prevYTReady === 'function') prevYTReady();
+                initYouTubeLessonPlayers();
+            };
+        }
+
+        // PostMessage listener for YouTube state changes (provides instant multi-video mutual exclusion)
+        window.addEventListener('message', function (e) {
+            if (!e || !e.data) return;
+            let data = e.data;
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch (err) {
+                    return;
+                }
+            }
+            if (typeof data !== 'object' || data === null) return;
+
+            // YouTube playing state: event === "onStateChange" with info === 1
+            // or infoDelivery with info.playerState === 1
+            const isPlaying = (data.event === 'onStateChange' && data.info === 1) ||
+                              (data.info && data.info.playerState === 1);
+
+            if (isPlaying) {
+                let playingIframe = null;
+                document.querySelectorAll('.video-container iframe').forEach(iframe => {
+                    if (iframe.contentWindow === e.source) {
+                        playingIframe = iframe;
+                    }
+                });
+
+                pauseAllVideos(playingIframe);
+                if (typeof stopPatternAudio === 'function') {
+                    stopPatternAudio();
+                }
+            }
+        });
+
+        // Send listening handshake to all YouTube iframes so they dispatch postMessage events
+        function bindYouTubeIframeHandshakes() {
+            document.querySelectorAll('.video-container iframe').forEach(iframe => {
+                try {
+                    if (iframe.contentWindow) {
+                        iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*');
+                    }
+                } catch (e) {}
+                iframe.addEventListener('load', function () {
+                    try {
+                        if (iframe.contentWindow) {
+                            iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*');
+                        }
+                    } catch (e) {}
+                    if (typeof initYouTubeLessonPlayers === 'function') {
+                        initYouTubeLessonPlayers();
+                    }
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindYouTubeIframeHandshakes);
+        } else {
+            bindYouTubeIframeHandshakes();
+        }
+
+        function pauseAllVideos(except = null) {
+            let exceptEl = null;
+            if (except instanceof HTMLElement) {
+                exceptEl = except;
+            } else if (except && typeof except.getIframe === 'function') {
+                try {
+                    exceptEl = except.getIframe();
+                } catch (e) {}
+            }
+
+            // 1. Pause standard HTML5 videos if any
+            document.querySelectorAll('video').forEach(v => {
+                if (v !== exceptEl && !v.paused) {
+                    v.pause();
+                }
+            });
+
+            // 2. Pause YouTube players via YT.Player API
+            if (Array.isArray(ytLessonPlayers)) {
+                ytLessonPlayers.forEach(p => {
+                    try {
+                        if (p && typeof p.pauseVideo === 'function') {
+                            const pIframe = typeof p.getIframe === 'function' ? p.getIframe() : null;
+                            if (pIframe !== exceptEl && p !== except) {
+                                p.pauseVideo();
+                            }
+                        }
+                    } catch (err) {}
+                });
+            }
+
+            // 3. PostMessage fallback command to pause all other YouTube iframes
+            document.querySelectorAll('.video-container iframe').forEach(iframe => {
+                if (iframe !== exceptEl && iframe.contentWindow) {
+                    try {
+                        iframe.contentWindow.postMessage(JSON.stringify({
+                            event: 'command',
+                            func: 'pauseVideo',
+                            args: []
+                        }), '*');
+                    } catch (err) {}
+                }
+            });
+        }
+
+        // Global capture listener: stop all other videos and synth audio when any HTML5 video starts playing
         document.addEventListener('play', function (e) {
             if (e.target && e.target.tagName === 'VIDEO') {
                 pauseAllVideos(e.target);
