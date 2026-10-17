@@ -761,6 +761,127 @@
             gap: 8px;
         }
 
+        /* --- REDDIT OUTREACH & DUPLICATE TRACKER STYLES --- */
+        .reddit-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .reddit-stat-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .reddit-stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .reddit-stat-value {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.1;
+        }
+
+        .reddit-stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .reddit-ratio-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .badge-safe {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-neutral {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
+        .reddit-dup-alert {
+            display: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 16px;
+        }
+
+        .alert-danger {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .badge-reddit-link {
+            background-color: #ede9fe;
+            color: #5b21b6;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .badge-reddit-organic {
+            background-color: #d1fae5;
+            color: #065f46;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
         /* --- MOBILE RESPONSIVE LAYOUTS (v3.092) --- */
         .mobile-top-bar {
             display: none;
@@ -1119,6 +1240,145 @@
                 </ul>
             </div>
 
+            <!-- SECTION: REDDIT OUTREACH & DUPLICATE TRACKER -->
+            <div class="reddit-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                        <div style="font-weight: 700; font-size: 1.15rem; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-list-check" style="color: #6366f1;"></i> Reddit Outreach Log &amp; Duplicate Checker
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">
+                            Paste any thread URL before commenting to verify you haven't replied before, track your responses, and balance your 9:1 organic participation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 9:1 SAFETY & ACTIVITY METRICS CARDS -->
+                <div class="reddit-stats-grid">
+                    <div class="reddit-stat-card">
+                        <div class="reddit-stat-icon" style="background-color: #e0e7ff; color: #4338ca;">
+                            <i class="fa-brands fa-reddit-alien"></i>
+                        </div>
+                        <div>
+                            <div class="reddit-stat-value" id="redditStatTotal">0</div>
+                            <div class="reddit-stat-label">Total Logged Replies</div>
+                        </div>
+                    </div>
+
+                    <div class="reddit-stat-card">
+                        <div class="reddit-stat-icon" style="background-color: #ede9fe; color: #6d28d9;">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                        <div>
+                            <div class="reddit-stat-value" id="redditStatLink">0</div>
+                            <div class="reddit-stat-label">With Website Link</div>
+                        </div>
+                    </div>
+
+                    <div class="reddit-stat-card">
+                        <div class="reddit-stat-icon" style="background-color: #d1fae5; color: #047857;">
+                            <i class="fa-regular fa-comment-dots"></i>
+                        </div>
+                        <div>
+                            <div class="reddit-stat-value" id="redditStatOrganic">0</div>
+                            <div class="reddit-stat-label">Organic (No Link)</div>
+                        </div>
+                    </div>
+
+                    <div class="reddit-stat-card" style="flex-grow: 1.5;">
+                        <div class="reddit-stat-icon" style="background-color: #fef3c7; color: #b45309;">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <div class="reddit-stat-label" style="margin-top: 0; font-weight: 600;">9:1 Community Safety Balance</div>
+                            <div id="redditStatRatioBadge" class="reddit-ratio-badge badge-neutral">
+                                <i class="fa-solid fa-circle-info"></i> No replies logged yet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK DUPLICATE CHECKER & LOG FORM -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                    <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-dark); display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-paste" style="color: #6366f1;"></i> Paste Thread URL to Check for Duplicates or Log Reply
+                    </div>
+
+                    <!-- INSTANT DUPLICATE ALERT BANNER -->
+                    <div id="redditDuplicateAlert" class="reddit-dup-alert"></div>
+
+                    <div class="form-grid" style="margin-bottom: 12px;">
+                        <div class="form-group full-width" style="margin: 0;">
+                            <label for="redditLogUrl">Reddit Thread URL <span style="color: #ef4444;">*</span></label>
+                            <input type="url" id="redditLogUrl" placeholder="Paste Reddit URL here (e.g. https://www.reddit.com/r/guitarlessons/comments/...)" oninput="checkRedditUrlDuplicate()">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label for="redditLogSub">Subreddit</label>
+                            <input type="text" id="redditLogSub" placeholder="Auto-detected (e.g. guitarlessons)">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label for="redditLogTitle">Thread Title / Topic</label>
+                            <input type="text" id="redditLogTitle" placeholder="e.g. Fast chord switching struggle">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label for="redditLogDate">Date Replied</label>
+                            <input type="date" id="redditLogDate">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label for="redditLogType">Reply Nature</label>
+                            <select id="redditLogType">
+                                <option value="link">🔗 Included Website Link</option>
+                                <option value="organic">💬 Organic Advice (Zero Links)</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width" style="margin: 0;">
+                            <label for="redditLogNotes">Notes / Snippet Used (Optional)</label>
+                            <input type="text" id="redditLogNotes" placeholder="e.g. Recommended practicing beat 4 change and mentioned PopSongChordBook">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <button class="btn-add" style="background-color: #6366f1; padding: 10px 20px; font-size: 0.88rem;" onclick="logRedditReply()">
+                            <i class="fa-solid fa-plus"></i> Log This Reply
+                        </button>
+                        <button class="btn-secondary" style="font-size: 0.85rem;" onclick="clearRedditLogForm()">
+                            <i class="fa-solid fa-eraser"></i> Clear Form
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LOGGED REPLIES SEARCH & TABLE -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-dark); display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-clock-rotate-left" style="color: #64748b;"></i> Past Reddit Replies
+                    </div>
+                    <div style="width: 260px;">
+                        <input type="text" id="redditTableSearch" placeholder="Search replies or subreddits..." style="padding: 7px 12px; font-size: 0.85rem;" oninput="renderRedditLogTable()">
+                    </div>
+                </div>
+
+                <div class="table-container" style="margin-bottom: 0;">
+                    <table id="redditLogsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 110px;">Date</th>
+                                <th style="width: 140px;">Subreddit</th>
+                                <th>Thread / Topic</th>
+                                <th style="width: 170px;">Nature</th>
+                                <th>Notes</th>
+                                <th style="width: 60px; text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="redditLogsTableBody">
+                            <!-- Populated dynamically by renderRedditLogTable() -->
+                        </tbody>
+                    </table>
+                    <div id="redditLogsEmpty" style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.88rem;">
+                        No Reddit replies logged yet. Paste your first thread link above to keep track of your outreach!
+                    </div>
+                </div>
+            </div>
+
             <!-- QUICK SEARCH QUERY BUILDER -->
             <div class="reddit-card">
                 <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
@@ -1254,6 +1514,8 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
     <!-- CORE WORKSPACE BACKEND SCRIPTING ENGINE -->
     <script>
         document.getElementById('postDate').valueAsDate = new Date();
+        const rDateInit = document.getElementById('redditLogDate');
+        if (rDateInit) rDateInit.valueAsDate = new Date();
 
         let isTextCollapsed = false;
 
@@ -1269,7 +1531,8 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
         // Core App Data Object Hydrated from Storage (fallback)
         let appData = {
             trackerLogs: [],
-            templatesList: defaultTemplates
+            templatesList: defaultTemplates,
+            redditLogs: []
         };
 
         const firebaseManager = new FirebaseManager();
@@ -1301,6 +1564,9 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     if (!appData.templatesList) {
                         appData.templatesList = defaultTemplates;
                     }
+                    if (!appData.redditLogs) {
+                        appData.redditLogs = [];
+                    }
                     console.log('Successfully loaded promo suite from Firebase database.');
                 } else {
                     console.log('Firebase node empty. Seeding from local file...');
@@ -1310,7 +1576,8 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                             const initialLogs = await response.json();
                             appData = {
                                 trackerLogs: initialLogs,
-                                templatesList: defaultTemplates
+                                templatesList: defaultTemplates,
+                                redditLogs: []
                             };
                             await databaseRef.set(appData);
                             console.log('Data seeded successfully!');
@@ -1324,7 +1591,8 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                                 { id: 1, name: "Guitarist Hub International", link: "https://www.facebook.com/groups/guitarist", category: "Guitar", members: 128000, posts: 2, date: "2026-06-01", status: "Placed", text: "Second post update tracking metrics smoothly..." },
                                 { id: 2, name: "Piano & Keyboard Players Only", link: "https://www.facebook.com/groups/piano", category: "Keys", members: 45200, posts: 1, date: "2026-05-28", status: "Being Reviewed", text: "Hey guys! I built this interactive Pop Song Chord Book..." }
                             ],
-                            templatesList: defaultTemplates
+                            templatesList: defaultTemplates,
+                            redditLogs: []
                         };
                         await databaseRef.set(appData);
                     }
@@ -1334,6 +1602,7 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 saveToStorage();
                 renderTable();
                 renderTemplatesGrid();
+                renderRedditTracker();
             } catch (err) {
                 console.error("Error initializing database data:", err);
                 alert("Failed to load promo data from Firebase. Check console for permissions.");
@@ -1385,6 +1654,7 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 if (redditPage) redditPage.classList.add('active-view');
                 if (navReddit) navReddit.classList.add('active');
                 renderRedditLeads();
+                renderRedditTracker();
             }
 
             // Close mobile sidebar if open
@@ -2165,6 +2435,266 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     toast.style.display = 'none';
                 }, 3000);
             }
+        }
+
+        /* --- REDDIT OUTREACH & DUPLICATE TRACKER LOGIC --- */
+        function cleanRedditUrl(url) {
+            if (!url) return "";
+            return url.split('?')[0].split('#')[0].trim().replace(/\/+$/, "").toLowerCase();
+        }
+
+        function extractRedditPostId(url) {
+            if (!url) return "";
+            try {
+                const shortMatch = url.match(/redd\.it\/([a-zA-Z0-9]+)/i);
+                if (shortMatch) return shortMatch[1].toLowerCase();
+                const match = url.match(/\/comments\/([a-zA-Z0-9]+)/i);
+                if (match) return match[1].toLowerCase();
+            } catch (e) {}
+            return cleanRedditUrl(url);
+        }
+
+        function extractSubreddit(url) {
+            if (!url) return "";
+            try {
+                const match = url.match(/\/r\/([a-zA-Z0-9_]+)/i);
+                if (match) return match[1];
+            } catch (e) {}
+            return "";
+        }
+
+        function checkRedditUrlDuplicate() {
+            const rawUrl = document.getElementById('redditLogUrl').value.trim();
+            const alertBox = document.getElementById('redditDuplicateAlert');
+            const subInput = document.getElementById('redditLogSub');
+            if (!alertBox) return;
+
+            if (!rawUrl) {
+                alertBox.style.display = 'none';
+                return;
+            }
+
+            const extractedSub = extractSubreddit(rawUrl);
+            if (extractedSub && subInput && (!subInput.value || subInput.dataset.autofilled === "true")) {
+                subInput.value = extractedSub;
+                subInput.dataset.autofilled = "true";
+            }
+
+            const postId = extractRedditPostId(rawUrl);
+            const logs = appData.redditLogs || [];
+            const match = logs.find(log => {
+                if (postId && log.postId && log.postId === postId) return true;
+                if (log.url && rawUrl && cleanRedditUrl(log.url) === cleanRedditUrl(rawUrl)) return true;
+                return false;
+            });
+
+            alertBox.style.display = 'block';
+            if (match) {
+                alertBox.className = 'reddit-dup-alert alert-danger';
+                alertBox.innerHTML = `
+                    <div style="display:flex; align-items:flex-start; gap:10px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.25rem; margin-top: 2px;"></i>
+                        <div>
+                            <div style="font-weight: 700;">⚠️ Duplicate Thread Detected! You already replied here.</div>
+                            <div style="font-size: 0.83rem; margin-top: 3px; line-height: 1.4;">
+                                <strong>Date Replied:</strong> ${match.date || 'Earlier'} &nbsp;|&nbsp; 
+                                <strong>Subreddit:</strong> r/${escapeHtml(match.sub || 'reddit')} &nbsp;|&nbsp; 
+                                <strong>Nature:</strong> ${match.type === 'link' ? '<span style="color:#6d28d9; font-weight:600;">🔗 Website Link</span>' : '<span style="color:#047857; font-weight:600;">💬 Organic Advice</span>'}
+                                ${match.title ? `<br><strong>Post:</strong> "${escapeHtml(match.title)}"` : ''}
+                                ${match.notes ? `<br><strong>Notes:</strong> ${escapeHtml(match.notes)}` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                alertBox.className = 'reddit-dup-alert alert-success';
+                alertBox.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-circle-check" style="font-size: 1.15rem; color: #059669;"></i>
+                        <div>
+                            <strong style="color: #065f46;">✅ Fresh Thread!</strong> No previous replies logged for this Reddit post.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function logRedditReply() {
+            const urlInput = document.getElementById('redditLogUrl');
+            const rawUrl = urlInput.value.trim();
+            if (!rawUrl) {
+                alert("Please paste the Reddit thread URL first.");
+                urlInput.focus();
+                return;
+            }
+
+            const postId = extractRedditPostId(rawUrl);
+            const sub = document.getElementById('redditLogSub').value.trim() || extractSubreddit(rawUrl) || "reddit";
+            const title = document.getElementById('redditLogTitle').value.trim();
+            const date = document.getElementById('redditLogDate').value || new Date().toISOString().slice(0, 10);
+            const type = document.getElementById('redditLogType').value;
+            const notes = document.getElementById('redditLogNotes').value.trim();
+
+            if (!appData.redditLogs) appData.redditLogs = [];
+            const existing = appData.redditLogs.find(l => (postId && l.postId === postId) || cleanRedditUrl(l.url) === cleanRedditUrl(rawUrl));
+            if (existing) {
+                if (!confirm(`Warning: You already logged a reply to this thread on ${existing.date}. Are you sure you want to log another reply to the same thread?`)) {
+                    return;
+                }
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                postId: postId,
+                url: rawUrl,
+                sub: sub,
+                title: title || (sub ? `r/${sub} thread` : rawUrl),
+                date: date,
+                type: type,
+                notes: notes
+            };
+
+            appData.redditLogs.unshift(newEntry);
+            saveToStorage();
+            renderRedditTracker();
+            showRedditToast("Reddit reply logged successfully!");
+            clearRedditLogForm();
+        }
+
+        function clearRedditLogForm() {
+            const urlInput = document.getElementById('redditLogUrl');
+            const subInput = document.getElementById('redditLogSub');
+            const titleInput = document.getElementById('redditLogTitle');
+            const notesInput = document.getElementById('redditLogNotes');
+            const dateInput = document.getElementById('redditLogDate');
+            const alertBox = document.getElementById('redditDuplicateAlert');
+
+            if (urlInput) urlInput.value = "";
+            if (subInput) {
+                subInput.value = "";
+                delete subInput.dataset.autofilled;
+            }
+            if (titleInput) titleInput.value = "";
+            if (notesInput) notesInput.value = "";
+            if (dateInput) dateInput.valueAsDate = new Date();
+            if (alertBox) alertBox.style.display = 'none';
+        }
+
+        function deleteRedditReply(logId) {
+            if (confirm("Are you sure you want to delete this Reddit reply log entry?")) {
+                appData.redditLogs = (appData.redditLogs || []).filter(l => l.id !== logId);
+                saveToStorage();
+                renderRedditTracker();
+                showRedditToast("Reply entry deleted.");
+            }
+        }
+
+        function renderRedditTracker() {
+            const logs = appData.redditLogs || [];
+            const totalCount = logs.length;
+            const linkCount = logs.filter(l => l.type === 'link').length;
+            const organicCount = logs.filter(l => l.type === 'organic').length;
+
+            const totalEl = document.getElementById('redditStatTotal');
+            const linkEl = document.getElementById('redditStatLink');
+            const organicEl = document.getElementById('redditStatOrganic');
+            const ratioBadgeEl = document.getElementById('redditStatRatioBadge');
+
+            if (totalEl) totalEl.textContent = totalCount;
+            if (linkEl) linkEl.textContent = linkCount;
+            if (organicEl) organicEl.textContent = organicCount;
+
+            if (ratioBadgeEl) {
+                if (totalCount === 0) {
+                    ratioBadgeEl.className = 'reddit-ratio-badge badge-neutral';
+                    ratioBadgeEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> No replies logged yet`;
+                } else if (linkCount === 0) {
+                    ratioBadgeEl.className = 'reddit-ratio-badge badge-safe';
+                    ratioBadgeEl.innerHTML = `<i class="fa-solid fa-shield-halved"></i> 100% Organic (${organicCount} comments) — Safe to mention your tool`;
+                } else {
+                    const ratio = (organicCount / linkCount).toFixed(1);
+                    if (organicCount / linkCount >= 5) {
+                        ratioBadgeEl.className = 'reddit-ratio-badge badge-safe';
+                        ratioBadgeEl.innerHTML = `<i class="fa-solid fa-check-double"></i> Ratio ${ratio}:1 — Safe balance (Healthy profile)`;
+                    } else if (organicCount / linkCount >= 2) {
+                        ratioBadgeEl.className = 'reddit-ratio-badge badge-warning';
+                        ratioBadgeEl.innerHTML = `<i class="fa-solid fa-scale-balanced"></i> Ratio ${ratio}:1 — Moderate (Add 1-2 organic replies)`;
+                    } else {
+                        ratioBadgeEl.className = 'reddit-ratio-badge badge-danger';
+                        ratioBadgeEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Ratio ${ratio}:1 — High link density! Pause website links`;
+                    }
+                }
+            }
+
+            renderRedditLogTable();
+        }
+
+        function renderRedditLogTable() {
+            const tbody = document.getElementById('redditLogsTableBody');
+            const emptyMsg = document.getElementById('redditLogsEmpty');
+            const table = document.getElementById('redditLogsTable');
+            const searchInput = document.getElementById('redditTableSearch');
+            if (!tbody) return;
+
+            const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+            const logs = appData.redditLogs || [];
+
+            const filtered = logs.filter(log => {
+                if (!query) return true;
+                return (log.sub && log.sub.toLowerCase().includes(query)) ||
+                       (log.title && log.title.toLowerCase().includes(query)) ||
+                       (log.notes && log.notes.toLowerCase().includes(query)) ||
+                       (log.date && log.date.includes(query)) ||
+                       (log.url && log.url.toLowerCase().includes(query));
+            });
+
+            tbody.innerHTML = "";
+
+            if (filtered.length === 0) {
+                if (table) table.style.display = logs.length === 0 ? 'none' : 'table';
+                if (emptyMsg) {
+                    emptyMsg.style.display = 'block';
+                    emptyMsg.innerText = logs.length === 0 
+                        ? "No Reddit replies logged yet. Paste your first thread link above to keep track of your outreach!"
+                        : `No replies match "${query}".`;
+                }
+                return;
+            }
+
+            if (table) table.style.display = 'table';
+            if (emptyMsg) emptyMsg.style.display = 'none';
+
+            filtered.forEach(log => {
+                const tr = document.createElement('tr');
+                const subBadge = log.sub 
+                    ? `<a href="https://www.reddit.com/r/${escapeAttribute(log.sub)}/" target="_blank" rel="noopener" class="reddit-sub-badge" style="font-size: 0.75rem;"><i class="fa-brands fa-reddit"></i> r/${escapeHtml(log.sub)}</a>`
+                    : `<span class="reddit-sub-badge" style="background:#6366f1; font-size: 0.75rem;">Reddit</span>`;
+
+                const natureBadge = log.type === 'link'
+                    ? `<span class="badge-reddit-link"><i class="fa-solid fa-link"></i> Website Link</span>`
+                    : `<span class="badge-reddit-organic"><i class="fa-regular fa-comment-dots"></i> Organic Advice</span>`;
+
+                const displayTitle = log.title || (log.sub ? `r/${log.sub} Discussion` : 'Reddit Post');
+
+                tr.innerHTML = `
+                    <td style="white-space: nowrap; font-size: 0.85rem; color: var(--text-muted);">${escapeHtml(log.date || '—')}</td>
+                    <td>${subBadge}</td>
+                    <td>
+                        <a href="${escapeAttribute(log.url)}" target="_blank" rel="noopener" style="color: #2563eb; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                            <span>${escapeHtml(displayTitle)}</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; opacity: 0.7;"></i>
+                        </a>
+                    </td>
+                    <td>${natureBadge}</td>
+                    <td style="font-size: 0.85rem; color: #475569;">${escapeHtml(log.notes || '—')}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-action" onclick="deleteRedditReply(${log.id})" title="Delete entry">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
         // URL Parameter Routing on Page Load

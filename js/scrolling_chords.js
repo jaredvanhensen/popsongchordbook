@@ -2047,15 +2047,37 @@ function cycleSpeed() {
 }
 
 // =========================================================================
-// INTELLIGENT CHORD BLOCK ZOOM SYSTEM (v3.395)
-// 8-step cycle in 25% increments up to +200% (max 3.0x), then cycle back to 0%.
+// INTELLIGENT CHORD BLOCK ZOOM SYSTEM (v3.395 / v3.406)
+// 8-step cycle in 25% increments from 100% up to 300% (max 3.0x), then cycle back to 100%.
+// Default: 200% (step 4) on PC screens, 150% (step 2) on smartphones in landscape.
 // Constraint: ONLY increases when there is vertical clearance for all chords!
+// NOTE: Portrait views remain completely unaffected at standard baseline.
 // =========================================================================
 
-window.chordZoomLevel = parseInt(localStorage.getItem('pure-timeline-chord-zoom') || '0', 10);
-if (isNaN(window.chordZoomLevel) || window.chordZoomLevel < 0 || window.chordZoomLevel > 8) {
-    window.chordZoomLevel = 0;
+function getDefaultChordZoomLevel() {
+    const isLandscape = document.body && document.body.classList.contains('is-mobile-landscape');
+    const isLandscapeRatio = window.innerWidth > window.innerHeight;
+    if (!isLandscape && !isLandscapeRatio) return 0; // Portrait views stay at baseline (100%)
+
+    // Smartphones in landscape mode typically have viewport height < 550px
+    const isPhone = window.innerHeight < 550;
+    return isPhone ? 2 : 4; // 150% on smartphones (step 2), 200% on PC screens (step 4)
 }
+
+function getStoredOrInitialChordZoom() {
+    try {
+        const userChoice = localStorage.getItem('pure-timeline-chord-zoom-user');
+        if (userChoice !== null) {
+            const parsed = parseInt(userChoice, 10);
+            if (!isNaN(parsed) && parsed >= 0 && parsed <= 8) {
+                return parsed;
+            }
+        }
+    } catch (e) {}
+    return getDefaultChordZoomLevel();
+}
+
+window.chordZoomLevel = getStoredOrInitialChordZoom();
 
 function getChordZoomMultiplier(step) {
     // 0 = 100% (0% increase), 1 = 125% (+25%), ..., 8 = 300% (+200% increase)
@@ -2079,11 +2101,13 @@ function showChordZoomToast(message) {
     }, 1800);
 }
 
-function applyChordZoom(step, showFeedback = false, customMessage = '') {
+function applyChordZoom(step, showFeedback = false, customMessage = '', saveUserChoice = true) {
     window.chordZoomLevel = step;
-    try {
-        localStorage.setItem('pure-timeline-chord-zoom', String(step));
-    } catch (e) {}
+    if (saveUserChoice) {
+        try {
+            localStorage.setItem('pure-timeline-chord-zoom-user', String(step));
+        } catch (e) {}
+    }
 
     const multiplier = getChordZoomMultiplier(step);
     document.documentElement.style.setProperty('--chord-user-zoom', multiplier);
@@ -2098,8 +2122,7 @@ function applyChordZoom(step, showFeedback = false, customMessage = '') {
     }
 
     const pct = Math.round(multiplier * 100);
-    const addedPct = step * 25;
-    const labelText = step === 0 ? '100%' : `${pct}% (+${addedPct}%)`;
+    const labelText = `${pct}%`;
 
     const zoomDisplay = document.getElementById('pureChordZoomDisplay');
     if (zoomDisplay) zoomDisplay.innerText = labelText;
@@ -2159,21 +2182,43 @@ function checkCanIncreaseChordZoom(targetStep) {
 }
 
 function validateAndApplyChordZoom() {
-    if (!document.body.classList.contains('is-mobile-landscape')) return;
+    if (!document.body.classList.contains('is-mobile-landscape')) {
+        // Clean up any landscape-specific chord zoom property when in portrait view
+        document.documentElement.style.removeProperty('--chord-user-zoom');
+        const tl = document.getElementById('timeline');
+        if (tl) tl.style.removeProperty('--chord-user-zoom');
+        const ct = document.getElementById('chordTrack');
+        if (ct) ct.style.removeProperty('--chord-user-zoom');
+        return;
+    }
+
+    // If user has not set a custom zoom, use device default (200% PC, 150% phone)
+    let savedChoice = null;
+    try {
+        savedChoice = localStorage.getItem('pure-timeline-chord-zoom-user');
+    } catch (e) {}
+
+    if (savedChoice === null) {
+        window.chordZoomLevel = getDefaultChordZoomLevel();
+    } else {
+        const parsed = parseInt(savedChoice, 10);
+        window.chordZoomLevel = (!isNaN(parsed) && parsed >= 0 && parsed <= 8) ? parsed : getDefaultChordZoomLevel();
+    }
+
     // If screen shrunk or lyrics toggled, ensure current zoom still fits
     while (window.chordZoomLevel > 0 && !checkCanIncreaseChordZoom(window.chordZoomLevel)) {
         window.chordZoomLevel--;
     }
-    applyChordZoom(window.chordZoomLevel, false);
+    applyChordZoom(window.chordZoomLevel, false, '', false);
 }
 
 function cycleIntelligentChordZoom() {
-    const currentStep = window.chordZoomLevel || 0;
-    const maxSteps = 8; // 8 steps of +25% = max +200%
+    const currentStep = (window.chordZoomLevel !== undefined) ? window.chordZoomLevel : getDefaultChordZoomLevel();
+    const maxSteps = 8; // 8 steps of +25% = max +200% (300% total)
 
     if (currentStep >= maxSteps) {
-        // At max (200%), cycle back to 0%
-        applyChordZoom(0, true, 'Chord Size: 100% (Reset)');
+        // At max (300%), cycle back to 100% (step 0)
+        applyChordZoom(0, true, 'Chord Size: 100% (Reset)', true);
         return;
     }
 
@@ -2181,12 +2226,12 @@ function cycleIntelligentChordZoom() {
     const fits = checkCanIncreaseChordZoom(nextStep);
 
     if (fits) {
-        applyChordZoom(nextStep, true);
+        applyChordZoom(nextStep, true, '', true);
     } else {
         // Space is constrained!
         if (currentStep > 0) {
-            // Already zoomed, next step doesn't fit -> cycle back to 0%
-            applyChordZoom(0, true, 'Chord Size: 100% (Max fit reached, reset)');
+            // Already zoomed, next step doesn't fit -> cycle back to 100%
+            applyChordZoom(0, true, 'Chord Size: 100% (Max fit reached, reset)', true);
         } else {
             // At 0% and even +25% doesn't fit -> keep at 0% and notify
             const zoomBtn = document.getElementById('pureIntelligentZoomBtn');
@@ -2229,14 +2274,14 @@ function syncPureTimelineButtons() {
 
     const chordZoomDisp = document.getElementById('pureChordZoomDisplay');
     if (chordZoomDisp) {
-        const step = window.chordZoomLevel || 0;
-        chordZoomDisp.innerText = step === 0 ? '100%' : `${100 + step * 25}% (+${step * 25}%)`;
+        const step = window.chordZoomLevel !== undefined ? window.chordZoomLevel : getDefaultChordZoomLevel();
+        chordZoomDisp.innerText = `${100 + step * 25}%`;
     }
     const chordZoomBtn = document.getElementById('pureIntelligentZoomBtn');
     if (chordZoomBtn) {
-        const step = window.chordZoomLevel || 0;
+        const step = window.chordZoomLevel !== undefined ? window.chordZoomLevel : getDefaultChordZoomLevel();
         chordZoomBtn.classList.toggle('active', step > 0);
-        chordZoomBtn.title = `Intelligent Chord Zoom: ${step === 0 ? '100%' : `${100 + step * 25}% (+${step * 25}%)`}`;
+        chordZoomBtn.title = `Intelligent Chord Zoom: ${100 + step * 25}%`;
     }
 }
 
