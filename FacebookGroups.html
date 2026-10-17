@@ -499,6 +499,268 @@
 
         #fileImportInput { display: none; }
 
+        /* --- REDDIT LEADS SUITE STYLES --- */
+        .reddit-alert-banner {
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            border: 1px solid #fecdd3;
+            border-left: 5px solid #f43f5e;
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 8px rgba(244, 63, 94, 0.08);
+            margin-bottom: 8px;
+        }
+
+        .reddit-alert-banner h3 {
+            color: #9f1239;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .reddit-alert-banner p {
+            color: #881337;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+
+        .reddit-alert-banner ul {
+            margin-left: 20px;
+            color: #881337;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .reddit-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .reddit-builder-grid {
+            display: grid;
+            grid-template-columns: 240px 1fr 170px auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        @media (max-width: 960px) {
+            .reddit-builder-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .reddit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+        }
+
+        .reddit-lead-card {
+            background: var(--bg-card);
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+        }
+
+        .reddit-lead-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .reddit-lead-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .reddit-lead-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: var(--text-dark);
+            line-height: 1.35;
+        }
+
+        .reddit-badge-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .reddit-sub-badge {
+            background-color: #ff4500;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .reddit-sub-badge:hover {
+            background-color: #e03d00;
+        }
+
+        .reddit-cat-badge {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .reddit-lead-desc {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .reddit-query-box {
+            background-color: #0f172a;
+            color: #38bdf8;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            padding: 10px 14px;
+            border-radius: 8px;
+            line-height: 1.4;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .reddit-query-box code {
+            font-family: inherit;
+            color: #f8fafc;
+        }
+
+        .reddit-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn-reddit-recent {
+            background-color: #059669;
+            color: #ffffff;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .btn-reddit-recent:hover {
+            background-color: #047857;
+            color: #ffffff;
+        }
+
+        .btn-reddit-search {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .btn-reddit-search:hover {
+            background-color: #1d4ed8;
+            color: #ffffff;
+        }
+
+        .btn-reddit-copy {
+            background-color: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s;
+        }
+
+        .btn-reddit-copy:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .btn-reddit-sub {
+            background-color: #ffffff;
+            color: #ff4500;
+            border: 1px solid #ffcdb2;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn-reddit-sub:hover {
+            background-color: #fff5f0;
+            border-color: #ff4500;
+            color: #e03d00;
+        }
+
+        .reddit-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            display: none;
+            z-index: 9999;
+            align-items: center;
+            gap: 8px;
+        }
+
         /* --- MOBILE RESPONSIVE LAYOUTS (v3.092) --- */
         .mobile-top-bar {
             display: none;
@@ -676,6 +938,7 @@
             <li class="nav-item active" id="navTracker" onclick="switchView('tracker')"><a><i class="fa-brands fa-facebook"></i> Promo Tracker</a></li>
             <li class="nav-item" id="navTemplates" onclick="switchView('templates')"><a><i class="fa-solid fa-paste"></i> Promo templates</a></li>
             <li class="nav-item" id="navMembers" onclick="switchView('members')"><a><i class="fa-solid fa-users"></i> New Members</a></li>
+            <li class="nav-item" id="navReddit" onclick="switchView('reddit')"><a><i class="fa-brands fa-reddit-alien"></i> Reddit Leads</a></li>
         </ul>
     </div>
 
@@ -835,6 +1098,147 @@
             </div>
         </div>
 
+        <!-- PAGE 4: REDDIT COMMUNITY LEADS PANEL -->
+        <div class="dashboard-view" id="redditPage">
+            <div class="top-bar">
+                <div>
+                    <h1 class="header-title" style="color: #ff4500;"><i class="fa-brands fa-reddit"></i> Reddit Community Leads</h1>
+                    <p class="subtitle">Targeted Google search triggers, subreddits, and outreach blueprints for finding chord tool discussions.</p>
+                </div>
+            </div>
+
+            <!-- CRITICAL SAFETY BANNER (ANTI-BAN / ANTI-SPAM) -->
+            <div class="reddit-alert-banner">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Reddit Rules & Spam Safeguards: Read Before Replying!</h3>
+                <p><strong>Will Reddit mind multiple similar replies in a month? YES — Reddit's automated Spam Filter and AutoModerator will quickly shadowban your account if you repeat similar text or links.</strong></p>
+                <ul>
+                    <li><strong>The 9:1 Community Rule:</strong> Reddit's official guidelines state that at least 9 out of 10 of your posts/comments should be genuine community participation with <em>zero self-promotion or links</em>. Only 1 in 10 should ever mention your project.</li>
+                    <li><strong>Never Copy-Paste Identical Replies:</strong> Repeated copy is immediately flagged by Reddit spam algorithms. Always write fresh, personalized advice addressing the user's specific instrument, song, or frustration first.</li>
+                    <li><strong>Deliver Real Value First:</strong> Give concrete advice (e.g., how to practice chord changes on beat 4, how to transpose to C Major, or how to follow a tempo). Then add a casual mention: <em>"I built a free tool called PopSongChordBook with a scrolling chord teleprompter for YouTube that might help you practice this."</em></li>
+                    <li><strong>Focus on the Past Month:</strong> Use the green <strong>"Past Month"</strong> buttons below so you engage on current, active threads where the original poster is still listening and other users are upvoting.</li>
+                </ul>
+            </div>
+
+            <!-- QUICK SEARCH QUERY BUILDER -->
+            <div class="reddit-card">
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #2563eb;"></i> Custom Reddit Search Builder
+                </div>
+                <div class="reddit-builder-grid">
+                    <div class="form-group" style="margin: 0;">
+                        <label for="redditSubSelect">Target Subreddit</label>
+                        <select id="redditSubSelect">
+                            <option value="guitarlessons">r/guitarlessons (Beginners & Practice)</option>
+                            <option value="pianolearning">r/pianolearning (Adult Beginners & Keys)</option>
+                            <option value="LearnGuitar">r/LearnGuitar (Beginner Guitar)</option>
+                            <option value="piano">r/piano (Piano & Keyboardists)</option>
+                            <option value="Bandmembers">r/Bandmembers (Bands & Rehearsal)</option>
+                            <option value="musicians">r/musicians (Musicians & Gigs)</option>
+                            <option value="Guitar">r/Guitar (General Guitar Community)</option>
+                            <option value="ukulele">r/ukulele (Ukulele Chords & Songs)</option>
+                            <option value="">All of Reddit (Sitewide Search)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label for="redditCustomKeywords">Search Keywords / Topic</label>
+                        <input type="text" id="redditCustomKeywords" value="chordify alternative" placeholder="e.g. chordify alternative, switch chords fast, play along youtube...">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label for="redditTimeFilter">Time Frame</label>
+                        <select id="redditTimeFilter">
+                            <option value="m">Past Month (Fresh Leads)</option>
+                            <option value="y">Past Year</option>
+                            <option value="all">Any Time (All Discussions)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn-reddit-search" onclick="runCustomRedditSearch()"><i class="fa-brands fa-google"></i> Google</button>
+                        <button class="btn-reddit-copy" onclick="copyCustomRedditQuery()"><i class="fa-regular fa-copy"></i> Copy Query</button>
+                        <button class="btn-reddit-sub" onclick="openSelectedSubreddit()"><i class="fa-brands fa-reddit"></i> Open Sub /new</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION HEADER -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; flex-wrap: wrap; gap: 8px;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-brands fa-reddit-alien" style="color: #ff4500;"></i> High-Intent Community Channels & Queries
+                </h2>
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                    Click <span style="color: #059669; font-weight: 700;">"Past Month"</span> to find active threads from recent weeks
+                </span>
+            </div>
+
+            <!-- PRESET REDDIT LEAD CARDS -->
+            <div class="reddit-grid" id="redditLeadsGrid">
+                <!-- Dynamically populated by renderRedditLeads() -->
+            </div>
+
+            <!-- ORGANIC REPLY TEMPLATES FOR REDDIT -->
+            <div class="reddit-card" style="margin-top: 10px;">
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-dark); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-regular fa-comments" style="color: #059669;"></i> Natural Reddit Reply Blueprints (Adapt to each thread!)
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: -6px;">
+                    Do not paste these word-for-word. Customize them with specific songs or chord shapes the poster mentioned!
+                </p>
+                <div class="template-grid" style="margin-top: 10px;">
+                    
+                    <div class="template-card">
+                        <div class="template-header-label">
+                            <span style="color: #059669; margin-right: 6px;">BLUEPRINT 1:</span> Direct Chordify / Ultimate Guitar Alternative
+                        </div>
+                        <div class="card-actions-wrapper">
+                            <button class="btn-copy-template" onclick="copySnippetText('replySnippet1')"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                        </div>
+                        <div class="template-body-container" id="replySnippet1">If you're looking for a free alternative to Chordify or Ultimate Guitar that lets you play along with real YouTube audio, check out PopSongChordBook (popsongchordbook.com). 
+
+I built it because I wanted a visual chord teleprompter where the chords scroll smoothly in sync with the official YouTube video, complete with chord charts and transposing, without having to pay a monthly subscription. It's totally free on web/tablets — hope it helps with your practice!</div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="template-header-label">
+                            <span style="color: #059669; margin-right: 6px;">BLUEPRINT 2:</span> Advice for Fast Chord Switching / Rhythm Timing
+                        </div>
+                        <div class="card-actions-wrapper">
+                            <button class="btn-copy-template" onclick="copySnippetText('replySnippet2')"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                        </div>
+                        <div class="template-body-container" id="replySnippet2">A big tip that helped me get fast chord changes down: practice changing on beat 4 (or the last "and" before the next bar) rather than waiting until the exact downbeat of beat 1. If you leave the old chord half a beat early, your fingers have time to form the new shape in the air without pausing the tempo.
+
+Also, playing along to visual chord teleprompters forces you not to stop and think. I actually built a free browser tool for this (popsongchordbook.com) where the chords scroll towards a timeline bar synced to YouTube so you can see upcoming chords 2-3 bars in advance. Give it a try if you need play-along practice!</div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="template-header-label">
+                            <span style="color: #059669; margin-right: 6px;">BLUEPRINT 3:</span> Piano Beginner (Playing Songs without Sheet Music)
+                        </div>
+                        <div class="card-actions-wrapper">
+                            <button class="btn-copy-template" onclick="copySnippetText('replySnippet3')"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                        </div>
+                        <div class="template-body-container" id="replySnippet3">You definitely do NOT need to master traditional sheet music to play your favorite pop songs on piano! Most pop songs rely on simple 3 or 4 chord progressions (like I-V-vi-IV). Learn root position triads for C, G, Am, F, and play the root note in your left hand with simple block chords in your right.
+
+If you like visual learning, I built a free web tool called PopSongChordBook (popsongchordbook.com) with interactive keyboard chord diagrams that scroll along with real songs. It has an "All White Keys" transpose filter so beginners can practice without sharp/flat keys while getting comfortable.</div>
+                    </div>
+
+                    <div class="template-card">
+                        <div class="template-header-label">
+                            <span style="color: #059669; margin-right: 6px;">BLUEPRINT 4:</span> Band Rehearsal & Live Setlist Sync
+                        </div>
+                        <div class="card-actions-wrapper">
+                            <button class="btn-copy-template" onclick="copySnippetText('replySnippet4')"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                        </div>
+                        <div class="template-body-container" id="replySnippet4">For band rehearsals and setlists, having synced chords on tablets or laptops makes practice way smoother. If you want something quick that doesn't need dedicated software installs, take a look at PopSongChordBook (popsongchordbook.com). It has built-in setlists, transposition for singers, and a live chord teleprompter that works on any browser.</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TOAST FEEDBACK NOTIFICATION -->
+            <div id="redditToast" class="reddit-toast">
+                <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i> <span id="redditToastText">Copied to clipboard!</span>
+            </div>
+        </div>
+
     </div>
 
     <!-- Firebase SDK -->
@@ -950,29 +1354,37 @@
             const trackerPage = document.getElementById('trackerPage');
             const templatesPage = document.getElementById('templatesPage');
             const membersPage = document.getElementById('membersPage');
+            const redditPage = document.getElementById('redditPage');
             
             const navTracker = document.getElementById('navTracker');
             const navTemplates = document.getElementById('navTemplates');
             const navMembers = document.getElementById('navMembers');
+            const navReddit = document.getElementById('navReddit');
 
-            trackerPage.classList.remove('active-view');
-            templatesPage.classList.remove('active-view');
-            membersPage.classList.remove('active-view');
+            if (trackerPage) trackerPage.classList.remove('active-view');
+            if (templatesPage) templatesPage.classList.remove('active-view');
+            if (membersPage) membersPage.classList.remove('active-view');
+            if (redditPage) redditPage.classList.remove('active-view');
             
-            navTracker.classList.remove('active');
-            navTemplates.classList.remove('active');
-            navMembers.classList.remove('active');
+            if (navTracker) navTracker.classList.remove('active');
+            if (navTemplates) navTemplates.classList.remove('active');
+            if (navMembers) navMembers.classList.remove('active');
+            if (navReddit) navReddit.classList.remove('active');
 
             if (viewName === 'tracker') {
-                trackerPage.classList.add('active-view');
-                navTracker.classList.add('active');
+                if (trackerPage) trackerPage.classList.add('active-view');
+                if (navTracker) navTracker.classList.add('active');
             } else if (viewName === 'templates') {
-                templatesPage.classList.add('active-view');
-                navTemplates.classList.add('active');
+                if (templatesPage) templatesPage.classList.add('active-view');
+                if (navTemplates) navTemplates.classList.add('active');
             } else if (viewName === 'members') {
-                membersPage.classList.add('active-view');
-                navMembers.classList.add('active');
+                if (membersPage) membersPage.classList.add('active-view');
+                if (navMembers) navMembers.classList.add('active');
                 renderMembers();
+            } else if (viewName === 'reddit') {
+                if (redditPage) redditPage.classList.add('active-view');
+                if (navReddit) navReddit.classList.add('active');
+                renderRedditLeads();
             }
 
             // Close mobile sidebar if open
@@ -1498,6 +1910,279 @@
                 }
             }
         }
+
+        /* --- REDDIT LEADS & OUTREACH SUITE LOGIC --- */
+        const redditLeadsData = [
+            {
+                sub: "guitarlessons",
+                category: "Guitar",
+                title: "Looking for Chordify Alternative / Free Play-Along Tool",
+                query: "site:reddit.com/r/guitarlessons chordify alternative",
+                description: "Guitarists asking for free alternatives to Chordify for practicing songs and reading chords."
+            },
+            {
+                sub: "guitar",
+                category: "Guitar",
+                title: "Ultimate Guitar / Tab Alternative Without Subscription",
+                query: "site:reddit.com/r/guitar ultimate guitar alternative free",
+                description: "Musicians searching for better, free ways to practice along with songs without paywalls."
+            },
+            {
+                sub: "pianolearning",
+                category: "Piano",
+                title: "Chordify Alternative for Piano & Keyboard Beginners",
+                query: "site:reddit.com/r/pianolearning chordify alternative",
+                description: "Keyboard players looking for visual chord charts and synchronized song play-along tools."
+            },
+            {
+                sub: "guitarlessons",
+                category: "Guitar",
+                title: "Switching Chords Fast / Playing Songs in Real-Time",
+                query: "site:reddit.com/r/guitarlessons switch chords fast timing",
+                description: "Beginners struggling to keep tempo when changing chords along with songs."
+            },
+            {
+                sub: "guitarlessons",
+                category: "Guitar",
+                title: "Playing Along with YouTube Songs (Chords)",
+                query: "site:reddit.com/r/guitarlessons play along youtube chords",
+                description: "Players asking how to practice along directly with YouTube songs and video tracks."
+            },
+            {
+                sub: "LearnGuitar",
+                category: "Guitar",
+                title: "Easy 3-4 Chord Pop Songs for Beginners",
+                query: "site:reddit.com/r/LearnGuitar easy pop songs chords beginner",
+                description: "Beginners looking for practical pop songs they can play immediately with simple chords."
+            },
+            {
+                sub: "pianolearning",
+                category: "Piano",
+                title: "Learn Pop Songs / Chords Without Sheet Music",
+                query: "site:reddit.com/r/pianolearning learn pop songs chords without sheet music",
+                description: "Adult beginners wanting to play popular songs using chord charts rather than sight-reading."
+            },
+            {
+                sub: "piano",
+                category: "Piano",
+                title: "Piano Chords Visualizer & Lead Sheets",
+                query: "site:reddit.com/r/piano beginner chords pop songs lead sheet",
+                description: "Pianists looking for visual chord lead sheets or play-along practice prompts."
+            },
+            {
+                sub: "pianolearning",
+                category: "Piano",
+                title: "White Keys Only / Easy Transposing for Beginners",
+                query: "site:reddit.com/r/pianolearning transpose chords easy keys",
+                description: "Beginner keyboardists looking for ways to transpose songs into C Major / easy chords."
+            },
+            {
+                sub: "Bandmembers",
+                category: "Bands",
+                title: "Band Rehearsal Chords & Setlist Sync App",
+                query: "site:reddit.com/r/Bandmembers rehearsal chords setlist app",
+                description: "Band members looking for shared setlists and chord visualizers on tablets during practice."
+            },
+            {
+                sub: "musicians",
+                category: "Musicians",
+                title: "Live Band Practice Chord Teleprompter on Screen",
+                query: "site:reddit.com/r/musicians band practice chords tablet sync",
+                description: "Performers and jam bands needing on-screen chord prompting during sessions."
+            },
+            {
+                sub: "ukulele",
+                category: "Ukulele",
+                title: "Play Along Scrolling Chords for Pop Songs",
+                query: "site:reddit.com/r/ukulele play along scrolling chords",
+                description: "Ukulele players wanting synced scrolling chords to jam along with recordings."
+            },
+            {
+                sub: "",
+                category: "Sitewide",
+                title: "All of Reddit: 'Chordify Alternative' Discussions",
+                query: 'site:reddit.com "chordify alternative"',
+                description: "Every Reddit thread across any music community asking for Chordify alternatives."
+            },
+            {
+                sub: "",
+                category: "Sitewide",
+                title: "All of Reddit: 'Chord Teleprompter' or Scrolling Chords",
+                query: 'site:reddit.com "chord teleprompter" OR "scrolling chords"',
+                description: "Musicians looking for a chord teleprompter app for live play or rehearsal."
+            }
+        ];
+
+        let isRedditRendered = false;
+
+        function renderRedditLeads() {
+            if (isRedditRendered) return;
+            const container = document.getElementById('redditLeadsGrid');
+            if (!container) return;
+
+            container.innerHTML = "";
+            redditLeadsData.forEach(lead => {
+                const card = document.createElement('div');
+                card.className = "reddit-lead-card";
+
+                const subBadgeHtml = lead.sub 
+                    ? `<a href="https://www.reddit.com/r/${lead.sub}/new/" target="_blank" rel="noopener" class="reddit-sub-badge"><i class="fa-brands fa-reddit-alien"></i> r/${lead.sub}</a>`
+                    : `<span class="reddit-sub-badge" style="background-color: #6366f1;"><i class="fa-solid fa-globe"></i> Sitewide</span>`;
+
+                const subNewBtnHtml = lead.sub
+                    ? `<a href="https://www.reddit.com/r/${lead.sub}/new/" target="_blank" rel="noopener" class="btn-reddit-sub"><i class="fa-brands fa-reddit"></i> r/${lead.sub} /new</a>`
+                    : '';
+
+                const pastMonthUrl = `https://www.google.com/search?q=${encodeURIComponent(lead.query)}&tbs=qdr:m`;
+                const allTimeUrl = `https://www.google.com/search?q=${encodeURIComponent(lead.query)}`;
+
+                card.innerHTML = `
+                    <div class="reddit-lead-header">
+                        <div class="reddit-badge-group">
+                            ${subBadgeHtml}
+                            <span class="reddit-cat-badge">${lead.category}</span>
+                        </div>
+                    </div>
+                    <div class="reddit-lead-title">${escapeHtml(lead.title)}</div>
+                    <div class="reddit-lead-desc">${escapeHtml(lead.description)}</div>
+                    <div class="reddit-query-box">
+                        <code>${escapeHtml(lead.query)}</code>
+                    </div>
+                    <div class="reddit-actions">
+                        <a href="${pastMonthUrl}" target="_blank" rel="noopener" class="btn-reddit-recent" title="Open Google search filtered to the past month">
+                            <i class="fa-regular fa-calendar-days"></i> Past Month
+                        </a>
+                        <a href="${allTimeUrl}" target="_blank" rel="noopener" class="btn-reddit-search" title="Open Google search for all time">
+                            <i class="fa-brands fa-google"></i> All Time
+                        </a>
+                        <button class="btn-reddit-copy" onclick="copyRedditText('${escapeAttribute(lead.query)}')" title="Copy search string to clipboard">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                        ${subNewBtnHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            isRedditRendered = true;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function escapeAttribute(text) {
+            return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function runCustomRedditSearch() {
+            const sub = document.getElementById('redditSubSelect').value.trim();
+            const keywords = document.getElementById('redditCustomKeywords').value.trim();
+            const timeFilter = document.getElementById('redditTimeFilter').value;
+
+            if (!keywords) {
+                alert("Please enter keywords to search for.");
+                return;
+            }
+
+            let query = "";
+            if (sub) {
+                query = `site:reddit.com/r/${sub} ${keywords}`;
+            } else {
+                query = `site:reddit.com ${keywords}`;
+            }
+
+            let url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            if (timeFilter === 'm') {
+                url += '&tbs=qdr:m';
+            } else if (timeFilter === 'y') {
+                url += '&tbs=qdr:y';
+            }
+
+            window.open(url, '_blank', 'noopener');
+        }
+
+        function copyCustomRedditQuery() {
+            const sub = document.getElementById('redditSubSelect').value.trim();
+            const keywords = document.getElementById('redditCustomKeywords').value.trim();
+
+            if (!keywords) {
+                alert("Please enter keywords to copy.");
+                return;
+            }
+
+            let query = "";
+            if (sub) {
+                query = `site:reddit.com/r/${sub} ${keywords}`;
+            } else {
+                query = `site:reddit.com ${keywords}`;
+            }
+
+            copyRedditText(query);
+        }
+
+        function openSelectedSubreddit() {
+            const sub = document.getElementById('redditSubSelect').value.trim();
+            if (sub) {
+                window.open(`https://www.reddit.com/r/${sub}/new/`, '_blank', 'noopener');
+            } else {
+                window.open('https://www.reddit.com/new/', '_blank', 'noopener');
+            }
+        }
+
+        function copyRedditText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showRedditToast(`Copied search query: "${text}"`);
+            }).catch(err => {
+                console.error("Copy failed:", err);
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showRedditToast(`Copied: "${text}"`);
+            });
+        }
+
+        function copySnippetText(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerText || el.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showRedditToast("Blueprint copied! Remember to customize it for the thread.");
+            }).catch(err => {
+                console.error("Copy failed:", err);
+                showRedditToast("Blueprint copied!");
+            });
+        }
+
+        function showRedditToast(msg) {
+            const toast = document.getElementById('redditToast');
+            const toastText = document.getElementById('redditToastText');
+            if (toast && toastText) {
+                toastText.innerText = msg;
+                toast.style.display = 'flex';
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // URL Parameter Routing on Page Load
+        (function checkUrlRoute() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewParam = urlParams.get('view');
+            if (viewParam === 'reddit') {
+                switchView('reddit');
+            } else if (viewParam === 'templates') {
+                switchView('templates');
+            } else if (viewParam === 'members') {
+                switchView('members');
+            }
+        })();
     </script>
 </body>
 </html>
