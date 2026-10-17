@@ -5112,6 +5112,14 @@ function getChordTopStyle(chord) {
         } else {
             offsetPx = 110; // PC Landscape PLAY MODE: 110px offset for wide, clear vertical separation
         }
+    } else {
+        // Mobile / Portrait view: timeline is compact (115px height, 40px chord blocks).
+        // Gentle stagger (18px) keeps blocks comfortably visible inside the timeline area.
+        const isPortrait = document.body.classList.contains('is-portrait') || (window.innerHeight >= window.innerWidth);
+        const isMobileView = document.body.classList.contains('is-mobile-view') || window.innerWidth <= 768;
+        if (isPortrait && isMobileView) {
+            offsetPx = 18; // Mobile Portrait: gentle stagger (just enough, stays within visible area)
+        }
     }
 
     if (tier === 'up') {
