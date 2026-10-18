@@ -3,34 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Rosanna by Toto - Piano & Guitar Chords - PopSongChordBook</title>
-    <meta name="description" id="meta-description" content="Master &quot;Rosanna&quot; by Toto with our interactive scrolling chords. This tutorial covers the Bb major progression at 81 BPM. Perfect for keyboard and guitar players.">
-    
-    <!-- Structured Data Placeholder -->
-    <script type="application/ld+json" id="structured-data">{
-    "@context": "https://schema.org",
-    "@type": "MusicRecording",
-    "name": "Rosanna",
-    "byArtist": {
-        "@type": "MusicGroup",
-        "name": "Toto"
-    },
-    "genre": "Pop",
-    "url": "https://www.popsongchordbook.com/song/toto-rosanna"
-}</script>
-
+    <title>Rosanna by Toto - Piano &amp; Guitar Chords | PopSongChordBook</title>
+    <meta name="description" content="Learn to play &quot;Rosanna&quot; by Toto (1984). Key of Bb at 81 BPM. Chords: G, F, Em, C2, F3, Eb3. Interactive chord timeline for piano and guitar on PopSongChordBook.">
+    <link rel="canonical" href="https://www.popsongchordbook.com/song/toto-rosanna">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/pwa_icon_192.png">
+    <link rel="icon" type="image/jpeg" sizes="192x192" href="/Icon-192x192.jpg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/utils/smart-app-banner.js?v=3.407"></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicRecording","name":"Rosanna","byArtist":{"@type":"MusicGroup","name":"Toto"},"url":"https://www.popsongchordbook.com/song/toto-rosanna","datePublished":"1984","description":"Chords: G, F, Em, C2, F3, Eb3, Dm3, Gm, Bb2. Key of Bb."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What key is \"Rosanna\" in?","acceptedAnswer":{"@type":"Answer","text":"\"Rosanna\" is in the key of Bb."}},{"@type":"Question","name":"What is the tempo of \"Rosanna\"?","acceptedAnswer":{"@type":"Answer","text":"The tempo is 81 BPM."}},{"@type":"Question","name":"When was \"Rosanna\" released?","acceptedAnswer":{"@type":"Answer","text":"Released in 1984."}}]}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css?v=3.313">
     <style>
         :root {
             --primary: #3b82f6;
             --primary-hover: #2563eb;
             --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            --glass: rgba(255, 255, 255, 0.8);
+            --glass: rgba(255,255,255,0.85);
         }
-
+        *,*::before,*::after { box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-gradient);
@@ -39,452 +34,414 @@
             margin: 0;
             min-height: 100vh;
         }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        .preview-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+        /* Layout */
+        .preview-container { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .breadcrumb { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+        .breadcrumb a { color: #64748b; }
+        .breadcrumb a:hover { color: var(--primary); }
 
+        /* Card */
         .song-card {
             background: var(--glass);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,255,255,0.6);
         }
 
-        .breadcrumb {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
-        .song-header {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
+        /* Header */
+        .song-header { display: flex; align-items: center; gap: 28px; margin-bottom: 36px; }
         .song-art {
-            width: 120px;
-            height: 120px;
+            width: 110px; height: 110px; flex-shrink: 0;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 10px 20px rgba(59,130,246,0.25);
         }
-
-        .song-info h1 {
-            margin: 0;
-            font-size: 36px;
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            color: #0f172a;
+        .song-info h1 { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
+        .song-info .artist-link {
+            display: inline-block; margin-top: 6px;
+            font-size: 20px; font-weight: 600; color: var(--primary);
+            border-bottom: 2px solid transparent; transition: border-color 0.2s;
         }
+        .song-info .artist-link:hover { border-bottom-color: var(--primary); text-decoration: none; }
 
-        .song-info h2 {
-            margin: 5px 0 0 0;
-            font-size: 20px;
-            font-weight: 500;
-            color: #3b82f6;
-        }
-
+        /* Meta grid */
         .meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 20px;
-            border-radius: 16px;
+            display: flex; flex-wrap: wrap; gap: 16px;
+            background: rgba(255,255,255,0.5);
+            padding: 20px; border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .meta-item { display: flex; flex-direction: column; min-width: 80px; }
+        .meta-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+        .meta-value { font-size: 20px; font-weight: 800; color: #0f172a; margin-top: 2px; }
+
+        /* Top Actions */
+        .top-song-actions {
+            display: flex; flex-wrap: wrap; gap: 12px;
+            margin-bottom: 36px;
         }
 
-        .meta-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .meta-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748b;
-            font-weight: 600;
-        }
-
-        .meta-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .preview-section {
-            margin-bottom: 40px;
-        }
-
-        .preview-section h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
+        /* Section headings */
+        .preview-section { margin-bottom: 36px; }
+        .preview-section h2, .faq-section h2 {
+            font-size: 20px; font-weight: 700; color: #0f172a;
+            margin: 0 0 8px 0;
+            padding-left: 14px;
             border-left: 4px solid var(--primary);
-            padding-left: 15px;
         }
+        .section-desc { margin: 4px 0 16px; font-size: 14px; color: #64748b; }
 
-        .chords-preview {
+        /* Song Map */
+        .song-map-container {
+            display: flex; height: 56px; border-radius: 12px;
+            overflow: hidden; gap: 3px;
+            margin-bottom: 12px;
+        }
+        .map-block {
+            display: flex; align-items: center; justify-content: center;
+            min-width: 40px; overflow: hidden;
+            transition: opacity 0.2s;
+            cursor: default;
+        }
+        .map-block:hover { opacity: 0.85; }
+        .map-label {
+            font-size: 11px; font-weight: 700; color: #fff;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            padding: 0 6px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .map-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .legend-item {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 12px; color: #64748b; text-transform: capitalize;
+        }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+        /* Chord Sections */
+        .chord-sections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .chord-section-card {
+            background: rgba(255,255,255,0.6);
+            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+        .chord-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+        .chord-section-text {
             font-family: 'Courier New', Courier, monospace;
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 25px;
-            border-radius: 12px;
-            font-size: 18px;
-            white-space: pre-wrap;
-            position: relative;
-            overflow: hidden;
+            font-size: 15px; font-weight: 600; color: #1e293b;
+            white-space: pre-wrap; line-height: 1.7;
         }
 
-        .chords-preview::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: linear-gradient(transparent, #1e293b);
+        /* Chord Badges */
+        .chord-badges-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chord-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            border: 1.5px solid;
+            font-size: 14px; font-weight: 700;
+            font-family: 'Courier New', Courier, monospace;
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: default;
         }
+        .chord-badge:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
+        /* Teaser Images */
+        .teaser-section { margin-bottom: 36px; text-align: center; }
+        .teaser-image-container {
+            position: relative; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 12px 30px rgba(59,130,246,0.2);
+            background: #0f172a;
+        }
+        .teaser-image { width: 100%; display: block; opacity: 0.92; transition: transform 0.4s ease, opacity 0.4s; }
+        .teaser-image-container:hover .teaser-image { transform: scale(1.02); opacity: 1; }
+
+        /* CTA */
         .cta-container {
-            text-align: center;
-            margin-top: 50px;
-            padding: 40px;
+            text-align: center; margin: 40px 0;
+            padding: 36px 24px;
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 20px;
             border: 1px solid #bfdbfe;
         }
-
+        .cta-container h2 { font-size: 20px; font-weight: 700; color: #1e3a5f; margin: 0 0 20px; border: none; padding: 0; }
         .cta-button {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 9999px;
-            font-weight: 700;
-            font-size: 18px;
-            text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: var(--primary); color: #fff;
+            padding: 14px 28px; border-radius: 9999px;
+            font-weight: 700; font-size: 16px;
+            box-shadow: 0 10px 20px rgba(59,130,246,0.35);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
         }
-
         .cta-button:hover {
             background: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 16px 24px rgba(59,130,246,0.4);
+            text-decoration: none;
+            color: #fff;
         }
-
-        .faq-section {
-            margin-top: 60px;
+        .cta-button-playstore {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 13px 24px; border-radius: 9999px;
+            font-weight: 700; font-size: 15px;
+            border: 1.5px solid rgba(34, 197, 94, 0.55);
+            box-shadow: 0 10px 20px -3px rgba(15, 23, 42, 0.3);
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
-
-        .faq-item {
-            margin-bottom: 25px;
+        .cta-button-playstore:hover {
+            transform: translateY(-2px);
+            border-color: #22c55e;
+            box-shadow: 0 16px 28px -5px rgba(34, 197, 94, 0.35);
+            text-decoration: none;
+            color: #ffffff;
         }
-
-        .faq-question {
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 5px;
+        .youtube-button {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #ff0000; color: #fff;
+            padding: 13px 24px; border-radius: 9999px;
+            font-weight: 600; font-size: 15px;
+            transition: background 0.2s, transform 0.2s;
         }
+        .youtube-button:hover { background: #cc0000; transform: translateY(-2px); text-decoration: none; color: #fff; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; margin-top: 4px; }
 
-        .faq-answer {
-            color: #475569;
-        }
+        /* FAQ */
+        .faq-section { margin-top: 36px; }
+        .faq-item { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid #e2e8f0; }
+        .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .faq-question { font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 6px; }
+        .faq-answer { font-size: 15px; color: #475569; line-height: 1.65; }
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-            font-size: 14px;
-        }
+        /* Footer */
+        footer { text-align: center; padding: 36px; color: #94a3b8; font-size: 13px; }
 
+        /* Responsive */
         @media (max-width: 640px) {
-            .song-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .song-art {
-                margin: 0 auto;
-            }
-            .song-card {
-                padding: 20px;
-            }
-        }
-        /* Teaser Styles */
-        .teaser-section {
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .teaser-image-container {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #0f172a;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .teaser-image {
-            width: 100%;
-            display: block;
-            opacity: 0.9;
-            transition: transform 0.5s ease;
-        }
-
-        .teaser-image-container:hover .teaser-image {
-            transform: scale(1.02);
-            opacity: 1;
-        }
-
-        .teaser-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(0deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0) 40%);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 30px;
-            pointer-events: none;
-        }
-
-        .teaser-badge {
-            background: rgba(59, 130, 246, 0.9);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            .song-header { flex-direction: column; text-align: center; }
+            .song-art { margin: 0 auto; }
+            .song-card { padding: 22px 18px; }
+            .chord-sections-grid { grid-template-columns: 1fr; }
+            .song-info h1 { font-size: 26px; }
+            .map-label { font-size: 9px; }
         }
     </style>
-    <link rel="canonical" href="https://www.popsongchordbook.com/song/toto-rosanna">
 </head>
 <body>
     <div class="preview-container">
-        <div class="breadcrumb">
-            <a href="/">Home</a> / <a href="/songlist">Songs</a> / <span id="breadcrumb-song">Rosanna</span>
-        </div>
+        <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="/">Home</a> &rsaquo;
+            <a href="/songlist.html">Songs</a> &rsaquo;
+            <span>Rosanna</span>
+        </nav>
 
-        <article class="song-card">
+        <article class="song-card" itemscope itemtype="https://schema.org/MusicRecording">
             <div class="song-header">
-                <div class="song-art" id="song-icon">🎸</div>
+                <div class="song-art" aria-hidden="true">🎼</div>
                 <div class="song-info">
-                    <h1 id="song-title">Rosanna</h1>
-                    <h2 id="song-artist"><a href="/artist/toto" style="color: inherit; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='transparent'">Toto</a></h2>
+                    <h1 itemprop="name">Rosanna</h1>
+                    <a href="/artist/toto" class="artist-link" itemprop="byArtist" itemscope itemtype="https://schema.org/MusicGroup">
+                        <span itemprop="name">Toto</span>
+                    </a>
                 </div>
             </div>
 
             <div class="meta-grid">
                 <div class="meta-item">
                     <span class="meta-label">Key</span>
-                    <span class="meta-value" id="meta-key">Bb</span>
+                    <span class="meta-value">Bb</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Tempo</span>
-                    <span class="meta-value" id="meta-tempo">81 BPM</span>
+                    <span class="meta-value">81 BPM</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Difficulty</span>
-                    <span class="meta-value" id="meta-difficulty">Intermediate</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Instruments</span>
-                    <span class="meta-value">Piano, Guitar</span>
-                </div>
+                <div class="meta-item"><span class="meta-label">Year</span><span class="meta-value">1984</span></div>
+                
+                <div class="meta-item"><span class="meta-label">Chords</span><span class="meta-value">9 unique</span></div>
+            </div>
+
+            <div class="top-song-actions">
+                <a href="/songlist.html?songId=113&amp;artist=Toto&amp;title=Rosanna" class="cta-button">&#9654; Play &ldquo;Rosanna&rdquo; Interactive Chords</a>
+                <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=utm_source%3Dseo_song%26utm_medium%3Dtop_cta%26utm_campaign%3Dtoto-rosanna" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                    </svg>
+                    <span>Open in Android App (Google Play)</span>
+                </a>
             </div>
 
             <section class="preview-section">
-                <h3>About this Song</h3>
-                <p id="song-description">Master &quot;Rosanna&quot; by Toto with our interactive scrolling chords. This tutorial covers the Bb major progression at 81 BPM. Perfect for keyboard and guitar players.</p>
+                <h2>About this Song</h2>
+                <p>Learn to play &quot;Rosanna&quot; by Toto (1984). Key of Bb at 81 BPM. Chords: G, F, Em, C2, F3, Eb3. Interactive chord timeline for piano and guitar on PopSongChordBook.</p>
             </section>
 
-            <section class="teaser-section">
-                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Interactive Chord Timeline Example</h2>
+            
+        <section class="preview-section">
+            <h2>Song Structure</h2>
+            <p class="section-desc">This song has 14 sections: INTRO → VERSE 1 → VERSE 2 → PRE CHORUS → CHORUS → VERSE 3 → VERSE 4 → PRE CHORUS → CHORUS → KEYBOARD SOLO → GUITAR SOLO → PRE CHORUS → CHORUS → OUTRO</p>
+            <div class="song-map-container">
+                <div class="map-block" style="flex:2;background:#6b7280;" title="INTRO">
+                <span class="map-label">INTRO</span>
+            </div>
+            <div class="map-block" style="flex:5;background:#3b82f6;" title="VERSE 1">
+                <span class="map-label">VERSE 1</span>
+            </div>
+            <div class="map-block" style="flex:6;background:#3b82f6;" title="VERSE 2">
+                <span class="map-label">VERSE 2</span>
+            </div>
+            <div class="map-block" style="flex:20;background:#06b6d4;" title="PRE CHORUS">
+                <span class="map-label">PRE CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:44;background:#22c55e;" title="CHORUS">
+                <span class="map-label">CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:7;background:#3b82f6;" title="VERSE 3">
+                <span class="map-label">VERSE 3</span>
+            </div>
+            <div class="map-block" style="flex:6;background:#3b82f6;" title="VERSE 4">
+                <span class="map-label">VERSE 4</span>
+            </div>
+            <div class="map-block" style="flex:21;background:#06b6d4;" title="PRE CHORUS">
+                <span class="map-label">PRE CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:43;background:#22c55e;" title="CHORUS">
+                <span class="map-label">CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:6;background:#f43f5e;" title="KEYBOARD SOLO">
+                <span class="map-label">KEYBOARD SOLO</span>
+            </div>
+            <div class="map-block" style="flex:5;background:#f43f5e;" title="GUITAR SOLO">
+                <span class="map-label">GUITAR SOLO</span>
+            </div>
+            <div class="map-block" style="flex:16;background:#06b6d4;" title="PRE CHORUS">
+                <span class="map-label">PRE CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:88;background:#22c55e;" title="CHORUS">
+                <span class="map-label">CHORUS</span>
+            </div>
+            <div class="map-block" style="flex:7;background:#8b5cf6;" title="OUTRO">
+                <span class="map-label">OUTRO</span>
+            </div>
+            </div>
+            <div class="map-legend"><span class="legend-item"><span class="legend-dot" style="background:#6b7280"></span>intro</span><span class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>verse</span><span class="legend-item"><span class="legend-dot" style="background:#06b6d4"></span>prechorus</span><span class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>chorus</span><span class="legend-item"><span class="legend-dot" style="background:#f43f5e"></span>solo</span><span class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>outro</span></div>
+        </section>
+
+            
+        <section class="preview-section">
+            <h2>Chord Progressions</h2>
+            <p class="section-desc">These are the chord sequences for each part of the song:</p>
+            <div class="chord-sections-grid">
+                <div class="chord-section-card" style="border-left-color:#3b82f6;">
+                <div class="chord-section-title" style="color:#3b82f6;">INTRO &amp; VERSE</div>
+                <div class="chord-section-text">G F Em G | C2 F3 | Eb3 Dm3</div>
+            </div>
+            <div class="chord-section-card" style="border-left-color:#06b6d4;">
+                <div class="chord-section-title" style="color:#06b6d4;">CHORUS</div>
+                <div class="chord-section-text">F Bb2 Eb3 Bb2 F 4x</div>
+            </div>
+            <div class="chord-section-card" style="border-left-color:#22c55e;">
+                <div class="chord-section-title" style="color:#22c55e;">PRE CHORUS</div>
+                <div class="chord-section-text">Gm F Bb2 Eb3 Bb2 F 2x</div>
+            </div>
+            <div class="chord-section-card" style="border-left-color:#f59e0b;">
+                <div class="chord-section-title" style="color:#f59e0b;">Outro</div>
+                <div class="chord-section-text">G G6 G7</div>
+            </div>
+            </div>
+        </section>
+
+            
+        <section class="preview-section">
+            <h2>Chords Used in This Song</h2>
+            <p class="section-desc">9 unique chords appear in this song:</p>
+            <div class="chord-badges-container"><span class="chord-badge" style="background:#2563eb22;border-color:#2563eb60;color:#1d4ed8;">G</span><span class="chord-badge" style="background:#2563eb22;border-color:#2563eb60;color:#1d4ed8;">F</span><span class="chord-badge" style="background:#2563eb22;border-color:#2563eb60;color:#1d4ed8;">Em</span><span class="chord-badge" style="background:#0d948822;border-color:#0d948860;color:#0f766e;">C2</span><span class="chord-badge" style="background:#0d948822;border-color:#0d948860;color:#0f766e;">F3</span><span class="chord-badge" style="background:#0d948822;border-color:#0d948860;color:#0f766e;">Eb3</span><span class="chord-badge" style="background:#0d948822;border-color:#0d948860;color:#0f766e;">Dm3</span><span class="chord-badge" style="background:#2563eb22;border-color:#2563eb60;color:#1d4ed8;">Gm</span><span class="chord-badge" style="background:#0d948822;border-color:#0d948860;color:#0f766e;">Bb2</span></div>
+        </section>
+
+            <div class="teaser-section">
                 <div class="teaser-image-container">
-                    <img src="/images/pure_chordtimeline.png" alt="PopSongChordBook Scrolling Timeline Preview" class="teaser-image">
+                    <img src="/images/pure_chordtimeline.png"
+                         alt="PopSongChordBook interactive scrolling chord timeline for Rosanna"
+                         class="teaser-image" loading="lazy">
                 </div>
-            </section>
+            </div>
 
-            <section class="teaser-section">
-                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Visual Song Map Example</h2>
+            <div class="teaser-section">
                 <div class="teaser-image-container">
-                    <img src="/images/song_map_example.png" alt="PopSongChordBook Song Map Visualization" class="teaser-image">
+                    <img src="/images/song_map_example.png"
+                         alt="PopSongChordBook song map visualization for Rosanna"
+                         class="teaser-image" loading="lazy">
                 </div>
-            </section>
-
-            <section class="teaser-section">
-                <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 25px;">Chords Example</h2>
-                <div class="teaser-image-container" style="margin-bottom: 30px;">
-                    <img src="/images/detail_screen.png" alt="PopSongChordBook Interactive Chords Detail View" class="teaser-image">
-                </div>
-                <div class="chords-preview" id="chords-preview">
-                    VERSE:
-G F Em G | C2 F3 | Eb3 Dm3
-
-CHORUS:
-Gm F Bb2 Eb3 Bb2 F 2x
-
-
-                </div>
-            </section>
+            </div>
 
             <div class="cta-container">
-                <h3>Want to play the full version with real-time scrolling and audio?</h3>
-            <a href="/" class="cta-button" id="play-full-btn">Go To PopSongChordBook</a>
-        </div>
-
-            <section class="faq-section">
-                <h3>Frequently Asked Questions</h3>
-                <div id="faq-container">
-
-                    <div class="faq-item">
-                        <div class="faq-question">What is the key of "Rosanna" by Toto?</div>
-                        <div class="faq-answer">The song "Rosanna" is originally in the key of Bb.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">How fast is "Rosanna"?</div>
-                        <div class="faq-answer">The tempo of "Rosanna" is approximately 81 BPM.</div>
-                    </div>
-        
+                <h2>Play the full interactive version with real-time scrolling chords and audio sync</h2>
+                <div class="cta-buttons">
+                    <a href="/songlist.html?songId=113&amp;artist=Toto&amp;title=Rosanna" class="cta-button">&#9654; Play &ldquo;Rosanna&rdquo; in PopSongChordBook</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=utm_source%3Dseo_song%26utm_medium%3Dbottom_cta%26utm_campaign%3Dtoto-rosanna" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                            <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                        </svg>
+                        <span>Get Free Android App on Google Play</span>
+                    </a>
+                    <a href="https://youtu.be/qmOLtTGvsbM?si=bNG7LMLVdS7E4D6e" class="youtube-button" target="_blank" rel="noopener noreferrer">&#9654; Watch on YouTube</a>
                 </div>
-            </section>
+            </div>
+
+            
+        <section class="faq-section" itemscope itemtype="https://schema.org/FAQPage">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">What is the key of &quot;Rosanna&quot; by Toto?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">&quot;Rosanna&quot; is in the key of Bb.</span>
+                </div>
+            </div>
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">What is the tempo of &quot;Rosanna&quot;?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">The tempo of &quot;Rosanna&quot; is 81 BPM.</span>
+                </div>
+            </div>
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">When was &quot;Rosanna&quot; by Toto released?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">&quot;Rosanna&quot; by Toto was released in 1984.</span>
+                </div>
+            </div>
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">Does &quot;Rosanna&quot; require a capo?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">No capo is needed to play &quot;Rosanna&quot;.</span>
+                </div>
+            </div>
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">What chords do I need for &quot;Rosanna&quot;?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">The chords in &quot;Rosanna&quot; are: G, F, Em, C2, F3, Eb3, Dm3, Gm, Bb2.</span>
+                </div>
+            </div>
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-question" itemprop="name">What are the chorus chords of &quot;Rosanna&quot;?</div>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <span itemprop="text">The chorus chords of &quot;Rosanna&quot; are: Gm F Bb2 Eb3 Bb2 F 2x.</span>
+                </div>
+            </div>
+        </section>
         </article>
 
         <footer>
-            &copy; 2026 PopSongChordBook. All rights reserved.
+            <p>&copy; 2026 PopSongChordBook &mdash; Interactive chord timelines for piano &amp; guitar</p>
         </footer>
     </div>
-
-    <!-- Data Loading Script -->
-    <script src="/js/data/default_songs.js"></script>
-    <script>
-        function slugify(text) {
-            return text.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/-+$/, '');            // Trim - from end of text
-        }
-
-        async function init() {
-            const path = window.location.pathname;
-            const parts = path.split('/').filter(Boolean);
-            let slug = parts[parts.length - 1];
-            if (slug === 'index.html' || slug === 'index.htm') {
-                slug = parts[parts.length - 2];
-            }
-            
-            // Find song in DEFAULT_SONGS
-            const song = DEFAULT_SONGS.find(s => {
-                const songSlug = slugify(`${s.artist}-${s.title}`);
-                return songSlug === slug;
-            });
-
-            if (!song) {
-                // If visited directly or song not found, go back to main library
-                window.location.href = "/songlist";
-                return;
-            }
-
-            // Inject Dynamic Canonical Link for SEO indexing
-            const canonicalLink = document.createElement('link');
-            canonicalLink.rel = 'canonical';
-            canonicalLink.href = window.location.origin + window.location.pathname;
-            document.head.appendChild(canonicalLink);
-
-            // SEO Protection: Prevent indexing on github.io testing domain
-            if (window.location.hostname.includes('github.io')) {
-                const noindexMeta = document.createElement('meta');
-                noindexMeta.name = 'robots';
-                noindexMeta.content = 'noindex, nofollow';
-                document.head.appendChild(noindexMeta);
-            }
-
-            // Update UI
-            document.title = `${song.title} by ${song.artist} - Piano & Guitar Chords - PopSongChordBook`;
-            document.getElementById('page-title').innerText = document.title;
-            document.getElementById('breadcrumb-song').innerText = song.title;
-            document.getElementById('song-title').innerText = song.title;
-            document.getElementById('song-artist').innerText = song.artist;
-            document.getElementById('meta-key').innerText = song.key || 'C';
-            document.getElementById('meta-tempo').innerText = `${song.tempo || 120} BPM`;
-            
-            // Generate description
-            const desc = `Master "${song.title}" by ${song.artist} with our interactive scrolling chords. This tutorial covers the ${song.key || 'C'} major progression at ${song.tempo || 120} BPM. Perfect for keyboard and guitar players.`;
-            document.getElementById('song-description').innerText = desc;
-            document.getElementById('meta-description').content = desc;
-
-            // Generate Preview Chords
-            let previewText = "";
-            if (song.verse) previewText += `VERSE:\n${song.verse}\n\n`;
-            if (song.chorus) previewText += `CHORUS:\n${song.chorus}\n\n`;
-            document.getElementById('chords-preview').innerText = previewText || "Preview not available.";
-
-            // CTA Link
-            document.getElementById('play-full-btn').href = "/";
-
-            // FAQ
-            const faqContainer = document.getElementById('faq-container');
-            faqContainer.innerHTML = '';
-            const faqs = [
-                {
-                    q: `What is the key of "${song.title}" by ${song.artist}?`,
-                    a: `The song "${song.title}" is originally in the key of ${song.key || 'C'}.`
-                },
-                {
-                    q: `How fast is "${song.title}"?`,
-                    a: `The tempo of "${song.title}" is approximately ${song.tempo || 120} BPM.`
-                }
-            ];
-            faqs.forEach(f => {
-                const item = document.createElement('div');
-                item.className = 'faq-item';
-                item.innerHTML = `<div class="faq-question">${f.q}</div><div class="faq-answer">${f.a}</div>`;
-                faqContainer.appendChild(item);
-            });
-
-            // Structured Data
-            const schema = {
-                "@context": "https://schema.org",
-                "@type": "MusicRecording",
-                "name": song.title,
-                "byArtist": {
-                    "@type": "MusicGroup",
-                    "name": song.artist
-                },
-                "genre": "Pop",
-                "url": window.location.href
-            };
-            document.getElementById('structured-data').text = JSON.stringify(schema);
-        }
-
-        init();
-    </script>
 </body>
 </html>
-
-
-

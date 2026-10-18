@@ -9,6 +9,15 @@
     <!-- Structured Data Placeholder -->
     <script type="application/ld+json" id="structured-data"></script>
 
+    <!-- Favicons & App Icons for Search Engines (Google, Bing) & Mobile Devices -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/pwa_icon_192.png">
+    <link rel="icon" type="image/jpeg" sizes="192x192" href="/Icon-192x192.jpg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/utils/smart-app-banner.js?v=3.407"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -151,20 +160,32 @@
         .cta-container {
             text-align: center;
             margin-top: 50px;
-            padding: 40px;
+            padding: 40px 24px;
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 20px;
             border: 1px solid #bfdbfe;
         }
 
+        .cta-buttons-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
         .cta-button {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             background: var(--primary);
             color: white;
-            padding: 16px 32px;
+            padding: 15px 28px;
             border-radius: 9999px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 17px;
             text-decoration: none;
             transition: all 0.2s;
             box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
@@ -174,6 +195,37 @@
             background: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-button-playstore {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 14px 26px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1.5px solid rgba(34, 197, 94, 0.55);
+            box-shadow: 0 10px 20px -3px rgba(15, 23, 42, 0.3);
+        }
+
+        .cta-button-playstore:hover {
+            transform: translateY(-2px);
+            border-color: #22c55e;
+            box-shadow: 0 16px 28px -5px rgba(34, 197, 94, 0.35);
+            color: #ffffff;
+        }
+
+        .top-song-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 35px;
         }
 
         .faq-section {
@@ -304,6 +356,16 @@
                 </div>
             </div>
 
+            <div class="top-song-actions">
+                <a href="/songlist" class="cta-button" id="top-play-full-btn">▶ Play Interactive Chords</a>
+                <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=utm_source%3Dseo_song%26utm_medium%3Dtop_cta" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app" id="top-playstore-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                    </svg>
+                    <span id="top-playstore-text">Open in Android App (Google Play)</span>
+                </a>
+            </div>
+
             <section class="preview-section">
                 <h3>About this Song</h3>
                 <p id="song-description">
@@ -338,8 +400,16 @@
 
             <div class="cta-container">
                 <h3>Want to play the full version with real-time scrolling and audio?</h3>
-            <a href="/" class="cta-button" id="play-full-btn">Go To PopSongChordBook</a>
-        </div>
+                <div class="cta-buttons-group">
+                    <a href="/songlist" class="cta-button" id="play-full-btn">▶ Play Song in PopSongChordBook</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=utm_source%3Dseo_song%26utm_medium%3Dbottom_cta" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app" id="bottom-playstore-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                            <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                        </svg>
+                        <span id="bottom-playstore-text">Get Free Android App on Google Play</span>
+                    </a>
+                </div>
+            </div>
 
             <section class="faq-section">
                 <h3>Frequently Asked Questions</h3>
@@ -420,8 +490,24 @@
             if (song.chorus) previewText += `CHORUS:\n${song.chorus}\n\n`;
             document.getElementById('chords-preview').innerText = previewText || "Preview not available.";
 
-            // CTA Link
-            document.getElementById('play-full-btn').href = "/";
+            // Direct Song Deep Link & Google Play Store Links
+            const directSongUrl = `/songlist.html?songId=${encodeURIComponent(song.id || '')}&artist=${encodeURIComponent(song.artist || '')}&title=${encodeURIComponent(song.title || '')}`;
+            const playFullBtn = document.getElementById('play-full-btn');
+            const topPlayFullBtn = document.getElementById('top-play-full-btn');
+            if (playFullBtn) {
+                playFullBtn.href = directSongUrl;
+                playFullBtn.innerText = `▶ Play "${song.title}" Interactive Chords`;
+            }
+            if (topPlayFullBtn) {
+                topPlayFullBtn.href = directSongUrl;
+                topPlayFullBtn.innerText = `▶ Play "${song.title}" Interactive Chords`;
+            }
+
+            const playStoreCampaignUrl = `https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=${encodeURIComponent(`utm_source=seo_song&utm_medium=song_cta&utm_campaign=${slug}`)}`;
+            const topPlayBtn = document.getElementById('top-playstore-btn');
+            const bottomPlayBtn = document.getElementById('bottom-playstore-btn');
+            if (topPlayBtn) topPlayBtn.href = playStoreCampaignUrl;
+            if (bottomPlayBtn) bottomPlayBtn.href = playStoreCampaignUrl;
 
             // FAQ
             const faqContainer = document.getElementById('faq-container');

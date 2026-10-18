@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title id="doc-title">PopSongChordBook v3.406 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
-    <meta name="version" content="3.406">
+    <title id="doc-title">PopSongChordBook v3.407 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
+    <meta name="version" content="3.407">
     <meta name="description" id="doc-meta-desc"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn guitar online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -70,7 +70,7 @@
       "@type": "SoftwareApplication",
       "name": "PopSongChordBook",
       "operatingSystem": "Web, iOS, Android",
-      "applicationCategory": "MusicApplication",
+      "applicationCategory": "MusicApplication", "installUrl": "https://play.google.com/store/apps/details?id=com.popsongchordbook.app", "downloadUrl": "https://play.google.com/store/apps/details?id=com.popsongchordbook.app",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -1408,9 +1408,11 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.406">
-    <script>const SITE_VERSION = '3.406';</script>
+    <meta name="application-version" content="v3.407">
+    <script>const SITE_VERSION = '3.407';</script>
+    <script src="/js/utils/smart-app-banner.js?v=3.407"></script>
     <!-- Version history: 
+        v3.407: Added Android Smart App Banner, Google Play Store badges on landing page, and direct song deep-links + Play Store CTAs on SEO song & artist pages.
         v3.406: Scrolling Chords PLAY MODE: Set default Intelligent Chord Zoom to 200% on PC screens and 150% on smartphones in landscape mode for closer chord staggering; added Reddit Outreach & Duplicate Tracker to FacebookGroups.
         v3.405: Reddit Community Leads: Removed 'All Time' Google search buttons from lead cards, focusing search triggers strictly on recent high-intent discussions (past month).
         v3.404: Added Reddit Outreach dashboard to FacebookGroups with search triggers and added Reddit referral source option to registration modal. 
@@ -1769,6 +1771,18 @@
                     <span style="font-size: 1.05em; margin-right: 3px;">🎸🎹</span> <span id="txt-btn-lessons">FREE Beginner Lessons (Guitar &amp; Piano)</span>
                 </a>
                 <span class="hero-fasttrack-label" id="txt-lessons-label">Step-by-Step Pop Song Lessons 1 to 9 &bull; Free &amp; Interactive</span>
+                <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=utm_source%3Dwebsite%26utm_medium%3Dhero_badge" target="_blank" rel="noopener" class="hide-in-native-app" style="margin-top: 8px; display: inline-flex; align-items: center; gap: 10px; background: rgba(15, 23, 42, 0.88); color: #ffffff; padding: 8px 18px; border-radius: 12px; text-decoration: none; border: 1.5px solid rgba(255, 255, 255, 0.28); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.borderColor='#22c55e';" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255,255,255,0.28)';">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314z" fill="#3b82f6"/>
+                        <path d="M14.899 13.104l2.765 2.765-10.97 6.334 8.205-9.099z" fill="#ef4444"/>
+                        <path d="M18.721 9.736l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264z" fill="#f59e0b"/>
+                        <path d="M6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z" fill="#22c55e"/>
+                    </svg>
+                    <span style="display: flex; flex-direction: column; text-align: left; line-height: 1.15;">
+                        <span id="txt-play-badge-top" style="font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: #cbd5e1; font-weight: 700;">ANDROID APP ON</span>
+                        <span id="txt-play-badge-main" style="font-size: 0.92rem; font-weight: 800; color: #ffffff; letter-spacing: 0.01em;">Google Play</span>
+                    </span>
+                </a>
             </div>
             
             <div class="hero-features-row">
@@ -2767,9 +2781,23 @@
             <div style="margin-top: 30px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6; opacity: 0.7; color: rgba(255,255,255,0.85); text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
                 <p id="footer-band-summary"><strong>Optimize Your Band Practice:</strong> PopSongChordBook is the ultimate online platform for band members. Coordinate rehearsals using our real-time <strong>Band Members Sync</strong> and shared <strong>Band Setlists</strong>. Whether playing keys, guitar, or ukulele, all members see the same scrolling chords in perfect sync. Improve your group practice session with integrated YouTube tutorials, transpose options, and customizable timelines designed specifically for musicians' collaborative needs.</p>
             </div>
+            <div class="hide-in-native-app" style="margin-bottom: 20px; text-align: center;">
+                <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=utm_source%3Dwebsite%26utm_medium%3Dfooter_badge" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; background: #0f172a; color: #ffffff; padding: 10px 20px; border-radius: 12px; text-decoration: none; border: 1.5px solid rgba(255, 255, 255, 0.22); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3); transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.borderColor='#22c55e';" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255,255,255,0.22)';">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314z" fill="#3b82f6"/>
+                        <path d="M14.899 13.104l2.765 2.765-10.97 6.334 8.205-9.099z" fill="#ef4444"/>
+                        <path d="M18.721 9.736l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264z" fill="#f59e0b"/>
+                        <path d="M6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z" fill="#22c55e"/>
+                    </svg>
+                    <span style="display: flex; flex-direction: column; text-align: left; line-height: 1.15;">
+                        <span id="txt-footer-play-top" style="font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: #cbd5e1; font-weight: 700;">GET IT ON</span>
+                        <span style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">Google Play</span>
+                    </span>
+                </a>
+            </div>
             <p id="footer-copyright">&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.400</span>
+                v<span id="site-version">3.407</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
                 <a href="sound-test.html" style="color: inherit; text-decoration: underline;">Open Sound Lab &
@@ -3261,6 +3289,14 @@
                     if (enPill) enPill.classList.remove('active');
                     if (nlPill) nlPill.classList.add('active');
                 }
+            }
+
+            const heroPlayTop = document.getElementById('txt-play-badge-top');
+            const footerPlayTop = document.getElementById('txt-footer-play-top');
+            if (heroPlayTop) heroPlayTop.textContent = (indexCurrentLang === 'nl') ? 'ONTDEK HET OP' : 'ANDROID APP ON';
+            if (footerPlayTop) footerPlayTop.textContent = (indexCurrentLang === 'nl') ? 'ONTDEK HET OP' : 'GET IT ON';
+            if (typeof window.updatePscbSmartBannerLanguage === 'function') {
+                window.updatePscbSmartBannerLanguage();
             }
         }
 

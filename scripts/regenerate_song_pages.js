@@ -254,6 +254,10 @@ function generateHtml(song, slug) {
     const icons = ['🎵','🎹','🎸','🎶','🎼','🎷','🎺'];
     const icon  = icons[slug.charCodeAt(0) % icons.length];
 
+    const directSongUrl = `/songlist.html?songId=${encodeURIComponent(song.id || '')}&amp;artist=${encodeURIComponent(song.artist || '')}&amp;title=${encodeURIComponent(song.title || '')}`;
+    const playStoreTopUrl = `https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=${encodeURIComponent(`utm_source=seo_song&utm_medium=top_cta&utm_campaign=${slug}`)}`;
+    const playStoreBottomUrl = `https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=${encodeURIComponent(`utm_source=seo_song&utm_medium=bottom_cta&utm_campaign=${slug}`)}`;
+
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -262,6 +266,13 @@ function generateHtml(song, slug) {
     <title>${esc(song.title)} by ${esc(song.artist)} - Piano &amp; Guitar Chords | PopSongChordBook</title>
     <meta name="description" content="${esc(desc)}">
     <link rel="canonical" href="https://www.popsongchordbook.com/song/${slug}">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/pwa_icon_192.png">
+    <link rel="icon" type="image/jpeg" sizes="192x192" href="/Icon-192x192.jpg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/utils/smart-app-banner.js?v=3.407"></script>
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
     <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,11 +336,17 @@ function generateHtml(song, slug) {
             display: flex; flex-wrap: wrap; gap: 16px;
             background: rgba(255,255,255,0.5);
             padding: 20px; border-radius: 16px;
-            margin-bottom: 36px;
+            margin-bottom: 24px;
         }
         .meta-item { display: flex; flex-direction: column; min-width: 80px; }
         .meta-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
         .meta-value { font-size: 20px; font-weight: 800; color: #0f172a; margin-top: 2px; }
+
+        /* Top Actions */
+        .top-song-actions {
+            display: flex; flex-wrap: wrap; gap: 12px;
+            margin-bottom: 36px;
+        }
 
         /* Section headings */
         .preview-section { margin-bottom: 36px; }
@@ -410,17 +427,17 @@ function generateHtml(song, slug) {
         /* CTA */
         .cta-container {
             text-align: center; margin: 40px 0;
-            padding: 36px;
+            padding: 36px 24px;
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 20px;
             border: 1px solid #bfdbfe;
         }
         .cta-container h2 { font-size: 20px; font-weight: 700; color: #1e3a5f; margin: 0 0 20px; border: none; padding: 0; }
         .cta-button {
-            display: inline-block;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             background: var(--primary); color: #fff;
-            padding: 14px 32px; border-radius: 9999px;
-            font-weight: 700; font-size: 17px;
+            padding: 14px 28px; border-radius: 9999px;
+            font-weight: 700; font-size: 16px;
             box-shadow: 0 10px 20px rgba(59,130,246,0.35);
             transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
         }
@@ -429,16 +446,34 @@ function generateHtml(song, slug) {
             transform: translateY(-2px);
             box-shadow: 0 16px 24px rgba(59,130,246,0.4);
             text-decoration: none;
+            color: #fff;
+        }
+        .cta-button-playstore {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 13px 24px; border-radius: 9999px;
+            font-weight: 700; font-size: 15px;
+            border: 1.5px solid rgba(34, 197, 94, 0.55);
+            box-shadow: 0 10px 20px -3px rgba(15, 23, 42, 0.3);
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .cta-button-playstore:hover {
+            transform: translateY(-2px);
+            border-color: #22c55e;
+            box-shadow: 0 16px 28px -5px rgba(34, 197, 94, 0.35);
+            text-decoration: none;
+            color: #ffffff;
         }
         .youtube-button {
-            display: inline-block; margin-top: 14px;
+            display: inline-flex; align-items: center; justify-content: center;
             background: #ff0000; color: #fff;
-            padding: 11px 24px; border-radius: 9999px;
+            padding: 13px 24px; border-radius: 9999px;
             font-weight: 600; font-size: 15px;
             transition: background 0.2s, transform 0.2s;
         }
-        .youtube-button:hover { background: #cc0000; transform: translateY(-2px); text-decoration: none; }
-        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 4px; }
+        .youtube-button:hover { background: #cc0000; transform: translateY(-2px); text-decoration: none; color: #fff; }
+        .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; margin-top: 4px; }
 
         /* FAQ */
         .faq-section { margin-top: 36px; }
@@ -494,6 +529,16 @@ function generateHtml(song, slug) {
                 ${chordsMeta}
             </div>
 
+            <div class="top-song-actions">
+                <a href="${directSongUrl}" class="cta-button">&#9654; Play &ldquo;${esc(song.title)}&rdquo; Interactive Chords</a>
+                <a href="${playStoreTopUrl}" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                    </svg>
+                    <span>Open in Android App (Google Play)</span>
+                </a>
+            </div>
+
             <section class="preview-section">
                 <h2>About this Song</h2>
                 <p>${esc(desc)}</p>
@@ -524,7 +569,13 @@ function generateHtml(song, slug) {
             <div class="cta-container">
                 <h2>Play the full interactive version with real-time scrolling chords and audio sync</h2>
                 <div class="cta-buttons">
-                    <a href="/" class="cta-button">Open PopSongChordBook</a>
+                    <a href="${directSongUrl}" class="cta-button">&#9654; Play &ldquo;${esc(song.title)}&rdquo; in PopSongChordBook</a>
+                    <a href="${playStoreBottomUrl}" target="_blank" rel="noopener" class="cta-button-playstore hide-in-native-app">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" style="flex-shrink:0;">
+                            <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314zm11.29 11.29l2.765 2.765-10.97 6.334 8.205-9.099zm3.822-3.368l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264zM6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z"/>
+                        </svg>
+                        <span>Get Free Android App on Google Play</span>
+                    </a>
                     ${youtubeCta}
                 </div>
             </div>
@@ -545,6 +596,7 @@ function generateHtml(song, slug) {
 // ---------------------------------------------------------------------------
 const SONGS_FILE = path.join('.', 'js', 'data', 'default_songs.js');
 const SONG_DIR   = path.join('.', 'song');
+const ARTIST_DIR = path.join('.', 'artist');
 
 console.log('Reading song data...');
 const rawContent = fs.readFileSync(SONGS_FILE, 'utf8');
@@ -553,6 +605,7 @@ console.log(`Loaded ${DEFAULT_SONGS.length} songs.\n`);
 
 let written = 0, skipped = 0;
 const errors = [];
+const artistGroups = {};
 
 for (const song of DEFAULT_SONGS) {
     try {
@@ -570,17 +623,70 @@ for (const song of DEFAULT_SONGS) {
         fs.writeFileSync(outFile, html, 'utf8');
         written++;
 
-        if (written % 50 === 0) process.stdout.write(`  ${written} files written...\n`);
+        const artistSlug = slugify(song.artist);
+        if (artistSlug) {
+            if (!artistGroups[artistSlug]) {
+                artistGroups[artistSlug] = { name: song.artist, songs: [] };
+            }
+            artistGroups[artistSlug].songs.push(song);
+        }
+
+        if (written % 50 === 0) process.stdout.write(`  ${written} song files written...\n`);
     } catch (err) {
         errors.push(`${song.artist} - ${song.title}: ${err.message}`);
         skipped++;
     }
 }
 
+// Also regenerate all artist/*/index.html pages from artist.html template
+const artistTemplate = fs.readFileSync(path.join('.', 'artist.html'), 'utf8');
+let artistsWritten = 0;
+for (const [artistSlug, group] of Object.entries(artistGroups)) {
+    const artistName = esc(group.name);
+    let songsHTML = '';
+    for (const song of group.songs) {
+        const songSlug = slugify(`${song.artist}-${song.title}`);
+        songsHTML += `
+            <a class="song-card" href="/song/${songSlug}">
+                <div class="song-icon">🎵</div>
+                <div class="song-meta">
+                    <h3>${esc(song.title)}</h3>
+                    <span>Key: ${esc(song.key || 'C')} • ${song.tempo || 120} BPM</span>
+                </div>
+            </a>`;
+    }
+
+    let html = artistTemplate;
+    html = html.replace(
+        '<title id="page-title">Artist Hub - PopSongChordBook</title>',
+        `<title id="page-title">${artistName} Chords &amp; Tutorials - PopSongChordBook</title>`
+    );
+    html = html.replace(
+        '<meta name="description" id="meta-description" content="Explore songs and chord progressions by your favorite artists on PopSongChordBook.">',
+        `<meta name="description" id="meta-description" content="Explore songs and chord progressions by ${artistName} on PopSongChordBook.">`
+    );
+    html = html.replace(
+        '</head>',
+        `    <link rel="canonical" href="https://www.popsongchordbook.com/artist/${artistSlug}">\n</head>`
+    );
+    html = html.replace('<h1 id="artist-name">Loading Artist...</h1>', `<h1 id="artist-name">${artistName}</h1>`);
+    html = html.replace('<p id="artist-stats">...</p>', `<p id="artist-stats">Explore ${group.songs.length} interactive song tutorials by ${artistName}.</p>`);
+    html = html.replace('            <!-- Songs will be injected here -->', songsHTML);
+
+    const outArtistDir = path.join(ARTIST_DIR, artistSlug);
+    if (!fs.existsSync(outArtistDir)) {
+        fs.mkdirSync(outArtistDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(outArtistDir, 'index.html'), html, 'utf8');
+    artistsWritten++;
+}
+
 console.log(`\nDone.`);
-console.log(`  Written: ${written} files`);
+console.log(`  Written: ${written} song files`);
+console.log(`  Written: ${artistsWritten} artist files`);
 console.log(`  Skipped: ${skipped} files`);
 if (errors.length > 0) {
     console.log(`\nErrors (${errors.length}):`);
     errors.forEach(e => console.log('  ' + e));
 }
+

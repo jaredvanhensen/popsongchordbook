@@ -23,6 +23,12 @@ while ($http.IsListening) {
     elseif (!(Test-Path $filepath -PathType Leaf) -and (Test-Path "$filepath.html" -PathType Leaf)) {
         $filepath = "$filepath.html"
     }
+    elseif ($filename -like "song/*") {
+        $filepath = Join-Path $root "song.html"
+    }
+    elseif ($filename -like "artist/*") {
+        $filepath = Join-Path $root "artist.html"
+    }
 
     if (Test-Path $filepath -PathType Leaf) {
         $bytes = [System.IO.File]::ReadAllBytes($filepath)
