@@ -4431,6 +4431,9 @@ class SongDetailModal {
         }
 
         this.currentSongId = song.id;
+        if (typeof window.trackPscbSongOpen === 'function') {
+            window.trackPscbSongOpen(song.id);
+        }
 
         // Update presence to viewing this song
         if (this.firebaseManager && this.firebaseManager.initialized && this.firebaseManager.currentUser) {
@@ -6197,6 +6200,8 @@ class SongDetailModal {
                     window.openDashboardPanel('keyboard&piano-lessons.html');
                 }
             }
+        } else if (typeof window.checkPscbReviewPromptOnSongClose === 'function') {
+            window.checkPscbReviewPromptOnSongClose();
         }
     }
 

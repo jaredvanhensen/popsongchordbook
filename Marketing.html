@@ -1060,6 +1060,7 @@
             <li class="nav-item" id="navTemplates" onclick="switchView('templates')"><a><i class="fa-solid fa-paste"></i> Promo templates</a></li>
             <li class="nav-item" id="navMembers" onclick="switchView('members')"><a><i class="fa-solid fa-users"></i> New Members</a></li>
             <li class="nav-item" id="navReddit" onclick="switchView('reddit')"><a><i class="fa-brands fa-reddit-alien"></i> Reddit Leads</a></li>
+            <li class="nav-item" id="navReviews" onclick="switchView('reviews')"><a><i class="fa-solid fa-star" style="color: #fbbf24;"></i> REVIEW texts</a></li>
         </ul>
     </div>
 
@@ -1493,10 +1494,68 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 </div>
             </div>
 
-            <!-- TOAST FEEDBACK NOTIFICATION -->
-            <div id="redditToast" class="reddit-toast">
-                <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i> <span id="redditToastText">Copied to clipboard!</span>
+        </div>
+
+        <!-- PAGE 5: PLAY STORE REVIEW TEXTS POOL PANEL -->
+        <div class="dashboard-view" id="reviewsPage">
+            <div class="top-bar">
+                <div>
+                    <h1 class="header-title" style="color: #d97706;"><i class="fa-solid fa-star" style="color: #fbbf24;"></i> REVIEW texts (Play Store Pool)</h1>
+                    <p class="subtitle">Beheer de pool van 5-sterren review-teksten (NL &amp; EN). De in-app pop-up toont alleen <strong>ongebruikte</strong> teksten en vinkt een tekst automatisch af zodra een gebruiker op <em>Kopieer</em> klikt.</p>
+                </div>
+                <div class="sync-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span id="reviewSaveStatusBadge" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;">
+                        <i class="fa-solid fa-check"></i> Automatisch opgeslagen
+                    </span>
+                    <button type="button" class="btn-add" onclick="saveAllReviewInputsNow()" style="padding: 9px 16px; font-size: 0.85rem; background: #16a34a;">
+                        <i class="fa-solid fa-floppy-disk"></i> Opslaan
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="flushCurrentReviewInputsFromDom(); window.open('songlist.html?testReview=1&lang=' + currentReviewLang, '_blank')" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a;">
+                        <i class="fa-solid fa-eye"></i> Test Review Pop-up (NL/EN)
+                    </button>
+                </div>
             </div>
+
+            <!-- LANGUAGE TABS & STATS BAR -->
+            <div class="tracker-card" style="padding: 18px 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                    <!-- Language Switcher Tabs -->
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="btnReviewLangNL" onclick="switchReviewLanguage('nl')" style="padding: 10px 20px; border-radius: 10px; border: 2px solid #4f46e5; background: #4f46e5; color: #fff; font-weight: 700; font-size: 0.92rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                            🇳🇱 Nederlands (NL) <span id="badgeCountNL" style="background: rgba(255,255,255,0.22); padding: 2px 8px; border-radius: 999px; font-size: 0.78rem;">24</span>
+                        </button>
+                        <button id="btnReviewLangEN" onclick="switchReviewLanguage('en')" style="padding: 10px 20px; border-radius: 10px; border: 2px solid #cbd5e1; background: #f8fafc; color: #334155; font-weight: 700; font-size: 0.92rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                            🇬🇧 English (EN) <span id="badgeCountEN" style="background: #e2e8f0; color: #334155; padding: 2px 8px; border-radius: 999px; font-size: 0.78rem;">24</span>
+                        </button>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-size: 0.82rem; font-weight: 600; color: #64748b;">Filter:</span>
+                        <button id="btnReviewFilterAll" onclick="setReviewFilter('all')" class="btn-secondary" style="background:#e0e7ff; color:#3730a3; padding:7px 13px; font-size:0.8rem;">Alle</button>
+                        <button id="btnReviewFilterUnused" onclick="setReviewFilter('unused')" class="btn-secondary" style="padding:7px 13px; font-size:0.8rem;">🟢 Ongebruikt (In Pool)</button>
+                        <button id="btnReviewFilterUsed" onclick="setReviewFilter('used')" class="btn-secondary" style="padding:7px 13px; font-size:0.8rem;">☑️ Gebruikt (Afgevinkt)</button>
+                    </div>
+                </div>
+
+                <!-- QUICK ADD NEW REVIEW FORM -->
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="newReviewTextInput" placeholder="Typ hier een nieuwe review-zin om aan de pool toe te voegen..." style="flex: 1; min-width: 260px;">
+                    <button class="btn-add" onclick="addNewReviewItem()" style="padding: 10px 18px; font-size: 0.88rem;">
+                        <i class="fa-solid fa-plus"></i> Nieuwe Zin Toevoegen
+                    </button>
+                </div>
+            </div>
+
+            <!-- REVIEW ITEMS LIST -->
+            <div id="reviewItemsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Populated dynamically by renderReviewTextsAdmin() -->
+            </div>
+        </div>
+
+        <!-- GLOBAL TOAST FEEDBACK NOTIFICATION -->
+        <div id="redditToast" class="reddit-toast">
+            <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i> <span id="redditToastText">Copied to clipboard!</span>
         </div>
 
     </div>
@@ -1599,10 +1658,12 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 }
 
                 recalculatePostCounters();
+                await initReviewTextsPool();
                 saveToStorage();
                 renderTable();
                 renderTemplatesGrid();
                 renderRedditTracker();
+                renderReviewTextsAdmin();
             } catch (err) {
                 console.error("Error initializing database data:", err);
                 alert("Failed to load promo data from Firebase. Check console for permissions.");
@@ -1624,21 +1685,25 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
             const templatesPage = document.getElementById('templatesPage');
             const membersPage = document.getElementById('membersPage');
             const redditPage = document.getElementById('redditPage');
+            const reviewsPage = document.getElementById('reviewsPage');
             
             const navTracker = document.getElementById('navTracker');
             const navTemplates = document.getElementById('navTemplates');
             const navMembers = document.getElementById('navMembers');
             const navReddit = document.getElementById('navReddit');
+            const navReviews = document.getElementById('navReviews');
 
             if (trackerPage) trackerPage.classList.remove('active-view');
             if (templatesPage) templatesPage.classList.remove('active-view');
             if (membersPage) membersPage.classList.remove('active-view');
             if (redditPage) redditPage.classList.remove('active-view');
+            if (reviewsPage) reviewsPage.classList.remove('active-view');
             
             if (navTracker) navTracker.classList.remove('active');
             if (navTemplates) navTemplates.classList.remove('active');
             if (navMembers) navMembers.classList.remove('active');
             if (navReddit) navReddit.classList.remove('active');
+            if (navReviews) navReviews.classList.remove('active');
 
             if (viewName === 'tracker') {
                 if (trackerPage) trackerPage.classList.add('active-view');
@@ -1655,6 +1720,10 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 if (navReddit) navReddit.classList.add('active');
                 renderRedditLeads();
                 renderRedditTracker();
+            } else if (viewName === 'reviews') {
+                if (reviewsPage) reviewsPage.classList.add('active-view');
+                if (navReviews) navReviews.classList.add('active');
+                renderReviewTextsAdmin();
             }
 
             // Close mobile sidebar if open
@@ -2697,6 +2766,619 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
             });
         }
 
+        /* ==================== PLAY STORE REVIEW TEXTS POOL ENGINE (NL & EN) ==================== */
+        const REVIEW_POOL_STORAGE_KEY = 'pscb_review_pool_v1';
+        const USED_REVIEW_IDS_STORAGE_KEY = 'pscb_used_review_ids_v1';
+
+        const defaultReviewTextsNL = [
+            'Top songbook app met duidelijke akkoorden en teksten voor gitaar en piano!',
+            'Super fijn digitaal akkoordenboek! Vooral de transpose en tijdlijn werken geweldig.',
+            'Beste gratis chord book & songbook app voor popklassiekers op telefoon en tablet.',
+            'Eindelijk een overzichtelijke akkoorden app zonder rommelige tabs. Aanrader voor gitaristen!',
+            'Heerlijke app om piano en keyboard mee te oefenen, de meespeel-tijdlijn is echt uniek.',
+            'Wij gebruiken dit songbook inmiddels bij elke bandrepetitie. Snel transponeren en altijd strak in de maat.',
+            'Fijne collectie popsongs met kloppende akkoordenschema\'s en duidelijke songstructuur.',
+            'Ideaal hulpmiddel voor gitaar en zang! Met 1 tik staat een nummer in de juiste toonsoort.',
+            'Veel fijner en moderner dan de bekende betaalde songbook apps. Echt met liefde voor muziek gemaakt!',
+            'Super handig voor bij het kampvuur en thuis op de bank met mijn akoestische gitaar.',
+            'De combinatie van akkoorden, songteksten en YouTube meespelen werkt echt fantastisch.',
+            'Overzichtelijk akkoordenboek met goede popklassiekers. Ook de beginnerslessen zijn erg leuk!',
+            'Mijn favoriete muziek-app op mijn tablet! Geen gedoe meer met losse papieren akkoordenschema\'s.',
+            'Erg blij met de Nashville-nummers en snelle capo/transpose functie. Top voor muzikanten!',
+            'Geweldige gratis songbook app! De akkoorden lopen mooi synchroon mee op het scherm.',
+            'Als toetsenist zocht ik al lang naar zo\'n duidelijk akkoordenboek voor bekende popnummers.',
+            'Praktische en mooie chordbook app, je merkt meteen dat dit door een echte muzikant is gebouwd.',
+            'Heel fijn om snel nieuwe nummers op gitaar of piano in te studeren. Dikke 5 sterren!',
+            'Duidelijke akkoorddiagrammen, goede songlist en alles werkt lekker snel op Android.',
+            'Onmisbare app op mijn muziekstandaard! Setlists maken en akkoorden lezen gaat super soepel.',
+            'Fantastisch alternatief voor SongbookPro, veel muzikaler opgezet met de scrollende akkoorden.',
+            'Eindelijk kloppende akkoorden per maat in plaats van verschoven woorden boven een tekst!',
+            'Zowel voor beginners als gevorderde bandspelers een geweldig digitaal songbook.',
+            'Speel nu elke avond weer met plezier piano dankzij deze interactieve akkoorden-app!'
+        ];
+
+        const defaultReviewTextsEN = [
+            'Great interactive songbook app with accurate guitar and piano chords!',
+            'Best digital chord book! The instant transpose and chord timeline work brilliantly.',
+            'Awesome free pop songbook and chord chart app for practicing and band rehearsals.',
+            'Finally a clean chord app where chords actually line up bar by bar instead of messy tabs!',
+            'Love playing piano along with the scrolling chord timeline. Super intuitive for musicians.',
+            'Our cover band uses this songbook at every rehearsal now. Instant key transpose is a lifesaver!',
+            'Way better and more musical than traditional PDF songbook apps. Highly recommended!',
+            'Fantastic collection of pop and rock classics with spot-on chord progressions and lyrics.',
+            'Perfect companion for acoustic guitar practice—capo and key changes take just one tap.',
+            'You can tell this chord book was built by a real musician. Clean, fast, and super helpful!',
+            'My go-to digital music stand on my Android tablet. No more carrying heavy binders of chord sheets!',
+            'The scrolling chords + YouTube playalong feature makes learning new songs so much faster.',
+            'Great chord library and beginner lessons for both guitar and keyboard players. 5 stars!',
+            'Love the Nashville Number System support and clean song structures (Intro, Verse, Chorus).',
+            'Best free songbook app on Google Play! Accurate chords and zero clutter.',
+            'Super helpful for singing and playing guitar at the same time—auto-scroll keeps perfect tempo.',
+            'As a keyboard player, having clear bar-by-bar chord charts for 600+ pop songs is pure gold.',
+            'Replaced my old songbook app with this one. The live timeline and backing rhythms are amazing!',
+            'Easy to read chord charts, great song selection, and super smooth on both phone and tablet.',
+            'Wonderful tool for music teachers and students alike. Learning pop songs has never been easier!',
+            'Such a hidden gem on the Play Store for guitarists and piano players. Deserves way more downloads!',
+            'Creating custom setlists and transposing songs on the fly for gigs works like a charm.',
+            'Accurate chords, clear lyrics, and a great Circle of Fifths tool built right in.',
+            'Makes practicing guitar every evening so much fun. Thank you for building this songbook!'
+        ];
+
+        let currentReviewLang = 'nl';
+        let currentReviewFilter = 'all';
+        let settingsReviewRef = null;
+        let reviewInputDebounceTimer = null;
+
+        function escapeHtmlAttr(text) {
+            return String(text || '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function setReviewSaveBadgeState(state, customLabel) {
+            const badge = document.getElementById('reviewSaveStatusBadge');
+            if (!badge) return;
+            if (state === 'saving') {
+                badge.style.background = '#fef3c7';
+                badge.style.color = '#92400e';
+                badge.style.borderColor = '#fde68a';
+                badge.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${customLabel || 'Opslaan...'}`;
+            } else {
+                const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                badge.style.background = '#dcfce7';
+                badge.style.color = '#166534';
+                badge.style.borderColor = '#bbf7d0';
+                badge.innerHTML = `<i class="fa-solid fa-check"></i> ${customLabel || ('Opgeslagen (' + timeStr + ')')}`;
+            }
+        }
+
+        function buildDefaultReviewPool() {
+            return {
+                updatedAt: 0,
+                nl: defaultReviewTextsNL.map((text, idx) => ({
+                    id: 'nl_' + (idx + 1),
+                    text: text,
+                    used: false,
+                    usedAt: null
+                })),
+                en: defaultReviewTextsEN.map((text, idx) => ({
+                    id: 'en_' + (idx + 1),
+                    text: text,
+                    used: false,
+                    usedAt: null
+                }))
+            };
+        }
+
+        function normalizeLangList(rawLangData, fallbackArray) {
+            if (!rawLangData) return fallbackArray;
+            if (Array.isArray(rawLangData)) {
+                return rawLangData.filter(Boolean).map((item, idx) => ({
+                    id: item.id || ('item_' + idx + '_' + Date.now()),
+                    text: item.text !== undefined ? String(item.text) : String(item),
+                    used: Boolean(item.used),
+                    usedAt: item.usedAt || null
+                }));
+            }
+            if (typeof rawLangData === 'object') {
+                return Object.keys(rawLangData)
+                    .map(key => {
+                        const item = rawLangData[key];
+                        if (!item || typeof item !== 'object') return null;
+                        return {
+                            id: item.id || key,
+                            text: item.text !== undefined ? String(item.text) : '',
+                            used: Boolean(item.used),
+                            usedAt: item.usedAt || null,
+                            order: typeof item.order === 'number' ? item.order : 9999
+                        };
+                    })
+                    .filter(Boolean)
+                    .sort((a, b) => a.order - b.order);
+            }
+            return fallbackArray;
+        }
+
+        function convertPoolToFirebaseObject(pool) {
+            const out = { updatedAt: pool.updatedAt || Date.now(), nl: {}, en: {} };
+            ['nl', 'en'].forEach(lang => {
+                (pool[lang] || []).forEach((item, index) => {
+                    out[lang][item.id] = {
+                        id: item.id,
+                        text: item.text,
+                        used: Boolean(item.used),
+                        usedAt: item.usedAt || null,
+                        order: index
+                    };
+                });
+            });
+            return out;
+        }
+
+        function mergeLocalUsedIdsIntoPool(pool) {
+            try {
+                const rawUsed = localStorage.getItem(USED_REVIEW_IDS_STORAGE_KEY);
+                const usedMap = rawUsed ? JSON.parse(rawUsed) : {};
+                ['nl', 'en'].forEach(lang => {
+                    (pool[lang] || []).forEach(item => {
+                        if (usedMap[item.id]) {
+                            item.used = true;
+                            item.usedAt = item.usedAt || usedMap[item.id];
+                        }
+                    });
+                });
+            } catch (e) {}
+            return pool;
+        }
+
+        function loadReviewPoolFromLocalStorageSync() {
+            const defaults = buildDefaultReviewPool();
+            try {
+                const localRaw = localStorage.getItem(REVIEW_POOL_STORAGE_KEY);
+                if (localRaw) {
+                    const parsed = JSON.parse(localRaw);
+                    if (parsed && (parsed.nl || parsed.en)) {
+                        return mergeLocalUsedIdsIntoPool({
+                            updatedAt: Number(parsed.updatedAt) || 0,
+                            nl: normalizeLangList(parsed.nl, defaults.nl),
+                            en: normalizeLangList(parsed.en, defaults.en)
+                        });
+                    }
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        // Hydrate immediately from localStorage so early route rendering shows saved local edits
+        (function hydrateInitialLocalReviewPool() {
+            const initialLocal = loadReviewPoolFromLocalStorageSync();
+            if (initialLocal) {
+                appData.reviewTexts = initialLocal;
+            }
+        })();
+
+        async function initReviewTextsPool() {
+            const defaults = buildDefaultReviewPool();
+            const candidates = [];
+
+            // Candidate A: localStorage (instant local saves from oninput)
+            const localPool = loadReviewPoolFromLocalStorageSync();
+            if (localPool) {
+                candidates.push({ source: 'local', pool: localPool, updatedAt: Number(localPool.updatedAt) || 1 });
+            }
+
+            // Candidate B: facebookPromoSuite in Firebase
+            if (appData.reviewTexts && (appData.reviewTexts.nl || appData.reviewTexts.en)) {
+                candidates.push({
+                    source: 'suite',
+                    pool: {
+                        updatedAt: Number(appData.reviewTexts.updatedAt) || 0,
+                        nl: normalizeLangList(appData.reviewTexts.nl, defaults.nl),
+                        en: normalizeLangList(appData.reviewTexts.en, defaults.en)
+                    },
+                    updatedAt: Number(appData.reviewTexts.updatedAt) || 0
+                });
+            }
+
+            // Candidate C: settings/reviewTexts in Firebase
+            let remoteSettingsVal = null;
+            try {
+                settingsReviewRef = firebase.database().ref('settings/reviewTexts');
+                const snap = await settingsReviewRef.once('value');
+                remoteSettingsVal = snap.val();
+                if (remoteSettingsVal && (remoteSettingsVal.nl || remoteSettingsVal.en)) {
+                    candidates.push({
+                        source: 'settings',
+                        pool: {
+                            updatedAt: Number(remoteSettingsVal.updatedAt) || 0,
+                            nl: normalizeLangList(remoteSettingsVal.nl, defaults.nl),
+                            en: normalizeLangList(remoteSettingsVal.en, defaults.en)
+                        },
+                        updatedAt: Number(remoteSettingsVal.updatedAt) || 0
+                    });
+                }
+            } catch (e) {
+                console.warn('Could not read settings/reviewTexts:', e);
+            }
+
+            // Pick the candidate with the highest updatedAt timestamp (preferring local on tie)
+            let chosenPool = defaults;
+            if (candidates.length > 0) {
+                candidates.sort((a, b) => b.updatedAt - a.updatedAt);
+                chosenPool = candidates[0].pool;
+            }
+
+            // Merge any used=true statuses from remote settings/reviewTexts or suite so used checkmarks are never lost
+            if (remoteSettingsVal) {
+                ['nl', 'en'].forEach(lang => {
+                    const remoteLangObj = remoteSettingsVal[lang] || {};
+                    (chosenPool[lang] || []).forEach(item => {
+                        const remoteItem = remoteLangObj[item.id];
+                        if (remoteItem && remoteItem.used) {
+                            item.used = true;
+                            item.usedAt = item.usedAt || remoteItem.usedAt || null;
+                        }
+                    });
+                });
+            }
+
+            appData.reviewTexts = mergeLocalUsedIdsIntoPool(chosenPool);
+            await saveReviewTextsPool(false, false);
+
+            // Real-time listener on settings/reviewTexts so when a user copies a phrase in the app, the checkbox ticks live!
+            if (settingsReviewRef) {
+                settingsReviewRef.on('value', (snapshot) => {
+                    const val = snapshot.val();
+                    if (!val) return;
+                    let changed = false;
+                    ['nl', 'en'].forEach(lang => {
+                        const remoteLangObj = val[lang] || {};
+                        (appData.reviewTexts[lang] || []).forEach(item => {
+                            const remoteItem = remoteLangObj[item.id];
+                            if (remoteItem && Boolean(remoteItem.used) !== Boolean(item.used)) {
+                                item.used = Boolean(remoteItem.used);
+                                item.usedAt = remoteItem.usedAt || null;
+                                changed = true;
+                            }
+                        });
+                    });
+                    if (changed) {
+                        localStorage.setItem(REVIEW_POOL_STORAGE_KEY, JSON.stringify(appData.reviewTexts));
+                        renderReviewTextsAdmin();
+                    }
+                });
+            }
+
+            // Also listen for localStorage updates across tabs (for instant localhost testing!)
+            window.addEventListener('storage', (e) => {
+                if (e.key === REVIEW_POOL_STORAGE_KEY || e.key === USED_REVIEW_IDS_STORAGE_KEY) {
+                    try {
+                        if (e.key === REVIEW_POOL_STORAGE_KEY && e.newValue) {
+                            const updated = JSON.parse(e.newValue);
+                            if (updated && updated.nl && updated.en) {
+                                appData.reviewTexts = mergeLocalUsedIdsIntoPool(updated);
+                            }
+                        } else {
+                            appData.reviewTexts = mergeLocalUsedIdsIntoPool(appData.reviewTexts);
+                        }
+                        renderReviewTextsAdmin();
+                    } catch (err) {}
+                }
+            });
+        }
+
+        function saveReviewTextsToLocalSync(bumpTimestamp = true) {
+            if (!appData.reviewTexts) {
+                appData.reviewTexts = buildDefaultReviewPool();
+            }
+            if (bumpTimestamp) {
+                appData.reviewTexts.updatedAt = Date.now();
+            }
+            localStorage.setItem(REVIEW_POOL_STORAGE_KEY, JSON.stringify(appData.reviewTexts));
+            localStorage.setItem('popSongPromoSuite', JSON.stringify(appData));
+
+            try {
+                const usedMap = {};
+                ['nl', 'en'].forEach(lang => {
+                    (appData.reviewTexts[lang] || []).forEach(item => {
+                        if (item.used) usedMap[item.id] = item.usedAt || new Date().toISOString();
+                    });
+                });
+                localStorage.setItem(USED_REVIEW_IDS_STORAGE_KEY, JSON.stringify(usedMap));
+            } catch (e) {}
+        }
+
+        async function saveReviewTextsPool(showToastMsg = false, bumpTimestamp = true) {
+            setReviewSaveBadgeState('saving');
+            saveReviewTextsToLocalSync(bumpTimestamp);
+
+            // Save inside facebookPromoSuite (awaited so Firebase finishes writing)
+            await saveToStorage();
+
+            // Also save to public settings/reviewTexts in Firebase
+            if (settingsReviewRef) {
+                try {
+                    await settingsReviewRef.set(convertPoolToFirebaseObject(appData.reviewTexts));
+                } catch (e) {
+                    console.warn('settings/reviewTexts sync warning (deploy database.rules.json to enable public node):', e);
+                }
+            }
+
+            setReviewSaveBadgeState('saved');
+
+            if (showToastMsg) {
+                showRedditToast(showToastMsg);
+            }
+        }
+
+        function switchReviewLanguage(lang) {
+            flushCurrentReviewInputsFromDom();
+            currentReviewLang = lang === 'en' ? 'en' : 'nl';
+            const btnNL = document.getElementById('btnReviewLangNL');
+            const btnEN = document.getElementById('btnReviewLangEN');
+            const badgeNL = document.getElementById('badgeCountNL');
+            const badgeEN = document.getElementById('badgeCountEN');
+
+            if (currentReviewLang === 'nl') {
+                if (btnNL) { btnNL.style.background = '#4f46e5'; btnNL.style.color = '#fff'; btnNL.style.borderColor = '#4f46e5'; }
+                if (btnEN) { btnEN.style.background = '#f8fafc'; btnEN.style.color = '#334155'; btnEN.style.borderColor = '#cbd5e1'; }
+                if (badgeNL) { badgeNL.style.background = 'rgba(255,255,255,0.22)'; badgeNL.style.color = '#fff'; }
+                if (badgeEN) { badgeEN.style.background = '#e2e8f0'; badgeEN.style.color = '#334155'; }
+            } else {
+                if (btnEN) { btnEN.style.background = '#4f46e5'; btnEN.style.color = '#fff'; btnEN.style.borderColor = '#4f46e5'; }
+                if (btnNL) { btnNL.style.background = '#f8fafc'; btnNL.style.color = '#334155'; btnNL.style.borderColor = '#cbd5e1'; }
+                if (badgeEN) { badgeEN.style.background = 'rgba(255,255,255,0.22)'; badgeEN.style.color = '#fff'; }
+                if (badgeNL) { badgeNL.style.background = '#e2e8f0'; badgeNL.style.color = '#334155'; }
+            }
+            renderReviewTextsAdmin();
+        }
+
+        function setReviewFilter(filter) {
+            flushCurrentReviewInputsFromDom();
+            currentReviewFilter = filter;
+            const map = {
+                all: document.getElementById('btnReviewFilterAll'),
+                unused: document.getElementById('btnReviewFilterUnused'),
+                used: document.getElementById('btnReviewFilterUsed')
+            };
+            Object.keys(map).forEach(k => {
+                const btn = map[k];
+                if (!btn) return;
+                if (k === filter) {
+                    btn.style.background = '#e0e7ff';
+                    btn.style.color = '#3730a3';
+                } else {
+                    btn.style.background = '#e2e8f0';
+                    btn.style.color = '#1e293b';
+                }
+            });
+            renderReviewTextsAdmin();
+        }
+
+        function renderReviewTextsAdmin(focusItemId = null) {
+            const container = document.getElementById('reviewItemsContainer');
+            if (!container) return;
+
+            if (!appData.reviewTexts) {
+                appData.reviewTexts = loadReviewPoolFromLocalStorageSync() || buildDefaultReviewPool();
+            }
+
+            // Update language badge counts (Unused / Total)
+            ['nl', 'en'].forEach(l => {
+                const list = appData.reviewTexts[l] || [];
+                const unusedCount = list.filter(i => !i.used).length;
+                const badgeEl = document.getElementById(l === 'nl' ? 'badgeCountNL' : 'badgeCountEN');
+                if (badgeEl) {
+                    badgeEl.textContent = `${unusedCount} vrij / ${list.length}`;
+                }
+            });
+
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            const filtered = list.filter(item => {
+                if (currentReviewFilter === 'unused') return !item.used;
+                if (currentReviewFilter === 'used') return Boolean(item.used);
+                return true;
+            });
+
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="tracker-card" style="text-align: center; color: #64748b; padding: 32px;">
+                        Geen review-teksten gevonden voor dit filter.
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach((item) => {
+                const realIdx = list.findIndex(x => x.id === item.id);
+                const row = document.createElement('div');
+                row.className = 'tracker-card';
+                row.style.cssText = `
+                    padding: 14px 18px;
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    flex-wrap: wrap;
+                    border-left: 5px solid ${item.used ? '#94a3b8' : '#22c55e'};
+                    background: ${item.used ? '#f8fafc' : '#ffffff'};
+                    opacity: ${item.used ? '0.82' : '1'};
+                    transition: all 0.15s ease;
+                `;
+
+                const usedDateLabel = item.used && item.usedAt
+                    ? `<span style="font-size: 0.72rem; color: #64748b; display:block; margin-top:2px;">Gebruikt: ${new Date(item.usedAt).toLocaleDateString()}</span>`
+                    : '';
+
+                row.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 145px;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; width: 26px;">#${realIdx + 1}</span>
+                        <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin: 0;">
+                            <input type="checkbox" ${item.used ? 'checked' : ''} onchange="toggleReviewUsed('${item.id}', this.checked)" style="width: 18px; height: 18px; cursor: pointer; accent-color: #4f46e5;">
+                            <div>
+                                <span style="font-size: 0.82rem; font-weight: 700; color: ${item.used ? '#64748b' : '#15803d'};">
+                                    ${item.used ? '☑️ Gebruikt' : '🟢 Beschikbaar'}
+                                </span>
+                                ${usedDateLabel}
+                            </div>
+                        </label>
+                    </div>
+
+                    <div style="flex: 1; min-width: 260px;">
+                        <input
+                            type="text"
+                            id="reviewInput_${item.id}"
+                            data-review-id="${item.id}"
+                            value="${escapeHtmlAttr(item.text)}"
+                            oninput="handleReviewTextInput('${item.id}', this.value)"
+                            onchange="updateReviewItemText('${item.id}', this.value)"
+                            style="width: 100%; font-size: 0.92rem; padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: ${item.used ? '#f1f5f9' : '#ffffff'}; color: ${item.used ? '#64748b' : '#0f172a'}; ${item.used ? 'text-decoration: line-through;' : ''}"
+                        >
+                    </div>
+
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <button type="button" onclick="duplicateReviewItem('${item.id}')" class="btn-secondary" style="background: #e0e7ff; color: #4338ca; padding: 8px 12px; font-size: 0.8rem;" title="Dupliceer deze zin als nieuwe ongebruikte zin om direct aan te passen">
+                            <i class="fa-regular fa-clone"></i> Dupliceer &amp; Pas aan
+                        </button>
+                        <button type="button" onclick="deleteReviewItem('${item.id}')" class="btn-delete-template" style="padding: 8px 11px;" title="Verwijder deze zin">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(row);
+            });
+
+            if (focusItemId) {
+                const inputEl = document.getElementById('reviewInput_' + focusItemId);
+                if (inputEl) {
+                    inputEl.focus();
+                    inputEl.select();
+                }
+            }
+        }
+
+        // Immediately saves every keystroke to localStorage and debounces Firebase sync
+        function handleReviewTextInput(itemId, rawValue) {
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            const item = list.find(x => x.id === itemId);
+            if (!item) return;
+            item.text = rawValue;
+            setReviewSaveBadgeState('saving');
+            saveReviewTextsToLocalSync(true);
+
+            clearTimeout(reviewInputDebounceTimer);
+            reviewInputDebounceTimer = setTimeout(() => {
+                saveReviewTextsPool(false, true);
+            }, 350);
+        }
+
+        function flushCurrentReviewInputsFromDom() {
+            const inputs = document.querySelectorAll('#reviewItemsContainer input[data-review-id]');
+            if (!inputs.length || !appData.reviewTexts) return false;
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            let anyChanged = false;
+            inputs.forEach(inp => {
+                const id = inp.getAttribute('data-review-id');
+                const item = list.find(x => x.id === id);
+                const trimmed = (inp.value || '').trim();
+                if (item && trimmed && item.text !== trimmed) {
+                    item.text = trimmed;
+                    anyChanged = true;
+                }
+            });
+            if (anyChanged) {
+                saveReviewTextsToLocalSync(true);
+            }
+            return anyChanged;
+        }
+
+        async function saveAllReviewInputsNow() {
+            clearTimeout(reviewInputDebounceTimer);
+            flushCurrentReviewInputsFromDom();
+            await saveReviewTextsPool('✓ Alle review-teksten zijn opgeslagen!', true);
+        }
+
+        function toggleReviewUsed(itemId, isUsed) {
+            flushCurrentReviewInputsFromDom();
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            const item = list.find(x => x.id === itemId);
+            if (!item) return;
+            item.used = Boolean(isUsed);
+            item.usedAt = item.used ? new Date().toISOString() : null;
+            saveReviewTextsPool(item.used ? 'Zin gemarkeerd als gebruikt (uit pool gehaald)' : 'Zin weer actief gezet in de pool!', true);
+            renderReviewTextsAdmin();
+        }
+
+        function updateReviewItemText(itemId, newText) {
+            clearTimeout(reviewInputDebounceTimer);
+            const trimmed = (newText || '').trim();
+            if (!trimmed) return;
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            const item = list.find(x => x.id === itemId);
+            if (!item) return;
+            item.text = trimmed;
+            saveReviewTextsPool('✓ Review-tekst opgeslagen!', true);
+        }
+
+        function duplicateReviewItem(itemId) {
+            flushCurrentReviewInputsFromDom();
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            const idx = list.findIndex(x => x.id === itemId);
+            if (idx === -1) return;
+            const orig = list[idx];
+            const newId = currentReviewLang + '_' + Date.now();
+            const copyItem = {
+                id: newId,
+                text: orig.text,
+                used: false,
+                usedAt: null
+            };
+            list.splice(idx + 1, 0, copyItem);
+            saveReviewTextsPool('Zin gedupliceerd! Pas de tekst nu direct aan.', true);
+            renderReviewTextsAdmin(newId);
+        }
+
+        function addNewReviewItem() {
+            flushCurrentReviewInputsFromDom();
+            const input = document.getElementById('newReviewTextInput');
+            const text = (input ? input.value : '').trim();
+            if (!text) {
+                alert('Typ eerst een review-tekst om toe te voegen.');
+                if (input) input.focus();
+                return;
+            }
+            if (!appData.reviewTexts[currentReviewLang]) {
+                appData.reviewTexts[currentReviewLang] = [];
+            }
+            const newId = currentReviewLang + '_' + Date.now();
+            appData.reviewTexts[currentReviewLang].unshift({
+                id: newId,
+                text: text,
+                used: false,
+                usedAt: null
+            });
+            if (input) input.value = '';
+            saveReviewTextsPool('Nieuwe review-tekst toegevoegd aan de pool!', true);
+            renderReviewTextsAdmin();
+        }
+
+        function deleteReviewItem(itemId) {
+            flushCurrentReviewInputsFromDom();
+            if (!confirm('Weet je zeker dat je deze review-zin wilt verwijderen?')) return;
+            const list = appData.reviewTexts[currentReviewLang] || [];
+            appData.reviewTexts[currentReviewLang] = list.filter(x => x.id !== itemId);
+            saveReviewTextsPool('Review-tekst verwijderd.', true);
+            renderReviewTextsAdmin();
+        }
+
+        window.addEventListener('beforeunload', () => {
+            flushCurrentReviewInputsFromDom();
+        });
+
         // URL Parameter Routing on Page Load
         (function checkUrlRoute() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -2707,6 +3389,8 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 switchView('templates');
             } else if (viewParam === 'members') {
                 switchView('members');
+            } else if (viewParam === 'reviews') {
+                switchView('reviews');
             }
         })();
     </script>

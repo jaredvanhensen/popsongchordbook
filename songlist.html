@@ -6,9 +6,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.407">
-    <meta name="application-version" content="v3.407">
-    <script src="/js/utils/smart-app-banner.js?v=3.407"></script>
+    <meta name="version" content="3.408">
+    <meta name="application-version" content="v3.408">
+    <script src="/js/utils/smart-app-banner.js?v=3.408"></script>
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist">
@@ -937,10 +937,6 @@
                     <span class="nav-icon">⭐</span>
                     <span class="nav-text">Favorites</span>
                 </a>
-                <a href="#" class="nav-item" id="btnSetlists">
-                    <span class="nav-icon">📁</span>
-                    <span class="nav-text">Setlists</span>
-                </a>
                 <a href="#" class="nav-item" id="btnArtists">
                     <span class="nav-icon">👤</span>
                     <span class="nav-text">Artists</span>
@@ -989,6 +985,10 @@
                     <span class="nav-icon">👥</span>
                     <span class="nav-text">New Members</span>
                 </a>
+                <a href="#" class="nav-item" id="btnRateAppSidebar" onclick="event.preventDefault(); if(typeof window.openPscbReviewModal === 'function') window.openPscbReviewModal();" style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 6px; padding-top: 10px;">
+                    <span class="nav-icon">⭐</span>
+                    <span class="nav-text" style="color: #fbbf24; font-weight: 700;">Rate App (5★)</span>
+                </a>
                 <script>
                     (function() {
                         var role = localStorage.getItem('userRole');
@@ -999,6 +999,10 @@
                         } else if (teacher || role === 'student') {
                             var btn = document.getElementById('btnDashboardStudent');
                             if (btn) btn.style.display = '';
+                        }
+                        if (localStorage.getItem('pscb_review_completed') === '1' || localStorage.getItem('pscb_review_dismissed') === '1') {
+                            var rateBtn = document.getElementById('btnRateAppSidebar');
+                            if (rateBtn) rateBtn.style.display = 'none';
                         }
                     })();
                 </script>
@@ -1159,7 +1163,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.407</span>
+                        <span id="site-version" class="version-tag">3.408</span>
                     </div>
                 </div>
             </div>
@@ -1696,7 +1700,7 @@
                             View New Members
                         </button>
                         <button id="profileViewFacebookGroupsBtn" class="modal-submit-btn" style="background: #1877f2; width: 100%; margin-top: 10px;">
-                            FacebookGroups
+                            Marketing
                         </button>
                     </div>
 

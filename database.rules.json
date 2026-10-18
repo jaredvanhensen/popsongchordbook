@@ -66,6 +66,20 @@
       },
       "beginnerKeyboardSetlist": {
         ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())"
+      },
+      "reviewTexts": {
+        ".read": true,
+        ".write": "auth != null && (auth.token.email === 'jared@vanhensen.nl' || root.child('settings').child('admins').child(auth.uid).exists())",
+        "$lang": {
+          "$itemId": {
+            "used": {
+              ".write": true
+            },
+            "usedAt": {
+              ".write": true
+            }
+          }
+        }
       }
     },
     "teacherCodes": {

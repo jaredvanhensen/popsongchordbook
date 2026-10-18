@@ -484,7 +484,7 @@ class ProfileModal {
 
         if (this.viewFacebookGroupsBtn) {
             this.viewFacebookGroupsBtn.addEventListener('click', () => {
-                window.location.href = 'FacebookGroups.html';
+                window.location.href = 'Marketing.html';
             });
         }
 
