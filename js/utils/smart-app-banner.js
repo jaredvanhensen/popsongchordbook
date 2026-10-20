@@ -346,9 +346,9 @@
 
             .pscb-sample-item {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
-                gap: 8px;
+                gap: 10px;
                 background: rgba(15, 23, 42, 0.75);
                 border: 1px solid rgba(148, 163, 184, 0.22);
                 border-radius: 10px;
@@ -358,7 +358,12 @@
                 transition: border-color 0.15s, background 0.15s;
                 font-size: 0.78rem;
                 color: #e2e8f0;
-                line-height: 1.35;
+                line-height: 1.4;
+            }
+            .pscb-sample-item span:first-child {
+                flex: 1;
+                min-width: 0;
+                word-break: break-word;
             }
             .pscb-sample-item:last-child {
                 margin-bottom: 0;
@@ -381,6 +386,7 @@
                 border-radius: 6px;
                 white-space: nowrap;
                 flex-shrink: 0;
+                margin-top: 1px;
             }
             .pscb-sample-item.copied .pscb-copy-badge {
                 color: #4ade80;

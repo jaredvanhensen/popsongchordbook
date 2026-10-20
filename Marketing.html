@@ -1539,9 +1539,9 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 </div>
 
                 <!-- QUICK ADD NEW REVIEW FORM -->
-                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" id="newReviewTextInput" placeholder="Typ hier een nieuwe review-zin om aan de pool toe te voegen..." style="flex: 1; min-width: 260px;">
-                    <button class="btn-add" onclick="addNewReviewItem()" style="padding: 10px 18px; font-size: 0.88rem;">
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;">
+                    <textarea id="newReviewTextInput" rows="2" placeholder="Typ of plak hier een nieuwe review-tekst (mag uit meerdere zinnen bestaan) om aan de pool toe te voegen..." style="flex: 1; min-width: 260px; font-size: 0.92rem; line-height: 1.45; padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; resize: vertical; min-height: 48px; font-family: inherit; box-sizing: border-box;" oninput="autoResizeReviewTextarea(this)"></textarea>
+                    <button class="btn-add" onclick="addNewReviewItem()" style="padding: 10px 18px; font-size: 0.88rem; height: 46px; display: inline-flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-plus"></i> Nieuwe Zin Toevoegen
                     </button>
                 </div>
@@ -3235,7 +3235,7 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 row.style.cssText = `
                     padding: 14px 18px;
                     display: flex;
-                    align-items: center;
+                    align-items: flex-start;
                     gap: 14px;
                     flex-wrap: wrap;
                     border-left: 5px solid ${item.used ? '#94a3b8' : '#22c55e'};
@@ -3249,10 +3249,10 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     : '';
 
                 row.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px; min-width: 145px;">
+                    <div style="display: flex; align-items: flex-start; gap: 10px; min-width: 145px; padding-top: 6px;">
                         <span style="font-size: 0.8rem; font-weight: 700; color: #64748b; width: 26px;">#${realIdx + 1}</span>
-                        <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin: 0;">
-                            <input type="checkbox" ${item.used ? 'checked' : ''} onchange="toggleReviewUsed('${item.id}', this.checked)" style="width: 18px; height: 18px; cursor: pointer; accent-color: #4f46e5;">
+                        <label style="display: inline-flex; align-items: flex-start; gap: 8px; cursor: pointer; user-select: none; margin: 0;">
+                            <input type="checkbox" ${item.used ? 'checked' : ''} onchange="toggleReviewUsed('${item.id}', this.checked)" style="width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: #4f46e5;">
                             <div>
                                 <span style="font-size: 0.82rem; font-weight: 700; color: ${item.used ? '#64748b' : '#15803d'};">
                                     ${item.used ? '☑️ Gebruikt' : '🟢 Beschikbaar'}
@@ -3263,18 +3263,17 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                     </div>
 
                     <div style="flex: 1; min-width: 260px;">
-                        <input
-                            type="text"
+                        <textarea
                             id="reviewInput_${item.id}"
                             data-review-id="${item.id}"
-                            value="${escapeHtmlAttr(item.text)}"
-                            oninput="handleReviewTextInput('${item.id}', this.value)"
+                            rows="2"
+                            oninput="autoResizeReviewTextarea(this); handleReviewTextInput('${item.id}', this.value)"
                             onchange="updateReviewItemText('${item.id}', this.value)"
-                            style="width: 100%; font-size: 0.92rem; padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: ${item.used ? '#f1f5f9' : '#ffffff'}; color: ${item.used ? '#64748b' : '#0f172a'}; ${item.used ? 'text-decoration: line-through;' : ''}"
-                        >
+                            style="width: 100%; font-size: 0.92rem; line-height: 1.45; padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: ${item.used ? '#f1f5f9' : '#ffffff'}; color: ${item.used ? '#64748b' : '#0f172a'}; ${item.used ? 'text-decoration: line-through;' : ''}; resize: vertical; min-height: 42px; font-family: inherit; box-sizing: border-box; display: block;"
+                        >${escapeHtml(item.text)}</textarea>
                     </div>
 
-                    <div style="display: flex; gap: 8px; align-items: center;">
+                    <div style="display: flex; gap: 8px; align-items: center; padding-top: 4px;">
                         <button type="button" onclick="duplicateReviewItem('${item.id}')" class="btn-secondary" style="background: #e0e7ff; color: #4338ca; padding: 8px 12px; font-size: 0.8rem;" title="Dupliceer deze zin als nieuwe ongebruikte zin om direct aan te passen">
                             <i class="fa-regular fa-clone"></i> Dupliceer &amp; Pas aan
                         </button>
@@ -3287,13 +3286,23 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 container.appendChild(row);
             });
 
+            // Auto-resize all review textareas to fit multi-sentence contents perfectly
+            container.querySelectorAll('textarea[data-review-id]').forEach(autoResizeReviewTextarea);
+
             if (focusItemId) {
                 const inputEl = document.getElementById('reviewInput_' + focusItemId);
                 if (inputEl) {
                     inputEl.focus();
                     inputEl.select();
+                    autoResizeReviewTextarea(inputEl);
                 }
             }
+        }
+
+        function autoResizeReviewTextarea(el) {
+            if (!el) return;
+            el.style.height = 'auto';
+            el.style.height = Math.max(42, el.scrollHeight + 2) + 'px';
         }
 
         // Immediately saves every keystroke to localStorage and debounces Firebase sync
@@ -3312,7 +3321,7 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
         }
 
         function flushCurrentReviewInputsFromDom() {
-            const inputs = document.querySelectorAll('#reviewItemsContainer input[data-review-id]');
+            const inputs = document.querySelectorAll('#reviewItemsContainer [data-review-id]');
             if (!inputs.length || !appData.reviewTexts) return false;
             const list = appData.reviewTexts[currentReviewLang] || [];
             let anyChanged = false;
@@ -3396,7 +3405,10 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
                 used: false,
                 usedAt: null
             });
-            if (input) input.value = '';
+            if (input) {
+                input.value = '';
+                autoResizeReviewTextarea(input);
+            }
             saveReviewTextsPool('Nieuwe review-tekst toegevoegd aan de pool!', true);
             renderReviewTextsAdmin();
         }
