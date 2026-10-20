@@ -6,9 +6,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.408">
-    <meta name="application-version" content="v3.408">
-    <script src="/js/utils/smart-app-banner.js?v=3.408"></script>
+    <meta name="version" content="3.409">
+    <meta name="application-version" content="v3.409">
+    <script src="/js/utils/smart-app-banner.js?v=3.409"></script>
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist">
@@ -1000,7 +1000,7 @@
                             var btn = document.getElementById('btnDashboardStudent');
                             if (btn) btn.style.display = '';
                         }
-                        if (localStorage.getItem('pscb_review_completed') === '1' || localStorage.getItem('pscb_review_dismissed') === '1') {
+                        if (localStorage.getItem('pscb_review_completed_v1') === '1' || localStorage.getItem('pscb_review_completed') === '1' || localStorage.getItem('pscb_review_dismissed_v1') === '1' || localStorage.getItem('pscb_review_dismissed') === '1') {
                             var rateBtn = document.getElementById('btnRateAppSidebar');
                             if (rateBtn) rateBtn.style.display = 'none';
                         }
@@ -1163,7 +1163,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.408</span>
+                        <span id="site-version" class="version-tag">3.409</span>
                     </div>
                 </div>
             </div>

@@ -572,32 +572,73 @@
     }
 
     function normalizePoolLangArray(rawLangData, fallbackItems) {
-        if (!rawLangData) return fallbackItems;
-        if (Array.isArray(rawLangData)) {
-            return rawLangData.filter(Boolean).map((item, idx) => ({
-                id: item.id || `item_${idx}`,
-                text: item.text || String(item),
+        const fallbacks = (Array.isArray(fallbackItems) && fallbackItems.length > 0) ? fallbackItems : [];
+        if (!rawLangData) return fallbacks;
+
+        const fallbackMap = new Map();
+        fallbacks.forEach(item => {
+            if (item && item.id) fallbackMap.set(item.id, item);
+        });
+
+        // Initialize merged map with cloned fallback items
+        const mergedMap = new Map();
+        fallbacks.forEach(item => {
+            mergedMap.set(item.id, {
+                id: item.id,
+                text: item.text || '',
                 used: Boolean(item.used),
-                usedAt: item.usedAt || null
-            }));
+                usedAt: item.usedAt || null,
+                order: typeof item.order === 'number' ? item.order : 9999
+            });
+        });
+
+        // Convert rawLangData into list of items
+        let rawList = [];
+        if (Array.isArray(rawLangData)) {
+            rawList = rawLangData.filter(Boolean).map((item, idx) => {
+                if (typeof item === 'string') return { id: `item_${idx}`, text: item };
+                return { id: item.id || `item_${idx}`, ...item };
+            });
+        } else if (typeof rawLangData === 'object') {
+            rawList = Object.keys(rawLangData).map(k => {
+                const item = rawLangData[k];
+                if (!item) return null;
+                if (typeof item === 'string') return { id: k, text: item };
+                return { id: item.id || k, ...item };
+            }).filter(Boolean);
         }
-        if (typeof rawLangData === 'object') {
-            return Object.keys(rawLangData)
-                .map(k => {
-                    const item = rawLangData[k];
-                    if (!item) return null;
-                    return {
-                        id: item.id || k,
-                        text: item.text || '',
-                        used: Boolean(item.used),
-                        usedAt: item.usedAt || null,
-                        order: typeof item.order === 'number' ? item.order : 9999
-                    };
-                })
-                .filter(Boolean)
-                .sort((a, b) => a.order - b.order);
-        }
-        return fallbackItems;
+
+        // Apply raw data updates over mergedMap
+        rawList.forEach((rawItem, idx) => {
+            const id = rawItem.id || `item_${idx}`;
+            const fallback = fallbackMap.get(id);
+            const existing = mergedMap.get(id);
+
+            // Determine text: prefer valid non-empty rawItem.text, else fallback.text, else existing.text
+            const rawText = typeof rawItem.text === 'string' ? rawItem.text.trim() : '';
+            const fallbackText = fallback && typeof fallback.text === 'string' ? fallback.text.trim() : '';
+            const existingText = existing && typeof existing.text === 'string' ? existing.text.trim() : '';
+            const resolvedText = rawText || fallbackText || existingText;
+
+            // Only store item if it has actual text
+            if (resolvedText) {
+                const used = rawItem.used !== undefined ? Boolean(rawItem.used) : (existing ? existing.used : false);
+                const usedAt = rawItem.usedAt || (existing ? existing.usedAt : null);
+                const order = typeof rawItem.order === 'number' ? rawItem.order : (existing && typeof existing.order === 'number' ? existing.order : idx);
+
+                mergedMap.set(id, {
+                    id: id,
+                    text: resolvedText,
+                    used: used,
+                    usedAt: usedAt,
+                    order: order
+                });
+            }
+        });
+
+        // Filter out any item that has empty or whitespace-only text
+        const result = Array.from(mergedMap.values()).filter(item => item && typeof item.text === 'string' && item.text.trim().length > 0);
+        return result.length > 0 ? result : fallbacks;
     }
 
     function getLocalReviewPoolForLang(lang, t) {
@@ -656,7 +697,8 @@
                             item.used = true;
                         }
                     });
-                    return baseList;
+                    const valid = baseList.filter(item => item && typeof item.text === 'string' && item.text.trim().length > 0);
+                    return valid.length > 0 ? valid : localList;
                 }
             }
         } catch (e) {}
@@ -732,10 +774,78 @@
         } catch (e) {}
     }
 
+    function isReviewAlreadyDone() {
+        try {
+            return (
+                localStorage.getItem(STORAGE_KEYS.REVIEW_COMPLETED) === '1' ||
+                localStorage.getItem('pscb_review_completed') === '1' ||
+                localStorage.getItem(STORAGE_KEYS.REVIEW_DISMISSED) === '1' ||
+                localStorage.getItem('pscb_review_dismissed') === '1'
+            );
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function markReviewDoneLocally() {
+        try {
+            localStorage.setItem(STORAGE_KEYS.REVIEW_COMPLETED, '1');
+            localStorage.setItem('pscb_review_completed', '1');
+        } catch (e) {}
+    }
+
+    function markReviewDismissedLocally() {
+        try {
+            localStorage.setItem(STORAGE_KEYS.REVIEW_DISMISSED, '1');
+            localStorage.setItem('pscb_review_dismissed', '1');
+            localStorage.setItem(STORAGE_KEYS.REVIEW_COMPLETED, '1');
+            localStorage.setItem('pscb_review_completed', '1');
+        } catch (e) {}
+    }
+
+    function hideSidebarRateButton() {
+        const rateBtn = document.getElementById('btnRateAppSidebar');
+        if (rateBtn) rateBtn.style.display = 'none';
+    }
+
+    function syncReviewStatusWithFirebaseUser() {
+        try {
+            const auth = (window.firebase && typeof window.firebase.auth === 'function') 
+                ? window.firebase.auth() 
+                : (window.firebaseManager && window.firebaseManager.auth ? window.firebaseManager.auth : null);
+            const user = auth && auth.currentUser;
+            if (!user || !user.uid) return;
+            const db = (window.firebase && typeof window.firebase.database === 'function') 
+                ? window.firebase.database() 
+                : (window.firebaseManager && window.firebaseManager.database ? window.firebaseManager.database : null);
+            if (!db) return;
+
+            const userPrefRef = db.ref(`users/${user.uid}/preferences/review_completed`);
+            if (isReviewAlreadyDone()) {
+                userPrefRef.set(true).catch(() => {});
+            } else {
+                userPrefRef.once('value').then(snap => {
+                    if (snap.val() === true) {
+                        markReviewDoneLocally();
+                        hideSidebarRateButton();
+                    }
+                }).catch(() => {});
+            }
+        } catch (e) {}
+    }
+
+    function checkAndApplyRateButtonVisibility() {
+        if (isReviewAlreadyDone()) {
+            hideSidebarRateButton();
+        }
+        syncReviewStatusWithFirebaseUser();
+    }
+
     function pickRandomUnusedItems(poolItems, count, excludeIds) {
-        const unused = (poolItems || []).filter(item => !item.used);
+        const validItems = (poolItems || []).filter(item => item && typeof item.text === 'string' && item.text.trim().length > 0);
+        const unused = validItems.filter(item => !item.used);
         const notDisplayed = unused.filter(item => !excludeIds || !excludeIds.includes(item.id));
-        const source = notDisplayed.length >= count ? notDisplayed : (unused.length > 0 ? unused : poolItems);
+        const source = notDisplayed.length >= count ? notDisplayed : (unused.length > 0 ? unused : validItems);
         const copy = source.slice();
         for (let i = copy.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -859,8 +969,7 @@
 
     function shouldAutoShowReviewPrompt() {
         try {
-            if (localStorage.getItem(STORAGE_KEYS.REVIEW_COMPLETED) === '1') return false;
-            if (localStorage.getItem(STORAGE_KEYS.REVIEW_DISMISSED) === '1') return false;
+            if (isReviewAlreadyDone()) return false;
 
             const snoozedUntil = parseInt(localStorage.getItem(STORAGE_KEYS.REVIEW_SNOOZED_UNTIL) || '0', 10);
             if (snoozedUntil && Date.now() < snoozedUntil) return false;
@@ -901,7 +1010,8 @@
         let sessionCopiedItemId = null;
 
         function buildSamplesMarkup(itemsList) {
-            return itemsList.map((item, idx) => `
+            const valid = (itemsList || []).filter(item => item && typeof item.text === 'string' && item.text.trim().length > 0);
+            return valid.map((item, idx) => `
                 <div class="pscb-sample-item ${sessionCopiedItemId === item.id ? 'copied' : ''}" data-sample-idx="${idx}" data-sample-id="${item.id}" data-sample-text="${item.text.replace(/"/g, '&quot;')}">
                     <span>"${item.text}"</span>
                     <span class="pscb-copy-badge">${sessionCopiedItemId === item.id ? t.copiedBadge : t.copyBadge}</span>
@@ -1045,19 +1155,13 @@
             });
         }
 
-        function hideSidebarRateButton() {
-            const rateBtn = document.getElementById('btnRateAppSidebar');
-            if (rateBtn) rateBtn.style.display = 'none';
-        }
-
         // Primary CTA -> Google Play
         const goBtn = overlay.querySelector('#pscbGoToPlayReviewBtn');
         if (goBtn) {
             goBtn.addEventListener('click', () => {
-                try {
-                    localStorage.setItem(STORAGE_KEYS.REVIEW_COMPLETED, '1');
-                } catch (e) {}
+                markReviewDoneLocally();
                 hideSidebarRateButton();
+                syncReviewStatusWithFirebaseUser();
                 setTimeout(() => overlay.remove(), 300);
             });
         }
@@ -1067,10 +1171,9 @@
         if (sendFeedbackBtn) {
             sendFeedbackBtn.addEventListener('click', () => {
                 const msg = (overlay.querySelector('#pscbFeedbackTextarea')?.value || '').trim();
-                try {
-                    localStorage.setItem(STORAGE_KEYS.REVIEW_DISMISSED, '1');
-                } catch (e) {}
+                markReviewDismissedLocally();
                 hideSidebarRateButton();
+                syncReviewStatusWithFirebaseUser();
                 if (msg) {
                     const subject = encodeURIComponent('PopSongChordBook App Feedback');
                     const body = encodeURIComponent(msg);
@@ -1085,10 +1188,9 @@
         overlay.querySelector('.pscb-review-close')?.addEventListener('click', snoozeModal);
         overlay.querySelector('#pscbReviewLaterBtn')?.addEventListener('click', snoozeModal);
         overlay.querySelector('#pscbReviewNeverBtn')?.addEventListener('click', () => {
-            try {
-                localStorage.setItem(STORAGE_KEYS.REVIEW_DISMISSED, '1');
-            } catch (e) {}
+            markReviewDismissedLocally();
             hideSidebarRateButton();
+            syncReviewStatusWithFirebaseUser();
             overlay.remove();
         });
 
@@ -1104,10 +1206,25 @@
     window.trackPscbSongOpen = trackSongOpen;
     window.checkPscbReviewPromptOnSongClose = checkReviewPromptOnSongClose;
     window.openPscbReviewModal = function () { openReviewModal(true); };
+    window.checkPscbRateButtonVisibility = checkAndApplyRateButtonVisibility;
+
+    function initSmartAppBannerAndReview() {
+        renderSmartBanner();
+        checkAndApplyRateButtonVisibility();
+        if (window.firebase && typeof window.firebase.auth === 'function') {
+            try {
+                window.firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        syncReviewStatusWithFirebaseUser();
+                    }
+                });
+            } catch (e) {}
+        }
+    }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderSmartBanner);
+        document.addEventListener('DOMContentLoaded', initSmartAppBannerAndReview);
     } else {
-        renderSmartBanner();
+        initSmartAppBannerAndReview();
     }
 })();

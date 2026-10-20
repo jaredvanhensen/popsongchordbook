@@ -2873,32 +2873,67 @@ If you like visual learning, I built a free web tool called PopSongChordBook (po
         }
 
         function normalizeLangList(rawLangData, fallbackArray) {
-            if (!rawLangData) return fallbackArray;
-            if (Array.isArray(rawLangData)) {
-                return rawLangData.filter(Boolean).map((item, idx) => ({
-                    id: item.id || ('item_' + idx + '_' + Date.now()),
-                    text: item.text !== undefined ? String(item.text) : String(item),
+            const fallbacks = (Array.isArray(fallbackArray) && fallbackArray.length > 0) ? fallbackArray : [];
+            if (!rawLangData) return fallbacks;
+
+            const fallbackMap = new Map();
+            fallbacks.forEach(item => {
+                if (item && item.id) fallbackMap.set(item.id, item);
+            });
+
+            const mergedMap = new Map();
+            fallbacks.forEach(item => {
+                mergedMap.set(item.id, {
+                    id: item.id,
+                    text: item.text || '',
                     used: Boolean(item.used),
-                    usedAt: item.usedAt || null
-                }));
+                    usedAt: item.usedAt || null,
+                    order: typeof item.order === 'number' ? item.order : 9999
+                });
+            });
+
+            let rawList = [];
+            if (Array.isArray(rawLangData)) {
+                rawList = rawLangData.filter(Boolean).map((item, idx) => {
+                    if (typeof item === 'string') return { id: 'item_' + idx, text: item };
+                    return { id: item.id || ('item_' + idx), ...item };
+                });
+            } else if (typeof rawLangData === 'object') {
+                rawList = Object.keys(rawLangData).map(k => {
+                    const item = rawLangData[k];
+                    if (!item) return null;
+                    if (typeof item === 'string') return { id: k, text: item };
+                    return { id: item.id || k, ...item };
+                }).filter(Boolean);
             }
-            if (typeof rawLangData === 'object') {
-                return Object.keys(rawLangData)
-                    .map(key => {
-                        const item = rawLangData[key];
-                        if (!item || typeof item !== 'object') return null;
-                        return {
-                            id: item.id || key,
-                            text: item.text !== undefined ? String(item.text) : '',
-                            used: Boolean(item.used),
-                            usedAt: item.usedAt || null,
-                            order: typeof item.order === 'number' ? item.order : 9999
-                        };
-                    })
-                    .filter(Boolean)
-                    .sort((a, b) => a.order - b.order);
-            }
-            return fallbackArray;
+
+            rawList.forEach((rawItem, idx) => {
+                const id = rawItem.id || ('item_' + idx);
+                const fallback = fallbackMap.get(id);
+                const existing = mergedMap.get(id);
+
+                const rawText = typeof rawItem.text === 'string' ? rawItem.text.trim() : '';
+                const fallbackText = fallback && typeof fallback.text === 'string' ? fallback.text.trim() : '';
+                const existingText = existing && typeof existing.text === 'string' ? existing.text.trim() : '';
+                const resolvedText = rawText || fallbackText || existingText;
+
+                if (resolvedText) {
+                    const used = rawItem.used !== undefined ? Boolean(rawItem.used) : (existing ? existing.used : false);
+                    const usedAt = rawItem.usedAt || (existing ? existing.usedAt : null);
+                    const order = typeof rawItem.order === 'number' ? rawItem.order : (existing && typeof existing.order === 'number' ? existing.order : idx);
+
+                    mergedMap.set(id, {
+                        id: id,
+                        text: resolvedText,
+                        used: used,
+                        usedAt: usedAt,
+                        order: order
+                    });
+                }
+            });
+
+            const result = Array.from(mergedMap.values()).filter(item => item && typeof item.text === 'string' && item.text.trim().length > 0);
+            return result.length > 0 ? result : fallbacks;
         }
 
         function convertPoolToFirebaseObject(pool) {
