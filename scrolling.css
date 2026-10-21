@@ -2483,10 +2483,12 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     pointer-events: auto;
 }
 
-.chord-suggestion-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white !important;
+.chord-suggestion-btn,
+button.chord-suggestion-btn,
+#chordButtonsContainer .chord-suggestion-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
     padding: 4px 10px;
     border-radius: 8px;
     font-weight: 700;
@@ -2501,18 +2503,30 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     touch-action: manipulation;
 }
 
-.chord-suggestion-btn:hover {
-    background: #5a67d8;
+.chord-suggestion-btn:hover,
+button.chord-suggestion-btn:hover,
+button.chord-suggestion-btn:hover:not(:disabled),
+#chordButtonsContainer .chord-suggestion-btn:hover,
+#chordButtonsContainer button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.5) !important;
 }
 
-.chord-suggestion-btn:active {
+.chord-suggestion-btn:active,
+button.chord-suggestion-btn:active,
+button.chord-suggestion-btn:active:not(:disabled),
+#chordButtonsContainer .chord-suggestion-btn:active,
+#chordButtonsContainer button:active:not(:disabled) {
+    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%) !important;
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3) !important;
 }
 
-.q-chord-btn {
+.q-chord-btn,
+button.q-chord-btn {
     min-width: 40px;
     height: 30px;
     padding: 0;
@@ -2521,43 +2535,69 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
     justify-content: center;
     font-size: 1rem;
     background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
 }
 
-.chord-type-verse, .chord-type-verse:hover {
+.q-chord-btn:hover,
+button.q-chord-btn:hover,
+button.q-chord-btn:hover:not(:disabled) {
     background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+    color: #ffffff !important;
 }
 
-.chord-type-chorus, .chord-type-chorus:hover {
+.chord-type-verse, .chord-type-verse:hover,
+button.chord-type-verse, button.chord-type-verse:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+    color: #ffffff !important;
+}
+
+.chord-type-chorus, .chord-type-chorus:hover,
+button.chord-type-chorus, button.chord-type-chorus:hover {
     background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+    color: #ffffff !important;
 }
 
 /* Support both prechorus and pre-chorus for consistency across UI components */
 .chord-type-prechorus, .chord-type-prechorus:hover,
-.chord-type-pre-chorus, .chord-type-pre-chorus:hover {
+.chord-type-pre-chorus, .chord-type-pre-chorus:hover,
+button.chord-type-prechorus, button.chord-type-prechorus:hover,
+button.chord-type-pre-chorus, button.chord-type-pre-chorus:hover {
     background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+    color: #ffffff !important;
 }
 
-.chord-type-bridge, .chord-type-bridge:hover {
+.chord-type-bridge, .chord-type-bridge:hover,
+button.chord-type-bridge, button.chord-type-bridge:hover {
     background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+    color: #ffffff !important;
 }
 
-.chord-type-instrumental, .chord-type-instrumental:hover {
+.chord-type-instrumental, .chord-type-instrumental:hover,
+button.chord-type-instrumental, button.chord-type-instrumental:hover {
     background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
 }
 
-.chord-type-interlude, .chord-type-interlude:hover {
+.chord-type-interlude, .chord-type-interlude:hover,
+button.chord-type-interlude, button.chord-type-interlude:hover {
     background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+    color: #ffffff !important;
 }
 
-.meta-suggestion-btn {
+.meta-suggestion-btn,
+button.meta-suggestion-btn {
     background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
     font-family: monospace;
     font-size: 1.1rem !important;
     min-width: 44px !important;
+    color: #ffffff !important;
 }
 
-.meta-suggestion-btn:hover {
+.meta-suggestion-btn:hover,
+button.meta-suggestion-btn:hover {
     background: #475569 !important;
+    color: #ffffff !important;
 }
 
 .chord-toolbar-inline-marker {
