@@ -138,11 +138,11 @@ let lyricsEnabled = true;
 let isTextMode = false;
 let parsedLyrics = []; // Array of { time: seconds, text: string }
 let originalChordsJson = '[]'; // For change detection
-let originalTempo = 120; // For tempo change detection
+let originalTempo = null; // For tempo change detection (null if unknown)
 let originalBarOffset = 0; // For bar offset change detection
 let originalUseFlatNotation = false; // For notation change detection
 let originalMapSectionsJson = 'null'; // For section change detection
-let currentTempo = 120; // Shared state for tempo
+let currentTempo = null; // Shared state for tempo (null if unknown)
 let currentSpeed = 1.0; // Playback speed (1.0x, 0.75x or 0.5x)
 let playbackOctave = 0; // Octave shift: 0 (default low), 1 (+1 oct), 2 (+2 oct)
 let octaveCycleBtn = null;
@@ -3183,6 +3183,7 @@ function updateGhostPosition(e) {
 
 function handleFileSelect(e) {
     const file = e.target.files[0];
+    e.target.value = ''; // Allow selecting the same file again
     if (file) handleFile(file);
 }
 
@@ -3207,33 +3208,296 @@ async function processJsonFile(file) {
         const data = JSON.parse(text);
         loadChordData(data);
     } catch (error) {
-        console.error(error);
-        statusText.innerText = 'Error parsing JSON file. Invalid format.';
+        console.error('Failed to parse JSON file:', error);
+        statusText.innerText = 'Error parsing JSON file: ' + (error.message || 'Invalid format.');
     }
 }
 
-function loadChordData(data) {
-    if (!data.chords || !Array.isArray(data.chords)) {
-        throw new Error('Invalid data format: missing chords array');
+/**
+ * Normalizes different JSON chord formats (standard PopSongChordBook format,
+ * ChordAI row/slot PDF grid export format, or bar/beat format) into a unified timeline structure.
+ */
+function normalizeChordData(data) {
+    if (!data || typeof data !== 'object') {
+        throw new Error('Invalid JSON format: data is not an object');
     }
 
-    chords = data.chords;
-    const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 60);
-    const bpm = data.tempo || 120;
+    // Extract BPM / Tempo (support tempo_bpm, bpm, tempo)
+    const rawBpm = Number(data.tempo_bpm || data.tempo || data.bpm);
+    const bpm = (!isNaN(rawBpm) && rawBpm > 0) ? rawBpm : null;
+    const playbackBpm = bpm || 120;
+    const beatsPerBar = 4;
+    const secondsPerBeat = 60 / playbackBpm;
+    const secondsPerBar = beatsPerBar * secondsPerBeat;
+
+    let parsedChords = [];
+    let customSections = data.customMapSections || null;
+
+    // Format 1: ChordAI / Bar grid rows format ({ rows: [ { row: 1, chords: [ { slot: 1, name: "Db" } ] } ] })
+    if (data.rows && Array.isArray(data.rows)) {
+        // Detect slots per bar across all rows
+        let maxSlot = 0;
+        data.rows.forEach(r => {
+            if (Array.isArray(r.chords)) {
+                r.chords.forEach(c => {
+                    const s = Number(c.slot);
+                    if (!isNaN(s) && s > maxSlot) maxSlot = s;
+                });
+            }
+        });
+
+        const barsPerRow = Number(data.bars_per_row || data.barsPerRow) || 4;
+        let slotsPerBar = Number(data.slots_per_bar || data.slotsPerBar);
+        if (!slotsPerBar || isNaN(slotsPerBar)) {
+            if (maxSlot > 12) {
+                slotsPerBar = 4; // 16 slots / 4 bars = 4 slots per bar
+            } else if (maxSlot > 4) {
+                slotsPerBar = 3; // 12 slots across 4 bars = 3 slots per bar (standard ChordAI grid)
+            } else {
+                slotsPerBar = 1; // 4 slots / 4 bars = 1 slot per bar
+            }
+        }
+
+        data.rows.forEach((r, rowIdx) => {
+            const rNum = (typeof r.row === 'number' && r.row > 0) ? r.row : (parseInt(r.row, 10) || (rowIdx + 1));
+            const rowStartBar = (rNum - 1) * barsPerRow;
+
+            // Optional section header per row
+            const secName = (r.section || r.label || r.name || '').trim();
+            if (secName) {
+                if (!customSections) customSections = [];
+                const secTime = Math.round(rowStartBar * secondsPerBar * 1000) / 1000;
+                if (!customSections.some(s => s.time === secTime)) {
+                    customSections.push({
+                        name: secName,
+                        time: secTime,
+                        duration: Math.round(barsPerRow * secondsPerBar * 1000) / 1000,
+                        type: secName.toLowerCase().includes('verse') ? 'verse' :
+                              secName.toLowerCase().includes('chorus') ? 'chorus' :
+                              secName.toLowerCase().includes('bridge') ? 'bridge' :
+                              secName.toLowerCase().includes('intro') ? 'intro' :
+                              secName.toLowerCase().includes('outro') ? 'outro' : 'verse'
+                    });
+                }
+            }
+
+            if (Array.isArray(r.chords)) {
+                r.chords.forEach((c, chordIdx) => {
+                    const chordName = (c.name || c.chord || '').trim();
+                    if (!chordName) return;
+
+                    let barInRow = 0;
+                    if (c.slot !== undefined) {
+                        const slot = Number(c.slot);
+                        barInRow = !isNaN(slot) ? Math.max(0, (slot - 1) / slotsPerBar) : 0;
+                    } else if (c.bar !== undefined) {
+                        const b = Number(c.bar);
+                        barInRow = !isNaN(b) ? Math.max(0, b - 1) : 0;
+                    } else {
+                        barInRow = chordIdx;
+                    }
+
+                    const totalBar = rowStartBar + barInRow;
+                    const chordTime = Math.round(totalBar * secondsPerBar * 1000) / 1000;
+
+                    parsedChords.push({
+                        time: chordTime,
+                        name: chordName
+                    });
+                });
+            }
+        });
+    }
+    // Format 2: Bars array ({ bars: [ { bar: 1, chord: "Db" } ] } or { bars: [ { bar: 1, chords: [...] } ] })
+    else if (data.bars && Array.isArray(data.bars)) {
+        data.bars.forEach((b, bIdx) => {
+            const barNum = (typeof b.bar === 'number' && b.bar > 0) ? b.bar : (parseInt(b.bar, 10) || (bIdx + 1));
+            const barStartSec = (barNum - 1) * secondsPerBar;
+
+            if (Array.isArray(b.chords)) {
+                b.chords.forEach(c => {
+                    const chordName = (c.name || c.chord || '').trim();
+                    if (!chordName) return;
+                    const beat = Number(c.beat) || 1;
+                    const beatOffset = (beat - 1) * secondsPerBeat;
+                    parsedChords.push({
+                        time: Math.round((barStartSec + beatOffset) * 1000) / 1000,
+                        name: chordName
+                    });
+                });
+            } else if (b.chord || b.name) {
+                const chordName = (b.chord || b.name || '').trim();
+                if (chordName) {
+                    parsedChords.push({
+                        time: Math.round(barStartSec * 1000) / 1000,
+                        name: chordName
+                    });
+                }
+            }
+        });
+    }
+    // Format 3: Direct chords array ({ chords: [ { time: 0, name: "Db" } ] } or { chords: [ { bar: 1, name: "Db" } ] })
+    else if (data.chords && Array.isArray(data.chords)) {
+        parsedChords = data.chords.map((c, idx) => {
+            let chordTime = 0;
+            if (c.time !== undefined) {
+                chordTime = Number(c.time) || 0;
+            } else if (c.bar !== undefined) {
+                const barNum = Number(c.bar) || (idx + 1);
+                const beat = Number(c.beat) || 1;
+                chordTime = (barNum - 1) * secondsPerBar + (beat - 1) * secondsPerBeat;
+            } else {
+                chordTime = idx * secondsPerBar;
+            }
+
+            const item = {
+                time: Math.round(chordTime * 1000) / 1000,
+                name: (c.name || c.chord || '').trim()
+            };
+            if (c.yOffset !== undefined) item.yOffset = c.yOffset;
+            if (c.lyricLineIdx !== undefined) item.lyricLineIdx = c.lyricLineIdx;
+            if (c.lyricWordIdx !== undefined) item.lyricWordIdx = c.lyricWordIdx;
+            if (c.isUserEdited !== undefined) item.isUserEdited = c.isUserEdited;
+            return item;
+        }).filter(c => c.name);
+    } else {
+        throw new Error('Invalid data format: no recognized chords, rows, or bars array');
+    }
+
+    if (parsedChords.length === 0) {
+        throw new Error('No chords found in file');
+    }
+
+    // Sort chords by time
+    parsedChords.sort((a, b) => a.time - b.time);
+
+    // Calculate duration
+    let duration = Number(data.duration);
+    if (!duration || isNaN(duration)) {
+        if (data.rows && Array.isArray(data.rows) && data.rows.length > 0) {
+            let maxRowNum = data.rows.length;
+            data.rows.forEach(r => {
+                const n = parseInt(r.row, 10);
+                if (!isNaN(n) && n > maxRowNum) maxRowNum = n;
+            });
+            const barsPerRow = Number(data.bars_per_row || data.barsPerRow) || 4;
+            duration = Math.max(Math.ceil(maxRowNum * barsPerRow * secondsPerBar) + 5, 60);
+        } else if (parsedChords.length > 0) {
+            duration = Math.max(Math.ceil(parsedChords[parsedChords.length - 1].time + (secondsPerBar * 2)), 60);
+        } else {
+            duration = 300;
+        }
+    }
+
+    return {
+        chords: parsedChords,
+        tempo: bpm,
+        duration: duration,
+        barOffset: data.barOffset || 0,
+        customMapSections: customSections,
+        title: data.title || data.name || data.songTitle || '',
+        artist: data.artist || '',
+        key: data.key || data.currentSongKey || '',
+        useFlatNotation: data.useFlatNotation,
+        suggestedChords: data.suggestedChords
+    };
+}
+
+function loadChordData(data) {
+    const normalized = normalizeChordData(data);
+
+    chords = normalized.chords;
+    const bpm = normalized.tempo;
+    const duration = normalized.duration;
+
+    // Update global state
+    currentTempo = bpm || null;
+    originalTempo = bpm || null;
+    const playbackBpm = bpm || 120;
+    secondsPerBeat = 60 / playbackBpm;
+    barOffsetInBeats = normalized.barOffset || 0;
+    originalBarOffset = barOffsetInBeats;
+    if (barOffsetDisplay) barOffsetDisplay.innerText = `Bar: ${barOffsetInBeats}`;
+
+    // Update Metadata: title, artist, key
+    if (normalized.title) {
+        currentFileName = normalized.title;
+    }
+    const songTitleDisplay = document.getElementById('songTitleDisplay');
+    if (songTitleDisplay && currentFileName) {
+        songTitleDisplay.textContent = currentFileName;
+    }
+    const artistDisplay = document.getElementById('artistDisplay');
+    if (artistDisplay && normalized.artist) {
+        artistDisplay.textContent = normalized.artist;
+    }
+    if (normalized.key) {
+        currentSongKey = normalized.key;
+        const keyDisplay = document.getElementById('timelineKeyDisplay');
+        if (keyDisplay) keyDisplay.innerText = currentSongKey;
+    }
+
+    // Flat notation toggle auto-detection
+    const midiNotationToggle = document.getElementById('midiNotationToggle');
+    if (midiNotationToggle) {
+        if (normalized.useFlatNotation !== undefined) {
+            midiNotationToggle.checked = !!normalized.useFlatNotation;
+        } else {
+            const hasFlats = (normalized.key && normalized.key.includes('b')) || chords.some(c => c.name && c.name.includes('b'));
+            if (hasFlats) midiNotationToggle.checked = true;
+        }
+        originalUseFlatNotation = midiNotationToggle.checked;
+    }
+
+    // Suggested Chords Toolbar
+    if (normalized.suggestedChords && Array.isArray(normalized.suggestedChords)) {
+        suggestedChords = normalized.suggestedChords;
+    } else {
+        const uniqueNames = [...new Set(chords.map(c => c.name).filter(Boolean))];
+        suggestedChords = [{
+            section: 'Imported Chords',
+            chords: uniqueNames
+        }];
+    }
+    try {
+        renderSuggestedChords(suggestedChords);
+    } catch (e) {
+        console.warn('Could not render suggested chords toolbar:', e);
+    }
 
     // Mock midi object for marker generation
     const mockMidi = {
+        duration: duration,
         tracks: [],
         bpm: bpm,
-        timeSignature: [4, 4]
+        timeSignature: [4, 4],
+        header: {
+            tempos: [{ bpm: bpm }],
+            timeSignatures: [{ timeSignature: [4, 4] }]
+        }
     };
     markers = generateMarkers(mockMidi);
     midiData = mockMidi;
 
-    customMapSections = data.customMapSections || null;
+    customMapSections = normalized.customMapSections || null;
     originalMapSectionsJson = JSON.stringify(customMapSections);
+    originalChordsJson = JSON.stringify(chords);
 
-    finishLoading(chords.length, bpm);
+    finishLoading(chords.length, playbackBpm);
+    if (bpmBtn) {
+        if (currentTempo) {
+            bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(currentTempo)}` : `${Math.round(currentTempo)} BPM`;
+        } else {
+            bpmBtn.innerText = window.innerWidth < 600 ? 'BPM' : '-- BPM';
+        }
+    }
+    if (currentTempo) {
+        statusText.innerText = window.innerWidth < 600 ? `${chords.length} chords` : `Ready! ${chords.length} chords. Tempo: ${Math.round(currentTempo)} BPM`;
+    } else {
+        statusText.innerText = window.innerWidth < 600 ? `${chords.length} chords` : `Ready! ${chords.length} chords.`;
+    }
+    checkForChanges();
+    saveToDatabase();
 }
 
 // Renders just the chord suggestion toolbar from a groups array
@@ -3591,10 +3855,19 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     }
 
     if (!data || !data.chords || !Array.isArray(data.chords)) {
-        console.warn('Scrolling Chords: data.chords missing or invalid, using empty array');
-        // Preserve tempo if it exists even if chords are missing
-        const preservedTempo = (data && data.tempo) ? Number(data.tempo) : 120;
-        data = { chords: [], duration: 300, tempo: preservedTempo };
+        if (data && (data.rows || data.bars)) {
+            try {
+                data = normalizeChordData(data);
+            } catch (e) {
+                console.warn('Scrolling Chords: Failed to normalize rows/bars in loadData:', e);
+            }
+        }
+        if (!data || !data.chords || !Array.isArray(data.chords)) {
+            console.warn('Scrolling Chords: data.chords missing or invalid, using empty array');
+            // Preserve tempo if it exists even if chords are missing
+            const preservedTempo = (data && (data.tempo || data.tempo_bpm || data.bpm)) ? Number(data.tempo || data.tempo_bpm || data.bpm) : null;
+            data = { chords: [], duration: 300, tempo: preservedTempo };
+        }
     }
 
     if (title) {
@@ -3638,7 +3911,9 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
     try {
         chords = data.chords || [];
         const duration = data.duration || (chords.length > 0 ? chords[chords.length - 1].time + 5 : 300);
-        const bpm = Number(data.tempo) || 120;
+        const rawBpm = (data && (data.tempo || data.tempo_bpm || data.bpm)) ? Number(data.tempo || data.tempo_bpm || data.bpm) : null;
+        const bpm = (!isNaN(rawBpm) && rawBpm > 0) ? rawBpm : null;
+        const playbackBpm = bpm || 120;
 
         barOffsetInBeats = data.barOffset || 0;
         originalBarOffset = barOffsetInBeats;
@@ -3687,15 +3962,21 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
 
         currentTempo = bpm;
         originalTempo = bpm;
-        secondsPerBeat = 60 / bpm;
-        if (bpmBtn) bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(bpm)}` : `${Math.round(bpm)} BPM`;
+        secondsPerBeat = 60 / playbackBpm;
+        if (bpmBtn) {
+            if (currentTempo) {
+                bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(currentTempo)}` : `${Math.round(currentTempo)} BPM`;
+            } else {
+                bpmBtn.innerText = window.innerWidth < 600 ? 'BPM' : '-- BPM';
+            }
+        }
 
         console.log('Scrolling Chords: loadData - data.tempo:', data.tempo, 'bpm:', bpm, 'currentTempo:', currentTempo);
 
         // Mock midi object for marker generation
         const mockMidi = {
             duration: duration,
-            header: { tempos: [{ bpm: bpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
+            header: { tempos: [{ bpm: playbackBpm }], timeSignatures: [{ timeSignature: [4, 4] }] }
         };
         markers = generateMarkers(mockMidi);
         midiData = mockMidi;
@@ -3720,7 +4001,7 @@ function loadData(data, url, title, inputSuggestedChords = [], artist = '', song
             });
         }
 
-        finishLoading(chords.length, bpm);
+        finishLoading(chords.length, playbackBpm);
 
         // Record original state for change detection
         originalChordsJson = JSON.stringify(chords);
@@ -3762,14 +4043,96 @@ async function processMidiFile(file) {
 
         // Extract chords
         chords = extractChordsFromMidi(midi);
-        markers = generateMarkers(midi);
 
         if (chords.length === 0) {
             statusText.innerText = 'No chords detected in MIDI file.';
             return;
         }
 
-        finishLoading(chords.length, Math.round(midi.header.tempos[0]?.bpm || 120));
+        // 1. Detect BPM from MIDI header
+        let detectedBpm = null;
+        if (midi.header && Array.isArray(midi.header.tempos) && midi.header.tempos.length > 0) {
+            for (const t of midi.header.tempos) {
+                if (typeof t.bpm === 'number' && t.bpm > 0) {
+                    detectedBpm = Math.round(t.bpm);
+                    break;
+                }
+            }
+        }
+
+        // 2. Detect BPM from filename if header had default 120 or was missing
+        // e.g. "Chordify_Madeline-Merlo-Bar-Fight-Official-Audio_Time_Aligned_150_BPM.mid"
+        const fnBpmMatch = file.name.match(/([0-9]{2,3})\s*(?:_|-|\s)?bpm/i) ||
+                           file.name.match(/bpm\s*(?:_|-|\s)?([0-9]{2,3})/i);
+        if (fnBpmMatch) {
+            const parsedFnBpm = parseInt(fnBpmMatch[1], 10);
+            if (parsedFnBpm >= 30 && parsedFnBpm <= 300) {
+                if (!detectedBpm || (detectedBpm === 120 && parsedFnBpm !== 120)) {
+                    detectedBpm = parsedFnBpm;
+                }
+            }
+        }
+
+        // 3. Set currentTempo and playback timing
+        const finalBpm = detectedBpm || null;
+        const playbackBpm = finalBpm || 120; // Fallback clock rate for ticker
+
+        currentTempo = finalBpm;
+        originalTempo = finalBpm;
+        secondsPerBeat = 60 / playbackBpm;
+
+        // Ensure midi header tempos has playbackBpm for markers
+        if (midi.header) {
+            if (Array.isArray(midi.header.tempos) && midi.header.tempos.length > 0) {
+                midi.header.tempos[0].bpm = playbackBpm;
+            } else {
+                midi.header.tempos = [{ bpm: playbackBpm }];
+            }
+        }
+        markers = generateMarkers(midi);
+
+        // Update file name and song title display
+        currentFileName = file.name.replace(/\.[^/.]+$/, "");
+        const songTitleDisplay = document.getElementById('songTitleDisplay');
+        if (songTitleDisplay && currentFileName) {
+            songTitleDisplay.textContent = currentFileName;
+        }
+
+        // Update suggested chords toolbar from chords extracted from MIDI
+        const uniqueNames = [...new Set(chords.map(c => c.name).filter(Boolean))];
+        suggestedChords = [{
+            section: 'Imported MIDI Chords',
+            chords: uniqueNames
+        }];
+        try {
+            renderSuggestedChords(suggestedChords);
+        } catch (e) {
+            console.warn('Could not render suggested chords toolbar:', e);
+        }
+
+        finishLoading(chords.length, playbackBpm);
+
+        // Update BPM button text
+        if (bpmBtn) {
+            if (currentTempo) {
+                bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(currentTempo)}` : `${Math.round(currentTempo)} BPM`;
+            } else {
+                bpmBtn.innerText = window.innerWidth < 600 ? 'BPM' : '-- BPM';
+            }
+        }
+
+        // Update status text
+        if (currentTempo) {
+            statusText.innerText = window.innerWidth < 600 ? `${chords.length} chords` : `Ready! ${chords.length} chords. Tempo: ${Math.round(currentTempo)} BPM`;
+        } else {
+            statusText.innerText = window.innerWidth < 600 ? `${chords.length} chords` : `Ready! ${chords.length} chords.`;
+        }
+
+        // Enable save button and mark changes
+        checkForChanges();
+
+        // Automatically sync/save to SongDetailModal so the parent window has the new chords & BPM immediately
+        saveToDatabase();
 
     } catch (error) {
         console.error(error);
@@ -3789,16 +4152,18 @@ function setupUIForLoading() {
 }
 
 function finishLoading(chordCount, bpm) {
-    statusText.innerText = window.innerWidth < 600 ? `${chordCount} chords` : `Ready! ${chordCount} chords. Tempo: ${Math.round(bpm)} BPM`;
-    if (bpmBtn) bpmBtn.innerText = window.innerWidth < 600 ? `${Math.round(bpm)}` : `${Math.round(bpm)} BPM`;
+    const displayBpm = currentTempo ? Math.round(currentTempo) : null;
+    statusText.innerText = window.innerWidth < 600 ? `${chordCount} chords` : (displayBpm ? `Ready! ${chordCount} chords. Tempo: ${displayBpm} BPM` : `Ready! ${chordCount} chords.`);
+    if (bpmBtn) bpmBtn.innerText = displayBpm ? (window.innerWidth < 600 ? `${displayBpm}` : `${displayBpm} BPM`) : (window.innerWidth < 600 ? 'BPM' : '-- BPM');
     playPauseBtn.disabled = false;
     exportBtn.disabled = false;
     if (saveBtn) saveBtn.disabled = false;
     if (clearDataBtn) clearDataBtn.disabled = false;
 
     // Update metronome timing
-    secondsPerBeat = 60 / bpm;
-    beatsPerBar = (midiData && midiData.header.timeSignatures[0]) ? midiData.header.timeSignatures[0].timeSignature[0] : 4;
+    const effectiveBpm = bpm || (currentTempo ? Math.round(currentTempo) : 120);
+    secondsPerBeat = 60 / effectiveBpm;
+    beatsPerBar = (midiData && midiData.header?.timeSignatures?.[0]) ? midiData.header.timeSignatures[0].timeSignature[0] : (midiData?.timeSignature?.[0] || 4);
 
     // Reset playback
     pause();
@@ -3839,7 +4204,7 @@ function getExportData() {
 
     return {
         name: currentFileName,
-        tempo: currentTempo,
+        tempo: currentTempo || null,
         barOffset: barOffsetInBeats,
         duration: duration,
         chords: chords.map(c => {
@@ -5027,8 +5392,8 @@ function generateMarkers(midi) {
     // Base duration of 5 minutes (300s) instead of 30 minutes (1800s) to prevent DOM overload
     const duration = Math.max(midi.duration || 0, playerDuration, maxChordTime, 300);
 
-    const bpm = midi.header.tempos[0]?.bpm || 120;
-    const timeSignature = midi.header.timeSignatures[0]?.timeSignature || [4, 4]; // [numerator, denominator]
+    const bpm = midi.header?.tempos?.[0]?.bpm || midi.bpm || 120;
+    const timeSignature = midi.header?.timeSignatures?.[0]?.timeSignature || midi.timeSignature || [4, 4]; // [numerator, denominator]
 
     const secondsPerBeat = 60 / bpm;
     const secondsPerBar = secondsPerBeat * timeSignature[0];
@@ -6476,6 +6841,116 @@ let currentMapZoomIndex = 0;
 let isPickerDragging = false;
 let pickerDragOffset = { x: 0, y: 0 };
 
+function fallbackCopyText(text) {
+    try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "-9999px";
+        textArea.setAttribute("readonly", "");
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+        return successful ? Promise.resolve() : Promise.reject();
+    } catch (err) {
+        return Promise.reject(err);
+    }
+}
+
+function showMapToast(message) {
+    let toast = document.getElementById("songMapToast");
+    const modalContent = document.querySelector(".map-modal-content") || document.getElementById("songMapOverlay") || document.body;
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "songMapToast";
+        toast.className = "song-map-toast";
+        modalContent.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.remove("show");
+    void toast.offsetWidth;
+    toast.classList.add("show");
+    clearTimeout(window._songMapToastTimer);
+    window._songMapToastTimer = setTimeout(() => {
+        if (toast) toast.classList.remove("show");
+    }, 1800);
+}
+
+function copySelectedMapChords(customStartIdx, customEndIdx) {
+    let start = (typeof customStartIdx === "number") ? customStartIdx : (mapSelectionState.active ? mapSelectionState.startIdx : -1);
+    let end = (typeof customEndIdx === "number") ? customEndIdx : (mapSelectionState.active ? (mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx) : -1);
+
+    if (start === -1 || !chords || chords.length === 0) {
+        showMapToast("Select chords first to copy");
+        return;
+    }
+
+    const minIdx = Math.max(0, Math.min(start, end));
+    const maxIdx = Math.min(chords.length - 1, Math.max(start, end));
+
+    const selectedSlice = chords.slice(minIdx, maxIdx + 1);
+    if (selectedSlice.length === 0) {
+        showMapToast("Select chords first to copy");
+        return;
+    }
+
+    const chordNames = selectedSlice.map(c => simplifyDisplayName(c.name || "")).filter(Boolean);
+    const textToCopy = chordNames.join(" ");
+
+    if (!textToCopy) {
+        showMapToast("No chords to copy");
+        return;
+    }
+
+    // Populate internal timeline clipboard for pasting in playhead (Ctrl+V)
+    clipboardChords = selectedSlice.map(c => ({
+        name: c.name,
+        time: c.time
+    }));
+    if (clipboardChords.length > 0) {
+        const firstTime = clipboardChords[0].time;
+        clipboardChords.forEach(c => {
+            c.relativeTime = c.time - firstTime;
+        });
+        isPasteMode = true;
+        if (duplicateBtn) {
+            duplicateBtn.innerHTML = PASTE_ICON;
+            duplicateBtn.title = "Paste Chords at Playhead (Ctrl+V)";
+            duplicateBtn.classList.add("paste-active");
+        }
+    }
+
+    const handleSuccess = () => {
+        const preview = textToCopy.length > 36 ? textToCopy.slice(0, 36) + "..." : textToCopy;
+        showMapToast(`📋 Copied: ${preview}`);
+
+        const copyBtn = document.getElementById("songMapCopyBtn");
+        if (copyBtn) {
+            copyBtn.classList.add("copied-anim");
+            setTimeout(() => {
+                if (copyBtn) copyBtn.classList.remove("copied-anim");
+            }, 600);
+        }
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy)
+            .then(handleSuccess)
+            .catch(() => {
+                fallbackCopyText(textToCopy).then(handleSuccess).catch(() => {
+                    showMapToast("Could not copy to clipboard");
+                });
+            });
+    } else {
+        fallbackCopyText(textToCopy).then(handleSuccess).catch(() => {
+            showMapToast("Could not copy to clipboard");
+        });
+    }
+}
+
 // Event Listeners for Song Map
 if (document.getElementById('songMapBtn')) {
     document.getElementById('songMapBtn').addEventListener('click', openSongMap);
@@ -6492,6 +6967,12 @@ if (document.getElementById('songMapDragToggleBtn')) {
         if (!isMapDragMode) {
             hideMapLabelPicker();
         }
+    });
+}
+if (document.getElementById('songMapCopyBtn')) {
+    document.getElementById('songMapCopyBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        copySelectedMapChords();
     });
 }
 if (document.getElementById('songMapZoomBtn')) {
@@ -6552,6 +7033,14 @@ if (document.getElementById('menuEditOption')) {
         // Update color to show active state
         const menuEditOption = document.getElementById('menuEditOption');
         if (menuEditOption) menuEditOption.style.color = isMapDragMode ? '#6366f1' : '#1e293b';
+    });
+}
+if (document.getElementById('menuCopyOption')) {
+    document.getElementById('menuCopyOption').addEventListener('click', (e) => {
+        e.stopPropagation();
+        copySelectedMapChords();
+        const menu = document.getElementById('songMapMobileMenu');
+        if (menu) menu.classList.add('hidden');
     });
 }
 
@@ -6943,6 +7432,13 @@ function populateSongMap() {
         }
     });
 
+    timelineContainer.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        if (mapSelectionState.active && mapSelectionState.startIdx !== -1) {
+            copySelectedMapChords();
+        }
+    });
+
     grid.appendChild(timelineContainer);
 
     let lastTimeMarkerReached = -1;
@@ -7078,6 +7574,21 @@ function populateSongMap() {
             // Never open label picker on dblclick
         });
 
+        btn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const minIdx = mapSelectionState.active ? Math.min(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx) : -1;
+            const maxIdx = mapSelectionState.active ? Math.max(mapSelectionState.startIdx, mapSelectionState.endIdx !== -1 ? mapSelectionState.endIdx : mapSelectionState.startIdx) : -1;
+
+            if (mapSelectionState.active && index >= minIdx && index <= maxIdx) {
+                copySelectedMapChords();
+            } else {
+                mapSelectionState = { active: true, startIdx: index, endIdx: index };
+                updateMapSelectionUI();
+                copySelectedMapChords(index, index);
+            }
+        });
+
         if (isSectionStart) {
             const sectionGroup = document.createElement('div');
             sectionGroup.className = 'map-section-group';
@@ -7106,6 +7617,17 @@ function updateMapSelectionUI() {
             btn.classList.remove('map-chord-selected');
         }
     });
+
+    const copyBtn = document.getElementById('songMapCopyBtn');
+    if (copyBtn) {
+        if (mapSelectionState.active && mapSelectionState.startIdx !== -1) {
+            copyBtn.classList.add('has-selection');
+            copyBtn.style.opacity = '1';
+        } else {
+            copyBtn.classList.remove('has-selection');
+            copyBtn.style.opacity = '0.6';
+        }
+    }
 }
 
 function handleMapChordClick(index) {

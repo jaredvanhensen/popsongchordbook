@@ -4408,6 +4408,55 @@ body.ctrl-held .chord-item {
     transform: translateY(0) !important;
 }
 
+#songMapCopyBtn {
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#songMapCopyBtn.has-selection {
+    opacity: 1 !important;
+    color: #4f46e5 !important;
+    border-color: #818cf8 !important;
+    background: #eef2ff !important;
+}
+
+#songMapCopyBtn.copied-anim {
+    background: #10b981 !important;
+    color: white !important;
+    border-color: #059669 !important;
+    transform: scale(1.12) !important;
+}
+
+.song-map-toast {
+    position: absolute;
+    top: 68px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(15, 23, 42, 0.92);
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 10002;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    white-space: nowrap;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-map-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(4px);
+}
+
 .luxury-save-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;

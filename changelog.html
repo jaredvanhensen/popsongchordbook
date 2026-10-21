@@ -309,6 +309,41 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.412</span>
+                    <span class="version-date">October 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Song Map: Copy Selected Chords to Clipboard:</strong>
+                            <ul>
+                                <li><strong>Right-Click Context Menu Copy:</strong> Right-clicking on any selected chord (or anywhere within the Song Map selection) instantly copies the selected chord sequence (e.g. <code>Db Ab AbM7 Ab</code>) to the system clipboard and internal timeline buffer, accompanied by a floating toast notification.</li>
+                                <li><strong>Touchscreen Toolbar Copy Button:</strong> Added a dedicated Copy icon button to the Song Map header toolbar (and mobile menu) so tablet and touch screen users can copy selected chords with a single tap.</li>
+                                <li><strong>Active Selection Feedback:</strong> The toolbar copy button dynamically illuminates when a chord selection is active, providing clear visual status.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.411</span>
+                    <span class="version-date">October 21, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Scrolling Chords Timeline: Import ChordAI &amp; Bar-Based JSON Files:</strong>
+                            <ul>
+                                <li><strong>ChordAI PDF Grid &amp; Slot Parsing:</strong> Added support for ChordAI PDF transcription exports formatted with row and slot grids (1-12 slots across 4 bars per line). Automatically translates slot offsets and measure rows into musical bars.</li>
+                                <li><strong>BPM-to-Seconds Calculation:</strong> Accurately calculates exact timestamps in seconds for each chord using the song's tempo (<code>tempo_bpm</code> / <code>bpm</code>) and time signature.</li>
+                                <li><strong>Metadata Extraction:</strong> Automatically loads song title, artist, musical key, and populates the audition chord toolbar buttons for immediate play and timing capture.</li>
+                                <li><strong>MIDI BPM Import &amp; Empty BPM Preservation:</strong> Fixed MIDI tempo import to detect BPM from MIDI header tempo events and filename suffixes (e.g. <code>_150_BPM</code>) and sync directly to the Song Detail modal. Songs without a known BPM now remain clean and empty instead of being forced to 120 BPM.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.410</span>
                     <span class="version-date">October 20, 2026</span>
                 </div>

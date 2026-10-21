@@ -772,6 +772,15 @@
                             </svg>
                         </button>
 
+                        <!-- Copy Selected Chords Button -->
+                        <button id="songMapCopyBtn" class="song-map-toolbar-btn" title="Copy Selected Chords to Clipboard">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+
                         <!-- YouTube Capture Shortcut -->
                         <button id="songMapYouTubeBtn" class="song-map-toolbar-btn" title="Capture Timing from YouTube">
                             <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
@@ -804,6 +813,10 @@
                         <div id="menuEditOption" class="mobile-menu-item">
                             <span class="menu-item-label">Edit Mode</span>
                             <span id="menuEditStatus" class="menu-item-value">OFF</span>
+                        </div>
+                        <div id="menuCopyOption" class="mobile-menu-item">
+                            <span class="menu-item-label">Copy Chords</span>
+                            <span class="menu-item-value">📋</span>
                         </div>
 
                     </div>
@@ -931,7 +944,7 @@
             <script src="js/data/UkuleleChordDatabase.js?v=3.325" defer></script>
             <script src="js/ui/ChordFinderModal.js?v=3.325" defer></script>
             <script src="js/ui/ChordProgressionEditor.js?v=3.325" defer></script>
-            <script src="js/scrolling_chords.js?v=3.406" defer></script>
+            <script src="js/scrolling_chords.js?v=3.412" defer></script>
 </body>
 </html>
 

@@ -1088,9 +1088,17 @@ class SongDetailModal {
                         const updates = { chordData: chordData };
                         
                         if (chordData.tempo) {
-                            updates.tempo = chordData.tempo;
+                            updates.tempo = Math.round(chordData.tempo);
                             if (this.bpmDisplay) {
                                 this.bpmDisplay.textContent = Math.round(chordData.tempo);
+                            }
+                        } else if (chordData.tempo === null || chordData.tempo === '') {
+                            // If timeline has no tempo, keep song tempo empty unless manually entered in modal
+                            if (!song.tempo) {
+                                updates.tempo = '';
+                                if (this.bpmDisplay) {
+                                    this.bpmDisplay.textContent = '';
+                                }
                             }
                         }
 
@@ -5708,8 +5716,8 @@ class SongDetailModal {
             return;
         }
 
-        const bpmText = song.tempo || (song.chordData ? song.chordData.tempo : '') || '';
-        this.bpmDisplay.textContent = bpmText;
+        const bpmText = song.tempo || (song.chordData && song.chordData.tempo ? song.chordData.tempo : '') || '';
+        this.bpmDisplay.textContent = bpmText ? Math.round(bpmText) : '';
 
         // Update badge visibility
         const container = this.bpmDisplay.closest('.song-detail-bpm-badge');
