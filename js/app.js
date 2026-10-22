@@ -3689,7 +3689,11 @@ class App {
 
             console.log('Processing extractor import for:', songToImport.title);
 
-            // Map the 6 potential extractor keys into the 4 internal blocks
+            if (songToImport._directBlocks) {
+                // Blocks are already explicitly assigned to Block 1 (verse), Block 2 (chorus), Block 3 (preChorus), Block 4 (bridge)
+                delete songToImport._directBlocks;
+            } else {
+                // Map the 6 potential extractor keys into the 4 internal blocks
             // PreChorus is placed BEFORE Chorus to ensure logical song structure
             const extractorKeys = ["intro", "verse", "preChorus", "chorus", "bridge", "outro"];
             const internalKeys = ["verse", "preChorus", "chorus", "bridge"];
@@ -3739,6 +3743,7 @@ class App {
             songToImport.chorus = tempPreChorus || '';
             songToImport.chorusTitle = tempPreChorusTitle || '';
             songToImport.chorusCue = tempPreChorusCue || '';
+            }
 
             const songName = `${songToImport.artist || 'Unknown'} - ${songToImport.title || 'Untitled'}`;
 

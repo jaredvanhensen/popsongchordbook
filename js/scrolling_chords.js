@@ -4170,16 +4170,16 @@ function finishLoading(chordCount, bpm) {
     pauseTime = 0;
     lastBeatPlayed = -1;
 
-    renderStaticElements();
-
     // Apply responsive zoom for mobile: show ~3 bars by default
     if (window.innerWidth < 600) {
-        const barDuration = (60 / bpm) * beatsPerBar;
+        const barDuration = (60 / effectiveBpm) * beatsPerBar;
         if (barDuration > 0) {
             const availableWidth = window.innerWidth - 80; // Margin for playhead and padding
             PIXELS_PER_SECOND = Math.max(MIN_PIXELS_PER_SECOND, Math.min(MAX_PIXELS_PER_SECOND, availableWidth / (3.1 * barDuration)));
         }
     }
+
+    renderStaticElements();
 
     // Give the browser 1 frame to render the DOM elements before updating their transform positions,
     // which prevents the "stacked on top of each other" bug on initial load.
@@ -6679,11 +6679,13 @@ function snapToGrid(time) {
 
 // --- Zoom Logic ---
 function updateTimelineZoomScale() {
+    const isMobilePortrait = window.innerWidth <= 600 && (!document.body || !document.body.classList.contains('is-mobile-landscape'));
+    // On mobile portrait, chord blocks should never shrink with horizontal timeline speed/tempo.
+    // They must maintain their standard touchable, readable size (scale = 1.0) consistently across all songs.
     const pps = (typeof PIXELS_PER_SECOND === 'number' && isFinite(PIXELS_PER_SECOND)) ? PIXELS_PER_SECOND : 100;
-    // Scale chord blocks proportionally with zoom level (100% zoom = 1.0)
-    // When zooming out (< 100 pps), chords shrink down proportionally (min 0.35 for readability)
-    // When zooming in (> 100 pps), allow slight increase up to 1.15 to preserve crispness
-    const zoomScale = Math.min(1.15, Math.max(0.35, pps / 100));
+    const zoomScale = isMobilePortrait 
+        ? 1.0 
+        : Math.min(1.15, Math.max(0.35, pps / 100));
     document.documentElement.style.setProperty('--chord-zoom-scale', zoomScale);
     const timelineEl = document.getElementById('timeline');
     if (timelineEl) {

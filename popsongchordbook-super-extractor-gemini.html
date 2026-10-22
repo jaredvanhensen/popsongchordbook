@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PopsongChordBook Super Converter (v3 - Multi-Section)</title>
+    <!-- Midi Parsing Library (Tone.js Midi) -->
+    <script src="https://unpkg.com/@tonejs/midi"></script>
 
     <style>
         body {
@@ -622,10 +624,443 @@
                 /* Keep Import Now at the top once visible inside the button-group */
             }
         }
+    
+        /* --- MIDI Import Styles --- */
+        .card-header.midi-header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 45%, #4f46e5 100%);
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: auto;
+            letter-spacing: 0.3px;
+        }
+
+        .midi-dropzone {
+            border: 2px dashed #10b981;
+            background: #f0fdf4;
+            transition: all 0.2s ease;
+            display: block;
+            cursor: pointer;
+            padding: 24px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .midi-dropzone:hover, .midi-dropzone.dragover {
+            border-color: #059669;
+            background: #dcfce7;
+            transform: scale(1.005);
+        }
+
+        .file-hint {
+            display: block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 0.85em;
+        }
+
+        .midi-yt-section {
+            margin-top: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .midi-field-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .field-sub {
+            display: block;
+            font-weight: normal;
+            color: #64748b;
+            font-size: 0.84em;
+            margin-top: 2px;
+        }
+
+        .midi-yt-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .midi-full-width {
+            flex: 1;
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            box-sizing: border-box;
+        }
+
+        .midi-clear-yt-btn {
+            padding: 0 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .midi-yt-badge {
+            margin-top: 10px;
+            padding: 9px 14px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            color: #065f46;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            word-break: break-all;
+        }
+
+        .midi-result-container {
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        .midi-meta-grid {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .midi-meta-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .midi-meta-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .midi-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .midi-text-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.98em;
+            font-weight: 600;
+            color: #1e293b;
+            background: #fff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .midi-text-input:focus {
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .midi-blocks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            margin-top: 6px;
+        }
+
+        .midi-blocks-header h3 {
+            margin: 0;
+            font-size: 1.15em;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .midi-pill-btn {
+            font-size: 0.82em;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .midi-blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .midi-block-card {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .midi-block-card:hover {
+            border-color: #10b981;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+        }
+
+        .midi-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .midi-block-title-input {
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            font-size: 0.92em;
+            color: #334155;
+            flex: 1;
+            outline: none;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .midi-block-title-input:focus {
+            background: #fff;
+            box-shadow: 0 0 0 2px #10b981;
+        }
+
+        .midi-block-tag {
+            font-size: 0.72em;
+            font-weight: 700;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .midi-block-textarea {
+            width: 100%;
+            height: 90px;
+            box-sizing: border-box;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #0f172a;
+            resize: vertical;
+            background: #fff;
+            outline: none;
+            line-height: 1.4;
+        }
+
+        .midi-block-textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .midi-timeline-card {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-top: 8px;
+        }
+
+        .midi-timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.88em;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .midi-count-badge {
+            font-size: 0.8em;
+            background: #cbd5e1;
+            color: #334155;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .midi-timeline-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88em;
+            color: #1e293b;
+            max-height: 80px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .btn-midi-import {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.15em;
+            font-weight: 700;
+            height: 50px;
+            padding: 0 28px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-midi-import:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
     </style>
 </head>
 
 <body>
+
+    
+    <!-- 0. MIDI Import Section (Top) -->
+    <div class="card" id="midiCard">
+        <div class="card-header midi-header">
+            <h2>🎹 Import MIDI (Chordify)</h2>
+            <span class="header-badge">Auto-Extract Chords, BPM &amp; Key</span>
+        </div>
+        <div class="card-body">
+            <div class="midi-import-container">
+                <label for="midiFileInput" class="file-input-wrapper midi-dropzone" id="midiDropZone">
+                    <span class="file-icon">🎹</span>
+                    <p id="midiFileName">Select or drop a Chordify .mid / .midi file</p>
+                    <span class="file-hint">Extracts Artist, Song Title, BPM, Key, and Chords into Blocks 1 - 4</span>
+                    <input type="file" id="midiFileInput" accept=".mid,.midi" style="display: none;">
+                </label>
+
+                <!-- YouTube Input -->
+                <div class="midi-yt-section">
+                    <label class="midi-field-label" for="midiYtInput">
+                        🎬 YouTube Video Link :
+                        <span class="field-sub">
+                            Paste YouTube URL (right-click video on YouTube Logo) &gt; "Copy Video URL"
+                        </span>
+                    </label>
+                    <div class="midi-yt-input-row">
+                        <input type="text" id="midiYtInput" class="header-search-input midi-full-width"
+                               placeholder="e.g. https://youtu.be/B_diAWMf0RE or paste YouTube link...">
+                        <button type="button" class="btn-secondary midi-clear-yt-btn" id="midiClearYtBtn" style="display: none;" onclick="clearMidiYt()">Clear</button>
+                    </div>
+                    <div id="midiYtDetectedBadge" class="midi-yt-badge" style="display: none;">
+                        <span>✅ <strong>YouTube Video Linked:</strong> <a id="midiYtLink" href="#" target="_blank" rel="noopener"></a></span>
+                    </div>
+                </div>
+
+                <!-- Extracted Metadata & 4 Blocks (hidden until file selected) -->
+                <div id="midiResultContainer" class="midi-result-container" style="display: none;">
+                    <!-- Metadata Row: Artist, Title, BPM, Key -->
+                    <div class="midi-meta-grid">
+                        <div class="midi-input-group">
+                            <label class="midi-field-label">Artist</label>
+                            <input type="text" id="midiArtist" class="midi-text-input" placeholder="Artist name">
+                        </div>
+                        <div class="midi-input-group">
+                            <label class="midi-field-label">Song Title</label>
+                            <input type="text" id="midiTitle" class="midi-text-input" placeholder="Song title">
+                        </div>
+                        <div class="midi-input-group">
+                            <label class="midi-field-label">BPM</label>
+                            <input type="number" id="midiBpm" class="midi-text-input" placeholder="120" min="40" max="300">
+                        </div>
+                        <div class="midi-input-group">
+                            <label class="midi-field-label">Key</label>
+                            <input type="text" id="midiKey" class="midi-text-input" placeholder="e.g. C or G#m">
+                        </div>
+                    </div>
+
+                    <!-- 4 Blocks: Block 1, Block 2, Block 3, Block 4 -->
+                    <div class="midi-blocks-header">
+                        <h3>🎼 Chord Blocks</h3>
+                        <div class="midi-blocks-actions">
+                            <button type="button" class="btn-secondary midi-pill-btn" onclick="autoDistributeMidiBlocks()" title="Re-distribute detected chords into Intro, Verse, Chorus, Pre-Chorus, Bridge">↺ Auto-Map Sections</button>
+                        </div>
+                    </div>
+
+                    <div class="midi-blocks-grid">
+                        <!-- BLOCK 1 -->
+                        <div class="midi-block-card">
+                            <div class="midi-block-header">
+                                <input type="text" id="midiBlock1Title" class="midi-block-title-input" value="Block 1 (Intro/Verse)">
+                                <span class="midi-block-tag">BLOCK 1</span>
+                            </div>
+                            <textarea id="midiBlock1Chords" class="midi-block-textarea" rows="3" placeholder="Verse / Intro chords..."></textarea>
+                        </div>
+
+                        <!-- BLOCK 2 -->
+                        <div class="midi-block-card">
+                            <div class="midi-block-header">
+                                <input type="text" id="midiBlock2Title" class="midi-block-title-input" value="Block 2 (Chorus)">
+                                <span class="midi-block-tag">BLOCK 2</span>
+                            </div>
+                            <textarea id="midiBlock2Chords" class="midi-block-textarea" rows="3" placeholder="Chorus chords..."></textarea>
+                        </div>
+
+                        <!-- BLOCK 3 -->
+                        <div class="midi-block-card">
+                            <div class="midi-block-header">
+                                <input type="text" id="midiBlock3Title" class="midi-block-title-input" value="Block 3 (Pre-Chorus)">
+                                <span class="midi-block-tag">BLOCK 3</span>
+                            </div>
+                            <textarea id="midiBlock3Chords" class="midi-block-textarea" rows="3" placeholder="Pre-Chorus / Pre-chord chords..."></textarea>
+                        </div>
+
+                        <!-- BLOCK 4 -->
+                        <div class="midi-block-card">
+                            <div class="midi-block-header">
+                                <input type="text" id="midiBlock4Title" class="midi-block-title-input" value="Block 4 (Bridge)">
+                                <span class="midi-block-tag">BLOCK 4</span>
+                            </div>
+                            <textarea id="midiBlock4Chords" class="midi-block-textarea" rows="3" placeholder="Bridge / Outro chords..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Progression View -->
+                    <div class="midi-timeline-card">
+                        <div class="midi-timeline-header">
+                            <span>🎵 Full Detected Timeline &amp; Chords:</span>
+                            <span id="midiChordCountBadge" class="midi-count-badge">0 chords</span>
+                        </div>
+                        <div id="midiTimelineSummary" class="midi-timeline-text"></div>
+                        <div id="midiTimelineBadge" style="margin-top: 8px; font-size: 0.88em; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; padding: 7px 12px; display: none;"></div>
+                    </div>
+
+                    <!-- Import Action Buttons -->
+                    <div class="button-group" style="margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                        <button id="importMidiBtn" type="button" class="btn-midi-import" onclick="importMidiSongNow()">🚀 IMPORT SONG NOW</button>
+                        <button type="button" class="btn-primary" style="height: 50px; display: inline-flex; align-items: center; justify-content: center;" onclick="loadMidiToJsonEditor()">📝 Edit in JSON Output</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 1. JSON Import Section (Top) -->
     <div class="card">
@@ -744,6 +1179,1056 @@
     </div>
 
     <script>
+
+        // ============================================================
+        // MIDI IMPORT ENGINE (Chordify support)
+        // ============================================================
+        let currentMidiParsedData = null;
+        let detectedMidiYouTubeUrl = '';
+
+        class MidiParser {
+            static parse(arrayBuffer, filename = '') {
+                const bytes = new Uint8Array(arrayBuffer);
+                let offset = 0;
+
+                function readString(len) {
+                    let s = '';
+                    for (let i = 0; i < len; i++) {
+                        s += String.fromCharCode(bytes[offset + i]);
+                    }
+                    offset += len;
+                    return s;
+                }
+
+                function readUInt32() {
+                    const val = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
+                    offset += 4;
+                    return val >>> 0;
+                }
+
+                function readUInt16() {
+                    const val = (bytes[offset] << 8) | bytes[offset + 1];
+                    offset += 2;
+                    return val;
+                }
+
+                function readVarInt() {
+                    let value = 0;
+                    while (offset < bytes.length) {
+                        const b = bytes[offset++];
+                        value = (value << 7) | (b & 0x7F);
+                        if ((b & 0x80) === 0) break;
+                    }
+                    return value;
+                }
+
+                if (readString(4) !== 'MThd') {
+                    throw new Error('Not a valid MIDI file (missing MThd header)');
+                }
+                const headerLen = readUInt32();
+                const format = readUInt16();
+                const ntracks = readUInt16();
+                const division = readUInt16();
+                if (headerLen > 6) {
+                    offset += (headerLen - 6);
+                }
+
+                let bpm = null;
+                let key = null;
+                let title = '';
+                let artist = '';
+                let textEvents = [];
+                let markers = [];
+                let rawNotes = [];
+                let tempos = [];
+
+                for (let t = 0; t < ntracks && offset < bytes.length; t++) {
+                    const chunkType = readString(4);
+                    const chunkLen = readUInt32();
+                    const trackEnd = offset + chunkLen;
+
+                    if (chunkType !== 'MTrk') {
+                        offset = trackEnd;
+                        continue;
+                    }
+
+                    let currentTick = 0;
+                    let runningStatus = 0;
+
+                    while (offset < trackEnd) {
+                        const delta = readVarInt();
+                        currentTick += delta;
+
+                        if (offset >= trackEnd) break;
+
+                        let status = bytes[offset];
+                        if ((status & 0x80) !== 0) {
+                            offset++;
+                            runningStatus = status;
+                        } else {
+                            status = runningStatus;
+                        }
+
+                        if (status === 0xFF) {
+                            const metaType = bytes[offset++];
+                            const metaLen = readVarInt();
+                            const metaData = bytes.slice(offset, offset + metaLen);
+                            offset += metaLen;
+
+                            if ([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07].includes(metaType)) {
+                                let text = '';
+                                try {
+                                    text = new TextDecoder('utf-8').decode(metaData).trim();
+                                } catch (e) {
+                                    text = String.fromCharCode(...metaData).trim();
+                                }
+
+                                if (metaType === 0x03) {
+                                    if (!title && text && text.toLowerCase() !== 'chords') {
+                                        title = text;
+                                    }
+                                } else if (metaType === 0x06) {
+                                    markers.push({ tick: currentTick, text });
+                                } else if (metaType === 0x01) {
+                                    textEvents.push({ tick: currentTick, text });
+                                }
+                            } else if (metaType === 0x51 && metaLen === 3) {
+                                const us = (metaData[0] << 16) | (metaData[1] << 8) | metaData[2];
+                                if (us > 0) {
+                                    const detectedBpm = Math.round(60000000 / us);
+                                    if (!bpm) bpm = detectedBpm;
+                                    tempos.push({ tick: currentTick, us: us, bpm: detectedBpm });
+                                }
+                            } else if (metaType === 0x59 && metaLen >= 2) {
+                                const sf = (metaData[0] << 24) >> 24;
+                                const mi = metaData[1];
+                                key = MidiParser.keyFromSignature(sf, mi);
+                            } else if (metaType === 0x2F) {
+                                break;
+                            }
+                        } else if (status === 0xF0 || status === 0xF7) {
+                            const sysexLen = readVarInt();
+                            offset += sysexLen;
+                        } else {
+                            const msgType = status & 0xF0;
+                            if (msgType === 0x90) {
+                                const note = bytes[offset++];
+                                const vel = bytes[offset++];
+                                if (vel > 0) {
+                                    rawNotes.push({ tick: currentTick, note, vel });
+                                }
+                            } else if (msgType === 0x80) {
+                                offset += 2;
+                            } else if (msgType === 0xC0 || msgType === 0xD0) {
+                                offset += 1;
+                            } else {
+                                offset += 2;
+                            }
+                        }
+                    }
+
+                    offset = trackEnd;
+                }
+
+                // Metadata extraction from filename or text
+                const fileMeta = MidiParser.parseFilename(filename);
+                if (fileMeta.bpm) {
+                    bpm = fileMeta.bpm; // Pickup BPM from filename (e.g. 130_BPM)
+                    // If filename specifies an explicit BPM (e.g. Chordify time-aligned export),
+                    // ensure our tempo map respects it:
+                    if (tempos.length === 0 || (tempos.length === 1 && tempos[0].bpm === 120 && fileMeta.bpm !== 120)) {
+                        const fileUs = Math.round(60000000 / fileMeta.bpm);
+                        tempos = [{ tick: 0, us: fileUs, bpm: fileMeta.bpm }];
+                    }
+                }
+                if (title) {
+                    const split = MidiParser.splitArtistTitle(title);
+                    if (split.artist && split.title) {
+                        artist = split.artist;
+                        title = split.title;
+                    }
+                }
+                if (!artist && fileMeta.artist) artist = fileMeta.artist;
+                if ((!title || title.toLowerCase() === 'chords' || title.toLowerCase().includes('track') || title.toLowerCase().includes('chordify')) && fileMeta.title) {
+                    title = fileMeta.title;
+                }
+
+                // Check text events for YouTube or Chordify URLs
+                let embeddedYt = '';
+                for (const te of textEvents) {
+                    const ytInfo = extractYouTubeInfo(te.text);
+                    if (ytInfo && ytInfo.cleanUrl) {
+                        embeddedYt = ytInfo.cleanUrl;
+                        break;
+                    }
+                }
+
+                // Chord extraction with exact seconds timing
+                const chordsWithTiming = MidiParser.detectChords(rawNotes, division, key, tempos, bpm || 120);
+
+                // Fallback Key Detection if key signature was not embedded
+                if (!key && chordsWithTiming.length > 0) {
+                    key = MidiParser.estimateKeyFromChords(chordsWithTiming);
+                }
+
+                // Group chords into structured sections with timing
+                const sections = MidiParser.groupIntoSections(chordsWithTiming, markers, division, tempos, bpm || 120);
+
+                // Calculate duration in seconds
+                let duration = 300;
+                if (chordsWithTiming.length > 0) {
+                    duration = Math.max(Math.ceil(chordsWithTiming[chordsWithTiming.length - 1].time + 10), 60);
+                }
+
+                const customMapSections = sections.map(s => ({
+                    name: s.name,
+                    time: s.time !== undefined ? s.time : 0,
+                    duration: s.duration !== undefined ? s.duration : 16,
+                    type: s.name.toLowerCase().includes('verse') ? 'verse' :
+                          s.name.toLowerCase().includes('chorus') ? 'chorus' :
+                          s.name.toLowerCase().includes('bridge') ? 'bridge' :
+                          s.name.toLowerCase().includes('intro') ? 'intro' :
+                          s.name.toLowerCase().includes('outro') ? 'outro' : 'verse'
+                }));
+
+                return {
+                    artist: artist || '',
+                    title: title || '',
+                    bpm: bpm || 120,
+                    key: key || 'C',
+                    duration,
+                    embeddedYt,
+                    markers,
+                    textEvents,
+                    tempos,
+                    chordsWithTiming,
+                    timelineChords: chordsWithTiming.map(c => ({ time: c.time, name: c.chord })),
+                    sections,
+                    customMapSections,
+                    division
+                };
+            }
+
+            static keyFromSignature(sf, mi) {
+                const majorKeys = {
+                    '-7': 'Cb', '-6': 'Gb', '-5': 'Db', '-4': 'Ab', '-3': 'Eb', '-2': 'Bb', '-1': 'F',
+                    '0': 'C', '1': 'G', '2': 'D', '3': 'A', '4': 'E', '5': 'B', '6': 'F#', '7': 'C#'
+                };
+                const minorKeys = {
+                    '-7': 'Abm', '-6': 'Ebm', '-5': 'Bbm', '-4': 'Fm', '-3': 'Cm', '-2': 'Gm', '-1': 'Dm',
+                    '0': 'Am', '1': 'Em', '2': 'Bm', '3': 'F#m', '4': 'C#m', '5': 'G#m', '6': 'D#m', '7': 'A#m'
+                };
+                return (mi === 1 ? minorKeys[String(sf)] : majorKeys[String(sf)]) || 'C';
+            }
+
+            static splitArtistTitle(str) {
+                let clean = str.replace(/\.midi?$/i, '')
+                               .replace(/\(chordify(\.net)?\)/ig, '')
+                               .replace(/_-_/g, ' - ')
+                               .replace(/_/g, ' ')
+                               .trim();
+                const parts = clean.split(/\s*[-–]\s*/);
+                if (parts.length >= 2) {
+                    return {
+                        artist: parts[0].trim(),
+                        title: parts.slice(1).join(' - ').trim()
+                    };
+                }
+                return { artist: '', title: clean };
+            }
+
+            static parseFilename(filename) {
+                if (!filename) return { artist: '', title: '', bpm: null };
+
+                // 1. Strip extension
+                let clean = filename.replace(/\.midi?$/i, '').trim();
+
+                // 2. Ignore / strip "Chordify_" or "Chordify-" prefix
+                clean = clean.replace(/^Chordify[_s-]*/i, '')
+                             .replace(/\(chordify(\.net)?\)/ig, '')
+                             .replace(/_chordify/ig, '');
+
+                // 3. Extract BPM from filename (e.g. "_130_BPM", "130_BPM", "-130-BPM", "130BPM")
+                let bpm = null;
+                const bpmMatch = clean.match(/[_s-](\d{2,3})[_s-]*BPM\b/i) || clean.match(/\bBPM[_s-]*(\d{2,3})\b/i);
+                if (bpmMatch) {
+                    bpm = parseInt(bpmMatch[1], 10);
+                    clean = clean.replace(bpmMatch[0], '');
+                }
+
+                // 4. Strip export modes: Time_Aligned, Fixed_Tempo, Video, Audio
+                clean = clean.replace(/[_s-]*Time[_s-]+Aligned/ig, '')
+                             .replace(/[_s-]*Fixed[_s-]+Tempo/ig, '')
+                             .replace(/[_s-]*Official[_s-]+(Video|Audio|Music[_s-]+Video)/ig, '')
+                             .replace(/[_s-]+(Video|Audio)\b/ig, '')
+                             .replace(/_+/g, ' ')
+                             .trim();
+
+                // 5. Extract Artist and Title
+                let artist = '';
+                let title = '';
+
+                if (clean.includes(' - ') || clean.includes(' – ')) {
+                    const parts = clean.split(/\s*[-–]\s*/);
+                    artist = parts[0].trim();
+                    title = parts.slice(1).join(' - ').trim();
+                } else if (clean.includes('-')) {
+                    const words = clean.split(/\s*-\s*/);
+                    if (words.length === 4) {
+                        artist = words.slice(0, 2).join(' ');
+                        title = words.slice(2).join(' ');
+                    } else if (words.length === 3) {
+                        artist = words[0];
+                        title = words.slice(1).join(' ');
+                    } else if (words.length >= 5 && words[0].toLowerCase() === 'the') {
+                        artist = words.slice(0, 2).join(' ');
+                        title = words.slice(2).join(' ');
+                    } else {
+                        title = words.join(' ');
+                    }
+                } else {
+                    title = clean;
+                }
+
+                return { artist, title, bpm, rawClean: clean };
+            }
+
+            static estimateKeyFromChords(chords) {
+                if (!chords || chords.length === 0) return 'C';
+                // First or most frequent chord root is often the key
+                const counts = {};
+                for (const c of chords) {
+                    const root = c.chord;
+                    counts[root] = (counts[root] || 0) + 1;
+                }
+                const first = chords[0].chord;
+                if (counts[first] && counts[first] >= 2) return first;
+                const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+                return sorted[0] ? sorted[0][0] : 'C';
+            }
+
+            static tickToSeconds(targetTick, tempos, division, fallbackBpm = 120) {
+                const defaultUs = Math.round(60000000 / (fallbackBpm || 120));
+                const div = division || 480;
+                if (!tempos || tempos.length === 0) {
+                    return Math.round(((targetTick * defaultUs) / (div * 1000000)) * 1000) / 1000;
+                }
+                const sorted = [...tempos].sort((a, b) => a.tick - b.tick);
+                let currentTime = 0;
+                let currentTick = 0;
+                let currentUs = (sorted[0].tick === 0 && sorted[0].us) ? sorted[0].us : defaultUs;
+
+                for (let i = 0; i < sorted.length; i++) {
+                    const t = sorted[i];
+                    if (targetTick <= t.tick) {
+                        break;
+                    }
+                    currentTime += ((t.tick - currentTick) * currentUs) / (div * 1000000);
+                    currentTick = t.tick;
+                    currentUs = t.us;
+                }
+                currentTime += ((targetTick - currentTick) * currentUs) / (div * 1000000);
+                return Math.round(currentTime * 1000) / 1000;
+            }
+
+            static detectChords(rawNotes, division, keyContext, tempos = [], fallbackBpm = 120) {
+                if (!rawNotes || rawNotes.length === 0) return [];
+                rawNotes.sort((a, b) => a.tick - b.tick);
+
+                const windowSize = Math.max(30, Math.floor((division || 480) / 4));
+                const clusters = [];
+                let curCluster = null;
+
+                for (const n of rawNotes) {
+                    if (!curCluster || (n.tick - curCluster.tick > windowSize)) {
+                        curCluster = { tick: n.tick, notes: [n.note] };
+                        clusters.push(curCluster);
+                    } else {
+                        if (!curCluster.notes.includes(n.note)) {
+                            curCluster.notes.push(n.note);
+                        }
+                    }
+                }
+
+                const preferFlats = keyContext && (keyContext.includes('b') || ['F', 'Dm', 'Gm', 'Cm', 'Fm', 'Bbm', 'Ebm'].includes(keyContext));
+                const results = [];
+                let lastChordName = null;
+
+                for (const c of clusters) {
+                    const chordName = MidiParser.identifyChord(c.notes, preferFlats);
+                    if (chordName && chordName !== lastChordName) {
+                        const timeInSec = MidiParser.tickToSeconds(c.tick, tempos, division, fallbackBpm);
+                        results.push({
+                            tick: c.tick,
+                            time: timeInSec,
+                            chord: chordName,
+                            name: chordName,
+                            notes: c.notes
+                        });
+                        lastChordName = chordName;
+                    }
+                }
+                return results;
+            }
+
+            static identifyChord(notes, preferFlats = false) {
+                if (!notes || notes.length === 0) return '';
+                notes.sort((a, b) => a - b);
+                const bassNote = notes[0];
+                const pitchClasses = [...new Set(notes.map(n => n % 12))];
+
+                const sharpNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+                const flatNames  = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+                const noteNames  = preferFlats ? flatNames : sharpNames;
+
+                if (pitchClasses.length === 1) {
+                    return noteNames[pitchClasses[0]];
+                }
+
+                const chordTemplates = [
+                    { name: '',      intervals: [0, 4, 7] },
+                    { name: 'm',     intervals: [0, 3, 7] },
+                    { name: '7',     intervals: [0, 4, 7, 10] },
+                    { name: 'maj7',  intervals: [0, 4, 7, 11] },
+                    { name: 'm7',    intervals: [0, 3, 7, 10] },
+                    { name: 'sus4',  intervals: [0, 5, 7] },
+                    { name: '2',     intervals: [0, 2, 7] },
+                    { name: 'dim',   intervals: [0, 3, 6] },
+                    { name: 'dim7',  intervals: [0, 3, 6, 9] },
+                    { name: 'm7b5',  intervals: [0, 3, 6, 10] },
+                    { name: 'aug',   intervals: [0, 4, 8] },
+                    { name: '6',     intervals: [0, 4, 7, 9] },
+                    { name: 'm6',    intervals: [0, 3, 7, 9] },
+                    { name: 'add9',  intervals: [0, 2, 4, 7] },
+                    { name: '5',     intervals: [0, 7] }
+                ];
+
+                let bestMatch = null;
+                let bestScore = -1;
+
+                for (const root of pitchClasses) {
+                    const relPcs = pitchClasses.map(pc => (pc - root + 12) % 12).sort((a, b) => a - b);
+
+                    for (const tmpl of chordTemplates) {
+                        const tmplInt = tmpl.intervals.slice().sort((a, b) => a - b);
+                        const matchCount = relPcs.filter(i => tmplInt.includes(i)).length;
+                        const penalty = (relPcs.length - matchCount) + (tmplInt.length - matchCount);
+
+                        if (matchCount === tmplInt.length && penalty === 0) {
+                            const isBassRoot = (bassNote % 12) === root;
+                            const score = 100 + (isBassRoot ? 10 : 0) - tmpl.name.length;
+                            if (score > bestScore) {
+                                bestScore = score;
+                                bestMatch = { root, name: tmpl.name, bass: bassNote % 12 };
+                            }
+                        } else if (matchCount >= 3 && penalty <= 1 && (matchCount / tmplInt.length) >= 0.75) {
+                            const isBassRoot = (bassNote % 12) === root;
+                            const score = 50 + matchCount * 10 - penalty * 5 + (isBassRoot ? 5 : 0);
+                            if (score > bestScore) {
+                                bestScore = score;
+                                bestMatch = { root, name: tmpl.name, bass: bassNote % 12 };
+                            }
+                        }
+                    }
+                }
+
+                if (bestMatch) {
+                    const rootName = noteNames[bestMatch.root];
+                    let chordStr = rootName + bestMatch.name;
+                    if (bestMatch.bass !== bestMatch.root && pitchClasses.length > 2) {
+                        const bassName = noteNames[bestMatch.bass];
+                        const bassInterval = (bestMatch.bass - bestMatch.root + 12) % 12;
+                        if ([3, 4, 7, 10, 11].includes(bassInterval)) {
+                            chordStr += '/' + bassName;
+                        }
+                    }
+                    return chordStr;
+                }
+
+                return noteNames[bassNote % 12];
+            }
+
+            static groupIntoSections(chordsWithTiming, markers, division = 480, tempos = [], bpm = 120) {
+                const sections = [];
+                // 1. If section markers exist (Intro, Verse, Chorus, etc.)
+                if (markers && markers.length > 0) {
+                    const sortedMarkers = [...markers].sort((a, b) => a.tick - b.tick);
+                    for (let i = 0; i < sortedMarkers.length; i++) {
+                        const m = sortedMarkers[i];
+                        const startTick = m.tick;
+                        const endTick = (i + 1 < sortedMarkers.length) ? sortedMarkers[i + 1].tick : Infinity;
+                        const sectionChords = chordsWithTiming
+                            .filter(c => c.tick >= startTick && c.tick < endTick);
+
+                        if (sectionChords.length > 0) {
+                            const startTime = sectionChords[0].time;
+                            const nextChord = chordsWithTiming.find(c => c.tick >= endTick);
+                            const endTime = nextChord ? nextChord.time : (sectionChords[sectionChords.length - 1].time + 8);
+                            sections.push({
+                                name: m.text,
+                                time: startTime,
+                                duration: Math.max(1, Math.round((endTime - startTime) * 1000) / 1000),
+                                chords: sectionChords.map(c => c.chord)
+                            });
+                        }
+                    }
+                }
+
+                if (sections.length > 0) {
+                    return sections;
+                }
+
+                // 2. If no markers, segment chord sequence into 4-bar phrases and group patterns
+                if (chordsWithTiming.length === 0) return [];
+
+                const chunkSize = 4;
+                const phraseMap = new Map();
+                for (let i = 0; i < chordsWithTiming.length; i += chunkSize) {
+                    const phraseChords = chordsWithTiming.slice(i, i + chunkSize);
+                    const phraseNames = phraseChords.map(c => c.chord);
+                    const phraseStr = phraseNames.join(' ');
+                    if (!phraseMap.has(phraseStr)) {
+                        phraseMap.set(phraseStr, {
+                            phrase: phraseNames,
+                            time: phraseChords[0].time,
+                            count: 0,
+                            firstIndex: i
+                        });
+                    }
+                    phraseMap.get(phraseStr).count++;
+                }
+
+                const uniquePhrases = Array.from(phraseMap.entries())
+                    .map(([str, data]) => ({ str, ...data }))
+                    .sort((a, b) => a.firstIndex - b.firstIndex);
+
+                const sectionLabels = ['Intro / Verse', 'Chorus', 'Pre-Chorus', 'Bridge', 'Outro', 'Solo'];
+                return uniquePhrases.map((p, idx) => ({
+                    name: sectionLabels[idx] || `Section ${idx + 1}`,
+                    time: p.time,
+                    chords: p.phrase,
+                    count: p.count
+                }));
+            }
+        }
+
+        // --- Enhanced YouTube, Chordify Page, & Frame Source Extraction ---
+        function parseChordifyInput(input) {
+            if (!input || typeof input !== 'string') return {};
+            const str = input.trim();
+            const result = {};
+
+            // 1. YouTube Video ID / URL
+            const urlPatterns = [
+                /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube-nocookie\.com\/embed\/)([a-zA-Z0-9_-]{11})/i,
+                /[?&]v=([a-zA-Z0-9_-]{11})/i,
+                /\/embed\/([a-zA-Z0-9_-]{11})/i,
+                /\/shorts\/([a-zA-Z0-9_-]{11})/i,
+                /"video_id"\s*:\s*"([a-zA-Z0-9_-]{11})"/i,
+                /"videoId"\s*:\s*"([a-zA-Z0-9_-]{11})"/i,
+                /\\?"video_id\\?"\s*:\s*\\?"([a-zA-Z0-9_-]{11})\\?"/i,
+                /watch\?v=([a-zA-Z0-9_-]{11})/i
+            ];
+            for (const pat of urlPatterns) {
+                const m = str.match(pat);
+                if (m && m[1]) {
+                    result.youtubeUrl = `https://www.youtube.com/watch?v=${m[1]}`;
+                    result.videoId = m[1];
+                    break;
+                }
+            }
+
+            // 2. BPM (e.g. "130 BPM", "BPM 130", "bpm": 130)
+            const bpmPatterns = [
+                /\b(\d{2,3})\s*BPM\b/i,
+                /\bBPM\s*[:\s]\s*(\d{2,3})\b/i,
+                /"bpm"\s*:\s*(\d{2,3})/i
+            ];
+            for (const pat of bpmPatterns) {
+                const m = str.match(pat);
+                if (m && m[1]) {
+                    const b = parseInt(m[1]);
+                    if (b >= 40 && b <= 300) {
+                        result.bpm = b;
+                        break;
+                    }
+                }
+            }
+
+            // 3. Key / Toonsoort (e.g. "TOONSOORT Am", "Toonsoort: Am", "Key: C#m", "Am TRANSPOONER", "TRANSPOSE Am")
+            const keyPatterns = [
+                /(?:toonsoort|key)\s*[:\s]\s*([A-G][b#]?(?:m|maj|min)?)\b/i,
+                /\b([A-G][b#]?(?:m|maj|min)?)\s*transpooner\b/i,
+                /\btransponeer\s*([A-G][b#]?(?:m|maj|min)?)\b/i,
+                /"key"\s*:\s*"([A-G][b#]?(?:m|maj|min)?)"/i
+            ];
+            for (const pat of keyPatterns) {
+                const m = str.match(pat);
+                if (m && m[1]) {
+                    result.key = m[1];
+                    break;
+                }
+            }
+
+            // 4. Artist and Title from Chordify format: "Title Door Artist" or slug
+            const mDoor = str.match(/([^\n\r\t]+?)\s+(?:door|by)\s+([^\n\r\t]+)/i);
+            if (mDoor && mDoor[1] && mDoor[2]) {
+                const titleClean = mDoor[1].replace(/<[^>]+>/g, '').trim();
+                const artistClean = mDoor[2].replace(/<[^>]+>/g, '').split(/[•\n\r|]/)[0].trim();
+                if (titleClean.length > 0 && titleClean.length < 60 && artistClean.length > 0 && artistClean.length < 60) {
+                    result.title = titleClean;
+                    result.artist = artistClean;
+                }
+            }
+
+            const mSlug = str.match(/chordify\.net\/chords\/([a-z0-9-]+)-songs\/([a-z0-9-]+)-chords/i);
+            if (mSlug && (!result.artist || !result.title)) {
+                const toTitle = s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                result.artist = toTitle(mSlug[1]);
+                result.title = toTitle(mSlug[2]);
+            } else {
+                const mSlugSimple = str.match(/chordify\.net\/chords\/([a-z0-9-]+)-chords/i);
+                if (mSlugSimple && (!result.artist || !result.title)) {
+                    const toTitle = s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    result.title = toTitle(mSlugSimple[1]);
+                }
+            }
+
+            return result;
+        }
+
+        // Backward compatibility helper
+        function extractYouTubeInfo(input) {
+            const parsed = parseChordifyInput(input);
+            if (parsed.youtubeUrl) {
+                return { videoId: parsed.videoId, cleanUrl: parsed.youtubeUrl };
+            }
+            const chordifyMatch = (typeof input === 'string') && input.match(/chordify\.net\/chords\/([a-zA-Z0-9_-]+)/i);
+            if (chordifyMatch) {
+                return {
+                    chordifySlug: chordifyMatch[1],
+                    chordifyUrl: `https://chordify.net/chords/${chordifyMatch[1]}`
+                };
+            }
+            return null;
+        }
+
+        function handleMidiYtInputChange() {
+            const inputEl = document.getElementById('midiYtInput');
+            const clearBtn = document.getElementById('midiClearYtBtn');
+            const badge = document.getElementById('midiYtDetectedBadge');
+            const link = document.getElementById('midiYtLink');
+
+            const val = inputEl.value.trim();
+            clearBtn.style.display = val ? 'inline-block' : 'none';
+
+            const extracted = parseChordifyInput(val);
+
+            // Apply YouTube Video Link
+            if (extracted.youtubeUrl) {
+                detectedMidiYouTubeUrl = extracted.youtubeUrl;
+                link.href = extracted.youtubeUrl;
+                link.textContent = extracted.youtubeUrl;
+                badge.style.display = 'flex';
+            } else {
+                detectedMidiYouTubeUrl = '';
+                badge.style.display = 'none';
+            }
+
+            // Apply BPM if detected
+            if (extracted.bpm) {
+                const bpmEl = document.getElementById('midiBpm');
+                if (bpmEl) bpmEl.value = extracted.bpm;
+            }
+
+            // Apply Key if detected
+            if (extracted.key) {
+                const keyEl = document.getElementById('midiKey');
+                if (keyEl) keyEl.value = extracted.key;
+            }
+
+            // Apply Artist & Title if detected
+            if (extracted.artist) {
+                const artistEl = document.getElementById('midiArtist');
+                if (artistEl && (!artistEl.value || artistEl.value === 'Unknown Artist')) {
+                    artistEl.value = extracted.artist;
+                }
+            }
+            if (extracted.title) {
+                const titleEl = document.getElementById('midiTitle');
+                if (titleEl && (!titleEl.value || titleEl.value === 'Untitled')) {
+                    titleEl.value = extracted.title;
+                }
+            }
+
+            // Show extraction badges / feedback
+            if (extracted.bpm || extracted.key || extracted.artist) {
+                const details = [];
+                if (extracted.bpm) details.push(`BPM: ${extracted.bpm}`);
+                if (extracted.key) details.push(`Key: ${extracted.key}`);
+                if (extracted.artist && extracted.title) details.push(`${extracted.artist} – ${extracted.title}`);
+                
+                badge.style.display = 'flex';
+                if (!extracted.youtubeUrl) {
+                    badge.innerHTML = `<span>✅ <strong>Extracted from Chordify text:</strong> ${details.join(' &middot; ')}</span>`;
+                } else {
+                    badge.innerHTML = `<span>✅ <strong>Video Linked:</strong> <a href="${extracted.youtubeUrl}" target="_blank" rel="noopener" style="color: #059669; font-weight: 600; text-decoration: underline;">${extracted.youtubeUrl}</a> &middot; (${details.join(', ')})</span>`;
+                }
+            }
+        }
+
+        function clearMidiYt() {
+            const inputEl = document.getElementById('midiYtInput');
+            inputEl.value = '';
+            handleMidiYtInputChange();
+        }
+
+        document.getElementById('midiYtInput').addEventListener('input', handleMidiYtInputChange);
+
+        // --- Drag & Drop for MIDI ---
+        const midiDropZone = document.getElementById('midiDropZone');
+        ['dragenter', 'dragover'].forEach(eventName => {
+            midiDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                midiDropZone.classList.add('dragover');
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            midiDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                midiDropZone.classList.remove('dragover');
+            }, false);
+        });
+        midiDropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                processMidiFile(files[0]);
+            }
+        });
+
+        document.getElementById('midiFileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                processMidiFile(file);
+            }
+        });
+
+        function processMidiFile(file) {
+            if (!file) return;
+            document.getElementById('midiFileName').textContent = `Selected: ${file.name}`;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const arrayBuffer = e.target.result;
+                    const parsed = MidiParser.parse(arrayBuffer, file.name);
+
+                    // If Tone.js Midi is loaded, check if we can refine duration or notes
+                    if (typeof Midi !== 'undefined') {
+                        try {
+                            const toneMidi = new Midi(arrayBuffer);
+                            if (toneMidi && toneMidi.duration && !isNaN(toneMidi.duration)) {
+                                parsed.duration = Math.ceil(toneMidi.duration);
+                            }
+                        } catch (tErr) {
+                            console.warn('Tone.js inspection warning:', tErr);
+                        }
+                    }
+
+                    currentMidiParsedData = parsed;
+                    renderMidiParsedData(parsed);
+                } catch (err) {
+                    console.error('MIDI parse error:', err);
+                    alert('Could not parse MIDI file: ' + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function renderMidiParsedData(parsed) {
+            document.getElementById('midiResultContainer').style.display = 'block';
+
+            document.getElementById('midiArtist').value = parsed.artist || '';
+            document.getElementById('midiTitle').value = parsed.title || '';
+            document.getElementById('midiBpm').value = parsed.bpm || 120;
+            document.getElementById('midiKey').value = parsed.key || 'C';
+
+            // Check if YouTube URL was in MIDI or already entered
+            if (parsed.embeddedYt && !detectedMidiYouTubeUrl) {
+                document.getElementById('midiYtInput').value = parsed.embeddedYt;
+                handleMidiYtInputChange();
+            }
+
+            // Distribute chords to Blocks 1 - 4
+            distributeMidiBlocks(parsed);
+
+            // Timeline Summary & Badge
+            const totalChords = parsed.chordsWithTiming.length;
+            document.getElementById('midiChordCountBadge').textContent = `${totalChords} timed chords`;
+
+            const badgeEl = document.getElementById('midiTimelineBadge');
+            if (badgeEl) {
+                badgeEl.style.display = 'block';
+                badgeEl.innerHTML = `⏱️ <strong>Scrolling Chords Timeline Ready:</strong> Exact chord timings from this MIDI file (${totalChords} chord markers at ${parsed.bpm} BPM) are prepared and will automatically open with the song in the Scrolling Timeline.`;
+            }
+
+            let timelineText = '';
+            if (parsed.sections && parsed.sections.length > 0) {
+                timelineText = parsed.sections.map(s => {
+                    const compressed = ultraCompress(s.chords);
+                    const timeStr = (s.time !== undefined) ? ` [${Math.floor(s.time / 60)}:${String(Math.floor(s.time % 60)).padStart(2, '0')}]` : '';
+                    return `[${s.name.toUpperCase()}${timeStr}]: ${compressed}`;
+                }).join('\n');
+            } else {
+                timelineText = ultraCompress(parsed.chordsWithTiming.map(c => c.chord));
+            }
+            document.getElementById('midiTimelineSummary').textContent = timelineText;
+        }
+
+        function distributeMidiBlocks(parsed) {
+            const sections = parsed.sections || [];
+
+            // Map sections to Blocks:
+            // Block 1: Intro or Verse
+            // Block 2: Chorus
+            // Block 3: Pre-Chorus
+            // Block 4: Bridge or Outro
+            let b1 = { title: 'Block 1 (Intro/Verse)', chords: '' };
+            let b2 = { title: 'Block 2 (Chorus)', chords: '' };
+            let b3 = { title: 'Block 3 (Pre-Chorus)', chords: '' };
+            let b4 = { title: 'Block 4 (Bridge)', chords: '' };
+
+            if (sections.length > 0) {
+                const findSection = (keywords) => {
+                    return sections.find(s => {
+                        const name = s.name.toLowerCase();
+                        return keywords.some(k => name.includes(k));
+                    });
+                };
+
+                const introSec = findSection(['intro']);
+                const verseSec = findSection(['verse', 'couplet']);
+                const chorusSec = findSection(['chorus', 'refrein']);
+                const preChorusSec = findSection(['pre', 'pre-chorus', 'prechorus']);
+                const bridgeSec = findSection(['bridge', 'brug', 'solo', 'outro']);
+
+                // Block 1: Verse (or Intro + Verse)
+                if (verseSec) {
+                    b1.title = verseSec.name;
+                    b1.chords = ultraCompress(verseSec.chords);
+                } else if (introSec) {
+                    b1.title = introSec.name;
+                    b1.chords = ultraCompress(introSec.chords);
+                } else if (sections[0]) {
+                    b1.title = sections[0].name;
+                    b1.chords = ultraCompress(sections[0].chords);
+                }
+
+                // Block 2: Chorus
+                if (chorusSec) {
+                    b2.title = chorusSec.name;
+                    b2.chords = ultraCompress(chorusSec.chords);
+                } else if (sections[1]) {
+                    b2.title = sections[1].name;
+                    b2.chords = ultraCompress(sections[1].chords);
+                }
+
+                // Block 3: Pre-Chorus
+                if (preChorusSec) {
+                    b3.title = preChorusSec.name;
+                    b3.chords = ultraCompress(preChorusSec.chords);
+                } else if (sections[2]) {
+                    b3.title = sections[2].name;
+                    b3.chords = ultraCompress(sections[2].chords);
+                }
+
+                // Block 4: Bridge
+                if (bridgeSec) {
+                    b4.title = bridgeSec.name;
+                    b4.chords = ultraCompress(bridgeSec.chords);
+                } else if (sections[3]) {
+                    b4.title = sections[3].name;
+                    b4.chords = ultraCompress(sections[3].chords);
+                }
+            } else {
+                // Raw chords fallback: split progression into 4 blocks
+                const allChords = parsed.chordsWithTiming.map(c => c.chord);
+                const chunk = Math.ceil(allChords.length / 4);
+                if (allChords.length > 0) {
+                    b1.chords = ultraCompress(allChords.slice(0, chunk));
+                    b2.chords = ultraCompress(allChords.slice(chunk, chunk * 2));
+                    b3.chords = ultraCompress(allChords.slice(chunk * 2, chunk * 3));
+                    b4.chords = ultraCompress(allChords.slice(chunk * 3));
+                }
+            }
+
+            document.getElementById('midiBlock1Title').value = b1.title;
+            document.getElementById('midiBlock1Chords').value = b1.chords;
+
+            document.getElementById('midiBlock2Title').value = b2.title;
+            document.getElementById('midiBlock2Chords').value = b2.chords;
+
+            document.getElementById('midiBlock3Title').value = b3.title;
+            document.getElementById('midiBlock3Chords').value = b3.chords;
+
+            document.getElementById('midiBlock4Title').value = b4.title;
+            document.getElementById('midiBlock4Chords').value = b4.chords;
+        }
+
+        function autoDistributeMidiBlocks() {
+            if (currentMidiParsedData) {
+                distributeMidiBlocks(currentMidiParsedData);
+            }
+        }
+
+        function buildSongFromMidiInputs() {
+            const artist = document.getElementById('midiArtist').value.trim() || 'Unknown Artist';
+            const title = document.getElementById('midiTitle').value.trim() || 'Untitled';
+            const tempo = document.getElementById('midiBpm').value.trim() || '120';
+            const key = document.getElementById('midiKey').value.trim() || 'C';
+
+            const b1Title = document.getElementById('midiBlock1Title').value.trim() || 'Verse';
+            const b1Chords = document.getElementById('midiBlock1Chords').value.trim();
+
+            const b2Title = document.getElementById('midiBlock2Title').value.trim() || 'Chorus';
+            const b2Chords = document.getElementById('midiBlock2Chords').value.trim();
+
+            const b3Title = document.getElementById('midiBlock3Title').value.trim() || 'Pre-Chorus';
+            const b3Chords = document.getElementById('midiBlock3Chords').value.trim();
+
+            const b4Title = document.getElementById('midiBlock4Title').value.trim() || 'Bridge';
+            const b4Chords = document.getElementById('midiBlock4Chords').value.trim();
+
+            const ytUrl = detectedMidiYouTubeUrl || document.getElementById('midiYtInput').value.trim();
+
+            // Build Timeline chordData from currentMidiParsedData
+            let chordData = null;
+            if (currentMidiParsedData && currentMidiParsedData.timelineChords && currentMidiParsedData.timelineChords.length > 0) {
+                const bpmNum = Number(tempo) || currentMidiParsedData.bpm || 120;
+                const originalBpm = currentMidiParsedData.bpm || 120;
+                const bpmRatio = (bpmNum > 0 && originalBpm > 0 && bpmNum !== originalBpm) ? (originalBpm / bpmNum) : 1.0;
+
+                const chords = currentMidiParsedData.timelineChords.map(c => ({
+                    time: Math.round((c.time * bpmRatio) * 1000) / 1000,
+                    name: c.name || c.chord
+                }));
+
+                const lastChordTime = chords.length > 0 ? chords[chords.length - 1].time : 0;
+                const duration = currentMidiParsedData.duration ? Math.round(currentMidiParsedData.duration * bpmRatio) : Math.max(Math.ceil(lastChordTime + 10), 60);
+                const useFlatNotation = key && (key.includes('b') || chords.some(c => c.name && c.name.includes('b')));
+
+                let customMapSections = null;
+                if (currentMidiParsedData.customMapSections && currentMidiParsedData.customMapSections.length > 0) {
+                    customMapSections = currentMidiParsedData.customMapSections.map(s => ({
+                        name: s.name,
+                        time: Math.round(((s.time || 0) * bpmRatio) * 1000) / 1000,
+                        duration: s.duration ? Math.round((s.duration * bpmRatio) * 1000) / 1000 : 16,
+                        type: s.type || 'verse'
+                    }));
+                }
+
+                chordData = {
+                    name: `${artist} - ${title}`,
+                    tempo: bpmNum,
+                    barOffset: 0,
+                    duration: duration,
+                    chords: chords,
+                    useFlatNotation: !!useFlatNotation,
+                    customMapSections: customMapSections
+                };
+            }
+
+            const song = {
+                artist,
+                title,
+                tempo,
+                key,
+                youtubeUrl: ytUrl,
+                verse: b1Chords,
+                verseTitle: b1Title,
+                chorus: b2Chords,
+                chorusTitle: b2Title,
+                preChorus: b3Chords,
+                preChorusTitle: b3Title,
+                bridge: b4Chords,
+                bridgeTitle: b4Title,
+                favorite: false,
+                dateAdded: new Date().toISOString(),
+                _directBlocks: true
+            };
+
+            if (chordData) {
+                song.chordData = chordData;
+            }
+
+            return song;
+        }
+
+        function importMidiSongNow() {
+            const song = buildSongFromMidiInputs();
+            if (!song.title && !song.artist) {
+                alert('Please enter an Artist or Title first.');
+                return;
+            }
+
+            const targetWindow = window.opener || window.parent;
+            if (targetWindow && targetWindow !== window) {
+                try {
+                    targetWindow.postMessage({
+                        type: 'UG_EXTRACTOR_IMPORT',
+                        song: song,
+                        confirmed: true
+                    }, '*');
+
+                    const btn = document.getElementById('importMidiBtn');
+                    btn.innerHTML = '✅ IMPORTED!';
+                    btn.style.background = '#059669';
+
+                    setTimeout(() => {
+                        if (window.opener) {
+                            window.close();
+                        } else if (typeof targetWindow.closeDashboardPanel === 'function') {
+                            targetWindow.closeDashboardPanel();
+                        }
+                    }, 1000);
+                } catch (e) {
+                    console.error('postMessage failed:', e);
+                    alert('Main window connection failed.');
+                }
+            } else {
+                const doDownload = confirm('Main application window not connected (opened standalone in tab). Would you like to download this song as a JSON file to import into PopSongChordBook?');
+                if (doDownload) {
+                    const blob = new Blob([JSON.stringify(song, null, 2)], { type: 'application/json' });
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = `${song.artist || 'Artist'} - ${song.title || 'Song'}.json`;
+                    a.click();
+                } else {
+                    loadMidiToJsonEditor();
+                }
+            }
+        }
+
+        function loadMidiToJsonEditor() {
+            const song = buildSongFromMidiInputs();
+            const jsonStr = JSON.stringify(song, null, 2);
+
+            const outputEl = document.getElementById('output');
+            outputEl.value = jsonStr;
+            outputEl.style.display = 'block';
+
+            const labelEl = document.getElementById('outputLabel');
+            if (labelEl) labelEl.style.display = 'block';
+
+            const importBtn = document.getElementById('importBtn');
+            if (importBtn) importBtn.style.display = 'inline-block';
+
+            outputEl.scrollIntoView({ behavior: 'smooth' });
+        }
+
         let selectedJsonData = null;
 
         // --- JSON Import Handling ---
