@@ -3681,7 +3681,16 @@ class App {
         try {
             const toCameltoeFont = (str) => {
                 if (!str) return str;
-                return str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+                let res = str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+                res = res.replace(/['’]([A-Za-z]+)\b/g, (match, letters) => "'" + letters.toLowerCase());
+                res = res.replace(/\b(Don|Doesn|Didn|Won|Wouldn|Couldn|Shouldn|Can|Isn|Aren|Wasn|Weren|Hasn|Haven|Hadn|Ain|Mustn)[\s_-][Tt]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'t");
+                res = res.replace(/\b(It|That|What|There|Here|Who|How|He|She)[\s_-][Ss]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'s");
+                res = res.replace(/\b(You|They|We)[\s_-][Rr][Ee]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'re");
+                res = res.replace(/\b(You|They|We|I)[\s_-][Vv][Ee]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'ve");
+                res = res.replace(/\b(You|They|We|I|He|She|It)[\s_-][Ll][Ll]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'ll");
+                res = res.replace(/\b(You|They|We|I|He|She|It)[\s_-][Dd]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'d");
+                res = res.replace(/\bI[\s_-][Mm]\b/g, "I'm");
+                return res;
             };
 
             songToImport.artist = toCameltoeFont(songToImport.artist);

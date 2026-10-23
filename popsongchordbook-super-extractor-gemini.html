@@ -1091,7 +1091,7 @@
                         </div>
 
                         <!-- 1. Find & Choose Synced Lyrics Primary Button -->
-                        <button type="button" id="midiLrclibSearchBtn" onclick="fetchSyncedLyricsOnline(null, null, true)"
+                        <button type="button" id="midiLrclibSearchBtn" onclick="toggleLyricsOptions()"
                            style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 44px; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.95em; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25); margin-bottom: 12px; box-sizing: border-box; cursor: pointer; transition: transform 0.15s ease;">
                             <span>🔍 1. FIND &amp; CHOOSE SYNCED LYRICS FROM LRCLIB</span>
                         </button>
@@ -1932,13 +1932,13 @@
 
             const mSlug = str.match(/chordify\.net\/chords\/([a-z0-9-]+)-songs\/([a-z0-9-]+)-chords/i);
             if (mSlug && (!result.artist || !result.title)) {
-                const toTitle = s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                const toTitle = s => toCameltoeFont(s.replace(/[-_]+/g, ' '));
                 result.artist = toTitle(mSlug[1]);
                 result.title = toTitle(mSlug[2]);
             } else {
                 const mSlugSimple = str.match(/chordify\.net\/chords\/([a-z0-9-]+)-chords/i);
                 if (mSlugSimple && (!result.artist || !result.title)) {
-                    const toTitle = s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    const toTitle = s => toCameltoeFont(s.replace(/[-_]+/g, ' '));
                     result.title = toTitle(mSlugSimple[1]);
                 }
             }
@@ -2154,8 +2154,8 @@
                         window.currentDeezerTrackDuration = track.duration;
                         updateLyricsTargetDurationDisplay();
                     }
-                    const foundArtist = (track.artist && track.artist.name) ? track.artist.name.trim() : '';
-                    const foundTitle = (track.title_short || track.title || '').trim();
+                    const foundArtist = toCameltoeFont((track.artist && track.artist.name) ? track.artist.name.trim() : '');
+                    const foundTitle = toCameltoeFont((track.title_short || track.title || '').trim());
 
                     if (foundArtist && foundTitle) {
                         if (artistEl) {
@@ -2623,9 +2623,14 @@
                     summaryEl.innerHTML = `Found <strong>${matchCount} versions</strong> &middot; Selected: ${formatTimeSec(best.duration)}`;
                 }
 
-                if (optionsContainer && (forceShowOptions || candidates.length > 1)) {
-                    optionsContainer.style.display = 'block';
-                    if (toggleBtn) toggleBtn.textContent = `📋 Hide Version Options (${candidates.length})`;
+                if (optionsContainer) {
+                    if (forceShowOptions) {
+                        optionsContainer.style.display = 'block';
+                        if (toggleBtn) toggleBtn.textContent = `📋 Hide Version Options (${candidates.length})`;
+                    } else {
+                        optionsContainer.style.display = 'none';
+                        if (toggleBtn) toggleBtn.textContent = `📋 Choose Lyrics Version (${candidates.length})`;
+                    }
                 }
 
             } catch (err) {
@@ -3228,7 +3233,18 @@
 
         function toCameltoeFont(str) {
             if (!str) return str;
-            return str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+            let res = str.toLowerCase().replace(/\b[a-z]/g, char => char.toUpperCase());
+            // Fix apostrophe contractions (e.g. Wouldn'T -> Wouldn't, Don'T -> Don't, Isn'T -> Isn't, It'S -> It's, You'Re -> You're)
+            res = res.replace(/['’]([A-Za-z]+)\b/g, (match, letters) => "'" + letters.toLowerCase());
+            // Fix hyphen/space-split contractions from URL slugs or filenames (e.g. Wouldn-T, Wouldn T -> Wouldn't)
+            res = res.replace(/\b(Don|Doesn|Didn|Won|Wouldn|Couldn|Shouldn|Can|Isn|Aren|Wasn|Weren|Hasn|Haven|Hadn|Ain|Mustn)[\s_-][Tt]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'t");
+            res = res.replace(/\b(It|That|What|There|Here|Who|How|He|She)[\s_-][Ss]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'s");
+            res = res.replace(/\b(You|They|We)[\s_-][Rr][Ee]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'re");
+            res = res.replace(/\b(You|They|We|I)[\s_-][Vv][Ee]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'ve");
+            res = res.replace(/\b(You|They|We|I|He|She|It)[\s_-][Ll][Ll]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'ll");
+            res = res.replace(/\b(You|They|We|I|He|She|It)[\s_-][Dd]\b/gi, (m, root) => root.charAt(0).toUpperCase() + root.slice(1).toLowerCase() + "'d");
+            res = res.replace(/\bI[\s_-][Mm]\b/g, "I'm");
+            return res;
         }
 
         function getBaseProgression(chords) {
