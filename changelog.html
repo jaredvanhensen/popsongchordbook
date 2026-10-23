@@ -309,6 +309,42 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.416</span>
+                    <span class="version-date">October 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>MIDI Import (Chordify) &amp; Super Extractor Improvements:</strong>
+                            <ul>
+                                <li><strong>Automatic Online Metadata Identification:</strong> Connected Chordify MIDI parser to real-time music database resolution (Deezer JSONP) to accurately distinguish Band Name and Song Title from hyphenated filenames.</li>
+                                <li><strong>Filename Delimiter Regex Fix:</strong> Resolved character class issue in filename parser that inadvertently truncated leading letters from artists starting with 'S' (e.g. Sting, Scorpions).</li>
+                                <li><strong>Enhanced Harmonic Cycle Detection:</strong> Upgraded section mapper to detect actual repeating progression loops across the timeline instead of arbitrary 4-chord cuts.</li>
+                                <li><strong>'IMPORTED CHORDS' Palette:</strong> Renamed Block 4 to <em>IMPORTED CHORDS</em>, auto-populating all unique chords from the song for instant reference.</li>
+                                <li><strong>UI Polish &amp; Disclaimer:</strong> Added clear manual review disclaimer notice and removed overlapping card badges.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
+                    <span class="version-number">v3.415</span>
+                    <span class="version-date">October 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Rate App (5★) Sidebar &amp; Review Sync Fixes:</strong>
+                            <ul>
+                                <li><strong>1-Click 'Already Reviewed' Action:</strong> Added a prominent "✓ Ik heb al een review geplaatst (verberg knop)" / "I already submitted a review" button inside the review prompt modal. Clicking it immediately and permanently hides the sidebar button and saves the state across all local storage review keys.</li>
+                                <li><strong>Firebase Auth Lifecycle Synchronization:</strong> Fixed timing during application startup by attaching asynchronous auth monitors. When a user logs in or restores their session, account preferences (<code>users/{uid}/preferences/review_completed</code>) sync from Firebase Realtime Database across all devices.</li>
+                                <li><strong>Expanded Local Storage Key Checking:</strong> Extended client-side verification to handle truthy boolean/string flags, ensuring the sidebar rating shortcut remains hidden once reviewed.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.414</span>
                     <span class="version-date">October 22, 2026</span>
                 </div>

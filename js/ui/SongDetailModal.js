@@ -4760,30 +4760,31 @@ class SongDetailModal {
 
         if (!artist || !title) return;
 
-        // 1. Try Local Backup First (for fallback and offline support)
         const safeArtist = artist.replace(/[<>:"/\\|?*]/g, '');
         const safeTitle = title.replace(/[<>:"/\\|?*]/g, '');
         const localPath = `assets/thumbnails/${safeArtist}-${safeTitle}.jpg`;
 
-        try {
-            const localExists = await new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => resolve(true);
-                img.onerror = () => resolve(false);
-                img.src = localPath;
-            });
+        const tryFallbackLocal = async () => {
+            try {
+                const localExists = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => resolve(false);
+                    img.src = localPath;
+                });
 
-            if (localExists) {
-                thumbElement.src = localPath;
-                thumbElement.style.visibility = 'visible';
-                thumbElement.classList.remove('hidden');
-                return; // Local copy used, skip API call
-            }
-        } catch (e) {
-            console.log("Local thumbnail check failed, trying Deezer.");
-        }
+                if (localExists) {
+                    thumbElement.src = localPath;
+                    thumbElement.style.visibility = 'visible';
+                    thumbElement.classList.remove('hidden');
+                    return true;
+                }
+            } catch (e) {}
+            thumbElement.classList.add('hidden');
+            return false;
+        };
 
-        // 2. Fallback to Deezer API
+        // 1. Try Online Deezer CDN First (Preserves hosting bandwidth, zero traffic on your server)
         try {
             const query = encodeURIComponent(`${artist} ${title}`);
             const callbackName = 'deezerCallback_' + Math.round(1000000 * Math.random());
@@ -4793,7 +4794,7 @@ class SongDetailModal {
                 const timeoutId = setTimeout(() => {
                     cleanup();
                     reject(new Error('JSONP timeout'));
-                }, 5000);
+                }, 4000);
 
                 const cleanup = () => {
                     clearTimeout(timeoutId);
@@ -4827,15 +4828,17 @@ class SongDetailModal {
                         thumbElement.style.visibility = 'visible';
                         thumbElement.classList.remove('hidden');
                     };
-                } else {
-                    thumbElement.classList.add('hidden');
+                    thumbElement.onerror = () => {
+                        tryFallbackLocal();
+                    };
+                    return;
                 }
-            } else {
-                thumbElement.classList.add('hidden');
             }
+            // If Deezer returned no artwork, fallback to local archive
+            await tryFallbackLocal();
         } catch (e) {
-            console.error('Error fetching album thumbnail:', e);
-            thumbElement.classList.add('hidden');
+            // If Deezer API fails, times out, or is offline, fallback to local backup
+            await tryFallbackLocal();
         }
     }
 

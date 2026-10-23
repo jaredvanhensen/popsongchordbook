@@ -80,6 +80,9 @@ class FirebaseManager {
                 if (user && user.uid) {
                     this.updateLastLogin(user.uid);
                     this.setupGlobalPresence();
+                    if (typeof window.checkPscbRateButtonVisibility === 'function') {
+                        try { window.checkPscbRateButtonVisibility(); } catch (e) {}
+                    }
                 }
             });
 
@@ -87,6 +90,9 @@ class FirebaseManager {
             window.addEventListener('storage', (event) => {
                 if (event.key === 'bandPracticeSessionActive') {
                     this.setupGlobalPresence();
+                    if (typeof window.checkPscbRateButtonVisibility === 'function') {
+                        try { window.checkPscbRateButtonVisibility(); } catch (e) {}
+                    }
                 }
             });
 

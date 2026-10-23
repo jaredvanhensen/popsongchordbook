@@ -443,6 +443,31 @@
                 gap: 16px;
                 margin-top: 14px;
             }
+            .pscb-review-already-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 9px 14px;
+                background: rgba(34, 197, 94, 0.14);
+                border: 1px solid rgba(34, 197, 94, 0.45);
+                color: #86efac;
+                font-size: 0.82rem;
+                font-weight: 700;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin: 10px 0 6px 0;
+                font-family: inherit;
+            }
+            .pscb-review-already-btn:hover {
+                background: rgba(34, 197, 94, 0.28);
+                border-color: rgba(34, 197, 94, 0.7);
+                color: #bbf7d0;
+                transform: translateY(-1px);
+            }
             .pscb-review-link-btn {
                 background: transparent;
                 border: none;
@@ -517,7 +542,9 @@
                 feedbackSubmit: '✉️ Stuur Feedback naar de Maker',
                 feedbackThanks: 'Bedankt voor je feedback! We gaan ermee aan de slag.',
                 laterBtn: 'Later herinneren',
-                neverBtn: 'Al beoordeeld / Niet meer tonen'
+                neverBtn: 'Al beoordeeld / Niet meer tonen',
+                alreadyReviewedBtn: 'Ik heb al een review geplaatst (verberg knop)',
+                reviewConfirmedToast: 'Dankjewel voor je review! De beoordelingsknop is nu definitief verborgen.'
             };
         }
         return {
@@ -560,7 +587,9 @@
             feedbackSubmit: '✉️ Send Feedback to Developer',
             feedbackThanks: 'Thank you for your feedback! We really appreciate it.',
             laterBtn: 'Remind me later',
-            neverBtn: 'Already rated / Don\'t show again'
+            neverBtn: 'Already rated / Don\'t show again',
+            alreadyReviewedBtn: 'I already submitted a review (hide button)',
+            reviewConfirmedToast: 'Thank you for your review! The rating button is now permanently hidden.'
         };
     }
 
@@ -782,12 +811,22 @@
 
     function isReviewAlreadyDone() {
         try {
-            return (
-                localStorage.getItem(STORAGE_KEYS.REVIEW_COMPLETED) === '1' ||
-                localStorage.getItem('pscb_review_completed') === '1' ||
-                localStorage.getItem(STORAGE_KEYS.REVIEW_DISMISSED) === '1' ||
-                localStorage.getItem('pscb_review_dismissed') === '1'
-            );
+            const keys = [
+                STORAGE_KEYS.REVIEW_COMPLETED,
+                'pscb_review_completed',
+                STORAGE_KEYS.REVIEW_DISMISSED,
+                'pscb_review_dismissed',
+                'pscb_review_completed_v1',
+                'pscb_review_dismissed_v1',
+                'pscb_reviewed',
+                'review_completed',
+                'app_reviewed'
+            ];
+            for (let i = 0; i < keys.length; i++) {
+                const val = localStorage.getItem(keys[i]);
+                if (val === '1' || val === 'true' || val === true) return true;
+            }
+            return false;
         } catch (e) {
             return false;
         }
@@ -795,33 +834,44 @@
 
     function markReviewDoneLocally() {
         try {
-            localStorage.setItem(STORAGE_KEYS.REVIEW_COMPLETED, '1');
-            localStorage.setItem('pscb_review_completed', '1');
+            const keys = [
+                STORAGE_KEYS.REVIEW_COMPLETED,
+                'pscb_review_completed',
+                STORAGE_KEYS.REVIEW_DISMISSED,
+                'pscb_review_dismissed',
+                'pscb_review_completed_v1',
+                'pscb_review_dismissed_v1',
+                'pscb_reviewed',
+                'review_completed',
+                'app_reviewed'
+            ];
+            keys.forEach(k => {
+                try { localStorage.setItem(k, '1'); } catch (e) {}
+            });
         } catch (e) {}
     }
 
     function markReviewDismissedLocally() {
-        try {
-            localStorage.setItem(STORAGE_KEYS.REVIEW_DISMISSED, '1');
-            localStorage.setItem('pscb_review_dismissed', '1');
-            localStorage.setItem(STORAGE_KEYS.REVIEW_COMPLETED, '1');
-            localStorage.setItem('pscb_review_completed', '1');
-        } catch (e) {}
+        markReviewDoneLocally();
     }
 
     function hideSidebarRateButton() {
         const rateBtn = document.getElementById('btnRateAppSidebar');
-        if (rateBtn) rateBtn.style.display = 'none';
+        if (rateBtn) {
+            rateBtn.style.display = 'none';
+            rateBtn.setAttribute('data-hidden-by-review', '1');
+        }
     }
 
     function syncReviewStatusWithFirebaseUser() {
         try {
-            const auth = (window.firebase && typeof window.firebase.auth === 'function') 
+            const hasFirebaseApps = window.firebase && typeof window.firebase.apps !== 'undefined' && window.firebase.apps.length > 0;
+            const auth = (hasFirebaseApps && typeof window.firebase.auth === 'function') 
                 ? window.firebase.auth() 
                 : (window.firebaseManager && window.firebaseManager.auth ? window.firebaseManager.auth : null);
             const user = auth && auth.currentUser;
             if (!user || !user.uid) return;
-            const db = (window.firebase && typeof window.firebase.database === 'function') 
+            const db = (hasFirebaseApps && typeof window.firebase.database === 'function') 
                 ? window.firebase.database() 
                 : (window.firebaseManager && window.firebaseManager.database ? window.firebaseManager.database : null);
             if (!db) return;
@@ -831,13 +881,40 @@
                 userPrefRef.set(true).catch(() => {});
             } else {
                 userPrefRef.once('value').then(snap => {
-                    if (snap.val() === true) {
+                    const val = snap.val();
+                    if (val === true || val === 'true' || val === 1 || val === '1') {
                         markReviewDoneLocally();
                         hideSidebarRateButton();
                     }
                 }).catch(() => {});
             }
         } catch (e) {}
+    }
+
+    function setupFirebaseAuthSync() {
+        function tryAttach() {
+            try {
+                if (window.firebase && typeof window.firebase.apps !== 'undefined' && window.firebase.apps.length > 0 && typeof window.firebase.auth === 'function') {
+                    window.firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                            syncReviewStatusWithFirebaseUser();
+                        }
+                    });
+                    return true;
+                }
+            } catch (e) {}
+            return false;
+        }
+
+        if (!tryAttach()) {
+            let count = 0;
+            const timer = setInterval(() => {
+                count++;
+                if (tryAttach() || count > 30) {
+                    clearInterval(timer);
+                }
+            }, 500);
+        }
     }
 
     function checkAndApplyRateButtonVisibility() {
@@ -1032,6 +1109,11 @@
                 <h3 class="pscb-review-title">${t.title}</h3>
                 <p class="pscb-review-desc">${t.desc}</p>
 
+                <button type="button" id="pscbAlreadyReviewedProminentBtn" class="pscb-review-already-btn">
+                    <span style="font-size: 1.05rem; line-height: 1;">✓</span>
+                    <span>${t.alreadyReviewedBtn}</span>
+                </button>
+
                 <div class="pscb-star-picker" aria-label="Rate 1 to 5 stars">
                     <button type="button" class="pscb-star-btn active" data-star="1">★</button>
                     <button type="button" class="pscb-star-btn active" data-star="2">★</button>
@@ -1054,6 +1136,10 @@
                     <a href="${playReviewUrl}" target="_blank" rel="noopener" id="pscbGoToPlayReviewBtn" class="pscb-review-primary-btn">
                         ${t.primaryCta}
                     </a>
+                    <button type="button" id="pscbDoneReviewBtn" class="pscb-review-already-btn" style="margin-top: 10px;">
+                        <span style="font-size: 1.05rem; line-height: 1;">✓</span>
+                        <span>${t.alreadyReviewedBtn}</span>
+                    </button>
                 </div>
 
                 <!-- Shown for 1-3 stars (Feedback Shield) -->
@@ -1190,15 +1276,25 @@
             });
         }
 
+        function handleAlreadyReviewed() {
+            markReviewDoneLocally();
+            hideSidebarRateButton();
+            syncReviewStatusWithFirebaseUser();
+            if (window.appInstance && typeof window.appInstance.showHUD === 'function') {
+                window.appInstance.showHUD(t.reviewConfirmedToast);
+            } else {
+                alert(t.reviewConfirmedToast);
+            }
+            overlay.remove();
+        }
+
+        overlay.querySelector('#pscbAlreadyReviewedProminentBtn')?.addEventListener('click', handleAlreadyReviewed);
+        overlay.querySelector('#pscbDoneReviewBtn')?.addEventListener('click', handleAlreadyReviewed);
+
         // Close / Later / Never buttons
         overlay.querySelector('.pscb-review-close')?.addEventListener('click', snoozeModal);
         overlay.querySelector('#pscbReviewLaterBtn')?.addEventListener('click', snoozeModal);
-        overlay.querySelector('#pscbReviewNeverBtn')?.addEventListener('click', () => {
-            markReviewDismissedLocally();
-            hideSidebarRateButton();
-            syncReviewStatusWithFirebaseUser();
-            overlay.remove();
-        });
+        overlay.querySelector('#pscbReviewNeverBtn')?.addEventListener('click', handleAlreadyReviewed);
 
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) snoozeModal();
@@ -1213,19 +1309,16 @@
     window.checkPscbReviewPromptOnSongClose = checkReviewPromptOnSongClose;
     window.openPscbReviewModal = function () { openReviewModal(true); };
     window.checkPscbRateButtonVisibility = checkAndApplyRateButtonVisibility;
+    window.hidePscbRateAppSidebar = function() {
+        markReviewDoneLocally();
+        hideSidebarRateButton();
+        syncReviewStatusWithFirebaseUser();
+    };
 
     function initSmartAppBannerAndReview() {
         renderSmartBanner();
         checkAndApplyRateButtonVisibility();
-        if (window.firebase && typeof window.firebase.auth === 'function') {
-            try {
-                window.firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        syncReviewStatusWithFirebaseUser();
-                    }
-                });
-            } catch (e) {}
-        }
+        setupFirebaseAuthSync();
     }
 
     if (document.readyState === 'loading') {

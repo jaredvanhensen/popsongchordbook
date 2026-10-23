@@ -842,16 +842,6 @@
             box-shadow: 0 0 0 2px #10b981;
         }
 
-        .midi-block-tag {
-            font-size: 0.72em;
-            font-weight: 700;
-            background: #e2e8f0;
-            color: #475569;
-            padding: 2px 7px;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
         .midi-block-textarea {
             width: 100%;
             height: 90px;
@@ -995,12 +985,19 @@
                             <input type="text" id="midiKey" class="midi-text-input" placeholder="e.g. C or G#m">
                         </div>
                     </div>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px;">
+                        <button type="button" class="btn-secondary midi-pill-btn" onclick="triggerMidiOnlineLookup()" style="font-size: 0.8rem; padding: 4px 10px;" title="Search online database to split Band Name and Song Title">🔍 Lookup Artist & Title Online</button>
+                        <div id="midiOnlineIdentifiedBadge" class="midi-yt-badge" style="display: none; margin: 0; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981;"></div>
+                    </div>
 
                     <!-- 4 Blocks: Block 1, Block 2, Block 3, Block 4 -->
                     <div class="midi-blocks-header">
-                        <h3>🎼 Chord Blocks</h3>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <h3>🎼 Chord Blocks</h3>
+                            <span class="midi-blocks-disclaimer" style="font-size: 0.82rem; font-weight: 600; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 3px 8px;">⚠️ Please manually check Chord Blocks</span>
+                        </div>
                         <div class="midi-blocks-actions">
-                            <button type="button" class="btn-secondary midi-pill-btn" onclick="autoDistributeMidiBlocks()" title="Re-distribute detected chords into Intro, Verse, Chorus, Pre-Chorus, Bridge">↺ Auto-Map Sections</button>
+                            <button type="button" class="btn-secondary midi-pill-btn" onclick="autoDistributeMidiBlocks()" title="Re-distribute detected chords into Intro, Verse, Chorus, Pre-Chorus">↺ Auto-Map Sections</button>
                         </div>
                     </div>
 
@@ -1008,8 +1005,7 @@
                         <!-- BLOCK 1 -->
                         <div class="midi-block-card">
                             <div class="midi-block-header">
-                                <input type="text" id="midiBlock1Title" class="midi-block-title-input" value="Block 1 (Intro/Verse)">
-                                <span class="midi-block-tag">BLOCK 1</span>
+                                <input type="text" id="midiBlock1Title" class="midi-block-title-input" value="Intro / Verse">
                             </div>
                             <textarea id="midiBlock1Chords" class="midi-block-textarea" rows="3" placeholder="Verse / Intro chords..."></textarea>
                         </div>
@@ -1017,8 +1013,7 @@
                         <!-- BLOCK 2 -->
                         <div class="midi-block-card">
                             <div class="midi-block-header">
-                                <input type="text" id="midiBlock2Title" class="midi-block-title-input" value="Block 2 (Chorus)">
-                                <span class="midi-block-tag">BLOCK 2</span>
+                                <input type="text" id="midiBlock2Title" class="midi-block-title-input" value="Chorus">
                             </div>
                             <textarea id="midiBlock2Chords" class="midi-block-textarea" rows="3" placeholder="Chorus chords..."></textarea>
                         </div>
@@ -1026,8 +1021,7 @@
                         <!-- BLOCK 3 -->
                         <div class="midi-block-card">
                             <div class="midi-block-header">
-                                <input type="text" id="midiBlock3Title" class="midi-block-title-input" value="Block 3 (Pre-Chorus)">
-                                <span class="midi-block-tag">BLOCK 3</span>
+                                <input type="text" id="midiBlock3Title" class="midi-block-title-input" value="Pre-Chorus">
                             </div>
                             <textarea id="midiBlock3Chords" class="midi-block-textarea" rows="3" placeholder="Pre-Chorus / Pre-chord chords..."></textarea>
                         </div>
@@ -1035,10 +1029,9 @@
                         <!-- BLOCK 4 -->
                         <div class="midi-block-card">
                             <div class="midi-block-header">
-                                <input type="text" id="midiBlock4Title" class="midi-block-title-input" value="Block 4 (Bridge)">
-                                <span class="midi-block-tag">BLOCK 4</span>
+                                <input type="text" id="midiBlock4Title" class="midi-block-title-input" value="IMPORTED CHORDS">
                             </div>
-                            <textarea id="midiBlock4Chords" class="midi-block-textarea" rows="3" placeholder="Bridge / Outro chords..."></textarea>
+                            <textarea id="midiBlock4Chords" class="midi-block-textarea" rows="3" placeholder="All imported unique chords..."></textarea>
                         </div>
                     </div>
 
@@ -1398,6 +1391,7 @@
                     key: key || 'C',
                     duration,
                     embeddedYt,
+                    searchQuery: (fileMeta && (fileMeta.rawClean || fileMeta.title)) || title || '',
                     markers,
                     textEvents,
                     tempos,
@@ -1444,23 +1438,23 @@
                 let clean = filename.replace(/\.midi?$/i, '').trim();
 
                 // 2. Ignore / strip "Chordify_" or "Chordify-" prefix
-                clean = clean.replace(/^Chordify[_s-]*/i, '')
+                clean = clean.replace(/^Chordify[_\s-]+/i, '')
                              .replace(/\(chordify(\.net)?\)/ig, '')
                              .replace(/_chordify/ig, '');
 
                 // 3. Extract BPM from filename (e.g. "_130_BPM", "130_BPM", "-130-BPM", "130BPM")
                 let bpm = null;
-                const bpmMatch = clean.match(/[_s-](\d{2,3})[_s-]*BPM\b/i) || clean.match(/\bBPM[_s-]*(\d{2,3})\b/i);
+                const bpmMatch = clean.match(/[_\s-](\d{2,3})[_\s-]*BPM\b/i) || clean.match(/\bBPM[_\s-]*(\d{2,3})\b/i);
                 if (bpmMatch) {
                     bpm = parseInt(bpmMatch[1], 10);
                     clean = clean.replace(bpmMatch[0], '');
                 }
 
                 // 4. Strip export modes: Time_Aligned, Fixed_Tempo, Video, Audio
-                clean = clean.replace(/[_s-]*Time[_s-]+Aligned/ig, '')
-                             .replace(/[_s-]*Fixed[_s-]+Tempo/ig, '')
-                             .replace(/[_s-]*Official[_s-]+(Video|Audio|Music[_s-]+Video)/ig, '')
-                             .replace(/[_s-]+(Video|Audio)\b/ig, '')
+                clean = clean.replace(/[_\s-]*Time[_\s-]+Aligned/ig, '')
+                             .replace(/[_\s-]*Fixed[_\s-]+Tempo/ig, '')
+                             .replace(/[_\s-]*Official[_\s-]+(Video|Audio|Music[_\s-]+Video)/ig, '')
+                             .replace(/[_\s-]+(Video|Audio)\b/ig, '')
                              .replace(/_+/g, ' ')
                              .trim();
 
@@ -1490,7 +1484,8 @@
                     title = clean;
                 }
 
-                return { artist, title, bpm, rawClean: clean };
+                const rawClean = clean.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+                return { artist, title, bpm, rawClean };
             }
 
             static estimateKeyFromChords(chords) {
@@ -1678,37 +1673,94 @@
                     return sections;
                 }
 
-                // 2. If no markers, segment chord sequence into 4-bar phrases and group patterns
+                // 2. If no markers, detect prominent repeating harmonic cycles
                 if (chordsWithTiming.length === 0) return [];
 
-                const chunkSize = 4;
-                const phraseMap = new Map();
-                for (let i = 0; i < chordsWithTiming.length; i += chunkSize) {
-                    const phraseChords = chordsWithTiming.slice(i, i + chunkSize);
-                    const phraseNames = phraseChords.map(c => c.chord);
-                    const phraseStr = phraseNames.join(' ');
-                    if (!phraseMap.has(phraseStr)) {
-                        phraseMap.set(phraseStr, {
-                            phrase: phraseNames,
-                            time: phraseChords[0].time,
-                            count: 0,
-                            firstIndex: i
-                        });
+                const chordNames = chordsWithTiming.map(c => c.chord);
+
+                // Candidate repeating patterns of length 8, 6, 4, 3
+                const candidateMap = new Map();
+                for (const len of [8, 6, 4, 3]) {
+                    for (let i = 0; i <= chordNames.length - len; i++) {
+                        const sub = chordNames.slice(i, i + len);
+                        const str = sub.join(' ');
+                        if (!candidateMap.has(str)) {
+                            let count = 0;
+                            let pos = 0;
+                            while (pos <= chordNames.length - len) {
+                                let match = true;
+                                for (let k = 0; k < len; k++) {
+                                    if (chordNames[pos + k] !== sub[k]) { match = false; break; }
+                                }
+                                if (match) { count++; pos += len; }
+                                else { pos++; }
+                            }
+                            if (count >= 2) {
+                                candidateMap.set(str, {
+                                    phrase: sub,
+                                    time: chordsWithTiming[i].time,
+                                    count,
+                                    score: count * len,
+                                    firstIdx: i
+                                });
+                            }
+                        }
                     }
-                    phraseMap.get(phraseStr).count++;
                 }
 
-                const uniquePhrases = Array.from(phraseMap.entries())
-                    .map(([str, data]) => ({ str, ...data }))
-                    .sort((a, b) => a.firstIndex - b.firstIndex);
+                const sortedPatterns = Array.from(candidateMap.values())
+                    .sort((a, b) => b.score - a.score || a.firstIdx - b.firstIdx);
 
-                const sectionLabels = ['Intro / Verse', 'Chorus', 'Pre-Chorus', 'Bridge', 'Outro', 'Solo'];
-                return uniquePhrases.map((p, idx) => ({
-                    name: sectionLabels[idx] || `Section ${idx + 1}`,
-                    time: p.time,
-                    chords: p.phrase,
-                    count: p.count
-                }));
+                const distinctPatterns = [];
+                const seenChordSets = new Set();
+
+                for (const pat of sortedPatterns) {
+                    const chordSet = Array.from(new Set(pat.phrase)).sort().join('|');
+                    if (seenChordSets.has(chordSet)) continue;
+
+                    const patStr = pat.phrase.join(' ');
+                    const overlaps = distinctPatterns.some(p => {
+                        const existingStr = p.phrase.join(' ');
+                        return existingStr.includes(patStr) || patStr.includes(existingStr);
+                    });
+                    if (!overlaps) {
+                        distinctPatterns.push(pat);
+                        seenChordSets.add(chordSet);
+                    }
+                    if (distinctPatterns.length >= 3) break;
+                }
+
+                if (distinctPatterns.length > 0) {
+                    distinctPatterns.sort((a, b) => a.firstIdx - b.firstIdx);
+
+                    // If the first pattern starts after 1-4 intro chords, include them so Block 1 captures the song start
+                    if (distinctPatterns[0].firstIdx > 0 && distinctPatterns[0].firstIdx <= 4) {
+                        const opening = chordNames.slice(0, distinctPatterns[0].firstIdx);
+                        distinctPatterns[0].phrase = [...opening, ...distinctPatterns[0].phrase];
+                    }
+
+                    const labels = ['Intro / Verse', 'Chorus', 'Pre-Chorus'];
+                    return distinctPatterns.map((p, idx) => ({
+                        name: labels[idx] || `Section ${idx + 1}`,
+                        time: p.time,
+                        chords: p.phrase,
+                        count: p.count
+                    }));
+                }
+
+                // Fallback: initial progressions
+                const initialChunk = Math.min(8, Math.max(4, Math.floor(chordsWithTiming.length / 3)));
+                const fallbackPhrases = [];
+                for (let i = 0; i < chordsWithTiming.length && fallbackPhrases.length < 3; i += initialChunk) {
+                    const sub = chordsWithTiming.slice(i, i + initialChunk);
+                    fallbackPhrases.push({
+                        name: ['Intro / Verse', 'Chorus', 'Pre-Chorus'][fallbackPhrases.length],
+                        time: sub[0].time,
+                        chords: sub.map(c => c.chord),
+                        count: 1
+                    });
+                }
+                return fallbackPhrases;
             }
         }
 
@@ -1948,6 +2000,100 @@
             reader.readAsArrayBuffer(file);
         }
 
+        function resolveMidiMetadataOnline(rawQuery, parsed) {
+            if (!rawQuery) return;
+            const cleanQuery = rawQuery.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+            if (cleanQuery.length < 3) return;
+
+            const artistEl = document.getElementById('midiArtist');
+            const titleEl = document.getElementById('midiTitle');
+
+            // Indicate online lookup in progress
+            if (artistEl && (!artistEl.value || artistEl.value === 'Unknown Artist')) {
+                artistEl.placeholder = '🔍 Looking up artist online...';
+            }
+
+            const callbackName = 'deezerMidiLookup_' + Math.round(1000000 * Math.random());
+            const script = document.createElement('script');
+
+            const timeoutId = setTimeout(() => {
+                cleanup();
+                if (artistEl && artistEl.placeholder.includes('Looking up')) {
+                    artistEl.placeholder = 'Artist name';
+                }
+            }, 4500);
+
+            const cleanup = () => {
+                clearTimeout(timeoutId);
+                delete window[callbackName];
+                if (script && script.parentNode) {
+                    script.parentNode.removeChild(script);
+                }
+            };
+
+            window[callbackName] = (data) => {
+                cleanup();
+                if (artistEl && artistEl.placeholder.includes('Looking up')) {
+                    artistEl.placeholder = 'Artist name';
+                }
+
+                if (data && Array.isArray(data.data) && data.data.length > 0) {
+                    const track = data.data[0];
+                    const foundArtist = (track.artist && track.artist.name) ? track.artist.name.trim() : '';
+                    const foundTitle = (track.title_short || track.title || '').trim();
+
+                    if (foundArtist && foundTitle) {
+                        if (artistEl) {
+                            artistEl.value = foundArtist;
+                            artistEl.classList.add('highlight-glow');
+                            setTimeout(() => artistEl.classList.remove('highlight-glow'), 2000);
+                        }
+                        if (titleEl) {
+                            titleEl.value = foundTitle;
+                            titleEl.classList.add('highlight-glow');
+                            setTimeout(() => titleEl.classList.remove('highlight-glow'), 2000);
+                        }
+
+                        if (parsed) {
+                            parsed.artist = foundArtist;
+                            parsed.title = foundTitle;
+                        }
+
+                        // Auto-fill UG header fields if empty
+                        const searchArtist = document.getElementById('searchArtist');
+                        const searchTitle = document.getElementById('searchTitle');
+                        if (searchArtist && !searchArtist.value) searchArtist.value = foundArtist;
+                        if (searchTitle && !searchTitle.value) searchTitle.value = foundTitle;
+
+                        const badgeEl = document.getElementById('midiOnlineIdentifiedBadge');
+                        if (badgeEl) {
+                            badgeEl.style.display = 'flex';
+                            badgeEl.innerHTML = `<span>✨ <strong>Identified Online:</strong> ${foundArtist} &ndash; ${foundTitle}</span>`;
+                        }
+                    }
+                }
+            };
+
+            script.src = `https://api.deezer.com/search?q=${encodeURIComponent(cleanQuery)}&output=jsonp&callback=${callbackName}`;
+            script.onerror = () => {
+                cleanup();
+                if (artistEl && artistEl.placeholder.includes('Looking up')) {
+                    artistEl.placeholder = 'Artist name';
+                }
+            };
+
+            document.body.appendChild(script);
+        }
+
+        function triggerMidiOnlineLookup() {
+            const artist = (document.getElementById('midiArtist')?.value || '').trim();
+            const title = (document.getElementById('midiTitle')?.value || '').trim();
+            const query = [artist, title].filter(Boolean).join(' ') || (currentMidiParsedData && (currentMidiParsedData.searchQuery || currentMidiParsedData.title)) || '';
+            if (query) {
+                resolveMidiMetadataOnline(query, currentMidiParsedData);
+            }
+        }
+
         function renderMidiParsedData(parsed) {
             document.getElementById('midiResultContainer').style.display = 'block';
 
@@ -1964,6 +2110,12 @@
 
             // Distribute chords to Blocks 1 - 4
             distributeMidiBlocks(parsed);
+
+            // Auto-resolve artist and title online from filename/metadata
+            const lookupQuery = parsed.searchQuery || parsed.title || parsed.artist || '';
+            if (lookupQuery) {
+                resolveMidiMetadataOnline(lookupQuery, parsed);
+            }
 
             // Timeline Summary & Badge
             const totalChords = parsed.chordsWithTiming.length;
@@ -1992,14 +2144,23 @@
             const sections = parsed.sections || [];
 
             // Map sections to Blocks:
-            // Block 1: Intro or Verse
+            // Block 1: Intro / Verse
             // Block 2: Chorus
             // Block 3: Pre-Chorus
-            // Block 4: Bridge or Outro
-            let b1 = { title: 'Block 1 (Intro/Verse)', chords: '' };
-            let b2 = { title: 'Block 2 (Chorus)', chords: '' };
-            let b3 = { title: 'Block 3 (Pre-Chorus)', chords: '' };
-            let b4 = { title: 'Block 4 (Bridge)', chords: '' };
+            // Block 4: IMPORTED CHORDS (all unique chords)
+            let b1 = { title: 'Intro / Verse', chords: '' };
+            let b2 = { title: 'Chorus', chords: '' };
+            let b3 = { title: 'Pre-Chorus', chords: '' };
+
+            // Extract all unique chords from the imported file for Block 4
+            const allUniqueChords = [];
+            (parsed.chordsWithTiming || []).forEach(c => {
+                const chord = (c.chord || c.name || '').trim();
+                if (chord && !allUniqueChords.includes(chord)) {
+                    allUniqueChords.push(chord);
+                }
+            });
+            let b4 = { title: 'IMPORTED CHORDS', chords: allUniqueChords.join(' ') };
 
             if (sections.length > 0) {
                 const findSection = (keywords) => {
@@ -2012,8 +2173,7 @@
                 const introSec = findSection(['intro']);
                 const verseSec = findSection(['verse', 'couplet']);
                 const chorusSec = findSection(['chorus', 'refrein']);
-                const preChorusSec = findSection(['pre', 'pre-chorus', 'prechorus']);
-                const bridgeSec = findSection(['bridge', 'brug', 'solo', 'outro']);
+                const preChorusSec = findSection(['pre', 'pre-chorus', 'prechorus', 'bridge', 'solo']);
 
                 // Block 1: Verse (or Intro + Verse)
                 if (verseSec) {
@@ -2036,7 +2196,7 @@
                     b2.chords = ultraCompress(sections[1].chords);
                 }
 
-                // Block 3: Pre-Chorus
+                // Block 3: Pre-Chorus / Bridge
                 if (preChorusSec) {
                     b3.title = preChorusSec.name;
                     b3.chords = ultraCompress(preChorusSec.chords);
@@ -2044,24 +2204,14 @@
                     b3.title = sections[2].name;
                     b3.chords = ultraCompress(sections[2].chords);
                 }
-
-                // Block 4: Bridge
-                if (bridgeSec) {
-                    b4.title = bridgeSec.name;
-                    b4.chords = ultraCompress(bridgeSec.chords);
-                } else if (sections[3]) {
-                    b4.title = sections[3].name;
-                    b4.chords = ultraCompress(sections[3].chords);
-                }
             } else {
-                // Raw chords fallback: split progression into 4 blocks
+                // Raw chords fallback: split progression across Blocks 1-3
                 const allChords = parsed.chordsWithTiming.map(c => c.chord);
-                const chunk = Math.ceil(allChords.length / 4);
+                const chunk = Math.ceil(allChords.length / 3);
                 if (allChords.length > 0) {
                     b1.chords = ultraCompress(allChords.slice(0, chunk));
                     b2.chords = ultraCompress(allChords.slice(chunk, chunk * 2));
-                    b3.chords = ultraCompress(allChords.slice(chunk * 2, chunk * 3));
-                    b4.chords = ultraCompress(allChords.slice(chunk * 3));
+                    b3.chords = ultraCompress(allChords.slice(chunk * 2));
                 }
             }
 
@@ -2099,7 +2249,7 @@
             const b3Title = document.getElementById('midiBlock3Title').value.trim() || 'Pre-Chorus';
             const b3Chords = document.getElementById('midiBlock3Chords').value.trim();
 
-            const b4Title = document.getElementById('midiBlock4Title').value.trim() || 'Bridge';
+            const b4Title = document.getElementById('midiBlock4Title').value.trim() || 'IMPORTED CHORDS';
             const b4Chords = document.getElementById('midiBlock4Chords').value.trim();
 
             const ytUrl = detectedMidiYouTubeUrl || document.getElementById('midiYtInput').value.trim();
