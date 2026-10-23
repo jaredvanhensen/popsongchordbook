@@ -3519,7 +3519,8 @@ function renderSuggestedChords(groups) {
 
         const makeChordBtn = (chordName, type) => {
             const btn = document.createElement('button');
-            btn.className = type ? `chord-suggestion-btn chord-type-${type}` : 'chord-suggestion-btn';
+            const typeClasses = type ? (type === 'prechorus' || type === 'pre-chorus' ? 'chord-type-prechorus chord-type-pre-chorus' : `chord-type-${type}`) : '';
+            btn.className = typeClasses ? `chord-suggestion-btn ${typeClasses}` : 'chord-suggestion-btn';
             btn.textContent = simplifyDisplayName(chordName);
             btn.draggable = false;
             btn.style.touchAction = 'none';
@@ -3567,6 +3568,31 @@ function renderSuggestedChords(groups) {
             return btn;
         };
 
+        // Helper to determine block type for toolbar chord pill color coding
+        const getBlockType = (group, groupIdx) => {
+            const secName = (group && group.section ? String(group.section) : '').toUpperCase();
+            if (secName.includes('VERSE')) return 'verse';
+            if (secName.includes('CHORUS')) return 'chorus';
+            if (secName.includes('BRIDGE')) return 'bridge';
+            if (secName.includes('SOLO')) return 'green';
+            if (secName.includes('PRE')) return 'green';
+            if (secName.includes('INTRO')) return 'intro';
+            if (secName.includes('OUTRO')) return 'outro';
+            if (secName.includes('INSTRUMENTAL')) return 'instrumental';
+            if (secName.includes('INTERLUDE')) return 'interlude';
+
+            if (group && group.type) {
+                const t = String(group.type).toLowerCase().replace(/[^a-z]/g, '');
+                if (t === 'prechorus' || t === 'solo') return 'green';
+                if (['verse', 'chorus', 'bridge', 'green', 'intro', 'outro', 'instrumental', 'interlude'].includes(t)) {
+                    return t;
+                }
+            }
+            // 4 main distinct block colors: Blue (Verse), Orange (Chorus), Magenta (Bridge), Green (Solo/PreChorus)
+            const fallbackTypes = ['verse', 'chorus', 'bridge', 'green', 'intro', 'outro', 'instrumental', 'interlude'];
+            return fallbackTypes[groupIdx % fallbackTypes.length];
+        };
+
         // Safety check for grouping
         const isGrouped = groups.length > 0 && typeof groups[0] === 'object' && groups[0] !== null && groups[0].chords;
 
@@ -3575,7 +3601,9 @@ function renderSuggestedChords(groups) {
             groups.forEach((group, groupIdx) => {
                 if (!group) return;
                 const isGroupEmpty = !group.chords || group.chords.length === 0;
+                const blockType = getBlockType(group, groupIdx);
 
+                // Group container has NO background or border box - clean transparent container
                 const groupContainer = document.createElement('div');
                 groupContainer.className = 'chord-toolbar-group';
                 if (isGroupEmpty) {
@@ -3717,7 +3745,7 @@ function renderSuggestedChords(groups) {
                 if (group.chords) {
                     group.chords.forEach(item => {
                         if (item) {
-                            buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, group.type));
+                            buttonsRow.appendChild(isMarker(item) ? makeMarkerEl(item) : makeChordBtn(item, blockType));
                         }
                     });
                 }

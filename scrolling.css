@@ -2486,7 +2486,7 @@ body.is-mobile-view:not(.is-mobile-landscape) .marker.lyrics-sync {
 .chord-suggestion-btn,
 button.chord-suggestion-btn,
 #chordButtonsContainer .chord-suggestion-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none !important;
     color: #ffffff !important;
     padding: 4px 10px;
@@ -2508,11 +2508,11 @@ button.chord-suggestion-btn:hover,
 button.chord-suggestion-btn:hover:not(:disabled),
 #chordButtonsContainer .chord-suggestion-btn:hover,
 #chordButtonsContainer button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     border: none !important;
     color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.5) !important;
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.5);
 }
 
 .chord-suggestion-btn:active,
@@ -2520,9 +2520,9 @@ button.chord-suggestion-btn:active,
 button.chord-suggestion-btn:active:not(:disabled),
 #chordButtonsContainer .chord-suggestion-btn:active,
 #chordButtonsContainer button:active:not(:disabled) {
-    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%) !important;
+    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3) !important;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
 }
 
 .q-chord-btn,
@@ -2546,42 +2546,135 @@ button.q-chord-btn:hover:not(:disabled) {
     color: #ffffff !important;
 }
 
-.chord-type-verse, .chord-type-verse:hover,
-button.chord-type-verse, button.chord-type-verse:hover {
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+/* SECTION / BLOCK TYPE SPECIFIC CHORD PILL BUTTONS (ONLY PILLS, NO BOXES) */
+/* Container must remain completely clean and transparent without background or border boxes */
+.chord-toolbar-group {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* 1. Verse / Intro-Verse: Timeline Root-C Blue (#3b82f6 -> #1d4ed8) */
+button.chord-suggestion-btn.chord-type-verse,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-verse {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-verse:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-verse:hover {
+    background: linear-gradient(135deg, #60a5fa 0%, #1d4ed8 100%) !important;
+    box-shadow: 0 6px 12px rgba(29, 78, 216, 0.55) !important;
     color: #ffffff !important;
 }
 
-.chord-type-chorus, .chord-type-chorus:hover,
-button.chord-type-chorus, button.chord-type-chorus:hover {
-    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+/* 2. Chorus: Timeline Root-E Warm Amber/Orange (#f59e0b -> #d97706) */
+button.chord-suggestion-btn.chord-type-chorus,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-chorus {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-chorus:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-chorus:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #b45309 100%) !important;
+    box-shadow: 0 6px 12px rgba(217, 119, 6, 0.55) !important;
     color: #ffffff !important;
 }
 
-/* Support both prechorus and pre-chorus for consistency across UI components */
-.chord-type-prechorus, .chord-type-prechorus:hover,
-.chord-type-pre-chorus, .chord-type-pre-chorus:hover,
-button.chord-type-prechorus, button.chord-type-prechorus:hover,
-button.chord-type-pre-chorus, button.chord-type-pre-chorus:hover {
-    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+/* 3. Bridge: Timeline Root-F Hot Pink/Magenta (#ec4899 -> #be185d) */
+button.chord-suggestion-btn.chord-type-bridge,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-bridge {
+    background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(236, 72, 153, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-bridge:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-bridge:hover {
+    background: linear-gradient(135deg, #f472b6 0%, #be185d 100%) !important;
+    box-shadow: 0 6px 12px rgba(236, 72, 153, 0.55) !important;
     color: #ffffff !important;
 }
 
-.chord-type-bridge, .chord-type-bridge:hover,
-button.chord-type-bridge, button.chord-type-bridge:hover {
-    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+/* 4. Green / Solo / Pre-Chorus: Timeline Root-A Emerald Green (#10b981 -> #047857) */
+button.chord-suggestion-btn.chord-type-green,
+button.chord-suggestion-btn.chord-type-solo,
+button.chord-suggestion-btn.chord-type-prechorus,
+button.chord-suggestion-btn.chord-type-pre-chorus,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-green,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-solo,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-prechorus,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-pre-chorus {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(4, 120, 87, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-green:hover,
+button.chord-suggestion-btn.chord-type-solo:hover,
+button.chord-suggestion-btn.chord-type-prechorus:hover,
+button.chord-suggestion-btn.chord-type-pre-chorus:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-green:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-solo:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-prechorus:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-pre-chorus:hover {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%) !important;
+    box-shadow: 0 6px 12px rgba(4, 120, 87, 0.55) !important;
     color: #ffffff !important;
 }
 
-.chord-type-instrumental, .chord-type-instrumental:hover,
-button.chord-type-instrumental, button.chord-type-instrumental:hover {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+/* 5. Intro: Vivid Magenta / Fuchsia (#d946ef -> #a21caf) */
+button.chord-suggestion-btn.chord-type-intro,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-intro {
+    background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(217, 70, 239, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-intro:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-intro:hover {
+    background: linear-gradient(135deg, #e879f9 0%, #a21caf 100%) !important;
+    box-shadow: 0 6px 12px rgba(217, 70, 239, 0.55) !important;
     color: #ffffff !important;
 }
 
-.chord-type-interlude, .chord-type-interlude:hover,
-button.chord-type-interlude, button.chord-type-interlude:hover {
+/* 6. Outro: International Orange (#f97316 -> #ea580c) */
+button.chord-suggestion-btn.chord-type-outro,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-outro {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-outro:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-outro:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #c2410c 100%) !important;
+    box-shadow: 0 6px 12px rgba(249, 115, 22, 0.55) !important;
+    color: #ffffff !important;
+}
+
+/* 7. Instrumental: Timeline Root-D Purple (#8b5cf6 -> #6d28d9) */
+button.chord-suggestion-btn.chord-type-instrumental,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-instrumental {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-instrumental:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-instrumental:hover {
+    background: linear-gradient(135deg, #a78bfa 0%, #6d28d9 100%) !important;
+    box-shadow: 0 6px 12px rgba(139, 92, 246, 0.55) !important;
+    color: #ffffff !important;
+}
+
+/* 8. Interlude: Teal (#0d9488 -> #0f766e) */
+button.chord-suggestion-btn.chord-type-interlude,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-interlude {
     background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.45) !important;
+}
+button.chord-suggestion-btn.chord-type-interlude:hover,
+#chordButtonsContainer .chord-suggestion-btn.chord-type-interlude:hover {
+    background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important;
+    box-shadow: 0 6px 12px rgba(13, 148, 136, 0.55) !important;
     color: #ffffff !important;
 }
 
