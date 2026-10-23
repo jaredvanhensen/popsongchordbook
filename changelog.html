@@ -309,6 +309,24 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.417</span>
+                    <span class="version-date">October 23, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Synced Lyrics (LRC) &amp; Super Extractor:</strong>
+                            <ul>
+                                <li><strong>Target Length Detection:</strong> Reads the exact YouTube video length via the YouTube Player API (with fallback to MIDI time-aligned track duration) to match against lyrics releases.</li>
+                                <li><strong>Length Matching &amp; Candidate Ranking:</strong> Queries LRCLIB for all available candidate versions and ranks them by time-synced status and minimum length difference to the video.</li>
+                                <li><strong>Interactive Version Browser:</strong> Allows users to browse candidate albums/edits, preview lyric lines, compare duration differences (exact, close, diff), and 1-click select the optimal lyrics.</li>
+                                <li><strong>Metadata &amp; Search Filtering:</strong> Added quick search inputs in the lyrics picker to re-query with alternative keywords without altering song details.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.416</span>
                     <span class="version-date">October 23, 2026</span>
                 </div>

@@ -7,6 +7,8 @@
     <title>PopsongChordBook Super Converter (v3 - Multi-Section)</title>
     <!-- Midi Parsing Library (Tone.js Midi) -->
     <script src="https://unpkg.com/@tonejs/midi"></script>
+    <!-- YouTube IFrame Player API for exact video duration detection -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <style>
         body {
@@ -732,12 +734,12 @@
 
         .midi-meta-grid {
             display: grid;
-            grid-template-columns: 2fr 2fr 1fr 1fr;
+            grid-template-columns: 2.2fr 2.2fr 1.1fr 1fr 1fr;
             gap: 12px;
             margin-bottom: 18px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 860px) {
             .midi-meta-grid {
                 grid-template-columns: 1fr 1fr;
             }
@@ -864,6 +866,32 @@
             box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
         }
 
+        /* Lyrics Candidate Options */
+        .lyrics-candidate-card {
+            padding: 10px 12px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+            transition: all 0.18s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .lyrics-candidate-card:hover {
+            border-color: #818cf8;
+            background: #fafbff;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.12);
+        }
+
+        .lyrics-candidate-card.selected {
+            border-color: #6366f1;
+            background: #f5f7ff;
+            box-shadow: 0 0 0 1.5px #6366f1;
+        }
+
         .midi-timeline-card {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
@@ -977,6 +1005,10 @@
                             <input type="text" id="midiTitle" class="midi-text-input" placeholder="Song title">
                         </div>
                         <div class="midi-input-group">
+                            <label class="midi-field-label">Release Year</label>
+                            <input type="text" id="midiYear" class="midi-text-input" placeholder="e.g. 1993" maxlength="4">
+                        </div>
+                        <div class="midi-input-group">
                             <label class="midi-field-label">BPM</label>
                             <input type="number" id="midiBpm" class="midi-text-input" placeholder="120" min="40" max="300">
                         </div>
@@ -995,9 +1027,6 @@
                         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                             <h3>🎼 Chord Blocks</h3>
                             <span class="midi-blocks-disclaimer" style="font-size: 0.82rem; font-weight: 600; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 3px 8px;">⚠️ Please manually check Chord Blocks</span>
-                        </div>
-                        <div class="midi-blocks-actions">
-                            <button type="button" class="btn-secondary midi-pill-btn" onclick="autoDistributeMidiBlocks()" title="Re-distribute detected chords into Intro, Verse, Chorus, Pre-Chorus">↺ Auto-Map Sections</button>
                         </div>
                     </div>
 
@@ -1033,6 +1062,74 @@
                             </div>
                             <textarea id="midiBlock4Chords" class="midi-block-textarea" rows="3" placeholder="All imported unique chords..."></textarea>
                         </div>
+                    </div>
+
+                    <!-- Lyrics Section (LRC / Synced Lyrics) -->
+                    <div class="midi-lyrics-card" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <h3 style="margin: 0; font-size: 1.1em; color: #1e293b; font-weight: 700;">🎤 Song Lyrics (Synced LRC)</h3>
+                                <span id="midiLyricsBadge" style="display: none; font-size: 0.78rem; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">✓ Lyrics Loaded</span>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <button type="button" id="midiToggleLyricsOptionsBtn" class="btn-secondary midi-pill-btn" onclick="toggleLyricsOptions()" style="font-size: 0.8rem; padding: 4px 10px; background: #e0e7ff; color: #4338ca; border-color: #c7d2fe;">📋 Choose Lyrics Version</button>
+                                <button type="button" class="btn-secondary midi-pill-btn" onclick="fetchSyncedLyricsOnline(null, null, true)" title="Search LRCLIB for matching lyric versions" style="font-size: 0.8rem; padding: 4px 10px;">⚡ Re-Search LRCLIB</button>
+                                <button type="button" class="btn-secondary midi-pill-btn" onclick="clearMidiLyrics()" style="font-size: 0.8rem; padding: 4px 10px;">Clear</button>
+                            </div>
+                        </div>
+
+                        <!-- Target Length & Status Bar -->
+                        <div id="midiLyricsTargetInfo" style="display: flex; justify-content: space-between; align-items: center; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-size: 0.88em; color: #1e40af; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-weight: 700;">⏱️ Target Video/Song Length:</span>
+                                <span id="midiTargetLengthDisplay" style="font-weight: 700; background: #ffffff; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe; color: #1e3a8a;">--:--</span>
+                                <span id="midiTargetLengthSource" style="font-size: 0.82em; color: #3b82f6;">(waiting for MIDI or YouTube link)</span>
+                            </div>
+                            <div id="midiLyricsSearchSummary" style="font-size: 0.85em; font-weight: 600; color: #047857;">
+                                Ready to find closest match
+                            </div>
+                        </div>
+
+                        <!-- 1. Find & Choose Synced Lyrics Primary Button -->
+                        <button type="button" id="midiLrclibSearchBtn" onclick="fetchSyncedLyricsOnline(null, null, true)"
+                           style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 44px; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.95em; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25); margin-bottom: 12px; box-sizing: border-box; cursor: pointer; transition: transform 0.15s ease;">
+                            <span>🔍 1. FIND &amp; CHOOSE SYNCED LYRICS FROM LRCLIB</span>
+                        </button>
+
+                        <!-- Expandable Options List Container -->
+                        <div id="midiLyricsOptionsContainer" style="display: none; background: #ffffff; border: 1.5px solid #c7d2fe; border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 8px;">
+                                <div>
+                                    <strong style="color: #1e293b; font-size: 0.95em;">Select Synced Lyrics Version</strong>
+                                    <div style="font-size: 0.8em; color: #64748b;">Choose the track version whose length matches your YouTube video:</div>
+                                </div>
+                                <div style="display: flex; gap: 6px;">
+                                    <button type="button" class="btn-secondary" onclick="toggleLyricsOptions(false)" style="font-size: 0.78rem; padding: 3px 8px;">✕ Close Options</button>
+                                </div>
+                            </div>
+
+                            <!-- Search Filter Row -->
+                            <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                                <input type="text" id="midiLyricsSearchArtistInput" placeholder="Artist" style="flex: 1; min-width: 120px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85em;">
+                                <input type="text" id="midiLyricsSearchTitleInput" placeholder="Track Title" style="flex: 1.5; min-width: 150px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85em;">
+                                <button type="button" class="btn-secondary" onclick="manualLyricsSearchTrigger()" style="padding: 6px 12px; font-size: 0.85em; font-weight: 600; background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; cursor: pointer;">Search</button>
+                            </div>
+
+                            <!-- Status message during loading / results -->
+                            <div id="midiLyricsSearchStatus" style="font-size: 0.85em; margin-bottom: 10px; padding: 6px 10px; border-radius: 6px; background: #f8fafc; border: 1px solid #e2e8f0;"></div>
+
+                            <!-- Candidate Cards List -->
+                            <div id="midiLyricsOptionsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 380px; overflow-y: auto; padding-right: 4px;"></div>
+                        </div>
+
+                        <!-- 2. Instructions -->
+                        <div style="font-size: 13px; line-height: 1.45; color: #64748b; margin-bottom: 10px; background: #ffffff; padding: 10px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                            To use the teleprompter in the Chord Timeline, you need <strong>time-synced lyrics (LRC format)</strong>. You can pick an option above, or browse directly on <a id="midiLrclibLink" href="https://lrclib.net" target="_blank" rel="noopener" style="color: #6366f1; text-decoration: underline; font-weight: 600;">lrclib.net</a> / <a href="https://lyricradar.com" target="_blank" rel="noopener" style="color: #6366f1; text-decoration: underline; font-weight: 600;">LyricRadar.com</a> and paste the text containing [00:12.34] timestamps into the field below.<br>
+                            <span style="font-weight: 600; color: #475569; display: inline-block; margin-top: 4px;">Tip:</span> Make sure ONLY Lyrics are selected. Remove any initial information like: produced by / artist / composed by etc.
+                        </div>
+
+                        <!-- 3. Textarea -->
+                        <textarea id="midiLyricsInput" class="midi-block-textarea" rows="5" placeholder="Paste lyrics here (or pick a version above)..." style="height: 120px; font-family: 'Courier New', Courier, monospace; font-size: 0.92em; line-height: 1.5;"></textarea>
                     </div>
 
                     <!-- Timeline Progression View -->
@@ -1882,9 +1979,14 @@
                 link.href = extracted.youtubeUrl;
                 link.textContent = extracted.youtubeUrl;
                 badge.style.display = 'flex';
+                if (extracted.videoId) {
+                    probeYoutubeDuration(extracted.videoId);
+                }
             } else {
                 detectedMidiYouTubeUrl = '';
                 badge.style.display = 'none';
+                detectedYoutubeDuration = 0;
+                updateLyricsTargetDurationDisplay();
             }
 
             // Apply BPM if detected
@@ -1936,6 +2038,15 @@
         }
 
         document.getElementById('midiYtInput').addEventListener('input', handleMidiYtInputChange);
+        document.getElementById('midiArtist')?.addEventListener('input', () => updateLrclibLinks());
+        document.getElementById('midiTitle')?.addEventListener('input', () => updateLrclibLinks());
+        document.getElementById('midiLyricsInput')?.addEventListener('input', function() {
+            const badge = document.getElementById('midiLyricsBadge');
+            if (badge) {
+                badge.style.display = this.value.trim() ? 'inline-block' : 'none';
+                badge.textContent = this.value.includes('[00:') ? '✓ Synced Lyrics (LRC) Loaded' : '✓ Lyrics Entered';
+            }
+        });
 
         // --- Drag & Drop for MIDI ---
         const midiDropZone = document.getElementById('midiDropZone');
@@ -2039,6 +2150,10 @@
 
                 if (data && Array.isArray(data.data) && data.data.length > 0) {
                     const track = data.data[0];
+                    if (track && track.duration) {
+                        window.currentDeezerTrackDuration = track.duration;
+                        updateLyricsTargetDurationDisplay();
+                    }
                     const foundArtist = (track.artist && track.artist.name) ? track.artist.name.trim() : '';
                     const foundTitle = (track.title_short || track.title || '').trim();
 
@@ -2057,6 +2172,34 @@
                         if (parsed) {
                             parsed.artist = foundArtist;
                             parsed.title = foundTitle;
+                        }
+
+                        // Update LRCLIB Links and Auto-Fetch Lyrics
+                        updateLrclibLinks(foundArtist, foundTitle);
+                        fetchSyncedLyricsOnline(foundArtist, foundTitle);
+
+                        // Lookup Album Release Date/Year via Deezer Album JSONP
+                        if (track.album && track.album.id) {
+                            const albumCb = 'deezerAlbumLookup_' + Math.round(1000000 * Math.random());
+                            const albumScript = document.createElement('script');
+                            window[albumCb] = (albumData) => {
+                                delete window[albumCb];
+                                if (albumScript.parentNode) albumScript.parentNode.removeChild(albumScript);
+                                if (albumData && albumData.release_date) {
+                                    const yearMatch = albumData.release_date.match(/\b(19\d\d|20\d\d)\b/);
+                                    if (yearMatch) {
+                                        const yearEl = document.getElementById('midiYear');
+                                        if (yearEl && !yearEl.value) {
+                                            yearEl.value = yearMatch[1];
+                                            yearEl.classList.add('highlight-glow');
+                                            setTimeout(() => yearEl.classList.remove('highlight-glow'), 2000);
+                                        }
+                                        if (parsed) parsed.year = yearMatch[1];
+                                    }
+                                }
+                            };
+                            albumScript.src = `https://api.deezer.com/album/${track.album.id}?output=jsonp&callback=${albumCb}`;
+                            document.body.appendChild(albumScript);
                         }
 
                         // Auto-fill UG header fields if empty
@@ -2094,13 +2237,427 @@
             }
         }
 
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatTimeSec(sec) {
+            if (!sec || isNaN(sec)) return '--:--';
+            const s = Math.round(sec);
+            const m = Math.floor(s / 60);
+            const rem = s % 60;
+            return `${m}:${rem < 10 ? '0' : ''}${rem}`;
+        }
+
+        function getTargetSongDuration() {
+            if (detectedYoutubeDuration && detectedYoutubeDuration > 0) {
+                return { duration: detectedYoutubeDuration, source: 'YouTube Video' };
+            }
+            if (currentMidiParsedData && currentMidiParsedData.duration && currentMidiParsedData.duration > 0) {
+                return { duration: currentMidiParsedData.duration, source: 'MIDI File' };
+            }
+            if (window.currentDeezerTrackDuration && window.currentDeezerTrackDuration > 0) {
+                return { duration: window.currentDeezerTrackDuration, source: 'Deezer Track' };
+            }
+            return { duration: 0, source: 'Unknown' };
+        }
+
+        function updateLyricsTargetDurationDisplay() {
+            const target = getTargetSongDuration();
+            const displayEl = document.getElementById('midiTargetLengthDisplay');
+            const sourceEl = document.getElementById('midiTargetLengthSource');
+            if (displayEl) {
+                displayEl.textContent = target.duration > 0 ? formatTimeSec(target.duration) : '--:--';
+            }
+            if (sourceEl) {
+                if (target.duration > 0) {
+                    sourceEl.textContent = `(via ${target.source}: ${target.duration}s)`;
+                } else {
+                    sourceEl.textContent = '(waiting for MIDI or YouTube link)';
+                }
+            }
+        }
+
+        let ytProbePlayer = null;
+        let detectedYoutubeDuration = 0;
+
+        function probeYoutubeDuration(videoId) {
+            if (!videoId) return;
+
+            function initPlayer() {
+                let probeDiv = document.getElementById('ytDurationProbeDiv');
+                if (!probeDiv) {
+                    probeDiv = document.createElement('div');
+                    probeDiv.id = 'ytDurationProbeDiv';
+                    probeDiv.style.cssText = 'position:absolute; width:1px; height:1px; left:-9999px; top:-9999px; opacity:0; pointer-events:none;';
+                    document.body.appendChild(probeDiv);
+                }
+
+                try {
+                    if (ytProbePlayer && typeof ytProbePlayer.destroy === 'function') {
+                        ytProbePlayer.destroy();
+                    }
+                    ytProbePlayer = new YT.Player('ytDurationProbeDiv', {
+                        height: '1',
+                        width: '1',
+                        videoId: videoId,
+                        playerVars: { autoplay: 0, controls: 0 },
+                        events: {
+                            'onReady': function(event) {
+                                try {
+                                    const dur = Math.round(event.target.getDuration() || 0);
+                                    if (dur > 0) {
+                                        detectedYoutubeDuration = dur;
+                                        updateLyricsTargetDurationDisplay();
+                                        if (window.lastLyricsCandidates && window.lastLyricsCandidates.length > 0) {
+                                            reSortAndRenderLyricsCandidates();
+                                        }
+                                    }
+                                } catch(err) {
+                                    console.warn('YT duration read err:', err);
+                                }
+                            }
+                        }
+                    });
+                } catch(err) {
+                    console.warn('YT probe init err:', err);
+                }
+            }
+
+            if (window.YT && window.YT.Player) {
+                initPlayer();
+            } else {
+                const prev = window.onYouTubeIframeAPIReady;
+                window.onYouTubeIframeAPIReady = function() {
+                    if (typeof prev === 'function') prev();
+                    initPlayer();
+                };
+            }
+        }
+
+        function reSortAndRenderLyricsCandidates() {
+            if (!window.lastLyricsCandidates || window.lastLyricsCandidates.length === 0) return;
+            const target = getTargetSongDuration();
+            const targetSec = target.duration || 0;
+            if (targetSec > 0) {
+                window.lastLyricsCandidates.sort((a, b) => {
+                    const aSynced = !!a.syncedLyrics;
+                    const bSynced = !!b.syncedLyrics;
+                    if (aSynced !== bSynced) return bSynced - aSynced;
+                    const aDiff = Math.abs((a.duration || 0) - targetSec);
+                    const bDiff = Math.abs((b.duration || 0) - targetSec);
+                    return aDiff - bDiff;
+                });
+            }
+            renderLyricsCandidatesList(window.lastLyricsCandidates);
+        }
+
+        function toggleLyricsOptions(forceState) {
+            const container = document.getElementById('midiLyricsOptionsContainer');
+            const toggleBtn = document.getElementById('midiToggleLyricsOptionsBtn');
+            if (!container) return;
+            const isVisible = (container.style.display !== 'none');
+            const shouldShow = (forceState !== undefined) ? forceState : !isVisible;
+            container.style.display = shouldShow ? 'block' : 'none';
+            if (toggleBtn) {
+                const count = window.lastLyricsCandidates ? ` (${window.lastLyricsCandidates.length})` : '';
+                toggleBtn.textContent = shouldShow ? `📋 Hide Version Options${count}` : `📋 Choose Lyrics Version${count}`;
+            }
+            if (shouldShow && (!window.lastLyricsCandidates || window.lastLyricsCandidates.length === 0)) {
+                fetchSyncedLyricsOnline(null, null, true);
+            }
+        }
+
+        function manualLyricsSearchTrigger() {
+            const artist = (document.getElementById('midiLyricsSearchArtistInput')?.value || document.getElementById('midiArtist')?.value || '').trim();
+            const title = (document.getElementById('midiLyricsSearchTitleInput')?.value || document.getElementById('midiTitle')?.value || '').trim();
+            if (!title) {
+                alert('Please enter at least a track title to search for lyrics.');
+                return;
+            }
+            fetchSyncedLyricsOnline(artist, title, true);
+        }
+
+        function renderLyricsCandidatesList(candidates) {
+            const listEl = document.getElementById('midiLyricsOptionsList');
+            if (!listEl) return;
+
+            if (!candidates || candidates.length === 0) {
+                listEl.innerHTML = '<div style="font-size:0.85em; color:#64748b; padding:10px; text-align:center;">No lyric versions found.</div>';
+                return;
+            }
+
+            const target = getTargetSongDuration();
+            const targetSec = target.duration || 0;
+
+            let html = '';
+            candidates.forEach((item, index) => {
+                const isSelected = (window.selectedLyricsCandidateId === item.id);
+                const isBestMatch = (index === 0 && targetSec > 0 && !!item.syncedLyrics);
+                const hasSynced = !!item.syncedLyrics;
+                
+                let diffBadgeHtml = '';
+                if (targetSec > 0 && item.duration) {
+                    const diff = Math.round(item.duration - targetSec);
+                    const diffSign = diff > 0 ? `+${diff}s` : diff < 0 ? `${diff}s` : `0s`;
+                    if (diff === 0) {
+                        diffBadgeHtml = `<span style="background: #dcfce7; color: #166534; border: 1px solid #86efac; border-radius: 4px; padding: 2px 6px; font-weight: 700; font-size: 0.72rem;">🎯 Exact Match (${diffSign})</span>`;
+                    } else if (Math.abs(diff) <= 3) {
+                        diffBadgeHtml = `<span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 4px; padding: 2px 6px; font-weight: 600; font-size: 0.72rem;">✓ Diff: ${diffSign}</span>`;
+                    } else if (Math.abs(diff) <= 10) {
+                        diffBadgeHtml = `<span style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 4px; padding: 2px 6px; font-weight: 600; font-size: 0.72rem;">⚠️ Diff: ${diffSign}</span>`;
+                    } else {
+                        diffBadgeHtml = `<span style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 4px; padding: 2px 6px; font-size: 0.72rem;">❌ Diff: ${diffSign}</span>`;
+                    }
+                }
+
+                let snippetHtml = '';
+                const text = item.syncedLyrics || item.plainLyrics || '';
+                if (text) {
+                    const lines = text.split('\n')
+                        .map(l => l.trim())
+                        .filter(l => l && !l.startsWith('[ti:') && !l.startsWith('[ar:') && !l.startsWith('[al:') && !l.startsWith('[by:') && !l.startsWith('[offset:'))
+                        .slice(0, 2);
+                    if (lines.length > 0) {
+                        snippetHtml = `<div style="margin-top: 4px; font-family: 'Courier New', monospace; font-size: 0.77em; color: #64748b; background: #f8fafc; padding: 4px 8px; border-radius: 4px; border: 1px solid #e2e8f0; white-space: pre-wrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(lines.join('  •  '))}</div>`;
+                    }
+                }
+
+                html += `
+                <div class="lyrics-candidate-card ${isSelected ? 'selected' : ''}" onclick="selectLyricsCandidate(${item.id}, true)">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <div style="font-weight: 700; color: #1e293b; font-size: 0.95em;">
+                                ${escapeHtml(item.trackName || item.name || 'Untitled')}
+                                <span style="font-weight: normal; color: #64748b;">by ${escapeHtml(item.artistName || 'Unknown')}</span>
+                            </div>
+                            <div style="font-size: 0.83em; color: #475569; margin-top: 2px;">
+                                💿 <strong>Album:</strong> ${escapeHtml(item.albumName || 'Single / Unknown Album')}
+                            </div>
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                            <div style="display: flex; gap: 4px; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
+                                ${isBestMatch ? '<span style="background: #fef3c7; color: #92400e; border: 1px solid #fde68a; border-radius: 4px; padding: 2px 6px; font-weight: 700; font-size: 0.72rem;">⭐ BEST MATCH</span>' : ''}
+                                ${hasSynced ? '<span style="background: #dcfce7; color: #15803d; border: 1px solid #86efac; border-radius: 4px; padding: 2px 6px; font-weight: 700; font-size: 0.72rem;">⚡ Synced LRC</span>' : '<span style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 6px; font-size: 0.72rem;">Plain Text</span>'}
+                                <span style="background: #e0e7ff; color: #3730a3; border-radius: 4px; padding: 2px 6px; font-weight: 600; font-size: 0.75rem;">⏱️ ${formatTimeSec(item.duration)}</span>
+                                ${diffBadgeHtml}
+                            </div>
+                            <div>
+                                ${isSelected ? '<span style="display: inline-block; padding: 3px 10px; background: #10b981; color: white; border-radius: 6px; font-size: 0.78rem; font-weight: 700;">✓ Selected</span>' : `<button type="button" class="btn-secondary" style="padding: 3px 10px; font-size: 0.78rem; font-weight: 600; cursor: pointer;" onclick="event.stopPropagation(); selectLyricsCandidate(${item.id}, true)">Select</button>`}
+                            </div>
+                        </div>
+                    </div>
+                    ${snippetHtml}
+                </div>`;
+            });
+
+            listEl.innerHTML = html;
+        }
+
+        function selectLyricsCandidate(candidateId, flashFeedback = true) {
+            if (!window.lastLyricsCandidates) return;
+            const item = window.lastLyricsCandidates.find(c => c.id === candidateId);
+            if (!item) return;
+
+            window.selectedLyricsCandidateId = candidateId;
+            const lyricsEl = document.getElementById('midiLyricsInput');
+            const badgeEl = document.getElementById('midiLyricsBadge');
+
+            const lyricsText = item.syncedLyrics || item.plainLyrics || '';
+            if (lyricsEl && lyricsText) {
+                lyricsEl.value = lyricsText;
+                if (flashFeedback) {
+                    lyricsEl.classList.add('highlight-glow');
+                    setTimeout(() => lyricsEl.classList.remove('highlight-glow'), 2000);
+                }
+            }
+
+            if (badgeEl) {
+                badgeEl.style.display = 'inline-block';
+                const typeStr = item.syncedLyrics ? 'LRC Synced' : 'Plain';
+                const albumStr = item.albumName ? ` &middot; ${escapeHtml(item.albumName)}` : '';
+                const durStr = item.duration ? ` (${formatTimeSec(item.duration)})` : '';
+                badgeEl.innerHTML = `✓ ${typeStr}${durStr}${albumStr}`;
+            }
+
+            const summaryEl = document.getElementById('midiLyricsSearchSummary');
+            if (summaryEl) {
+                summaryEl.innerHTML = `Selected: <strong>${escapeHtml(item.albumName || item.trackName)}</strong> (${formatTimeSec(item.duration)})`;
+            }
+
+            renderLyricsCandidatesList(window.lastLyricsCandidates);
+        }
+
+        function updateLrclibLinks(artistOverride, titleOverride) {
+            const artist = (artistOverride || document.getElementById('midiArtist')?.value || '').trim();
+            const title = (titleOverride || document.getElementById('midiTitle')?.value || '').trim();
+            const q = [artist, title].filter(Boolean).join(' ').trim();
+            const encoded = encodeURIComponent(q).replace(/%20/g, '+');
+            const searchUrl = q ? `https://lrclib.net/search/${encoded}` : 'https://lrclib.net';
+            const link = document.getElementById('midiLrclibLink');
+            if (link) link.href = searchUrl;
+            const sArtist = document.getElementById('midiLyricsSearchArtistInput');
+            const sTitle = document.getElementById('midiLyricsSearchTitleInput');
+            if (sArtist && !sArtist.value) sArtist.value = artist;
+            if (sTitle && !sTitle.value) sTitle.value = title;
+        }
+
+        async function fetchSyncedLyricsOnline(artistOverride, titleOverride, forceShowOptions = false) {
+            const artist = (artistOverride || document.getElementById('midiLyricsSearchArtistInput')?.value || document.getElementById('midiArtist')?.value || '').trim();
+            const title = (titleOverride || document.getElementById('midiLyricsSearchTitleInput')?.value || document.getElementById('midiTitle')?.value || '').trim();
+            if (!artist && !title) return;
+
+            const sArtist = document.getElementById('midiLyricsSearchArtistInput');
+            const sTitle = document.getElementById('midiLyricsSearchTitleInput');
+            if (sArtist && !sArtist.value) sArtist.value = artist;
+            if (sTitle && !sTitle.value) sTitle.value = title;
+
+            const lyricsEl = document.getElementById('midiLyricsInput');
+            const optionsContainer = document.getElementById('midiLyricsOptionsContainer');
+            const statusEl = document.getElementById('midiLyricsSearchStatus');
+            const toggleBtn = document.getElementById('midiToggleLyricsOptionsBtn');
+
+            if (optionsContainer && forceShowOptions) {
+                optionsContainer.style.display = 'block';
+                if (toggleBtn) toggleBtn.textContent = '📋 Hide Version Options';
+            }
+
+            if (statusEl) {
+                statusEl.innerHTML = `<span style="color:#6366f1;">⏳ Searching LRCLIB versions for "<strong>${escapeHtml(artist)} &ndash; ${escapeHtml(title)}</strong>"...</span>`;
+                statusEl.style.display = 'block';
+            }
+
+            try {
+                let candidates = [];
+                // 1. Search by track_name and artist_name
+                try {
+                    const searchUrl = `https://lrclib.net/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}`;
+                    const res = await fetch(searchUrl);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (Array.isArray(data)) candidates = data;
+                    }
+                } catch(e) {
+                    console.warn('LRCLIB track/artist search notice:', e);
+                }
+
+                // 2. Fallback search by query q
+                if (candidates.length === 0) {
+                    try {
+                        const qUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(artist + ' ' + title)}`;
+                        const res = await fetch(qUrl);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (Array.isArray(data)) candidates = data;
+                        }
+                    } catch(e) {
+                        console.warn('LRCLIB q search notice:', e);
+                    }
+                }
+
+                // 3. Fallback to /api/get if search returned nothing
+                if (candidates.length === 0) {
+                    try {
+                        const getUrl = `https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(title)}`;
+                        const res = await fetch(getUrl);
+                        if (res.ok) {
+                            const single = await res.json();
+                            if (single && (single.syncedLyrics || single.plainLyrics)) {
+                                candidates = [single];
+                            }
+                        }
+                    } catch(e) {
+                        console.warn('LRCLIB get notice:', e);
+                    }
+                }
+
+                if (candidates.length === 0) {
+                    if (statusEl) {
+                        statusEl.innerHTML = `<span style="color:#ef4444;">❌ No matching lyrics found on LRCLIB for "${escapeHtml(artist)} - ${escapeHtml(title)}". You can search manually on <a href="https://lrclib.net/search/${encodeURIComponent(artist + ' ' + title)}" target="_blank" rel="noopener" style="color:#6366f1; text-decoration:underline;">lrclib.net</a> and paste the text below.</span>`;
+                    }
+                    return;
+                }
+
+                // Determine target duration (from YouTube, MIDI, or Deezer)
+                const target = getTargetSongDuration();
+                const targetSec = target.duration || 0;
+
+                // Sort candidates:
+                // Prioritize candidates with syncedLyrics, then closest duration match
+                candidates.sort((a, b) => {
+                    const aSynced = !!a.syncedLyrics;
+                    const bSynced = !!b.syncedLyrics;
+                    if (aSynced !== bSynced) return bSynced - aSynced;
+                    if (targetSec > 0) {
+                        const aDiff = Math.abs((a.duration || 0) - targetSec);
+                        const bDiff = Math.abs((b.duration || 0) - targetSec);
+                        return aDiff - bDiff;
+                    }
+                    return 0;
+                });
+
+                window.lastLyricsCandidates = candidates;
+
+                // Auto-select best candidate if input is currently empty or if this was an auto-fetch
+                const best = candidates[0];
+                if (best && (!lyricsEl.value || !forceShowOptions)) {
+                    selectLyricsCandidate(best.id, false);
+                }
+
+                renderLyricsCandidatesList(candidates);
+
+                const matchCount = candidates.length;
+                const syncedCount = candidates.filter(c => c.syncedLyrics).length;
+                if (statusEl) {
+                    statusEl.innerHTML = `<span style="color:#059669;">✅ Found <strong>${matchCount} versions</strong> (${syncedCount} time-synced LRC). Best match to song length (${formatTimeSec(best.duration)}) selected. Click any version below to switch.</span>`;
+                }
+
+                const summaryEl = document.getElementById('midiLyricsSearchSummary');
+                if (summaryEl) {
+                    summaryEl.innerHTML = `Found <strong>${matchCount} versions</strong> &middot; Selected: ${formatTimeSec(best.duration)}`;
+                }
+
+                if (optionsContainer && (forceShowOptions || candidates.length > 1)) {
+                    optionsContainer.style.display = 'block';
+                    if (toggleBtn) toggleBtn.textContent = `📋 Hide Version Options (${candidates.length})`;
+                }
+
+            } catch (err) {
+                console.warn('LRCLIB auto-fetch notice:', err);
+                if (statusEl) {
+                    statusEl.innerHTML = `<span style="color:#ef4444;">Notice: Could not load lyrics automatically. You can paste LRC text directly or search manually.</span>`;
+                }
+            }
+        }
+
+        function clearMidiLyrics() {
+            const lyricsEl = document.getElementById('midiLyricsInput');
+            if (lyricsEl) lyricsEl.value = '';
+            const badgeEl = document.getElementById('midiLyricsBadge');
+            if (badgeEl) badgeEl.style.display = 'none';
+            window.selectedLyricsCandidateId = null;
+            if (window.lastLyricsCandidates) {
+                renderLyricsCandidatesList(window.lastLyricsCandidates);
+            }
+        }
+
         function renderMidiParsedData(parsed) {
             document.getElementById('midiResultContainer').style.display = 'block';
 
             document.getElementById('midiArtist').value = parsed.artist || '';
             document.getElementById('midiTitle').value = parsed.title || '';
+            document.getElementById('midiYear').value = parsed.year || '';
             document.getElementById('midiBpm').value = parsed.bpm || 120;
             document.getElementById('midiKey').value = parsed.key || 'C';
+
+            updateLrclibLinks(parsed.artist, parsed.title);
+            updateLyricsTargetDurationDisplay();
 
             // Check if YouTube URL was in MIDI or already entered
             if (parsed.embeddedYt && !detectedMidiYouTubeUrl) {
@@ -2228,17 +2785,14 @@
             document.getElementById('midiBlock4Chords').value = b4.chords;
         }
 
-        function autoDistributeMidiBlocks() {
-            if (currentMidiParsedData) {
-                distributeMidiBlocks(currentMidiParsedData);
-            }
-        }
-
         function buildSongFromMidiInputs() {
             const artist = document.getElementById('midiArtist').value.trim() || 'Unknown Artist';
             const title = document.getElementById('midiTitle').value.trim() || 'Untitled';
             const tempo = document.getElementById('midiBpm').value.trim() || '120';
             const key = document.getElementById('midiKey').value.trim() || 'C';
+            const rawYear = document.getElementById('midiYear')?.value.trim() || '';
+            const year = rawYear ? rawYear.replace(/\D/g, '').substring(0, 4) : '';
+            const lyrics = document.getElementById('midiLyricsInput')?.value.trim() || '';
 
             const b1Title = document.getElementById('midiBlock1Title').value.trim() || 'Verse';
             const b1Chords = document.getElementById('midiBlock1Chords').value.trim();
@@ -2296,6 +2850,9 @@
                 title,
                 tempo,
                 key,
+                year,
+                lyrics,
+                fullLyrics: lyrics,
                 youtubeUrl: ytUrl,
                 verse: b1Chords,
                 verseTitle: b1Title,
@@ -2759,6 +3316,11 @@
                     if (cm) capo = cm[1];
                 }
 
+                if (lower.includes("year:") || lower.includes("release date:") || lower.includes("released:")) {
+                    const ym = trimmed.match(/(?:year|release\s*date|released)[\s:]+(\d{4})/i);
+                    if (ym) year = ym[1];
+                }
+
                 if (lower.startsWith("tuning:") || lower.startsWith("key:") || lower.startsWith("capo:") || lower.startsWith("author:") || lower.includes("views")) return;
 
                 let sec = detectSection(trimmed);
@@ -2832,6 +3394,9 @@
                 title:  toCameltoeFont(title  || "New Song"),
                 key:    key    || "",
                 tempo:  bpm    || "",
+                year:   year   || (document.getElementById('midiYear')?.value.trim() || ""),
+                lyrics: document.getElementById('midiLyricsInput')?.value.trim() || "",
+                fullLyrics: document.getElementById('midiLyricsInput')?.value.trim() || "",
                 capo:   capoVal,
                 favorite: false
             };
