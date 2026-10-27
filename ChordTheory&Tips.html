@@ -544,26 +544,26 @@
         <!-- Left Sidebar Column -->
         <aside class="app-sidebar">
             <div class="sidebar-brand">
-                <a href="index.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+                <a href="/" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
                     <img src="images/guitar_keyboard_blue.jpg" alt="Logo" class="brand-logo">
                     <img src="images/popsongchordbook_text_logo.jpg" alt="PopSongChordBook.com" class="brand-text-logo">
                 </a>
             </div>
             
             <nav class="sidebar-nav">
-                <a href="songlist.html" class="nav-item" id="btnSongbook">
+                <a href="/songlist" class="nav-item" id="btnSongbook">
                     <span class="nav-icon">🎵</span>
                     <span class="nav-text">All Songs</span>
                 </a>
-                <a href="songlist.html?view=favorites" class="nav-item" id="btnFavorites">
+                <a href="/songlist?view=favorites" class="nav-item" id="btnFavorites">
                     <span class="nav-icon">⭐</span>
                     <span class="nav-text">Favorites</span>
                 </a>
-                <a href="songlist.html?view=artists" class="nav-item" id="btnArtists">
+                <a href="/songlist?view=artists" class="nav-item" id="btnArtists">
                     <span class="nav-icon">👤</span>
                     <span class="nav-text">Artists</span>
                 </a>
-                <a href="songlist.html?view=chords" class="nav-item" id="btnChordsLibrary">
+                <a href="/songlist?view=chords" class="nav-item" id="btnChordsLibrary">
                     <span class="nav-icon">🎹</span>
                     <span class="nav-text">Chords Library</span>
                 </a>
@@ -575,31 +575,31 @@
                     <span class="nav-icon">🎓</span>
                     <span class="nav-text">Chord Trainer</span>
                 </a>
-                <a href="songlist.html?view=band" class="nav-item" id="btnConnectBand">
+                <a href="/songlist?view=band" class="nav-item" id="btnConnectBand">
                     <span class="nav-icon">🎸</span>
                     <span class="nav-text">Band Practice</span>
                 </a>
-                <a href="songlist.html?view=mylibrary" class="nav-item" id="btnMyLibrary">
+                <a href="/songlist?view=mylibrary" class="nav-item" id="btnMyLibrary">
                     <span class="nav-icon">✏️</span>
                     <span class="nav-text">My Library</span>
                 </a>
-                <a href="songlist.html?view=quickstart" class="nav-item" id="btnQuickStart">
+                <a href="/songlist?view=quickstart" class="nav-item" id="btnQuickStart">
                     <span class="nav-icon">⚡</span>
                     <span class="nav-text">Quick Start Guide</span>
                 </a>
-                <a href="songlist.html?view=teacher" class="nav-item" id="btnDashboardTeacher" style="display:none;">
+                <a href="/songlist?view=teacher" class="nav-item" id="btnDashboardTeacher" style="display:none;">
                     <span class="nav-icon">🏫</span>
                     <span class="nav-text">Teacher Dashboard</span>
                 </a>
-                <a href="songlist.html?view=student" class="nav-item" id="btnDashboardStudent" style="display:none;">
+                <a href="/songlist?view=student" class="nav-item" id="btnDashboardStudent" style="display:none;">
                     <span class="nav-icon">🎒</span>
                     <span class="nav-text">Student Dashboard</span>
                 </a>
-                <a href="songlist.html?view=lessons" class="nav-item" id="btnKeyboardLessons" style="display: none;">
+                <a href="/songlist?view=lessons" class="nav-item" id="btnKeyboardLessons" style="display: none;">
                     <span class="nav-icon">🚀</span>
                     <span class="nav-text">Beginner Lessons</span>
                 </a>
-                <a href="songlist.html?view=newmembers" class="nav-item" id="btnNewMembers" style="display: none;">
+                <a href="/songlist?view=newmembers" class="nav-item" id="btnNewMembers" style="display: none;">
                     <span class="nav-icon">👥</span>
                     <span class="nav-text">New Members</span>
                 </a>
@@ -630,7 +630,7 @@
         <main class="app-main">
             <header class="glass-header">
                 <div class="header-content">
-                    <a href="songlist.html" class="back-btn" onclick="event.preventDefault(); if (document.referrer && (document.referrer.includes('songlist.html') || document.referrer.includes('songlist2.html') || document.referrer.includes('ChordTrainer.html'))) { if (window.history.length > 1) { window.history.back(); } else { window.location.href = document.referrer; } } else { window.location.href = 'songlist.html'; }">
+                    <a href="/songlist" class="back-btn" onclick="event.preventDefault(); if (document.referrer && (document.referrer.includes('songlist') || document.referrer.includes('ChordTrainer'))) { if (window.history.length > 1) { window.history.back(); } else { window.location.href = document.referrer; } } else { window.location.href = '/songlist'; }">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
@@ -1522,7 +1522,7 @@
         </article>
 
         <section style="text-align: center; margin-top: 60px;">
-            <a href="ChordTrainer.html" class="back-btn" id="btn-practice-chords" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
+            <a href="/ChordTrainer" class="back-btn" id="btn-practice-chords" style="display: inline-flex; background: var(--primary-gradient); padding: 18px 32px; font-size: 1.1rem; border: none; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);">
                 Got it! Let's Practice Chords 📖
             </a>
         </section>
@@ -1629,18 +1629,18 @@
         function goToChordsTheory() {
             const mode = localStorage.getItem('instrumentMode') || 'piano';
             if (mode === 'guitar') {
-                window.location.href = 'ChordTheory&TipsGuitar.html';
+                window.location.href = '/ChordTheory&TipsGuitar';
             } else {
-                window.location.href = 'ChordTheory&Tips.html';
+                window.location.href = '/ChordTheory&Tips';
             }
         }
 
         function goToChordTrainer() {
             const mode = localStorage.getItem('instrumentMode') || 'piano';
             if (mode === 'guitar') {
-                window.location.href = 'GuitarChordTrainer.html';
+                window.location.href = '/GuitarChordTrainer';
             } else {
-                window.location.href = 'ChordTrainer.html';
+                window.location.href = '/ChordTrainer';
             }
         }
 

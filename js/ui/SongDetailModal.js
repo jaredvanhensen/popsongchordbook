@@ -2026,6 +2026,24 @@ class SongDetailModal {
                     if (!isEditing) {
                         this.navigateNext();
                     }
+                } else if (e.key === 'p' || e.key === 'P') {
+                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+                    if (!isEditing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                        e.preventDefault();
+                        if (this.onPracticeRandomNext) {
+                            this.onPracticeRandomNext();
+                        }
+                    }
+                } else if (e.key === 'r' || e.key === 'R') {
+                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+                    if (!isEditing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                        e.preventDefault();
+                        if (this.isRandomMode && this.onNavigate) {
+                            this.onNavigate(null, true);
+                        } else if (window.appInstance) {
+                            window.appInstance.openRandomSong();
+                        }
+                    }
                 } else if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
                     if (this.hasUnsavedChanges) {

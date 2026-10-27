@@ -793,15 +793,28 @@ class TableRenderer {
     }
 
 
+    highlightRow(songId, scrollIntoView = true) {
+        this.selectedRowId = songId;
+        this.updateSelection();
+        if (scrollIntoView && this.selectedRowId) {
+            const target = this.tbody.querySelector(`tr[data-id="${this.selectedRowId}"]`);
+            if (target) {
+                target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        }
+    }
+
     updateSelection() {
         const rows = this.tbody.querySelectorAll('tr');
         rows.forEach(row => {
-            const rowId = parseInt(row.dataset.id);
-            const selectedId = this.selectedRowId ? parseInt(this.selectedRowId) : null;
-            if (rowId === selectedId) {
-                row.classList.add('selected');
+            const isMatch = this.selectedRowId != null && row.dataset.id != null && (
+                String(row.dataset.id) === String(this.selectedRowId) ||
+                parseInt(row.dataset.id) === parseInt(this.selectedRowId)
+            );
+            if (isMatch) {
+                row.classList.add('selected', 'keyboard-highlighted');
             } else {
-                row.classList.remove('selected');
+                row.classList.remove('selected', 'keyboard-highlighted');
             }
         });
     }

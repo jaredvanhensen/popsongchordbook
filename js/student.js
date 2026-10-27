@@ -371,7 +371,7 @@ class StudentDashboard {
             this.assignedSongsContainer.innerHTML = '';
             Object.values(progress.assignedSongs).forEach(song => {
                 const a = document.createElement('a');
-                a.href = `songlist.html?songId=${song.id}`;
+                a.href = `/songlist?songId=${song.id}`;
                 a.className = 'assigned-song-link';
                 a.innerHTML = `
                     <div style="display:flex; flex-direction:column;">
@@ -394,12 +394,12 @@ class StudentDashboard {
                         }
                         try {
                             if (window.top) {
-                                window.top.location.href = `songlist.html?songId=${song.id}`;
+                                window.top.location.href = `/songlist?songId=${song.id}`;
                                 return;
                             }
                         } catch (err) {}
                     }
-                    window.location.href = `songlist.html?songId=${song.id}`;
+                    window.location.href = `/songlist?songId=${song.id}`;
                 });
                 this.assignedSongsContainer.appendChild(a);
             });
@@ -442,7 +442,7 @@ class StudentDashboard {
                     } else {
                         songs.forEach(song => {
                             const a = document.createElement('a');
-                            a.href = `songlist.html?songId=${song.id}`;
+                            a.href = `/songlist?songId=${song.id}`;
                             a.className = 'assigned-song-link';
                             a.style.cssText = 'margin-bottom: 0; background: #faf5ff; border-color: #f3e8ff; padding: 10px 12px;';
                             a.innerHTML = `
@@ -463,12 +463,12 @@ class StudentDashboard {
                                     }
                                     try {
                                         if (window.top) {
-                                            window.top.location.href = `songlist.html?songId=${song.id}`;
+                                            window.top.location.href = `/songlist?songId=${song.id}`;
                                             return;
                                         }
                                     } catch (err) {}
                                 }
-                                window.location.href = `songlist.html?songId=${song.id}`;
+                                window.location.href = `/songlist?songId=${song.id}`;
                             });
                             setlistGroup.appendChild(a);
                         });

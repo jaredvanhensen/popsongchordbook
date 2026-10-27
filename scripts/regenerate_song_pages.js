@@ -254,7 +254,7 @@ function generateHtml(song, slug) {
     const icons = ['🎵','🎹','🎸','🎶','🎼','🎷','🎺'];
     const icon  = icons[slug.charCodeAt(0) % icons.length];
 
-    const directSongUrl = `/songlist.html?songId=${encodeURIComponent(song.id || '')}&amp;artist=${encodeURIComponent(song.artist || '')}&amp;title=${encodeURIComponent(song.title || '')}`;
+    const directSongUrl = `/songlist?songId=${encodeURIComponent(song.id || '')}&amp;artist=${encodeURIComponent(song.artist || '')}&amp;title=${encodeURIComponent(song.title || '')}`;
     const playStoreTopUrl = `https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=${encodeURIComponent(`utm_source=seo_song&utm_medium=top_cta&utm_campaign=${slug}`)}`;
     const playStoreBottomUrl = `https://play.google.com/store/apps/details?id=com.popsongchordbook.app&amp;referrer=${encodeURIComponent(`utm_source=seo_song&utm_medium=bottom_cta&utm_campaign=${slug}`)}`;
 
@@ -500,7 +500,7 @@ function generateHtml(song, slug) {
     <div class="preview-container">
         <nav class="breadcrumb" aria-label="breadcrumb">
             <a href="/">Home</a> &rsaquo;
-            <a href="/songlist.html">Songs</a> &rsaquo;
+            <a href="/songlist">Songs</a> &rsaquo;
             <span>${esc(song.title)}</span>
         </nav>
 

@@ -56,7 +56,7 @@ if (isEmbed) {
     console.log("Scrolling Chords: Running in embed mode");
 
     // Debug Overlay removed for production
-    const backLink = document.querySelector('a[href="index.html"]');
+    const backLink = document.getElementById('backBtn') || document.querySelector('a[href="/"], a[href="index.html"]');
     if (backLink) backLink.style.display = 'none';
 
     // Use a solid light background for embed mode to ensure visibility

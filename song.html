@@ -491,7 +491,7 @@
             document.getElementById('chords-preview').innerText = previewText || "Preview not available.";
 
             // Direct Song Deep Link & Google Play Store Links
-            const directSongUrl = `/songlist.html?songId=${encodeURIComponent(song.id || '')}&artist=${encodeURIComponent(song.artist || '')}&title=${encodeURIComponent(song.title || '')}`;
+            const directSongUrl = `/songlist?songId=${encodeURIComponent(song.id || '')}&artist=${encodeURIComponent(song.artist || '')}&title=${encodeURIComponent(song.title || '')}`;
             const playFullBtn = document.getElementById('play-full-btn');
             const topPlayFullBtn = document.getElementById('top-play-full-btn');
             if (playFullBtn) {

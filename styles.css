@@ -1794,6 +1794,23 @@ tbody tr.public-song.selected {
     border-left: 4px solid #3b82f6 !important;
 }
 
+/* Keyboard highlighted row styling */
+tbody tr.keyboard-highlighted,
+tbody tr.song-row.keyboard-highlighted {
+    background: rgba(99, 102, 241, 0.18) !important;
+    outline: 2px solid var(--secondary-color, #6366f1) !important;
+    outline-offset: -2px;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.25) !important;
+    position: relative;
+    z-index: 2;
+}
+
+tbody tr.public-song.keyboard-highlighted {
+    background: rgba(59, 130, 246, 0.2) !important;
+    outline: 2px solid #3b82f6 !important;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.25) !important;
+}
+
 .public-tag {
     display: inline-flex;
     align-items: center;

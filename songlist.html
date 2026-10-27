@@ -6,9 +6,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PopSongChordBook</title>
-    <meta name="version" content="3.419">
-    <meta name="application-version" content="v3.419">
-    <script src="/js/utils/smart-app-banner.js?v=3.419"></script>
+    <meta name="version" content="3.421">
+    <meta name="application-version" content="v3.421">
+    <script src="/js/utils/smart-app-banner.js?v=3.421"></script>
     <meta name="description" content="Browse hundreds of interactive scrolling chords. Play along, transpose, connect with your band or student, and manage setlists with the ultimate musicians tool.">
     <meta name="keywords" content="chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, music tutorials, keyboard chords, band practice tool, band tool, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, chord jam along">
     <link rel="canonical" href="https://www.popsongchordbook.com/songlist">
@@ -922,7 +922,7 @@
         <!-- Left Sidebar Column -->
         <aside class="app-sidebar">
             <div class="sidebar-brand">
-                <a href="index.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
+                <a href="/" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
                     <img src="images/guitar_keyboard_blue.jpg" alt="Logo" class="brand-logo">
                     <img src="images/popsongchordbook_text_logo.jpg" alt="PopSongChordBook.com" class="brand-text-logo">
                 </a>
@@ -953,7 +953,7 @@
                     <span class="nav-icon">🎓</span>
                     <span class="nav-text">Chord Trainer</span>
                 </a>
-                <a href="band.html" class="nav-item" id="btnConnectBand" onclick="event.preventDefault(); openDashboardPanel('band.html');">
+                <a href="/band" class="nav-item" id="btnConnectBand" onclick="event.preventDefault(); openDashboardPanel('band.html');">
                     <span class="nav-icon">🎸</span>
                     <span class="nav-text">Band Practice</span>
                 </a>
@@ -961,7 +961,7 @@
                     <span class="nav-icon">✏️</span>
                     <span class="nav-text">My Library</span>
                 </a>
-                <a href="quickstart.html" class="nav-item" id="btnQuickStart" onclick="event.preventDefault(); openDashboardPanel('quickstart.html');">
+                <a href="/quickstart" class="nav-item" id="btnQuickStart" onclick="event.preventDefault(); openDashboardPanel('quickstart.html');">
                     <span class="nav-icon">⚡</span>
                     <span class="nav-text">Quick Start Guide</span>
                 </a>
@@ -973,11 +973,11 @@
                     <span class="nav-icon">🎸</span>
                     <span class="nav-text">Beginner Lessons</span>
                 </a>
-                <a href="teacher.html" class="nav-item" id="btnDashboardTeacher" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('teacher.html');">
+                <a href="/teacher" class="nav-item" id="btnDashboardTeacher" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('teacher.html');">
                     <span class="nav-icon">🏫</span>
                     <span class="nav-text">Teacher Dashboard</span>
                 </a>
-                <a href="student.html" class="nav-item" id="btnDashboardStudent" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('student.html');">
+                <a href="/student" class="nav-item" id="btnDashboardStudent" style="display:none;" onclick="event.preventDefault(); openDashboardPanel('student.html');">
                     <span class="nav-icon">🎒</span>
                     <span class="nav-text">Student Dashboard</span>
                 </a>
@@ -1142,7 +1142,7 @@
         <header>
             <div class="header-top">
                 <div class="header-top-left">
-                    <a href="index.html" id="backBtn" class="back-icon-btn hidden" title="Back" onclick="handleBackBtn(event)">
+                    <a href="/" id="backBtn" class="back-icon-btn hidden" title="Back" onclick="handleBackBtn(event)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -1163,7 +1163,7 @@
                         title="Show button bar">▲</button>
                     <!-- Version moved here -->
                     <div style="width: 100%; text-align: right; font-size: 11px; color: #64748b; margin-top: 2px; padding-right: 4px;">
-                        <span id="site-version" class="version-tag">3.416</span>
+                        <span id="site-version" class="version-tag">3.421</span>
                     </div>
                 </div>
             </div>
@@ -1367,7 +1367,7 @@
                         </button>
 
                         <button id="randomSongBtn" class="import-export-btn random-song-btn with-label"
-                            title="Open a random song">
+                            title="Open a random song (R)">
                             <span class="icon">🎲</span>
                             <span class="label">Random</span>
                         </button>
@@ -1380,7 +1380,7 @@
 
 
                         <button id="practiceRandomBtn" class="import-export-btn practice-random-btn with-label"
-                            title="Random from Practice">
+                            title="Random from Practice (P)">
                             <span class="icon">&#127919;</span>
                             <span class="label">Practice</span>
                         </button>
@@ -2011,7 +2011,7 @@
                             </button>
                         </div>
                         
-                        <a id="openStudentDashboardBtn" href="student.html" class="modal-submit-btn hidden" style="background: #2563eb; display: none; text-align: center; text-decoration: none; margin-top: 15px; width: 100%;">
+                        <a id="openStudentDashboardBtn" href="/student" class="modal-submit-btn hidden" style="background: #2563eb; display: none; text-align: center; text-decoration: none; margin-top: 15px; width: 100%;">
                             Open Student Dashboard
                         </a>
                     </div>
@@ -2019,7 +2019,7 @@
                     <!-- Teacher View -->
                     <div id="profileTeacherView" class="hidden">
                         <div style="font-size: 12px; color: #15803d; margin-bottom: 12px;">Manage your students and view their progress in the Teacher Dashboard.</div>
-                        <a href="teacher.html" class="modal-submit-btn" style="background: #15803d; display: block; text-align: center; text-decoration: none;">
+                        <a href="/teacher" class="modal-submit-btn" style="background: #15803d; display: block; text-align: center; text-decoration: none;">
                             Go to Teacher Dashboard
                         </a>
                     </div>
@@ -2039,7 +2039,7 @@
                     </div>
                     
                     <div style="border-top: 1px solid #ddd6fe; margin: 15px 0;"></div>
-                    <a id="profileManageBandsBtn" href="band.html" class="modal-submit-btn" style="background: #6d28d9; display: block; text-align: center; text-decoration: none; width: 100%;">
+                    <a id="profileManageBandsBtn" href="/band" class="modal-submit-btn" style="background: #6d28d9; display: block; text-align: center; text-decoration: none; width: 100%;">
                         Manage Bands / Create a Band
                     </a>
                 </div>
@@ -3944,7 +3944,13 @@
                 window.appInstance.updateButtonsForSetlistMode();
                 
                 const select = document.getElementById('setlistSelect');
-                if (select) select.value = setlistId;
+                if (select) { select.value = setlistId; select.blur(); }
+                setTimeout(() => {
+                    const rows = Array.from(document.querySelectorAll('#songsTableBody tr.song-row'));
+                    if (rows.length > 0) {
+                        window.appInstance.highlightSongRow(rows[0]);
+                    }
+                }, 60);
                 
                 // Render the filtered setlist songs!
                 window.appInstance.loadAndRender();

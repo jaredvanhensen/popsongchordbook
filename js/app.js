@@ -277,6 +277,7 @@ class App {
         this.isInitialized = true;
         this.setupPrintButton();
         this.setupDeselect();
+        this.setupTableKeyboardNavigation();
         this.setupHeaderBarToggle();
         this.setupToggleView();
         this.setupSortByDate();
@@ -2050,7 +2051,7 @@ class App {
             });
         }
 
-        // Clear search on Escape key
+        // Clear search on Escape key, or navigate results on ArrowDown / Enter
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 searchInput.value = '';
@@ -2058,6 +2059,21 @@ class App {
                 this.loadAndRender();
                 searchInput.blur();
                 toggleClearButton();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                searchInput.blur();
+                const rows = Array.from(document.querySelectorAll('#songsTableBody tr.song-row'));
+                if (rows.length > 0) {
+                    this.highlightSongRow(rows[0]);
+                }
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                searchInput.blur();
+                const rows = Array.from(document.querySelectorAll('#songsTableBody tr.song-row'));
+                if (rows.length > 0) {
+                    this.highlightSongRow(rows[0]);
+                    this.navigateToSong(rows[0].dataset.id, false);
+                }
             }
         });
 
@@ -2150,10 +2166,33 @@ class App {
 
     setupSetlistSelect() {
         const select = document.getElementById('setlistSelect');
+        if (!select) return;
+
+        const shiftFocusToSonglist = () => {
+            select.blur();
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (tableWrapper) {
+                tableWrapper.focus();
+            }
+            setTimeout(() => {
+                const rows = Array.from(document.querySelectorAll('#songsTableBody tr.song-row'));
+                if (rows.length > 0) {
+                    this.highlightSongRow(rows[0]);
+                }
+            }, 60);
+        };
+
         select.addEventListener('change', (e) => {
             this.currentSetlistId = e.target.value || null;
             this.updateButtonsForSetlistMode();
             this.loadAndRender();
+            shiftFocusToSonglist();
+        });
+
+        select.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === 'Escape') {
+                shiftFocusToSonglist();
+            }
         });
 
         // Initial check in case a setlist is already selected
@@ -2925,6 +2964,179 @@ class App {
         this.tableRenderer.selectRow(null);
     }
 
+    setupTableKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Only operate if song table exists on this page (i.e. songlist.html)
+            const songsTable = document.getElementById('songsTable');
+            if (!songsTable) return;
+
+            // Do not handle if user is typing in an input, textarea, or contenteditable
+            const activeEl = document.activeElement;
+            const activeTag = activeEl ? activeEl.tagName : '';
+
+            // If the setlist dropdown was left focused, blur it and shift focus back to the songlist
+            if (activeEl && activeEl.id === 'setlistSelect') {
+                activeEl.blur();
+                const tableWrapper = document.querySelector('.table-wrapper');
+                if (tableWrapper) tableWrapper.focus();
+            }
+
+            const isInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || 
+                            (activeTag === 'SELECT' && activeEl && activeEl.id !== 'setlistSelect') ||
+                            (activeEl && activeEl.isContentEditable);
+            if (isInput) return;
+
+            // Do not intercept if user is inline-editing a table row
+            if (this.tableRenderer && this.tableRenderer.editingRowId) return;
+
+            // Do not intercept browser modifier keys (Cmd+R, Ctrl+R, Cmd+P, Ctrl+P, Alt, etc.)
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+            // Only respond when all the songs are showing (no modal, timeline, trainer, or custom panel open)
+            const songDetailModal = document.getElementById('songDetailModal');
+            const isSongDetailOpen = songDetailModal && !songDetailModal.classList.contains('hidden');
+
+            const isModalOpen = isSongDetailOpen ||
+                                document.querySelector('.modal:not(.hidden)') !== null ||
+                                (document.getElementById('scrollingChordsModal') && !document.getElementById('scrollingChordsModal').classList.contains('timeline-hidden')) ||
+                                (document.getElementById('chordTrainerModal') && !document.getElementById('chordTrainerModal').classList.contains('hidden')) ||
+                                (document.getElementById('dashboardPanel') && !document.getElementById('dashboardPanel').classList.contains('hidden')) ||
+                                (document.getElementById('customSidebarView') && !document.getElementById('customSidebarView').classList.contains('hidden'));
+            if (isModalOpen) return;
+
+            // Check that the table wrapper is visible (all songs table is displayed)
+            const tableWrapper = document.querySelector('.table-wrapper');
+            if (!tableWrapper || tableWrapper.classList.contains('hidden') || tableWrapper.offsetParent === null) return;
+
+            const key = e.key;
+
+            // 1. 'R' or 'r': Random button
+            if (key === 'r' || key === 'R') {
+                e.preventDefault();
+                const randomBtn = document.getElementById('randomSongBtn');
+                if (randomBtn) {
+                    randomBtn.click();
+                } else {
+                    this.openRandomSong();
+                }
+                return;
+            }
+
+            // 2. 'P' or 'p': Practice button
+            if (key === 'p' || key === 'P') {
+                e.preventDefault();
+                const practiceBtn = document.getElementById('practiceRandomBtn');
+                if (practiceBtn) {
+                    practiceBtn.click();
+                } else {
+                    this.openPracticeRandomSong();
+                }
+                return;
+            }
+
+            // Get all song rows currently rendered in the table
+            const rows = Array.from(document.querySelectorAll('#songsTableBody tr.song-row'));
+            if (rows.length === 0) return;
+
+            // 3. ArrowDown: go DOWN 1 song
+            if (key === 'ArrowDown' || key === 'Down') {
+                e.preventDefault();
+                if (activeEl && activeEl.tagName === 'BUTTON') {
+                    activeEl.blur();
+                }
+
+                const currentIndex = rows.findIndex(row => 
+                    row.classList.contains('keyboard-highlighted') || 
+                    row.classList.contains('selected') || 
+                    (this.tableRenderer && String(row.dataset.id) === String(this.tableRenderer.getSelectedRowId()))
+                );
+
+                let targetIndex;
+                if (currentIndex === -1) {
+                    targetIndex = this.getFirstVisibleRowIndex(rows, tableWrapper);
+                } else {
+                    targetIndex = Math.min(currentIndex + 1, rows.length - 1);
+                }
+
+                this.highlightSongRow(rows[targetIndex]);
+                return;
+            }
+
+            // 4. ArrowUp: go UP 1 song
+            if (key === 'ArrowUp' || key === 'Up') {
+                e.preventDefault();
+                if (activeEl && activeEl.tagName === 'BUTTON') {
+                    activeEl.blur();
+                }
+
+                const currentIndex = rows.findIndex(row => 
+                    row.classList.contains('keyboard-highlighted') || 
+                    row.classList.contains('selected') || 
+                    (this.tableRenderer && String(row.dataset.id) === String(this.tableRenderer.getSelectedRowId()))
+                );
+
+                let targetIndex;
+                if (currentIndex === -1) {
+                    targetIndex = this.getFirstVisibleRowIndex(rows, tableWrapper);
+                } else {
+                    targetIndex = Math.max(currentIndex - 1, 0);
+                }
+
+                this.highlightSongRow(rows[targetIndex]);
+                return;
+            }
+
+            // 5. Enter: open the current highlighted song
+            if (key === 'Enter') {
+                if (activeEl && (activeEl.tagName === 'BUTTON' || activeEl.tagName === 'A')) {
+                    return;
+                }
+
+                let currentHighlightedRow = rows.find(row => 
+                    row.classList.contains('keyboard-highlighted') || 
+                    row.classList.contains('selected') || 
+                    (this.tableRenderer && String(row.dataset.id) === String(this.tableRenderer.getSelectedRowId()))
+                );
+
+                if (!currentHighlightedRow && rows.length > 0) {
+                    const firstIdx = this.getFirstVisibleRowIndex(rows, tableWrapper);
+                    currentHighlightedRow = rows[firstIdx];
+                    this.highlightSongRow(currentHighlightedRow);
+                }
+
+                if (currentHighlightedRow && currentHighlightedRow.dataset.id) {
+                    e.preventDefault();
+                    this.navigateToSong(currentHighlightedRow.dataset.id, false);
+                }
+                return;
+            }
+        });
+    }
+
+    getFirstVisibleRowIndex(rows, wrapper) {
+        if (!wrapper || rows.length === 0) return 0;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const found = rows.findIndex(row => {
+            const rect = row.getBoundingClientRect();
+            return rect.top >= wrapperRect.top && rect.top < wrapperRect.bottom;
+        });
+        return found >= 0 ? found : 0;
+    }
+
+    highlightSongRow(row) {
+        if (!row) return;
+        const songId = row.dataset.id;
+        if (this.tableRenderer) {
+            this.tableRenderer.highlightRow(songId, true);
+        } else {
+            document.querySelectorAll('#songsTableBody tr.song-row').forEach(r => {
+                r.classList.remove('selected', 'keyboard-highlighted');
+            });
+            row.classList.add('selected', 'keyboard-highlighted');
+            row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+    }
+
     async addExampleSongIfEmpty() {
         if (this.songManager.getAllSongs().length === 0) {
             try {
@@ -3136,53 +3348,39 @@ class App {
             return;
         }
 
-        // 1. Get current song ID and previous song ID to avoid immediate repetition
+        // 1. Get current song ID to avoid immediate repetition
         const currentSongId = this.songDetailModal ? this.songDetailModal.currentSongId : null;
-        const previousSongId = (this.practiceHistory.length > 0) ? this.practiceHistory[this.practiceHistory.length - 1] : null;
 
         // 2. Filter out current song to find candidates for "Next"
         let candidates = availableSongs.filter(s => s.id !== currentSongId);
 
-        // If no candidates (only 1 song in list), we HAVE to pick the current one again (fallback)
+        // If only 1 song in list, pick it
         if (candidates.length === 0) {
             candidates = availableSongs;
         }
 
-        // 3. Find the minimum practice count among the candidates
-        const counts = candidates.map(s => parseInt(s.practiceCount) || 0);
-        const minCount = Math.min(...counts);
+        // 3. Filter out songs that have already been visited in this cycle
+        let unvisitedCandidates = candidates.filter(s => !this.practiceHistory.includes(s.id));
 
-        // 4. Get the group of "neediest" candidates
-        let tiedSongs = candidates.filter(s => (parseInt(s.practiceCount) || 0) === minCount);
-
-        // 5. If we have multiple tied songs, try to avoid the one we JUST came from (prevent toggling)
-        let nextSong;
-        if (tiedSongs.length > 1 && previousSongId) {
-            const nonRepeatCandidates = tiedSongs.filter(s => s.id !== previousSongId);
-            if (nonRepeatCandidates.length > 0) {
-                const randomIndex = Math.floor(Math.random() * nonRepeatCandidates.length);
-                nextSong = nonRepeatCandidates[randomIndex];
-            } else {
-                const randomIndex = Math.floor(Math.random() * tiedSongs.length);
-                nextSong = tiedSongs[randomIndex];
-            }
-        } else {
-            // Only one song with min count or no previous song history
-            const randomIndex = Math.floor(Math.random() * tiedSongs.length);
-            nextSong = tiedSongs[randomIndex];
+        // If all candidate songs have been visited, reset history and begin a fresh cycle!
+        if (unvisitedCandidates.length === 0) {
+            this.practiceHistory = currentSongId ? [currentSongId] : [];
+            unvisitedCandidates = candidates;
         }
 
-        // Visual feedback
-        console.log(`Open next practice song: ${nextSong.title} (Practiced ${nextSong.practiceCount || 0} times)`);
+        // 4. Pick randomly from the unvisited candidates
+        const randomIndex = Math.floor(Math.random() * unvisitedCandidates.length);
+        const nextSong = unvisitedCandidates[randomIndex];
 
-        // Push current song to history before navigating
-        if (this.songDetailModal && this.songDetailModal.currentSongId) {
-            this.practiceHistory.push(this.songDetailModal.currentSongId);
-            // Limit history size to 50
-            if (this.practiceHistory.length > 50) {
+        // 5. Push current song to practice history before navigating
+        if (currentSongId) {
+            this.practiceHistory.push(currentSongId);
+            if (this.practiceHistory.length > availableSongs.length + 10) {
                 this.practiceHistory.shift();
             }
         }
+
+        console.log(`Open next practice song: ${nextSong.title} (Cycle progress: ${this.practiceHistory.length}/${availableSongs.length})`);
 
         this.navigateToSong(nextSong.id, false, true);
     }
