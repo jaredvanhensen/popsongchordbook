@@ -3116,9 +3116,12 @@ class App {
     getFirstVisibleRowIndex(rows, wrapper) {
         if (!wrapper || rows.length === 0) return 0;
         const wrapperRect = wrapper.getBoundingClientRect();
+        const thead = wrapper.querySelector('thead');
+        const headerHeight = thead ? thead.offsetHeight : 60;
+        const visibleTop = wrapperRect.top + headerHeight;
         const found = rows.findIndex(row => {
             const rect = row.getBoundingClientRect();
-            return rect.top >= wrapperRect.top && rect.top < wrapperRect.bottom;
+            return rect.bottom > visibleTop + 5 && rect.top < wrapperRect.bottom;
         });
         return found >= 0 ? found : 0;
     }
@@ -3133,7 +3136,39 @@ class App {
                 r.classList.remove('selected', 'keyboard-highlighted');
             });
             row.classList.add('selected', 'keyboard-highlighted');
-            row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            this.scrollRowIntoView(row);
+        }
+    }
+
+    scrollRowIntoView(target) {
+        if (!target) return;
+        if (this.tableRenderer && typeof this.tableRenderer.scrollRowIntoView === 'function') {
+            this.tableRenderer.scrollRowIntoView(target);
+            return;
+        }
+        const wrapper = target.closest('.table-wrapper') || document.querySelector('.table-wrapper');
+        if (!wrapper) {
+            target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            return;
+        }
+        const thead = wrapper.querySelector('thead');
+        const headerHeight = thead ? thead.offsetHeight : 60;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const visibleTop = wrapperRect.top + headerHeight;
+        const visibleBottom = wrapperRect.bottom;
+
+        if (!target.previousElementSibling) {
+            wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        if (targetRect.top < visibleTop) {
+            const scrollDiff = targetRect.top - visibleTop - 4;
+            wrapper.scrollBy({ top: scrollDiff, behavior: 'smooth' });
+        } else if (targetRect.bottom > visibleBottom) {
+            const scrollDiff = targetRect.bottom - visibleBottom + 6;
+            wrapper.scrollBy({ top: scrollDiff, behavior: 'smooth' });
         }
     }
 

@@ -1513,6 +1513,7 @@ header h1 {
 .table-wrapper {
     overflow-x: auto;
     overflow-y: auto;
+    scroll-padding-top: 65px;
     flex: 1;
     min-height: 0;
     background: white;
@@ -1532,6 +1533,10 @@ header h1 {
     overscroll-behavior-x: none;
     overscroll-behavior-y: auto;
     touch-action: pan-y;
+}
+
+.table-wrapper:has(table.simple-view) {
+    scroll-padding-top: 35px;
 }
 
 /* Custom Scrollbar for better UX */

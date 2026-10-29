@@ -793,13 +793,47 @@ class TableRenderer {
     }
 
 
+    scrollRowIntoView(target) {
+        if (!target) return;
+        const wrapper = target.closest('.table-wrapper') || (this.tbody ? this.tbody.closest('.table-wrapper') : null);
+        if (!wrapper) {
+            target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            return;
+        }
+
+        const thead = wrapper.querySelector('thead');
+        const headerHeight = thead ? thead.offsetHeight : 60;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        // Visible top boundary inside wrapper is below the sticky header
+        const visibleTop = wrapperRect.top + headerHeight;
+        const visibleBottom = wrapperRect.bottom;
+
+        // If this is the very first row, scroll cleanly to top of the container
+        if (!target.previousElementSibling) {
+            wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        if (targetRect.top < visibleTop) {
+            // Row is hidden under the sticky header or above the visible area
+            const scrollDiff = targetRect.top - visibleTop - 4;
+            wrapper.scrollBy({ top: scrollDiff, behavior: 'smooth' });
+        } else if (targetRect.bottom > visibleBottom) {
+            // Row is below the visible area
+            const scrollDiff = targetRect.bottom - visibleBottom + 6;
+            wrapper.scrollBy({ top: scrollDiff, behavior: 'smooth' });
+        }
+    }
+
     highlightRow(songId, scrollIntoView = true) {
         this.selectedRowId = songId;
         this.updateSelection();
         if (scrollIntoView && this.selectedRowId) {
             const target = this.tbody.querySelector(`tr[data-id="${this.selectedRowId}"]`);
             if (target) {
-                target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                this.scrollRowIntoView(target);
             }
         }
     }
