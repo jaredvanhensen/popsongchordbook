@@ -178,6 +178,17 @@
             padding: 0 1px;
         }
 
+        .back-nav-container {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .back-nav {
             padding: 20px;
             background: white;
@@ -311,7 +322,7 @@
 
 <body>
     <nav class="back-nav">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="back-nav-container">
             <a href="/" class="back-icon-btn" title="Back to Home"
                onclick="if(window.parent !== window){ event.preventDefault(); window.parent.closeDashboardPanel(); }">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -319,7 +330,7 @@
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
             </a>
-            <div class="top-bar-actions">
+            <div class="top-bar-actions" style="margin-left: auto;">
                 <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
                     <span class="lang-pill lang-pill-en active">EN</span>
                     <span class="lang-pill-sep">/</span>
