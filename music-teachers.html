@@ -6,8 +6,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title id="doc-title">PopSongChordBook for Music Teachers — Teacher &amp; Student Dashboards, Scrolling Chords &amp; Progress Tracking</title>
-    <meta name="version" content="3.426">
-    <script src="/js/utils/smart-app-banner.js?v=3.426"></script>
+    <meta name="version" content="3.427">
+    <script src="/js/utils/smart-app-banner.js?v=3.427"></script>
     <meta name="description" id="doc-meta-desc"
         content="Empower your music teaching studio with PopSongChordBook. Keep track of student progress, assign lessons and homework, set practice goals, simplify chords &amp; capo, add notes to the scrolling chord timeline, and jam together across synchronized devices.">
     <meta name="keywords" id="doc-meta-keywords"
@@ -185,70 +185,34 @@
             display: block;
         }
 
-        /* Top Announcement Ribbon */
-        .top-ribbon {
-            background: linear-gradient(90deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            padding: 8px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .top-ribbon-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-        }
-
-        .top-ribbon-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .top-ribbon-right a {
-            color: #60a5fa;
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
-        .top-ribbon-right a:hover {
-            color: #93c5fd;
-        }
-
         /* Language Toggle Button (EN / NL) */
         .lang-toggle-btn {
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
             border-radius: 20px;
-            padding: 2px 4px;
+            padding: 3px 6px;
             display: inline-flex;
             align-items: center;
             gap: 2px;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             flex-shrink: 0;
         }
 
         .lang-toggle-btn:hover {
-            border-color: rgba(255, 255, 255, 0.45);
-            background: rgba(255, 255, 255, 0.24);
+            border-color: #94a3b8;
+            background: #e2e8f0;
         }
 
         .lang-pill {
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 12px;
-            font-size: 0.74rem;
+            font-size: 0.76rem;
             font-weight: 800;
             letter-spacing: 0.4px;
-            color: #94a3b8;
+            color: #64748b;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
@@ -259,13 +223,13 @@
         .lang-pill.active {
             background: #2563eb;
             color: #ffffff;
-            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.45);
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.35);
         }
 
         .lang-pill-sep {
             font-size: 0.72rem;
             font-weight: 700;
-            color: #64748b;
+            color: #94a3b8;
             user-select: none;
             line-height: 1;
             padding: 0 1px;
@@ -1097,6 +1061,12 @@
         }
 
         /* Responsive Breakpoints */
+        @media (max-width: 1140px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
         @media (max-width: 1060px) {
             .showcase-split {
                 grid-template-columns: 1fr;
@@ -1105,21 +1075,12 @@
             .showcase-split.reverse {
                 direction: ltr;
             }
-            .nav-links {
-                display: none;
-            }
             .footer-inner {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 640px) {
-            .top-ribbon {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 6px;
-            }
             .footer-inner {
                 grid-template-columns: 1fr;
             }
@@ -1141,25 +1102,26 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 480px) {
+            .site-nav {
+                padding: 10px 14px;
+            }
+            .nav-actions {
+                gap: 8px;
+            }
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.84rem;
+            }
+            .brand-name {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Top Announcement Ribbon (With EN / NL Language Switcher) -->
-    <div class="top-ribbon">
-        <div class="top-ribbon-left">
-            <span data-i18n="topRibbonText">🎵 <strong>PopSongChordBook Teaching Studio:</strong> Streamline student lessons &amp; band practice online or in-studio.</span>
-        </div>
-        <div class="top-ribbon-right">
-            <a href="https://www.popsongchordbook.com/index.html" data-i18n="topRibbonHomeLink">Visit PopSongChordBook Home &rarr;</a>
-            <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
-                <span class="lang-pill lang-pill-en active">EN</span>
-                <span class="lang-pill-sep">/</span>
-                <span class="lang-pill lang-pill-nl">NL</span>
-            </button>
-        </div>
-    </div>
-
     <!-- Navigation Bar -->
     <nav class="site-nav">
         <div class="nav-inner">
@@ -1181,6 +1143,11 @@
             </ul>
 
             <div class="nav-actions">
+                <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
+                    <span class="lang-pill lang-pill-en active">EN</span>
+                    <span class="lang-pill-sep">/</span>
+                    <span class="lang-pill lang-pill-nl">NL</span>
+                </button>
                 <a href="https://www.popsongchordbook.com/index.html" class="btn btn-primary" title="Launch Interactive Songbook" data-i18n="btnLaunchApp">Launch App 🎵</a>
             </div>
         </div>
@@ -1756,7 +1723,7 @@
                     The ultimate interactive musicians tool with scrolling chords, step-by-step pop lessons, real-time band sync, and dedicated dashboards for music teachers and students.
                 </p>
                 <p style="font-size: 0.85rem; color: #64748b;">
-                    PopSongChordBook Studio &bull; Version <span id="site-version">3.426</span>
+                    PopSongChordBook Studio &bull; Version <span id="site-version">3.427</span>
                 </p>
             </div>
 
