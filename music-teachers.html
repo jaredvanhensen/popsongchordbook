@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title id="doc-title">PopSongChordBook for Music Teachers — Teacher &amp; Student Dashboards, Scrolling Chords &amp; Progress Tracking</title>
+    <meta name="version" content="3.424">
+    <script src="/js/utils/smart-app-banner.js?v=3.424"></script>
+    <meta name="description" id="doc-meta-desc"
+        content="Empower your music teaching studio with PopSongChordBook. Keep track of student progress, assign lessons and homework, set practice goals, simplify chords &amp; capo, add notes to the scrolling chord timeline, and jam together across synchronized devices.">
+    <meta name="keywords" id="doc-meta-keywords"
+        content="music teacher tool, teacher dashboard, student dashboard, music student progress, piano teacher software, guitar teacher app, assign music lessons, music homework tracker, scrolling chords sync, popsongchordbook, capo transposer, chord simplification, band practice sync, interactive songbook for music lessons, muziekdocent, muziekleraar, pianoles, gitaarles, leerlingvolgsysteem">
+    <link rel="canonical" id="doc-canonical" href="https://www.popsongchordbook.com/music-teachers">
+    <link rel="alternate" hreflang="en" href="https://www.popsongchordbook.com/music-teachers">
+    <link rel="alternate" hreflang="nl" href="https://www.popsongchordbook.com/music-teachers?lang=nl">
+    <link rel="alternate" hreflang="x-default" href="https://www.popsongchordbook.com/music-teachers">
+
+    <!-- Early language detection from URL param or localStorage for fast render -->
+    <script>
+        (function() {
+            try {
+                var p = new URLSearchParams(window.location.search).get('lang');
+                var l = (p === 'nl' || p === 'en') ? p : (localStorage.getItem('preferredLanguage') || ((navigator.language && navigator.language.toLowerCase().startsWith('nl')) ? 'nl' : 'en'));
+                if (l === 'nl') {
+                    document.documentElement.lang = 'nl';
+                }
+            } catch(e) {}
+        })();
+    </script>
+
+    <!-- SEO Protection: Prevent indexing on github.io testing domain -->
+    <script>
+        if (window.location.hostname.includes('github.io')) {
+            const meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow';
+            document.head.appendChild(meta);
+        }
+    </script>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.popsongchordbook.com/music-teachers">
+    <meta property="og:title" id="og-title" content="PopSongChordBook for Music Teachers — Teacher &amp; Student Dashboards">
+    <meta property="og:description" id="og-desc"
+        content="The modern teaching companion for guitar, piano, and keyboard teachers. Assign lessons &amp; homework, track student progress, write timeline notes, and sync scrolling chords in real-time.">
+    <meta property="og:image" content="https://www.popsongchordbook.com/images/teacher-student/0-Thumbnail.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.popsongchordbook.com/music-teachers">
+    <meta property="twitter:title" id="tw-title" content="PopSongChordBook for Music Teachers — Teacher &amp; Student Dashboards">
+    <meta property="twitter:description" id="tw-desc"
+        content="The modern teaching companion for guitar, piano, and keyboard teachers. Assign lessons &amp; homework, track student progress, write timeline notes, and sync scrolling chords in real-time.">
+    <meta property="twitter:image" content="https://www.popsongchordbook.com/images/teacher-student/0-Thumbnail.jpg">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "PopSongChordBook for Music Teachers",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Web, iOS, Android, Windows, macOS",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "Comprehensive teaching tool for guitar, piano and keyboard instructors featuring Teacher and Student dashboards, lesson assignment, homework tracking, goal management, synchronized scrolling chords, and timeline note taking.",
+          "provider": {
+            "@type": "Organization",
+            "name": "PopSongChordBook",
+            "url": "https://www.popsongchordbook.com/"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://www.popsongchordbook.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "For Music Teachers",
+              "item": "https://www.popsongchordbook.com/music-teachers"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Favicons & App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/pwa_icon_192.png">
+    <link rel="icon" type="image/jpeg" sizes="192x192" href="/Icon-192x192.jpg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette matched to teacher & student dashboard screenshots */
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --primary-border: #bfdbfe;
+
+            --teacher-green: #16a34a;
+            --teacher-green-hover: #15803d;
+            --teacher-bg: #f0fdf4;
+            --teacher-border: #86efac;
+
+            --student-blue: #0284c7;
+            --student-bg: #f0f9ff;
+            --student-border: #bae6fd;
+
+            --amber-accent: #f59e0b;
+            --amber-bg: #fef3c7;
+            --amber-border: #fde68a;
+            --amber-text: #92400e;
+
+            --purple-accent: #8b5cf6;
+            --purple-bg: #f5f3ff;
+            --purple-border: #ddd6fe;
+
+            --dark-bg: #0f172a;
+            --slate-surface: #1e293b;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --bg-page: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(226, 232, 240, 0.9);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 30px -10px rgba(15, 23, 42, 0.12);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Top Announcement Ribbon */
+        .top-ribbon {
+            background: linear-gradient(90deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            padding: 8px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .top-ribbon-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .top-ribbon-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-ribbon-right a {
+            color: #60a5fa;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .top-ribbon-right a:hover {
+            color: #93c5fd;
+        }
+
+        /* Language Toggle Button (EN / NL) */
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 2px 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        .lang-pill {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #94a3b8;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .lang-pill.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.45);
+        }
+
+        .lang-pill-sep {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #64748b;
+            user-select: none;
+            line-height: 1;
+            padding: 0 1px;
+        }
+
+        /* Header Navigation */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 24px;
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--teacher-green);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            list-style: none;
+            flex-shrink: 1;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            padding: 6px 2px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+        }
+
+        .btn-green:hover {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 55px 24px 40px;
+            background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 85% 40%, rgba(22, 163, 74, 0.08) 0%, transparent 50%),
+                        linear-gradient(180deg, #ffffff 0%, var(--bg-page) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--teacher-bg);
+            border: 1px solid var(--teacher-border);
+            color: var(--teacher-green-hover);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-title {
+            font-size: clamp(2.3rem, 5vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: #0f172a;
+            max-width: 980px;
+            margin: 0 auto 20px;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, #16a34a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 840px;
+            margin: 0 auto 36px;
+            line-height: 1.65;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .hero-media-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.8);
+            background: #ffffff;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .hero-media-wrapper:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.32), 0 0 0 1px rgba(37, 99, 235, 0.4);
+        }
+
+        .hero-media-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Pillars Bar */
+        .pillars-section {
+            padding: 30px 24px;
+            background: #ffffff;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .pillars-grid {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .pillar-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--bg-page);
+            border: 1px solid var(--card-border);
+        }
+
+        .pillar-icon {
+            font-size: 2rem;
+            line-height: 1;
+            flex-shrink: 0;
+            padding: 10px;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pillar-content h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .pillar-content p {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .section-alt {
+            background: #ffffff;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .section-tag.green { color: var(--teacher-green); }
+        .section-tag.blue { color: var(--primary); }
+        .section-tag.purple { color: var(--purple-accent); }
+        .section-tag.amber { color: var(--amber-accent); }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+            font-weight: 900;
+            color: #0f172a;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 2-Column Split Showcase */
+        .showcase-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .showcase-split.reverse {
+            direction: rtl;
+        }
+        .showcase-split.reverse > * {
+            direction: ltr;
+        }
+
+        .showcase-text {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .feature-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.75rem;
+            font-weight: 900;
+            margin-top: 2px;
+        }
+
+        .feature-check.green { background: #dcfce7; color: #15803d; }
+        .feature-check.blue { background: #dbeafe; color: #1e40af; }
+        .feature-check.amber { background: #fef3c7; color: #92400e; }
+        .feature-check.purple { background: #f3e8ff; color: #6b21a8; }
+
+        .feature-text strong {
+            display: block;
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 3px;
+        }
+
+        .feature-text p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Screenshot Frame */
+        .screenshot-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--card-border);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.25);
+        }
+
+        .screenshot-card img {
+            border-radius: 10px;
+            width: 100%;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .screenshot-caption {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* 3-Card Grid for Student Dashboards */
+        .dashboard-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .gallery-card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: #cbd5e1;
+        }
+
+        .gallery-img-wrap {
+            position: relative;
+            background: #f1f5f9;
+            cursor: pointer;
+            overflow: hidden;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-img-wrap img {
+            transform: scale(1.03);
+        }
+
+        .gallery-overlay-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .gallery-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .gallery-body h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .gallery-body p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Interactive Benefits Grid */
+        .benefits-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .benefit-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-box:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .benefit-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .benefit-box.green::before { background: var(--teacher-green); }
+        .benefit-box.blue::before { background: var(--primary); }
+        .benefit-box.amber::before { background: var(--amber-accent); }
+        .benefit-box.purple::before { background: var(--purple-accent); }
+
+        .benefit-icon {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .benefit-box h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .benefit-box p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .example-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .example-badge.green { background: var(--teacher-bg); color: var(--teacher-green-hover); border: 1px solid var(--teacher-border); }
+        .example-badge.blue { background: var(--primary-light); color: var(--primary-hover); border: 1px solid var(--primary-border); }
+        .example-badge.amber { background: var(--amber-bg); color: var(--amber-text); border: 1px solid var(--amber-border); }
+        .example-badge.purple { background: var(--purple-bg); color: #6b21a8; border: 1px solid var(--purple-border); }
+
+        /* Comparison Table */
+        .comparison-table-wrap {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            overflow-x: auto;
+            box-shadow: var(--shadow-lg);
+            margin-top: 40px;
+        }
+
+        .comp-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .comp-table th, .comp-table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .comp-table th {
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .comp-table th:first-child { width: 30%; }
+        .comp-table th:nth-child(2) { width: 35%; color: #dc2626; background: #fff1f2; }
+        .comp-table th:nth-child(3) { width: 35%; color: var(--teacher-green); background: #f0fdf4; }
+
+        .comp-table td {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .comp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-table td.bad {
+            background: rgba(254, 242, 242, 0.4);
+            color: #991b1b;
+        }
+
+        .comp-table td.good {
+            background: rgba(240, 253, 244, 0.4);
+            color: #166534;
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-item h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .faq-item p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        /* Big CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 24px;
+            padding: 60px 32px;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 140%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.25) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 70%, rgba(22, 163, 74, 0.25) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .cta-banner h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-banner p {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .cta-btn-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 60px 24px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h5 {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: 0.02em;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col a {
+            color: #94a3b8;
+            font-size: 0.88rem;
+            transition: color 0.15s ease;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* Lightbox Modal for Screenshots */
+        .modal-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .modal-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-img {
+            max-width: 92vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            color: #ffffff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1060px) {
+            .showcase-split {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .showcase-split.reverse {
+                direction: ltr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-ribbon {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 6px;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-cta-group .btn {
+                width: 100%;
+            }
+            .cta-btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .cta-btn-group .btn {
+                width: 100%;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Announcement Ribbon (With EN / NL Language Switcher) -->
+    <div class="top-ribbon">
+        <div class="top-ribbon-left">
+            <span data-i18n="topRibbonText">🎵 <strong>PopSongChordBook Teaching Studio:</strong> Streamline student lessons &amp; band practice online or in-studio.</span>
+        </div>
+        <div class="top-ribbon-right">
+            <a href="https://www.popsongchordbook.com/index.html" data-i18n="topRibbonHomeLink">Visit PopSongChordBook Home &rarr;</a>
+            <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
+                <span class="lang-pill lang-pill-en active">EN</span>
+                <span class="lang-pill-sep">/</span>
+                <span class="lang-pill lang-pill-nl">NL</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="https://www.popsongchordbook.com/index.html" class="brand-link" title="Go to PopSongChordBook Home">
+                <img src="/images/pwa_icon_192.png" alt="PopSongChordBook Icon" class="brand-icon">
+                <div class="brand-text">
+                    <span class="brand-name">PopSongChordBook</span>
+                    <span class="brand-subtitle" data-i18n="brandSubtitle">For Music Teachers</span>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#teacher-dashboard" data-i18n="navTeacher">Teacher Dashboard</a></li>
+                <li><a href="#student-dashboard" data-i18n="navStudent">Student Dashboard</a></li>
+                <li><a href="#benefits" data-i18n="navBenefits">Features &amp; Benefits</a></li>
+                <li><a href="#scrolling-sync" data-i18n="navSync">Timeline &amp; Sync</a></li>
+                <li><a href="#comparison" data-i18n="navComparison">Why PopSongChordBook</a></li>
+                <li><a href="#faq" data-i18n="navFaq">FAQ</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="https://www.popsongchordbook.com/index.html" class="btn btn-primary" title="Launch Interactive Songbook" data-i18n="btnLaunchApp">Launch App 🎵</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-container">
+            <div class="badge-pill">
+                <span>🎓</span>
+                <span data-i18n="heroBadge">The Complete Modern Teaching Tool for Music Instructors</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span data-i18n="heroTitleStart">Elevate Your Lessons with</span> <span class="gradient-text" data-i18n="heroTitleHighlight">Connected Teacher &amp; Student</span> <span data-i18n="heroTitleEnd">Dashboards</span>
+            </h1>
+
+            <p class="hero-subtitle" data-i18n="heroSubtitle">
+                Say goodbye to lost paper chord sheets and forgotten practice routines. PopSongChordBook gives music teachers and their students a unified digital ecosystem: schedule lessons, assign homework, track student progress, leave timeline notes, simplify chords, and sync scrolling songs live across devices.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="https://www.popsongchordbook.com/index.html" class="btn btn-primary" style="padding: 14px 28px; font-size: 1.05rem;" data-i18n="btnHeroHome">
+                    🚀 Open PopSongChordBook (Home)
+                </a>
+                <a href="/teacher" class="btn btn-green" style="padding: 14px 28px; font-size: 1.05rem;" data-i18n="btnHeroTeacher">
+                    👨‍🏫 Open Teacher Dashboard
+                </a>
+                <a href="/student" class="btn btn-outline" style="padding: 14px 24px; font-size: 1.05rem;" data-i18n="btnHeroStudent">
+                    🎓 Student Portal
+                </a>
+            </div>
+
+            <!-- Hero Thumbnail Image (0-Thumbnail.jpg) -->
+            <div class="hero-media-wrapper" onclick="openLightbox('/images/teacher-student/0-Thumbnail.jpg')" title="Click to view full size">
+                <img src="/images/teacher-student/0-Thumbnail.jpg" alt="PopSongChordBook Teacher and Student System Overview Thumbnail">
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Pillars Bar -->
+    <section class="pillars-section">
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon">👥</div>
+                <div class="pillar-content">
+                    <h4 data-i18n="pillar1Title">Connected Students</h4>
+                    <p data-i18n="pillar1Desc">Invite students with a single click and organize individual or group lessons.</p>
+                </div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">🎯</div>
+                <div class="pillar-content">
+                    <h4 data-i18n="pillar2Title">Goal &amp; Homework Tracking</h4>
+                    <p data-i18n="pillar2Desc">Assign weekly homework and track practice counts with performability stats.</p>
+                </div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">📝</div>
+                <div class="pillar-content">
+                    <h4 data-i18n="pillar3Title">Timeline Notes &amp; Tips</h4>
+                    <p data-i18n="pillar3Desc">Pin custom fingering, strumming, and theory notes directly to chord blocks.</p>
+                </div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">🔄</div>
+                <div class="pillar-content">
+                    <h4 data-i18n="pillar4Title">Synchronized Playalong</h4>
+                    <p data-i18n="pillar4Desc">Control scrolling chords simultaneously on teacher and student screens.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: TEACHER DASHBOARD -->
+    <section class="section" id="teacher-dashboard">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag green" data-i18n="s1Tag">Teacher Control Center</span>
+                <h2 class="section-title" data-i18n="s1Title">The Teacher Dashboard: Streamline Your Studio Management</h2>
+                <p class="section-desc" data-i18n="s1Desc">
+                    Keep your entire music teaching studio organized in one place. Schedule weekly lessons, manage student rosters, assign curated pop repertoires, and monitor student execution between lessons.
+                </p>
+            </div>
+
+            <div class="showcase-split">
+                <div class="showcase-text">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: #0f172a;" data-i18n="s1Subheading">Total Visibility Over Every Student's Journey</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;" data-i18n="s1Lead">
+                        Teachers spend hours organizing printed sheet music, texting homework reminders, and guessing how much students actually practiced. The PopSongChordBook Teacher Dashboard centralizes everything:
+                    </p>
+
+                    <ul class="feature-bullets">
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1F1Title">Manage All Connected Students:</strong>
+                                <p data-i18n="s1F1Desc">Easily connect with your students using a simple invite link. Organize students individually or in band/ensemble groups.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1F2Title">Assign Lessons &amp; Calendar Scheduling:</strong>
+                                <p data-i18n="s1F2Desc">Schedule upcoming lesson times, log attendance, and prepare tailored song setlists for each student's current skill level.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1F3Title">Set Specific Goals &amp; Homework:</strong>
+                                <p data-i18n="s1F3Desc">Assign clear practice milestones (e.g. <em>"Learn Verse 1 at 85 BPM"</em>, <em>"Master switching between C and G"</em>) that students see as soon as they open the app.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1F4Title">Custom Teacher Notes:</strong>
+                                <p data-i18n="s1F4Desc">Save private teacher notes on student profiles or public instructional tips attached directly to songs.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 10px;">
+                        <a href="/teacher" class="btn btn-green" data-i18n="btnGoTeacher">Go to Teacher Dashboard &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Teacher Dashboard Picture (4-TeacherDashboard_picture.png) -->
+                <div class="screenshot-card" onclick="openLightbox('/images/teacher-student/4-TeacherDashboard_picture.png')">
+                    <img src="/images/teacher-student/4-TeacherDashboard_picture.png" alt="PopSongChordBook Teacher Dashboard with Student Management, Calendar and Lesson Setlists">
+                    <div class="screenshot-caption">
+                        <span data-i18n="captionInspectTeacher">🔍 Click to inspect Teacher Dashboard overview</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connected Students Showcase (1-ConnectedStudents.png) -->
+            <div class="showcase-split reverse" style="margin-top: 60px;">
+                <div class="showcase-text">
+                    <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;" data-i18n="s1ConnectTitle">Connect with Students in Seconds</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;" data-i18n="s1ConnectLead">
+                        Students don't need complicated setups. Whether practicing directly in any modern web browser or using the official Android App from the Google Play Store, they simply accept your teacher connection request and their dashboard instantly links to your studio.
+                    </p>
+
+                    <ul class="feature-bullets">
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1ConnectF1Title">Web Browser &amp; Android App:</strong>
+                                <p data-i18n="s1ConnectF1Desc">Students can connect from any laptop, iPad, or Chromebook via the web, or download the official Android App on Google Play for mobile and tablet practice.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1ConnectF2Title">Student Roster at a Glance:</strong>
+                                <p data-i18n="s1ConnectF2Desc">Instant list of all active students with lesson days, scheduled times, and assigned repertoires.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s1ConnectF3Title">Direct Repertoire Sharing:</strong>
+                                <p data-i18n="s1ConnectF3Desc">Push songs, custom arrangements, and lesson notes directly to your student's account with one click.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 14px;">
+                        <a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app&referrer=utm_source%3Dwebsite%26utm_medium%3Dteachers_page" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; background: #0f172a; color: #ffffff; padding: 9px 18px; border-radius: 12px; text-decoration: none; border: 1.5px solid rgba(255, 255, 255, 0.22); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.borderColor='#22c55e';" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255,255,255,0.22)';">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                                <path d="M3.609 1.814L13.792 12 3.61 22.186a1.96 1.96 0 0 1-.497-1.314V3.128c0-.508.19-.968.496-1.314z" fill="#3b82f6"/>
+                                <path d="M14.899 13.104l2.765 2.765-10.97 6.334 8.205-9.099z" fill="#ef4444"/>
+                                <path d="M18.721 9.736l2.583 1.491c.735.424.735 1.122 0 1.546l-2.583 1.491-2.828-2.264 2.828-2.264z" fill="#f59e0b"/>
+                                <path d="M6.694 1.819l10.97 6.334-2.765 2.765L6.694 1.819z" fill="#22c55e"/>
+                            </svg>
+                            <span style="display: flex; flex-direction: column; text-align: left; line-height: 1.15;">
+                                <span style="font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: #cbd5e1; font-weight: 700;">GET IT ON</span>
+                                <span style="font-size: 0.92rem; font-weight: 800; color: #ffffff;">Google Play</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="screenshot-card" onclick="openLightbox('/images/teacher-student/1-ConnectedStudents.png')">
+                    <img src="/images/teacher-student/1-ConnectedStudents.png" alt="PopSongChordBook Connected Students Roster and Invitation Screen">
+                    <div class="screenshot-caption">
+                        <span data-i18n="captionInspectStudents">🔍 Click to inspect Connected Students Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: STUDENT DASHBOARD -->
+    <section class="section section-alt" id="student-dashboard">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag blue" data-i18n="s2Tag">Student Experience</span>
+                <h2 class="section-title" data-i18n="s2Title">The Student Dashboard: Making Practice Fun, Clear &amp; Motivating</h2>
+                <p class="section-desc" data-i18n="s2Desc">
+                    When students sit down with their instrument, they immediately know what to play. No confusion, no lost binders, and no boredom.
+                </p>
+            </div>
+
+            <div class="showcase-split">
+                <div class="showcase-text">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: #0f172a;" data-i18n="s2Subheading">A Dedicated Practice Hub Built for Fast Progress</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;" data-i18n="s2Lead">
+                        The Student Dashboard gives students immediate clarity on their weekly assignments and turns repetitive practice into an engaging, structured experience:
+                    </p>
+
+                    <ul class="feature-bullets">
+                        <li class="feature-item">
+                            <div class="feature-check blue">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s2F1Title">Assigned Homework at the Top:</strong>
+                                <p data-i18n="s2F1Desc">Students instantly see the songs and exercises their teacher assigned for this week, complete with tempo targets and specific advice.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check blue">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s2F2Title">Goal Tracking Checklist:</strong>
+                                <p data-i18n="s2F2Desc">Break down big songs into manageable micro-goals. Students check off milestones as they master each verse or chord progression.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check blue">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s2F3Title">Built-in Practice Counter:</strong>
+                                <p data-i18n="s2F3Desc">Every play-through counts! Automatic practice tracking records how often songs are rehearsed, encouraging daily consistency.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check blue">✓</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s2F4Title">1-Click Playalong with Scrolling Chords:</strong>
+                                <p data-i18n="s2F4Desc">Click any song on the dashboard to immediately open the interactive scrolling chord timeline synced to YouTube audio.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 10px;">
+                        <a href="/student" class="btn btn-primary" data-i18n="btnOpenStudent">Open Student Dashboard &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Student Dashboard Main Screenshot (2-StudentDashboard.png) -->
+                <div class="screenshot-card" onclick="openLightbox('/images/teacher-student/2-StudentDashboard.png')">
+                    <img src="/images/teacher-student/2-StudentDashboard.png" alt="PopSongChordBook Student Dashboard showing assigned songs, goals, and practice metrics">
+                    <div class="screenshot-caption">
+                        <span data-i18n="captionInspectStudent">🔍 Click to inspect Student Dashboard view</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2-StudentDashboard2.png & 2-Student-Dashboard3-Optional.png Showcase -->
+            <div class="dashboard-gallery-grid">
+                <div class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openLightbox('/images/teacher-student/2-StudentDashboard.png')">
+                        <img src="/images/teacher-student/2-StudentDashboard.png" alt="Student Dashboard Practice Songs Overview">
+                        <span class="gallery-overlay-badge" data-i18n="galleryBadge1">View 1: Practice Hub</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h4 data-i18n="gallery1Title">Practice Songs &amp; Repertoire</h4>
+                        <p data-i18n="gallery1Desc">Students see all teacher-assigned pieces grouped with tempo, key, capo notes, and performability ratings.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openLightbox('/images/teacher-student/2-StudentDashboard2.png')">
+                        <img src="/images/teacher-student/2-StudentDashboard2.png" alt="Student Dashboard Goal List and Homework Progress">
+                        <span class="gallery-overlay-badge" data-i18n="galleryBadge2">View 2: Goal Checklist</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h4 data-i18n="gallery2Title">Active Goals &amp; Homework Tasks</h4>
+                        <p data-i18n="gallery2Desc">Clear, tangible milestones keep students motivated to pick up their instrument between weekly lessons.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openLightbox('/images/teacher-student/2-Student-Dashboard3-Optional.png')">
+                        <img src="/images/teacher-student/2-Student-Dashboard3-Optional.png" alt="Student Dashboard Optional Practice and Exercises">
+                        <span class="gallery-overlay-badge" data-i18n="galleryBadge3">View 3: Customization</span>
+                    </div>
+                    <div class="gallery-body">
+                        <h4 data-i18n="gallery3Title">Flexible Practice Library</h4>
+                        <p data-i18n="gallery3Desc">Allows students to explore self-directed favorites alongside assigned curriculum pieces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: KEEP TRACK OF STUDENT PROGRESS -->
+    <section class="section" id="student-progress">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag green" data-i18n="s3Tag">Data-Driven Teaching</span>
+                <h2 class="section-title" data-i18n="s3Title">Keep Track of Student Progress with Real Numbers</h2>
+                <p class="section-desc" data-i18n="s3Desc">
+                    Never rely on vague student memory. PopSongChordBook logs tangible practice data so both teacher and student see real improvement over time.
+                </p>
+            </div>
+
+            <div class="showcase-split">
+                <!-- Student Progress Screenshot (3-StudentProgress.png) -->
+                <div class="screenshot-card" onclick="openLightbox('/images/teacher-student/3-StudentProgress.png')">
+                    <img src="/images/teacher-student/3-StudentProgress.png" alt="PopSongChordBook Student Progress Tracker showing performability ratings, practice counts, and song notes">
+                    <div class="screenshot-caption">
+                        <span data-i18n="captionInspectProgress">🔍 Click to inspect Student Progress and Rating system</span>
+                    </div>
+                </div>
+
+                <div class="showcase-text">
+                    <h3 style="font-size: 1.6rem; font-weight: 800; color: #0f172a;" data-i18n="s3Subheading">Track Performability, Practice Counts &amp; Mastery</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;" data-i18n="s3Lead">
+                        Every piece assigned has a granular progress profile. Teachers and students can monitor:
+                    </p>
+
+                    <ul class="feature-bullets">
+                        <li class="feature-item">
+                            <div class="feature-check green">★</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s3F1Title">Performability Rating (1 to 5 Stars):</strong>
+                                <p data-i18n="s3F1Desc">Rate how confident the student is with a piece. From "Learning Chords (1★)" to "Full Fluency with Band (5★)".</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">🔢</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s3F2Title">Actual Practice Count:</strong>
+                                <p data-i18n="s3F2Desc">See exactly how many times the student rehearsed the song during the week. High practice counts celebrate dedication; low counts pinpoint roadblocks.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">🎯</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s3F3Title">Goal Completion History:</strong>
+                                <p data-i18n="s3F3Desc">Historical log of achieved goals gives students a huge sense of accomplishment over months of lessons.</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-check green">💬</div>
+                            <div class="feature-text">
+                                <strong data-i18n="s3F4Title">Student &amp; Teacher Feedback:</strong>
+                                <p data-i18n="s3F4Desc">Exchange notes on specific technical hurdles, tempo adjustments, or upcoming recital pieces.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: FULL BENEFITS & TEACHER TOOLS -->
+    <section class="section section-alt" id="benefits">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag purple" data-i18n="s4Tag">Comprehensive Capabilities</span>
+                <h2 class="section-title" data-i18n="s4Title">The Complete Feature Set Built for Music Educators</h2>
+                <p class="section-desc" data-i18n="s4Desc">
+                    Every tool is engineered to solve the real daily challenges music teachers face in private studios, schools, and online tutoring.
+                </p>
+            </div>
+
+            <div class="benefits-card-grid">
+                <!-- Benefit 1: Timeline Notes -->
+                <div class="benefit-box amber">
+                    <span class="benefit-icon">📝</span>
+                    <h3 data-i18n="b1Title">Timeline Notes on Every Song</h3>
+                    <p data-i18n="b1Desc">
+                        Attach instructional notes directly to the Scrolling Chord timeline at exact bars or sections (Intro, Verse, Chorus, Bridge). Students see your exact advice right when the chord approaches on screen.
+                    </p>
+                    <div class="example-badge amber" data-i18n="b1Badge">
+                        💬 "Keep index finger anchored here" • "Use D-D-U-U-D-U strumming"
+                    </div>
+                </div>
+
+                <!-- Benefit 2: Chord Simplification -->
+                <div class="benefit-box green">
+                    <span class="benefit-icon">✨</span>
+                    <h3 data-i18n="b2Title">One-Click Chord Simplification</h3>
+                    <p data-i18n="b2Desc">
+                        Beginners don't have to wait months to play their favorite pop hits. Toggle chord simplification to convert intricate jazz or extended chords into easy core triads so students can play right away.
+                    </p>
+                    <div class="example-badge green" data-i18n="b2Badge">
+                        C instead of Cmaj7 • G instead of Gadd9 • Em instead of Em7
+                    </div>
+                </div>
+
+                <!-- Benefit 3: Capo Transposition -->
+                <div class="benefit-box blue">
+                    <span class="benefit-icon">🎸</span>
+                    <h3 data-i18n="b3Title">Smart Capo Transposer</h3>
+                    <p data-i18n="b3Desc">
+                        Instantly eliminate difficult barre chords for beginners. The intelligent Capo calculator converts difficult sharp/flat keys into friendly open cowboy chords with the capo on fret 1, 2, or 4.
+                    </p>
+                    <div class="example-badge blue" data-i18n="b3Badge">
+                        Play C - G - F instead of G# - C# - F# (Capo 1st fret)
+                    </div>
+                </div>
+
+                <!-- Benefit 4: Realtime Device Sync -->
+                <div class="benefit-box purple" id="scrolling-sync">
+                    <span class="benefit-icon">🔄</span>
+                    <h3 data-i18n="b4Title">Synchronized Device Playback (Band Practice Mode)</h3>
+                    <p data-i18n="b4Desc">
+                        Play scrolling chords synchronously across multiple devices in real-time! The teacher or band leader controls playback from their laptop or iPad, and the student's device scrolls in perfect unison. Ideal for online Zoom/Meet lessons and student ensembles and band practice.
+                    </p>
+                    <div class="example-badge purple" data-i18n="b4Badge">
+                        Realtime synced Chord Timeline across teacher &amp; student screens
+                    </div>
+                </div>
+
+                <!-- Benefit 5: Assigning Homework -->
+                <div class="benefit-box amber">
+                    <span class="benefit-icon">📚</span>
+                    <h3 data-i18n="b5Title">Structured Homework Assignment</h3>
+                    <p data-i18n="b5Desc">
+                        Never hear "I forgot what to practice" again. Assign weekly homework with specific tempo goals, chord changes, and video playalong targets that remain pinned to the student's dashboard.
+                    </p>
+                    <div class="example-badge amber" data-i18n="b5Badge">
+                        Clear weekly targets and goals
+                    </div>
+                </div>
+
+                <!-- Benefit 6: Goal Milestones -->
+                <div class="benefit-box green">
+                    <span class="benefit-icon">🎯</span>
+                    <h3 data-i18n="b6Title">Assignable Practice Goals</h3>
+                    <p data-i18n="b6Desc">
+                        Set achievable milestone goals for each song: learning the intro, mastering the bridge transition, or playing along with the full YouTube track without hesitation.
+                    </p>
+                    <div class="example-badge green" data-i18n="b6Badge">
+                        Visual checklist with instant dopamine for completion
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: BEFORE & AFTER COMPARISON -->
+    <section class="section" id="comparison">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag blue" data-i18n="compTag">Why Upgrade Your Studio</span>
+                <h2 class="section-title" data-i18n="compTitle">Traditional Music Teaching vs. PopSongChordBook</h2>
+                <p class="section-desc" data-i18n="compDesc">
+                    See how modernizing your lesson workflow saves hours of prep time and dramatically boosts student retention.
+                </p>
+            </div>
+
+            <div class="comparison-table-wrap">
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="thFeature">Feature</th>
+                            <th data-i18n="thTraditional">Traditional Paper / Notebooks</th>
+                            <th data-i18n="thChordbook">PopSongChordBook Studio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong data-i18n="tr1Title">Homework &amp; Assignments</strong></td>
+                            <td class="bad" data-i18n="tr1Bad">Handwritten notebooks often lost or forgotten at home</td>
+                            <td class="good" data-i18n="tr1Good">Always accessible 24/7 on student's phone, tablet, or PC</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr2Title">Practice Accountability</strong></td>
+                            <td class="bad" data-i18n="tr2Bad">"I practiced 5 times, promise!" (unverifiable)</td>
+                            <td class="good" data-i18n="tr2Good">Real practice play counts and performability star ratings</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr3Title">Playing Along with Music</strong></td>
+                            <td class="bad" data-i18n="tr3Bad">Awkwardly juggling Spotify/YouTube on one device and paper on music stand</td>
+                            <td class="good" data-i18n="tr3Good">Integrated YouTube player auto-synced with Scrolling Chord timeline</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr4Title">Song Customization &amp; Capo</strong></td>
+                            <td class="bad" data-i18n="tr4Bad">Manually rewriting chords by hand for beginners</td>
+                            <td class="good" data-i18n="tr4Good">Instant 1-click Chord Simplifier &amp; Smart Capo transposer</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr5Title">Teacher Lesson Notes</strong></td>
+                            <td class="bad" data-i18n="tr5Bad">Pencil scribbles on margins that get smudged or ignored</td>
+                            <td class="good" data-i18n="tr5Good">Pin-point digital timeline notes right above the chord blocks</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr6Title">Remote / Online Lessons</strong></td>
+                            <td class="bad" data-i18n="tr6Bad">Clunky screen sharing with lag, students losing their place</td>
+                            <td class="good" data-i18n="tr6Good">Real-time device sync (Band Practice Mode) keeps screens in lockstep</td>
+                        </tr>
+                        <tr>
+                            <td><strong data-i18n="tr7Title">Song Library</strong></td>
+                            <td class="bad" data-i18n="tr7Bad">Limited to what you printed or photocopy binders</td>
+                            <td class="good" data-i18n="tr7Good">Over 700+ interactive pop &amp; rock classics ready instantly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: FAQ FOR TEACHERS -->
+    <section class="section section-alt" id="faq">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag green" data-i18n="faqTag">Frequently Asked Questions</span>
+                <h2 class="section-title" data-i18n="faqTitle">Questions Music Teachers Ask Us</h2>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4><span>💰</span> <span data-i18n="faqQ1">Is PopSongChordBook free to use?</span></h4>
+                    <p data-i18n="faqA1">Yes! PopSongChordBook provides free access to interactive scrolling chords, beginner lesson methods, and song libraries for both teachers and students.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><span>📱</span> <span data-i18n="faqQ2">What devices does it work on?</span></h4>
+                    <p data-i18n="faqA2">It runs seamlessly on any device with a modern web browser (iPad, iPhone, Mac, Windows PC, Chromebooks) and on mobile with the official Android App from Google Play.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><span>👥</span> <span data-i18n="faqQ3">How do students connect with me?</span></h4>
+                    <p data-i18n="faqA3">In your Teacher Dashboard, you have a unique Teacher ID and direct invite link. Share this link with your students, and once they accept, their dashboard automatically connects to yours.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><span>🎸</span> <span data-i18n="faqQ4">Can I use it for Piano, Keyboard, Guitar, and Ukulele?</span></h4>
+                    <p data-i18n="faqA4">Yes! PopSongChordBook includes interactive chord overlays and visual voicing diagrams for piano/keyboard, guitar, and ukulele. You can switch instruments with a single tap.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><span>🎼</span> <span data-i18n="faqQ5">Can I add my own custom songs?</span></h4>
+                    <p data-i18n="faqA5">Absolutely. You can import MIDI files, load songs via our Super Extractor, or create custom chord progressions with specific tempo, capo, and section markers for your students.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><span>🔄</span> <span data-i18n="faqQ6">How does device sync work during online lessons?</span></h4>
+                    <p data-i18n="faqA6">Our real-time Band Practice Mode uses lightweight cloud sync. When you start the timeline or pause on your teacher device, the connected student's screen moves simultaneously, making Zoom or Google Meet lessons feel like you're in the same room.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <div class="section-container">
+        <div class="cta-banner">
+            <div class="cta-content">
+                <h2 data-i18n="ctaTitle">Ready to Modernize Your Music Studio?</h2>
+                <p data-i18n="ctaSubtitle">
+                    Join forward-thinking music instructors who are saving hours of prep time and keeping their students excited, engaged, and practicing consistently.
+                </p>
+                <div class="cta-btn-group">
+                    <a href="https://www.popsongchordbook.com/index.html" class="btn btn-primary" style="padding: 15px 32px; font-size: 1.1rem;" data-i18n="btnCtaHome">
+                        🏠 Go to PopSongChordBook Home
+                    </a>
+                    <a href="/teacher" class="btn btn-green" style="padding: 15px 32px; font-size: 1.1rem;" data-i18n="btnCtaTeacher">
+                        👨‍🏫 Launch Teacher Dashboard
+                    </a>
+                    <a href="/songlist" class="btn btn-outline" style="padding: 15px 28px; font-size: 1.1rem; color: #ffffff; background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);" data-i18n="btnCtaSongs">
+                        🎵 Explore 700+ Songs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h5>PopSongChordBook</h5>
+                <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px;" data-i18n="footerAbout">
+                    The ultimate interactive musicians tool with scrolling chords, step-by-step pop lessons, real-time band sync, and dedicated dashboards for music teachers and students.
+                </p>
+                <p style="font-size: 0.85rem; color: #64748b;">
+                    PopSongChordBook Studio &bull; Version <span id="site-version">3.424</span>
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h5 data-i18n="footerCol1Title">Studio &amp; Teaching</h5>
+                <ul>
+                    <li><a href="/teacher" data-i18n="footerLinkTeacher">Teacher Dashboard</a></li>
+                    <li><a href="/student" data-i18n="footerLinkStudent">Student Dashboard</a></li>
+                    <li><a href="/music-teachers" data-i18n="footerLinkForTeachers">PopSongChordBook for Teachers</a></li>
+                    <li><a href="/band" data-i18n="footerLinkBand">Band Practice Sync</a></li>
+                    <li><a href="/beginner-lessons" data-i18n="footerLinkLessons">Free Beginner Lessons</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5 data-i18n="footerCol2Title">Music Tools</h5>
+                <ul>
+                    <li><a href="https://www.popsongchordbook.com/index.html" data-i18n="footerLinkHome">Main App Home</a></li>
+                    <li><a href="/songlist" data-i18n="footerLinkAllSongs">All 700+ Songs</a></li>
+                    <li><a href="/ChordTheory&Tips" data-i18n="footerLinkPianoTheory">Piano Chord Theory</a></li>
+                    <li><a href="/ChordTheory&TipsGuitar" data-i18n="footerLinkGuitarTheory">Guitar Chord Theory</a></li>
+                    <li><a href="/ChordTrainer" data-i18n="footerLinkChordTrainer">Chord Trainer</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5 data-i18n="footerCol3Title">About &amp; Apps</h5>
+                <ul>
+                    <li><a href="/changelog" data-i18n="footerLinkChangelog">Changelog</a></li>
+                    <li><a href="/privacy" data-i18n="footerLinkPrivacy">Privacy Policy</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.popsongchordbook.app" target="_blank" rel="noopener">Google Play Store App</a></li>
+                    <li><a href="https://www.popsongchordbook.com/index.html">PopSongChordBook.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 PopSongChordBook &bull; <span data-i18n="footerRights">All Rights Reserved.</span></p>
+            <p>
+                <a href="https://www.popsongchordbook.com/index.html" style="color: #60a5fa;" data-i18n="footerBackToSongbook">Back to Main Songbook &uarr;</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal for Full Size Screenshots -->
+    <div id="imageLightbox" class="modal-lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged screenshot">
+    </div>
+
+    <!-- Multilingual Translations & Logic Engine (EN / NL) -->
+    <script>
+        const TEACHERS_TRANSLATIONS = {
+            en: {
+                docTitle: "PopSongChordBook for Music Teachers — Teacher & Student Dashboards, Scrolling Chords & Progress Tracking",
+                docMetaDesc: "Empower your music teaching studio with PopSongChordBook. Keep track of student progress, assign lessons and homework, set practice goals, simplify chords & capo, add notes to the scrolling chord timeline, and jam together across synchronized devices.",
+                topRibbonText: "🎵 <strong>PopSongChordBook Teaching Studio:</strong> Streamline student lessons & band practice online or in-studio.",
+                topRibbonHomeLink: "Visit PopSongChordBook Home &rarr;",
+                brandSubtitle: "For Music Teachers",
+                navTeacher: "Teacher Dashboard",
+                navStudent: "Student Dashboard",
+                navBenefits: "Features & Benefits",
+                navSync: "Timeline & Sync",
+                navComparison: "Why PopSongChordBook",
+                navFaq: "FAQ",
+                btnLaunchApp: "Launch App 🎵",
+                heroBadge: "The Complete Modern Teaching Tool for Music Instructors",
+                heroTitleStart: "Elevate Your Lessons with",
+                heroTitleHighlight: "Connected Teacher & Student",
+                heroTitleEnd: "Dashboards",
+                heroSubtitle: "Say goodbye to lost paper chord sheets and forgotten practice routines. PopSongChordBook gives music teachers and their students a unified digital ecosystem: schedule lessons, assign homework, track student progress, leave timeline notes, simplify chords, and sync scrolling songs live across devices.",
+                btnHeroHome: "🚀 Open PopSongChordBook (Home)",
+                btnHeroTeacher: "👨‍🏫 Open Teacher Dashboard",
+                btnHeroStudent: "🎓 Student Portal",
+                pillar1Title: "Connected Students",
+                pillar1Desc: "Invite students with a single click and organize individual or group lessons.",
+                pillar2Title: "Goal & Homework Tracking",
+                pillar2Desc: "Assign weekly homework and track practice counts with performability stats.",
+                pillar3Title: "Timeline Notes & Tips",
+                pillar3Desc: "Pin custom fingering, strumming, and theory notes directly to chord blocks.",
+                pillar4Title: "Synchronized Playalong",
+                pillar4Desc: "Control scrolling chords simultaneously on teacher and student screens.",
+                s1Tag: "Teacher Control Center",
+                s1Title: "The Teacher Dashboard: Streamline Your Studio Management",
+                s1Desc: "Keep your entire music teaching studio organized in one place. Schedule weekly lessons, manage student rosters, assign curated pop repertoires, and monitor student execution between lessons.",
+                s1Subheading: "Total Visibility Over Every Student's Journey",
+                s1Lead: "Teachers spend hours organizing printed sheet music, texting homework reminders, and guessing how much students actually practiced. The PopSongChordBook Teacher Dashboard centralizes everything:",
+                s1F1Title: "Manage All Connected Students:",
+                s1F1Desc: "Easily connect with your students using a simple invite link. Organize students individually or in band/ensemble groups.",
+                s1F2Title: "Assign Lessons & Calendar Scheduling:",
+                s1F2Desc: "Schedule upcoming lesson times, log attendance, and prepare tailored song setlists for each student's current skill level.",
+                s1F3Title: "Set Specific Goals & Homework:",
+                s1F3Desc: "Assign clear practice milestones (e.g. <em>\"Learn Verse 1 at 85 BPM\"</em>, <em>\"Master switching between C and G\"</em>) that students see as soon as they open the app.",
+                s1F4Title: "Custom Teacher Notes:",
+                s1F4Desc: "Save private teacher notes on student profiles or public instructional tips attached directly to songs.",
+                btnGoTeacher: "Go to Teacher Dashboard &rarr;",
+                captionInspectTeacher: "🔍 Click to inspect Teacher Dashboard overview",
+                s1ConnectTitle: "Connect with Students in Seconds",
+                s1ConnectLead: "Students don't need complicated setups. Whether practicing directly in any modern web browser or using the official Android App from the Google Play Store, they simply accept your teacher connection request and their dashboard instantly links to your studio.",
+                s1ConnectF1Title: "Web Browser & Android App:",
+                s1ConnectF1Desc: "Students can connect from any laptop, iPad, or Chromebook via the web, or download the official Android App on Google Play for mobile and tablet practice.",
+                s1ConnectF2Title: "Student Roster at a Glance:",
+                s1ConnectF2Desc: "Instant list of all active students with lesson days, scheduled times, and assigned repertoires.",
+                s1ConnectF3Title: "Direct Repertoire Sharing:",
+                s1ConnectF3Desc: "Push songs, custom arrangements, and lesson notes directly to your student's account with one click.",
+                captionInspectStudents: "🔍 Click to inspect Connected Students Management",
+                s2Tag: "Student Experience",
+                s2Title: "The Student Dashboard: Making Practice Fun, Clear & Motivating",
+                s2Desc: "When students sit down with their instrument, they immediately know what to play. No confusion, no lost binders, and no boredom.",
+                s2Subheading: "A Dedicated Practice Hub Built for Fast Progress",
+                s2Lead: "The Student Dashboard gives students immediate clarity on their weekly assignments and turns repetitive practice into an engaging, structured experience:",
+                s2F1Title: "Assigned Homework at the Top:",
+                s2F1Desc: "Students instantly see the songs and exercises their teacher assigned for this week, complete with tempo targets and specific advice.",
+                s2F2Title: "Goal Tracking Checklist:",
+                s2F2Desc: "Break down big songs into manageable micro-goals. Students check off milestones as they master each verse or chord progression.",
+                s2F3Title: "Built-in Practice Counter:",
+                s2F3Desc: "Every play-through counts! Automatic practice tracking records how often songs are rehearsed, encouraging daily consistency.",
+                s2F4Title: "1-Click Playalong with Scrolling Chords:",
+                s2F4Desc: "Click any song on the dashboard to immediately open the interactive scrolling chord timeline synced to YouTube audio.",
+                btnOpenStudent: "Open Student Dashboard &rarr;",
+                captionInspectStudent: "🔍 Click to inspect Student Dashboard view",
+                galleryBadge1: "View 1: Practice Hub",
+                gallery1Title: "Practice Songs & Repertoire",
+                gallery1Desc: "Students see all teacher-assigned pieces grouped with tempo, key, capo notes, and performability ratings.",
+                galleryBadge2: "View 2: Goal Checklist",
+                gallery2Title: "Active Goals & Homework Tasks",
+                gallery2Desc: "Clear, tangible milestones keep students motivated to pick up their instrument between weekly lessons.",
+                galleryBadge3: "View 3: Customization",
+                gallery3Title: "Flexible Practice Library",
+                gallery3Desc: "Allows students to explore self-directed favorites alongside assigned curriculum pieces.",
+                s3Tag: "Data-Driven Teaching",
+                s3Title: "Keep Track of Student Progress with Real Numbers",
+                s3Desc: "Never rely on vague student memory. PopSongChordBook logs tangible practice data so both teacher and student see real improvement over time.",
+                captionInspectProgress: "🔍 Click to inspect Student Progress and Rating system",
+                s3Subheading: "Track Performability, Practice Counts & Mastery",
+                s3Lead: "Every piece assigned has a granular progress profile. Teachers and students can monitor:",
+                s3F1Title: "Performability Rating (1 to 5 Stars):",
+                s3F1Desc: "Rate how confident the student is with a piece. From \"Learning Chords (1★)\" to \"Full Fluency with Band (5★)\".",
+                s3F2Title: "Actual Practice Count:",
+                s3F2Desc: "See exactly how many times the student rehearsed the song during the week. High practice counts celebrate dedication; low counts pinpoint roadblocks.",
+                s3F3Title: "Goal Completion History:",
+                s3F3Desc: "Historical log of achieved goals gives students a huge sense of accomplishment over months of lessons.",
+                s3F4Title: "Student & Teacher Feedback:",
+                s3F4Desc: "Exchange notes on specific technical hurdles, tempo adjustments, or upcoming recital pieces.",
+                s4Tag: "Comprehensive Capabilities",
+                s4Title: "The Complete Feature Set Built for Music Educators",
+                s4Desc: "Every tool is engineered to solve the real daily challenges music teachers face in private studios, schools, and online tutoring.",
+                b1Title: "Timeline Notes on Every Song",
+                b1Desc: "Attach instructional notes directly to the Scrolling Chord timeline at exact bars or sections (Intro, Verse, Chorus, Bridge). Students see your exact advice right when the chord approaches on screen.",
+                b1Badge: "💬 \"Keep index finger anchored here\" • \"Use D-D-U-U-D-U strumming\"",
+                b2Title: "One-Click Chord Simplification",
+                b2Desc: "Beginners don't have to wait months to play their favorite pop hits. Toggle chord simplification to convert intricate jazz or extended chords into easy core triads so students can play right away.",
+                b2Badge: "C instead of Cmaj7 • G instead of Gadd9 • Em instead of Em7",
+                b3Title: "Smart Capo Transposer",
+                b3Desc: "Instantly eliminate difficult barre chords for beginners. The intelligent Capo calculator converts difficult sharp/flat keys into friendly open cowboy chords with the capo on fret 1, 2, or 4.",
+                b3Badge: "Play C - G - F instead of G# - C# - F# (Capo 1st fret)",
+                b4Title: "Synchronized Device Playback (Band Practice Mode)",
+                b4Desc: "Play scrolling chords synchronously across multiple devices in real-time! The teacher or band leader controls playback from their laptop or iPad, and the student's device scrolls in perfect unison. Ideal for online Zoom/Meet lessons and student ensembles and band practice.",
+                b4Badge: "Realtime synced Chord Timeline across teacher & student screens",
+                b5Title: "Structured Homework Assignment",
+                b5Desc: "Never hear \"I forgot what to practice\" again. Assign weekly homework with specific tempo goals, chord changes, and video playalong targets that remain pinned to the student's dashboard.",
+                b5Badge: "Clear weekly targets and goals",
+                b6Title: "Assignable Practice Goals",
+                b6Desc: "Set achievable milestone goals for each song: learning the intro, mastering the bridge transition, or playing along with the full YouTube track without hesitation.",
+                b6Badge: "Visual checklist with instant dopamine for completion",
+                compTag: "Why Upgrade Your Studio",
+                compTitle: "Traditional Music Teaching vs. PopSongChordBook",
+                compDesc: "See how modernizing your lesson workflow saves hours of prep time and dramatically boosts student retention.",
+                thFeature: "Feature",
+                thTraditional: "Traditional Paper / Notebooks",
+                thChordbook: "PopSongChordBook Studio",
+                tr1Title: "Homework & Assignments",
+                tr1Bad: "Handwritten notebooks often lost or forgotten at home",
+                tr1Good: "Always accessible 24/7 on student's phone, tablet, or PC",
+                tr2Title: "Practice Accountability",
+                tr2Bad: "\"I practiced 5 times, promise!\" (unverifiable)",
+                tr2Good: "Real practice play counts and performability star ratings",
+                tr3Title: "Playing Along with Music",
+                tr3Bad: "Awkwardly juggling Spotify/YouTube on one device and paper on music stand",
+                tr3Good: "Integrated YouTube player auto-synced with Scrolling Chord timeline",
+                tr4Title: "Song Customization & Capo",
+                tr4Bad: "Manually rewriting chords by hand for beginners",
+                tr4Good: "Instant 1-click Chord Simplifier & Smart Capo transposer",
+                tr5Title: "Teacher Lesson Notes",
+                tr5Bad: "Pencil scribbles on margins that get smudged or ignored",
+                tr5Good: "Pin-point digital timeline notes right above the chord blocks",
+                tr6Title: "Remote / Online Lessons",
+                tr6Bad: "Clunky screen sharing with lag, students losing their place",
+                tr6Good: "Real-time device sync (Band Practice Mode) keeps screens in lockstep",
+                tr7Title: "Song Library",
+                tr7Bad: "Limited to what you printed or photocopy binders",
+                tr7Good: "Over 700+ interactive pop & rock classics ready instantly",
+                faqTag: "Frequently Asked Questions",
+                faqTitle: "Questions Music Teachers Ask Us",
+                faqQ1: "Is PopSongChordBook free to use?",
+                faqA1: "Yes! PopSongChordBook provides free access to interactive scrolling chords, beginner lesson methods, and song libraries for both teachers and students.",
+                faqQ2: "What devices does it work on?",
+                faqA2: "It runs seamlessly on any device with a modern web browser (iPad, iPhone, Mac, Windows PC, Chromebooks) and on mobile with the official Android App from Google Play.",
+                faqQ3: "How do students connect with me?",
+                faqA3: "In your Teacher Dashboard, you have a unique Teacher ID and direct invite link. Share this link with your students, and once they accept, their dashboard automatically connects to yours.",
+                faqQ4: "Can I use it for Piano, Keyboard, Guitar, and Ukulele?",
+                faqA4: "Yes! PopSongChordBook includes interactive chord overlays and visual voicing diagrams for piano/keyboard, guitar, and ukulele. You can switch instruments with a single tap.",
+                faqQ5: "Can I add my own custom songs?",
+                faqA5: "Absolutely. You can import MIDI files, load songs via our Super Extractor, or create custom chord progressions with specific tempo, capo, and section markers for your students.",
+                faqQ6: "How does device sync work during online lessons?",
+                faqA6: "Our real-time Band Practice Mode uses lightweight cloud sync. When you start the timeline or pause on your teacher device, the connected student's screen moves simultaneously, making Zoom or Google Meet lessons feel like you're in the same room.",
+                ctaTitle: "Ready to Modernize Your Music Studio?",
+                ctaSubtitle: "Join forward-thinking music instructors who are saving hours of prep time and keeping their students excited, engaged, and practicing consistently.",
+                btnCtaHome: "🏠 Go to PopSongChordBook Home",
+                btnCtaTeacher: "👨‍🏫 Launch Teacher Dashboard",
+                btnCtaSongs: "🎵 Explore 700+ Songs",
+                footerAbout: "The ultimate interactive musicians tool with scrolling chords, step-by-step pop lessons, real-time band sync, and dedicated dashboards for music teachers and students.",
+                footerCol1Title: "Studio & Teaching",
+                footerLinkTeacher: "Teacher Dashboard",
+                footerLinkStudent: "Student Dashboard",
+                footerLinkForTeachers: "PopSongChordBook for Teachers",
+                footerLinkBand: "Band Practice Sync",
+                footerLinkLessons: "Free Beginner Lessons",
+                footerCol2Title: "Music Tools",
+                footerLinkHome: "Main App Home",
+                footerLinkAllSongs: "All 700+ Songs",
+                footerLinkPianoTheory: "Piano Chord Theory",
+                footerLinkGuitarTheory: "Guitar Chord Theory",
+                footerLinkChordTrainer: "Chord Trainer",
+                footerCol3Title: "About & Apps",
+                footerLinkChangelog: "Changelog",
+                footerLinkPrivacy: "Privacy Policy",
+                footerRights: "All Rights Reserved.",
+                footerBackToSongbook: "Back to Main Songbook &uarr;"
+            },
+            nl: {
+                docTitle: "PopSongChordBook voor Muziekdocenten — Docent- & Leerlingendashboards, Scrollende Akkoorden & Voortgang",
+                docMetaDesc: "Geef jouw muzieklespraktijk een boost met PopSongChordBook. Volg de voortgang van leerlingen, wijs lessen en huiswerk toe, stel oefendoelen in, vereenvoudig akkoorden & capo, plaats notities op de akkoordentijdlijn en speel synchroon mee over meerdere apparaten.",
+                topRibbonText: "🎵 <strong>PopSongChordBook Lesstudio:</strong> Verbeter muzieklessen &amp; bandrepetities online en in de studio.",
+                topRibbonHomeLink: "Naar PopSongChordBook Home &rarr;",
+                brandSubtitle: "Voor Muziekdocenten",
+                navTeacher: "Docentendashboard",
+                navStudent: "Leerlingendashboard",
+                navBenefits: "Functies &amp; Voordelen",
+                navSync: "Tijdlijn &amp; Sync",
+                navComparison: "Waarom PopSongChordBook",
+                navFaq: "Veelgestelde Vragen",
+                btnLaunchApp: "Open App 🎵",
+                heroBadge: "De Complete Moderne Lesmethode voor Muziekdocenten",
+                heroTitleStart: "Til je Muzieklessen naar een Hoger Niveau met",
+                heroTitleHighlight: "Gekoppelde Docent- &amp; Leerlingen",
+                heroTitleEnd: "dashboards",
+                heroSubtitle: "Zeg vaarwel tegen kwijtgeraakte papieren akkoordenschema's en vergeten huiswerk. PopSongChordBook biedt muziekdocenten en hun leerlingen één centraal digitaal platform: plan lessen, wijs huiswerk toe, volg de voortgang van leerlingen, plaats notities op de tijdlijn, vereenvoudig akkoorden en speel synchroon mee over meerdere schermen tegelijk.",
+                btnHeroHome: "🚀 Open PopSongChordBook (Home)",
+                btnHeroTeacher: "👨‍🏫 Open Docentendashboard",
+                btnHeroStudent: "🎓 Leerlingenportaal",
+                pillar1Title: "Gekoppelde Leerlingen",
+                pillar1Desc: "Nodig leerlingen uit met één klik en beheer individuele lessen of bandgroepen.",
+                pillar2Title: "Doelen &amp; Huiswerk",
+                pillar2Desc: "Wijs wekelijks huiswerk toe en volg oefenbeurten met speelbaarheidsbeoordelingen.",
+                pillar3Title: "Tijdlijnnotities &amp; Tips",
+                pillar3Desc: "Koppel vingerzettingen, slagjes en theorie direct aan akkoordenblokken.",
+                pillar4Title: "Synchroon Meespelen",
+                pillar4Desc: "Bedien de scrollende akkoorden tegelijkertijd op schermen van docent en leerling.",
+                s1Tag: "Docenten Controlecentrum",
+                s1Title: "Het Docentendashboard: Beheer je Lespraktijk Eenvoudig",
+                s1Desc: "Houd je hele muzieklespraktijk overzichtelijk op één plek. Plan wekelijkse lessen, beheer je leerlingenlijst, zet op maat gemaakte poprepertoriums klaar en volg wat leerlingen tussen de lessen door doen.",
+                s1Subheading: "Volledig Inzicht in het Traject van Elke Leerling",
+                s1Lead: "Docenten zijn vaak uren kwijt aan het printen van bladmuziek, het sturen van herinneringen en het gissen naar hoeveel er daadwerkelijk is geoefend. Het PopSongChordBook Docentendashboard centraliseert alles:",
+                s1F1Title: "Beheer Al je Gekoppelde Leerlingen:",
+                s1F1Desc: "Koppel gemakkelijk met leerlingen via een eenvoudige uitnodigingslink. Organiseer leerlingen individueel of in band- en ensemblegroepen.",
+                s1F2Title: "Lessen Plannen &amp; Agenda:",
+                s1F2Desc: "Plan aankomende lessen in, houd aanwezigheid bij en bereid afgestemde speellijsten voor op het niveau van de leerling.",
+                s1F3Title: "Concrete Doelen &amp; Huiswerk Toewijzen:",
+                s1F3Desc: "Geef duidelijke mijlpalen mee (bijv. <em>\"Leer Couplet 1 op 85 BPM\"</em>, <em>\"Beheers de overgang tussen C en G\"</em>) die direct zichtbaar zijn zodra de leerling de app opent.",
+                s1F4Title: "Persoonlijke Docentnotities:",
+                s1F4Desc: "Sla privé-notities op in het leerlingprofiel of plaats handige speelinstructies direct bij specifieke nummers.",
+                btnGoTeacher: "Naar Docentendashboard &rarr;",
+                captionInspectTeacher: "🔍 Klik om het Docentendashboard overzicht te vergroten",
+                s1ConnectTitle: "Koppel met Leerlingen in Enkele Seconden",
+                s1ConnectLead: "Leerlingen hebben geen ingewikkelde software nodig. Of ze nu oefenen via de webbrowser op laptop/iPad of de officiële Android App uit de Google Play Store gebruiken, ze accepteren jouw uitnodiging en zijn direct gekoppeld.",
+                s1ConnectF1Title: "Webbrowser &amp; Android App:",
+                s1ConnectF1Desc: "Leerlingen kunnen meedoen vanaf elke laptop, iPad of Chromebook via internet, of downloaden de officiële Android App op Google Play voor telefoon en tablet.",
+                s1ConnectF2Title: "Leerlingenoverzicht in Eén Oogopslag:",
+                s1ConnectF2Desc: "Direct overzicht van alle actieve leerlingen met lesdagen, tijden en klaargezette nummers.",
+                s1ConnectF3Title: "Direct Repertoire Delen:",
+                s1ConnectF3Desc: "Deel nummers, eigen akkoordenschema's en lesnotities met één klik direct naar het account van je leerling.",
+                captionInspectStudents: "🔍 Klik om het Leerlingenbeheer te inspecteren",
+                s2Tag: "Leerlingenervaring",
+                s2Title: "Het Leerlingendashboard: Oefenen Wordt Leuk, Duidelijk &amp; Motiverend",
+                s2Desc: "Wanneer leerlingen achter hun instrument gaan zitten, weten ze direct wat ze moeten spelen. Geen verwarring, geen zoekgeraakte mappen en geen verveling.",
+                s2Subheading: "Een Eigen Oefenhub voor Snelle Vooruitgang",
+                s2Lead: "Het Leerlingendashboard geeft direct helderheid over de wekelijkse opdrachten en maakt herhalend oefenen tot een aantrekkelijke en gestructureerde routine:",
+                s2F1Title: "Huiswerk Direct Bovenaan:",
+                s2F1Desc: "Leerlingen zien meteen welke nummers en oefeningen hun docent deze week heeft klaargezet, compleet met streeftempo en persoonlijke tips.",
+                s2F2Title: "Doelen Checklist:",
+                s2F2Desc: "Breek grote nummers op in overzichtelijke microdoelen. Leerlingen vinken mijlpalen af zodra ze een couplet of akkoordenschema onder de knie hebben.",
+                s2F3Title: "Ingebouwde Oefenteller:",
+                s2F3Desc: "Elke oefensessie telt mee! Registreert automatisch hoe vaak een nummer is doorgespeeld om dagelijkse discipline te stimuleren.",
+                s2F4Title: "1-Klik Meespelen met Scrollende Akkoorden:",
+                s2F4Desc: "Klik op een nummer in het dashboard en speel direct mee met scrollende akkoorden die synchroon lopen met de officiële YouTube audio.",
+                btnOpenStudent: "Open Leerlingendashboard &rarr;",
+                captionInspectStudent: "🔍 Klik om het Leerlingendashboard te bekijken",
+                galleryBadge1: "Weergave 1: Oefenhub",
+                gallery1Title: "Oefennummers &amp; Repertoire",
+                gallery1Desc: "Leerlingen zien alle door de docent toegewezen nummers gerangschikt op tempo, toonsoort, caponotities en speelbaarheid.",
+                galleryBadge2: "Weergave 2: Doelen Checklist",
+                gallery2Title: "Actieve Doelen &amp; Huiswerktaken",
+                gallery2Desc: "Duidelijke, tastbare mijlpalen motiveren leerlingen om thuis hun instrument vaker op te pakken tussen de lessen door.",
+                galleryBadge3: "Weergave 3: Aanpassing",
+                gallery3Title: "Flexibele Oefenbibliotheek",
+                gallery3Desc: "Geeft leerlingen de vrijheid om naast de verplichte lesstof ook eigen favoriete nummers te ontdekken en te oefenen.",
+                s3Tag: "Data-Gedreven Lesgeven",
+                s3Title: "Volg de Voortgang van Leerlingen met Reële Cijfers",
+                s3Desc: "Vertrouw nooit meer op een vaag \"ik heb echt geoefend!\". PopSongChordBook registreert betrouwbare oefendata zodat zowel docent als leerling de echte vooruitgang zien.",
+                captionInspectProgress: "🔍 Klik om het Voortgangs- en Beoordelingssysteem te bekijken",
+                s3Subheading: "Volg Speelbaarheid, Oefenbeurten &amp; Beheersing",
+                s3Lead: "Elk toegewezen nummer heeft een gedetailleerd voortgangsprofiel. Docenten en leerlingen zien in één oogopslag:",
+                s3F1Title: "Speelbaarheidsbeoordeling (1 tot 5 Sterren):",
+                s3F1Desc: "Beoordeel hoe zelfverzekerd de leerling het stuk speelt. Van \"Akkoorden leren (1★)\" tot \"Volledig vloeiend met de band meespelen (5★)\".",
+                s3F2Title: "Werkelijke Aantal Oefenbeurten:",
+                s3F2Desc: "Zie precies hoe vaak de leerling het nummer in de afgelopen week heeft doorgespeeld. Veel speelbeurten vieren toewijding; weinig speelbeurten wijzen op knelpunten.",
+                s3F3Title: "Geschiedenis van Behaalde Doelen:",
+                s3F3Desc: "Een overzichtelijk archief van alle behaalde mijlpalen geeft leerlingen een enorme stimulans en trots over de maanden heen.",
+                s3F4Title: "Feedback Tussen Docent &amp; Leerling:",
+                s3F4Desc: "Wissel gericht notities uit over vingerzetting, tempokeuze, overgangen of voorbereiding op optredens.",
+                s4Tag: "Uitgebreide Mogelijkheden",
+                s4Title: "De Complete Gereedschapskist voor Muziekeducatie",
+                s4Desc: "Elke functie is ontwikkeld om de daadwerkelijke uitdagingen van muziekdocenten in privépraktijken, muziekscholen en online lesgeven op te lossen.",
+                b1Title: "Tijdlijnnotities bij Elk Nummer",
+                b1Desc: "Koppel instructies en leertips direct aan de scrollende akkoordentijdlijn bij specifieke maten of secties (Intro, Couplet, Refrein, Brug). De leerling ziet jouw aanwijzing precies op het moment dat het akkoord eraan komt.",
+                b1Badge: "💬 \"Wijsvinger hier laten staan\" • \"Slagje: neer-neer-op-op-neer-op\"",
+                b2Title: "1-Klik Akkoorden Vereenvoudigen",
+                b2Desc: "Beginners hoeven niet maanden te wachten om hun favoriete popnummers te kunnen spelen. Schakel akkoordvereenvoudiging in om complexe jazz- of extensie-akkoorden direct om te zetten naar makkelijke basisakkoorden.",
+                b2Badge: "C i.p.v. Cmaj7 • G i.p.v. Gadd9 • Em i.p.v. Em7",
+                b3Title: "Slimme Capo Transponeerder",
+                b3Desc: "Geen lastige barré-akkoorden meer voor beginners. De intelligente Capo-calculator rekent toonsoorten met veel mollen of kruizen automatisch om naar vriendelijke open 'kampvuurakkoorden' met de capo op positie 1, 2 of 4.",
+                b3Badge: "Speel C - G - F in plaats van G# - C# - F# (Capo 1e positie)",
+                b4Title: "Synchroon Meespelen op Meerdere Schermen (Band Practice Modus)",
+                b4Desc: "Speel scrollende akkoorden tegelijkertijd af over meerdere apparaten in realtime! De docent of bandleider bedient het afspelen op laptop of tablet, en het scherm van de leerling scrollt synchroon mee. Ideaal voor Zoom/Meet online lessen en bandrepetities.",
+                b4Badge: "Realtime synchrone akkoordentijdlijn tussen docent en leerling",
+                b5Title: "Gestructureerd Huiswerk Toewijzen",
+                b5Desc: "Nooit meer de vraag \"wat moest ik ook alweer oefenen?\". Wijs wekelijks huiswerk toe met specifieke doeltempo's, overgangen en meespeelopdrachten die overzichtelijk op het dashboard blijven staan.",
+                b5Badge: "Duidelijke wekelijkse doelen en opdrachten",
+                b6Title: "Toewijsbare Oefendoelen",
+                b6Desc: "Stel haalbare mijlpalen in per nummer: het intro leren, de overgang naar het refrein onder de knie krijgen, of het hele YouTube-nummer zonder haperen meespelen.",
+                b6Badge: "Visuele checklist met directe voldoening bij afronding",
+                compTag: "Waarom je Lespraktijk Moderniseren",
+                compTitle: "Traditionele Papieren Lesmethodes vs. PopSongChordBook",
+                compDesc: "Ontdek hoe een modern digitaal lesplatform uren voorbereidingstijd scheelt en de motivatie van leerlingen verhoogt.",
+                thFeature: "Onderdeel",
+                thTraditional: "Traditioneel Papier / Schrijfschrift",
+                thChordbook: "PopSongChordBook Lesstudio",
+                tr1Title: "Huiswerk &amp; Opdrachten",
+                tr1Bad: "Schrijfschriften raken kwijt of worden thuis vergeten",
+                tr1Good: "Altijd en overal 24/7 bereikbaar op telefoon, tablet of computer",
+                tr2Title: "Oefenverantwoording",
+                tr2Bad: "\"Ik heb 5 keer geoefend hoor!\" (niet te controleren)",
+                tr2Good: "Betrouwbare oefenteller en sterrenbeoordelingen per stuk",
+                tr3Title: "Meespelen met Muziek",
+                tr3Bad: "Onhandig schakelen tussen YouTube/Spotify op één scherm en papier op de lessenaar",
+                tr3Good: "Geïntegreerde YouTube-speler die synchroon meeloopt met de akkoordentijdlijn",
+                tr4Title: "Akkoorden Aanpassen &amp; Capo",
+                tr4Bad: "Handmatig schema's overschrijven of transponeren met pen en papier",
+                tr4Good: "1-Klik Akkoordvereenvoudiging en automatische Capo-berekening",
+                tr5Title: "Docentnotities bij Nummers",
+                tr5Bad: "Potloodkrabbels in de kantlijn die vervagen of over het hoofd worden gezien",
+                tr5Good: "Digitale notities die precies boven de relevante akkoordenblokken verschijnen",
+                tr6Title: "Online &amp; Afstandslessen",
+                tr6Bad: "Haperende schermdeling via Zoom waarbij leerlingen de tel kwijtraken",
+                tr6Good: "Realtime apparaat-synchronisatie (Band Practice Modus) houdt schermen synchroon",
+                tr7Title: "Muziekbibliotheek",
+                tr7Bad: "Beperkt tot wat er geprint is of in ordners bewaard wordt",
+                tr7Good: "Directe toegang tot meer dan 700+ interactieve pop- en rockklassiekers",
+                faqTag: "Veelgestelde Vragen",
+                faqTitle: "Vragen die Muziekdocenten ons Vaak Stellen",
+                faqQ1: "Is PopSongChordBook gratis te gebruiken?",
+                faqA1: "Ja! PopSongChordBook biedt gratis toegang tot interactieve scrollende akkoorden, beginnerslesmethodes en de muziekbibliotheek voor zowel docenten als leerlingen.",
+                faqQ2: "Op welke apparaten werkt het?",
+                faqA2: "Het werkt vlekkeloos op elk apparaat met een moderne webbrowser (iPad, iPhone, Mac, Windows PC, Chromebooks) en op mobiel via de officiële Android App in Google Play.",
+                faqQ3: "Hoe koppelen leerlingen zich aan mij?",
+                faqA3: "In je Docentendashboard vind je een unieke docentencode en directe uitnodigingslink. Deel deze met je leerling; zodra zij accepteren, is hun dashboard automatisch met jouw studio gekoppeld.",
+                faqQ4: "Kan ik het gebruiken voor Piano, Keyboard, Gitaar en Ukelele?",
+                faqA4: "Ja! PopSongChordBook bevat interactieve akkoordendiagrammen en toetsenbordweergaves voor piano/keyboard, gitaar en ukelele. Je schakelt met één klik tussen instrumenten.",
+                faqQ5: "Kan ik eigen nummers toevoegen?",
+                faqA5: "Zeker. Je kunt MIDI-bestanden importeren, nummers inladen via onze Super Extractor, of zelf akkoordenschema's invoeren met specifiek tempo, capo en maatverdeling voor je leerlingen.",
+                faqQ6: "Hoe werkt de synchronisatie tijdens online muzieklessen?",
+                faqA6: "Onze realtime Band Practice Modus maakt gebruik van snelle cloud-synchronisatie. Wanneer jij op jouw scherm de tijdlijn start of pauzeert, beweegt het scherm van de leerling exact synchroon mee, waardoor online lessen via Zoom of Google Meet aanvoelen alsof je in dezelfde ruimte zit.",
+                ctaTitle: "Klaar om je Muzieklespraktijk te Moderniseren?",
+                ctaSubtitle: "Sluit je aan bij vooruitstrevende muziekdocenten die uren voorbereidingstijd besparen en hun leerlingen enthousiast, gemotiveerd en consistent laten oefenen.",
+                btnCtaHome: "🏠 Naar PopSongChordBook Home",
+                btnCtaTeacher: "👨‍🏫 Open Docentendashboard",
+                btnCtaSongs: "🎵 Bekijk 700+ Nummers",
+                footerAbout: "Het ultieme interactieve hulpmiddel voor muzikanten met scrollende akkoorden, stapsgewijze poplessen, realtime bandsynchronisatie en speciale dashboards voor muziekdocenten en leerlingen.",
+                footerCol1Title: "Studio & Lesgeven",
+                footerLinkTeacher: "Docentendashboard",
+                footerLinkStudent: "Leerlingendashboard",
+                footerLinkForTeachers: "PopSongChordBook voor Docenten",
+                footerLinkBand: "Band Practice Sync",
+                footerLinkLessons: "Gratis Beginnerslessen",
+                footerCol2Title: "Muziek Tools",
+                footerLinkHome: "Hoofdpagina Songbook",
+                footerLinkAllSongs: "Alle 700+ Nummers",
+                footerLinkPianoTheory: "Piano Akkoordentheorie",
+                footerLinkGuitarTheory: "Gitaar Akkoordentheorie",
+                footerLinkChordTrainer: "Akkoordentrainer",
+                footerCol3Title: "Over & Apps",
+                footerLinkChangelog: "Changelog",
+                footerLinkPrivacy: "Privacybeleid",
+                footerRights: "Alle rechten voorbehouden.",
+                footerBackToSongbook: "Terug naar Hoofdpagina Songbook &uarr;"
+            }
+        };
+
+        // Language State Management
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        let currentLang = (langParam === 'nl' || langParam === 'en')
+            ? langParam
+            : (localStorage.getItem('preferredLanguage') || ((navigator.language && navigator.language.toLowerCase().startsWith('nl')) ? 'nl' : 'en'));
+
+        function applyLanguage() {
+            const t = TEACHERS_TRANSLATIONS[currentLang] || TEACHERS_TRANSLATIONS.en;
+            document.documentElement.lang = currentLang;
+
+            // Update document title & meta tags
+            if (t.docTitle) document.title = t.docTitle;
+            const metaDesc = document.getElementById('doc-meta-desc');
+            if (metaDesc && t.docMetaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle && t.docTitle) ogTitle.setAttribute('content', t.docTitle);
+            const ogDesc = document.getElementById('og-desc');
+            if (ogDesc && t.docMetaDesc) ogDesc.setAttribute('content', t.docMetaDesc);
+            const twTitle = document.getElementById('tw-title');
+            if (twTitle && t.docTitle) twTitle.setAttribute('content', t.docTitle);
+            const twDesc = document.getElementById('tw-desc');
+            if (twDesc && t.docMetaDesc) twDesc.setAttribute('content', t.docMetaDesc);
+
+            // Update all data-i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Update toggle button pills active state
+            const btnEn = document.querySelector('.lang-pill-en');
+            const btnNl = document.querySelector('.lang-pill-nl');
+            if (btnEn && btnNl) {
+                if (currentLang === 'nl') {
+                    btnNl.classList.add('active');
+                    btnEn.classList.remove('active');
+                } else {
+                    btnEn.classList.add('active');
+                    btnNl.classList.remove('active');
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'nl' : 'en';
+            try {
+                localStorage.setItem('preferredLanguage', currentLang);
+            } catch(e) {}
+            
+            const url = new URL(window.location);
+            if (currentLang === 'nl') {
+                url.searchParams.set('lang', 'nl');
+            } else {
+                url.searchParams.delete('lang');
+            }
+            window.history.replaceState({}, '', url);
+            applyLanguage();
+        }
+
+        // Initialize language on DOM ready
+        window.addEventListener('DOMContentLoaded', applyLanguage);
+
+        // Lightbox functions
+        function openLightbox(src) {
+            const modal = document.getElementById('imageLightbox');
+            const img = document.getElementById('lightboxImg');
+            if (modal && img) {
+                img.src = src;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('imageLightbox');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>

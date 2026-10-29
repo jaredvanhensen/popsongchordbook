@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title id="doc-title">PopSongChordBook v3.423 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
-    <meta name="version" content="3.423">
+    <title id="doc-title">PopSongChordBook v3.424 - Free Beginner Guitar &amp; Piano Lessons, Scrolling Chords &amp; Band Sync</title>
+    <meta name="version" content="3.424">
     <meta name="description" id="doc-meta-desc"
         content="The ultimate musicians tool with interactive scrolling chords, free beginner guitar lessons, and free piano & keyboard lessons. Learn guitar or piano with step-by-step pop song methods. Connect band members in real-time, sync setlists, and play along with YouTube.">
     <meta name="keywords" content="band practice tool, band members sync, real-time setlist sharing, chord book, pop songs, piano chords, guitar chords, ukulele chords, chord trainer, interactive songbook, playalong chords, MIDI keyboard, musicians tool, scrolling chords, music teacher tool, teacher student tool, jam along, band rehearsal helper, free beginner guitar lessons, guitar method, beginner guitar method, free guitar method, guitar fast track, learn guitar online, pop guitar lessons, free beginner piano lessons, piano method, beginner piano method, free piano method, keyboard method, beginner keyboard method, piano fast track, learn guitar online, pop piano lessons, free keyboard lessons, piano course, guitar course, beginner music lessons">
@@ -1084,6 +1084,58 @@
                 0 4px 10px rgba(139, 92, 246, 0.4);
         }
 
+        /* ── Snelstart Gids / Quick Start Guide 3D CTA Button (Amber / Electric Gold) ── */
+        .btn-quickstart-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 13px 28px;
+            border-radius: 999px;
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: #ffffff !important;
+            background: linear-gradient(180deg, #f59e0b 0%, #d97706 65%, #b45309 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+                0 4px 0 #92400e,
+                0 7px 2px rgba(0, 0, 0, 0.18),
+                0 10px 22px rgba(245, 158, 11, 0.38);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .btn-quickstart-cta:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+            box-shadow: 
+                inset 0 1.5px 0 rgba(255, 255, 255, 0.85),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+                0 6px 0 #92400e,
+                0 9px 2px rgba(0, 0, 0, 0.22),
+                0 14px 28px rgba(245, 158, 11, 0.48);
+            color: #ffffff !important;
+        }
+
+        .btn-quickstart-cta:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 #92400e,
+                0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-quickstart-cta .btn-icon {
+            font-size: 1.25rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+        }
+
         .hero-fasttrack-label {
             font-size: 0.78rem;
             color: rgba(255, 255, 255, 0.82);
@@ -1408,11 +1460,11 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <meta name="forced-colors" content="none">
-    <meta name="application-version" content="v3.423">
-    <script>const SITE_VERSION = '3.423';</script>
-    <script src="/js/utils/smart-app-banner.js?v=3.423"></script>
+    <meta name="application-version" content="v3.424">
+    <script>const SITE_VERSION = '3.424';</script>
+    <script src="/js/utils/smart-app-banner.js?v=3.424"></script>
     <!-- Version history: 
-        v3.423: Song Library & SEO Sync: Synchronized 700 songs from Firebase Realtime Database (including Taylor Swift - Patient Zero), generated all 700 song and 331 artist static SEO landing pages, and updated sitemap.xml.
+        v3.424: Song Library & SEO Sync: Synchronized 700 songs from Firebase Realtime Database (including Taylor Swift - Patient Zero), generated all 700 song and 331 artist static SEO landing pages, and updated sitemap.xml.
         v3.422: Songlist Keyboard Navigation: Fixed scroll offset when navigating songs with Arrow keys so the active row is never hidden underneath sticky headers.
         v3.421: Songlist Keyboard Navigation: Added keyboard shortcuts for desktop/laptop navigation on the song list (R for Random, P for Practice, Arrow Up/Down to navigate songs, and Enter to open the highlighted song).
         v3.420: SEO & Internal Navigation: Converted all internal links across templates, static song/artist pages, and trainer views to clean canonical URLs without .html extensions to resolve Google Search Console redirect warnings.
@@ -1769,9 +1821,9 @@
                     <span class="btn-icon cta-icon">🎵</span>
                     <span id="txt-btn-open">OPEN POP SONG CHORD BOOK</span>
                 </a>
-                <a href="/quickstart" class="hero-btn-ghost">
-                    <span class="btn-icon">⚡</span>
-                    <span id="txt-btn-quickstart">Quick Start Guide</span>
+                <a href="/music-teachers" class="hero-btn-ghost">
+                    <span class="btn-icon">🎓</span>
+                    <span id="txt-btn-teacher">MUSIC TEACHER DASHBOARD</span>
                 </a>
             </div>
 
@@ -1850,6 +1902,14 @@
         </div>
     </div>
 
+    <!-- Quick Start Guide CTA Button -->
+    <div style="text-align: center; margin: 38px auto 26px; max-width: 380px; padding: 0 16px;">
+        <a href="/quickstart" class="btn-quickstart-cta">
+            <span class="btn-icon">⚡</span>
+            <span id="txt-btn-quickstart">Quick Start Guide</span>
+        </a>
+    </div>
+
     <!-- Promo Video Section -->
     <div class="promo-section">
         <div class="container">
@@ -1925,6 +1985,7 @@
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px; font-size: 55px;">🎓</div>
                     <h3 id="fc-title-10">Music Teacher Tool</h3>
                     <p id="fc-desc-10">A complete teacher student tool. Assign practice songs, track progress, and organize student lessons seamlessly.</p>
+                    <a href="/music-teachers" id="fc-link-10" style="display: inline-block; margin-top: 10px; font-weight: 700; color: #2563eb; text-decoration: none;">Explore Music Teacher Studio &rarr;</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="display: flex; justify-content: center; align-items: center; height: 90px;">
@@ -2193,6 +2254,34 @@
                         <span class="slide-dot" onclick="goToSlide(3)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
                         <span class="slide-dot" onclick="goToSlide(4)" style="width: 8px; height: 8px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s, transform 0.2s;"></span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Teachers Studio Section -->
+    <div class="band-practice-section" style="background: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 90px 0;">
+        <div class="container">
+            <div class="band-practice-grid">
+                <div class="band-practice-content">
+                    <span class="badge-new" id="teachers-badge" style="background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);">🎓 Music Teaching Studio</span>
+                    <h2 class="section-title" id="teachers-title" style="text-align: left; margin-bottom: 24px;">Empower Your Lessons with Teacher &amp; Student Dashboards</h2>
+                    <p id="teachers-desc-1"><b>Connect with Students in Seconds:</b> Organize your studio, schedule weekly lessons, and assign curated pop song repertoires directly to individual students or ensemble groups on web and mobile.</p>
+                    <p id="teachers-desc-2"><b>Progress, Goals &amp; Timeline Notes:</b> Track actual student practice counts, set milestone checklists, and pin instructional notes (fingering, strumming, capo) directly onto the Scrolling Chord timeline.</p>
+                    <p id="teachers-desc-3"><b>Simplify, Capo &amp; Synchronized Playback:</b> Tailor any song to beginners with 1-click chord simplification and smart capo transposition, and use real-time Band Practice Mode to sync screens during online and in-person lessons.</p>
+                    <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px;">
+                        <a href="/music-teachers" class="btn" id="teachers-btn-explore" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 13px 26px; border-radius: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3);">
+                            Explore Music Teacher Studio &rarr;
+                        </a>
+                        <a href="/teacher" class="btn" id="teachers-btn-portal" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #16a34a, #15803d); color: white; padding: 13px 26px; border-radius: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(22,163,74,0.3);">
+                            Open Teacher Dashboard 👨‍🏫
+                        </a>
+                    </div>
+                </div>
+                <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 4px solid white;">
+                    <a href="/music-teachers" title="Explore PopSongChordBook for Music Teachers">
+                        <img src="images/teacher-student/0-Thumbnail.jpg" alt="PopSongChordBook for Music Teachers - Teacher &amp; Student Dashboards" style="width: 100%; display: block; transition: transform 0.3s ease;">
+                    </a>
                 </div>
             </div>
         </div>
@@ -2810,9 +2899,11 @@
             </div>
             <p id="footer-copyright">&copy; 2026 PopSongChordBook • Your Interactive Playalong Songbook</p>
             <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
-                v<span id="site-version">3.423</span>
+                v<span id="site-version">3.424</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
+                <a href="/music-teachers" style="color: inherit; text-decoration: underline;">For Music Teachers</a>
+                &nbsp;·&nbsp;
                 <a href="/sound-test" style="color: inherit; text-decoration: underline;">Open Sound Lab &
                     Diagnostics</a>
                 &nbsp;·&nbsp;
@@ -2923,6 +3014,14 @@
                     "Play songs from START to FINISH in 1 go!"
                 ],
                 btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnTeacher: "MUSIC TEACHER DASHBOARD",
+                teachersBadge: "🎓 Music Teaching Studio",
+                teachersTitle: "Empower Your Lessons with Teacher & Student Dashboards",
+                teachersDesc1: "<b>Connect with Students in Seconds:</b> Organize your studio, schedule weekly lessons, and assign curated pop song repertoires directly to individual students or ensemble groups on web and mobile.",
+                teachersDesc2: "<b>Progress, Goals & Timeline Notes:</b> Track actual student practice counts, set milestone checklists, and pin instructional notes (fingering, strumming, capo) directly onto the Scrolling Chord timeline.",
+                teachersDesc3: "<b>Simplify, Capo & Synchronized Playback:</b> Tailor any song to beginners with 1-click chord simplification and smart capo transposition, and use real-time Band Practice Mode to sync screens during online and in-person lessons.",
+                teachersBtnExplore: "Explore Music Teacher Studio →",
+                teachersBtnPortal: "Open Teacher Dashboard 👨‍🏫",
                 btnQuickstart: "Quick Start Guide",
                 btnLessons: "FREE Beginner Lessons (Guitar & Piano)",
                 lessonsLabel: "Step-by-Step Pop Song Lessons 1 to 9 • Free & Interactive",
@@ -3036,6 +3135,14 @@
                     "Speel liedjes van BEGIN tot EIND in 1 keer mee!"
                 ],
                 btnOpen: "OPEN POP SONG CHORD BOOK",
+                btnTeacher: "MUZIEKDOCENTEN DASHBOARD",
+                teachersBadge: "🎓 Muziekdocenten Studio",
+                teachersTitle: "Versterk Je Muzieklessen met Docent & Leerling Dashboards",
+                teachersDesc1: "<b>Verbind Binnen Enkele Seconden:</b> Beheer je lespraktijk, plan wekelijkse lessen en wijs liedjes direct toe aan individuele leerlingen of lesgroepen op desktop en mobiel.",
+                teachersDesc2: "<b>Voortgang, Doelen & Tijdlijn Notities:</b> Volg het aantal gespeelde oefensessies, stel duidelijke weekdoelen in en plaats persoonlijke lesnotities (vingerzetting, slagje, capo) direct op de scrollende akkoordentijdlijn.",
+                teachersDesc3: "<b>Vereenvoudig, Capo & Gesynchroniseerd Meespelen:</b> Pas elk popnummer aan voor beginners met 1-klik akkoordvereenvoudiging en slimme capo-berekening, en gebruik realtime Band Practice Mode om schermen synchroon te laten lopen tijdens live en online lessen.",
+                teachersBtnExplore: "Ontdek Muziekdocenten Studio →",
+                teachersBtnPortal: "Open Docenten Dashboard 👨‍🏫",
                 btnQuickstart: "Snelstart Gids",
                 btnLessons: "GRATIS Beginnerslessen (Gitaar & Piano)",
                 lessonsLabel: "Stap-voor-stap popliedjes lessen 1 t/m 9 • Gratis & Interactief",
@@ -3169,7 +3276,16 @@
             const elementMap = {
                 'top-announcement-text': t.topAnnouncement,
                 'txt-btn-open': t.btnOpen,
+                'txt-btn-teacher': t.btnTeacher,
                 'txt-btn-quickstart': t.btnQuickstart,
+                'teachers-badge': t.teachersBadge,
+                'teachers-title': t.teachersTitle,
+                'teachers-desc-1': t.teachersDesc1,
+                'teachers-desc-2': t.teachersDesc2,
+                'teachers-desc-3': t.teachersDesc3,
+                'teachers-btn-explore': t.teachersBtnExplore,
+                'teachers-btn-portal': t.teachersBtnPortal,
+                'fc-link-10': t.teachersBtnExplore,
                 'txt-btn-lessons': t.btnLessons,
                 'txt-lessons-label': t.lessonsLabel,
                 'hf-title-1': t.hfTitle1,

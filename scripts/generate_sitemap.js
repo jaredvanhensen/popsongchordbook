@@ -78,6 +78,18 @@ function generateSitemap() {
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>${BASE_URL}/music-teachers</loc>
+        <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>${BASE_URL}/music-teachers?lang=nl</loc>
+        <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>${BASE_URL}/teacher</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
