@@ -6,7 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light">
     <title>Quick Start Guide - PopSongChordBook</title>
-    <meta name="description" content="Learn how to use PopSongChordBook features like the Song Map, Chord Timeline, Band Practice sync, and the Teacher and Student Dashboards.">
+        <link rel="canonical" id="doc-canonical" href="https://www.popsongchordbook.com/quickstart">
+    <link rel="alternate" hreflang="en" href="https://www.popsongchordbook.com/quickstart">
+    <link rel="alternate" hreflang="nl" href="https://www.popsongchordbook.com/quickstart?lang=nl">
+    <link rel="alternate" hreflang="x-default" href="https://www.popsongchordbook.com/quickstart">
+
+    <!-- Early language detection from URL param or localStorage -->
+    <script>
+        (function() {
+            try {
+                var p = new URLSearchParams(window.location.search).get('lang');
+                var l = (p === 'nl' || p === 'en') ? p : (localStorage.getItem('preferredLanguage') || ((navigator.language && navigator.language.toLowerCase().startsWith('nl')) ? 'nl' : 'en'));
+                if (l === 'nl') {
+                    document.documentElement.lang = 'nl';
+                }
+            } catch(e) {}
+        })();
+    </script>
+    <meta name="description" id="doc-meta-desc" content="Learn how to use PopSongChordBook features like the Song Map, Chord Timeline, Band Practice sync, and the Teacher and Student Dashboards.">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -109,6 +126,56 @@
             height: auto;
             display: block;
             border-radius: 12px;
+        }
+
+        
+        /* Top Ribbon Language Switcher */
+        .lang-toggle-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 3px 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: #94a3b8;
+            background: #e2e8f0;
+        }
+
+        .lang-pill {
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #64748b;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .lang-pill.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.35);
+        }
+
+        .lang-pill-sep {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #94a3b8;
+            user-select: none;
+            line-height: 1;
+            padding: 0 1px;
         }
 
         .back-nav {
@@ -244,7 +311,7 @@
 
 <body>
     <nav class="back-nav">
-        <div class="container">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <a href="/" class="back-icon-btn" title="Back to Home"
                onclick="if(window.parent !== window){ event.preventDefault(); window.parent.closeDashboardPanel(); }">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -252,41 +319,48 @@
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
             </a>
+            <div class="top-bar-actions">
+                <button type="button" id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / Wissel Taal (EN / NL)">
+                    <span class="lang-pill lang-pill-en active">EN</span>
+                    <span class="lang-pill-sep">/</span>
+                    <span class="lang-pill lang-pill-nl">NL</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Header -->
     <div class="hero-section" style="min-height: 40vh;">
         <div class="hero-content">
-            <h1 class="hero-title">Quick Start Guide</h1>
-            <p class="hero-subtitle">Master the features of Pop Song Chord Book</p>
+            <h1 class="hero-title" data-i18n="heroTitle">Quick Start Guide</h1>
+            <p class="hero-subtitle" data-i18n="heroSubtitle">Master the features of Pop Song Chord Book</p>
         </div>
     </div>
 
     <!-- Table of Contents -->
     <div class="manual-index">
         <div class="guide-container">
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 10px;">Quick Navigation</h2>
-            <p style="color: #64748b; font-size: 1.1rem;">Jump to a specific section:</p>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 10px;" data-i18n="tocTitle">Quick Navigation</h2>
+            <p style="color: #64748b; font-size: 1.1rem;" data-i18n="tocSubtitle">Jump to a specific section:</p>
             <div class="index-grid">
-                <a href="#detail-screen" class="index-item"><span class="index-number">1</span> Song Detail Screen</a>
-                <a href="#setlists" class="index-item"><span class="index-number">2</span> Creating Setlists</a>
-                <a href="#piano-chords" class="index-item"><span class="index-number">3</span> Piano Chords</a>
-                <a href="#guitar-chords" class="index-item"><span class="index-number">4</span> Guitar Chords</a>
-                <a href="#capo" class="index-item"><span class="index-number">5</span> Capo Feature</a>
-                <a href="#chord-editor" class="index-item"><span class="index-number">6</span> Progression Editor</a>
-                <a href="#filtering" class="index-item"><span class="index-number">7</span> Filtering by Key</a>
-                <a href="#transposing" class="index-item"><span class="index-number">8</span> Transposing Songs</a>
-                <a href="#lyrics" class="index-item"><span class="index-number">9</span> Lyrics & Auto-scroll</a>
-                <a href="#band-practice" class="index-item"><span class="index-number">10</span> Band Practice</a>
-                <a href="#teacher-dashboard" class="index-item"><span class="index-number">11</span> Teacher Dashboard</a>
-                <a href="#practice-mode" class="index-item"><span class="index-number">12</span> Practice List</a>
-                <a href="#chord-trainer" class="index-item"><span class="index-number">13</span> Chord Trainer & Song Practice</a>
-                <a href="#timeline" class="index-item"><span class="index-number">14</span> Chord Timeline</a>
-                <a href="#song-map" class="index-item"><span class="index-number">15</span> Song Map</a>
-                <a href="#midi-support" class="index-item"><span class="index-number">16</span> MIDI Keyboard Support</a>
-                <a href="#install" class="index-item"><span class="index-number">17</span> Install as App</a>
-                <a href="#pro-tips" class="index-item"><span class="index-number">18</span> PRO TIPS</a>
+                <a href="#detail-screen" class="index-item"><span class="index-number">1</span> <span data-i18n="tocItem1">Song Detail Screen</span></a>
+                <a href="#setlists" class="index-item"><span class="index-number">2</span> <span data-i18n="tocItem2">Creating Setlists</span></a>
+                <a href="#piano-chords" class="index-item"><span class="index-number">3</span> <span data-i18n="tocItem3">Piano Chords</span></a>
+                <a href="#guitar-chords" class="index-item"><span class="index-number">4</span> <span data-i18n="tocItem4">Guitar Chords</span></a>
+                <a href="#capo" class="index-item"><span class="index-number">5</span> <span data-i18n="tocItem5">Capo Feature</span></a>
+                <a href="#chord-editor" class="index-item"><span class="index-number">6</span> <span data-i18n="tocItem6">Progression Editor</span></a>
+                <a href="#filtering" class="index-item"><span class="index-number">7</span> <span data-i18n="tocItem7">Filtering by Key</span></a>
+                <a href="#transposing" class="index-item"><span class="index-number">8</span> <span data-i18n="tocItem8">Transposing Songs</span></a>
+                <a href="#lyrics" class="index-item"><span class="index-number">9</span> <span data-i18n="tocItem9">Lyrics & Auto-scroll</span></a>
+                <a href="#band-practice" class="index-item"><span class="index-number">10</span> <span data-i18n="tocItem10">Band Practice</span></a>
+                <a href="#teacher-dashboard" class="index-item"><span class="index-number">11</span> <span data-i18n="tocItem11">Teacher Dashboard</span></a>
+                <a href="#practice-mode" class="index-item"><span class="index-number">12</span> <span data-i18n="tocItem12">Practice List</span></a>
+                <a href="#chord-trainer" class="index-item"><span class="index-number">13</span> <span data-i18n="tocItem13">Chord Trainer & Song Practice</span></a>
+                <a href="#timeline" class="index-item"><span class="index-number">14</span> <span data-i18n="tocItem14">Chord Timeline</span></a>
+                <a href="#song-map" class="index-item"><span class="index-number">15</span> <span data-i18n="tocItem15">Song Map</span></a>
+                <a href="#midi-support" class="index-item"><span class="index-number">16</span> <span data-i18n="tocItem16">MIDI Keyboard Support</span></a>
+                <a href="#install" class="index-item"><span class="index-number">17</span> <span data-i18n="tocItem17">Install as App</span></a>
+                <a href="#pro-tips" class="index-item"><span class="index-number">18</span> <span data-i18n="tocItem18">PRO TIPS</span></a>
             </div>
         </div>
     </div>
@@ -294,42 +368,17 @@
     <!-- 1. Detail Screen -->
     <section class="guide-section" id="detail-screen">
         <div class="guide-container">
-            <h2 class="guide-title">Song Detail Screen</h2>
-            <p class="guide-text">
-                Clicking on any song brings you to the detail view. Here you can see the chords, structure, and playback
-                controls.
-                The interface is designed to be clean and easy to read while you play.
-            </p>
-            <p class="guide-text">
-                Feel free to make your own descriptions like : Intro, Verse, Chorus, Pre-Chorus or even some lyrics cue
-                tips as you see fit. Whatever helps you to understand the structure of the song.
-            </p>
+            <h2 class="guide-title" data-i18n="detailTitle">Song Detail Screen</h2>
+            <p class="guide-text" data-i18n="detailP1">Clicking on any song brings you to the detail view. Here you can see the chords, structure, and playback controls. The interface is designed to be clean and easy to read while you play.</p>
+            <p class="guide-text" data-i18n="detailP2">Feel free to make your own descriptions like : Intro, Verse, Chorus, Pre-Chorus or even some lyrics cue tips as you see fit. Whatever helps you to understand the structure of the song.</p>
             <div class="guide-image-container">
                 <img src="images/detail_screen.png" alt="Detail Screen" class="guide-image">
             </div>
 
             <div
                 style="background: #eff6ff; padding: 25px; border-radius: 16px; margin-top: 30px; border: 1px solid #bfdbfe;">
-                <h3
-                    style="font-size: 1.3rem; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                    <span>🎹</span> Note on Slash Chords & Inversions
-                </h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 0;">
-                    When dealing with slash chords like <strong>C/E</strong> (1st inversion) or <strong>C/G</strong>
-                    (2nd inversion),
-                    a shorter notation method is often used:
-                    <br><br>
-                    • <strong>C3</strong> = 1st Inversion (notes: E G C). The C note is the <strong>third</strong> note
-                    in the triad.
-                    <br>
-                    • <strong>C2</strong> = 2nd Inversion (notes: G C E). The C note is the <strong>second</strong> note
-                    in the triad.
-                    <br>
-                    • <strong>C</strong> (no number) = Root position (notes: C E G).
-                    <br><br>
-                    This makes it quick to read and write while keeping the interface clean, but feel free to use
-                    whatever notation you prefer!
-                </p>
+                <h3 style="font-size: 1.3rem; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;" data-i18n="detailInversionsTitle"><span>🎹</span> Note on Slash Chords & Inversions</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 0;" data-i18n="detailInversionsText">When dealing with slash chords like <strong>C/E</strong> (1st inversion) or <strong>C/G</strong> (2nd inversion), a shorter notation method is often used:<br><br>• <strong>C3</strong> = 1st Inversion (notes: E G C). The C note is the <strong>third</strong> note in the triad.<br>• <strong>C2</strong> = 2nd Inversion (notes: G C E). The C note is the <strong>second</strong> note in the triad.<br>• <strong>C</strong> (no number) = Root position (notes: C E G).<br><br>This makes it quick to read and write while keeping the interface clean, but feel free to use whatever notation you prefer!</p>
             </div>
         </div>
     </section>
@@ -337,12 +386,8 @@
     <!-- 2. Creating Setlists -->
     <section class="guide-section" id="setlists">
         <div class="guide-container">
-            <h2 class="guide-title">Creating a New Setlist</h2>
-            <p class="guide-text">
-                Organize your repertoire by creating custom setlists. Click the "+" button in the setlist section to
-                create a new list,
-                give it a name, and start adding your favorite songs for easy access during practice or performance.
-            </p>
+            <h2 class="guide-title" data-i18n="setlistsTitle">Creating a New Setlist</h2>
+            <p class="guide-text" data-i18n="setlistsText">Organize your repertoire by creating custom setlists. Click the "+" button in the setlist section to create a new list, give it a name, and start adding your favorite songs for easy access during practice or performance.</p>
             <div class="guide-image-container">
                 <img src="images/new_setlist.png" alt="New Setlist Modal" class="guide-image">
             </div>
@@ -352,11 +397,8 @@
     <!-- 3. Piano Chords -->
     <section class="guide-section" id="piano-chords">
         <div class="guide-container">
-            <h2 class="guide-title">Checking Piano Chords</h2>
-            <p class="guide-text">
-                Need help with a chord voicing? Switch to the Piano view to see exactly which keys to press.
-                The diagrams light up to show you the precise fingering for each chord in the song.
-            </p>
+            <h2 class="guide-title" data-i18n="pianoChordsTitle">Checking Piano Chords</h2>
+            <p class="guide-text" data-i18n="pianoChordsText">Need help with a chord voicing? Switch to the Piano view to see exactly which keys to press. The diagrams light up to show you the precise fingering for each chord in the song.</p>
             <div class="guide-image-container">
                 <img src="images/piano_chords.png" alt="Piano Chords View" class="guide-image">
             </div>
@@ -366,16 +408,14 @@
     <!-- 4. Guitar Chords -->
     <section class="guide-section" id="guitar-chords" style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Checking Guitar Chords</h2>
-            <p class="guide-text">
-                Toggle to Guitar mode to see high-quality fingering diagrams for every chord in your song. This view is perfect for both beginners and experienced players.
-            </p>
+            <h2 class="guide-title" data-i18n="guitarChordsTitle">Checking Guitar Chords</h2>
+            <p class="guide-text" data-i18n="guitarChordsText">Toggle to Guitar mode to see high-quality fingering diagrams for every chord in your song. This view is perfect for both beginners and experienced players.</p>
             
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #fecaca;">
-                <h3 style="font-size: 1.4rem; color: #b91c1c; margin-bottom: 15px;">🎸 Guitar Mode Features</h3>
+                <h3 style="font-size: 1.4rem; color: #b91c1c; margin-bottom: 15px;" data-i18n="guitarFeaturesTitle">🎸 Guitar Mode Features</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>Chord Diagrams:</strong> See clear, vertical neck diagrams with finger positions and open/muted string indicators.</li>
-                    <li><strong>Ukulele Support:</strong> You can even switch to Ukulele mode (u) to see 4-string fretboard diagrams for every chord.</li>
+                    <li data-i18n="guitarFeature1"><strong>Chord Diagrams:</strong> See clear, vertical neck diagrams with finger positions and open/muted string indicators.</li>
+                    <li data-i18n="guitarFeature2"><strong>Ukulele Support:</strong> You can even switch to Ukulele mode (u) to see 4-string fretboard diagrams for every chord.</li>
                 </ul>
             </div>
 
@@ -388,17 +428,15 @@
     <!-- 5. Capo Feature -->
     <section class="guide-section" id="capo" style="background: white; padding-bottom: 20px;">
         <div class="guide-container">
-            <h2 class="guide-title">Capo Feature</h2>
-            <p class="guide-text" style="margin-bottom: 25px;">
-                The Capo feature allows you to transpose your song visually without changing the target sound. This is perfect for guitar players who want to use familiar chord shapes while playing in a different key.
-            </p>
+            <h2 class="guide-title" data-i18n="capoTitle">Capo Feature</h2>
+            <p class="guide-text" style="margin-bottom: 25px;" data-i18n="capoText">The Capo feature allows you to transpose your song visually without changing the target sound. This is perfect for guitar players who want to use familiar chord shapes while playing in a different key.</p>
             
             <div style="background: #fffbeb; padding: 25px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #fde68a;">
-                <h3 style="font-size: 1.4rem; color: #92400e; margin-bottom: 15px;">🎸 Using the Capo (0-6)</h3>
+                <h3 style="font-size: 1.4rem; color: #92400e; margin-bottom: 15px;" data-i18n="capoBoxTitle">🎸 Using the Capo (0-6)</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>Capo Selector:</strong> When in Guitar mode, the standard Transpose buttons are replaced by a Capo icon (🎸) and a level selector (0-6).</li>
-                    <li><strong>Smart Fingering:</strong> When you set a capo (e.g., Capo 2), the chord diagrams in the "Show Guitar Chords" modal automatically update. They will show you the physical fingering shape you need to hold relative to your capo to produce the correct chord!</li>
-                    <li><strong>Visual Feedback:</strong> A yellow indicator badge on the guitar icon helps you remember that a capo transpose is currently active.</li>
+                    <li data-i18n="capoItem1"><strong>Capo Selector:</strong> When in Guitar mode, the standard Transpose buttons are replaced by a Capo icon (🎸) and a level selector (0-6).</li>
+                    <li data-i18n="capoItem2"><strong>Smart Fingering:</strong> When you set a capo (e.g., Capo 2), the chord diagrams in the "Show Guitar Chords" modal automatically update. They will show you the physical fingering shape you need to hold relative to your capo to produce the correct chord!</li>
+                    <li data-i18n="capoItem3"><strong>Visual Feedback:</strong> A yellow indicator badge on the guitar icon helps you remember that a capo transpose is currently active.</li>
                 </ul>
             </div>
 
@@ -411,12 +449,8 @@
     <!-- 6. Chord Progression Editor -->
     <section class="guide-section" id="chord-editor" style="padding-top: 20px;">
         <div class="guide-container">
-            <h2 class="guide-title">Chord Progression Editor</h2>
-            <p class="guide-text">
-                Want to customize a song? Open the editor to modify chords. You can choose from diatonic chords valid
-                for the key
-                or borrow chords to spice up the progression.
-            </p>
+            <h2 class="guide-title" data-i18n="chordEditorTitle">Chord Progression Editor</h2>
+            <p class="guide-text" data-i18n="chordEditorText">Want to customize a song? Open the editor to modify chords. You can choose from diatonic chords valid for the key or borrow chords to spice up the progression.</p>
             <div class="guide-image-container">
                 <img src="images/chord_editor.png" alt="Chord Progression Editor" class="guide-image">
             </div>
@@ -426,12 +460,8 @@
     <!-- 7. Filtering -->
     <section class="guide-section" id="filtering">
         <div class="guide-container">
-            <h2 class="guide-title">Filtering by Key</h2>
-            <p class="guide-text">
-                Practice your scales! Looking for songs in a specific key? Use the filter menu to select a key (e.g., C
-                Major).
-                The song list will update to show only songs that match your criteria.
-            </p>
+            <h2 class="guide-title" data-i18n="filteringTitle">Filtering by Key</h2>
+            <p class="guide-text" data-i18n="filteringText">Practice your scales! Looking for songs in a specific key? Use the filter menu to select a key (e.g., C Major). The song list will update to show only songs that match your criteria.</p>
             <div class="guide-image-container">
                 <img src="images/filter_key.png" alt="Filter by Key" class="guide-image">
             </div>
@@ -441,11 +471,8 @@
     <!-- 8. Transposing -->
     <section class="guide-section" id="transposing">
         <div class="guide-container">
-            <h2 class="guide-title">Transposing Songs</h2>
-            <p class="guide-text">
-                Need to change the key to suit your voice? Use the transpose controls (+ / -) on the detail page.
-                All chords in the song will instantly update to the new key.
-            </p>
+            <h2 class="guide-title" data-i18n="transposingTitle">Transposing Songs</h2>
+            <p class="guide-text" data-i18n="transposingText">Need to change the key to suit your voice? Use the transpose controls (+ / -) on the detail page. All chords in the song will instantly update to the new key.</p>
             <div class="guide-image-container">
                 <img src="images/transpose.png" alt="Transposing Controls" class="guide-image">
             </div>
@@ -455,37 +482,29 @@
     <!-- 9. Lyrics & Teleprompter -->
     <section class="guide-section" id="lyrics">
         <div class="guide-container">
-            <h2 class="guide-title">Lyrics & Teleprompter</h2>
-            <p class="guide-text">
-                Need to see the words while you play? Open the <strong>Chord Timeline</strong> screen and see the lyrics
-                appear just like a karaoke system.
-            </p>
+            <h2 class="guide-title" data-i18n="lyricsTitle">Lyrics & Teleprompter</h2>
+            <p class="guide-text" data-i18n="lyricsP1">Need to see the words while you play? Open the <strong>Chord Timeline</strong> screen and see the lyrics appear just like a karaoke system.</p>
             <div
                 style="background: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e2e8f0;">
-                <h3 style="font-size: 1.4rem; color: #334155; margin-bottom: 15px;">🎤 Karaoke Style (Just-in-Time)</h3>
-                <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">
-                    The lyrics are prompted <strong>just-in-time</strong> exactly when you need them. Just like a
-                    professional karaoke setup, the display shows:
-                </p>
+                <h3 style="font-size: 1.4rem; color: #334155; margin-bottom: 15px;" data-i18n="karaokeTitle">🎤 Karaoke Style (Just-in-Time)</h3>
+                <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="karaokeP">The lyrics are prompted <strong>just-in-time</strong> exactly when you need them. Just like a professional karaoke setup, the display shows:</p>
                 <ul style="font-size: 1.1rem; color: #475569; line-height: 1.6; padding-left: 20px; margin-top: 10px;">
-                    <li><strong>Live Line:</strong> The current line is displayed prominently in the center.</li>
-                    <li><strong>Preview:</strong> The next line is shown dimmed below, so you're always prepared for
-                        what's coming next.</li>
+                    <li data-i18n="karaokeLive"><strong>Live Line:</strong> The current line is displayed prominently in the center.</li>
+                    <li data-i18n="karaokePreview"><strong>Preview:</strong> The next line is shown dimmed below, so you're always prepared for what's coming next.</li>
                 </ul>
             </div>
 
             <!-- New Time-Synced Lyrics Subsection -->
             <div
                 style="background: #eff6ff; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bfdbfe;">
-                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;">✨ LRC Time-Synced Lyrics</h3>
+                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;" data-i18n="lrcTitle">✨ LRC Time-Synced Lyrics</h3>
                 <p style="font-size: 1.1rem; color: #1e40af; line-height: 1.6; margin-bottom: 15px;">
                     To use the teleprompter, you need time-synced lyrics (LRC format) from sites like
                     <strong>lrclib.net</strong> or <strong>LyricRadar.com</strong>. Paste the text containing
                     <code>[00:12.34]</code> timestamps into the <strong>Lyrics</strong> field.
                 </p>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>Karaoke Mode:</strong> In the <strong>Chord Timeline</strong>, these timestamps
-                        trigger the lyrics exactly when they need to be sung!</li>
+                    <li data-i18n="lrcKaraokeMode"><strong>Karaoke Mode:</strong> In the <strong>Chord Timeline</strong>, these timestamps trigger the lyrics exactly when they need to be sung!</li>
                     <li><strong><span
                                 style="display: inline-flex; vertical-align: middle; background: white; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px; height: 26px; width: 26px; align-items: center; justify-content: center; margin-right: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #1e293b;">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
@@ -498,10 +517,7 @@
                             </span> Mark Start Point:</strong> Use this button in the Timeline view to sync lyrics
                         instantly to the music. Simple and fast!</li>
                 </ul>
-                <p style="font-size: 1rem; color: #64748b; font-style: italic; margin-top: 15px;">
-                    <strong>Note:</strong> You can use the <strong>LyricSync</strong> setting in the song details (Gear
-                    icon) to fine-tune the timing if the lyrics are slightly off.
-                </p>
+                <p style="font-size: 1rem; color: #64748b; font-style: italic; margin-top: 15px;" data-i18n="lrcNote"><strong>Note:</strong> You can use the <strong>LyricSync</strong> setting in the song details (Gear icon) to fine-tune the timing if the lyrics are slightly off.</p>
             </div>
 
             <div class="guide-image-container">
@@ -513,23 +529,19 @@
     <!-- 10. Band Practice -->
     <section class="guide-section" id="band-practice" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Band Practice</h2>
-            <p class="guide-text">
-                Join up with your band members in the Band Practice session and start playing from a synchronized timeline together.
-            </p>
+            <h2 class="guide-title" data-i18n="bandTitle">Band Practice</h2>
+            <p class="guide-text" data-i18n="bandP">Join up with your band members in the Band Practice session and start playing from a synchronized timeline together.</p>
 
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bfdbfe; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;">👥 What it is for</h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
-                    Whether you are in a rehearsal room or playing a live show, Band Practice ensures that the piano player, guitarist, singer, and other members are all looking at the exact same chord block or lyric line at the exact same millisecond. No more shouting out chord changes or getting out of sync!
-                </p>
+                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;" data-i18n="bandWhatTitle">👥 What it is for</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;" data-i18n="bandWhatP">Whether you are in a rehearsal room or playing a live show, Band Practice ensures that the piano player, guitarist, singer, and other members are all looking at the exact same chord block or lyric line at the exact same millisecond. No more shouting out chord changes or getting out of sync!</p>
                 <div style="max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.08);">
                     <img src="images/Band_Practice_Rock.png" alt="Band Practice Rock" style="width: 100%; display: block;">
                 </div>
             </div>
 
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bfdbfe; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;">🔗 How to Connect with Band Members</h3>
+                <h3 style="font-size: 1.4rem; color: #1e40af; margin-bottom: 15px;" data-i18n="bandConnectTitle">🔗 How to Connect with Band Members</h3>
                 <ol style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
                     <li style="margin-bottom: 15px;"><strong>Open Band Practice:</strong> Navigate to the <strong>Band Practice</strong> panel from the left sidebar navigation menu.
                         <div style="margin-top: 12px; margin-bottom: 12px; max-width: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
@@ -551,23 +563,19 @@
     <!-- 11. Teacher Dashboard -->
     <section class="guide-section" id="teacher-dashboard" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Teacher Dashboard</h2>
-            <p class="guide-text">
-                Manage your music students, schedule lessons, organize setlists, and track individual learning goals in real-time.
-            </p>
+            <h2 class="guide-title" data-i18n="teacherTitle">Teacher Dashboard</h2>
+            <p class="guide-text" data-i18n="teacherP">Manage your music students, schedule lessons, organize setlists, and track individual learning goals in real-time.</p>
 
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e9d5ff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;">👥 What it is for</h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
-                    The Teacher Dashboard is a comprehensive hub for music educators. It enables teachers to schedule lessons, build customized lesson plans, organize setlists for beginner or advanced groups, and track the exact progress of every student.
-                </p>
+                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;" data-i18n="teacherWhatTitle">👥 What it is for</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;" data-i18n="teacherWhatP">The Teacher Dashboard is a comprehensive hub for music educators. It enables teachers to schedule lessons, build customized lesson plans, organize setlists for beginner or advanced groups, and track the exact progress of every student.</p>
                 <div style="max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.08);">
                     <img src="images/teacher_dashboard_promo.jpg" alt="Guitar Teacher Dashboard features" style="width: 100%; display: block;">
                 </div>
             </div>
 
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e9d5ff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;">🔗 How to Connect with Students</h3>
+                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;" data-i18n="teacherConnectTitle">🔗 How to Connect with Students</h3>
                 <ol style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
                     <li style="margin-bottom: 15px;"><strong>Share Your Teacher Code:</strong> Open the <strong>Teacher Dashboard</strong> to find your unique teacher connection code (e.g. <code>TEACHER-XXXXXX</code>) and share it with your students.
                         <div style="margin-top: 12px; margin-bottom: 12px; max-width: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
@@ -584,10 +592,8 @@
             </div>
 
             <div style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e9d5ff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;">🎓 The Student Dashboard</h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
-                    Connected students gain access to their own personalized Student Dashboard. It provides a clear summary of their assigned homework, next lesson schedule, and a checklist of progress goals updated by their teacher to guide their practice.
-                </p>
+                <h3 style="font-size: 1.4rem; color: #6b21a8; margin-bottom: 15px;" data-i18n="studentDashTitle">🎓 The Student Dashboard</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 16px;" data-i18n="studentDashP">Connected students gain access to their own personalized Student Dashboard. It provides a clear summary of their assigned homework, next lesson schedule, and a checklist of progress goals updated by their teacher to guide their practice.</p>
                 <div style="max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.08);">
                     <img src="images/teacher_dashboard_progress.png" alt="Student Progress Editor and Goals Checklist" style="width: 100%; display: block;">
                 </div>
@@ -599,12 +605,8 @@
     <section class="guide-section" id="practice-mode"
         style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Practice List</h2>
-            <p class="guide-text">
-                Keep track of your repertoire with the 🎯 icon in the footer. Use the <strong>Practice</strong> button
-                on the main list to jump to songs that need attention. Every session, hit <strong>+1 Practice</strong>
-                📈 to build your streak!
-            </p>
+            <h2 class="guide-title" data-i18n="practiceTitle">Practice List</h2>
+            <p class="guide-text" data-i18n="practiceP">Keep track of your repertoire with the 🎯 icon in the footer. Use the <strong>Practice</strong> button on the main list to jump to songs that need attention. Every session, hit <strong>+1 Practice</strong> 📈 to build your streak!</p>
 
             <div class="guide-image-container" style="display: flex; flex-direction: column; gap: 20px;">
                 <img src="images/practice_guide_real.jpg" alt="Practice Mode Features" class="guide-image"
@@ -619,28 +621,23 @@
     <section class="guide-section" id="chord-trainer"
         style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Chord Trainer & Song Practice</h2>
-            <p class="guide-text">
-                The Chord Trainer is your personal teacher for mastering piano chords. It features interactive feedback,
-                dynamic key limits, and four distinct levels to build your muscle memory.
-            </p>
+            <h2 class="guide-title" data-i18n="trainerTitle">Chord Trainer & Song Practice</h2>
+            <p class="guide-text" data-i18n="trainerP">The Chord Trainer is your personal teacher for mastering piano chords. It features interactive feedback, dynamic key limits, and four distinct levels to build your muscle memory.</p>
 
             <div
                 style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #ddd6fe;">
-                <h3 style="font-size: 1.4rem; color: #6d28d9; margin-bottom: 15px;">🏆 Trainer Levels</h3>
+                <h3 style="font-size: 1.4rem; color: #6d28d9; margin-bottom: 15px;" data-i18n="trainerLevelsTitle">🏆 Trainer Levels</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>LEVEL 1: TRIADS</strong> – Learn the basic Major and Minor chords in root position.</li>
-                    <li><strong>LEVEL 2: INVERSIONS</strong> – Master first and second inversions (e.g., C2, C3 or C/G
-                        and C/E).</li>
-                    <li><strong>LEVEL 3: 7THS & EXTENSIONS</strong> – Move to advanced 4-note jazz and pop chords.</li>
-                    <li><strong>LEVEL 4: RANKED MODE</strong> – A timed challenge across all levels. Features a global
-                        leaderboard!</li>
+                    <li data-i18n="trainerLvl1"><strong>LEVEL 1: TRIADS</strong> – Learn the basic Major and Minor chords in root position.</li>
+                    <li data-i18n="trainerLvl2"><strong>LEVEL 2: INVERSIONS</strong> – Master first and second inversions (e.g., C2, C3 or C/G and C/E).</li>
+                    <li data-i18n="trainerLvl3"><strong>LEVEL 3: 7THS & EXTENSIONS</strong> – Move to advanced 4-note jazz and pop chords.</li>
+                    <li data-i18n="trainerLvl4"><strong>LEVEL 4: RANKED MODE</strong> – A timed challenge across all levels. Features a global leaderboard!</li>
                 </ul>
             </div>
 
             <div
                 style="background: #fffbeb; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #fde68a;">
-                <h3 style="font-size: 1.4rem; color: #92400e; margin-bottom: 15px;">🎵 Song Practice Mode</h3>
+                <h3 style="font-size: 1.4rem; color: #92400e; margin-bottom: 15px;" data-i18n="songPracticeTitle">🎵 Song Practice Mode</h3>
                 <p style="font-size: 1.1rem; color: #92400e; line-height: 1.6; margin-bottom: 15px;">
                     Enter Song Practice mode by clicking 🎓 on the header of the song detail screen. This takes the
                     actual chords from that song and challenges you to play them in order.
@@ -650,10 +647,8 @@
                 </div>
                 </p>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>BASIC vs INVERSIONS</strong>: Use the top-right toggle to simplify the song (strip
-                        inversion numbers) or practice the full arrangement.</li>
-                    <li><strong>Instant Feedback</strong>: Get a green checkmark on success, or a red ? and auto-reset
-                        when you play the wrong notes.</li>
+                    <li data-i18n="songPracticeBasic"><strong>BASIC vs INVERSIONS</strong>: Use the top-right toggle to simplify the song (strip inversion numbers) or practice the full arrangement.</li>
+                    <li data-i18n="songPracticeFeedback"><strong>Instant Feedback</strong>: Get a green checkmark on success, or a red ? and auto-reset when you play the wrong notes.</li>
                 </ul>
             </div>
 
@@ -666,12 +661,8 @@
     <!-- 14. Chord Timeline -->
     <section class="guide-section" id="timeline" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Chord Timeline</h2>
-            <p class="guide-text">
-                The Chord Timeline is an advanced feature that allows you to see chords move across a playhead in
-                real-time. This is perfect for complex songs where you need to see the exact timing of every chord
-                change.
-            </p>
+            <h2 class="guide-title" data-i18n="timelineTitle">Chord Timeline</h2>
+            <p class="guide-text" data-i18n="timelineP">The Chord Timeline is an advanced feature that allows you to see chords move across a playhead in real-time. This is perfect for complex songs where you need to see the exact timing of every chord change.</p>
 
             <div class="guide-image-container no-padding-container" style="margin-bottom: 40px;">
                 <img src="images/timeline_guide.png" alt="Chord Timeline" class="guide-image full-width-image">
@@ -679,77 +670,55 @@
 
             <div
                 style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bae6fd;">
-                <h3 style="font-size: 1.4rem; color: #0369a1; margin-bottom: 15px;">How to use it</h3>
+                <h3 style="font-size: 1.4rem; color: #0369a1; margin-bottom: 15px;" data-i18n="timelineHowTitle">How to use it</h3>
                 <ol style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li>Open a song and tap the <strong>Timeline</strong> icon in the footer.</li>
-                    <li>The system will try to load existing chord timing. If none exists, you can import your own!</li>
-                    <li>Tap <strong>Select File</strong> to upload a MIDI (.mid) or JSON file.</li>
-                    <li><strong>MIDI Keyboard Support:</strong> Connect a MIDI keyboard to your device to play and
-                        record chords directly into the timeline in real-time! The system will intelligently identify
-                        the chords as you play.</li>
-                    <li>Press <strong>PLAY</strong> and play along as the chords scroll by.</li>
+                    <li data-i18n="timelineStep1">Open a song and tap the <strong>Timeline</strong> icon in the footer.</li>
+                    <li data-i18n="timelineStep2">The system will try to load existing chord timing. If none exists, you can import your own!</li>
+                    <li data-i18n="timelineStep3">Tap <strong>Select File</strong> to upload a MIDI (.mid) or JSON file.</li>
+                    <li data-i18n="timelineStep4"><strong>MIDI Keyboard Support:</strong> Connect a MIDI keyboard to your device to play and record chords directly into the timeline in real-time! The system will intelligently identify the chords as you play.</li>
+                    <li data-i18n="timelineStep5">Press <strong>PLAY</strong> and play along as the chords scroll by.</li>
                 </ol>
             </div>
 
             <div
                 style="background: #fdf2f8; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #fbcfe8;">
-                <h3 style="font-size: 1.4rem; color: #9d174d; margin-bottom: 15px;">🔊 Audio Feedback for Typing</h3>
+                <h3 style="font-size: 1.4rem; color: #9d174d; margin-bottom: 15px;" data-i18n="audioFeedbackTitle">🔊 Audio Feedback for Typing</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li style="margin-bottom: 10px;"><strong>A-G Keys:</strong> When you're in capture/record mode and
-                        press a letter key (A-G), the chord will now "ring out" immediately as it's being recorded,
-                        providing the same experience as clicking the buttons.</li>
-                    <li style="margin-bottom: 10px;"><strong>Modifier Keys (#/m):</strong> When you use the # or m keys
-                        to quickly sharpen or minorize the last recorded chord, the updated chord will also play back
-                        instantly so you can verify the change by ear.</li>
-                    <li style="margin-bottom: 10px;"><strong>Smart Matching Support:</strong> If you have "Suggested
-                        Chords" (Blocks) defined, the audio will correctly play the matched chord from your blocks
-                        (e.g., if you press G and it matches G#m from your song blocks, you'll hear the full G#m).</li>
+                    <li style="margin-bottom: 10px;" data-i18n="audioFeedback1"><strong>A-G Keys:</strong> When you're in capture/record mode and press a letter key (A-G), the chord will now "ring out" immediately as it's being recorded, providing the same experience as clicking the buttons.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="audioFeedback2"><strong>Modifier Keys (#/m):</strong> When you use the # or m keys to quickly sharpen or minorize the last recorded chord, the updated chord will also play back instantly so you can verify the change by ear.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="audioFeedback3"><strong>Smart Matching Support:</strong> If you have "Suggested Chords" (Blocks) defined, the audio will correctly play the matched chord from your blocks (e.g., if you press G and it matches G#m from your song blocks, you'll hear the full G#m).</li>
                 </ul>
             </div>
 
             <div
                 style="background: #f0fdf4; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #bbf7d0;">
-                <h3 style="font-size: 1.4rem; color: #15803d; margin-bottom: 15px;">⬅️ Bulk Chord Shifting</h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 15px;">
-                    Did your recording end up slightly off-beat due to input delay? You can quickly fix it:
-                </p>
+                <h3 style="font-size: 1.4rem; color: #15803d; margin-bottom: 15px;" data-i18n="bulkShiftTitle">⬅️ Bulk Chord Shifting</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 15px;" data-i18n="bulkShiftP">Did your recording end up slightly off-beat due to input delay? You can quickly fix it:</p>
                 <ul style="font-size: 1.1rem; color: #475569; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>« / » Buttons:</strong> Use these buttons in the control bar to shift
-                        <strong>ALL</strong> chords in the current song one step (1/8 of a bar) to the left or right at
-                        once.
-                    </li>
-                    <li><strong>Precision Fix:</strong> This is perfect for correcting "laggy" captures without having
-                        to re-record or drag every chord individually.</li>
+                    <li data-i18n="bulkShiftBtn"><strong>« / » Buttons:</strong> Use these buttons in the control bar to shift <strong>ALL</strong> chords in the current song one step (1/8 of a bar) to the left or right at once.</li>
+                    <li data-i18n="bulkShiftPrecision"><strong>Precision Fix:</strong> This is perfect for correcting "laggy" captures without having to re-record or drag every chord individually.</li>
                 </ul>
             </div>
 
             <div style="background: #0f172a; color: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 30px;">
-                <h3 style="font-size: 1.4rem; color: #38bdf8; margin-bottom: 15px;">Tips for the "Best" MIDI Input</h3>
-                <p style="font-size: 1rem; color: #94a3b8; margin-bottom: 15px;">To ensure the parser identifies your
-                    chords perfectly:</p>
+                <h3 style="font-size: 1.4rem; color: #38bdf8; margin-bottom: 15px;" data-i18n="midiTipsTitle">Tips for the "Best" MIDI Input</h3>
+                <p style="font-size: 1rem; color: #94a3b8; margin-bottom: 15px;" data-i18n="midiTipsP">To ensure the parser identifies your chords perfectly:</p>
                 <ul style="font-size: 1rem; line-height: 1.6; padding-left: 20px;">
-                    <li style="margin-bottom: 10px;"><strong>Quantize your notes:</strong> The logic groups notes that
-                        start within 0.05 seconds (50ms) of each other. Snapping everything to the grid in your DAW is
-                        highly recommended.</li>
-                    <li style="margin-bottom: 10px;"><strong>Three Notes Minimum:</strong> The system ignores any group
-                        with fewer than 3 notes. Ensure your MIDI chords have at least a root, third, and fifth.</li>
-                    <li style="margin-bottom: 10px;"><strong>Chord-Only Track:</strong> Use a "clean" MIDI file that
-                        contains only the chords. Melody, bass lines, or drums on the same channel can confuse the
-                        detection.</li>
-                    <li style="margin-bottom: 10px;"><strong>Recognized Chords:</strong> The system supports Major,
-                        Minor, Dominant 7th, Major 7th, Minor 7th, and Diminished intervals.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="midiTip1"><strong>Quantize your notes:</strong> The logic groups notes that start within 0.05 seconds (50ms) of each other. Snapping everything to the grid in your DAW is highly recommended.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="midiTip2"><strong>Three Notes Minimum:</strong> The system ignores any group with fewer than 3 notes. Ensure your MIDI chords have at least a root, third, and fifth.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="midiTip3"><strong>Chord-Only Track:</strong> Use a "clean" MIDI file that contains only the chords. Melody, bass lines, or drums on the same channel can confuse the detection.</li>
+                    <li style="margin-bottom: 10px;" data-i18n="midiTip4"><strong>Recognized Chords:</strong> The system supports Major, Minor, Dominant 7th, Major 7th, Minor 7th, and Diminished intervals.</li>
                 </ul>
-                <p style="font-size: 0.9rem; color: #38bdf8; margin-top: 15px; font-weight: 600;">Pro Tip: By providing
-                    a quantized, 3-note-minimum MIDI file on Channel 1, you'll get perfect results every time!</p>
+                <p style="font-size: 0.9rem; color: #38bdf8; margin-top: 15px; font-weight: 600;" data-i18n="midiTipPro">Pro Tip: By providing a quantized, 3-note-minimum MIDI file on Channel 1, you'll get perfect results every time!</p>
             </div>
 
             <div style="background: #e0f2fe; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #7dd3fc;">
-                <h3 style="font-size: 1.4rem; color: #0369a1; margin-bottom: 15px;">📱 Pure Timeline Mode</h3>
+                <h3 style="font-size: 1.4rem; color: #0369a1; margin-bottom: 15px;" data-i18n="pureTimelineTitle">📱 Pure Timeline Mode</h3>
                 <p style="font-size: 1.1rem; color: #334155; line-height: 1.7; margin-bottom: 0;">
-                    <strong>Pure Timeline Mode</strong> – The Chord Timeline in Landscape mode on Mobile Phone Displays
+                    <span data-i18n="pureTimelineSub"><strong>Pure Timeline Mode</strong> – The Chord Timeline in Landscape mode on Mobile Phone Displays</span>
                 </p>
                 <p style="font-size: 1.1rem; color: #475569; line-height: 1.7; margin-top: 15px;">
-                    For a great <strong>PLAY along</strong> mode while using the app on a mobile phone, just <strong>ROTATE</strong> the screen to landscape mode and experience the Pure Timeline Mode. No editing, no buttons, just the Chords and Lyrics.
+                    <span data-i18n="pureTimelineP">For a great <strong>PLAY along</strong> mode while using the app on a mobile phone, just <strong>ROTATE</strong> the screen to landscape mode and experience the Pure Timeline Mode. No editing, no buttons, just the Chords and Lyrics.</span>
                 </p>
                 <div style="margin: 20px 0; text-align: center;">
                     <img src="images/pure_chordtimeline.png" alt="Pure Timeline Mode"
@@ -759,9 +728,8 @@
 
         </div>
 
-        <h3 style="text-align:center;">Example JSON for Chord Timeline</h3>
-        <p style="text-align:center;">Below is a short example of how a JSON file for the Chord Timeline feature should
-            be structured:</p>
+        <h3 style="text-align:center;" data-i18n="jsonExampleTitle">Example JSON for Chord Timeline</h3>
+        <p style="text-align:center;" data-i18n="jsonExampleP">Below is a short example of how a JSON file for the Chord Timeline feature should be structured:</p>
         <div
             style="max-width:600px; margin:0 auto; border:1px solid #ccc; padding:12px; border-radius:6px; background-color:#f9f9f9;">
             <pre style="margin:0;"><code class="language-json">
@@ -785,25 +753,17 @@
     <!-- 15. Song Map -->
     <section class="guide-section" id="song-map" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">Song Map</h2>
-            <p class="guide-text">
-                The Song Map offers a high-level visualization of the entire song's layout. It's the perfect tool for
-                understanding complex arrangements at a glance and navigating through the track effortlessly.
-            </p>
+            <h2 class="guide-title" data-i18n="songMapTitle">Song Map</h2>
+            <p class="guide-text" data-i18n="songMapP">The Song Map offers a high-level visualization of the entire song's layout. It's the perfect tool for understanding complex arrangements at a glance and navigating through the track effortlessly.</p>
 
             <div
                 style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #ddd6fe;">
-                <h3 style="font-size: 1.4rem; color: #6d28d9; margin-bottom: 15px;">Features & Instructions</h3>
+                <h3 style="font-size: 1.4rem; color: #6d28d9; margin-bottom: 15px;" data-i18n="songMapFeaturesTitle">Features & Instructions</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>Visual Structure:</strong> Chords are grouped into color-coded sections like Intro,
-                        Verse, and Chorus, giving you a clear mental map of the song.</li>
-                    <li><strong>Real-time Playback:</strong> When the song is playing, the active chord is highlighted
-                        with a glowing effect and follow-focus, so you never lose your place.</li>
-                    <li><strong>Instant Navigation:</strong> Click or tap on any section or specific chord block to jump
-                        the playback head exactly to that moment in time.</li>
-                    <li><strong>Smart Labels:</strong> Section names are displayed prominently above each block,
-                        helpfully
-                        syncing with the labels you define in the song details.</li>
+                    <li data-i18n="songMapFeat1"><strong>Visual Structure:</strong> Chords are grouped into color-coded sections like Intro, Verse, and Chorus, giving you a clear mental map of the song.</li>
+                    <li data-i18n="songMapFeat2"><strong>Real-time Playback:</strong> When the song is playing, the active chord is highlighted with a glowing effect and follow-focus, so you never lose your place.</li>
+                    <li data-i18n="songMapFeat3"><strong>Instant Navigation:</strong> Click or tap on any section or specific chord block to jump the playback head exactly to that moment in time.</li>
+                    <li data-i18n="songMapFeat4"><strong>Smart Labels:</strong> Section names are displayed prominently above each block, helpfully syncing with the labels you define in the song details.</li>
                     <li><strong>Open the Map:</strong> Tap the <span
                             style="display: inline-flex; vertical-align: middle; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 4px; padding: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
                             <svg viewBox="0 0 512 512" width="16" height="16" style="transform: rotate(90deg);">
@@ -866,84 +826,56 @@
     <section class="guide-section" id="midi-support"
         style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">MIDI Keyboard Support</h2>
-            <p class="guide-text">
-                Connect your MIDI keyboard to your device to play and record chords directly into the app. This feature
-                transforms the Pop Song Chord Book into a powerful pro-grade practice and arrangement tool.
-            </p>
+            <h2 class="guide-title" data-i18n="midiTitle">MIDI Keyboard Support</h2>
+            <p class="guide-text" data-i18n="midiP">Connect your MIDI keyboard to your device to play and record chords directly into the app. This feature transforms the Pop Song Chord Book into a powerful pro-grade practice and arrangement tool.</p>
 
             <div
                 style="background: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #fecdd3;">
-                <h3 style="font-size: 1.4rem; color: #be123c; margin-bottom: 15px;">How to Enable</h3>
-                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 15px;">
-                    By default, MIDI support is <strong>OFF</strong> to prevent users without keyboards from being
-                    bothered by browser permission popups. To turn it on:
-                </p>
+                <h3 style="font-size: 1.4rem; color: #be123c; margin-bottom: 15px;" data-i18n="midiEnableTitle">How to Enable</h3>
+                <p style="font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 15px;" data-i18n="midiEnableP">By default, MIDI support is <strong>OFF</strong> to prevent users without keyboards from being bothered by browser permission popups. To turn it on:</p>
                 <ol style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li>Go to your <strong>👤 Profile</strong> (top right).</li>
-                    <li>Scroll down to <strong>Feature Settings</strong>.</li>
-                    <li>Toggle <strong>MIDI Keyboard Support</strong> to <strong>ON</strong>.</li>
-                    <li>The app will now ask for MIDI permissions. Click "Allow" to connect your hardware.</li>
+                    <li data-i18n="midiStep1">Go to your <strong>👤 Profile</strong> (top right).</li>
+                    <li data-i18n="midiStep2">Scroll down to <strong>Feature Settings</strong>.</li>
+                    <li data-i18n="midiStep3">Toggle <strong>MIDI Keyboard Support</strong> to <strong>ON</strong>.</li>
+                    <li data-i18n="midiStep4">The app will now ask for MIDI permissions. Click "Allow" to connect your hardware.</li>
                 </ol>
             </div>
 
             <div
                 style="background: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e2e8f0;">
-                <h3 style="font-size: 1.4rem; color: #1e293b; margin-bottom: 15px;">What can you do with MIDI?</h3>
+                <h3 style="font-size: 1.4rem; color: #1e293b; margin-bottom: 15px;" data-i18n="midiDoTitle">What can you do with MIDI?</h3>
                 <ul style="font-size: 1.1rem; color: #334155; line-height: 1.6; padding-left: 20px;">
-                    <li><strong>Real-time Chord Detection:</strong> Play notes on your keyboard, and the app will
-                        instantly identify the chord (e.g., C, Am, G7, Fsus4).</li>
-                    <li><strong>Professional Recording:</strong> In the <strong>Chord Timeline</strong>, switch to
-                        "Record/Capture" mode. Play your song on the keyboard, and every chord change will be perfectly
-                        recorded into the timeline with exact timing.</li>
-                    <li><strong>Audio Feedback:</strong> You'll hear a high-quality piano sound as you play, making
-                        practice sessions feel more alive.</li>
-                    <li><strong>Instant Chord Entry:</strong> Use your keyboard to enter chords into the
-                        <strong>Progression Editor</strong> without typing.
-                    </li>
+                    <li data-i18n="midiDo1"><strong>Real-time Chord Detection:</strong> Play notes on your keyboard, and the app will instantly identify the chord (e.g., C, Am, G7, Fsus4).</li>
+                    <li data-i18n="midiDo2"><strong>Professional Recording:</strong> In the <strong>Chord Timeline</strong>, switch to "Record/Capture" mode. Play your song on the keyboard, and every chord change will be perfectly recorded into the timeline with exact timing.</li>
+                    <li data-i18n="midiDo3"><strong>Audio Feedback:</strong> You'll hear a high-quality piano sound as you play, making practice sessions feel more alive.</li>
+                    <li data-i18n="midiDo4"><strong>Instant Chord Entry:</strong> Use your keyboard to enter chords into the <strong>Progression Editor</strong> without typing.</li>
                 </ul>
             </div>
 
-            <p style="font-size: 1rem; color: #64748b; font-style: italic;">
-                <strong>Note:</strong> MIDI support requires a modern browser (Chrome, Edge, or Opera) and a
-                USB/Bluetooth MIDI keyboard.
-            </p>
+            <p style="font-size: 1rem; color: #64748b; font-style: italic;" data-i18n="midiNote"><strong>Note:</strong> MIDI support requires a modern browser (Chrome, Edge, or Opera) and a USB/Bluetooth MIDI keyboard.</p>
         </div>
     </section>
 
     <!-- 17. Install as App -->
     <section class="guide-section" id="install">
         <div class="guide-container">
-            <h2 class="guide-title">Install as App (Full Screen)</h2>
-            <p class="guide-text">
-                For the best experience, you can install this website as an app on your phone. This gives you a
-                full-screen view (removing the browser address bar) and makes the chord charts even easier to read.
-            </p>
+            <h2 class="guide-title" data-i18n="installTitle">Install as App (Full Screen)</h2>
+            <p class="guide-text" data-i18n="installP">For the best experience, you can install this website as an app on your phone. This gives you a full-screen view (removing the browser address bar) and makes the chord charts even easier to read.</p>
 
             <div style="background: #f1f5f9; padding: 25px; border-radius: 16px; margin-bottom: 30px;">
                 <h3
                     style="font-size: 1.4rem; color: #334155; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                    <span>📱</span> iOS (Safari)
+                    <span data-i18n="installIosTitle"><span>📱</span> iOS (Safari)</span>
                 </h3>
-                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 15px; line-height: 1.6;">
-                    1. Tap the <strong>Share</strong> button <img src="images/ios_safari_share.png"
-                        style="height: 1.2em; vertical-align: text-bottom; opacity: 0.7;" alt="Share Icon"> at the
-                    bottom of the screen.<br>
-                    2. Scroll down and tap <strong>"Add to Home Screen"</strong>.<br>
-                    3. Tap <strong>Add</strong> to confirm.
-                </p>
+                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 15px; line-height: 1.6;" data-i18n="installIosSteps">1. Tap the <strong>Share</strong> button <img src="images/ios_safari_share.png" style="height: 1.2em; vertical-align: text-bottom; opacity: 0.7;" alt="Share Icon"> at the bottom of the screen.<br>2. Scroll down and tap <strong>"Add to Home Screen"</strong>.<br>3. Tap <strong>Add</strong> to confirm.</p>
             </div>
 
             <div style="background: #f1f5f9; padding: 25px; border-radius: 16px;">
                 <h3
                     style="font-size: 1.4rem; color: #334155; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                    <span>🤖</span> Android (Chrome)
+                    <span data-i18n="installAndroidTitle"><span>🤖</span> Android (Chrome)</span>
                 </h3>
-                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 0; line-height: 1.6;">
-                    1. Tap the <strong>Menu</strong> (three dots ?) in the top right corner.<br>
-                    2. Tap <strong>"Add to Home screen"</strong> or <strong>"Install App"</strong>.<br>
-                    3. Follow the prompts to install.
-                </p>
+                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 0; line-height: 1.6;" data-i18n="installAndroidSteps">1. Tap the <strong>Menu</strong> (three dots) in the top right corner.<br>2. Tap <strong>"Add to Home screen"</strong> or <strong>"Install App"</strong>.<br>3. Follow the prompts to install.</p>
             </div>
         </div>
     </section>
@@ -951,7 +883,7 @@
     <!-- 18. PRO TIPS -->
     <section class="guide-section" id="pro-tips" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
         <div class="guide-container">
-            <h2 class="guide-title">PRO TIPS</h2>
+            <h2 class="guide-title" data-i18n="protipsTitle">PRO TIPS</h2>
             <div
                 style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.1); border: 1px solid #fde68a;">
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 25px;">
@@ -959,59 +891,40 @@
                         <span
                             style="background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; margin-top: 4px;">1</span>
                         <div>
-                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;">YouTube Premium</h4>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">For the best experience,
-                                we highly recommend <strong>YouTube Premium</strong>. This allows you to jam along
-                                with songs uninterrupted, without any annoying advertisements breaking your practice
-                                flow.</p>
+                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;" data-i18n="tip1Title">YouTube Premium</h4>
+                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="tip1Desc">For the best experience, we highly recommend <strong>YouTube Premium</strong>. This allows you to jam along with songs uninterrupted, without any annoying advertisements breaking your practice flow.</p>
                         </div>
                     </li>
                     <li style="display: flex; gap: 20px; align-items: flex-start;">
                         <span
                             style="background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; margin-top: 4px;">2</span>
                         <div>
-                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;">Edit on Large
-                                Screens</h4>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">While the app is
-                                mobile-friendly, we suggest doing heavy <strong>editing on a PC or a large
-                                    tablet</strong>. Mobile screens are quite compact, and precision editing is much
-                                easier with the extra screen real estate and a mouse.</p>
+                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;" data-i18n="tip2Title">Edit on Large Screens</h4>
+                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="tip2Desc">While the app is mobile-friendly, we suggest doing heavy <strong>editing on a PC or a large tablet</strong>. Mobile screens are quite compact, and precision editing is much easier with the extra screen real estate and a mouse.</p>
                         </div>
                     </li>
                     <li style="display: flex; gap: 20px; align-items: flex-start;">
                         <span
                             style="background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; margin-top: 4px;">3</span>
                         <div>
-                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;">Song Setup
-                                Essentials</h4>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">When adding a new song,
-                                always include the <strong>YouTube video URL</strong> for sync. Additionally, using
-                                tools like <strong>LyricRadar.com</strong> or <strong>lrclib.net</strong> is the
-                                fastest way to get high-quality timed lyrics for the teleprompter.</p>
+                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;" data-i18n="tip3Title">Song Setup Essentials</h4>
+                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="tip3Desc">When adding a new song, always include the <strong>YouTube video URL</strong> for sync. Additionally, using tools like <strong>LyricRadar.com</strong> or <strong>lrclib.net</strong> is the fastest way to get high-quality timed lyrics for the teleprompter.</p>
                         </div>
                     </li>
                     <li style="display: flex; gap: 20px; align-items: flex-start;">
                         <span
                             style="background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; margin-top: 4px;">4</span>
                         <div>
-                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;">Install as Web App
-                            </h4>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">Don't forget to use the
-                                <strong>"Install as App"</strong> option documented above! It removes the browser UI
-                                and gives you more room for your chord sheets, making it feel like a professional
-                                instrument tool.
-                            </p>
+                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;" data-i18n="tip4Title">Install as Web App</h4>
+                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="tip4Desc">Don't forget to use the <strong>"Install as App"</strong> option documented above! It removes the browser UI and gives you more room for your chord sheets, making it feel like a professional instrument tool.</p>
                         </div>
                     </li>
                     <li style="display: flex; gap: 20px; align-items: flex-start;">
                         <span
                             style="background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; margin-top: 4px;">5</span>
                         <div>
-                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;">More Tips Coming
-                            </h4>
-                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;">We're always adding new
-                                features to help you play. Keep an eye on this section for more professional tips
-                                and tricks to master your repertoire!</p>
+                            <h4 style="font-size: 1.25rem; color: #1e293b; margin-bottom: 8px;" data-i18n="tip5Title">More Tips Coming</h4>
+                            <p style="font-size: 1.1rem; color: #475569; line-height: 1.6;" data-i18n="tip5Desc">We're always adding new features to help you play. Keep an eye on this section for more professional tips and tricks to master your repertoire!</p>
                         </div>
                     </li>
                 </ul>
@@ -1022,7 +935,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Pop Song Chord Book. Your interactive playalong songbook.</p>
+            <p data-i18n="footerCopyright">&copy; 2026 Pop Song Chord Book. Your interactive playalong songbook.</p>
         </div>
     </footer>
 
@@ -1046,6 +959,407 @@
             });
         });
     </script>
+
+    <script>
+        const QUICKSTART_TRANSLATIONS = {
+        "en": {
+                "docTitle": "Quick Start Guide - PopSongChordBook",
+                "docMetaDesc": "Learn how to use PopSongChordBook features like the Song Map, Chord Timeline, Band Practice sync, and the Teacher and Student Dashboards.",
+                "heroTitle": "Quick Start Guide",
+                "heroSubtitle": "Master the features of Pop Song Chord Book",
+                "tocTitle": "Quick Navigation",
+                "tocSubtitle": "Jump to a specific section:",
+                "tocItem1": "Song Detail Screen",
+                "tocItem2": "Creating Setlists",
+                "tocItem3": "Piano Chords",
+                "tocItem4": "Guitar Chords",
+                "tocItem5": "Capo Feature",
+                "tocItem6": "Progression Editor",
+                "tocItem7": "Filtering by Key",
+                "tocItem8": "Transposing Songs",
+                "tocItem9": "Lyrics & Auto-scroll",
+                "tocItem10": "Band Practice",
+                "tocItem11": "Teacher Dashboard",
+                "tocItem12": "Practice List",
+                "tocItem13": "Chord Trainer & Song Practice",
+                "tocItem14": "Chord Timeline",
+                "tocItem15": "Song Map",
+                "tocItem16": "MIDI Keyboard Support",
+                "tocItem17": "Install as App",
+                "tocItem18": "PRO TIPS",
+                "detailTitle": "Song Detail Screen",
+                "detailP1": "Clicking on any song brings you to the detail view. Here you can see the chords, structure, and playback controls. The interface is designed to be clean and easy to read while you play.",
+                "detailP2": "Feel free to make your own descriptions like : Intro, Verse, Chorus, Pre-Chorus or even some lyrics cue tips as you see fit. Whatever helps you to understand the structure of the song.",
+                "detailInversionsTitle": "<span>🎹</span> Note on Slash Chords & Inversions",
+                "detailInversionsText": "When dealing with slash chords like <strong>C/E</strong> (1st inversion) or <strong>C/G</strong> (2nd inversion), a shorter notation method is often used:<br><br>• <strong>C3</strong> = 1st Inversion (notes: E G C). The C note is the <strong>third</strong> note in the triad.<br>• <strong>C2</strong> = 2nd Inversion (notes: G C E). The C note is the <strong>second</strong> note in the triad.<br>• <strong>C</strong> (no number) = Root position (notes: C E G).<br><br>This makes it quick to read and write while keeping the interface clean, but feel free to use whatever notation you prefer!",
+                "setlistsTitle": "Creating a New Setlist",
+                "setlistsText": "Organize your repertoire by creating custom setlists. Click the \"+\" button in the setlist section to create a new list, give it a name, and start adding your favorite songs for easy access during practice or performance.",
+                "pianoChordsTitle": "Checking Piano Chords",
+                "pianoChordsText": "Need help with a chord voicing? Switch to the Piano view to see exactly which keys to press. The diagrams light up to show you the precise fingering for each chord in the song.",
+                "guitarChordsTitle": "Checking Guitar Chords",
+                "guitarChordsText": "Toggle to Guitar mode to see high-quality fingering diagrams for every chord in your song. This view is perfect for both beginners and experienced players.",
+                "guitarFeaturesTitle": "🎸 Guitar Mode Features",
+                "guitarFeature1": "<strong>Chord Diagrams:</strong> See clear, vertical neck diagrams with finger positions and open/muted string indicators.",
+                "guitarFeature2": "<strong>Ukulele Support:</strong> You can even switch to Ukulele mode (u) to see 4-string fretboard diagrams for every chord.",
+                "capoTitle": "Capo Feature",
+                "capoText": "The Capo feature allows you to transpose your song visually without changing the target sound. This is perfect for guitar players who want to use familiar chord shapes while playing in a different key.",
+                "capoBoxTitle": "🎸 Using the Capo (0-6)",
+                "capoItem1": "<strong>Capo Selector:</strong> When in Guitar mode, the standard Transpose buttons are replaced by a Capo icon (🎸) and a level selector (0-6).",
+                "capoItem2": "<strong>Smart Fingering:</strong> When you set a capo (e.g., Capo 2), the chord diagrams in the \"Show Guitar Chords\" modal automatically update. They will show you the physical fingering shape you need to hold relative to your capo to produce the correct chord!",
+                "capoItem3": "<strong>Visual Feedback:</strong> A yellow indicator badge on the guitar icon helps you remember that a capo transpose is currently active.",
+                "chordEditorTitle": "Chord Progression Editor",
+                "chordEditorText": "Want to customize a song? Open the editor to modify chords. You can choose from diatonic chords valid for the key or borrow chords to spice up the progression.",
+                "filteringTitle": "Filtering by Key",
+                "filteringText": "Practice your scales! Looking for songs in a specific key? Use the filter menu to select a key (e.g., C Major). The song list will update to show only songs that match your criteria.",
+                "transposingTitle": "Transposing Songs",
+                "transposingText": "Need to change the key to suit your voice? Use the transpose controls (+ / -) on the detail page. All chords in the song will instantly update to the new key.",
+                "lyricsTitle": "Lyrics & Teleprompter",
+                "lyricsP1": "Need to see the words while you play? Open the <strong>Chord Timeline</strong> screen and see the lyrics appear just like a karaoke system.",
+                "karaokeTitle": "🎤 Karaoke Style (Just-in-Time)",
+                "karaokeP": "The lyrics are prompted <strong>just-in-time</strong> exactly when you need them. Just like a professional karaoke setup, the display shows:",
+                "karaokeLive": "<strong>Live Line:</strong> The current line is displayed prominently in the center.",
+                "karaokePreview": "<strong>Preview:</strong> The next line is shown dimmed below, so you're always prepared for what's coming next.",
+                "lrcTitle": "✨ LRC Time-Synced Lyrics",
+                "lrcP": "To use the teleprompter, you need time-synced lyrics (LRC format) from sites like <strong>lrclib.net</strong> or <strong>LyricRadar.com</strong>. Paste the text containing <code>[00:12.34]</code> timestamps into the <strong>Lyrics</strong> field.",
+                "lrcKaraokeMode": "<strong>Karaoke Mode:</strong> In the <strong>Chord Timeline</strong>, these timestamps trigger the lyrics exactly when they need to be sung!",
+                "lrcMarkStart": "<strong>Mark Start Point:</strong> Use this button in the Timeline view to sync lyrics instantly to the music. Simple and fast!",
+                "lrcNote": "<strong>Note:</strong> You can use the <strong>LyricSync</strong> setting in the song details (Gear icon) to fine-tune the timing if the lyrics are slightly off.",
+                "bandTitle": "Band Practice",
+                "bandP": "Join up with your band members in the Band Practice session and start playing from a synchronized timeline together.",
+                "bandWhatTitle": "👥 What it is for",
+                "bandWhatP": "Whether you are in a rehearsal room or playing a live show, Band Practice ensures that the piano player, guitarist, singer, and other members are all looking at the exact same chord block or lyric line at the exact same millisecond. No more shouting out chord changes or getting out of sync!",
+                "bandConnectTitle": "🔗 How to Connect with Band Members",
+                "bandStep1": "<strong>Open Band Practice:</strong> Navigate to the <strong>Band Practice</strong> panel from the left sidebar navigation menu.",
+                "bandStep2": "<strong>Start a Session:</strong> Click the <strong>Start Band Practice Session</strong>. You will automatically be connected and visible to the other band members. You will be able to see what song they have opened and you can directly join that song by clicking on it.",
+                "bandStep3": "<strong>Start Jamming:</strong> Anyone can start or stop the song by clicking the Synced Start/Stop button.",
+                "bandStep4": "<strong>Synchronized Navigation:</strong> Want to go to a specific part? Scroll to that difficult bridge part and all the other band members' devices will follow.",
+                "teacherTitle": "Teacher Dashboard",
+                "teacherP": "Manage your music students, schedule lessons, organize setlists, and track individual learning goals in real-time.",
+                "teacherWhatTitle": "👥 What it is for",
+                "teacherWhatP": "The Teacher Dashboard is a comprehensive hub for music educators. It enables teachers to schedule lessons, build customized lesson plans, organize setlists for beginner or advanced groups, and track the exact progress of every student.",
+                "teacherConnectTitle": "🔗 How to Connect with Students",
+                "teacherStep1": "<strong>Share Your Teacher Code:</strong> Open the <strong>Teacher Dashboard</strong> to find your unique teacher connection code (e.g. <code>TEACHER-XXXXXX</code>) and share it with your students.",
+                "teacherStep2": "<strong>Student Connection:</strong> The student inputs this code in their settings area to securely link their account. They will instantly be connected and visible under your student roster.",
+                "teacherStep3": "<strong>Manage Student Progress:</strong> Click on any student to open the <strong>Student Progress Editor</strong>. Here, you can assign songs for homework and check off practice goals (e.g., tuning, chord shapes, scales).",
+                "studentDashTitle": "🎓 The Student Dashboard",
+                "studentDashP": "Connected students gain access to their own personalized Student Dashboard. It provides a clear summary of their assigned homework, next lesson schedule, and a checklist of progress goals updated by their teacher to guide their practice.",
+                "practiceTitle": "Practice List",
+                "practiceP": "Keep track of your repertoire with the 🎯 icon in the footer. Use the <strong>Practice</strong> button on the main list to jump to songs that need attention. Every session, hit <strong>+1 Practice</strong> 📈 to build your streak!",
+                "trainerTitle": "Chord Trainer & Song Practice",
+                "trainerP": "The Chord Trainer is your personal teacher for mastering piano chords. It features interactive feedback, dynamic key limits, and four distinct levels to build your muscle memory.",
+                "trainerLevelsTitle": "🏆 Trainer Levels",
+                "trainerLvl1": "<strong>LEVEL 1: TRIADS</strong> – Learn the basic Major and Minor chords in root position.",
+                "trainerLvl2": "<strong>LEVEL 2: INVERSIONS</strong> – Master first and second inversions (e.g., C2, C3 or C/G and C/E).",
+                "trainerLvl3": "<strong>LEVEL 3: 7THS & EXTENSIONS</strong> – Move to advanced 4-note jazz and pop chords.",
+                "trainerLvl4": "<strong>LEVEL 4: RANKED MODE</strong> – A timed challenge across all levels. Features a global leaderboard!",
+                "songPracticeTitle": "🎵 Song Practice Mode",
+                "songPracticeP": "Enter Song Practice mode by clicking 🎓 on the header of the song detail screen. This takes the actual chords from that song and challenges you to play them in order.",
+                "songPracticeBasic": "<strong>BASIC vs INVERSIONS</strong>: Use the top-right toggle to simplify the song (strip inversion numbers) or practice the full arrangement.",
+                "songPracticeFeedback": "<strong>Instant Feedback</strong>: Get a green checkmark on success, or a red ? and auto-reset when you play the wrong notes.",
+                "timelineTitle": "Chord Timeline",
+                "timelineP": "The Chord Timeline is an advanced feature that allows you to see chords move across a playhead in real-time. This is perfect for complex songs where you need to see the exact timing of every chord change.",
+                "timelineHowTitle": "How to use it",
+                "timelineStep1": "Open a song and tap the <strong>Timeline</strong> icon in the footer.",
+                "timelineStep2": "The system will try to load existing chord timing. If none exists, you can import your own!",
+                "timelineStep3": "Tap <strong>Select File</strong> to upload a MIDI (.mid) or JSON file.",
+                "timelineStep4": "<strong>MIDI Keyboard Support:</strong> Connect a MIDI keyboard to your device to play and record chords directly into the timeline in real-time! The system will intelligently identify the chords as you play.",
+                "timelineStep5": "Press <strong>PLAY</strong> and play along as the chords scroll by.",
+                "audioFeedbackTitle": "🔊 Audio Feedback for Typing",
+                "audioFeedback1": "<strong>A-G Keys:</strong> When you're in capture/record mode and press a letter key (A-G), the chord will now \"ring out\" immediately as it's being recorded, providing the same experience as clicking the buttons.",
+                "audioFeedback2": "<strong>Modifier Keys (#/m):</strong> When you use the # or m keys to quickly sharpen or minorize the last recorded chord, the updated chord will also play back instantly so you can verify the change by ear.",
+                "audioFeedback3": "<strong>Smart Matching Support:</strong> If you have \"Suggested Chords\" (Blocks) defined, the audio will correctly play the matched chord from your blocks (e.g., if you press G and it matches G#m from your song blocks, you'll hear the full G#m).",
+                "bulkShiftTitle": "⬅️ Bulk Chord Shifting",
+                "bulkShiftP": "Did your recording end up slightly off-beat due to input delay? You can quickly fix it:",
+                "bulkShiftBtn": "<strong>« / » Buttons:</strong> Use these buttons in the control bar to shift <strong>ALL</strong> chords in the current song one step (1/8 of a bar) to the left or right at once.",
+                "bulkShiftPrecision": "<strong>Precision Fix:</strong> This is perfect for correcting \"laggy\" captures without having to re-record or drag every chord individually.",
+                "midiTipsTitle": "Tips for the \"Best\" MIDI Input",
+                "midiTipsP": "To ensure the parser identifies your chords perfectly:",
+                "midiTip1": "<strong>Quantize your notes:</strong> The logic groups notes that start within 0.05 seconds (50ms) of each other. Snapping everything to the grid in your DAW is highly recommended.",
+                "midiTip2": "<strong>Three Notes Minimum:</strong> The system ignores any group with fewer than 3 notes. Ensure your MIDI chords have at least a root, third, and fifth.",
+                "midiTip3": "<strong>Chord-Only Track:</strong> Use a \"clean\" MIDI file that contains only the chords. Melody, bass lines, or drums on the same channel can confuse the detection.",
+                "midiTip4": "<strong>Recognized Chords:</strong> The system supports Major, Minor, Dominant 7th, Major 7th, Minor 7th, and Diminished intervals.",
+                "midiTipPro": "Pro Tip: By providing a quantized, 3-note-minimum MIDI file on Channel 1, you'll get perfect results every time!",
+                "pureTimelineTitle": "📱 Pure Timeline Mode",
+                "pureTimelineSub": "<strong>Pure Timeline Mode</strong> – The Chord Timeline in Landscape mode on Mobile Phone Displays",
+                "pureTimelineP": "For a great <strong>PLAY along</strong> mode while using the app on a mobile phone, just <strong>ROTATE</strong> the screen to landscape mode and experience the Pure Timeline Mode. No editing, no buttons, just the Chords and Lyrics.",
+                "jsonExampleTitle": "Example JSON for Chord Timeline",
+                "jsonExampleP": "Below is a short example of how a JSON file for the Chord Timeline feature should be structured:",
+                "songMapTitle": "Song Map",
+                "songMapP": "The Song Map offers a high-level visualization of the entire song's layout. It's the perfect tool for understanding complex arrangements at a glance and navigating through the track effortlessly.",
+                "songMapFeaturesTitle": "Features & Instructions",
+                "songMapFeat1": "<strong>Visual Structure:</strong> Chords are grouped into color-coded sections like Intro, Verse, and Chorus, giving you a clear mental map of the song.",
+                "songMapFeat2": "<strong>Real-time Playback:</strong> When the song is playing, the active chord is highlighted with a glowing effect and follow-focus, so you never lose your place.",
+                "songMapFeat3": "<strong>Instant Navigation:</strong> Click or tap on any section or specific chord block to jump the playback head exactly to that moment in time.",
+                "songMapFeat4": "<strong>Smart Labels:</strong> Section names are displayed prominently above each block, helpfully syncing with the labels you define in the song details.",
+                "songMapFeat5": "Tap the Song Map icon in the control bar to open or close this bird's-eye view.",
+                "midiTitle": "MIDI Keyboard Support",
+                "midiP": "Connect your MIDI keyboard to your device to play and record chords directly into the app. This feature transforms the Pop Song Chord Book into a powerful pro-grade practice and arrangement tool.",
+                "midiEnableTitle": "How to Enable",
+                "midiEnableP": "By default, MIDI support is <strong>OFF</strong> to prevent users without keyboards from being bothered by browser permission popups. To turn it on:",
+                "midiStep1": "Go to your <strong>👤 Profile</strong> (top right).",
+                "midiStep2": "Scroll down to <strong>Feature Settings</strong>.",
+                "midiStep3": "Toggle <strong>MIDI Keyboard Support</strong> to <strong>ON</strong>.",
+                "midiStep4": "The app will now ask for MIDI permissions. Click \"Allow\" to connect your hardware.",
+                "midiDoTitle": "What can you do with MIDI?",
+                "midiDo1": "<strong>Real-time Chord Detection:</strong> Play notes on your keyboard, and the app will instantly identify the chord (e.g., C, Am, G7, Fsus4).",
+                "midiDo2": "<strong>Professional Recording:</strong> In the <strong>Chord Timeline</strong>, switch to \"Record/Capture\" mode. Play your song on the keyboard, and every chord change will be perfectly recorded into the timeline with exact timing.",
+                "midiDo3": "<strong>Audio Feedback:</strong> You'll hear a high-quality piano sound as you play, making practice sessions feel more alive.",
+                "midiDo4": "<strong>Instant Chord Entry:</strong> Use your keyboard to enter chords into the <strong>Progression Editor</strong> without typing.",
+                "midiNote": "<strong>Note:</strong> MIDI support requires a modern browser (Chrome, Edge, or Opera) and a USB/Bluetooth MIDI keyboard.",
+                "installTitle": "Install as App (Full Screen)",
+                "installP": "For the best experience, you can install this website as an app on your phone. This gives you a full-screen view (removing the browser address bar) and makes the chord charts even easier to read.",
+                "installIosTitle": "<span>📱</span> iOS (Safari)",
+                "installIosSteps": "1. Tap the <strong>Share</strong> button <img src=\"images/ios_safari_share.png\" style=\"height: 1.2em; vertical-align: text-bottom; opacity: 0.7;\" alt=\"Share Icon\"> at the bottom of the screen.<br>2. Scroll down and tap <strong>\"Add to Home Screen\"</strong>.<br>3. Tap <strong>Add</strong> to confirm.",
+                "installAndroidTitle": "<span>🤖</span> Android (Chrome)",
+                "installAndroidSteps": "1. Tap the <strong>Menu</strong> (three dots) in the top right corner.<br>2. Tap <strong>\"Add to Home screen\"</strong> or <strong>\"Install App\"</strong>.<br>3. Follow the prompts to install.",
+                "protipsTitle": "PRO TIPS",
+                "tip1Title": "YouTube Premium",
+                "tip1Desc": "For the best experience, we highly recommend <strong>YouTube Premium</strong>. This allows you to jam along with songs uninterrupted, without any annoying advertisements breaking your practice flow.",
+                "tip2Title": "Edit on Large Screens",
+                "tip2Desc": "While the app is mobile-friendly, we suggest doing heavy <strong>editing on a PC or a large tablet</strong>. Mobile screens are quite compact, and precision editing is much easier with the extra screen real estate and a mouse.",
+                "tip3Title": "Song Setup Essentials",
+                "tip3Desc": "When adding a new song, always include the <strong>YouTube video URL</strong> for sync. Additionally, using tools like <strong>LyricRadar.com</strong> or <strong>lrclib.net</strong> is the fastest way to get high-quality timed lyrics for the teleprompter.",
+                "tip4Title": "Install as Web App",
+                "tip4Desc": "Don't forget to use the <strong>\"Install as App\"</strong> option documented above! It removes the browser UI and gives you more room for your chord sheets, making it feel like a professional instrument tool.",
+                "tip5Title": "More Tips Coming",
+                "tip5Desc": "We're always adding new features to help you play. Keep an eye on this section for more professional tips and tricks to master your repertoire!",
+                "footerCopyright": "&copy; 2026 Pop Song Chord Book. Your interactive playalong songbook."
+        },
+        "nl": {
+                "docTitle": "Snelstart Gids - PopSongChordBook",
+                "docMetaDesc": "Leer hoe je alle functies van PopSongChordBook gebruikt: Song Map, Akkoordentijdlijn, Band Practice sync, en de Docent- en Leerlingendashboards.",
+                "heroTitle": "Snelstart Gids",
+                "heroSubtitle": "Beheers alle functies van het Pop Song Chord Book",
+                "tocTitle": "Snelle Navigatie",
+                "tocSubtitle": "Spring direct naar een onderdeel:",
+                "tocItem1": "Song Detail scherm",
+                "tocItem2": "Nieuwe Setlist Maken",
+                "tocItem3": "Piano Akkoorden",
+                "tocItem4": "Gitaar Akkoorden",
+                "tocItem5": "Capo Functie",
+                "tocItem6": "Akkoordenschema Editor",
+                "tocItem7": "Filteren op Toonsoort",
+                "tocItem8": "Nummers Transponeren",
+                "tocItem9": "Songteksten & Autoscroll",
+                "tocItem10": "Band Practice",
+                "tocItem11": "Docentendashboard",
+                "tocItem12": "Practice lijst",
+                "tocItem13": "Akkoordentrainer & Nummer Oefenen",
+                "tocItem14": "Akkoordentijdlijn",
+                "tocItem15": "Song Map",
+                "tocItem16": "MIDI Keyboard Ondersteuning",
+                "tocItem17": "Installeren als App",
+                "tocItem18": "PRO TIPS",
+                "detailTitle": "Song Detail scherm",
+                "detailP1": "Door op een nummer te klikken kom je in de detailweergave. Hier zie je de akkoorden, structuur en afspeelknoppen. De interface is ontworpen om overzichtelijk en gemakkelijk afleesbaar te zijn terwijl je speelt.",
+                "detailP2": "Voel je vrij om je eigen beschrijvingen toe te voegen zoals: Intro, Couplet (Verse), Refrein (Chorus), Pre-Chorus of zelfs tekstaanwijzingen. Alles wat jou helpt om de opbouw van het nummer te begrijpen.",
+                "detailInversionsTitle": "<span>🎹</span> Notitie over Slash Akkoorden & Omkeringen",
+                "detailInversionsText": "Bij slash-akkoorden zoals <strong>C/E</strong> (1e omkering) of <strong>C/G</strong> (2e omkering) wordt vaak een kortere notatiemethode gebruikt:<br><br>• <strong>C3</strong> = 1e Omkering (noten: E G C). De C-noot is de <strong>derde</strong> noot in de drieklank.<br>• <strong>C2</strong> = 2e Omkering (noten: G C E). De C-noot is de <strong>tweede</strong> noot in de drieklank.<br>• <strong>C</strong> (geen getal) = Grondligging (noten: C E G).<br><br>Dit maakt het snel lees- en schrijfbaar terwijl de interface overzichtelijk blijft, maar voel je vrij om de notatie te gebruiken die jij het prettigst vindt!",
+                "setlistsTitle": "Nieuwe Setlist Maken",
+                "setlistsText": "Organiseer je repertoire door eigen setlists aan te maken. Klik op de '+' knop in de setlist-sectie om een nieuwe lijst aan te maken, geef deze een naam en voeg je favoriete nummers toe voor snelle toegang tijdens repetities of optredens.",
+                "pianoChordsTitle": "Piano Akkoorden Bekijken",
+                "pianoChordsText": "Hulp nodig bij een akkoordligging? Schakel over naar de Piano-weergave om precies te zien welke toetsen je moet indrukken. De diagrammen lichten op om de exacte vingerzetting voor elk akkoord in het nummer te tonen.",
+                "guitarChordsTitle": "Gitaar Akkoorden Bekijken",
+                "guitarChordsText": "Schakel over naar de Gitaarmodus om duidelijke vingerzettingsdiagrammen voor elk akkoord in je nummer te bekijken. Deze weergave is ideaal voor zowel beginners als gevorderde gitaristen.",
+                "guitarFeaturesTitle": "🎸 Functies van de Gitaarmodus",
+                "guitarFeature1": "<strong>Akkoorddiagrammen:</strong> Bekijk heldere, verticale halsdiagrammen met vingerposities en aanduidingen voor open en gedempte snaren.",
+                "guitarFeature2": "<strong>Ukelele Ondersteuning:</strong> Schakel eenvoudig naar de Ukelele-modus (u) om 4-snarige toetsdiagrammen voor elk akkoord te zien.",
+                "capoTitle": "Capo Functie",
+                "capoText": "Met de Capo-functie kun je een nummer visueel transponeren zonder de doeltoonsoort te veranderen. Ideaal voor gitaristen die vertrouwde akkoordgrepen willen gebruiken terwijl het nummer in een andere toonsoort klinkt.",
+                "capoBoxTitle": "🎸 De Capo Gebruiken (0-6)",
+                "capoItem1": "<strong>Capo Keuzemenu:</strong> In de Gitaarmodus worden de standaard Transponeerknoppen vervangen door een gitaaricoon (🎸) en een capo-keuzemenu (0-6).",
+                "capoItem2": "<strong>Slimme Vingerzetting:</strong> Zodra je een capo instelt (bijv. Capo 2), passen de akkoorddiagrammen in het 'Toon Gitaarakkoorden'-venster zich automatisch aan. Ze tonen exact de greep die je fysiek moet pakken ten opzichte van de capo om het juiste akkoord te laten klinken!",
+                "capoItem3": "<strong>Visuele Feedback:</strong> Een geel indicator-label op het gitaaricoon herinnert je eraan dat er momenteel een capo-transpositie actief is.",
+                "chordEditorTitle": "Akkoordenschema Editor",
+                "chordEditorText": "Wil je een nummer aanpassen? Open de editor om akkoorden te wijzigen. Je kunt kiezen uit diatonische akkoorden binnen de toonsoort of geleende akkoorden toevoegen om het schema extra kleur te geven.",
+                "filteringTitle": "Filteren op Toonsoort",
+                "filteringText": "Oefen je toongroepen! Zoek je nummers in een specifieke toonsoort? Gebruik het filtermenu om een toonsoort te selecteren (bijv. C Major). De songlijst toont direct alleen de nummers die aan je selectie voldoen.",
+                "transposingTitle": "Nummers Transponeren",
+                "transposingText": "Moet de toonsoort omhoog of omlaag voor jouw zangbereik? Gebruik de transponeerknoppen (+ / -) op de detailpagina. Alle akkoorden in het nummer passen zich direct aan naar de nieuwe toonsoort.",
+                "lyricsTitle": "Songteksten & Teleprompter",
+                "lyricsP1": "Wil je de songtekst zien terwijl je speelt? Open de <strong>Akkoordentijdlijn</strong> en zie de tekst verschijnen precies zoals bij een karaokesysteem.",
+                "karaokeTitle": "🎤 Karaoke-Stijl (Precies op Tijd)",
+                "karaokeP": "De tekstregels worden <strong>just-in-time</strong> getoond, exact op het moment dat je ze moet zingen. Net als bij een professionele karaoke-opstelling toont het scherm:",
+                "karaokeLive": "<strong>Huidige Regel:</strong> De actieve regel staat groot en helder in het midden.",
+                "karaokePreview": "<strong>Vooruitblik:</strong> De volgende regel wordt eronder gedimd getoond, zodat je altijd voorbereid bent op wat er komt.",
+                "lrcTitle": "✨ LRC Tijdgesynchroniseerde Songteksten",
+                "lrcP": "Om de teleprompter te gebruiken heb je tijdgesynchroniseerde songteksten (LRC-formaat) nodig van websites zoals <strong>lrclib.net</strong> of <strong>LyricRadar.com</strong>. Plak de tekst met tijdstempels zoals <code>[00:12.34]</code> in het <strong>Lyrics</strong> veld.",
+                "lrcKaraokeMode": "<strong>Karaoke Modus:</strong> In de <strong>Akkoordentijdlijn</strong> triggeren deze tijdstempels de songtekst exact wanneer deze gezongen moet worden!",
+                "lrcMarkStart": "<strong>Startpunt Markeren:</strong> Gebruik deze knop in de Tijdlijnweergave om teksten direct gelijk te zetten met de muziek. Eenvoudig en snel!",
+                "lrcNote": "<strong>Let op:</strong> Je kunt de <strong>LyricSync</strong> instelling in de nummerdetails (Tandwiel-icoon) gebruiken om de timing fijn af te stellen als de tekst net iets voor of achter loopt.",
+                "bandTitle": "Band Practice",
+                "bandP": "Speel samen met je bandleden in een Band Practice sessie en speel gezamenlijk vanaf één synchrone tijdlijn.",
+                "bandWhatTitle": "👥 Waar het voor bedoeld is",
+                "bandWhatP": "Of je nu in de repetitieruimte staat of op het podium staat: Band Practice zorgt ervoor dat de pianist, gitarist, zanger en overige bandleden op exact dezelfde milliseconde naar exact hetzelfde akkoordblok of dezelfde tekstregel kijken. Nooit meer naar elkaar roepen over akkoordwisselingen of uit de maat lopen!",
+                "bandConnectTitle": "🔗 Hoe je verbindt met Bandleden",
+                "bandStep1": "<strong>Open Band Practice:</strong> Ga naar het <strong>Band Practice</strong> paneel via het navigatiemenu in de linker zijbalk.",
+                "bandStep2": "<strong>Start een Sessie:</strong> Klik op <strong>Start Band Practice Session</strong>. Je bent direct verbonden en zichtbaar voor de andere bandleden. Je ziet meteen welk nummer zij geopend hebben en kunt direct meedoen door op dat nummer te klikken.",
+                "bandStep3": "<strong>Begin met Jammen:</strong> Iedereen kan het nummer starten of stoppen met de Synchrone Start/Stop knop.",
+                "bandStep4": "<strong>Gesynchroniseerde Navigatie:</strong> Wil je een specifiek gedeelte oefenen? Scroll naar die lastige bridge en de schermen van alle andere bandleden scrollen synchroon mee.",
+                "teacherTitle": "Docentendashboard",
+                "teacherP": "Beheer je muziekleerlingen, plan lessen, organiseer setlists en houd individuele leerdoelen realtime bij.",
+                "teacherWhatTitle": "👥 Waar het voor bedoeld is",
+                "teacherWhatP": "Het Docentendashboard is het complete centrale knooppunt voor muziekdocenten. Hiermee kunnen docenten lessen inplannen, lesplannen op maat maken, setlists samenstellen voor beginners of gevorderden en de exacte voortgang van elke leerling volgen.",
+                "teacherConnectTitle": "🔗 Hoe je verbindt met Leerlingen",
+                "teacherStep1": "<strong>Deel je Docentencode:</strong> Open het <strong>Docentendashboard</strong> om je unieke koppelcode (bijv. <code>TEACHER-XXXXXX</code>) te vinden en deel deze met je leerlingen.",
+                "teacherStep2": "<strong>Leerlingkoppeling:</strong> De leerling voert deze code in bij de eigen instellingen om het account veilig te koppelen. De leerling verschijnt meteen in jouw leerlingenoverzicht.",
+                "teacherStep3": "<strong>Voortgang Beheren:</strong> Klik op een leerling om de <strong>Voortgangseditor</strong> te openen. Hier wijs je huiswerknummers toe en vink je leerdoelen af (bijv. stemmen, akkoordgrepen, toonladders).",
+                "studentDashTitle": "🎓 Het Leerlingendashboard",
+                "studentDashP": "Gekoppelde leerlingen hebben toegang tot hun eigen gepersonaliseerde Leerlingendashboard. Dit biedt een helder overzicht van het opgegeven huiswerk, de datum van de volgende les en een checklist met voortgangsdoelen die door de docent worden bijgehouden.",
+                "practiceTitle": "Practice lijst",
+                "practiceP": "Houd je repertoire bij met het 🎯 icoon in de voettekst. Gebruik de <strong>Oefenen</strong> knop in de hoofdlijst om direct naar nummers te springen die extra aandacht nodig hebben. Klik elke sessie op <strong>+1 Oefensessie</strong> 📈 om je reeks op te bouwen!",
+                "trainerTitle": "Akkoordentrainer & Nummer Oefenen",
+                "trainerP": "De Akkoordentrainer is jouw persoonlijke muziekleraar om piano-akkoorden te beheersen. Met interactieve feedback, dynamische toonsoortfilters en vier niveaus bouw je razendsnel spiergeheugen op.",
+                "trainerLevelsTitle": "🏆 Trainerniveaus",
+                "trainerLvl1": "<strong>NIVEAU 1: DRIEKLANKEN</strong> – Leer de basis Majeur- en Mineur-akkoorden in grondligging.",
+                "trainerLvl2": "<strong>NIVEAU 2: OMKERINGEN</strong> – Beheers de eerste en tweede omkering (bijv. C2, C3 of C/G en C/E).",
+                "trainerLvl3": "<strong>NIVEAU 3: SEPTIEMEN & UITBREIDINGEN</strong> – Ga door naar geavanceerde 4-noten jazz- en popakkoorden.",
+                "trainerLvl4": "<strong>NIVEAU 4: RANKED MODUS</strong> – Een getimede uitdaging over alle niveaus. Inclusief wereldwijd leaderboard!",
+                "songPracticeTitle": "🎵 Nummer Oefenmodus",
+                "songPracticeP": "Start de Nummer Oefenmodus door op 🎓 in de kop van het detailscherm te klikken. De tool laadt de echte akkoorden van dat specifieke nummer en daagt je uit om ze op volgorde te spelen.",
+                "songPracticeBasic": "<strong>BASIS vs OMKERINGEN</strong>: Gebruik de schakelaar rechtsboven om het nummer te vereenvoudigen (omkeringsnummers weglaten) of het complete arrangement te oefenen.",
+                "songPracticeFeedback": "<strong>Directe Feedback</strong>: Krijg een groen vinkje bij succes, of een rood ? en automatische reset als je de verkeerde toetsen aanslaat.",
+                "timelineTitle": "Akkoordentijdlijn",
+                "timelineP": "De Akkoordentijdlijn is een geavanceerde functie waarmee je akkoorden in realtime over een afspeellijn ziet meebewegen. Perfect voor complexe nummers waarbij je de exacte timing van elke akkoordwisseling wilt zien.",
+                "timelineHowTitle": "Hoe je het gebruikt",
+                "timelineStep1": "Open een nummer en klik op het <strong>Tijdlijn</strong> icoon in de voettekst.",
+                "timelineStep2": "Het systeem probeert de bestaande akkoordtiming te laden. Is die er nog niet, dan kun je je eigen timing importeren!",
+                "timelineStep3": "Klik op <strong>Bestand selecteren</strong> om een MIDI- (.mid) of JSON-bestand te uploaden.",
+                "timelineStep4": "<strong>MIDI Keyboard Ondersteuning:</strong> Sluit een MIDI-keyboard aan op je apparaat om akkoorden direct realtime in de tijdlijn te spelen en op te nemen! Het systeem herkent intelligent welke akkoorden je aanslaat.",
+                "timelineStep5": "Druk op <strong>PLAY</strong> en speel mee terwijl de akkoorden voorbij scrollen.",
+                "audioFeedbackTitle": "🔊 Audiofeedback bij Typen",
+                "audioFeedback1": "<strong>A-G Toetsen:</strong> Als je in opnamemodus staat en een lettertoets (A-G) indrukt, klinkt het akkoord direct hoorbaar door terwijl het wordt geregistreerd.",
+                "audioFeedback2": "<strong>Wijzigingstoetsen (#/m):</strong> Gebruik je de # of m toets om het laatst opgenomen akkoord direct te verhogen of mineur te maken, dan hoor je de wijziging meteen zodat je het op het gehoor kunt controleren.",
+                "audioFeedback3": "<strong>Slimme Match Ondersteuning:</strong> Als je 'Aanbevolen Akkoorden' (Blokken) hebt ingesteld, speelt de audio exact het overeenkomende akkoord uit je songblokken af (bijv. als je G indrukt en dit matcht met G#m uit je songblokken, hoor je direct de complete G#m).",
+                "bulkShiftTitle": "⬅️ Akkoorden Gezamenlijk Verschuiven",
+                "bulkShiftP": "Loopt je opname net iets uit de maat door invoervertraging? Dit los je razendsnel op:",
+                "bulkShiftBtn": "<strong>« / » Knoppen:</strong> Gebruik deze knoppen in de bedieningsbalk om <strong>ALLE</strong> akkoorden in het huidige nummer met één klik één stap (1/8 maat) naar links of rechts te verschuiven.",
+                "bulkShiftPrecision": "<strong>Nauwkeurige Correctie:</strong> Ideaal om vertraagde opnames te corrigeren zonder dat je elk akkoord afzonderlijk hoeft te verslepen of opnieuw op te nemen.",
+                "midiTipsTitle": "Tips voor de Beste MIDI-Invoer",
+                "midiTipsP": "Om ervoor te zorgen dat de parser je akkoorden vlekkeloos herkent:",
+                "midiTip1": "<strong>Kwantiseer je noten:</strong> Het systeem groepeert noten die binnen 0,05 seconden (50ms) van elkaar starten. 'Snap-to-grid' in je DAW wordt sterk aanbevolen.",
+                "midiTip2": "<strong>Minimaal Drie Noten:</strong> Groepen met minder dan 3 noten worden genegeerd. Zorg dat je MIDI-akkoorden minimaal een grondtoon, terts en kwint bevatten.",
+                "midiTip3": "<strong>Alleen Akkoorden:</strong> Gebruik een 'schoon' MIDI-bestand met uitsluitend akkoorden. Melodieën, baslijnen of drums op hetzelfde kanaal kunnen de herkenning verstoren.",
+                "midiTip4": "<strong>Herkende Akkoorden:</strong> Het systeem ondersteunt Majeur, Mineur, Dominant 7, Majeur 7, Mineur 7 en Verminderde akkoorden.",
+                "midiTipPro": "Pro Tip: Met een gekwantiseerd MIDI-bestand van minimaal 3 noten op Kanaal 1 behaal je altijd een perfect resultaat!",
+                "pureTimelineTitle": "📱 Pure Tijdlijn Modus",
+                "pureTimelineSub": "<strong>Pure Tijdlijn Modus</strong> – De Akkoordentijdlijn in liggende (Landscape) weergave op smartphones",
+                "pureTimelineP": "Voor een geweldige <strong>MEESPEEL</strong>-ervaring op je smartphone hoef je het scherm alleen maar te <strong>KANTELEN</strong> naar landscape-modus. Geen knoppen, geen menu's: puur de akkoorden en songteksten die synchroon meelopen.",
+                "jsonExampleTitle": "Voorbeeld JSON voor Akkoordentijdlijn",
+                "jsonExampleP": "Hieronder zie je een kort voorbeeld van hoe een JSON-bestand voor de Akkoordentijdlijn is opgebouwd:",
+                "songMapTitle": "Song Map",
+                "songMapP": "De Song Map biedt een vogelvluchtperspectief van de complete structuur van het nummer. Ideaal om complexe arrangementen in één oogopslag te doorgronden en moeiteloos door het nummer te navigeren.",
+                "songMapFeaturesTitle": "Functies & Instructies",
+                "songMapFeat1": "<strong>Visuele Structuur:</strong> Akkoorden zijn gegroepeerd in kleurgecodeerde secties zoals Intro, Couplet en Refrein voor een helder overzicht.",
+                "songMapFeat2": "<strong>Realtime Meespelen:</strong> Tijdens het afspelen licht het actieve akkoord op met een subtiele gloed en focus-volging, zodat je nooit de weg kwijtraakt.",
+                "songMapFeat3": "<strong>Directe Navigatie:</strong> Klik of tik op een willekeurige sectie of specifiek akkoordblok om direct naar dat exacte moment in de track te springen.",
+                "songMapFeat4": "<strong>Slimme Labels:</strong> Sectienamen staan duidelijk boven elk blok en lopen synchroon met de labels die je instelt in de nummerdetails.",
+                "songMapFeat5": "Klik op het Song Map-icoon in de bedieningsbalk om dit visuele overzicht te openen of te sluiten.",
+                "midiTitle": "MIDI Keyboard Ondersteuning",
+                "midiP": "Sluit je MIDI-keyboard aan op je apparaat om akkoorden direct in de app te spelen en op te nemen. Hiermee transformeer je PopSongChordBook in een professionele oefen- en arrangeertool.",
+                "midiEnableTitle": "Hoe in te schakelen",
+                "midiEnableP": "Standaard staat MIDI-ondersteuning <strong>UIT</strong> om te voorkomen dat gebruikers zonder keyboard toestemmingspopups te zien krijgen. Zo zet je het aan:",
+                "midiStep1": "Ga naar je <strong>👤 Profiel</strong> (rechtsboven).",
+                "midiStep2": "Scroll naar beneden naar <strong>Functie-instellingen</strong>.",
+                "midiStep3": "Zet de schakelaar bij <strong>MIDI Keyboard Ondersteuning</strong> op <strong>AAN</strong>.",
+                "midiStep4": "De browser vraagt nu om MIDI-toestemming. Klik op 'Toestaan' om verbinding te maken.",
+                "midiDoTitle": "Wat kun je met MIDI doen?",
+                "midiDo1": "<strong>Realtime Akkoordherkenning:</strong> Sla toetsen aan op je keyboard en de app herkent direct welk akkoord het is (bijv. C, Am, G7, Fsus4).",
+                "midiDo2": "<strong>Professioneel Opnemen:</strong> Schakel in de <strong>Akkoordentijdlijn</strong> naar 'Opname/Capture'-modus. Speel mee op je keyboard en elke akkoordwisseling wordt met de exacte timing vastgelegd in de tijdlijn.",
+                "midiDo3": "<strong>Pianogeluid:</strong> Je hoort direct een hoogwaardig pianogeluid tijdens het spelen, waardoor oefenen natuurlijk aanvoelt.",
+                "midiDo4": "<strong>Directe Akkoordinvoer:</strong> Voer akkoorden rechtstreeks in de <strong>Akkoordenschema Editor</strong> in zonder te hoeven typen.",
+                "midiNote": "<strong>Let op:</strong> MIDI-ondersteuning vereist een moderne browser (Chrome, Edge of Opera) en een USB- of Bluetooth-MIDI-keyboard.",
+                "installTitle": "Installeren als App (Volledig Scherm)",
+                "installP": "Voor de beste gebruikservaring installeer je deze website als app op je smartphone of tablet. Dit geeft een volledig scherm (zonder browserbalken) waardoor akkoordschema's nog rustiger en makkelijker afleesbaar zijn.",
+                "installIosTitle": "<span>📱</span> iOS (Safari)",
+                "installIosSteps": "1. Tik op de <strong>Deelknop</strong> <img src=\"images/ios_safari_share.png\" style=\"height: 1.2em; vertical-align: text-bottom; opacity: 0.7;\" alt=\"Deel Icoon\"> onderin het scherm.<br>2. Scroll naar beneden en tik op <strong>\"Zet op beginscherm\"</strong>.<br>3. Tik op <strong>Voeg toe</strong> om te bevestigen.",
+                "installAndroidTitle": "<span>🤖</span> Android (Chrome)",
+                "installAndroidSteps": "1. Tik op het <strong>Menu</strong> (drie puntjes) rechtsboven.<br>2. Tik op <strong>\"App installeren\"</strong> of <strong>\"Toevoegen aan startscherm\"</strong>.<br>3. Volg de instructies op het scherm.",
+                "protipsTitle": "PRO TIPS",
+                "tip1Title": "YouTube Premium",
+                "tip1Desc": "Voor de ultieme meespeelervaring raden we <strong>YouTube Premium</strong> van harte aan. Zo speel je onafgebroken mee met alle nummers zonder storende reclames.",
+                "tip2Title": "Bewerken op Grote Schermen",
+                "tip2Desc": "Hoewel de app uitstekend werkt op smartphones, adviseren we om uitgebreide <strong>bewerkingen op een computer of grote tablet</strong> uit te voeren. Met een groter scherm en muis werk je veel sneller en nauwkeuriger.",
+                "tip3Title": "Song Setup Basis",
+                "tip3Desc": "Voeg bij een nieuw nummer altijd direct de <strong>YouTube videoclip URL</strong> toe voor synchronisatie. Gebruik daarnaast websites zoals <strong>LyricRadar.com</strong> of <strong>lrclib.net</strong> om direct getimede songteksten voor de teleprompter te downloaden.",
+                "tip4Title": "Installeren als Web-App",
+                "tip4Desc": "Vergeet niet de hierboven beschreven <strong>\"Installeren als App\"</strong> optie te gebruiken! Dit verbergt de browserknoppen en geeft maximale ruimte voor je akkoordschema's.",
+                "tip5Title": "Binnenkort Meer Tips",
+                "tip5Desc": "We voegen doorlopend nieuwe functies toe. Houd deze sectie in de gaten voor nog meer handige tips en trucs om je repertoire sneller onder de knie te krijgen!",
+                "footerCopyright": "&copy; 2026 Pop Song Chord Book. Jouw interactieve meespeel-akkoordenboek."
+        }
+};
+
+        // Language State Management
+        const qsUrlParams = new URLSearchParams(window.location.search);
+        const qsLangParam = qsUrlParams.get('lang');
+        let currentLang = (qsLangParam === 'nl' || qsLangParam === 'en')
+            ? qsLangParam
+            : (localStorage.getItem('preferredLanguage') || ((navigator.language && navigator.language.toLowerCase().startsWith('nl')) ? 'nl' : 'en'));
+
+        function applyLanguage() {
+            const t = QUICKSTART_TRANSLATIONS[currentLang] || QUICKSTART_TRANSLATIONS.en;
+            document.documentElement.lang = currentLang;
+
+            if (t.docTitle) document.title = t.docTitle;
+            const metaDesc = document.getElementById('doc-meta-desc');
+            if (metaDesc && t.docMetaDesc) metaDesc.setAttribute('content', t.docMetaDesc);
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Update toggle button pills
+            const btnEn = document.querySelector('.lang-pill-en');
+            const btnNl = document.querySelector('.lang-pill-nl');
+            if (btnEn && btnNl) {
+                if (currentLang === 'nl') {
+                    btnNl.classList.add('active');
+                    btnEn.classList.remove('active');
+                } else {
+                    btnEn.classList.add('active');
+                    btnNl.classList.remove('active');
+                }
+            }
+
+            // Update back button link
+            const backBtn = document.querySelector('.back-icon-btn');
+            if (backBtn) {
+                backBtn.setAttribute('href', currentLang === 'nl' ? '/?lang=nl' : '/');
+                backBtn.setAttribute('title', currentLang === 'nl' ? 'Terug naar Start' : 'Back to Home');
+            }
+
+            const btt = document.getElementById('backToTop');
+            if (btt) {
+                btt.setAttribute('title', currentLang === 'nl' ? 'Naar boven' : 'Back to Top');
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'nl' : 'en';
+            try {
+                localStorage.setItem('preferredLanguage', currentLang);
+            } catch(e) {}
+
+            const url = new URL(window.location);
+            if (currentLang === 'nl') {
+                url.searchParams.set('lang', 'nl');
+            } else {
+                url.searchParams.delete('lang');
+            }
+            window.history.replaceState({}, '', url);
+            applyLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', applyLanguage);
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            applyLanguage();
+        }
+    </script>
+
 </body>
 
 

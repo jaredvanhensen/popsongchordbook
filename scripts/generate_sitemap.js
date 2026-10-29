@@ -73,6 +73,11 @@ function generateSitemap() {
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>${BASE_URL}/quickstart?lang=nl</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>${BASE_URL}/band</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
