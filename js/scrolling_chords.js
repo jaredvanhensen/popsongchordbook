@@ -579,6 +579,7 @@ window.addEventListener('message', (event) => {
             code: msg.code,
             ctrlKey: msg.ctrlKey,
             metaKey: msg.metaKey,
+            altKey: msg.altKey,
             preventDefault: () => {},
             target: document.body
         };
@@ -1809,6 +1810,39 @@ function handleGlobalKeyDown(e) {
         } else {
             togglePlayPause();
         }
+        return;
+    }
+
+    // LEFT arrow: 10 seconds back
+    if (e.key === "ArrowLeft") {
+        const songMapOverlay = document.getElementById('songMapOverlay');
+        if (songMapOverlay && !songMapOverlay.classList.contains('hidden')) return;
+        if (document.querySelector('.inline-chord-edit-input')) return;
+
+        e.preventDefault();
+        seek(-10);
+        return;
+    }
+
+    // RIGHT arrow: 10 seconds forward
+    if (e.key === "ArrowRight") {
+        const songMapOverlay = document.getElementById('songMapOverlay');
+        if (songMapOverlay && !songMapOverlay.classList.contains('hidden')) return;
+        if (document.querySelector('.inline-chord-edit-input')) return;
+
+        e.preventDefault();
+        seek(10);
+        return;
+    }
+
+    // R: Restart (start of the song)
+    if ((e.key === "r" || e.key === "R") && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const songMapOverlay = document.getElementById('songMapOverlay');
+        if (songMapOverlay && !songMapOverlay.classList.contains('hidden')) return;
+        if (document.querySelector('.inline-chord-edit-input')) return;
+
+        e.preventDefault();
+        restart();
         return;
     }
 

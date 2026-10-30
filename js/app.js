@@ -2913,8 +2913,11 @@ class App {
             const scrollingModal = document.getElementById('scrollingChordsModal');
             if (scrollingModal && !scrollingModal.classList.contains('timeline-hidden')) {
                 const frame = document.getElementById('scrollingChordsFrame');
-                // We only forward Space and Escape (for closing/pausing)
-                if (frame && frame.contentWindow && (e.code === 'Space' || e.key === 'Escape')) {
+                // Forward playback controls to Scrolling Chords timeline (Space, Escape, Left, Right, R)
+                const isTimelineKey = e.code === 'Space' || e.key === 'Escape' ||
+                                      e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
+                                      ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey && !e.altKey);
+                if (frame && frame.contentWindow && isTimelineKey) {
                     // Don't forward if user is typing in an input inside the parent
                     const activeTag = document.activeElement ? document.activeElement.tagName : '';
                     const isInput = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || 
@@ -2926,7 +2929,8 @@ class App {
                             key: e.key, 
                             code: e.code, 
                             ctrlKey: e.ctrlKey, 
-                            metaKey: e.metaKey 
+                            metaKey: e.metaKey,
+                            altKey: e.altKey 
                         }, '*');
                         return;
                     }

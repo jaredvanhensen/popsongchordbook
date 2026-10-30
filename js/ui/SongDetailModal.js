@@ -2006,60 +2006,95 @@ class SongDetailModal {
 
         // Keyboard navigation
         document.addEventListener('keydown', async (e) => {
-            if (!this.modal.classList.contains('hidden')) {
-                if (e.key === 'Escape') {
-                    // If editing, exit edit mode; otherwise close modal
-                    const activeElement = document.activeElement;
-                    if (activeElement && activeElement.hasAttribute('contenteditable') && activeElement.getAttribute('contenteditable') === 'true') {
-                        activeElement.setAttribute('contenteditable', 'false');
-                        activeElement.blur();
-                    } else {
-                        await this.hide();
-                    }
-                } else if (e.key === 'ArrowLeft') {
-                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
-                    if (!isEditing) {
-                        this.navigatePrevious();
-                    }
-                } else if (e.key === 'ArrowRight') {
-                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
-                    if (!isEditing) {
-                        this.navigateNext();
-                    }
-                } else if (e.key === 'p' || e.key === 'P') {
-                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
-                    if (!isEditing && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                        e.preventDefault();
-                        if (this.onPracticeRandomNext) {
-                            this.onPracticeRandomNext();
-                        }
-                    }
-                } else if (e.key === 'r' || e.key === 'R') {
-                    const isEditing = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
-                    if (!isEditing && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                        e.preventDefault();
-                        if (this.isRandomMode && this.onNavigate) {
-                            this.onNavigate(null, true);
-                        } else if (window.appInstance) {
-                            window.appInstance.openRandomSong();
-                        }
-                    }
-                } else if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
+            if (this.modal.classList.contains('hidden')) return;
+
+            // If scrolling chords timeline is open, do not handle modal navigation/shortcuts here
+            // (parent app.js forwards timeline keys to the iframe)
+            const scrollingChordsModal = document.getElementById('scrollingChordsModal');
+            const isTimelineOpen = scrollingChordsModal && !scrollingChordsModal.classList.contains('timeline-hidden');
+            if (isTimelineOpen) {
+                if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
-                    if (this.hasUnsavedChanges) {
-                        await this.saveChanges(false);
-                    }
-                } else if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey)) {
-                    // Pass Undo command to Scrolling Chords iframe if it is open
-                    const scrollingChordsModal = document.getElementById('scrollingChordsModal');
-                    if (scrollingChordsModal && !scrollingChordsModal.classList.contains('timeline-hidden')) {
-                        e.preventDefault();
-                        const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
-                        if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
-                            scrollingChordsFrame.contentWindow.postMessage({ type: 'undoAction' }, '*');
-                        }
+                    const scrollingChordsFrame = document.getElementById('scrollingChordsFrame');
+                    if (scrollingChordsFrame && scrollingChordsFrame.contentWindow) {
+                        scrollingChordsFrame.contentWindow.postMessage({ type: 'undoAction' }, '*');
                     }
                 }
+                return;
+            }
+
+            const activeElement = document.activeElement;
+            const isEditing = (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) ||
+                              (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable || activeElement.getAttribute('contenteditable') === 'true'));
+
+            if (e.key === 'Escape') {
+                // If editing, exit edit mode; otherwise close modal
+                if (activeElement && activeElement.hasAttribute('contenteditable') && activeElement.getAttribute('contenteditable') === 'true') {
+                    activeElement.setAttribute('contenteditable', 'false');
+                    activeElement.blur();
+                } else {
+                    await this.hide();
+                }
+                return;
+            }
+
+            // Do not trigger navigation or playback shortcuts when user is editing text
+            if (isEditing) return;
+
+            // Space: Invoke / Start Scrolling Timeline
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault();
+                if (this.scrollingChordsBtn && !this.scrollingChordsBtn.classList.contains('hidden')) {
+                    this.scrollingChordsBtn.click();
+                } else {
+                    const btn = document.getElementById('songDetailScrollingChordsBtn');
+                    if (btn && !btn.classList.contains('hidden')) {
+                        btn.click();
+                    }
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowLeft') {
+                this.navigatePrevious();
+                return;
+            }
+
+            if (e.key === 'ArrowRight') {
+                this.navigateNext();
+                return;
+            }
+
+            // P: Next Practice Song
+            if ((e.key === 'p' || e.key === 'P') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                e.preventDefault();
+                if (this.onPracticeRandomNext) {
+                    this.onPracticeRandomNext();
+                } else if (window.appInstance && typeof window.appInstance.openPracticeRandomSong === 'function') {
+                    window.appInstance.openPracticeRandomSong();
+                }
+                return;
+            }
+
+            // R: Next Random Song
+            if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                e.preventDefault();
+                if (window.appInstance && typeof window.appInstance.openRandomSong === 'function') {
+                    window.appInstance.openRandomSong();
+                } else if (this.allSongs && this.allSongs.length > 0 && this.onNavigate) {
+                    const randomSong = this.allSongs[Math.floor(Math.random() * this.allSongs.length)];
+                    this.onNavigate(randomSong.id, true);
+                }
+                return;
+            }
+
+            // Ctrl+S: Save changes
+            if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                if (this.hasUnsavedChanges) {
+                    await this.saveChanges(false);
+                }
+                return;
             }
         });
     }
