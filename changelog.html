@@ -309,6 +309,24 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.428</span>
+                    <span class="version-date">October 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>MIDI Import (Chordify) &amp; Super Extractor Release Year Intelligence:</strong>
+                            <ul>
+                                <li><strong>Intelligent Multi-Source Release Date Lookup:</strong> Connected the extractor to Apple / iTunes Search API track master recordings to resolve genuine original song and single release years.</li>
+                                <li><strong>Compilation &amp; Greatest Hits Filtering:</strong> When multiple catalog entries are returned, the extractor computes the earliest release year across all matching recordings (e.g. resolving Kelly Clarkson's <em>Since U Been Gone</em> to 2004 instead of 2012 from a Greatest Hits album).</li>
+                                <li><strong>Multi-Tiered Fallbacks:</strong> Seamlessly falls back to MusicBrainz recording first-release-date and Deezer album release date if iTunes has no match.</li>
+                                <li><strong>Manual Input Locking:</strong> Protects user edits so manually typed release years are never overwritten during online lookups.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.427</span>
                     <span class="version-date">October 29, 2026</span>
                 </div>

@@ -2040,6 +2040,7 @@
         document.getElementById('midiYtInput').addEventListener('input', handleMidiYtInputChange);
         document.getElementById('midiArtist')?.addEventListener('input', () => updateLrclibLinks());
         document.getElementById('midiTitle')?.addEventListener('input', () => updateLrclibLinks());
+        document.getElementById('midiYear')?.addEventListener('input', () => { window.midiYearManuallyEdited = true; });
         document.getElementById('midiLyricsInput')?.addEventListener('input', function() {
             const badge = document.getElementById('midiLyricsBadge');
             if (badge) {
@@ -2111,6 +2112,149 @@
             reader.readAsArrayBuffer(file);
         }
 
+        async function fetchItunesResults(artist, title) {
+            const url = `https://itunes.apple.com/search?term=${encodeURIComponent(artist + ' ' + title)}&entity=song&limit=25`;
+            try {
+                const resp = await fetch(url);
+                if (resp.ok) {
+                    const data = await resp.json();
+                    if (data && Array.isArray(data.results)) return data.results;
+                }
+            } catch (e) {
+                console.warn('[Super Extractor] iTunes fetch warning, trying JSONP:', e);
+            }
+
+            return new Promise((resolve) => {
+                const cb = 'itunesLookup_' + Math.round(1000000 * Math.random());
+                const script = document.createElement('script');
+                const timeoutId = setTimeout(() => {
+                    delete window[cb];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve([]);
+                }, 4000);
+
+                window[cb] = (data) => {
+                    clearTimeout(timeoutId);
+                    delete window[cb];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve(data && Array.isArray(data.results) ? data.results : []);
+                };
+
+                script.src = `${url}&callback=${cb}`;
+                script.onerror = () => {
+                    clearTimeout(timeoutId);
+                    delete window[cb];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve([]);
+                };
+                document.body.appendChild(script);
+            });
+        }
+
+        function setYearIfBetter(candidateYear, source, parsed) {
+            if (!candidateYear) return;
+            const parsedYear = parseInt(candidateYear, 10);
+            const currentYear = new Date().getFullYear();
+            if (isNaN(parsedYear) || parsedYear < 1920 || parsedYear > currentYear + 1) return;
+
+            const yearEl = document.getElementById('midiYear');
+            if (!yearEl) return;
+            if (window.midiYearManuallyEdited) return;
+
+            const existingVal = parseInt(yearEl.value, 10);
+            // Update if empty OR if newly found year is strictly EARLIER (e.g. 2004 < 2012)
+            if (!yearEl.value || (existingVal && parsedYear < existingVal)) {
+                yearEl.value = String(parsedYear);
+                yearEl.classList.add('highlight-glow');
+                setTimeout(() => yearEl.classList.remove('highlight-glow'), 2000);
+                if (parsed) parsed.year = String(parsedYear);
+                if (currentMidiParsedData) currentMidiParsedData.year = String(parsedYear);
+                console.log(`[Super Extractor] Resolved earliest original release year: ${parsedYear} via ${source} (was: ${existingVal || 'empty'})`);
+            }
+        }
+
+        async function lookupEarliestReleaseYearOnline(artist, title, parsed, deezerTrack) {
+            if (!artist || !title) return;
+
+            const normalizeStr = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const targetArtist = normalizeStr(artist);
+            const targetTitle = normalizeStr(title);
+
+            let yearFound = false;
+
+            // 1. Primary: iTunes Search API
+            // iTunes tracks individual master recording release dates (not just compilation albums)
+            // and searching multiple entries lets us pick the minimum/earliest release year.
+            try {
+                const results = await fetchItunesResults(artist, title);
+                if (results && results.length > 0) {
+                    const candidateYears = [];
+                    results.forEach(item => {
+                        const art = normalizeStr(item.artistName);
+                        const trk = normalizeStr(item.trackName);
+                        if (art.includes(targetArtist) || targetArtist.includes(art)) {
+                            if (trk.startsWith(targetTitle) || trk.includes(targetTitle) || targetTitle.includes(trk)) {
+                                const ym = (item.releaseDate || '').match(/\b(19\d\d|20\d\d)\b/);
+                                if (ym) candidateYears.push(parseInt(ym[1], 10));
+                            }
+                        }
+                    });
+                    if (candidateYears.length > 0) {
+                        const earliest = Math.min(...candidateYears);
+                        setYearIfBetter(earliest, 'iTunes Original Track (earliest)', parsed);
+                        yearFound = true;
+                    }
+                }
+            } catch (err) {
+                console.warn('[Super Extractor] iTunes lookup exception:', err);
+            }
+
+            // 2. Secondary: MusicBrainz Recording API (recording first-release-date)
+            if (!yearFound) {
+                try {
+                    const mbUrl = `https://musicbrainz.org/ws/2/recording?query=recording:%22${encodeURIComponent(title)}%22+AND+artist:%22${encodeURIComponent(artist)}%22&fmt=json`;
+                    const resp = await fetch(mbUrl, { headers: { 'Accept': 'application/json' } });
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        if (data && Array.isArray(data.recordings)) {
+                            const mbYears = [];
+                            data.recordings.forEach(rec => {
+                                if (rec['first-release-date']) {
+                                    const ym = rec['first-release-date'].match(/\b(19\d\d|20\d\d)\b/);
+                                    if (ym) mbYears.push(parseInt(ym[1], 10));
+                                }
+                            });
+                            if (mbYears.length > 0) {
+                                const earliest = Math.min(...mbYears);
+                                setYearIfBetter(earliest, 'MusicBrainz First Release', parsed);
+                                yearFound = true;
+                            }
+                        }
+                    }
+                } catch (mbErr) {
+                    console.warn('[Super Extractor] MusicBrainz lookup warning:', mbErr);
+                }
+            }
+
+            // 3. Fallback: Deezer Album Release Date
+            if (!yearFound && deezerTrack && deezerTrack.album && deezerTrack.album.id) {
+                const albumCb = 'deezerAlbumLookup_' + Math.round(1000000 * Math.random());
+                const albumScript = document.createElement('script');
+                window[albumCb] = (albumData) => {
+                    delete window[albumCb];
+                    if (albumScript.parentNode) albumScript.parentNode.removeChild(albumScript);
+                    if (albumData && albumData.release_date) {
+                        const yearMatch = albumData.release_date.match(/\b(19\d\d|20\d\d)\b/);
+                        if (yearMatch) {
+                            setYearIfBetter(yearMatch[1], 'Deezer Album (fallback)', parsed);
+                        }
+                    }
+                };
+                albumScript.src = `https://api.deezer.com/album/${deezerTrack.album.id}?output=jsonp&callback=${albumCb}`;
+                document.body.appendChild(albumScript);
+            }
+        }
+
         function resolveMidiMetadataOnline(rawQuery, parsed) {
             if (!rawQuery) return;
             const cleanQuery = rawQuery.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -2178,29 +2322,8 @@
                         updateLrclibLinks(foundArtist, foundTitle);
                         fetchSyncedLyricsOnline(foundArtist, foundTitle);
 
-                        // Lookup Album Release Date/Year via Deezer Album JSONP
-                        if (track.album && track.album.id) {
-                            const albumCb = 'deezerAlbumLookup_' + Math.round(1000000 * Math.random());
-                            const albumScript = document.createElement('script');
-                            window[albumCb] = (albumData) => {
-                                delete window[albumCb];
-                                if (albumScript.parentNode) albumScript.parentNode.removeChild(albumScript);
-                                if (albumData && albumData.release_date) {
-                                    const yearMatch = albumData.release_date.match(/\b(19\d\d|20\d\d)\b/);
-                                    if (yearMatch) {
-                                        const yearEl = document.getElementById('midiYear');
-                                        if (yearEl && !yearEl.value) {
-                                            yearEl.value = yearMatch[1];
-                                            yearEl.classList.add('highlight-glow');
-                                            setTimeout(() => yearEl.classList.remove('highlight-glow'), 2000);
-                                        }
-                                        if (parsed) parsed.year = yearMatch[1];
-                                    }
-                                }
-                            };
-                            albumScript.src = `https://api.deezer.com/album/${track.album.id}?output=jsonp&callback=${albumCb}`;
-                            document.body.appendChild(albumScript);
-                        }
+                        // Intelligent Earliest Original Release Year Lookup (iTunes tracks, MusicBrainz, Deezer album fallback)
+                        lookupEarliestReleaseYearOnline(foundArtist, foundTitle, parsed, track);
 
                         // Auto-fill UG header fields if empty
                         const searchArtist = document.getElementById('searchArtist');
@@ -2229,6 +2352,7 @@
         }
 
         function triggerMidiOnlineLookup() {
+            window.midiYearManuallyEdited = false;
             const artist = (document.getElementById('midiArtist')?.value || '').trim();
             const title = (document.getElementById('midiTitle')?.value || '').trim();
             const query = [artist, title].filter(Boolean).join(' ') || (currentMidiParsedData && (currentMidiParsedData.searchQuery || currentMidiParsedData.title)) || '';
@@ -2653,6 +2777,7 @@
         }
 
         function renderMidiParsedData(parsed) {
+            window.midiYearManuallyEdited = false;
             document.getElementById('midiResultContainer').style.display = 'block';
 
             document.getElementById('midiArtist').value = parsed.artist || '';
