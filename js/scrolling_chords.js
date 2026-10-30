@@ -2434,7 +2434,8 @@ function updateAuditionKeyboardChord(chordName) {
                     return part.replace(/([23])$/, '');
                 }).join('/');
 
-                const fingering = db[displayChordName] || db[simpleName] || db[simpleName.split('/')[0]];
+                const baseChord = typeof simplifyChord === 'function' ? simplifyChord(displayChordName) : displayChordName.split('/')[0];
+                const fingering = db[displayChordName] || db[simpleName] || db[simpleName.split('/')[0]] || (isUkuleleMode ? (db[baseChord] || db[baseChord.replace(/[237]$/, '')]) : null);
 
                 if (fingering) {
                     const svgHtml = renderer.renderSVG(fingering);

@@ -865,8 +865,8 @@ body.is-mobile-view:not(.is-mobile-landscape) #songMapBtn {
 }
 
 /* --- v2.935: Keyboard & Guitar Diagram on Pure Timeline (PLAY Mode) --- */
-body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
-body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+/* Piano Keyboard */
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard {
     display: block !important;
     position: absolute !important;
     bottom: 145px !important;
@@ -876,7 +876,7 @@ body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditio
     pointer-events: auto !important;
 }
 
-body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram {
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram, body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionGuitarDiagram {
     display: flex !important;
     position: absolute !important;
     bottom: 20px !important;
@@ -902,7 +902,7 @@ body.is-landscape.is-mobile-landscape.instrument-mode-ukulele .current-chord-dis
 }
 
 /* Position the Guitar Diagram transparently inside the yellow Now Playing box */
-body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram {
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram, body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionGuitarDiagram {
     position: absolute !important;
     left: 15px !important; /* Matches current-chord-display left */
     top: 50% !important;
@@ -924,20 +924,20 @@ body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiag
 }
 
 /* Hide the redundant chord name inside the diagram since the yellow box displays it */
-body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name {
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram .agd-chord-name, body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionGuitarDiagram .agd-chord-name {
     display: none !important;
 }
 
 /* Scale the SVG diagram to fit perfectly inside the yellow container */
-body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram svg {
+body.is-landscape.is-mobile-landscape.instrument-mode-guitar #auditionGuitarDiagram svg, body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionGuitarDiagram svg {
     width: 85px !important;
     height: 95px !important;
     transform: none !important;
 }
 
 /* Position the Piano Keyboard transparently inside the yellow Now Playing box */
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+/* Piano Keyboard in Now Playing box */
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard {
     position: absolute !important;
     left: 15px !important; /* Matches current-chord-display left */
     top: 50% !important;
@@ -958,23 +958,23 @@ body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-uku
     pointer-events: none !important;
 }
 
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-150,
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.size-150 {
+/* Keyboard size-150 */
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-150 {
     transform: translateY(-50%) scale(1.5) !important;
     transform-origin: center center !important;
     z-index: 2200 !important;
 }
 
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-200,
-body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.size-200 {
+/* Keyboard size-200 */
+body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.size-200 {
     transform: translateY(-50%) scale(2) !important;
     transform-origin: center center !important;
     z-index: 2200 !important;
 }
 
 /* Shrink the virtual keyboard keys by 50% to fit perfectly inside the yellow container */
-body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys,
-body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard .keyboard-keys {
+/* Keyboard keys */
+body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys {
     width: 95px !important;
     height: 40px !important;
     border: 1px solid rgba(0, 0, 0, 0.2) !important;
@@ -1027,10 +1027,10 @@ body.is-landscape.is-mobile-landscape .keyboard-settings-menu .ks-menu-section:h
 
 /* Hide when force-hidden or map is open */
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.force-hidden,
-body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.force-hidden,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionGuitarDiagram.force-hidden,
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram.force-hidden,
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard.song-map-open,
-body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard.song-map-open,
+body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionGuitarDiagram.song-map-open,
 body.is-mobile-landscape:not(.edit-mode-active).instrument-mode-guitar #auditionGuitarDiagram.song-map-open,
 #auditionKeyboard.force-hidden,
 #auditionKeyboard.song-map-open,
@@ -1250,16 +1250,16 @@ body.is-mobile-landscape #timeline .chord-item.has-original .chord-main {
     }
 
     /* Position Virtual Piano Keyboard transparently inside the 165x210px card */
-    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard,
-    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-ukulele #auditionKeyboard {
+    /* Piano Keyboard in Now Playing box */
+    body.is-landscape.is-mobile-landscape:not(.edit-mode-active).instrument-mode-piano #auditionKeyboard {
         width: 165px !important;
         height: 210px !important;
         padding: 0 0 14px 0 !important;
     }
 
     /* Scale piano keyboard keys by 50% (95x40px -> 145x60px) */
-    body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys,
-    body.is-landscape.is-mobile-landscape.instrument-mode-ukulele #auditionKeyboard .keyboard-keys {
+    /* Keyboard keys */
+    body.is-landscape.is-mobile-landscape.instrument-mode-piano #auditionKeyboard .keyboard-keys {
         width: 145px !important;
         height: 60px !important;
         border-radius: 6px !important;

@@ -309,6 +309,24 @@
         <div class="changelog">
             <div class="version-card current">
                 <div class="version-header">
+                    <span class="version-number">v3.429</span>
+                    <span class="version-date">October 30, 2026</span>
+                </div>
+                <div class="version-body">
+                    <ul>
+                        <li><strong>Ukulele Chord Diagrams in Pure Timeline Mode:</strong>
+                            <ul>
+                                <li><strong>Pure Timeline Ukulele Support:</strong> Fixed chord diagram rendering on mobile phones in landscape / Pure Timeline mode when instrument is set to Ukulele.</li>
+                                <li><strong>Renderer Integration:</strong> Loaded the 4-string SVG <code>UkuleleRenderer.js</code> into <code>scrolling_chords.html</code>.</li>
+                                <li><strong>Mobile CSS Correction:</strong> Resolved an issue in <code>scrolling_mobile.css</code> where ukulele mode was previously triggering the virtual piano keyboard instead of the chord diagram inside the yellow Now Playing card.</li>
+                                <li><strong>Smart Chord Fallback:</strong> Added automatic fallback to base triads so extended chords without explicit ukulele fingerings render clean diagrams.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="version-card">
+                <div class="version-header">
                     <span class="version-number">v3.428</span>
                     <span class="version-date">October 30, 2026</span>
                 </div>
